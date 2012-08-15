@@ -1,0 +1,173 @@
+@import 'base.css';
+@charset 'utf-8';
+
+/**
+ * Flexo CMS - Content Management System. <http://flexo.up.dn.ua>
+ * Copyright (C) 2008 Maslakov Alexander <jmas.ukraine@gmail.com>
+ * Copyright (C) 2008 Philippe Archambault <philippe.archambault@gmail.com>
+ * Copyright (C) 2008 Martijn van der Kleijn <martijn.niji@gmail.com>
+ *
+ * This file is part of Flexo CMS.
+ *
+ * Flexo CMS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Flexo CMS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Flexo CMS.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Flexo CMS has made an exception to the GNU General Public License for plugins.
+ * See exception.txt for details and the full text.
+ */
+
+/**
+ * @package Flexo
+ * @subpackage themes.special
+ *
+ * @author Maslakov Alexandr <jmas.ukraine@gmail.com>
+ * @version 0.1
+ * @license http://www.gnu.org/licenses/gpl.html GPL License
+ * @copyright Maslakov Alexander, 2011
+ */
+
+#layout {
+	margin:55px 30px;
+	background:#fff url(navigation-y.gif) repeat-y;
+	box-shadow:0 1px 5px #d0d0d0;
+	-moz-box-shadow:0 1px 5px #d0d0d0;
+	-webkit-box-shadow:0 1px 5px #d0d0d0;
+}
+
+#layout:after {
+	content: ".";
+	display: block;
+	clear: both;
+	visibility: hidden;
+	line-height: 0;
+	height: 0;
+}
+
+html[xmlns] .#layout {
+	display: block;
+}
+ 
+* html #layout {
+	height: 1%;
+}
+
+#siteName {
+	top:-55px;
+	line-height:55px;
+	font-weight:normal;
+	font-size:130%;
+	width:500px;
+}
+
+#siteName a {
+	border-radius:0;
+	-moz-border-radius:0;
+	-webkit-border-radius:0;
+	padding:0;
+	background:none;
+	color:#eb4a18;
+}
+
+#navigation {
+	position:relative;
+	top:0;
+	left:0;
+	float:left;
+	width:250px;
+	padding:0;
+}
+
+#navigation a {
+	text-decoration:none;
+}
+
+#navigation a:hover {
+	text-decoration:underline;
+}
+
+#menu {
+	border:0;
+	background:none;
+	box-shadow:none;
+	-moz-box-shadow:none;
+	-webkit-box-shadow:none;
+	padding:0;
+}
+
+#main {
+	margin:0;
+	padding:20px 25px;
+}
+
+#menu ul {
+	margin:0;
+	padding:0;
+}
+
+#menu li {
+	margin:0;
+}
+
+#menu span {
+	display:block;
+	line-height:30px;
+	padding-left:20px;
+	text-transform:uppercase;
+	color:#a3a3a3;
+	background:url(menu-cat.gif) no-repeat;
+	font-size:70%;
+}
+
+#menu a {
+	display:block;
+	background:url(menu-item.gif) no-repeat;
+	padding-left:20px;
+	line-height:30px;
+	margin:0;
+	color:#eb4a18;
+}
+
+#menu ul li.current {
+	margin-left:0;
+	border-radius:0;
+	-moz-border-radius:0;
+	-webkit-border-radius:0;
+}
+
+#menu ul li.current a {
+	padding:0;
+	border-radius:0;
+	-moz-border-radius:0;
+	-webkit-border-radius:0;
+	background:url(menu-current.gif) no-repeat;
+	padding-left:20px;
+	margin-right:-12px;
+}
+
+#loggedUser {
+	background:url(menu-cat.gif) no-repeat;
+}
+
+#siteView {
+	margin-bottom:20px;
+}
+
+p#pageEditMetaTitle,
+#layoutEditName,
+#snippetEditName {
+	background:#dedede url(box-header-x.gif) repeat-x;
+	border-radius:5px 5px 0 0;
+	-moz-border-radius:5px 5px 0 0;
+	-webkit-border-radius:5px 5px 0 0;
+	color:#4f4f4f;
+}

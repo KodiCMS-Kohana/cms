@@ -1,0 +1,222 @@
+.fm-tinymce-icon {
+	background:url(../file_manager/images/folder.png) center center no-repeat !important;
+}
+
+#TMCESButtonsSets {
+	overflow:hidden;
+	padding:5px;
+	margin:1.5em 0;
+}
+
+#TMCESButtonsSets h3 {
+	margin-bottom:.5em;
+}
+
+#TMCESButtonsSets ul {
+	min-height:30px;
+	margin-bottom:1em;
+}
+
+#TMCESButtonsSets ul:after {
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
+
+#TMCESButtonsSets li {
+	background:#fff;
+	padding:10px;
+	height:19px;
+	float:left;
+	margin:0 .5em .5em 0;
+	box-shadow:0 0 2px #b9b9bb;
+	-moz-box-shadow:0 0 2px #b9b9bb;
+	-webkit-box-shadow:0 0 2px #b9b9bb;
+}
+
+#TMCESButtonsSets li:hover {
+	box-shadow:0 0 3px #b9b9bb;
+	-moz-box-shadow:0 0 3px #b9b9bb;
+	-webkit-box-shadow:0 0 3px #b9b9bb;
+}
+
+#TMCESButtonsSets li:active {
+	box-shadow:0 0 1px #b9b9bb;
+	-moz-box-shadow:0 0 1px #b9b9bb;
+	-webkit-box-shadow:0 0 1px #b9b9bb;
+}
+
+#TMCESButtonsSets .separator {
+	background:none;
+	padding:0;
+	box-shadow:none;
+	-moz-box-shadow:none;
+	-webkit-box-shadow:none;
+	border-left:1px solid silver;
+	height:39px;
+}
+
+#TMCESButtonsSets img {
+	width:16px;
+	height:16px;
+	background:red;
+}
+
+#TMCEAllButtons {
+	padding:3px;
+}
+
+#TMCEAllButtons:after {
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
+
+#TMCEAllButtons input {
+	display:none;
+}
+
+#TMCEAllButtons img {
+	
+}
+
+#TMCEAllButtons li {
+	background:#fff;
+	padding:10px;
+	float:left;
+	margin:0 1em 1em 0;
+	box-shadow:0 0 3px #b9b9bb;
+	-moz-box-shadow:0 0 3px #b9b9bb;
+	-webkit-box-shadow:0 0 3px #b9b9bb;
+}
+
+#TMCESButtonsSets .mce {
+	background:url(tinymce/themes/advanced/img/icons.gif) no-repeat;
+	width:18px;
+	height:18px;
+}
+
+
+/* Theme */
+#TMCESButtonsSets .mce_bold {background-position:0 0}
+#TMCESButtonsSets .mce_italic {background-position:-60px 0}
+#TMCESButtonsSets .mce_underline {background-position:-140px 0}
+#TMCESButtonsSets .mce_strikethrough {background-position:-120px 0}
+#TMCESButtonsSets .mce_undo {background-position:-160px 0}
+#TMCESButtonsSets .mce_redo {background-position:-100px 0}
+#TMCESButtonsSets .mce_cleanup {background-position:-40px 0}
+#TMCESButtonsSets .mce_bullist {background-position:-20px 0}
+#TMCESButtonsSets .mce_numlist {background-position:-80px 0}
+#TMCESButtonsSets .mce_justifyleft {background-position:-460px 0}
+#TMCESButtonsSets .mce_justifyright {background-position:-480px 0}
+#TMCESButtonsSets .mce_justifycenter {background-position:-420px 0}
+#TMCESButtonsSets .mce_justifyfull {background-position:-440px 0}
+#TMCESButtonsSets .mce_anchor {background-position:-200px 0}
+#TMCESButtonsSets .mce_indent {background-position:-400px 0}
+#TMCESButtonsSets .mce_outdent {background-position:-540px 0}
+#TMCESButtonsSets .mce_link {background-position:-500px 0}
+#TMCESButtonsSets .mce_unlink {background-position:-640px 0}
+#TMCESButtonsSets .mce_sub {background-position:-600px 0}
+#TMCESButtonsSets .mce_sup {background-position:-620px 0}
+#TMCESButtonsSets .mce_removeformat {background-position:-580px 0}
+#TMCESButtonsSets .mce_newdocument {background-position:-520px 0}
+#TMCESButtonsSets .mce_image {background-position:-380px 0}
+#TMCESButtonsSets .mce_help {background-position:-340px 0}
+#TMCESButtonsSets .mce_code {background-position:-260px 0}
+#TMCESButtonsSets .mce_hr {background-position:-360px 0}
+#TMCESButtonsSets .mce_visualaid {background-position:-660px 0}
+#TMCESButtonsSets .mce_charmap {background-position:-240px 0}
+#TMCESButtonsSets .mce_paste {background-position:-560px 0}
+#TMCESButtonsSets .mce_copy {background-position:-700px 0}
+#TMCESButtonsSets .mce_cut {background-position:-680px 0}
+#TMCESButtonsSets .mce_blockquote {background-position:-220px 0}
+#TMCESButtonsSets .mce_forecolor {background-position:-720px 0}
+#TMCESButtonsSets .mce_backcolor {background-position:-760px 0}
+#TMCESButtonsSets .mce_forecolorpicker {background-position:-720px 0}
+#TMCESButtonsSets .mce_backcolorpicker {background-position:-760px 0}
+
+/* Plugins */
+#TMCESButtonsSets .mce_advhr {background-position:-0px -20px}
+#TMCESButtonsSets .mce_ltr {background-position:-20px -20px}
+#TMCESButtonsSets .mce_rtl {background-position:-40px -20px}
+#TMCESButtonsSets .mce_emotions {background-position:-60px -20px}
+#TMCESButtonsSets .mce_fullpage {background-position:-80px -20px}
+#TMCESButtonsSets .mce_fullscreen {background-position:-100px -20px}
+#TMCESButtonsSets .mce_iespell {background-position:-120px -20px}
+#TMCESButtonsSets .mce_insertdate {background-position:-140px -20px}
+#TMCESButtonsSets .mce_inserttime {background-position:-160px -20px}
+#TMCESButtonsSets .mce_absolute {background-position:-180px -20px}
+#TMCESButtonsSets .mce_backward {background-position:-200px -20px}
+#TMCESButtonsSets .mce_forward {background-position:-220px -20px}
+#TMCESButtonsSets .mce_insert_layer {background-position:-240px -20px}
+#TMCESButtonsSets .mce_insertlayer {background-position:-260px -20px}
+#TMCESButtonsSets .mce_movebackward {background-position:-280px -20px}
+#TMCESButtonsSets .mce_moveforward {background-position:-300px -20px}
+#TMCESButtonsSets .mce_media {background-position:-320px -20px}
+#TMCESButtonsSets .mce_nonbreaking {background-position:-340px -20px}
+#TMCESButtonsSets .mce_pastetext {background-position:-360px -20px}
+#TMCESButtonsSets .mce_pasteword {background-position:-380px -20px}
+#TMCESButtonsSets .mce_selectall {background-position:-400px -20px}
+#TMCESButtonsSets .mce_preview {background-position:-420px -20px}
+#TMCESButtonsSets .mce_print {background-position:-440px -20px}
+#TMCESButtonsSets .mce_cancel {background-position:-460px -20px}
+#TMCESButtonsSets .mce_save {background-position:-480px -20px}
+#TMCESButtonsSets .mce_replace {background-position:-500px -20px}
+#TMCESButtonsSets .mce_search {background-position:-520px -20px}
+#TMCESButtonsSets .mce_styleprops {background-position:-560px -20px}
+#TMCESButtonsSets .mce_table {background-position:-580px -20px}
+#TMCESButtonsSets .mce_cell_props {background-position:-600px -20px}
+#TMCESButtonsSets .mce_delete_table {background-position:-620px -20px}
+#TMCESButtonsSets .mce_delete_col {background-position:-640px -20px}
+#TMCESButtonsSets .mce_delete_row {background-position:-660px -20px}
+#TMCESButtonsSets .mce_col_after {background-position:-680px -20px}
+#TMCESButtonsSets .mce_col_before {background-position:-700px -20px}
+#TMCESButtonsSets .mce_row_after {background-position:-720px -20px}
+#TMCESButtonsSets .mce_row_before {background-position:-740px -20px}
+#TMCESButtonsSets .mce_merge_cells {background-position:-760px -20px}
+#TMCESButtonsSets .mce_table_props {background-position:-980px -20px}
+#TMCESButtonsSets .mce_row_props {background-position:-780px -20px}
+#TMCESButtonsSets .mce_split_cells {background-position:-800px -20px}
+#TMCESButtonsSets .mce_template {background-position:-820px -20px}
+#TMCESButtonsSets .mce_visualchars {background-position:-840px -20px}
+#TMCESButtonsSets .mce_abbr {background-position:-860px -20px}
+#TMCESButtonsSets .mce_acronym {background-position:-880px -20px}
+#TMCESButtonsSets .mce_attribs {background-position:-900px -20px}
+#TMCESButtonsSets .mce_cite {background-position:-920px -20px}
+#TMCESButtonsSets .mce_del {background-position:-940px -20px}
+#TMCESButtonsSets .mce_ins {background-position:-960px -20px}
+#TMCESButtonsSets .mce_pagebreak {background-position:0 -40px}
+#TMCESButtonsSets .mce_restoredraft {background-position:-20px -40px}
+#TMCESButtonsSets .mce_spellchecker {background-position:-540px -20px}
+
+#TMCESButtonsSets .mce_styleselect {
+	background:url(images/font-select-image.gif) 0 0 no-repeat;
+	width:86px;
+	height:22px;
+}
+
+#TMCESButtonsSets .mce_formatselect {
+	background:url(images/font-select-image.gif) -86px 0 no-repeat;
+	width:86px;
+	height:22px;
+}
+
+#TMCESButtonsSets .mce_fontselect {
+	background:url(images/font-select-image.gif) -172px 0 no-repeat;
+	width:86px;
+	height:22px;
+}
+
+#TMCESButtonsSets .mce_fontsizeselect {
+	background:url(images/font-select-image.gif) -258px 0 no-repeat;
+	width:86px;
+	height:22px;
+}
+
+#TMCESButtonsSets .mce_filemanager {
+	background:url(../file_manager/images/folder.png) center center no-repeat !important;
+}

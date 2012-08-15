@@ -1,0 +1,96 @@
+@charset "utf-8";
+@import "base.css";
+
+
+/*
+	.message
+*/
+.message {
+	width:100%;
+	left:0;
+	text-align:center;
+	padding-left:0;
+	padding-right:0;
+}
+
+
+
+/*
+	.fields-line
+*/
+.fields-line {
+	overflow:hidden;
+}
+
+.fields-line p {
+	float:left;
+	margin-right:10px;
+	min-width:155px;
+}
+
+.fields-line label {
+	display: block;
+	margin-bottom:.3em;
+}
+
+.fields-line .input-text {
+	width:145px;
+	min-width:145px;
+}
+
+
+
+/*
+	#dialog
+*/
+#dialog {
+	background:#fff;
+	margin: 100px auto 0 auto;
+	background: #fff;
+	color: #222;
+	box-shadow:0 0 3px silver;
+	-moz-box-shadow:0 0 3px silver;
+	-webkit-box-shadow:0 0 3px silver;
+	padding:15px;
+	width: 332px;
+	text-align: left;
+}
+
+#dialog .box-title {
+	font-size:150%;
+}
+
+#loginForm .fields-line,
+#loginRemember,
+#forgotLine {
+	margin:1.3em 0;
+}
+
+#loginRemember {
+	font-size:90%;
+}
+
+#loginRemember input {
+	margin-right:.2em;
+	margin-top:-.5em;
+	vertical-align:middle;
+}
+
+#loginForm button,
+#forgotForm button {
+	margin-right:1em;
+}
+
+#forgotLine label {
+	display:block;
+	margin-bottom:.3em;
+}
+
+#forgotEmailField {
+	width:90%;
+}
+
+#website {
+	text-align:center;
+	margin-top:.5em;
+}

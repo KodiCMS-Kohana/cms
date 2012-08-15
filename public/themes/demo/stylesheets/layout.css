@@ -1,0 +1,219 @@
+@charset 'utf-8';
+
+header,
+footer,
+section,
+nav,
+article,
+hgroup,
+details {
+	display:block;
+}
+
+* {
+	margin:0;
+	padding:0;
+}
+
+body {
+	background:#efeff1;
+	font:100% Arial, Tahoma, Verdana, sans-serif;
+	color:#4d4d4f;
+}
+
+img {
+	border:none;
+}
+
+a {
+	color:#e7431d;
+}
+
+a:hover {
+	text-decoration:none;
+}
+
+a:visited {
+	color:#ff7648;
+}
+
+h1, h2 {
+	font-weight:normal;
+	margin:.5em 0;
+}
+
+p {
+	margin:1em 0;
+}
+
+ul, ol {
+	margin-left:2em;
+}
+
+li {
+	margin:.7em 0;
+}
+
+
+/*
+	.articles-list
+*/
+.articles-list .item {
+	border-bottom:1px solid #e3e4e6;
+	margin-bottom:1em;
+}
+
+.articles-list .title {
+	margin:0;
+}
+
+.articles-list .date {
+	color:#a59692;
+}
+
+
+/*
+	.archive-items
+*/
+.archive-items .info {
+	color:#a59692;
+	margin-top:0;
+	font-size:90%;
+}
+
+
+/*
+	.pager
+*/
+.pager {
+	position:relative;
+	text-align:center;
+	font-size:90%;
+}
+
+.pager-old {
+	position:absolute;
+	left:0;
+	top:0;
+}
+
+.pager-new {
+	position:absolute;
+	right:0;
+	top:0;
+}
+
+
+/*
+	#layout
+*/
+#layout {
+	background:#fff;
+	width:900px;
+	margin:2em auto;
+	box-shadow:0 1px 3px #d5d5d7;
+	-moz-box-shadow:0 1px 3px #d5d5d7;
+	-webkit-box-shadow:0 1px 3px #d5d5d7;
+}
+
+
+/*
+	#header
+*/
+#header {
+	background:#fdf3f0;
+	border-top:3px solid #e7431d;
+	padding:25px;
+}
+
+#header .logo {
+	font-size:280%;
+}
+
+#header .logo a {
+	text-decoration:none;
+}
+
+#header .logo em {
+	text-transform:lowercase;
+	font-style:normal;
+	color:#e7431d;
+}
+
+#header .logo small {
+	font-size:40%;
+	color:#8f7f7b;
+}
+
+
+/*
+	#nav
+*/
+#nav {
+	background:#4d4d4f;
+	line-height:40px;
+	font-size:90%;
+}
+
+#nav a {
+	padding:12px 25px;
+	color:#fff;
+}
+
+#nav a.current {
+	background:#e7431d;
+}
+
+
+/*
+	#middler
+*/
+#middler {
+	padding:25px;
+	overflow:hidden;
+}
+
+
+/*
+	#content
+*/
+#content {
+	margin-right:250px;
+	font-size:90%;
+}
+
+#content .breadcrumb {
+	font-size:75%;
+	margin:1em 0;
+	color:#c3b1ae;
+	padding-bottom:.5em;
+	border-bottom:1px solid #e3e4e6;
+}
+
+
+/*
+	#sidebar
+*/
+#sidebar {
+	float:right;
+	width:225px;
+	font-size:80%;
+}
+
+
+/*
+	#footer
+*/
+#footer {
+	position:relative;
+	background:#fdf3f0;
+	padding:10px 25px;
+	font-size:70%;
+	color:#c3b1ae;
+}
+
+#footer .madeby {
+	position:absolute;
+	right:25px;
+	top:10px;
+}

@@ -1,0 +1,104 @@
+@charset "utf-8";
+@import "../admin/stylesheets/base.css";
+
+
+/*
+	.message
+*/
+.message {
+	width:100%;
+	left:0;
+	text-align:center;
+	padding-left:0;
+	padding-right:0;
+}
+
+
+/*
+	#install
+*/
+#install {
+	position:relative;
+	width:700px;
+	margin:50px auto;
+}
+
+#install p {
+	margin:1.5em 0;
+}
+
+#install li {
+	margin:.5em 0;
+}
+
+#install ol {
+	margin:1em 0 1em 2em;
+}
+
+#installLang {
+	position:absolute;
+	top:13px;
+	right:15px;
+}
+
+#installLang select {
+	min-width:100px;
+}
+
+#requirements li {
+	line-height:16px;
+	padding-left:20px;
+	background:url(../admin/images/loader-small-white.gif) left center no-repeat
+}
+
+#requirements .ok {
+	background:url(../admin/images/check.png) left center no-repeat;
+	color:green;
+}
+
+#requirements .bad {
+	color:orange;
+	background:none;
+}
+
+
+#installForm label {
+	width:300px;
+}
+
+#installDBNameSQLiteDescr {
+	display:none;
+}
+
+#installForm.form-sqlite #installDBServer,
+#installForm.form-sqlite #installDBPort,
+#installForm.form-sqlite #installDBUser,
+#installForm.form-sqlite #installDBPassword,
+#installForm.form-sqlite #installDBPrefix {
+	display:none;
+}
+
+#installForm.form-sqlite #installDBNameDescr {
+	display:none;
+}
+
+#installForm.form-sqlite #installDBNameSQLiteDescr {
+	display:block;
+}
+
+#installFinishHeader {
+	font-size:120%;
+	color:green;
+	margin:1.5em 0;
+}
+
+#installInfo {
+	background:#fff;
+	padding:5px 25px;
+}
+
+#installInfo .note {
+	background-color:orange;
+	padding:10px 15px;
+	color:#000;
+}

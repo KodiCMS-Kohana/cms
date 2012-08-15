@@ -1,0 +1,797 @@
+@charset "utf-8";
+@import "base.css";
+
+
+
+/*
+	#header
+*/
+#navigation {
+	position:fixed;
+	left:0;
+	top:0;
+	width:230px;
+	max-height:100%;
+	/*overflow:auto;*/
+	z-index:100;
+	padding-top:60px;
+	/*
+	border:1px solid #4787ed;
+	border-width:0 1px 3px 0;
+	*/
+}
+
+
+
+/*
+	#siteName
+*/
+#siteName {
+	position:absolute;
+	top:21px;
+	left:20px;
+	font-size:100%;
+}
+
+#siteName a {
+	padding:5px .5em;
+	background:#4787ed url(../images/blue-x-bg.png) repeat-x;
+	border-radius:5px;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	color:#fff;
+	text-decoration:none;
+}
+
+
+/*
+	#loggedUser
+*/
+#loggedUser {
+	font-size:75%;
+	padding:10px 0 5px 20px;
+}
+
+
+/*
+	#siteView
+*/
+#siteView {
+	font-size:75%;
+	padding:0 0 0 20px;
+}
+
+
+
+/*
+	#menu
+*/
+#menu {
+	padding:10px 0 10px 20px;
+	background:#f0f0ee;
+	border:1px solid #4787ED;
+	border-left-width:0;
+	box-shadow:0 0 3px #b9b9bb;
+	-moz-box-shadow:0 0 3px #b9b9bb;
+	-webkit-box-shadow:0 0 3px #b9b9bb;
+}
+
+#menu li {
+	margin:.4em 0;
+}
+
+#menu ul {
+	padding-left:.5em;
+	/*margin-left:.5em;*/
+	margin-bottom:1em;
+	font-size:90%;
+}
+
+#menu ul li.current {
+	font-weight:bolder;
+	background:#4787ed url(../images/blue-x-bg.png) repeat-x;
+	margin-left:-.5em;
+	border-radius:3px 0 0 3px;
+	-moz-border-radius:3px 0 0 3px;
+	-webkit-border-radius:3px 0 0 3px;
+}
+
+#menu ul li.current a {
+	display:block;
+	padding:3px .5em;
+	color:#fff;
+	text-decoration:none;
+	margin-right:-9px;
+	background:url(../images/blue-cur.png) right top no-repeat;
+}
+
+#menu span {
+	font-size:75%;
+}
+
+
+
+/*
+	#main
+*/
+#main {
+	padding:20px 30px;
+	overflow:hidden;
+	margin-left:230px;
+}
+
+
+
+/*
+	#disebar
+*/
+#sidebar {
+	position:relative;
+	float:right;
+	width:250px;
+	margin-top:40px;
+}
+
+
+
+/*
+	#content
+*/
+#content {
+	position:relative;
+}
+
+.content-has-sideber {
+	margin-right:265px;
+}
+
+#content h1 {
+	font-size:130%;
+	font-weight:normal;
+	height:40px;
+}
+
+
+
+/*
+	#contentSidebar
+*/
+#contentSidebar {
+	position:relative;
+	float:right;
+	/*
+	top:40px;
+	right:-265px;
+	*/
+	margin:40px -265px 0 0;
+	width:250px;
+}
+
+#contentSidebar .box {
+	margin-bottom:15px;
+}
+
+
+
+/*
+	#pageMap
+*/
+#pageMap {
+	
+}
+
+#pageMap ul .title {
+	display:block;
+	margin-right:310px;
+}
+
+#pageMap ul .title em {
+	font-style:normal;
+}
+
+#pageMap ul .title i {
+	font-size:80%;
+	color:silver;
+	font-style:normal;
+}
+
+#pageMap .item-preview {
+	display:none;
+	margin-left:10px;
+}
+
+#pageMap .item:hover .item-preview {
+	display:inline;
+}
+
+#pageMap .status {
+	position:absolute;
+	top:0;
+	right:200px;
+}
+
+#pageMap .status em {
+	font-style:normal;
+}
+
+#pageMap .item-status-published { color:green; }
+#pageMap .item-status-hidden { color:gray; }
+#pageMap .item-status-draft { color:maroon; }
+#pageMap .item-status-reviewed { color:orange; }
+#pageMap .item-status-pending { color:blue; }
+
+#pageMap .date {
+	position:absolute;
+	top:0;
+	right:105px;
+}
+
+#pageMapItems .date,
+#pageMapItems .status {
+	font-size:90%;
+}
+
+#pageMap .actions {
+	position:absolute;
+	top:0;
+	right:15px;
+	display:none;
+}
+
+#pageMap .item:hover .actions {
+	display:block;
+}
+
+
+
+/*
+	#pageMapSearch
+*/
+#pageMapSearch {
+	position:relative;
+	float:right;
+	text-align:right;
+}
+
+#pageMapSearchReset {
+	display:none;
+}
+
+#pageMapSearchItems {
+	display:none;
+}
+
+
+
+/*
+	#pageEdit
+*/
+#pageEdit {
+	position:relative;
+}
+
+#pageEdit .box-buttons {
+	margin-top:0;
+}
+
+#pageEditView {
+	margin-left:10px;
+}
+
+#pageEditMeta p {
+	margin:1em 0;
+}
+
+#pageEditMeta label {
+	display:block;
+	float:left;
+}
+
+#pageEditMeta span {
+	display:block;
+	margin-left:150px;
+}
+
+#pageEdit .checkbox label {
+	display:inline;
+	float:none;
+}
+
+#pageEditMeta .input-text {
+	width:100%;
+}
+
+#pageEditMeta .textarea {
+	width:100%;
+	height:50px;
+}
+
+p#pageEditMetaTitle {
+	position:relative;
+	margin:-15px -15px 0 -15px;
+	background-color:#4787ed;
+	color:#fff;
+	padding:15px;
+	font-weight:bolder;
+}
+
+#pageEditMetaTitle .input-text {
+	font-size:130%;
+	width:94%;
+}
+
+#pageEditMetaMoreButton {
+	position:absolute;
+	right:15px;
+	top:18px;
+}
+
+#pageEditMetaMore {
+	display:none;
+}
+
+
+#pageEditParts {
+	margin:0 -15px;
+}
+
+#pageEditParts .item {
+	border-top:1px solid #363638;
+}
+
+#pageEditParts .item-title {
+	position:relative;
+	background:#4d4d4f;
+	color:#fff;
+	padding:7px 15px;
+}
+
+#pageEditParts .item-title i {
+	color:silver;
+	font-style:normal;
+	margin-left:5px;
+}
+
+#pageEditParts .item-options-button {
+	position:absolute;
+	right:15px;
+	top:8px;
+}
+
+#pageEditParts .item-options {
+	padding:7px 15px;
+	display:none;
+	border-bottom:1px solid #ccc;
+}
+
+#pageEditParts .item-options p {
+	margin:1em 0;
+}
+
+#pageEditParts .item-options label {
+	display:block;
+	margin-bottom:.2em;
+	font-size:90%;
+}
+
+#pageEdit .item-options .checkbox label {
+	display:inline;
+	float:none;
+	margin:0 0 0 .2em;
+}
+
+#pageEditParts .item-content {
+	/*padding:7px 15px;*/
+}
+
+#pageEditParts .item-content textarea {
+	width:100%;
+	max-width:100%;
+	min-width:100%;
+	height:250px;
+	padding:0;
+	border:none;
+	background:#fff;
+	padding:2px 0;
+	font:90% Lucida Console, Monaco, Courier New, Courier, monospace;
+}
+
+#pageEditParts .item-content textarea:focus {
+	outline:none;
+}
+
+/* TinyMCE default skin changes */
+#pageEditParts .defaultSkin table.mceLayout {border:0; border-left:0; border-right:0;}
+#pageEditParts .defaultSkin table.mceLayout tr.mceFirst td {border-top:0;}
+#pageEditParts .defaultSkin table.mceLayout tr.mceLast td {border-bottom:0;}
+
+#pageEditParts .item-part-protected {
+	padding:7px 15px 7px 30px;
+	background:url(../images/lock.png) 15px center no-repeat;
+	font-size:90%;
+}
+
+#pageEditPartAdd {
+	margin:0 -15px;
+	padding:15px;
+	border-top:1px solid #ccc;
+}
+
+#pageEdit .plugin {
+	margin:0 -15px;
+	padding:15px;
+	border-top:1px solid #ccc;
+}
+
+
+/*
+	#pageEdit
+*/
+#pageEditOptions p {
+	margin:1em 0;
+}
+
+#pageEditOptions label {
+	display:block;
+	font-size:90%;
+	margin-bottom:.2em;
+}
+
+#pageEditOptions .checkbox {
+	display:block;
+	margin:0.2em 0;
+	font-style:normal;
+}
+
+#pageEditOptions .checkbox label {
+	display:inline;
+}
+
+
+
+/*
+	#snippetMap
+*/
+#snippetMap {
+	
+}
+
+#snippetMap .actions {
+	position:absolute;
+	top:0;
+	right:15px;
+}
+
+#snippetMap .direction {
+	position:absolute;
+	top:0;
+	right:80px;
+}
+
+#snippetMapItems .actions button {
+	padding-top:2px;
+	padding-bottom:5px;
+	padding-left:10px;
+	vertical-align:middle;
+	margin-top:-3px;
+}
+
+#snippetMapItems .direction,
+#snippetMapItems .actions {
+	font-size:90%;
+}
+
+#snippetMapItems .direction {
+	color:silver;
+}
+
+
+
+
+/*
+	#snippetEdit
+*/
+#snippetEdit {
+
+}
+
+#snippetEditName label {
+	display:block;
+	float:left;
+}
+
+#snippetEditName span {
+	display:block;
+	margin-left:150px;
+}
+
+#snippetEditName {
+	position:relative;
+	margin:-15px -15px 15px -15px;
+	background-color:#4787ed;
+	color:#fff;
+	padding:15px;
+	font-weight:bolder;
+}
+
+#snippetEditNameField {
+	width:100%;
+	font-size:130%;
+}
+
+#snippetEditContent {
+	margin:-15px;
+}
+
+#snippetEditContentField {
+	width:100%;
+	max-width:100%;
+	min-width:100%;
+	height:350px;
+	font:90% Lucida Console, Monaco, Courier New, Courier, monospace;
+	border:none;
+	background:#fff;
+	padding:2px 0;
+}
+
+#snippetEditContentField:focus {
+	outline:none;
+} 
+
+
+
+/*
+	#layoutMap
+*/
+#layoutMap {
+	
+}
+
+#layoutMap .actions {
+	position:absolute;
+	top:0;
+	right:15px;
+}
+
+#layoutMap .direction {
+	position:absolute;
+	top:0;
+	right:80px;
+}
+
+#layoutMap .actions button {
+	padding-top:2px;
+	padding-bottom:5px;
+	padding-left:10px;
+	vertical-align:middle;
+	margin-top:-3px;
+}
+
+#layoutMapItems .direction,
+#layoutMapItems .actions {
+	font-size:90%;
+}
+
+#layoutMapItems .direction {
+	color:silver;
+}
+
+
+
+/*
+	#layoutEdit
+*/
+#layoutEdit {
+
+}
+
+#layoutEditName label {
+	display:block;
+	float:left;
+}
+
+#layoutEditName span {
+	display:block;
+	margin-left:150px;
+}
+
+#layoutEditName {
+	position:relative;
+	margin:-15px -15px 15px -15px;
+	background-color:#4787ed;
+	color:#fff;
+	padding:15px;
+	font-weight:bolder;
+}
+
+#layoutEditNameField {
+	width:100%;
+	font-size:130%;
+}
+
+#layoutEditContent {
+	margin:-15px;
+}
+
+#layoutEditContentField {
+	width:100%;
+	max-width:100%;
+	min-width:100%;
+	height:350px;
+	font:90% Lucida Console, Monaco, Courier New, Courier, monospace;
+	border:none;
+	background:#fff;
+	padding:2px 0;
+}
+
+#layoutEditContentField:focus {
+	outline:none;
+}
+
+
+
+/*
+	#pluginsMap
+*/
+#pluginsMap .actions {
+	position:absolute;
+	top:0;
+	right:15px;
+}
+
+#pluginsMap .latest {
+	position:absolute;
+	top:0;
+	right:170px;
+}
+
+#pluginsMap .version {
+	position:absolute;
+	top:0;
+	right:250px;
+}
+
+#pluginsMap .website {
+	position:absolute;
+	top:0;
+	right:320px;
+}
+
+#pluginsMap .author {
+	position:absolute;
+	top:0;
+	right:400px;
+}
+
+#pluginsMapItems .actions button {
+	padding-top:2px;
+	padding-bottom:5px;
+	padding-left:10px;
+	vertical-align:middle;
+	margin-top:-3px;
+}
+
+#pluginsMapItems .actions,
+#pluginsMapItems .latest,
+#pluginsMapItems .version,
+#pluginsMapItems .website,
+#pluginsMapItems .author {
+	font-size:90%;
+}
+
+#pluginsMapItems .title {
+	padding:.7em 0;
+	display:block;
+	padding-right:520px;
+}
+
+#pluginsMapItems .title em,
+#pluginsMapItems .title i {
+	display:block;
+	font-style:normal;
+	line-height:1em;
+}
+
+#pluginsMapItems .title i {
+	font-size:75%;
+	color:gray;
+	display:none;
+	margin-top:.5em;
+}
+
+#pluginsMapItems .item:hover .title i {
+	display:block;
+}
+
+#pluginsMapItems .disabled {
+	color:red;
+}
+
+#pluginsMapItems .item-disabled {
+	color:silver;
+}
+
+#pluginsMapItems .item-enabled {
+	color:green;
+}
+
+
+
+/*
+	#userMap
+*/
+#userMap .actions {
+	position:absolute;
+	top:0;
+	right:15px;
+}
+
+#userMap .email {
+	position:absolute;
+	top:0;
+	right:80px;
+}
+
+#userMap .roles {
+	position:absolute;
+	top:0;
+	right:260px;
+}
+
+#userMap .name small {
+	font-size:90%;
+	color:silver;
+	margin-left:5px;
+}
+
+#userMapItems .actions button {
+	padding-top:2px;
+	padding-bottom:5px;
+	padding-left:10px;
+	vertical-align:middle;
+	margin-top:-3px;
+}
+
+#userMapItems .actions,
+#userMapItems .email,
+#userMapItems .roles {
+	font-size:90%;
+}
+
+
+
+/*
+	#userEdit
+*/
+#userEdit {
+	
+}
+
+
+
+/*
+	#copyrights
+*/
+#copyrights {
+	position:fixed;
+	bottom:10px;
+	left:20px;
+	font-size:75%;
+	color:#7d7d7f;
+	z-index:10;
+}
+
+#copyrights a {
+	color:#7d7d7f;
+}
+
+
+
+/*
+	handset media gadgets
+*/
+@media mobile, handheld {
+	#pageMap .actions {
+		display:block;
+	}
+}

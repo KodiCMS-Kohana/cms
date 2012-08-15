@@ -1,0 +1,15 @@
+#
+# Hide files
+#
+<Files "\.(sql|tpl)$">
+	order allow,deny
+	deny from all
+</Files>
+
+#
+# Set rewrite rule for test mod_rewrite
+#
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+	RewriteRule .* $0?mod_rewrite=1 [L,QSA]
+</IfModule>

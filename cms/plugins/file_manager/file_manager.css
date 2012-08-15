@@ -1,0 +1,108 @@
+@charset 'utf-8';
+
+/*
+	.fm-dialog
+*/
+.fm-dialog-map {
+	padding:0 !important;
+}
+
+.fm-dialog .fm-actions {
+	background:#e7431d;
+	padding:8px 15px;
+	display:block !important;
+}
+
+.fm-dialog-map .item {
+	cursor:pointer;
+}
+
+.fm-dialog-map .size {
+	position:absolute;
+	right:15px;
+	top:0;
+}
+
+.fm-dialog-map .map-items {
+	font-size:90%;
+	height:250px;
+	overflow:auto;
+}
+
+
+/*
+	#FMFolders
+*/
+#FMFolders {
+	position:relative;
+	width:220px;
+	float:left;
+	/*margin:40px 0 0 -265px;*/
+}
+
+#FMFoldersItems {
+	margin:-10px -15px -15px -15px;
+	padding:5px 15px;
+	overflow:auto;
+	max-height:250px;
+}
+
+.msie #FMFoldersItems {
+	height:250px;
+}
+
+#FMFoldersItems {
+	font-size:90%;
+}
+
+#FMFoldersItems img {
+	vertical-align:middle;
+	margin-top:-.4em;
+}
+
+#FMFoldersItems ul {
+	margin-left:1.5em;
+}
+
+#FMFoldersItems li {
+	margin:1em 0;
+}
+
+#FMFoldersItems li.current {
+	font-weight:bolder;
+}
+
+#FMFoldersItems li.current a {
+	text-decoration:none;
+	color:#4d4d4f;
+}
+
+
+/*
+	#FMMap
+*/
+#FMMap {
+	/*margin-left:265px;*/
+}
+
+#FMMap .actions {
+	position:absolute;
+	right:15px;
+	top:0;
+}
+
+#FMMap .perm {
+	position:absolute;
+	right:110px;
+	top:0;
+}
+
+#FMMap .size {
+	position:absolute;
+	right:220px;
+	top:0;
+}
+
+#FMMapItems {
+	font-size:90%;
+}

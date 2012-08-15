@@ -1,0 +1,40 @@
+Flexo CMS components are licensed, as listed in this document.
+
+* Frog CMS
+  - Authors:
+      Philippe Archambault <philippe.archambault@gmail.com>,
+      Martijn van der Kleijn <martijn.niji@gmail.com>
+  - Site: http://madebyfrog.com/
+  - License: GPL v3
+
+* jQuery and jQuery UI
+  - Site: http://jquery.com/
+  - License: MIT, GPL v2
+
+* ICONIC Set
+  - Site: http://somerandomdude.com/projects/iconic/
+  - License: Creative Commons Attribution-Share Alike 3.0
+
+* Led Icon Set
+  - Site: http://led24.de/iconset/
+  - License: http://cdn.iconfinder.net/data/icons/ledicons/readme.txt
+
+* Silk icon set 1.3
+  - Site: http://www.famfamfam.com/lab/icons/silk/
+  - License: Creative Commons Attribution 2.5
+
+* Kses
+  - Site: http://sourceforge.net/projects/kses
+  - License: GPL
+
+* TinyMCE
+  - Site: http://tinymce.moxiecode.com/
+  - License: LGPL
+  
+* SmartImage
+  - Site: http://www.codicefacile.it/smartimage
+  - License: LGPL
+  
+* File uploader component
+  - Site: http://github.com/valums/file-uploader
+  - License: GPL v2

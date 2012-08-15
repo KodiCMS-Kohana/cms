@@ -1,0 +1,1 @@
+@charset 'utf-8';#PFPlugin {	}#PFList li {	overflow:hidden;	margin:.5em 0;}#PFList label {	width:150px;	display:block;	float:left;	margin-right:1em;}#PFList .pf-field-textarea {	float:left;	width:60%;	max-width:60%;	min-width:60%;	height:50px;}#PFList .pf-remove-link {	margin-left:1em;}
