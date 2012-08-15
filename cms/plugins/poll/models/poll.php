@@ -169,13 +169,13 @@ class Poll {
 		if ( ! file_exists($directory . self::VOTE_DB))
 		{
 			file_put_contents($directory . self::VOTE_DB, '');
-			chmod($filename, 0666);
+			chmod($directory . self::VOTE_DB, 0666);
 		}
 		
 		if ( ! file_exists($directory . self::IP_DB))
 		{
 			file_put_contents($directory . self::IP_DB, '');
-			chmod($filename, 0666);
+			chmod($directory . self::VOTE_DB, 0666);
 		}
 
 		$this->_db->datadir = $directory;
