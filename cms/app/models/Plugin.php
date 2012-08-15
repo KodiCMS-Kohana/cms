@@ -446,7 +446,7 @@ class Plugin
 	* @param <type> $name
 	* @param <type> $plugin_id
 	*/
-    static function getSetting($name=null, $plugin_id=null)
+    static function getSetting($name=null, $plugin_id=null, $default = false)
     {
         if ($name == null || $plugin_id == null)
 			return false;
@@ -465,7 +465,7 @@ class Plugin
         if ($value = $stmt->fetchColumn())
 			return $value;
         else
-			return false;
+			return $default;
     }
 	
 	/**
