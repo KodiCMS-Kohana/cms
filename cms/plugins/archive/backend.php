@@ -42,3 +42,16 @@ Behavior::add('archive', 'archive/archive.php');
 Behavior::add('archive_day_index', 'archive/archive.php');
 Behavior::add('archive_month_index', 'archive/archive.php');
 Behavior::add('archive_year_index', 'archive/archive.php');
+
+Dispatcher::addRoute('/'.ADMIN_DIR_NAME.'/plugin/archive/:num', 'plugin/archive/index/$1');
+
+// Add controller
+Plugin::addController('archive', 'archive', array('editor', 'developer', 'administrator'));
+
+$behaviors = array('"archive"', '"archive_day_index"', '"archive_month_index"', '"archive_year_index"');
+$pages = Record::findAllFrom('Page', 'behavior_id IN ('.implode(',', $behaviors).') AND page.status_id = ' . Page::STATUS_PUBLISHED);
+
+foreach ($pages as $page) 
+{
+	Plugin::addNav('Content', $page->title, 'plugin/archive/'.$page->id, $page->getPermissions(), 111);
+}
