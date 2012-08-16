@@ -2,12 +2,9 @@
 <html>
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-		
 		<title><?php echo $this->title(); ?> | <?php echo Setting::get('admin_title'); ?></title>
-		
-		<link href="<?php echo PUBLIC_URL; ?>themes/demo/favicon.ico" rel="favourites icon" />
-		
-		<link href="<?php echo PUBLIC_URL; ?>themes/demo/stylesheets/layout.css" media="screen" rel="stylesheet" type="text/css" charset="utf-8" />
+		<link href="/public/themes/demo/favicon.ico" rel="favourites icon" />
+		<link href="/public/themes/demo/stylesheets/layout.css" media="screen" rel="stylesheet" type="text/css" charset="utf-8" />
 		
 		<!--[if IE]>
 		<style type="text/css">
@@ -32,11 +29,11 @@
 		
 		<div id="layout">
 			<header id="header">
-				<div class="logo"><a href="<?php echo get_url(); ?>"><em><?php echo Setting::get('admin_title'); ?></em></a> <small>Light flexible content management system</small></div>
+				<div class="logo"><a href="<?php echo URL::site(); ?>"><em><?php echo Setting::get('admin_title'); ?></em></a> <small>Light flexible content management system</small></div>
 			</header>
 			
 			<nav id="nav">
-				<a href="<?php echo get_url(); ?>" <?php if(!$this->slug) echo('class="current"'); ?> >Home</a>
+				<a href="<?php echo URL::site(); ?>" <?php if(!$this->slug) echo('class="current"'); ?> >Home</a>
 				
 				<?php foreach($this->find('/')->children() as $item): ?>
 				<?php echo $item->link(null, null, true); ?>
@@ -66,5 +63,8 @@
 			</footer>
 		</div><!--/#layout-->
 		
+		<?php if(Core::$profiling):?>
+			<div id="kohana-profiler"><?php echo View::factory('profiler/stats') ?></div>
+		<?php endif; ?> 
 	</body>
 </html>

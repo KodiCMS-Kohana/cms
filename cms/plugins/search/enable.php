@@ -1,4 +1,4 @@
-<?php if (!defined('CMS_ROOT')) die;
+<?php defined( 'SYSPATH' ) or die( 'No direct access allowed.' );
 
 
 $settings = array(

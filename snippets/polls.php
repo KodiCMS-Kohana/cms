@@ -1,5 +1,5 @@
 <?php
-$poll = polls::instance()->get_poll( 1 );
+$poll = Model_Polls::instance()->get_poll( 1 );
 ?>
 
 <div id = "poll-container">
@@ -13,7 +13,7 @@ $poll = polls::instance()->get_poll( 1 );
 					<label for='opt<?php echo $id; ?>'><?php echo $title; ?></label><br />
 				<?php endforeach; ?>
 
-				<?php if ( Plugin::isEnabled( 'captcha' ) ): ?>
+				<?php if ( Plugins::isEnabled( 'captcha' ) ): ?>
 				<div class="fields-line">
 					<p>
 						<img src="<?php echo CMS_URL; ?>captcha.jpg" alt="<?php echo __( 'Captcha code' ); ?>" id="captcha_image" title="<?php echo __( 'Type text that present on this image.' ); ?>" />

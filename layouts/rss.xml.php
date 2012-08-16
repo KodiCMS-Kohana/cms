@@ -3,7 +3,7 @@
 <channel>
 	<title>Flexo CMS</title>
 	<link><?php echo BASE_URL; ?></link>
-	<atom:link href="<?php echo get_url('rss.xml'); ?>" rel="self" type="application/rss+xml" />
+	<atom:link href="<?php echo URL::site('rss.xml'); ?>" rel="self" type="application/rss+xml" />
 	<language>en-us</language>
 	<copyright>Copyright <?php echo date('Y'); ?>, myflexo.ru</copyright>
 	<pubDate><?php echo strftime('%a, %d %b %Y %H:%M:%S'); ?></pubDate>

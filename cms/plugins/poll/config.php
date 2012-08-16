@@ -1,9 +1,6 @@
-<?php
+<?php defined('SYSPATH') or die('No direct access allowed.');
 
-if ( !defined( 'CMS_ROOT' ) )
-	die;
-
-$poll = poll::init(1)
+$poll = Model_Poll::init(1)
 	->add_title('Как вы регистрируете фирму?')
 	->only_unique_ip(FALSE)
 	->add_option(1, 'обращаюсь к специалистам')
@@ -11,4 +8,4 @@ $poll = poll::init(1)
 	->add_option(3, 'поручаю сотрудникам')
 	->add_option(4, 'еще не регистрировал, изучаю');
 
-polls::instance()->add_poll($poll);
+Model_Polls::instance()->add_poll($poll);

@@ -1,7 +1,4 @@
-<?php if(!defined('CMS_ROOT')) die;
+<?php defined( 'SYSPATH' ) or die( 'No direct access allowed.' );
 
 // Add behaviors
 Behavior::add('search', 'search/search.php');
-
-// Add controller
-Plugin::addController('search', 'search', array('developer','administrator'));

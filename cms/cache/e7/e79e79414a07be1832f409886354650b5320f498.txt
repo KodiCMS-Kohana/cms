@@ -1,0 +1,5 @@
+a:1:{i:0;O:8:"stdClass":2:{s:4:"name";s:7:"sidebar";s:12:"content_html";s:459:"<h3>About project</h3>
+<p>Beginning in 1996, Stanford University graduate students Larry Page and Sergey Brin built a search engine called &ldquo;BackRub&rdquo; that used links to determine the importance of individual web pages. By 1998 they had formalized their work, creating the company you know today as Google.</p>
+<p><a href="/about-project.html">More about project &raquo;</a></p>
+<h3>Syndicate</h3>
+<p><a href="/rss.xml">Articles RSS Feed</a></p>";}}
