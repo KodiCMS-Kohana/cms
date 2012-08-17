@@ -299,8 +299,11 @@ class Model_Search_Stemmer_English {
 				&& ($l = substr( $matches[1], 2, 1 )) != 'w' && $l != 'x' && $l != 'y';
 	}
 	
+	
+	protected static $instances = NULL;
+
 	/**
-	 * @return Model_Search_Indexer
+	 * @return Model_Search_Stemmer_English
 	 */
 	public static function instance()
 	{

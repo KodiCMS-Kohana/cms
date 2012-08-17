@@ -27,11 +27,11 @@ class Model_Search_Indexer {
 		$title = UTF8::strtolower( $title );
 		$content = UTF8::strtolower( $content );
 
-		$title = $this->get_ranked_text($title);
-		$title = $this->get_stemmed_text( $title );
+		$title = $this->_get_ranked_text($title);
+		$title = $this->_get_stemmed_text( $title );
 
-		$content = $this->get_ranked_text($content);		
-		$content = $this->get_stemmed_text( $content );
+		$content = $this->_get_ranked_text($content);		
+		$content = $this->_get_stemmed_text( $content );
 
 		return array( $title, $content );
 	}
@@ -49,34 +49,39 @@ class Model_Search_Indexer {
 				->execute()
 				->current();
 
-		if ( $result === NULL )
+		if ( !$result )
 		{
 
 			return DB::insert( 'index' )
-							->columns( array( 'page_id', 'title', 'content', 'created_on', 'annotation' ) )
-							->values( array(
-								$page_id, $title, $content, date( 'Y-m-d H:i:s' ), $annotation
-							) )
-							->execute();
+				->columns( array( 'page_id', 'title', 'content', 'created_on', 'annotation' ) )
+				->values( array(
+					$page_id, $title, $content, date( 'Y-m-d H:i:s' ), $annotation
+				) )
+				->execute();
+		}
+		else
+		{
+			return $this->update($page_id, $title, $content, $annotation);
 		}
 
 		return FALSE;
 	}
 
-	public function update( $page_id, $title, $update_date = false, $content = "", $annotation = '' )
+	public function update( $page_id, $title, $content = "", $annotation = '' )
 	{
 		$page_id = (int) $page_id;
 
 		list($title, $content) = $this->_prepare_data( $title, $content );
 
 		return DB::update( 'index' )
-						->set( array(
-							'title' => $title,
-							'content' => $content,
-							'annotation' => $annotation,
-							'updated_on' => date( 'Y-m-d H:i:s' )
-						) )
-						->execute();
+			->set( array(
+				'title' => $title,
+				'content' => $content,
+				'annotation' => $annotation,
+				'updated_on' => date( 'Y-m-d H:i:s' )
+			) )
+			->where('page_id', '=', $page_id)
+			->execute();
 	}
 
 	public function remove( $page_id = NULL )
@@ -104,15 +109,16 @@ class Model_Search_Indexer {
 		return $query->execute();
 	}
 
-	protected function get_stemmed_text( $text )
+	protected function _get_stemmed_text( $text )
 	{
 		$result = '';
+
 		$text = strip_tags( $text );
 
 		$stop_words = Model_Search_Stopwords::get();
 
 		// Parse original text and stem all words that are not tags
-		$tkn = new Tokenizer();
+		$tkn = new Model_Search_Tokenizer();
 		$tkn->set_text( $text );
 		$tkn->stopwords = $stop_words;
 		
@@ -128,54 +134,58 @@ class Model_Search_Indexer {
 
 	protected function _get_ranked_text( $text )
 	{
-		$result = "";
-		$ranks = 0;
-
-		// I should convert my array $this->strong_tags to one row with space
-		// as delimiter because of implementation of 'strip_tags' function in PHP4
-		$text = strip_tags( $text, implode( '', $this->_strong_tags ) );
-
-		Core::load( PLGPATH . 'search/vendors/htmlparser.php');
-		$parser = new HtmlParser( $text );
-
-		while ( $parser->parse() )
-		{
-			$iNodeName = strtolower( $parser->iNodeName );
-			if ( $parser->iNodeType == NODE_TYPE_ELEMENT )
-			{
-				if ( isset( $this->_tag_rankings[$iNodeName] ) )
-				{
-					$ranks += $this->_tag_rankings[$iNodeName];
-					if ( $parser->iNodeValue != '' )
-					{
-						for ( $i = 0, $l = $ranks >= BOOST_LIMIT ? BOOST_LIMIT : $ranks + 1; $i < $l; $i++ )
-						{
-							$result = $result . ' ' . $parser->iNodeValue;
-						}
-					}
-				}
-			} 
-			else if ( $parser->iNodeType == NODE_TYPE_ENDELEMENT )
-			{
-				if ( isset( $this->_tag_rankings[$iNodeName] ) )
-				{
-					$ranks -= $this->_tag_rankings[$iNodeName];
-				}
-			} 
-			else if ( $parser->iNodeType == NODE_TYPE_TEXT )
-			{
-				if ( $parser->iNodeValue != '' )
-				{
-					for ( $i = 0, $l = $ranks >= BOOST_LIMIT ? BOOST_LIMIT : $ranks + 1; $i < $l; $i++ )
-					{
-						$result = $result . ' ' . $parser->iNodeValue;
-					}
-				}
-			}
-		}
-
-		return $result;
+//		$result = "";
+//		$ranks = 0;
+//
+//		// I should convert my array $this->strong_tags to one row with space
+//		// as delimiter because of implementation of 'strip_tags' function in PHP4
+//		$text = strip_tags( $text, implode( '', $this->_strong_tags ) );
+//
+//		Core::load( PLGPATH . 'search/vendors/htmlparser.php');
+//		$parser = new HtmlParser( $text );
+//
+//		while ( $parser->parse() )
+//		{
+//			$iNodeName = strtolower( $parser->iNodeName );
+//			if ( $parser->iNodeType == NODE_TYPE_ELEMENT )
+//			{
+//				if ( isset( $this->_tag_rankings[$iNodeName] ) )
+//				{
+//					$ranks += $this->_tag_rankings[$iNodeName];
+//					if ( $parser->iNodeValue != '' )
+//					{
+//						for ( $i = 0, $l = $ranks >= BOOST_LIMIT ? BOOST_LIMIT : $ranks + 1; $i < $l; $i++ )
+//						{
+//							$result = $result . ' ' . $parser->iNodeValue;
+//						}
+//					}
+//				}
+//			} 
+//			else if ( $parser->iNodeType == NODE_TYPE_ENDELEMENT )
+//			{
+//				if ( isset( $this->_tag_rankings[$iNodeName] ) )
+//				{
+//					$ranks -= $this->_tag_rankings[$iNodeName];
+//				}
+//			} 
+//			else if ( $parser->iNodeType == NODE_TYPE_TEXT )
+//			{
+//				if ( $parser->iNodeValue != '' )
+//				{
+//					for ( $i = 0, $l = $ranks >= BOOST_LIMIT ? BOOST_LIMIT : $ranks + 1; $i < $l; $i++ )
+//					{
+//						$result = $result . ' ' . $parser->iNodeValue;
+//					}
+//				}
+//			}
+//		}
+//
+//		return $result;
+		
+		return $text;
 	}
+	
+	protected static $instances = NULL;
 
 	/**
 	 * @return Model_Search_Indexer

@@ -11,7 +11,7 @@ class Model_Search_Stemmer_Russian {
 	
 	function stem($word)
 	{
-		$a = rv( $word );
+		$a = $this->rv( $word );
 		
 		$result = $this->step1($a[1]);
 		$result = $this->step2($result);
@@ -135,8 +135,10 @@ class Model_Search_Stemmer_Russian {
 		return $word;
 	}
 	
+	protected static $instances = NULL;
+
 	/**
-	 * @return Model_Search_Indexer
+	 * @return Model_Search_Stemmer_Russian
 	 */
 	public static function instance()
 	{

@@ -68,7 +68,7 @@ class Model_Search_Tokenizer {
 	
 		if(isset($this->stopwords[$token]))
 		{
-			return FASLE;
+			return FALSE;
 		}
 
 		if(strspn($token,'[]<>-_$.\\+*/') == strlen($token))
@@ -79,7 +79,7 @@ class Model_Search_Tokenizer {
 		return TRUE;
 	}
 	
-	function getType($token) 
+	public function get_type($token) 
 	{
 		if(strspn($token,'0123456789') == strlen($token))
 		{
@@ -108,6 +108,9 @@ class Model_Search_Tokenizer {
 		return self::TOKEN_UNDEFINED;
 	}
 	
+	
+	protected static $instances = NULL;
+
 	/**
 	 * @return Model_Search_Tokenizer
 	 */

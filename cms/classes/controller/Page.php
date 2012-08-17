@@ -111,7 +111,7 @@ class Controller_Page extends Controller_System_Backend {
 			$data['status_id'] = Setting::get( 'default_status_id' );
 		}
 
-		$page = new Page( $data );
+		$page = new Page( $data, array('tags') );
 		$page->parent_id = $parent_id;
 
 		// save page data
@@ -131,7 +131,7 @@ class Controller_Page extends Controller_System_Backend {
 			}
 
 			// save tags
-			$page->saveTags( $_POST['page_tag']['tags'] );
+			$page->saveTags( $data['tags'] );
 
 			// save permissions
 			if ( empty( $_POST['page_permissions'] ) )
@@ -357,11 +357,10 @@ class Controller_Page extends Controller_System_Backend {
 
 		$this->go( URL::site( 'page' ) );
 	}
-
+	
+	
 	public function children( $parent_id, $level, $return = false )
 	{
-//		$this->auto_render = FALSE;
-
 		$expanded_rows = isset( $_COOKIE['expanded_rows'] ) ? explode( ',', $_COOKIE['expanded_rows'] ) : array( );
 
 		// get all children of the page (parent_id)
@@ -378,14 +377,23 @@ class Controller_Page extends Controller_System_Backend {
 		}
 
 		$content = new View( 'page/children', array(
-					'childrens' => $childrens,
-					'level' => $level + 1,
-				) );
+			'childrens' => $childrens,
+			'level' => $level + 1,
+		) );
 
 		if ( $return )
 			return $content;
 
 		echo $content;
+	}
+
+	public function action_children( )
+	{
+		$this->auto_render = FALSE;
+		$parent_id = Arr::get($_GET, 'parent_id');
+		$level = Arr::get($_GET, 'level');
+		
+		return $this->children($parent_id, $level);
 	}
 
 	/**

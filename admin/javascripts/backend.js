@@ -342,8 +342,12 @@ cms.init.add('page_index', function()
 			// Sending information about page position to frog
 			jQuery.ajax({
 				// options
-				url:      URL::base() + ADMIN_DIR_NAME + '/page/children/' + parent_id + '/' + level,
+				url:      SITE_URL + ADMIN_DIR_NAME + '/page/children/',
 				dataType: 'html',
+				data: {
+					parent_id: parent_id,
+					level: level
+				},
 				
 				// events
 				success: success_handler,
@@ -461,10 +465,13 @@ cms.init.add('page_index', function()
 				// Save reordered positons
 				jQuery.ajax({
 					// options
-					url:  URL::base() + ADMIN_DIR_NAME + '/page/reorder/' + parent_id,
+					url:  SITE_URL + ADMIN_DIR_NAME + '/page/reorder/',
 					type: 'post',
 					
-					data: { pages: pages_ids },
+					data: { 
+						parent_id: parent_id,
+						pages: pages_ids 
+					},
 					
 					// events
 					success: success_handler,
@@ -577,11 +584,12 @@ cms.init.add('page_index', function()
 				// Save reordered positons
 				jQuery.ajax({
 					// options
-					url:      URL::base() + ADMIN_DIR_NAME + '/page/copy/' + parent_id,
+					url:      SITE_URL + ADMIN_DIR_NAME + '/page/copy/',
 					type:     'post',
 					dataType: 'json',
 					
 					data: {
+						parent_id: parent_id,
 						dragged_id: page_id,
 						pages:      pages_ids
 					},
@@ -664,11 +672,13 @@ cms.init.add('page_index', function()
 			.show();
 		
 		$.ajax({
-			url:      URL::base() + ADMIN_DIR_NAME + '/page/search/',
+			url:      SITE_URL + ADMIN_DIR_NAME + '/page/search/',
 			type:     'post',
 			dataType: 'html',
 			
-			data: { query: query },
+			data: { 
+				query: query 
+			},
 			
 			success: success_handler,
 			error:   error_handler
@@ -812,7 +822,7 @@ cms.init.add(['page_add', 'page_edit'], function()
 				cms.loader.show();
 				
 				$.ajax({
-					url:      URL::base() + ADMIN_DIR_NAME + '/page/add_part',
+					url:      SITE_URL + ADMIN_DIR_NAME + '/page/add_part',
 					type:     'POST',
 					dataType: 'html',
 					

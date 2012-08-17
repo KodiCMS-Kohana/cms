@@ -8,55 +8,56 @@ class Model_Search {
 		$this->params = $params;
 
 		$this->page->pages = array( );
-		
-		$search_query_key = Plugin::getSetting('search_query_key', 'search', 'q');
-
-		$this->query = Arr::get($_GET, $search_query_key);
+		$this->query = $this->stem_query();
 
 		$this->search();
+	}
+	
+	protected function stem_query()
+	{
+		$result = '';
+		
+		$search_query_key = Plugins::getSetting('search_query_key', 'search', 'q');
+		$text = Arr::get($_GET, $search_query_key, '');
+		$text = strip_tags( $text );
+
+		$stop_words = Model_Search_Stopwords::get();
+
+		// Parse original text and stem all words that are not tags
+		$tkn = new Model_Search_Tokenizer();
+		$tkn->set_text( $text );
+		$tkn->stopwords = $stop_words;
+		
+		$stemmer = new Model_Search_Stemmer($tkn);
+
+		while ( $cur = $tkn->next() )
+		{
+			$result .= $stemmer->stem($cur);
+		}
+		
+		return $result;
 	}
 
 	public function search()
 	{
-		$query = DB::select('id')
-			->from('page')
-			->where('title', 'like', '%'.$this->query . '%')
-			->execute();
+		$columns = '`title`, `content`';
+		
+		$page_ids = DB::query(Database::SELECT, 'SELECT `page_id` FROM `index` WHERE MATCH(:columns) AGAINST(:query) ORDER BY updated_on DESC')
+			->parameters(array(
+				':query' => $this->query, 
+				':columns' => DB::expr($columns)
+			))
+			->as_object()
+			->execute()
+			->as_array(NULL, 'page_id');
 
-		$ids = array( );
-		foreach ( $query as $row )
+		foreach ( $page_ids as $id )
 		{
-			$ids[$row['id']] = $row['id'];
-		}
-		
-		
-		$search_only_title = Plugin::getSetting('search_only_title', 'search', 'yes');
-		
-		if($search_only_title == 'yes')
-		{
-			$part_query = Record::query( 'SELECT page_id as id FROM page_part WHERE content_html LIKE "%' . $this->query . '%"' );
-			
-			DB::select(array('page_id', 'id'))
-				->from('page_part')
-				->where('content_html', 'like', '%'.$this->query . '%')
-				->execute();
-
-			foreach ( $part_query as $row )
-			{
-				if ( !isset( $ids[$row['id']] ) )
-				{
-					$ids[$row['id']] = $row['id'];
-				}
-			}
+			$page_ids[$id] = FrontPage::findById( $id );
 		}
 
-		foreach ( $ids as $id )
-		{
-			$ids[$id] = FrontPage::findById( $id );
-		}
-
-		$this->page->pages = $ids;
-		$this->page->total_found = count($ids);
+		$this->page->pages = $page_ids;
+		$this->page->total_found = count($page_ids);
 		$this->page->search_query = $this->query;
 	}
 

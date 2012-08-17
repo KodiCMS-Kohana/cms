@@ -155,10 +155,10 @@ class Record
         return self::$__CONN__->lastInsertId();
     }
     
-    public function __construct($data=false)
+    public function __construct($data=false, $exclude = array())
     {
         if (is_array($data))
-            $this->setFromData($data);
+            $this->setFromData($data, $exclude);
     }
     
     public function setFromData($data, $exclude = array())

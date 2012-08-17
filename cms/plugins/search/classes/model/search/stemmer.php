@@ -11,21 +11,19 @@ class Model_Search_Stemmer {
 	
 	public function stem($word)
 	{
-		$type = $tkn->get_type( $word );
+		$type = $this->_tokenizer->get_type( $word );
 
 		switch ( $type )
 		{
 			case Model_Search_Tokenizer::TOKEN_WORD_EN:
-				$result .= Model_Search_Stemmer_English::instance()->stem( $word, true ) . ' ';
+				$result = Model_Search_Stemmer_English::instance()->stem( $word, true ) . ' ';
 				break;
 			case Model_Search_Tokenizer::TOKEN_WORD_RU:
-				$stem = Model_Search_Stemmer_Russian::instance()->stem( $word, true );
-				$stem = $this->_pad_word( $stem, 'ь' );
-				
-				$result .= $stem . ' ';
+				$stem = Model_Search_Stemmer_Russian::instance()->stem( $word );
+				$result = $stem . ' ';
 				break;
 			default:
-				$result .= $word . ' ';
+				$result = $word . ' ';
 		}
 		
 		return $result;

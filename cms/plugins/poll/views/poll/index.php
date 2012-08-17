@@ -1,4 +1,6 @@
-<h1><?php echo __( 'Polls results' ); ?></h1>
+<div class="page-header">
+	<h1><?php echo __( 'Polls results' ); ?></h1>
+</div>
 
 <div id="poll-container">
 	<?php foreach ( $polls as $poll ): ?>

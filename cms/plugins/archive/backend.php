@@ -1,7 +1,9 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
 Route::set( 'archive', 'admin/plugin/archive/<id>' , array(
-	'id' => '[0-9]+'
+	'id' => '[0-9]+',
+	'controller' => 'archive',
+	'action' => 'index',
 ) )
 	->defaults( array(
 		'controller' => 'archive',

@@ -163,7 +163,7 @@ class FrontPage
 			->where('page_id', '=', $this->id)
 			->limit(1)
 			->as_object()
-			->cached()
+			//->cached()
 			->execute()
 			->current();
 		
@@ -202,7 +202,7 @@ class FrontPage
 			->where('page_id', '=', $this->id)
 			->limit(1)
 			->as_object()
-			->cached()
+			//->cached()
 			->execute()
 			->current();
 	
@@ -360,6 +360,7 @@ class FrontPage
 					->where_close()
 					->limit(1)
 					->cached()
+					->as_object()
 					->execute()
 					->current();
 				
@@ -447,9 +448,10 @@ class FrontPage
 			->where_close()
 			->limit(1)
 			->cached()
+			->as_object()
 			->execute()
 			->current();
-		
+
 		if( $page )
 		{
 			if ($page->parent_id)
