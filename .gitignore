@@ -1,3 +1,10 @@
 /nbproject/private/
-/config.php
-/_install/
+cms/cache/*
+logs/*
+temp/*
+wiki/*
+
+tinymce/*
+
+cms/plugins/cache/dynamic/*
+cms/plugins/cache/static/*

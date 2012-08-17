@@ -35,7 +35,7 @@ class Plugin {
 
 			$this->_data[$name] = $value;
 		}
-		elseif ( $name == 'javascripts' )
+		elseif ( $name == 'js' )
 		{
 			if ( is_array( $value ) )
 			{

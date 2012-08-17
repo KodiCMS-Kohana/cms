@@ -1,17 +1,14 @@
-<?php
-
-if ( !defined( 'SYSPATH' ) )
-	die;
+<?php defined('SYSPATH') or die('No direct access allowed.');
 
 class Plugins {
 
 	static $plugins = array( );
 	static $plugins_infos = array( );
 	static $updatefile_cache = array( );
-	static $controllers = array( );
+
 	static $javascripts = array( );
 	static $stylesheets = array( );
-	static $nav = array( );
+
 	protected static $_settings = array( );
 	protected static $table_name = 'plugin_settings';
 
@@ -22,7 +19,7 @@ class Plugins {
 	{
 		self::$plugins = unserialize( Setting::get( 'plugins', 'a:0:{}' ) );
 
-		self::getSettings();
+		self::get_settings();
 
 		$modules = array( );
 		$files = array( );
@@ -296,14 +293,14 @@ class Plugins {
 		return Arr::path( self::$_settings, $plugin_id . '.' . $name );
 	}
 
-	static function getSettings()
+	static function get_settings()
 	{
 		$settings = DB::select()
-				->from( self::$table_name )
-				->cache_key( 'plugin_settings' )
-				->cached()
-				->as_object()
-				->execute();
+			->from( self::$table_name )
+			->cache_key( 'plugin_settings' )
+			->cached()
+			->as_object()
+			->execute();
 
 		foreach ( $settings as $setting )
 		{

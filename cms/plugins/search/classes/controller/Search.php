@@ -18,5 +18,10 @@ class Controller_Search extends Controller_System_Plugin
 			'settings' => Plugins::getAllSettings('search')
 		));
 	}
+	
+	public function action_index()
+	{
+		
+	}
 
 }

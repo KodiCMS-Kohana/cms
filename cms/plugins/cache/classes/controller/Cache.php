@@ -10,7 +10,7 @@ class Controller_Cache extends Controller_System_Plugin
 				'cache_dynamic'       => 'no',
 				'cache_static'        => 'no',
 				'cache_remove_static' => 'no',
-				'cache_lifetime'            => 86400
+				'cache_lifetime'      => 86400
 			);
 			
 			if (isset($_POST['setting']) && is_array($_POST['setting']))
