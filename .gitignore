@@ -1,7 +1,5 @@
-/nbproject/private/
 cache/*
 logs/*
 temp/*
 wiki/*
-
-nbproject
+nbproject/*
