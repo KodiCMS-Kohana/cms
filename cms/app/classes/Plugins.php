@@ -297,7 +297,7 @@ class Plugins {
 	{
 		$settings = DB::select()
 			->from( self::$table_name )
-			->cache_key( 'plugin_settings' )
+			->cache_key( self::$table_name )
 			->cached()
 			->as_object()
 			->execute();
