@@ -5,6 +5,6 @@ temp/*
 wiki/*
 
 tinymce/*
-
+nbproject
 cms/plugins/cache/dynamic/*
 cms/plugins/cache/static/*
