@@ -143,7 +143,9 @@ if ( ! Route::cache() )
 			'controller' => 'login',
 		) );
 
-	Route::set( 'plugin', 'admin/plugin/(<controller>(/<action>(/<id>)))' )
+	Route::set( 'plugin', 'admin/plugin/(<controller>(/<action>(/<id>)))', array(
+		'id' => '.*'
+	) )
 		->defaults( array(
 			'controller' => 'index',
 			'action' => 'index',

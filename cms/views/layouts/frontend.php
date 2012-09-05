@@ -1,0 +1,1 @@
+<?php include $layout_file; ?>

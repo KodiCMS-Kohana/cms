@@ -17,7 +17,9 @@ class PagePart extends Record
     public function beforeSave()
     {
 		if (!empty($this->permissions))
+		{
 			$this->savePermissions($this->permissions);
+		}
 		
 		unset($this->permissions);
 		
@@ -25,13 +27,19 @@ class PagePart extends Record
         if ( ! empty($this->filter_id))
 		{
 			if (Filter::get($this->filter_id))
+			{
 				$this->content_html = Filter::get($this->filter_id)->apply($this->content);
+			}
 			
 			foreach(Observer::getObserverList('filter_content') as $callback)
+			{
 				$this->content_html = call_user_func($callback, $this->content_html);
+			}
 		}
         else
+		{
             $this->content_html = $this->content;
+		}
         
         return true;
     }
@@ -50,7 +58,9 @@ class PagePart extends Record
 		foreach ($parts as $part)
 		{
 			if ( !$part->delete())
+			{
 				$result = FALSE;
+			}
 		}
 		
 		return $result;

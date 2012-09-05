@@ -46,13 +46,13 @@ class Page extends Record
         
 		if ($this->position == 0)
 		{
-			// set page position (testing)
-			$sql = 'SELECT MAX(page.position) AS pos FROM '.TABLE_PREFIX.'page AS page WHERE parent_id=' . $this->parent_id;
-			$sth = self::$__CONN__->prepare($sql);
-			$sth->execute();
+			$last_position = DB::select(array('MAX("page.position")', 'pos'))
+				->from(self::TABLE_NAME)
+				->where('parent_id', '=', $this->parent_id)
+				->execute()
+				->get('pos', 0);
 			
-			if ($row = $sth->fetch())
-				$this->position = ((int) $row['pos']) + 1;
+			$this->position = ((int) $last_position) + 1;
 		}
 		
         return true;
@@ -60,15 +60,23 @@ class Page extends Record
 	
 	public function afterInsert()
 	{
-		$sql = 'SELECT page.id FROM '.TABLE_PREFIX.'page AS page WHERE page.id <> '.$this->id.' AND page.slug = "'.$this->slug.'" AND page.parent_id = '.$this->parent_id;
-		$sth = self::$__CONN__->prepare($sql);
+		$page = DB::select('page.id')
+			->from(self::TABLE_NAME)
+			->where('page.id', '<>', $this->id)
+			->where('page.slug', '=', $this->slug)
+			->where('page.parent_id', '=', $this->parent_id)
+			->execute()
+			->get('id');
 		
-		$sth->execute();
-		
-		if ($sth->fetch())
+		if ($page !== NULL)
 		{
-			$sql = 'UPDATE '.TABLE_PREFIX.'page AS page SET page.slug = CONCAT(page.slug, "-", page.id) WHERE page.id = '.$this->id.' AND page.parent_id = '.$this->parent_id;
-			self::$__CONN__->exec($sql);
+			DB::update(self::TABLE_NAME)
+				->set(array(
+					'slug' => DB::expr('CONCAT(page.slug, "-", page.id)')
+				))
+				->where('id', '=', $this->id)
+				->where('parent_id', '=', $this->parent_id)
+				->execute();
 		}
 		
 		return true;
@@ -97,12 +105,14 @@ class Page extends Record
 		// need to delete subpages
 		self::deleteByParentId($this->id);
 		
-		// remove all info about permissions
-		self::$__CONN__->query('DELETE FROM '.TABLE_PREFIX.'page_permission WHERE page_id='.$this->id);
+		DB::delete('page_permission')
+			->where('page_id', '', $this->id)
+			->execute();
 		
-		// remove indormation about tags
-		self::$__CONN__->query('DELETE FROM '.TABLE_PREFIX.'page_tag WHERE page_id='.$this->id);
-		
+		DB::delete('page_tag')
+			->where('page_id', '', $this->id)
+			->execute();
+
 		return true;
 	}
 
@@ -126,23 +136,16 @@ class Page extends Record
     
     public function getTags()
     {
-        $tablename_page_tag = self::tableNameFromClassName('PageTag');
-        $tablename_tag = self::tableNameFromClassName('Tag');
-        
-        $sql = "SELECT tag.id AS id, tag.name AS tag FROM $tablename_page_tag AS page_tag, $tablename_tag AS tag ".
-               "WHERE page_tag.page_id={$this->id} AND page_tag.tag_id = tag.id";
-        
-        if( !( $stmt = self::$__CONN__->prepare($sql) ) )
-            return array();
-            
-        $stmt->execute();
-        
-        // Run!
-        $tags = array();
-        while( $object = $stmt->fetchObject() )
-             $tags[$object->id] = $object->tag;
-        
-        return $tags;
+        $tablename_page_tag = self::tableName('PageTag');
+        $tablename_tag = self::tableName('Tag');
+		
+		return DB::select(array('tag.id', 'id'), array('tag.name', 'tag'))
+			->from(array($tablename_page_tag, 'page_tag'))
+			->join(array($tablename_tag, 'tag'), 'left')
+				->on('page_tag.tag_id', '=', 'tag.id')
+			->where('page_tag.page_id', '=', $this->id)
+			->execute()
+			->as_array('id', 'tag');
     }
     
     public function saveTags($tags)
@@ -161,13 +164,18 @@ class Page extends Record
         // delete all tags
         if( count($tags) == 0 )
         {
-            $tablename = self::tableNameFromClassName('Tag');
+            $tablename = self::tableName('Tag');
             
             // update count (-1) of those tags
             foreach( $current_tags as $tag )
-                self::$__CONN__->exec("UPDATE $tablename SET count = count - 1 WHERE name = '$tag'");
+			{
+				DB::update($tablename)
+					->set(array('count' => DB::expr('count - 1')))
+					->where('name', '=', $tag)
+					->execute();
+			}
             
-            return Record::deleteWhere( 'PageTag', 'page_id=?', array($this->id) );
+            return Record::deleteWhere( 'PageTag', 'page_id = :page_id', array(':page_id' => $this->id) );
         }
         else
         {
@@ -180,8 +188,10 @@ class Page extends Record
                 if ( !empty($tag_name) )
                 {
                     // try to get it from tag list, if not we add it to the list
-                    if ( ! ( $tag = Record::findOneFrom('Tag', 'name=?', array($tag_name)) ) )
+                    if ( ! ( $tag = Record::findOneFrom('Tag', 'name = :name', array(':name' => $tag_name)) ) )
+					{
                         $tag = new Tag(array('name' => trim($tag_name)));
+					}
                     
                     $tag->count++;
                     $tag->save();
@@ -196,8 +206,8 @@ class Page extends Record
             foreach( $old_tags as $index => $tag_name )
             {
                 // get the id of the tag
-                $tag = Record::findOneFrom('Tag', 'name=?', array($tag_name));
-                Record::deleteWhere('PageTag', 'page_id=? AND tag_id=?', array($this->id, $tag->id));
+                $tag = Record::findOneFrom('Tag', 'name = :name', array(':name' => $tag_name));
+                Record::deleteWhere('PageTag', 'page_id = :page_id AND tag_id = :tag_id', array(':page_id' => $this->id, ':tag_id' => $tag->id));
                 $tag->count--;
                 $tag->save();
             }
@@ -217,30 +227,27 @@ class Page extends Record
         $order_by_string = empty($order_by) ? '' : "ORDER BY $order_by";
         $limit_string = $limit > 0 ? "LIMIT $offset, $limit" : '';
         
-        $tablename = self::tableNameFromClassName('Page');
-        $tablename_user = self::tableNameFromClassName('User');
+        $tablename = self::tableName('Page');
+        $tablename_user = self::tableName('User');
         
         // Prepare SQL
         $sql = "SELECT page.*, creator.name AS created_by_name, updator.name AS updated_by_name FROM $tablename AS page
                LEFT JOIN $tablename_user AS creator ON page.created_by_id = creator.id
                LEFT JOIN $tablename_user AS updator ON page.updated_by_id = updator.id
                $where_string $order_by_string $limit_string";
-        
-        $stmt = self::$__CONN__->prepare($sql);
-        $stmt->execute();
-        
+		
+		$query = DB::query(Database::SELECT, $sql)
+			->as_object(__CLASS__)
+			->execute();
+
         // Run!
         if ($limit == 1)
         {
-            return $stmt->fetchObject('Page');
+            return $query->current();
         }
         else
         {
-            $objects = array();
-            while ($object = $stmt->fetchObject('Page'))
-                $objects[] = $object;
-            
-            return $objects;
+            return $query->as_array('id');
         }
     }
     
@@ -327,7 +334,9 @@ class Page extends Record
 		foreach ($pages as $page)
 		{
 			if ( !$page->delete())
+			{
 				$result = FALSE;
+			}
 		}
 		
 		return $result;
@@ -336,7 +345,9 @@ class Page extends Record
 	public function getPermissions()
 	{
 		if (empty($this->id))
+		{
 			return array('administrator', 'developer', 'editor');
+		}
 			
 		static $permissions = array();
 		
@@ -355,15 +366,21 @@ class Page extends Record
 			WHERE
 				page_permission.page_id = '. $this->id;
 			
-			if( !( $stmt = self::$__CONN__->prepare($sql) ) )
+			$query = DB::query(Database::SELECT, $sql)
+				->as_object()
+				->execute();
+			
+			if( ! $query )
+			{
 				return array();
-			
-			$stmt->execute();
-			
+			}
+
 			$permissions[$this->id] = array('administrator');
 			
-			while( $object = $stmt->fetchObject() )
+			foreach ( $query as $object )
+			{
 				$permissions[$this->id][$object->id] = $object->name;
+			}
         }
 		
         return $permissions[$this->id];
@@ -372,36 +389,40 @@ class Page extends Record
 	// Save page permissions
 	public function savePermissions( $permissions )
 	{		
-		// get permissions that already stored in database
-		$sql = '
-		SELECT
-			permission.name
-		FROM (
-			'.TABLE_PREFIX.'page_permission AS page_permission
-		LEFT JOIN
-			'.TABLE_PREFIX.'permission AS permission
-		ON
-			page_permission.permission_id=permission.id
-		)
-		WHERE
-			page_id=' . $this->id;
-		$perms_in_table = self::$__CONN__->query($sql)->fetchAll(PDO::FETCH_COLUMN, 0);
-		
+		// get permissions that already stored in database		
+		$perms_in_table = DB::select('permission.name')
+			->from( 'page_permission')
+			->join('permission', 'left')
+				->on('page_permission.permission_id', '=', 'permission.id')
+			->where( 'page_id', '=', $this->id )
+			->execute()
+			->as_array(NULL, 'name');
+
 		$new_perms = array_diff($permissions, $perms_in_table);
 		$del_perms = array_diff($perms_in_table, $permissions);
 		
 		// add new ralates to page_permission
 		foreach ($new_perms as $permission_name)
 		{
-			$sql = 'INSERT INTO '.TABLE_PREFIX.'page_permission(page_id, permission_id) VALUES('.$this->id.', (SELECT permission.id FROM '.TABLE_PREFIX.'permission AS permission WHERE permission.name='. self::$__CONN__->quote($permission_name).'))';
-			self::$__CONN__->query($sql);
+			$select = DB::select('id')->from('permission')
+				->where('name', '=', $permission_name);
+
+			DB::insert('page_permission')
+				->columns(array('page_id', 'permission_id'))
+				->values(array($this->id, $select))
+				->execute();
 		}
 		
 		// remove old relatives from page_permission
 		foreach ($del_perms as $permission_name)
 		{
-			$sql = 'DELETE FROM '.TABLE_PREFIX.'page_permission WHERE page_id='.$this->id.' AND permission_id=(SELECT permission.id FROM '.TABLE_PREFIX.'permission AS permission WHERE permission.name='. self::$__CONN__->quote($permission_name).')';
-			self::$__CONN__->query($sql);
+			$select = DB::select('id')->from('permission')
+				->where('name', '=', $permission_name);
+
+			DB::delete('page_permission')
+				->where('page_id', '=', $this->id)
+				->where('permission_id', '=', $select)
+				->execute();
 		}
 	}
     

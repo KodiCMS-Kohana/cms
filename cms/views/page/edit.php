@@ -13,9 +13,11 @@ if ($pagetmp != null && !empty($pagetmp) && $parttmp != null && !empty($parttmp)
 }
 ?>
 
+<?php if($page->title): ?>
 <div class="page-header">
-	<h1><?php echo $page->title; ?></h1> 
+	<h1><?php echo __('Edit page ":page"', array(':page' => $page->title)); ?></h1> 
 </div>
+<?php endif; ?>
 
 <ul class="breadcrumb">
 	<li><a href="<?php echo URL::site('page'); ?>"><?php echo __('Pages'); ?></a> <span class="divider">/</span></li>

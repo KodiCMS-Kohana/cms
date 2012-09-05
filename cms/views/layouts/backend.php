@@ -17,7 +17,7 @@
 		</script>
 
 		<?php
-		echo HTML::style( 'libs/bootstrap/css/bootstrap.min.css' );
+		echo HTML::style( 'libs/bootstrap/css/bootstrap.css' );
 		echo HTML::style( 'stylesheets/backend.css' );
 		echo HTML::style( 'libs/jquery-ui/jquery-ui-1.8.12.css' );
 		echo HTML::style( 'libs/jgrowl/jquery.jgrowl.css' );
@@ -43,54 +43,73 @@
 	</head>
 	<body id="body_<?php echo $page_body_id; ?>">
 
-		<div class="navbar navbar-fixed-top">
+		<div class="navbar navbar-static-top navbar-inverse">
 			<div class="navbar-inner">
-				<div class="container">
-					<?php
-					echo HTML::anchor( URL::site( Setting::get( 'default_tab', 'admin/page' ) ), Setting::get( 'admin_title' ), array(
-						'class' => 'brand'
-					) );
-					?>
+				<?php
+				echo HTML::anchor( URL::site( Setting::get( 'default_tab', 'admin/page' ) ), Setting::get( 'admin_title' ), array(
+					'class' => 'brand'
+				) );
+				?>
 
-					<div class="btn-group pull-right">
-<?php echo HTML::anchor( URL::site( 'admin/user/edit/' . AuthUser::getId() ), HTML::icon( 'user' ) . ' ' . AuthUser::getRecord()->name, array( 'class' => 'btn' ) ); ?>
-						<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-							<span class="caret"></span>
-						</a>
+				<ul class="nav">
+				<?php foreach ( Model_Navigation::get() as $nav_name => $nav ): ?>
+					<?php if(!empty($nav->items)):?>
+					<li class="dropdown <?php if($nav->is_current): ?>active<?php endif; ?>">
+						<a data-toggle="dropdown" class="dropdown-toggle" href="#"><?php echo __( $nav_name ); ?> <b class="caret"></b></a>
 						<ul class="dropdown-menu">
-							<li><?php echo HTML::anchor( URL::site( 'logout' ), __( 'Logout' ) ); ?></li>
+							<?php foreach ( $nav->items as $item ): ?>
+							<li <?php if($item->is_current): ?>class="active"<?php endif; ?>><?php echo HTML::anchor( URL::site( $item->uri ), $item->name ); ?></li>
+							<?php endforeach; ?>
 						</ul>
-					</div>
+					</li>
+					<?php endif; ?>
+				<?php endforeach; ?>
+				</ul>
 
-					<ul class="nav pull-right">
-						<li><?php echo HTML::anchor( URL::base(), __( 'View Site' ), array( 'target' => '_blank' ) ); ?></li>
+				<div class="btn-group pull-right">
+<?php echo HTML::anchor( URL::site( 'admin/user/edit/' . AuthUser::getId() ), HTML::icon( 'user' ) . ' ' . AuthUser::getRecord()->name, array( 'class' => 'btn' ) ); ?>
+					<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+						<span class="caret"></span>
+					</a>
+					<ul class="dropdown-menu">
+						<li><?php echo HTML::anchor( URL::site( 'logout' ), __( 'Logout' ) ); ?></li>
 					</ul>
 				</div>
+
+				<ul class="nav pull-right">
+					<li><?php echo HTML::anchor( URL::base(), __( 'View Site' ), array( 'target' => '_blank' ) ); ?></li>
+				</ul>
 			</div>
 		</div>
+		
+		<?php foreach ( Model_Navigation::get() as $nav_name => $nav ): ?>
+		<?php if($nav->is_current AND count($nav->items) > 1):?>
+		<div id="subnav" class="navbar navbar-static-top">
+			<div class="navbar-inner">
+				<ul class="nav">
+					<?php foreach ( $nav->items as $item ): ?>
+					<li class="<?php if($item->is_current): ?>active<?php endif; ?>">
+						<?php echo HTML::anchor( URL::site( $item->uri ), $item->name ); ?>
+					</li>
+					<?php endforeach; ?>
+				</ul>
+			</div>
+		</div>
+		<?php endif; ?>
+		<?php endforeach; ?>
 
 		<div class="container-fluid">
-			<div class="row-fluid">
-				<div class="span2">
-					<div id="sidebar-nav">
-						<div class="well">
-							<ul class="nav nav-list">
-								<?php foreach ( Model_Navigation::get() as $nav_name => $nav ): ?>
-									<li class="nav-header"><?php echo __( $nav_name ); ?></li>
-	<?php foreach ( $nav->items as $item ): ?>
-										<li <?php if ( $item->is_current ) echo('class="active"'); ?>><?php echo HTML::anchor( URL::site( $item->uri ), $item->name ); ?></li>
-	<?php endforeach; ?>
-<?php endforeach; ?>
-							</ul>
-						</div>
-					</div>
-				</div>
-				<div class="span10">
-					<div id="content" class="well" >
-		<?php echo $content; ?>
-					</div> <!--/#content-->
-				</div>
-			</div>
+			<?php if(isset($breadcrumbs)): ?>
+			<ul class="breadcrumb">
+				<?php foreach ($breadcrumbs as $anchor): ?>
+				<li><?php echo $anchor; ?> <span class="divider">/</span></li>
+				<?php endforeach; ?>
+			</ul>
+			<?php endif; ?>
+			
+			<div id="content" class="well" >
+			<?php echo $content; ?>
+			</div> <!--/#content-->
 		</div>
 <?php if ( Setting::get( 'profiling' ) == 'yes' ): ?>
 			<hr />

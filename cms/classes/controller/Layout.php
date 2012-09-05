@@ -18,6 +18,11 @@ class Controller_Layout extends Controller_System_Backend {
 		{
 			return $this->_add();
 		}
+		
+		$this->template->breadcrumbs = array(
+			HTML::anchor( 'layout', __('Layouts')),
+			__('Add layout')
+		);
 
 		// check if user have already enter something
 		$layout = Flash::get( 'post_data' );
@@ -74,6 +79,11 @@ class Controller_Layout extends Controller_System_Backend {
 	function action_edit( $layout_name )
 	{
 		$layout = new Layout( $layout_name );
+		
+		$this->template->breadcrumbs = array(
+			HTML::anchor( 'layout', __('Layouts')),
+			__('Edit layout :layout', array(':layout' => $layout->name))
+		);
 
 		if ( !$layout->isExists() )
 		{

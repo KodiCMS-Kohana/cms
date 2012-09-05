@@ -14,8 +14,8 @@ class Controller_User extends Controller_System_Backend {
 				->execute();
 
 		$this->template->content = View::factory( 'user/index', array(
-					'users' => $users
-				) );
+			'users' => $users
+		) );
 	}
 
 	public function action_add()
@@ -25,6 +25,11 @@ class Controller_User extends Controller_System_Backend {
 		{
 			return $this->_add();
 		}
+		
+		$this->template->breadcrumbs = array(
+			HTML::anchor( 'user', __('Users')),
+			__('Add user')
+		);
 
 		// check if user have already enter something
 		$user = Flash::get( 'post_data' );
@@ -32,14 +37,16 @@ class Controller_User extends Controller_System_Backend {
 		if ( empty( $user ) )
 		{
 			$user = new User;
-			$user->language = I18n::getLocale();
+			$user->language = I18n::lang();
+			$user->id = NULL;
+			$user->roles = '';
 		}
 
 		$this->template->content = View::factory( 'user/edit', array(
-					'action' => 'add',
-					'user' => $user,
-					'permissions' => Record::findAllFrom( 'Permission' )
-				) );
+			'action' => 'add',
+			'user' => $user,
+			'permissions' => Record::findAllFrom( 'Permission' )
+		) );
 	}
 
 	private function _add()
@@ -113,6 +120,11 @@ class Controller_User extends Controller_System_Backend {
 				->from( 'permission' )
 				->as_object()
 				->execute();
+			
+			$this->template->breadcrumbs = array(
+				HTML::anchor( 'user', __('Users')),
+				__('Edit user :user', array(':user' => $user->username))
+			);
 
 			$this->template->content = View::factory( 'user/edit', array(
 				'action' => 'edit',

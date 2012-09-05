@@ -1,16 +1,6 @@
 @charset "utf-8";
 body {
 	background: whitesmoke url(../images/body-bg.png);
-	padding-top: 70px;
-}
-
-#content {
-	background: #fff;
-}
-
-.page-actions {
-	padding: 10px;
-	background: whitesmoke;
 }
 
 /*

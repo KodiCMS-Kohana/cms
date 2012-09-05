@@ -5,11 +5,6 @@ $uri = ($action == 'edit') ? URL::site('admin/snippet/edit/'. $snippet->name) : 
 	<h1><?php echo __('Snippets'); ?></h1> 
 </div>
 
-<ul class="breadcrumb">
-	<li><a href="<?php echo URL::site('admin/snippet'); ?>"><?php echo __('Snippets'); ?></a> <span class="divider">/</span></li>
-	<li class="active"><?php echo __(ucfirst($action).' snippet'); ?></li>
-</ul>
-
 <?php echo Form::open($uri, array('id' => 'snippetEditForm', 'class' => 'form-horizontal')); ?>
 	<fieldset>
 		<div class="control-group">

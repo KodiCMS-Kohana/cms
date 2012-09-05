@@ -2,14 +2,10 @@
 
 $uri = ($action == 'edit') ? URL::site('admin/layout/edit/'. $layout->name) : URL::site('admin/layout/add/');
 ?>
+
 <div class="page-header">
 	<h1><?php echo __('Layouts'); ?></h1> 
 </div>
-
-<ul class="breadcrumb">
-	<li><a href="<?php echo URL::site('admin/layout'); ?>"><?php echo __('Layouts'); ?></a> <span class="divider">/</span></li>
-	<li class="active"><?php echo __(ucfirst($action).' layout'); ?></li>
-</ul>
 
 <?php echo Form::open($uri, array('id' => 'layoutEditForm', 'class' => 'form-horizontal well')); ?>
 	<fieldset>

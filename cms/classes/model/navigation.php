@@ -38,14 +38,14 @@ class Model_Navigation {
 	
 	static function get()
 	{
+		asort(self::$_navigation);
 		$break = FALSE;
 		foreach ( self::$_navigation as $key => $section )
 		{
-			ksort( $section->items );
-
+			
 			foreach ( $section->items as $item_key => $item )
 			{
-				if ( strpos($item->uri, Request::current()->uri()) > 0 )
+				if ( strpos(Request::current()->uri(), ltrim($item->uri, '/')) !== FALSE )
 				{
 					self::$_navigation[$key]->is_current = TRUE;
 					self::$_navigation[$key]->items[$item_key]->is_current = TRUE;

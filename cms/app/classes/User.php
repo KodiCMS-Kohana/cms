@@ -20,23 +20,21 @@ class User extends Record
         {
             return array();
         }
-        
-        $perms = array();
-        $sql = 'SELECT name FROM '.self::tableNameFromClassName('Permission').' AS permission, '. self::tableNameFromClassName('UserPermission')
-             . ' WHERE permission_id = permission.id AND user_id='.$this->id;
-        
-        $stmt = self::$__CONN__->prepare($sql);
-        $stmt->execute();
-         
-        while ($perm = $stmt->fetchObject())
-            $perms[] = $perm->name;
-        
-        return $perms;
+ 
+        return DB::select('perm.id', 'name')
+			->from(array(self::tableName('Permission'), 'perm'))
+			->join(array(self::tableName('UserPermission'), 'user_perm'), 'left')
+				->on('user_perm.permission_id', '=', 'perm.id')
+			->where('user_id', '=', $this->id)
+			->as_object()
+			->cached()
+			->execute()
+			->as_array('id', 'name');
     }
     
     public static function findBy($column, $value)
     {
-        return Record::findOneFrom('User', $column.' = ?', array($value));
+        return Record::findOneFrom('User', $column.' = :id', array(':id' => $value));
     }
     
     public function beforeInsert()
@@ -67,7 +65,7 @@ class User extends Record
         $order_by_string = empty($order_by) ? '' : "ORDER BY $order_by";
         $limit_string = $limit > 0 ? "LIMIT $offset, $limit" : '';
         
-        $tablename = self::tableNameFromClassName('User');
+        $tablename = self::TABLE_NAME;
         
         // Prepare SQL
         $sql = "SELECT $tablename.*, creator.name AS created_by_name, updator.name AS updated_by_name FROM $tablename".
@@ -75,22 +73,18 @@ class User extends Record
                " LEFT JOIN $tablename AS updator ON $tablename.updated_by_id = updator.id".
                " $where_string $order_by_string $limit_string";
         
-        $stmt = self::$__CONN__->prepare($sql);
-        $stmt->execute();
+        $query = DB::query(Database::SELECT, $sql)
+			->as_object(__CLASS__)
+			->execute();
         
         // Run!
         if ($limit == 1)
         {
-            return $stmt->fetchObject('User');
+            return $query->current();
         }
         else
         {
-            $objects = array();
-            while ($object = $stmt->fetchObject('User'))
-            {
-                $objects[] = $object;
-            }
-            return $objects;
+            return $query->as_array('id');
         }
     
     }
@@ -103,7 +97,7 @@ class User extends Record
     public static function findById($id)
     {
         return self::find(array(
-            'where' => self::tableNameFromClassName('User').'.id='.(int)$id,
+            'where' => self::TABLE_NAME.'.id='.(int)$id,
             'limit' => 1
         ));
     }

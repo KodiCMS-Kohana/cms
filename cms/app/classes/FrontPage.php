@@ -528,6 +528,7 @@ class FrontPage
 			$content_type = 'text/html';
 
 		Request::current()->response()->headers('Content-Type', $content_type . '; charset=UTF-8');
+
 		include($layout_file);
 	}
 

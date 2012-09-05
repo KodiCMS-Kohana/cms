@@ -24,6 +24,12 @@ class Controller_Page extends Controller_System_Backend {
 		$page->status_id = Setting::get( 'default_status_id' );
 		$page->needs_login = Page::LOGIN_INHERIT;
 		$page->published_on = date( 'Y-m-d H:i:s' );
+		
+		
+		$this->template->breadcrumbs = array(
+			HTML::anchor( 'page', __('Pages')),
+			__('Add page')
+		);
 
 		$page_parts = Flash::get( 'post_parts_data' );
 
@@ -50,17 +56,17 @@ class Controller_Page extends Controller_System_Backend {
 		}
 
 		$this->template->content = View::factory( 'page/edit', array(
-					'action' => 'add',
-					'parent_id' => $parent_id,
-					'page' => $page,
-					'tags' => array( ),
-					'filters' => Filter::findAll(),
-					'behaviors' => Behavior::findAll(),
-					'page_parts' => $page_parts,
-					'layouts' => Layout::findAll(),
-					'permissions' => Record::findAllFrom( 'Permission' ),
-					'page_permissions' => $page->getPermissions()
-				) );
+			'action' => 'add',
+			'parent_id' => $parent_id,
+			'page' => $page,
+			'tags' => array( ),
+			'filters' => Filter::findAll(),
+			'behaviors' => Behavior::findAll(),
+			'page_parts' => $page_parts,
+			'layouts' => Layout::findAll(),
+			'permissions' => Record::findAllFrom( 'Permission' ),
+			'page_permissions' => $page->getPermissions()
+		) );
 	}
 
 	private function _add( $parent_id )
@@ -194,18 +200,23 @@ class Controller_Page extends Controller_System_Backend {
 
 		if ( empty( $page_parts ) )
 			$page_parts = array( new PagePart );
+		
+		$this->template->breadcrumbs = array(
+			HTML::anchor( 'page', __('Pages')),
+			__('Edit page ":page"', array(':page' => $page->title))
+		);
 
 		$this->template->content = View::factory( 'page/edit', array(
-					'action' => 'edit',
-					'page' => $page,
-					'tags' => $page->getTags(),
-					'filters' => Filter::findAll(),
-					'behaviors' => Behavior::findAll(),
-					'page_parts' => $page_parts,
-					'layouts' => Layout::findAll(),
-					'permissions' => Record::findAllFrom( 'Permission' ),
-					'page_permissions' => $page->getPermissions()
-				) );
+			'action' => 'edit',
+			'page' => $page,
+			'tags' => $page->getTags(),
+			'filters' => Filter::findAll(),
+			'behaviors' => Behavior::findAll(),
+			'page_parts' => $page_parts,
+			'layouts' => Layout::findAll(),
+			'permissions' => Record::findAllFrom( 'Permission' ),
+			'page_permissions' => $page->getPermissions()
+		) );
 	}
 
 	private function _edit( $page_id )

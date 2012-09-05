@@ -4,12 +4,7 @@
 	<h1><?php echo $user->username; ?></h1> 
 </div>
 
-<ul class="breadcrumb">
-	<li><a href="<?php echo URL::site('admin/user'); ?>"><?php echo __('Users'); ?></a> <span class="divider">/</span></li>
-	<li class="active"><?php echo $user->username; ?></li>
-</ul>
-
-<form class="form-horizontal" action="<?php echo $action=='edit' ? URL::site('admin/user/edit/'.$user->id): URL::site('admin/user/add'); ?>" method="post">
+<form class="form-horizontal" action="<?php echo $action=='edit' ? URL::site('user/edit/'.$user->id): URL::site('user/add'); ?>" method="post">
 	<fieldset>
 		<div class="control-group">
 			<label class="control-label" for="userEditEmailField"><?php echo __('E-mail'); ?></label>

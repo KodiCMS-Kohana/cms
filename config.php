@@ -1,7 +1,6 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
 // Database settings:
-define('DB_DSN', 'mysql:dbname=flexo;host=localhost;port=3306');
 define('DB_TYPE', 'mysql');
 define('DB_SERVER', 'localhost');
 define('DB_NAME', 'flexo');

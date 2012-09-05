@@ -420,7 +420,7 @@ class Form {
 	public static function actions($page) 
 	{
 		return	Form::button('continue', HTML::icon('ok') .' '. __('Save and Continue editing'), array(
-				'class' => 'btn btn-large btn-success'
+				'class' => 'btn btn-large'
 			))
 			. Form::button('commit', HTML::icon('ok') .' '.  __('Save and Close'), array(
 				'class' => 'btn btn-info'
