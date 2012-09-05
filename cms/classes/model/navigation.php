@@ -42,7 +42,6 @@ class Model_Navigation {
 		$break = FALSE;
 		foreach ( self::$_navigation as $key => $section )
 		{
-			
 			foreach ( $section->items as $item_key => $item )
 			{
 				if ( strpos(Request::current()->uri(), ltrim($item->uri, '/')) !== FALSE )

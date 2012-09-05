@@ -17,14 +17,6 @@ define('SNIPPETS_SYSPATH',		SYSPATH . 'snippets' . DIRECTORY_SEPARATOR);
 require APPPATH . 'classes/core' . EXT;
 
 /**
- * Redirect this page to the url passed in param
- */
-function redirect($url)
-{
-    header('Location: '.$url); exit;
-}
-
-/**
  * Display a 404 page not found and exit
  */
 function page_not_found()
@@ -94,6 +86,7 @@ Core::modules( array(
 	//'auth'			=> MODPATH . 'auth', // Basic authentication
 	//'orm'			=> MODPATH . 'orm', // Object Relationship Mapping
 ) );
+
 
 define('IS_BACKEND', URL::math('/admin', $_SERVER['REQUEST_URI']));
 

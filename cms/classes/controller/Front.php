@@ -23,7 +23,6 @@ class Controller_Front extends Controller
 					Flash::set('redirect', $page->url());
 					
 					$this->go_backend();
-					redirect(BASE_URL . ADMIN_DIR_NAME . (USE_MOD_REWRITE ? '/' : '/?/') . 'login');
 				}
 			}
 			

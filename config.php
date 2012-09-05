@@ -5,7 +5,7 @@ define('DB_TYPE', 'mysql');
 define('DB_SERVER', 'localhost');
 define('DB_NAME', 'flexo');
 define('DB_USER', 'root');
-define('DB_PASS', 'bzzzzz');
+define('DB_PASS', '');
 define('TABLE_PREFIX', '');
 
 // The directory name of your Frog CMS administration (you will need to change it manually)

@@ -78,7 +78,7 @@ class Model_Backup {
 
 		foreach ($this->tables as $tbl) 
 		{
-			DB::query(Database::SELECT, 'DROP TABLE `:table_name`')
+			DB::query(Database::DELETE, 'DROP TABLE `:table_name`')
 				->param( ':table_name', DB::expr($tbl['name']) )
 				->execute();
 		}

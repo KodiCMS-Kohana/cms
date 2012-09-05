@@ -45,9 +45,11 @@ class Controller_Backup extends Controller_System_Plugin {
 	{
 		$this->auto_render = FALSE;
 
-		$backup = Model_Backup::factory(BACKUP_PLUGIN_FOLDER . 'db-'.date('Y-m-d-H-i-s').'.sql')
+		$backup = Model_Backup::factory(BACKUP_PLUGIN_FOLDER . 'db-'.date('YmdHis').'.sql')
 			->create()
 			->save();
+		
+		Messages::success(__('Backup created succefully'));
 		
 		$this->go_back();
 	}
@@ -60,6 +62,8 @@ class Controller_Backup extends Controller_System_Plugin {
 
 		$backup = Model_Backup::factory(BACKUP_PLUGIN_FOLDER . $file)
 			->restore();
+		
+		Messages::success(__('Backup restored succefully'));
 		
 		$this->go_back();
 	}
@@ -76,6 +80,9 @@ class Controller_Backup extends Controller_System_Plugin {
 		}
 		
 		unlink(BACKUP_PLUGIN_FOLDER.$file);
+		Messages::success(__('File :filename deleted succefully', array(
+			':filename' => $file
+		)));
 		$this->go_back();
 	}
 	
@@ -93,43 +100,52 @@ class Controller_Backup extends Controller_System_Plugin {
 		
 		$file = $_FILES['file'];
 		
-		if (!is_dir($this->dir))
+		if (!is_dir(BACKUP_PLUGIN_FOLDER))
 		{
-			$errors[] = 'Folder '.$this->dir.' not exist!';
+			$errors[] = __('Folder (:folder) not exist!', array(
+				':folder' => BACKUP_PLUGIN_FOLDER
+			));
 		}
 		
-		if(!is_writable($this->dir))
+		if(!is_writable(BACKUP_PLUGIN_FOLDER))
 		{
-			$errors[] = 'Folder '.$this->dir.' mus be writable!';
+			$errors[] = __('Folder (:folder) mus be writable!', array(
+				':folder' => BACKUP_PLUGIN_FOLDER
+			));
 		}
 
 		# Проверяем на пустоту
 		if(!Upload::not_empty($file))
 		{
-			$errors[] = 'File is not uploaded!';
+			$errors[] = __('File :file is not uploaded!', array(
+				':file' => $file
+			));
 		}
 
 		# Проверяем на расширение
 		if(!Upload::type($file, array('sql')))
 		{
-			$errors[] = 'Bad format of file!';
+			$errors[] = __('Bad format of file!');
 		}
 		
 		if(!empty($errors))
 		{
-			//Flash::set('upload_errors', $errors);
+			Messages::errors($errors);
 			$this->go_back();
 		}
 
 		# Имя файла (его нужно записать в базу!)
-		$filename = 'uploaded-db-'.date('Y-m-d-H-i-s').'.sql';
+		$filename = 'uploaded-db-'.date('YmdHis').'.sql';
 
 		Upload::$default_directory = BACKUP_PLUGIN_FOLDER;
 			
 		# Cохраняем оригинал и продолжаем работать, если ок: 
 		if ($file = Upload::save($file, $filename, NULL, 0777))
 		{
-			//Flash::set('success', __('File uploaded succefully'));
+			Messages::success(__('File :filename uploaded succefully', array(
+				':filename' => $filename
+			)));
+
 			$this->go_back();
 		}
 	}

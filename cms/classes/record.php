@@ -6,7 +6,7 @@ class Record
     {
 		if($class_name === NULL)
 		{
-			$class_name = __CLASS__; // !!!get_class($this)
+			$class_name = get_called_class();
 		}
 
         try

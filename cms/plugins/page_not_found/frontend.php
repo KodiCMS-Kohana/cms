@@ -18,9 +18,12 @@ function behavior_page_not_found()
 		if( is_object($page) )
 		{
 			header("HTTP/1.0 404 Not Found");
-			header("Status: 404 Not Found");
+
+			Request::current()
+				->response()
+				->headers('Status', '404 Not Found');
 			  
-			$page->display();
+			$page->render_layout();
 			exit(); // need to exit here otherwise the true error page will be sended
 		}
 	}
