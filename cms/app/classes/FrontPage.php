@@ -538,9 +538,9 @@ class FrontPage
     
     public function includeSnippet($snippet_name, $vars = NULL, $to_string = FALSE)
     {
-		$snippet_file = SNIPPETS_SYSPATH.$snippet_name.EXT;
+		$snippet = new Model_File_Snippet($snippet_name);
 		
-		if (!file_exists($snippet_file))
+		if(!$snippet->is_exists())
 		{
 			return NULL;
 		}
@@ -554,26 +554,26 @@ class FrontPage
 		{
 			// Capture the view output
 			ob_start();
-			include $snippet_file;
+			include $snippet->get_path();
 			return ob_get_clean();
 		}
 
-		include($snippet_file);
+		include $snippet->get_file();
     }
 	
 	public function render_layout()
 	{
 		$layout_name = $this->layout();
-		$layout_file = LAYOUTS_SYSPATH.$layout_name.EXT;
-
-		if (!file_exists($layout_file))
+		
+		$layout = new Model_File_Layout($layout_name);
+		if(!$layout->is_exists())
 		{
 			throw new Core_Exception('Layout file :file not found!', array(
 				':file' => $layout_name
 			));
 		}
 
-		include($layout_file);
+		include $layout->get_file();
 	}
 
 	/**

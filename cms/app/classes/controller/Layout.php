@@ -7,7 +7,7 @@ class Controller_Layout extends Controller_System_Backend {
 	function action_index()
 	{
 		$this->template->content = View::factory( 'layout/index', array(
-			'layouts' => Layout::findAll()
+			'layouts' => Model_File_Layout::find_all()
 		) );
 	}
 
@@ -29,7 +29,7 @@ class Controller_Layout extends Controller_System_Backend {
 
 		if ( empty( $layout ) )
 		{
-			$layout = new Layout;
+			$layout = new Model_File_Layout;
 		}
 
 		$this->template->content = View::factory( 'layout/edit', array(
@@ -49,7 +49,7 @@ class Controller_Layout extends Controller_System_Backend {
 			$this->go( URL::site( 'layout/add/' ) );
 		}
 
-		$layout = new Layout( $data['name'] );
+		$layout = new Model_File_Layout( $data['name'] );
 		$layout->content = $data['content'];
 
 		if ( !$layout->save() )
@@ -78,14 +78,14 @@ class Controller_Layout extends Controller_System_Backend {
 
 	function action_edit( $layout_name )
 	{
-		$layout = new Layout( $layout_name );
+		$layout = new Model_File_Layout( $layout_name );
 		
 		$this->template->breadcrumbs = array(
 			HTML::anchor( 'layout', __('Layouts')),
 			__('Edit layout :layout', array(':layout' => $layout->name))
 		);
 
-		if ( !$layout->isExists() )
+		if ( !$layout->is_exists() )
 		{
 			Messages::errors(__( 'Layout <b>:name</b> not found!', array( ':name' => $layout->name ) ) );
 			$this->go( URL::site( 'layout' ) );
@@ -134,10 +134,10 @@ class Controller_Layout extends Controller_System_Backend {
 
 		$this->auto_render = FALSE;
 
-		$layout = new Layout( $layout_name );
+		$layout = new Model_File_Layout( $layout_name );
 
 		// find the user to delete
-		if ( !$layout->isUsed() )
+		if ( !$layout->is_used() )
 		{
 			if ( $layout->delete() )
 			{

@@ -7,7 +7,7 @@ class Controller_Snippet extends Controller_System_Backend {
 	public function action_index()
 	{
 		$this->template->content = View::factory( 'snippet/index', array(
-			'snippets' => Snippet::findAll()
+			'snippets' => Model_File_Snippet::find_all()
 		) );
 	}
 
@@ -15,7 +15,9 @@ class Controller_Snippet extends Controller_System_Backend {
 	{
 		// check if trying to save
 		if ( Request::current()->method() == Request::POST )
+		{
 			return $this->_add();
+		}
 		
 		$this->template->breadcrumbs = array(
 			HTML::anchor( 'snippet', __('Snippets')),
@@ -27,7 +29,7 @@ class Controller_Snippet extends Controller_System_Backend {
 
 		if ( empty( $snippet ) )
 		{
-			$snippet = new Snippet;
+			$snippet = new Model_File_Snippet;
 		}
 
 		$this->template->content = View::factory( 'snippet/edit', array(
@@ -42,7 +44,7 @@ class Controller_Snippet extends Controller_System_Backend {
 		$data = $_POST['snippet'];
 		Flash::set( 'post_data', (object) $data );
 
-		$snippet = new Snippet( $data['name'] );
+		$snippet = new Model_File_Snippet( $data['name'] );
 		$snippet->content = $data['content'];
 
 		if ( !$snippet->save() )
@@ -69,9 +71,9 @@ class Controller_Snippet extends Controller_System_Backend {
 
 	public function action_edit( $snippet_name )
 	{
-		$snippet = new Snippet( $snippet_name );
+		$snippet = new Model_File_Snippet( $snippet_name );
 
-		if ( !$snippet->isExists() )
+		if ( !$snippet->is_exists() )
 		{
 			Messages::errors( __( 'Snippet <b>:name</b> not found!', array( ':name' => $snippet->name ) ) );
 			$this->go( URL::site( 'snippet' ) );
@@ -99,7 +101,7 @@ class Controller_Snippet extends Controller_System_Backend {
 	{
 		$data = $_POST['snippet'];
 
-		$snippet = new Snippet( $snippet_name );
+		$snippet = new Model_File_Snippet( $snippet_name );
 		$snippet->name = $data['name'];
 		$snippet->content = $data['content'];
 
@@ -129,10 +131,10 @@ class Controller_Snippet extends Controller_System_Backend {
 	{
 		$this->auto_render = FALSE;
 
-		$snippet = new Snippet( $snippet_name );
+		$snippet = new Model_File_Snippet( $snippet_name );
 
 		// find the user to delete
-		if ( $snippet->isExists() )
+		if ( $snippet->is_exists() )
 		{
 			if ( $snippet->delete() )
 			{

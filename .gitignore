@@ -3,3 +3,5 @@ logs/*
 temp/*
 wiki/*
 nbproject/*
+/cms/cache/
+/cms/logs/
