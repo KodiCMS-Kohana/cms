@@ -76,6 +76,9 @@ class Model_Backup {
 		
 		$this->get_tables();
 
+		DB::query(Database::INSERT, 'SET FOREIGN_KEY_CHECKS = 0')
+			->execute();
+
 		foreach ($this->tables as $tbl) 
 		{
 			DB::query(Database::DELETE, 'DROP TABLE `:table_name`')
@@ -146,6 +149,8 @@ class Model_Backup {
 	 */
 	private function generate() 
 	{
+		$this->sql .= "SET FOREIGN_KEY_CHECKS = 0;\n\n";
+
 		foreach ($this->tables as $tbl) 
 		{
 			$this->sql .= "--\n";
@@ -157,6 +162,12 @@ class Model_Backup {
 			$this->sql .= "--\n\n";
 			$this->sql .= $tbl['data'] . "\n\n\n";
 		}
+
+//		$this->sql .= $this->get_foreign_keys_rules();
+		
+		$this->sql .= "SET FOREIGN_KEY_CHECKS = 1;\n\n";
+		
+		$this->sql .= "--\n\n";
 
 		$this->sql .= "--\n";
 		$this->sql .= '-- THE END' . "\n";
@@ -237,5 +248,82 @@ class Model_Backup {
 		}
 
 		return $data;
+	}
+	
+	/**
+	* Gets Foreign Keys names to array
+	*
+	* Select CONSTRAINT_NAME from Information Schema
+	*
+	* @return void
+	*/
+	private function get_foreign_keys() 
+	{
+		$query = DB::select()
+			->from('information_schema.TABLE_CONSTRAINTS')
+			->where('CONSTRAINT_TYPE', '=', 'foreign key')
+			->where('CONSTRAINT_SCHEMA', '=', DB_NAME)
+			->execute()
+			->as_array();
+
+		$array = array();
+		foreach ($query as $row) 
+		{
+			array_push($array, $row['CONSTRAINT_NAME']);
+		}
+		
+		return $array;
+	}
+	
+	/**
+	* Return SQL command with foreign keys as string
+	*
+	* Function select some columns from Information Schema and write informations about foreign keys to string.
+	*
+	* @return string
+	*/
+	private function get_foreign_keys_rules()
+	{
+		$fk_names = $this->get_foreign_keys();
+	
+		$FK_to_sql_file = "";
+		
+		$FK_to_sql_file .= "--\n";
+		$FK_to_sql_file .= '-- Foreign keys' . "\n";
+		$FK_to_sql_file .= "--\n\n";
+
+		foreach($fk_names as $fk_name)
+		{
+
+			$sql = "select KEY_COLUMN_USAGE.TABLE_NAME, KEY_COLUMN_USAGE.CONSTRAINT_NAME, COLUMN_NAME,
+					REFERENCED_COLUMN_NAME, KEY_COLUMN_USAGE.REFERENCED_TABLE_NAME, UPDATE_RULE, DELETE_RULE
+					from information_schema.KEY_COLUMN_USAGE, information_schema.REFERENTIAL_CONSTRAINTS
+					where KEY_COLUMN_USAGE.CONSTRAINT_SCHEMA = :db
+					and KEY_COLUMN_USAGE.CONSTRAINT_NAME = :fk
+					and KEY_COLUMN_USAGE.CONSTRAINT_NAME = REFERENTIAL_CONSTRAINTS.CONSTRAINT_NAME
+					and KEY_COLUMN_USAGE.CONSTRAINT_SCHEMA = REFERENTIAL_CONSTRAINTS.CONSTRAINT_SCHEMA";
+
+			$result = DB::query( Database::SELECT, $sql )
+				->parameters( array(
+					':db' => DB_NAME,
+					':fk' => $fk_name
+				))
+				->execute()
+				->as_array();
+
+			foreach($result as $row)
+			{
+				$FK_to_sql_file 
+					.= "ALTER TABLE `".$row['TABLE_NAME']
+					."` ADD CONSTRAINT `".$row['CONSTRAINT_NAME']
+					."` FOREIGN KEY (`".$row['COLUMN_NAME']."`) REFERENCES `"
+					.$row['REFERENCED_TABLE_NAME']."` (`"
+					.$row['REFERENCED_COLUMN_NAME']."`) ON DELETE {$row['DELETE_RULE']} ON UPDATE {$row['UPDATE_RULE']};";
+				
+				$FK_to_sql_file .= "\n";
+			}
+		}
+
+		return $FK_to_sql_file;
 	}
 }

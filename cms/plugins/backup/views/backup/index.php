@@ -33,8 +33,8 @@
 				</th>
 				<td><?php echo $data['size']; ?></td>
 				<td>
-					<?php echo HTML::button(URL::site('plugin/backup/restore/'.$filename), NULL, 'ok', 'btn btn-mini'); ?>
-					<?php echo HTML::button(URL::site('plugin/backup/delete/'.$filename), NULL, 'trash', 'btn btn-mini btn-danger'); ?>
+					<?php echo HTML::button(URL::site('plugin/backup/restore/'.$filename), NULL, 'play', 'btn btn-mini'); ?>
+					<?php echo HTML::button(URL::site('plugin/backup/delete/'.$filename), NULL, 'trash icon-white', 'btn btn-mini btn-danger'); ?>
 				</td>
 			</tr>
 			<?php endforeach; ?>

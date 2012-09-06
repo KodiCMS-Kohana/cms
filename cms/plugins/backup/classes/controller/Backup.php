@@ -117,9 +117,7 @@ class Controller_Backup extends Controller_System_Plugin {
 		# Проверяем на пустоту
 		if(!Upload::not_empty($file))
 		{
-			$errors[] = __('File :file is not uploaded!', array(
-				':file' => $file
-			));
+			$errors[] = __('File is not attached!');
 		}
 
 		# Проверяем на расширение

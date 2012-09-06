@@ -1,3 +1,5 @@
+SET FOREIGN_KEY_CHECKS = 0;
+
 --
 -- Table structure for table `page_parts`
 --
@@ -10,8 +12,11 @@ CREATE TABLE `page_parts` (
   `content_html` longtext,
   `page_id` int(11) unsigned DEFAULT NULL,
   `is_protected` tinyint(4) DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`id`),
+  KEY `page_id` (`page_id`),
+  KEY `name` (`name`),
+  CONSTRAINT `page_parts_ibfk_1` FOREIGN KEY (`page_id`) REFERENCES `pages` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `page_parts`
@@ -25,9 +30,13 @@ CREATE TABLE `page_parts` (
 --
 
 CREATE TABLE `page_roles` (
-  `page_id` int(11) NOT NULL,
-  `role_id` int(11) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `page_id` int(11) unsigned NOT NULL,
+  `role_id` int(11) unsigned NOT NULL,
+  KEY `page_id` (`page_id`,`role_id`),
+  KEY `role_id` (`role_id`),
+  CONSTRAINT `page_roles_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `page_roles_ibfk_1` FOREIGN KEY (`page_id`) REFERENCES `pages` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `page_roles`
@@ -43,8 +52,11 @@ CREATE TABLE `page_roles` (
 CREATE TABLE `page_tags` (
   `page_id` int(11) unsigned NOT NULL,
   `tag_id` int(11) unsigned NOT NULL,
-  UNIQUE KEY `page_id` (`page_id`,`tag_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  UNIQUE KEY `page_id` (`page_id`,`tag_id`),
+  KEY `tag_id` (`tag_id`),
+  CONSTRAINT `page_tags_ibfk_2` FOREIGN KEY (`tag_id`) REFERENCES `tags` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `page_tags_ibfk_1` FOREIGN KEY (`page_id`) REFERENCES `pages` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `page_tags`
@@ -71,12 +83,18 @@ CREATE TABLE `pages` (
   `created_on` datetime DEFAULT NULL,
   `published_on` datetime DEFAULT NULL,
   `updated_on` datetime DEFAULT NULL,
-  `created_by_id` int(11) DEFAULT NULL,
-  `updated_by_id` int(11) DEFAULT NULL,
+  `created_by_id` int(11) unsigned DEFAULT NULL,
+  `updated_by_id` int(11) unsigned DEFAULT NULL,
   `position` mediumint(6) unsigned DEFAULT NULL,
   `needs_login` tinyint(1) NOT NULL DEFAULT '2',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`id`),
+  KEY `parent_id` (`parent_id`),
+  KEY `created_by_id` (`created_by_id`),
+  KEY `slug` (`slug`),
+  KEY `status_id` (`status_id`),
+  CONSTRAINT `pages_ibfk_2` FOREIGN KEY (`parent_id`) REFERENCES `pages` (`id`) ON DELETE SET NULL ON UPDATE SET NULL,
+  CONSTRAINT `pages_ibfk_1` FOREIGN KEY (`created_by_id`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `pages`
@@ -89,12 +107,12 @@ INSERT INTO `pages` VALUES ('4','Contacts','contacts','Contacts','','','1','',''
 INSERT INTO `pages` VALUES ('5','Webbing the gap between science and the public','webbing-the-gap-between-science-and-the-public','Webbing the gap between science and the public','','','2','','','100','2012-08-15 11:02:32','2012-08-15 11:02:33','2012-08-15 11:02:34','1','1','5','2');
 INSERT INTO `pages` VALUES ('6','GoogleServe 2011: Giving back around the world','googleserve-2011-giving-back-around-the-world','GoogleServe 2011: Giving back around the world','','','2','','','100','2012-08-15 11:02:35','2012-08-15 11:02:36','2012-08-15 11:02:37','1','1','9','2');
 INSERT INTO `pages` VALUES ('7','Seeking the Americas’ brightest young minds for a spot at Zeitgeist Americas','seeking-the-americas-brightest-young-minds-for-a-spot-at-zeitgeist-americas','Seeking the Americas’ brightest young minds for a spot at Zeitgeist Americas','','','2','','','100','2012-08-15 11:02:38','2012-08-15 11:02:39','2012-08-15 11:02:40','1','1','6','2');
-INSERT INTO `pages` VALUES ('13','Examining the impact of clean energy innovation','examining-the-impact-of-clean-energy-innovation','Examining the impact of clean energy innovation','','','2','','','100','2012-08-15 11:02:41','2012-08-15 11:02:42','2012-08-15 11:02:43','1','1','8','2');
-INSERT INTO `pages` VALUES ('12','Celebrating Pride 2011','celebrating-pride-2011','Celebrating Pride 2011','','','2','','','100','2012-08-15 11:02:44','2012-08-15 11:02:45','2012-08-15 11:02:46','1','1','7','2');
 INSERT INTO `pages` VALUES ('8','%B %Y archive','monthly_archive','%B %Y archive','','','2','','archive_month_index','101','2012-08-15 11:02:47','2012-08-15 11:02:48','2012-08-16 14:41:59','1','1','0','2');
 INSERT INTO `pages` VALUES ('9','Sitemap XML','sitemap.xml','Sitemap XML','','','1','sietmap.xml','','101','2012-08-15 11:02:50','2012-08-15 11:02:51','2012-08-15 17:13:35','1','1','1','2');
 INSERT INTO `pages` VALUES ('10','Page not found','page-not-found','Page not found','','','1','','page_not_found','101','2012-08-15 11:02:53','2012-08-15 11:02:54','2012-08-15 17:13:35','1','1','3','2');
 INSERT INTO `pages` VALUES ('11','RSS XML Feed','rss.xml','RSS XML Feed','','','1','rss.xml','','101','2012-08-15 11:02:56','2012-08-15 11:02:57','2012-08-15 17:13:35','1','1','2','2');
+INSERT INTO `pages` VALUES ('12','Celebrating Pride 2011','celebrating-pride-2011','Celebrating Pride 2011','','','2','','','100','2012-08-15 11:02:44','2012-08-15 11:02:45','2012-08-15 11:02:46','1','1','7','2');
+INSERT INTO `pages` VALUES ('13','Examining the impact of clean energy innovation','examining-the-impact-of-clean-energy-innovation','Examining the impact of clean energy innovation','','','2','','','100','2012-08-15 11:02:41','2012-08-15 11:02:42','2012-08-15 11:02:43','1','1','8','2');
 INSERT INTO `pages` VALUES ('21','Поиск','search','Поиск','','','1','','search_result','100','2012-08-17 16:24:20','2012-08-17 16:24:20','2012-09-05 17:36:57','1','1','6','2');
 INSERT INTO `pages` VALUES ('23','QA','qa','QA','','','1','normal','','100','2012-08-20 10:54:30','2012-08-20 10:54:12','2012-08-22 14:03:25','1','1','7','0');
 INSERT INTO `pages` VALUES ('24','view','view','view','','','23','','','101','2012-08-20 11:59:44','2012-08-20 11:59:37','2012-08-20 14:29:19','1','1','1','0');
@@ -186,12 +204,12 @@ CREATE TABLE `settings` (
 INSERT INTO `settings` VALUES ('admin_title','Kohana Frog Fork');
 INSERT INTO `settings` VALUES ('language','ru');
 INSERT INTO `settings` VALUES ('theme','default');
-INSERT INTO `settings` VALUES ('default_status_id','1');
+INSERT INTO `settings` VALUES ('default_status_id','100');
 INSERT INTO `settings` VALUES ('default_filter_id','');
 INSERT INTO `settings` VALUES ('default_tab','/admin/page');
 INSERT INTO `settings` VALUES ('allow_html_title','off');
 INSERT INTO `settings` VALUES ('plugins','a:7:{s:5:\"field\";i:1;s:11:\"hybrid_data\";i:1;s:8:\"markdown\";i:1;s:6:\"hybrid\";i:1;s:7:\"textile\";i:1;s:6:\"backup\";i:1;s:7:\"archive\";i:1;}');
-INSERT INTO `settings` VALUES ('profiling','yes');
+INSERT INTO `settings` VALUES ('profiling','no');
 
 
 
@@ -265,6 +283,10 @@ CREATE TABLE `users` (
 INSERT INTO `users` VALUES ('1','butschster@gmail.com','admin','Administrator','8e7abffa63ff74a22b9b543fc80a4e8f17cc49cacf4d780443763a98009ec645','2','1346921931');
 
 
+
+SET FOREIGN_KEY_CHECKS = 1;
+
+--
 
 --
 -- THE END
