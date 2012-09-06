@@ -2,13 +2,14 @@
 include_once(Kohana::find_file('tests/cache/arithmetic', 'CacheArithmeticMethods'));
 
 /**
-*  @package    Kohana/Cache
+ * @package    Kohana/Cache/Memcache
+ * @group      kohana
+ * @group      kohana.cache
  * @category   Test
  * @author     Kohana Team
- * @copyright  (c) 2009-2011 Kohana Team
+ * @copyright  (c) 2009-2012 Kohana Team
  * @license    http://kohanaphp.com/license
  */
-
 class Kohana_CacheArithmeticMemcacheTest extends Kohana_CacheArithmeticMethodsTest {
 
 
