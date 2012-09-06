@@ -84,7 +84,7 @@ ini_set( 'unserialize_callback_func', 'spl_autoload_call' );
 Kohana::init( array(
 	'base_url'			=> '/',
 	'index_file'		=> FALSE,
-	'caching'			=> FALSE,
+	'caching'			=> TRUE,
 	'errors'			=> TRUE,
 	'profile'			=> TRUE
 ) );

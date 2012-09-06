@@ -95,8 +95,10 @@ class Controller_User extends Controller_System_Backend {
 		$this->go( URL::site( 'user' ) );
 	}
 
-	public function action_edit( $id )
+	public function action_edit( )
 	{
+		$id = $this->request->param('id');
+
 		// check if trying to save
 		if ( Request::current()->method() == Request::POST )
 		{
@@ -198,9 +200,10 @@ class Controller_User extends Controller_System_Backend {
 		}
 	}
 
-	public function action_delete( $id )
+	public function action_delete( )
 	{
 		$this->auto_render = false;
+		$id = $this->request->param('id');
 
 		// security (dont delete the first admin)
 		if ( $id > 1 )
