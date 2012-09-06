@@ -1,21 +1,24 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct access allowed.' );
 
-class Controller_Install extends Controller {
+class Controller_Install extends Controller_System_Controller {
 
 	public $template = 'layouts/install';
+	
+	public function before()
+	{
+		parent::before();
+
+		$this->template = View::factory( $this->template );
+	}
 
 	public function action_index()
 	{
 		$this->template->data = Session::instance()->get( 'install_data', array( ) );
-		$this->template->errors = Session::instance()->get( 'install_errors', array( ) );
-		$this->template->exception = Session::instance()->get( 'exception' );
 	}
 
 	public function action_go()
 	{
-
-		$this->auto_render = false;
-		Session::instance()->restart();
+		$this->template = NULL;
 
 		if ( !isset( $_POST['install'] ) )
 		{
@@ -23,51 +26,66 @@ class Controller_Install extends Controller {
 		}
 
 		$post = $_POST['install'];
+
+		$post['db_driver'] = DB_TYPE;
+		$post['password'] = Text::random();
+
 		Session::instance()
-				->set( 'install_data', $post );
+			->set( 'install_data', $post );
 
 		$validation = Validation::factory( $post )
-				->rule( 'db_server', 'not_empty' )
-				->rule( 'db_user', 'not_empty' )
-				->rule( 'db_name', 'not_empty' );
+			->rule( 'db_server', 'not_empty' )
+			->rule( 'db_user', 'not_empty' )
+			->rule( 'db_name', 'not_empty' );
 
 		if ( !$validation->check() )
 		{
-			Session::instance()->set( 'install_errors', $validation->errors() );
+			Messages::errors($validation->errors());
 			$this->go_back();
 		}
 
 		$db = Database::instance( 'install', array(
-					'type' => DB_TYPE,
-					'connection' => array(
-						'hostname' => $post['db_server'],
-						'database' => $post['db_name'],
-						'username' => $post['db_user'],
-						'password' => $post['db_password'],
-						'persistent' => FALSE,
-					),
-					'table_prefix' => $post['table_prefix'],
-					'charset' => 'utf8',
-					'caching' => FALSE,
-					'profiling' => TRUE
-				) );
+			'type' => $post['db_driver'],
+			'connection' => array(
+				'hostname' => $post['db_server'],
+				'database' => $post['db_name'],
+				'username' => $post['db_user'],
+				'password' => $post['db_password'],
+				'persistent' => FALSE,
+			),
+			'table_prefix' => $post['table_prefix'],
+			'charset' => 'utf8',
+			'caching' => FALSE,
+			'profiling' => TRUE
+		) );
 
 		try
 		{
 			$db->connect();
-		} catch (Exception $exc)
+		} 
+		catch (Database_Exception $exc)
 		{
-			Session::instance()->set( 'exception', $exc->getMessage() );
+			Messages::errors($exc->getMessage());
 			$this->go_back();
 		}
+		
+		//$this->_import_shema($post, $db);
+		//$this->_import_dump($post, $db);
+		//$this->_create_config($post);
+		
+		$this->go('install/complete');
+		
+	}
+	
+	public function action_complete()
+	{
+		
+	}
 
-		Session::instance()
-				->destroy();
-
-		$driver = 'mysql';
-		$schema_file = APPPATH . 'install' . DIRECTORY_SEPARATOR . 'schema.sql';
-		$dump_file = APPPATH . 'install' . DIRECTORY_SEPARATOR . 'dump.sql';
-
+	protected function _import_shema($post, $db)
+	{
+		$schema_file = CMSPATH . 'install' . DIRECTORY_SEPARATOR . 'schema.sql';
+		
 		if ( !file_exists( $schema_file ) )
 		{
 			throw new  Kohana_Exception( 'Database schema file not found!' );
@@ -76,17 +94,16 @@ class Controller_Install extends Controller {
 		// Create tables
 		$schema_content = file_get_contents( $schema_file );
 		$schema_content = str_replace( 'TABLE_PREFIX_', $post['table_prefix'], $schema_content );
-		$schema_content = preg_split( '/;(\s*)$/m', $schema_content );
 
-		foreach ( $schema_content as $create_table_sql )
+		if ( !empty( $schema_content ) )
 		{
-			$create_table_sql = trim( $create_table_sql );
-
-			if ( !empty( $create_table_sql ) )
-			{
-				DB::query( Database::INSERT, $create_table_sql )->execute( $db );
-			}
+			$this->_insert_data($schema_content, $db);
 		}
+	}
+	
+	protected function _import_dump($post, $db)
+	{
+		$dump_file = CMSPATH . 'install' . DIRECTORY_SEPARATOR . 'dump.sql';
 
 		if ( !file_exists( $dump_file ) )
 		{
@@ -94,55 +111,94 @@ class Controller_Install extends Controller {
 		}
 
 		// Insert SQL dump
-		$password = '12' . dechex( rand( 100000000, 4294967295 ) ) . 'K';
-
-		function date_incremenator()
-		{
-			static $cpt = 1;
-			$cpt++;
-			return date( 'Y-m-d H:i:s', time() + $cpt );
-		}
-
 		$dump_content = file_get_contents( $dump_file );
-		$dump_content = str_replace( 'TABLE_PREFIX_', $post['table_prefix'], $dump_content );
-		$dump_content = str_replace( '__ADMIN_PASSWORD__', sha1( $password ), $dump_content );
-		$dump_content = preg_replace_callback( '/__DATE__/m', 'date_incremenator', $dump_content );
-		$dump_content = str_replace( '__LANG__', $i18n_lang, $dump_content );
-		$dump_content = preg_split( '/;(\s*)$/m', $dump_content );
+		
+		$replace = array(
+			'__SITE_NAME__' => Arr::get($post, 'site_name', 'Kohana frog CMS'),
+			'__EMAIL__' => Arr::get($post, 'email', 'admin@yoursite.com'),
+			'__USERNAME__' => Arr::get($post, 'username', 'admin'),
+			'TABLE_PREFIX_' => $post['table_prefix'],
+			'__ADMIN_PASSWORD__' => Auth::instance()->hash($post['password']),
+			'__DATE__' => date( 'Y-m-d H:i:s'),
+			'__LANG__' => I18n::lang()
+		);
+		
+		$dump_content = str_replace(
+			array_keys( $replace ), array_values( $replace ), $dump_content
+		);
 
-		foreach ( $dump_content as $insert_sql )
+		if ( !empty( $dump_content ) )
 		{
-			$insert_sql = trim( $insert_sql );
-
-			if ( !empty( $insert_sql ) )
-			{
-				DB::query( Database::INSERT, $insert_sql )->execute( $db );
-			}
+			$this->_insert_data($dump_content, $db);
 		}
-
-		$tpl_file = APPPATH . 'install' . DIRECTORY_SEPARATOR . 'config.tpl';
+	}
+	
+	protected function _create_config($post)
+	{
+		$tpl_file = CMSPATH . 'install' . DIRECTORY_SEPARATOR . 'config.tpl';
 
 		// Insert settings to config.php		
 		$tpl_content = file_get_contents( $tpl_file );
 
 		$repl = array(
-			'__DB_TYPE__' => $data['db_driver'],
-			'__DB_SERVER__' => $data['db_server'],
-			'__DB_NAME__' => $data['db_name'],
-			'__DB_USER__' => $data['db_user'],
-			'__DB_PASS__' => $data['db_password'],
-			'__TABLE_PREFIX__' => $data['table_prefix'],
-			'__URL_SUFFIX__' => $data['url_suffix'],
+			'__DB_TYPE__' => $post['db_driver'],
+			'__DB_SERVER__' => $post['db_server'],
+			'__DB_NAME__' => $post['db_name'],
+			'__DB_USER__' => $post['db_user'],
+			'__DB_PASS__' => $post['db_password'],
+			'__TABLE_PREFIX__' => $post['table_prefix'] . '_',
+			'__URL_SUFFIX__' => $post['url_suffix'],
+			'__LANG__' => I18n::lang(),
 		);
 
 		$tpl_content = str_replace(
-				array_keys( $repl ), array_values( $repl ), $tpl_content
+			array_keys( $repl ), array_values( $repl ), $tpl_content
 		);
 
-		if ( !file_put_contents( APPPATH . 'config' . EXT, $tpl_content ) !== false )
+		if ( !file_put_contents( DOCROOT . 'config' . EXT, $tpl_content ) !== FALSE )
 		{
 			throw new  Kohana_Exception( 'Can\'t write config.php file!' );
 		}
 	}
+	
+	protected function _insert_data($data, $db)
+	{
+		$data = preg_split( '/;(\s*)$/m', $data );
 
+		foreach($data as $sql)
+		{
+			if(empty($sql))
+			{
+				continue;
+			}
+
+			try 
+			{
+				DB::query(Database::INSERT, $sql)
+					->execute($db);
+			}
+			catch (Exception $e)
+			{
+				echo($e->getMessage());
+				continue;
+			}
+		}
+	}
+
+	/**
+	 * Assigns the template [View] as the request response.
+	 */
+	public function after()
+	{
+		parent::after();
+
+		if($this->template !== NULL)
+		{
+			$this->template->messages = View::factory('layouts/messages', array(
+				'messages' => Messages::get() 
+			));
+		}
+
+		$this->response->body( $this->template );
+	}
 }

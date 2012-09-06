@@ -31,7 +31,7 @@ class Controller_Front extends Controller
 		}
 		else
 		{
-			page_not_found();
+			throw new HTTP_Exception_404('Page not found');
 		}
 	}
 } // end class FrontController

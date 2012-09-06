@@ -1,11 +1,12 @@
 <?php
 
+$cms = 'cms' . DIRECTORY_SEPARATOR;
+
 /**
  * The directory in which your plugins specific resources are located.
- *
- * @see  http://kohanaframework.org/guide/about.install#application
+ * 
  */
-$plugins = 'cms'.DIRECTORY_SEPARATOR.'plugins';
+$plugins = $cms . 'plugins';
 
 /**
  * The directory in which your application specific resources are located.
@@ -13,14 +14,14 @@ $plugins = 'cms'.DIRECTORY_SEPARATOR.'plugins';
  *
  * @see  http://kohanaframework.org/guide/about.install#application
  */
-$application = 'cms'.DIRECTORY_SEPARATOR.'app';
+$application = $cms . 'app';
 
 /**
  * The directory in which your modules are located.
  *
  * @see  http://kohanaframework.org/guide/about.install#modules
  */
-$modules = 'cms'.DIRECTORY_SEPARATOR.'modules';
+$modules = $cms . 'modules';
 
 /**
  * The directory in which the Kohana resources are located. The system
@@ -28,7 +29,7 @@ $modules = 'cms'.DIRECTORY_SEPARATOR.'modules';
  *
  * @see  http://kohanaframework.org/guide/about.install#system
  */
-$system = 'cms'.DIRECTORY_SEPARATOR.'system';
+$system = $cms . 'system';
 
 /**
  * The default extension of resource files. If you change this, all resources
@@ -63,10 +64,13 @@ error_reporting(E_ALL | E_STRICT);
 // Set the full path to the docroot
 define('DOCROOT', realpath(dirname(__FILE__)).DIRECTORY_SEPARATOR);
 
-// Make the application relative to the docroot, for symlink'd index.php
+// Make the plugins relative to the docroot, for symlink'd index.php
+if ( ! is_dir($cms) AND is_dir(DOCROOT.$cms))
+	$cms = DOCROOT.$cms;
+
+// Make the plugins relative to the docroot, for symlink'd index.php
 if ( ! is_dir($plugins) AND is_dir(DOCROOT.$plugins))
 	$plugins = DOCROOT.$plugins;
-
 
 // Make the application relative to the docroot, for symlink'd index.php
 if ( ! is_dir($application) AND is_dir(DOCROOT.$application))
@@ -81,20 +85,14 @@ if ( ! is_dir($system) AND is_dir(DOCROOT.$system))
 	$system = DOCROOT.$system;
 
 // Define the absolute paths for configured directories
+define('CMSPATH', realpath($cms).DIRECTORY_SEPARATOR);
 define('APPPATH', realpath($application).DIRECTORY_SEPARATOR);
 define('MODPATH', realpath($modules).DIRECTORY_SEPARATOR);
 define('SYSPATH', realpath($system).DIRECTORY_SEPARATOR);
 define('PLGPATH', realpath($plugins).DIRECTORY_SEPARATOR);
 
 // Clean up the configuration vars
-unset($application, $modules, $system);
-
-if (file_exists('config'.EXT))
-{
-	// Load the installation check
-	include 'config'.EXT;
-} 
-
+unset($application, $modules, $system, $plugins, $cms);
 
 /**
  * Define the start time of the application, used for profiling.
@@ -114,6 +112,25 @@ if ( ! defined('KOHANA_START_MEMORY'))
 
 // Bootstrap the application
 require APPPATH.'bootstrap'.EXT;
+
+define('IS_INSTALLED', file_exists('config'.EXT));
+define('IS_BACKEND', URL::math('admin', Request::detect_uri()));
+
+if (IS_INSTALLED)
+{
+	include DOCROOT.'config'.EXT;
+	include APPPATH.'init'.EXT;
+}
+else
+{
+	// Load the installation check
+	include APPPATH.'install'.EXT;
+	
+	if(!URL::math('install', Request::detect_uri()))
+	{
+		Request::factory()->redirect('install');
+	}
+}
 
 echo Request::factory()
 	->execute()

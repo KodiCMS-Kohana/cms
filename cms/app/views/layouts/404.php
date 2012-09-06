@@ -20,10 +20,11 @@
 					<div class="error-container">
 						<h1>Oops!</h1>
 
-						<h2>404 Not Found</h2>
+						<h2><?php echo $code; ?> <?php echo $error_type; ?></h2>
 
 						<div class="error-details">
-							<?php echo __('Sorry, an error has occured, Requested page not found!'); ?>
+							<p><?php echo __('Sorry, an error has occured, Requested page not found!'); ?></p>
+							<p><small><?php echo $message; ?></small></p>
 						</div> <!-- /error-details -->
 
 						<div class="error-actions">

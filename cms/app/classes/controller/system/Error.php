@@ -1,41 +1,44 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct script access.' );
 
-class Controller_System_Error extends Controller_System_Backend {
+class Controller_System_Error extends Controller_System_Controller {
 
-	public $template = 'system/error/layout';
+	public $template = 'layouts/404';
 
 	public function before()
 	{
 		parent::before();
+		
+		$this->template = View::factory( $this->template );
 
 		$uri = URL::site( rawurldecode( Request::initial()->uri() ) );
-		$message = __( 'Critical error' );
-		$this->template->content->page = $uri;
+		$this->template->message = __( 'Critical error' );
+		$this->template->uri = $uri;
 
 		if ( Request::initial() !== Request::current() )
 		{
 			if ( $message = rawurldecode( $this->request->param( 'message' ) ) )
 			{
-				$this->template->content->message = $message;
+				$this->template->message = $message;
 			}
 		}
-
-		$this->response->status( 404 );
-		$this->template->content->action = 404;
+		
+		$this->template->code = (int) $this->request->param( 'code' );
+		$this->template->error_type = Arr::get(Response::$messages, $this->template->code, 'Not found' );
 	}
+	
 	
 	public function action_index()
 	{
-		$this->ctx->page->title = __('Page not found');
-	}
-	
-	public function action_404()
-	{
-		$this->ctx->page->title = __('Page not found');
+		
 	}
 
-	public function action_500()
+	/**
+	 * Assigns the template [View] as the request response.
+	 */
+	public function after()
 	{
-		$this->ctx->page->title = __('Internal Server Error');
+		parent::after();
+
+		$this->response->body( $this->template );
 	}
 }

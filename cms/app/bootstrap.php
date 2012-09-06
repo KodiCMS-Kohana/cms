@@ -2,7 +2,10 @@
 
 // CMS defaults
 define('BASE_URL',				'http://'.dirname($_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME']) .'/');
+
+define('ADMIN_DIR_NAME',		'admin');
 define('ADMIN_URL',				BASE_URL.ADMIN_DIR_NAME.'/');
+
 define('PLUGINS_URL',			BASE_URL . 'cms/plugins/');
 
 define('PUBLICPATH',			DOCROOT.'pulic'.DIRECTORY_SEPARATOR);
@@ -10,6 +13,7 @@ define('PUBLIC_URL',			BASE_URL.'pulic/');
 
 define('LAYOUTS_SYSPATH',		DOCROOT . 'layouts' . DIRECTORY_SEPARATOR);
 define('SNIPPETS_SYSPATH',		DOCROOT . 'snippets' . DIRECTORY_SEPARATOR);
+
 
 // -- Environment setup --------------------------------------------------------
 
@@ -25,16 +29,6 @@ else
 {
 	// Load empty core extension
 	require SYSPATH.'classes/kohana'.EXT;
-}
-
-/**
- * Display a 404 page not found and exit
- */
-function page_not_found()
-{
-    Observer::notify('page_not_found');
-	echo View::factory('layouts/404');
-    exit;
 }
 
 /**
@@ -69,6 +63,23 @@ spl_autoload_register( array('Kohana', 'auto_load') );
  */
 ini_set( 'unserialize_callback_func', 'spl_autoload_call' );
 
+
+/**
+ * Set Kohana::$environment if a 'KOHANA_ENV' environment variable has been supplied.
+ *
+ * Note: If you supply an invalid environment name, a PHP warning will be thrown
+ * saying "Couldn't find constant Kohana::<INVALID_ENV_NAME>"
+ */
+
+if ( isset( $_SERVER['KOHANA_ENV'] ) )
+{
+	Kohana::$environment = constant( 'Kohana::' . strtoupper( $_SERVER['KOHANA_ENV'] ) );
+}
+else
+{
+	Kohana::$environment = Kohana::PRODUCTION;
+}
+
 /**
  * InitializeCore, setting the default options.
  *
@@ -84,115 +95,26 @@ ini_set( 'unserialize_callback_func', 'spl_autoload_call' );
 Kohana::init( array(
 	'base_url'			=> '/',
 	'index_file'		=> FALSE,
-	'caching'			=> TRUE,
-	'errors'			=> TRUE,
-	'profile'			=> TRUE
+	'caching'			=> Kohana::$environment === Kohana::PRODUCTION,
+	'profile'			=> Kohana::$environment !== Kohana::PRODUCTION,
+	'errors'			=> Kohana::$environment === Kohana::PRODUCTION
 ) );
 
-/**
- * Enable modules. Modules are referenced by a relative or absolute path.
- */
-Kohana::modules( array(
-	'database'		=> MODPATH . 'database', // Database access
-	'auth'			=> MODPATH . 'auth', // Basic authentication
-	'orm'			=> MODPATH . 'orm', // Object Relationship Mapping,
-	'cache'			=> MODPATH . 'cache', // Object Relationship Mapping
-) );
-
-
-define('IS_BACKEND', URL::math('/admin', $_SERVER['REQUEST_URI']));
 
 /**
  * Set default cookie salt
  */
 Cookie::$salt = 'AS7hjdd4234fdsdsfAD';
 
-/**
- * Attach the file write to logging. Multiple writers are supported.
- */
-Kohana::$log->attach(new Log_File(APPPATH.'logs'));
+I18n::lang('ru');
 
-/**
- * Attach a file reader to config. Multiple readers are supported.
- */
-Kohana::$config->attach(new Config_File);
 
-// Init settings
-Setting::init();
-
-// Init plugins
-Plugins::init();
-
-I18n::lang( 'ru' );
-
-if ( ! Route::cache() )
-{
-	Route::set( 'error', 'system/error(/<message>)', array(
+Route::set( 'error', 'system/error(/<code>(/<message>))', array(
 		'message' => '.+',
+		'code' => '[0-9]+'
 	) )
 	->defaults( array(
 		'directory' => 'system',
 		'controller' => 'error',
+		'action' => 'index'
 	) );
-	
-	// Системные контроллеры
-	Route::set( 'system', '<directory>-<controller>-<action>(/<id>)', array(
-		'directory' => '(ajax|form)',
-		'controller' => '[A-Za-z\_]+',
-		'action' => '[A-Za-z\_]+',
-		'id' => '.+',
-	) )
-		->defaults( array(
-			'directory' => 'action',
-		) );
-
-	Route::set( 'user', 'admin/<action>(?next=<next_url>)', array(
-		'action' => '(login|logout|forgot|register)',
-	) )
-		->defaults( array(
-			'controller' => 'login',
-		) );
-
-	Route::set( 'plugin', 'admin/plugin/(<controller>(/<action>(/<id>)))', array(
-		'id' => '.*'
-	) )
-		->defaults( array(
-			'controller' => 'index',
-			'action' => 'index',
-		) );
-
-	Route::set( 'templates', 'admin/(<controller>(/<action>(/<id>)))', array(
-		'controller' => '(layout|snippet)',
-		'id' => '.*'
-	) )
-		->defaults( array(
-			'controller' => 'index',
-			'action' => 'index',
-		) );
-
-	Route::set( 'plugins', 'admin/(<controller>(/<action>(/<id>)))', array(
-		'controller' => 'plugins',
-		'id' => '.*'
-	) )
-		->defaults( array(
-			'controller' => 'plugins',
-			'action' => 'index',
-		) );
-
-	Route::set( 'admin', 'admin/(<controller>(/<action>(/<id>)))' )
-		->defaults( array(
-			'controller' => Setting::get('default_tab'),
-			'action' => 'index',
-		) );
-
-	Route::set( 'default', '(<page>)(<suffix>)' , array(
-		'page' => '.*',
-		'suffix' => URL_SUFFIX
-	) )
-		->defaults( array(
-			'controller' => 'front',
-			'action' => 'index',
-		) );
-	
-	Route::cache(TRUE);
-}

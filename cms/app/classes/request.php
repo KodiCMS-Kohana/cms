@@ -1,4 +1,4 @@
-<?php
+<?php defined('SYSPATH') or die('No direct access allowed.');
 
 class Request extends Kohana_Request {
 
@@ -6,7 +6,14 @@ class Request extends Kohana_Request {
 	{
 		$uri = parent::detect_uri();
 
-		return str_replace(URL_SUFFIX, '', $uri);
+		if(!defined( 'URL_SUFFIX' ))
+		{
+			return $uri;
+		}
+		else
+		{
+			return str_replace(URL_SUFFIX, '', $uri);
+		}
 	}
 
 }

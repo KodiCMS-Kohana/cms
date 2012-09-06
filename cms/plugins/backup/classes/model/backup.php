@@ -57,6 +57,18 @@ class Model_Backup {
 		
 		return file_get_contents($file);
 	}
+	
+	public function drop_tables()
+	{
+		foreach ($this->tables as $tbl) 
+		{
+			DB::query(Database::DELETE, 'DROP TABLE `:table_name`')
+				->param( ':table_name', DB::expr($tbl['name']) )
+				->execute();
+		}
+		
+		return $this;
+	}
 
 	public function restore($file = NULL)
 	{
@@ -79,12 +91,7 @@ class Model_Backup {
 		DB::query(Database::INSERT, 'SET FOREIGN_KEY_CHECKS = 0')
 			->execute();
 
-		foreach ($this->tables as $tbl) 
-		{
-			DB::query(Database::DELETE, 'DROP TABLE `:table_name`')
-				->param( ':table_name', DB::expr($tbl['name']) )
-				->execute();
-		}
+		$this->drop_tables();
 
 		if(!is_array($lines))
 		{
@@ -200,6 +207,7 @@ class Model_Backup {
 				'data' => $this->get_data($table[0])
 			);
 		}
+
 		return $this;
 	}
 
