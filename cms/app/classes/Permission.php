@@ -2,5 +2,5 @@
 
 class Permission extends Record
 {
-    const TABLE_NAME = 'permission';
+    const TABLE_NAME = 'roles';
 } // end class Permission

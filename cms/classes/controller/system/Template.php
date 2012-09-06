@@ -14,12 +14,23 @@ class Controller_System_Template extends Controller_System_Security
 	
 	public $json = NULL;
 	
+	public $check_token = FALSE;
+
 	/**
 	 * Loads the template [View] object.
 	 */
 	public function before()
 	{
 		parent::before();
+		
+		if($this->request->method() === Request::POST)
+		{
+			$token = Arr::get($_POST, 'token');
+			if(empty($token) OR !Security::check($token))
+			{
+				throw new Exception('Security token not check');
+			}
+		}
 
 		if ($this->auto_render === TRUE)
 		{
@@ -65,6 +76,10 @@ class Controller_System_Template extends Controller_System_Security
 				{
 					$this->json['status'] = TRUE;
 				}
+
+				$this->request
+					->response()
+					->headers( 'Content-type', 'application/json' );
 
 				$this->template = json_encode( $this->json );
 			}

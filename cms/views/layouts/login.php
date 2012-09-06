@@ -20,7 +20,7 @@
 
 	</head>
 	<body>
-		<div class="navbar navbar-fixed-top">
+		<div class="navbar navbar-static-top">
 			<div class="navbar-inner">
 				<div class="container">
 					<?php echo HTML::anchor(URL::site(Setting::get('default_tab', 'page/index')), Setting::get('admin_title'), array(

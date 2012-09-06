@@ -2,5 +2,5 @@
 
 class Tag extends Record
 {
-    const TABLE_NAME = 'tag';
+    const TABLE_NAME = 'tags';
 }

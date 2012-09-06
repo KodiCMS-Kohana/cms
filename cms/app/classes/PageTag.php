@@ -2,5 +2,5 @@
 
 class PageTag extends Record
 {
-    const TABLE_NAME = 'page_tag';
+    const TABLE_NAME = 'page_tags';
 } // end class PageTag

@@ -1,6 +1,6 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct script access.' );
 
-class Controller_System_Ajax_Error extends Controller_Ajax_JSON {
+class Controller_System_Ajax_Error extends Controller_System_Template {
 
 	public $auth_required = FALSE;
 

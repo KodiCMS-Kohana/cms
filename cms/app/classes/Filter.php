@@ -1,6 +1,4 @@
-<?php
-
-defined( 'SYSPATH' ) or die( 'No direct access allowed.' );
+<?php defined( 'SYSPATH' ) or die( 'No direct access allowed.' );
 
 class Filter {
 
@@ -55,8 +53,13 @@ class Filter {
 			if ( isset( self::$filters[$filter_id] ) )
 			{
 				$file = PLGPATH . DIRECTORY_SEPARATOR . self::$filters[$filter_id];
+
 				if ( !file_exists( $file ) )
-					throw new Core_Exception( 'Filter file of filter ' . $filter_id . ' not found!' );
+				{
+					throw new Core_Exception( 'Filter file of filter :filter not found!', array(
+						':filter' => $filter_id
+					) );
+				}
 
 				include($file);
 
@@ -65,10 +68,14 @@ class Filter {
 				return self::$filters_loaded[$filter_id];
 			}
 			else
+			{
 				return FALSE;
+			}
 		}
 		else
+		{
 			return self::$filters_loaded[$filter_id];
+		}
 	}
 
 }

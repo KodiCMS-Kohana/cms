@@ -1,7 +1,9 @@
 <?php defined('SYSPATH') or die('No direct access allowed.'); ?>
 
 <?php echo Form::open( Route::url( 'user', array('action' => 'login') ), array('method' => 'post') ); ?>
-	<?php echo Form::hidden( 'login[seturity_token]', Security::token() ); ?>
+
+	<?php echo Form::hidden( 'token', Security::token() ); ?>
+
 	<h1><?php echo Setting::get('admin_title'); ?></h1>
 
 	<div class="control-group">

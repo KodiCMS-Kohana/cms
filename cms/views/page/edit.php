@@ -19,13 +19,11 @@ if ($pagetmp != null && !empty($pagetmp) && $parttmp != null && !empty($parttmp)
 </div>
 <?php endif; ?>
 
-<ul class="breadcrumb">
-	<li><a href="<?php echo URL::site('page'); ?>"><?php echo __('Pages'); ?></a> <span class="divider">/</span></li>
-	<li class="active"><?php echo $page->title; ?></li>
-</ul>
-
 <div id="pageEdit">
 	<form id="pageEditForm" class="form-horizontal" action="<?php echo ($action == 'add' ? URL::site('page/add/'.$parent_id) : URL::site('page/edit/'.$page->id)); ?>" method="post">
+		
+		<?php echo Form::hidden('token', Security::token()); ?>
+		
 		<?php if (!empty($parent_id)): ?>
 		<input type="hidden" name="page[parent_id]" value="<?php echo $parent_id; ?>" />
 		<?php endif; ?>

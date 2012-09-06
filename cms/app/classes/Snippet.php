@@ -14,7 +14,8 @@ class Snippet
 		$this->file = SNIPPETS_SYSPATH.$snippet_name.EXT;
 	}
 	
-	public function __toString() {
+	public function __toString() 
+	{
 		return (string) $this->_content;
 	}
 
@@ -22,13 +23,17 @@ class Snippet
 	public function __get($key)
 	{
 		if (method_exists($this, $key))
+		{
 			return $this->{$key}();
+		}
 	}
 	
 	public function __set($key, $value)
 	{
 		if ($key == 'content')
+		{
 			$this->_content = $value;
+		}
 	}
 	
     public static function findAll()
@@ -50,12 +55,16 @@ class Snippet
 	
 	public function content()
 	{
-		if ($this->_content === null)
+		if ($this->_content === NULL)
 		{
 			if (file_exists($this->file))
+			{
 				$this->_content = file_get_contents($this->file);
+			}
 			else
+			{
 				$this->_content = '';
+			}
 		}
 		
 		return $this->_content;

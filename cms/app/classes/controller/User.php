@@ -5,13 +5,13 @@ class Controller_User extends Controller_System_Backend {
 	public function action_index()
 	{
 		$users = DB::select( 'user.*', array( 'GROUP_CONCAT("permission.name")', 'roles' ) )
-				->from( 'user' )
-				->join( 'user_permission', 'left' )
+			->from( array(User::tableName(), 'user') )
+			->join( array( UserPermission::tableName(), 'user_permission'), 'left' )
 				->on( 'user.id', '=', 'user_permission.user_id' )
-				->join( 'permission', 'left' )
-				->on( 'user_permission.permission_id', '=', 'permission.id' )
-				->as_object()
-				->execute();
+			->join( array( Permission::tableName(), 'permission'), 'left' )
+				->on( 'user_permission.role_id', '=', 'permission.id' )
+			->as_object()
+			->execute();
 
 		$this->template->content = View::factory( 'user/index', array(
 			'users' => $users
@@ -103,9 +103,9 @@ class Controller_User extends Controller_System_Backend {
 			return $this->_edit( $id );
 		}
 
-		$user = DB::select( 'user.*', array( 'GROUP_CONCAT("user_permission.permission_id")', 'roles' ) )
-			->from( 'user' )
-			->join( 'user_permission', 'left' )
+		$user = DB::select( 'user.*', array( 'GROUP_CONCAT("user_permission.role_id")', 'roles' ) )
+			->from( array(User::tableName(), 'user') )
+			->join( array( UserPermission::tableName(), 'user_permission'), 'left' )
 				->on( 'user.id', '=', 'user_permission.user_id' )
 			->where( 'id', '=', (int) $id )
 			->limit( 1 )
@@ -117,7 +117,7 @@ class Controller_User extends Controller_System_Backend {
 		if ( $user !== NULL )
 		{
 			$roles = DB::select()
-				->from( 'permission' )
+				->from( Permission::tableName() )
 				->as_object()
 				->execute();
 			

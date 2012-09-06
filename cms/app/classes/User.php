@@ -2,12 +2,11 @@
 
 class User extends Record
 {
-    const TABLE_NAME = 'user';
+    const TABLE_NAME = 'users';
     
     public $name = '';
     public $email = '';
     public $username = '';
-	public $language = 'en';
     
     public $created_on;
     public $updated_on;
@@ -24,7 +23,7 @@ class User extends Record
         return DB::select('perm.id', 'name')
 			->from(array(self::tableName('Permission'), 'perm'))
 			->join(array(self::tableName('UserPermission'), 'user_perm'), 'left')
-				->on('user_perm.permission_id', '=', 'perm.id')
+				->on('user_perm.role_id', '=', 'perm.id')
 			->where('user_id', '=', $this->id)
 			->as_object()
 			->cached()
@@ -67,11 +66,17 @@ class User extends Record
         
         $tablename = self::TABLE_NAME;
         
+		$sql = (string) DB::select('user.*')
+			->select(array('creator.name', 'created_by_name'))
+			->select(array('updator.name', 'updated_by_name'))
+			->from(self::tableName())
+			->join(array(User::tableName(), 'creator'), 'left')
+				->on('creator.id', '=', 'user.created_by_id')
+			->join(array(User::tableName(), 'updator'), 'left')
+				->on('updator.id', '=', 'user.updated_by_id');
+		
         // Prepare SQL
-        $sql = "SELECT $tablename.*, creator.name AS created_by_name, updator.name AS updated_by_name FROM $tablename".
-               " LEFT JOIN $tablename AS creator ON $tablename.created_by_id = creator.id".
-               " LEFT JOIN $tablename AS updator ON $tablename.updated_by_id = updator.id".
-               " $where_string $order_by_string $limit_string";
+        $sql .= " $where_string $order_by_string $limit_string";
         
         $query = DB::query(Database::SELECT, $sql)
 			->as_object(__CLASS__)
@@ -97,7 +102,7 @@ class User extends Record
     public static function findById($id)
     {
         return self::find(array(
-            'where' => self::TABLE_NAME.'.id='.(int)$id,
+            'where' => 'user.id='.(int)$id,
             'limit' => 1
         ));
     }

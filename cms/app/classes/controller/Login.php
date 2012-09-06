@@ -40,22 +40,17 @@ class Controller_Login extends Controller_System_Template {
 
 
 		$array = Validation::factory( $array )
-				->label( 'username', 'Username / Email' )
-				->label( 'password', 'Password' )
-				->rules( 'username', array(
-					array( 'not_empty' )
-				) )
-				->rules( 'password', array(
-					array( 'not_empty' ),
-				) )
-				->rules( 'seturity_token', array(
-			array( 'not_empty' ),
-			array( 'Security::check', array( ':value' ) )
-				) );
+			->label( 'username', 'Username / Email' )
+			->label( 'password', 'Password' )
+			->rules( 'username', array(
+				array( 'not_empty' )
+			) )
+			->rules( 'password', array(
+				array( 'not_empty' ),
+			) );
 
 		// Get the remember login option
 		$remember = isset( $array['remember'] );
-
 
 		if ( $array->check() )
 		{

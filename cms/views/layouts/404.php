@@ -37,5 +37,9 @@
 				</div> <!-- /span12 -->
 			</div> <!-- /row -->
 		</div>
+		<?php if ( Setting::get( 'profiling' ) == 'yes' ): ?>
+			<hr />
+			<div id="kohana-profiler"><?php echo View::factory( 'profiler/stats' ) ?></div>
+		<?php endif; ?> 
 	</body>
 </html>

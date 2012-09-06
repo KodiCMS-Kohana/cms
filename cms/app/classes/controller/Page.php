@@ -486,7 +486,7 @@ class Controller_Page extends Controller_System_Backend {
 	{
 		$this->auto_render = FALSE;
 
-		$query = trim( $_POST['query'] );
+		$query = trim( $_POST['search'] );
 
 		$childrens = array( );
 
@@ -504,7 +504,9 @@ class Controller_Page extends Controller_System_Backend {
 			);
 
 			if ( isset( $page_status[$query[1]] ) )
+			{
 				$childrens = Page::find( array( 'where' => 'page.status_id = ' . $page_status[$query[1]] ) );
+			}
 		}
 		else if ( substr( $query, 0, 1 ) == '-' )
 		{
@@ -515,7 +517,6 @@ class Controller_Page extends Controller_System_Backend {
 		{
 			$childrens = Page::findAllLike( $query );
 		}
-
 
 		foreach ( $childrens as $index => $child )
 		{

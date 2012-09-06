@@ -33,10 +33,6 @@ if ( ! defined('FROG_START_MEMORY'))
 // Bootstrap the application
 require APPPATH.'bootstrap'.EXT;
 
-AuthUser::load();
-
-I18n::lang( AuthUser::isLoggedIn() ? AuthUser::getRecord()->language  :  'ru' );
-
 echo Request::factory()
 	->execute()
 	->send_headers()

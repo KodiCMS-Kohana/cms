@@ -1,10 +1,11 @@
-<?php defined( 'SYSPATH' ) or die( 'No direct access allowed.' ); ?>
-
 <div class="page-header">
 	<h1><?php echo __( 'General setting' ); ?></h1>
 </div>
 
 <form id="settingForm" class="form-horizontal" action="<?php echo URL::site( 'admin/setting' ); ?>" method="post">
+	
+	<?php echo Form::hidden('token', Security::token()); ?>
+	
 	<fieldset>
 		<legend><?php echo __( 'Site options' ); ?></legend>
 

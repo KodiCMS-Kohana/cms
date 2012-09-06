@@ -650,7 +650,7 @@ cms.init.add('page_index', function()
 	
 	
 	// Search
-	var search = function( query )
+	var search = function( form )
 	{
 		var success_handler = function( data )
 		{
@@ -672,13 +672,11 @@ cms.init.add('page_index', function()
 			.show();
 		
 		$.ajax({
-			url:      SITE_URL + ADMIN_DIR_NAME + '/page/search/',
+			url: form.attr('action'),
 			type:     'post',
 			dataType: 'html',
 			
-			data: { 
-				query: query 
-			},
+			data: form.serialize(),
 			
 			success: success_handler,
 			error:   error_handler
@@ -688,21 +686,22 @@ cms.init.add('page_index', function()
 	var search_timeout;
 	
 	$('#pageMapSearchField')
-		.on('focus', function() {
-			if($(this).val() !== '')
-				$(this).val('');
-		})
 		.on('keyup', function(event){
-			var val = $(this).val();
+			var form = $(this).parent().parent();
+	
+			if(form.attr('action').length == 0) {
+				$.jGrowl('Не указанна ссылка для отправки данных');
+				return false;
+			}
 
 			clearTimeout(search_timeout);
 
-			if (val !== '')
+			if ($(this).val() !== '')
 			{			
 				if (event.keyCode == 13)
-					search( val );
+					search( form );
 				else
-					search_timeout = setTimeout(function(){ search(val); }, 1000);
+					search_timeout = setTimeout(function(){ search(form); }, 1000);
 			}
 			else
 			{

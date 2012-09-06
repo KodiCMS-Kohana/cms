@@ -18,7 +18,7 @@ Behavior::add('archive_year_index', 'archive/archive.php');
 
 $behaviors = array('archive', 'archive_day_index', 'archive_month_index', 'archive_year_index');
 $pages = DB::select()
-	->from('page')
+	->from(Page::tableName())
 	->where('behavior_id', 'in', $behaviors)
 	->where('status_id', '=', Page::STATUS_PUBLISHED)
 	->cache_key( 'archive_section' )

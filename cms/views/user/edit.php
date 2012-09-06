@@ -5,28 +5,29 @@
 </div>
 
 <form class="form-horizontal" action="<?php echo $action=='edit' ? URL::site('user/edit/'.$user->id): URL::site('user/add'); ?>" method="post">
-	<fieldset>
-		<div class="control-group">
-			<label class="control-label" for="userEditEmailField"><?php echo __('E-mail'); ?></label>
-			<div class="controls">
-				<?php echo Form::input('user[email]', $user->email, array(
-					'class' => 'input-xlarge', 'id' => 'userEditEmailField'
-				)); ?>
-				<p class="help-block"><?php echo __('Optional. Please use a valid e-mail address.'); ?></p>
-			</div>
+	
+	<?php echo Form::hidden('token', Security::token()); ?>
+
+	<div class="control-group">
+		<label class="control-label" for="userEditEmailField"><?php echo __('E-mail'); ?></label>
+		<div class="controls">
+			<?php echo Form::input('user[email]', $user->email, array(
+				'class' => 'input-xlarge', 'id' => 'userEditEmailField'
+			)); ?>
+			<p class="help-block"><?php echo __('Optional. Please use a valid e-mail address.'); ?></p>
 		</div>
-		<?php if ($user->id > 1): ?>
-		<div class="control-group">
-			<label class="control-label" for="userEditUsernameField"><?php echo __('Username'); ?></label>
-			<div class="controls">
-				<?php echo Form::input('user[username]', $user->username, array(
-					'class' => 'input-xlarge', 'id' => 'userEditUsernameField'
-				)); ?>
-				<p class="help-block"><?php echo __('At least 3 characters. Must be unique.'); ?></p>
-			</div>
+	</div>
+	<?php if ($user->id > 1): ?>
+	<div class="control-group">
+		<label class="control-label" for="userEditUsernameField"><?php echo __('Username'); ?></label>
+		<div class="controls">
+			<?php echo Form::input('user[username]', $user->username, array(
+				'class' => 'input-xlarge', 'id' => 'userEditUsernameField'
+			)); ?>
+			<p class="help-block"><?php echo __('At least 3 characters. Must be unique.'); ?></p>
 		</div>
-		<?php endif; ?>
-	</fieldset>
+	</div>
+	<?php endif; ?>
 
 	<fieldset>
 		<legend><?php echo __('Password'); ?></legend>

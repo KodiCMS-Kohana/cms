@@ -3,7 +3,9 @@
 <h1><?php echo __('Forgot password'); ?></h1>
 
 <?php echo Form::open( Route::url( 'user', array('action' => 'forgot') ), array('method' => 'post') ); ?>
-	<?php echo Form::hidden( 'forgot[seturity_token]', Security::token() ); ?>
+
+	<?php echo Form::hidden('token', Security::token()); ?>
+
 	<div class="control-group">
 		<label class="control-label" for="forgotEmailField"><?php echo __('E-mail address'); ?>:</label>
 		<div class="controls">

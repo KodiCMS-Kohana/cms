@@ -2,7 +2,7 @@
 
 class PagePart extends Record
 {
-    const TABLE_NAME = 'page_part';
+    const TABLE_NAME = 'page_parts';
 	
     const PART_NOT_PROTECTED = 0;
 	const PART_PROTECTED = 1;

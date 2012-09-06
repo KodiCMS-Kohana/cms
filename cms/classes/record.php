@@ -177,7 +177,8 @@ class Record
 		return DB::query(Database::SELECT, $sql)
 			->parameters( $values )
 			->as_object($class_name)
-			->execute();
+			->execute()
+			->as_array();
 	}
 
 	public static function countFrom($class_name, $where=false, $values=array())

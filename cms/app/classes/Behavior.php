@@ -25,7 +25,9 @@ class Behavior
     public static function remove($behavior_id)
     {
         if (isset(self::$behaviors[$behavior_id]))
+		{
             unset(self::$behaviors[$behavior_id]);
+		}
     }
 	
 	
@@ -45,17 +47,21 @@ class Behavior
             $file = PLGPATH.DIRECTORY_SEPARATOR.self::$behaviors[$behavior_id];
 
             if (isset(self::$loaded_files[$file]))
+			{
                 return new $behavior_id($page, $params);
+			}
 
             if (file_exists($file))
             {
                 include $file;
-                self::$loaded_files[$file] = true;
+                self::$loaded_files[$file] = TRUE;
                 return new $behavior_id($page, $params);
             }
             else
             {
-                exit ("Behavior $behavior_id not found!");
+				throw new Core_Exception('ehavior :behavior not found!', array(
+					':behavior' => $behavior_id
+				));
             }
         }
     }
@@ -73,9 +79,13 @@ class Behavior
         $behavior_page_class = 'Page'.str_replace(' ','',ucwords(str_replace('_',' ', $behavior_id)));
 		
         if (class_exists($behavior_page_class, FALSE))
+		{
             return $behavior_page_class;
+		}
         else
+		{
             return 'FrontPage';
+		}
     }
 
     

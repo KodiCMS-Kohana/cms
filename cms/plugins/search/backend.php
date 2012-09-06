@@ -4,4 +4,4 @@
 Behavior::add('search_result', 'search/search.php');
 
 // Add navigation section
-Model_Navigation::add_section('Other', 'Search', 'plugin/search', array(), 200);
+Model_Navigation::add_section('Settings', 'Search', 'plugin/search', array('administrator'), 200);

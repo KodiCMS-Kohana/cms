@@ -1,17 +1,14 @@
-<?php defined('SYSPATH') or die('No direct access allowed.'); ?>
 <div class="page-header">
 	<h1><?php echo __('Less compiler settings'); ?></h1> 
 </div>
 
-<ul class="breadcrumb">
-	<li><a href="<?php echo URL::site('plugins'); ?>"><?php echo __('Plugins'); ?></a> <span class="divider">/</span></li>
-	<li class="active"><?php echo __('Less compiler settings'); ?></li>
-</ul>
-
 <form class="form-horizontal" action="<?php echo URL::site('plugin/less/settings'); ?>" method="post">
+
+	<?php echo Form::hidden('token', Security::token()); ?>
+
 	<fieldset class="well">
 		<div class="control-group">
-			<label class="control-label"><?php echo __('Enable compilator'); ?></label>
+			<label class="control-label"><?php echo __('Enable compiler'); ?></label>
 			<div class="controls">
 				<?php echo Form::checkbox('setting[enabled]', 'yes', Arr::get($settings, 'enabled', 'yes') == 'yes'); ?>
 			</div>
@@ -24,6 +21,7 @@
 			</div>
 		</div>
 	</fieldset>
+
 	<fieldset>
 		<legend><?php echo __('Paths'); ?></legend>
 		<div class="control-group <?php if(!$is_dir_less): ?>error<?php endif; ?>">
@@ -50,12 +48,13 @@
 			</div>
 		</div>
 	</fieldset>
+
 	<?php if(!$is_dir_less): ?>
 	<fieldset>
 		<legend><?php echo __('Less files to compile'); ?></legend>
-		
 	</fieldset>
 	<?php endif; ?>
+
 	<div class="form-actions">
 		<?php echo Form::button('submit', HTML::icon('ok') .' '. __('Save setting'), array(
 			'class' => 'btn btn-large btn-success'

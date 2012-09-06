@@ -178,16 +178,20 @@ class Plugins {
 	}
 
 	/**
-	 * Returns true if a plugin is enabled for use.
+	 * Returns TRUE if a plugin is enabled for use.
 	 *
 	 * @param string $plugin_id
 	 */
 	static function isEnabled( $plugin_id )
 	{
 		if ( array_key_exists( $plugin_id, self::$plugins ) && self::$plugins[$plugin_id] == 1 )
-			return true;
+		{
+			return TRUE;
+		}
 		else
+		{
 			return FALSE;
+		}
 	}
 
 	/**
@@ -196,10 +200,12 @@ class Plugins {
 	 * @param array $settings Array of name-value pairs
 	 * @param string $plugin_id     The folder name of the plugin
 	 */
-	static function setAllSettings( $array = null, $plugin_id = null )
+	static function setAllSettings( $array = NULL, $plugin_id = NULL )
 	{
-		if ( $array == null || $plugin_id == null )
+		if ( $array == NULL || $plugin_id == NULL )
+		{
 			return FALSE;
+		}
 
 		$existingSettings = DB::select( 'name' )
 				->from( self::$table_name )
@@ -240,9 +246,9 @@ class Plugins {
 	 * @param string $value         Setting value
 	 * @param string $plugin_id     Plugin folder name
 	 */
-	static function setSetting( $name = null, $value = null, $plugin_id = null )
+	static function setSetting( $name = NULL, $value = NULL, $plugin_id = NULL )
 	{
-		if ( $name === null || $value === null || $plugin_id === null )
+		if ( $name === NULL || $value === NULL || $plugin_id === NULL )
 			return FALSE;
 
 		$existingSettings = DB::select( 'name' )
@@ -276,7 +282,7 @@ class Plugins {
 	 *
 	 * @param <type> $plugin_id
 	 */
-	static function getAllSettings( $plugin_id = null )
+	static function getAllSettings( $plugin_id = NULL )
 	{
 		return Arr::get( self::$_settings, $plugin_id );
 	}
@@ -288,9 +294,9 @@ class Plugins {
 	 * @param <type> $name
 	 * @param <type> $plugin_id
 	 */
-	static function getSetting( $name = null, $plugin_id = null )
+	static function getSetting( $name = NULL, $plugin_id = NULL, $default = NULL )
 	{
-		return Arr::path( self::$_settings, $plugin_id . '.' . $name );
+		return Arr::path( self::$_settings, $plugin_id . '.' . $name, $default );
 	}
 
 	static function get_settings()

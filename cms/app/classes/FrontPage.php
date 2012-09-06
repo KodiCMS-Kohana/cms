@@ -35,7 +35,8 @@ class FrontPage
     {
         $this->parent = $parent;
         
-        foreach ($object as $key => $value) {
+        foreach ($object as $key => $value) 
+		{
             $this->$key = $value;
         }
         
@@ -67,7 +68,9 @@ class FrontPage
     public function level()
     {
         if ($this->level === FALSE)
-            $this->level = empty($this->url) ? 0 : substr_count($this->url, '/')+1;
+		{
+            $this->level = empty($this->url) ? 0 : substr_count($this->url, '/') + 1;
+		}
         
         return $this->level;
     }
@@ -75,35 +78,34 @@ class FrontPage
     public function tags()
     {
         if ( ! $this->tags)
+		{
             $this->_loadTags();
+		}
             
         return $this->tags;
     }
     
-    public function link($label=NULL, $options='', $check_current = FALSE)
+    public function link($label=NULL, $options= array(), $check_current = TRUE)
     {
         if ($label == NULL)
+		{
             $label = $this->title();
+		}
 		
-		if ($check_current !== FALSE)
+		if ($check_current === TRUE)
 		{
 			if (strpos(Request::current()->url(), $this->url) === 1)
 			{
-				if ($options != '' && stristr($options, 'class') !== FALSE)
+				if(!isset($options['class']))
 				{
-					preg_match('/(.*)class=(\'|\")([^\'\"]*)(\'|\")(.*)/i', $options, $m);
-					$options = $m[1] . ' class="'. $m[3] .' current" ' . $m[5];
+					$options['class'] = '';
 				}
-				else
-					$options .= ' class="current"';
+
+				$options['class'] .= ' active';
 			}
 		}
         
-        return sprintf('<a href="%s" %s>%s</a>',
-               $this->url(),
-               $options,
-               $label
-        );
+        return HTML::anchor($this->url(), $label, $options);
     }
     
 	/**
@@ -116,11 +118,17 @@ class FrontPage
     public function date($format='%m/%d/%y %H:%M:%S %p', $which_one='publish')
     {
         if ($which_one == 'update' || $which_one == 'updated')
+		{
             return strftime($format, strtotime($this->updated_on));
+		}
         else if ($which_one == 'publish' || $which_one == 'published')
+		{
             return strftime($format, strtotime($this->published_on));
+		}
         else
+		{
             return strftime($format, strtotime($this->created_on));
+		}
     }
     
     public function breadcrumbs($separator='&gt;', $level = 0)
@@ -149,16 +157,20 @@ class FrontPage
         return $out;
     }
     
-    public function hasContent($part, $inherit=FALSE)
+    public function hasContent($part, $inherit = FALSE)
     {
 		if (!isset($this->part) || !is_object($this->part))
+		{
 			$this->part = new stdClass;
+		}
 		
 		if (!empty($this->part->{$part}))
+		{
 			return TRUE;
+		}
 		
 		$obj = DB::select('name', 'content_html')
-			->from('page_part')
+			->from(PagePart::tableName())
 			->where('name', '=', $part)
 			->where('page_id', '=', $this->id)
 			->limit(1)
@@ -181,7 +193,7 @@ class FrontPage
 		return FALSE;
     }
     
-    public function content($part='body', $inherit=FALSE)
+    public function content($part='body', $inherit = FALSE)
     {
 		if (!isset($this->part) || !is_object($this->part))
 			$this->part = new stdClass;
@@ -197,7 +209,7 @@ class FrontPage
 		}
 		
 		$obj = DB::select('name', 'content_html')
-			->from('page_part')
+			->from(PagePart::tableName())
 			->where('name', '=', $part)
 			->where('page_id', '=', $this->id)
 			->limit(1)
@@ -226,24 +238,28 @@ class FrontPage
     public function previous()
     {
         if ($this->parent)
+		{
             return $this->parent->children(array(
                 'limit' => 1,
                 'where' => 'page.id < '. $this->id,
                 'order' => 'page.created_on DESC'
             ));
+		}
     }
     
     public function next()
     {
         if ($this->parent)
+		{
             return $this->parent->children(array(
                 'limit' => 1,
                 'where' => 'page.id > '. $this->id,
                 'order' => 'page.created_on ASC'
             ));
+		}
     }
     
-    public function children($args=NULL, $value=array(), $include_hidden=FALSE)
+    public function children($args=NULL, $value=array(), $include_hidden = FALSE)
     {
         $page_class = __CLASS__;
         
@@ -261,13 +277,27 @@ class FrontPage
         $where_string = trim($where) == '' ? '' : "AND ".$where;
         $limit_string = $limit > 0 ? "LIMIT $offset, $limit" : '';
         
+		$statuses = array(self::STATUS_REVIEWED, self::STATUS_PUBLISHED);
+		if($include_hidden)
+		{
+			$statuses[] = self::STATUS_HIDDEN;
+		}
+		
+		$sql = (string) DB::select('page.*')
+			->select(array('author.name', 'author'), array('author.id', 'author_id'))
+			->select(array('updator.name', 'updator'), array('updator.id', 'updator_id'))
+			->from(array(Page::tableName(), 'page'))
+			->join(array(User::tableName(), 'author'), 'left')
+				->on('author.id', '=', 'page.created_by_id')
+			->join(array(User::tableName(), 'updator'), 'left')
+				->on('updator.id', '=', 'page.updated_by_id')
+			->where('parent_id', '=', $this->id)
+			->where('published_on', '<=', DB::expr('NOW()'))
+			->where('status_id', 'in', $statuses);
+			
+			
         // Prepare SQL
-        $sql = 'SELECT page.*, author.name AS author, author.id AS author_id, updator.name AS updator, updator.id AS updator_id '
-             . 'FROM page AS page '
-             . 'LEFT JOIN user AS author ON author.id = page.created_by_id '
-             . 'LEFT JOIN user AS updator ON updator.id = page.updated_by_id '
-             . 'WHERE parent_id = '.$this->id.' AND published_on <= NOW() AND (status_id='.self::STATUS_REVIEWED.' OR status_id='.self::STATUS_PUBLISHED.($include_hidden ? ' OR status_id='.self::STATUS_HIDDEN: '').') '
-             . "$where_string ORDER BY $order $limit_string";
+        $sql .= "$where_string ORDER BY $order $limit_string";
         
         $pages = array();
         
@@ -313,15 +343,24 @@ class FrontPage
 		$where_string = trim($where) == '' ? '' : "AND ".$where;
 		$limit_string = $limit > 0 ? "LIMIT $offset, $limit" : '';
 
+		$statuses = array(self::STATUS_REVIEWED, self::STATUS_PUBLISHED);
+		if($include_hidden)
+		{
+			$statuses[] = self::STATUS_HIDDEN;
+		}
+		
+		$sql = (string) DB::select(array('COUNT("*")', 'total'))
+			->from(array(Page::tableName(), 'page'))
+			->where('published_on', '<=', DB::expr('NOW()'))
+			->where('status_id', 'in', $statuses);
+
 		// Prepare SQL
-		$sql = 'SELECT COUNT(*) AS nb_rows FROM page '
-				. 'WHERE parent_id = '.$this->id.' AND published_on <= NOW() AND (status_id='.self::STATUS_REVIEWED.' OR status_id='.self::STATUS_PUBLISHED.($include_hidden ? ' OR status_id='.self::STATUS_HIDDEN: '').') '
-				. "$where_string ORDER BY $order $limit_string";
+		$sql .= "$where_string ORDER BY $order $limit_string";
 
 		return (int) DB::query(Database::SELECT, $sql)
 			->cached()
 			->execute()
-			->get('nb_rows');
+			->get('total');
 	}
 	
 	public static function findBySlug( $slug, $parent )
@@ -343,21 +382,20 @@ class FrontPage
 			else
 			{
 				$parent_id = $parent ? $parent->id: 0;
+				$statuses = array(self::STATUS_REVIEWED, self::STATUS_PUBLISHED, self::STATUS_HIDDEN);
 				
-				$page = DB::select('page.*', array('author.name', 'author'), array('updator.name', 'updator'))
-					->from('page')
-					->join(array('user', 'author'), 'left')
+				$page = DB::select('page.*')
+					->select(array('author.name', 'author'))
+					->select(array('updator.name', 'updator'))
+					->from(array(Page::tableName(), 'page'))
+					->join(array(User::tableName(), 'author'), 'left')
 						->on('author.id', '=', 'page.created_by_id')
-					->join(array('user', 'updator'), 'left')
+					->join(array(User::tableName(), 'updator'), 'left')
 						->on('updator.id', '=', 'page.updated_by_id')
-					->where('page.slug', '=', $slug)
-					->where('page.parent_id', '=', $parent_id)
+					->where('slug', '=', $slug)
+					->where('parent_id', '=', $parent_id)
 					->where('published_on', '<=', DB::expr('NOW()'))
-					->where_open()
-						->where('status_id', '=', self::STATUS_REVIEWED)
-						->or_where('status_id', '=', self::STATUS_PUBLISHED)
-						->or_where('status_id', '=', self::STATUS_HIDDEN)
-					->where_close()
+					->where('status_id', 'in', $statuses)
 					->limit(1)
 					->cached()
 					->as_object()
@@ -433,19 +471,17 @@ class FrontPage
 	{
 		$page_class = __CLASS__;
 		
-		$page = DB::select('page.*', array('author.name', 'author'), array('updator.name', 'updator'))
-			->from('page')
-			->join(array('user', 'author'), 'left')
+		$page = DB::select('page.*')
+			->select(array('author.name', 'author'))
+			->select(array('updator.name', 'updator'))
+			->from(array(Page::tableName(), 'page'))
+			->join(array(User::tableName(), 'author'), 'left')
 				->on('author.id', '=', 'page.created_by_id')
-			->join(array('user', 'updator'), 'left')
+			->join(array(User::tableName(), 'updator'), 'left')
 				->on('updator.id', '=', 'page.updated_by_id')
 			->where('page.id', '=', $id)
 			->where('published_on', '<=', DB::expr('NOW()'))
-			->where_open()
-				->where('status_id', '=', self::STATUS_REVIEWED)
-				->or_where('status_id', '=', self::STATUS_PUBLISHED)
-				->or_where('status_id', '=', self::STATUS_HIDDEN)
-			->where_close()
+			->where('status_id', 'in', $statuses)
 			->limit(1)
 			->cached()
 			->as_object()
@@ -455,9 +491,13 @@ class FrontPage
 		if( $page )
 		{
 			if ($page->parent_id)
+			{
 				$parent = self::findById($page->parent_id);
+			}
 			else
+			{
 				$parent = NULL;
+			}
 			
 			// hook to be able to redefine the page class with behavior
 			if ( !empty($parent->behavior_id) )
@@ -477,17 +517,23 @@ class FrontPage
 			return FALSE;
 	}
 	
-    public function parent($level=NULL)
+    public function parent($level = NULL)
     {
         if ($level === NULL)
+		{
             return $this->parent;
+		}
         
         if ($level > $this->level)
+		{
             return FALSE;
+		}
         else if ($this->level == $level)
+		{
             return $this;
-        else 
-            return $this->parent->parent($level);
+		}
+        
+		return $this->parent->parent($level);
     }
     
     public function includeSnippet($snippet_name, $vars = NULL, $to_string = FALSE)
@@ -495,10 +541,14 @@ class FrontPage
 		$snippet_file = SNIPPETS_SYSPATH.$snippet_name.EXT;
 		
 		if (!file_exists($snippet_file))
+		{
 			return NULL;
+		}
 
 		if (is_array($vars))
+		{
 			extract($vars);
+		}
 
 		if($to_string)
 		{
@@ -517,17 +567,11 @@ class FrontPage
 		$layout_file = LAYOUTS_SYSPATH.$layout_name.EXT;
 
 		if (!file_exists($layout_file))
+		{
 			throw new Core_Exception('Layout file :file not found!', array(
 				':file' => $layout_name
 			));
-
-		// if content-type not set, we set html as default			
-		if (($p = strpos($layout_name, '.')) !== FALSE && ($ext = substr($layout_name, $p+1)) && isset(Layout::$mimes[$ext]))
-			$content_type = File::mime_by_ext ( $ext );
-		else
-			$content_type = 'text/html';
-
-		Request::current()->response()->headers('Content-Type', $content_type . '; charset=UTF-8');
+		}
 
 		include($layout_file);
 	}
@@ -538,11 +582,15 @@ class FrontPage
 	public function layout()
     {
         if ($this->layout_file)
+		{
             return $this->layout_file;
+		}
         else if ($this->parent)
+		{
             return $this->parent->layout();
-        else
-            return NULL;
+		}
+        
+		return NULL;
     }
 
 	/**
@@ -553,15 +601,17 @@ class FrontPage
     public function getLoginNeeded()
     {
         if ($this->needs_login == self::LOGIN_INHERIT && $this->parent)
+		{
             return $this->parent->getLoginNeeded();
-        else
-            return $this->needs_login;
+		}
+        
+		return $this->needs_login;
     }
     
     private function _loadTags()
     {
 		$this->tags = DB::select('tag.id', 'tag.name')
-			->from('page_tag')
+			->from(array(PageTag::tableName(), 'tag'))
 			->join('tag', 'left')
 				->on('page_tag.page_id', '=', 'tag.id')
 			->where('page_tag.page_id', '=', $this->id)

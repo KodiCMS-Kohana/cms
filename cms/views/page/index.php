@@ -5,14 +5,7 @@
 					
 <div id="pageMap" class="box map">
 	<div class="well page-actions">
-		<form class="form-search pull-right">
-			<div class="input-prepend">
-				<span class="add-on"><?php echo HTML::icon('search'); ?></span><?php echo Form::input('search', __('Find page'), array(
-					'id' => 'pageMapSearchField', 
-					'class' => 'input-medium search-query'
-				)); ?>
-			</div>
-		</form>
+		<?php echo View::factory('page/blocks/search'); ?>
 		
 		<?php echo Form::button(NULL, HTML::icon('move icon-white') . ' ' . __('Reorder'), array(
 			'id' => 'pageMapReorderButton', 'class' => 'btn btn-primary'

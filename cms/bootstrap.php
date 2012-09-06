@@ -83,8 +83,8 @@ Core::init( array(
  */
 Core::modules( array(
 	'database'		=> MODPATH . 'database', // Database access
-	//'auth'			=> MODPATH . 'auth', // Basic authentication
-	//'orm'			=> MODPATH . 'orm', // Object Relationship Mapping
+	'auth'			=> MODPATH . 'auth', // Basic authentication
+	'orm'			=> MODPATH . 'orm', // Object Relationship Mapping
 ) );
 
 

@@ -7,4 +7,4 @@ $settings = array(
 );
 
 // Save plugin settings
-Plugin::setAllSettings($settings, 'search');
+Plugins::setAllSettings($settings, 'search');

@@ -46,8 +46,14 @@
 <div class="well form-inline">
 	<h4><?php echo __('Upload backup file'); ?></h4>
 	<hr />
-	<form enctype='multipart/form-data' method='post' action='<?php echo URL::site('backup/upload'); ?>'> 
-		<input name="file" type="file" id="backup-upload" multiple  />
-		<button class="btn"><?php echo __('Upload'); ?></button>
-	</form>
+	<?php 
+		echo Form::open(URL::site('backup/upload'), array(
+			'enctype' => 'multipart/form-data',
+			'method' => Request::POST
+		));
+		echo Form::hidden('token', Security::token());
+		echo Form::file('file', array('id' => 'backup-upload'));
+		echo Form::button('upload', __('Upload'), array('class' => 'btn'));
+		echo Form::close(); 
+	?>
 </div>

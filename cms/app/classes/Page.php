@@ -2,7 +2,7 @@
 
 class Page extends Record
 {
-    const TABLE_NAME = 'page';
+    const TABLE_NAME = 'pages';
     
     const STATUS_DRAFT = 1;
     const STATUS_REVIEWED = 50;
@@ -32,8 +32,9 @@ class Page extends Record
     public $updated_by_id;
     public $position;
     public $needs_login;
-    
-    public function beforeInsert()
+
+
+	public function beforeInsert()
     {		
         $this->created_on = date('Y-m-d H:i:s');
         $this->created_by_id = AuthUser::getId();
@@ -46,7 +47,7 @@ class Page extends Record
         
 		if ($this->position == 0)
 		{
-			$last_position = DB::select(array('MAX("page.position")', 'pos'))
+			$last_position = DB::select(array('MAX("position")', 'pos'))
 				->from(self::TABLE_NAME)
 				->where('parent_id', '=', $this->parent_id)
 				->execute()
@@ -55,16 +56,16 @@ class Page extends Record
 			$this->position = ((int) $last_position) + 1;
 		}
 		
-        return true;
+        return TRUE;
     }
 	
 	public function afterInsert()
 	{
-		$page = DB::select('page.id')
+		$page = DB::select('id')
 			->from(self::TABLE_NAME)
-			->where('page.id', '<>', $this->id)
-			->where('page.slug', '=', $this->slug)
-			->where('page.parent_id', '=', $this->parent_id)
+			->where('id', '<>', $this->id)
+			->where('slug', '=', $this->slug)
+			->where('parent_id', '=', $this->parent_id)
 			->execute()
 			->get('id');
 		
@@ -72,14 +73,14 @@ class Page extends Record
 		{
 			DB::update(self::TABLE_NAME)
 				->set(array(
-					'slug' => DB::expr('CONCAT(page.slug, "-", page.id)')
+					'slug' => DB::expr('CONCAT(slug, "-", id)')
 				))
 				->where('id', '=', $this->id)
 				->where('parent_id', '=', $this->parent_id)
 				->execute();
 		}
 		
-		return true;
+		return TRUE;
 	}
     
     public function beforeUpdate()
@@ -92,7 +93,7 @@ class Page extends Record
         $this->updated_by_id = AuthUser::getId();
         $this->updated_on = date('Y-m-d H:i:s');
         
-        return true;
+        return TRUE;
     }
 	
 	public function afterUpdate()
@@ -104,25 +105,17 @@ class Page extends Record
 	{
 		// need to delete subpages
 		self::deleteByParentId($this->id);
-		
-		DB::delete('page_permission')
-			->where('page_id', '', $this->id)
-			->execute();
-		
-		DB::delete('page_tag')
-			->where('page_id', '', $this->id)
-			->execute();
 
-		return true;
+		return TRUE;
 	}
 
     public function getUri()
     {
-        $result = null;
+        $result = NULL;
 
         $parent = $this->findById($this->parent_id);
 		
-        if( $parent != null && $parent->slug != '' )
+        if( $parent != NULL && $parent->slug != '' )
 		{
             $result = $parent->getUri().'/'.$this->slug;
         }
@@ -139,11 +132,13 @@ class Page extends Record
         $tablename_page_tag = self::tableName('PageTag');
         $tablename_tag = self::tableName('Tag');
 		
-		return DB::select(array('tag.id', 'id'), array('tag.name', 'tag'))
-			->from(array($tablename_page_tag, 'page_tag'))
-			->join(array($tablename_tag, 'tag'), 'left')
-				->on('page_tag.tag_id', '=', 'tag.id')
-			->where('page_tag.page_id', '=', $this->id)
+		return DB::select(array('tags.id', 'id'), array('tags.name', 'tag'))
+			->from(array($tablename_page_tag, 'page_tags'))
+			->join(array($tablename_tag, 'tags'), 'left')
+				->on('page_tags.tag_id', '=', 'tags.id')
+			->where('page_tags.page_id', '=', $this->id)
+			->cache_key( 'page_tags' )
+			->cached()
 			->execute()
 			->as_array('id', 'tag');
     }
@@ -151,7 +146,9 @@ class Page extends Record
     public function saveTags($tags)
     {
         if( is_string($tags) )
+		{
             $tags = explode(',', $tags);
+		}
         
         $tags = array_map('trim', $tags);
         
@@ -164,12 +161,10 @@ class Page extends Record
         // delete all tags
         if( count($tags) == 0 )
         {
-            $tablename = self::tableName('Tag');
-            
             // update count (-1) of those tags
             foreach( $current_tags as $tag )
 			{
-				DB::update($tablename)
+				DB::update(Tag::tableName())
 					->set(array('count' => DB::expr('count - 1')))
 					->where('name', '=', $tag)
 					->execute();
@@ -214,7 +209,7 @@ class Page extends Record
         }
     }
     
-    public static function find($args = null)
+    public static function find($args = NULL)
     {
         // Collect attributes...
         $where    = isset($args['where']) ? trim($args['where']) : '';
@@ -229,12 +224,18 @@ class Page extends Record
         
         $tablename = self::tableName('Page');
         $tablename_user = self::tableName('User');
+		
+		$sql = (string) DB::select('page.*')
+			->select(array('author.name', 'created_by_name'))
+			->select(array('updator.name', 'updated_by_name'))
+			->from(array(Page::tableName(), 'page'))
+			->join(array(User::tableName(), 'author'), 'left')
+				->on('author.id', '=', 'page.created_by_id')
+			->join(array(User::tableName(), 'updator'), 'left')
+				->on('updator.id', '=', 'page.updated_by_id');
         
         // Prepare SQL
-        $sql = "SELECT page.*, creator.name AS created_by_name, updator.name AS updated_by_name FROM $tablename AS page
-               LEFT JOIN $tablename_user AS creator ON page.created_by_id = creator.id
-               LEFT JOIN $tablename_user AS updator ON page.updated_by_id = updator.id
-               $where_string $order_by_string $limit_string";
+        $sql .= "$where_string $order_by_string $limit_string";
 		
 		$query = DB::query(Database::SELECT, $sql)
 			->as_object(__CLASS__)
@@ -251,7 +252,7 @@ class Page extends Record
         }
     }
     
-    public static function findAll($args = null)
+    public static function findAll($args = NULL)
     {
         return self::find($args);
     }
@@ -275,7 +276,7 @@ class Page extends Record
     
     public static function childrenOf($id)
     {
-        return self::find(array('where' => 'parent_id='.$id, 'order' => 'position DESC, page.created_on DESC'));
+        return self::find(array('where' => 'parent_id = '.$id, 'order' => 'position DESC, page.created_on DESC'));
     }
     
     public static function hasChildren($id)
@@ -292,7 +293,7 @@ class Page extends Record
         $clone = Record::findByIdFrom('Page', $page->id);
 		
         $clone->parent_id = (int)$parent_id;
-        $clone->id        = null;
+        $clone->id        = NULL;
         $clone->title    .= ' (copy)';
         $clone->slug     .= '-copy';
         
@@ -306,20 +307,24 @@ class Page extends Record
             foreach( $page_part as $part )
 			{
                 $part->page_id = $clone->id;
-                $part->id = null;
+                $part->id = NULL;
                 $part->save();
             }
         }
         
         /* This gets set only once even when called recursively. */
         if ( !$new_SYSPATH_id )
+		{
             $new_SYSPATH_id = $clone->id;
+		}
 
         /* Clone and update childrens parent_id to clones new id. */
         if ( Page::hasChildren($page->id) )
 		{
             foreach( Page::childrenOf($page->id) as $child )
+			{
                 Page::cloneTree($child, $clone->id);
+			}
         }
         
         return $new_SYSPATH_id;
@@ -329,7 +334,7 @@ class Page extends Record
 	{
 		$pages = self::findAllFrom('Page', 'parent_id = ' . $parent_id);
 		
-		$result = true;
+		$result = TRUE;
 		
 		foreach ($pages as $page)
 		{
@@ -353,20 +358,11 @@ class Page extends Record
 		
 		if (empty($permissions[$this->id]))
 		{
-			$sql = 'SELECT
-				permission.id,
-				permission.name
-			FROM (
-				'.TABLE_PREFIX.'page_permission AS page_permission
-			LEFT JOIN
-				'.TABLE_PREFIX.'permission AS permission
-			ON
-				page_permission.permission_id = permission.id
-			)
-			WHERE
-				page_permission.page_id = '. $this->id;
-			
-			$query = DB::query(Database::SELECT, $sql)
+			$query = DB::select('role.id', 'role.name')
+				->from(array(PageRole::tableName(), 'page_roles'))
+				->join(array(Permission::tableName(), 'role'), 'left')
+					->on('page_roles.role_id', '=','role.id')
+				->where('page_roles.page_id', '=', $this->id)
 				->as_object()
 				->execute();
 			
@@ -390,11 +386,11 @@ class Page extends Record
 	public function savePermissions( $permissions )
 	{		
 		// get permissions that already stored in database		
-		$perms_in_table = DB::select('permission.name')
-			->from( 'page_permission')
-			->join('permission', 'left')
-				->on('page_permission.permission_id', '=', 'permission.id')
-			->where( 'page_id', '=', $this->id )
+		$perms_in_table = DB::select('role.name')
+			->from(array(PageRole::tableName(), 'page_roles'))
+			->join(array(Permission::tableName(), 'role'), 'left')
+				->on('page_roles.role_id', '=', 'role.id')
+			->where( 'page_roles.page_id', '=', $this->id )
 			->execute()
 			->as_array(NULL, 'name');
 
@@ -404,11 +400,12 @@ class Page extends Record
 		// add new ralates to page_permission
 		foreach ($new_perms as $permission_name)
 		{
-			$select = DB::select('id')->from('permission')
+			$select = DB::select('id')
+				->from(Permission::tableName())
 				->where('name', '=', $permission_name);
 
-			DB::insert('page_permission')
-				->columns(array('page_id', 'permission_id'))
+			DB::insert(PageRole::tableName())
+				->columns(array('page_id', 'role_id'))
 				->values(array($this->id, $select))
 				->execute();
 		}
@@ -416,12 +413,13 @@ class Page extends Record
 		// remove old relatives from page_permission
 		foreach ($del_perms as $permission_name)
 		{
-			$select = DB::select('id')->from('permission')
+			$select = DB::select('id')
+				->from(Permission::tableName())
 				->where('name', '=', $permission_name);
 
-			DB::delete('page_permission')
+			DB::delete(PageRole::tableName())
 				->where('page_id', '=', $this->id)
-				->where('permission_id', '=', $select)
+				->where('role_id', '=', $select)
 				->execute();
 		}
 	}

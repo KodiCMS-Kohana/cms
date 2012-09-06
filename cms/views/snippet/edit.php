@@ -1,4 +1,4 @@
-<?php defined('SYSPATH') or die('No direct access allowed.');
+<?php
 $uri = ($action == 'edit') ? URL::site('admin/snippet/edit/'. $snippet->name) : URL::site('admin/snippet/add/' . $snippet->name);
 ?>
 <div class="page-header">
@@ -6,7 +6,8 @@ $uri = ($action == 'edit') ? URL::site('admin/snippet/edit/'. $snippet->name) : 
 </div>
 
 <?php echo Form::open($uri, array('id' => 'snippetEditForm', 'class' => 'form-horizontal')); ?>
-	<fieldset>
+
+	<?php echo Form::hidden('token', Security::token()); ?>
 		<div class="control-group">
 			<label class="control-label title" for="snippetEditNamelabel"><?php echo __('Snippet name'); ?></label>
 			<div class="controls">
@@ -26,7 +27,6 @@ $uri = ($action == 'edit') ? URL::site('admin/snippet/edit/'. $snippet->name) : 
 					'wrap'			=> 'off'
 				)); ?>
 		</div>
-	</fieldset>
 	<div class="form-actions">
 		<?php echo Form::actions($page_name); ?>
 	</div>
