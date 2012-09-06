@@ -41,7 +41,7 @@ return array
 			 * boolean  persistent  use persistent connections?
 			 */
 			'dsn'        => 'mysql:host=localhost;dbname=kohana',
-			'username'   => 'SYSPATH',
+			'username'   => 'root',
 			'password'   => 'r00tdb',
 			'persistent' => FALSE,
 		),

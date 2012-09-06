@@ -19,7 +19,7 @@ class Controller_Install extends Controller {
 
 		if ( !isset( $_POST['install'] ) )
 		{
-			throw new Core_Exception( 'Install data not found!' );
+			throw new  Kohana_Exception( 'Install data not found!' );
 		}
 
 		$post = $_POST['install'];
@@ -70,7 +70,7 @@ class Controller_Install extends Controller {
 
 		if ( !file_exists( $schema_file ) )
 		{
-			throw new Core_Exception( 'Database schema file not found!' );
+			throw new  Kohana_Exception( 'Database schema file not found!' );
 		}
 
 		// Create tables
@@ -90,7 +90,7 @@ class Controller_Install extends Controller {
 
 		if ( !file_exists( $dump_file ) )
 		{
-			throw new Core_Exception( 'Database dump file not found!' );
+			throw new  Kohana_Exception( 'Database dump file not found!' );
 		}
 
 		// Insert SQL dump
@@ -141,7 +141,7 @@ class Controller_Install extends Controller {
 
 		if ( !file_put_contents( APPPATH . 'config' . EXT, $tpl_content ) !== false )
 		{
-			throw new Core_Exception( 'Can\'t write config.php file!' );
+			throw new  Kohana_Exception( 'Can\'t write config.php file!' );
 		}
 	}
 

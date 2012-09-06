@@ -76,8 +76,9 @@ class Controller_Layout extends Controller_System_Backend {
 		}
 	}
 
-	function action_edit( $layout_name )
+	function action_edit( )
 	{
+		$layout_name = $this->request->param('id');
 		$layout = new Model_File_Layout( $layout_name );
 		
 		$this->template->breadcrumbs = array(
@@ -129,10 +130,10 @@ class Controller_Layout extends Controller_System_Backend {
 		}
 	}
 
-	function action_delete( $layout_name )
+	function action_delete( )
 	{
-
 		$this->auto_render = FALSE;
+		$layout_name = $this->request->param('id');
 
 		$layout = new Model_File_Layout( $layout_name );
 

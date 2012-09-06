@@ -14,13 +14,5 @@ define('ADMIN_DIR_NAME', 'admin');
 // Add a suffix to pages (simluating static pages '.html')
 define('URL_SUFFIX', '.html');
 
-// Set the timezone of your choice.
-// Go here for more information on the available timezones:
-// http://php.net/timezones
-define('DEFAULT_TIMEZONE', 'Europe/Helsinki');
-
 // Default system locale
 define('DEFAULT_LOCALE', 'ru');
-
-//admin
-//1235d556dK

@@ -76,7 +76,7 @@ class Controller_Backup extends Controller_System_Plugin {
 
 		if(!file_exists(BACKUP_PLUGIN_FOLDER.$file))
 		{
-			throw new Core_Exception('File :file not exist', array(':file' => $file));
+			throw new  Kohana_Exception('File :file not exist', array(':file' => $file));
 		}
 		
 		unlink(BACKUP_PLUGIN_FOLDER.$file);

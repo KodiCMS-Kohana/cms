@@ -1,29 +1,7 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
-/**
- * Default auth role
- *
- * @package    Kohana/Auth
- * @author     Kohana Team
- * @copyright  (c) 2007-2009 Kohana Team
- * @license    http://kohanaphp.com/license.html
- */
-class Model_Role extends ORM {
 
-	// Relationships
-	protected $_has_many = array('users' => array('through' => 'roles_users'));
+class Model_Role extends Model_Auth_Role {
 
-	public function rules()
-	{
-		return array(
-			'name' => array(
-				array('not_empty'),
-				array('min_length', array(':value', 4)),
-				array('max_length', array(':value', 32)),
-			),
-			'description' => array(
-				array('max_length', array(':value', 255)),
-			)
-		);
-	}
+	// This class can be replaced or extended
 
-} // End Auth Role Model
+} // End Role Model

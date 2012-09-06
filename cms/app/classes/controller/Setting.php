@@ -32,10 +32,4 @@ class Controller_Setting extends Controller_System_Backend {
 		$this->go( URL::site( 'setting' ) );
 	}
 
-	// For backward compatibility
-	public function getLanguages()
-	{
-		return I18n::getLanguages();
-	}
-
 }// end SettingController class

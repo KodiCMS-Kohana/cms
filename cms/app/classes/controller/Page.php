@@ -10,8 +10,10 @@ class Controller_Page extends Controller_System_Backend {
 		) );
 	}
 
-	public function action_add( $parent_id = 1 )
+	public function action_add( )
 	{
+		$parent_id = $this->request->param('id', 1);
+
 		// check if trying to save
 		if ( Request::current()->method() == Request::POST )
 		{
@@ -36,19 +38,19 @@ class Controller_Page extends Controller_System_Backend {
 		if ( empty( $page_parts ) )
 		{
 			// check if we have a big sister ...
-			$big_sister = Record::findOneFrom( 'Page', 'parent_id=? ORDER BY id DESC', array( $parent_id ) );
+			$big_sister = Record::findOneFrom( 'Page', 'parent_id = :parent_id ORDER BY id DESC', array(':parent_id' =>  $parent_id ) );
 			if ( $big_sister )
 			{
 				// get all is part and create the same for the new little sister
-				$big_sister_parts = Record::findAllFrom( 'PagePart', 'page_id=? ORDER BY id', array( $big_sister->id ) );
+				$big_sister_parts = Record::findAllFrom( 'PagePart', 'page_id = :page_id ORDER BY id', array( ':page_id' => $big_sister->id ) );
 				$page_parts = array( );
 				foreach ( $big_sister_parts as $parts )
 				{
 					$page_parts[] = new PagePart( array(
-								'name' => $parts->name,
-								'filter_id' => Setting::get( 'default_filter_id' ),
-								'is_protected' => $parts->is_protected
-							) );
+						'name' => $parts->name,
+						'filter_id' => Setting::get( 'default_filter_id' ),
+						'is_protected' => $parts->is_protected
+					) );
 				}
 			}
 			else
@@ -174,8 +176,10 @@ class Controller_Page extends Controller_System_Backend {
 		echo $this->_getPartView( $data['index'], $data['name'], Setting::get( 'default_filter_id' ) );
 	}
 
-	public function action_edit( $page_id )
+	public function action_edit( )
 	{
+		$page_id = $this->request->param('id');
+
 		$page = Page::findById( $page_id );
 
 		if ( !$page )
@@ -330,9 +334,10 @@ class Controller_Page extends Controller_System_Backend {
 	 *
 	 * @param int $id Id of page to delete
 	 */
-	public function action_delete( $page_id )
+	public function action_delete( )
 	{
 		$this->auto_render = FALSE;
+		$page_id = $this->request->param('id');
 
 		// security (dont delete the SYSPATH page)
 		if ( $page_id > 1 )
@@ -413,9 +418,10 @@ class Controller_Page extends Controller_System_Backend {
 	 * all the child of the new page->parent_id have to be updated
 	 * and all nested tree has to be rebuild
 	 */
-	public function action_reorder( $parent_id )
+	public function action_reorder( )
 	{
 		$this->auto_render = FALSE;
+		$parent_id = Arr::get($_POST, 'parent_id', 0);
 
 		if ( !empty( $_POST['pages'] ) )
 		{
@@ -434,9 +440,11 @@ class Controller_Page extends Controller_System_Backend {
 	/**
 	 * Ajax action to copy a page or page tree
 	 */
-	public function action_copy( $parent_id )
+	public function action_copy( )
 	{
 		$this->auto_render = FALSE;
+		
+		$parent_id = Arr::get($_POST, 'parent_id', 0);
 
 		if ( !empty( $_POST['pages'] ) )
 		{

@@ -101,7 +101,7 @@ class FrontPage
 					$options['class'] = '';
 				}
 
-				$options['class'] .= ' active';
+				$options['class'] .= ' current';
 			}
 		}
         
@@ -131,30 +131,30 @@ class FrontPage
 		}
     }
     
-    public function breadcrumbs($separator='&gt;', $level = 0)
+    public function breadcrumbs($level = 0)
     {
-        $url = '';
-        $path = '';
-        $paths = explode('/', '/'.$this->slug);
-        $nb_path = count($paths);
-        
-        $out = '<div class="breadcrumb">'."\n";
-        
+		$pages = array();
+		
         if ($this->parent && $this->level > $level)
-            $out .= $this->parent->_inversedBreadcrumbs($separator, $level);
+		{
+			$pages[] = Arr::merge($this->parent->_recurse_breadcrumbs($level), $pages);
+		}
+		
+		$pages[] = $this->breadcrumb;
         
-        return $out . '<span class="breadcrumb-current">'.$this->breadcrumb().'</span></div>'."\n";
-        
+        return $pages;
     }
 	
-	private function _inversedBreadcrumbs($separator, $level)
+	private function _recurse_breadcrumbs($level)
     {
-        $out = '<a href="'.$this->url().'" title="'.$this->breadcrumb.'">'.$this->breadcrumb.'</a> <span class="breadcrumb-separator">'.$separator.'</span> '."\n";
+        $pages[] = $this->link($this->breadcrumb, array(), FALSE);
     
         if ($this->parent && $this->level > $level)
-            return $this->parent->_inversedBreadcrumbs($separator, $level) . $out;
+		{
+            $pages = Arr::merge($this->parent->_recurse_breadcrumbs($level), $pages);
+		}
         
-        return $out;
+        return $pages;
     }
     
     public function hasContent($part, $inherit = FALSE)
@@ -568,7 +568,7 @@ class FrontPage
 		$layout = new Model_File_Layout($layout_name);
 		if(!$layout->is_exists())
 		{
-			throw new Core_Exception('Layout file :file not found!', array(
+			throw new  Kohana_Exception('Layout file :file not found!', array(
 				':file' => $layout_name
 			));
 		}

@@ -59,7 +59,7 @@ class Behavior
             }
             else
             {
-				throw new Core_Exception('ehavior :behavior not found!', array(
+				throw new  Kohana_Exception('ehavior :behavior not found!', array(
 					':behavior' => $behavior_id
 				));
             }

@@ -56,7 +56,7 @@ class Filter {
 
 				if ( !file_exists( $file ) )
 				{
-					throw new Core_Exception( 'Filter file of filter :filter not found!', array(
+					throw new  Kohana_Exception( 'Filter file of filter :filter not found!', array(
 						':filter' => $filter_id
 					) );
 				}

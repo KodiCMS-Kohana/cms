@@ -48,7 +48,7 @@
 				</aside><!--/#sidebar-->
 				<section id="content">
 					
-					<?php if($this->slug) echo($this->breadcrumbs(' &raquo; ')); ?>
+					<?php if($this->slug) print_r($this->breadcrumbs()); ?>
 					
 					<h1><?php echo $this->title(); ?></h1>
 					

@@ -69,8 +69,9 @@ class Controller_Snippet extends Controller_System_Backend {
 		}
 	}
 
-	public function action_edit( $snippet_name )
+	public function action_edit( )
 	{
+		$snippet_name = $this->request->param('id');
 		$snippet = new Model_File_Snippet( $snippet_name );
 
 		if ( !$snippet->is_exists() )
@@ -127,9 +128,10 @@ class Controller_Snippet extends Controller_System_Backend {
 		}
 	}
 
-	public function action_delete( $snippet_name )
+	public function action_delete( )
 	{
 		$this->auto_render = FALSE;
+		$snippet_name = $this->request->param('id');
 
 		$snippet = new Model_File_Snippet( $snippet_name );
 
