@@ -2,7 +2,7 @@
 
 class Controller_Login extends Controller_System_Template {
 
-	public $template = 'layouts/login';
+	public $template = 'layouts/frontend';
 
 	public function before()
 	{
@@ -29,15 +29,16 @@ class Controller_Login extends Controller_System_Template {
 			return $this->_login();
 		}
 
-		$this->template->content = View::factory( 'login/login' );
+		$this->template->content = View::factory( 'system/login' );
+		
+		$this->template->content->install_data = Session::instance()->get('install_data');
 	}
 
 	private function _login()
 	{
-		$array = $_POST['login'];
+		$array = Arr::get($_POST, 'login', array());
 
-		$fieldname = Valid::email( $array['username'] ) ? 'email' : 'username';
-
+		$fieldname = Valid::email( Arr::get($array, 'username') ) ? 'email' : 'username';
 
 		$array = Validation::factory( $array )
 			->label( 'username', 'Username / Email' )
@@ -59,6 +60,8 @@ class Controller_Login extends Controller_System_Template {
 			if ( AuthUser::login( $array['username'], $array['password'], $remember ) )
 			{
 				Observer::notify( 'admin_login_success', array( $array['username'] ) );
+
+				Session::instance()->delete('install_data');
 
 				// $this->go to defaut controller and action
 				$this->go_backend();
@@ -93,7 +96,7 @@ class Controller_Login extends Controller_System_Template {
 			$this->_forgot(Arr::path($_POST, 'forgot.email'));
 		}
 
-		$this->template->content = View::factory( 'login/forgot' );
+		$this->template->content = View::factory( 'system/forgot' );
 	}
 
 	private function _forgot($email)
@@ -116,7 +119,7 @@ class Controller_Login extends Controller_System_Template {
 			$user->password = sha1($new_pass);
 			$user->save();
 
-			$message = new View('login/email', array(
+			$message = new View('messages/forgot_emil', array(
 				'username' => $user->username,
 				'password' => $new_pass
 			));

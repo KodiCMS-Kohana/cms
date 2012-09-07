@@ -97,7 +97,7 @@ Kohana::init( array(
 	'index_file'		=> FALSE,
 	'caching'			=> Kohana::$environment === Kohana::PRODUCTION,
 	'profile'			=> Kohana::$environment !== Kohana::PRODUCTION,
-	'errors'			=> Kohana::$environment === Kohana::PRODUCTION
+	'errors'			=> TRUE
 ) );
 
 
@@ -110,7 +110,7 @@ I18n::lang('ru');
 
 
 Route::set( 'error', 'system/error(/<code>(/<message>))', array(
-		'message' => '.+',
+		'message' => '.*',
 		'code' => '[0-9]+'
 	) )
 	->defaults( array(

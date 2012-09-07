@@ -46,6 +46,7 @@ class Controller_System_Security extends Controller_System_Controller {
 		{
 			return FALSE;
 		}
+
 		return AuthUser::hasPermission( $role );
 	}
 	

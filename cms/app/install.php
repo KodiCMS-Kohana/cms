@@ -32,6 +32,7 @@ Kohana::$config->attach(new Config_File);
 
 Route::set( 'install', 'install(/<action>(/<id>))' )
 	->defaults( array(
+		'directory' => 'system',
 		'controller' => 'install',
 		'action' => 'index',
 	) );

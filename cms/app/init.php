@@ -62,7 +62,7 @@ Route::set( 'plugins', ADMIN_DIR_NAME.'/(<controller>(/<action>(/<id>)))', array
 		'action' => 'index',
 	) );
 
-Route::set( 'admin', ADMIN_DIR_NAME.'/(<controller>(/<action>(/<id>)))' )
+Route::set( 'admin', ADMIN_DIR_NAME.'/(<controller>(/<action>(/<id>)))')
 	->defaults( array(
 		'controller' => Setting::get('default_tab'),
 		'action' => 'index',

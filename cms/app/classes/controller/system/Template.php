@@ -60,7 +60,7 @@ class Controller_System_Template extends Controller_System_Security
 
 		if ($this->auto_render === TRUE)
 		{
-			$this->template->messages = View::factory('layouts/messages', array(
+			$this->template->messages = View::factory('layouts/blocks/messages', array(
 				'messages' => Messages::get() 
 			));
 

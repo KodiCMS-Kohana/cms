@@ -4,7 +4,13 @@ class URL extends Kohana_URL {
 
 	public static function site( $uri = '', $protocol = NULL, $index = TRUE )
 	{
-		if ( IS_BACKEND AND !URL::math( 'admin', $uri ) )
+		if ( 
+			IS_BACKEND
+		AND 
+			IS_INSTALLED 
+		AND 
+			!URL::math( 'admin', $uri ) 
+		)
 		{
 			$uri = 'admin/' . ltrim( $uri, '/');
 		}

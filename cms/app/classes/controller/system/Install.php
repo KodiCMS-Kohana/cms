@@ -1,24 +1,19 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct access allowed.' );
 
-class Controller_Install extends Controller_System_Controller {
+class Controller_System_Install extends Controller_System_Template {
 
-	public $template = 'layouts/install';
-	
-	public function before()
-	{
-		parent::before();
-
-		$this->template = View::factory( $this->template );
-	}
+	public $template = 'layouts/frontend';
 
 	public function action_index()
 	{
-		$this->template->data = Session::instance()->get( 'install_data', array( ) );
+		$this->template->content = View::factory('system/install', array(
+			'data' => Session::instance()->get( 'install_data', array( ) )
+		));
 	}
 
 	public function action_go()
 	{
-		$this->template = NULL;
+		$this->auto_render = FALSE;
 
 		if ( !isset( $_POST['install'] ) )
 		{
@@ -69,17 +64,11 @@ class Controller_Install extends Controller_System_Controller {
 			$this->go_back();
 		}
 		
-		//$this->_import_shema($post, $db);
-		//$this->_import_dump($post, $db);
-		//$this->_create_config($post);
+		$this->_import_shema($post, $db);
+		$this->_import_dump($post, $db);
+		$this->_create_config($post);
 		
-		$this->go('install/complete');
-		
-	}
-	
-	public function action_complete()
-	{
-		
+		$this->go('admin/login');
 	}
 
 	protected function _import_shema($post, $db)
@@ -183,22 +172,5 @@ class Controller_Install extends Controller_System_Controller {
 				continue;
 			}
 		}
-	}
-
-	/**
-	 * Assigns the template [View] as the request response.
-	 */
-	public function after()
-	{
-		parent::after();
-
-		if($this->template !== NULL)
-		{
-			$this->template->messages = View::factory('layouts/messages', array(
-				'messages' => Messages::get() 
-			));
-		}
-
-		$this->response->body( $this->template );
 	}
 }

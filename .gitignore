@@ -5,3 +5,6 @@ wiki/*
 nbproject/*
 /cms/cache/
 /cms/logs/
+/config.php
+/cms/app/cache/
+/cms/app/logs/
