@@ -18,7 +18,7 @@ class UserPermission extends Record
         foreach ($perms as $perm_name => $perm_id)
         {
 			DB::insert(self::tableName())
-				->columns(array('user_id,', 'role_id'))
+				->columns(array('user_id', 'role_id'))
 				->values(array((int) $user_id, (int) $perm_id))
 				->execute();
         }

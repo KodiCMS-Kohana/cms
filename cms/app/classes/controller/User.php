@@ -149,6 +149,7 @@ class Controller_User extends Controller_System_Backend {
 	private function _edit( $id )
 	{
 		$data = $_POST['user'];
+		$this->auto_render = false;
 
 		// check if user want to change the password
 		if ( strlen( $data['password'] ) > 0 )
@@ -175,10 +176,12 @@ class Controller_User extends Controller_System_Backend {
 
 		if ( $user->save() )
 		{
+			
+
 			if ( AuthUser::hasPermission( 'administrator' ) )
 			{
 				// now we need to add permissions
-				$data = isset( $_POST['user_permission'] ) ? $_POST['user_permission'] : array( );
+				$data = Arr::get($_POST, 'user_permission', array());
 				UserPermission::setPermissionsFor( $user->id, $data );
 			}
 

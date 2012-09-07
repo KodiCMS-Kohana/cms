@@ -9,6 +9,15 @@
 	<?php echo Form::hidden('token', Security::token()); ?>
 
 	<div class="control-group">
+		<label class="control-label" for="userEditNameField"><?php echo __('Name'); ?></label>
+		<div class="controls">
+			<?php echo Form::input('user[name]', $user->name, array(
+				'class' => 'input-xlarge', 'id' => 'userEditNameField'
+			)); ?>
+		</div>
+	</div>
+	
+	<div class="control-group">
 		<label class="control-label" for="userEditEmailField"><?php echo __('E-mail'); ?></label>
 		<div class="controls">
 			<?php echo Form::input('user[email]', $user->email, array(

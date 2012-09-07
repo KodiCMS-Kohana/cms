@@ -22,7 +22,7 @@ class Record
         }
     }
     
-    public function __construct($data=false, $exclude = array())
+    public function __construct($data=FALSE, $exclude = array())
     {
         if (is_array($data))
 		{
@@ -48,7 +48,7 @@ class Record
      */
     public function save()
     {
-        if ( ! $this->beforeSave()) return false;
+        if ( ! $this->beforeSave()) return FALSE;
         
 		$data = array();
 		$columns = $this->getColumns();
@@ -62,9 +62,10 @@ class Record
 			}
 		}
 
-        if( empty($this->id) )
-		{            
-            if ( ! $this->beforeInsert()) return false;
+        if( !$this->id )
+		{
+			
+            if ( ! $this->beforeInsert()) return FALSE;
 
 			$return = DB::insert(self::tableName())
 				->columns(array_keys($data))
@@ -73,20 +74,23 @@ class Record
 
             $this->id = $return[0]; 
              
-            if ( ! $this->afterInsert()) return false;
+            if ( ! $this->afterInsert()) return FALSE;
         }
 		else
 		{
-            if ( ! $this->beforeUpdate()) return false;
+            if ( ! $this->beforeUpdate()) return FALSE;
             
             unset($data['id']);
 			
-			$return = DB::update(self::tableName())
+			
+			DB::update(self::tableName())
 				->set($data)
 				->where( 'id', '=', $this->id )
 				->execute();
+			
+			$return = TRUE;
             
-            if( ! $this->afterUpdate() ) return false;
+            if( ! $this->afterUpdate() ) return FALSE;
         }
         
         // Run it !!...
@@ -102,7 +106,7 @@ class Record
      */
     public function delete()
     {
-        if ( ! $this->beforeDelete()) return false;
+        if ( ! $this->beforeDelete()) return FALSE;
 		
 		$return = DB::delete(self::tableName())
 			->where('id', '=', $this->id )
@@ -111,7 +115,7 @@ class Record
         if ( ! $this->afterDelete()) 
 		{
             $this->save();
-            return false;
+            return FALSE;
         }
 
         return $return;
@@ -170,7 +174,7 @@ class Record
 			->current();
 	}
 
-	public static function findAllFrom($class_name, $where=false, $values=array())
+	public static function findAllFrom($class_name, $where=FALSE, $values=array())
 	{
 		$sql = 'SELECT * FROM '.self::tableName($class_name).($where ? ' WHERE '.$where:'');
 
@@ -181,7 +185,7 @@ class Record
 			->as_array();
 	}
 
-	public static function countFrom($class_name, $where=false, $values=array())
+	public static function countFrom($class_name, $where=FALSE, $values=array())
 	{
 		$sql = 'SELECT COUNT(*) AS nb_rows FROM '.self::tableName($class_name).($where ? ' WHERE '.$where:'');
 
@@ -190,12 +194,12 @@ class Record
 			->get('nb_rows', 0);
 	}
 
-	public function beforeSave() { return true; }
-    public function beforeInsert() { return true; }
-    public function beforeUpdate() { return true; }
-    public function beforeDelete() { return true; }
-    public function afterSave() { return true; }
-    public function afterInsert() { return true; }
-    public function afterUpdate() { return true; }
-    public function afterDelete() { return true; }
+	public function beforeSave() { return TRUE; }
+    public function beforeInsert() { return TRUE; }
+    public function beforeUpdate() { return TRUE; }
+    public function beforeDelete() { return TRUE; }
+    public function afterSave() { return TRUE; }
+    public function afterInsert() { return TRUE; }
+    public function afterUpdate() { return TRUE; }
+    public function afterDelete() { return TRUE; }
 }
