@@ -49,6 +49,11 @@ class AuthUser {
 		{
 			return TRUE;
 		}
+		
+		if(!is_array( $permissions ))
+		{
+			$permissions = explode(',', $permissions);
+		}
 
 		return self::getRecord() ? self::getRecord()->has_role($permissions, FALSE) : FALSE;
 	}

@@ -167,7 +167,6 @@ class Controller_Page extends Controller_System_Backend {
 	public function action_add_part()
 	{
 		$this->auto_render = FALSE;
-		header( 'Content-Type: text/html; charset: utf-8' );
 
 		$data = isset( $_POST ) ? $_POST : array( );
 		$data['name'] = isset( $data['name'] ) ? trim( $data['name'] ) : '';
@@ -540,14 +539,13 @@ class Controller_Page extends Controller_System_Backend {
 
 	private function _getPartView( $index = 1, $name = '', $filter_id = '', $content = '' )
 	{
-		$this->layout = NULL;
 		$page_part = new PagePart( array(
 			'name' => $name,
 			'filter_id' => $filter_id,
 			'content' => $content
 		) );
 
-		return $this->render( 'page/part_edit', array(
+		echo View::factory('page/blocks/part_edit', array(
 			'index' => $index,
 			'page_part' => $page_part
 		) );

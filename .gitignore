@@ -1,10 +1,5 @@
-cache/*
-logs/*
-temp/*
 wiki/*
 nbproject/*
-/cms/cache/
-/cms/logs/
 /config.php
-/cms/app/cache/
-/cms/app/logs/
+/cms/app/cache/*.php
+/cms/app/logs/*.php

@@ -102,35 +102,12 @@ if ($pagetmp != null && !empty($pagetmp) && $parttmp != null && !empty($parttmp)
 							<?php endif; ?>
 						</div>
 					</div><!--/#pageEditMeta-->
-
-					<div id="pageEditParts">
-
-						<?php
-							$index = 1;
-
-							foreach ($page_parts as $page_part)
-							{
-								echo new View(
-									'page/part_edit',
-									array(
-										'index'       => $index,
-										'page_part'   => $page_part,
-										'permissions' => $permissions
-									)
-								);
-								$index++; 
-							}
-						?>
-
-					</div><!--/#pageEditParts-->
-					<div class="clearfix"></div>
-					<?php if (AuthUser::hasPermission(array('administrator','developer'))): ?>
-						<div id="pageEditPartAdd">
-							<?php echo Form::button(NULL, HTML::icon('plus') . ' ' . __('Add page part'), array(
-								'id' => 'pageEditPartAddButton'
-							)); ?>
-						</div>
-					<?php endif; ?>
+					
+					
+					<?php echo View::factory('page/blocks/parts', array(
+						'page_parts' => $page_parts,
+						'permissions' => $permissions
+					)); ?>
 
 					<?php Observer::notify('view_page_edit_plugins', array($page)); ?>
 
@@ -140,7 +117,7 @@ if ($pagetmp != null && !empty($pagetmp) && $parttmp != null && !empty($parttmp)
 
 				</div><!--/#pageEdit-->
 
-				<div id="contentSidebar" class="span3 well">
+				<div id="contentSidebar" class="span3 well well-small">
 					<div id="pageEditOptions" class="box">
 						<h3><?php echo __('Page options'); ?></h3>
 

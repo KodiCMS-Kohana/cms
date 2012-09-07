@@ -226,7 +226,7 @@ table.table_list {
 }
 
 #pageEditParts .item-options {
-	padding: 15px;
+	padding: 5px 15px;
 	display:none;
 	border-bottom: 1px solid #ccc;
 	background: whitesmoke;
@@ -249,7 +249,8 @@ table.table_list {
 }
 
 #pageEditParts .item-content {
-	/*padding:7px 15px;*/
+	padding: 1px;
+	background: #ccc;
 }
 
 #pageEditParts .item-content textarea {
@@ -261,7 +262,6 @@ table.table_list {
 	background:#fff;
 	border: none;
 	border-radius: 0;
-	background: whitesmoke;
 }
 
 #pageEditParts .item-content textarea:focus {

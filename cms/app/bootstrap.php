@@ -14,7 +14,6 @@ define('PUBLIC_URL',			BASE_URL.'pulic/');
 define('LAYOUTS_SYSPATH',		DOCROOT . 'layouts' . DIRECTORY_SEPARATOR);
 define('SNIPPETS_SYSPATH',		DOCROOT . 'snippets' . DIRECTORY_SEPARATOR);
 
-
 // -- Environment setup --------------------------------------------------------
 
 // Load the core Kohana class
@@ -77,7 +76,7 @@ if ( isset( $_SERVER['KOHANA_ENV'] ) )
 }
 else
 {
-	Kohana::$environment = Kohana::PRODUCTION;
+	//Kohana::$environment = Kohana::PRODUCTION;
 }
 
 /**
@@ -107,6 +106,16 @@ Kohana::init( array(
 Cookie::$salt = 'AS7hjdd4234fdsdsfAD';
 
 I18n::lang('ru');
+
+/**
+ * Attach the file write to logging. Multiple writers are supported.
+ */
+Kohana::$log->attach(new Log_File(APPPATH.'logs'));
+
+/**
+ * Attach a file reader to config. Multiple readers are supported.
+ */
+Kohana::$config->attach(new Config_File);
 
 
 Route::set( 'error', 'system/error(/<code>(/<message>))', array(

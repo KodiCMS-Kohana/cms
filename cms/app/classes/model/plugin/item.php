@@ -1,6 +1,6 @@
-<?php defined('SYSPATH') or die('No direct access allowed.');
+<?php defined( 'SYSPATH' ) or die( 'No direct script access.' );
 
-class Plugin {
+class Model_Plugin_Item {
 
 	protected $_initialized = FALSE;
 	protected $_data = array(
@@ -35,7 +35,7 @@ class Plugin {
 
 			$this->_data[$name] = $value;
 		}
-		elseif ( $name == 'js' )
+		elseif ( $name == 'javascripts' )
 		{
 			if ( is_array( $value ) )
 			{
@@ -103,21 +103,21 @@ class Plugin {
 
 	public function enabled()
 	{
-		return Plugins::is_enabled( $this->id );
+		return Model_Plugin::is_enabled( $this->id );
 	}
 
 	public function register()
 	{
-//		Plugins::register( $this );
+		Model_Plugin::register( $this );
 
 		foreach ( $this->_javascripts as $file )
 		{
-			Plugins::add_javascript( $this->id, $file );
+			Model_Plugin::add_javascript( $this->id, $file );
 		}
 
 		foreach ( $this->_styles as $file )
 		{
-			Plugins::add_style( $this->id, $file );
+			Model_Plugin::add_style( $this->id, $file );
 		}
 		
 		$this->init();
@@ -139,7 +139,7 @@ class Plugin {
 	{
 		if($this->enabled())
 		{
-			$this->_settings = Plugins::get_settings( $this->id );
+			$this->_settings = Model_Plugin::get_settings( $this->id );
 		}
 	}
 
