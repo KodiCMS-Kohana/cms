@@ -7,4 +7,4 @@ Plugins::addStylesheet('redactor', 'vendors/redactor/redactor.css');
 
 
 // Add tinymce to filter's list
-Filter::add('redactor', 'redactor/redactor.php');
+Filter::add('redactor');

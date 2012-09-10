@@ -18,15 +18,11 @@ $uri = ($action == 'edit') ? URL::site('snippet/edit/'. $snippet->name) : URL::s
 			</div>
 		</div>
 
+		<?php echo Form::textarea('snippet[content]', $snippet->content, array(
+				'id'			=> 'textarea_content',
+				'tabindex'		=> 2,
+			)); ?>
 
-		<div id="tabbyArea">
-			<?php echo Form::textarea('snippet[content]', $snippet->content, array(
-					'class'			=> 'tabby',
-					'tabindex'		=> 2,
-					'spellcheck'	=> 'false',
-					'wrap'			=> 'off'
-				)); ?>
-		</div>
 	<div class="form-actions">
 		<?php echo Form::actions($page_name); ?>
 	</div>

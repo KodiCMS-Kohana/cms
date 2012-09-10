@@ -7,13 +7,13 @@
 		<base href="<?php echo ADMIN_URL; ?>" />
 		<link href="<?php echo ADMIN_URL; ?>favicon.ico" rel="favourites icon" />
 		<?php
-			echo HTML::style('libs/bootstrap/css/bootstrap.min.css') . "\n";
-			echo HTML::style('libs/jgrowl/jquery.jgrowl.css' ) . "\n";
-			echo HTML::style('stylesheets/frontend.css') . "\n";
+			echo HTML::style(ADMIN_URL . 'libs/bootstrap/css/bootstrap.min.css') . "\n";
+			echo HTML::style(ADMIN_URL . 'libs/jgrowl/jquery.jgrowl.css' ) . "\n";
+			echo HTML::style(ADMIN_URL . 'stylesheets/frontend.css') . "\n";
 
-			echo HTML::script('libs/jquery-1.7.2.min.js' ) . "\n";
-			echo HTML::script('libs/bootstrap/js/bootstrap.min.js' ) . "\n";
-			echo HTML::script('libs/jgrowl/jquery.jgrowl_minimized.js' ) . "\n";
+			echo HTML::script(ADMIN_URL . 'libs/jquery-1.7.2.min.js' ) . "\n";
+			echo HTML::script(ADMIN_URL . 'libs/bootstrap/js/bootstrap.min.js' ) . "\n";
+			echo HTML::script(ADMIN_URL . 'libs/jgrowl/jquery.jgrowl_minimized.js' ) . "\n";
 		?>
 		
 		<?php echo $messages; ?>

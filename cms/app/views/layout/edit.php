@@ -21,15 +21,10 @@ $uri = ($action == 'edit') ? URL::site('layout/edit/'. $layout->name) : URL::sit
 		</div>
 	</div>
 
-
-	<div id="tabbyArea">
-		<?php echo Form::textarea('layout[content]', $layout->content, array(
-				'class'			=> 'tabby',
-				'tabindex'		=> 2,
-				'spellcheck'	=> 'false',
-				'wrap'			=> 'off'
-			)); ?>
-	</div>		
+	<?php echo Form::textarea('layout[content]', $layout->content, array(
+			'tabindex'		=> 2,
+			'id'			=> 'textarea_content'
+		)); ?>
 	<div class="form-actions">
 		<?php echo Form::actions($page_name); ?>
 	</div>

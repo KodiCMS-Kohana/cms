@@ -1,5 +1,5 @@
 /*
-	TinyMCE object
+	Redactor object
 */
 cms.plugins.redactor = {};
 
@@ -27,11 +27,6 @@ cms.plugins.redactor.switchOff_handler = function( textarea_id )
 */
 jQuery(function(){
 
-	//cms.tinymce.settings['language'] = TINYMCE_LOCALE;
-
-	/*
-		Add tinymce filter to filters stack
-	*/
 	cms.filters
 		.add( 'redactor', cms.plugins.redactor.switchOn_handler, cms.plugins.redactor.switchOff_handler );
 });

@@ -300,7 +300,7 @@ cms.init.add('page_index', function()
 			{
 				li.append( html );
 				
-				cms.cssZebraItems('.map-items .item');
+				//cms.cssZebraItems('.map-items .item');
 				
 				//li.find('ul .page-expander').click(frogPages.expanderClick);
 				

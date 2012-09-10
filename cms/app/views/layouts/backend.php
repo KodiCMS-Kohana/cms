@@ -17,17 +17,16 @@
 		</script>
 
 		<?php
-		echo HTML::style( 'libs/bootstrap/css/bootstrap.css' ) . "\n";
-		echo HTML::style( 'stylesheets/backend.css' ) . "\n";
-		echo HTML::style( 'libs/jquery-ui/jquery-ui-1.8.12.css' ) . "\n";
-		echo HTML::style( 'libs/jgrowl/jquery.jgrowl.css' ) . "\n";
+		echo HTML::style( ADMIN_URL . 'libs/bootstrap/css/bootstrap.css' ) . "\n";
+		echo HTML::style( ADMIN_URL . 'stylesheets/backend.css' ) . "\n";
+		echo HTML::style( ADMIN_URL . 'libs/jquery-ui/jquery-ui-1.8.12.css' ) . "\n";
+		echo HTML::style( ADMIN_URL . 'libs/jgrowl/jquery.jgrowl.css' ) . "\n";
 
-		echo HTML::script( 'libs/jquery-1.7.2.min.js' ) . "\n";
-		echo HTML::script( 'libs/jquery-ui/jquery-ui-1.8.12.js' ) . "\n";
-		echo HTML::script( 'libs/bootstrap/js/bootstrap.min.js' ) . "\n";
-		echo HTML::script( 'libs/jgrowl/jquery.jgrowl_minimized.js' ) . "\n";
-		//echo HTML::script( 'javascripts/core.js' ) . "\n";
-		echo HTML::script( 'javascripts/backend.js' ) . "\n";
+		echo HTML::script( ADMIN_URL . 'libs/jquery-1.7.2.min.js' ) . "\n";
+		echo HTML::script( ADMIN_URL . 'libs/jquery-ui/jquery-ui-1.8.12.js' ) . "\n";
+		echo HTML::script( ADMIN_URL . 'libs/bootstrap/js/bootstrap.min.js' ) . "\n";
+		echo HTML::script( ADMIN_URL . 'libs/jgrowl/jquery.jgrowl_minimized.js' ) . "\n";
+		echo HTML::script( ADMIN_URL . 'javascripts/backend.js' ) . "\n";
 		?>
 
 		<?php echo $messages; ?>
