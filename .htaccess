@@ -1,21 +1,25 @@
-AddDefaultCharset UTF-8
-
+# Turn on URL rewriting
 RewriteEngine On
 
-# Set next line to your CMS root - if not in subdir, then just / 
-#RewriteBase /
+# Installation directory
+RewriteBase /
 
-# Remove www. from URL (you can uncomment this)
-#RewriteCond %{HTTP_HOST} ^www.(\S+)$
-#RewriteRule ^(.*)$ http://%1/$1 [R,L]
+# Protect hidden files from being viewed
+<Files .*>
+        Order Deny,Allow
+        Deny From All
+</Files>
 
-# Rewrite all requests to admin section
-#RewriteCond %{REQUEST_FILENAME} -d
-#RewriteRule ^(admin)(|/)$ index.php?/$1/ [L,QSA]
+Options -Indexes
+
+# Protect application and system files from being viewed
+# RewriteRule ^(?:cms)\b.* index.php/$0 [L]
+RewriteRule ^(cms)/ - [F,L]
 
 # Allow any files or directories that exist to be displayed directly
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 
-# Rewrite all other URLs to index.php/?URL
-RewriteRule .* index.php?/$0 [L,QSA]
+# Rewrite all other URLs to index.php/URL
+# RewriteRule .* index.php/$0 [PT]
+RewriteRule .* index.php [PT]

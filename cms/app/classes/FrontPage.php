@@ -63,7 +63,16 @@ class FrontPage
     public function slug() { return $this->slug; }
     public function keywords() { return $this->keywords; }
     public function description() { return $this->description; }
-    public function url() { return URL::base() . $this->url . ($this->url != '' ? URL_SUFFIX: ''); }
+    public function url()
+	{
+		$uri = $this->url;
+		if($this->url != '' AND (strstr($uri, '.') === FALSE))
+		{
+			$uri .= URL_SUFFIX;
+		}
+		return URL::base(TRUE) . $uri; 
+	
+	}
     
     public function level()
     {
@@ -566,11 +575,19 @@ class FrontPage
 		$layout_name = $this->layout();
 		
 		$layout = new Model_File_Layout($layout_name);
+		
 		if(!$layout->is_exists())
 		{
 			throw new  Kohana_Exception('Layout file :file not found!', array(
 				':file' => $layout_name
 			));
+		}
+		
+		$mime = File::mime_by_ext(pathinfo($this->url(), PATHINFO_EXTENSION));
+		
+		if($mime)
+		{
+			Request::current()->response()->headers('Content-Type',  $mime );
 		}
 
 		include $layout->get_file();

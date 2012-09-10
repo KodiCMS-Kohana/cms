@@ -32,7 +32,7 @@
 		</div>
 
 		<ul class="nav pull-right">
-			<li><?php echo HTML::anchor( URL::base(), __( 'View Site' ), array( 'target' => '_blank' ) ); ?></li>
+			<li><?php echo HTML::anchor( URL::base(TRUE), __( 'View Site' ), array( 'target' => '_blank' ) ); ?></li>
 		</ul>
 	</div>
 </div>
