@@ -62,7 +62,7 @@ class Record
 			}
 		}
 
-        if( !$this->id )
+        if( !isset($this->id ))
 		{
 			
             if ( ! $this->beforeInsert()) return FALSE;

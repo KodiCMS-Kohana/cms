@@ -2,8 +2,9 @@
 
 class Controller_Archive extends Controller_System_Plugin
 {
-	public function action_index($page_id) 
+	public function action_index() 
 	{
+		$page_id = $this->request->param('id');
 		$page = Record::findByIdFrom('Page', (int) $page_id);
 		
 		if ( ! $page)

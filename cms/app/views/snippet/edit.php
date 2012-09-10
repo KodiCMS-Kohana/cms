@@ -1,5 +1,5 @@
 <?php
-$uri = ($action == 'edit') ? URL::site('admin/snippet/edit/'. $snippet->name) : URL::site('admin/snippet/add/' . $snippet->name);
+$uri = ($action == 'edit') ? URL::site('snippet/edit/'. $snippet->name) : URL::site('snippet/add/' . $snippet->name);
 ?>
 <div class="page-header">
 	<h1><?php echo __('Snippets'); ?></h1> 

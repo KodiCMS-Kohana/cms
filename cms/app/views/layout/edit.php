@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
-$uri = ($action == 'edit') ? URL::site('admin/layout/edit/'. $layout->name) : URL::site('admin/layout/add/');
+$uri = ($action == 'edit') ? URL::site('layout/edit/'. $layout->name) : URL::site('layout/add/');
 ?>
 
 <div class="page-header">

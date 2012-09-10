@@ -1,11 +1,10 @@
-<?php defined('SYSPATH') or die('No direct access allowed.'); ?>
 <div class="page-header">
 	<h1><?php echo __('Users'); ?></h1>  
 </div>
 
 <div class="map">
 	<div class="well page-actions">
-		<?php echo HTML::button(URL::site('admin/user/add'), __('Add user'), 'plus'); ?>
+		<?php echo HTML::button(URL::site('user/add'), __('Add user'), 'plus'); ?>
 	</div>
 	
 	<table class="table_list" id="UserList">
@@ -28,7 +27,7 @@
 			<tr class="item">
 				<td class="name">
 					<?php echo HTML::icon('user'); ?> 
-					<?php echo HTML::anchor(URL::site('admin/user/edit/'.$user->id), $user->username); ?>
+					<?php echo HTML::anchor(URL::site('user/edit/'.$user->id), $user->username); ?>
 				</td>
 				<td class="roles">
 					<?php $roles = explode(',', $user->roles); ?>
@@ -40,7 +39,7 @@
 				<td class="actions">
 					<?php 
 					if ($user->id > 1)
-						echo HTML::button(URL::site('admin/user/delete/'.$user->id), NULL, 'remove', 'btn btn-mini btn-confirm');
+						echo HTML::button(URL::site('user/delete/'.$user->id), NULL, 'remove', 'btn btn-mini btn-confirm');
 					?>
 				</td>
 			</tr>

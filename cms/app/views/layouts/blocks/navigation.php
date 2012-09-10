@@ -1,7 +1,7 @@
 <div class="navbar navbar-static-top navbar-inverse">
 	<div class="navbar-inner">
 		<?php
-		echo HTML::anchor( URL::site( Setting::get( 'default_tab', 'admin/page' ) ), Setting::get( 'admin_title' ), array(
+		echo HTML::anchor( URL::site( Setting::get( 'default_tab', 'page' ) ), Setting::get( 'admin_title' ), array(
 			'class' => 'brand'
 		) );
 		?>
@@ -22,7 +22,7 @@
 		</ul>
 
 		<div class="btn-group pull-right">
-			<?php echo HTML::anchor( URL::site( 'admin/user/edit/' . AuthUser::getId() ), HTML::icon( 'user' ) . ' ' . AuthUser::getRecord()->name, array( 'class' => 'btn' ) ); ?>
+			<?php echo HTML::anchor( URL::site( 'user/edit/' . AuthUser::getId() ), HTML::icon( 'user' ) . ' ' . AuthUser::getRecord()->name, array( 'class' => 'btn' ) ); ?>
 			<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
 				<span class="caret"></span>
 			</a>

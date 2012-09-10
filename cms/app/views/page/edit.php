@@ -31,7 +31,6 @@ if ($pagetmp != null && !empty($pagetmp) && $parttmp != null && !empty($parttmp)
 		<div class="container-fluid">
 			<div class="row-fluid">
 				<div id="pageEdit" class="box span9">
-
 					<div id="pageEditMeta">
 						<div id="pageEditMetaTitle">
 							<div class="control-group">

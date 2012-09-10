@@ -9,10 +9,10 @@ class URL extends Kohana_URL {
 		AND 
 			IS_INSTALLED 
 		AND 
-			!URL::math( 'admin', $uri ) 
+			!URL::math( ADMIN_DIR_NAME, $uri ) 
 		)
 		{
-			$uri = 'admin/' . ltrim( $uri, '/');
+			$uri = ADMIN_DIR_NAME . '/' . ltrim( $uri, '/');
 		}
 
 		return parent::site($uri, $protocol, $index);

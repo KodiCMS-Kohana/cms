@@ -32,7 +32,7 @@
 				<i class="icon-lock"></i>
 			</span>
 			<input class="login-field" type="password" id="password" name="login[password]" value="">
-			<?php echo HTML::anchor('admin/login/forgot', __('Forgot password?'), array('class' => 'btn btn-large btn-link')); ?>
+			<?php echo HTML::anchor(ADMIN_DIR_NAME . '/login/forgot', __('Forgot password?'), array('class' => 'btn btn-large btn-link')); ?>
 		</div>
 	</div>
 

@@ -65,7 +65,7 @@ class Controller_System_Controller
 	public function go_backend()
 	{
 		$this->go( Route::url( 'admin', array(
-			'controller' => str_replace('admin/', '', Setting::get('default_tab')),
+			'controller' => str_replace(ADMIN_DIR_NAME . '/', '', Setting::get('default_tab')),
 		) ) );
 	}
 

@@ -80,7 +80,7 @@ class Controller_Page extends Controller_System_Backend {
 		if ( empty( $data['title'] ) )
 		{
 			// Rebuilding original page
-			$part = $_POST['part'];
+			$part = Arr::get($_POST, 'part', array());
 
 			if ( !empty( $part ) )
 			{
@@ -92,7 +92,7 @@ class Controller_Page extends Controller_System_Backend {
 				$part = $tmp;
 			}
 
-			$tags = $data['tags'];
+			$tags = Arr::get($data, 'tags', array());
 
 			Flash::set( 'page', (object) $data );
 			Flash::set( 'page_parts', (object) $part );
@@ -126,7 +126,7 @@ class Controller_Page extends Controller_System_Backend {
 		if ( $page->save() )
 		{
 			// get data from user
-			$data_parts = $_POST['part'];
+			$data_parts = Arr::get($_POST, 'part', array());
 			Flash::set( 'post_parts_data', (object) $data_parts );
 
 			foreach ( $data_parts as $data_part )
@@ -139,13 +139,13 @@ class Controller_Page extends Controller_System_Backend {
 			}
 
 			// save tags
-			$page->saveTags( $data['tags'] );
+			$page->saveTags( $part = Arr::get($_POST, 'tags', array()) );
 
+			
+			
 			// save permissions
-			if ( empty( $_POST['page_permissions'] ) )
-				$_POST['page_permissions'] = array( 'administrator', 'developer', 'editor' );
-
-			$page->savePermissions( $_POST['page_permissions'] );
+			$permissions = Arr::get($_POST, 'page_permissions', array( 'administrator', 'developer', 'editor' ));
+			$page->savePermissions( $permissions );
 
 			Observer::notify( 'page_add_after_save', array( $page ) );
 
@@ -159,9 +159,13 @@ class Controller_Page extends Controller_System_Backend {
 
 		// save and quit or save and continue editing ?
 		if ( isset( $_POST['commit'] ) )
+		{
 			$this->go( URL::site( 'page' ) );
+		}
 		else
+		{
 			$this->go( URL::site( 'page/edit/' . $page->id ) );
+		}
 	}
 
 	public function action_add_part()
@@ -196,13 +200,17 @@ class Controller_Page extends Controller_System_Backend {
 
 		// check if trying to save
 		if ( Request::current()->method() == Request::POST )
+		{
 			return $this->_edit( $page_id );
+		}
 
 		// find all page_part of this pages
 		$page_parts = PagePart::findByPageId( $page_id );
 
 		if ( empty( $page_parts ) )
+		{
 			$page_parts = array( new PagePart );
+		}
 		
 		$this->template->breadcrumbs = array(
 			HTML::anchor( 'page', __('Pages')),
@@ -251,7 +259,7 @@ class Controller_Page extends Controller_System_Backend {
 		if ( $page->save() )
 		{
 			// get data for parts of this page
-			$data_parts = $_POST['part'];
+			$data_parts = Arr::get($_POST, 'part', array());
 
 			$old_parts = PagePart::findByPageId( $page_id );
 
@@ -290,7 +298,9 @@ class Controller_Page extends Controller_System_Backend {
 				}
 
 				if ( $not_in )
+				{
 					$old_part->delete();
+				}
 			}
 
 			// add the new ones
@@ -303,11 +313,11 @@ class Controller_Page extends Controller_System_Backend {
 			}
 
 			// save tags
-			$page->saveTags( $data['tags'] );
+			$page->saveTags(Arr::get($data, 'tags', array()) );
 
 			// save permissions
-			if ( !empty( $_POST['page_permissions'] ) )
-				$page->savePermissions( $_POST['page_permissions'] );
+			$permissions = Arr::get($_POST, 'page_permissions', array());
+			$page->savePermissions( $permissions );
 
 			Observer::notify( 'page_edit_after_save', array( $page ) );
 
@@ -321,9 +331,13 @@ class Controller_Page extends Controller_System_Backend {
 
 		// save and quit or save and continue editing ?
 		if ( isset( $_POST['commit'] ) )
+		{
 			$this->go( URL::site( 'page' ) );
+		}
 		else
+		{
 			$this->go( URL::site( 'page/edit/' . $page->id ) );
+		}
 	}
 
 	/**
@@ -360,7 +374,9 @@ class Controller_Page extends Controller_System_Backend {
 					Messages::success( __( 'Page <b>:title</b> has been deleted!', array( ':title' => $page->title ) ) );
 				}
 				else
+				{
 					Messages::errors( __( 'Page <b>:title</b> has not been deleted!', array( ':title' => $page->title ) ) );
+				}
 			}
 			else
 			{
@@ -368,7 +384,9 @@ class Controller_Page extends Controller_System_Backend {
 			}
 		}
 		else
+		{
 			Messages::errors( __( 'Action disabled!' ) );
+		}
 
 		$this->go( URL::site( 'page' ) );
 	}
@@ -388,7 +406,9 @@ class Controller_Page extends Controller_System_Backend {
 			//$childrens[$index]->is_expanded = true;
 
 			if ( $childrens[$index]->is_expanded )
+			{
 				$childrens[$index]->children_rows = $this->children( $child->id, $level + 1, true );
+			}
 		}
 
 		$content = new View( 'page/children', array(
@@ -397,7 +417,9 @@ class Controller_Page extends Controller_System_Backend {
 		) );
 
 		if ( $return )
+		{
 			return $content;
+		}
 
 		echo $content;
 	}
@@ -451,7 +473,7 @@ class Controller_Page extends Controller_System_Backend {
 			$dragged_id = (int) $_POST['dragged_id'];
 
 			$donor_page = Record::findByIdFrom( 'Page', $dragged_id );
-			$new_SYSPATH_id = Page::cloneTree( $donor_page, $parent_id );
+			$new_id = Page::cloneTree( $donor_page, $parent_id );
 
 			$i = false;
 
@@ -460,7 +482,9 @@ class Controller_Page extends Controller_System_Backend {
 				$page_id = (int) $page_id;
 
 				if ( $page_id === 0 )
+				{
 					continue;
+				}
 
 				if ( $page_id == $dragged_id )
 				{
@@ -472,7 +496,7 @@ class Controller_Page extends Controller_System_Backend {
 					else
 					{
 						// Move the cloned tree, not original.
-						$page = Record::findByIdFrom( 'Page', $new_SYSPATH_id );
+						$page = Record::findByIdFrom( 'Page', $new_id );
 					}
 				}
 				else
@@ -485,7 +509,7 @@ class Controller_Page extends Controller_System_Backend {
 				$page->save();
 			}
 
-			echo json_encode( array( 'new_SYSPATH_id' => $new_SYSPATH_id ) );
+			echo json_encode( array( 'new_id' => $new_id ) );
 		}
 	}
 

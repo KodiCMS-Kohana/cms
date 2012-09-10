@@ -57,19 +57,6 @@ cms.convertSlug = function(str)
 			//.replace(/-$/,           '' ); // removed becouse this function used in #pageEditMetaSlugField
 };
 
-
-// cssZebra
-cms.cssZebraItems = function(selector)
-{
-	$(selector).each(function(i){
-		$(this)
-			.removeClass('item-odd')
-			.removeClass('item-even')
-			.addClass(((i%2) == 0 ? 'item-odd' : 'item-even'));
-	});
-};
-
-
 // Loader
 cms.loader = {};
 
@@ -227,7 +214,7 @@ cms.ui = {
 			$(this).val(val);
 		});
 
-		$('.tabby').tabby();
+		//$('.tabby').tabby();
 		$('.focus').focus();
 	}
 },
@@ -761,7 +748,7 @@ cms.init.add(['page_add', 'page_edit'], function()
 		return false;
 	});
 	
-	$('#pageEditParts .item-content textarea').tabby();
+	//$('#pageEditParts .item-content textarea').tabby();
 	
 	$('#pageEditMetaSlugField').keyup(function()
 	{
@@ -888,12 +875,7 @@ jQuery(document).ready(function() {
 	
 	// init
 	cms.init.run();
-	
 	cms.ui.init();
-	
-	// stylizate .map-items 
-	cms.cssZebraItems('.map-items .item');
-	cms.cssZebraItems('table.table_list tbody > tr');
 });
 
 

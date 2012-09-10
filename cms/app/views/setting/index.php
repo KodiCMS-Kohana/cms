@@ -2,7 +2,7 @@
 	<h1><?php echo __( 'General setting' ); ?></h1>
 </div>
 
-<form id="settingForm" class="form-horizontal" action="<?php echo URL::site( 'admin/setting' ); ?>" method="post">
+<form id="settingForm" class="form-horizontal" action="<?php echo URL::site( 'setting' ); ?>" method="post">
 	
 	<?php echo Form::hidden('token', Security::token()); ?>
 	

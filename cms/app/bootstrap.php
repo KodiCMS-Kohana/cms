@@ -1,19 +1,5 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
-// CMS defaults
-define('BASE_URL',				'http://'.dirname($_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME']) .'/');
-
-define('ADMIN_DIR_NAME',		'admin');
-define('ADMIN_URL',				BASE_URL.ADMIN_DIR_NAME.'/');
-
-define('PLUGINS_URL',			BASE_URL . 'cms/plugins/');
-
-define('PUBLICPATH',			DOCROOT.'pulic'.DIRECTORY_SEPARATOR);
-define('PUBLIC_URL',			BASE_URL.'pulic/');
-
-define('LAYOUTS_SYSPATH',		DOCROOT . 'layouts' . DIRECTORY_SEPARATOR);
-define('SNIPPETS_SYSPATH',		DOCROOT . 'snippets' . DIRECTORY_SEPARATOR);
-
 // -- Environment setup --------------------------------------------------------
 
 // Load the core Kohana class

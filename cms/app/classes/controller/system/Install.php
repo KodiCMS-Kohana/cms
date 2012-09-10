@@ -24,6 +24,7 @@ class Controller_System_Install extends Controller_System_Template {
 
 		$post['db_driver'] = DB_TYPE;
 		$post['password'] = Text::random();
+		$post['admin_dir_name'] = 'admin';
 
 		Session::instance()
 			->set( 'install_data', $post );
@@ -68,7 +69,7 @@ class Controller_System_Install extends Controller_System_Template {
 		$this->_import_dump($post, $db);
 		$this->_create_config($post);
 		
-		$this->go('admin/login');
+		$this->go(ADMIN_DIR_NAME . '/login');
 	}
 
 	protected function _import_shema($post, $db)
@@ -137,6 +138,7 @@ class Controller_System_Install extends Controller_System_Template {
 			'__DB_PASS__' => $post['db_password'],
 			'__TABLE_PREFIX__' => $post['table_prefix'] . '_',
 			'__URL_SUFFIX__' => $post['url_suffix'],
+			'__ADMIN_DIR_NAME__' => $post['admin_dir_name'],
 			'__LANG__' => I18n::lang(),
 		);
 

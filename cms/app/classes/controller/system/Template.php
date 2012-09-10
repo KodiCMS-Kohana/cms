@@ -63,6 +63,8 @@ class Controller_System_Template extends Controller_System_Security
 			$this->template->messages = View::factory('layouts/blocks/messages', array(
 				'messages' => Messages::get() 
 			));
+			
+			$this->template->modal = View::factory('layouts/blocks/modal');
 
 			$this->response->body( $this->template );
 		}

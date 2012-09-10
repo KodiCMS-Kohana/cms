@@ -119,7 +119,7 @@ class Controller_Login extends Controller_System_Template {
 			$user->password = sha1($new_pass);
 			$user->save();
 
-			$message = new View('messages/forgot_emil', array(
+			$message = (string) View::factory('messages/forgot_emil', array(
 				'username' => $user->username,
 				'password' => $new_pass
 			));
