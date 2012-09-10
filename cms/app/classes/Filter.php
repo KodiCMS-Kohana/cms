@@ -3,7 +3,6 @@
 class Filter {
 
 	static $filters = array( );
-	private static $filters_loaded = array( );
 
 	/**
 	 * Add a new filter to Frog CMS
@@ -11,9 +10,9 @@ class Filter {
 	 * @param filter_id string  The Filter plugin folder name
 	 * @param file      string  The file where the Filter class is
 	 */
-	public static function add( $filter_id, $file )
+	public static function add( $filter_id)
 	{
-		self::$filters[$filter_id] = $file;
+		self::$filters[$filter_id] = $filter_id;
 	}
 
 	/**
@@ -36,7 +35,7 @@ class Filter {
 	 */
 	public static function findAll()
 	{
-		return array_keys( self::$filters );
+		return self::$filters;
 	}
 
 	/**
@@ -48,33 +47,18 @@ class Filter {
 	 */
 	public static function get( $filter_id )
 	{
-		if ( !isset( self::$filters_loaded[$filter_id] ) )
+		if ( isset( self::$filters[$filter_id] ) )
 		{
-			if ( isset( self::$filters[$filter_id] ) )
-			{
-				$file = PLGPATH . DIRECTORY_SEPARATOR . self::$filters[$filter_id];
-
-				if ( !file_exists( $file ) )
-				{
-					throw new  Kohana_Exception( 'Filter file of filter :filter not found!', array(
-						':filter' => $filter_id
-					) );
-				}
-
-				include($file);
-
-				$filter_class = Inflector::camelize( $filter_id );
-				self::$filters_loaded[$filter_id] = new $filter_class();
-				return self::$filters_loaded[$filter_id];
-			}
-			else
+			if ( !class_exists( $filter_id ) )
 			{
 				return FALSE;
 			}
+
+			return new $filter_id;
 		}
 		else
 		{
-			return self::$filters_loaded[$filter_id];
+			return FALSE;
 		}
 	}
 

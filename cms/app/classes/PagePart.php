@@ -28,7 +28,11 @@ class PagePart extends Record
 		{
 			if (Filter::get($this->filter_id))
 			{
-				$this->content_html = Filter::get($this->filter_id)->apply($this->content);
+				$filter_class = Filter::get($this->filter_id);
+				if($filter_class !== FALSE)
+				{
+					$this->content_html = $filter_class->apply($this->content);
+				}
 			}
 			
 			foreach(Observer::getObserverList('filter_content') as $callback)
