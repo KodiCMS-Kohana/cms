@@ -46,6 +46,8 @@ class FrontPage
         }
 		
 		$this->level = $this->level();
+		$this->_loadParts();
+		
     }
     
     protected function setUrl()
@@ -168,32 +170,11 @@ class FrontPage
     
     public function hasContent($part, $inherit = FALSE)
     {
-		if (!isset($this->part) || !is_object($this->part))
-		{
-			$this->part = new stdClass;
-		}
 		
-		if (!empty($this->part->{$part}))
+		if (isset($this->part->{$part}))
 		{
 			return TRUE;
 		}
-		
-		$obj = DB::select('name', 'content_html')
-			->from(PagePart::tableName())
-			->where('name', '=', $part)
-			->where('page_id', '=', $this->id)
-			->limit(1)
-			->as_object()
-			//->cached()
-			->execute()
-			->current();
-		
-		if ($obj)
-		{
-			$this->part->{$part} = $obj;
-			
-			return TRUE;
-        }
         else if ($inherit && $this->parent)
         {
             return $this->parent->hasContent($part, TRUE);
@@ -202,12 +183,9 @@ class FrontPage
 		return FALSE;
     }
     
-    public function content($part='body', $inherit = FALSE)
-    {
-		if (!isset($this->part) || !is_object($this->part))
-			$this->part = new stdClass;
-		
-		if (!empty($this->part->{$part}))
+    public function content($part = 'body', $inherit = FALSE)
+    {		
+		if (isset($this->part->{$part}))
 		{
 			ob_start();
 			eval('?>' . $this->part->{$part}->content_html);
@@ -216,32 +194,12 @@ class FrontPage
 			
 			return $out;
 		}
-		
-		$obj = DB::select('name', 'content_html')
-			->from(PagePart::tableName())
-			->where('name', '=', $part)
-			->where('page_id', '=', $this->id)
-			->limit(1)
-			->as_object()
-			//->cached()
-			->execute()
-			->current();
-	
-		if ($obj)
-		{
-			$this->part->{$part} = $obj;
-		
-			ob_start();
-			eval('?>' . $this->part->{$part}->content_html);
-			$out = ob_get_contents();
-			ob_end_clean();
-			
-			return $out;
-        }
-        else if ($inherit && $this->parent)
+        else if ($inherit AND $this->parent)
         {
             return $this->parent->content($part, TRUE);
         }
+		
+		return NULL;
     }
     
     public function previous()
@@ -406,7 +364,7 @@ class FrontPage
 					->where('published_on', '<=', DB::expr('NOW()'))
 					->where('status_id', 'in', $statuses)
 					->limit(1)
-					->cached()
+					->cached((int)Kohana::$config->load('global.cache.front_page'))
 					->as_object()
 					->execute()
 					->current();
@@ -492,7 +450,7 @@ class FrontPage
 			->where('published_on', '<=', DB::expr('NOW()'))
 			->where('status_id', 'in', $statuses)
 			->limit(1)
-			->cached()
+			->cached((int)Kohana::$config->load('global.cache.front_page'))
 			->as_object()
 			->execute()
 			->current();
@@ -624,6 +582,26 @@ class FrontPage
         
 		return $this->needs_login;
     }
+	
+	private function _loadParts()
+    {
+		if (!isset($this->part) OR !is_object($this->part))
+		{
+			$this->part = new stdClass;
+			$parts = DB::select('name', 'content_html')
+				->from(PagePart::tableName())
+				->where('page_id', '=', $this->id)
+				->cache_key('pageParts::page_id::'.$this->id)
+				->as_object()
+				->cached((int)Kohana::$config->load('global.cache.page_parts'))
+				->execute();
+
+			foreach ( $parts as $part_obj )
+			{
+				$this->part->{$part_obj->name} = $part_obj;
+			}
+		}
+	}
     
     private function _loadTags()
     {
@@ -632,7 +610,8 @@ class FrontPage
 			->join('tag', 'left')
 				->on('page_tag.page_id', '=', 'tag.id')
 			->where('page_tag.page_id', '=', $this->id)
-			->cached()
+			->cache_key( 'pageTags::page_id::' . $this->id )
+			->cached((int)Kohana::$config->load('global.cache.tags'))
 			->execute()
 			->as_array('tag.id', 'tag.name');
     }

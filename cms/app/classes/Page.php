@@ -98,6 +98,9 @@ class Page extends Record
 	
 	public function afterUpdate()
 	{
+		Core::cache('Database::cache(pageParts::page_id::'.$this->id.')', NULL, -1);
+		Core::cache('Database::cache(pageTags::page_id::'.$this->id.')', NULL, -1);
+
 		return $this->afterInsert();
 	}
 	
