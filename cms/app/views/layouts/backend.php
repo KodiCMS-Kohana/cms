@@ -66,11 +66,9 @@
 
 		<div class="container-fluid">
 			<?php if(isset($breadcrumbs)): ?>
-			<ul class="breadcrumb">
-				<?php foreach ($breadcrumbs as $anchor): ?>
-				<li><?php echo $anchor; ?> <span class="divider">/</span></li>
-				<?php endforeach; ?>
-			</ul>
+			<?php echo View::factory('layouts/blocks/breadcrumbs', array(
+				'breadcrumbs' => $breadcrumbs
+			)); ?>
 			<?php endif; ?>
 			
 			<div id="content" class="well" >
