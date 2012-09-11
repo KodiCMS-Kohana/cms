@@ -20,7 +20,7 @@
 				<a href="<?php echo URL::site('page/edit/'.$child->id); ?>" title="/<?php echo $child->getUri(); ?>"><?php echo $child->title; ?></a>
 				<?php endif; ?>				
 				<?php if( !empty($child->behavior_id) ): ?> <?php echo HTML::label(Inflector::humanize($child->behavior_id), 'default'); ?><?php endif; ?>
-				<?php echo HTML::anchor(URL::base(TRUE) . ($uri = $child->getUri()) . (strstr($uri, '.') === false ? URL_SUFFIX : ''), HTML::label(__('View page')), array(
+				<?php echo HTML::anchor($child->getUrl(), HTML::label(__('View page')), array(
 					'class' => 'item-preview', 'target' => '_blankn'
 				)); ?>
 			</span>

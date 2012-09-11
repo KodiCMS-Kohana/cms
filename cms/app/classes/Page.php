@@ -129,8 +129,16 @@ class Page extends Record
 
         return $result;
     }
-    
-    public function getTags()
+	
+	public function getUrl()
+	{
+		$uri = $this->getUri();
+		return URL::base(TRUE) 
+			. $uri 
+			. (URL::check_suffix( $uri , '.') ? URL_SUFFIX : '');
+	}
+
+		public function getTags()
     {
         $tablename_page_tag = self::tableName('PageTag');
         $tablename_tag = self::tableName('Tag');

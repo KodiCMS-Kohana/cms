@@ -17,7 +17,7 @@ if ($pagetmp != null && !empty($pagetmp) && $parttmp != null && !empty($parttmp)
 <div class="page-header">
 	<h1>
 		<?php echo __('Edit page ":page"', array(':page' => $page->title)); ?>
-		<small><?php echo HTML::anchor(URL::base(TRUE) . ($uri = $page->getUri()) . (strstr($uri, '.') === false ? URL_SUFFIX : ''), HTML::label(__('View page')), array(
+		<small><?php echo HTML::anchor($page->getUrl(), HTML::label(__('View page')), array(
 		'class' => 'item-preview', 'target' => '_blankn'
 	)); ?></small>
 	</h1>

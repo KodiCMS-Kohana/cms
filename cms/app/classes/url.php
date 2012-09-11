@@ -1,16 +1,20 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct access allowed.' );
 
 class URL extends Kohana_URL {
+	
+	public static function check_suffix($uri, $suffix = NULL)
+	{
+		if($suffix === NULL)
+		{
+			$suffix = URL_SUFFIX;
+		}
+		
+		return strstr($uri, $suffix) === FALSE;
+	}
 
 	public static function site( $uri = '', $protocol = NULL, $index = TRUE )
 	{
-		if ( 
-			IS_BACKEND
-		AND 
-			IS_INSTALLED 
-		AND 
-			!URL::math( ADMIN_DIR_NAME, $uri ) 
-		)
+		if ( IS_BACKEND AND IS_INSTALLED AND !URL::math( ADMIN_DIR_NAME, $uri ) )
 		{
 			$uri = ADMIN_DIR_NAME . '/' . ltrim( $uri, '/');
 		}

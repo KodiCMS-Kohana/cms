@@ -68,10 +68,11 @@ class FrontPage
     public function url()
 	{
 		$uri = $this->url;
-		if($this->url != '' AND (strstr($uri, '.') === FALSE))
+		if(URL::check_suffix( $uri, '.' ))
 		{
 			$uri .= URL_SUFFIX;
 		}
+
 		return URL::base(TRUE) . $uri; 
 	
 	}

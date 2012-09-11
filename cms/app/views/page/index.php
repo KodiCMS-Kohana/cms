@@ -35,7 +35,7 @@
 					<a href="<?php echo URL::site('page/edit/1'); ?>" title="/"><?php echo $page->title; ?></a>
 					<?php endif; ?>
 					
-					<?php echo HTML::anchor((URL::base()), HTML::label(__('View page')), array('class' => 'item-preview', 'target' => '_blank')); ?>
+					<?php echo HTML::anchor((URL::base(TRUE)), HTML::label(__('View page')), array('class' => 'item-preview', 'target' => '_blank')); ?>
 				</span>
 				<span class="actions">
 					<?php echo HTML::button(URL::site('page/add/'.$page->id), NULL, 'plus', 'btn btn-mini'); ?>
