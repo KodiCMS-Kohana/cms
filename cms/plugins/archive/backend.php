@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
-Route::set( 'archive', ADMIN_DIR_NAME . '/plugin/archive/<id>' , array(
+Route::set( 'archive', ADMIN_DIR_NAME . '/archive/<id>' , array(
 	'id' => '[0-9]+',
 	'controller' => 'archive',
 	'action' => 'index',
@@ -28,7 +28,7 @@ $pages = DB::select()
 
 foreach ($pages as $page) 
 {
-	Model_Navigation::add_section('Archive', $page->title, 'plugin/archive/'.$page->id, array());
+	Model_Navigation::add_section('Archive', $page->title, 'archive/'.$page->id, array());
 }
 
 Observer::observe(array(

@@ -35,15 +35,35 @@
 				<td class="actions">
 					<?php 
 					if( isset($loaded_plugins[$plugin->id]) && Plugins::hasSettingsPage($plugin->id) )
-						echo HTML::button(URL::site('plugin/'.$plugin->id.'/settings'), NULL, 'cog', 'btn btn-mini');
+					{
+						echo UI::button(NULL, array(
+							'href' => $plugin->id.'/settings', 'icon' => UI::icon('cog'), 
+							'class' => 'btn btn-mini'
+						));
+					}
 						
 					if (isset($loaded_plugins[$plugin->id]) && Plugins::hasDocumentationPage($plugin->id) )
-						echo HTML::button(URL::site('plugin/'.$plugin->id.'/documentation'), NULL, 'book', 'btn btn-mini');
+					{
+						echo UI::button(NULL, array(
+							'href' => $plugin->id.'/documentation', 'icon' => UI::icon('book'), 
+							'class' => 'btn btn-mini'
+						));
+					}
 					
 					if ( Plugins::isEnabled($plugin->id) )
-						echo HTML::button(URL::site('plugins/deactivate/'.$plugin->id), NULL, 'stop', 'btn btn-mini');
+					{
+						echo UI::button(NULL, array(
+							'href' => 'plugins/deactivate/'.$plugin->id, 'icon' => UI::icon('stop'), 
+							'class' => 'btn btn-mini'
+						));
+					}
 					else
-						echo HTML::button(URL::site('plugins/activate/'.$plugin->id), NULL, 'play', 'btn btn-mini');
+					{
+						echo UI::button(NULL, array(
+							'href' => 'plugins/activate/'.$plugin->id, 'icon' => UI::icon('play'), 
+							'class' => 'btn btn-mini'
+						));
+					}
 					?>
 				</td>
 			</tr>

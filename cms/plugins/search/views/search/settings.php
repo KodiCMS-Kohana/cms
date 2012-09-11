@@ -3,7 +3,9 @@
 	<h1><?php echo __('Search settings'); ?></h1> 
 </div>
 
-<form class="form-horizontal" action="<?php echo URL::site('plugin/search/settings'); ?>" method="post">
+<?php echo Form::open('search/settings', array(
+	'class' => 'form-horizontal', 'method' => 'post'
+)); ?>
 
 	<?php echo Form::hidden('token', Security::token()); ?>
 
@@ -35,8 +37,9 @@
 	</div>
 
 	<div class="form-actions">
-	<?php echo Form::button('submit', HTML::icon('ok') .' '. __('Save setting'), array(
-		'class' => 'btn btn-large btn-success'
+	<?php echo UI::button(__('Save setting'), array(
+		'class' => 'btn btn-large btn-success', 'icon' => UI::icon('ok'),
+		'name' => 'submit'
 	)); ?>
 	</div>
-</form>
+<?php echo Form::close(); ?>

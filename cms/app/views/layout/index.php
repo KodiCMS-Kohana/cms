@@ -7,7 +7,9 @@
 <div class="map">
 	
 	<div class="well page-actions">
-		<?php echo HTML::button(URL::site('layout/add'), __('Add layout'), 'plus'); ?>
+		<?php echo UI::button(__('Add layout'), array(
+			'icon' => UI::icon( 'plus' ), 'href' => 'layout/add'
+		)); ?>
 	</div>
 	
 	<table class="table_list" id="LayoutList">
@@ -30,10 +32,13 @@
 					<?php echo HTML::anchor(URL::site( 'layout/edit/'.$layout->name), HTML::image('images/layout.png') .' '. $layout->name); ?>
 				</th>
 				<td class="direction">
-					<?php echo HTML::label('/layouts/' . $layout->name . EXT); ?>
+					<?php echo UI::label('/layouts/' . $layout->name . EXT); ?>
 				</td>
 				<td class="actions">
-					<?php echo HTML::button(URL::site('layout/delete/'. $layout->name), NULL, 'remove', 'btn btn-mini btn-confirm'); ?>
+					<?php echo UI::button(NULL, array(
+						'icon' => UI::icon( 'remove' ), 'href' => 'layout/delete/'. $layout->name,
+						'class' => 'btn btn-mini btn-confirm'
+					)); ?>
 				</td>
 			</tr>
 			<?php endforeach; ?>

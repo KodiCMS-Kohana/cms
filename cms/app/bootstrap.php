@@ -62,7 +62,7 @@ if ( isset( $_SERVER['KOHANA_ENV'] ) )
 }
 else
 {
-	//Kohana::$environment = Kohana::PRODUCTION;
+	Kohana::$environment = Kohana::PRODUCTION;
 }
 
 /**

@@ -3,7 +3,9 @@
 	<h1><?php echo __('Yandex metrika'); ?></h1> 
 </div>
 
-<form class="form-horizontal" action="<?php echo URL::site('plugin/yandexmetrika/settings'); ?>" method="post">
+<?php echo Form::open('yandexmetrika/settings', array(
+	'class' => 'form-horizontal', 'method' => 'post'
+)); ?>
 
 	<?php echo Form::hidden('token', Security::token()); ?>
 
@@ -17,8 +19,9 @@
 	</div>
 
 	<div class="form-actions">
-	<?php echo Form::button('submit', HTML::icon('ok') .' '. __('Save settings'), array(
-		'class' => 'btn btn-large btn-success'
+	<?php echo UI::button(__('Save setting'), array(
+		'class' => 'btn btn-large btn-success', 'icon' => UI::icon('ok'),
+		'name' => 'submit'
 	)); ?>
 	</div>
-</form>
+<?php echo Form::close(); ?>

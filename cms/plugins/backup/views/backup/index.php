@@ -3,7 +3,9 @@
 </div>
 
 <div class="well page-actions">
-	<?php echo HTML::button(URL::site('backup/create'), __('Create backup'), 'plus'); ?>
+	<?php echo UI::button(__('Create backup'), array(
+		'icon' => UI::icon('plus'), 'href' => 'backup/create'
+	)); ?>
 </div>
 
 <div id="backup-container" class="map">
@@ -29,12 +31,21 @@
 			<tr>
 				<td><?php echo $data['date']; ?></td>
 				<th>
-					<?php echo HTML::anchor(URL::site('plugin/backup/view/'.$filename), $filename); ?>
+					<?php echo HTML::anchor('backup/view/'.$filename, $filename); ?>
 				</th>
 				<td><?php echo $data['size']; ?></td>
 				<td>
-					<?php echo HTML::button(URL::site('plugin/backup/restore/'.$filename), NULL, 'play', 'btn btn-mini'); ?>
-					<?php echo HTML::button(URL::site('plugin/backup/delete/'.$filename), NULL, 'trash icon-white', 'btn btn-mini btn-danger'); ?>
+					<?php 
+					echo UI::button(NULL, array(
+						'class' => 'btn btn-mini', 'href' => 'backup/restore/'.$filename, 
+						'icon' => UI::icon( 'play' )
+					));
+					
+					echo UI::button(NULL, array(
+						'class' => 'btn btn-mini btn-danger', 'href' => 'backup/delete/'.$filename, 
+						'icon' => UI::icon( 'trash icon-white' )
+					));
+					?>
 				</td>
 			</tr>
 			<?php endforeach; ?>
@@ -47,13 +58,13 @@
 	<h4><?php echo __('Upload backup file'); ?></h4>
 	<hr />
 	<?php 
-		echo Form::open(URL::site('backup/upload'), array(
+		echo Form::open('backup/upload', array(
 			'enctype' => 'multipart/form-data',
 			'method' => Request::POST
 		));
 		echo Form::hidden('token', Security::token());
 		echo Form::file('file', array('id' => 'backup-upload'));
-		echo Form::button('upload', __('Upload'), array('class' => 'btn'));
+		echo UI::button(__('Upload'), array('class' => 'btn', 'name' => 'upload'));
 		echo Form::close(); 
 	?>
 </div>

@@ -5,7 +5,9 @@
 
 <div class="map">
 	<div class="well page-actions">
-		<?php echo HTML::button(URL::site('page/add/'.$page->id), __('Add page'), 'plus'); ?>
+		<?php echo UI::button(__('Add page'), array(
+			'href' => 'page/add/'.$page->id, 'icon' => UI::icon('plus')
+		)); ?>
 	</div>
 	
 	<table class="table_list" id="SnippetList">
@@ -31,7 +33,7 @@
 					<img src="images/page-text-locked.png" title="<?php echo('You do not have permission to access the requested page!'); ?>" />
 					<em title="/<?php echo $item->getUri(); ?>"><?php echo $item->title; ?></em>
 					<?php else: ?>
-					<?php echo HTML::icon('file'); ?>
+					<?php echo UI::icon('file'); ?>
 					<a href="<?php echo URL::site('page/edit/'.$item->id); ?>" title="/<?php echo $item->getUri(); ?>"><?php echo $item->title; ?></a>
 					<?php endif; ?>
 				</th>
@@ -40,23 +42,30 @@
 				</td>
 				<td class="status">
 					<?php switch ($item->status_id):
-						case Page::STATUS_DRAFT:    echo HTML::label(__('Draft'), 'info');       break;
-						case Page::STATUS_REVIEWED: echo HTML::label(__('Reviewed'), 'info'); break;
-						case Page::STATUS_HIDDEN:   echo HTML::label(__('Hidden'), 'default');     break;
+						case Page::STATUS_DRAFT:    echo UI::label(__('Draft'), 'info');       break;
+						case Page::STATUS_REVIEWED: echo UI::label(__('Reviewed'), 'info'); break;
+						case Page::STATUS_HIDDEN:   echo UI::label(__('Hidden'), 'default');     break;
 						case Page::STATUS_PUBLISHED:
 							if( strtotime($item->published_on) > time() )
-								echo HTML::label(__('Pending'), 'success');
+								echo UI::label(__('Pending'), 'success');
 							else
-								echo HTML::label(__('Published'), 'success');
+								echo UI::label(__('Published'), 'success');
 						break;
 					endswitch; ?>
 				</td>
 				<td class="actions">
-					<?php echo HTML::button(URL::site('page/add/'.$item->id), NULL, 'plus', 'btn btn-mini'); ?>
+					<?php echo UI::button(NULL, array(
+						'href' => 'page/add/'.$item->id, 'icon' => UI::icon('plus'),
+						'class' => 'btn btn-mini'
+					)); ?>
 					<?php 
 					if( AuthUser::hasPermission($item->getPermissions()) )
-						echo HTML::button(URL::site('page/delete/'.$item->id), NULL, 'remove', 'btn btn-mini btn-confirm');
-					?>
+					{
+						echo UI::button(NULL, array(
+							'href' => 'page/delete/'.$item->id, 'icon' => UI::icon('remove'),
+							'class' => 'btn btn-mini btn-confirm'
+						));
+					}?>
 				</td>
 			</tr>
 			<?php endforeach; ?>

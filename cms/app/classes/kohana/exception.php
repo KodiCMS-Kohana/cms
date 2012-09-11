@@ -26,7 +26,7 @@ class Kohana_Exception extends Kohana_Kohana_Exception {
 				
 			try
 			{
-				echo Request::factory( Route::url( 'error', $params ) )
+				echo Request::factory( Route::get('error')->uri($params) )
 					->execute()
 					->send_headers()
 					->body();

@@ -4,8 +4,8 @@
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<title><?php echo __( ucfirst( $controller ) ); ?> &ndash; <?php echo Setting::get( 'admin_title' ); ?></title>
-		<base href="<?php echo ADMIN_URL; ?>" />
-		<link href="<?php echo ADMIN_URL; ?>favicon.ico" rel="favourites icon" />
+		<base href="<?php echo ADMIN_RESOURCES; ?>" />
+		<link href="<?php echo ADMIN_RESOURCES; ?>favicon.ico" rel="favourites icon" />
 
 		<script>
 			var BASE_URL         = '<?php echo URL::site(); ?>';
@@ -17,16 +17,16 @@
 		</script>
 
 		<?php
-		echo HTML::style( ADMIN_URL . 'libs/bootstrap/css/bootstrap.css' ) . "\n";
-		echo HTML::style( ADMIN_URL . 'stylesheets/backend.css' ) . "\n";
-		echo HTML::style( ADMIN_URL . 'libs/jquery-ui/jquery-ui-1.8.12.css' ) . "\n";
-		echo HTML::style( ADMIN_URL . 'libs/jgrowl/jquery.jgrowl.css' ) . "\n";
+		echo HTML::style( ADMIN_RESOURCES . 'libs/bootstrap/css/bootstrap.css' ) . "\n";
+		echo HTML::style( ADMIN_RESOURCES . 'stylesheets/backend.css' ) . "\n";
+		echo HTML::style( ADMIN_RESOURCES . 'libs/jquery-ui/jquery-ui-1.8.12.css' ) . "\n";
+		echo HTML::style( ADMIN_RESOURCES . 'libs/jgrowl/jquery.jgrowl.css' ) . "\n";
 
-		echo HTML::script( ADMIN_URL . 'libs/jquery-1.7.2.min.js' ) . "\n";
-		echo HTML::script( ADMIN_URL . 'libs/jquery-ui/jquery-ui-1.8.12.js' ) . "\n";
-		echo HTML::script( ADMIN_URL . 'libs/bootstrap/js/bootstrap.min.js' ) . "\n";
-		echo HTML::script( ADMIN_URL . 'libs/jgrowl/jquery.jgrowl_minimized.js' ) . "\n";
-		echo HTML::script( ADMIN_URL . 'javascripts/backend.js' ) . "\n";
+		echo HTML::script( ADMIN_RESOURCES . 'libs/jquery-1.7.2.min.js' ) . "\n";
+		echo HTML::script( ADMIN_RESOURCES . 'libs/jquery-ui/jquery-ui-1.8.12.js' ) . "\n";
+		echo HTML::script( ADMIN_RESOURCES . 'libs/bootstrap/js/bootstrap.min.js' ) . "\n";
+		echo HTML::script( ADMIN_RESOURCES . 'libs/jgrowl/jquery.jgrowl_minimized.js' ) . "\n";
+		echo HTML::script( ADMIN_RESOURCES . 'javascripts/backend.js' ) . "\n";
 		?>
 
 		<?php echo $messages; ?>

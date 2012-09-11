@@ -8,7 +8,7 @@
 
 		<div class="item-title">
 			<?php echo $page_part->name; ?>
-			<?php echo HTML::anchor( '#', HTML::icon( 'cog icon-white' ), array( 'class' => 'item-options-button' ) ); ?>
+			<?php echo HTML::anchor( '#', UI::icon( 'cog icon-white' ), array( 'class' => 'item-options-button' ) ); ?>
 		</div>
 
 		<div class="item-options">
@@ -29,7 +29,7 @@
 			<?php endif; ?>
 
 			<?php if ( $page_part->name != 'body' ): ?>
-				<?php echo Form::button( NULL, HTML::icon( 'trash icon-white' ) . ' ' . __( 'Remove part :part_name', array( ':part_name' => $page_part->name ) ), array(
+				<?php echo Form::button( NULL, UI::icon( 'trash icon-white' ) . ' ' . __( 'Remove part :part_name', array( ':part_name' => $page_part->name ) ), array(
 					'class' => 'item-remove btn btn-danger'
 				) ); ?>
 			<?php endif; ?>

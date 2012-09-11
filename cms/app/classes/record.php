@@ -174,7 +174,7 @@ class Record
 			->current();
 	}
 
-	public static function findAllFrom($class_name, $where=FALSE, $values=array())
+	public static function findAllFrom($class_name, $where = FALSE, $values = array())
 	{
 		$sql = 'SELECT * FROM '.self::tableName($class_name).($where ? ' WHERE '.$where:'');
 

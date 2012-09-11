@@ -24,7 +24,7 @@ $uri = ($action == 'edit') ? URL::site('snippet/edit/'. $snippet->name) : URL::s
 			)); ?>
 
 	<div class="form-actions">
-		<?php echo Form::actions($page_name); ?>
+		<?php echo UI::actions($page_name); ?>
 	</div>
 <?php echo Form::close(); ?>
 <!--/#snippetEditForm-->

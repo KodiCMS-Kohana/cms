@@ -30,7 +30,7 @@
 					<?php foreach ( Model_Navigation::get() as $name => $group ): ?>
 						<optgroup label="<?php echo __( $name ); ?>">
 							<?php foreach ( $group->items as $item ): ?>
-								<option value="<?php echo $item->uri; ?>" <?php if ( $item->uri == $current_default_nav ) echo 'selected="selected"'; ?> ><?php echo $item->name; ?></option>
+							<option value="<?php echo trim(str_replace(ADMIN_DIR_NAME, '', $item->uri), '/'); ?>" <?php if ( $item->uri == $current_default_nav ) echo 'selected="selected"'; ?> ><?php echo $item->name; ?></option>
 							<?php endforeach; ?>
 						</optgroup>
 					<?php endforeach; ?>
@@ -96,7 +96,7 @@
 		<?php Observer::notify( 'view_setting_plugins' ); ?>
 
 		<div class="form-actions">
-			<?php echo Form::button( 'submit', HTML::icon( 'ok' ) . ' ' . __( 'Save setting' ), array(
+			<?php echo Form::button( 'submit', UI::icon( 'ok' ) . ' ' . __( 'Save setting' ), array(
 				'class' => 'btn btn-large btn-success'
 			) ); ?>
 		</div>

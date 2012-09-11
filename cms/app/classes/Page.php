@@ -32,7 +32,25 @@ class Page extends Record
     public $updated_by_id;
     public $position;
     public $needs_login;
+	
+	public static function logins()
+	{
+		return array(
+			self::LOGIN_NOT_REQUIRED => __('Not required'),
+			self::LOGIN_REQUIRED => __('Required'),
+			self::LOGIN_INHERIT => __('inherit')
+		);
+	}
 
+	public static function statuses()
+	{
+		return array(
+			self::STATUS_DRAFT => __('Draft'),
+			self::STATUS_REVIEWED => __('Reviewed'),
+			self::STATUS_PUBLISHED => __('Published'),
+			self::STATUS_HIDDEN => __('Hidden')
+		);
+	}
 
 	public function beforeInsert()
     {		

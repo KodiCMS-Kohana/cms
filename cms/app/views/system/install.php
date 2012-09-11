@@ -18,7 +18,7 @@
 					echo Form::input( 'install[db_server]', Arr::get( $data, 'db_server', 'localhost' ), array(
 						'class' => 'input-xlarge', 'id' => 'installDBServerField'
 					) );
-					?> <?php echo HTML::label( __( 'Required.' ) ); ?>
+					?> <?php echo UI::label( __( 'Required.' ) ); ?>
 				</div>
 			</div>
 
@@ -29,18 +29,18 @@
 					echo Form::input( 'install[db_user]', Arr::get( $data, 'db_user', 'root' ), array(
 						'class' => 'input-xlarge', 'id' => 'installDBUserField'
 					) );
-					?> <?php echo HTML::label( __( 'Required.' ) ); ?>
+					?> <?php echo UI::label( __( 'Required.' ) ); ?>
 				</div>
 			</div>
 
 			<div class="control-group">
 				<label class="control-label" for="installDBPasswordField"><?php echo __( 'Database password' ); ?></label>
 				<div class="controls">
-<?php
-echo Form::password( 'install[db_password]', Arr::get( $data, 'db_password' ), array(
-	'class' => 'input-xlarge', 'id' => 'installDBPasswordField'
-) );
-?>
+					<?php
+					echo Form::password( 'install[db_password]', Arr::get( $data, 'db_password' ), array(
+						'class' => 'input-xlarge', 'id' => 'installDBPasswordField'
+					) );
+					?>
 				</div>
 			</div>
 
@@ -51,7 +51,7 @@ echo Form::password( 'install[db_password]', Arr::get( $data, 'db_password' ), a
 echo Form::input( 'install[db_name]', Arr::get( $data, 'db_name' ), array(
 	'class' => 'input-xlarge', 'id' => 'installDBNameField'
 ) );
-?> <?php echo HTML::label( __( 'Required.' ) ); ?>
+?> <?php echo UI::label( __( 'Required.' ) ); ?>
 
 					<p class="help-block"><?php echo __( 'Required. You have to create a database manually and enter its name here.' ); ?></p>
 				</div>
@@ -60,11 +60,11 @@ echo Form::input( 'install[db_name]', Arr::get( $data, 'db_name' ), array(
 			<div class="control-group">
 				<label class="control-label" for="installDBPrefixField"><?php echo __( 'Prefix' ); ?></label>
 				<div class="controls">
-<?php
-echo Form::input( 'install[table_prefix]', Arr::get( $data, 'table_prefix' ), array(
-	'class' => 'input-xlarge', 'id' => 'installDBPrefixField'
-) );
-?>
+					<?php
+					echo Form::input( 'install[table_prefix]', Arr::get( $data, 'table_prefix' ), array(
+						'class' => 'input-xlarge', 'id' => 'installDBPrefixField'
+					) );
+					?>
 
 					<p class="help-block"><?php echo __( 'Optional. Usefull to prevent conflicts if you have, or plan to have, multiple Flexo installations with a single database.' ); ?></p>
 				</div>
@@ -81,7 +81,7 @@ echo Form::input( 'install[table_prefix]', Arr::get( $data, 'table_prefix' ), ar
 					echo Form::input( 'install[site_name]', Arr::get( $data, 'site_name', 'Kohana frog CMS' ), array(
 						'class' => 'span6', 'id' => 'installSiteNameField'
 					) );
-					?> <?php echo HTML::label( __( 'Required.' ) ); ?>
+					?> <?php echo UI::label( __( 'Required.' ) ); ?>
 				</div>
 			</div>
 
@@ -92,7 +92,7 @@ echo Form::input( 'install[table_prefix]', Arr::get( $data, 'table_prefix' ), ar
 					echo Form::input( 'install[username]', Arr::get( $data, 'username', 'admin' ), array(
 						'class' => 'input-xlarge', 'id' => 'installUsernameField'
 					) );
-					?> <?php echo HTML::label( __( 'Required.' ) ); ?>
+					?> <?php echo UI::label( __( 'Required.' ) ); ?>
 
 					<p class="help-block"><?php echo __( 'Required. Allows you to specify a custom username for the administrator. Default: admin' ); ?></p>
 				</div>
@@ -101,22 +101,33 @@ echo Form::input( 'install[table_prefix]', Arr::get( $data, 'table_prefix' ), ar
 			<div class="control-group">
 				<label class="control-label" for="installEmailField"><?php echo __( 'Administrator email' ); ?></label>
 				<div class="controls">
-<?php
-echo Form::input( 'install[email]', Arr::get( $data, 'email', 'admin@yoursite.com' ), array(
-	'class' => 'input-xlarge', 'id' => 'installEmailField'
-) );
-?> <?php echo HTML::label( __( 'Required.' ) ); ?>
+					<?php
+					echo Form::input( 'install[email]', Arr::get( $data, 'email', 'admin@yoursite.com' ), array(
+						'class' => 'input-xlarge', 'id' => 'installEmailField'
+					) );
+					?> <?php echo UI::label( __( 'Required.' ) ); ?>
+				</div>
+			</div>
+			
+			<div class="control-group">
+				<label class="control-label" for="installAdminDirNamexField"><?php echo __( 'Admin dir name' ); ?></label>
+				<div class="controls">
+					<?php
+					echo Form::input( 'install[admin_dir_name]', Arr::get( $data, 'admin_dir_name', 'admin' ), array(
+						'class' => 'input-xlarge', 'id' => 'installAdminDirNamexField'
+					) );
+					?> <?php echo UI::label( __( 'Required.' ) ); ?>
 				</div>
 			</div>
 
 			<div class="control-group">
 				<label class="control-label" for="installURLSuffixField"><?php echo __( 'URL suffix' ); ?></label>
 				<div class="controls">
-<?php
-echo Form::input( 'install[url_suffix]', Arr::get( $data, 'url_suffix', '.html' ), array(
-	'class' => 'input-xlarge', 'id' => 'installURLSuffixField'
-) );
-?>
+					<?php
+					echo Form::input( 'install[url_suffix]', Arr::get( $data, 'url_suffix', '.html' ), array(
+						'class' => 'input-xlarge', 'id' => 'installURLSuffixField'
+					) );
+					?>
 
 					<p class="help-block"><?php echo __( 'Optional. Add a suffix to simulate static html files.' ); ?></p>
 				</div>
@@ -124,7 +135,7 @@ echo Form::input( 'install[url_suffix]', Arr::get( $data, 'url_suffix', '.html' 
 		</fieldset>
 
 		<div class="form-actions">
-			<button class="btn btn-large btn-success"><?php echo HTML::icon( 'ok icon-white' ) . ' ' . __( 'Install now!' ); ?></button>
+			<button class="btn btn-large btn-success"><?php echo UI::icon( 'ok icon-white' ) . ' ' . __( 'Install now!' ); ?></button>
 		</div>
 	</form><!--/#installForm-->
 

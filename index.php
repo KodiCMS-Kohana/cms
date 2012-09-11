@@ -114,11 +114,13 @@ if ( ! defined('KOHANA_START_MEMORY'))
 require APPPATH.'bootstrap'.EXT;
 
 define('IS_INSTALLED', file_exists('config'.EXT));
-define('IS_BACKEND', URL::math('admin', Request::detect_uri()));
 
 if (IS_INSTALLED)
 {
 	include DOCROOT.'config'.EXT;
+
+	define('IS_BACKEND', URL::math(ADMIN_DIR_NAME, Request::detect_uri()));
+
 	include APPPATH.'init'.EXT;
 }
 else

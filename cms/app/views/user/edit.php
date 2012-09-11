@@ -82,6 +82,6 @@
 	<?php Observer::notify('view_user_edit_plugins', array($user)); ?>
 
 	<div class="form-actions">
-		<?php echo Form::actions($page_name); ?>
+		<?php echo UI::actions($page_name); ?>
 	</div>
 </form>

@@ -4,7 +4,9 @@
 
 <div class="map">
 	<div class="well page-actions">
-		<?php echo HTML::button(URL::site('user/add'), __('Add user'), 'plus'); ?>
+		<?php echo UI::button(__('Add user'), array(
+			'href' => 'user/add', 'icon' => UI::icon('plus')
+		)); ?>
 	</div>
 	
 	<table class="table_list" id="UserList">
@@ -26,21 +28,25 @@
 			<?php foreach ($users as $user): ?>
 			<tr class="item">
 				<td class="name">
-					<?php echo HTML::icon('user'); ?> 
+					<?php echo UI::icon('user'); ?> 
 					<?php echo HTML::anchor(URL::site('user/edit/'.$user->id), $user->username); ?>
 				</td>
 				<td class="roles">
 					<?php $roles = explode(',', $user->roles); ?>
 					<?php foreach($roles as $role): ?>
-						<?php echo HTML::label($role, 'default'); ?>
+						<?php echo UI::label($role, 'default'); ?>
 					<?php endforeach; ?>
 				</td>
-				<td class="email"><?php echo HTML::label($user->email); ?></td>
+				<td class="email"><?php echo UI::label($user->email); ?></td>
 				<td class="actions">
 					<?php 
 					if ($user->id > 1)
-						echo HTML::button(URL::site('user/delete/'.$user->id), NULL, 'remove', 'btn btn-mini btn-confirm');
-					?>
+					{
+						echo UI::button(NULL, array(
+							'href' => 'user/delete/'.$user->id, 'icon' => UI::icon('remove'),
+							 'class' => 'btn btn-mini btn-confirm'
+						));
+					} ?>
 				</td>
 			</tr>
 			<?php endforeach; ?>

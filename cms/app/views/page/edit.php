@@ -17,7 +17,7 @@ if ($pagetmp != null && !empty($pagetmp) && $parttmp != null && !empty($parttmp)
 <div class="page-header">
 	<h1>
 		<?php echo __('Edit page ":page"', array(':page' => $page->title)); ?>
-		<small><?php echo HTML::anchor($page->getUrl(), HTML::label(__('View page')), array(
+		<small><?php echo HTML::anchor($page->getUrl(), UI::label(__('View page')), array(
 		'class' => 'item-preview', 'target' => '_blankn'
 	)); ?></small>
 	</h1>
@@ -25,12 +25,12 @@ if ($pagetmp != null && !empty($pagetmp) && $parttmp != null && !empty($parttmp)
 <?php endif; ?>
 
 <div id="pageEdit">
-	<form id="pageEditForm" class="form-horizontal" action="<?php echo ($action == 'add' ? URL::site('page/add/'.$parent_id) : URL::site('page/edit/'.$page->id)); ?>" method="post">
-		
+	<?php echo Form::open($action == 'add' ? URL::site('page/add/'.$parent_id) : URL::site('page/edit/'.$page->id), array(
+		'id' => 'pageEditForm', 'class' => 'form-horizontal', 'method' => Request::POST
+	)); ?>
 		<?php echo Form::hidden('token', Security::token()); ?>
-		
 		<?php if (!empty($parent_id)): ?>
-		<input type="hidden" name="page[parent_id]" value="<?php echo $parent_id; ?>" />
+		<?php echo Form::hidden('page[parent_id]', $parent_id); ?>
 		<?php endif; ?>
 
 		<div class="container-fluid">
@@ -46,7 +46,7 @@ if ($pagetmp != null && !empty($pagetmp) && $parttmp != null && !empty($parttmp)
 									)); ?>
 								</div>
 							</div>
-							<?php echo HTML::anchor('#', HTML::icon( 'cog' ), array('id' => 'pageEditMetaMoreButton')); ?>
+							<?php echo HTML::anchor('#', UI::icon( 'cog' ), array('id' => 'pageEditMetaMoreButton')); ?>
 						</div>
 						<div id="pageEditMetaMore">
 							<fieldset>
@@ -101,7 +101,11 @@ if ($pagetmp != null && !empty($pagetmp) && $parttmp != null && !empty($parttmp)
 							<?php Observer::notify('view_page_edit_meta', array($page)); ?>
 
 							<?php if (isset($page->updated_on)): ?>
-							<p id="pageEditLastUpdated"><?php echo HTML::label(__('Last updated by <a href=":link">:name</a> on :date', array(':link' => URL::site('user/edit/' . $page->updated_by_id), ':name' => $page->updated_by_name, ':date' => date('D, j M Y', strtotime($page->updated_on))))); ?>
+							<p id="pageEditLastUpdated">
+								<?php echo UI::label(__('Last updated by <a href=":link">:name</a> on :date', array(
+									':link' => URL::site('user/edit/' . $page->updated_by_id), 
+									':name' => $page->updated_by_name, 
+									':date' => date('D, j M Y', strtotime($page->updated_on))))); ?>
 							</p>
 							<?php endif; ?>
 						</div>
@@ -116,7 +120,7 @@ if ($pagetmp != null && !empty($pagetmp) && $parttmp != null && !empty($parttmp)
 					<?php Observer::notify('view_page_edit_plugins', array($page)); ?>
 
 					<div class="form-actions">
-						<?php echo Form::actions($page_name); ?>
+						<?php echo UI::actions($page_name); ?>
 					</div>
 
 				</div><!--/#pageEdit-->
@@ -153,12 +157,9 @@ if ($pagetmp != null && !empty($pagetmp) && $parttmp != null && !empty($parttmp)
 						<p>
 							<label><?php echo __('Status'); ?></label>
 							<span>
-								<select name="page[status_id]" class="span12">
-									<option value="<?php echo Page::STATUS_DRAFT; ?>"<?php echo $page->status_id == Page::STATUS_DRAFT ? ' selected="selected"': ''; ?>><?php echo __('Draft'); ?></option>
-									<option value="<?php echo Page::STATUS_REVIEWED; ?>"<?php echo $page->status_id == Page::STATUS_REVIEWED ? ' selected="selected"': ''; ?>><?php echo __('Reviewed'); ?></option>
-									<option value="<?php echo Page::STATUS_PUBLISHED; ?>"<?php echo $page->status_id == Page::STATUS_PUBLISHED ? ' selected="selected"': ''; ?>><?php echo __('Published'); ?></option>
-									<option value="<?php echo Page::STATUS_HIDDEN; ?>"<?php echo $page->status_id == Page::STATUS_HIDDEN ? ' selected="selected"': ''; ?>><?php echo __('Hidden'); ?></option>
-								</select>
+								<?php echo Form::select('page[status_id]', Page::statuses(), $page->status_id, array(
+									'class' => 'span12'
+								)); ?>
 							</span>
 						</p>
 						<?php endif; ?>
@@ -176,11 +177,9 @@ if ($pagetmp != null && !empty($pagetmp) && $parttmp != null && !empty($parttmp)
 						<p>
 							<label><?php echo __('Needs login'); ?></label>
 							<span>
-								<select name="page[needs_login]" class="span12">
-									<option value="<?php echo Page::LOGIN_INHERIT; ?>"<?php echo $page->needs_login == Page::LOGIN_INHERIT ? ' selected="selected"': ''; ?>>&ndash; <?php echo __('inherit'); ?> &ndash;</option>
-									<option value="<?php echo Page::LOGIN_NOT_REQUIRED; ?>"<?php echo $page->needs_login == Page::LOGIN_NOT_REQUIRED ? ' selected="selected"': ''; ?>><?php echo __('Not required'); ?></option>
-									<option value="<?php echo Page::LOGIN_REQUIRED; ?>"<?php echo $page->needs_login == Page::LOGIN_REQUIRED ? ' selected="selected"': ''; ?>><?php echo __('Required'); ?></option>
-								</select>
+								<?php echo Form::select('page[needs_login]', Page::logins(), $page->needs_login, array(
+									'class' => 'span12'
+								)); ?>
 							</span>
 						</p>
 						<?php endif; ?>
@@ -205,5 +204,5 @@ if ($pagetmp != null && !empty($pagetmp) && $parttmp != null && !empty($parttmp)
 				</div><!--/#contentSidebar-->
 			</div>
 		</div>
-	</form>
+	<?php echo Form::close(); ?>
 </div>

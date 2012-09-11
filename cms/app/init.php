@@ -2,6 +2,7 @@
 
 // CMS defaults
 define('BASE_URL',			'http://'.dirname($_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME']) .'/');
+define('ADMIN_RESOURCES',	BASE_URL.'admin/');
 define('ADMIN_URL',			BASE_URL.ADMIN_DIR_NAME.'/');
 define('PLUGINS_URL',		BASE_URL . 'cms/plugins/');
 define('PUBLICPATH',		DOCROOT.'public'.DIRECTORY_SEPARATOR);
@@ -35,14 +36,6 @@ Route::set( 'user', ADMIN_DIR_NAME.'/<action>(?next=<next_url>)', array(
 		'controller' => 'login',
 	) );
 
-Route::set( 'plugin', ADMIN_DIR_NAME.'/plugin/(<controller>(/<action>(/<id>)))', array(
-	'id' => '.*'
-) )
-	->defaults( array(
-		'controller' => 'index',
-		'action' => 'index',
-	) );
-
 Route::set( 'templates', ADMIN_DIR_NAME.'/(<controller>(/<action>(/<id>)))', array(
 	'controller' => '(layout|snippet)',
 	'id' => '.*'
@@ -61,7 +54,7 @@ Route::set( 'plugins', ADMIN_DIR_NAME.'/(<controller>(/<action>(/<id>)))', array
 		'action' => 'index',
 	) );
 
-Route::set( 'admin', ADMIN_DIR_NAME.'/(<controller>(/<action>(/<id>)))')
+Route::set( 'admin', ADMIN_DIR_NAME.'(/(<controller>(/<action>(/<id>))))')
 	->defaults( array(
 		'controller' => Setting::get('default_tab'),
 		'action' => 'index',

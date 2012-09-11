@@ -22,7 +22,9 @@
 		</ul>
 
 		<div class="btn-group pull-right">
-			<?php echo HTML::anchor( URL::site( 'user/edit/' . AuthUser::getId() ), HTML::icon( 'user' ) . ' ' . AuthUser::getRecord()->name, array( 'class' => 'btn' ) ); ?>
+			<?php echo UI::button( AuthUser::getRecord()->name, array( 
+				'href' => 'user/edit/' . AuthUser::getId(), 'icon' => UI::icon( 'user' ) ) ); ?>
+	
 			<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
 				<span class="caret"></span>
 			</a>

@@ -249,7 +249,7 @@ class Model_Backup {
 		{
 			foreach ($row as &$value) 
 			{
-				$value = mysql_escape_string($value);
+				$value = mysql_real_escape_string($value);
 			}
 
 			$data .= 'INSERT INTO `' . $tableName . '` VALUES (\'' . implode('\',\'', $row) . '\');' . "\n";

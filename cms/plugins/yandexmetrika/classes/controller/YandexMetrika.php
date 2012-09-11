@@ -11,7 +11,7 @@ class Controller_YandexMetrika extends Controller_System_Plugin
 			Plugins::setAllSettings($settings, 'yandex_metrika');
 			
 			Messages::success( __('Settings has been saved!'));
-			$this->go(URL::site('plugin/yandexmetrika/settings'));
+			$this->go(URL::site('yandexmetrika/settings'));
 		}
 		
 		$this->template->content = View::factory('yandexmetrika/settings', array(

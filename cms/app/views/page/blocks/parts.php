@@ -19,7 +19,7 @@
 <?php if ( AuthUser::hasPermission( array( 'administrator', 'developer' ) ) ): ?>
 	<div id="pageEditPartAdd">
 		<?php
-		echo Form::button( NULL, HTML::icon( 'plus' ) . ' ' . __( 'Add page part' ), array(
+		echo Form::button( NULL, UI::icon( 'plus' ) . ' ' . __( 'Add page part' ), array(
 			'id' => 'pageEditPartAddButton'
 		) );
 		?>

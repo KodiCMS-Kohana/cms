@@ -24,7 +24,7 @@ class Controller_System_Install extends Controller_System_Template {
 
 		$post['db_driver'] = DB_TYPE;
 		$post['password'] = Text::random();
-		$post['admin_dir_name'] = 'admin';
+		//$post['admin_dir_name'] = 'admin';
 
 		Session::instance()
 			->set( 'install_data', $post );
@@ -32,11 +32,15 @@ class Controller_System_Install extends Controller_System_Template {
 		$validation = Validation::factory( $post )
 			->rule( 'db_server', 'not_empty' )
 			->rule( 'db_user', 'not_empty' )
-			->rule( 'db_name', 'not_empty' );
+			->rule( 'db_name', 'not_empty' )
+			->rule( 'admin_dir_name', 'not_empty' )
+			->rule( 'username', 'not_empty' )
+			->rule( 'email', 'not_empty' )
+			->rule( 'email', 'email' );
 
 		if ( !$validation->check() )
 		{
-			Messages::errors($validation->errors());
+			Messages::errors($validation->errors('validation'));
 			$this->go_back();
 		}
 

@@ -56,7 +56,7 @@
 	<?php endif; ?>
 
 	<div class="form-actions">
-		<?php echo Form::button('submit', HTML::icon('ok') .' '. __('Save setting'), array(
+		<?php echo Form::button('submit', UI::icon('ok') .' '. __('Save setting'), array(
 			'class' => 'btn btn-large btn-success'
 		)); ?>
 	</div>

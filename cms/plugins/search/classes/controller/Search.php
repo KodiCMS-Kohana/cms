@@ -11,7 +11,7 @@ class Controller_Search extends Controller_System_Plugin
 			Plugins::setAllSettings($settings, 'search');
 			
 			Messages::success( __('Settings has been saved!'));
-			$this->go(URL::site('plugin/search/settings'));
+			$this->go(URL::site('search/settings'));
 		}
 		
 		$this->template->content = View::factory('search/settings', array(

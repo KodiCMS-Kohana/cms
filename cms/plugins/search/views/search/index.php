@@ -3,7 +3,9 @@
 </div>
 
 <div class="well page-actions">
-	<?php echo HTML::button(URL::site('plugin/search/indexer'), __('Reindex pages'), 'plus'); ?>
+	<?php echo UI::button(__('Reindex pages'), array(
+		'href' => 'search/indexer', 'icon' => UI::icon('plus')
+	)); ?>
 	<?php echo __('Total pages in index: :total', array(':total' => $total_pages)); ?>
 </div>
 

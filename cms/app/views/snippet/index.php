@@ -6,7 +6,9 @@
 <div class="map">
 	
 	<div class="well page-actions">
-		<?php echo HTML::button(URL::site('snippet/add'), __('Add snippet'), 'plus'); ?>
+		<?php echo UI::button(__('Add snippet'), array(
+			'href' => 'snippet/add', 'icon' => UI::icon('plus')
+		)); ?>
 	</div>
 	
 	<table class="table_list" id="SnippetList">
@@ -29,10 +31,13 @@
 					<?php echo HTML::anchor(URL::site('snippet/edit/'.$snippet->name), HTML::image('images/snippet.png') .' '. $snippet->name); ?>
 				</th>
 				<td class="direction">
-					<?php echo HTML::label('/snippets/' . $snippet->name . EXT); ?>
+					<?php echo UI::label('/snippets/' . $snippet->name . EXT); ?>
 				</td>
 				<td class="actions">
-					<?php echo HTML::button(URL::site('snippet/delete/'. $snippet->name), NULL, 'remove', 'btn btn-mini btn-confirm'); ?>
+					<?php echo UI::button(NULL, array(
+						'href' => 'snippet/delete/'. $snippet->name, 'icon' => UI::icon('remove'),
+						 'class' => 'btn btn-mini btn-confirm'
+					)); ?>
 				</td>
 			</tr>
 			<?php endforeach; ?>

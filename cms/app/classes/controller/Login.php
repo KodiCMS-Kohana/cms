@@ -31,7 +31,7 @@ class Controller_Login extends Controller_System_Template {
 
 		$this->template->content = View::factory( 'system/login' );
 		
-		$this->template->content->install_data = Session::instance()->get('install_data');
+		$this->template->content->install_data = Session::instance()->get_once('install_data');
 	}
 
 	private function _login()
@@ -115,8 +115,8 @@ class Controller_Login extends Controller_System_Template {
 		{
 			Session::instance()->set('forgot_email', $email);
 
-			$new_pass = '12'.dechex(rand(100000000, 4294967295)).'K';
-			$user->password = sha1($new_pass);
+			$new_pass = Text::random();
+			$user->password = $new_pass;
 			$user->save();
 
 			$message = (string) View::factory('messages/forgot_emil', array(
