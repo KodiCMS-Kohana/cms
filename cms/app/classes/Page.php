@@ -174,7 +174,7 @@ class Page extends Record
     {
         if( is_string($tags) )
 		{
-            $tags = preg_split("/[\s,]+/", $tags);
+            $tags = explode(Tag::SEPARATOR, $tags);
 		}
         
         $tags = array_unique(array_map('trim', $tags));

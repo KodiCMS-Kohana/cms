@@ -63,7 +63,7 @@
 			<label class="control-label" for="pageEditMetaTagsField"><?php echo __( 'Tags' ); ?></label>
 			<div class="controls">
 				<?php 
-				echo Form::textarea( 'page[tags]', implode( ', ', $tags ), array(
+				echo Form::textarea( 'page[tags]', implode(Tag::SEPARATOR, $tags ), array(
 					'class' => 'span12', 'id' => 'pageEditMetaTagsField'
 				) );
 				?>

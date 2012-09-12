@@ -7,14 +7,7 @@
 		<base href="<?php echo ADMIN_RESOURCES; ?>" />
 		<link href="<?php echo ADMIN_RESOURCES; ?>favicon.ico" rel="favourites icon" />
 
-		<script>
-			var BASE_URL         = '<?php echo URL::site(); ?>';
-			var SITE_URL         = '<?php echo URL::base(); ?>';
-			var ADMIN_DIR_NAME   = '<?php echo ADMIN_DIR_NAME; ?>';
-			var PUBLIC_URL       = '<?php echo PUBLIC_URL; ?>';
-			var PLUGINS_URL      = '<?php echo PLUGINS_URL; ?>';
-			var LOCALE           = '<?php echo I18n::lang(); ?>';
-		</script>
+		<?php echo View::factory('layouts/blocks/jsvars'); ?>
 
 		<?php
 		echo HTML::style( ADMIN_RESOURCES . 'libs/bootstrap/css/bootstrap.css' ) . "\n";

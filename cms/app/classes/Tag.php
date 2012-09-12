@@ -3,4 +3,5 @@
 class Tag extends Record
 {
     const TABLE_NAME = 'tags';
+	const SEPARATOR = ',';
 }
