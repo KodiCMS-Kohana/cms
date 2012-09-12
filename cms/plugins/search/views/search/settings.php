@@ -1,4 +1,3 @@
-<?php defined('SYSPATH') or die('No direct access allowed.'); ?>
 <div class="page-header">
 	<h1><?php echo __('Search settings'); ?></h1> 
 </div>

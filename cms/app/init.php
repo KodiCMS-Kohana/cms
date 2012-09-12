@@ -75,4 +75,5 @@ Route::set( 'default', '(<page>)(<suffix>)' , array(
 	->defaults( array(
 		'controller' => 'front',
 		'action' => 'index',
+		'suffix' => URL_SUFFIX
 	) );
