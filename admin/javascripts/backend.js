@@ -27,8 +27,7 @@ var __ = function(str)
 // Error
 cms.error = function(msg, e)
 {
-	if (console != undefined)
-		console.log(msg, e);
+	$.jGrowl(msg);
 };
 
 
@@ -389,17 +388,17 @@ cms.init.add('page_index', function()
 	// Reordering	
 	$('#pageMapReorderButton').click(function()
 	{
-		$pageMapUl = $('#pageMapItems > li > ul');
+		var $pageMapUl = $('#pageMapItems > li > ul');
 		
-		if ($('#pageMapCopyButton').hasClass('button-active'))
+		if ($(this).hasClass('btn-inverse'))
 		{
-			$('#pageMapCopyButton').removeClass('button-active');
+			$(this).removeClass('btn-inverse');
 			
 			$pageMapUl
 				.removeClass('map-drag')
 				.sortable('destroy')
-					.find('li')
-					.draggable('destroy');
+				.find('li')
+				.draggable('destroy');
 		}
 		
 		if ( ! $pageMapUl.hasClass('map-drag'))
@@ -489,7 +488,7 @@ cms.init.add('page_index', function()
 					stop:  dragStopped_handler
 				});
 				
-			$(this).addClass('button-active');
+			$(this).addClass('btn-inverse');
 		}
 		else
 		{
@@ -497,7 +496,7 @@ cms.init.add('page_index', function()
 				.removeClass('map-drag')
 				.sortable('destroy');
 			
-			$(this).removeClass('button-active');
+			$(this).removeClass('btn-inverse');
 		}
 	});
 	
@@ -507,9 +506,9 @@ cms.init.add('page_index', function()
 	{
 		$pageMapUl = $('#pageMapItems > li > ul');
 		
-		if ($('#pageMapReorderButton').hasClass('button-active'))
+		if ($(this).hasClass('btn-inverse'))
 		{
-			$('#pageMapReorderButton').removeClass('button-active');
+			$(this).removeClass('btn-inverse');
 			
 			$pageMapUl
 				.removeClass('map-drag')
@@ -621,7 +620,7 @@ cms.init.add('page_index', function()
 					grid:        [5, 8]
 				});
 				
-			$(this).addClass('button-active');
+			$(this).addClass('btn-inverse');
 		}
 		else
 		{
@@ -631,7 +630,7 @@ cms.init.add('page_index', function()
 					.find('li')
 					.draggable('destroy');
 			
-			$(this).removeClass('button-active');
+			$(this).removeClass('btn-inverse');
 		}
 	});
 	
