@@ -166,8 +166,6 @@ class Page extends Record
 			->join(array($tablename_tag, 'tags'), 'left')
 				->on('page_tags.tag_id', '=', 'tags.id')
 			->where('page_tags.page_id', '=', $this->id)
-			->cache_key( 'page_tags' )
-			->cached()
 			->execute()
 			->as_array('id', 'tag');
     }
@@ -176,16 +174,18 @@ class Page extends Record
     {
         if( is_string($tags) )
 		{
-            $tags = explode(',', $tags);
+            $tags = preg_split("/[\s,]+/", $tags);
 		}
         
-        $tags = array_map('trim', $tags);
+        $tags = array_unique(array_map('trim', $tags));
         
         $current_tags = $this->getTags();
         
         // no tag before! no tag now! ... nothing to do!
-        if( count($tags) == 0 && count($current_tags) == 0 )
+        if( count($tags) == 0 AND count($current_tags) == 0 )
+		{
             return;
+		}
         
         // delete all tags
         if( count($tags) == 0 )

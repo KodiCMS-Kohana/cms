@@ -11,7 +11,7 @@
 			<?php echo HTML::anchor( '#', UI::icon( 'cog icon-white' ), array( 'class' => 'item-options-button' ) ); ?>
 		</div>
 
-		<div class="item-options">
+		<div class="item-options form-inline">
 			<?php echo __( 'Filter' ); ?>
 			<select class="item-filter" name="part[<?php echo ($index - 1); ?>][filter_id]" rel="<?php echo ($index - 1); ?>">
 				<option value="">&ndash; <?php echo __( 'none' ); ?> &ndash;</option>
@@ -21,16 +21,15 @@
 			</select>
 
 			<?php if ( AuthUser::hasPermission( 'administrator,developer' ) ): ?>
-			<div class="checkbox ">
-				<label>
-					<?php echo Form::checkbox( 'part[' . ($index - 1) . '][is_protected]', PagePart::PART_PROTECTED, (isset( $page_part->is_protected ) && $page_part->is_protected == PagePart::PART_PROTECTED ) ) . ' ' . __( 'Is protected' ); ?>
-				</label>
-			</div>
+
+			<label class="checkbox ">
+				<?php echo Form::checkbox( 'part[' . ($index - 1) . '][is_protected]', PagePart::PART_PROTECTED, (isset( $page_part->is_protected ) && $page_part->is_protected == PagePart::PART_PROTECTED ) ) . ' ' . __( 'Is protected' ); ?>
+			</label>
 			<?php endif; ?>
 
 			<?php if ( $page_part->name != 'body' ): ?>
-				<?php echo Form::button( NULL, UI::icon( 'trash icon-white' ) . ' ' . __( 'Remove part :part_name', array( ':part_name' => $page_part->name ) ), array(
-					'class' => 'item-remove btn btn-danger'
+				<?php echo UI::button(__( 'Remove part :part_name', array( ':part_name' => $page_part->name ) ), array(
+					'class' => 'item-remove btn btn-danger', 'icon' => UI::icon( 'trash icon-white' )
 				) ); ?>
 			<?php endif; ?>
 		</div>

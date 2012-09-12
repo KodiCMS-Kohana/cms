@@ -60,6 +60,14 @@ Route::set( 'admin', ADMIN_DIR_NAME.'(/(<controller>(/<action>(/<id>))))')
 		'action' => 'index',
 	) );
 
+// Системные контроллеры
+Route::set( 'system', '<directory>-<controller>-<action>(/<id>)', array(
+	'directory' => '(ajax|action|form)',
+	'controller' => '[A-Za-z\_]+',
+	'action' => '[A-Za-z\_]+',
+	'id' => '.+',
+) );
+
 Route::set( 'default', '(<page>)(<suffix>)' , array(
 	'page' => '.*',
 	'suffix' => URL_SUFFIX

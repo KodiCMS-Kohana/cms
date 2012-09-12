@@ -236,18 +236,6 @@ table.table_list {
 	margin: 10px 0;
 }
 
-#pageEditParts .item-options label {
-	display:block;
-	margin-bottom:.2em;
-	font-size:90%;
-}
-
-#pageEdit .item-options .checkbox label {
-	display:inline;
-	float:none;
-	margin:0 0 0 .2em;
-}
-
 #pageEditParts .item-content {
 	padding: 1px;
 	background: #ccc;
@@ -368,4 +356,8 @@ table.table_list {
 	#pageMap .actions {
 		display:block;
 	}
+}
+
+.CodeMirror {
+	background: #fff;
 }

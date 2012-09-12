@@ -16,10 +16,19 @@ if ($pagetmp != null && !empty($pagetmp) && $parttmp != null && !empty($parttmp)
 <?php if($page->title): ?>
 <div class="page-header">
 	<h1>
-		<?php echo __('Edit page ":page"', array(':page' => $page->title)); ?>
-		<small><?php echo HTML::anchor($page->getUrl(), UI::label(__('View page')), array(
-		'class' => 'item-preview', 'target' => '_blankn'
-	)); ?></small>
+		<?php echo __('Edit page'); ?>
+		<small>
+			<?php if (isset($page->updated_on)): ?>
+			<?php echo UI::label(__('Last updated by <a href=":link">:name</a> on :date', array(
+				':link' => URL::site('user/edit/' . $page->updated_by_id), 
+				':name' => $page->updated_by_name, 
+				':date' => date('D, j M Y', strtotime($page->updated_on))))); ?>
+			<?php endif; ?>
+			
+			<?php echo HTML::anchor($page->getUrl(), UI::label(__('View page')), array(
+				'class' => 'item-preview', 'target' => '_blankn'
+			)); ?>
+		</small>
 	</h1>
 </div>
 <?php endif; ?>
@@ -37,78 +46,11 @@ if ($pagetmp != null && !empty($pagetmp) && $parttmp != null && !empty($parttmp)
 			<div class="row-fluid">
 				<div id="pageEdit" class="box span9">
 					<div id="pageEditMeta">
-						<div id="pageEditMetaTitle">
-							<div class="control-group">
-								<label class="control-label title" for="pageEditMetaSlugField"><?php echo __('Page title'); ?></label>
-								<div class="controls">
-									<?php echo Form::input('page[title]', $page->title, array(
-										'class' => 'input-plarge title', 'id' => 'pageEditMetaTitleField'
-									)); ?>
-								</div>
-							</div>
-							<?php echo HTML::anchor('#', UI::icon( 'cog' ), array('id' => 'pageEditMetaMoreButton')); ?>
-						</div>
-						<div id="pageEditMetaMore">
-							<fieldset>
-								<?php if($action == 'add' || ($action == 'edit' && isset($page->id) && $page->id != 1)): ?>
-								<div class="control-group">
-									<label class="control-label" for="pageEditMetaSlugField"><?php echo __('Slug'); ?></label>
-									<div class="controls">
-										<?php echo Form::input('page[slug]', $page->slug, array(
-											'class' => 'input-plarge', 'id' => 'pageEditMetaSlugField'
-										)); ?>
-									</div>
-								</div>
-								<?php endif; ?>
-								
-								<div class="control-group">
-									<label class="control-label" for="pageEditMetaBreadcrumbField"><?php echo __('Breadcrumb'); ?></label>
-									<div class="controls">
-										<?php echo Form::input('page[breadcrumb]', $page->breadcrumb, array(
-											'class' => 'input-plarge', 'id' => 'pageEditMetaBreadcrumbField'
-										)); ?>
-									</div>
-								</div>
-								
-								<div class="control-group">
-									<label class="control-label" for="pageEditMetaKeywordsField"><?php echo __('Keywords'); ?></label>
-									<div class="controls">
-										<?php echo Form::textarea('page[keywords]', $page->keywords, array(
-											'class' => 'input-plarge', 'id' => 'pageEditMetaKeywordsField'
-										)); ?>
-									</div>
-								</div>
-								
-								<div class="control-group">
-									<label class="control-label" for="pageEditMetaDescriptionField"><?php echo __('Description'); ?></label>
-									<div class="controls">
-										<?php echo Form::textarea('page[description]', $page->description, array(
-											'class' => 'input-plarge', 'id' => 'pageEditMetaDescriptionField'
-										)); ?>
-									</div>
-								</div>
-								
-								<div class="control-group">
-									<label class="control-label" for="pageEditMetaTagsField"><?php echo __('Tags'); ?></label>
-									<div class="controls">
-										<?php echo Form::textarea('page[tags]', join(', ', $tags), array(
-											'class' => 'input-plarge', 'id' => 'pageEditMetaTagsField'
-										)); ?>
-									</div>
-								</div>
-							</fieldset>
-
-							<?php Observer::notify('view_page_edit_meta', array($page)); ?>
-
-							<?php if (isset($page->updated_on)): ?>
-							<p id="pageEditLastUpdated">
-								<?php echo UI::label(__('Last updated by <a href=":link">:name</a> on :date', array(
-									':link' => URL::site('user/edit/' . $page->updated_by_id), 
-									':name' => $page->updated_by_name, 
-									':date' => date('D, j M Y', strtotime($page->updated_on))))); ?>
-							</p>
-							<?php endif; ?>
-						</div>
+						<?php echo View::factory('page/blocks/meta', array(
+							'page' => $page,
+							'action' => $action,
+							'tags' => $tags
+						)); ?>
 					</div><!--/#pageEditMeta-->
 					
 					
