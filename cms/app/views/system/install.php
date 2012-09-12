@@ -144,15 +144,15 @@ echo Form::input( 'install[db_name]', Arr::get( $data, 'db_name' ), array(
 
 	<table class="table table-condensed">
 		<tr>
-			<th>PHP Version</th>
+			<th><?=__('PHP Version');?></th>
 			<?php if ( version_compare( PHP_VERSION, '5.3.3', '>=' ) ): ?>
 				<td class="pass"><?php echo PHP_VERSION ?></td>
 			<?php else: $failed = TRUE ?>
-				<td class="fail">Kohana requires PHP 5.3.3 or newer, this version is <?php echo PHP_VERSION ?>.</td>
+				<td class="fail"><?=__('CMS requires PHP 5.3.3 or newer, this version is');?> <?php echo PHP_VERSION ?>.</td>
 <?php endif ?>
 		</tr>
 		<tr>
-			<th>Application Directory</th>
+			<th><?=__('Application Directory');?></th>
 			<?php if ( is_dir( APPPATH ) AND is_file( APPPATH . 'bootstrap' . EXT ) ): ?>
 				<td class="pass"><?php echo APPPATH ?></td>
 			<?php else: $failed = TRUE ?>
@@ -160,7 +160,7 @@ echo Form::input( 'install[db_name]', Arr::get( $data, 'db_name' ), array(
 			<?php endif ?>
 		</tr>
 		<tr>
-			<th>Cache Directory</th>
+			<th><?=__('Cache Directory');?></th>
 			<?php if ( is_dir( APPPATH ) AND is_dir( APPPATH . 'cache' ) AND is_writable( APPPATH . 'cache' ) ): ?>
 				<td class="pass"><?php echo APPPATH . 'cache/' ?></td>
 			<?php else: $failed = TRUE ?>
@@ -178,7 +178,7 @@ echo Form::input( 'install[db_name]', Arr::get( $data, 'db_name' ), array(
 <?php endif ?>
 		</tr>
 		<tr>
-			<th>SPL Enabled</th>
+			<th><?=__('SPL Enabled');?></th>
 			<?php if ( function_exists( 'spl_autoload_register' ) ): ?>
 				<td class="pass">Pass</td>
 			<?php else: $failed = TRUE ?>

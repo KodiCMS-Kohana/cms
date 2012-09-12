@@ -241,6 +241,14 @@ return array(
 	'Database dump file not found!' => 'Файл с дампом Базы данных не найден!',
 	'Problems with importing Database dump! :message' => 'Проблемы с импортом дампа Базы данных! :message',
 	'Can\'t write config.php file!' => 'Невозможно записать данные в файл config.php!',
+    'Environment Tests' => 'Проверка окружения',
+    'PHP Version' => 'Версия PHP',
+    'Application Directory' => 'Папка приложения',
+    'Cache Directory' => 'Папка кэша',
+    'SPL Enabled' => 'SPL Включен',
+    'CMS requires PHP 5.3.3 or newer, this version is' => 'Для нормальной работы система нуждается в PHP версии 5.3.3 или более новой, ваша версия',
+    'The configured <code>application</code> directory does not exist or does not contain required files.' => 'Основная папка приложения не существует или не содержит необходимых файлов',
+
 	
 	
 	// Finsh
@@ -248,7 +256,7 @@ return array(
 	'delete the <em>install/</em> folder!' => 'удалить директорию <em>install/</em>!',
 	'remove all write permissions from the <em>config.php</em> file!' => 'убрать все права на запись у файла <em>config.php</em>!',
 	'delete directory <em>readme/</em> to enhance security.' => 'удалить директорию <em>readme/</em>, чтобы повысить безопасность.',
-	'Congratulations! Flexo CMS is installed!' => 'Поздравляем! Flexo CMS успешно установлена!',
+	'CMS succefully installed' => 'CMS успешно установлена',
 	'Administration login page' => 'Раздел администрирования',
 	'Username:' => 'Имя пользователя:',
 	'Password:' => 'Пароль:',
