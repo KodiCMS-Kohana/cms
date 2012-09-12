@@ -68,7 +68,7 @@ class FrontPage
     public function url()
 	{
 		$uri = $this->url;
-		if(URL::check_suffix( $uri, '.' ))
+		if(URL::check_suffix( $uri, '.' ) AND $uri != '')
 		{
 			$uri .= URL_SUFFIX;
 		}
@@ -97,7 +97,7 @@ class FrontPage
         return $this->tags;
     }
     
-    public function link($label=NULL, $options= array(), $check_current = TRUE)
+    public function link($label = NULL, $options = array(), $check_current = TRUE)
     {
         if ($label == NULL)
 		{
@@ -149,7 +149,7 @@ class FrontPage
 		
         if ($this->parent && $this->level > $level)
 		{
-			$pages[] = Arr::merge($this->parent->_recurse_breadcrumbs($level), $pages);
+			$pages = Arr::merge($this->parent->_recurse_breadcrumbs($level), $pages);
 		}
 		
 		$pages[] = $this->breadcrumb;
@@ -586,21 +586,18 @@ class FrontPage
 	
 	private function _loadParts()
     {
-		if (!isset($this->part) OR !is_object($this->part))
-		{
-			$this->part = new stdClass;
-			$parts = DB::select('name', 'content_html')
-				->from(PagePart::tableName())
-				->where('page_id', '=', $this->id)
-				->cache_key('pageParts::page_id::'.$this->id)
-				->as_object()
-				->cached((int)Kohana::$config->load('global.cache.page_parts'))
-				->execute();
+		$this->part = new stdClass;
+		$parts = DB::select('name', 'content', 'content_html')
+			->from(PagePart::tableName())
+			->where('page_id', '=', $this->id)
+			->cache_key('pageParts::page_id::'.$this->id)
+			->as_object('PagePart')
+			->cached((int)Kohana::$config->load('global.cache.page_parts'))
+			->execute();
 
-			foreach ( $parts as $part_obj )
-			{
-				$this->part->{$part_obj->name} = $part_obj;
-			}
+		foreach ( $parts as $part_obj )
+		{
+			$this->part->{$part_obj->name} = $part_obj;
 		}
 	}
     

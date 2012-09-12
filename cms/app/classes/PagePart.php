@@ -29,23 +29,18 @@ class PagePart extends Record
 			if (Filter::get($this->filter_id))
 			{
 				$filter_class = Filter::get($this->filter_id);
+
 				if($filter_class !== FALSE)
 				{
 					$this->content_html = $filter_class->apply($this->content);
+					return TRUE;
 				}
 			}
-			
-			foreach(Observer::getObserverList('filter_content') as $callback)
-			{
-				$this->content_html = call_user_func($callback, $this->content_html);
-			}
 		}
-        else
-		{
-            $this->content_html = $this->content;
-		}
+		
+		$this->content_html = $this->content;
         
-        return true;
+        return TRUE;
     }
     
     public static function findByPageId($id)

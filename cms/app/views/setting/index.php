@@ -50,6 +50,17 @@
 				?>
 			</div>
 		</div>
+		
+		<div class="control-group">
+			<label class="control-label" for="settingDebugMode"><?php echo __( 'Debug mode' ); ?></label>
+			<div class="controls">
+				<?php
+				echo Form::select( 'setting[debug]', array( 'yes' => __( 'Yes' ), 'no' => __( 'No' ) ), Setting::get( 'debug' ), array(
+					'id' => 'settingDebugMode'
+				) );
+				?>
+			</div>
+		</div>
 
 		<fieldset>
 			<legend><?php echo __( 'Page options' ); ?></legend>

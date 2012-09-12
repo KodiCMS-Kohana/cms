@@ -4,7 +4,7 @@ class Kohana_Exception extends Kohana_Kohana_Exception {
 
 	public static function handler( Exception $e )
 	{
-		if ( Kohana::$environment === Kohana::DEVELOPMENT )
+		if ( Setting::get( 'debug' ) == 'yes' )
 		{
 			parent::handler( $e );
 		}
