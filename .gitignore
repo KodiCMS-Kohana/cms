@@ -7,3 +7,4 @@ nbproject/*
 !/cms/app/logs/*.html
 /snippets/*
 /layouts/*
+/.idea/
