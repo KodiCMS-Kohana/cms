@@ -372,7 +372,7 @@ class Controller_Page extends Controller_System_Backend {
 	}
 	
 	
-	public function children( $parent_id, $level, $return = false )
+	public function children( $parent_id, $level, $return = FALSE )
 	{
 		$expanded_rows = isset( $_COOKIE['expanded_rows'] ) ? explode( ',', $_COOKIE['expanded_rows'] ) : array( );
 

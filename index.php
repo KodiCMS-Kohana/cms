@@ -119,7 +119,7 @@ if (IS_INSTALLED)
 {
 	include DOCROOT.'config'.EXT;
 
-	define('IS_BACKEND', URL::math(ADMIN_DIR_NAME, Request::detect_uri()));
+	define('IS_BACKEND', URL::match(ADMIN_DIR_NAME, Request::detect_uri()));
 
 	include APPPATH.'init'.EXT;
 }
@@ -128,7 +128,7 @@ else
 	// Load the installation check
 	include APPPATH.'install'.EXT;
 	
-	if(!URL::math('install', Request::detect_uri()))
+	if(!URL::match('install', Request::detect_uri()))
 	{
 		Request::factory()->redirect('install');
 	}

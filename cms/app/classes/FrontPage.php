@@ -68,7 +68,7 @@ class FrontPage
     public function url()
 	{
 		$uri = $this->url;
-		if(URL::check_suffix( $uri, '.' ) AND $uri != '')
+		if(!URL::check_suffix( $uri, '.' ) AND $uri != '')
 		{
 			$uri .= URL_SUFFIX;
 		}
@@ -227,7 +227,7 @@ class FrontPage
 		}
     }
     
-    public function children($args=NULL, $value=array(), $include_hidden = FALSE)
+    public function children($args = NULL, $value = array(), $include_hidden = FALSE)
     {
         $page_class = __CLASS__;
         
@@ -277,7 +277,7 @@ class FrontPage
         }
 		
 		$query = DB::query(Database::SELECT, $sql)
-			->cached()
+			->cached((int)Kohana::$config->load('global.cache.front_page'))
 			->execute();
         
         // Run!
@@ -326,7 +326,7 @@ class FrontPage
 		$sql .= "$where_string ORDER BY $order $limit_string";
 
 		return (int) DB::query(Database::SELECT, $sql)
-			->cached()
+			->cached((int)Kohana::$config->load('global.cache.front_page'))
 			->execute()
 			->get('total');
 	}

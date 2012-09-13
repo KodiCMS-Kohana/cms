@@ -61,7 +61,9 @@ class Page extends Record
         $this->updated_by_id = $this->created_by_id;
         
         if ($this->status_id == Page::STATUS_PUBLISHED)
+		{
             $this->published_on = date('Y-m-d H:i:s');
+		}
         
 		if ($this->position == 0)
 		{
@@ -153,7 +155,7 @@ class Page extends Record
 		$uri = $this->getUri();
 		return URL::base(TRUE) 
 			. $uri 
-			. (URL::check_suffix( $uri , '.') ? URL_SUFFIX : '');
+			. (!URL::check_suffix( $uri , '.') ? URL_SUFFIX : '');
 	}
 
 		public function getTags()

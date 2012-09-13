@@ -9,16 +9,20 @@ class URL extends Kohana_URL {
 			$suffix = URL_SUFFIX;
 		}
 		
-		return strstr($uri, $suffix) === FALSE;
+		return !(strstr($uri, $suffix) === FALSE);
 	}
 
 	public static function site( $uri = '', $protocol = NULL, $index = TRUE )
 	{
 		if( defined( 'IS_BACKEND' )) 
 		{
-			if ( IS_BACKEND AND IS_INSTALLED AND !URL::math( ADMIN_DIR_NAME, $uri ) )
+			if ( IS_BACKEND AND IS_INSTALLED AND !URL::match( ADMIN_DIR_NAME, $uri ) )
 			{
 				$uri = ADMIN_DIR_NAME . '/' . ltrim( $uri, '/');
+			}
+			else if(!IS_BACKEND AND !URL::check_suffix( $uri, '.' ))
+			{
+				$uri .= URL_SUFFIX;
 			}
 		}
 
@@ -26,7 +30,7 @@ class URL extends Kohana_URL {
 	}
 
 
-	public static function math( $uri, $current = NULL )
+	public static function match( $uri, $current = NULL )
 	{
 		$uri = trim( $uri, '/' );
 
@@ -40,6 +44,11 @@ class URL extends Kohana_URL {
 		if ( $current == $uri )
 		{
 			return TRUE;
+		}
+		
+		if(empty($uri))
+		{
+			return FALSE;
 		}
 
 		if ( strpos( $current, $uri ) !== FALSE )
