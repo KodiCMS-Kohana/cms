@@ -72,8 +72,8 @@
 		<?php echo $modal; ?>
 		
 		<?php if ( Setting::get( 'profiling' ) == 'yes' ): ?>
-			<hr />
-			<div id="kohana-profiler"><?php echo View::factory( 'profiler/stats' ) ?></div>
-		<?php endif; ?> 
+		<hr />
+		<?php echo View::factory( 'profiler/stats' ) ?>
+		<?php endif; ?>
 	</body>
 </html>

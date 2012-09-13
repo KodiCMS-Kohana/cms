@@ -22,5 +22,10 @@
 		<div class="container">			
 			<?php echo $content; ?>
 		</div>
+		
+		<?php if ( Setting::get( 'profiling' ) == 'yes' ): ?>
+		<hr />
+		<?php echo View::factory( 'profiler/stats' ) ?>
+		<?php endif; ?>
 	</body>
 </html>

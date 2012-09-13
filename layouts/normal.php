@@ -32,11 +32,5 @@
 			</div> <!-- end #sidebar -->
 			<?php $this->includeSnippet( 'footer' ); ?>
 		</div> <!-- end #page -->
-		
-		<?php if ( Kohana::$profiling ): ?>
-			<div id="kohana-profiler">
-				<?php echo View::factory( 'profiler/stats' ) ?>
-			</div>
-		<?php endif; ?>
 	</body>
 </html>

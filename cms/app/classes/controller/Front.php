@@ -28,6 +28,11 @@ class Controller_Front extends Controller
 			
 			Observer::notify('frontpage_found', array($page));
 			$page->render_layout();
+		
+			if ( Setting::get( 'profiling' ) == 'yes' )
+			{
+				echo View::factory( 'profiler/stats' );
+			}
 		}
 		else
 		{
