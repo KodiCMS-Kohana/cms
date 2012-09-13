@@ -61,7 +61,8 @@ INSERT INTO `TABLE_PREFIX_settings` (`name`, `value`) VALUES
 ('default_tab', 'page'),
 ('allow_html_title', 'off'),
 ('profiling', 'no'),
-('debug', 'no');
+('debug', 'no'),
+('plugins', 'a:4:{s:7:"archive";i:1;s:14:"page_not_found";i:1;s:8:"redactor";i:1;s:10:"codemirror";i:1;}');
 
 INSERT INTO `TABLE_PREFIX_users` (`id`, `email`, `username`, `name`, `password`, `logins`, `last_login`) VALUES
 (1, '__EMAIL__', '__USERNAME__', 'Administrator', '__ADMIN_PASSWORD__', 0, 0);
