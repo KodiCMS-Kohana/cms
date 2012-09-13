@@ -49,28 +49,15 @@ class Record
     public function save()
     {
         if ( ! $this->beforeSave()) return FALSE;
-        
-		$data = array();
-		$columns = $this->getColumns();
-            
-		// Escape and format for SQL insert query
-		foreach ($columns as $column)
-		{
-			if (isset($this->$column))
-			{
-				$data[$column] = $this->$column;
-			}
-		}
 
         if( !isset($this->id ))
 		{
 			
             if ( ! $this->beforeInsert()) return FALSE;
 
-			$return = DB::insert(self::tableName())
-				->columns(array_keys($data))
-				->values(array_values($data))
-				->execute();
+			$data = $this->_prepare_data();
+
+			$return = self::insert(NULL, $data);
 
             $this->id = $return[0]; 
              
@@ -80,13 +67,9 @@ class Record
 		{
             if ( ! $this->beforeUpdate()) return FALSE;
             
-            unset($data['id']);
-			
-			
-			DB::update(self::tableName())
-				->set($data)
-				->where( 'id', '=', $this->id )
-				->execute();
+			$data = $this->_prepare_data(array('id'));
+
+			self::update(NULL, $data, 'id = :id', array(':id' => $this->id));
 			
 			$return = TRUE;
             
@@ -96,8 +79,25 @@ class Record
         // Run it !!...
         return $return;
     }
+	
+	protected function _prepare_data($exclude = array())
+	{
+		$data = array();
+		$columns = $this->getColumns();
+            
+		// Escape and format for SQL insert query
+		foreach ($columns as $column)
+		{
+			if (isset($this->$column) AND !in_array( $column, $exclude ))
+			{
+				$data[$column] = $this->$column;
+			}
+		}
+		
+		return $data;
+	}
 
-    /**
+	/**
      * Generates a delete string and executes it
      *
      * @param string $table the table name
@@ -146,10 +146,11 @@ class Record
 			->set($data);
 
         return DB::query( Database::UPDATE, $sql . ' WHERE '.$where )
+			->parameters($values)
 			->execute();
     }
     
-    public static function deleteWhere($class_name, $where, $values=array())
+    public static function deleteWhere($class_name, $where, $values = array())
     {
         $sql = 'DELETE FROM '.self::tableName($class_name).' WHERE '.$where;
 
@@ -163,7 +164,7 @@ class Record
 		return self::findOneFrom($class_name, 'id = :id', array(':id' => $id));
 	}
 
-	public static function findOneFrom($class_name, $where, $values=array())
+	public static function findOneFrom($class_name, $where, $values = array())
 	{
 		$sql = 'SELECT * FROM '.self::tableName($class_name).' WHERE '.$where;
 
@@ -185,7 +186,7 @@ class Record
 			->as_array();
 	}
 
-	public static function countFrom($class_name, $where=FALSE, $values=array())
+	public static function countFrom($class_name, $where = FALSE, $values = array())
 	{
 		$sql = 'SELECT COUNT(*) AS nb_rows FROM '.self::tableName($class_name).($where ? ' WHERE '.$where:'');
 
