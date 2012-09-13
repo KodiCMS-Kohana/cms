@@ -83,7 +83,7 @@ class Archive
 
 		return DB::query(Database::SELECT, $sql)
 			 ->parameters(array(
-				 ':page_table' => Page::TABLE_NAME,
+				 ':page_table' => DB::expr(Page::TABLE_NAME),
 				 ':page_id' => $this->page->id,
 				 ':status_id' => FrontPage::STATUS_HIDDEN
 			 ))
@@ -97,7 +97,7 @@ class Archive
         
 		return DB::query(Database::SELECT, $sql)
 			 ->parameters(array(
-				 ':page_table' => Page::TABLE_NAME,
+				 ':page_table' => DB::expr(Page::TABLE_NAME),
 				 ':page_id' => $this->page->id,
 				 ':status_id' => FrontPage::STATUS_HIDDEN
 			 ))
@@ -111,7 +111,7 @@ class Archive
 
 		return DB::query(Database::SELECT, $sql)
 			->parameters(array(
-				':page_table' => Page::TABLE_NAME,
+				':page_table' => DB::expr(Page::TABLE_NAME),
 				':page_id' => $this->page->id,
 				':status_id' => FrontPage::STATUS_HIDDEN
 			))
