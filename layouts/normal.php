@@ -1,70 +1,42 @@
 <!DOCTYPE html>
-<html>
+<html lang="<?php echo I18n::lang(); ?>">
 	<head>
+		<title><?php echo $this->title(); ?></title>
+
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-		<title><?php echo $this->title(); ?> | <?php echo Setting::get('admin_title'); ?></title>
-		<link href="/public/themes/demo/favicon.ico" rel="favourites icon" />
-		<link href="/public/themes/demo/stylesheets/layout.css" media="screen" rel="stylesheet" type="text/css" charset="utf-8" />
+		<meta name="robots" content="index, follow" />
+		<meta name="description" content="<?php echo ($this->description() != '') ? $this->description() : 'Default description goes here'; ?>" />
+		<meta name="keywords" content="<?php echo ($this->keywords() != '') ? $this->keywords() : 'default, keywords, here'; ?>" />
+		<meta name="author" content="Author Name" />
 		
-		<!--[if IE]>
-		<style type="text/css">
-			#layout {
-				border-color:#e0e1e3;
-				border-style:solid;
-				border-width:0 1px 1px 1px;
-			}
-		</style>
-		<script type="text/javascript">
-			// IE HTML5 hack
-			if (document.all)
-			{
-				var e = ['abbr', 'article', 'aside', 'audio', 'canvas', 'datalist', 'details', 'figure', 'footer', 'header', 'hgroup', 'mark', 'menu', 'meter', 'nav', 'output', 'progress', 'section', 'time', 'video'];
-				for(i in e) document.createElement(e[i]);
-			}
-		</script>
-		<![endif]-->
-		
+		<?php
+			echo HTML::style( PUBLIC_URL . 'themes/normal/screen.css' ) . "\n";
+		?>
+
+		<link rel="alternate" type="application/rss+xml" title="Frog Default RSS Feed" href="<?php echo BASE_URL; ?>rss.xml" />
 	</head>
 	<body>
+		<div id="page">
+			<?php $this->includeSnippet( 'header' ); ?>
+			<div id="content">
+
+				<h2><?php echo $this->title(); ?></h2>
+				<?php echo $this->content(); ?> 
+				<?php echo $this->content( 'extended' ); ?> 
+
+			</div> <!-- end #content -->
+			<div id="sidebar">
+
+				<?php echo $this->content( 'sidebar', TRUE ); ?> 
+
+			</div> <!-- end #sidebar -->
+			<?php $this->includeSnippet( 'footer' ); ?>
+		</div> <!-- end #page -->
 		
-		<div id="layout">
-			<header id="header">
-				<div class="logo"><a href="<?php echo URL::site(); ?>"><em><?php echo Setting::get('admin_title'); ?></em></a> <small>Light flexible content management system</small></div>
-			</header>
-			
-			<nav id="nav">
-				<a href="<?php echo URL::site(); ?>" <?php if(!$this->slug) echo('class="current"'); ?> >Home</a>
-				
-				<?php foreach($this->find('/')->children() as $item): ?>
-				<?php echo $item->link(null, null, true); ?>
-				<?php endforeach; ?>
-			</nav>
-			
-			<div id="middler">
-				<aside id="sidebar">
-					
-					<?php echo $this->content('sidebar', true); ?>
-					
-				</aside><!--/#sidebar-->
-				<section id="content">
-					
-					<?php if($this->slug) print_r($this->breadcrumbs()); ?>
-					
-					<h1><?php echo $this->title(); ?></h1>
-					
-					<?php echo $this->content(); ?>
-					
-				</section><!--/#content-->
-			</div><!--/#middler-->
-			
-			<footer id="footer">
-				<p class="copyrights">© Flexo CMS demonstration site, 2010‒2011</p>
-				<p class="madeby">Made by <a href="http://flexo.up.dn.ua/">Flexo CMS</a></p>
-			</footer>
-		</div><!--/#layout-->
-		
-		<?php if(Core::$profiling):?>
-			<div id="kohana-profiler"><?php echo View::factory('profiler/stats') ?></div>
-		<?php endif; ?> 
+		<?php if ( Kohana::$profiling ): ?>
+			<div id="kohana-profiler">
+				<?php echo View::factory( 'profiler/stats' ) ?>
+			</div>
+		<?php endif; ?>
 	</body>
 </html>

@@ -21,6 +21,7 @@ CREATE TABLE `TABLE_PREFIX_pages` (
   PRIMARY KEY (`id`),
   KEY `parent_id` (`parent_id`),
   KEY `created_by_id` (`created_by_id`),
+  KEY `updated_by_id` (`updated_by_id`),
   KEY `slug` (`slug`),
   KEY `status_id` (`status_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
@@ -114,9 +115,12 @@ CREATE TABLE `TABLE_PREFIX_user_tokens` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
 
 
+ALTER TABLE `TABLE_PREFIX_pages` DROP FOREIGN KEY `pages_ibfk_1` ,
+	ADD FOREIGN KEY ( `created_by_id` ) REFERENCES `flexokohana`.`users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+	ADD FOREIGN KEY ( `updated_by_id` ) REFERENCES `flexokohana`.`users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE ;
+
 ALTER TABLE `TABLE_PREFIX_pages`
   ADD CONSTRAINT `TABLE_PREFIX_pages_ibfk_1` FOREIGN KEY (`created_by_id`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE SET NULL,
-  ADD CONSTRAINT `TABLE_PREFIX_pages_ibfk_2` FOREIGN KEY (`parent_id`) REFERENCES `pages` (`id`) ON DELETE SET NULL ON UPDATE SET NULL;
 
 ALTER TABLE `TABLE_PREFIX_page_parts`
   ADD CONSTRAINT `TABLE_PREFIX_page_parts_ibfk_1` FOREIGN KEY (`page_id`) REFERENCES `pages` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
