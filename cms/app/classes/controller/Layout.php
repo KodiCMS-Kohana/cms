@@ -64,6 +64,8 @@ class Controller_Layout extends Controller_System_Backend {
 			Messages::success( __( 'Layout <b>:name</b> has been added!', array( ':name' => $layout->name ) ) );
 			Observer::notify( 'layout_after_add', array( $layout ) );
 		}
+		
+		Session::instance()->delete('post_data');
 
 		// save and quit or save and continue editing?
 		if ( isset( $_POST['commit'] ) )

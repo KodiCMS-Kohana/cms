@@ -74,34 +74,18 @@ class Controller_Page extends Controller_System_Backend {
 	private function _add( $parent_id )
 	{
 		$data = $_POST['page'];
+		$tags = Arr::get($data, 'tags', array());
+		$parts = Arr::get($_POST, 'part', array());
 
 		Flash::set( 'post_data', (object) $data );
+		Flash::set( 'post_parts_data', (object) $parts );
+		Flash::set( 'page_tag', $tags );
 
 		if ( empty( $data['title'] ) )
 		{
-			// Rebuilding original page
-			$part = Arr::get($_POST, 'part', array());
-
-			if ( !empty( $part ) )
-			{
-				$tmp = false;
-				foreach ( $part as $key => $val )
-				{
-					$tmp[$key] = (object) $val;
-				}
-				$part = $tmp;
-			}
-
-			$tags = Arr::get($data, 'tags', array());
-
-			Flash::set( 'page', (object) $data );
-			Flash::set( 'page_parts', (object) $part );
-			Flash::set( 'page_tag', $tags );
-
 			Messages::errors( __( 'You have to specify a title!' ) );
 			$this->go( URL::site( 'page/add/' . $parent_id ) );
 		}
-
 
 		/**
 		 * Make sure the title doesn't contain HTML
@@ -125,11 +109,7 @@ class Controller_Page extends Controller_System_Backend {
 		// save page data
 		if ( $page->save() )
 		{
-			// get data from user
-			$data_parts = Arr::get($_POST, 'part', array());
-			Flash::set( 'post_parts_data', (object) $data_parts );
-
-			foreach ( $data_parts as $data_part )
+			foreach ( $parts as $data_part )
 			{
 				$data_part['page_id'] = $page->id;
 				$data_part['name'] = trim( $data_part['name'] );
@@ -139,9 +119,7 @@ class Controller_Page extends Controller_System_Backend {
 			}
 
 			// save tags
-			$page->saveTags( $part = Arr::get($_POST, 'tags', array()) );
-
-			
+			$page->saveTags( $tags );
 			
 			// save permissions
 			$permissions = Arr::get($_POST, 'page_permissions', array( 'administrator', 'developer', 'editor' ));
@@ -156,6 +134,8 @@ class Controller_Page extends Controller_System_Backend {
 			Messages::errors( __( 'Page has not been saved!' ) );
 			$this->go( URL::site( 'page/add/' . $parent_id ) );
 		}
+		
+		Session::instance()->delete('post_data', 'post_parts_data', 'page_tag');
 
 		// save and quit or save and continue editing ?
 		if ( isset( $_POST['commit'] ) )

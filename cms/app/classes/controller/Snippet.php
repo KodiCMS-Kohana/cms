@@ -57,6 +57,8 @@ class Controller_Snippet extends Controller_System_Backend {
 			Messages::success( __( 'Snippet <b>:name</b> has been added!', array( ':name' => $snippet->name ) ) );
 			Observer::notify( 'snippet_after_add', array( $snippet ) );
 		}
+		
+		Session::instance()->delete('post_data');
 
 		// save and quit or save and continue editing?
 		if ( isset( $_POST['commit'] ) )

@@ -27,7 +27,7 @@ final class Flash
      */
     public static function get($var)
     {
-		return Session::instance()->get_once(self::SESSION_KEY.'_'.$var);
+		return Session::instance()->get_once($var);
     }
 
     /**
@@ -40,7 +40,7 @@ final class Flash
      */
     public static function set($var, $value)
     {
-		Session::instance()->set(self::SESSION_KEY.'_'.$var, $value);
+		Session::instance()->set($var, $value);
     } // set
 
     /**
@@ -53,6 +53,6 @@ final class Flash
      */
     public static function clear()
     {
-		Session::instance()->delete(self::SESSION_KEY.'_'.$var);
+		
     } // clear
 } // end Flash class
