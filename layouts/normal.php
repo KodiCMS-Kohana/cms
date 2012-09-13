@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="<?php echo I18n::lang(); ?>">
 	<head>
-		<title><?php echo $this->title(); ?></title>
+		<title><?php echo $this->title(); ?> | <?php echo Setting::get('admin_title'); ?></title>
 
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="robots" content="index, follow" />
@@ -13,7 +13,7 @@
 			echo HTML::style( PUBLIC_URL . 'themes/normal/screen.css' ) . "\n";
 		?>
 
-		<link rel="alternate" type="application/rss+xml" title="Frog Default RSS Feed" href="<?php echo BASE_URL; ?>rss.xml" />
+		<link rel="alternate" type="application/rss+xml" title="Frog Default RSS Feed" href="<?php echo URL::site('rss.xml', TRUE); ?>" />
 	</head>
 	<body>
 		<div id="page">
