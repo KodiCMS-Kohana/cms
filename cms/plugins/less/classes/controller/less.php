@@ -27,7 +27,7 @@ class Controller_Less extends Controller_System_Plugin {
 			Plugins::setAllSettings($settings, 'less');
 			
 			Messages::success( __('Settings has been saved!'));
-			$this->go(URL::site('plugin/less/settings'));
+			$this->go(URL::site('less/settings'));
 		}
 		
 		$this->template->content = View::factory('less/settings', array(

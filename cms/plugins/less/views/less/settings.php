@@ -2,7 +2,7 @@
 	<h1><?php echo __('Less compiler settings'); ?></h1> 
 </div>
 
-<form class="form-horizontal" action="<?php echo URL::site('plugin/less/settings'); ?>" method="post">
+<form class="form-horizontal" action="<?php echo URL::site('less/settings'); ?>" method="post">
 
 	<?php echo Form::hidden('token', Security::token()); ?>
 
