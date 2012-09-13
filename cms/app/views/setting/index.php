@@ -30,7 +30,8 @@
 					<?php foreach ( Model_Navigation::get() as $name => $group ): ?>
 						<optgroup label="<?php echo __( $name ); ?>">
 							<?php foreach ( $group->items as $item ): ?>
-							<option value="<?php echo trim(str_replace(ADMIN_DIR_NAME, '', $item->uri), '/'); ?>" <?php if ( $item->uri == $current_default_nav ) echo 'selected="selected"'; ?> ><?php echo $item->name; ?></option>
+							<?php $tab = trim(str_replace(ADMIN_DIR_NAME, '', $item->uri), '/'); ?>
+							<option value="<?php echo $tab; ?>" <?php if ( $tab == $current_default_nav ) echo 'selected="selected"'; ?> ><?php echo $item->name; ?></option>
 							<?php endforeach; ?>
 						</optgroup>
 					<?php endforeach; ?>
