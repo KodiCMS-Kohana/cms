@@ -31,7 +31,7 @@ class Controller_Backup extends Controller_System_Plugin {
 	
 	public function action_view()
 	{
-		$file = $this->request->param('id');
+		$file = $this->request->param('file');
 		$backup = Model_Backup::factory(BACKUP_PLUGIN_FOLDER . $file)
 			->view();
 		
@@ -58,7 +58,7 @@ class Controller_Backup extends Controller_System_Plugin {
 	{
 		$this->auto_render = FALSE;
 
-		$file = $this->request->param('id');
+		$file = $this->request->param('file');
 
 		$backup = Model_Backup::factory(BACKUP_PLUGIN_FOLDER . $file)
 			->restore();
@@ -72,7 +72,7 @@ class Controller_Backup extends Controller_System_Plugin {
 	{
 		$this->auto_render = FALSE;
 
-		$file = $this->request->param('id');
+		$file = $this->request->param('file');
 
 		if(!file_exists(BACKUP_PLUGIN_FOLDER.$file))
 		{
