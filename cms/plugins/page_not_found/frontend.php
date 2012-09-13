@@ -3,7 +3,7 @@
 function behavior_page_not_found()
 {
 	$page = DB::select()
-		->from('page')
+		->from(Page::TABLE_NAME)
 		->where('behavior_id', '=', 'page_not_found')
 		->limit(1)
 		->as_object()
@@ -20,8 +20,7 @@ function behavior_page_not_found()
 			header("HTTP/1.0 404 Not Found");
 
 			Request::current()
-				->response()
-				->headers('Status', '404 Not Found');
+				->response();
 			  
 			$page->render_layout();
 			exit(); // need to exit here otherwise the true error page will be sended

@@ -31,6 +31,7 @@ class Controller_Front extends Controller
 		}
 		else
 		{
+			Observer::notify('page_not_found');
 			throw new HTTP_Exception_404('Page not found');
 		}
 	}
