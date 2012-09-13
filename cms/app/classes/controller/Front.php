@@ -29,7 +29,7 @@ class Controller_Front extends Controller
 			Observer::notify('frontpage_found', array($page));
 			$page->render_layout();
 		
-			if ( Setting::get( 'profiling' ) == 'yes' )
+			if ( Setting::get( 'profiling' ) == 'yes' AND AuthUser::isLoggedIn())
 			{
 				echo View::factory( 'profiler/stats' );
 			}
