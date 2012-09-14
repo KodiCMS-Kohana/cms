@@ -2,29 +2,15 @@
 
 class Controller_Redirect extends Controller_System_Plugin
 {
-	public function action_settings()
+	
+	protected function _settings_save( $plugin )
 	{
-		if ( Request::current()->method() == Request::POST )
+		if(!isset($_POST['setting']['check_url_suffix']))
 		{
-			$settings = array(
-				'check_url_suffix' => 'no',
-			);
-
-			$post_settings = Arr::get($_POST, 'setting', array());
-			foreach ($post_settings as $key => $val)
-			{
-				$settings[$key] = $val;
-			}
-			
-			Plugins::setAllSettings($settings, 'redirect');
-			
-			Messages::success( __('Settings has been saved!'));
-			$this->go(URL::site('redirect/settings'));
+			$_POST['setting']['check_url_suffix'] = 'no';
 		}
-		
-		$this->template->content = View::factory('redirect/settings', array(
-			'settings' => Plugins::getAllSettings('redirect')
-		));
+
+		parent::_settings_save($plugin);
 	}
 
 }

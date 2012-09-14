@@ -54,10 +54,6 @@
 					endswitch; ?>
 				</td>
 				<td class="actions">
-					<?php echo UI::button(NULL, array(
-						'href' => 'page/add/'.$item->id, 'icon' => UI::icon('plus'),
-						'class' => 'btn btn-mini'
-					)); ?>
 					<?php 
 					if( AuthUser::hasPermission($item->getPermissions()) )
 					{

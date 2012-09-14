@@ -55,6 +55,6 @@ class Setting
 			$query->execute();
         }
 		
-		Core::cache('Database::cache('.self::$table_name.')', NULL, -1);
+		Kohana::cache('Database::cache('.self::$table_name.')', NULL, -1);
     }
 } // end Setting class

@@ -1,6 +1,22 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
-Core::load(PLGPATH.'/less/vendors/lessc.inc.php');
+Kohana::load(PLUGPATH.'/less/vendors/lessc.inc.php');
+
+$plugin = Model_Plugin_Item::factory( array(
+	'id' => 'less',
+	'title' => 'LESS Compiler',
+	'description' => 'LESS extends CSS with dynamic behavior such as variables, mixins, operations and functions.',
+	'settings' => TRUE
+) )->register();
+
+if($plugin->enabled())
+{	
+	if(!IS_BACKEND)
+	{
+		less_compile();
+	}
+}
+
 
 function less_compile() {
 	try
@@ -46,4 +62,3 @@ function less_compile() {
 	}
 }
 
-less_compile();

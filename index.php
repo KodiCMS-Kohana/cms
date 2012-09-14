@@ -2,11 +2,6 @@
 
 $cms = 'cms' . DIRECTORY_SEPARATOR;
 
-/**
- * The directory in which your plugins specific resources are located.
- * 
- */
-$plugins = $cms . 'plugins';
 
 /**
  * The directory in which your application specific resources are located.
@@ -68,10 +63,6 @@ define('DOCROOT', realpath(dirname(__FILE__)).DIRECTORY_SEPARATOR);
 if ( ! is_dir($cms) AND is_dir(DOCROOT.$cms))
 	$cms = DOCROOT.$cms;
 
-// Make the plugins relative to the docroot, for symlink'd index.php
-if ( ! is_dir($plugins) AND is_dir(DOCROOT.$plugins))
-	$plugins = DOCROOT.$plugins;
-
 // Make the application relative to the docroot, for symlink'd index.php
 if ( ! is_dir($application) AND is_dir(DOCROOT.$application))
 	$application = DOCROOT.$application;
@@ -89,10 +80,9 @@ define('CMSPATH', realpath($cms).DIRECTORY_SEPARATOR);
 define('APPPATH', realpath($application).DIRECTORY_SEPARATOR);
 define('MODPATH', realpath($modules).DIRECTORY_SEPARATOR);
 define('SYSPATH', realpath($system).DIRECTORY_SEPARATOR);
-define('PLGPATH', realpath($plugins).DIRECTORY_SEPARATOR);
 
 // Clean up the configuration vars
-unset($application, $modules, $system, $plugins, $cms);
+unset($application, $modules, $system, $cms);
 
 /**
  * Define the start time of the application, used for profiling.

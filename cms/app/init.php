@@ -19,13 +19,15 @@ Kohana::modules( array(
 	'orm'			=> MODPATH . 'orm', // Object Relationship Mapping,
 	'cache'			=> MODPATH . 'cache', // Object Relationship Mapping,
 	'pagination'	=> MODPATH . 'pagination',
+	
 ) );
 
 // Init settings
 Setting::init();
 
-// Init plugins
-Plugins::init();
+Kohana::modules(Kohana::modules() + array(
+	'plugins'		=> MODPATH . 'plugins',
+));
 
 I18n::lang( 'ru' );
 
@@ -42,15 +44,6 @@ Route::set( 'templates', ADMIN_DIR_NAME.'/(<controller>(/<action>(/<id>)))', arr
 ) )
 	->defaults( array(
 		'controller' => 'index',
-		'action' => 'index',
-	) );
-
-Route::set( 'plugins', ADMIN_DIR_NAME.'/(<controller>(/<action>(/<id>)))', array(
-	'controller' => 'plugins',
-	'id' => '.*'
-) )
-	->defaults( array(
-		'controller' => 'plugins',
 		'action' => 'index',
 	) );
 

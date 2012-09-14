@@ -84,6 +84,7 @@ input.title {
 	.page-header h1 {
 		font-size: 20px;
 		line-height: 20px;
+		margin: 0;
 	}
 	
 .breadcrumb {

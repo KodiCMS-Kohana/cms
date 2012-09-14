@@ -23,18 +23,7 @@
 
 		<?php echo $messages; ?>
 
-		<?php
-		foreach ( Plugins::$javascripts as $javascript )
-		{
-			echo HTML::script( $javascript ) . "\n";
-		}
-		foreach ( Plugins::$stylesheets as $stylesheet )
-		{
-			echo HTML::style( $stylesheet ) . "\n";
-		}
-		?>
-
-	<?php Observer::notify( 'layout_backend_head' ); ?>
+		<?php Observer::notify( 'layout_backend_head' ); ?>
 	</head>
 	<body id="body_<?php echo $page_body_id; ?>">
 

@@ -388,17 +388,20 @@ cms.init.add('page_index', function()
 	// Reordering	
 	$('#pageMapReorderButton').click(function()
 	{
+		var self = $(this);
 		var $pageMapUl = $('#pageMapItems > li > ul');
 		
-		if ($(this).hasClass('btn-inverse'))
+		if (self.hasClass('btn-inverse'))
 		{
-			$(this).removeClass('btn-inverse');
+			self.removeClass('btn-inverse');
 			
 			$pageMapUl
 				.removeClass('map-drag')
 				.sortable('destroy')
 				.find('li')
 				.draggable('destroy');
+				
+			return false;
 		}
 		
 		if ( ! $pageMapUl.hasClass('map-drag'))
@@ -463,9 +466,6 @@ cms.init.add('page_index', function()
 					success: success_handler,
 					error:   error_handler
 				});
-				
-				// stylizate .map-items 
-				cms.cssZebraItems('.map-items .item');
 			};
 		
 			// Begin sorting
@@ -488,7 +488,7 @@ cms.init.add('page_index', function()
 					stop:  dragStopped_handler
 				});
 				
-			$(this).addClass('btn-inverse');
+			self.addClass('btn-inverse');
 		}
 		else
 		{
@@ -496,7 +496,7 @@ cms.init.add('page_index', function()
 				.removeClass('map-drag')
 				.sortable('destroy');
 			
-			$(this).removeClass('btn-inverse');
+			self.removeClass('btn-inverse');
 		}
 	});
 	
@@ -504,15 +504,18 @@ cms.init.add('page_index', function()
 	// Copy pages
 	$('#pageMapCopyButton').click(function()
 	{
+		var self = $(this);
 		$pageMapUl = $('#pageMapItems > li > ul');
 		
-		if ($(this).hasClass('btn-inverse'))
+		if (self.hasClass('btn-inverse'))
 		{
-			$(this).removeClass('btn-inverse');
+			self.removeClass('btn-inverse');
 			
 			$pageMapUl
 				.removeClass('map-drag')
 				.sortable('destroy');
+				
+			return false;
 		}
 		
 		if ( ! $pageMapUl.hasClass('map-drag'))
@@ -584,9 +587,6 @@ cms.init.add('page_index', function()
 					success: success_handler,
 					error:   error_handler
 				});
-				
-				// stylizate .map-items 
-				cms.cssZebraItems('.map-items .item');
 			};
 			
 			// Begin sorting
@@ -620,7 +620,7 @@ cms.init.add('page_index', function()
 					grid:        [5, 8]
 				});
 				
-			$(this).addClass('btn-inverse');
+			self.addClass('btn-inverse');
 		}
 		else
 		{
@@ -630,7 +630,7 @@ cms.init.add('page_index', function()
 					.find('li')
 					.draggable('destroy');
 			
-			$(this).removeClass('btn-inverse');
+			self.removeClass('btn-inverse');
 		}
 	});
 	
@@ -643,8 +643,6 @@ cms.init.add('page_index', function()
 			$('#pageMapSearchItems')
 				.removeClass('map-wait')
 				.html( data );
-			
-			cms.cssZebraItems('.map-items .item');
 		};
 		
 		var error_handler = function()
@@ -902,3 +900,20 @@ if (document.all)
 	var e = ['header', 'nav', 'aside', 'article', 'section', 'footer', 'figure', 'hgroup', 'mark', 'output', 'time'];
 	for(i in e) document.createElement(e[i]);
 }
+
+// Checkbox status
+$.fn.check = function() {
+	return this.each(function() {
+		this.checked = true;
+	});
+};
+
+$.fn.uncheck = function() {
+	return this.each(function() {
+		this.checked = false;
+	});
+};
+
+$.fn.checked = function() {
+	return this.attr('checked');
+};
