@@ -9,7 +9,7 @@
 		)); ?>
 	</div>
 	
-	<table class="table_list" id="UserList">
+	<table class="table_list table table-striped table-hover" id="UserList">
 		<colgroup>
 			<col />
 			<col width="150px" />

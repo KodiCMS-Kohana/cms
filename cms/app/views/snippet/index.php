@@ -11,7 +11,7 @@
 		)); ?>
 	</div>
 	
-	<table class="table_list" id="SnippetList">
+	<table class="table_list table table-striped table-hover" id="SnippetList">
 		<colgroup>
 			<col />
 			<col width="150px" />

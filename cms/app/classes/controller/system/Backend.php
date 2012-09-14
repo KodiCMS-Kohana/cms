@@ -37,6 +37,21 @@ class Controller_System_Backend extends Controller_System_Template
 				'action' => $action,
 				'params' => $params
 			));
+			
+			$this->template->styles = array(
+				ADMIN_RESOURCES . 'libs/bootstrap/css/bootstrap.css',
+				ADMIN_RESOURCES . 'stylesheets/backend.css',
+				ADMIN_RESOURCES . 'libs/jquery-ui/jquery-ui-1.8.12.css',
+				ADMIN_RESOURCES . 'libs/jgrowl/jquery.jgrowl.css'
+			);
+			
+			$this->template->scripts = array(
+				ADMIN_RESOURCES . 'libs/jquery-1.7.2.min.js',
+				ADMIN_RESOURCES . 'libs/jquery-ui/jquery-ui-1.8.12.js',
+				ADMIN_RESOURCES . 'libs/bootstrap/js/bootstrap.min.js',
+				ADMIN_RESOURCES . 'libs/jgrowl/jquery.jgrowl_minimized.js',
+				ADMIN_RESOURCES . 'javascripts/backend.js'
+			);
 		}
 	}
 }

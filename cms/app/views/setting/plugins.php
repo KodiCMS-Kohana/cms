@@ -8,7 +8,7 @@
 		
 	</div>
 	
-	<table class="table_list" id="PluginsList">
+	<table class="table_list table table-striped table-hover" id="PluginsList">
 		<colgroup>
 			<col />
 			<col width="150px" />

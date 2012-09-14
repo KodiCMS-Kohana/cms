@@ -33,6 +33,8 @@ class Model_Navigation {
 				'is_current' => FALSE,
 				'priority' => $priority
 			);
+			
+			ksort(self::$_navigation[$section]->items);
 		}
 	}
 	
@@ -42,6 +44,8 @@ class Model_Navigation {
 		$break = FALSE;
 		foreach ( self::$_navigation as $key => $section )
 		{
+			ksort($section->items);
+
 			foreach ( $section->items as $item_key => $item )
 			{
 				if ( strpos(Request::current()->uri(), ltrim($item->uri, '/')) !== FALSE )

@@ -13,6 +13,9 @@ class Controller_System_Template extends Controller_System_Security
 	public $auto_render = TRUE;
 	
 	public $json = NULL;
+	
+	public $styles = array();
+	public $scripts = array();
 
 	/**
 	 * Loads the template [View] object.
@@ -60,6 +63,11 @@ class Controller_System_Template extends Controller_System_Security
 
 		if ($this->auto_render === TRUE)
 		{
+			$this->template->styles = array_merge( $this->styles, $this->template->styles );
+			$this->template->scripts = array_merge( $this->scripts, $this->template->scripts );
+
+			unset( $styles, $scripts );
+
 			$this->template->messages = View::factory('layouts/blocks/messages', array(
 				'messages' => Messages::get() 
 			));
@@ -68,7 +76,7 @@ class Controller_System_Template extends Controller_System_Security
 
 			$this->response->body( $this->template );
 		}
-		elseif ( $this->request->is_ajax() === TRUE )
+		elseif ( $this->request->is_ajax() === TRUE OR $this->json !== NULL)
 		{
 			if ( $this->json !== NULL )
 			{

@@ -12,7 +12,7 @@
 		)); ?>
 	</div>
 	
-	<table class="table_list" id="LayoutList">
+	<table class="table_list table table-striped table-hover" id="LayoutList">
 		<colgroup>
 			<col />
 			<col width="150px" />

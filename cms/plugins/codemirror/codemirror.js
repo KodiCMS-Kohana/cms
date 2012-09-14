@@ -33,6 +33,8 @@ jQuery(function(){
 
 	cms.filters
 		.add( 'codemirror', cms.plugins.codemirror.switchOn_handler, cms.plugins.codemirror.switchOff_handler );
+
+	cms.filters.switchOn( 'highlight_content', 'codemirror' );
 });
 
 cms.init.add(['layout_edit', 'snippet_edit', 'layout_add', 'snippet_add'], function(){

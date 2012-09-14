@@ -10,16 +10,15 @@
 		<?php echo View::factory('layouts/blocks/jsvars'); ?>
 
 		<?php
-		echo HTML::style( ADMIN_RESOURCES . 'libs/bootstrap/css/bootstrap.css' ) . "\n";
-		echo HTML::style( ADMIN_RESOURCES . 'stylesheets/backend.css' ) . "\n";
-		echo HTML::style( ADMIN_RESOURCES . 'libs/jquery-ui/jquery-ui-1.8.12.css' ) . "\n";
-		echo HTML::style( ADMIN_RESOURCES . 'libs/jgrowl/jquery.jgrowl.css' ) . "\n";
-
-		echo HTML::script( ADMIN_RESOURCES . 'libs/jquery-1.7.2.min.js' ) . "\n";
-		echo HTML::script( ADMIN_RESOURCES . 'libs/jquery-ui/jquery-ui-1.8.12.js' ) . "\n";
-		echo HTML::script( ADMIN_RESOURCES . 'libs/bootstrap/js/bootstrap.min.js' ) . "\n";
-		echo HTML::script( ADMIN_RESOURCES . 'libs/jgrowl/jquery.jgrowl_minimized.js' ) . "\n";
-		echo HTML::script( ADMIN_RESOURCES . 'javascripts/backend.js' ) . "\n";
+		foreach ( $styles as $style )
+		{
+			echo HTML::style( $style ) . "\n";
+		}
+		
+		foreach ( $scripts as $script )
+		{
+			echo HTML::script( $script ) . "\n";
+		}
 		?>
 
 		<?php echo $messages; ?>
@@ -35,7 +34,7 @@
 		}
 		?>
 
-<?php Observer::notify( 'layout_backend_head' ); ?>
+	<?php Observer::notify( 'layout_backend_head' ); ?>
 	</head>
 	<body id="body_<?php echo $page_body_id; ?>">
 

@@ -193,11 +193,11 @@ cms.ui = {
 			cms.ui.callbacks[i][1]();
 		};
 		
-		$('.button').click(function(){
+		$('.button').live('click', function(){
 			location.href = $(this).attr('rel');
 		});
 
-		$('.btn-confirm').click(function(){
+		$('.btn-confirm').live('click', function(){
 			if (confirm(__('Are you sure?')))
 				return true;
 
@@ -875,6 +875,24 @@ jQuery(document).ready(function() {
 	// init
 	cms.init.run();
 	cms.ui.init();
+	
+	$(document).ajaxComplete(function(e, response) {
+		try {
+			var json = $.parseJSON(response.responseText);
+			if(typeof(json.message) == 'string') 
+			{
+				$.jGrowl(json.message);
+			}
+			else if(typeof(json.message) == 'object')
+			{
+				for(msg in json.message)
+				{
+					$.jGrowl(json.message[msg]);
+				}
+			}
+
+		} catch(e) {}
+	});
 });
 
 

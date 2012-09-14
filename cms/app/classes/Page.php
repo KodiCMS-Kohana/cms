@@ -298,9 +298,9 @@ class Page extends Record
 	
 	public static function findAllLike($query)
 	{
-		$query = mysql_escape_string($query);
-		
-		$childrens = Record::findAllFrom(__CLASS__, 'LOWER(title) LIKE LOWER("%'.$query.'%") OR slug LIKE "%'.$query.'%" OR breadcrumb LIKE "%'.$query.'%" OR keywords LIKE "%'.$query.'%" OR description LIKE "%'.$query.'%" OR published_on LIKE "%'.$query.'%" OR created_on LIKE "%'.$query.'%"');
+		$childrens = Record::findAllFrom(__CLASS__, 'LOWER(title) LIKE LOWER("%:query%") OR slug LIKE "%:query%" OR breadcrumb LIKE "%:query%" OR keywords LIKE "%:query%" OR description LIKE "%:query%" OR published_on LIKE "%:query%" OR created_on LIKE "%:query%"', array(
+			':query' => $query
+		));
 		
 		return $childrens;
 	}

@@ -521,7 +521,7 @@ class Controller_Page extends Controller_System_Backend {
 		}
 		else if ( substr( $query, 0, 1 ) == '-' )
 		{
-			$query = mysql_escape_string( trim( substr( $query, 1 ) ) );
+			$query = trim( substr( $query, 1 ) );
 			$childrens = Page::find( array( 'where' => 'page.parent_id = (SELECT p.id FROM ' . TABLE_PREFIX . 'page AS p WHERE p.slug = "' . $query . '" LIMIT 1)' ) );
 		}
 		else
