@@ -4,7 +4,7 @@ $plugin = Model_Plugin_Item::factory( array(
 	'id' => 'filemanager',
 	'title' => 'File manager',
 	'description' => 'Provides interface to manage files from the administration.',
-	'javascript' => 'filemanager.js'
+	'javascripts' => 'filemanager.js'
 ) )->register();
 
 if($plugin->enabled())
