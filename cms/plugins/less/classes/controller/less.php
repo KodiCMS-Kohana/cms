@@ -9,8 +9,8 @@ class Controller_Less extends Controller_System_Plugin {
 		$less_folder_path = trim($this->plugin->get('less_folder_path', 'public/less'), '/');
 		$css_folder_path = trim($this->plugin->get('css_folder_path', 'public/css'), '/');
 		
-		$less_path = SYSPATH.$less_folder_path.DIRECTORY_SEPARATOR;
-		$css_path = SYSPATH.$css_folder_path.DIRECTORY_SEPARATOR;
+		$less_path = DOCROOT.$less_folder_path.DIRECTORY_SEPARATOR;
+		$css_path = DOCROOT.$css_folder_path.DIRECTORY_SEPARATOR;
 		
 		$this->template->content->content->set(array(
 			'less_folder_path' => $less_folder_path, 

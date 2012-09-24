@@ -12,10 +12,9 @@
 	</span>
 
 	<div class="error-actions">
-		<hr />
-		<a href="/" class="btn btn-large btn-primary">
-			<i class="icon-chevron-left"></i>
-			<?php echo __('Back to Homepage'); ?>				
-		</a>
+		<?php echo UI::button(__('Back to Homepage'), array(
+			'href' => URL::base(TRUE), 'icon' => UI::icon( 'chevron-left' ),
+			'class' => 'btn btn-large'
+		)); ?>
 	</div>
 </div>

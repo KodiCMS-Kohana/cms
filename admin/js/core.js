@@ -163,6 +163,9 @@ Core.modal = {
 		return this;
 	},
 	body: function(html) {
+		if(!html)
+			return $('.modal-body', this.element);
+
 		$('.modal-body', this.element).html(html);
 		return this;
 	},
@@ -189,6 +192,7 @@ Core.modal = {
 		return this;
 	},
 	hide: function() {
+		this.clear();
 		this.element.modal('hide');
 		return this;
 	}

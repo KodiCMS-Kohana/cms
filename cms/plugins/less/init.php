@@ -11,48 +11,47 @@ $plugin = Model_Plugin_Item::factory( array(
 
 if($plugin->enabled())
 {	
-	if(!IS_BACKEND)
-	{
-		less_compile();
-	}
+	less_compile($plugin);
 }
 
 
-function less_compile() {
+function less_compile($plugin) {
 	try
 	{
-		$less_folder_path = trim(Plugins::getSetting('less_folder_path', 'less', 'public/less'), '/');
-		$css_folder_path = trim(Plugins::getSetting('css_folder_path', 'less', 'public/css'), '/');
+		$less_folder_path = trim( $plugin->get('less_folder_path'), '/');
+		$css_folder_path = trim( $plugin->get('css_folder_path'), '/');
 				
-		$less_path = SYSPATH.$less_folder_path.DIRECTORY_SEPARATOR;
-		$css_path = SYSPATH.$css_folder_path.DIRECTORY_SEPARATOR;
+		$less_path = DOCROOT.$less_folder_path.DIRECTORY_SEPARATOR;
+		$css_path = DOCROOT.$css_folder_path.DIRECTORY_SEPARATOR;
 		
 		
-		if((!is_dir($less_path) AND !is_dir($css_path)) OR Plugins::getSetting('enabled', 'less') == 'no')
+		if((!is_dir($less_path) AND !is_dir($css_path)) OR $plugin->get('enabled') == 'no')
 		{
 			return;
 		}
 
-		$files = new Filesystem($less_path);
+		$files = new DirectoryIterator($less_path);
 
 		$params = array();
-		if(Plugins::getSetting('format_css', 'less', 'no') == 'no')
+		if( $plugin->get('format_css', 'no') == 'no' )
 		{
 			$params = array(
 				'newlineChar' => '',
 				'indentChar' => '',
 			);
 		}
+		
+		
 
 		foreach ($files as $file)
 		{
-			if ($file->isDot() OR $file->isDir() OR $file->getFilenameUTF8() !== 'common.less') continue;
+			if ($file->isDot() OR $file->isDir() OR $file->getFilename() !== 'common.less') continue;
 
-			$pathinfo = pathinfo($file->getFilenameUTF8() );
+			$pathinfo = pathinfo($file->getFilename() );
 
 			if($pathinfo['extension'] == 'less')
 			{
-				lessc::ccompile( $less_path.$file->getFilenameUTF8(), $css_path.DIRECTORY_SEPARATOR.$pathinfo['filename'].'.css', $params);
+				lessc::ccompile( $less_path.$file->getFilename(), $css_path.DIRECTORY_SEPARATOR.$pathinfo['filename'].'.css', $params);
 			}
 		}
 	}

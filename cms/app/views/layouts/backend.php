@@ -12,12 +12,12 @@
 		<?php
 		foreach ( $styles as $style )
 		{
-			echo HTML::style( $style ) . "\n";
+			echo HTML::style( $style ) . "\n\t\t";
 		}
 		
 		foreach ( $scripts as $script )
 		{
-			echo HTML::script( $script ) . "\n";
+			echo HTML::script( $script ) . "\n\t\t";
 		}
 		?>
 

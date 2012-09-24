@@ -15,7 +15,8 @@ $plugin = Model_Plugin_Item::factory( array(
 		'vendors/CodeMirror-2.33/mode/htmlmixed/htmlmixed.js',
 		'vendors/CodeMirror-2.33/mode/php/php.js',
 		'codemirror.js'
-	)
+	),
+	'css' => 'codemirror.css',
 ) )
 	->register();
 
