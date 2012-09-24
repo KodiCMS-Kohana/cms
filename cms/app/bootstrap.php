@@ -60,7 +60,7 @@ if ( isset( $_SERVER['KOHANA_ENV'] ) )
 {
 	Kohana::$environment = constant( 'Kohana::' . strtoupper( $_SERVER['KOHANA_ENV'] ) );
 }
-else
+else if(IS_INSTALLED)
 {
 	Kohana::$environment = Kohana::PRODUCTION;
 }

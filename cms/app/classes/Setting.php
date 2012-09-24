@@ -2,7 +2,7 @@
 
 class Setting
 {
-	protected static $table_name = 'settings';
+	public static $table_name = 'settings';
 
 	public static $settings = array();
     public static $is_loaded = FALSE;

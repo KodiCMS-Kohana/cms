@@ -100,10 +100,11 @@ if ( ! defined('KOHANA_START_MEMORY'))
 	define('KOHANA_START_MEMORY', memory_get_usage());
 }
 
-// Bootstrap the application
-require APPPATH.'bootstrap'.EXT;
 
 define('IS_INSTALLED', file_exists('config'.EXT));
+
+// Bootstrap the application
+require APPPATH.'bootstrap'.EXT;
 
 if (IS_INSTALLED)
 {

@@ -11,7 +11,7 @@ class Model_Plugin {
 
 	public static function init()
 	{
-		$plugins = Setting::get( 'plugins' );
+		$plugins = self::get_list_from_db();
 		
 		if(empty($plugins))
 		{
@@ -34,6 +34,17 @@ class Model_Plugin {
 		}
 
 		Kohana::modules( Kohana::modules() + $plugins );
+	}
+	
+	public static function get_list_from_db()
+	{
+		return DB::select('value')
+			->from(Setting::$table_name)
+			->where( 'name', '=', 'plugins' )
+			->cache_key('plugins_list')
+			->cached()
+			->execute()
+			->get('value');
 	}
 
 	public static function get_loaded()
