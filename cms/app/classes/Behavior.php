@@ -44,7 +44,7 @@ class Behavior
     {
         if ( ! empty(self::$behaviors[$behavior_id]))
         {
-            $file = PLGPATH.DIRECTORY_SEPARATOR.self::$behaviors[$behavior_id];
+            $file = PLUGPATH.DIRECTORY_SEPARATOR.self::$behaviors[$behavior_id];
 
             if (isset(self::$loaded_files[$file]))
 			{

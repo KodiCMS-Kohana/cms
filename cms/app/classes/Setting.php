@@ -30,9 +30,7 @@ class Setting
      */
     public static function get($name, $default = NULL)
     {
-        return isset(self::$settings[$name]) 
-			? self::$settings[$name]
-			: $default;
+        return Arr::get(self::$settings, $name, $default);
     }
     
     public static function saveFromData($data)
