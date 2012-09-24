@@ -48,46 +48,32 @@ body {
 .map-items {
 	margin: 0;
 
-	ul  {
-		margin: 0;
-
-		.item { padding-left: 35px; }
-		ul .item { padding-left:65px; }
-		ul ul .item { padding-left:95px; }
-		ul ul ul .item { padding-left:125px; }
-		ul ul ul ul .item { padding-left:155px; }
-		ul ul ul ul ul .item { padding-left:185px; }
-		ul ul ul ul ul ul .item { padding-left:215px; }
-		ul ul ul ul ul ul ul .item { padding-left:245px; }
-		ul ul ul ul ul ul ul ul .item { padding-left:275px; }
-		ul ul ul ul ul ul ul ul ul .item { padding-left:305px; }
-	}
-
-	.item {
-		position: relative;
-		padding: 0 15px;
-		border-bottom: 1px solid #e9e9e9;
-		line-height: 35px;
-	}
-
-	.item-odd {
-		background: #f6f6f6;
-	}
-
-	.item-even:even {
-		background: #fdfdfd;
-	}
-
-	li:hover {
+	li {
 		& > .item {
-			background: #fff; /* url(../images/cur-silver.png) center left no-repeat; */
+			position: relative;
+			padding: 0 15px;
+			border-bottom: 1px solid #e9e9e9;
+			line-height: 35px;
+		}
 
-			&:hover {
-				background: #fdffbe; /* url(../images/cur-orange.png) center left no-repeat; */
+
+		&:nth-child(even) {
+			& > .item {
+				background-color: #f9f9f9;
 			}
+		}
 
-			a {
-				color: #333435;
+		&:hover {
+			& > .item {
+				background-color: #fff; /* url(../images/cur-silver.png) center left no-repeat; */
+
+				&:hover {
+					background-color: #fdffbe; /* url(../images/cur-orange.png) center left no-repeat; */
+				}
+
+				a {
+					color: #333435;
+				}
 			}
 		}
 	}
@@ -105,6 +91,20 @@ body {
 		top: 10px;
 		margin-left: -23px;
 		cursor: pointer;
+	}
+
+	ul  {
+		margin: 0;
+		.item { padding-left: 35px; }
+		ul .item { padding-left: 65px; }
+		ul ul .item { padding-left:95px; }
+		ul ul ul .item { padding-left:125px; }
+		ul ul ul ul .item { padding-left:155px; }
+		ul ul ul ul ul .item { padding-left:185px; }
+		ul ul ul ul ul ul .item { padding-left:215px; }
+		ul ul ul ul ul ul ul .item { padding-left:245px; }
+		ul ul ul ul ul ul ul ul .item { padding-left:275px; }
+		ul ul ul ul ul ul ul ul ul .item { padding-left:305px; }
 	}
 }
 
