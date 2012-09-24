@@ -65,6 +65,8 @@ else
 	Kohana::$environment = Kohana::PRODUCTION;
 }
 
+define('CMS_VERSION', '1.0 RC');
+
 /**
  * InitializeCore, setting the default options.
  *
