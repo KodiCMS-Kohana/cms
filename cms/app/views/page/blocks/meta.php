@@ -60,7 +60,7 @@
 		</div>
 
 		<div class="control-group">
-			<label class="control-label" for="pageEditMetaTagsField"><?php echo __( 'Tags' ); ?></label>
+			<label class="control-label" for="pageEditMetaTagsField"><?php echo __( 'Tags (separator: ":sep")', array(':sep' => Tag::SEPARATOR) ); ?></label>
 			<div class="controls">
 				<?php 
 				echo Form::textarea( 'page[tags]', implode(Tag::SEPARATOR, $tags ), array(
