@@ -7,7 +7,6 @@ $plugin = Model_Plugin_Item::factory( array(
 	'description' => 'CodeMirror is a JavaScript component that provides a code editor in the browser. When a mode is available for the language you are coding in, it will color your code, and optionally help with indentation.',
 	'javascripts' => array(
 		'vendors/CodeMirror-2.33/lib/codemirror.js',
-		'vendors/CodeMirror-2.33/lib/codemirror.css',
 		'vendors/CodeMirror-2.33/mode/clike/clike.js',
 		'vendors/CodeMirror-2.33/mode/xml/xml.js',
 		'vendors/CodeMirror-2.33/mode/javascript/javascript.js',
@@ -16,7 +15,10 @@ $plugin = Model_Plugin_Item::factory( array(
 		'vendors/CodeMirror-2.33/mode/php/php.js',
 		'codemirror.js'
 	),
-	'css' => 'codemirror.css',
+	'css' => array(
+		'vendors/CodeMirror-2.33/lib/codemirror.css',
+		'codemirror.css',
+	)
 ) )
 	->register();
 
