@@ -38,7 +38,7 @@
 					<?php endif; ?>
 				</th>
 				<td class="date">
-					<?php echo Date::format($item->published_on, 'd F Y'); ?>
+					<?php echo Date::format($item->published_on); ?>
 				</td>
 				<td class="status">
 					<?php switch ($item->status_id):

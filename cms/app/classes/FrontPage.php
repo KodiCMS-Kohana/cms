@@ -119,27 +119,20 @@ class FrontPage
         
         return HTML::anchor($this->url(), $label, $options);
     }
-    
-	/**
-	* http://php.net/strftime
-	* exemple (can be useful):
-	*  '%a, %e %b %Y'      -> Wed, 20 Dec 2006 <- (default)
-	*  '%A, %e %B %Y'      -> Wednesday, 20 December 2006
-	*  '%B %e, %Y, %H:%M %p' -> December 20, 2006, 08:30 pm
-	*/
-    public function date($format='%m/%d/%y %H:%M:%S %p', $which_one='publish')
+
+    public function date($format = NULL, $which_one = 'publish')
     {
         if ($which_one == 'update' || $which_one == 'updated')
 		{
-            return strftime($format, strtotime($this->updated_on));
+            return Date::format($this->updated_on, $format);
 		}
         else if ($which_one == 'publish' || $which_one == 'published')
 		{
-            return strftime($format, strtotime($this->published_on));
+            return Date::format($this->published_on, $format);
 		}
         else
 		{
-            return strftime($format, strtotime($this->created_on));
+            return Date::format($this->created_on, $format);
 		}
     }
     

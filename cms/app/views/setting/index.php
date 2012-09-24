@@ -21,6 +21,22 @@
 				<p class="help-block"><?php echo __( 'This text will be bresent at backend and can be used in themes.' ); ?></p>
 			</div>
 		</div>
+		
+		<div class="control-group">
+			<?php echo Form::label('setting_date_format', __('Date format'), array('class' => 'control-label')); ?>
+			<div class="controls">
+				<?php
+				echo Form::select('setting[date_format]', array(
+					'Y-m-d' => '2011-12-14',
+					'd.m.Y' => '14.12.2011',
+					"Y/m/d" => "2011/12/14",
+					"m/d/Y" => "12/14/2011",
+					"d/m/Y" => "14/12/2011",
+					"d F Y" => '14 декабря 2011'
+				), Setting::get('date_format'), array('id' => 'setting_date_format'));
+				?>
+			</div>
+		</div>
 
 		<div class="control-group">
 			<label class="control-label" for="settingSection"><?php echo __( 'Default backend section' ); ?></label>

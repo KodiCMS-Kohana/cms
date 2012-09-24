@@ -53,8 +53,13 @@ class Date extends Kohana_Date {
 		"rd"			=> ""
 	);
 	
-	public static function format($date = NULL, $format = 'Y-m-d', $decl = FALSE)
+	public static function format($date = NULL, $format = NULL, $decl = FALSE)
 	{
+		if($format === NULL)
+		{
+			$format = Setting::get('date_format', 'Y-m-d H:I:s');
+		}
+
 		if(  is_string( $date ))
 		{
 			$date = strtotime($date);

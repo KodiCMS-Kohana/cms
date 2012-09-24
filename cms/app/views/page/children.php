@@ -32,7 +32,7 @@
 					'class' => 'item-preview', 'target' => '_blank'
 				)); ?>
 			</span>
-			<span class="date"><?php echo Date::format($child->published_on, 'd F Y'); ?></span>
+			<span class="date"><?php echo Date::format($child->published_on); ?></span>
 			<span class="status">
 				<?php switch ($child->status_id):
 					case Page::STATUS_DRAFT:    echo UI::label(__('Draft'), 'info');       break;
