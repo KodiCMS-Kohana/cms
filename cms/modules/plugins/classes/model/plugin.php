@@ -109,12 +109,13 @@ class Model_Plugin {
 	}
 
 	protected static function _save()
-	{
-		$data = array(
-			'plugins' => serialize( self::$_plugins )
-		);
+	{		
+		Kohana::cache('Database::cache(plugins_list)', NULL, -1);
 
-		Setting::saveFromData( $data );
+		$query = DB::update( Setting::$table_name)
+			->set(array('value' => serialize( self::$_plugins )))
+			->where('name', '=', 'plugins')
+			->execute();
 	}
 
 	public static function find_all()
