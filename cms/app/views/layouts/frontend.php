@@ -10,7 +10,7 @@
 			echo HTML::style(ADMIN_RESOURCES . 'libs/jgrowl/jquery.jgrowl.css' ) . "\n";
 			echo HTML::style(ADMIN_RESOURCES . 'css/common.css') . "\n";
 
-			echo HTML::script(ADMIN_RESOURCES . 'libs/jquery-1.7.2.min.js' ) . "\n";
+			echo HTML::script(ADMIN_RESOURCES . 'libs/jquery-1.8.0.min.js' ) . "\n";
 			echo HTML::script(ADMIN_RESOURCES . 'libs/bootstrap/js/bootstrap.min.js' ) . "\n";
 			echo HTML::script(ADMIN_RESOURCES . 'libs/jgrowl/jquery.jgrowl_minimized.js' ) . "\n";
 		?>
