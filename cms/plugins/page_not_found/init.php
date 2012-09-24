@@ -41,7 +41,7 @@ function behavior_page_not_found()
 			Request::current()
 				->response();
 
-			$page->render_layout();
+			echo $page->render_layout();
 			exit(); // need to exit here otherwise the true error page will be sended
 		}
 	}

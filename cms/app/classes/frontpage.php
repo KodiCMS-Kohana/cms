@@ -181,12 +181,9 @@ class FrontPage
     {		
 		if (isset($this->part->{$part}))
 		{
-			ob_start();
-			eval('?>' . $this->part->{$part}->content_html);
-			$out = ob_get_contents();
-			ob_end_clean();
-			
-			return $out;
+			return FrontView::factory()
+				->set('page', $this)
+				->render_html($this->part->{$part}->content_html);
 		}
         else if ($inherit AND $this->parent)
         {
@@ -497,7 +494,7 @@ class FrontPage
 		return $this->parent->parent($level);
     }
     
-    public function includeSnippet($snippet_name, $vars = NULL, $to_string = FALSE)
+    public function includeSnippet($snippet_name, $vars = NULL)
     {
 		$snippet = new Model_File_Snippet($snippet_name);
 		
@@ -506,20 +503,8 @@ class FrontPage
 			return NULL;
 		}
 
-		if (is_array($vars))
-		{
-			extract($vars);
-		}
-
-		if($to_string)
-		{
-			// Capture the view output
-			ob_start();
-			include $snippet->get_path();
-			return ob_get_clean();
-		}
-
-		include $snippet->get_file();
+		return FrontView::factory($snippet->get_file(), $vars)
+			->set('page', $this);
     }
 	
 	public function render_layout()
@@ -541,8 +526,9 @@ class FrontPage
 		{
 			Request::current()->response()->headers('Content-Type',  $mime );
 		}
-
-		include $layout->get_file();
+		
+		return FrontView::factory($layout->get_file())
+			->set('page', $this);
 	}
 
 	/**
