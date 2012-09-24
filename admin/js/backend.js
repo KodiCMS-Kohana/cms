@@ -174,11 +174,6 @@ cms.ui = {
         for (var i = 0; i < cms.ui.callbacks.length; i++) {
             cms.ui.callbacks[i][1]();
         }
-        ;
-
-        $('.button').live('click', function () {
-            location.href = $(this).attr('rel');
-        });
 
         $('.btn-confirm').live('click', function () {
             if (confirm(__('Are you sure?')))
@@ -196,7 +191,6 @@ cms.ui = {
                 $(this).val(val);
             });
 
-        //$('.tabby').tabby();
         $('.focus').focus();
     }
 },
@@ -371,31 +365,31 @@ cms.init.add('page_index', function () {
         }
 
         if (!$pageMapUl.hasClass('map-drag')) {
+			
             var dragStart_handler = function (event, ui) {
                 ui.item.find('ul').hide();
             };
 
             var dragOver_handler = function (event, ui) {
-                var level = parseInt(ui.placeholder.parent().attr('class').substring(10));
-                ui.placeholder.css('margin-left', (32 * level) + 'px');
+                var level = parseInt(ui.placeholder.parent().data('level'));
+                $('.item', ui.item).css('padding-left', (35 * level) + 'px');
             };
 
             var dragStopped_handler = function (event, ui) {
                 ui.item.find('ul').show();
 
                 var ul = ui.item.parent();
-                var parent_id = parseInt(ul.parent().attr('rel'));
+                var parent_id = parseInt(ul.parent().data('id'));
 
                 var li = ul.children('li');
 
                 var pages_ids = [];
 
-                for (var i = 0; i < li.length; i++) {
-                    var child_id = $(li[i]).attr('rel');
-
-                    if (child_id !== undefined)
+				li.each(function(i){
+					var child_id = $(this).data('id');
+					if (child_id !== undefined)
                         pages_ids.push(child_id);
-                }
+				});
 
                 pages_ids = pages_ids.reverse();
 
@@ -435,16 +429,14 @@ cms.init.add('page_index', function () {
                     axis:'y',
                     items:'li',
                     connectWith:'ul',
-                    placeholder:'map-placeholder',
-                    opacity:0.7,
-                    forceHelperSize:true,
-                    grid:[5, 8],
-                    cursor:'move',
+                    placeholder: 'map-placeholder',
+                    //grid: [8, 8],
+                    cursor: 'move',
 
                     // events
-                    start:dragStart_handler,
-                    over:dragOver_handler,
-                    stop:dragStopped_handler
+                    start: dragStart_handler,
+                    over: dragOver_handler,
+                    stop: dragStopped_handler
                 });
 
             self.addClass('btn-inverse');
@@ -482,8 +474,8 @@ cms.init.add('page_index', function () {
 
             // when draged element appended to container
             var dragOver_handler = function (event, ui) {
-                var level = parseInt(ui.placeholder.parent().attr('class').substring(10));
-                ui.placeholder.css('margin-left', (32 * level) + 'px');
+                var level = parseInt(ui.placeholder.parent().data('level'));
+                $('.item', ui.helper).css('padding-left', (35 * level) + 'px');
             };
 
             // when element dropped
@@ -491,15 +483,15 @@ cms.init.add('page_index', function () {
                 ui.helper.find('ul').show();
 
                 var ul = ui.item.parent();
-                var page_id = parseInt(ui.item.attr('rel'));
-                var parent_id = parseInt(ul.parent().attr('rel'));
+                var page_id = parseInt(ui.item.data('id'));
+                var parent_id = parseInt(ul.parent().data('id'));
 
                 var li = ul.children('li');
 
                 var pages_ids = [];
 
                 for (var i = 0; i < li.length; i++) {
-                    var child_id = $(li[i]).attr('rel');
+                    var child_id = $(li[i]).data('id');
 
                     if (child_id !== undefined)
                         pages_ids.push(child_id);
@@ -547,9 +539,8 @@ cms.init.add('page_index', function () {
                     items:'li',
                     connectWith:'ul',
                     placeholder:'map-placeholder',
-                    opacity:0.7,
                     forceHelperSize:true,
-                    grid:[5, 8],
+                    grid:[4, 8],
 
                     // events
                     start:dragStart_handler,
@@ -563,10 +554,9 @@ cms.init.add('page_index', function () {
                     items:'li',
                     connectToSortable:$pageMapUl,
                     placeholder:'map-placeholder',
-                    opacity:0.7,
                     forceHelperSize:true,
                     helper:'clone',
-                    grid:[5, 8]
+                    grid:[4, 8]
                 });
 
             self.addClass('btn-inverse');
@@ -684,8 +674,6 @@ cms.init.add(['page_add', 'page_edit'], function () {
         return false;
     });
 
-    //$('#pageEditParts .item-content textarea').tabby();
-
     $('#pageEditMetaSlugField').keyup(function () {
         $(this).val(cms.convertSlug($(this).val()));
     });
@@ -748,7 +736,6 @@ cms.init.add(['page_add', 'page_edit'], function () {
                         cms.loader.hide();
 
                         $('#pageEditParts').append(html_data);
-                        $('#pageEditParts .item-content:last textarea').tabby();
                     },
                     error:function () {
                         cms.error('Ajax error!');

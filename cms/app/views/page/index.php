@@ -25,8 +25,8 @@
 		<span class="actions"><?php echo __('Actions'); ?></span>
 	</div>
 	
-	<ul id="pageMapItems" class="map-items">
-		<li rel="<?php echo $page->id; ?>" class="map-level-0">
+	<ul id="pageMapItems" class="map-items" data-level="0">
+		<li data-id="<?php echo $page->id; ?>">
 			<div class="item">
 				<span class="title">
 					<?php if( ! AuthUser::hasPermission($page->getPermissions()) ): ?>

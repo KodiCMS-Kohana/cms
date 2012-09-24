@@ -1,8 +1,8 @@
 <?php defined('SYSPATH') or die('No direct access allowed.'); ?>
 
-<ul class="map-level-<?php echo $level; ?>">
+<ul data-level="<?php echo $level; ?>">
 	<?php foreach($childrens as $child): ?>
-	<li rel="<?php echo $child->id; ?>" <?php if($child->is_expanded) echo('class="item-expanded"'); ?>>
+	<li data-id="<?php echo $child->id; ?>" <?php if($child->is_expanded) echo('class="item-expanded"'); ?>>
 		<div class="item">
 			<?php 
 			if( $child->has_children )

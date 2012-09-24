@@ -38,14 +38,14 @@ class Controller_System_Backend extends Controller_System_Template
 			));
 			
 			$this->template->styles = array(
+				ADMIN_RESOURCES . 'libs/jquery-ui/css/custom-theme/jquery-ui-1.8.16.custom.css',
+				ADMIN_RESOURCES . 'libs/jgrowl/jquery.jgrowl.css',
 				ADMIN_RESOURCES . 'css/common.css',
-				ADMIN_RESOURCES . 'libs/jquery-ui/jquery-ui-1.8.12.css',
-				ADMIN_RESOURCES . 'libs/jgrowl/jquery.jgrowl.css'
 			);
 			
 			$this->template->scripts = array(
-				ADMIN_RESOURCES . 'libs/jquery-1.7.2.min.js',
-				ADMIN_RESOURCES . 'libs/jquery-ui/jquery-ui-1.8.12.js',
+				ADMIN_RESOURCES . 'libs/jquery-1.8.0.min.js',
+				ADMIN_RESOURCES . 'libs/jquery-ui/js/jquery-ui-1.8.23.custom.min.js',
 				ADMIN_RESOURCES . 'libs/bootstrap/js/bootstrap.min.js',
 				ADMIN_RESOURCES . 'libs/jgrowl/jquery.jgrowl_minimized.js',
 				ADMIN_RESOURCES . 'js/backend.js'
