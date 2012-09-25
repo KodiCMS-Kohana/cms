@@ -5,6 +5,4 @@ nbproject/*
 /cms/app/logs/*
 !/cms/app/cache/*.html
 !/cms/app/logs/*.html
-/snippets/*
-/layouts/*
 /.idea/

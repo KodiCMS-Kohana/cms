@@ -17,17 +17,15 @@
 		<div id="page">
 			<?php echo $page->includeSnippet( 'header' ); ?>
 			<div id="content">
-
 				<h2><?php echo $page->title(); ?></h2>
 				<?php echo $page->content(); ?> 
 				<?php echo $page->content( 'extended' ); ?> 
-
 			</div> <!-- end #content -->
+
 			<div id="sidebar">
-
 				<?php echo $page->content( 'sidebar', TRUE ); ?> 
-
 			</div> <!-- end #sidebar -->
+
 			<?php echo $page->includeSnippet( 'footer' ); ?>
 		</div> <!-- end #page -->
 	</body>
