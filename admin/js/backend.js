@@ -110,7 +110,7 @@ cms.filters.add = function (name, to_editor_callback, to_textarea_callback) {
 
 // Switch On filter
 cms.filters.switchOn = function (textarea_id, filter) {
-    // Hack for rich text editors like TinyMCE
+
     jQuery('#' + textarea_id).css('display', 'block');
 
     if (this.filters.length > 0) {
@@ -197,32 +197,32 @@ cms.ui = {
 
 
 // Pages init
-    cms.init = {
-        callbacks:[],
-        add:function (rout, callback) {
-            if (typeof(callback) != 'function')
-                return false;
+cms.init = {
+	callbacks:[],
+	add:function (rout, callback) {
+		if (typeof(callback) != 'function')
+			return false;
 
-            if (typeof(rout) == 'object') {
-                for (var i = 0; i < rout.length; i++)
-                    cms.init.callbacks.push([rout[i], callback]);
-            }
-            else if (typeof(rout) == 'string')
-                cms.init.callbacks.push([rout, callback]);
-            else
-                return false;
-        },
-        run:function () {
-            var body_id = $('body:first').attr('id').toString();
+		if (typeof(rout) == 'object') {
+			for (var i = 0; i < rout.length; i++)
+				cms.init.callbacks.push([rout[i], callback]);
+		}
+		else if (typeof(rout) == 'string')
+			cms.init.callbacks.push([rout, callback]);
+		else
+			return false;
+	},
+	run:function () {
+		var body_id = $('body:first').attr('id').toString();
 
-            for (var i = 0; i < cms.init.callbacks.length; i++) {
-                var rout_to_id = 'body_' + cms.init.callbacks[i][0];
+		for (var i = 0; i < cms.init.callbacks.length; i++) {
+			var rout_to_id = 'body_' + cms.init.callbacks[i][0];
 
-                if (body_id == rout_to_id)
-                    cms.init.callbacks[i][1]();
-            }
-        }
-    };
+			if (body_id == rout_to_id)
+				cms.init.callbacks[i][1]();
+		}
+	}
+};
 
 
 cms.init.add('page_index', function () {
@@ -256,7 +256,7 @@ cms.init.add('page_index', function () {
 
 
     $('#pageMapItems .item-expander').live('click', function () {
-        var li = $(this).parent().parent();
+        var li = $(this).parent().parent().parent().parent();
         var parent_id = li.data('id');
 
         var expander = $(this);

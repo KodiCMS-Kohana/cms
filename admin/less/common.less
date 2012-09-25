@@ -69,15 +69,18 @@ html, body {
 
 
 .map-header {
-	position: relative;
+
+	.row-fluid div {
+		line-height: 35px;
+
+		a {
+			color: #fff;
+		}
+	}
+
 	background: #4d4d4f;
 	color: #fff;
-	padding: 0 15px;
-	line-height: 35px;
-
-	a {
-		color: #fff;
-	}
+	
 }
 
 .map-items {
@@ -126,13 +129,6 @@ html, body {
 
 	ui-sortable-helper > .item {
 		border: none;
-	}
-
-	.item-expander {
-		position: absolute;
-		top: 10px;
-		margin-left: -23px;
-		cursor: pointer;
 	}
 
 	ul  {
@@ -220,12 +216,14 @@ table.table_list {
  ===================================================*/
 #pageMap {
 	
-	ul {
-		list-style: none;
+	.item {
+
+		.item-expander {
+			margin-left: -17px;
+			cursor: pointer;
+		}
 
 		.title {
-			display: block;
-			margin-right: 310px;
 
 			em {
 				font-style: normal;
@@ -237,45 +235,37 @@ table.table_list {
 				font-style: normal;
 			}
 		}
+
+		.status {}
+
+		.date {}
+
+		.date,
+		.status {
+			font-size: 90%;
+			text-align: right;
+		}
+
+		.actions {
+			display: none;
+			text-align: right;
+		}
+
+
+		&:hover {
+			.item-preview {
+				display: inline;
+			}
+
+			.actions {
+				display: block;
+			}
+		}
 	}
 
 	.item-preview {
 		display: none;
 		margin-left: 10px;
-	}
-
-	.status {
-		position: absolute;
-		top: 0;
-		right: 200px;
-	}
-
-	.date {
-		position: absolute;
-		top: 0;
-		right: 105px;
-	}
-
-	.date,
-	.status {
-		font-size: 90%;
-	}
-
-	.actions {
-		position: absolute;
-		top: 0;
-		right: 15px;
-		display: none;
-	}
-
-	.item:hover {
-		.item-preview {
-			display: inline;
-		}
-
-		.actions {
-			display: block;
-		}
 	}
 }
 
@@ -549,6 +539,16 @@ table {
 	}
 }
 .form-actions {
+	-webkit-border-bottom-right-radius: 5px;
+	-webkit-border-bottom-left-radius: 5px;
+	-moz-border-radius-bottomright: 5px;
+	-moz-border-radius-bottomleft: 5px;
+	border-bottom-right-radius: 5px;
+	border-bottom-left-radius: 5px;
+
+	border: 1px solid #E5E5E5;
+
+
 	.btn {
 		margin-right: 5px;
 	}
