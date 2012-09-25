@@ -186,6 +186,8 @@ return array(
 	'or' => 'или',
 
 	'unknown' => 'неизвестно',
+    'Date format' => 'Формат даты',
+    'Debug mode' => 'Режим отладки',
 	'Login page' => 'Страница для входа',
 	'Message sended from' => 'Сообщение отправлено с сайта',
 	'Your new password from :site_name' => 'Ваш новый пароль от сайта :site_name',
