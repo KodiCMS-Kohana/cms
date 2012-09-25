@@ -23,9 +23,13 @@ class Model_Plugin {
 		}
 
 		$plugins = array();
+
 		foreach ( self::$_plugins as $plugin_id => $tmp )
 		{
-			$plugins[$plugin_id] = PLUGPATH . $plugin_id . DIRECTORY_SEPARATOR;
+			if(  is_dir( PLUGPATH . $plugin_id . DIRECTORY_SEPARATOR ) )
+			{
+				$plugins[$plugin_id] = PLUGPATH . $plugin_id . DIRECTORY_SEPARATOR;
+			}
 		}
 
 		if ( self::$_settings_loaded === FALSE )
