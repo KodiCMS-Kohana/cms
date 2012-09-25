@@ -43,11 +43,11 @@
 			<div class="controls">
 				<select id="settingSection" name="setting[default_tab]">
 					<?php $current_default_nav = Setting::get( 'default_tab' ); ?>
-					<?php foreach ( Model_Navigation::get() as $name => $group ): ?>
-						<optgroup label="<?php echo __( $name ); ?>">
-							<?php foreach ( $group->items as $item ): ?>
-							<?php $tab = trim(str_replace(ADMIN_DIR_NAME, '', $item->uri), '/'); ?>
-							<option value="<?php echo $tab; ?>" <?php if ( $tab == $current_default_nav ) echo 'selected="selected"'; ?> ><?php echo $item->name; ?></option>
+					<?php foreach ( Model_Navigation::get() as $section ): ?>
+						<optgroup label="<?php echo $section->name(); ?>">
+							<?php foreach ( $section->get_pages() as $item ): ?>
+							<?php $tab = trim(str_replace(ADMIN_DIR_NAME, '', $item->url()), '/'); ?>
+							<option value="<?php echo $tab; ?>" <?php if ( $tab == $current_default_nav ) echo 'selected="selected"'; ?> ><?php echo $item->name(); ?></option>
 							<?php endforeach; ?>
 						</optgroup>
 					<?php endforeach; ?>

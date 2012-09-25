@@ -2,56 +2,53 @@
 
 class Model_Navigation {
 
-	protected static $_navigation = array();
+	protected static $_sections = array();
+	
+	public static $current = NULL;
+	
+	public static function get_section($name)
+	{
+		foreach (self::$_sections as $section)
+		{
+			if($section->id() == $name)
+			{
+				return $section;
+			}
+		}
+		
+		return NULL;
+	}
 
 	public static function add_section( $section = 'Other', $name, $uri, $permissions = array('administrator'), $priority = 0 )
 	{
-		$uri = URL::site($uri);
-		$priority = (int) $priority;
-
 		if ( AuthUser::hasPermission( $permissions ) )
 		{
-			if ( !isset( self::$_navigation[$section] ) )
+			if ( ($section_object = self::get_section( $section )) === NULL )
 			{
-				self::$_navigation[$section] = (object) array(
-					'is_current' => FALSE,
-					'items' => array( )
-				);
+				$section_object = self::$_sections[] = new Model_Navigation_Section(array(
+					'name' => $section
+				));
 			}
-
-			if ( isset( self::$_navigation[$section]->items[$priority] ) )
-			{
-				while ( isset( self::$_navigation[$section]->items[$priority] ) )
-				{
-					$priority++;
-				}
-			}
-
-			self::$_navigation[$section]->items[$priority] = (object) array(
+			
+			$section_object->add_page(new Model_Navigation_Page(array(
 				'name' => $name,
-				'uri' => $uri,
-				'is_current' => FALSE,
-				'priority' => $priority
-			);
-
-			ksort(self::$_navigation[$section]->items);
+				'url' => URL::site($uri)
+			)), $priority);
 		}
 	}
 	
 	static function get()
 	{
-		ksort(self::$_navigation);
+		asort(self::$_sections);
 		$break = FALSE;
-		foreach ( self::$_navigation as $key => $section )
+		foreach ( self::$_sections as $section )
 		{
-			ksort($section->items);
-
-			foreach ( $section->items as $item_key => $item )
+			foreach ( $section->get_pages() as $page )
 			{
-				if ( strpos(Request::current()->uri(), ltrim($item->uri, '/')) !== FALSE )
+				if ( strpos(Request::current()->uri(), ltrim($page->url(), '/')) !== FALSE )
 				{
-					self::$_navigation[$key]->is_current = TRUE;
-					self::$_navigation[$key]->items[$item_key]->is_current = TRUE;
+					$page->set_active();
+
 					$break = TRUE;
 					break;
 				}
@@ -61,6 +58,6 @@ class Model_Navigation {
 				break;
 		}
 
-		return self::$_navigation;
+		return self::$_sections;
 	}
 }

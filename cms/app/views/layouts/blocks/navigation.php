@@ -7,13 +7,13 @@
 		?>
 
 		<ul class="nav">
-			<?php foreach ( Model_Navigation::get() as $nav_name => $nav ): ?>
-				<?php if ( !empty( $nav->items ) ): ?>
-					<li class="dropdown <?php if ( $nav->is_current ): ?>active<?php endif; ?>">
-						<a data-toggle="dropdown" class="dropdown-toggle" href="#"><?php echo __( $nav_name ); ?> <b class="caret"></b></a>
+			<?php foreach ( $navigation as $nav ): ?>
+				<?php if ( count($nav->get_pages() ) > 0 ): ?>
+					<li class="dropdown <?php if ( $nav->is_active() ): ?>active<?php endif; ?>">
+						<a data-toggle="dropdown" class="dropdown-toggle" href="#"><?php echo $nav->name(); ?> <b class="caret"></b></a>
 						<ul class="dropdown-menu">
-							<?php foreach ( $nav->items as $item ): ?>
-								<li <?php if ( $item->is_current ): ?>class="active"<?php endif; ?>><?php echo HTML::anchor( URL::site( $item->uri ), $item->name ); ?></li>
+							<?php foreach ( $nav->get_pages() as $item ): ?>
+								<li <?php if ( $item->is_active() ): ?>class="active"<?php endif; ?>><?php echo HTML::anchor( $item->url(), $item->name() ); ?></li>
 							<?php endforeach; ?>
 						</ul>
 					</li>
@@ -39,14 +39,14 @@
 	</div>
 </div>
 
-<?php foreach ( Model_Navigation::get() as $nav_name => $nav ): ?>
-<?php if($nav->is_current AND count($nav->items) > 1):?>
+<?php foreach ( $navigation as $nav ): ?>
+<?php if($nav->is_active() AND count($nav->get_pages()) > 1):?>
 <div id="subnav" class="navbar navbar-static-top">
 	<div class="navbar-inner">
 		<ul class="nav">
-			<?php foreach ( $nav->items as $item ): ?>
-			<li class="<?php if($item->is_current): ?>active<?php endif; ?>">
-				<?php echo HTML::anchor( URL::site( $item->uri ), $item->name ); ?>
+			<?php foreach ( $nav->get_pages() as $item ): ?>
+			<li class="<?php if($item->is_active()): ?>active<?php endif; ?>">
+				<?php echo HTML::anchor( $item->url(), $item->name() ); ?>
 			</li>
 			<?php endforeach; ?>
 		</ul>

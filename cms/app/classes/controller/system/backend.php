@@ -12,12 +12,12 @@ class Controller_System_Backend extends Controller_System_Template
 
 		if(!self::$_init) 
 		{
-			Model_Navigation::add_section('Content',  __('Pages'),    'page',    array('administrator','developer','editor'), 100);
-			Model_Navigation::add_section('Design',   __('Layouts'),  'layout',  array('administrator','developer'), 100);
-			Model_Navigation::add_section('Design',   __('Snippets'), 'snippet', array('administrator','developer'), 100);
 			Model_Navigation::add_section('Settings', __('General'),  'setting', array('administrator'), 100);
 			Model_Navigation::add_section('Settings', __('Users'),    'user',    array('administrator'), 102);
-			
+			Model_Navigation::add_section('Design',   __('Layouts'),  'layout',  array('administrator','developer'), 100);
+			Model_Navigation::add_section('Design',   __('Snippets'), 'snippet', array('administrator','developer'), 100);
+			Model_Navigation::add_section('Content',  __('Pages'),    'page',    array('administrator','developer','editor'), 100);
+						
 			self::$_init = TRUE;
 		}
 		
@@ -34,7 +34,9 @@ class Controller_System_Backend extends Controller_System_Template
 				'page_name' => $page,
 				'controller' => $controller,
 				'action' => $action,
-				'params' => $params
+				'params' => $params,
+				'navigation' => Model_Navigation::get(),
+				'page' => Model_Navigation::$current
 			));
 			
 			$this->styles = array(
