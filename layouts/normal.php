@@ -9,9 +9,7 @@
 		<meta name="keywords" content="<?php echo ($page->keywords() != '') ? $page->keywords() : 'default, keywords, here'; ?>" />
 		<meta name="author" content="Author Name" />
 		
-		<?php
-			echo HTML::style( PUBLIC_URL . 'themes/normal/screen.css' ) . "\n";
-		?>
+		<?php echo HTML::style( PUBLIC_URL . 'themes/normal/screen.css' ) . "\n"; ?>
 
 		<link rel="alternate" type="application/rss+xml" title="Frog Default RSS Feed" href="<?php echo URL::site('rss.xml', TRUE); ?>" />
 	</head>

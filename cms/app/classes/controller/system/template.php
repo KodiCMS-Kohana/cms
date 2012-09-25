@@ -66,8 +66,6 @@ class Controller_System_Template extends Controller_System_Security
 			$this->template->styles = array_merge( $this->styles, $this->template->styles );
 			$this->template->scripts = array_merge( $this->scripts, $this->template->scripts );
 
-			unset( $styles, $scripts );
-
 			$this->template->messages = View::factory('layouts/blocks/messages', array(
 				'messages' => Messages::get() 
 			));

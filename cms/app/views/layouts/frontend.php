@@ -27,4 +27,6 @@
 		<?php echo View::factory( 'profiler/stats' ) ?>
 		<?php endif; ?>
 	</body>
+	
+	<?php echo View::factory('layouts/blocks/footer'); ?>
 </html>

@@ -19,7 +19,8 @@ Kohana::modules( array(
 	'orm'			=> MODPATH . 'orm', // Object Relationship Mapping,
 	'cache'			=> MODPATH . 'cache', // Object Relationship Mapping,
 	'pagination'	=> MODPATH . 'pagination',
-	'plugins'		=> MODPATH . 'plugins'
+	'plugins'		=> MODPATH . 'plugins',
+	'userguide'		=> MODPATH . 'userguide',  // User guide and API documentation
 ) );
 
 // Init settings

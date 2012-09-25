@@ -1,4 +1,3 @@
-<?php defined( 'SYSPATH' ) or die( 'No direct access allowed.' ); ?>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -28,22 +27,6 @@
 	<body id="body_<?php echo $page_body_id; ?>">
 
 		<?php echo View::factory('layouts/blocks/navigation'); ?>
-		
-		<?php foreach ( Model_Navigation::get() as $nav_name => $nav ): ?>
-		<?php if($nav->is_current AND count($nav->items) > 1):?>
-		<div id="subnav" class="navbar navbar-static-top">
-			<div class="navbar-inner">
-				<ul class="nav">
-					<?php foreach ( $nav->items as $item ): ?>
-					<li class="<?php if($item->is_current): ?>active<?php endif; ?>">
-						<?php echo HTML::anchor( URL::site( $item->uri ), $item->name ); ?>
-					</li>
-					<?php endforeach; ?>
-				</ul>
-			</div>
-		</div>
-		<?php endif; ?>
-		<?php endforeach; ?>
 
 		<div class="container-fluid">
 			<?php if(isset($breadcrumbs)): ?>
@@ -57,8 +40,8 @@
 			</div> <!--/#content-->
 		</div>
 		
-		<?php echo $modal; ?>
-		
+		<?php echo View::factory('layouts/blocks/footer'); ?>
+
 		<?php if ( Setting::get( 'profiling' ) == 'yes' ): ?>
 		<hr />
 		<?php echo View::factory( 'profiler/stats' ) ?>

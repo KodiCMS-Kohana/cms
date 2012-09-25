@@ -37,13 +37,13 @@ class Controller_System_Backend extends Controller_System_Template
 				'params' => $params
 			));
 			
-			$this->template->styles = array(
+			$this->styles = array(
 				ADMIN_RESOURCES . 'libs/jquery-ui/css/custom-theme/jquery-ui-1.8.16.custom.css',
 				ADMIN_RESOURCES . 'libs/jgrowl/jquery.jgrowl.css',
 				ADMIN_RESOURCES . 'css/common.css',
 			);
 			
-			$this->template->scripts = array(
+			$this->scripts = array(
 				ADMIN_RESOURCES . 'libs/jquery-1.8.0.min.js',
 				ADMIN_RESOURCES . 'libs/jquery-ui/js/jquery-ui-1.8.23.custom.min.js',
 				ADMIN_RESOURCES . 'libs/bootstrap/js/bootstrap.min.js',

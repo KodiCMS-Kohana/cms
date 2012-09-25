@@ -33,14 +33,14 @@ class Model_Navigation {
 				'is_current' => FALSE,
 				'priority' => $priority
 			);
-			
+
 			ksort(self::$_navigation[$section]->items);
 		}
 	}
 	
 	static function get()
 	{
-		asort(self::$_navigation);
+		ksort(self::$_navigation);
 		$break = FALSE;
 		foreach ( self::$_navigation as $key => $section )
 		{

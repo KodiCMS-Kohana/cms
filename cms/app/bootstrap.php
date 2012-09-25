@@ -65,6 +65,7 @@ else if(IS_INSTALLED)
 	Kohana::$environment = Kohana::PRODUCTION;
 }
 
+define('CMS_NAME', 'KoDi CMS');
 define('CMS_VERSION', '1.0 RC');
 
 /**

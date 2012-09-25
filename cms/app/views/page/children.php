@@ -55,8 +55,8 @@
 				if( AuthUser::hasPermission($child->getPermissions()) )
 				{
 					echo UI::button(NULL, array(
-						'href' => 'page/delete/'.$child->id, 'icon' => UI::icon('remove'), 
-						'class' => 'btn btn-mini btn-confirm'
+						'href' => 'page/delete/'.$child->id, 'icon' => UI::icon('remove icon-white'), 
+						'class' => 'btn btn-mini btn-confirm btn-danger'
 					));
 				}
 				?>
