@@ -30,7 +30,7 @@ class FrontPage
 	
 	private static $pages_cache = array();
 	
-	public static function not_found($message = 'Page not found')
+	public static function not_found($message = 'Страница не найдена')
 	{
 		Observer::notify('page_not_found');
 		throw new HTTP_Exception_404($message);
