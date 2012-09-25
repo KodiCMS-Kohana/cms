@@ -25,21 +25,21 @@
 		<?php Observer::notify( 'layout_backend_head' ); ?>
 	</head>
 	<body id="body_<?php echo $page_body_id; ?>">
+		<div id="content-wrapper">
+			<?php echo View::factory('layouts/blocks/navigation'); ?>
 
-		<?php echo View::factory('layouts/blocks/navigation'); ?>
+			<div class="container-fluid">
+				<?php if(isset($breadcrumbs)): ?>
+				<?php echo View::factory('layouts/blocks/breadcrumbs', array(
+					'breadcrumbs' => $breadcrumbs
+				)); ?>
+				<?php endif; ?>
 
-		<div class="container-fluid">
-			<?php if(isset($breadcrumbs)): ?>
-			<?php echo View::factory('layouts/blocks/breadcrumbs', array(
-				'breadcrumbs' => $breadcrumbs
-			)); ?>
-			<?php endif; ?>
-			
-			<div id="content" class="well" >
-			<?php echo $content; ?>
-			</div> <!--/#content-->
+				<div id="content" >
+				<?php echo $content; ?>
+				</div> <!--/#content-->
+			</div>
 		</div>
-		
 		<?php echo View::factory('layouts/blocks/footer'); ?>
 
 		<?php if ( Setting::get( 'profiling' ) == 'yes' ): ?>

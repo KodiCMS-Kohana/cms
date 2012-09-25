@@ -1,15 +1,44 @@
 @import "../libs/bootstrap/css/bootstrap.min.css";
 
+
+/* ===================================================
+	Design
+ ===================================================*/
+
 body {
-	background: whitesmoke url("../images/body-bg.png");
+	//background: whitesmoke url("../images/body-bg.png");
+}
+
+html, body {
+	width: 100%;
+	height: 100%;
+}
+
+#content-wrapper {
+	height: auto !important;
+    min-height: 100%;
+}
+
+#content {
+	margin-top: 15px;
+	padding-bottom: 170px;
 }
 
 #footer {
     background-color: #F5F5F5;
-    border-top: 1px solid #E5E5E5;
-    margin-top: 70px;
-    padding: 40px 0;
+    border: 1px solid #E5E5E5;
+	border-bottom-width: 0;
+    padding-top: 40px;
+	
+	height: 58px;
+	margin-top: -100px;
+    position: relative;
 }
+
+
+/* ===================================================
+	Loader
+ ===================================================*/
 
 .loader {
 	display: none;
@@ -35,10 +64,9 @@ body {
 		color: #fff;
 		background: #000 url(../images/loader-big-black.gif) 15px center no-repeat;
 		cursor: default;
-
-		.border-radius(5px);
 	}
 }
+
 
 .map-header {
 	position: relative;
@@ -147,6 +175,10 @@ body {
 	}
 }
 
+
+/* ===================================================
+	Table design
+ ===================================================*/
 table.table_list {
 	width: 100%;
 	font-size: 12px;
@@ -182,9 +214,10 @@ table.table_list {
 	}
 }
 
-/*
-	#pageMap
-*/
+
+/* ===================================================
+	Page map
+ ===================================================*/
 #pageMap {
 	
 	ul {
@@ -246,9 +279,9 @@ table.table_list {
 	}
 }
 
-/*
-	#pageEdit
-*/
+/* ===================================================
+	Page Edit
+ ===================================================*/
 #pageEdit {
 	position: relative;
 
@@ -417,10 +450,9 @@ table.table_list {
 	}
 }
 
-/*
-	#pluginsMap
-*/
-
+/* ===================================================
+	Plugins
+ ===================================================*/
 #PluginsList {
 	.actions  {
 		vertical-align: middle;
@@ -428,38 +460,6 @@ table.table_list {
 
 	td {
 		vertical-align: middle;
-	}
-
-	.title {
-		em,
-		i {
-			display: block;
-			font-style: normal;
-			line-height: 1em;
-		}
-
-		i {
-			color: gray;
-			margin-top: 1em;
-			font-size: 80%;
-		}
-	}
-
-	.item:hover .title i {
-		display: block;
-	}
-
-	.disabled {
-		color: red;
-	}
-
-	.item-disabled {
-		color: silver;
-	}
-
-	.item-enabled {
-		color: green;
-		font-weight: bold;
 	}
 }
 /*
@@ -529,12 +529,6 @@ table.table_list {
 table {
 	td.pass { color: #191; }
 	td.fail { color: #911; }
-}
-
-
-#content {
-	background: #fff;
-	margin-top: 15px;
 }
 
 .page-actions {
@@ -628,11 +622,7 @@ input.title {
 }
 
 .breadcrumb {
-	background: #fff;
 	margin: 15px 0 0;
-	border: 1px solid #eee;
-	font-size: 10px;
-	padding: 5px 15px;
 }
 
 form:last-child {

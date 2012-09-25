@@ -14,14 +14,14 @@
 			<?php endif; ?></td>
 		</h5>
 
-		<?php echo $plugin->description; ?>
+		<p class="muted"><?php echo $plugin->description; ?></p>
 	</th>
 	<td class="plugin-version"><?php echo $plugin->version; ?></td>
 	<td class="plugin-status">
 		<?php echo UI::button(NULL, array(
 			'class' => 'change-status btn btn-mini btn-danger', 
 			'data-status' => 'true', 
-			'icon' => UI::icon( 'stop icon-white')
+			'icon' => UI::icon( 'off icon-white')
 		)); ?>
 	</td>
 </tr>

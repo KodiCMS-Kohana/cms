@@ -1,7 +1,7 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct access allowed.' );
 
 class Model_Navigation {
-	
+
 	protected static $_navigation = array();
 
 	public static function add_section( $section = 'Other', $name, $uri, $permissions = array('administrator'), $priority = 0 )

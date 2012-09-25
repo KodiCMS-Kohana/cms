@@ -9,7 +9,7 @@ $plugin = Model_Plugin_Item::factory( array(
 	'settings' => TRUE
 ) )->register();
 
-if($plugin->enabled())
+if($plugin->enabled() AND AuthUser::isLoggedIn())
 {	
 	less_compile($plugin);
 }

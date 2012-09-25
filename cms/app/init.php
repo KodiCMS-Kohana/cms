@@ -20,7 +20,8 @@ Kohana::modules( array(
 	'cache'			=> MODPATH . 'cache', // Object Relationship Mapping,
 	'pagination'	=> MODPATH . 'pagination',
 	'plugins'		=> MODPATH . 'plugins',
-	'userguide'		=> MODPATH . 'userguide',  // User guide and API documentation
+	'userguide'		=> MODPATH . 'userguide',  // User guide and API documentation,
+	'i18n_plural'	=> MODPATH . 'i18n_plural',
 ) );
 
 // Init settings

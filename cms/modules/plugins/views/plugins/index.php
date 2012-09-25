@@ -17,7 +17,15 @@
 <style>
 	#PluginsList .activated th,
 	#PluginsList .activated td {
-		background-color: #C4FFD7;
+		background-color: #DEFFEC;
+	}
+	
+	#PluginsList .plugin-name h5 {
+		margin-top: 0;
+	}
+	
+	#PluginsList .plugin-status {
+		text-align: center;
 	}
 </style>
 

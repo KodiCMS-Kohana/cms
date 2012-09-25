@@ -257,12 +257,12 @@ cms.init.add('page_index', function () {
 
     $('#pageMapItems .item-expander').live('click', function () {
         var li = $(this).parent().parent();
-        var parent_id = li.attr('rel');
+        var parent_id = li.data('id');
 
         var expander = $(this);
 
         if (!li.hasClass('item-expanded')) {
-            var level = parseInt(li.parent().attr('class').substring(10));
+            var level = parseInt(li.parent().data('level'));
             //alert(level);
             // When information of page reordering updated
             var success_handler = function (html) {
@@ -330,20 +330,6 @@ cms.init.add('page_index', function () {
                 expandedPagesAdd(parent_id);
             }
         }
-    });
-
-
-    // Add, remove
-    $('#pageMapItems .item-add-button').live('click', function () {
-        location.href = $(this).attr('rel');
-    });
-
-    $('#pageMapItems .item-remove-button').live('click', function () {
-        if (confirm(__('Are you sure?'))) {
-            location.href = $(this).attr('rel');
-        }
-
-        return false;
     });
 
 

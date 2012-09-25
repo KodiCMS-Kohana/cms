@@ -30,8 +30,13 @@ class FrontPage
 	
 	private static $pages_cache = array();
 	
-    
-    public function __construct($object, $parent)
+	public static function not_found($message = 'Page not found')
+	{
+		Observer::notify('page_not_found');
+		throw new HTTP_Exception_404($message);
+	}
+
+	public function __construct($object, $parent)
     {
         $this->parent = $parent;
         

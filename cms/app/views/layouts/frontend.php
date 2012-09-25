@@ -1,4 +1,3 @@
-<?php defined('SYSPATH') or die('No direct access allowed.'); ?>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -18,15 +17,18 @@
 		<?php echo $messages; ?>
 	</head>
 	<body id="body_frontend">
-		<div class="container">			
-			<?php echo $content; ?>
+		<div id="content-wrapper">
+			<div class="container">			
+				<?php echo $content; ?>
+			</div>
 		</div>
-		
+			
+		<?php echo View::factory('layouts/blocks/footer'); ?>
 		<?php if ( Setting::get( 'profiling' ) == 'yes' ): ?>
 		<hr />
 		<?php echo View::factory( 'profiler/stats' ) ?>
 		<?php endif; ?>
 	</body>
 	
-	<?php echo View::factory('layouts/blocks/footer'); ?>
+	
 </html>

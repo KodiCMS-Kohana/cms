@@ -17,30 +17,33 @@
 	</head>
 	<body id="body_<?php echo $page_body_id; ?>">
 
-		<?php echo View::factory('layouts/blocks/navigation'); ?>
-		
-		<div class="container-fluid">
-			<?php if(isset($breadcrumb)): ?>
-			<?php echo View::factory('layouts/blocks/breadcrumbs', array(
-				'breadcrumbs' => $breadcrumb
-			)); ?>
-			<?php endif; ?>
-			
-			<div class="row-fluid">
-				<div class="span2">
-					<div id="kodoc-topics">
-						<?php echo $menu ?>
+		<div id="content-wrapper">
+			<?php echo View::factory('layouts/blocks/navigation'); ?>
+
+			<div class="container-fluid">
+				<?php if(isset($breadcrumb)): ?>
+				<?php echo View::factory('layouts/blocks/breadcrumbs', array(
+					'breadcrumbs' => $breadcrumb
+				)); ?>
+				<?php endif; ?>
+				
+				<div id="content">
+					<div class="row-fluid">
+						<div class="span3">
+							<div id="kodoc-topics">
+								<?php echo $menu ?>
+							</div>
+						</div>
+						<div class="span9">
+							<?php echo $content; ?>
+
+							<div class="clearfix"></div>
+						</div>
 					</div>
-				</div>
-				<div class="span10">
-					<div id="content" class="well" >
-						<?php echo $content; ?>
-						
-						<div class="clearfix"></div>
-					</div> <!--/#content-->
 				</div>
 			</div>
 			
+			<div class="clearfix"></div>
 		</div>
 		
 		<?php echo View::factory('layouts/blocks/footer'); ?>

@@ -80,22 +80,22 @@ h6:hover a.permalink {
 	display: inline;
 }
 
-#content { padding: 20px 40px; }
+#content {  }
 	#content div.page-toc { float: right; margin: 1em; margin-top: 0; }
 	#content p.intro { padding: 1em 20px; padding-left: 20px; margin: 0 -20px; font-size: 1.2em; }
 
-#kodoc-topics {  }
+#kodoc-topics {  border-right: 1px solid #EEEEEE;}
 
-	#kodoc-topics h2 { font-size: 22px;}
+	#kodoc-topics h2 { font-size: 22px; line-height: 22px; margin-bottom: 10px;}
 	#kodoc-topics ul,
-	#kodoc-topics ol { list-style-type:none; margin: 0; font-size: 110%;}
+	#kodoc-topics ol { list-style-type:none; margin: 0;}
 		#kodoc-topics ul li,
 		#kodoc-topics ol li {margin-left: 1em; line-height: 22px;}
 		#kodoc-topics ul li a.current,
 		#kodoc-topics ol li a.current { font-weight: bold; }
 	#kodoc-topics span,
 	#kodoc-topics a { display: block; padding: 0; margin: 0; }
-	#kodoc-topics span { cursor: pointer; }
+	#kodoc-topics span { cursor: pointer; font-size: 110%;}
 	#kodoc-topics span.toggle { display: block; float: left; width: 1em; padding-right: 0.4em; margin-left: -1.4em; text-align: center; }
 
 	#kodoc-topics li span { cursor:pointer; }

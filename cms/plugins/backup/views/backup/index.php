@@ -35,13 +35,11 @@
 				</th>
 				<td><?php echo $data['size']; ?></td>
 				<td>
-					<?php 
-					echo UI::button(NULL, array(
+					<?php echo UI::button(NULL, array(
 						'class' => 'btn btn-mini', 'href' => 'backup/restore/'.$filename, 
-						'icon' => UI::icon( 'play' )
-					));
-					
-					echo UI::button(NULL, array(
+						'icon' => UI::icon( 'off' )
+					));?> 
+					<?php echo UI::button(NULL, array(
 						'class' => 'btn btn-mini btn-danger', 'href' => 'backup/delete/'.$filename, 
 						'icon' => UI::icon( 'trash icon-white' )
 					));
