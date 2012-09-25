@@ -191,6 +191,9 @@ return array(
 	'Login page' => 'Страница для входа',
 	'Message sended from' => 'Сообщение отправлено с сайта',
 	'Your new password from :site_name' => 'Ваш новый пароль от сайта :site_name',
+
+    'Sorry, an error has occured, Requested page not found!' => 'Извините, произошла ошибка. Запрошенной страницы не существует!',
+    'Back to Homepage' => 'Вернуться на главную',
 	
 	'Profiling' => 'Профайлинг',
 	'Yes' => 'Да',
