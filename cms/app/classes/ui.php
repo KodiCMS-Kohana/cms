@@ -73,16 +73,16 @@ class UI {
 	{
 		return
 			UI::button(__('Save and Continue editing'), array(
-				'class' => 'btn btn-large', 'icon' => UI::icon('ok'),
+				'class' => 'btn btn-large', 'icon' => UI::icon('repeat'),
 				'name' => 'continue'
 			))
 			. UI::button(__('Save and Close'), array(
-				'class' => 'btn btn-info', 'icon' => UI::icon('ok'),
+				'class' => 'btn btn-info', 'icon' => UI::icon('ok icon-white'),
 				'name' => 'commit'
 			))
 			. UI::button(__('Cancel'), array(
-				'icon' => UI::icon('remove'), 'href' => URL::site($page),
-				'class' => 'btn btn-danger'
+				'href' => URL::site($page), 'icon' => UI::icon('remove'),
+				'class' => 'btn btn-link'
 			));
 	}
 }

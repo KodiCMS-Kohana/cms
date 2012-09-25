@@ -18,6 +18,11 @@ class Controller_System_Plugin extends Controller_Plugins {
 		$this->plugin = Model_Plugin::get_registered( $plugin_id );
 	}
 	
+	public function display($view, $vars = NULL)
+	{
+		return View::factory($this->plugin->id . '/' . $view, $vars);
+	}
+
 	public function action_settings()
 	{
 		if ( $this->request->method() == Request::POST )

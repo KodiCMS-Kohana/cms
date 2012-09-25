@@ -30,7 +30,7 @@ class Archive
             break;
             
             default:
-                page_not_found();
+                FrontPage::not_found();
         }
     }
     
@@ -53,7 +53,7 @@ class Archive
         }
         else
         {
-            page_not_found();
+            FrontPage::not_found();
         }
     }
     
@@ -61,7 +61,7 @@ class Archive
     {
         if( ($this->page = FrontPage::findBySlug($slug, $this->page)) === false )
 		{
-            page_not_found();
+            FrontPage::not_found();
 		}
     }
     

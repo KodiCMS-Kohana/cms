@@ -1,6 +1,5 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
-
 class Behavior
 {
     private static $loaded_files = array();
@@ -59,7 +58,7 @@ class Behavior
             }
             else
             {
-				throw new  Kohana_Exception('ehavior :behavior not found!', array(
+				throw new  Kohana_Exception('Behavior :behavior not found!', array(
 					':behavior' => $behavior_id
 				));
             }
