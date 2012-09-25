@@ -9,17 +9,19 @@ class Controller_Backup extends Controller_System_Plugin {
 		$handle = opendir(BACKUP_PLUGIN_FOLDER);
 		while (false !== ($file = readdir($handle))) 
 		{
-			if (preg_match("/^.+?\.sql$/", $file, $m)) 
+			if (!preg_match("/(sql|zip)/", $file, $m)) 
 			{
-				$date_create = preg_replace('![^\d]*!', '', $file);
-				$date_create = preg_replace('#^([\d]{4})([\d]{2})([\d]{2})([\d]{2})([\d]{2})([\d]{2})$#', '$3/$2/$1 $4:$5:$6', $date_create);
-	
-				$files[$file] = array(
-					'size' => Text::bytes(filesize(BACKUP_PLUGIN_FOLDER.$file)),
-					'path' => BACKUP_PLUGIN_FOLDER.$file,
-					'date' => $date_create
-				);	
+				continue;
 			}
+			
+			$date_create = preg_replace('![^\d]*!', '', $file);
+			$date_create = preg_replace('#^([\d]{4})([\d]{2})([\d]{2})([\d]{2})([\d]{2})([\d]{2})$#', '$3/$2/$1 $4:$5:$6', $date_create);
+
+			$files[$file] = array(
+				'size' => Text::bytes(filesize(BACKUP_PLUGIN_FOLDER.$file)),
+				'path' => BACKUP_PLUGIN_FOLDER.$file,
+				'date' => $date_create
+			);
 		}
 
 		closedir($handle);
@@ -41,7 +43,7 @@ class Controller_Backup extends Controller_System_Plugin {
 		));
 	}
 	
-	public function action_create()
+	public function action_database()
 	{
 		$this->auto_render = FALSE;
 
@@ -49,11 +51,22 @@ class Controller_Backup extends Controller_System_Plugin {
 			->create()
 			->save();
 		
-		Messages::success(__('Backup created succefully'));
+		Messages::success(__('Database backup created succefully'));
 		
 		$this->go_back();
 	}
 	
+	public function action_filesystem()
+	{
+		if($backup = Model_Backup::factory(BACKUP_PLUGIN_FOLDER . 'filesystem-'.date('YmdHis').'.zip')
+			->create())
+		{
+			Messages::success(__('Filesystem backup created succefully'));
+		}
+		
+		$this->go_back();
+	}
+
 	public function action_restore()
 	{
 		$this->auto_render = FALSE;
@@ -121,7 +134,7 @@ class Controller_Backup extends Controller_System_Plugin {
 		}
 
 		# Проверяем на расширение
-		if(!Upload::type($file, array('sql')))
+		if(!Upload::type($file, array('sql', 'zip')))
 		{
 			$errors[] = __('Bad format of file!');
 		}
@@ -132,7 +145,7 @@ class Controller_Backup extends Controller_System_Plugin {
 			$this->go_back();
 		}
 
-		# Имя файла (его нужно записать в базу!)
+		# Имя файла
 		$filename = 'uploaded-db-'.date('YmdHis').'.sql';
 
 		Upload::$default_directory = BACKUP_PLUGIN_FOLDER;

@@ -3,8 +3,12 @@
 </div>
 
 <div class="well page-actions">
-	<?php echo UI::button(__('Create backup'), array(
-		'icon' => UI::icon('plus'), 'href' => 'backup/create'
+	<?php echo UI::button(__('Create database backup'), array(
+		'icon' => UI::icon('list'), 'href' => 'backup/database'
+	)); ?>
+	
+	<?php echo UI::button(__('Create filesystem backup'), array(
+		'icon' => UI::icon('file'), 'href' => 'backup/filesystem'
 	)); ?>
 </div>
 
