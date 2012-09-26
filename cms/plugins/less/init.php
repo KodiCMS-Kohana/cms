@@ -41,7 +41,7 @@ function less_compile($plugin) {
 			);
 		}
 		
-		
+		$less = new lessc;
 
 		foreach ($files as $file)
 		{
@@ -51,7 +51,7 @@ function less_compile($plugin) {
 
 			if($pathinfo['extension'] == 'less')
 			{
-				lessc::ccompile( $less_path.$file->getFilename(), $css_path.DIRECTORY_SEPARATOR.$pathinfo['filename'].'.css', $params);
+				$less->compileFile( $less_path.$file->getFilename(), $css_path.DIRECTORY_SEPARATOR.$pathinfo['filename'].'.css', $params);
 			}
 		}
 	}

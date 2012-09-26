@@ -3,10 +3,10 @@
 
 /* ===================================================
 	Design
- ===================================================*/
+ =================================================== */
 
 body {
-	//background: whitesmoke url("../images/body-bg.png");
+	
 }
 
 html, body {
@@ -73,6 +73,8 @@ html, body {
 	.row-fluid div {
 		line-height: 35px;
 
+		text-align: center;
+
 		a {
 			color: #fff;
 		}
@@ -131,19 +133,16 @@ html, body {
 		border: none;
 	}
 
-	ul  {
-		margin: 0;
-		.item { padding-left: 35px; }
-		ul .item { padding-left: 65px; }
-		ul ul .item { padding-left:95px; }
-		ul ul ul .item { padding-left:125px; }
-		ul ul ul ul .item { padding-left:155px; }
-		ul ul ul ul ul .item { padding-left:185px; }
-		ul ul ul ul ul ul .item { padding-left:215px; }
-		ul ul ul ul ul ul ul .item { padding-left:245px; }
-		ul ul ul ul ul ul ul ul .item { padding-left:275px; }
-		ul ul ul ul ul ul ul ul ul .item { padding-left:305px; }
+	.ulX(@index: 0, @uls: ul, @defaultPadding: 0px, @increment: 35px) when (@index < 10) {
+      (~"@{uls} .item .title") { .ulSettings(@defaultPadding + @increment); }
+      .ulX(@index + 1, ('@{uls} ul'), @defaultPadding + @increment);
+    }
+
+	.ulSettings(@padding) {
+		padding-left: @padding;
 	}
+
+	.ulX(1);
 
 	.helper-ul {
 		border: 1px solid #0088CC;
@@ -527,6 +526,10 @@ table {
 	margin-bottom: 0;
 	border-bottom-right-radius: 0;
 	border-bottom-left-radius: 0;
+
+	.form-search {
+		margin-bottom: 0;
+	}
 }
 
 .label {
