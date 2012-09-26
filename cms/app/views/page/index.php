@@ -13,20 +13,19 @@
 			'icon' => UI::icon('move icon-white')
 		)); ?>
 		
-		<?php echo UI::button(__('Copy'), array(
-			'id' => 'pageMapCopyButton', 'class' => 'btn btn-info',
-			'icon' => UI::icon('random icon-white')
-		)); ?>
+		<span class="clearfix"></span>
 	</div>
 	
-<div class="map-header">
-	<div class="row-fluid">
-		<div class="span7"><?php echo __('Page'); ?></div>
-		<div class="span2"><?php echo __('Date'); ?></div>
-		<div class="span2"><?php echo __('Status'); ?></div>
-		<div class="span1"><?php echo __('Actions'); ?></div>
+	
+	
+	<div class="map-header">
+		<div class="row-fluid">
+			<div class="span7"><?php echo __('Page'); ?></div>
+			<div class="span2"><?php echo __('Date'); ?></div>
+			<div class="span2"><?php echo __('Status'); ?></div>
+			<div class="span1"><?php echo __('Actions'); ?></div>
+		</div>
 	</div>
-</div>
 	
 	<ul id="pageMapItems" class="map-items unstyled" data-level="0">
 		<li data-id="<?php echo $page->id; ?>">

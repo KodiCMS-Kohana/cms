@@ -438,61 +438,6 @@ class Controller_Page extends Controller_System_Backend {
 		}
 	}
 
-	/**
-	 * Ajax action to copy a page or page tree
-	 */
-	public function action_copy( )
-	{
-		$this->auto_render = FALSE;
-		
-		$parent_id = Arr::get($_POST, 'parent_id', 0);
-
-		if ( !empty( $_POST['pages'] ) )
-		{
-			$pages = $_POST['pages'];
-			$dragged_id = (int) $_POST['dragged_id'];
-
-			$donor_page = Record::findByIdFrom( 'Page', $dragged_id );
-			$new_id = Page::cloneTree( $donor_page, $parent_id );
-
-			$i = false;
-
-			foreach ( $pages as $position => $page_id )
-			{
-				$page_id = (int) $page_id;
-
-				if ( $page_id === 0 )
-				{
-					continue;
-				}
-
-				if ( $page_id == $dragged_id )
-				{
-					if ( $i == false )
-					{
-						$i = true;
-						$page = Record::findByIdFrom( 'Page', $page_id );
-					}
-					else
-					{
-						// Move the cloned tree, not original.
-						$page = Record::findByIdFrom( 'Page', $new_id );
-					}
-				}
-				else
-				{
-					$page = Record::findByIdFrom( 'Page', $page_id );
-				}
-
-				$page->position = (int) $position;
-				$page->parent_id = (int) $parent_id;
-				$page->save();
-			}
-
-			echo json_encode( array( 'new_id' => $new_id ) );
-		}
-	}
-
 	public function action_search()
 	{
 		$this->auto_render = FALSE;

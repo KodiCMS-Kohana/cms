@@ -314,52 +314,6 @@ class Page extends Record
     {
         return (boolean) self::countFrom('Page', 'parent_id = '.(int)$id);
     }
-    
-    public static function cloneTree($page, $parent_id)
-    {
-        /* This will hold new id of SYSPATH of cloned tree. */
-        static $new_SYSPATH_id = FALSE;
-        
-        /* Clone passed in page. */
-        $clone = Record::findByIdFrom('Page', $page->id);
-		
-        $clone->parent_id = (int)$parent_id;
-        $clone->id        = NULL;
-        $clone->title    .= ' (copy)';
-        $clone->slug     .= '-copy';
-        
-		$clone->save();
-        
-        /* Also clone the page parts. */
-        $page_part = PagePart::findByPageId($page->id);
-		
-        if (count($page_part))
-		{
-            foreach( $page_part as $part )
-			{
-                $part->page_id = $clone->id;
-                $part->id = NULL;
-                $part->save();
-            }
-        }
-        
-        /* This gets set only once even when called recursively. */
-        if ( !$new_SYSPATH_id )
-		{
-            $new_SYSPATH_id = $clone->id;
-		}
-
-        /* Clone and update childrens parent_id to clones new id. */
-        if ( Page::hasChildren($page->id) )
-		{
-            foreach( Page::childrenOf($page->id) as $child )
-			{
-                Page::cloneTree($child, $clone->id);
-			}
-        }
-        
-        return $new_SYSPATH_id;
-    }
 	
 	public static function deleteByParentId( $parent_id )
 	{
