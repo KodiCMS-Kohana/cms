@@ -47,11 +47,11 @@
 			<div class="control-group">
 				<label class="control-label" for="installDBNameField"><?php echo __( 'Database name' ); ?></label>
 				<div class="controls">
-<?php
-echo Form::input( 'install[db_name]', Arr::get( $data, 'db_name' ), array(
-	'class' => 'input-xlarge', 'id' => 'installDBNameField'
-) );
-?> <?php echo UI::label( __( 'Required.' ) ); ?>
+					<?php
+					echo Form::input( 'install[db_name]', Arr::get( $data, 'db_name' ), array(
+						'class' => 'input-xlarge', 'id' => 'installDBNameField'
+					) );
+					?> <?php echo UI::label( __( 'Required.' ) ); ?>
 
 					<p class="help-block"><?php echo __( 'Required. You have to create a database manually and enter its name here.' ); ?></p>
 				</div>
@@ -130,6 +130,17 @@ echo Form::input( 'install[db_name]', Arr::get( $data, 'db_name' ), array(
 					?>
 
 					<p class="help-block"><?php echo __( 'Optional. Add a suffix to simulate static html files.' ); ?></p>
+				</div>
+			</div>
+			
+			<div class="control-group">
+				<label class="control-label" for="installTimezoneField"><?php echo __( 'Timezone' ); ?></label>
+				<div class="controls">
+					<?php
+					echo Form::select( 'install[timezone]', Date::timezones(), Arr::get( $data, 'timezone', date_default_timezone_get() ), array(
+						'class' => 'input-xlarge', 'id' => 'installTimezoneField'
+					) );
+					?>
 				</div>
 			</div>
 		</fieldset>

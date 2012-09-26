@@ -25,6 +25,8 @@ class Controller_System_Install extends Controller_System_Template {
 		$post['db_driver'] = DB_TYPE;
 		$post['password'] = Text::random();
 		//$post['admin_dir_name'] = 'admin';
+		
+		date_default_timezone_set( $post['timezone'] );
 
 		Session::instance()
 			->set( 'install_data', $post );
@@ -144,6 +146,7 @@ class Controller_System_Install extends Controller_System_Template {
 			'__URL_SUFFIX__' => $post['url_suffix'],
 			'__ADMIN_DIR_NAME__' => $post['admin_dir_name'],
 			'__LANG__' => I18n::lang(),
+			'__TIMEZONE__' => $post['timezone'],
 		);
 
 		$tpl_content = str_replace(

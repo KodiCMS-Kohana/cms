@@ -11,6 +11,14 @@ define('LAYOUTS_SYSPATH',	DOCROOT . 'layouts' . DIRECTORY_SEPARATOR);
 define('SNIPPETS_SYSPATH',	DOCROOT . 'snippets' . DIRECTORY_SEPARATOR);
 
 /**
+ * Set the default time zone.
+ *
+ * @see  http://kohanaframework.org/guide/using.configuration
+ * @see  http://php.net/timezones
+ */
+date_default_timezone_set( DEFAULT_TIMEZONE );
+
+/**
  * Enable modules. Modules are referenced by a relative or absolute path.
  */
 Kohana::modules( array(

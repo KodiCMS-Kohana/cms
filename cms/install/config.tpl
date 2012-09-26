@@ -15,3 +15,6 @@ define('URL_SUFFIX', '__URL_SUFFIX__');
 
 // Default system locale
 define('DEFAULT_LOCALE', '__LANG__');
+
+// Default timezone
+define('DEFAULT_TIMEZONE', '__TIMEZONE__');

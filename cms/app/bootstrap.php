@@ -16,13 +16,7 @@ else
 	require SYSPATH.'classes/kohana'.EXT;
 }
 
-/**
- * Set the default time zone.
- *
- * @see  http://kohanaframework.org/guide/using.configuration
- * @see  http://php.net/timezones
- */
-date_default_timezone_set( 'Europe/Moscow' );
+//date_default_timezone_set( 'UTC' );
 
 /**
  * Set the default locale.

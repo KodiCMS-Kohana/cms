@@ -1,6 +1,18 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
 class Date extends Kohana_Date {
+	
+	public static function timezones()
+	{
+		$zones = array();
+
+		foreach(DateTimeZone::listIdentifiers() as $zone) 
+		{
+			$zones[$zone] = $zone;
+		}
+
+		return $zones;
+	}
 
 	public static function format($date = NULL, $format = NULL)
 	{
