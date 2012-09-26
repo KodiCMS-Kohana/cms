@@ -147,6 +147,7 @@ class Controller_System_Install extends Controller_System_Template {
 			'__ADMIN_DIR_NAME__' => $post['admin_dir_name'],
 			'__LANG__' => I18n::lang(),
 			'__TIMEZONE__' => $post['timezone'],
+			'__COOKIE_SALT__' => Text::random(16)
 		);
 
 		$tpl_content = str_replace(

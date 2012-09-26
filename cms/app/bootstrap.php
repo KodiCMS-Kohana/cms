@@ -82,12 +82,6 @@ Kohana::init( array(
 	'errors'			=> TRUE
 ) );
 
-
-/**
- * Set default cookie salt
- */
-Cookie::$salt = 'AS7hjdd4234fdsdsfAD';
-
 I18n::lang('ru');
 
 /**

@@ -18,3 +18,6 @@ define('DEFAULT_LOCALE', '__LANG__');
 
 // Default timezone
 define('DEFAULT_TIMEZONE', '__TIMEZONE__');
+
+// Cookie salt
+define('COOKIE_SALT', '__COOKIE_SALT__');

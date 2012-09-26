@@ -19,6 +19,12 @@ define('SNIPPETS_SYSPATH',	DOCROOT . 'snippets' . DIRECTORY_SEPARATOR);
 date_default_timezone_set( DEFAULT_TIMEZONE );
 
 /**
+ * Set the default cookie salt
+ * 
+ */
+Cookie::$salt = COOKIE_SALT;
+
+/**
  * Enable modules. Modules are referenced by a relative or absolute path.
  */
 Kohana::modules( array(
@@ -29,13 +35,11 @@ Kohana::modules( array(
 	'pagination'	=> MODPATH . 'pagination',
 	'plugins'		=> MODPATH . 'plugins',
 	'userguide'		=> MODPATH . 'userguide',  // User guide and API documentation,
-	'i18n_plural'	=> MODPATH . 'i18n_plural',
+	'bootstrap'		=> MODPATH . 'bootstrap',
 ) );
 
 // Init settings
 Setting::init();
-
-I18n::lang( 'ru' );
 
 if( ! Route::cache())
 {

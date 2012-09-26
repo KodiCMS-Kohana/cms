@@ -212,6 +212,9 @@ table.table_list thead th {
 #pageEditView {
   margin-left: 10px;
 }
+#pageEditMeta {
+  background: whitesmoke;
+}
 #pageEditMeta p {
   margin: 1em 0;
 }
@@ -230,8 +233,7 @@ table.table_list thead th {
   height: 50px;
 }
 #pageEditMetaTitle {
-  background: whitesmoke;
-  border-bottom: 1px solid #4D4D4F;
+  border-bottom: 1px solid #fff;
   padding: 20px 0 0;
 }
 #pageEditMetaTitle .controls {
@@ -240,7 +242,7 @@ table.table_list thead th {
 #pageEditMetaMoreButton {
   position: absolute;
   right: 15px;
-  top: 30px;
+  top: 27px;
 }
 #pageEditMetaMore {
   display: none;
@@ -270,7 +272,7 @@ table.table_list thead th {
 #pageEditParts .item-options-button {
   position: absolute;
   right: 15px;
-  top: 8px;
+  top: 5px;
 }
 #pageEditParts .item-options {
   padding: 5px 15px;

@@ -118,8 +118,10 @@ class Page extends Record
 	
 	public function afterUpdate()
 	{
-		Core::cache('Database::cache(pageParts::page_id::'.$this->id.')', NULL, -1);
-		Core::cache('Database::cache(pageTags::page_id::'.$this->id.')', NULL, -1);
+		// TODO Clear frontpage cache
+
+		Kohana::cache('Database::cache(pageParts::page_id::'.$this->id.')', NULL, -1);
+		Kohana::cache('Database::cache(pageTags::page_id::'.$this->id.')', NULL, -1);
 
 		return $this->afterInsert();
 	}

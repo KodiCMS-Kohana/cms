@@ -20,6 +20,7 @@ Kohana::modules( array(
 	'database'		=> MODPATH . 'database', // Database access
 	'auth'			=> MODPATH . 'auth', // Basic authentication
 	'orm'			=> MODPATH . 'orm', // Object Relationship Mapping,
+	'bootstrap'		=> MODPATH . 'bootstrap',
 ) );
 
 Route::set( 'install', 'install(/<action>(/<id>))' )
