@@ -5033,15 +5033,15 @@ body {
 }
 #content {
   margin-top: 15px;
-  padding-bottom: 170px;
+  padding-bottom: 110px;
 }
 #footer {
   background-color: #F5F5F5;
   border: 1px solid #E5E5E5;
   border-bottom-width: 0;
-  padding-top: 40px;
-  height: 58px;
-  margin-top: -100px;
+  padding-top: 20px;
+  height: 38px;
+  margin-top: -60px;
   position: relative;
 }
 .loader {
@@ -5147,6 +5147,9 @@ body {
 .map-wait {
   height: 30px;
   background: #fff url(../images/loader-small-white.gif) center center no-repeat;
+}
+#pageMapHeader {
+  margin-bottom: 0;
 }
 #pageMap .item .item-expander {
   margin-left: -17px;

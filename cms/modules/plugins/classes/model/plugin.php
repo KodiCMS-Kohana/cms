@@ -240,6 +240,8 @@ class Model_Plugin {
 			->execute();
 
 		$name = URL::title( $name, '_' );
+		
+		$existing_settings = array();
 
 		foreach ( $sql as $setting )
 		{
@@ -257,6 +259,7 @@ class Model_Plugin {
 		else
 		{
 			DB::insert( 'plugin_settings' )
+				->columns( array('value', 'name', 'plugin_id'))
 				->values( array(
 					'value' => $value,
 					'name' => $name,

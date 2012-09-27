@@ -9,6 +9,6 @@ echo Form::hidden('token', Security::token()); ?>
 			'class' => 'input-medium search-query',
 			'placeholder' => __('Find page')
 		)); ?>
-		<span class="add-on"><?php echo UI::icon('search'); ?></span>
+		<?php echo UI::button(__('Search')); ?>
 	</div>
 <?php echo Form::close(); ?>

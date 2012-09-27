@@ -36,10 +36,9 @@ function behavior_page_not_found()
 		// if we fund it, display it!
 		if( is_object($page) )
 		{
-			header("HTTP/1.0 404 Not Found");
-
 			Request::current()
-				->response();
+				->response()
+				->status(404);
 
 			echo $page->render_layout();
 			exit(); // need to exit here otherwise the true error page will be sended

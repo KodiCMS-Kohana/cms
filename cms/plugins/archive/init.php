@@ -49,7 +49,7 @@ if($plugin->enabled())
 			'page_delete', 'page_edit_after_save'
 		), function() {
 
-			Core::cache('Database::cache(archive_section)', NULL, -1);
+			Kohana::cache('Database::cache(archive_section)', NULL, -1);
 		});
 	}
 }

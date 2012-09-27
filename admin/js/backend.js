@@ -358,7 +358,7 @@ cms.init.add('page_index', function () {
 
             var dragOver_handler = function (event, ui) {
                 var level = parseInt(ui.placeholder.parent().data('level'));
-                $('.item', ui.item).css('padding-left', (35 * level) + 'px');
+                $('.item .title', ui.item).css('padding-left', (35 * level) + 'px');
             };
 
             var dragStopped_handler = function (event, ui) {
@@ -465,31 +465,23 @@ cms.init.add('page_index', function () {
         });
     };
 
-    var search_timeout;
-
-    $('#pageMapSearchField')
-        .on('keyup', function (event) {
-            var form = $(this).parent().parent();
+    $('#pageMap .form-search')
+        .on('submit', function (event) {
+            var form = $(this);
 
             if (form.attr('action').length == 0) {
                 $.jGrowl('Не указанна ссылка для отправки данных');
                 return false;
             }
 
-            clearTimeout(search_timeout);
-
-            if ($(this).val() !== '') {
-                if (event.keyCode == 13)
-                    search(form);
-                else
-                    search_timeout = setTimeout(function () {
-                        search(form);
-                    }, 1000);
-            }
-            else {
+            if ($('.search-query', this).val() !== '') {
+                search(form);
+			} else {
                 $('#pageMapItems').show();
                 $('#pageMapSearchItems').hide();
             }
+			
+			return false;
         });
 }); // end init page/index
 

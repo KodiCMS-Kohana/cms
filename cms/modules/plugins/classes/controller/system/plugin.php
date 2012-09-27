@@ -4,18 +4,24 @@ class Controller_System_Plugin extends Controller_Plugins {
 	
 	public $plugin;
 	
+	public $plugin_id = NULL;
+
+
 	public function before()
 	{
 		parent::before();
 		
-		$plugin_id = strtolower($this->request->controller());
-		
-		if ( !Model_Plugin::is_enabled( $plugin_id ) )
+		if($this->plugin_id === NULL)
 		{
-			throw new Kohana_Exception( 'Plugin not activated' );
+			$this->plugin_id = strtolower($this->request->controller());
+
+			if ( !Model_Plugin::is_enabled( $this->plugin_id ) )
+			{
+				throw new Kohana_Exception( 'Plugin not activated' );
+			}
 		}
 		
-		$this->plugin = Model_Plugin::get_registered( $plugin_id );
+		$this->plugin = Model_Plugin::get_registered( $this->plugin_id );
 	}
 	
 	public function display($view, $vars = NULL)

@@ -17,15 +17,22 @@
 	</div>
 	
 	
-	
-	<div class="map-header">
-		<div class="row-fluid">
-			<div class="span7"><?php echo __('Page'); ?></div>
-			<div class="span2"><?php echo __('Date'); ?></div>
-			<div class="span2"><?php echo __('Status'); ?></div>
-			<div class="span1"><?php echo __('Actions'); ?></div>
-		</div>
-	</div>
+	<table id="pageMapHeader" class="table">
+		<colgroup>
+			<col />
+			<col width="14%" />
+			<col width="14%" />
+			<col width="7%" />
+		</colgroup>
+		<thead>
+			<tr>
+				<th><?php echo __('Page'); ?></th>
+				<th class="align-right"><?php echo __('Date'); ?></th>
+				<th class="align-right"><?php echo __('Status'); ?></th>
+				<th class="align-right"><?php echo __('Actions'); ?></th>
+			</tr>
+		</thead>
+	</table>
 	
 	<ul id="pageMapItems" class="map-items unstyled" data-level="0">
 		<li data-id="<?php echo $page->id; ?>">
