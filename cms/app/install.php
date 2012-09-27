@@ -14,6 +14,13 @@ define('ADMIN_DIR_NAME',	'admin');
 define('ADMIN_URL',			BASE_URL.ADMIN_DIR_NAME.'/');
 
 /**
+ * Set the default cookie salt
+ * 
+ */
+Cookie::$salt = 'install_system';
+
+
+/**
  * Enable modules. Modules are referenced by a relative or absolute path.
  */
 Kohana::modules( array(
