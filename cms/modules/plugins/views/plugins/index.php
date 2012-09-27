@@ -14,20 +14,6 @@
 		})
 	})
 </script>
-<style>
-	#PluginsList .activated th,
-	#PluginsList .activated td {
-		background-color: #DEFFEC;
-	}
-	
-	#PluginsList .plugin-name h5 {
-		margin-top: 0;
-	}
-	
-	#PluginsList .plugin-status {
-		text-align: center;
-	}
-</style>
 
 <div class="page-header">
 	<h1><?php echo __('Plugins'); ?></h1> 
@@ -35,11 +21,7 @@
 
 <div id="pluginsMap" class="box map">
 	
-	<div id="pluginsMapActions" class="box-actions">
-		
-	</div>
-	
-	<table class="table_list table table-striped table-hover" id="PluginsList">
+	<table class="table table-striped table-hover" id="PluginsList">
 		<colgroup>
 			<col />
 			<col width="80px" />

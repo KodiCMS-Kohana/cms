@@ -19,7 +19,7 @@
 <div id="filemanager-container" class="map">
 	
 	<div id="filemanager-list">
-		<table class="table_list table table-striped table-hover">
+		<table class=" table table-striped table-hover">
 			<colgroup>
 				<col />
 				<col width="120px" />

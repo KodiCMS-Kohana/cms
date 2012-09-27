@@ -1,5 +1,6 @@
-@import "../libs/bootstrap/css/bootstrap.min.css";
-
+//@import "../libs/bootstrap/css/bootstrap.min.css";
+@import "../libs/bootstrap/less/bootstrap.less";
+@import "custom-bootstrap.less";
 
 /* ===================================================
 	Design
@@ -157,59 +158,6 @@ html, body {
 	background: #fff url(../images/loader-small-white.gif) center center no-repeat;
 }
 
-.map-drag {
-	-moz-user-select: none;
-	-khtml-user-select: none;
-	user-select: none;
-
-	.item,
-	.item:hover {
-		border: 1px dashed #ccc;
-		margin: 2px;
-		cursor: move;
-	}
-}
-
-
-/* ===================================================
-	Table design
- ===================================================*/
-table.table_list {
-	width: 100%;
-	font-size: 12px;
-	border-collapse: collapse;
-	border-spacing: 0;
-
-
-	tbody {
-
-		th,
-		td {
-			border-bottom: 1px solid #E9E9E9;
-			font-weight: normal;
-			text-align: left;
-			padding: 10px;
-			vertical-align: middle;
-		}
-
-		tr.item-even {
-			& > th,
-			& > td {
-				background: #F6F6F6;
-			}
-		}
-	}
-
-	thead th {
-		background: #4D4D4F;
-		color: #fff;
-		font-weight: normal;
-		padding: 10px;
-		text-align: left;
-	}
-}
-
-
 /* ===================================================
 	Page map
  ===================================================*/
@@ -333,7 +281,7 @@ table.table_list {
 }
 
 #pageEditMetaMoreButton {
-	position:absolute;
+	position: absolute;
 	right:15px;
 	top:27px;
 }
@@ -399,7 +347,8 @@ table.table_list {
 			padding: 0;
 			background: #fff;
 			border: none;
-			border-radius: 0;
+			
+			.border-radius(0);
 
 			&:focus {
 				outline: none;
@@ -441,49 +390,6 @@ table.table_list {
 	}
 }
 
-/* ===================================================
-	Plugins
- ===================================================*/
-#PluginsList {
-	.actions  {
-		vertical-align: middle;
-	}
-
-	td {
-		vertical-align: middle;
-	}
-}
-/*
-	handset media gadgets
-*/
-@media mobile, handheld {
-	#pageMap .actions {
-		display:block;
-	}
-}
-
-
-// Custom bootstrap
-.hero-unit {
-	margin: 30px auto;
-	padding: 30px 50px;
-	border: 1px solid #ccc;
-	background: #F5F5F5;
-
-	h1 {
-		font-size: 30px;
-	}
-
-	.help-block {
-		font-size: 10px;
-		margin-top: 4px;
-	}
-
-	legend {
-		border-bottom-color: #fff;
-	}
-}
-
 #login-form {
 	width: 450px;
 
@@ -517,164 +423,12 @@ table.table_list {
 	}
 }
 
-table {
-	td.pass { color: #191; }
-	td.fail { color: #911; }
-}
-
-.page-actions {
-	padding: 10px;
-	background: whitesmoke;
-	margin-bottom: 0;
-	border-bottom-right-radius: 0;
-	border-bottom-left-radius: 0;
-
-	.form-search {
-		margin-bottom: 0;
-	}
-}
-
-.label {
-	a {
-		color: #fff;
-
-		&:hover {
-			text-decoration: none;
-		}
-	}
-}
-.form-actions {
-	-webkit-border-bottom-right-radius: 5px;
-	-webkit-border-bottom-left-radius: 5px;
-	-moz-border-radius-bottomright: 5px;
-	-moz-border-radius-bottomleft: 5px;
-	border-bottom-right-radius: 5px;
-	border-bottom-left-radius: 5px;
-
-	border: 1px solid #E5E5E5;
-
-
-	.btn {
-		margin-right: 5px;
-	}
-}
-
-.form-horizontal {
-	.well {
-		padding-left: 0;
-		padding-bottom: 0;
-		background: #fff;
-	}
-}
-
 #contentSidebar {
 	padding: 19px;
 	background: whitesmoke;
 }
 
-.well  {
-	.form-actions {
-		margin-bottom: 0;
-	}
-}
-
-.form-horizontal .help-block,
-.help-block {
-	font-size: 80%;
-	color: gray;
-	margin-top: 3px;
-}
-
-input.title {
-	width: 98%;
-	font-size: 20px;
-	padding: 10px;
-}
-
-
-.input-plarge {
-	width: 100%;
-}
-
 #textarea_content {
 	width: 98%;
 	padding: 10px;
-}
-
-#sidebar-nav .well {
-	padding: 10px 0;
-}
-
-.well {
-	border: 1px solid #DDD;
-}
-
-.navbar-fixed-top .container, 
-.navbar-fixed-bottom .container {
-	width: auto;
-	padding: 0 20px;
-}
-
-.page-header {
-	margin: 0 0 15px;
-	padding-bottom: 10px;
-
-	h1 {
-		font-size: 20px;
-		line-height: 20px;
-		margin: 0;
-	}
-}
-
-.breadcrumb {
-	margin: 15px 0 0;
-}
-
-form:last-child {
-	margin: 0;
-}
-
-.control-group  {
-	.title {
-		line-height: 30px;
-		font-size: 120%;
-	}
-}
-
-legend {
-	margin-bottom: 0;
-}
-
-.ui-dialog-buttonset {
-	button {
-		cursor: pointer;
-		display: inline-block;
-		background-color: #e6e6e6;
-		background-repeat: no-repeat;
-		background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), color-stop(25%, #ffffff), to(#e6e6e6));
-		background-image: -webkit-linear-gradient(#ffffff, #ffffff 25%, #e6e6e6);
-		background-image: -moz-linear-gradient(top, #ffffff, #ffffff 25%, #e6e6e6);
-		background-image: -ms-linear-gradient(#ffffff, #ffffff 25%, #e6e6e6);
-		background-image: -o-linear-gradient(#ffffff, #ffffff 25%, #e6e6e6);
-		background-image: linear-gradient(#ffffff, #ffffff 25%, #e6e6e6);
-		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#e6e6e6', GradientType=0);
-		padding: 5px 14px 6px;
-		margin: 0;
-		text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
-		color: #333;
-		font-size: 13px;
-		line-height: normal;
-		border: 1px solid #ccc;
-		border-bottom-color: #bbb;
-
-		-webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
-		-moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
-		box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
-		-webkit-transition: 0.1s linear background-image;
-		-moz-transition: 0.1s linear background-image;
-		-ms-transition: 0.1s linear background-image;
-		-o-transition: 0.1s linear background-image;
-		transition: 0.1s linear background-image;
-		overflow: visible;
-	}
 }

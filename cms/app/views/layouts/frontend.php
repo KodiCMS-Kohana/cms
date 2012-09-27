@@ -18,7 +18,7 @@
 	</head>
 	<body id="body_frontend">
 		<div id="content-wrapper">
-			<div class="container">			
+			<div class="container" id="content">			
 				<?php echo $content; ?>
 			</div>
 		</div>

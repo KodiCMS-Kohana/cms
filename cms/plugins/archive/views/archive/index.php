@@ -10,7 +10,7 @@
 		)); ?>
 	</div>
 	
-	<table class="table_list" id="SnippetList">
+	<table class="" id="SnippetList">
 		<colgroup>
 			<col />
 			<col width="150px" />

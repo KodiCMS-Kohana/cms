@@ -15,7 +15,7 @@
 <div id="backup-container" class="map">
 	
 	<div id="backups-list">
-		<table class="table_list table table-striped table-hover">
+		<table class="table table-striped table-hover">
 			<colgroup>
 				<col width="150px" />
 				<col />
