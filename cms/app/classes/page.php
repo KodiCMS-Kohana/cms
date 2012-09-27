@@ -118,8 +118,9 @@ class Page extends Record
 	
 	public function afterUpdate()
 	{
-		// TODO Clear frontpage cache
-
+		Kohana::cache('Database::cache(FrontPage::id::'.$this->id.')', NULL, -1);
+		Kohana::cache('Database::cache(FrontPage::slug::' . $this->slug . '::parent_id::' . $this->parent_id. ')', NULL, -1);
+		
 		Kohana::cache('Database::cache(pageParts::page_id::'.$this->id.')', NULL, -1);
 		Kohana::cache('Database::cache(pageTags::page_id::'.$this->id.')', NULL, -1);
 
