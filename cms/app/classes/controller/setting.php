@@ -24,6 +24,8 @@ class Controller_Setting extends Controller_System_Backend {
 		{
 			$data['allow_html_title'] = 'off';
 		}
+		
+		Observer::notify( 'save_settings', $_POST );
 
 		Setting::saveFromData( $data );
 

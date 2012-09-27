@@ -51,18 +51,20 @@ final class Observer {
 
 		foreach ( self::getObserverList( $event_name ) as $callback )
 		{
+			list($class, $class_args) = $callback;
+
 			if(Kohana::$profiling === TRUE)
 			{
 				$benchmark = Profiler::start('Observer notify', $event_name);
 			}
 
-			if ( is_array( $callback[0] ) )
+			if ( is_array( $class ) )
 			{
-				forward_static_call_array( $callback, $args );
+				forward_static_call_array( $class, Arr::merge($args, $class_args) );
 			}
 			else
 			{
-				call_user_func_array( $callback[0], array_merge($args, $callback[1]) );
+				call_user_func_array( $class, Arr::merge($args, $class_args) );
 			}
 
 			if(isset($benchmark))
