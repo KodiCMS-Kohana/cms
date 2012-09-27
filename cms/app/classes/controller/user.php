@@ -10,7 +10,7 @@ class Controller_User extends Controller_System_Backend {
 				->on( 'user.id', '=', 'user_permission.user_id' )
 			->join( array( Permission::tableName(), 'permission'), 'left' )
 				->on( 'user_permission.role_id', '=', 'permission.id' )
-			->as_object()
+			->as_object('Model_User')
 			->execute();
 
 		$this->template->content = View::factory( 'user/index', array(
@@ -111,7 +111,7 @@ class Controller_User extends Controller_System_Backend {
 				->on( 'user.id', '=', 'user_permission.user_id' )
 			->where( 'id', '=', (int) $id )
 			->limit( 1 )
-			->as_object()
+			->as_object('Model_User')
 			->execute()
 			->current();
 

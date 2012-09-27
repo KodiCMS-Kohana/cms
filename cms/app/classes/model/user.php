@@ -47,6 +47,22 @@ class Model_User extends Model_Auth_User {
 		return $status;
 	}
 	
+	public function gravatar($size = 40, $default = NULL, $attributes = array())
+	{
+		if($default === NULL)
+		{
+			$default = 'mm';
+		}
+	
+		$hash = md5( strtolower( trim( $this->email ) ) );
+		$query_params = URL::query(array(
+			'd' => $default,
+			's' => $size
+		));
+		
+		return HTML::image('http://www.gravatar.com/avatar/' . $hash . $query_params, $attributes);
+	}
+
 	public function roles()
 	{
 		return $this->_roles;

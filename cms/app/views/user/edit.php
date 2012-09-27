@@ -7,37 +7,45 @@
 <form class="form-horizontal" action="<?php echo $action=='edit' ? URL::site('user/edit/'.$user->id): URL::site('user/add'); ?>" method="post">
 	
 	<?php echo Form::hidden('token', Security::token()); ?>
-
-	<div class="control-group">
-		<label class="control-label" for="userEditNameField"><?php echo __('Name'); ?></label>
-		<div class="controls">
-			<?php echo Form::input('user[name]', $user->name, array(
-				'class' => 'input-xlarge', 'id' => 'userEditNameField'
-			)); ?>
-		</div>
-	</div>
 	
-	<div class="control-group">
-		<label class="control-label" for="userEditEmailField"><?php echo __('E-mail'); ?></label>
-		<div class="controls">
-			<?php echo Form::input('user[email]', $user->email, array(
-				'class' => 'input-xlarge', 'id' => 'userEditEmailField'
-			)); ?>
-			<p class="help-block"><?php echo __('Optional. Please use a valid e-mail address.'); ?></p>
-		</div>
-	</div>
-	<?php if ($user->id > 1): ?>
-	<div class="control-group">
-		<label class="control-label" for="userEditUsernameField"><?php echo __('Username'); ?></label>
-		<div class="controls">
-			<?php echo Form::input('user[username]', $user->username, array(
-				'class' => 'input-xlarge', 'id' => 'userEditUsernameField'
-			)); ?>
-			<p class="help-block"><?php echo __('At least 3 characters. Must be unique.'); ?></p>
-		</div>
-	</div>
-	<?php endif; ?>
+	<div class="row-fluid">
+		<div class="span8">
+			<div class="control-group">
+				<label class="control-label" for="userEditNameField"><?php echo __('Name'); ?></label>
+				<div class="controls">
+					<?php echo Form::input('user[name]', $user->name, array(
+						'class' => 'input-xlarge', 'id' => 'userEditNameField'
+					)); ?>
+				</div>
+			</div>
 
+			<div class="control-group">
+				<label class="control-label" for="userEditEmailField"><?php echo __('E-mail'); ?></label>
+				<div class="controls">
+					<?php echo Form::input('user[email]', $user->email, array(
+						'class' => 'input-xlarge', 'id' => 'userEditEmailField'
+					)); ?>
+					<p class="help-block"><?php echo __('Optional. Please use a valid e-mail address.'); ?></p>
+				</div>
+			</div>
+			<?php if ($user->id > 1): ?>
+			<div class="control-group">
+				<label class="control-label" for="userEditUsernameField"><?php echo __('Username'); ?></label>
+				<div class="controls">
+					<?php echo Form::input('user[username]', $user->username, array(
+						'class' => 'input-xlarge', 'id' => 'userEditUsernameField'
+					)); ?>
+					<p class="help-block"><?php echo __('At least 3 characters. Must be unique.'); ?></p>
+				</div>
+			</div>
+			<?php endif; ?>
+		</div>
+		<div id="UserGravatar" class="span4 align-right">
+			<?php echo HTML::anchor('http://gravatar.com/emails/', $user->gravatar(210, NULL, array('class' => 'img-polaroid')), array(
+				'target' => '_blank'
+			)); ?>
+		</div>
+	</div>
 	<fieldset>
 		<legend><?php echo __('Password'); ?></legend>
 		<div class="control-group">
