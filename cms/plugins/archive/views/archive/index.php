@@ -2,15 +2,13 @@
 <div class="page-header">
 	<h1><?php echo $page->title ?></h1>
 </div>
-
-<div class="map">
 	<div class="well page-actions">
 		<?php echo UI::button(__('Add page'), array(
 			'href' => 'page/add/'.$page->id, 'icon' => UI::icon('plus')
 		)); ?>
 	</div>
 	
-	<table class="" id="SnippetList">
+	<table class="table table-striped" id="SnippetList">
 		<colgroup>
 			<col />
 			<col width="150px" />
@@ -27,7 +25,7 @@
 		</thead>
 		<tbody>
 			<?php foreach($items as $item): ?>
-			<tr rel="<?php echo $item->id; ?>">
+			<tr data-id="<?php echo $item->id; ?>">
 				<th class="title">
 					<?php if( ! AuthUser::hasPermission($item->getPermissions()) ): ?>
 					<img src="images/page-text-locked.png" title="<?php echo('You do not have permission to access the requested page!'); ?>" />

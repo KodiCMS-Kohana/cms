@@ -22,7 +22,7 @@
 		<table class=" table table-striped table-hover">
 			<colgroup>
 				<col />
-				<col width="120px" />
+				<col width="130px" />
 				<col width="90px" />
 				<col width="120px" />
 				<col width="90px" />
