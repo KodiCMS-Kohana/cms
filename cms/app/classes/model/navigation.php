@@ -39,7 +39,11 @@ class Model_Navigation {
 	
 	static function get()
 	{
-		asort(self::$_sections);
+		if ( version_compare( PHP_VERSION, '5.4.0', '>=' ) )
+		{
+			asort(self::$_sections);
+		}
+		
 		$break = FALSE;
 		foreach ( self::$_sections as $section )
 		{
