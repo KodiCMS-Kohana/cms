@@ -40,11 +40,13 @@
 			</div>
 			<?php endif; ?>
 		</div>
+		<?php if($user->id !== NULL): ?>
 		<div id="UserGravatar" class="span4 align-right">
 			<?php echo HTML::anchor('http://gravatar.com/emails/', $user->gravatar(210, NULL, array('class' => 'img-polaroid')), array(
 				'target' => '_blank'
 			)); ?>
 		</div>
+		<?php endif; ?>
 	</div>
 	<fieldset>
 		<legend><?php echo __('Password'); ?></legend>

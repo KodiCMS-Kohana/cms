@@ -106,39 +106,44 @@ class Controller_Login extends Controller_System_Template {
 			Messages::errors( __('Email address no valid') );
 			$this->go( Route::url( 'user', array( 'action' => 'forgot' ) ) );
 		}
+		
+		$user = ORM::factory('user', array(
+			'email' => $email
+		));
+		
+		if(!$user->loaded())
+		{
+			Messages::errors( __('No user found!') );
+			$this->go( Route::url( 'user', array( 'action' => 'forgot' ) ) );
+		}
 
 		$user = User::findBy('email', $email);
 
 		Observer::notify('admin_login_forgot_before', array($user));
 
-		if( $user )
-		{
-			Session::instance()->set('forgot_email', $email);
+		Session::instance()->set('forgot_email', $email);
 
-			$new_pass = Text::random();
-			$user->password = $new_pass;
-			$user->save();
+		$new_pass = Text::random();
+		$user->password = Auth::instance()->hash($new_pass);
+		$user->save();
 
-			$message = (string) View::factory('messages/forgot_emil', array(
-				'username' => $user->username,
-				'password' => $new_pass
-			));
+		$message = (string) View::factory('messages/forgot_emil', array(
+			'username' => $user->username,
+			'password' => $new_pass
+		));
 
-			$site_host = dirname($_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME']);
+		$site_host = dirname($_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME']);
 
-			$email = new Email();
-			$email->from('no-reply@' . $site_host, Setting::get('admin_title'));
-			$email->to($user->email);
-			$email->subject(__('Your new password from :site_name', array(':site_name' => Setting::get('admin_title'))));
-			$email->message($message);
-			$email->send();
+		$email = new Email();
+		$email->from('no-reply@' . $site_host, Setting::get('admin_title'));
+		$email->to($user->email);
+		$email->subject(__('Your new password from :site_name', array(':site_name' => Setting::get('admin_title'))));
+		$email->message($message);
+		$email->send();
 
-			Messages::success( __('An email has been send with your new password!') );
-			$this->go( Route::url( 'user', array( 'action' => 'login' ) ) );
-		}
+		Messages::success( __('An email has been send with your new password!') );
+		$this->go( Route::url( 'user', array( 'action' => 'login' ) ) );
 
-		Messages::errors( __('No user found!') );
-		$this->go( Route::url( 'user', array( 'action' => 'forgot' ) ) );
 	}
 
 }
