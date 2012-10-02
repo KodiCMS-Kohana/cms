@@ -453,7 +453,7 @@ cms.init.add('page_index', function () {
                     items:'li',
                     connectWith:'ul',
                     placeholder: 'map-placeholder',
-                    //grid: [8, 8],
+                    grid: [5, 8],
                     cursor: 'move',
 
                     // events
