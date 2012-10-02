@@ -1,6 +1,41 @@
+function strtr (str, from, to) {
+	if (typeof from === 'object') {
+		var cmpStr = '';
+		for (var j=0; j < str.length; j++){
+			cmpStr += '0';
+		}
+		var offset = 0;
+		var find = -1;
+		var addStr = '';
+		for (fr in from) {
+			offset = 0;
+			while ((find = str.indexOf(fr, offset)) != -1){
+				if (parseInt(cmpStr.substr(find, fr.length)) != 0){
+					offset = find + 1;
+					continue;
+				}
+				for (var k =0 ; k < from[fr].length; k++){
+					addStr += '1';
+				}
+				cmpStr = cmpStr.substr(0, find) + addStr + cmpStr.substr(find + fr.length, cmpStr.length - (find + fr.length));
+				str = str.substr(0, find) + from[fr] + str.substr(find + fr.length, str.length - (find + fr.length));
+				offset = find + from[fr].length + 1;
+				addStr = '';
+			}
+		}
+		return str;
+	}
+
+	for(var i = 0; i < from.length; i++) {
+		str = str.replace(new RegExp(from.charAt(i),'g'), to.charAt(i));
+	}
+
+	return str;
+}
+
+
 // Skip errors when no access to console
-var console = console || {log:function () {
-}};
+var console = console || {log:function () {}};
 
 
 // Main object
@@ -14,13 +49,15 @@ cms.addTranslation = function (obj) {
     }
 };
 
-var __ = function (str) {
+var __ = function (str, values) {
     if (cms.translations[str] !== undefined)
-        return cms.translations[str];
+	{
+		var str = cms.translations[str];
+		return values == undefined ? str : strtr(str, values);
+	}
     else
         return str;
 };
-
 
 // Error
 cms.error = function (msg, e) {
@@ -659,6 +696,7 @@ jQuery(document).ready(function () {
         } catch (e) {
         }
     });
+
 });
 
 
