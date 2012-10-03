@@ -52,6 +52,8 @@ class Model_Navigation {
 				if ( strpos(Request::current()->uri(), ltrim($page->url(), '/')) !== FALSE )
 				{
 					$page->set_active();
+					
+					self::$current = $page;
 
 					$break = TRUE;
 					break;

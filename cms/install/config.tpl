@@ -8,6 +8,7 @@ define('DB_USER', '__DB_USER__');
 define('DB_PASS', '__DB_PASS__');
 define('TABLE_PREFIX', '');
 
+// When changing the path, you need to clear the cache
 define('ADMIN_DIR_NAME', '__ADMIN_DIR_NAME__');
 
 // Add a suffix to pages (simluating static pages '.html')

@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-		<title><?php echo ''//$page->name(); ?> &ndash; <?php echo Setting::get( 'admin_title' ); ?></title>
+		<title><?php echo $page->name(); ?> &ndash; <?php echo Setting::get( 'admin_title' ); ?></title>
 		<base href="<?php echo ADMIN_RESOURCES; ?>" />
 		<link href="<?php echo ADMIN_RESOURCES; ?>favicon.ico" rel="favourites icon" />
 
