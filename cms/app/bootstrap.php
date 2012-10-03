@@ -59,8 +59,13 @@ else if(IS_INSTALLED)
 	Kohana::$environment = Kohana::PRODUCTION;
 }
 
-define('CMS_NAME', 'KoDi CMS');
-define('CMS_VERSION', '1.0 RC');
+define('CMS_NAME',			'KoDi CMS');
+define('CMS_SITE',			'http://www.kodicms.ru');
+define('CMS_VERSION',		'1.0 RC');
+
+define('BASE_URL',			'http://' . dirname($_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME']) .'/');
+define('ADMIN_RESOURCES',	BASE_URL . 'cms/media/');
+
 
 /**
  * InitializeCore, setting the default options.

@@ -7,12 +7,6 @@ define('DB_USER', '');
 define('DB_PASS', '');
 define('TABLE_PREFIX', '');
 
-// CMS defaults
-define('BASE_URL',			'http://'.dirname($_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME']) .'/');
-define('ADMIN_RESOURCES',	BASE_URL.'admin/');
-define('ADMIN_DIR_NAME',	'admin');
-define('ADMIN_URL',			BASE_URL.ADMIN_DIR_NAME.'/');
-
 /**
  * Set the default cookie salt
  * 

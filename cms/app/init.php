@@ -1,8 +1,6 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
 // CMS defaults
-define('BASE_URL',			'http://' . dirname($_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME']) .'/');
-define('ADMIN_RESOURCES',	BASE_URL . 'admin/');
 define('ADMIN_URL',			BASE_URL . ADMIN_DIR_NAME.'/');
 define('PLUGINS_URL',		BASE_URL . 'cms/plugins/');
 define('PUBLICPATH',		DOCROOT . 'public'.DIRECTORY_SEPARATOR);
