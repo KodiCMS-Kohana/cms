@@ -16,7 +16,7 @@ Options -Indexes
 
 # Protect application and system files from being viewed
 # RewriteRule ^(?:cms)\b.* index.php/$0 [L]
-RewriteRule ^(cms/app)/ - [F,L]
+RewriteRule ^(cms/app|cms/system|cms/modules)/ - [F,L]
 
 # Allow any files or directories that exist to be displayed directly
 RewriteCond %{REQUEST_FILENAME} !-f
