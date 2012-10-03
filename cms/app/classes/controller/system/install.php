@@ -24,7 +24,6 @@ class Controller_System_Install extends Controller_System_Template {
 
 		$post['db_driver'] = DB_TYPE;
 		$post['password'] = Text::random();
-		//$post['admin_dir_name'] = 'admin';
 		
 		date_default_timezone_set( $post['timezone'] );
 
@@ -75,7 +74,7 @@ class Controller_System_Install extends Controller_System_Template {
 		$this->_import_dump($post, $db);
 		$this->_create_config($post);
 		
-		$this->go($post['admin_dir_name'] . '/login');
+		$this->go(Arr::get($post, 'admin_dir_name', '') . '/login');
 	}
 
 	protected function _import_shema($post, $db)
@@ -110,12 +109,12 @@ class Controller_System_Install extends Controller_System_Template {
 		$dump_content = file_get_contents( $dump_file );
 		
 		$replace = array(
-			'__SITE_NAME__' => Arr::get($post, 'site_name', 'KoDi CMS'),
-			'__EMAIL__' => Arr::get($post, 'email', 'admin@yoursite.com'),
-			'__USERNAME__' => Arr::get($post, 'username', 'admin'),
+			'__SITE_NAME__' => Arr::get($post, 'site_name'),
+			'__EMAIL__' => Arr::get($post, 'email'),
+			'__USERNAME__' => Arr::get($post, 'username'),
 			'TABLE_PREFIX_' => $post['table_prefix'],
 			'__ADMIN_PASSWORD__' => Auth::instance()->hash($post['password']),
-			'__DATE__' => date( 'Y-m-d H:i:s'),
+			'__DATE__' => date('Y-m-d H:i:s'),
 			'__LANG__' => I18n::lang()
 		);
 		

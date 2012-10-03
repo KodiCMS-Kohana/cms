@@ -78,7 +78,7 @@
 				<label class="control-label" for="installSiteNameField"><?php echo __( 'Site name' ); ?></label>
 				<div class="controls">
 					<?php
-					echo Form::input( 'install[site_name]', Arr::get( $data, 'site_name', 'KoDi CMS' ), array(
+					echo Form::input( 'install[site_name]', Arr::get( $data, 'site_name', CMS_NAME ), array(
 						'class' => 'span6', 'id' => 'installSiteNameField'
 					) );
 					?> <?php echo UI::label( __( 'Required.' ) ); ?>
@@ -113,7 +113,7 @@
 				<label class="control-label" for="installAdminDirNamexField"><?php echo __( 'Admin dir name' ); ?></label>
 				<div class="controls">
 					<?php
-					echo Form::input( 'install[admin_dir_name]', Arr::get( $data, 'admin_dir_name', 'admin' ), array(
+					echo Form::input( 'install[admin_dir_name]', Arr::get( $data, 'admin_dir_name', 'backend' ), array(
 						'class' => 'input-xlarge', 'id' => 'installAdminDirNamexField'
 					) );
 					?> <?php echo UI::label( __( 'Required.' ) ); ?>
