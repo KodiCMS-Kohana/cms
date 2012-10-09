@@ -29,7 +29,7 @@
 			<?php foreach ($layouts as $layout): ?>
 			<tr>
 				<th class="name">
-					<?php echo HTML::anchor(URL::site( 'layout/edit/'.$layout->name), HTML::image('images/layout.png') .' '. $layout->name); ?>
+					<?php echo HTML::anchor(URL::site( 'layout/edit/'.$layout->name), HTML::image(ADMIN_RESOURCES . 'images/layout.png') .' '. $layout->name); ?>
 				</th>
 				<td class="direction">
 					<?php echo UI::label('/layouts/' . $layout->name . EXT); ?>
