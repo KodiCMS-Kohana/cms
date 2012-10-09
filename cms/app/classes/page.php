@@ -1,5 +1,9 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
+/**
+ * @package    Kodi/Model
+ */
+
 class Page extends Record
 {
     const TABLE_NAME = 'pages';
@@ -12,27 +16,16 @@ class Page extends Record
     const LOGIN_NOT_REQUIRED = 0;
     const LOGIN_REQUIRED = 1;
     const LOGIN_INHERIT = 2;
-    
-    public $title;
-    public $slug;
-    public $breadcrumb;
-    public $keywords;
-    public $description;
-    public $content;
-    public $parent_id;
-    public $layout_file;
-    public $behavior_id;
-    public $status_id;
-    public $comment_status;
-    
-    public $created_on;
-    public $published_on;
-    public $updated_on;
-    public $created_by_id;
-    public $updated_by_id;
-    public $position;
-    public $needs_login;
 	
+	public function filters()
+	{
+		return array(
+			'title' => array(
+				array('integer')
+			)
+		);
+	}
+
 	public static function logins()
 	{
 		return array(

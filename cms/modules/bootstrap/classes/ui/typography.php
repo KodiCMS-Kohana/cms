@@ -1,9 +1,10 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct access allowed.' );
 
-/*
+/**
  * http://twitter.github.com/bootstrap/base-css.html#typography
- * 
+ * @package    Twitte bootstrap/UI
  */
+
 class UI_Typography {
 	
 	/*

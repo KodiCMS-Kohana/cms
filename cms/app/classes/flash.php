@@ -1,20 +1,10 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
+
 /**
- * Flash service
- *
- * Purpose of this service is to make some data available across pages. Flash
- * data is available on the next page but deleted when execution reach its end.
- *
- * Usual use of Flash is to make it possible for the current page to pass some data
- * to the next one (for instance success or error message before HTTP redirect).
- *
- * Flash::set('errors', 'Blog not found!');
- * Flass::set('success', 'Blog has been saved with success!');
- * Flash::get('success');
- *
- * Flash service as a concept is taken from Rails. This thing is really useful!
+ * @package    Kodi
  */
+
 final class Flash
 {
     const SESSION_KEY = 'framework_flash';

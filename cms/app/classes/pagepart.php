@@ -1,18 +1,24 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
+/**
+ * @package    Kodi/Model
+ */
+
 class PagePart extends Record
 {
     const TABLE_NAME = 'page_parts';
 	
     const PART_NOT_PROTECTED = 0;
 	const PART_PROTECTED = 1;
-    
-    public $name = 'body';
-    public $filter_id = '';
-    public $page_id = 0;
-    public $content = '';
-    public $content_html = '';
-	public $is_protected = 0;
+	
+	public function defaults()
+	{
+		return array(
+			'name' => 'body',
+			'page_id' => 0,
+			'is_protected' => self::PART_NOT_PROTECTED
+		);
+	}
     
     public function beforeSave()
     {

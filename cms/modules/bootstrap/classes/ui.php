@@ -1,5 +1,9 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct access allowed.' );
 
+/**
+ * @package    Twitte bootstrap/UI
+ */
+
 class UI {
 	
 	const BUTTON_TYPE_BUTTON = 0;

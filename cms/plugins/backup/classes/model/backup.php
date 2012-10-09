@@ -1,5 +1,9 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
+/**
+ * @package    Plugins/Backup
+ */
+
 abstract class Model_Backup {
 
 	public $file = NULL;

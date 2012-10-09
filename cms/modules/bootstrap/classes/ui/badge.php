@@ -1,8 +1,8 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct access allowed.' );
 
-/*
+/**
  * http://twitter.github.com/bootstrap/components.html#labels-badges
- * 
+ * @package    Twitte bootstrap/UI
  */
 class UI_Badge {
 	

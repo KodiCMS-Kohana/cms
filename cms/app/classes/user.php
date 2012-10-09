@@ -1,18 +1,13 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
+/**
+ * @package    Kodi/Model
+ */
+
 class User extends Record
 {
     const TABLE_NAME = 'users';
-    
-    public $name = '';
-    public $email = '';
-    public $username = '';
-    
-    public $created_on;
-    public $updated_on;
-    public $created_by_id;
-    public $updated_by_id;
-    
+
     public function getPermissions()
     {
         if ( !isset($this->id))

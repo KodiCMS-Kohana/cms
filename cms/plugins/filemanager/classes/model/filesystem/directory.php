@@ -1,5 +1,9 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct access allowed.' );
 
+/**
+ * @package    Plugins/Filemanager
+ */
+
 class Model_FileSystem_Directory extends DirectoryIterator {
 	
 	public function createFolder($name)

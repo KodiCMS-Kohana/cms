@@ -1,5 +1,9 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
+/**
+ * @package    Kodi/Model
+ */
+
 class FrontPage
 {
     const STATUS_DRAFT = 1;

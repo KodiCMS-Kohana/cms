@@ -1,5 +1,9 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
+/**
+ * @package    Plugins/Backup
+ */
+
 class Model_Backup_FileSystem extends Model_Backup {
 	
 	public function create()

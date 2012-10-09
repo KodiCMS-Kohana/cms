@@ -1,5 +1,9 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct script access.' );
 
+/**
+ * @package    Plugins
+ */
+
 class Model_Plugin_Item {
 
 	protected $_initialized = FALSE;

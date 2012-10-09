@@ -1,5 +1,9 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
+/**
+ * @package    Kodi
+ */
+
 class Setting
 {
 	public static $table_name = 'settings';

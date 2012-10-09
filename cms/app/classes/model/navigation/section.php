@@ -1,5 +1,9 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct access allowed.' );
 
+/**
+ * @package    Kodi/Navigation
+ */
+
 class Model_Navigation_Section extends Model_Navigation_Abstract {
 	
 	protected $_pages = array();
