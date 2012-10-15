@@ -5,14 +5,18 @@ cms.plugins.redactor = {};
 
 
 // Switch on tinymce handler
-cms.plugins.redactor.switchOn_handler = function( textarea_id )
+cms.plugins.redactor.switchOn_handler = function( textarea_id, params )
 {
-	$('#' + textarea_id).redactor({ 
+	var local_params = {
 		focus: true,
 		wym: true,
 		autoresize: false,
 		lang: LOCALE
-	});
+	};
+	
+	params = $.extend(local_params, params);
+
+	$('#' + textarea_id).redactor(params);
 };
 
 // Switch off tinymce handler

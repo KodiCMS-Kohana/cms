@@ -9,6 +9,11 @@ class UI {
 	const BUTTON_TYPE_BUTTON = 0;
 	const BUTTON_TYPE_ANCHOR = 1;
 	
+	public static function field($content, $size = 'input-xlarge')
+	{
+		return '<span class="'.$size.' uneditable-input">'.$content.'</span>';
+	}
+
 	public static function icon( $name )
 	{
 		return '<i class="icon-' . HTML::chars( $name ) .'"></i>';

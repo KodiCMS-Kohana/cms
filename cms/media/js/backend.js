@@ -146,7 +146,7 @@ cms.filters.add = function (name, to_editor_callback, to_textarea_callback) {
 };
 
 // Switch On filter
-cms.filters.switchOn = function (textarea_id, filter) {
+cms.filters.switchOn = function (textarea_id, filter, params) {
 
     jQuery('#' + textarea_id).css('display', 'block');
 
@@ -158,7 +158,7 @@ cms.filters.switchOn = function (textarea_id, filter) {
             if (this.filters[i][0] == filter) {
                 try {
                     // Call handler that will switch on editor
-                    this.filters[i][1](textarea_id);
+                    this.filters[i][1](textarea_id, params);
 
                     // Add editor to switchedOn stack
                     cms.filters.switchedOn[textarea_id] = this.filters[i];
@@ -251,6 +251,8 @@ cms.init = {
 	},
 	run:function () {
 		var body_id = $('body:first').attr('id').toString();
+		
+		
 
 		for (var i = 0; i < cms.init.callbacks.length; i++) {
 			var rout_to_id = 'body_' + cms.init.callbacks[i][0];
@@ -693,10 +695,8 @@ jQuery(document).ready(function () {
                 }
             }
 
-        } catch (e) {
-        }
+        } catch (e) {}
     });
-
 });
 
 
@@ -721,4 +721,19 @@ $.fn.uncheck = function () {
 
 $.fn.checked = function () {
     return this.attr('checked');
+};
+
+$.fn.tabs = function () {
+    return $('li a', this).on('click', function() {
+		$(this)
+			.parent()
+			.addClass('active')
+			.siblings()
+			.removeClass('active');
+
+		$('div.tab-pane').removeClass('active');
+		$($(this).attr('href')).addClass('active');
+		
+		return false;
+	});
 };

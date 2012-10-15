@@ -63,6 +63,26 @@ class Controller_System_Template extends Controller_System_Security
 
 		if ($this->auto_render === TRUE)
 		{
+			if ( $this->request->is_ajax() === TRUE OR $this->json !== NULL)
+			{
+				if ( $this->json !== NULL )
+				{
+					if ( is_array( $this->json ) AND !isset( $this->json['status'] ) )
+					{
+						$this->json['status'] = TRUE;
+					}
+
+					$this->request
+						->response()
+						->headers( 'Content-type', 'application/json' );
+
+					$this->template = json_encode( $this->json );
+				}
+
+				$this->response->body( $this->template );
+				return;
+			}
+		
 			$this->template->styles = array_merge( $this->styles, $this->template->styles );
 			$this->template->scripts = array_merge( $this->scripts, $this->template->scripts );
 
@@ -71,24 +91,6 @@ class Controller_System_Template extends Controller_System_Security
 			));
 			
 			$this->template->modal = View::factory('layouts/blocks/modal');
-
-			$this->response->body( $this->template );
-		}
-		elseif ( $this->request->is_ajax() === TRUE OR $this->json !== NULL)
-		{
-			if ( $this->json !== NULL )
-			{
-				if ( is_array( $this->json ) AND !isset( $this->json['status'] ) )
-				{
-					$this->json['status'] = TRUE;
-				}
-
-				$this->request
-					->response()
-					->headers( 'Content-type', 'application/json' );
-
-				$this->template = json_encode( $this->json );
-			}
 
 			$this->response->body( $this->template );
 		}

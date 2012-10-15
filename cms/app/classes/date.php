@@ -21,7 +21,7 @@ class Date extends Kohana_Date {
 			$format = Setting::get('date_format', 'Y-m-d H:I:s');
 		}
 
-		if(  is_string( $date ))
+		if( !Valid::numeric( $date ))
 		{
 			$date = strtotime($date);
 		}
