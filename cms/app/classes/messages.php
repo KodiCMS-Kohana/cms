@@ -30,20 +30,13 @@ class Messages {
 			$errors = Session::instance()
 				->get_once( self::$session_key.'_'.Messages::ERRORS, array() );
 
-			if ( !empty( $success ) )
-			{
-				$array[Messages::SUCCESS] = $success;
-			}
-
-			if ( !empty( $errors ) )
-			{
-				$array[Messages::ERRORS] = $errors;
-			}
+			$array[Messages::SUCCESS] = $success;
+			$array[Messages::ERRORS] = $errors;
 
 			return $array;
 		}
 
-		return Session::instance()->get_once( $type, array() );
+		return Session::instance()->get_once( self::$session_key.'_'.$type, array() );
 	}
 
 	public static function set( $type = Messages::SUCCESS, $data = NULL, $values = NULL )
