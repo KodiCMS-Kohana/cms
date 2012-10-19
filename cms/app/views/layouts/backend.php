@@ -2,11 +2,14 @@
 <html>
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-		<title><?php echo $page->name(); ?> &ndash; <?php echo Setting::get( 'admin_title' ); ?></title>
+		<title>&ndash; <?php echo Setting::get( 'admin_title' ); ?></title>
 		<base href="<?php echo ADMIN_RESOURCES; ?>" />
 		<link href="<?php echo ADMIN_RESOURCES; ?>favicon.ico" rel="favourites icon" />
 
+		<script type="text/javascript">
 		<?php echo View::factory('layouts/blocks/jsvars'); ?>
+		<?php echo $messages; ?>
+		</script>
 
 		<?php
 		foreach ( $styles as $style )
@@ -20,21 +23,15 @@
 		}
 		?>
 
-		<?php echo $messages; ?>
-
 		<?php Observer::notify( 'layout_backend_head' ); ?>
 	</head>
 	<body id="body_<?php echo $page_body_id; ?>">
 		<div id="content-wrapper">
 			<?php echo View::factory('layouts/blocks/navigation'); ?>
 
+			<?php echo $breadcrumbs; ?>
+			
 			<div class="container-fluid">
-				<?php if(isset($breadcrumbs)): ?>
-				<?php echo View::factory('layouts/blocks/breadcrumbs', array(
-					'breadcrumbs' => $breadcrumbs
-				)); ?>
-				<?php endif; ?>
-
 				<div id="content" >
 				<?php echo $content; ?>
 				</div> <!--/#content-->

@@ -6,6 +6,8 @@ class Controller_System_Template extends Controller_System_Security
 	 * @var  View  page template
 	 */
 	public $template = 'layouts/backend';
+	
+	public $breadcrumbs;
 
 	/**
 	 * @var  boolean  auto render template
@@ -31,6 +33,24 @@ class Controller_System_Template extends Controller_System_Security
 //			{
 //				throw new Exception('Security token not check');
 //			}
+		}
+		
+		$index_page_url = FALSE;
+		
+		
+		
+		$this->breadcrumbs = Breadcrumbs::factory()
+			->add(__('Home'), Setting::get('default_tab'));
+		
+		if(  method_exists( $this, $this->request->controller() ))
+		{
+			$index_page_url = $this->route->uri(array(
+				'controller' => $this->request->controller(),
+				'directory' => $this->request->directory()
+			));
+			
+			$this->breadcrumbs
+				->add(__(Inflector::plural( ucfirst($this->request->controller()))), $index_page_url);
 		}
 
 		if ($this->auto_render === TRUE)
@@ -87,6 +107,8 @@ class Controller_System_Template extends Controller_System_Security
 				$this->template->messages = View::factory('layouts/blocks/messages', array(
 					'messages' => Messages::get() 
 				));
+				
+				$this->template->breadcrumbs = $this->breadcrumbs;
 
 				$this->template->modal = View::factory('layouts/blocks/modal');
 			}
@@ -94,5 +116,20 @@ class Controller_System_Template extends Controller_System_Security
 			Observer::notify( 'template_before_render', $this->template );
 			$this->response->body( $this->template );
 		}
+	}
+	
+	
+	
+	public function get_path($separator = '_')
+	{
+		$path = $this->request->controller() . $separator . $this->request->action();
+		$dir = $this->request->directory();
+
+		if ( !empty( $dir ) )
+		{
+			$path = $dir . $separator . $path;
+		}
+
+		return $path;
 	}
 }

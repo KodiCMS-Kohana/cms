@@ -26,10 +26,8 @@ class Controller_User extends Controller_System_Backend {
 			return $this->_add();
 		}
 		
-		$this->template->breadcrumbs = array(
-			HTML::anchor( 'user', __('Users')),
-			__('Add user')
-		);
+		$this->breadcrumbs
+			->add(__('Add user'));
 
 		// check if user have already enter something
 		$user = Flash::get( 'post_data' );
@@ -51,7 +49,7 @@ class Controller_User extends Controller_System_Backend {
 
 	private function _add()
 	{
-		$data = $_POST['user'];
+		$data = $this->request->post('user');
 
 		Flash::set( 'post_data', (object) $data );
 
@@ -123,10 +121,8 @@ class Controller_User extends Controller_System_Backend {
 				->as_object()
 				->execute();
 			
-			$this->template->breadcrumbs = array(
-				HTML::anchor( 'user', __('Users')),
-				__('Edit user :user', array(':user' => $user->username))
-			);
+			$this->breadcrumbs
+				->add(__('Edit user'));
 
 			$this->template->content = View::factory( 'user/edit', array(
 				'action' => 'edit',
@@ -148,7 +144,7 @@ class Controller_User extends Controller_System_Backend {
 
 	private function _edit( $id )
 	{
-		$data = $_POST['user'];
+		$data = $this->request->post('user');
 		$this->auto_render = false;
 
 		// check if user want to change the password

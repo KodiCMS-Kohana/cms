@@ -42,17 +42,4 @@ class Controller_System_Backend extends Controller_System_Template
 			);
 		}
 	}
-	
-	public function get_path()
-	{
-		$path = $this->request->controller() . '_' . $this->request->action();
-		$dir = $this->request->directory();
-
-		if ( !empty( $dir ) )
-		{
-			$path = $dir . '_' . $path;
-		}
-
-		return $path;
-	}
 }

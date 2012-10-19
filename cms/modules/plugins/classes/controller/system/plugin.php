@@ -21,6 +21,10 @@ class Controller_System_Plugin extends Controller_Plugins {
 		}
 		
 		$this->plugin = Model_Plugin::get_registered( $this->plugin_id );
+		
+		$this->breadcrumbs
+			->add(__('Pligins'), 'plugins')
+			->add($this->plugin->title);
 	}
 	
 	public function display($view, $vars = NULL)
@@ -40,6 +44,9 @@ class Controller_System_Plugin extends Controller_Plugins {
 				'plugin' => $this->plugin
 			))
 		));
+		
+		$this->breadcrumbs
+			->add(__('Plugin settings'), $this->plugin->id.'/settings');
 	}
 
 	protected function _settings_save( $plugin )

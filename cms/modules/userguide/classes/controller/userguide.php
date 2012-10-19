@@ -48,6 +48,9 @@ class Controller_Userguide extends Controller_System_Backend {
 		}
 
 		parent::before();
+		
+		$this->breadcrumbs = Breadcrumbs::factory()
+			->add(__('Home'), Setting::get( 'default_tab'));
 	}
 	
 	// List all modules that have userguides
@@ -56,6 +59,10 @@ class Controller_Userguide extends Controller_System_Backend {
 		$this->template->title = __("User guide");
 		$this->template->content = View::factory('userguide/index', array('modules' => $this->_modules()));
 		$this->template->menu = View::factory('userguide/menu', array('modules' => $this->_modules()));
+	
+		
+		$this->breadcrumbs
+			->add($this->template->title);
 	}
 	
 	// Display an error if a page isn't found
@@ -120,17 +127,13 @@ class Controller_Userguide extends Controller_System_Backend {
 		// Attach this module's menu to the template
 		$this->template->menu = Markdown($this->_get_all_menu_markdown());
 		
-		// Bind the breadcrumb
-		$this->template->bind('breadcrumb', $breadcrumb);
-		
 		// Bind the copyright
 		$this->template->copyright = Kohana::$config->load('userguide.modules.'.$module.'.copyright');
 
 		// Add the breadcrumb trail
-		$breadcrumb = array(
-			HTML::anchor( $this->guide->uri(), __('User Guide')),
-			HTML::anchor( $this->guide->uri(array('module' => $module)), Kohana::$config->load('userguide.modules.'.$module.'.name'))
-		);
+		$this->breadcrumbs
+			->add(__('User Guide'), $this->guide->uri())
+			->add(Kohana::$config->load('userguide.modules.'.$module.'.name'), $this->guide->uri(array('module' => $module)));
 	}
 
 	public function action_api()
@@ -141,6 +144,12 @@ class Controller_Userguide extends Controller_System_Backend {
 
 		// Get the class from the request
 		$class = $this->request->param('class');
+		
+		
+		// Add the breadcrumb
+		$this->breadcrumbs
+			->add(__('User Guide'), $this->guide->uri(array('page' => NULL)))
+			->add(__('API Browser'), $this->request->route()->uri());
 
 		// If no class was passed to the url, display the API index page
 		if ( ! $class)
@@ -177,22 +186,15 @@ class Controller_Userguide extends Controller_System_Backend {
 			$this->template->content = View::factory('userguide/api/class')
 				->set('doc', Kodoc::factory($class))
 				->set('route', $this->request->route());
+			
+			$this->breadcrumbs->add($class);
 		}
 
 		// Attach the menu to the template
 		$this->template->menu = Kodoc::menu();
 
-		// Bind the breadcrumb
-		$this->template->bind('breadcrumb', $breadcrumb);
-
 		// Get the docs URI
 		$guide = Route::get('docs/guide');
-
-		// Add the breadcrumb
-		$breadcrumb = array(
-			HTML::anchor( $this->guide->uri(array('page' => NULL)), __('User Guide')),
-			HTML::anchor( $this->request->route()->uri(), __('API Browser')),
-		);
 	}
 
 	public function action_media()

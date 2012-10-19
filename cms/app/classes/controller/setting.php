@@ -14,6 +14,9 @@ class Controller_Setting extends Controller_System_Backend {
 			'filters' => Filter::findAll(),
 			'loaded_filters' => Filter::$filters
 		) );
+		
+		$this->breadcrumbs
+			->add(__('Settings'), 'setting');
 	}
 
 	private function _save()

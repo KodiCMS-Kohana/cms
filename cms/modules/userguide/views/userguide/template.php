@@ -22,13 +22,9 @@
 
 		<div id="content-wrapper">
 			<?php echo View::factory('layouts/blocks/navigation'); ?>
-
+			<?php echo $breadcrumbs; ?>
 			<div class="container-fluid">
-				<?php if(isset($breadcrumb)): ?>
-				<?php echo View::factory('layouts/blocks/breadcrumbs', array(
-					'breadcrumbs' => $breadcrumb
-				)); ?>
-				<?php endif; ?>
+				
 				
 				<div id="content">
 					<div class="row-fluid">

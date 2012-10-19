@@ -27,11 +27,8 @@ class Controller_Page extends Controller_System_Backend {
 		$page->needs_login = Page::LOGIN_INHERIT;
 		$page->published_on = date( 'Y-m-d H:i:s' );
 		
-		
-		$this->template->breadcrumbs = array(
-			HTML::anchor( 'page', __('Pages')),
-			__('Add page')
-		);
+		$this->breadcrumbs
+			->add(__('Add page'));
 
 		$page_parts = Flash::get( 'post_parts_data' );
 
@@ -191,11 +188,9 @@ class Controller_Page extends Controller_System_Backend {
 		{
 			$page_parts = array( new PagePart );
 		}
-		
-		$this->template->breadcrumbs = array(
-			HTML::anchor( 'page', __('Pages')),
-			__('Edit page ":page"', array(':page' => $page->title))
-		);
+
+		$this->breadcrumbs
+			->add(__('Edit page'));
 
 		$this->template->content = View::factory( 'page/edit', array(
 			'action' => 'edit',
@@ -405,8 +400,8 @@ class Controller_Page extends Controller_System_Backend {
 		{
 			$link = strtr($config['link'], array(':id' => $parent_id));
 			$childrens[] = '...';
-			$childrens[] = __('Other pages in the :link ', array(
-				':num' => $config['limit'], ':link' => HTML::anchor( $link, $page->behavior_id)
+			$childrens[] = __('Other pages in the :link', array(
+				':num' => $config['limit'], ':link' => HTML::anchor( $link, __(ucfirst($page->behavior_id)))
 			));
 		}
 

@@ -2,6 +2,14 @@
 
 class Controller_System_Controller extends Kohana_Controller
 {
+	public $route = 'admin';
+	
+	public function before()
+	{
+		parent::before();
+		
+		$this->route = Route::get($this->route);
+	}
 	
 	public function go_home()
 	{

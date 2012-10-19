@@ -26,18 +26,20 @@ Cookie::$salt = COOKIE_SALT;
  * Enable modules. Modules are referenced by a relative or absolute path.
  */
 Kohana::modules( array(
-	'database'		=> MODPATH . 'database', // Database access
-	'auth'			=> MODPATH . 'auth', // Basic authentication
-	'orm'			=> MODPATH . 'orm', // Object Relationship Mapping,
-	'cache'			=> MODPATH . 'cache', // Object Relationship Mapping,
+	'database'		=> MODPATH . 'database',	// Database access
+	'auth'			=> MODPATH . 'auth',		// Basic authentication
+	'orm'			=> MODPATH . 'orm',			// Object Relationship Mapping,
+	'cache'			=> MODPATH . 'cache',		// Object Relationship Mapping,
 	'pagination'	=> MODPATH . 'pagination',
 	'plugins'		=> MODPATH . 'plugins',
-	'userguide'		=> MODPATH . 'userguide',  // User guide and API documentation,
+	'userguide'		=> MODPATH . 'userguide',	// User guide and API documentation,
 	'bootstrap'		=> MODPATH . 'bootstrap',
+	'breadcrumbs'	=> MODPATH . 'breadcrumbs',
 ) );
 
 // Init settings
 Setting::init();
+Behavior::init();
 
 if( ! Route::cache())
 {
@@ -58,7 +60,7 @@ if( ! Route::cache())
 			'action' => 'index',
 		) );
 
-	Route::set( 'admin', ADMIN_DIR_NAME.'(/(<controller>(/<action>(/<id>))))')
+	Route::set( 'admin', ADMIN_DIR_NAME.'(/<controller>(/<action>(/<id>)))')
 		->defaults( array(
 			'controller' => Setting::get('default_tab'),
 			'action' => 'index',

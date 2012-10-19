@@ -19,10 +19,8 @@ class Controller_Snippet extends Controller_System_Backend {
 			return $this->_add();
 		}
 		
-		$this->template->breadcrumbs = array(
-			HTML::anchor( 'snippet', __('Snippets')),
-			__('Add snippet')
-		);
+		$this->breadcrumbs
+			->add(__('Add snippet'));
 
 		// check if user have already enter something
 		$snippet = Flash::get( 'post_data' );
@@ -81,11 +79,9 @@ class Controller_Snippet extends Controller_System_Backend {
 			Messages::errors( __( 'Snippet <b>:name</b> not found!', array( ':name' => $snippet->name ) ) );
 			$this->go( URL::site( 'snippet' ) );
 		}
-		
-		$this->template->breadcrumbs = array(
-			HTML::anchor( 'snippet', __('Snippets')),
-			__('Edit snippet :snippet', array(':snippet' => $snippet->name))
-		);
+
+		$this->breadcrumbs
+			->add(__('Edit snippet'));
 
 		// check if trying to save
 		if ( Request::current()->method() == Request::POST )
