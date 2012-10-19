@@ -6,12 +6,15 @@
 		<base href="<?php echo ADMIN_RESOURCES; ?>" />
 		<link href="<?php echo ADMIN_RESOURCES; ?>favicon.ico" rel="favourites icon" />
 
+		<script type="text/javascript">
 		<?php echo View::factory('layouts/blocks/jsvars'); ?>
+		<?php echo $messages; ?>
+		</script>
 
 		<?php foreach ($styles as $style) echo HTML::style($style, NULL, TRUE), "\n" ?>
 		<?php foreach ($scripts as $script) echo HTML::script($script, NULL, NULL, TRUE), "\n" ?>
 
-		<?php echo $messages; ?>
+		
 
 		<?php Observer::notify( 'layout_backend_head' ); ?>
 	</head>

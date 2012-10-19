@@ -9,6 +9,94 @@
 	text-align: center;
 }
 
+/* ===================================================
+	Widget
+ ===================================================*/
+.widget {
+    clear: both;
+    margin-bottom: 2em;
+    overflow: hidden;
+    position: relative;
+    width: auto;
+
+	.widget-header {
+		.gradientBar(#FAFAFA, #E9E9E9, #555555);
+		border: 1px solid #D5D5D5;
+		.border-radius(4px 4px 0 0);
+		height: 40px;
+		line-height: 40px;
+		position: relative;
+
+		h3 {
+			color: #555555;
+			display: inline-block;
+			font-size: 14px;
+			font-weight: 800;
+			left: 10px;
+			line-height: 18px;
+			margin-right: 3em;
+			position: relative;
+			text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+			top: 2px;
+		}
+
+		[class^="icon-"], [class*=" icon-"] {
+			color: #555555;
+			display: inline-block;
+			font-size: 16px;
+			margin-left: 13px;
+			margin-right: -2px;
+			vertical-align: middle;
+		}
+		
+		& + .widget-content {
+			border-top: medium none;
+			.border-radius(0 0 5px 5px);
+		}
+	}
+
+	.widget-content {
+		background: none repeat scroll 0 0 #FFFFFF;
+		border: 1px solid #D5D5D5;
+		.border-radius(5px);
+		padding: 20px 15px 15px;
+
+		&:before, &:after {
+			content: "";
+			display: table;
+		}
+		
+		&:after {
+			clear: both;
+		}
+	}
+
+	&.widget-nopad .widget-content {
+		padding: 0;
+	}
+
+	&.widget-table  {
+		.widget-content {
+			padding: 0;
+		}
+
+		.table {
+			border: medium none;
+			margin-bottom: 0;
+
+			tr {
+				td:first-child {
+					border-left: medium none;
+				}
+
+				th:first-child {
+					border-left: medium none;
+				}
+			}
+		}
+	}
+}
+
 
 /* ===================================================
 	Table design
@@ -115,7 +203,9 @@ table.table {
 }
 
 .breadcrumb {
-	margin: 15px 0 0;
+	margin: 0;
+	.border-radius(0);
+	border-top: 1px solid #fff;
 }
 
 input.input-title {
@@ -147,6 +237,13 @@ form:last-child {
 
 legend {
 	margin-bottom: 0;
+	border-bottom: 1px solid #fff;
+
+	&:after {
+		display: block;
+		content: '';
+		border-bottom: 1px solid #e5e5e5;
+	}
 }
 
 .ui-dialog-buttonset {

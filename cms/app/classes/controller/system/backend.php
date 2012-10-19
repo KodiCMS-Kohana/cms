@@ -2,41 +2,29 @@
 
 class Controller_System_Backend extends Controller_System_Template
 {
-	protected static $_init = FALSE;
-
 	public $auth_required = array('administrator', 'developer', 'editor');
+	public $page = NULL;
 
 	public function before()
 	{
 		$page = strtolower(substr(get_class($this), 11));
-
-		if(!self::$_init) 
-		{
-			Model_Navigation::add_section('Settings', __('General'),  'setting', array('administrator'), 100);
-			Model_Navigation::add_section('Settings', __('Users'),    'user',    array('administrator'), 102);
-			Model_Navigation::add_section('Design',   __('Layouts'),  'layout',  array('administrator','developer'), 100);
-			Model_Navigation::add_section('Design',   __('Snippets'), 'snippet', array('administrator','developer'), 100);
-			Model_Navigation::add_section('Content',  __('Pages'),    'page',    array('administrator','developer','editor'), 100);
-						
-			self::$_init = TRUE;
-		}
-		
-		$controller = $this->request->controller();
-		$action = $this->request->action();
-		$params = $this->request->param();
+		Model_Navigation::add_section('Settings', __('General'),  'setting', array('administrator'), 100);
+		Model_Navigation::add_section('Settings', __('Users'),    'user',    array('administrator'), 102);
+		Model_Navigation::add_section('Design',   __('Layouts'),  'layout',  array('administrator','developer'), 100);
+		Model_Navigation::add_section('Design',   __('Snippets'), 'snippet', array('administrator','developer'), 100);
+		Model_Navigation::add_section('Content',  __('Pages'),    'page',    array('administrator','developer','editor'), 100);
 
 		parent::before();
+		$navigation = Model_Navigation::get();
+		$this->page = Model_Navigation::$current;
 		
 		if($this->auto_render === TRUE)
 		{
 			$this->template->set_global(array(
-				'page_body_id' => $controller .'_'. $action . ($controller == 'plugin' ? '_'. (empty($params) ? 'index' : $params['id']) : ''),
+				'page_body_id' => $this->get_path(),
 				'page_name' => $page,
-				'controller' => $controller,
-				'action' => $action,
-				'params' => $params,
-				'navigation' => Model_Navigation::get(),
-				'page' => Model_Navigation::$current
+				'navigation' => $navigation,
+				'page' => $this->page
 			));
 			
 			$this->styles = array(
@@ -53,5 +41,18 @@ class Controller_System_Backend extends Controller_System_Template
 				ADMIN_RESOURCES . 'js/backend.js'
 			);
 		}
+	}
+	
+	public function get_path()
+	{
+		$path = $this->request->controller() . '_' . $this->request->action();
+		$dir = $this->request->directory();
+
+		if ( !empty( $dir ) )
+		{
+			$path = $dir . '_' . $path;
+		}
+
+		return $path;
 	}
 }

@@ -78,20 +78,20 @@ class Controller_System_Template extends Controller_System_Security
 
 					$this->template = json_encode( $this->json );
 				}
-
-				$this->response->body( $this->template );
-				return;
 			}
-		
-			$this->template->styles = array_merge( $this->styles, $this->template->styles );
-			$this->template->scripts = array_merge( $this->scripts, $this->template->scripts );
+			else
+			{
+				$this->template->styles = array_merge( $this->styles, $this->template->styles );
+				$this->template->scripts = array_merge( $this->scripts, $this->template->scripts );
 
-			$this->template->messages = View::factory('layouts/blocks/messages', array(
-				'messages' => Messages::get() 
-			));
+				$this->template->messages = View::factory('layouts/blocks/messages', array(
+					'messages' => Messages::get() 
+				));
+
+				$this->template->modal = View::factory('layouts/blocks/modal');
+			}
 			
-			$this->template->modal = View::factory('layouts/blocks/modal');
-
+			Observer::notify( 'template_before_render', $this->template );
 			$this->response->body( $this->template );
 		}
 	}

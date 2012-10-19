@@ -697,6 +697,17 @@ jQuery(document).ready(function () {
 
         } catch (e) {}
     });
+	
+	for(error in MESSAGE_ERRORS) {
+		var msg = '<span class="help-inline">' + MESSAGE_ERRORS[error] + '</span>';
+		var input = $('input[name="' + error + '"]')
+			.after(msg)
+			.parentsUntil( '.control-group' )
+			.parent()
+			.addClass('error');
+			
+		$.jGrowl(MESSAGE_ERRORS[error]);
+	}
 });
 
 

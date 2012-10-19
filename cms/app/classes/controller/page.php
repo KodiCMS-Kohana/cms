@@ -212,7 +212,7 @@ class Controller_Page extends Controller_System_Backend {
 
 	private function _edit( $page_id )
 	{
-		$data = $_POST['page'];
+		$data = $this->request->post('page');
 
 		/**
 		 * Make sure the title doesn't contain HTML
@@ -407,8 +407,9 @@ class Controller_Page extends Controller_System_Backend {
 	public function action_children( )
 	{
 		$this->auto_render = FALSE;
-		$parent_id = Arr::get($_GET, 'parent_id');
-		$level = Arr::get($_GET, 'level');
+
+		$parent_id = $this->request->query('parent_id');
+		$level = $this->request->query('level');
 		
 		return $this->children($parent_id, $level);
 	}
@@ -422,12 +423,11 @@ class Controller_Page extends Controller_System_Backend {
 	public function action_reorder( )
 	{
 		$this->auto_render = FALSE;
-		$parent_id = Arr::get($_POST, 'parent_id', 0);
+		$parent_id = $this->request->post('parent_id');
 
-		if ( !empty( $_POST['pages'] ) )
+		$pages = $this->request->post('pages');
+		if ( $pages )
 		{
-			$pages = $_POST['pages'];
-
 			foreach ( $pages as $position => $page_id )
 			{
 				$page = Record::findByIdFrom( 'Page', $page_id );
@@ -442,7 +442,7 @@ class Controller_Page extends Controller_System_Backend {
 	{
 		$this->auto_render = FALSE;
 
-		$query = trim( $_POST['search'] );
+		$query = trim( $this->request->post('search') );
 
 		$childrens = array( );
 

@@ -5,6 +5,11 @@
 		<title><?php echo $title; ?></title>
 		<base href="<?php echo ADMIN_RESOURCES; ?>" />
 		<link href="<?php echo ADMIN_RESOURCES; ?>favicon.ico" rel="favourites icon" />
+		
+		<script type="text/javascript">
+		<?php echo $messages; ?>
+		</script>
+
 		<?php
 			echo HTML::style(ADMIN_RESOURCES . 'libs/jgrowl/jquery.jgrowl.css' ) . "\n";
 			echo HTML::style(ADMIN_RESOURCES . 'css/common.css') . "\n";
@@ -13,8 +18,6 @@
 			echo HTML::script(ADMIN_RESOURCES . 'libs/bootstrap/js/bootstrap.min.js' ) . "\n";
 			echo HTML::script(ADMIN_RESOURCES . 'libs/jgrowl/jquery.jgrowl_minimized.js' ) . "\n";
 		?>
-		
-		<?php echo $messages; ?>
 	</head>
 	<body id="body_frontend">
 		<div id="content-wrapper">

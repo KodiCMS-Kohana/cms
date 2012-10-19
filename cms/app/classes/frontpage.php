@@ -238,7 +238,9 @@ class FrontPage
         
         // auto offset generated with the page param
         if ($offset == 0 && isset($_GET['page']))
-            $offset = ((int)$_GET['page'] - 1) * $limit;
+		{
+            $offset = ((int) $_GET['page'] - 1) * $limit;
+		}
         
         // Prepare query parts
         $where_string = trim($where) == '' ? '' : "AND ".$where;
