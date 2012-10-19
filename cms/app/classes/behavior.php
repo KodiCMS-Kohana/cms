@@ -10,16 +10,24 @@ class Behavior
     private static $behaviors = array();
     
 	/**
-	 * Add a new behavior to Frog CMS
-	 *
-	 * @param behavior_id string  The Behavior plugin folder name
-	 * @param file      string  The file where the Behavior class is
+	 * Init behaviors
 	 */
-    public static function add($behavior_id, $file)
+    public static function init()
     {
-        self::$behaviors[$behavior_id] = $file;
+		$config = Kohana::$config->load('behaviors');
+		
+		foreach ( $config as $behavior_id => $data )
+		{
+			self::$behaviors[$behavior_id] = $data;
+		}
     }
     
+	
+	public static function get($behavior_id)
+	{
+		return Arr::get(self::$behaviors, $behavior_id);
+	}
+
 	/**
 	 * Remove a behavior to Frog CMS
 	 *
@@ -45,28 +53,34 @@ class Behavior
 	 */
     public static function load($behavior_id, &$page, $params)
     {
-        if ( ! empty(self::$behaviors[$behavior_id]))
-        {
-            $file = PLUGPATH.DIRECTORY_SEPARATOR.self::$behaviors[$behavior_id];
+		$behavior = self::get($behavior_id);
+		if(!$behavior)
+		{
+			return NULL;
+		}
+		
+		if(isset($behavior['file']))
+		{
+			$file = PLUGPATH . DIRECTORY_SEPARATOR . trim($behavior['file'], '/');
+		}
 
-            if (isset(self::$loaded_files[$file]))
-			{
-                return new $behavior_id($page, $params);
-			}
+		if (isset(self::$loaded_files[$file]))
+		{
+			return new $behavior_id($page, $params);
+		}
 
-            if (file_exists($file))
-            {
-                include $file;
-                self::$loaded_files[$file] = TRUE;
-                return new $behavior_id($page, $params);
-            }
-            else
-            {
-				throw new  Kohana_Exception('Behavior :behavior not found!', array(
-					':behavior' => $behavior_id
-				));
-            }
-        }
+		if (file_exists($file))
+		{
+			include $file;
+			self::$loaded_files[$file] = TRUE;
+			return new $behavior_id($page, $params);
+		}
+		else
+		{
+			throw new  Kohana_Exception('Behavior :behavior not found!', array(
+				':behavior' => $behavior_id
+			));
+		}
     }
 	
 	

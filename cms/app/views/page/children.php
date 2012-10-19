@@ -2,6 +2,7 @@
 
 <ul data-level="<?php echo $level; ?>" class="unstyled">
 	<?php foreach($childrens as $child): ?>
+	<?php if($child instanceof Page): ?>
 	<li data-id="<?php echo $child->id; ?>" <?php if($child->is_expanded) echo('class="item-expanded"'); ?>>
 		<div class="item">
 			<div class="row-fluid">
@@ -70,6 +71,17 @@
 		</div>
 		
 		<?php if( $child->is_expanded ) echo($child->children_rows); ?>
+	<?php else: ?>
+	<li>
+		<div class="item">
+			<div class="row-fluid">
+				<div class="title span12">
+					<?php echo $child; ?>
+				</div>
+			</div>
+		</div>
+	
+	<?php endif; ?>
 	</li>
 	<?php endforeach; ?>
 </ul>

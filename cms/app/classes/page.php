@@ -294,16 +294,32 @@ class Page extends Record
 	
 	public static function findAllLike($query)
 	{
-		$childrens = Record::findAllFrom(__CLASS__, 'LOWER(title) LIKE LOWER("%:query%") OR slug LIKE "%:query%" OR breadcrumb LIKE "%:query%" OR keywords LIKE "%:query%" OR description LIKE "%:query%" OR published_on LIKE "%:query%" OR created_on LIKE "%:query%"', array(
+		$childrens = Record::findAllFrom(__CLASS__, 'LOWER(title) LIKE LOWER("%:query%") 
+			OR slug LIKE "%:query%" 
+			OR breadcrumb LIKE "%:query%" 
+			OR keywords LIKE "%:query%" 
+			OR description LIKE "%:query%" 
+			OR published_on LIKE "%:query%" 
+			OR created_on LIKE "%:query%"', 
+		array(
 			':query' => DB::expr($query)
 		));
 		
 		return $childrens;
 	}
     
-    public static function childrenOf($id)
+    public static function childrenOf($id, $clause = NULL)
     {
-        return self::find(array('where' => 'parent_id = '.$id, 'order' => 'position DESC, page.created_on DESC'));
+		$default_clause = array(
+			'where' => 'parent_id = '.$id, 
+			'order' => 'position DESC, page.created_on DESC');
+		
+		if( is_array( $clause ))
+		{
+			$default_clause = Arr::merge($default_clause, $clause);
+		}
+
+        return self::find($default_clause);
     }
     
     public static function hasChildren($id)

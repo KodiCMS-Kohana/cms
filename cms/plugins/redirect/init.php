@@ -11,11 +11,7 @@ $plugin = Model_Plugin_Item::factory( array(
 
 if( $plugin->enabled() )
 {
-	if(IS_BACKEND)
-	{
-		
-	}
-	else
+	if(!IS_BACKEND)
 	{
 		Observer::observe('frontpage_requested', 'redirect_to_domain');
 		

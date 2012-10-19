@@ -8,11 +8,7 @@ $plugin = Model_Plugin_Item::factory( array(
 
 if($plugin->enabled())
 {	
-	if(IS_BACKEND)
-	{
-		Behavior::add('page_not_found', '');
-	}
-	else
+	if(!IS_BACKEND)
 	{
 		// Observe
 		Observer::observe('page_not_found', 'behavior_page_not_found');

@@ -376,8 +376,18 @@ class Controller_Page extends Controller_System_Backend {
 	{
 		$expanded_rows = isset( $_COOKIE['expanded_rows'] ) ? explode( ',', $_COOKIE['expanded_rows'] ) : array( );
 
+		$page = Page::findById($parent_id);
+		$config = Behavior::get( $page->behavior_id );
+		
+		$clause = array();
+		
+		if(!empty($config['limit']))
+		{
+			$clause['limit'] = (int) $config['limit'];
+		}
+			
 		// get all children of the page (parent_id)
-		$childrens = Page::childrenOf( $parent_id );
+		$childrens = Page::childrenOf( $parent_id, $clause );
 
 		foreach ( $childrens as $index => $child )
 		{
@@ -389,6 +399,15 @@ class Controller_Page extends Controller_System_Backend {
 			{
 				$childrens[$index]->children_rows = $this->children( $child->id, $level + 1, true );
 			}
+		}
+		
+		if(!empty($config['limit']) AND !empty($config['link']))
+		{
+			$link = strtr($config['link'], array(':id' => $parent_id));
+			$childrens[] = '...';
+			$childrens[] = __('Other pages in the :link ', array(
+				':num' => $config['limit'], ':link' => HTML::anchor( $link, $page->behavior_id)
+			));
 		}
 
 		$content = new View( 'page/children', array(

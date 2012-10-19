@@ -9,8 +9,6 @@ if($plugin->enabled())
 {	
 	if(IS_BACKEND)
 	{
-		Behavior::add('maintenance_mode', '');
-		
 		Observer::observe('view_setting_plugins', 'behavior_maintenance_mode_settings_page', $plugin);
 		Observer::observe('save_settings', 'behavior_maintenance_mode_settings_save', $plugin);
 	}
