@@ -40,11 +40,11 @@
 				<td><?php echo $data['size']; ?></td>
 				<td>
 					<?php echo UI::button(NULL, array(
-						'class' => 'btn btn-mini', 'href' => 'backup/restore/'.$filename, 
+						'class' => 'btn btn-mini btn-confirm', 'href' => 'backup/restore/'.$filename, 
 						'icon' => UI::icon( 'off' )
 					));?> 
 					<?php echo UI::button(NULL, array(
-						'class' => 'btn btn-mini btn-danger', 'href' => 'backup/delete/'.$filename, 
+						'class' => 'btn btn-mini btn-danger btn-confirm', 'href' => 'backup/delete/'.$filename, 
 						'icon' => UI::icon( 'trash icon-white' )
 					));
 					?>
