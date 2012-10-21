@@ -15,12 +15,12 @@ class Controller_System_Plugin extends Controller_Plugins {
 			$this->plugin_id = strtolower($this->request->controller());
 		}
 
-		if ( !Model_Plugin::is_enabled( $this->plugin_id ) )
+		if ( !Plugins::is_enabled( $this->plugin_id ) )
 		{
 			throw new Kohana_Exception( 'Plugin not activated' );
 		}
 		
-		$this->plugin = Model_Plugin::get_registered( $this->plugin_id );
+		$this->plugin = Plugins::get_registered( $this->plugin_id );
 		
 		$this->breadcrumbs
 			->add(__('Pligins'), 'plugins')
@@ -52,7 +52,7 @@ class Controller_System_Plugin extends Controller_Plugins {
 	protected function _settings_save( $plugin )
 	{
 		$data = Arr::get( $_POST,  'setting' );
-		Model_Plugin::set_all_settings( $data, $plugin->id );
+		Plugins_Settings::set_all_settings( $data, $plugin->id );
 		
 		// save and quit or save and continue editing?
 		if ( isset( $_POST['commit'] ) )
