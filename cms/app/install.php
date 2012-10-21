@@ -22,6 +22,7 @@ Kohana::modules( array(
 	'auth'			=> MODPATH . 'auth', // Basic authentication
 	'orm'			=> MODPATH . 'orm', // Object Relationship Mapping,
 	'bootstrap'		=> MODPATH . 'bootstrap',
+	'breadcrumbs'	=> MODPATH . 'breadcrumbs',
 ) );
 
 Route::set( 'install', 'install(/<action>(/<id>))' )

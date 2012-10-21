@@ -17,6 +17,7 @@
 			echo HTML::script(ADMIN_RESOURCES . 'libs/jquery-1.8.0.min.js' ) . "\n";
 			echo HTML::script(ADMIN_RESOURCES . 'libs/bootstrap/js/bootstrap.min.js' ) . "\n";
 			echo HTML::script(ADMIN_RESOURCES . 'libs/jgrowl/jquery.jgrowl_minimized.js' ) . "\n";
+			echo HTML::script(ADMIN_RESOURCES . 'js/backend.js' ) . "\n";
 		?>
 	</head>
 	<body id="body_frontend">

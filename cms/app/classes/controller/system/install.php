@@ -3,6 +3,8 @@
 class Controller_System_Install extends Controller_System_Template {
 
 	public $template = 'layouts/frontend';
+	
+	public $route = 'install';
 
 	public function action_index()
 	{
@@ -30,21 +32,28 @@ class Controller_System_Install extends Controller_System_Template {
 		Session::instance()
 			->set( 'install_data', $post );
 
-		$validation = Validation::factory( $post )
-			->rule( 'db_server', 'not_empty' )
-			->rule( 'db_user', 'not_empty' )
-			->rule( 'db_name', 'not_empty' )
-			->rule( 'admin_dir_name', 'not_empty' )
-			->rule( 'username', 'not_empty' )
-			->rule( 'email', 'not_empty' )
-			->rule( 'email', 'email' );
-
-		if ( !$validation->check() )
+		try
 		{
-			Messages::errors($validation->errors('validation'));
+			$validation = $this->_valid($post);
+			$db = $this->_connect_to_db($post, $validation);
+		}
+		catch (Validation_Exception $e)
+		{
+			Messages::errors($e->getMessage());
+			Messages::errors($e->errors('validation'));
 			$this->go_back();
 		}
 
+		
+		$this->_import_shema($post, $db);
+		$this->_import_dump($post, $db);
+		$this->_create_config($post);
+		
+		$this->go(Arr::get($post, 'admin_dir_name', '') . '/login');
+	}
+	
+	protected function _connect_to_db(array $post, $validation)
+	{
 		$db = Database::instance( 'install', array(
 			'type' => $post['db_driver'],
 			'connection' => array(
@@ -66,15 +75,46 @@ class Controller_System_Install extends Controller_System_Template {
 		} 
 		catch (Database_Exception $exc)
 		{
-			Messages::errors($exc->getMessage());
-			$this->go_back();
+			switch ($exc->getCode())
+			{
+				case 1049:
+					$validation->error( 'db_name' , 'incorrect' );
+					break;
+				case 2:
+					$validation
+						->error( 'db_server' , 'incorrect' )
+						->error( 'db_user' , 'incorrect' )
+						->error( 'db_password' , 'incorrect' );
+					break;
+			}
+			throw new Validation_Exception($validation, $exc->getMessage(), NULL, $exc->getCode());
+		}
+	}
+
+	protected function _valid(array $data)
+	{
+		$validation = Validation::factory( $data )
+			->rule( 'db_server', 'not_empty' )
+			->rule( 'db_user', 'not_empty' )
+			->rule( 'db_name', 'not_empty' )
+			->rule( 'admin_dir_name', 'not_empty' )
+			->rule( 'username', 'not_empty' )
+			->rule( 'email', 'not_empty' )
+			->rule( 'email', 'email' )
+			->label('db_server', __('Database server'))
+			->label('db_user', __( 'Database user' ))
+			->label('db_password', __( 'Database password' ))
+			->label('db_name', __( 'Database name' ))
+			->label('admin_dir_name', __( 'Admin dir name' ))
+			->label('username', __( 'Administrator username' ))
+			->label('email', __( 'Administrator email' ));
+
+		if ( !$validation->check() )
+		{
+			throw new Validation_Exception($validation);
 		}
 		
-		$this->_import_shema($post, $db);
-		$this->_import_dump($post, $db);
-		$this->_create_config($post);
-		
-		$this->go(Arr::get($post, 'admin_dir_name', '') . '/login');
+		return $validation;
 	}
 
 	protected function _import_shema($post, $db)
