@@ -2,7 +2,7 @@
 
 Kohana::load(PLUGPATH.'/less/vendors/lessc.inc.php');
 
-$plugin = Model_Plugin_Item::factory( array(
+$plugin = Plugins_Item::factory( array(
 	'id' => 'less',
 	'title' => 'LESS Compiler',
 	'description' => 'LESS extends CSS with dynamic behavior such as variables, mixins, operations and functions.',

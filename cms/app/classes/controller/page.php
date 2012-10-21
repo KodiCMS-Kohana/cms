@@ -400,8 +400,9 @@ class Controller_Page extends Controller_System_Backend {
 		{
 			$link = strtr($config['link'], array(':id' => $parent_id));
 			$childrens[] = '...';
-			$childrens[] = __('Other pages in the :link', array(
-				':num' => $config['limit'], ':link' => HTML::anchor( $link, __(ucfirst($page->behavior_id)))
+			$childrens[] = __(':icon :link', array(
+				':icon' => UI::icon('folder-open'),
+				':link' => HTML::anchor( $link, __(ucfirst($page->behavior_id)))
 			));
 		}
 

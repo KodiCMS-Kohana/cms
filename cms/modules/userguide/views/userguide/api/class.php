@@ -32,7 +32,7 @@ Class is not declared in a file, it is probably an internal <?php echo html::anc
 		<ul>
 		<?php if ($doc->constants): ?>
 		<?php foreach ($doc->constants as $name => $value): ?>
-			<li><a href="#constant:<?php echo $name ?>"><?php echo $name ?></a></li>
+			<li><?php echo HTML::anchor(Request::current()->uri() . '#constant:' . $name, $name); ?></li>
 		<?php endforeach ?>
 		<?php else: ?>
 			<li><em><?php echo __('None'); ?></em></li>
@@ -44,7 +44,7 @@ Class is not declared in a file, it is probably an internal <?php echo html::anc
 		<ul>
 		<?php if ($properties = $doc->properties()): ?>
 		<?php foreach ($properties as $prop): ?>
-			<li><a href="#property:<?php echo $prop->property->name ?>">$<?php echo $prop->property->name ?></a></li>
+			<li><?php echo HTML::anchor(Request::current()->uri() . '#property:' . $prop->property->name, $prop->property->name); ?></li>
 		<?php endforeach ?>
 		<?php else: ?>
 			<li><em><?php echo __('None'); ?></em></li>
@@ -56,7 +56,7 @@ Class is not declared in a file, it is probably an internal <?php echo html::anc
 		<ul>
 		<?php if ($methods = $doc->methods()): ?>
 		<?php foreach ($methods as $method): ?>
-			<li><a href="#<?php echo $method->method->name ?>"><?php echo $method->method->name ?>()</a></li>
+			<li><?php echo HTML::anchor(Request::current()->uri() . '#' . $method->method->name, $method->method->name. '()'); ?></li>
 		<?php endforeach ?>
 		<?php else: ?>
 			<li><em><?php echo __('None'); ?></em></li>

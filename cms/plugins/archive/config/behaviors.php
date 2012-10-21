@@ -11,7 +11,7 @@ return array(
 	'archive_day_index' => array(
 		'file' => 'archive/archive.php',
 		'link' => 'archive/:id',
-		'limit' => 3
+		'limit' => 5
 	),
 	
 	'archive_month_index' => array(

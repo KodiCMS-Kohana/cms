@@ -1,6 +1,6 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct script access.' );
 
-class Model_Plugin_Reformal extends Model_Plugin_Item {
+class Plugins_Reformal extends Plugins_Item {
 
 	public function footer_view()
 	{

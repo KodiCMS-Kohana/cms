@@ -56,7 +56,7 @@ class Controller_Userguide extends Controller_System_Backend {
 	// List all modules that have userguides
 	public function index()
 	{
-		$this->template->title = __("User guide");
+		$this->template->title = __('User guide');
 		$this->template->content = View::factory('userguide/index', array('modules' => $this->_modules()));
 		$this->template->menu = View::factory('userguide/menu', array('modules' => $this->_modules()));
 	
@@ -186,9 +186,9 @@ class Controller_Userguide extends Controller_System_Backend {
 			$this->template->content = View::factory('userguide/api/class')
 				->set('doc', Kodoc::factory($class))
 				->set('route', $this->request->route());
-			
-			$this->breadcrumbs->add($class);
 		}
+		
+		$this->breadcrumbs->add($this->template->title);
 
 		// Attach the menu to the template
 		$this->template->menu = Kodoc::menu();

@@ -1,6 +1,6 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct script access.' );
 
-$plugin = Model_Plugin_Item::factory( array(
+$plugin = Plugins_Item::factory( array(
 	'id' => 'disqus',
 	'title' => 'Disqus',
 	'description' => 'Disqus is a global comment system that improves discussion on websites and connects conversations across the web.',

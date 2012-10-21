@@ -107,7 +107,6 @@ return array(
 	'Page part options' => 'Опции части страницы',
 	'Page title' => 'Заголовок',
 	'Pages' => 'Страницы',
-	'Other pages in the :link' => 'Остальные страницы можно посмотреть в :link',
 	'Password' => 'Пароль',
 	'Password and Confirm are not the same or too small!' => 'Пароль и его подтверждение не сопадают или слишком малы!',
 	'Password:' => 'Пароль:',

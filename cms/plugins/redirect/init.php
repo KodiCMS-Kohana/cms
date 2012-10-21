@@ -1,6 +1,6 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct script access.' );
 
-$plugin = Model_Plugin_Item::factory( array(
+$plugin = Plugins_Item::factory( array(
 	'id' => 'redirect',
 	'title' => 'Redirect 301',
 	'author' => 'ButscH',

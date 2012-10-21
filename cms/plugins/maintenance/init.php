@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
-$plugin = Model_Plugin_Item::factory( array(
+$plugin = Plugins_Item::factory( array(
 	'id' => 'maintenance',
 	'title' => 'Maintenance mode'
 ) )->register();
@@ -29,7 +29,7 @@ function behavior_maintenance_mode_settings_save( $post, $plugin )
 		$post['plugin']['enable_maintenance_mode'] = 'no';
 	}
 	
-	Model_Plugin::set_setting('enable_maintenance_mode', $post['plugin']['enable_maintenance_mode'], $plugin->id);
+	Plugins::set_setting('enable_maintenance_mode', $post['plugin']['enable_maintenance_mode'], $plugin->id);
 }
 
 function behavior_maintenance_mode_settings_page( $plugin )

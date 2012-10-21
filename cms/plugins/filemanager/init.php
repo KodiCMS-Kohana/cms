@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
-$plugin = Model_Plugin_Item::factory( array(
+$plugin = Plugins_Item::factory( array(
 	'id' => 'filemanager',
 	'title' => 'File manager',
 	'description' => 'Provides interface to manage files from the administration.',
