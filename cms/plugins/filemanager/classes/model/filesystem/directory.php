@@ -6,6 +6,11 @@
 
 class Model_FileSystem_Directory extends DirectoryIterator {
 	
+	/**
+	 * 
+	 * @param string $name
+	 * @return boolean
+	 */
 	public function createFolder($name)
 	{
 		$folder_path = $this->getPath() . DIRECTORY_SEPARATOR . $name;
@@ -19,6 +24,10 @@ class Model_FileSystem_Directory extends DirectoryIterator {
 		}
 	}
 
+	/**
+	 * 
+	 * @return boolean
+	 */
 	public function delete()
 	{
 		$dirHandle = opendir($this->getRealPath());
@@ -44,6 +53,10 @@ class Model_FileSystem_Directory extends DirectoryIterator {
 		return FALSE;
 	}
 	
+	/**
+	 * 
+	 * @return Model_FileSystem
+	 */
 	public function getParent()
 	{
 		$path = $this->getRealPath();

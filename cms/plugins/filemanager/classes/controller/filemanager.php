@@ -182,27 +182,25 @@ class Controller_FileManager extends Controller_System_Plugin {
 	{
 		$paths = array();
 		$path_array = $filesystem->getPathArray();
+		
+		if(!empty($path_array))
+		{
+			$this->breadcrumbs->change($this->plugin->title, 'filemanager');
+		}
 
 		$i = 1;
 		foreach ($path_array as $link => $name)
 		{
 			if($i < count($path_array))
 			{
-				$paths[] = HTML::anchor( 'filemanager/'.$link, $name);
+				$this->breadcrumbs->add($name, 'filemanager/'.$link);
 			}
 			else
 			{
-				$paths[] = $name;
+				$this->breadcrumbs->add($name);
 			}
 
 			$i++;
-		}
-		
-		if(!empty($path))
-		{
-			$this->template->breadcrumbs = Arr::merge(array(
-				HTML::anchor( 'filemanager', __('Filem anager')),
-			), $paths);
 		}
 	}
 }

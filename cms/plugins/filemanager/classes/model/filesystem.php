@@ -6,8 +6,18 @@
 
 class Model_FileSystem {
 	
+	/**
+	 *
+	 * @var string
+	 */
 	protected $_file;
 
+	/**
+	 * 
+	 * @param string|SplFileInfo $file
+	 * @return \Model_FileSystem
+	 * @throws Kohana_Exception
+	 */
 	public static function factory( $file )
 	{
 		if(!($file instanceof SplFileInfo))
@@ -34,16 +44,24 @@ class Model_FileSystem {
 		return new Model_FileSystem($file);
 	}
 
+	/**
+	 * 
+	 * @param SplFileInfo $file
+	 */
 	public function __construct( SplFileInfo $file )
 	{
 		$this->_file = $file;
 	}
 	
+	/**
+	 * 
+	 * @return SplFileInfo|DirectoryIterator
+	 */
 	public function get_object()
 	{
 		return $this->_file;		
 	}
-	
+
 	public function __get( $name )
 	{
 		if(isset($this->_file->{$name}))
@@ -60,6 +78,10 @@ class Model_FileSystem {
 		}
 	}
 
+	/**
+	 * 
+	 * @return string
+	 */
 	public function getPerms()
 	{
 		$perms = $this->_file->getPerms();
@@ -128,12 +150,29 @@ class Model_FileSystem {
 
 		return substr( sprintf( '%o', $perms ), -4, 4 ); // (perm, chmod)
 	}
+
+	/**
+	 * 
+	 * @return string
+	 */
+	public function getUrl()
+	{
+		return PUBLIC_URL . $this->getRelativePath();
+	}
 	
+	/**
+	 * 
+	 * @return string
+	 */
 	public function getRelativePath()
 	{
 		return trim(str_replace(rtrim(PUBLICPATH, DIRECTORY_SEPARATOR), '', $this->getRealPath()), DIRECTORY_SEPARATOR);
 	}
 
+	/**
+	 * 
+	 * @return array
+	 */
 	public function getPathArray()
 	{
 		$dirs_array = explode(DIRECTORY_SEPARATOR, $this->getRelativePath());
@@ -161,6 +200,11 @@ class Model_FileSystem {
 		return $paths_array;
 	}
 	
+	/**
+	 * 
+	 * @param string $name
+	 * @return boolean
+	 */
 	public function rename($name)
 	{
 		if (rename($this->getRealPath(), $this->getPath() . DIRECTORY_SEPARATOR . $name))
@@ -171,11 +215,20 @@ class Model_FileSystem {
 		return FALSE;
 	}
 	
+	/**
+	 * 
+	 * @param integer $chmod
+	 * @return boolean
+	 */
 	public function setPerms($chmod)
 	{
 		return chmod($this->getRealPath(), octdec((int) $chmod));
 	}
 
+	/**
+	 * 
+	 * @return array
+	 */
 	public function iteratePaths()
     {
 		$array = array();
