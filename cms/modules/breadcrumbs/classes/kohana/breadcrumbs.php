@@ -35,20 +35,67 @@ abstract class Kohana_Breadcrumbs implements Countable, Iterator, SeekableIterat
 	public function add($name, $url = FALSE, $position = NULL)
 	{
 		$item = new Breadcrumbs_Item($this->options['urls'], $name, $url);
-		if(empty($position) || ! $this->offsetExists($position))
-		{
-			$position = $this->_total_items;
-		}
-		else
-		{
-			array_splice($this->_items, $position, 0, $item);
-		}
+		
+		$position = $this->_set_positon($position);
+		
 		$this->_total_items++;
 		$this->_items[$position] = $item;
 		
 		return $this;
 	}
 	
+	public function change($name, $url = FALSE, $new_position = NULL)
+	{
+		$position = $this->find_by( 'name', $name );
+		if($position === NULL)
+		{
+			return FALSE;
+		}
+		
+		$item = $this->_items[$position];
+		
+		$item->url = $url;
+		
+		if($new_position !== NULL)
+		{
+			$new_position = $this->_set_positon($new_position);
+			$this->_items[$new_position] = $item;
+	
+			unlink($this->_items[$position]);
+		}
+	}
+	
+	protected function _set_positon($position = NULL)
+	{
+		$position = (int) $position;
+		if(empty($position) || ! $this->offsetExists($position))
+		{
+			$position = $this->_total_items;
+		}
+		else
+		{
+			while(isset($this->_items[$position]))
+			{
+				$position++;
+			}
+		}
+		
+		return $position;
+	}
+
+	public function find_by($key, $value)
+	{
+		foreach ($this->_items as $pos => $item)
+		{
+			if($item->$key == $value)
+			{
+				return $pos;
+			}
+		}
+		
+		return NULL;
+	}
+
 	/**
 	 * Implements [Countable::count], returns the total number of rows.
 	 *
