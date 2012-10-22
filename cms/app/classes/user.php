@@ -7,8 +7,18 @@
 class User extends Record
 {
     const TABLE_NAME = 'users';
+	
+	public function defaults()
+	{
+		return array(
+			'id' => NULL,
+			'language' => I18n::lang(),
+			'roles' => array(),
+			'username' => NULL
+		);
+	}
 
-    public function getPermissions()
+	public function getPermissions()
     {
         if ( !isset($this->id))
         {
@@ -30,8 +40,8 @@ class User extends Record
     {
         return Record::findOneFrom('User', $column.' = :id', array(':id' => $value));
     }
-    
-    public function beforeInsert()
+
+	public function beforeInsert()
     {
         $this->created_by_id = AuthUser::getId();
         $this->created_on = date('Y-m-d H:i:s');

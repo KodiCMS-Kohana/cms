@@ -11,21 +11,34 @@ class UserPermission extends Record
     public $user_id = false;
     public $permission_id = false;
     
-    public static function setPermissionsFor($user_id, $perms)
-    {        
+    public static function setPermissionsFor($user_id, $permissions)
+    {
+		if( ! is_array( $permissions ))
+		{
+			$permissions = array($permissions);
+		}
+		
+		if(empty($permissions))
+		{
+			return NULL;
+		}
+
         // remove all perms of this user
 		DB::delete(self::tableName())
 			->where('user_id', '=', (int) $user_id)
 			->execute();
+		
+		$insert = DB::insert(self::tableName())
+				->columns(array('user_id', 'role_id'));
         
         // add the new perms
-        foreach ($perms as $perm_name => $perm_id)
+        foreach ($permissions as $name => $id)
         {
-			DB::insert(self::tableName())
-				->columns(array('user_id', 'role_id'))
-				->values(array((int) $user_id, (int) $perm_id))
-				->execute();
+			$insert
+				->values(array((int) $user_id, (int) $id));
         }
+		
+		return $insert->execute();
     }
 
 } // end UserPermission class

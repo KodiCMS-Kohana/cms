@@ -1,12 +1,11 @@
 <?php if (!defined('SYSPATH')) die;
 
 return array(
-	'<b>Information!</b> New Frog version available (v. <b>:version</b>)! Visit <a href="http://www.madebyfrog.com/">http://www.madebyfrog.com/</a> to upgrade your version!' => '',
-	'A translatable string with a %param% system.' => '',
-	'A translatable string.' => '',
 	'Action disabled!' => 'Действие отключено!',
 	'Actions' => 'Действия',
 	'Activate plugin' => 'Активировать плагин',
+	
+	
 	'Add page part' => 'Добавить часть страницы',
 	'Add layout' => 'Добавить шаблон',
 	'Add page' => 'Добавить страницу',
@@ -14,15 +13,15 @@ return array(
 	'Add user' => 'Добавить пользователя',
 	'Add plugin' => 'Добавить плагин',
 	'Add child page' => 'Добавить страницу-потомка',
+	
 	'Site title' => 'Заголовок сайта',
 	'Administration login page' => 'Страница входа панели управления',
 	'To login page' => 'На страницу входа',
 	'Administrator username' => 'Имя администратора',
 	'An email has been send with your new password!' => 'На вашу эл. почту отпавлено письмо с новым паролем!',
-	'At least 3 characters. Must be unique.' => 'Не менее 3 символов. Должен быть уникальным.',
+	'At least :num characters. Must be unique.' => 'Не менее :num символов. Должен быть уникальным.',
+	
 	'Author' => 'Автор',
-	'Avatar from www.gravatar.com' => 'Аватар сгенерирован сайтом www.gravatar.com',
-	'Backend theme' => 'Тема панели управления',
 	'Breadcrumb' => 'Хлебные крошки',
 	'Content' => 'Контент',
 	'Can\'t connect to Database! :message' => 'Не могу подключиться к БД! :message',
@@ -62,7 +61,6 @@ return array(
 	'Hidden' => 'Скрыта',
 	//'If some requirements not aviable&hellip;' => '',
 	'Is protected' => 'Защищена',
-	'Individual language for administration interface. Create your own <a href=":url">translation</a>.' => 'Индивидуальный перевод для панели управления. Создайте свой собственный <a href=":url">перевод</a>.',
 	'Information' => 'Информация',
 	'Install now!' => 'Установить!',
 	'Installation' => 'Установка системы',
@@ -92,7 +90,7 @@ return array(
 	'No user found!' => 'Пользователь не найден!',
 	'Not required' => 'Не обязательно',
 	'Only for filter in pages, <i>not</i> in snippets.' => 'Только для фильтров при редактировании страницы. <i>Не</i> для сниппетов.',
-	'Optional. Please use a valid e-mail address.' => 'Не обязательно. Используйте правильный адрес эл. почты',
+	'Use a valid e-mail address.' => 'Используйте правильный адрес эл. почты',
 	'Other information' => 'Другая информация',
 	'Published date' => 'Дата публикации',
 	'Page' => 'Страница',
@@ -108,7 +106,6 @@ return array(
 	'Page title' => 'Заголовок',
 	'Pages' => 'Страницы',
 	'Password' => 'Пароль',
-	'Password and Confirm are not the same or too small!' => 'Пароль и его подтверждение не сопадают или слишком малы!',
 	'Password:' => 'Пароль:',
 	'Pending' => 'Ожидает',
 	'Plugin' => 'Плагин',
