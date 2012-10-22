@@ -78,6 +78,7 @@ class Plugins {
 	protected static function _save()
 	{		
 		Kohana::cache('Database::cache(plugins_list)', NULL, -1);
+		Kohana::cache('Route::cache()', NULL, -1);
 
 		return DB::update( Setting::$table_name)
 			->set(array('value' => serialize( self::$_plugins )))
