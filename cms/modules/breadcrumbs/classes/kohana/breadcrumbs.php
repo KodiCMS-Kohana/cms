@@ -63,6 +63,8 @@ abstract class Kohana_Breadcrumbs implements Countable, Iterator, SeekableIterat
 	
 			unlink($this->_items[$position]);
 		}
+		
+		return $this;
 	}
 	
 	protected function _set_positon($position = NULL)
