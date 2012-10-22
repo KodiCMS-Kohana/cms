@@ -700,7 +700,7 @@ jQuery(document).ready(function () {
 	
 	for(error in MESSAGE_ERRORS) {
 		var msg = '<span class="help-inline">' + MESSAGE_ERRORS[error] + '</span>';
-		var input = $('input[name="' + error + '"]')
+		var input = $('input[name*="' + error + '"]')
 			.after(msg)
 			.parentsUntil( '.control-group' )
 			.parent()
