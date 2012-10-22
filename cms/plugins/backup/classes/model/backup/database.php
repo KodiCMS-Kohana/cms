@@ -27,7 +27,7 @@ class Model_Backup_Database extends Model_Backup {
      */ 
     public function create()
 	{
-		DB::query(Database::INSERT, "SET CHARACTER SET cp1251")
+		DB::query(NULL, "SET CHARACTER SET cp1251")
 			->execute();
 
         return $this
@@ -35,6 +35,12 @@ class Model_Backup_Database extends Model_Backup {
 			->generate(); 
     }
 	
+	/**
+	 * 
+	 * @param string $file
+	 * @return string
+	 * @throws Exception
+	 */
 	public function view($file = NULL)
 	{
 		if($file === NULL)
@@ -50,11 +56,15 @@ class Model_Backup_Database extends Model_Backup {
 		return file_get_contents($file);
 	}
 	
+	/**
+	 * 
+	 * @return \Model_Backup_Database
+	 */
 	public function drop_tables()
 	{
 		foreach ($this->tables as $tbl) 
 		{
-			DB::query(Database::DELETE, 'DROP TABLE `:table_name`')
+			DB::query(NULL, 'DROP TABLE `:table_name`')
 				->param( ':table_name', DB::expr($tbl['name']) )
 				->execute();
 		}
@@ -62,6 +72,12 @@ class Model_Backup_Database extends Model_Backup {
 		return $this;
 	}
 
+	/**
+	 * 
+	 * @param string $file
+	 * @return boolean
+	 * @throws Exception
+	 */
 	public function restore($file = NULL)
 	{
 		if($file === NULL)
@@ -80,7 +96,7 @@ class Model_Backup_Database extends Model_Backup {
 		
 		$this->get_tables();
 
-		DB::query(Database::INSERT, 'SET FOREIGN_KEY_CHECKS = 0')
+		DB::query(NULL, 'SET FOREIGN_KEY_CHECKS = 0')
 			->execute();
 
 		$this->drop_tables();
@@ -129,6 +145,10 @@ class Model_Backup_Database extends Model_Backup {
 		}
 	}
 
+	/**
+	 * 
+	 * @param string $file
+	 */
 	public function save($file = NULL)
 	{
 		if($file === NULL)
@@ -145,6 +165,7 @@ class Model_Backup_Database extends Model_Backup {
 	 * 
 	 * Generate backup string 
 	 * @uses Private use 
+	 * @return Model_Backup_Database
 	 */
 	private function generate() 
 	{
@@ -181,6 +202,7 @@ class Model_Backup_Database extends Model_Backup {
 	 * 
 	 * Get the list of tables 
 	 * @uses Private use 
+	 * @return Model_Backup_Database
 	 */
 	private function get_tables() 
 	{
@@ -207,6 +229,7 @@ class Model_Backup_Database extends Model_Backup {
 	 * 
 	 * Get the list of Columns 
 	 * @uses Private use 
+	 * @return string
 	 */
 	private function get_columns($tableName) 
 	{
@@ -228,6 +251,7 @@ class Model_Backup_Database extends Model_Backup {
 	 * 
 	 * Get the insert data of tables 
 	 * @uses Private use 
+	 * @return string
 	 */
 	private function get_data($tableName) 
 	{
@@ -255,7 +279,7 @@ class Model_Backup_Database extends Model_Backup {
 	*
 	* Select CONSTRAINT_NAME from Information Schema
 	*
-	* @return void
+	* @return array
 	*/
 	private function get_foreign_keys() 
 	{

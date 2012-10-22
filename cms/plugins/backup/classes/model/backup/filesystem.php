@@ -3,9 +3,13 @@
 /**
  * @package    Plugins/Backup
  */
-
 class Model_Backup_FileSystem extends Model_Backup {
 	
+	/**
+	 * 
+	 * @return boolean
+	 * @throws Kohana_Exception
+	 */
 	public function create()
 	{
 		if (!extension_loaded('zip') === true)
@@ -54,6 +58,12 @@ class Model_Backup_FileSystem extends Model_Backup {
 		return FALSE;
     }
 	
+	/**
+	 * 
+	 * @param string $file
+	 * @return string
+	 * @throws Exception
+	 */
 	public function view($file = NULL)
 	{
 		if($file === NULL)
@@ -81,6 +91,12 @@ class Model_Backup_FileSystem extends Model_Backup {
 		return $files;
 	}
 	
+	/**
+	 * 
+	 * @param string $file
+	 * @return boolean
+	 * @throws Exception
+	 */
 	public function restore($file = NULL)
 	{
 		if($file === NULL)

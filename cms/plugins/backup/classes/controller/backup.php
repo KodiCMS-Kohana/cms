@@ -37,6 +37,11 @@ class Controller_Backup extends Controller_System_Plugin {
 		$backup = Model_Backup::factory(BACKUP_PLUGIN_FOLDER . $file)
 			->view();
 		
+		$this->breadcrumbs
+			->change($this->plugin->title, 'backup')
+			->add($file);
+		
+		
 		$this->template->content = View::factory('backup/view', array(
 			'file' => $backup,
 			'filename' => $file

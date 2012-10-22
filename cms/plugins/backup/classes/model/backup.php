@@ -6,13 +6,27 @@
 
 abstract class Model_Backup {
 
+	/**
+	 *
+	 * @var string
+	 */
 	public $file = NULL;
 
+	/**
+	 * 
+	 * @param string $file
+	 */
 	protected function __construct($file = NULL) 
 	{
 		$this->file = $file;
 	}
 	
+	/**
+	 * 
+	 * @param string $file
+	 * @return Model_Backup
+	 * @throws Kohana_Exception
+	 */
 	public static function factory($file = NULL)
 	{
 		$ext = pathinfo($file, PATHINFO_EXTENSION);
@@ -35,8 +49,6 @@ abstract class Model_Backup {
 	}
 	
 	abstract public function create();
-
 	abstract public function view();
-
 	abstract public function restore();
 }
