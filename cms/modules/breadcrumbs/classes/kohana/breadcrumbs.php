@@ -2,12 +2,28 @@
 
 abstract class Kohana_Breadcrumbs implements Countable, Iterator, SeekableIterator, ArrayAccess {
 	
+	/**
+	 *
+	 * @var array 
+	 */
 	protected $options = array();
 	
+	/**
+	 *
+	 * @var integer
+	 */
 	protected $_current_key = 0;
 	
+	/**
+	 *
+	 * @var integer
+	 */
 	protected $_total_items = 0;
 	
+	/**
+	 *
+	 * @var array
+	 */
 	protected $_items = array();
 	
 	/**
@@ -20,6 +36,10 @@ abstract class Kohana_Breadcrumbs implements Countable, Iterator, SeekableIterat
 		return new Breadcrumbs($options);
 	}
 	
+	/**
+	 * 
+	 * @param array $options
+	 */
 	public function __construct($options = array())
 	{
 		$this->options = Arr::merge(Kohana::$config->load('breadcrumbs')->get('default'), $options);
@@ -43,7 +63,14 @@ abstract class Kohana_Breadcrumbs implements Countable, Iterator, SeekableIterat
 		
 		return $this;
 	}
-	
+
+	/**
+	 * 
+	 * @param string $name
+	 * @param string $url
+	 * @param integer $position
+	 * @return \Breadcrumbs
+	 */
 	public function change($name, $url = FALSE, $new_position = NULL)
 	{
 		$position = $this->find_by( 'name', $name );
@@ -67,6 +94,28 @@ abstract class Kohana_Breadcrumbs implements Countable, Iterator, SeekableIterat
 		return $this;
 	}
 	
+	/**
+	 * 
+	 * @param string $name
+	 * @return \Breadcrumbs
+	 */
+	public function delete($name)
+	{
+		$position = $this->find_by( 'name', $name );
+		if($position === NULL)
+		{
+			return FALSE;
+		}
+		
+		unlink($this->_items[$position]);
+		return $this;
+	}
+
+	/**
+	 * 
+	 * @param integer $position
+	 * @return integer
+	 */
 	protected function _set_positon($position = NULL)
 	{
 		$position = (int) $position;
@@ -85,6 +134,12 @@ abstract class Kohana_Breadcrumbs implements Countable, Iterator, SeekableIterat
 		return $position;
 	}
 
+	/**
+	 * 
+	 * @param string $key
+	 * @param string $value
+	 * @return integer|NULL
+	 */
 	public function find_by($key, $value)
 	{
 		foreach ($this->_items as $pos => $item)
