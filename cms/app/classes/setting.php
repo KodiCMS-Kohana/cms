@@ -6,11 +6,28 @@
 
 class Setting
 {
+	/**
+	 *
+	 * @var string 
+	 */
 	public static $table_name = 'settings';
 
+	/**
+	 *
+	 * @var array
+	 */
 	public static $settings = array();
+	
+	/**
+	 *
+	 * @var boolean 
+	 */
     public static $is_loaded = FALSE;
     
+	/**
+	 * 
+	 * @return array
+	 */
     public static function init()
     {
         if (! self::$is_loaded)
@@ -24,6 +41,8 @@ class Setting
             
             self::$is_loaded = true;
         }
+		
+		return self::$settings;
     }
     
     /**
@@ -37,7 +56,11 @@ class Setting
         return Arr::get(self::$settings, $name, $default);
     }
     
-    public static function saveFromData($data)
+	/**
+	 * 
+	 * @param array $data
+	 */
+    public static function saveFromData(array $data)
     {
         foreach( $data as $name => $value )
         {

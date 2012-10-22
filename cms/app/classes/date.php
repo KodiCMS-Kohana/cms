@@ -1,7 +1,12 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
-class Date extends Kohana_Date {
+class Date extends Kohana_Date 
+{
 	
+	/**
+	 * 
+	 * @return array
+	 */
 	public static function timezones()
 	{
 		$zones = array();
@@ -14,6 +19,12 @@ class Date extends Kohana_Date {
 		return $zones;
 	}
 
+	/**
+	 * 
+	 * @param integer|string $date
+	 * @param string $format
+	 * @return string
+	 */
 	public static function format($date = NULL, $format = NULL)
 	{
 		if($format === NULL)

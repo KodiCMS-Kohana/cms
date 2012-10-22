@@ -2,6 +2,12 @@
 
 class URL extends Kohana_URL {
 	
+	/**
+	 * 
+	 * @param string $uri
+	 * @param string $suffix
+	 * @return boolean
+	 */
 	public static function check_suffix($uri, $suffix = NULL)
 	{
 		if($suffix === NULL)
@@ -29,7 +35,12 @@ class URL extends Kohana_URL {
 		return parent::site($uri, $protocol, $index);
 	}
 
-
+	/**
+	 * 
+	 * @param string $uri
+	 * @param string $current
+	 * @return boolean
+	 */
 	public static function match( $uri, $current = NULL )
 	{
 		$uri = trim( $uri, '/' );

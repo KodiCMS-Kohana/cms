@@ -12,6 +12,10 @@ class Controller_Archive extends Controller_System_Plugin
 			Flash::set('error', __('Page not found!'));
 			throw new HTTP_Exception_404('Page not found');
 		}
+		
+		$this->template->title = $page->title;
+		$this->breadcrumbs
+			->add($this->template->title);
 
 		$pager = Pagination::factory(array(
 			'total_items' => Record::countFrom('Page', 'parent_id = ' . (int) $page_id)

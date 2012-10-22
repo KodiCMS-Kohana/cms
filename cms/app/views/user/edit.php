@@ -1,9 +1,3 @@
-<?php defined('SYSPATH') or die('No direct access allowed.'); ?>
-
-<div class="page-header">
-	<h1><?php echo $user->username; ?></h1> 
-</div>
-
 <form class="form-horizontal" action="<?php echo $action=='edit' ? URL::site('user/edit/'.$user->id): URL::site('user/add'); ?>" method="post">
 	
 	<?php echo Form::hidden('token', Security::token()); ?>

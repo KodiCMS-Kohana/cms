@@ -1,6 +1,4 @@
-<div class="page-header">
-	<h2><?php echo __('Available Classes') ?></h2>
-</div>
+<?php echo UI::page_header(__( 'Available Classes' )); ?>
 
 <input type="text" placeholder="<?php echo __('Filter'); ?>" class="input-medium search-query" name="search" id="api-filter-box">
 

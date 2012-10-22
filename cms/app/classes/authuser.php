@@ -6,27 +6,47 @@
 
 class AuthUser {
 
-	static public function isLoggedIn()
+	/**
+	 * 
+	 * @return boolean
+	 */
+	public static function isLoggedIn()
 	{
 		return Auth::instance()->logged_in();
 	}
 
-	static public function getRecord()
+	/**
+	 * 
+	 * @return Model_User
+	 */
+	public static function getRecord()
 	{
 		return Auth::instance()->get_user(FALSE);
 	}
 
-	static public function getId()
+	/**
+	 * 
+	 * @return integer
+	 */
+	public static function getId()
 	{
 		return self::getRecord() ? self::getRecord()->id : FALSE;
 	}
 
-	static public function getUserName()
+	/**
+	 * 
+	 * @return string
+	 */
+	public static function getUserName()
 	{
 		return self::getRecord() ? self::getRecord()->username : FALSE;
 	}
 
-	static public function getPermissions()
+	/**
+	 * 
+	 * @return array
+	 */
+	public static function getPermissions()
 	{
 		$roles = self::getRecord() ? self::getRecord()->roles->find_all() : FALSE;
 		
@@ -47,7 +67,7 @@ class AuthUser {
 	 * @param string $permission Can contain a single permission or comma seperated list of permissions.
 	 * @return boolean
 	 */
-	static public function hasPermission( $permissions )
+	public static function hasPermission( $permissions )
 	{
 		if(empty($permissions))
 		{
@@ -62,7 +82,14 @@ class AuthUser {
 		return self::getRecord() ? self::getRecord()->has_role($permissions, FALSE) : FALSE;
 	}
 
-	static public function login( $username, $password, $remember = FALSE )
+	/**
+	 * 
+	 * @param string $username
+	 * @param string $password
+	 * @param boolean $remember
+	 * @return boolean
+	 */
+	public static function login( $username, $password, $remember = FALSE )
 	{
 		$user = ORM::factory( 'user' );
 		

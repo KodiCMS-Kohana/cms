@@ -13,6 +13,8 @@ class Controller_Layout extends Controller_System_Backend {
 
 	function action_index()
 	{
+		$this->template->title = __('Layouts');
+
 		$this->template->content = View::factory( 'layout/index', array(
 			'layouts' => Model_File_Layout::find_all()
 		) );
@@ -26,8 +28,9 @@ class Controller_Layout extends Controller_System_Backend {
 			return $this->_add();
 		}
 		
+		$this->template->title = __('Add layout');
 		$this->breadcrumbs
-			->add(__('Add layout'));
+			->add($this->template->title);
 
 		// check if user have already enter something
 		$layout = Flash::get( 'post_data' );
@@ -87,9 +90,6 @@ class Controller_Layout extends Controller_System_Backend {
 	{
 		$layout_name = $this->request->param('id');
 		$layout = new Model_File_Layout( $layout_name );
-		
-		$this->breadcrumbs
-			->add(__('Edit layout'));
 
 		if ( !$layout->is_exists() )
 		{

@@ -18,6 +18,7 @@ class Controller_FileManager extends Controller_System_Plugin {
 			return $this->go('filemanager');
 		}
 		
+		$this->template->title = __($this->plugin->title);
 		$this->_breadcrumbs($filesystem, $path );
 		
 		$this->template->content = View::factory('filemanager/index', array(
@@ -45,6 +46,7 @@ class Controller_FileManager extends Controller_System_Plugin {
 			return $this->_save($filesystem);
 		}
 		
+		$this->template->title = __( 'View file - :file', array(':file' => $filesystem->getFilename()) );
 		$this->_breadcrumbs($filesystem, $path );
 
 		$this->template->content = View::factory('filemanager/view', array(
@@ -185,7 +187,7 @@ class Controller_FileManager extends Controller_System_Plugin {
 		
 		if(!empty($path_array))
 		{
-			$this->breadcrumbs->change($this->plugin->title, 'filemanager');
+			$this->breadcrumbs->change(__($this->plugin->title), 'filemanager');
 		}
 
 		$i = 1;

@@ -6,7 +6,16 @@
 
 class Behavior
 {
+	/**
+	 *
+	 * @var array 
+	 */
     private static $loaded_files = array();
+	
+	/**
+	 *
+	 * @var array 
+	 */
     private static $behaviors = array();
     
 	/**
@@ -22,7 +31,11 @@ class Behavior
 		}
     }
     
-	
+	/**
+	 * 
+	 * @param type $behavior_id
+	 * @return array
+	 */
 	public static function get($behavior_id)
 	{
 		return Arr::get(self::$behaviors, $behavior_id);

@@ -6,10 +6,23 @@
 
 class Model_Navigation {
 
+	/**
+	 *
+	 * @var array
+	 */
 	protected static $_sections = array();
 	
+	/**
+	 *
+	 * @var Model_Navigation_Page 
+	 */
 	public static $current = NULL;
 	
+	/**
+	 * 
+	 * @param string $name
+	 * @return Model_Navigation_Section
+	 */
 	public static function get_section($name)
 	{
 		foreach (self::$_sections as $section)
@@ -23,6 +36,14 @@ class Model_Navigation {
 		return NULL;
 	}
 
+	/**
+	 * 
+	 * @param string $section
+	 * @param string $name
+	 * @param string $uri
+	 * @param array $permissions
+	 * @param integer $priority
+	 */
 	public static function add_section( $section = 'Other', $name, $uri, $permissions = array('administrator'), $priority = 0 )
 	{
 		if ( AuthUser::hasPermission( $permissions ) )
@@ -41,7 +62,11 @@ class Model_Navigation {
 		}
 	}
 	
-	static function get()
+	/**
+	 * 
+	 * @return array
+	 */
+	public static function get()
 	{
 		if ( version_compare( PHP_VERSION, '5.4.0', '>=' ) )
 		{

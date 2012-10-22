@@ -34,6 +34,9 @@
 							</div>
 						</div>
 						<div class="span9">
+							<?php if(!empty($title)): ?>
+							<?php echo UI::page_header($title); ?>
+							<?php endif; ?>
 							<?php echo $content; ?>
 
 							<div class="clearfix"></div>

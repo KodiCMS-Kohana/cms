@@ -18,6 +18,11 @@ class Messages {
 	 */
 	public static $session_key = 'message';
 
+	/**
+	 * 
+	 * @param string $type
+	 * @return array
+	 */
 	public static function get( $type = NULL )
 	{
 		if ( $type === NULL )
@@ -39,6 +44,12 @@ class Messages {
 		return Session::instance()->get_once( self::$session_key.'_'.$type, array() );
 	}
 
+	/**
+	 * 
+	 * @param string $type
+	 * @param mixed $data
+	 * @param array $values
+	 */
 	public static function set( $type = Messages::SUCCESS, $data = NULL, $values = NULL )
 	{
 		if ( !is_array( $data ) )
@@ -65,6 +76,12 @@ class Messages {
 		}
 	}
 
+	/**
+	 * 
+	 * @param string $data
+	 * @param array $values
+	 * @return void
+	 */
 	public static function errors( $data = NULL, $values = NULL )
 	{
 		if ( $data === NULL )
@@ -75,6 +92,12 @@ class Messages {
 		return Messages::set( Messages::ERRORS, $data, $values );
 	}
 
+	/**
+	 * 
+	 * @param string $data
+	 * @param array $values
+	 * @return void
+	 */
 	public static function success( $data = NULL, $values = NULL )
 	{
 		if ( $data === NULL )

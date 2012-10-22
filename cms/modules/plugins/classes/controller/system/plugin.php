@@ -22,9 +22,11 @@ class Controller_System_Plugin extends Controller_Plugins {
 		
 		$this->plugin = Plugins::get_registered( $this->plugin_id );
 		
+		$this->template->title = __('Plugins');
 		$this->breadcrumbs
-			->add(__('Plugins'), 'plugins')
-			->add($this->plugin->title);
+			->add($this->template->title, 'plugins')
+			->add(__($this->plugin->title));
+			
 	}
 	
 	public function display($view, $vars = NULL)
@@ -45,8 +47,9 @@ class Controller_System_Plugin extends Controller_Plugins {
 			))
 		));
 		
+		$this->template->title = __('Plugin settings');
 		$this->breadcrumbs
-			->add(__('Plugin settings'), $this->plugin->id.'/settings');
+			->add($this->template->title, $this->plugin->id.'/settings');
 	}
 
 	protected function _settings_save( $plugin )

@@ -3,7 +3,6 @@
 /**
  * @package    Kodi/Model
  */
-
 class User extends Record
 {
     const TABLE_NAME = 'users';

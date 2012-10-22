@@ -3,7 +3,12 @@
 class Controller_System_Backend extends Controller_System_Template
 {
 	public $auth_required = array('administrator', 'developer', 'editor');
-	public $page = NULL;
+	
+	/**
+	 *
+	 * @var Model_Navigation_Page 
+	 */
+	public $page;
 
 	public function before()
 	{

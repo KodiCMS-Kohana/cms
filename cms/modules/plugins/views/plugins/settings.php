@@ -1,7 +1,3 @@
-<div class="page-header">
-	<h1><?php echo __('Settings'); ?></h1>
-</div>
-
 <div id="settings">
 	<?php echo Form::open(NULL, array('class' => 'form-horizontal')); ?>
 	

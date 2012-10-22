@@ -12,11 +12,24 @@ class Record
 	 */
 	protected static $_column_cache = array();
 	
+	/**
+	 *
+	 * @var array
+	 */
 	protected $_table_fields = array();
 	
+	/**
+	 *
+	 * @var array 
+	 */
 	protected $_object_data = array();
     
-    public function __construct($data = FALSE, $exclude = array())
+	/**
+	 * 
+	 * @param array $data
+	 * @param array $exclude
+	 */
+    public function __construct(array $data = FALSE, array $exclude = array())
     {
 		$this->reloadColumns();
 
@@ -46,6 +59,11 @@ class Record
 		}
 	}
 
+	/**
+	 * 
+	 * @param array $data
+	 * @param array $exclude
+	 */
 	public function setFromData($data, $exclude = array())
     {
         foreach($data as $key => $value)
@@ -130,6 +148,11 @@ class Record
         return $return;
     }
 	
+	/**
+	 * 
+	 * @param array $exclude
+	 * @return array
+	 */
 	public function prepare_data($exclude = array())
 	{
 		$data = array();
@@ -272,6 +295,10 @@ class Record
 		return array();
 	}
 	
+	/**
+	 * 
+	 * @return array
+	 */
 	public function defaults()
 	{
 		return array();
@@ -295,6 +322,11 @@ class Record
 		return Database::instance()->list_columns( self::tableName() );
     }
 
+	/**
+	 * 
+	 * @param string $class_name
+	 * @return string
+	 */
 	final public static function tableName($class_name = NULL)
     {
 		if($class_name === NULL)
@@ -315,6 +347,12 @@ class Record
         }
     }
     
+	/**
+	 * 
+	 * @param string $class_name
+	 * @param array $data
+	 * @return integer
+	 */
     public static function insert($class_name, $data)
     {        
         // Run it !!...

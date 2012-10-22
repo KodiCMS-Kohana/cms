@@ -2,10 +2,6 @@
 	var FILEMANAGER_PATH = '<?php echo $path; ?>';
 </script>
 
-<div class="page-header">
-	<h1><?php echo __( 'File manager' ); ?></h1>
-</div>
-
 <div class="well page-actions">
 	<?php echo UI::button(__('Create folder'), array(
 		'icon' => UI::icon( 'plus' ), 'class' => 'btn', 'id' => 'create-folder'

@@ -6,6 +6,10 @@
 
 class Filter {
 
+	/**
+	 *
+	 * @var array
+	 */
 	static $filters = array( );
 
 	/**

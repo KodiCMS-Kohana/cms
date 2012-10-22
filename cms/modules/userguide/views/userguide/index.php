@@ -1,7 +1,3 @@
-<div class="page-header">
-	<h2><?php echo __('User Guide'); ?></h2>
-</div>
-
 <h4><?php echo __('The following modules have userguide pages:'); ?></h4>
 <br/>
 <?php if( ! empty($modules)): ?>

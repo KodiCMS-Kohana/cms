@@ -1,7 +1,3 @@
-<div class="page-header">
-	<h1><?php echo __('Users'); ?></h1>  
-</div>
-
 <div class="map">
 	<div class="well page-actions">
 		<?php echo UI::button(__('Add user'), array(

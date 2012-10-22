@@ -13,6 +13,7 @@ class Controller_Snippet extends Controller_System_Backend {
 
 	public function action_index()
 	{
+		$this->template->title = __('Snippets');
 		$this->template->content = View::factory( 'snippet/index', array(
 			'snippets' => Model_File_Snippet::find_all()
 		) );
@@ -26,8 +27,9 @@ class Controller_Snippet extends Controller_System_Backend {
 			return $this->_add();
 		}
 		
+		$this->template->title = __('Add snippet');
 		$this->breadcrumbs
-			->add(__('Add snippet'));
+			->add($this->template->title);
 
 		// check if user have already enter something
 		$snippet = Flash::get( 'post_data' );
@@ -87,8 +89,9 @@ class Controller_Snippet extends Controller_System_Backend {
 			$this->go( URL::site( 'snippet' ) );
 		}
 
+		$this->template->title = __('Edit snippet');
 		$this->breadcrumbs
-			->add(__('Edit snippet'));
+			->add($this->template->title);
 
 		// check if trying to save
 		if ( Request::current()->method() == Request::POST )

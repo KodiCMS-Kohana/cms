@@ -2,8 +2,17 @@
 
 class Database_Query extends Kohana_Database_Query {
 
+	/**
+	 *
+	 * @var string
+	 */
 	protected $_cache_key = NULL;
 
+	/**
+	 * 
+	 * @param string $key
+	 * @return \Database_Query
+	 */
 	public function cache_key( $key )
 	{
 		$this->_cache_key = $key;

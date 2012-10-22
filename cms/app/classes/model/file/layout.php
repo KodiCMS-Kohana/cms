@@ -12,6 +12,10 @@ class Model_File_Layout extends Model_File {
 		parent::__construct( $name );
 	}
 	
+	/**
+	 * 
+	 * @return integer
+	 */
 	public function is_used()
     {
         return Record::countFrom('Page', 'layout_file = :name', array(

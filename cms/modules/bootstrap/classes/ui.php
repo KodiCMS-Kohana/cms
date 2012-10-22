@@ -73,6 +73,11 @@ class UI {
 		}
 	}
 	
+	public static function page_header($title)
+	{
+		return '<div class="page-header"><h1>' . $title . '</h1></div>';
+	}
+
 	public static function actions($page) 
 	{
 		return

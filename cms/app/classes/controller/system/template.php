@@ -7,6 +7,10 @@ class Controller_System_Template extends Controller_System_Security
 	 */
 	public $template = 'layouts/backend';
 	
+	/**
+	 *
+	 * @var \Breadcrumbs 
+	 */
 	public $breadcrumbs;
 
 	/**
@@ -14,9 +18,28 @@ class Controller_System_Template extends Controller_System_Security
 	 **/
 	public $auto_render = TRUE;
 	
+	/**
+	 *
+	 * @var boolean
+	 */
+	public $only_content = FALSE;
+	
+	/**
+	 *
+	 * @var mixed
+	 */
 	public $json = NULL;
 	
+	/**
+	 *
+	 * @var array
+	 */
 	public $styles = array();
+	
+	/**
+	 *
+	 * @var array
+	 */
 	public $scripts = array();
 
 	/**
@@ -48,8 +71,8 @@ class Controller_System_Template extends Controller_System_Security
 			}
 			
 			// Initialize empty values
-			$this->template->title = '';
-			$this->template->content = '';
+			$this->template->title = NULL;
+			$this->template->content = NULL;
 
 			$this->template->styles = array();
 			$this->template->scripts = array();
@@ -84,6 +107,10 @@ class Controller_System_Template extends Controller_System_Security
 
 					$this->template = json_encode( $this->json );
 				}
+				else
+				{
+					$this->template = $this->template->content;
+				}
 			}
 			else
 			{
@@ -95,8 +122,11 @@ class Controller_System_Template extends Controller_System_Security
 				));
 				
 				$this->template->breadcrumbs = $this->breadcrumbs;
-
-				$this->template->modal = View::factory('layouts/blocks/modal');
+			}
+			
+			if($this->only_content)
+			{
+				$this->template = $this->template->content;
 			}
 			
 			Observer::notify( 'template_before_render', $this->template );
@@ -105,7 +135,11 @@ class Controller_System_Template extends Controller_System_Security
 	}
 	
 	
-	
+	/**
+	 * 
+	 * @param string $separator
+	 * @return string
+	 */
 	public function get_path($separator = '_')
 	{
 		$path = $this->request->controller() . $separator . $this->request->action();

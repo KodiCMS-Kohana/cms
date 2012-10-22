@@ -11,6 +11,8 @@ class Controller_Page extends Controller_System_Backend {
 
 	public function action_index()
 	{
+		$this->template->title = __('Pages');
+
 		$this->template->content = View::factory( 'page/index', array(
 			'page' => Record::findByIdFrom( 'Page', 1 ),
 			'content_children' => $this->children( 1, 0, true )
@@ -19,7 +21,7 @@ class Controller_Page extends Controller_System_Backend {
 
 	public function action_add( )
 	{
-		$parent_id = $this->request->param('id', 1);
+		$parent_id = (int) $this->request->param('id', 1);
 
 		// check if trying to save
 		if ( Request::current()->method() == Request::POST )
@@ -34,8 +36,10 @@ class Controller_Page extends Controller_System_Backend {
 		$page->needs_login = Page::LOGIN_INHERIT;
 		$page->published_on = date( 'Y-m-d H:i:s' );
 		
+		
+		$this->template->title = __('Add page');
 		$this->breadcrumbs
-			->add(__('Add page'));
+			->add($this->template->title);
 
 		$page_parts = Flash::get( 'post_parts_data' );
 
@@ -171,15 +175,15 @@ class Controller_Page extends Controller_System_Backend {
 
 		if ( !$page )
 		{
-			Messages::errors( __( 'Page not found!' ) );
-			$this->go( URL::site( 'page' ) );
+			throw new Kohana_Exception('Page :id not found!', array(
+				':id' => $page_id));
 		}
 
 		// check for protected page and editor user
 		if ( !AuthUser::hasPermission( $page->getPermissions() ) )
 		{
-			Messages::errors( __( 'You do not have permission to access the requested page!' ) );
-			$this->go( URL::site( 'page' ) );
+			throw new Kohana_Exception('You do not have permission to access 
+				the requested page!');
 		}
 
 		// check if trying to save
@@ -195,9 +199,10 @@ class Controller_Page extends Controller_System_Backend {
 		{
 			$page_parts = array( new PagePart );
 		}
-
+		
+		$this->template->title = __('Edit page');
 		$this->breadcrumbs
-			->add(__('Edit page'));
+			->add($this->template->title);
 
 		$this->template->content = View::factory( 'page/edit', array(
 			'action' => 'edit',

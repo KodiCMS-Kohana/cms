@@ -15,10 +15,6 @@
 	})
 </script>
 
-<div class="page-header">
-	<h1><?php echo __('Plugins'); ?></h1> 
-</div>
-
 <div id="pluginsMap" class="box map">
 	
 	<table class="table table-striped table-hover" id="PluginsList">

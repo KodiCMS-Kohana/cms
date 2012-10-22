@@ -2,7 +2,16 @@
 
 class Controller_System_Security extends Controller_System_Controller {
 	
+	/**
+	 *
+	 * @var array
+	 */
 	public $secure_actions = FALSE;
+	
+	/**
+	 *
+	 * @var mixed 
+	 */
 	public $auth_required = FALSE;
 	
 	public function before()
@@ -40,6 +49,11 @@ class Controller_System_Security extends Controller_System_Controller {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param mixed $role
+	 * @return boolean
+	 */
 	public function role( $role )
 	{
 		if( ! AuthUser::isLoggedIn())

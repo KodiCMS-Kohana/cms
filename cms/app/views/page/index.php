@@ -1,12 +1,13 @@
-<?php defined('SYSPATH') or die('No direct access allowed.'); ?>
-<div class="page-header">
-	<h1><?php echo __('Pages'); ?></h1>
-</div>
-					
 <div id="pageMap">
 
 	<div class="well page-actions">
 		<?php echo View::factory('page/blocks/search'); ?>
+		
+		<?php echo UI::button(__('Add page'), array(
+			'id' => 'pageAddButton', 'class' => 'btn',
+			'href' => 'page/add/',
+			'icon' => UI::icon('plus')
+		)); ?>
 		
 		<?php echo UI::button(__('Reorder'), array(
 			'id' => 'pageMapReorderButton', 'class' => 'btn btn-primary',
@@ -53,7 +54,7 @@
 					</div>
 					<div class="actions offset4 span1">
 						<?php echo UI::button(NULL, array(
-							'icon' => UI::icon('plus'), 'href' => 'page/add/'.$page->id,
+							'icon' => UI::icon('plus'), 'href' => 'page/add/',
 							'class' => 'btn btn-mini')); ?>
 					</div>
 				</div>

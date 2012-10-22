@@ -5,33 +5,13 @@ $pagetmp = Flash::get('page');
 $parttmp = Flash::get('page_parts');
 $tagstmp = Flash::get('page_tag');
 
-if ($pagetmp != null && !empty($pagetmp) && $parttmp != null && !empty($parttmp) && $tagstmp != null && !empty($tagstmp))
+if (!empty($pagetmp) AND !empty($parttmp) AND !empty($tagstmp))
 {
     $page = $pagetmp;
     $page_parts = $parttmp;
     $tags = $tagstmp;
 }
 ?>
-
-<?php if($page->title): ?>
-<div class="page-header">
-	<h1>
-		<?php echo __('Edit page'); ?>
-		<small>
-			<?php if (isset($page->updated_on)): ?>
-			<?php echo UI::label(__('Last updated by <a href=":link">:name</a> on :date', array(
-				':link' => URL::site('user/edit/' . $page->updated_by_id), 
-				':name' => $page->updated_by_name, 
-				':date' => date('D, j M Y', strtotime($page->updated_on))))); ?>
-			<?php endif; ?>
-			
-			<?php echo HTML::anchor($page->getUrl(), UI::label(__('View page')), array(
-				'class' => 'item-preview', 'target' => '_blankn'
-			)); ?>
-		</small>
-	</h1>
-</div>
-<?php endif; ?>
 
 <div id="pageEdit">
 	<?php echo Form::open($action == 'add' ? URL::site('page/add/'.$parent_id) : URL::site('page/edit/'.$page->id), array(
@@ -61,6 +41,18 @@ if ($pagetmp != null && !empty($pagetmp) && $parttmp != null && !empty($parttmp)
 
 					<?php Observer::notify('view_page_edit_plugins', array($page)); ?>
 
+					<?php if($page->title): ?>
+					<?php if (isset($page->updated_on)): ?>
+					<?php echo UI::label(__('Last updated by <a href=":link">:name</a> on :date', array(
+						':link' => URL::site('user/edit/' . $page->updated_by_id), 
+						':name' => $page->updated_by_name, 
+						':date' => date('D, j M Y', strtotime($page->updated_on))))); ?>
+					<?php endif; ?>
+
+					<?php echo HTML::anchor($page->getUrl(), UI::label(__('View page')), array(
+						'class' => 'item-preview', 'target' => '_blankn'
+					)); ?>
+					<?php endif; ?>
 					<div class="form-actions">
 						<?php echo UI::actions($page_name); ?>
 					</div>

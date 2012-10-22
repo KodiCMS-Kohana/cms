@@ -4998,10 +4998,11 @@ table.table thead th {
   border-top: 1px solid #fff;
 }
 input.input-title {
-  width: 98%;
+  width: 916px;
   font-size: 20px;
   line-height: 20px;
-  padding: 10px;
+  height: 30px;
+  padding: 5px 10px;
 }
 .input-auto {
   width: auto;
@@ -5143,6 +5144,9 @@ legend:after {
 }
 #ds-menu li.selected > a {
   font-weight: bold;
+}
+#datasource-toolbar {
+  margin: 0;
 }
 #html_fields textarea {
   width: 100%;

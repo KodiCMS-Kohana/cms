@@ -2,6 +2,10 @@
 
 class Controller_System_Controller extends Kohana_Controller
 {
+	/**
+	 *
+	 * @var Route 
+	 */
 	public $route = 'admin';
 	
 	public function before()

@@ -15,8 +15,9 @@ class Controller_Setting extends Controller_System_Backend {
 			'loaded_filters' => Filter::$filters
 		) );
 		
+		$this->template->title = __('Settings');
 		$this->breadcrumbs
-			->add(__('Settings'), 'setting');
+			->add($this->template->title, 'setting');
 	}
 
 	private function _save()

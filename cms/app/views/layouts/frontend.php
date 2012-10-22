@@ -22,7 +22,10 @@
 	</head>
 	<body id="body_frontend">
 		<div id="content-wrapper">
-			<div class="container" id="content">			
+			<div class="container" id="content">
+				<?php if(!empty($title)): ?>
+				<?php echo UI::page_header($title); ?>
+				<?php endif; ?>
 				<?php echo $content; ?>
 			</div>
 		</div>

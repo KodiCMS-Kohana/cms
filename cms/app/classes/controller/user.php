@@ -11,6 +11,8 @@ class Controller_User extends Controller_System_Backend {
 	
 	public function action_index()
 	{
+		$this->template->title = __('Users');
+
 		$users = DB::select( 'user.*', array( 'GROUP_CONCAT("permission.name")', 'roles' ) )
 			->from( array(User::tableName(), 'user') )
 			->join( array( UserPermission::tableName(), 'user_permission'), 'left' )
@@ -34,8 +36,9 @@ class Controller_User extends Controller_System_Backend {
 			return $this->_add();
 		}
 		
+		$this->template->title = __('Add user');
 		$this->breadcrumbs
-			->add(__('Add user'));
+			->add($this->template->title);
 
 		// check if user have already enter something
 		$data = Flash::get( 'post_data', array() );
@@ -110,8 +113,9 @@ class Controller_User extends Controller_System_Backend {
 		
 		$user->roles = explode(',', $user->roles);
 
+		$this->template->title = __('Edit user');
 		$this->breadcrumbs
-			->add(__('Edit user'));
+			->add($this->template->title);
 
 		$this->template->content = View::factory( 'user/edit', array(
 			'action' => 'edit',

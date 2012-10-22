@@ -26,6 +26,8 @@ class Controller_Backup extends Controller_System_Plugin {
 
 		closedir($handle);
 		
+		$this->template->title = __('Backup');
+		
 		$this->template->content = View::factory('backup/index', array(
 			'files' => $files
 		));
@@ -37,9 +39,10 @@ class Controller_Backup extends Controller_System_Plugin {
 		$backup = Model_Backup::factory(BACKUP_PLUGIN_FOLDER . $file)
 			->view();
 		
+		$this->template->title = __( 'Backup view :file', array(':file' => $file));
 		$this->breadcrumbs
 			->change($this->plugin->title, 'backup')
-			->add($file);
+			->add($this->template->title);
 		
 		
 		$this->template->content = View::factory('backup/view', array(

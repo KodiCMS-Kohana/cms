@@ -3,16 +3,37 @@
 /**
  * @package    Kodi
  */
-
 class Model_File {
 	
+	/**
+	 *
+	 * @var string
+	 */
 	public $name;
 	
+	/**
+	 *
+	 * @var string
+	 */
 	protected $_content;
+	
+	/**
+	 *
+	 * @var string
+	 */
 	protected $_file;
+	
+	/**
+	 *
+	 * @var string
+	 */
 	protected $_path;
 
 
+	/**
+	 * 
+	 * @param string $name
+	 */
 	public function __construct( $name = '' )
 	{
 		$this->set_name($name);
@@ -41,26 +62,50 @@ class Model_File {
 		}
 	}
 	
+	/**
+	 * 
+	 * @return string
+	 */
 	public function get_file()
 	{
 		return $this->_file;
 	}
 	
+	/**
+	 * 
+	 * @return string
+	 */
 	public function get_path()
 	{
 		return $this->_path;
 	}
 	
+	/**
+	 * 
+	 * @param string $name
+	 * @return \Model_File
+	 */
 	public function set_name($name)
 	{
 		$this->name = $name;
+		return $this;
 	}
 	
+	/**
+	 * 
+	 * @param string $content
+	 * @return \Model_File
+	 */
 	public function set_content($content)
 	{
 		$this->_content = $content;
+		return $this;
 	}
 	
+	/**
+	 * 
+	 * @return array
+	 */
 	public static function find_all()
     {
 		$class = get_called_class();
@@ -82,6 +127,10 @@ class Model_File {
 		return $files;
     }
 	
+	/**
+	 * 
+	 * @return string
+	 */
 	public function get_content()
 	{
 		if ($this->_content === NULL)
@@ -104,11 +153,19 @@ class Model_File {
 		return unlink($this->_file);
 	}
 	
+	/**
+	 * 
+	 * @return boolean
+	 */
 	public function is_exists()
 	{
 		return file_exists($this->_file);
 	}
 	
+	/**
+	 * 
+	 * @return boolean
+	 */
 	public function save()
 	{
 		$new_file = $this->_path . $this->name . EXT;
@@ -123,6 +180,6 @@ class Model_File {
 		$result = fwrite($f, $this->_content);
 		fclose($f);
 		
-		return $result === FALSE ? FALSE : TRUE;
+		return $result === FALSE;
 	}
 }

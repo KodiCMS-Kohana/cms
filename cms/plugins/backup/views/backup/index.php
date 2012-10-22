@@ -1,7 +1,3 @@
-<div class="page-header">
-	<h1><?php echo __( 'Backup' ); ?></h1>
-</div>
-
 <div class="well page-actions">
 	<?php echo UI::button(__('Create database backup'), array(
 		'icon' => UI::icon('list'), 'href' => 'backup/database'

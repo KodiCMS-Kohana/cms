@@ -1,5 +1,5 @@
 <div id="error-container" class="hero-unit">
-	<h1>Упс!</h1>
+	<h1><?php echo __('Oooops'); ?></h1>
 
 	<div class="error-code">
 		<h3><?php echo $code; ?> <?php echo $error_type; ?></h3>

@@ -1,8 +1,3 @@
-<?php defined('SYSPATH') or die('No direct access allowed.'); ?>
-<div class="page-header">
-	<h1><?php echo __('Snippets'); ?></h1> 
-</div>
-
 <div class="map">
 	
 	<div class="well page-actions">
