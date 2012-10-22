@@ -4,6 +4,13 @@ class Controller_Snippet extends Controller_System_Backend {
 
 	public $auth_required = array( 'administrator', 'developer' );
 
+	public function before()
+	{
+		parent::before();
+		$this->breadcrumbs
+			->add(__('Snippets'), $this->request->controller());
+	}
+
 	public function action_index()
 	{
 		$this->template->content = View::factory( 'snippet/index', array(

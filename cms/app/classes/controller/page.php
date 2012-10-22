@@ -1,6 +1,13 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct access allowed.' );
 
 class Controller_Page extends Controller_System_Backend {
+	
+	public function before()
+	{
+		parent::before();
+		$this->breadcrumbs
+			->add(__('Pages'), $this->request->controller());
+	}
 
 	public function action_index()
 	{

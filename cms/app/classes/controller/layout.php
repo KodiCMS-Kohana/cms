@@ -3,6 +3,13 @@
 class Controller_Layout extends Controller_System_Backend {
 
 	public $auth_required = array( 'administrator', 'developer' );
+	
+	public function before()
+	{
+		parent::before();
+		$this->breadcrumbs
+			->add(__('Layouts'), $this->request->controller());
+	}
 
 	function action_index()
 	{

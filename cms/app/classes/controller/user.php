@@ -2,6 +2,13 @@
 
 class Controller_User extends Controller_System_Backend {
 
+	public function before()
+	{
+		parent::before();
+		$this->breadcrumbs
+			->add(__('Users'), $this->request->controller());
+	}
+	
 	public function action_index()
 	{
 		$users = DB::select( 'user.*', array( 'GROUP_CONCAT("permission.name")', 'roles' ) )

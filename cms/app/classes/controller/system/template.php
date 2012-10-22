@@ -34,24 +34,6 @@ class Controller_System_Template extends Controller_System_Security
 //				throw new Exception('Security token not check');
 //			}
 		}
-		
-		$index_page_url = FALSE;
-		
-		
-		
-		$this->breadcrumbs = Breadcrumbs::factory()
-			->add(__('Home'), Setting::get('default_tab'));
-		
-		if(  method_exists( $this, $this->request->controller() ))
-		{
-			$index_page_url = $this->route->uri(array(
-				'controller' => $this->request->controller(),
-				'directory' => $this->request->directory()
-			));
-			
-			$this->breadcrumbs
-				->add(__(Inflector::plural( ucfirst($this->request->controller()))), $index_page_url);
-		}
 
 		if ($this->auto_render === TRUE)
 		{
@@ -71,6 +53,10 @@ class Controller_System_Template extends Controller_System_Security
 
 			$this->template->styles = array();
 			$this->template->scripts = array();
+			
+			$index_page_url = FALSE;
+			$this->breadcrumbs = Breadcrumbs::factory()
+				->add(__('Home'), Setting::get('default_tab'));
 		}
 	}
 	

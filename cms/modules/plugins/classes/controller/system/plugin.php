@@ -23,7 +23,7 @@ class Controller_System_Plugin extends Controller_Plugins {
 		$this->plugin = Plugins::get_registered( $this->plugin_id );
 		
 		$this->breadcrumbs
-			->add(__('Pligins'), 'plugins')
+			->add(__('Plugins'), 'plugins')
 			->add($this->plugin->title);
 	}
 	
