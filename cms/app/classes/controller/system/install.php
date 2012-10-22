@@ -9,7 +9,7 @@ class Controller_System_Install extends Controller_System_Template {
 	public function action_index()
 	{
 		$this->template->content = View::factory('system/install', array(
-			'data' => Session::instance()->get( 'install_data', array( ) )
+			'data' => Session::instance()->get_once( 'install_data', array( ) )
 		));
 	}
 
@@ -22,7 +22,7 @@ class Controller_System_Install extends Controller_System_Template {
 			throw new  Kohana_Exception( 'Install data not found!' );
 		}
 
-		$post = $_POST['install'];
+		$post = $this->request->post('install');
 
 		$post['db_driver'] = DB_TYPE;
 		$post['password'] = Text::random();
@@ -43,21 +43,30 @@ class Controller_System_Install extends Controller_System_Template {
 			Messages::errors($e->errors('validation'));
 			$this->go_back();
 		}
-
 		
-		$this->_import_shema($post, $db);
-		$this->_import_dump($post, $db);
-		$this->_create_config($post);
+		try 
+		{
+			$this->_import_shema($post, $db);
+			$this->_import_dump($post, $db);
+			$this->_create_config($post);
+		}
+		catch (Exception $e)
+		{
+			$this->_reset($post, $db);
+			Messages::errors($e->getMessage());
+			$this->go_back();
+		}
 		
 		$this->go(Arr::get($post, 'admin_dir_name', '') . '/login');
 	}
 	
 	protected function _connect_to_db(array $post, $validation)
 	{
+		$server = $post['db_server'] . ':' . $post['db_port'];
 		$db = Database::instance( 'install', array(
 			'type' => $post['db_driver'],
 			'connection' => array(
-				'hostname' => $post['db_server'],
+				'hostname' => $server,
 				'database' => $post['db_name'],
 				'username' => $post['db_user'],
 				'password' => $post['db_password'],
@@ -72,6 +81,7 @@ class Controller_System_Install extends Controller_System_Template {
 		try
 		{
 			$db->connect();
+			return $db;
 		} 
 		catch (Database_Exception $exc)
 		{
@@ -123,7 +133,9 @@ class Controller_System_Install extends Controller_System_Template {
 		
 		if ( !file_exists( $schema_file ) )
 		{
-			throw new  Kohana_Exception( 'Database schema file not found!' );
+			throw new  Kohana_Exception( 'Database schema file :file not found!', array(
+				':file' => $schema_file
+			) );
 		}
 
 		// Create tables
@@ -138,11 +150,13 @@ class Controller_System_Install extends Controller_System_Template {
 	
 	protected function _import_dump($post, $db)
 	{
-		$dump_file = CMSPATH . 'install' . DIRECTORY_SEPARATOR . 'dump.sql';
+		$dump_file = CMSPATH . 'install' . DIRECTORY_SEPARATOR . 'dump.sl';
 
 		if ( !file_exists( $dump_file ) )
 		{
-			throw new  Kohana_Exception( 'Database dump file not found!' );
+			throw new  Kohana_Exception( 'Database dump file :file not found!', array(
+				':file' => $dump_file
+			) );
 		}
 
 		// Insert SQL dump
@@ -171,6 +185,13 @@ class Controller_System_Install extends Controller_System_Template {
 	protected function _create_config($post)
 	{
 		$tpl_file = CMSPATH . 'install' . DIRECTORY_SEPARATOR . 'config.tpl';
+		
+		if ( !file_exists( $tpl_file ) )
+		{
+			throw new  Kohana_Exception( 'Config template file :file not found!', array(
+				':file' => $tpl_file
+			) );
+		}
 
 		// Insert settings to config.php		
 		$tpl_content = file_get_contents( $tpl_file );
@@ -220,6 +241,30 @@ class Controller_System_Install extends Controller_System_Template {
 				echo($e->getMessage());
 				continue;
 			}
+		}
+	}
+	
+	protected function _reset($post, $db)
+	{
+		DB::query(NULL, 'SET FOREIGN_KEY_CHECKS = 0')
+			->execute($db);
+		
+		$tables = DB::query(Database::SELECT, 'SHOW TABLES')
+			->execute($db);
+		
+		foreach ($tables as $table) 
+		{
+			$table = array_values($table);
+			$table_name = $table[0];
+
+			DB::query(NULL, 'DROP TABLE `:table_name`')
+				->param( ':table_name', DB::expr($table_name) )
+				->execute($db);
+		}
+		
+		if(  file_exists( DOCROOT . 'config' . EXT ) !== FALSE )
+		{
+			unlink(DOCROOT . 'config' . EXT);
 		}
 	}
 }

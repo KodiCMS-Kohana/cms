@@ -1,35 +1,35 @@
-<div class="hero-unit" id="install-page" >
-	<h1><?php echo __( 'Installation' ); ?></h1>
+<h1><?php echo __( 'Installation' ); ?></h1>
 
-	<br /><br />
 
-	<form action="<?php echo URL::site( 'install/go' ); ?>" class="form-horizontal" method="post">
+<form action="<?php echo URL::site( 'install/go' ); ?>" class="form-horizontal" method="post">
+	<div class="well" id="install-page" >
 		<fieldset>
 			<legend><?php echo __( 'Database information' ); ?></legend>
 
 			<br />
-
 			<?php echo Form::hidden( 'install[db_driver]', 'mysql' ); ?>
 
 			<div class="control-group">
 				<label class="control-label" for="installDBServerField"><?php echo __( 'Database server' ); ?></label>
-				<div class="controls">
-					<?php
-					echo Form::input( 'install[db_server]', Arr::get( $data, 'db_server', 'localhost' ), array(
-						'class' => 'input-xlarge', 'id' => 'installDBServerField'
-					) );
-					?> <?php echo UI::label( __( 'Required.' ) ); ?>
+				<div class="controls inline">
+					<?php echo Form::input( 'install[db_server]', Arr::get( $data, 'db_server', 'localhost' ), array(
+						'class' => 'span3', 'id' => 'installDBServerField'
+					) ); ?>
+						
+					<?php echo Form::input( 'install[db_port]', Arr::get( $data, 'db_port', 3306 ), array(
+						'class' => 'span1'
+					) ); ?>
+						
+					<?php echo UI::label( __( 'Required.' ) ); ?>
 				</div>
 			</div>
 
 			<div class="control-group">
 				<label class="control-label" for="installDBUserField"><?php echo __( 'Database user' ); ?></label>
 				<div class="controls">
-					<?php
-					echo Form::input( 'install[db_user]', Arr::get( $data, 'db_user', 'root' ), array(
+					<?php echo Form::input( 'install[db_user]', Arr::get( $data, 'db_user', 'root' ), array(
 						'class' => 'input-xlarge', 'id' => 'installDBUserField'
-					) );
-					?> <?php echo UI::label( __( 'Required.' ) ); ?>
+					) ); ?> <?php echo UI::label( __( 'Required.' ) ); ?>
 				</div>
 			</div>
 
@@ -62,7 +62,7 @@
 				<div class="controls">
 					<?php
 					echo Form::input( 'install[table_prefix]', Arr::get( $data, 'table_prefix' ), array(
-						'class' => 'input-xlarge', 'id' => 'installDBPrefixField'
+						'class' => 'input-small', 'id' => 'installDBPrefixField'
 					) );
 					?>
 
@@ -70,7 +70,9 @@
 				</div>
 			</div>
 		</fieldset>
-
+	
+	</div>
+	<div class="well" id="install-page" >
 		<fieldset>
 			<legend><?php echo __( 'Other information' ); ?></legend>
 
@@ -79,7 +81,7 @@
 				<div class="controls">
 					<?php
 					echo Form::input( 'install[site_name]', Arr::get( $data, 'site_name', CMS_NAME ), array(
-						'class' => 'span6', 'id' => 'installSiteNameField'
+						'class' => 'span7', 'id' => 'installSiteNameField'
 					) );
 					?> <?php echo UI::label( __( 'Required.' ) ); ?>
 				</div>
@@ -90,7 +92,7 @@
 				<div class="controls">
 					<?php
 					echo Form::input( 'install[username]', Arr::get( $data, 'username', 'admin' ), array(
-						'class' => 'input-xlarge', 'id' => 'installUsernameField'
+						'class' => 'input-medium', 'id' => 'installUsernameField'
 					) );
 					?> <?php echo UI::label( __( 'Required.' ) ); ?>
 
@@ -103,18 +105,18 @@
 				<div class="controls">
 					<?php
 					echo Form::input( 'install[email]', Arr::get( $data, 'email', 'admin@yoursite.com' ), array(
-						'class' => 'input-xlarge', 'id' => 'installEmailField'
+						'class' => 'input-medium', 'id' => 'installEmailField'
 					) );
 					?> <?php echo UI::label( __( 'Required.' ) ); ?>
 				</div>
 			</div>
-			
+
 			<div class="control-group">
 				<label class="control-label" for="installAdminDirNamexField"><?php echo __( 'Admin dir name' ); ?></label>
 				<div class="controls">
 					<?php
 					echo Form::input( 'install[admin_dir_name]', Arr::get( $data, 'admin_dir_name', 'backend' ), array(
-						'class' => 'input-xlarge', 'id' => 'installAdminDirNamexField'
+						'class' => 'input-small', 'id' => 'installAdminDirNamexField'
 					) );
 					?> <?php echo UI::label( __( 'Required.' ) ); ?>
 				</div>
@@ -125,14 +127,14 @@
 				<div class="controls">
 					<?php
 					echo Form::input( 'install[url_suffix]', Arr::get( $data, 'url_suffix', '.html' ), array(
-						'class' => 'input-xlarge', 'id' => 'installURLSuffixField'
+						'class' => 'input-small', 'id' => 'installURLSuffixField'
 					) );
 					?>
 
 					<p class="help-block"><?php echo __( 'Optional. Add a suffix to simulate static html files.' ); ?></p>
 				</div>
 			</div>
-			
+
 			<div class="control-group">
 				<label class="control-label" for="installTimezoneField"><?php echo __( 'Timezone' ); ?></label>
 				<div class="controls">
@@ -145,10 +147,12 @@
 			</div>
 		</fieldset>
 
-		<div class="form-actions">
-			<button class="btn btn-large btn-success"><?php echo UI::icon( 'ok icon-white' ) . ' ' . __( 'Install now!' ); ?></button>
-		</div>
-	</form><!--/#installForm-->
+	</div>
+	<div class="well" id="install-page" >
+		<?php echo View::factory('system/blocks/env_test'); ?>
+	</div>
 
-	<?php echo View::factory('system/blocks/env_test'); ?>
-</div>
+	<div class="form-actions">
+		<button class="btn btn-large btn-success"><?php echo UI::icon( 'ok icon-white' ) . ' ' . __( 'Install now!' ); ?></button>
+	</div>
+</form><!--/#installForm-->
