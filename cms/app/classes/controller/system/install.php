@@ -151,7 +151,7 @@ class Controller_System_Install extends Controller_System_Template
 	
 	protected function _import_dump($post, $db)
 	{
-		$dump_file = CMSPATH . 'install' . DIRECTORY_SEPARATOR . 'dump.sl';
+		$dump_file = CMSPATH . 'install' . DIRECTORY_SEPARATOR . 'dump.sql';
 
 		if ( !file_exists( $dump_file ) )
 		{
