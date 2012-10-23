@@ -27,21 +27,28 @@ else
 setlocale( LC_ALL, 'ru_RU.utf-8' );
 
 /**
- * Enable the Frog auto-loader.
+ * Enable the Kohana auto-loader.
  *
- * @see  http://php.net/spl_autoload_register
+ * @link http://kohanaframework.org/guide/using.autoloading
+ * @link http://www.php.net/manual/function.spl-autoload-register
  */
-spl_autoload_register( array('Kohana', 'auto_load') );
-
+spl_autoload_register(array('Kohana', 'auto_load'));
 
 /**
- * Enable the Frog auto-loader for unserialization.
+ * Optionally, you can enable a compatibility auto-loader for use with
+ * older modules that have not been updated for PSR-0.
  *
- * @see  http://php.net/spl_autoload_call
- * @see  http://php.net/manual/var.configuration.php#unserialize-callback-func
+ * It is recommended to not enable this unless absolutely necessary.
  */
-ini_set( 'unserialize_callback_func', 'spl_autoload_call' );
+//spl_autoload_register(array('Kohana', 'auto_load_lowercase'));
 
+/**
+ * Enable the Kohana auto-loader for unserialization.
+ *
+ * @link http://www.php.net/manual/function.spl-autoload-call
+ * @link http://www.php.net/manual/var.configuration#unserialize-callback-func
+ */
+ini_set('unserialize_callback_func', 'spl_autoload_call');
 
 /**
  * Set Kohana::$environment if a 'KOHANA_ENV' environment variable has been supplied.
@@ -49,6 +56,8 @@ ini_set( 'unserialize_callback_func', 'spl_autoload_call' );
  * Note: If you supply an invalid environment name, a PHP warning will be thrown
  * saying "Couldn't find constant Kohana::<INVALID_ENV_NAME>"
  */
+
+// -- Configuration and initialization -----------------------------------------
 
 if ( isset( $_SERVER['KOHANA_ENV'] ) )
 {
@@ -86,6 +95,10 @@ Kohana::init( array(
 	'profile'			=> Kohana::$environment !== Kohana::PRODUCTION,
 	'errors'			=> TRUE
 ) );
+
+/**
+ * Set the default language
+ */
 
 I18n::lang('ru');
 

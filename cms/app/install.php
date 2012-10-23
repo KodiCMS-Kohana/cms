@@ -13,7 +13,6 @@ define('TABLE_PREFIX', '');
  */
 Cookie::$salt = 'install_system';
 
-
 /**
  * Enable modules. Modules are referenced by a relative or absolute path.
  */

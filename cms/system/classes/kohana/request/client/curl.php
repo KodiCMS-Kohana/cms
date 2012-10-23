@@ -1,4 +1,4 @@
-<?php defined('SYSPATH') or die('No direct script access.');
+<?php defined('SYSPATH') OR die('No direct script access.');
 /**
  * [Request_Client_External] Curl driver performs external requests using the
  * php-curl extention. This is the default driver for all external requests.
@@ -16,10 +16,11 @@ class Kohana_Request_Client_Curl extends Request_Client_External {
 	 * Sends the HTTP message [Request] to a remote server and processes
 	 * the response.
 	 *
-	 * @param   Request $request    request to send
+	 * @param   Request   $request  request to send
+	 * @param   Response  $request  response to send
 	 * @return  Response
 	 */
-	public function _send_message(Request $request)
+	public function _send_message(Request $request, Response $response)
 	{
 		// Response headers
 		$response_headers = array();
@@ -54,8 +55,7 @@ class Kohana_Request_Client_Curl extends Request_Client_External {
 			$options[CURLOPT_COOKIE] = http_build_query($cookies, NULL, '; ');
 		}
 
-		// Create response
-		$response = $request->create_response();
+		// Get any exisiting response headers
 		$response_header = $response->headers();
 
 		// Implement the standard parsing parameters

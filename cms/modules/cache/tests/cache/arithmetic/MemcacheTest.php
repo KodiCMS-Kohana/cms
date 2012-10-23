@@ -33,26 +33,25 @@ class Kohana_CacheArithmeticMemcacheTest extends Kohana_CacheArithmeticMethodsTe
 		{
 			$this->markTestSkipped('Memcache PHP Extension is not available');
 		}
-
-		if ( ! $config = Kohana::$config->load('cache')->memcache)
+		if ( ! $config = Kohana::$config->load('cache.memcache'))
 		{
 			$this->markTestSkipped('Unable to load Memcache configuration');
 		}
 
 		$memcache = new Memcache;
-		if ( ! $memcache->connect($config['servers'][0]['host'], 
-			$config['servers'][0]['port']))
+		if ( ! $memcache->connect($config['servers']['local']['host'], 
+			$config['servers']['local']['port']))
 		{
 			$this->markTestSkipped('Unable to connect to memcache server @ '.
-				$config['servers'][0]['host'].':'.
-				$config['servers'][0]['port']);
+				$config['servers']['local']['host'].':'.
+				$config['servers']['local']['port']);
 		}
 
 		if ($memcache->getVersion() === FALSE)
 		{
 			$this->markTestSkipped('Memcache server @ '.
-				$config['servers'][0]['host'].':'.
-				$config['servers'][0]['port'].
+				$config['servers']['local']['host'].':'.
+				$config['servers']['local']['port'].
 				' not responding!');
 		}
 

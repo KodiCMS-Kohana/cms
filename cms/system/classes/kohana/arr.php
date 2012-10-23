@@ -1,4 +1,4 @@
-<?php defined('SYSPATH') or die('No direct script access.');
+<?php defined('SYSPATH') OR die('No direct script access.');
 /**
  * Array helper.
  *
@@ -278,23 +278,27 @@ class Kohana_Arr {
 	}
 
 	/**
-	 * Retrieves multiple keys from an array. If the key does not exist in the
+	 * Retrieves multiple paths from an array. If the path does not exist in the
 	 * array, the default value will be added instead.
 	 *
 	 *     // Get the values "username", "password" from $_POST
 	 *     $auth = Arr::extract($_POST, array('username', 'password'));
+	 *     
+	 *     // Get the value "level1.level2a" from $data
+	 *     $data = array('level1' => array('level2a' => 'value 1', 'level2b' => 'value 2'));
+	 *     Arr::extract($data, array('level1.level2a', 'password'));
 	 *
-	 * @param   array   $array      array to extract keys from
-	 * @param   array   $keys       list of key names
-	 * @param   mixed   $default    default value
+	 * @param   array  $array    array to extract paths from
+	 * @param   array  $paths    list of path
+	 * @param   mixed  $default  default value
 	 * @return  array
 	 */
-	public static function extract($array, array $keys, $default = NULL)
+	public static function extract($array, array $paths, $default = NULL)
 	{
 		$found = array();
-		foreach ($keys as $key)
+		foreach ($paths as $path)
 		{
-			$found[$key] = isset($array[$key]) ? $array[$key] : $default;
+			Arr::set_path($found, $path, Arr::path($array, $path, $default));
 		}
 
 		return $found;
@@ -380,7 +384,7 @@ class Kohana_Arr {
 			{
 				$array[$key] = Arr::map($callbacks, $array[$key]);
 			}
-			elseif ( ! is_array($keys) or in_array($key, $keys))
+			elseif ( ! is_array($keys) OR in_array($key, $keys))
 			{
 				if (is_array($callbacks))
 				{
@@ -400,7 +404,10 @@ class Kohana_Arr {
 	}
 
 	/**
-	 * Merges one or more arrays recursively and preserves all keys.
+	 * Recursively merge two or more arrays. Values in an associative array
+	 * overwrite previous values with the same key. Values in an indexed array
+	 * are appended, but only when they do not already exist in the result.
+	 *
 	 * Note that this does not work the same as [array_merge_recursive](http://php.net/array_merge_recursive)!
 	 *
 	 *     $john = array('name' => 'john', 'children' => array('fred', 'paul', 'sally', 'jane'));
@@ -412,64 +419,75 @@ class Kohana_Arr {
 	 *     // The output of $john will now be:
 	 *     array('name' => 'mary', 'children' => array('fred', 'paul', 'sally', 'jane'))
 	 *
-	 * @param   array  $a1      initial array
-	 * @param   array  $a2,...  array to merge
+	 * @param   array  $array1      initial array
+	 * @param   array  $array2,...  array to merge
 	 * @return  array
 	 */
-	public static function merge(array $a1, array $a2)
+	public static function merge($array1, $array2)
 	{
-		$result = array();
-		for ($i = 0, $total = func_num_args(); $i < $total; $i++)
+		if (Arr::is_assoc($array2))
 		{
-			// Get the next array
-			$arr = func_get_arg($i);
-
-			// Is the array associative?
-			$assoc = Arr::is_assoc($arr);
-
-			foreach ($arr as $key => $val)
+			foreach ($array2 as $key => $value)
 			{
-				if (isset($result[$key]))
+				if (is_array($value)
+					AND isset($array1[$key])
+					AND is_array($array1[$key])
+				)
 				{
-					if (is_array($val) AND is_array($result[$key]))
+					$array1[$key] = Arr::merge($array1[$key], $value);
+				}
+				else
+				{
+					$array1[$key] = $value;
+				}
+			}
+		}
+		else
+		{
+			foreach ($array2 as $value)
+			{
+				if ( ! in_array($value, $array1, TRUE))
+				{
+					$array1[] = $value;
+				}
+			}
+		}
+
+		if (func_num_args() > 2)
+		{
+			foreach (array_slice(func_get_args(), 2) as $array2)
+			{
+				if (Arr::is_assoc($array2))
+				{
+					foreach ($array2 as $key => $value)
 					{
-						if (Arr::is_assoc($val))
+						if (is_array($value)
+							AND isset($array1[$key])
+							AND is_array($array1[$key])
+						)
 						{
-							// Associative arrays are merged recursively
-							$result[$key] = Arr::merge($result[$key], $val);
+							$array1[$key] = Arr::merge($array1[$key], $value);
 						}
 						else
 						{
-							// Find the values that are not already present
-							$diff = array_diff($val, $result[$key]);
-
-							// Indexed arrays are merged to prevent duplicates
-							$result[$key] = array_merge($result[$key], $diff);
-						}
-					}
-					else
-					{
-						if ($assoc)
-						{
-							// Associative values are replaced
-							$result[$key] = $val;
-						}
-						elseif ( ! in_array($val, $result, TRUE))
-						{
-							// Indexed values are added only if they do not yet exist
-							$result[] = $val;
+							$array1[$key] = $value;
 						}
 					}
 				}
 				else
 				{
-					// New values are added
-					$result[$key] = $val;
+					foreach ($array2 as $value)
+					{
+						if ( ! in_array($value, $array1, TRUE))
+						{
+							$array1[] = $value;
+						}
+					}
 				}
 			}
 		}
 
-		return $result;
+		return $array1;
 	}
 
 	/**

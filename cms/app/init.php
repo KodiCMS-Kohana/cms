@@ -43,7 +43,6 @@ Behavior::init();
 
 if( ! Route::cache())
 {
-
 	Route::set( 'user', ADMIN_DIR_NAME.'/<action>(?next=<next_url>)', array(
 		'action' => '(login|logout|forgot|register)',
 	) )

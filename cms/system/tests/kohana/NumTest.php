@@ -20,7 +20,9 @@ class Kohana_NumTest extends Unittest_TestCase
 	/**
 	 * SetUp test enviroment
 	 */
+	// @codingStandardsIgnoreStart
 	public function setUp()
+	// @codingStandardsIgnoreEnd
 	{
 		parent::setUp();
 
@@ -30,7 +32,9 @@ class Kohana_NumTest extends Unittest_TestCase
 	/**
 	 * Tear down environment
 	 */
+	// @codingStandardsIgnoreStart
 	public function tearDown()
+	// @codingStandardsIgnoreEnd
 	{
 		parent::tearDown();
 
@@ -195,7 +199,7 @@ class Kohana_NumTest extends Unittest_TestCase
 	{
 		foreach (array(Num::ROUND_HALF_UP, Num::ROUND_HALF_DOWN, Num::ROUND_HALF_EVEN, Num::ROUND_HALF_ODD) as $i => $mode)
 		{
-			$this->assertSame($expected[$i], Num::round($input, $precision, $mode, false));
+			$this->assertSame($expected[$i], Num::round($input, $precision, $mode, FALSE));
 		}
 	}
 }

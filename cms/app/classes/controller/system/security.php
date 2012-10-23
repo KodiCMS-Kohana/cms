@@ -1,7 +1,7 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct script access.' );
 
-class Controller_System_Security extends Controller_System_Controller {
-	
+class Controller_System_Security extends Controller_System_Controller 
+{
 	/**
 	 *
 	 * @var array
@@ -36,15 +36,13 @@ class Controller_System_Security extends Controller_System_Controller {
 		{
 			if ( AuthUser::isLoggedIn() OR $this->request->is_ajax() )
 			{
-
-				throw new HTTP_Exception_403( 'У вас нет прав доступа к текущей странице' );
+				// Forbidden / Permission Deined
+				throw HTTP_Exception::factory(403);
 			}
 			else
 			{
-				$this->go( Route::url( 'user', array(
-					'action' => 'login',
-					'next_url' => rawurldecode( Request::current()->uri() )
-				) ) );
+				// Unauthorized / Login Requied
+				throw HTTP_Exception::factory(401);
 			}
 		}
 	}

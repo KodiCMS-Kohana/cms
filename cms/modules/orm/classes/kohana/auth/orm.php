@@ -1,4 +1,4 @@
-<?php defined('SYSPATH') or die('No direct access allowed.');
+<?php defined('SYSPATH') OR die('No direct access allowed.');
 /**
  * ORM Auth driver.
  *
@@ -32,7 +32,7 @@ class Kohana_Auth_ORM extends Auth {
 			if (is_array($role))
 			{
 				// Get all the roles
-				$roles = ORM::factory('role')
+				$roles = ORM::factory('Role')
 							->where('name', 'IN', $role)
 							->find_all()
 							->as_array(NULL, 'id');
@@ -46,7 +46,7 @@ class Kohana_Auth_ORM extends Auth {
 				if ( ! is_object($role))
 				{
 					// Load the role
-					$roles = ORM::factory('role', array('name' => $role));
+					$roles = ORM::factory('Role', array('name' => $role));
 
 					if ( ! $roles->loaded())
 						return FALSE;
@@ -72,7 +72,7 @@ class Kohana_Auth_ORM extends Auth {
 			$username = $user;
 
 			// Load the user
-			$user = ORM::factory('user');
+			$user = ORM::factory('User');
 			$user->where($user->unique_key($username), '=', $username)->find();
 		}
 
@@ -83,7 +83,7 @@ class Kohana_Auth_ORM extends Auth {
 		}
 
 		// If the passwords match, perform a login
-		if ($user->has('roles', ORM::factory('role', array('name' => 'login'))) AND $user->password === $password)
+		if ($user->has('roles', ORM::factory('Role', array('name' => 'login'))) AND $user->password === $password)
 		{
 			if ($remember === TRUE)
 			{
@@ -95,7 +95,7 @@ class Kohana_Auth_ORM extends Auth {
 				);
 
 				// Create a new autologin token
-				$token = ORM::factory('user_token')
+				$token = ORM::factory('User_Token')
 							->values($data)
 							->create();
 
@@ -127,7 +127,7 @@ class Kohana_Auth_ORM extends Auth {
 			$username = $user;
 
 			// Load the user
-			$user = ORM::factory('user');
+			$user = ORM::factory('User');
 			$user->where($user->unique_key($username), '=', $username)->find();
 		}
 
@@ -151,7 +151,7 @@ class Kohana_Auth_ORM extends Auth {
 		if ($token = Cookie::get('authautologin'))
 		{
 			// Load the token and user
-			$token = ORM::factory('user_token', array('token' => $token));
+			$token = ORM::factory('User_Token', array('token' => $token));
 
 			if ($token->loaded() AND $token->user->loaded())
 			{
@@ -217,12 +217,12 @@ class Kohana_Auth_ORM extends Auth {
 			Cookie::delete('authautologin');
 
 			// Clear the autologin token from the database
-			$token = ORM::factory('user_token', array('token' => $token));
+			$token = ORM::factory('User_Token', array('token' => $token));
 
 			if ($token->loaded() AND $logout_all)
 			{
 				// Delete all user tokens. This isn't the most elegant solution but does the job
-				$tokens = ORM::factory('user_token')->where('user_id','=',$token->user_id)->find_all();
+				$tokens = ORM::factory('User_Token')->where('user_id','=',$token->user_id)->find_all();
 				
 				foreach ($tokens as $_token)
 				{
@@ -251,7 +251,7 @@ class Kohana_Auth_ORM extends Auth {
 			$username = $user;
 
 			// Load the user
-			$user = ORM::factory('user');
+			$user = ORM::factory('User');
 			$user->where($user->unique_key($username), '=', $username)->find();
 		}
 

@@ -13,7 +13,7 @@ class Controller_User extends Controller_System_Backend {
 	{
 		$this->template->title = __('Users');
 
-		$users = DB::select( 'user.*', array( 'GROUP_CONCAT("permission.name")', 'roles' ) )
+		$users = DB::select( 'user.*', array( DB::expr('GROUP_CONCAT(permission.name)'), 'roles' ) )
 			->from( array(User::tableName(), 'user') )
 			->join( array( UserPermission::tableName(), 'user_permission'), 'left' )
 				->on( 'user.id', '=', 'user_permission.user_id' )
@@ -96,7 +96,7 @@ class Controller_User extends Controller_System_Backend {
 			return $this->_edit( $id );
 		}
 
-		$user = DB::select( 'user.*', array( 'GROUP_CONCAT("user_permission.role_id")', 'roles' ) )
+		$user = DB::select( 'user.*', array(DB::expr('GROUP_CONCAT(user_permission.role_id)'), 'roles' ) )
 			->from( array(User::tableName(), 'user') )
 			->join( array( UserPermission::tableName(), 'user_permission'), 'left' )
 				->on( 'user.id', '=', 'user_permission.user_id' )
@@ -108,7 +108,7 @@ class Controller_User extends Controller_System_Backend {
 
 		if ( $user === NULL )
 		{
-			throw new Kohana_Exception('User not found!');
+			throw new HTTP_Exception_404('User not found!');
 		}
 		
 		$user->roles = explode(',', $user->roles);
@@ -197,7 +197,7 @@ class Controller_User extends Controller_System_Backend {
 
 		if ( !$user )
 		{
-			throw new Kohana_Exception( 'User not found!' );
+			throw new HTTP_Exception_404( 'User not found!' );
 		}
 
 		if ( $user->delete() )

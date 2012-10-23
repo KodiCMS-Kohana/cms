@@ -1,4 +1,4 @@
-<?php defined('SYSPATH') or die('No direct access allowed.');
+<?php defined('SYSPATH') OR die('No direct access allowed.');
 /**
  * User authorization library. Handles user login and logout, as well as secure
  * password hashing.
@@ -146,7 +146,7 @@ abstract class Kohana_Auth {
 	/**
 	 * Perform a hmac hash, using the configured method.
 	 *
-	 * @param   string  string to hash
+	 * @param   string  $str  string to hash
 	 * @return  string
 	 */
 	public function hash($str)

@@ -318,7 +318,7 @@ class FrontPage
 			$statuses[] = self::STATUS_HIDDEN;
 		}
 		
-		$sql = (string) DB::select(array('COUNT("*")', 'total'))
+		$sql = (string) DB::select(array(DB::expr('COUNT(*)'), 'total'))
 			->from(array(Page::tableName(), 'page'))
 			->where('published_on', '<=', DB::expr('NOW()'))
 			->where('status_id', 'in', $statuses);
@@ -537,7 +537,7 @@ class FrontPage
 		
 		if($mime)
 		{
-			Request::current()->response()->headers('Content-Type',  $mime );
+			Request::current()->headers('Content-Type',  $mime );
 		}
 		
 		return FrontView::factory($layout->get_file())

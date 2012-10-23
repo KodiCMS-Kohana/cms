@@ -2,17 +2,9 @@
 
 class Controller_System_Controller extends Kohana_Controller
 {
-	/**
-	 *
-	 * @var Route 
-	 */
-	public $route = 'admin';
-	
 	public function before()
 	{
 		parent::before();
-		
-		$this->route = Route::get($this->route);
 	}
 	
 	public function go_home()
@@ -58,6 +50,6 @@ class Controller_System_Controller extends Kohana_Controller
 			$url = Route::url( 'default', $route );
 		}
 
-		$this->request->redirect( $url, $code );
+		$this->redirect( $url, $code );
 	}
 } // end Controller class

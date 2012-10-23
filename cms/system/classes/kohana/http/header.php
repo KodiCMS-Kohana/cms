@@ -1,4 +1,4 @@
-<?php defined('SYSPATH') or die('No direct script access.');
+<?php defined('SYSPATH') OR die('No direct script access.');
 /**
  * The Kohana_HTTP_Header class provides an Object-Orientated interface
  * to HTTP headers. This can parse header arrays returned from the
@@ -294,7 +294,7 @@ class Kohana_HTTP_Header extends ArrayObject {
 		 *
 		 * HTTP header declarations should be treated as case-insensitive
 		 */
-		$input = array_change_key_case((array) $input, CASE_LOWER);
+		$input = array_change_key_case( (array) $input, CASE_LOWER);
 
 		parent::__construct($input, $flags, $iterator_class);
 	}
@@ -420,7 +420,7 @@ class Kohana_HTTP_Header extends ArrayObject {
 		 *
 		 * HTTP header declarations should be treated as case-insensitive
 		 */
-		$input = array_change_key_case((array) $input, CASE_LOWER);
+		$input = array_change_key_case( (array) $input, CASE_LOWER);
 
 		return parent::exchangeArray($input);
 	}
@@ -886,14 +886,12 @@ class Kohana_HTTP_Header extends ArrayObject {
 
 		if ( ! isset($headers['content-type']))
 		{
-			$processed_headers[] = 'Content-Type: '.Kohana::$content_type.
-				'; charset='.Kohana::$charset;
+			$processed_headers[] = 'Content-Type: '.Kohana::$content_type.'; charset='.Kohana::$charset;
 		}
 
 		if (Kohana::$expose AND ! isset($headers['x-powered-by']))
 		{
-			$processed_headers[] = 'X-Powered-By: Kohana Framework '.
-				Kohana::VERSION.' ('.Kohana::CODENAME.')';
+			$processed_headers[] = 'X-Powered-By: '.Kohana::version();
 		}
 
 		// Get the cookies and apply

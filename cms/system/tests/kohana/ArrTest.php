@@ -77,6 +77,36 @@ class Kohana_ArrTest extends Unittest_TestCase
 				'not in stock',
 				array('carrot cake' => 'in stock', 'humble pie' => 'not in stock'),
 			),
+			array(
+				// Source Array
+				array('level1' => array('level2a' => 'value 1', 'level2b' => 'value 2')),
+				// Paths to extract
+				array('level1.level2a', 'level1.level2b'),
+				// Default
+				NULL,
+				// Expected Result
+				array('level1' => array('level2a' => 'value 1', 'level2b' => 'value 2')),
+			),
+			array(
+				// Source Array
+				array('level1a' => array('level2a' => 'value 1'), 'level1b' => array('level2b' => 'value 2')),
+				// Paths to extract
+				array('level1a', 'level1b.level2b'),
+				// Default
+				NULL,
+				// Expected Result
+				array('level1a' => array('level2a' => 'value 1'), 'level1b' => array('level2b' => 'value 2')),
+			),
+			array(
+				// Source Array
+				array('level1a' => array('level2a' => 'value 1'), 'level1b' => array('level2b' => 'value 2')),
+				// Paths to extract
+				array('level1a', 'level1b.level2b', 'level1c', 'level1d.notfound'),
+				// Default
+				'default',
+				// Expected Result
+				array('level1a' => array('level2a' => 'value 1'), 'level1b' => array('level2b' => 'value 2'), 'level1c' => 'default', 'level1d' => array('notfound' => 'default')),
+			),
 		);
 	}
 
@@ -86,13 +116,13 @@ class Kohana_ArrTest extends Unittest_TestCase
 	 * @test
 	 * @dataProvider provider_extract
 	 * @param array $array
-	 * @param array $keys
+	 * @param array $paths
 	 * @param mixed $default
 	 * @param array $expected
 	 */
-	public function test_extract(array $array, array $keys, $default, $expected)
+	public function test_extract(array $array, array $paths, $default, $expected)
 	{
-		$array = Arr::extract($array, $keys, $default);
+		$array = Arr::extract($array, $paths, $default);
 
 		$this->assertSame(count($expected), count($array));
 		$this->assertSame($expected, $array);
@@ -243,14 +273,19 @@ class Kohana_ArrTest extends Unittest_TestCase
 			),
 			// See how it merges sub-arrays with numerical indexes
 			array(
-				array(array('test1','test3'), array('test2','test4')),
+				array(array('test1'), array('test2'), array('test3')),
 				array(array('test1'), array('test2')),
-				array(array('test3'), array('test4')),
+				array(array('test2'), array('test3')),
 			),
 			array(
-				array(array('test1','test3'), array('test2','test4')),
-				array(array('test1'), array('test2')),
-				array(array('test3'), array('test4')),
+				array(array(array('test1')), array(array('test2')), array(array('test3'))),
+				array(array(array('test1')), array(array('test2'))),
+				array(array(array('test2')), array(array('test3'))),
+			),
+			array(
+				array('a' => array('test1','test2'), 'b' => array('test2','test3')),
+				array('a' => array('test1'), 'b' => array('test2')),
+				array('a' => array('test2'), 'b' => array('test3')),
 			),
 			array(
 				array('digits' => array(0, 1, 2, 3)),
@@ -279,6 +314,73 @@ class Kohana_ArrTest extends Unittest_TestCase
 				array('foo'	=> 'bar'),
 				array('foo'	=> array('bar')),
 				array('foo'	=> 'bar'),
+			),
+
+			// data set #9
+			// Associative, Associative
+			array(
+				array('a' => 'K', 'b' => 'K', 'c' => 'L'),
+				array('a' => 'J', 'b' => 'K'),
+				array('a' => 'K', 'c' => 'L'),
+			),
+			// Associative, Indexed
+			array(
+				array('a' => 'J', 'b' => 'K', 'L'),
+				array('a' => 'J', 'b' => 'K'),
+				array('K', 'L'),
+			),
+			// Associative, Mixed
+			array(
+				array('a' => 'J', 'b' => 'K', 'K', 'c' => 'L'),
+				array('a' => 'J', 'b' => 'K'),
+				array('K', 'c' => 'L'),
+			),
+
+			// data set #12
+			// Indexed, Associative
+			array(
+				array('J', 'K', 'a' => 'K', 'c' => 'L'),
+				array('J', 'K'),
+				array('a' => 'K', 'c' => 'L'),
+			),
+			// Indexed, Indexed
+			array(
+				array('J', 'K', 'L'),
+				array('J', 'K'),
+				array('K', 'L'),
+			),
+			// Indexed, Mixed
+			array(
+				array('K', 'K', 'c' => 'L'),
+				array('J', 'K'),
+				array('K', 'c' => 'L'),
+			),
+
+			// data set #15
+			// Mixed, Associative
+			array(
+				array('a' => 'K', 'K', 'c' => 'L'),
+				array('a' => 'J', 'K'),
+				array('a' => 'K', 'c' => 'L'),
+			),
+			// Mixed, Indexed
+			array(
+				array('a' => 'J', 'K', 'L'),
+				array('a' => 'J', 'K'),
+				array('J', 'L'),
+			),
+			// Mixed, Mixed
+			array(
+				array('a' => 'K', 'L'),
+				array('a' => 'J', 'K'),
+				array('a' => 'K', 'L'),
+			),
+
+			// Bug #3141
+			array(
+				array('servers' => array(array('1.1.1.1', 4730), array('2.2.2.2', 4730))),
+				array('servers' => array(array('1.1.1.1', 4730))),
+				array('servers' => array(array('2.2.2.2', 4730))),
 			),
 		);
 	}
@@ -423,11 +525,11 @@ class Kohana_ArrTest extends Unittest_TestCase
 	{
 		$range = Arr::range($step, $max);
 
-		$this->assertSame((int) floor($max / $step), count($range));
+		$this->assertSame( (int) floor($max / $step), count($range));
 
 		$current = $step;
 
-		foreach($range as $key => $value)
+		foreach ($range as $key => $value)
 		{
 			$this->assertSame($key, $value);
 			$this->assertSame($current, $key);
