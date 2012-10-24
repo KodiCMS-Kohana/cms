@@ -32,7 +32,7 @@ setlocale( LC_ALL, 'ru_RU.utf-8' );
  * @link http://kohanaframework.org/guide/using.autoloading
  * @link http://www.php.net/manual/function.spl-autoload-register
  */
-spl_autoload_register(array('Kohana', 'auto_load'));
+//spl_autoload_register(array('Kohana', 'auto_load'));
 
 /**
  * Optionally, you can enable a compatibility auto-loader for use with
@@ -40,7 +40,7 @@ spl_autoload_register(array('Kohana', 'auto_load'));
  *
  * It is recommended to not enable this unless absolutely necessary.
  */
-//spl_autoload_register(array('Kohana', 'auto_load_lowercase'));
+spl_autoload_register(array('Kohana', 'auto_load_lowercase'));
 
 /**
  * Enable the Kohana auto-loader for unserialization.
