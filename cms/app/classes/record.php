@@ -29,7 +29,7 @@ class Record
 	 * @param array $data
 	 * @param array $exclude
 	 */
-    public function __construct(array $data = FALSE, array $exclude = array())
+    public function __construct($data = FALSE, $exclude = array())
     {
 		$this->reloadColumns();
 
