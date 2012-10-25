@@ -106,7 +106,15 @@ class FrontPage
         return $this->tags;
     }
     
-    public function link($label = NULL, $options = array(), $check_current = TRUE)
+	public function is_active()
+	{
+		$url = Request::current()->url();		
+		$page_url = $this->url . URL_SUFFIX;
+
+		return (strpos($url, $page_url) === 1);
+	}
+
+	public function link($label = NULL, $options = array(), $check_current = TRUE)
     {
         if ($label == NULL)
 		{
@@ -115,7 +123,7 @@ class FrontPage
 		
 		if ($check_current === TRUE)
 		{
-			if (strpos(Request::current()->url(), $this->url) === 1)
+			if ($this->is_active())
 			{
 				if(!isset($options['class']))
 				{
