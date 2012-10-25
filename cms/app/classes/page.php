@@ -3,7 +3,6 @@
 /**
  * @package    Kodi/Model
  */
-
 class Page extends Record
 {
     const TABLE_NAME = 'pages';
@@ -116,6 +115,9 @@ class Page extends Record
 		
 		Kohana::cache('Database::cache(pageParts::page_id::'.$this->id.')', NULL, -1);
 		Kohana::cache('Database::cache(pageTags::page_id::'.$this->id.')', NULL, -1);
+		
+		Kohana::cache('FrontPage::children::::parent_id::' . $this->id.')', NULL, -1);
+		Kohana::cache('FrontPage::childrenCount::::parent_id::' . $this->id.')', NULL, -1);
 
 		return $this->afterInsert();
 	}

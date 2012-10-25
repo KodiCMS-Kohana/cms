@@ -286,6 +286,7 @@ class FrontPage
         }
 		
 		$query = DB::query(Database::SELECT, $sql)
+			->cache_key( 'FrontPage::children::::parent_id::' . $this->id.')' )
 			->cached((int)Kohana::$config->load('global.cache.front_page'))
 			->execute();
         
@@ -335,6 +336,7 @@ class FrontPage
 		$sql .= "$where_string ORDER BY $order $limit_string";
 
 		return (int) DB::query(Database::SELECT, $sql)
+			->cache_key( 'FrontPage::childrenCount::::parent_id::' . $this->id.')' )
 			->cached((int)Kohana::$config->load('global.cache.front_page'))
 			->execute()
 			->get('total');
