@@ -90,7 +90,7 @@ class Behavior
 		}
 		else
 		{
-			throw new  Kohana_Exception('Behavior :behavior not found!', array(
+			throw new HTTP_Exception_404('Behavior :behavior not found!', array(
 				':behavior' => $behavior_id
 			));
 		}

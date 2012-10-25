@@ -2,7 +2,6 @@
 
 $cms = 'cms' . DIRECTORY_SEPARATOR;
 
-
 /**
  * The directory in which your application specific resources are located.
  * The application directory must contain the bootstrap.php file.
@@ -100,18 +99,17 @@ if ( ! defined('KOHANA_START_MEMORY'))
 	define('KOHANA_START_MEMORY', memory_get_usage());
 }
 
-
-define('IS_INSTALLED', file_exists('config'.EXT));
+define('IS_INSTALLED', file_exists(DOCROOT . 'config'.EXT));
 
 // Bootstrap the application
 require APPPATH.'bootstrap'.EXT;
 
-if (IS_INSTALLED)
+$uri = TRUE;
+
+if (IS_INSTALLED === TRUE)
 {
 	include DOCROOT.'config'.EXT;
-
 	define('IS_BACKEND', URL::match(ADMIN_DIR_NAME, Request::detect_uri()));
-
 	include APPPATH.'init'.EXT;
 }
 else
@@ -121,11 +119,25 @@ else
 	
 	if(!URL::match('install', Request::detect_uri()))
 	{
-		Request::factory()->redirect('install');
+		$uri = Route::url('install');
 	}
 }
 
-echo Request::factory()
-	->execute()
-	->send_headers()
-	->body();
+if (PHP_SAPI == 'cli') // Try and load minion
+{
+	class_exists('Minion_Task') OR die('Please enable the Minion module for CLI support.');
+	set_exception_handler(array('Minion_Exception', 'handler'));
+
+	Minion_Task::factory(Minion_CLI::options())->execute();
+}
+else
+{
+	/**
+	 * Execute the main request. A source of the URI can be passed, eg: $_SERVER['PATH_INFO'].
+	 * If no source is specified, the URI will be automatically detected.
+	 */
+	echo Request::factory($uri, array(), FALSE)
+		->execute()
+		->send_headers()
+		->body();
+}

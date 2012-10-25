@@ -443,7 +443,7 @@ class Kohana_ValidationTest extends Unittest_TestCase
 		$current = i18n::lang();
 		i18n::lang('es');
 
-		foreach($rules as $field => $field_rules)
+		foreach ($rules as $field => $field_rules)
 		{
 			$validation->rules($field, $field_rules);
 		}
@@ -542,7 +542,7 @@ class Kohana_ValidationTest extends Unittest_TestCase
 	public function test_object_parameters_not_in_messages()
 	{
 		$validation = Validation::factory(array('foo' => 'foo'))
-			->rule('bar', 'matches', array(':validation', 'foo', ':field'));
+			->rule('bar', 'matches', array(':validation', ':field', 'foo'));
 
 		$validation->check();
 		$errors = $validation->errors('validation');
@@ -589,7 +589,9 @@ class Kohana_ValidationTest extends Unittest_TestCase
 		$this->assertSame($data, $validation->data());
 	}
 
+	// @codingStandardsIgnoreStart
 	public function test_offsetExists()
+	// @codingStandardsIgnoreEnd
 	{
 		$array = array(
 			'one' => 'Hello',
@@ -604,7 +606,9 @@ class Kohana_ValidationTest extends Unittest_TestCase
 		$this->assertFalse(isset($validation['five']));
 	}
 
+	// @codingStandardsIgnoreStart
 	public function test_offsetSet_throws_exception()
+	// @codingStandardsIgnoreEnd
 	{
 		$this->setExpectedException('Kohana_Exception');
 
@@ -614,7 +618,9 @@ class Kohana_ValidationTest extends Unittest_TestCase
 		$validation['field'] = 'something';
 	}
 
+	// @codingStandardsIgnoreStart
 	public function test_offsetGet()
+	// @codingStandardsIgnoreEnd
 	{
 		$array = array(
 			'one' => 'Hello',
@@ -629,7 +635,9 @@ class Kohana_ValidationTest extends Unittest_TestCase
 		$this->assertSame($array['ten'], $validation['ten']);
 	}
 
+	// @codingStandardsIgnoreStart
 	public function test_offsetUnset()
+	// @codingStandardsIgnoreEnd
 	{
 		$this->setExpectedException('Kohana_Exception');
 

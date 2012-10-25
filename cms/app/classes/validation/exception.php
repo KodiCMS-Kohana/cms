@@ -1,8 +1,7 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Validation_Exception extends Kohana_Exception {
-	
-	
+class Validation_Exception extends Kohana_Exception 
+{
 	/**
 	* Array of validation objects
 	* @var array

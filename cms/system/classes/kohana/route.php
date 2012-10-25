@@ -1,4 +1,4 @@
-<?php defined('SYSPATH') or die('No direct script access.');
+<?php defined('SYSPATH') OR die('No direct script access.');
 /**
  * Routes are used to determine the controller and action for a requested URI.
  * Every route generates a regular expression which is used to match a URI
@@ -81,13 +81,13 @@ class Kohana_Route {
 	 *         ));
 	 *
 	 * @param   string  $name           route name
-	 * @param   string  $uri_callback   URI pattern
+	 * @param   string  $uri            URI pattern
 	 * @param   array   $regex          regex patterns for route keys
 	 * @return  Route
 	 */
-	public static function set($name, $uri_callback = NULL, $regex = NULL)
+	public static function set($name, $uri = NULL, $regex = NULL)
 	{
-		return Route::$_routes[$name] = new Route($uri_callback, $regex);
+		return Route::$_routes[$name] = new Route($uri, $regex);
 	}
 
 	/**
@@ -147,11 +147,12 @@ class Kohana_Route {
 	 *     }
 	 *
 	 * @param   boolean $save   cache the current routes
+	 * @param   boolean $append append, rather than replace, cached routes when loading
 	 * @return  void    when saving routes
 	 * @return  boolean when loading routes
 	 * @uses    Kohana::cache
 	 */
-	public static function cache($save = FALSE)
+	public static function cache($save = FALSE, $append = FALSE)
 	{
 		if ($save === TRUE)
 		{
@@ -165,14 +166,23 @@ class Kohana_Route {
 				// We most likely have a lambda in a route, which cannot be cached
 				throw new Kohana_Exception('One or more routes could not be cached (:message)', array(
 						':message' => $e->getMessage(),
-					));
+					), 0, $e);
 			}
 		}
 		else
 		{
 			if ($routes = Kohana::cache('Route::cache()'))
 			{
-				Route::$_routes = $routes;
+				if ($append)
+				{
+					// Append cached routes
+					Route::$_routes += $routes;
+				}
+				else
+				{
+					// Replace existing routes
+					Route::$_routes = $routes;
+				}
 
 				// Routes were cached
 				return Route::$cache = TRUE;
@@ -226,9 +236,6 @@ class Kohana_Route {
 	 */
 	public static function compile($uri, array $regex = NULL)
 	{
-		if ( ! is_string($uri))
-			return;
-
 		// The URI should be considered literal except for keys and optional parts
 		// Escape everything preg_quote would escape except for : ( ) < >
 		$expression = preg_replace('#'.Route::REGEX_ESCAPE.'#', '\\\\$0', $uri);
@@ -259,9 +266,9 @@ class Kohana_Route {
 	}
 
 	/**
-	 * @var  callback     The callback method for routes
+	 * @var  array  route filters
 	 */
-	protected $_callback;
+	protected $_filters = array();
 
 	/**
 	 * @var  string  route URI
@@ -290,26 +297,10 @@ class Kohana_Route {
 	 *
 	 *     $route = new Route($uri, $regex);
 	 *
-	 * The $uri parameter can either be a string for basic regex matching or it
-	 * can be a valid callback or anonymous function (php 5.3+). If you use a
-	 * callback or anonymous function, your method should return an array
-	 * containing the proper keys for the route. If you want the route to be
-	 * "reversable", you need pass the route string as the third parameter.
+	 * The $uri parameter should be a string for basic regex matching.
 	 *
-	 *     $route = new Route(function($uri)
-	 *     {
-	 *     	if (list($controller, $action, $param) = explode('/', $uri) AND $controller == 'foo' AND $action == 'bar')
-	 *     	{
-	 *     		return array(
-	 *     			'controller' => 'foobar',
-	 *     			'action' => $action,
-	 *     			'id' => $param,
-	 *     		);
-	 *     	},
-	 *     	'foo/bar/<id>'
-	 *     });
 	 *
-	 * @param   mixed   $uri    route URI pattern or lambda/callback function
+	 * @param   string  $uri    route URI pattern
 	 * @param   array   $regex  key patterns
 	 * @return  void
 	 * @uses    Route::_compile
@@ -322,13 +313,7 @@ class Kohana_Route {
 			return;
 		}
 
-		if ( ! is_string($uri) AND is_callable($uri))
-		{
-			$this->_callback = $uri;
-			$this->_uri = $regex;
-			$regex = NULL;
-		}
-		elseif ( ! empty($uri))
+		if ( ! empty($uri))
 		{
 			$this->_uri = $uri;
 		}
@@ -369,6 +354,46 @@ class Kohana_Route {
 	}
 
 	/**
+	 * Filters to be run before route parameters are returned:
+	 *
+	 *     $route->filter(
+	 *         function(Route $route, $params, Request $request)
+	 *         {
+	 *             if ($request->method() !== HTTP_Request::POST)
+	 *             {
+	 *                 return FALSE; // This route only matches POST requests
+	 *             }
+	 *             if ($params AND $params['controller'] === 'welcome')
+	 *             {
+	 *                 $params['controller'] = 'home';
+	 *             }
+	 *
+	 *             return $params;
+	 *         }
+	 *     );
+	 *
+	 * To prevent a route from matching, return `FALSE`. To replace the route
+	 * parameters, return an array.
+	 *
+	 * [!!] Default parameters are added before filters are called!
+	 *
+	 * @throws  Kohana_Exception
+	 * @param   array   $callback   callback string, array, or closure
+	 * @return  $this
+	 */
+	public function filter($callback)
+	{
+		if ( ! is_callable($callback))
+		{
+			throw new Kohana_Exception('Invalid Route::callback specified');
+		}
+
+		$this->_filters[] = $callback;
+
+		return $this;
+	}
+
+	/**
 	 * Tests if the route matches a given URI. A successful match will return
 	 * all of the routed parameters as an array. A failed match will return
 	 * boolean FALSE.
@@ -387,33 +412,25 @@ class Kohana_Route {
 	 * @return  array   on success
 	 * @return  FALSE   on failure
 	 */
-	public function matches($uri)
+	public function matches(Request $request)
 	{
-		if ($this->_callback)
-		{
-			$closure = $this->_callback;
-			$params = call_user_func($closure, $uri);
+		// Get the URI from the Request
+		$uri = trim($request->uri(), '/');
 
-			if ( ! is_array($params))
-				return FALSE;
-		}
-		else
-		{
-			if ( ! preg_match($this->_route_regex, $uri, $matches))
-				return FALSE;
+		if ( ! preg_match($this->_route_regex, $uri, $matches))
+			return FALSE;
 
-			$params = array();
-			foreach ($matches as $key => $value)
+		$params = array();
+		foreach ($matches as $key => $value)
+		{
+			if (is_int($key))
 			{
-				if (is_int($key))
-				{
-					// Skip all unnamed keys
-					continue;
-				}
-
-				// Set the value for all matched keys
-				$params[$key] = $value;
+				// Skip all unnamed keys
+				continue;
 			}
+
+			// Set the value for all matched keys
+			$params[$key] = $value;
 		}
 
 		foreach ($this->_defaults as $key => $value)
@@ -422,6 +439,38 @@ class Kohana_Route {
 			{
 				// Set default values for any key that was not matched
 				$params[$key] = $value;
+			}
+		}
+
+		if ( ! empty($params['controller']))
+		{
+			// PSR-0: Replace underscores with spaces, run ucwords, then replace underscore
+			$params['controller'] = str_replace(' ', '_', ucwords(str_replace('_', ' ', $params['controller'])));
+		}
+
+		if ( ! empty($params['directory']))
+		{
+			// PSR-0: Replace underscores with spaces, run ucwords, then replace underscore
+			$params['directory'] = str_replace(' ', '_', ucwords(str_replace('_', ' ', $params['directory'])));
+		}
+
+		if ($this->_filters)
+		{
+			foreach ($this->_filters as $callback)
+			{
+				// Execute the filter giving it the route, params, and request
+				$return = call_user_func($callback, $this, $params, $request);
+
+				if ($return === FALSE)
+				{
+					// Filter has aborted the match
+					return FALSE;
+				}
+				elseif (is_array($return))
+				{
+					// Filter has modified the parameters
+					$params = $return;
+				}
 			}
 		}
 
@@ -482,8 +531,12 @@ class Kohana_Route {
 			return rtrim($params['host'], '/').'/'.$uri;
 		}
 
+		// Keep track of whether an optional param was replaced
+		$provided_optional = FALSE;
+
 		while (preg_match('#\([^()]++\)#', $uri, $match))
 		{
+
 			// Search for the matched value
 			$search = $match[0];
 
@@ -494,10 +547,28 @@ class Kohana_Route {
 			{
 				list($key, $param) = $match;
 
-				if (isset($params[$param]))
+				if (isset($params[$param]) AND $params[$param] !== Arr::get($this->_defaults, $param))
 				{
+					// Future optional params should be required
+					$provided_optional = TRUE;
+
 					// Replace the key with the parameter value
 					$replace = str_replace($key, $params[$param], $replace);
+				}
+				elseif ($provided_optional)
+				{
+					// Look for a default
+					if (isset($this->_defaults[$param]))
+					{
+						$replace = str_replace($key, $this->_defaults[$param], $replace);
+					}
+					else
+					{
+						// Ungrouped parameters are required
+						throw new Kohana_Exception('Required route parameter not passed: :param', array(
+							':param' => $param,
+						));
+					}
 				}
 				else
 				{
@@ -528,7 +599,7 @@ class Kohana_Route {
 					throw new Kohana_Exception('Required route parameter not passed: :param', array(
 						':param' => $param,
 					));
-			}
+				}
 			}
 
 			$uri = str_replace($key, $params[$param], $uri);

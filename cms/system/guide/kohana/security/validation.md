@@ -65,6 +65,36 @@ Rules defined in the [Valid] class can be added by using the method name alone. 
     $object->rule('number', array('Valid', 'phone'));
     $object->rule('number', 'Valid::phone');
 
+### Adding Rules for multiple fields together
+
+To validate multiple fields together, you can do something like this:
+
+    $object->rule('one', 'only_one', array(':validation', array('one', 'two')));
+    $object->rule('two', 'only_one', array(':validation', array('one', 'two')));
+
+    public function only_one($validation, $fields)
+    {
+        // If more than 1 field is set, bail.
+        $matched = 0;
+
+        foreach ($fields as $field)
+        {
+            if (isset($validation[$field]))
+            {
+                $matched++;
+            }
+        }
+
+        if ($matched > 0)
+        {
+            // Add the error to all concerned fields
+            foreach ($fields as $field)
+            {
+                $validation->error($field, 'only_one');
+            }
+        }
+    }
+
 ## Binding Variables
 
 The [Validation] class allows you to bind variables to certain strings so that they can be used when defining rules. Variables are bound by calling the [Validation::bind] method.
@@ -174,7 +204,7 @@ First, we need a [View] that contains the HTML form, which will be placed in `ap
 
 [!!] This example uses the [Form] helper extensively. Using [Form] instead of writing HTML ensures that all of the form inputs will properly handle input that includes HTML characters. If you prefer to write the HTML yourself, be sure to use [HTML::chars] to escape user input.
 
-Next, we need a controller and action to process the registration, which will be placed in `application/classes/controller/user.php`:
+Next, we need a controller and action to process the registration, which will be placed in `application/classes/Controller/User.php`:
 
     class Controller_User extends Controller {
 
@@ -200,7 +230,7 @@ Next, we need a controller and action to process the registration, which will be
                 $user->register($this->request->post());
 
                 // Always redirect after a successful POST to prevent refresh warnings
-                $this->request->redirect('user/profile');
+                $this->redirect('user/profile', 302);
             }
 
             // Validation failed, collect the errors
@@ -214,7 +244,7 @@ Next, we need a controller and action to process the registration, which will be
 
     }
 
-We will also need a user model, which will be placed in `application/classes/model/user.php`:
+We will also need a user model, which will be placed in `application/classes/Model/User.php`:
 
     class Model_User extends Model {
 

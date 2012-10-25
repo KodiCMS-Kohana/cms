@@ -42,7 +42,7 @@ class Kohana_FeedTest extends Unittest_TestCase
 	{
 		$this->markTestSkipped('We don\'t go to the internet for tests.');
 
-		$this->assertEquals($expected, count(feed::parse($source)));
+		$this->assertEquals($expected, count(Feed::parse($source)));
 	}
 
 	/**
@@ -113,11 +113,11 @@ class Kohana_FeedTest extends Unittest_TestCase
 	{
 		$this->setEnvironment($enviroment);
 
-		$this->assertTag($matcher_item, feed::create($info, $items), '', FALSE);
+		$this->assertTag($matcher_item, Feed::create($info, $items), '', FALSE);
 
 		foreach ($matchers_image as $matcher_image)
 		{
-			$this->assertTag($matcher_image, feed::create($info, $items), '', FALSE);
+			$this->assertTag($matcher_image, Feed::create($info, $items), '', FALSE);
 		}
 	}
 }

@@ -1,4 +1,4 @@
-<?php defined('SYSPATH') or die('No direct script access.');
+<?php defined('SYSPATH') OR die('No direct script access.');
 /**
  * Validation rules.
  *
@@ -74,7 +74,7 @@ class Kohana_Valid {
 	{
 		if (is_array($length))
 		{
-			foreach($length as $strlen)
+			foreach ($length as $strlen)
 			{
 				if (UTF8::strlen($value) === $strlen)
 					return TRUE;
@@ -473,11 +473,25 @@ class Kohana_Valid {
 	 * @param   string  $number number to check
 	 * @param   integer $min    minimum value
 	 * @param   integer $max    maximum value
+	 * @param   integer $step   increment size
 	 * @return  boolean
 	 */
-	public static function range($number, $min, $max)
+	public static function range($number, $min, $max, $step = NULL)
 	{
-		return ($number >= $min AND $number <= $max);
+		if ($number <= $min OR $number >= $max)
+		{
+			// Number is outside of range
+			return FALSE;
+		}
+
+		if ( ! $step)
+		{
+			// Default to steps of 1
+			$step = 1;
+		}
+
+		// Check step requirements
+		return (($number - $min) % $step === 0);
 	}
 
 	/**

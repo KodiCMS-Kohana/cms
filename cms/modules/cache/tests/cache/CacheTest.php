@@ -23,19 +23,28 @@ class Kohana_CacheTest extends PHPUnit_Framework_TestCase {
 	{
 		$tmp = realpath(sys_get_temp_dir());
 
+		$base = array();
+
+		if (Kohana::$config->load('cache.file'))
+		{
+			$base = array(
+				// Test default group
+				array(
+					NULL,
+					Cache::instance('file')
+				),
+				// Test defined group
+				array(
+					'file',
+					Cache::instance('file')
+				),
+			);
+		}
+
+
 		return array(
-			// Test default group
-			array(
-				NULL,
-				Cache::instance('file')
-			),
-			// Test defined group
-			array(
-				'file',
-				Cache::instance('file')
-			),
 			// Test bad group definition
-			array(
+			$base+array(
 				Kohana_CacheTest::BAD_GROUP_DEFINITION,
 				'Failed to load Kohana Cache group: 1010'
 			),
@@ -81,6 +90,11 @@ class Kohana_CacheTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function test_cloning_fails()
 	{
+		if ( ! Kohana::$config->load('cache.file'))
+		{
+			$this->markTestSkipped('Unable to load File configuration');
+		}
+
 		try
 		{
 			$cache_clone = clone(Cache::instance('file'));

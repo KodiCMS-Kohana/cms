@@ -1,4 +1,4 @@
-<?php defined('SYSPATH') or die('No direct script access.');
+<?php defined('SYSPATH') OR die('No direct script access.');
 /**
  * HTML helper class. Provides generic methods for generating various HTML
  * tags and making output HTML safe.
@@ -45,6 +45,11 @@ class Kohana_HTML {
 		'readonly',
 		'disabled',
 	);
+
+	/**
+	 * @var  boolean  use strict XHTML mode?
+	 */
+	public static $strict = TRUE;
 
 	/**
 	 * @var  boolean  automatically target external URLs to a new window?
@@ -211,7 +216,7 @@ class Kohana_HTML {
 		$attributes['href'] = $file;
 
 		// Set the stylesheet rel
-		$attributes['rel'] = 'stylesheet';
+		$attributes['rel'] = empty($attributes['rel']) ? 'stylesheet' : $attributes['rel'];
 
 		// Set the stylesheet type
 		$attributes['type'] = 'text/css';
@@ -316,10 +321,22 @@ class Kohana_HTML {
 			{
 				// Assume non-associative keys are mirrored attributes
 				$key = $value;
+
+				if ( ! HTML::$strict)
+				{
+					// Just use a key
+					$value = FALSE;
+				}
 			}
 
-			// Add the attribute value
-			$compiled .= ' '.$key.'="'.HTML::chars($value).'"';
+			// Add the attribute key
+			$compiled .= ' '.$key;
+
+			if ($value OR HTML::$strict)
+			{
+				// Add the attribute value
+				$compiled .= '="'.HTML::chars($value).'"';
+			}
 		}
 
 		return $compiled;

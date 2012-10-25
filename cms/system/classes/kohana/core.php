@@ -1,4 +1,4 @@
-<?php defined('SYSPATH') or die('No direct script access.');
+<?php defined('SYSPATH') OR die('No direct script access.');
 /**
  * Contains the most low-level helpers methods in Kohana:
  *
@@ -16,8 +16,8 @@
 class Kohana_Core {
 
 	// Release version and codename
-	const VERSION  = '3.2.2';
-	const CODENAME = 'hypoleucos';
+	const VERSION  = '3.3.0';
+	const CODENAME = 'badius';
 
 	// Common environment type constants for consistency and convenience
 	const PRODUCTION  = 10;
@@ -37,11 +37,6 @@ class Kohana_Core {
 	public static $environment = Kohana::DEVELOPMENT;
 
 	/**
-	 * @var  boolean  True if Kohana is running from the command line
-	 */
-	public static $is_cli = FALSE;
-
-	/**
 	 * @var  boolean  True if Kohana is running on windows
 	 */
 	public static $is_windows = FALSE;
@@ -50,11 +45,6 @@ class Kohana_Core {
 	 * @var  boolean  True if [magic quotes](http://php.net/manual/en/security.magicquotes.php) is enabled.
 	 */
 	public static $magic_quotes = FALSE;
-
-	/**
-	 * @var  boolean  Should errors and exceptions be logged
-	 */
-	public static $log_errors = FALSE;
 
 	/**
 	 * @var  boolean  TRUE if PHP safe mode is on
@@ -227,6 +217,14 @@ class Kohana_Core {
 			set_error_handler(array('Kohana', 'error_handler'));
 		}
 
+		/**
+		 * Enable xdebug parameter collection in development mode to improve fatal stack traces.
+		 */
+		if (Kohana::$environment == Kohana::DEVELOPMENT AND extension_loaded('xdebug'))
+		{
+		    ini_set('xdebug.collect_params', 3);
+		}
+
 		// Enable the Kohana shutdown handler, which catches E_FATAL errors.
 		register_shutdown_function(array('Kohana', 'shutdown_handler'));
 
@@ -240,9 +238,6 @@ class Kohana_Core {
 		{
 			Kohana::$expose = (bool) $settings['expose'];
 		}
-
-		// Determine if we are running in a command line environment
-		Kohana::$is_cli = (PHP_SAPI === 'cli');
 
 		// Determine if we are running in a Windows environment
 		Kohana::$is_windows = (DIRECTORY_SEPARATOR === '\\');
@@ -327,7 +322,7 @@ class Kohana_Core {
 		}
 
 		// Determine if the extremely evil magic quotes are enabled
-		Kohana::$magic_quotes = version_compare(PHP_VERSION, '5.4') < 0 AND get_magic_quotes_gpc();
+		Kohana::$magic_quotes = (version_compare(PHP_VERSION, '5.4') < 0 AND get_magic_quotes_gpc());
 
 		// Sanitize all request variables
 		$_GET    = Kohana::sanitize($_GET);
@@ -475,11 +470,13 @@ class Kohana_Core {
 	 * naming conventions](kohana/conventions#class-names-and-file-location).
 	 * See [Loading Classes](kohana/autoloading) for more information.
 	 *
-	 * Class names are converted to file names by making the class name
-	 * lowercase and converting underscores to slashes:
-	 *
-	 *     // Loads classes/my/class/name.php
+	 *     // Loads classes/My/Class/Name.php
 	 *     Kohana::auto_load('My_Class_Name');
+	 *
+	 * or with a custom directory:
+	 *
+	 *     // Loads vendor/My/Class/Name.php
+	 *     Kohana::auto_load('My_Class_Name', 'vendor');
 	 *
 	 * You should never have to call this function, as simply calling a class
 	 * will cause it to be called.
@@ -488,33 +485,65 @@ class Kohana_Core {
 	 *
 	 *     spl_autoload_register(array('Kohana', 'auto_load'));
 	 *
-	 * @param   string  $class  class name
+	 * @param   string  $class      Class name
+	 * @param   string  $directory  Directory to load from
 	 * @return  boolean
 	 */
-	public static function auto_load($class)
+	public static function auto_load($class, $directory = 'classes')
 	{
-		try
+		// Transform the class name according to PSR-0
+		$class     = ltrim($class, '\\');
+		$file      = '';
+		$namespace = '';
+
+		if ($last_namespace_position = strripos($class, '\\'))
 		{
-			// Transform the class name into a path
-			$file = str_replace('_', '/', strtolower($class));
-
-			if ($path = Kohana::find_file('classes', $file))
-			{
-				// Load the class file
-				require $path;
-
-				// Class has been found
-				return TRUE;
-			}
-
-			// Class is not in the filesystem
-			return FALSE;
+			$namespace = substr($class, 0, $last_namespace_position);
+			$class     = substr($class, $last_namespace_position + 1);
+			$file      = str_replace('\\', DIRECTORY_SEPARATOR, $namespace).DIRECTORY_SEPARATOR;
 		}
-		catch (Exception $e)
+
+		$file .= str_replace('_', DIRECTORY_SEPARATOR, $class);
+
+		if ($path = Kohana::find_file($directory, $file))
 		{
-			Kohana_Exception::handler($e);
-			die;
+			// Load the class file
+			require $path;
+
+			// Class has been found
+			return TRUE;
 		}
+
+		// Class is not in the filesystem
+		return FALSE;
+	}
+
+	/**
+	 * Provides auto-loading support of classes that follow Kohana's old class
+	 * naming conventions.
+	 * 
+	 * This is included for compatibility purposes with older modules.
+	 *
+	 * @param   string  $class      Class name
+	 * @param   string  $directory  Directory to load from
+	 * @return  boolean
+	 */
+	public static function auto_load_lowercase($class, $directory = 'classes')
+	{
+		// Transform the class name into a path
+		$file = str_replace('_', DIRECTORY_SEPARATOR, strtolower($class));
+
+		if ($path = Kohana::find_file($directory, $file))
+		{
+			// Load the class file
+			require $path;
+
+			// Class has been found
+			return TRUE;
+		}
+
+		// Class is not in the filesystem
+		return FALSE;
 	}
 
 	/**
@@ -996,7 +1025,7 @@ class Kohana_Core {
 		if (Kohana::$errors AND $error = error_get_last() AND in_array($error['type'], Kohana::$shutdown_errors))
 		{
 			// Clean the output buffer
-			ob_get_level() and ob_clean();
+			ob_get_level() AND ob_clean();
 
 			// Fake an exception for nice debugging
 			Kohana_Exception::handler(new ErrorException($error['message'], $error['type'], 0, $error['file'], $error['line']));
@@ -1004,6 +1033,16 @@ class Kohana_Core {
 			// Shutdown now to avoid a "death loop"
 			exit(1);
 		}
+	}
+
+	/**
+	 * Generates a version string based on the variables defined above.
+	 * 
+	 * @return string
+	 */
+	public static function version()
+	{
+		return 'Kohana Framework '.Kohana::VERSION.' ('.Kohana::CODENAME.')';
 	}
 
 } // End Kohana

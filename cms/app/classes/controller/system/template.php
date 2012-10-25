@@ -101,8 +101,7 @@ class Controller_System_Template extends Controller_System_Security
 						$this->json['status'] = TRUE;
 					}
 
-					$this->request
-						->response()
+					$this->response
 						->headers( 'Content-type', 'application/json' );
 
 					$this->template = json_encode( $this->json );
@@ -150,6 +149,6 @@ class Controller_System_Template extends Controller_System_Security
 			$path = $dir . $separator . $path;
 		}
 
-		return $path;
+		return strtolower($path);
 	}
 }

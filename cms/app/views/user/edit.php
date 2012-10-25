@@ -24,7 +24,7 @@
 						<p class="help-block"><?php echo __('Use a valid e-mail address.'); ?></p>
 					</div>
 				</div>
-				<?php if ($user->id > 1 OR $user->id === NULL): ?>
+				
 				<div class="control-group">
 					<label class="control-label" for="userEditUsernameField"><?php echo __('Username'); ?></label>
 					<div class="controls">
@@ -36,7 +36,6 @@
 						)); ?></p>
 					</div>
 				</div>
-				<?php endif; ?>
 			</fieldset>
 		</div>
 		

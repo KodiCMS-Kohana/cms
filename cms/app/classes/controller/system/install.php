@@ -2,10 +2,7 @@
 
 class Controller_System_Install extends Controller_System_Template 
 {
-
 	public $template = 'layouts/frontend';
-	
-	public $route = 'install';
 
 	public function action_index()
 	{

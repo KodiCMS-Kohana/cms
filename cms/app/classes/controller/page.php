@@ -175,14 +175,15 @@ class Controller_Page extends Controller_System_Backend {
 
 		if ( !$page )
 		{
-			throw new Kohana_Exception('Page :id not found!', array(
+			throw new HTTP_Exception_404('Page :id not found!', array(
 				':id' => $page_id));
 		}
 
 		// check for protected page and editor user
 		if ( !AuthUser::hasPermission( $page->getPermissions() ) )
 		{
-			throw new Kohana_Exception('You do not have permission to access 
+			// Unauthorized / Login Requied
+			throw HTTP_Exception::factory(401, 'You do not have permission to access 
 				the requested page!');
 		}
 

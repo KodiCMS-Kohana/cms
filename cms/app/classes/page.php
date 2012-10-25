@@ -59,7 +59,7 @@ class Page extends Record
         
 		if ($this->position == 0)
 		{
-			$last_position = DB::select(array('MAX("position")', 'pos'))
+			$last_position = DB::select(array(DB::expr('MAX(position)'), 'pos'))
 				->from(self::TABLE_NAME)
 				->where('parent_id', '=', $this->parent_id)
 				->execute()

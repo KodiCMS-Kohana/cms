@@ -1,4 +1,4 @@
-<?php defined('SYSPATH') or die('No direct script access.');
+<?php defined('SYSPATH') OR die('No direct script access.');
 /**
  * RSS and Atom feed helper.
  *
@@ -30,10 +30,20 @@ class Kohana_Feed {
 		$error_level = error_reporting(0);
 
 		// Allow loading by filename or raw XML string
-		$load = (is_file($feed) OR Valid::url($feed)) ? 'simplexml_load_file' : 'simplexml_load_string';
+		if (Valid::url($feed))
+		{
+			// Use native Request client to get remote contents
+			$response = Request::factory($feed)->execute();
+			$feed     = $response->body();
+		}
+		elseif (is_file($feed))
+		{
+			// Get file contents
+			$feed = file_get_contents($feed);
+		}
 
 		// Load the feed
-		$feed = $load($feed, 'SimpleXMLElement', LIBXML_NOCDATA);
+		$feed = simplexml_load_string($feed, 'SimpleXMLElement', LIBXML_NOCDATA);
 
 		// Restore error reporting
 		error_reporting($error_level);
@@ -42,7 +52,7 @@ class Kohana_Feed {
 		if ($feed === FALSE)
 			return array();
 
-		$namespaces = $feed->getNamespaces(true);
+		$namespaces = $feed->getNamespaces(TRUE);
 
 		// Detect the feed type. RSS 1.0/2.0 and Atom 1.0 are supported.
 		$feed = isset($feed->channel) ? $feed->xpath('//item') : $feed->entry;
@@ -72,11 +82,10 @@ class Kohana_Feed {
 	 *
 	 * @param   array   $info       feed information
 	 * @param   array   $items      items to add to the feed
-	 * @param   string  $format     define which format to use (only rss2 is supported)
 	 * @param   string  $encoding   define which encoding to use
 	 * @return  string
 	 */
-	public static function create($info, $items, $format = 'rss2', $encoding = 'UTF-8')
+	public static function create($info, $items, $encoding = 'UTF-8')
 	{
 		$info += array('title' => 'Generated Feed', 'link' => '', 'generator' => 'KohanaPHP');
 

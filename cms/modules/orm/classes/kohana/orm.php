@@ -1,4 +1,4 @@
-<?php defined('SYSPATH') or die('No direct script access.');
+<?php defined('SYSPATH') OR die('No direct script access.');
 /**
  * [Object Relational Mapping][ref-orm] (ORM) is a method of abstracting database
  * access to standard PHP calls. All table rows are represented as model objects,
@@ -20,9 +20,18 @@ class Kohana_ORM extends Model implements serializable {
 	 * @var array
 	 */
 	protected static $_column_cache = array();
+	
+	/**
+	 * Initialization storage for ORM models
+	 * @var array
+	 */
+	protected static $_init_cache = array();
 
 	/**
-	 * Creates and returns a new model.
+	 * Creates and returns a new model. 
+	 * Model name must be passed with its' original casing, e.g.
+	 * 
+	 *    $model = ORM::factory('User_Token');
 	 *
 	 * @chainable
 	 * @param   string  $model  Model name
@@ -32,7 +41,7 @@ class Kohana_ORM extends Model implements serializable {
 	public static function factory($model, $id = NULL)
 	{
 		// Set class name
-		$model = 'Model_'.ucfirst($model);
+		$model = 'Model_'.$model;
 
 		return new $model($id);
 	}
@@ -212,7 +221,7 @@ class Kohana_ORM extends Model implements serializable {
 
 	/**
 	 * Database query builder
-	 * @var Database_Query_Builder_Where
+	 * @var Database_Query_Builder_Select
 	 */
 	protected $_db_builder;
 
@@ -239,7 +248,6 @@ class Kohana_ORM extends Model implements serializable {
 	 * Constructs a new model and loads a record if given
 	 *
 	 * @param   mixed $id Parameter for find or object to load
-	 * @return  void
 	 */
 	public function __construct($id = NULL)
 	{
@@ -282,57 +290,98 @@ class Kohana_ORM extends Model implements serializable {
 	{
 		// Set the object name and plural name
 		$this->_object_name = strtolower(substr(get_class($this), 6));
-		$this->_object_plural = Inflector::plural($this->_object_name);
-
-		if ( ! $this->_errors_filename)
+		
+		// Check if this model has already been initialized
+		if ( ! $init = Arr::get(ORM::$_init_cache, $this->_object_name, FALSE))
 		{
-			$this->_errors_filename = $this->_object_name;
-		}
-
-		if ( ! is_object($this->_db))
-		{
-			// Get database instance
-			$this->_db = Database::instance($this->_db_group);
-		}
-
-		if (empty($this->_table_name))
-		{
-			// Table name is the same as the object name
-			$this->_table_name = $this->_object_name;
-
-			if ($this->_table_names_plural === TRUE)
+			$init = array(
+				'_belongs_to' => array(),
+				'_has_one'    => array(),
+				'_has_many'   => array(),
+			);
+			
+			// Set the object plural name if none predefined
+			if ( ! isset($this->_object_plural))
 			{
-				// Make the table name plural
-				$this->_table_name = Inflector::plural($this->_table_name);
+				$init['_object_plural'] = Inflector::plural($this->_object_name);
 			}
-		}
 
-		foreach ($this->_belongs_to as $alias => $details)
+			if ( ! $this->_errors_filename)
+			{
+				$init['_errors_filename'] = $this->_object_name;
+			}
+
+			if ( ! is_object($this->_db))
+			{
+				// Get database instance
+				$init['_db'] = Database::instance($this->_db_group);
+			}
+
+			if (empty($this->_table_name))
+			{
+				// Table name is the same as the object name
+				$init['_table_name'] = $this->_object_name;
+
+				if ($this->_table_names_plural === TRUE)
+				{
+					// Make the table name plural
+					$init['_table_name'] = Arr::get($init, '_object_plural', $this->_object_plural);
+				}
+			}
+			
+			$defaults = array();
+
+			foreach ($this->_belongs_to as $alias => $details)
+			{
+				if ( ! isset($details['model']))
+				{
+					$defaults['model'] = str_replace(' ', '_', ucwords(str_replace('_', ' ', $alias)));
+				}
+				
+				$defaults['foreign_key'] = $alias.$this->_foreign_key_suffix;
+
+				$init['_belongs_to'][$alias] = array_merge($defaults, $details);
+			}
+
+			foreach ($this->_has_one as $alias => $details)
+			{
+				if ( ! isset($details['model']))
+				{
+					$defaults['model'] = str_replace(' ', '_', ucwords(str_replace('_', ' ', $alias)));
+				}
+				
+				$defaults['foreign_key'] = $this->_object_name.$this->_foreign_key_suffix;
+
+				$init['_has_one'][$alias] = array_merge($defaults, $details);
+			}
+
+			foreach ($this->_has_many as $alias => $details)
+			{
+				if ( ! isset($details['model']))
+				{
+					$defaults['model'] = str_replace(' ', '_', ucwords(str_replace('_', ' ', Inflector::singular($alias))));
+				}
+				
+				$defaults['foreign_key'] = $this->_object_name.$this->_foreign_key_suffix;
+				$defaults['through'] = NULL;
+				
+				if ( ! isset($details['far_key']))
+				{
+					$defaults['far_key'] = Inflector::singular($alias).$this->_foreign_key_suffix;
+				}
+				
+				$init['_has_many'][$alias] = array_merge($defaults, $details);
+			}
+			
+			ORM::$_init_cache[$this->_object_name] = $init;
+		}
+		
+		// Assign initialized properties to the current object
+		foreach ($init as $property => $value)
 		{
-			$defaults['model'] = $alias;
-			$defaults['foreign_key'] = $alias.$this->_foreign_key_suffix;
-
-			$this->_belongs_to[$alias] = array_merge($defaults, $details);
+			$this->{$property} = $value;
 		}
-
-		foreach ($this->_has_one as $alias => $details)
-		{
-			$defaults['model'] = $alias;
-			$defaults['foreign_key'] = $this->_object_name.$this->_foreign_key_suffix;
-
-			$this->_has_one[$alias] = array_merge($defaults, $details);
-		}
-
-		foreach ($this->_has_many as $alias => $details)
-		{
-			$defaults['model'] = Inflector::singular($alias);
-			$defaults['foreign_key'] = $this->_object_name.$this->_foreign_key_suffix;
-			$defaults['through'] = NULL;
-			$defaults['far_key'] = Inflector::singular($alias).$this->_foreign_key_suffix;
-
-			$this->_has_many[$alias] = array_merge($defaults, $details);
-		}
-
+		
 		// Load column information
 		$this->reload_columns();
 
@@ -541,11 +590,25 @@ class Kohana_ORM extends Model implements serializable {
 
 	/**
 	 * Handles retrieval of all model values, relationships, and metadata.
+	 * [!!] This should not be overridden.
 	 *
 	 * @param   string $column Column name
 	 * @return  mixed
 	 */
 	public function __get($column)
+	{
+		return $this->get($column);
+	}
+	
+	/**
+	 * Handles getting of column
+	 * Override this method to add custom get behavior
+	 *
+	 * @param   string $column Column name
+	 * @throws Kohana_Exception
+	 * @return mixed
+	 */
+	public function get($column)
 	{
 		if (array_key_exists($column, $this->_object))
 		{
@@ -624,7 +687,8 @@ class Kohana_ORM extends Model implements serializable {
 	}
 
 	/**
-	 * Base set method - this should not be overridden.
+	 * Base set method.
+	 * [!!] This should not be overridden.
 	 *
 	 * @param  string $column  Column name
 	 * @param  mixed  $value   Column value
@@ -632,27 +696,28 @@ class Kohana_ORM extends Model implements serializable {
 	 */
 	public function __set($column, $value)
 	{
+		$this->set($column, $value);
+	}
+
+	/**
+	 * Handles setting of columns
+	 * Override this method to add custom set behavior
+	 *
+	 * @param  string $column Column name
+	 * @param  mixed  $value  Column value
+	 * @throws Kohana_Exception
+	 * @return ORM
+	 */
+	public function set($column, $value)
+	{
 		if ( ! isset($this->_object_name))
 		{
 			// Object not yet constructed, so we're loading data from a database call cast
 			$this->_cast_data[$column] = $value;
+			
+			return $this;
 		}
-		else
-		{
-			// Set the model's column to given value
-			$this->set($column, $value);
-		}
-	}
-
-	/**
-	 * Handles setting of column
-	 *
-	 * @param  string $column Column name
-	 * @param  mixed  $value  Column value
-	 * @return void
-	 */
-	public function set($column, $value)
-	{
+		
 		if (in_array($column, $this->_serialize_columns))
 		{
 			$value = $this->_serialize_value($value);
@@ -770,7 +835,7 @@ class Kohana_ORM extends Model implements serializable {
 	 * can be nested using 'object1:object2' syntax
 	 *
 	 * @param  string $target_path Target model to bind to
-	 * @return void
+	 * @return ORM
 	 */
 	public function with($target_path)
 	{
@@ -889,6 +954,7 @@ class Kohana_ORM extends Model implements serializable {
 	 * Finds and loads a single database row into the object.
 	 *
 	 * @chainable
+	 * @throws Kohana_Exception
 	 * @return ORM
 	 */
 	public function find()
@@ -913,6 +979,7 @@ class Kohana_ORM extends Model implements serializable {
 	/**
 	 * Finds multiple database rows and returns an iterator of the rows found.
 	 *
+	 * @throws Kohana_Exception
 	 * @return Database_Result
 	 */
 	public function find_all()
@@ -1187,6 +1254,7 @@ class Kohana_ORM extends Model implements serializable {
 	 * Validates the current model's data
 	 *
 	 * @param  Validation $extra_validation Validation object
+	 * @throws ORM_Validation_Exception
 	 * @return ORM
 	 */
 	public function check(Validation $extra_validation = NULL)
@@ -1217,6 +1285,7 @@ class Kohana_ORM extends Model implements serializable {
 	/**
 	 * Insert a new object to the database
 	 * @param  Validation $validation Validation object
+	 * @throws Kohana_Exception
 	 * @return ORM
 	 */
 	public function create(Validation $validation = NULL)
@@ -1276,6 +1345,7 @@ class Kohana_ORM extends Model implements serializable {
 	 *
 	 * @chainable
 	 * @param  Validation $validation Validation object
+	 * @throws Kohana_Exception
 	 * @return ORM
 	 */
 	public function update(Validation $validation = NULL)
@@ -1352,6 +1422,7 @@ class Kohana_ORM extends Model implements serializable {
 	 * Deletes a single record while ignoring relationships.
 	 *
 	 * @chainable
+	 * @throws Kohana_Exception
 	 * @return ORM
 	 */
 	public function delete()
@@ -1372,7 +1443,9 @@ class Kohana_ORM extends Model implements serializable {
 
 	/**
 	 * Tests if this object has a relationship to a different model,
-	 * or an array of different models.
+	 * or an array of different models. When providing far keys, the number
+	 * of relations must equal the number of keys.
+	 * 
 	 *
 	 *     // Check if $model has the login role
 	 *     $model->has('roles', ORM::factory('role', array('name' => 'login')));
@@ -1385,13 +1458,67 @@ class Kohana_ORM extends Model implements serializable {
 	 *
 	 * @param  string  $alias    Alias of the has_many "through" relationship
 	 * @param  mixed   $far_keys Related model, primary key, or an array of primary keys
-	 * @return Database_Result
+	 * @return boolean
 	 */
 	public function has($alias, $far_keys = NULL)
 	{
+		$count = $this->count_relations($alias, $far_keys);
 		if ($far_keys === NULL)
 		{
-			return (bool) DB::select(array('COUNT("*")', 'records_found'))
+			return (bool) $count;
+		}
+		else
+		{
+			return $count === count($far_keys);
+		}
+
+	}
+
+	/**
+	 * Tests if this object has a relationship to a different model,
+	 * or an array of different models. When providing far keys, this function
+	 * only checks that at least one of the relationships is satisfied.
+	 *
+	 *     // Check if $model has the login role
+	 *     $model->has('roles', ORM::factory('role', array('name' => 'login')));
+	 *     // Check for the login role if you know the roles.id is 5
+	 *     $model->has('roles', 5);
+	 *     // Check for any of the following roles
+	 *     $model->has('roles', array(1, 2, 3, 4));
+	 *     // Check if $model has any roles
+	 *     $model->has('roles')
+	 *
+	 * @param  string  $alias    Alias of the has_many "through" relationship
+	 * @param  mixed   $far_keys Related model, primary key, or an array of primary keys
+	 * @return boolean
+	 */
+	public function has_any($alias, $far_keys = NULL)
+	{
+		return (bool) $this->count_relations($alias, $far_keys);
+	}
+
+	/**
+	 * Returns the number of relationships 
+	 *
+	 *     // Counts the number of times the login role is attached to $model
+	 *     $model->has('roles', ORM::factory('role', array('name' => 'login')));
+	 *     // Counts the number of times role 5 is attached to $model
+	 *     $model->has('roles', 5);
+	 *     // Counts the number of times any of roles 1, 2, 3, or 4 are attached to
+	 *     // $model
+	 *     $model->has('roles', array(1, 2, 3, 4));
+	 *     // Counts the number roles attached to $model
+	 *     $model->has('roles')
+	 *
+	 * @param  string  $alias    Alias of the has_many "through" relationship
+	 * @param  mixed   $far_keys Related model, primary key, or an array of primary keys
+	 * @return integer
+	 */
+	public function count_relations($alias, $far_keys = NULL)
+	{
+		if ($far_keys === NULL)
+		{
+			return (int) DB::select(array(DB::expr('COUNT(*)'), 'records_found'))
 				->from($this->_has_many[$alias]['through'])
 				->where($this->_has_many[$alias]['foreign_key'], '=', $this->pk())
 				->execute($this->_db)->get('records_found');
@@ -1404,16 +1531,16 @@ class Kohana_ORM extends Model implements serializable {
 
 		// Nothing to check if the model isn't loaded or we don't have any far_keys
 		if ( ! $far_keys OR ! $this->_loaded)
-			return FALSE;
+			return 0;
 
-		$count = (int) DB::select(array('COUNT("*")', 'records_found'))
+		$count = (int) DB::select(array(DB::expr('COUNT(*)'), 'records_found'))
 			->from($this->_has_many[$alias]['through'])
 			->where($this->_has_many[$alias]['foreign_key'], '=', $this->pk())
 			->where($this->_has_many[$alias]['far_key'], 'IN', $far_keys)
 			->execute($this->_db)->get('records_found');
 
 		// Rows found need to match the rows searched
-		return $count === count($far_keys);
+		return (int) $count;
 	}
 
 	/**
@@ -1514,7 +1641,7 @@ class Kohana_ORM extends Model implements serializable {
 		$this->_build(Database::SELECT);
 
 		$records = $this->_db_builder->from(array($this->_table_name, $this->_object_name))
-			->select(array('COUNT("*")', 'records_found'))
+			->select(array(DB::expr('COUNT(*)'), 'records_found'))
 			->execute($this->_db)
 			->get('records_found');
 
@@ -1614,7 +1741,7 @@ class Kohana_ORM extends Model implements serializable {
 
 	protected function _unserialize_value($value)
 	{
-		return json_decode($value);
+		return json_decode($value, TRUE);
 	}
 
 	public function object_name()
@@ -1962,7 +2089,7 @@ class Kohana_ORM extends Model implements serializable {
 	/**
 	 * Adds "ON ..." conditions for the last created JOIN statement.
 	 *
-	 * @param   mixed   $ci  column name or array($column, $alias) or object
+	 * @param   mixed   $c1  column name or array($column, $alias) or object
 	 * @param   string  $op  logic operator
 	 * @param   mixed   $c2  column name or array($column, $alias) or object
 	 * @return  $this
@@ -2181,6 +2308,23 @@ class Kohana_ORM extends Model implements serializable {
 		$this->_db_pending[] = array(
 			'name' => 'param',
 			'args' => array($param, $value),
+		);
+
+		return $this;
+	}
+
+	/**
+	 * Adds "USING ..." conditions for the last created JOIN statement.
+	 *
+	 * @param   string  $columns  column name
+	 * @return  $this
+	 */
+	public function using($columns)
+	{
+		// Add pending database call which is executed after query type is determined
+		$this->_db_pending[] = array(
+			'name' => 'using',
+			'args' => array($columns),
 		);
 
 		return $this;

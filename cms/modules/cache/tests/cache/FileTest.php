@@ -28,6 +28,11 @@ class Kohana_Cache_FileTest extends Kohana_CacheBasicMethodsTest {
 	{
 		parent::setUp();
 
+		if ( ! Kohana::$config->load('cache.file'))
+		{
+			$this->markTestSkipped('Unable to load File configuration');
+		}
+
 		$this->cache(Cache::instance('file'));
 	}
 

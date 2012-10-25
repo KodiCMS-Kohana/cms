@@ -1,4 +1,4 @@
-<?php defined('SYSPATH') or die('No direct script access.');
+<?php defined('SYSPATH') OR die('No direct script access.');
 /**
  * Support for image manipulation using [Imagick](http://php.net/Imagick).
  *
@@ -130,7 +130,7 @@ class Kohana_Image_Imagick extends Image {
 
 	protected function _do_sharpen($amount)
 	{
-		//IM not support $amount under 5 (0.15)
+		// IM not support $amount under 5 (0.15)
 		$amount = ($amount < 5) ? 5 : $amount;
 
 		// Amount should be in the range of 0.0 to 3.0
@@ -302,8 +302,8 @@ class Kohana_Image_Imagick extends Image {
 	/**
 	 * Get the image type and format for an extension.
 	 *
-	 * @param   string   image extension: png, jpg, etc
-	 * @return  string   IMAGETYPE_* constant
+	 * @param   string  $extension  image extension: png, jpg, etc
+	 * @return  string  IMAGETYPE_* constant
 	 * @throws  Kohana_Exception
 	 */
 	protected function _get_imagetype($extension)
