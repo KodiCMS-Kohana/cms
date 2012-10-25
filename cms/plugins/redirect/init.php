@@ -20,7 +20,7 @@ if( $plugin->enabled() )
 			$redirect = FALSE;
 			$current_uri = $_SERVER['REQUEST_URI'];
 			$path = $_SERVER['HTTP_HOST'] . $current_uri;
-			$domain = Plugins::getSetting('domain', 'redirect');
+			$domain = Plugins_Settings::get_setting('domain', 'redirect');
 
 			if($_SERVER['HTTP_HOST'] != $domain) 
 			{
@@ -28,7 +28,7 @@ if( $plugin->enabled() )
 				$path = $domain . $current_uri;
 			}
 
-			if(Plugins::getSetting( 'check_url_suffix', 'redirect') == 'yes') 
+			if(Plugins_Settings::get_setting( 'check_url_suffix', 'redirect') == 'yes') 
 			{
 				if(
 					strpos($path, URL_SUFFIX) === FALSE 
