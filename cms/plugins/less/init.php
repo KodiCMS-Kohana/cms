@@ -51,13 +51,16 @@ function less_compile($plugin) {
 
 			if($pathinfo['extension'] == 'less')
 			{
-				$less->compileFile( $less_path.$file->getFilename(), $css_path.DIRECTORY_SEPARATOR.$pathinfo['filename'].'.css', $params);
+				$less_file = $less_path.$file->getFilename();
+				$css_file = $css_path.DIRECTORY_SEPARATOR.$pathinfo['filename'].'.css';
+				
+				$less->checkedCompile( $less_file, $css_file, $params);
 			}
 		}
 	}
-	catch ( Exception $e ) 
+	catch (Exception $e ) 
 	{
-		throw new Exception($e);
+		return;
 	}
 }
 
