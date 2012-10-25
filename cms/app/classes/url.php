@@ -28,7 +28,10 @@ class URL extends Kohana_URL {
 			}
 			else if(!IS_BACKEND AND !URL::check_suffix( $uri, '.' ))
 			{
-				$uri .= URL_SUFFIX;
+				if(!empty($uri))
+				{
+					$uri .= URL_SUFFIX;
+				}
 			}
 		}
 
