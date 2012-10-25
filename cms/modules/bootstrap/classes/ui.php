@@ -19,6 +19,11 @@ class UI {
 		return '<i class="icon-' . HTML::chars( $name ) .'"></i>';
 	}
 	
+	public static function sprite( $name )
+	{
+		return '<i class="sprite-' . HTML::chars( $name ) .'"></i>';
+	}
+	
 	public static function label( $text, $type = 'info' )
 	{
 		return '<span class="label label-' . $type . '">' . $text . '</span>';
