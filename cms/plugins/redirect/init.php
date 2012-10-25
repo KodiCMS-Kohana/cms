@@ -43,7 +43,8 @@ if( $plugin->enabled() )
 
 			if($redirect === TRUE)
 			{
-				Request::current()->redirect("http://" . $path, 301);
+				$protocol = Request::$initial->secure() ? 'https' : 'http';
+				HTTP::redirect($protocol.'://' . $path, 301);
 			}
 		}
 	}
