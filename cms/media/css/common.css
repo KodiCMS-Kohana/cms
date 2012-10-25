@@ -4827,7 +4827,7 @@ a.badge:hover {
   background-image: url("../libs/glyphicons/img/sprite.png");
   background-position: 30px 30px;
   background-repeat: no-repeat;
-  margin-top: 1px;
+  margin-top: -4px;
 }
 .sprite-white,
 .nav-tabs > .active > a > [class^="sprite-"],
@@ -6352,6 +6352,255 @@ legend:after {
   position: relative;
   top: -1px;
 }
+.lifted {
+  position: relative;
+  padding: 20px;
+  background: #fff;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 1px 4px rgba(0,0,0,0.3), 0 0 40px rgba(0,0,0,0.1) inset;
+  -moz-box-shadow: 0 1px 4px rgba(0,0,0,0.3), 0 0 40px rgba(0,0,0,0.1) inset;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3), 0 0 40px rgba(0,0,0,0.1) inset;
+  -moz-border-radius: 4px;
+}
+.lifted:before,
+.lifted:after {
+  content: "";
+  position: absolute;
+  z-index: -2;
+  bottom: 15px;
+  left: 10px;
+  width: 50%;
+  height: 20%;
+  max-width: 300px;
+  -webkit-box-shadow: 0 15px 10px rgba(0,0,0,0.7);
+  -moz-box-shadow: 0 15px 10px rgba(0,0,0,0.7);
+  box-shadow: 0 15px 10px rgba(0,0,0,0.7);
+  -webkit-transform: rotate(-3deg);
+  -moz-transform: rotate(-3deg);
+  -ms-transform: rotate(-3deg);
+  -o-transform: rotate(-3deg);
+  transform: rotate(-3deg);
+}
+.lifted:after {
+  right: 10px;
+  left: auto;
+  -webkit-transform: rotate(3deg);
+  -moz-transform: rotate(3deg);
+  -ms-transform: rotate(3deg);
+  -o-transform: rotate(3deg);
+  transform: rotate(3deg);
+}
+.curled {
+  position: relative;
+  padding: 20px;
+  background: #fff;
+  -webkit-box-shadow: 0 1px 4px rgba(0,0,0,0.3), 0 0 40px rgba(0,0,0,0.1) inset;
+  -moz-box-shadow: 0 1px 4px rgba(0,0,0,0.3), 0 0 40px rgba(0,0,0,0.1) inset;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3), 0 0 40px rgba(0,0,0,0.1) inset;
+  border: 1px solid #efefef;
+  -moz-border-radius: 0 0 120px 120px/0 0 6px 6px;
+  border-radius: 0 0 120px 120px/0 0 6px 6px;
+}
+.curled:before,
+.curled:after {
+  content: "";
+  position: absolute;
+  z-index: -2;
+  bottom: 12px;
+  left: 10px;
+  width: 50%;
+  height: 55%;
+  max-width: 200px;
+  -webkit-box-shadow: 0 8px 12px rgba(0,0,0,0.5);
+  -moz-box-shadow: 0 8px 12px rgba(0,0,0,0.5);
+  box-shadow: 0 8px 12px rgba(0,0,0,0.5);
+  -webkit-transform: skew(-8deg) rotate(-3deg);
+  -moz-transform: skew(-8deg) rotate(-3deg);
+  -ms-transform: skew(-8deg) rotate(-3deg);
+  -o-transform: skew(-8deg) rotate(-3deg);
+  transform: skew(-8deg) rotate(-3deg);
+}
+.curled:after {
+  right: 10px;
+  left: auto;
+  -webkit-transform: skew(8deg) rotate(3deg);
+  -moz-transform: skew(8deg) rotate(3deg);
+  -ms-transform: skew(8deg) rotate(3deg);
+  -o-transform: skew(8deg) rotate(3deg);
+  transform: skew(8deg) rotate(3deg);
+}
+.raised {
+  position: relative;
+  padding: 20px;
+  -webkit-box-shadow: 0 15px 10px -10px rgba(0,0,0,0.5);
+  -moz-box-shadow: 0 15px 10px -10px rgba(0,0,0,0.5);
+  box-shadow: 0 15px 10px -10px rgba(0,0,0,0.5);
+}
+.raised:before,
+.raised:after {
+  content: "";
+  position: absolute;
+  z-index: -2;
+}
+.curved-vt-1 {
+  position: relative;
+  padding: 20px;
+  background: #fff;
+  -webkit-box-shadow: 0 1px 4px rgba(0,0,0,0.3), 0 0 40px rgba(0,0,0,0.1) inset;
+  -moz-box-shadow: 0 1px 4px rgba(0,0,0,0.3), 0 0 40px rgba(0,0,0,0.1) inset;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3), 0 0 40px rgba(0,0,0,0.1) inset;
+}
+.curved-vt-1:before,
+.curved-vt-1:after {
+  content: "";
+  position: absolute;
+  z-index: -2;
+}
+.curved-vt-1:before {
+  top: 10px;
+  bottom: 10px;
+  left: 0;
+  right: 50%;
+  -webkit-box-shadow: 0 0 15px rgba(0,0,0,0.6);
+  -moz-box-shadow: 0 0 15px rgba(0,0,0,0.6);
+  box-shadow: 0 0 15px rgba(0,0,0,0.6);
+  -moz-border-radius: 10px/100px;
+  border-radius: 10px/100px;
+}
+.curved-vt-2 {
+  position: relative;
+  padding: 20px;
+  background: #fff;
+  -webkit-box-shadow: 0 1px 4px rgba(0,0,0,0.3), 0 0 40px rgba(0,0,0,0.1) inset;
+  -moz-box-shadow: 0 1px 4px rgba(0,0,0,0.3), 0 0 40px rgba(0,0,0,0.1) inset;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3), 0 0 40px rgba(0,0,0,0.1) inset;
+}
+.curved-vt-2:before,
+.curved-vt-2:after {
+  content: "";
+  position: absolute;
+  z-index: -2;
+}
+.curved-vt-2:before {
+  top: 10px;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+  -webkit-box-shadow: 0 0 15px rgba(0,0,0,0.6);
+  -moz-box-shadow: 0 0 15px rgba(0,0,0,0.6);
+  box-shadow: 0 0 15px rgba(0,0,0,0.6);
+  -moz-border-radius: 10px/100px;
+  border-radius: 10px/100px;
+}
+.curved-hz-1 {
+  position: relative;
+  padding: 20px;
+  background: #fff;
+  -webkit-box-shadow: 0 1px 4px rgba(0,0,0,0.3), 0 0 40px rgba(0,0,0,0.1) inset;
+  -moz-box-shadow: 0 1px 4px rgba(0,0,0,0.3), 0 0 40px rgba(0,0,0,0.1) inset;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3), 0 0 40px rgba(0,0,0,0.1) inset;
+}
+.curved-hz-1:before,
+.curved-hz-1:after {
+  content: "";
+  position: absolute;
+  z-index: -2;
+}
+.curved-hz-1:before {
+  top: 50%;
+  bottom: 0px;
+  left: 10px;
+  right: 10px;
+  -webkit-box-shadow: 0 0 15px rgba(0,0,0,0.6);
+  -moz-box-shadow: 0 0 15px rgba(0,0,0,0.6);
+  box-shadow: 0 0 15px rgba(0,0,0,0.6);
+  -moz-border-radius: 100px/10px;
+  border-radius: 100px/10px;
+}
+.curved-hz-2 {
+  position: relative;
+  padding: 20px;
+  background: #fff;
+  -webkit-box-shadow: 0 1px 4px rgba(0,0,0,0.3), 0 0 40px rgba(0,0,0,0.1) inset;
+  -moz-box-shadow: 0 1px 4px rgba(0,0,0,0.3), 0 0 40px rgba(0,0,0,0.1) inset;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3), 0 0 40px rgba(0,0,0,0.1) inset;
+}
+.curved-hz-2:before,
+.curved-hz-2:after {
+  content: "";
+  position: absolute;
+  z-index: -2;
+}
+.curved-hz-2:before {
+  top: 0px;
+  bottom: 0px;
+  left: 10px;
+  right: 10px;
+  -webkit-box-shadow: 0 0 15px rgba(0,0,0,0.6);
+  -moz-box-shadow: 0 0 15px rgba(0,0,0,0.6);
+  box-shadow: 0 0 15px rgba(0,0,0,0.6);
+  -moz-border-radius: 100px/10px;
+  border-radius: 100px/10px;
+}
+.rotated {
+  position: relative;
+  padding: 20px;
+  background: #fff;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 1px 4px rgba(0,0,0,0.3), 0 0 40px rgba(0,0,0,0.1) inset;
+  -moz-box-shadow: 0 1px 4px rgba(0,0,0,0.3), 0 0 40px rgba(0,0,0,0.1) inset;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3), 0 0 40px rgba(0,0,0,0.1) inset;
+  -moz-border-radius: 4px;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  -webkit-transform: rotate(-3deg);
+  -moz-transform: rotate(-3deg);
+  -ms-transform: rotate(-3deg);
+  -o-transform: rotate(-3deg);
+  transform: rotate(-3deg);
+}
+.rotated > :first-child:before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 0px;
+  bottom: 0;
+  left: 0;
+  right: 0px;
+  background: #fff;
+  -webkit-box-shadow: 0 1px 4px rgba(0,0,0,0.3), 0 0 40px rgba(0,0,0,0.1) inset;
+  -moz-box-shadow: 0 1px 4px rgba(0,0,0,0.3), 0 0 40px rgba(0,0,0,0.1) inset;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3), 0 0 40px rgba(0,0,0,0.1) inset;
+}
+.rotated:before,
+.rotated:after {
+  content: "";
+  position: absolute;
+  z-index: -2;
+  bottom: 15px;
+  left: 10px;
+  width: 50%;
+  height: 20%;
+  max-width: 300px;
+  -webkit-box-shadow: 0 15px 10px rgba(0,0,0,0.7);
+  -moz-box-shadow: 0 15px 10px rgba(0,0,0,0.7);
+  box-shadow: 0 15px 10px rgba(0,0,0,0.7);
+  -webkit-transform: rotate(-3deg);
+  -moz-transform: rotate(-3deg);
+  -ms-transform: rotate(-3deg);
+  -o-transform: rotate(-3deg);
+  transform: rotate(-3deg);
+}
+.rotated:after {
+  right: 10px;
+  left: auto;
+  -webkit-transform: rotate(3deg);
+  -moz-transform: rotate(3deg);
+  -ms-transform: rotate(3deg);
+  -o-transform: rotate(3deg);
+  transform: rotate(3deg);
+}
 html,
 body {
   width: 100%;
@@ -6362,8 +6611,8 @@ body {
   min-height: 100%;
 }
 #content {
-  margin-top: 15px;
-  padding-bottom: 130px;
+  padding-top: 15px;
+  padding-bottom: 115px;
 }
 #footer {
   background-color: #F5F5F5;
@@ -6652,6 +6901,8 @@ body {
 }
 #login-form {
   width: 450px;
+  border-width: 0;
+  padding: 40px;
 }
 #login-form .control-group input.login-field {
   font-size: 18px;
@@ -6661,13 +6912,11 @@ body {
   padding: 10px;
 }
 #error-container {
-  width: 600px;
+  width: 400px;
   margin-top: 60px;
   padding: 60px 80px 80px;
   text-align: center;
   background: whitesmoke;
-  border-color: #fff;
-  border-width: 10px;
 }
 #error-container h1 {
   font-size: 60px;

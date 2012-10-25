@@ -9,9 +9,7 @@
 @footerHeight: 80px;
 @footerPadding: 20px;
 
-body {
-	
-}
+body {}
 
 html, body {
 	width: 100%;
@@ -24,8 +22,8 @@ html, body {
 }
 
 #content {
-	margin-top: 15px;
-	padding-bottom: @footerHeight + @contentBottomPadding;
+	padding-top: 15px;
+	padding-bottom: @footerHeight + @contentBottomPadding - 15px;
 }
 
 #footer {
@@ -405,6 +403,8 @@ html, body {
 
 #login-form {
 	width: 450px;
+	border-width: 0;
+	padding: 40px;
 
 	.control-group {
 		input.login-field {
@@ -419,13 +419,11 @@ html, body {
 }
 	
 #error-container {
-	width: 600px;
+	width: 400px;
 	margin-top: 60px;
 	padding: 60px 80px 80px;
 	text-align: center;
 	background: whitesmoke;
-	border-color: #fff;
-	border-width: 10px;
 
 	h1 {
 		font-size: 60px;

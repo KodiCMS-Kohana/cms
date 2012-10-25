@@ -1,19 +1,16 @@
-<div id="error-container" class="hero-unit">
+<div id="error-container" class="hero-unit curled">
 	<h1><?php echo __('Oooops'); ?></h1>
 
 	<div class="error-code">
 		<h3><?php echo $code; ?> <?php echo $error_type; ?></h3>
 	</div>
-	
-	<p><?php echo __('Sorry, an error has occured, Requested page not found!'); ?></p>
-	
-	<span class="error-details badge badge-important">
+	<p>
 		<?php echo $message; ?>
-	</span>
+	</p>
 
 	<div class="error-actions">
-		<?php echo UI::button(__('Back to Homepage'), array(
-			'href' => URL::base(TRUE), 'icon' => UI::icon( 'chevron-left' ),
+		<?php echo UI::button(__('Back'), array(
+			'href' => URL::site('', TRUE), 'icon' => UI::icon( 'chevron-left' ),
 			'class' => 'btn btn-large'
 		)); ?>
 	</div>

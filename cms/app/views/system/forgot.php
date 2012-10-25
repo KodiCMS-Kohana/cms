@@ -1,4 +1,4 @@
-<div id="login-form" class="hero-unit">
+<div id="login-form" class="hero-unit raised">
 	<h1><?php echo __( 'Forgot password' ); ?></h1>
 	<hr />
 	<?php echo Form::open( Route::url( 'user', array( 'action' => 'forgot' ) ), array( 'method' => 'post' ) ); ?>

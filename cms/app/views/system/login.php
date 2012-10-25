@@ -1,4 +1,4 @@
-<div class="hero-unit" id="login-form">
+<div class="hero-unit raised" id="login-form">
 	<h1><?php echo Setting::get('admin_title'); ?></h1>
 	
 	<hr />
@@ -47,9 +47,11 @@
 	
 	<hr />
 
-	<?php echo Form::button('sign-in', __('Login') . '<i class="icon-chevron-right"></i>', array(
-		'class' => 'btn btn-large'
+	<?php echo Form::button('sign-in', __('Login') . UI::icon('chevron-right icon-white'), array(
+		'class' => 'btn btn-large btn-primary pull-right'
 	)); ?>
+	
+	<div class="clearfix"></div>
 
 <?php echo Form::close(); ?>
 </div>
