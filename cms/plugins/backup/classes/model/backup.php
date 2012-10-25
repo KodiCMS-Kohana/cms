@@ -25,7 +25,7 @@ abstract class Model_Backup {
 	 * 
 	 * @param string $file
 	 * @return Model_Backup
-	 * @throws Kohana_Exception
+	 * @throws HTTP_Exception_404
 	 */
 	public static function factory($file = NULL)
 	{
@@ -42,7 +42,7 @@ abstract class Model_Backup {
 				$class = 'Model_Backup_Database';
 				break;
 			default:
-				throw new Kohana_Exception('Extension not supported');
+				throw new HTTP_Exception_404('Extension not supported');
 		}
 
 		return new $class($file);
