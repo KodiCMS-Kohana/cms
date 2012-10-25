@@ -6,4 +6,4 @@ $settings = array(
 );
 
 // Save plugin settings
-Plugins::set_all_settings($settings, 'redirect');
+Plugins_Settings::set_all_settings($settings, 'redirect');
