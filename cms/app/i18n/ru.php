@@ -196,6 +196,9 @@ return array(
 	'Yes' => 'Да',
 	'No' => 'Нет',
 	
+	'Find similar pages' => 'Похожая страница',
+	'If requested page url is incorrect, then find similar page.' => 'Если запрашиваемая страница не найдена, то показать наиболее похожую страницу',
+	
 	// Start
 	'Installation' => 'Установка',
 	'supported' => 'поддерживается',

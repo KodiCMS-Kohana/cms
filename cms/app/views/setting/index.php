@@ -55,6 +55,19 @@
 					<p class="help-block"><?php echo __( 'This allows you to specify which section you will see by default after login.' ); ?></p>
 				</div>
 			</div>
+			
+			<div class="control-group">
+				<label class="control-label" for="settingFindSimilar"><?php echo __( 'Find similar pages' ); ?></label>
+				<div class="controls">
+					<?php
+					echo Form::select( 'setting[find_similar]', array( 'yes' => __( 'Yes' ), 'no' => __( 'No' ) ), Setting::get( 'find_similar' ), array(
+						'id' => 'settingFindSimilar'
+					) );
+					?>
+					
+					<p class="help-block"><?php echo __( 'If requested page url is incorrect, then find similar page.' ); ?></p>
+				</div>
+			</div>
 
 			<div class="control-group">
 				<label class="control-label" for="settingProfiling"><?php echo __( 'Profiling' ); ?></label>

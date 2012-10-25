@@ -342,6 +342,32 @@ class FrontPage
 			->get('total');
 	}
 	
+	public static function find_similar($slug)
+	{
+		if(empty($slug))
+		{
+			return FALSE;
+		}
+		
+		$statuses = array(self::STATUS_REVIEWED, self::STATUS_PUBLISHED, self::STATUS_HIDDEN);
+		
+		$slugs = DB::select('id', 'slug')
+			->from(Page::tableName())
+			->where('status_id', 'in', $statuses)
+			->execute()
+			->as_array('id', 'slug');
+		
+		$similar_pages = Text::similar_word($slug, $slugs);
+		
+		if(!empty($similar_pages))
+		{
+			$page_id = key($similar_pages);
+			return self::findById($page_id);
+		}
+		
+		return NULL;
+	}
+
 	public static function findBySlug( $slug, $parent )
 	{		
 		$page_cache_id = (is_array($slug) ? join($slug) : $slug) . (isset($parent->id) ? $parent->id : 0);
@@ -450,6 +476,8 @@ class FrontPage
 	public static function findById( $id )
 	{
 		$page_class = __CLASS__;
+		
+		$statuses = array(self::STATUS_REVIEWED, self::STATUS_PUBLISHED, self::STATUS_HIDDEN);
 		
 		$page = DB::select('page.*')
 			->select(array('author.name', 'author'))
