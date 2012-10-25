@@ -29,7 +29,7 @@ function behavior_maintenance_mode_settings_save( $post, $plugin )
 		$post['plugin']['enable_maintenance_mode'] = 'no';
 	}
 	
-	Plugins::set_setting('enable_maintenance_mode', $post['plugin']['enable_maintenance_mode'], $plugin->id);
+	Plugins_Settings::set_setting('enable_maintenance_mode', $post['plugin']['enable_maintenance_mode'], $plugin->id);
 }
 
 function behavior_maintenance_mode_settings_page( $plugin )
@@ -51,18 +51,22 @@ function behavior_maintenance_mode()
 
 	if ($page)
 	{
+		
 		$page = FrontPage::find( $page->slug );
 
 		// if we fund it, display it!
 		if( is_object($page) )
 		{
-			echo $page->render_layout();
+			echo Response::factory()
+				->status(403)
+				->body($page->render_layout());
+
 			exit(); // need to exit here otherwise the true error page will be sended
 		}
 	} 
 	else 
 	{
-		throw new HTTP_Exception_404( 'Maintenance mode' );
+		throw new HTTP_Exception_403( 'Maintenance mode' );
 		exit();
 	}
 }
