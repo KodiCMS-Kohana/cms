@@ -38,7 +38,6 @@ class Controller_System_Install extends Controller_System_Template
 		catch (Validation_Exception $e)
 		{
 			Messages::errors($e->getMessage());
-			Messages::errors($e->errors('validation'));
 			$this->go_back();
 		}
 		

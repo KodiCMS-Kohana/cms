@@ -59,7 +59,7 @@ if (!empty($pagetmp) AND !empty($parttmp) AND !empty($tagstmp))
 
 				</div><!--/#pageEdit-->
 
-				<div id="contentSidebar" class="span3 well well-small">
+				<div id="contentSidebar" class="span3 well">
 					<div id="pageEditOptions" class="box">
 						<h3><?php echo __('Page options'); ?></h3>
 

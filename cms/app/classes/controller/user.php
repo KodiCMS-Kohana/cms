@@ -65,7 +65,6 @@ class Controller_User extends Controller_System_Backend {
 		}
 		catch (Validation_Exception $e)
 		{
-			Messages::errors($e->errors('validation'));
 			$this->go_back();
 		}
 		
@@ -82,8 +81,16 @@ class Controller_User extends Controller_System_Backend {
 		{
 			Flash::set( 'error', __( 'User <b>:name</b> has not been added!', array( ':name' => $user->name ) ) );
 		}
-
-		$this->go( URL::site( 'user' ) );
+		
+		// save and quit or save and continue editing?
+		if ( $this->request->post('commit') )
+		{
+			$this->go( URL::site( 'user' ) );
+		}
+		else
+		{
+			$this->go( URL::site( 'user/edit/' . $user->id ) );
+		}
 	}
 
 	public function action_edit( )
@@ -137,7 +144,6 @@ class Controller_User extends Controller_System_Backend {
 		}
 		catch (Validation_Exception $e)
 		{
-			Messages::errors($e->errors('validation'));
 			$this->go_back();
 		}
 
@@ -171,13 +177,14 @@ class Controller_User extends Controller_System_Backend {
 			Messages::errors( __( 'User <b>:name</b> has not been saved!', array( ':name' => $user->name ) ) );
 		}
 
-		if ( AuthUser::getId() == $id )
+		// save and quit or save and continue editing?
+		if ( $this->request->post('commit') )
 		{
-			$this->go( URL::site( 'user/edit/' . $id ) );
+			$this->go( URL::site( 'user' ) );
 		}
 		else
 		{
-			$this->go( URL::site( 'user' ) );
+			$this->go( URL::site( 'user/edit/' . $user->id ) );
 		}
 	}
 

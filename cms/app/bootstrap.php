@@ -68,13 +68,6 @@ else if(IS_INSTALLED)
 	Kohana::$environment = Kohana::PRODUCTION;
 }
 
-define('CMS_NAME',			'KoDi CMS');
-define('CMS_SITE',			'http://www.kodicms.ru');
-define('CMS_VERSION',		'1.0 RC');
-
-define('BASE_URL',			'http://' . dirname($_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME']) .'/');
-define('ADMIN_RESOURCES',	BASE_URL . 'cms/media/');
-
 
 /**
  * InitializeCore, setting the default options.
@@ -96,10 +89,16 @@ Kohana::init( array(
 	'errors'			=> TRUE
 ) );
 
+define('CMS_NAME',			'KoDiCMS');
+define('CMS_SITE',			'http://www.kodicms.ru');
+define('CMS_VERSION',		'1.0');
+
+define('BASE_URL',			URL::base('http'));
+define('ADMIN_RESOURCES',	BASE_URL . 'cms/media/');
+
 /**
  * Set the default language
  */
-
 I18n::lang('ru');
 
 /**

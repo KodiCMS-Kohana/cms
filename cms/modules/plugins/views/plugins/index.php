@@ -15,7 +15,7 @@
 	})
 </script>
 
-<div id="pluginsMap" class="box map">
+<div id="pluginsMap" class="box map well well-small">
 	
 	<table class="table table-striped table-hover" id="PluginsList">
 		<colgroup>

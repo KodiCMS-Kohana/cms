@@ -36,7 +36,7 @@
 			<div class="container-fluid">
 				<div id="content" >
 				<?php if(!empty($title)): ?>
-				<?php echo UI::page_header($title); ?>
+				<?php //echo UI::page_header($title); ?>
 				<?php endif; ?>
 				<?php echo $content; ?>
 				</div> <!--/#content-->

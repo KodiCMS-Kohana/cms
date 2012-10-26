@@ -1,7 +1,7 @@
-<div class="navbar navbar-static-top navbar-inverse">
+<div class="navbar navbar-static-top">
 	<div class="navbar-inner">
 		<?php
-		echo HTML::anchor( URL::site( Setting::get( 'default_tab', 'page' ) ), Setting::get( 'admin_title' ), array(
+		echo HTML::anchor( URL::site( Setting::get( 'default_tab', 'page' ) ), HTML::image( ADMIN_RESOURCES . 'images/logo.png'), array(
 			'class' => 'brand'
 		) );
 		?>
