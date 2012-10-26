@@ -48,13 +48,22 @@ class Controller_Snippet extends Controller_System_Backend {
 
 	private function _add()
 	{
-		$data = $_POST['snippet'];
+		$data = $this->request->post();
 		Flash::set( 'post_data', (object) $data );
 
 		$snippet = new Model_File_Snippet( $data['name'] );
 		$snippet->content = $data['content'];
+		
+		try
+		{
+			$status = $snippet->save();
+		}
+		catch(Validation_Exception $e)
+		{
+			$this->go_back();
+		}
 
-		if ( !$snippet->save() )
+		if ( !$$status )
 		{
 			Messages::errors( __( 'Snippet <b>:name</b> has not been added. Name must be unique!', array( ':name' => $snippet->name ) ) );
 			$this->go( URL::site( 'snippet/add' ) );
@@ -68,7 +77,7 @@ class Controller_Snippet extends Controller_System_Backend {
 		Session::instance()->delete('post_data');
 
 		// save and quit or save and continue editing?
-		if ( isset( $_POST['commit'] ) )
+		if ( $this->request->post('commit') )
 		{
 			$this->go( URL::site( 'snippet' ) );
 		}
@@ -108,13 +117,22 @@ class Controller_Snippet extends Controller_System_Backend {
 
 	private function _edit( $snippet_name )
 	{
-		$data = $_POST['snippet'];
+		$data = $this->request->post();
 
 		$snippet = new Model_File_Snippet( $snippet_name );
 		$snippet->name = $data['name'];
 		$snippet->content = $data['content'];
+		
+		try
+		{
+			$status = $snippet->save();
+		}
+		catch(Validation_Exception $e)
+		{
+			$this->go_back();
+		}
 
-		if ( !$snippet->save() )
+		if ( !$status )
 		{
 			Messages::errors( __( 'Snippet <b>:name</b> has not been saved. Name must be unique!', array( ':name' => $snippet->name ) ) );
 			$this->go( URL::site( 'snippet/edit/' . $snippet->name ) );
@@ -126,7 +144,7 @@ class Controller_Snippet extends Controller_System_Backend {
 		}
 
 		// save and quit or save and continue editing?
-		if ( isset( $_POST['commit'] ) )
+		if ( $this->request->post('commit') )
 		{
 			$this->go( URL::site( 'snippet' ) );
 		}

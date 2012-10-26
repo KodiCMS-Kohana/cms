@@ -168,6 +168,17 @@ class Model_File {
 	 */
 	public function save()
 	{
+		$validation = Validation::factory(array(
+			'name' => $this->name
+		))
+			->rule('name', 'not_empty')
+			->label('name', __('Name'));
+		
+		if(!$validation->check())
+		{
+			throw new Validation_Exception($validation);
+		}
+
 		$new_file = $this->_path . $this->name . EXT;
 		
 		if ( $new_file != $this->_file )

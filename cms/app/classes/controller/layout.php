@@ -48,22 +48,24 @@ class Controller_Layout extends Controller_System_Backend {
 
 	function _add()
 	{
-		$data = $_POST['layout'];
+		$data = $this->request->post();
 		Flash::set( 'post_data', (object) $data );
-
-		if ( empty( $data['name'] ) )
-		{
-			Flash::set( 'error', __( 'You have to specify a name!' ) );
-			$this->go( URL::site( 'layout/add/' ) );
-		}
 
 		$layout = new Model_File_Layout( $data['name'] );
 		$layout->content = $data['content'];
 
-		if ( !$layout->save() )
+		try
+		{
+			$status = $layout->save();
+		}
+		catch(Validation_Exception $e)
+		{
+			$this->go_back();
+		}
+
+		if ( ! $status )
 		{
 			Messages::errors(__( 'Layout <b>:name</b> has not been added. Name must be unique!', array( ':name' => $layout->name ) ) );
-
 			$this->go( URL::site( 'layout/add/' ) );
 		}
 		else
@@ -76,7 +78,7 @@ class Controller_Layout extends Controller_System_Backend {
 		Session::instance()->delete('post_data');
 
 		// save and quit or save and continue editing?
-		if ( isset( $_POST['commit'] ) )
+		if ( $this->request->post('commit') )
 		{
 			$this->go( URL::site( 'layout' ) );
 		}
@@ -111,10 +113,19 @@ class Controller_Layout extends Controller_System_Backend {
 
 	function _edit( $layout )
 	{
-		$layout->name = $_POST['layout']['name'];
-		$layout->content = $_POST['layout']['content'];
+		$layout->name = $this->request->post('name');
+		$layout->content = $this->request->post('content');
+		
+		try
+		{
+			$status = $layout->save();
+		}
+		catch(Validation_Exception $e)
+		{
+			$this->go_back();
+		}
 
-		if ( !$layout->save() )
+		if ( !$status )
 		{
 			Messages::errors(__( 'Layout <b>:name</b> has not been saved. Name must be unique!', array( ':name' => $layout->name ) ) );
 		}
@@ -125,13 +136,13 @@ class Controller_Layout extends Controller_System_Backend {
 		}
 
 		// save and quit or save and continue editing?
-		if ( isset( $_POST['commit'] ) )
+		if ( $this->request->post('commit') )
 		{
 			$this->go( URL::site( 'layout' ) );
 		}
 		else
 		{
-			$this->go( URL::site( 'layout/edit/' . $layout->name ) );
+			$this->go_back();
 		}
 	}
 
@@ -160,7 +171,7 @@ class Controller_Layout extends Controller_System_Backend {
 			Messages::errors( __( 'Layout <b>:name</b> is used! It <i>can not</i> be deleted!', array( ':name' => $layout_name ) ) );
 		}
 
-		$this->go( URL::site( 'layout' ) );
+		$this->go_back();
 	}
 
 }

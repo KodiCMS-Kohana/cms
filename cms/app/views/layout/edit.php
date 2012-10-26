@@ -7,17 +7,20 @@ $uri = ($action == 'edit') ? URL::site('layout/edit/'. $layout->name) : URL::sit
 
 	<?php echo Form::hidden('token', Security::token()); ?>
 
-	<div class="control-group">
-		<label class="control-label title" for="layoutEditNameField"><?php echo __('Layout name'); ?></label>
-		<div class="controls">
-			<?php echo Form::input('layout[name]', $layout->name, array(
-				'class' => 'slug focus input-title', 'id' => 'layoutEditNameField',
-				'tabindex'	=> 1
-			)); ?>
+	<div class="title-block">
+		<div class="control-group">
+			<label class="control-label title" for="layoutEditNameField"><?php echo __('Layout name'); ?></label>
+			<div class="controls">
+				<?php echo Form::input('name', $layout->name, array(
+					'class' => 'slug focus input-title', 'id' => 'layoutEditNameField',
+					'tabindex'	=> 1
+				)); ?>
+			</div>
 		</div>
 	</div>
+	<div class="title-content"><?php echo __('Content'); ?></div>
 
-	<?php echo Form::textarea('layout[content]', $layout->content, array(
+	<?php echo Form::textarea('content', $layout->content, array(
 			'tabindex'		=> 2,
 			'id'			=> 'textarea_content'
 		)); ?>
