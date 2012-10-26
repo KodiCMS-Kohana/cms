@@ -107,5 +107,11 @@ class Messages {
 
 		return Messages::set( Messages::SUCCESS, $data, $values );
 	}
+	
+	public static function validation(Validation $validation, $file = 'validation')
+	{
+		$errors = $validation->errors($file);
+		return Messages::errors($errors);
+	}
 
 }
