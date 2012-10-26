@@ -36,6 +36,11 @@ class Date extends Kohana_Date
 		{
 			$date = strtotime($date);
 		}
+		
+		if(!$date)
+		{
+			return __('Never');
+		}
 
 		return date( $format, $date );
 	}

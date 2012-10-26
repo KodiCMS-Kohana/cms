@@ -10,6 +10,7 @@
 			<col />
 			<col width="150px" />
 			<col width="150px" />
+			<col width="150px" />
 			<col width="100px" />
 		</colgroup>
 		<thead>
@@ -17,6 +18,7 @@
 				<th><?php echo __('Username'); ?></th>
 				<th><?php echo __('Roles'); ?></th>
 				<th><?php echo __('E-mail'); ?></th>
+				<th><?php echo __('Last login'); ?></th>
 				<th><?php echo __('Actions'); ?></th>
 			</tr>
 		</thead>
@@ -34,6 +36,7 @@
 					<?php endforeach; ?>
 				</td>
 				<td class="email"><?php echo UI::label($user->email); ?></td>
+				<td class="last_login"><?php echo Date::format($user->last_login); ?></td>
 				<td class="actions">
 					<?php 
 					if ($user->id > 1)
