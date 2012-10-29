@@ -18,10 +18,18 @@ class Controller_Archive extends Controller_System_Plugin
 			->add($this->template->title);
 
 		$pager = Pagination::factory(array(
-			'total_items' => Record::countFrom('Model_Page', 'parent_id = ' . (int) $page_id)
+			'total_items' => Record::countFrom('Model_Page', array(
+				'where' => array(array('parent_id', '=', (int) $page_id))
+			))
 		));
 
-		$items = $pages = Record::findAllFrom('Model_Page', 'parent_id = ' . (int) $page_id . ' ORDER BY created_on DESC' . $pager->sql_limit);
+		$items = $pages = Record::findAllFrom('Model_Page', array(
+			'where' => array(array('parent_id', '=', (int) $page_id)),
+			'order_by' => array(array('created_on', 'desc')),
+			'limit' => $pager->items_per_page,
+			'offset' => $pager->offset
+		));
+		
 		$this->template->content = View::factory('archive/index', array(
 			'items' => $items,
 			'page'	=> $page,

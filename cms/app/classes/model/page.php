@@ -7,14 +7,14 @@ class Model_Page extends Record
 {
     const TABLE_NAME = 'pages';
     
-    const STATUS_DRAFT = 1;
-    const STATUS_REVIEWED = 50;
-    const STATUS_PUBLISHED = 100;
-    const STATUS_HIDDEN = 101;
+    const STATUS_DRAFT			= 1;
+    const STATUS_REVIEWED		= 50;
+    const STATUS_PUBLISHED		= 100;
+    const STATUS_HIDDEN			= 101;
 
-    const LOGIN_NOT_REQUIRED = 0;
-    const LOGIN_REQUIRED = 1;
-    const LOGIN_INHERIT = 2;
+    const LOGIN_NOT_REQUIRED	= 0;
+    const LOGIN_REQUIRED		= 1;
+    const LOGIN_INHERIT			= 2;
 	
 	public function filters()
 	{
@@ -199,8 +199,8 @@ class Model_Page extends Record
 					->execute();
 			}
             
-            return Record::deleteWhere( 'Model_Page_Tag', 'page_id = :page_id', array(
-				':page_id' => $this->id) );
+            return Record::deleteWhere( 'Model_Page_Tag', array(
+				'where' => array(array('page_id', '=', $this->id))));
         }
         else
         {
@@ -212,8 +212,11 @@ class Model_Page extends Record
             {
                 if ( !empty($tag_name) )
                 {
+					$tag = Record::findOneFrom('Model_Tag', array(
+						'where' => array(array('name', '=', $tag_name))));
+							
                     // try to get it from tag list, if not we add it to the list
-                    if ( ! ( $tag = Record::findOneFrom('Model_Tag', 'name = :name', array(':name' => $tag_name)) ) )
+                    if ( ! $tag);
 					{
                         $tag = new Model_Tag(array('name' => trim($tag_name)));
 					}
@@ -231,9 +234,14 @@ class Model_Page extends Record
             foreach( $old_tags as $index => $tag_name )
             {
                 // get the id of the tag
-                $tag = Record::findOneFrom('Model_Tag', 'name = :name', array(':name' => $tag_name));
-                Record::deleteWhere('Model_Page_Tag', 'page_id = :page_id AND tag_id = :tag_id', array(
-					':page_id' => $this->id, ':tag_id' => $tag->id));
+                $tag = Record::findOneFrom('Model_Tag',
+						array('where' => array(array('name', '=', $tag_name))));
+
+                Record::deleteWhere('Model_Page_Tag', array(
+					'where' => array(
+						array('page_id', '=', $this->id),
+						array('tag_id', '=', $tag->id)
+					)));
 	
                 $tag->count--;
                 $tag->save();
@@ -241,23 +249,12 @@ class Model_Page extends Record
         }
     }
     
-    public static function find($args = NULL)
+    public static function find($clause = array())
     {
-        // Collect attributes...
-        $where    = isset($args['where']) ? trim($args['where']) : '';
-        $order_by = isset($args['order']) ? trim($args['order']) : '';
-        $offset   = isset($args['offset']) ? (int) $args['offset'] : 0;
-        $limit    = isset($args['limit']) ? (int) $args['limit'] : 0;
-        
-        // Prepare query parts
-        $where_string = empty($where) ? '' : "WHERE $where";
-        $order_by_string = empty($order_by) ? '' : "ORDER BY $order_by";
-        $limit_string = $limit > 0 ? "LIMIT $offset, $limit" : '';
-        
         $tablename = self::tableName('Model_Page');
         $tablename_user = self::tableName('User');
 		
-		$sql = (string) DB::select('page.*')
+		$sql = DB::select('page.*')
 			->select(array('author.name', 'created_by_name'))
 			->select(array('updator.name', 'updated_by_name'))
 			->from(array(Model_Page::tableName(), 'page'))
@@ -267,19 +264,14 @@ class Model_Page extends Record
 				->on('updator.id', '=', 'page.updated_by_id');
         
         // Prepare SQL
-        $sql .= ":where :order_by :limit";
+        $sql = self::_conditions($sql, $clause);
 		
-		$query = DB::query(Database::SELECT, $sql)
-			->parameters( array(
-				':where' => DB::expr($where_string),
-				':order_by' => DB::expr($order_by_string),
-				':limit' => DB::expr($limit_string)
-			))
+		$query = $sql
 			->as_object(__CLASS__)
 			->execute();
 
         // Run!
-        if ($limit == 1)
+        if (Arr::get($clause, 'limit') == 1)
         {
             return $query->current();
         }
@@ -289,28 +281,32 @@ class Model_Page extends Record
         }
     }
     
-    public static function findAll($args = NULL)
+    public static function findAll($clause = array())
     {
-        return self::find($args);
+        return self::find($clause);
     }
     
     public static function findById($id)
     {
         return self::find(array(
-            'where' => 'page.id='.(int)$id,
-            'limit' => 1
+            'where' => array(array('page.id', '=', (int) $id)),
+			'limit' => 1
         ));
     }
 	
 	public static function findAllLike($query)
 	{
-		$childrens = Record::findAllFrom(__CLASS__, 'LOWER(title) LIKE LOWER("%:query%") 
-			OR slug LIKE "%:query%" 
-			OR breadcrumb LIKE "%:query%" 
-			OR keywords LIKE "%:query%" 
-			OR description LIKE "%:query%" 
-			OR published_on LIKE "%:query%" 
-			OR created_on LIKE "%:query%"', 
+		$childrens = Record::findAllFrom(__CLASS__, array(
+			'or_where' => array(
+				array(DB::expr('LOWER(title)'), 'like', '%:query%'),
+				array('slug', 'like', '%:query%'),
+				array('breadcrumb', 'like', '%:query%'),
+				array('keywords', 'like', '%:query%'),
+				array('description', 'like', '%:query%'),
+				array('published_on', 'like', '%:query%'),
+				array('created_on', 'like', '%:query%'),
+			)
+		), 
 		array(
 			':query' => DB::expr($query)
 		));
@@ -318,11 +314,14 @@ class Model_Page extends Record
 		return $childrens;
 	}
     
-    public static function childrenOf($id, $clause = NULL)
+    public static function childrenOf($id, $clause = array())
     {
 		$default_clause = array(
-			'where' => 'parent_id = '.$id, 
-			'order' => 'position DESC, page.created_on DESC');
+			'where' => array(array('parent_id', '=', $id)),
+			'order_by' => array(
+				array('position', 'desc'),
+				array('page.created_on', 'desc')
+			));
 		
 		if( is_array( $clause ))
 		{
@@ -334,14 +333,14 @@ class Model_Page extends Record
     
     public static function hasChildren($id)
     {
-        return (boolean) self::countFrom('Model_Page', 'parent_id = :parent_id', array(
-			':parent_id' => (int) $id));
+        return (boolean) self::countFrom('Model_Page', array(
+			'where' => array(array('parent_id', '=', (int) $id))));
     }
 	
 	public static function deleteByParentId( $parent_id )
 	{
-		$pages = self::findAllFrom('Model_Page', 'parent_id = :parent_id', array(
-			':parent_id' => (int) $parent_id));
+		$pages = self::findAllFrom('Model_Page', array(
+			'where' => array(array('parent_id', '=', (int) $parent_id))));
 		
 		$result = TRUE;
 		

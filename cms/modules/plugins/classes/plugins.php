@@ -63,7 +63,7 @@ class Plugins {
 	protected static function _get_list_from_db()
 	{
 		return DB::select('value')
-			->from(Setting::$table_name)
+			->from(Setting::TABLE_NAME)
 			->where( 'name', '=', 'plugins' )
 			->cache_key('plugins_list')
 			->cached()
@@ -80,7 +80,7 @@ class Plugins {
 		Kohana::cache('Database::cache(plugins_list)', NULL, -1);
 		Kohana::cache('Route::cache()', NULL, -1);
 
-		return DB::update( Setting::$table_name)
+		return DB::update( Setting::TABLE_NAME)
 			->set(array('value' => serialize( self::$_plugins )))
 			->where('name', '=', 'plugins')
 			->execute();

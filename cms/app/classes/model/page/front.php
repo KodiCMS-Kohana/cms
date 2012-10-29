@@ -214,11 +214,11 @@ class Model_Page_Front
     {
         if ($this->parent)
 		{
-            return $this->parent->children(array(
-                'limit' => 1,
-                'where' => 'page.id < '. $this->id,
-                'order' => 'page.created_on DESC'
-            ));
+			return $this->parent->children(array(
+				'where' => array(array('page.id', '<', $this->id)),
+				'order_by' => array(array('page.created_on', 'desc')),
+				'limit' => 1
+			));
 		}
     }
     
@@ -227,40 +227,32 @@ class Model_Page_Front
         if ($this->parent)
 		{
             return $this->parent->children(array(
-                'limit' => 1,
-                'where' => 'page.id > '. $this->id,
-                'order' => 'page.created_on ASC'
+				'where' => array(array('page.id', '<', $this->id)),
+				'order_by' => array(array('page.created_on', 'asc')),
+				'limit' => 1
             ));
 		}
     }
     
-    public function children($args = NULL, $value = array(), $include_hidden = FALSE)
+    public function children($clause = NULL, $values = array(), $include_hidden = FALSE)
     {
         $page_class = __CLASS__;
-        
-        // Collect attributes...
-        $where   = isset($args['where'])  ? $args['where']: '';
-        $order   = isset($args['order'])  ? $args['order']: 'page.position DESC, page.id';
-        $offset  = isset($args['offset']) ? $args['offset']: 0;
-        $limit   = isset($args['limit'])  ? $args['limit']: 0;
-        
-        // auto offset generated with the page param
-        if ($offset == 0 && isset($_GET['page']))
+		
+		if(!isset($clause['order_by']))
 		{
-            $offset = ((int) $_GET['page'] - 1) * $limit;
+			$clause['order_by'] = array(
+				array('page.position', 'desc'),
+				array('page.id', 'asc')
+			);
 		}
         
-        // Prepare query parts
-        $where_string = trim($where) == '' ? '' : "AND ".$where;
-        $limit_string = $limit > 0 ? "LIMIT $offset, $limit" : '';
-        
 		$statuses = array(self::STATUS_REVIEWED, self::STATUS_PUBLISHED);
-		if($include_hidden)
+		if($include_hidden !== FALSE)
 		{
 			$statuses[] = self::STATUS_HIDDEN;
 		}
 		
-		$sql = (string) DB::select('page.*')
+		$sql = DB::select('page.*')
 			->select(array('author.name', 'author'), array('author.id', 'author_id'))
 			->select(array('updator.name', 'updator'), array('updator.id', 'updator_id'))
 			->from(array(Model_Page::tableName(), 'page'))
@@ -271,10 +263,8 @@ class Model_Page_Front
 			->where('parent_id', '=', $this->id)
 			->where('published_on', '<=', DB::expr('NOW()'))
 			->where('status_id', 'in', $statuses);
-			
-			
-        // Prepare SQL
-        $sql .= "$where_string ORDER BY $order $limit_string";
+		
+		$sql = Record::_conditions($sql, $clause);
         
         $pages = array();
         
@@ -285,7 +275,7 @@ class Model_Page_Front
             $page_class = Behavior::loadPageHack($this->behavior_id);
         }
 		
-		$query = DB::query(Database::SELECT, $sql)
+		$query = $sql
 			->cache_key( 'FrontPage::children::::parent_id::' . $this->id.')' )
 			->cached((int)Kohana::$config->load('global.cache.front_page'))
 			->execute();
@@ -303,23 +293,25 @@ class Model_Page_Front
             }
         }
         
-        if ($limit == 1)
+        if (Arr::get($clause, 'limit', 0) == 1)
+		{
             return isset($pages[0]) ? $pages[0]: FALSE;
+		}
         
         return $pages;
     }
     
-	public function childrenCount($args=NULL, $value=array(), $include_hidden=FALSE)
+	public function childrenCount($clause = NULL, $values = array(), $include_hidden = FALSE)
 	{
-		// Collect attributes...
-		$where   = isset($args['where']) ? $args['where']: '';
-		$order   = isset($args['order']) ? $args['order']: 'position, id';
-		$limit   = isset($args['limit']) ? $args['limit']: 0;
-		$offset  = 0;
-
-		// Prepare query parts
-		$where_string = trim($where) == '' ? '' : "AND ".$where;
-		$limit_string = $limit > 0 ? "LIMIT $offset, $limit" : '';
+		$page_class = __CLASS__;
+		
+		if(!isset($clause['order_by']))
+		{
+			$clause['order_by'] = array(
+				array('page.position', 'desc'),
+				array('page.id', 'asc')
+			);
+		}
 
 		$statuses = array(self::STATUS_REVIEWED, self::STATUS_PUBLISHED);
 		if($include_hidden)
@@ -327,15 +319,15 @@ class Model_Page_Front
 			$statuses[] = self::STATUS_HIDDEN;
 		}
 		
-		$sql = (string) DB::select(array(DB::expr('COUNT(*)'), 'total'))
+		$sql = DB::select(array(DB::expr('COUNT(*)'), 'total'))
 			->from(array(Model_Page::tableName(), 'page'))
 			->where('published_on', '<=', DB::expr('NOW()'))
 			->where('status_id', 'in', $statuses);
 
 		// Prepare SQL
-		$sql .= "$where_string ORDER BY $order $limit_string";
+		$sql = Record::_conditions($sql, $clause);
 
-		return (int) DB::query(Database::SELECT, $sql)
+		return (int) $sql
 			->cache_key( 'FrontPage::childrenCount::::parent_id::' . $this->id.')' )
 			->cached((int)Kohana::$config->load('global.cache.front_page'))
 			->execute()

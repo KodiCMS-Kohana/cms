@@ -51,12 +51,16 @@ class Model_Page_Part extends Record
     
     public static function findByPageId($id)
     {
-        return self::findAllFrom('Model_Page_Part', 'page_id='.(int)$id.' ORDER BY id');
+        return self::findAllFrom('Model_Page_Part', array(
+			'where' => array(array('page_id', '=', (int) $id)),
+			'order_by' => array(array('id', 'asc'))
+		));
     }
     
     public static function deleteByPageId($page_id)
     {
-		$parts = self::findAllFrom('Model_Page_Part', 'page_id = ' . $page_id);
+		$parts = self::findAllFrom('Model_Page_Part', array(
+			'where' => array(array('page_id', '=', (int) $page_id))));
 		
 		$result = true;
 		

@@ -29,13 +29,12 @@ class Model_User_Permission extends Record
 			->execute();
 		
 		$insert = DB::insert(self::tableName())
-				->columns(array('user_id', 'role_id'));
+			->columns(array('user_id', 'role_id'));
         
         // add the new perms
         foreach ($permissions as $name => $id)
         {
-			$insert
-				->values(array((int) $user_id, (int) $id));
+			$insert->values(array((int) $user_id, (int) $id));
         }
 		
 		return $insert->execute();

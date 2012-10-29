@@ -137,7 +137,8 @@ class Record
             
 			$data = $this->prepare_data(array('id'));
 
-			self::update(NULL, $data, 'id = :id', array(':id' => $this->id));
+			self::update(NULL, $data, array(
+				'where' => array(array('id', '=', $this->id))));
 			
 			$return = TRUE;
             
@@ -338,12 +339,12 @@ class Record
         {
             if (class_exists($class_name) && defined($class_name.'::TABLE_NAME'))
 			{
-                return TABLE_PREFIX.constant($class_name.'::TABLE_NAME');
+                return constant($class_name.'::TABLE_NAME');
 			}
         }
         catch (Exception $e)
         {
-            return TABLE_PREFIX.Inflector::underscore($class_name);
+            return Inflector::underscore($class_name);
         }
     }
     
@@ -361,60 +362,124 @@ class Record
 			->execute();
     }
     
-    public static function update($class_name, $data, $where, $values = array())
+    public static function update($class_name, $data, $clause = array(), $values = array())
     {
-		$sql = (string) DB::update(self::tableName($class_name))
+		$sql = DB::update(self::tableName($class_name))
 			->set($data);
+		
+		$sql = self::_conditions($sql, $clause);
 
-        return DB::query( Database::UPDATE, $sql . ' WHERE '.$where )
+        return $sql
 			->parameters($values)
 			->execute();
     }
     
-    public static function deleteWhere($class_name, $where, $values = array())
+    public static function deleteWhere($class_name, array $clause, $values = array())
     {
-        $sql = 'DELETE FROM '.self::tableName($class_name).' WHERE '.$where;
+		$sql = DB::delete()
+			->from(self::tableName($class_name));
 
-		return DB::query(Database::DELETE, $sql)
+		$sql = self::_conditions($sql, $clause);
+
+		return $sql
 			->parameters($values)
 			->execute();
     }
     
 	public static function findByIdFrom($class_name, $id)
 	{
-		return self::findOneFrom($class_name, 'id = :id', array(':id' => $id));
+		return self::findOneFrom($class_name, array(
+			'where' => array(array('id', '=', $id))
+		));
 	}
 
-	public static function findOneFrom($class_name, $where, $values = array())
+	public static function findOneFrom($class_name, $clause = array(), $values = array())
 	{
-		$sql = 'SELECT * FROM '.self::tableName($class_name).' WHERE '.$where;
+		$sql = DB::select('*')
+			->from(self::tableName($class_name));
+		
+		$sql = self::_conditions($sql, $clause);
 
-		return DB::query( Database::SELECT, $sql)
+		return $sql
 			->parameters( $values )
 			->as_object($class_name)
 			->execute()
 			->current();
 	}
 
-	public static function findAllFrom($class_name, $where = FALSE, $values = array())
+	public static function findAllFrom($class_name, $clause = array(), $values = array())
 	{
-		$sql = 'SELECT * FROM '.self::tableName($class_name).($where ? ' WHERE '.$where:'');
+		$sql = DB::select('*')
+			->from(self::tableName($class_name));
 
-		return DB::query(Database::SELECT, $sql)
+		$sql = self::_conditions($sql, $clause);
+
+		return $sql
 			->parameters( $values )
 			->as_object($class_name)
 			->execute()
 			->as_array();
 	}
 
-	public static function countFrom($class_name, $where = FALSE, $values = array())
+	public static function countFrom($class_name, $clause = array(), $values = array())
 	{
-		$sql = 'SELECT COUNT(*) AS nb_rows FROM '.self::tableName($class_name).($where ? ' WHERE '.$where:'');
+		$sql = DB::select(array(DB::expr( 'COUNT(*)' ), 'nb_rows'))
+			->from(self::tableName($class_name));
+		
+		$sql = self::_conditions($sql, $clause);
 
-		return (int) DB::query(Database::SELECT, $sql)
+		return (int) $sql
 			->parameters( $values )
 			->execute()
 			->get('nb_rows', 0);
+	}
+	
+	/**
+	 * 
+	 * @param Database_Query $db
+	 * @param array $clause
+	 * @return type
+	 */
+	public static function _conditions($db, array $clause)
+	{
+		foreach ($clause as $type => $params)
+		{
+			switch ($type)
+			{
+				case 'select': 
+					foreach ($params as $param)
+					{
+						$db->select($param);
+					}
+					break;
+				case 'where': 
+					foreach ($params as $param)
+					{
+						$db->where($param[0], $param[1], $param[2]);
+					}
+					break;
+				case 'or_where': 
+					foreach ($params as $param)
+					{
+						$db->or_where($param[0], $param[1], $param[2]);
+					}
+					break;
+				case 'order_by': 
+					foreach ($params as $param)
+					{
+						$db->order_by($param[0], $param[1]);
+					}
+					break;
+				case 'limit':
+					$db->limit((int) $params);
+					break;
+				case 'offset': 
+					$db->offset((int) $params);
+					break;
+			}
+		}
+		
+		return $db;
 	}
 
 	public function beforeSave() { return TRUE; }

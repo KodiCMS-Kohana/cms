@@ -50,7 +50,10 @@ class Controller_Page extends Controller_System_Backend {
 			if ( $big_sister )
 			{
 				// get all is part and create the same for the new little sister
-				$big_sister_parts = Record::findAllFrom( 'Model_Page_Part', 'page_id = :page_id ORDER BY id', array( ':page_id' => $big_sister->id ) );
+				$big_sister_parts = Record::findAllFrom( 'Model_Page_Part', array(
+					'where' => array(array('page_id', '=', $big_sister->id)),
+					'order_by' => array(array('id', 'asc'))
+				));
 				$page_parts = array( );
 				foreach ( $big_sister_parts as $parts )
 				{
@@ -478,7 +481,7 @@ class Controller_Page extends Controller_System_Backend {
 		{
 			$childrens = Model_Page::findAll();
 		}
-		else if ( strlen( $query ) == 2 && $query[0] == '.' )
+		else if ( strlen( $query ) == 2 AND $query[0] == '.' )
 		{
 			$page_status = array(
 				'd' => Model_Page::STATUS_DRAFT,
@@ -489,13 +492,23 @@ class Controller_Page extends Controller_System_Backend {
 
 			if ( isset( $page_status[$query[1]] ) )
 			{
-				$childrens = Model_Page::find( array( 'where' => 'page.status_id = ' . $page_status[$query[1]] ) );
+				$childrens = Model_Page::find( array( 
+					'where' => array(
+						array('page.status_id', '=', $page_status[$query[1]])
+					)));
 			}
 		}
 		else if ( substr( $query, 0, 1 ) == '-' )
 		{
 			$query = trim( substr( $query, 1 ) );
-			$childrens = Model_Page::find( array( 'where' => 'page.parent_id = (SELECT p.id FROM ' . TABLE_PREFIX . 'page AS p WHERE p.slug = "' . $query . '" LIMIT 1)' ) );
+			
+			$subreqest = DB::select('p.id')
+				->from(array(Model_Page::tableName(), 'p'))
+				->where('p.slug', '=', $query)
+				->limit(1);
+			$childrens = Model_Page::find( array( 
+				'where' => array(array('page.parent_id', '=', $subreqest))
+			));
 		}
 		else
 		{
