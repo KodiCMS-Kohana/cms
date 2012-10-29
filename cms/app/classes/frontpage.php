@@ -342,30 +342,59 @@ class FrontPage
 			->get('total');
 	}
 	
-	public static function find_similar($slug)
+	/**
+	 * 
+	 * @param string $uri
+	 * @return string|boolean
+	 */
+	public static function find_similar($uri)
 	{
-		if(empty($slug))
+		if(empty($uri))
 		{
 			return FALSE;
 		}
-		
-		$statuses = array(self::STATUS_REVIEWED, self::STATUS_PUBLISHED, self::STATUS_HIDDEN);
-		
+
+		$uri_slugs = array_merge(array(''), preg_split('/\//', $uri, -1, PREG_SPLIT_NO_EMPTY));
+
+		$config = Kohana::$config->load('similar');
+		$statuses = $config->get('find_in_statuses', array());
+
 		$slugs = DB::select('id', 'slug')
 			->from(Page::tableName())
 			->where('status_id', 'in', $statuses)
 			->execute()
 			->as_array('id', 'slug');
-		
-		$similar_pages = Text::similar_word($slug, $slugs);
-		
-		if(!empty($similar_pages))
+
+		$new_slugs = array();
+
+		foreach ($uri_slugs as $slug)
 		{
-			$page_id = key($similar_pages);
-			return self::findById($page_id);
+			if(in_array($slug, $slugs))
+			{
+				$new_slugs[] = $slug;
+				continue;
+			}
+
+			$similar_pages = Text::similar_word($slug, $slugs);
+
+			if(!empty($similar_pages))
+			{
+				$page_id = key($similar_pages);
+				$page = self::findById($page_id);
+				$new_slugs[] = $page->slug;
+			}
 		}
 		
-		return NULL;
+		if(!$config['return_parent_page'] AND (count($uri_slugs) != count($new_slugs)))
+		{
+			return FALSE;
+		}
+
+		$uri = implode('/', $new_slugs);
+
+		$page = self::find($uri);
+
+		return $page ? $uri : FALSE;
 	}
 
 	public static function findBySlug( $slug, $parent )

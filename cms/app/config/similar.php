@@ -2,6 +2,10 @@
 
 return array(
 
-	'similarity' => 3
+	'similarity' => 3, // Степень схожести слова (Чем меньше число, тем меньше точность)
+	'return_parent_page' => FALSE, // Включить переход на уровень выше, если слово не найдено
+	'find_in_statuses' => array( // Статусы страниц, в которых искать
+		Page::STATUS_REVIEWED, Page::STATUS_PUBLISHED
+	)
 
 );

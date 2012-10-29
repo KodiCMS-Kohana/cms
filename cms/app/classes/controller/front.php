@@ -19,10 +19,11 @@ class Controller_Front extends Controller
 		{
 			if(Setting::get('find_similar') == 'yes')
 			{
-				$page = FrontPage::find_similar($this->request->uri());
-				if($page instanceof FrontPage)
+				$uri = FrontPage::find_similar($this->request->uri());
+				
+				if($uri !== FALSE)
 				{
-					HTTP::redirect($page->url(), 301);
+					HTTP::redirect($uri, 301);
 				}
 			}
 			
