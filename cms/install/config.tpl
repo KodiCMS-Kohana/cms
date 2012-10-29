@@ -6,7 +6,7 @@ define('DB_SERVER', '__DB_SERVER__');
 define('DB_NAME', '__DB_NAME__');
 define('DB_USER', '__DB_USER__');
 define('DB_PASS', '__DB_PASS__');
-define('TABLE_PREFIX', '');
+define('TABLE_PREFIX', '__TABLE_PREFIX__');
 
 // When changing the path, you need to clear the cache
 define('ADMIN_DIR_NAME', '__ADMIN_DIR_NAME__');
