@@ -30,7 +30,7 @@ class Archive
             break;
             
             default:
-                FrontPage::not_found();
+                Model_Page_Front::not_found();
         }
     }
     
@@ -53,15 +53,15 @@ class Archive
         }
         else
         {
-            FrontPage::not_found();
+            Model_Page_Front::not_found();
         }
     }
     
     private function _displayPage($slug)
     {
-        if( ($this->page = FrontPage::findBySlug($slug, $this->page)) === false )
+        if( ($this->page = Model_Page_Front::findBySlug($slug, $this->page)) === false )
 		{
-            FrontPage::not_found();
+            Model_Page_Front::not_found();
 		}
     }
     
@@ -83,9 +83,9 @@ class Archive
 
 		return DB::query(Database::SELECT, $sql)
 			 ->parameters(array(
-				 ':page_table' => DB::expr(Page::TABLE_NAME),
+				 ':page_table' => DB::expr(Model_Page::TABLE_NAME),
 				 ':page_id' => $this->page->id,
-				 ':status_id' => FrontPage::STATUS_HIDDEN
+				 ':status_id' => Model_Page_Front::STATUS_HIDDEN
 			 ))
 			 ->execute()
 			 ->as_array(NULL, 'date');
@@ -97,9 +97,9 @@ class Archive
         
 		return DB::query(Database::SELECT, $sql)
 			 ->parameters(array(
-				 ':page_table' => DB::expr(Page::TABLE_NAME),
+				 ':page_table' => DB::expr(Model_Page::TABLE_NAME),
 				 ':page_id' => $this->page->id,
-				 ':status_id' => FrontPage::STATUS_HIDDEN
+				 ':status_id' => Model_Page_Front::STATUS_HIDDEN
 			 ))
 			 ->execute()
 			 ->as_array(NULL, 'date');
@@ -111,9 +111,9 @@ class Archive
 
 		return DB::query(Database::SELECT, $sql)
 			->parameters(array(
-				':page_table' => DB::expr(Page::TABLE_NAME),
+				':page_table' => DB::expr(Model_Page::TABLE_NAME),
 				':page_id' => $this->page->id,
-				':status_id' => FrontPage::STATUS_HIDDEN
+				':status_id' => Model_Page_Front::STATUS_HIDDEN
 			))
 			->execute()
 			->as_array(NULL, 'date');
@@ -122,7 +122,7 @@ class Archive
 } // end class Archive
 
 
-class PageArchive extends FrontPage
+class PageArchive extends Model_Page_Front
 {
 	protected function setUrl()
 	{

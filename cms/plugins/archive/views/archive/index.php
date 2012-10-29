@@ -36,10 +36,10 @@
 			</td>
 			<td class="status">
 				<?php switch ($item->status_id):
-					case Page::STATUS_DRAFT:    echo UI::label(__('Draft'), 'info');       break;
-					case Page::STATUS_REVIEWED: echo UI::label(__('Reviewed'), 'info'); break;
-					case Page::STATUS_HIDDEN:   echo UI::label(__('Hidden'), 'default');     break;
-					case Page::STATUS_PUBLISHED:
+					case Model_Page::STATUS_DRAFT:    echo UI::label(__('Draft'), 'info');       break;
+					case Model_Page::STATUS_REVIEWED: echo UI::label(__('Reviewed'), 'info'); break;
+					case Model_Page::STATUS_HIDDEN:   echo UI::label(__('Hidden'), 'default');     break;
+					case Model_Page::STATUS_PUBLISHED:
 						if( strtotime($item->published_on) > time() )
 							echo UI::label(__('Pending'), 'success');
 						else

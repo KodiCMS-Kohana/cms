@@ -1,4 +1,4 @@
-<?php if ( empty( $page_part->is_protected ) || $page_part->is_protected == PagePart::PART_NOT_PROTECTED || ($page_part->is_protected == PagePart::PART_PROTECTED && AuthUser::hasPermission( array( 'administrator', 'developer' ) )) ): ?>
+<?php if ( empty( $page_part->is_protected ) || $page_part->is_protected == Model_Page_Part::PART_NOT_PROTECTED || ($page_part->is_protected == Model_Page_Part::PART_PROTECTED && AuthUser::hasPermission( array( 'administrator', 'developer' ) )) ): ?>
 	<div id="pageEditPart-<?php echo $index; ?>" rel="<?php echo $page_part->name; ?>" class="item">
 		<input id="pageEditPartName-<?php echo ($index - 1); ?>" name="part[<?php echo ($index - 1); ?>][name]" type="hidden" value="<?php echo $page_part->name; ?>" />
 
@@ -23,7 +23,7 @@
 			<?php if ( AuthUser::hasPermission( 'administrator,developer' ) ): ?>
 
 			<label class="checkbox ">
-				<?php echo Form::checkbox( 'part[' . ($index - 1) . '][is_protected]', PagePart::PART_PROTECTED, (isset( $page_part->is_protected ) && $page_part->is_protected == PagePart::PART_PROTECTED ) ) . ' ' . __( 'Is protected' ); ?>
+				<?php echo Form::checkbox( 'part[' . ($index - 1) . '][is_protected]', Model_Page_Part::PART_PROTECTED, (isset( $page_part->is_protected ) && $page_part->is_protected == Model_Page_Part::PART_PROTECTED ) ) . ' ' . __( 'Is protected' ); ?>
 			</label>
 			<?php endif; ?>
 

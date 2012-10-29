@@ -14,7 +14,7 @@ class Controller_Page extends Controller_System_Backend {
 		$this->template->title = __('Pages');
 
 		$this->template->content = View::factory( 'page/index', array(
-			'page' => Record::findByIdFrom( 'Page', 1 ),
+			'page' => Record::findByIdFrom( 'Model_Page', 1 ),
 			'content_children' => $this->children( 1, 0, true )
 		) );
 	}
@@ -30,10 +30,10 @@ class Controller_Page extends Controller_System_Backend {
 		}
 
 		$data = Flash::get( 'post_data' );
-		$page = new Page( $data );
+		$page = new Model_Page( $data );
 		$page->parent_id = $parent_id;
 		$page->status_id = Setting::get( 'default_status_id' );
-		$page->needs_login = Page::LOGIN_INHERIT;
+		$page->needs_login = Model_Page::LOGIN_INHERIT;
 		$page->published_on = date( 'Y-m-d H:i:s' );
 		
 		
@@ -46,15 +46,15 @@ class Controller_Page extends Controller_System_Backend {
 		if ( empty( $page_parts ) )
 		{
 			// check if we have a big sister ...
-			$big_sister = Record::findOneFrom( 'Page', 'parent_id = :parent_id ORDER BY id DESC', array(':parent_id' =>  $parent_id ) );
+			$big_sister = Record::findOneFrom( 'Model_Page', 'parent_id = :parent_id ORDER BY id DESC', array(':parent_id' =>  $parent_id ) );
 			if ( $big_sister )
 			{
 				// get all is part and create the same for the new little sister
-				$big_sister_parts = Record::findAllFrom( 'PagePart', 'page_id = :page_id ORDER BY id', array( ':page_id' => $big_sister->id ) );
+				$big_sister_parts = Record::findAllFrom( 'Model_Page_Part', 'page_id = :page_id ORDER BY id', array( ':page_id' => $big_sister->id ) );
 				$page_parts = array( );
 				foreach ( $big_sister_parts as $parts )
 				{
-					$page_parts[] = new PagePart( array(
+					$page_parts[] = new Model_Page_Part( array(
 						'name' => $parts->name,
 						'filter_id' => Setting::get( 'default_filter_id' ),
 						'is_protected' => $parts->is_protected
@@ -62,7 +62,7 @@ class Controller_Page extends Controller_System_Backend {
 				}
 			}
 			else
-				$page_parts = array( new PagePart( array( 'filter_id' => Setting::get( 'default_filter_id' ), 'is_protected' => false ) ) );
+				$page_parts = array( new Model_Page_Part( array( 'filter_id' => Setting::get( 'default_filter_id' ), 'is_protected' => false ) ) );
 		}
 
 		$this->template->content = View::factory( 'page/edit', array(
@@ -74,7 +74,7 @@ class Controller_Page extends Controller_System_Backend {
 			'behaviors' => Behavior::findAll(),
 			'page_parts' => $page_parts,
 			'layouts' => Model_File_Layout::find_all(),
-			'permissions' => Record::findAllFrom( 'Permission' ),
+			'permissions' => Record::findAllFrom( 'Model_Permission' ),
 			'page_permissions' => $page->getPermissions()
 		) );
 	}
@@ -111,7 +111,7 @@ class Controller_Page extends Controller_System_Backend {
 			$data['status_id'] = Setting::get( 'default_status_id' );
 		}
 
-		$page = new Page( $data, array('tags') );
+		$page = new Model_Page( $data, array('tags') );
 		$page->parent_id = $parent_id;
 
 		// save page data
@@ -122,7 +122,7 @@ class Controller_Page extends Controller_System_Backend {
 				$data_part['page_id'] = $page->id;
 				$data_part['name'] = trim( $data_part['name'] );
 
-				$page_part = new PagePart( $data_part );
+				$page_part = new Model_Page_Part( $data_part );
 				$page_part->save();
 			}
 
@@ -171,7 +171,7 @@ class Controller_Page extends Controller_System_Backend {
 	{
 		$page_id = $this->request->param('id');
 
-		$page = Page::findById( $page_id );
+		$page = Model_Page::findById( $page_id );
 
 		if ( !$page )
 		{
@@ -194,11 +194,11 @@ class Controller_Page extends Controller_System_Backend {
 		}
 
 		// find all page_part of this pages
-		$page_parts = PagePart::findByPageId( $page_id );
+		$page_parts = Model_Page_Part::findByPageId( $page_id );
 
 		if ( empty( $page_parts ) )
 		{
-			$page_parts = array( new PagePart );
+			$page_parts = array( new Model_Page_Part );
 		}
 		
 		$this->template->title = __('Edit page');
@@ -213,7 +213,7 @@ class Controller_Page extends Controller_System_Backend {
 			'behaviors' => Behavior::findAll(),
 			'page_parts' => $page_parts,
 			'layouts' => Model_File_Layout::find_all(),
-			'permissions' => Record::findAllFrom( 'Permission' ),
+			'permissions' => Record::findAllFrom( 'Model_Permission' ),
 			'page_permissions' => $page->getPermissions()
 		) );
 	}
@@ -238,7 +238,7 @@ class Controller_Page extends Controller_System_Backend {
 			unset( $data['status_id'] );
 		}
 
-		$page = Record::findByIdFrom( 'Page', $page_id );
+		$page = Record::findByIdFrom( 'Model_Page', $page_id );
 
 		$page->setFromData( $data, array( 'tags' ) );
 
@@ -249,14 +249,14 @@ class Controller_Page extends Controller_System_Backend {
 			// get data for parts of this page
 			$data_parts = Arr::get($_POST, 'part', array());
 
-			$old_parts = PagePart::findByPageId( $page_id );
+			$old_parts = Model_Page_Part::findByPageId( $page_id );
 
 			// check if all old page part are passed in POST
 			// if not ... we need to delete it!
 			foreach ( $old_parts as $old_part )
 			{
 				// check user rights if part is protected
-				if ( $old_part->is_protected == PagePart::PART_PROTECTED && !AuthUser::hasPermission( array( 'administrator', 'developer' ) ) )
+				if ( $old_part->is_protected == Model_Page_Part::PART_PROTECTED && !AuthUser::hasPermission( array( 'administrator', 'developer' ) ) )
 					continue;
 
 				$not_in = true;
@@ -270,7 +270,7 @@ class Controller_Page extends Controller_System_Backend {
 
 						// this will not really create a new page part because
 						// the id of the part is passed in $data
-						$part = new PagePart( $part_data );
+						$part = new Model_Page_Part( $part_data );
 						$part->page_id = $page_id;
 
 						Observer::notify( 'part_edit_before_save', array( $part ) );
@@ -295,7 +295,7 @@ class Controller_Page extends Controller_System_Backend {
 			foreach ( $data_parts as $part_id => $part_data )
 			{
 				$part_data['name'] = trim( $part_data['name'] );
-				$part = new PagePart( $part_data );
+				$part = new Model_Page_Part( $part_data );
 				$part->page_id = $page_id;
 				$part->save();
 			}
@@ -344,7 +344,7 @@ class Controller_Page extends Controller_System_Backend {
 		if ( $page_id > 1 )
 		{
 			// find the page to delete
-			if ( $page = Record::findByIdFrom( 'Page', $page_id ) )
+			if ( $page = Record::findByIdFrom( 'Model_Page', $page_id ) )
 			{
 				// check for permission to delete this page
 				if ( !AuthUser::hasPermission( $page->getPermissions() ) )
@@ -356,7 +356,7 @@ class Controller_Page extends Controller_System_Backend {
 				if ( $page->delete() )
 				{
 					// need to delete all page_parts too !!
-					PagePart::deleteByPageId( $page_id );
+					Model_Page_Part::deleteByPageId( $page_id );
 
 					Observer::notify( 'page_delete', array( $page ) );
 					Messages::success( __( 'Page <b>:title</b> has been deleted!', array( ':title' => $page->title ) ) );
@@ -384,7 +384,7 @@ class Controller_Page extends Controller_System_Backend {
 	{
 		$expanded_rows = isset( $_COOKIE['expanded_rows'] ) ? explode( ',', $_COOKIE['expanded_rows'] ) : array( );
 
-		$page = Page::findById($parent_id);
+		$page = Model_Page::findById($parent_id);
 		$config = Behavior::get( $page->behavior_id );
 		
 		$clause = array();
@@ -395,11 +395,11 @@ class Controller_Page extends Controller_System_Backend {
 		}
 			
 		// get all children of the page (parent_id)
-		$childrens = Page::childrenOf( $parent_id, $clause );
+		$childrens = Model_Page::childrenOf( $parent_id, $clause );
 
 		foreach ( $childrens as $index => $child )
 		{
-			$childrens[$index]->has_children = Page::hasChildren( $child->id );
+			$childrens[$index]->has_children = Model_Page::hasChildren( $child->id );
 			$childrens[$index]->is_expanded = in_array( $child->id, $expanded_rows );
 			//$childrens[$index]->is_expanded = true;
 
@@ -458,7 +458,7 @@ class Controller_Page extends Controller_System_Backend {
 		{
 			foreach ( $pages as $position => $page_id )
 			{
-				$page = Record::findByIdFrom( 'Page', $page_id );
+				$page = Record::findByIdFrom( 'Model_Page', $page_id );
 				$page->position = (int) $position;
 				$page->parent_id = (int) $parent_id;
 				$page->save();
@@ -476,30 +476,30 @@ class Controller_Page extends Controller_System_Backend {
 
 		if ( $query == '*' )
 		{
-			$childrens = Page::findAll();
+			$childrens = Model_Page::findAll();
 		}
 		else if ( strlen( $query ) == 2 && $query[0] == '.' )
 		{
 			$page_status = array(
-				'd' => Page::STATUS_DRAFT,
-				'r' => Page::STATUS_REVIEWED,
-				'p' => Page::STATUS_PUBLISHED,
-				'h' => Page::STATUS_HIDDEN
+				'd' => Model_Page::STATUS_DRAFT,
+				'r' => Model_Page::STATUS_REVIEWED,
+				'p' => Model_Page::STATUS_PUBLISHED,
+				'h' => Model_Page::STATUS_HIDDEN
 			);
 
 			if ( isset( $page_status[$query[1]] ) )
 			{
-				$childrens = Page::find( array( 'where' => 'page.status_id = ' . $page_status[$query[1]] ) );
+				$childrens = Model_Page::find( array( 'where' => 'page.status_id = ' . $page_status[$query[1]] ) );
 			}
 		}
 		else if ( substr( $query, 0, 1 ) == '-' )
 		{
 			$query = trim( substr( $query, 1 ) );
-			$childrens = Page::find( array( 'where' => 'page.parent_id = (SELECT p.id FROM ' . TABLE_PREFIX . 'page AS p WHERE p.slug = "' . $query . '" LIMIT 1)' ) );
+			$childrens = Model_Page::find( array( 'where' => 'page.parent_id = (SELECT p.id FROM ' . TABLE_PREFIX . 'page AS p WHERE p.slug = "' . $query . '" LIMIT 1)' ) );
 		}
 		else
 		{
-			$childrens = Page::findAllLike( $query );
+			$childrens = Model_Page::findAllLike( $query );
 		}
 
 		foreach ( $childrens as $index => $child )
@@ -516,7 +516,7 @@ class Controller_Page extends Controller_System_Backend {
 
 	private function _getPartView( $index = 1, $name = '', $filter_id = '', $content = '' )
 	{
-		$page_part = new PagePart( array(
+		$page_part = new Model_Page_Part( array(
 			'name' => $name,
 			'filter_id' => $filter_id,
 			'content' => $content

@@ -114,7 +114,7 @@ class Behavior
 		}
         else
 		{
-            return 'FrontPage';
+            return 'Model_Page_Front';
 		}
     }
 

@@ -91,7 +91,7 @@ if (!empty($pagetmp) AND !empty($parttmp) AND !empty($tagstmp))
 						<p>
 							<label><?php echo __('Status'); ?></label>
 							<span>
-								<?php echo Form::select('page[status_id]', Page::statuses(), $page->status_id, array(
+								<?php echo Form::select('page[status_id]', Model_Page::statuses(), $page->status_id, array(
 									'class' => 'span12'
 								)); ?>
 							</span>
@@ -111,7 +111,7 @@ if (!empty($pagetmp) AND !empty($parttmp) AND !empty($tagstmp))
 						<p>
 							<label><?php echo __('Needs login'); ?></label>
 							<span>
-								<?php echo Form::select('page[needs_login]', Page::logins(), $page->needs_login, array(
+								<?php echo Form::select('page[needs_login]', Model_Page::logins(), $page->needs_login, array(
 									'class' => 'span12'
 								)); ?>
 							</span>

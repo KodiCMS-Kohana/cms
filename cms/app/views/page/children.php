@@ -2,7 +2,7 @@
 
 <ul data-level="<?php echo $level; ?>" class="unstyled">
 	<?php foreach($childrens as $child): ?>
-	<?php if($child instanceof Page): ?>
+	<?php if($child instanceof Model_Page): ?>
 	<li data-id="<?php echo $child->id; ?>" <?php if($child->is_expanded) echo('class="item-expanded"'); ?>>
 		<div class="item">
 			<div class="row-fluid">
@@ -41,10 +41,10 @@
 				</div>
 				<div class="status span2">
 					<?php switch ($child->status_id):
-						case Page::STATUS_DRAFT:    echo UI::label(__('Draft'), 'info');       break;
-						case Page::STATUS_REVIEWED: echo UI::label(__('Reviewed'), 'info'); break;
-						case Page::STATUS_HIDDEN:   echo UI::label(__('Hidden'), 'default');     break;
-						case Page::STATUS_PUBLISHED:
+						case Model_Page::STATUS_DRAFT:    echo UI::label(__('Draft'), 'info');       break;
+						case Model_Page::STATUS_REVIEWED: echo UI::label(__('Reviewed'), 'info'); break;
+						case Model_Page::STATUS_HIDDEN:   echo UI::label(__('Hidden'), 'default');     break;
+						case Model_Page::STATUS_PUBLISHED:
 							if( strtotime($child->published_on) > time() )
 								echo UI::label(__('Pending'), 'success');
 							else

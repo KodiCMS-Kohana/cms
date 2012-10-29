@@ -354,8 +354,7 @@ class Record
 	 * @return integer
 	 */
     public static function insert($class_name, $data)
-    {        
-        // Run it !!...
+    {
         return DB::insert(self::tableName($class_name))
 			->columns( array_keys( $data ) )
 			->values( array_values( $data ) )
@@ -413,6 +412,7 @@ class Record
 		$sql = 'SELECT COUNT(*) AS nb_rows FROM '.self::tableName($class_name).($where ? ' WHERE '.$where:'');
 
 		return (int) DB::query(Database::SELECT, $sql)
+			->parameters( $values )
 			->execute()
 			->get('nb_rows', 0);
 	}

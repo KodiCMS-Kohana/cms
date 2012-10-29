@@ -13,12 +13,12 @@ class Controller_User extends Controller_System_Backend {
 	{
 		$this->template->title = __('Users');
 
-		$users = DB::select( 'user.*', array( DB::expr('GROUP_CONCAT(permission.name)'), 'roles' ) )
+		$users = DB::select( 'user.*', array( DB::expr('GROUP_CONCAT(Model_Permission.name)'), 'roles' ) )
 			->from( array(User::tableName(), 'user') )
-			->join( array( UserPermission::tableName(), 'user_permission'), 'left' )
+			->join( array( Model_User_Permission::tableName(), 'user_permission'), 'left' )
 				->on( 'user.id', '=', 'user_permission.user_id' )
-			->join( array( Permission::tableName(), 'permission'), 'left' )
-				->on( 'user_permission.role_id', '=', 'permission.id' )
+			->join( array( Model_Permission::tableName(), 'Model_Permission'), 'left' )
+				->on( 'user_permission.role_id', '=', 'Model_Permission.id' )
 			->group_by( 'user.id')
 			->as_object('Model_User')
 			->execute();
@@ -48,7 +48,7 @@ class Controller_User extends Controller_System_Backend {
 		$this->template->content = View::factory( 'user/edit', array(
 			'action' => 'add',
 			'user' => $user,
-			'permissions' => Permission::get_all()
+			'permissions' => Model_Permission::get_all()
 		) );
 	}
 
@@ -72,7 +72,7 @@ class Controller_User extends Controller_System_Backend {
 
 		if ( $user->save() )
 		{
-			UserPermission::setPermissionsFor( $user->id, $permissions );
+			Model_User_Permission::setPermissionsFor( $user->id, $permissions );
 			
 			Messages::success(__( 'User has been added!' ) );
 			Observer::notify( 'user_after_add', array( $user ) );
@@ -105,7 +105,7 @@ class Controller_User extends Controller_System_Backend {
 
 		$user = DB::select( 'user.*', array(DB::expr('GROUP_CONCAT(user_permission.role_id)'), 'roles' ) )
 			->from( array(User::tableName(), 'user') )
-			->join( array( UserPermission::tableName(), 'user_permission'), 'left' )
+			->join( array( Model_User_Permission::tableName(), 'user_permission'), 'left' )
 				->on( 'user.id', '=', 'user_permission.user_id' )
 			->where( 'id', '=', (int) $id )
 			->limit( 1 )
@@ -127,7 +127,7 @@ class Controller_User extends Controller_System_Backend {
 		$this->template->content = View::factory( 'user/edit', array(
 			'action' => 'edit',
 			'user' => $user,
-			'permissions' => Permission::get_all()
+			'permissions' => Model_Permission::get_all()
 		) );
 	}
 
@@ -166,7 +166,7 @@ class Controller_User extends Controller_System_Backend {
 			{
 				// now we need to add permissions
 				$permissions = $this->request->post('user_permission');
-				UserPermission::setPermissionsFor( $user->id, $permissions );
+				Model_User_Permission::setPermissionsFor( $user->id, $permissions );
 			}
 
 			Messages::success( __( 'User <b>:name</b> has been saved!', array( ':name' => $user->name ) ) );

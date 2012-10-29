@@ -36,7 +36,7 @@ class Controller_System_Security extends Controller_System_Controller
 		{
 			if ( AuthUser::isLoggedIn() OR $this->request->is_ajax() )
 			{
-				// Forbidden / Permission Deined
+				// Forbidden / Model_Permission Deined
 				throw HTTP_Exception::factory(403);
 			}
 			else

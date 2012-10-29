@@ -18,7 +18,7 @@ if($plugin->enabled())
 function behavior_page_not_found()
 {
 	$page = DB::select()
-		->from(Page::TABLE_NAME)
+		->from(Model_Page::TABLE_NAME)
 		->where('behavior_id', '=', 'page_not_found')
 		->limit(1)
 		->as_object()
@@ -27,7 +27,7 @@ function behavior_page_not_found()
 
 	if ($page)
 	{
-		$page = FrontPage::find( $page->slug );
+		$page = Model_Page_Front::find( $page->slug );
 
 		// if we fund it, display it!
 		if( is_object($page) )

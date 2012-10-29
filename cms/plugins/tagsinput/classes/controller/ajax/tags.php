@@ -11,7 +11,7 @@ class Controller_Ajax_Tags extends Controller_Ajax_JSON {
 			return NULL;
 		}
 
-		$tags = Record::findAllFrom('Tag', 'name LIKE "%:name%" ORDER BY count DESC', array(
+		$tags = Record::findAllFrom('Model_Tag', 'name LIKE "%:name%" ORDER BY count DESC', array(
 			':name' => DB::expr($name)
 		));
 		

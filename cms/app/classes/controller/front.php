@@ -8,7 +8,7 @@ class Controller_Front extends Controller
 	{
 		Observer::notify('frontpage_requested', array($this->request->uri()));
 		
-		$page = FrontPage::find($this->request->uri());
+		$page = Model_Page_Front::find($this->request->uri());
 		
 		// if we fund it, display it!
 		if ($page !== false && $page !== null)
@@ -19,7 +19,7 @@ class Controller_Front extends Controller
 		{
 			if(Setting::get('find_similar') == 'yes')
 			{
-				$uri = FrontPage::find_similar($this->request->uri());
+				$uri = Model_Page_Front::find_similar($this->request->uri());
 				
 				if($uri !== FALSE)
 				{
@@ -27,14 +27,14 @@ class Controller_Front extends Controller
 				}
 			}
 			
-			FrontPage::not_found();
+			Model_Page_Front::not_found();
 		}
 	}
 	
 	private function _render($page)
 	{
 		// If page needs login, redirect to login
-		if ($page->getLoginNeeded() == FrontPage::LOGIN_REQUIRED)
+		if ($page->getLoginNeeded() == Model_Page_Front::LOGIN_REQUIRED)
 		{
 			AuthUser::load();
 

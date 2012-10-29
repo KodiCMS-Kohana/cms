@@ -6,4 +6,4 @@ var ADMIN_RESOURCES		= '<?php echo ADMIN_RESOURCES; ?>';
 var PUBLIC_URL			= '<?php echo PUBLIC_URL; ?>';
 var PLUGINS_URL			= '<?php echo PLUGINS_URL; ?>';
 var LOCALE				= '<?php echo I18n::lang(); ?>';
-var TAG_SEPARATOR		= '<?php echo Tag::SEPARATOR; ?>';
+var TAG_SEPARATOR		= '<?php echo Model_Tag::SEPARATOR; ?>';

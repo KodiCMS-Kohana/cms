@@ -25,8 +25,8 @@ class User extends Record
         }
  
         return DB::select('perm.id', 'name')
-			->from(array(self::tableName('Permission'), 'perm'))
-			->join(array(self::tableName('UserPermission'), 'user_perm'), 'left')
+			->from(array(self::tableName('Model_Permission'), 'perm'))
+			->join(array(self::tableName('Model_User_Permission'), 'user_perm'), 'left')
 				->on('user_perm.role_id', '=', 'perm.id')
 			->where('user_id', '=', $this->id)
 			->as_object()

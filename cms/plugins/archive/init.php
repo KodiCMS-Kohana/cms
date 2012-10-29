@@ -26,9 +26,9 @@ if($plugin->enabled())
 		);
 
 		$pages = DB::select()
-			->from(Page::tableName())
+			->from(Model_Page::tableName())
 			->where('behavior_id', 'in', $behaviors)
-			->where('status_id', '=', Page::STATUS_PUBLISHED)
+			->where('status_id', '=', Model_Page::STATUS_PUBLISHED)
 			->cache_key( 'archive_section' )
 			->cached()
 			->as_object()

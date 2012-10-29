@@ -101,7 +101,7 @@
 				<div class="controls">
 					<label class="radio" for="settingPageStatusDraft">
 						<?php
-						echo Form::radio( 'setting[default_status_id]', Page::STATUS_DRAFT, (Setting::get( 'default_status_id' ) == FrontPage::STATUS_DRAFT ), array(
+						echo Form::radio( 'setting[default_status_id]', Model_Page::STATUS_DRAFT, (Setting::get( 'default_status_id' ) == Model_Page_Front::STATUS_DRAFT ), array(
 							'id' => 'settingPageStatusDraft'
 						) ) . ' ' . __( 'Draft' );
 						?>
@@ -109,7 +109,7 @@
 
 					<label class="radio" for="settingPageStatusPublished">
 						<?php
-						echo Form::radio( 'setting[default_status_id]', Page::STATUS_PUBLISHED, (Setting::get( 'default_status_id' ) == FrontPage::STATUS_PUBLISHED ), array(
+						echo Form::radio( 'setting[default_status_id]', Model_Page::STATUS_PUBLISHED, (Setting::get( 'default_status_id' ) == Model_Page_Front::STATUS_PUBLISHED ), array(
 							'id' => 'settingPageStatusPublished'
 						) ) . ' ' . __( 'Published' );
 						?>

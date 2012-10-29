@@ -42,7 +42,7 @@ function behavior_maintenance_mode_settings_page( $plugin )
 function behavior_maintenance_mode()
 {
 	$page = DB::select()
-		->from(Page::TABLE_NAME)
+		->from(Model_Page::TABLE_NAME)
 		->where('behavior_id', '=', 'maintenance_mode')
 		->limit(1)
 		->as_object()
@@ -52,7 +52,7 @@ function behavior_maintenance_mode()
 	if ($page)
 	{
 		
-		$page = FrontPage::find( $page->slug );
+		$page = Model_Page_Front::find( $page->slug );
 
 		// if we fund it, display it!
 		if( is_object($page) )

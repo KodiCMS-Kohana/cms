@@ -18,7 +18,7 @@ class Model_File_Layout extends Model_File {
 	 */
 	public function is_used()
     {
-        return Record::countFrom('Page', 'layout_file = :name', array(
+        return Record::countFrom('Model_Page', 'layout_file = :name', array(
 			':name' => $this->name
 		));
     }
