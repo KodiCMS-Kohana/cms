@@ -89,9 +89,9 @@ Kohana::init( array(
 	'errors'			=> TRUE
 ) );
 
-define('CMS_NAME',			'KoDiCMS');
+define('CMS_NAME',			'KodiCMS');
 define('CMS_SITE',			'http://www.kodicms.ru');
-define('CMS_VERSION',		'1.0');
+define('CMS_VERSION',		'1.1');
 
 define('BASE_URL',			URL::base('http'));
 define('ADMIN_RESOURCES',	BASE_URL . 'cms/media/');
