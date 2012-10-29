@@ -3,24 +3,38 @@
 class Controller_System_Install extends Controller_System_Template 
 {
 	public $template = 'layouts/frontend';
-
+	
 	public function action_index()
 	{
-		$this->template->content = View::factory('system/install', array(
-			'data' => Session::instance()->get_once( 'install_data', array( ) )
+		$data = array(
+			'db_driver' => 'mysql',
+			'db_server' => 'localhost',
+			'db_port' => 3306,
+			'db_user' => 'root',
+			'site_name' => CMS_NAME,
+			'username' => 'admin',
+			'email' => 'admin@yoursite.com',
+			'admin_dir_name' => 'backend',
+			'url_suffix' => '.html',
+			'timezone' => date_default_timezone_get()
+		);
+
+		$this->template->content = View::factory('install/index', array(
+			'data' => Session::instance()->get_once( 'install_data', $data ),
+			'env_test' => View::factory('install/env_test')
 		));
 	}
 
 	public function action_go()
 	{
 		$this->auto_render = FALSE;
-
-		if ( !isset( $_POST['install'] ) )
-		{
-			throw new  Kohana_Exception( 'Install data not found!' );
-		}
-
+		
 		$post = $this->request->post('install');
+
+		if ( ! $post )
+		{
+			throw new HTTP_( 'Install data not found!' );
+		}
 
 		$post['db_driver'] = DB_TYPE;
 		$post['password'] = Text::random();
@@ -54,7 +68,7 @@ class Controller_System_Install extends Controller_System_Template
 			$this->go_back();
 		}
 		
-		$this->go(Arr::get($post, 'admin_dir_name', '') . '/login');
+		$this->go($post['admin_dir_name'] . '/login');
 	}
 	
 	protected function _connect_to_db(array $post, $validation)
