@@ -65,12 +65,10 @@ class Controller_Layout extends Controller_System_Backend {
 
 		if ( ! $status )
 		{
-			Messages::errors(__( 'Layout <b>:name</b> has not been added. Name must be unique!', array( ':name' => $layout->name ) ) );
 			$this->go( URL::site( 'layout/add/' ) );
 		}
 		else
 		{
-			
 			Messages::success( __( 'Layout <b>:name</b> has been added!', array( ':name' => $layout->name ) ) );
 			Observer::notify( 'layout_after_add', array( $layout ) );
 		}
@@ -78,7 +76,7 @@ class Controller_Layout extends Controller_System_Backend {
 		Session::instance()->delete('post_data');
 
 		// save and quit or save and continue editing?
-		if ( $this->request->post('commit') )
+		if ( $this->request->post('commit') !== NULL )
 		{
 			$this->go( URL::site( 'layout' ) );
 		}
@@ -127,7 +125,7 @@ class Controller_Layout extends Controller_System_Backend {
 
 		if ( !$status )
 		{
-			Messages::errors(__( 'Layout <b>:name</b> has not been saved. Name must be unique!', array( ':name' => $layout->name ) ) );
+			$this->go_back();
 		}
 		else
 		{
@@ -136,7 +134,7 @@ class Controller_Layout extends Controller_System_Backend {
 		}
 
 		// save and quit or save and continue editing?
-		if ( $this->request->post('commit') )
+		if ( $this->request->post('commit') !== NULL )
 		{
 			$this->go( URL::site( 'layout' ) );
 		}

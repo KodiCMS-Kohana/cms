@@ -58,7 +58,7 @@ class Controller_System_Plugin extends Controller_Plugins {
 		Plugins_Settings::set_all_settings( $data, $plugin->id );
 		
 		// save and quit or save and continue editing?
-		if ( $this->request->post('commit') )
+		if ( $this->request->post('commit') !== NULL )
 		{
 			$this->go( URL::site( 'plugins' ) );
 		}

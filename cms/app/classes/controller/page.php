@@ -146,7 +146,7 @@ class Controller_Page extends Controller_System_Backend {
 		Session::instance()->delete('post_data', 'post_parts_data', 'page_tag');
 
 		// save and quit or save and continue editing ?
-		if ( $this->request->post('commit') )
+		if ( $this->request->post('commit') !== NULL )
 		{
 			$this->go( URL::site( 'page' ) );
 		}
@@ -318,7 +318,7 @@ class Controller_Page extends Controller_System_Backend {
 		}
 
 		// save and quit or save and continue editing ?
-		if ( $this->request->post('commit') )
+		if ( $this->request->post('commit') !== NULL )
 		{
 			$this->go( URL::site( 'page' ) );
 		}

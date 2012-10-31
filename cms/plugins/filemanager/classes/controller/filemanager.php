@@ -70,7 +70,7 @@ class Controller_FileManager extends Controller_System_Plugin {
 		}
 		
 		// save and quit or save and continue editing?
-		if ( $this->request->post('commit') )
+		if ( $this->request->post('commit') !== NULL )
 		{
 			$this->go( 'filemanager/' . $filesystem->getParent()->getRelativePath() );
 		}

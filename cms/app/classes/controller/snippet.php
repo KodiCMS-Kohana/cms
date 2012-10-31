@@ -77,7 +77,7 @@ class Controller_Snippet extends Controller_System_Backend {
 		Session::instance()->delete('post_data');
 
 		// save and quit or save and continue editing?
-		if ( $this->request->post('commit') )
+		if ( $this->request->post('commit') !== NULL )
 		{
 			$this->go( URL::site( 'snippet' ) );
 		}
@@ -144,7 +144,7 @@ class Controller_Snippet extends Controller_System_Backend {
 		}
 
 		// save and quit or save and continue editing?
-		if ( $this->request->post('commit') )
+		if ( $this->request->post('commit') !== NULL )
 		{
 			$this->go( URL::site( 'snippet' ) );
 		}
