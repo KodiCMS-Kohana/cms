@@ -46,7 +46,13 @@ class Controller_Page extends Controller_System_Backend {
 		if ( empty( $page_parts ) )
 		{
 			// check if we have a big sister ...
-			$big_sister = Record::findOneFrom( 'Model_Page', 'parent_id = :parent_id ORDER BY id DESC', array(':parent_id' =>  $parent_id ) );
+			$big_sister = Record::findOneFrom( 'Model_Page', array(
+				'where' => array(
+					array('parent_id', '=', $parent_id)
+				),
+				'order_by' => array(array('id', 'desc'))
+			));
+	
 			if ( $big_sister )
 			{
 				// get all is part and create the same for the new little sister
