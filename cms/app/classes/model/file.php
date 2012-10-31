@@ -191,6 +191,6 @@ class Model_File {
 		$result = fwrite($f, $this->_content);
 		fclose($f);
 		
-		return $result === FALSE;
+		return $result !== FALSE;
 	}
 }
