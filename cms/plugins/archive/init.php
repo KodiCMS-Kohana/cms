@@ -21,9 +21,14 @@ if($plugin->enabled())
 				'action' => 'index',
 			) );
 		
-		$behaviors = array(
-			'archive', 'archive_day_index', 'archive_month_index', 'archive_year_index'
-		);
+		$behaviors = array();
+		foreach (Kohana::$config->load('behaviors') as $key => $behavior)
+		{
+			if(isset($behavior['link']))
+			{
+				$behaviors[] = $key;
+			}
+		}
 
 		$pages = DB::select()
 			->from(Model_Page::tableName())
