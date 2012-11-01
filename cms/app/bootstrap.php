@@ -70,6 +70,12 @@ else if(IS_INSTALLED)
 
 
 /**
+ * Set the default language
+ */
+I18n::lang('ru');
+
+
+/**
  * InitializeCore, setting the default options.
  *
  * The following options are available:
@@ -80,7 +86,6 @@ else if(IS_INSTALLED)
  * - boolean  profile     enable or disable internal profiling               TRUE
  * - boolean  caching     enable or disable internal caching                 FALSE
  */
-
 Kohana::init( array(
 	'base_url'			=> '/',
 	'index_file'		=> FALSE,
@@ -96,10 +101,6 @@ define('CMS_VERSION',		'1.1');
 define('BASE_URL',			URL::base('http'));
 define('ADMIN_RESOURCES',	BASE_URL . 'cms/media/');
 
-/**
- * Set the default language
- */
-I18n::lang('ru');
 
 /**
  * Attach the file write to logging. Multiple writers are supported.
