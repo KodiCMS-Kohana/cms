@@ -16,7 +16,7 @@
 				<col width="150px" />
 				<col />
 				<col width="90px" />
-				<col width="90px" />
+				<col width="110px" />
 			</colgroup>
 			<thead>
 				<tr>
@@ -36,8 +36,13 @@
 				<td><?php echo $data['size']; ?></td>
 				<td>
 					<?php echo UI::button(NULL, array(
-						'class' => 'btn btn-mini btn-confirm', 'href' => 'backup/restore/'.$filename, 
-						'icon' => UI::icon( 'off' )
+						'class' => 'btn btn-mini', 
+						'href' => 'download/'.Download::secure_path( BACKUP_PLUGIN_FOLDER . $filename), 
+						'icon' => UI::icon( 'download' )
+					));?>
+					<?php echo UI::button(NULL, array(
+						'class' => 'btn btn-mini btn-success btn-confirm', 'href' => 'backup/restore/'.$filename, 
+						'icon' => UI::icon( 'off icon-white' )
 					));?> 
 					<?php echo UI::button(NULL, array(
 						'class' => 'btn btn-mini btn-danger btn-confirm', 'href' => 'backup/delete/'.$filename, 
