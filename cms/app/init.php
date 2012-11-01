@@ -58,6 +58,15 @@ if( ! Route::cache())
 			'controller' => 'index',
 			'action' => 'index',
 		) );
+	
+	Route::set( 'downloader', '('.ADMIN_DIR_NAME.'/)download/<path>', array(
+		'path' => '.*'
+	) )
+		->defaults( array(
+			'directory' => 'system',
+			'controller' => 'download',
+			'action' => 'index',
+		) );
 
 	Route::set( 'admin', ADMIN_DIR_NAME.'(/<controller>(/<action>(/<id>)))')
 		->defaults( array(
