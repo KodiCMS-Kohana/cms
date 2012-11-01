@@ -7,6 +7,16 @@
 	)); ?></td>
 	<td class="actions">
 		<?php
+		if(!$file->isDir())
+		{
+			echo UI::button(NULL, array(
+				'class' => 'btn btn-mini', 
+				'href' => 'download/'.Download::secure_path( PUBLICPATH . $file->getRelativePath() ), 
+				'icon' => UI::icon( 'download' )
+			) );
+		}; ?>
+		
+		<?php
 		echo UI::button( NULL, array(
 			'href' => 'filemanager/delete/' . $file->getRelativePath(), 'icon' => UI::icon( 'remove icon-white' ),
 			'class' => 'btn btn-mini btn-confirm btn-danger'
