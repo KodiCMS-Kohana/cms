@@ -213,7 +213,7 @@ class Controller_System_Install extends Controller_System_Template
 			'__DB_NAME__' => $post['db_name'],
 			'__DB_USER__' => $post['db_user'],
 			'__DB_PASS__' => $post['db_password'],
-			'__TABLE_PREFIX__' => $post['table_prefix'] . '_',
+			'__TABLE_PREFIX__' => $post['table_prefix'],
 			'__URL_SUFFIX__' => $post['url_suffix'],
 			'__ADMIN_DIR_NAME__' => $post['admin_dir_name'],
 			'__LANG__' => I18n::lang(),
