@@ -10,9 +10,9 @@ cms.plugins.codemirror.switchOn_handler = function( textarea_id )
 	cms.plugins.codemirror.editor = CodeMirror.fromTextArea(document.getElementById(textarea_id), {
 		tabMode: 'indent',
 		lineNumbers: true,
+		lineWrapping: true,
 		tabSize: 4,
         indentUnit: 4,
-        indentWithTabs: true,
 		mode: "application/x-httpd-php"
 	});
 };
