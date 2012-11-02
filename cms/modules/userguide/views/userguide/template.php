@@ -14,8 +14,6 @@
 		<?php foreach ($styles as $style) echo HTML::style($style, NULL, TRUE), "\n" ?>
 		<?php foreach ($scripts as $script) echo HTML::script($script, NULL, NULL, TRUE), "\n" ?>
 
-		
-
 		<?php Observer::notify( 'layout_backend_head' ); ?>
 	</head>
 	<body id="body_<?php echo $page_body_id; ?>">

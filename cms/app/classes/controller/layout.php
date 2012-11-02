@@ -96,6 +96,9 @@ class Controller_Layout extends Controller_System_Backend {
 			Messages::errors(__( 'Layout <b>:name</b> not found!', array( ':name' => $layout->name ) ) );
 			$this->go( 'layout' );
 		}
+		
+		$this->breadcrumbs
+			->add($layout_name);
 
 		// check if trying to save
 		if ( Request::current()->method() == Request::POST )

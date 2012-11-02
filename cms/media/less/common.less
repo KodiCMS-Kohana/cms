@@ -1,7 +1,7 @@
 @import "../libs/bootstrap/less/bootstrap.less";
 @import "../libs/glyphicons/less/sprites.less";
-@import "custom-bootstrap.less";
-
+@import "custom-bootstrap.less"; 
+ 
 /* ===================================================
 	Design
  =================================================== */
@@ -27,11 +27,13 @@ html, body {
 }
 
 #footer {
-    background-color: #252525;
+    background-color: #6E6D71;
     border-top: 1px solid #fff;
 	border-bottom: 1px solid #252525;
     padding-top: @footerPadding;
 	color: #fff;
+
+	.box-shadow(0 10px 5px #5A595D inset);
 	
 	height: @footerHeight - @footerPadding - 2px;
 	margin-top: -@footerHeight;
@@ -399,23 +401,11 @@ html, body {
 }
 
 #pageEditOptions {
-	p {
-		margin: 1em 0;
-	}
-
 	label {
-		display: block;
-		font-size: 90%;
-		margin-bottom: .2em;
-	}
+		margin-top: 10px;
 
-	.checkbox {
-		display: block;
-		margin: 0.2em 0;
-		font-style: normal;
-
-		label {
-			display: inline;
+		&:first-child {
+			margin-top: 0;
 		}
 	}
 }

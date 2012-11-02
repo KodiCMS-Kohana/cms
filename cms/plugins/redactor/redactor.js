@@ -9,7 +9,7 @@ cms.plugins.redactor.switchOn_handler = function( textarea_id, params )
 {
 	var local_params = {
 		focus: true,
-		wym: true,
+		//wym: true,
 		autoresize: false,
 		lang: LOCALE
 	};

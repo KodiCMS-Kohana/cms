@@ -16,7 +16,7 @@ class Controller_System_Backend extends Controller_System_Template
 		Model_Navigation::add_section('Settings', __('General'),  'setting', array('administrator'), 100);
 		Model_Navigation::add_section('Settings', __('Users'),    'user',    array('administrator'), 102);
 		Model_Navigation::add_section('Design',   __('Layouts'),  'layout',  array('administrator','developer'), 100);
-		Model_Navigation::add_section('Design',   __('Snippets'), 'snippet', array('administrator','developer'), 100);
+		Model_Navigation::add_section('Design',   __('Snippets'), 'snippet', array('administrator','developer'), 101);
 		Model_Navigation::add_section('Content',  __('Pages'),    'page',    array('administrator','developer','editor'), 100);
 
 		parent::before();

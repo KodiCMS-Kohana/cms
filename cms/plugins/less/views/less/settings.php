@@ -1,19 +1,26 @@
-<div class="well">
-	<div class="control-group">
-		<div class="checkbox">
-			<label><?php echo Form::checkbox('setting[enabled]', 'yes', $plugin->get('enabled', 'no') == 'yes'); ?> <?php echo __('Enable compiler'); ?></label>
-		</div>
+<div class="widget">
+	<div class="widget-header">
+		<h3><?php echo __('General settings'); ?></h3>
+	</div>
+	<div class="widget-content">
+		<div class="control-group">
+			<div class="checkbox">
+				<label><?php echo Form::checkbox('setting[enabled]', 'yes', $plugin->get('enabled', 'no') == 'yes'); ?> <?php echo __('Enable compiler'); ?></label>
+			</div>
 
-		<div class="checkbox">
-			<label><?php echo Form::checkbox('setting[format_css]', 'yes', $plugin->get('format_css', 'no') == 'yes'); ?> <?php echo __('Format css code'); ?></label>
-		</div>
+			<div class="checkbox">
+				<label><?php echo Form::checkbox('setting[format_css]', 'yes', $plugin->get('format_css', 'no') == 'yes'); ?> <?php echo __('Format css code'); ?></label>
+			</div>
 
+		</div>
 	</div>
 </div>
 
-<div class="well">
-	<fieldset>
-		<legend><?php echo __('Paths'); ?></legend>
+<div class="widget">
+	<div class="widget-header">
+		<h3><?php echo __('Paths'); ?></h3>
+	</div>
+	<div class="widget-content">
 		<div class="control-group <?php if(!$is_dir_less): ?>error<?php endif; ?>">
 			<label class="control-label"><?php echo __('Less folder path'); ?></label>
 			<div class="controls">
@@ -37,11 +44,13 @@
 				<?php endif; ?>
 			</div>
 		</div>
-	</fieldset>
+	</div>
 </div>
 
 <?php if(!$is_dir_less): ?>
-<fieldset>
-	<legend><?php echo __('Less files to compile'); ?></legend>
-</fieldset>
+<div class="widget">
+	<div class="widget-header">
+		<h3><?php echo __('Less files to compile'); ?></h3>
+	</div>
+</div>
 <?php endif; ?>

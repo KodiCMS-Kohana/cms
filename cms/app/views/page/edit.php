@@ -25,7 +25,7 @@ if (!empty($pagetmp) AND !empty($parttmp) AND !empty($tagstmp))
 		<div class="container-fluid">
 			<div class="row-fluid">
 				<div id="pageEdit" class="box span9">
-					<div id="pageEditMeta">
+					<div id="pageEditMeta" class="widget-header">
 						<?php echo View::factory('page/blocks/meta', array(
 							'page' => $page,
 							'action' => $action,
@@ -58,82 +58,68 @@ if (!empty($pagetmp) AND !empty($parttmp) AND !empty($tagstmp))
 
 				</div><!--/#pageEdit-->
 
-				<div id="contentSidebar" class="span3 well">
-					<div id="pageEditOptions" class="box">
-						<h3><?php echo __('Page options'); ?></h3>
+				<div class="span3">
+					<?php Observer::notify('view_page_edit_sidebar_before', array($page)); ?>
+					
+					<div class="outline">
+						<div id="pageEditOptions" class="widget outline_inner">
+							<div class="widget-header">
+								<h3><?php echo __('Page options'); ?></h3>
+							</div>
 
-						<p>
-							<label><?php echo __('Layout'); ?></label>
-							<span>
+							<div class="widget-content">
+
+								<label><?php echo __('Layout'); ?></label>
 								<select name="page[layout_file]" class="span12">
 									<option value="">&ndash; <?php echo __('inherit'); ?> &ndash;</option>
 									<?php foreach ($layouts as $layout): ?>
 									<option value="<?php echo($layout->name); ?>" <?php echo($layout->name == $page->layout_file ? ' selected="selected"': ''); ?> ><?php echo $layout->name; ?></option>
 									<?php endforeach; ?>
 								</select>
-							</span>
-						</p>
 
-						<p>
-							<label><?php echo __('Type'); ?></label>
-							<span>
+								<label><?php echo __('Type'); ?></label>
 								<select name="page[behavior_id]" class="span12">
 									<option value=""<?php if ($page->behavior_id == '') echo ' selected="selected"'; ?>>&ndash; <?php echo __('none'); ?> &ndash;</option>
 									<?php foreach ($behaviors as $behavior): ?>
 									<option value="<?php echo $behavior; ?>"<?php if ($page->behavior_id == $behavior) echo ' selected="selected"'; ?>><?php echo Inflector::humanize($behavior); ?></option>
 									<?php endforeach; ?>
 								</select>
-							</span>
-						</p>
 
-						<?php if(AuthUser::hasPermission(array('administrator','developer')) && ($action == 'add' || ($action == 'edit' && isset($page->id) && $page->id != 1))): ?>
-						<p>
-							<label><?php echo __('Status'); ?></label>
-							<span>
+								<?php if(AuthUser::hasPermission(array('administrator','developer')) && ($action == 'add' || ($action == 'edit' && isset($page->id) && $page->id != 1))): ?>
+								<label><?php echo __('Status'); ?></label>
+
 								<?php echo Form::select('page[status_id]', Model_Page::statuses(), $page->status_id, array(
 									'class' => 'span12'
 								)); ?>
-							</span>
-						</p>
-						<?php endif; ?>
+								<?php endif; ?>
 
-						<?php if($action == 'add' || ($action == 'edit' && isset($page->id) && $page->id != 1)): ?>
-						<p>
-							<label><?php echo __('Published date'); ?></label>
-							<span>
+								<?php if($action == 'add' || ($action == 'edit' && isset($page->id) && $page->id != 1)): ?>
+								<label><?php echo __('Published date'); ?></label>
 								<input type="text" name="page[published_on]" value="<?php echo $page->published_on; ?>" maxlength="20"  class="span12"/>
-							</span>
-						</p>
-						<?php endif; ?>
+								<?php endif; ?>
 
-						<?php if (AuthUser::hasPermission(array('administrator','developer'))): ?>
-						<p>
-							<label><?php echo __('Needs login'); ?></label>
-							<span>
+								<?php if (AuthUser::hasPermission(array('administrator','developer'))): ?>
+								<label><?php echo __('Needs login'); ?></label>
 								<?php echo Form::select('page[needs_login]', Model_Page::logins(), $page->needs_login, array(
 									'class' => 'span12'
 								)); ?>
-							</span>
-						</p>
-						<?php endif; ?>
+								<?php endif; ?>
 
-						<?php if (AuthUser::hasPermission(array('administrator','developer'))): ?>
-						<p>
-							<label><?php echo __('Users roles that can edit page'); ?></label>
-							<span>
+								<?php if (AuthUser::hasPermission(array('administrator','developer'))): ?>
+								<label><?php echo __('Users roles that can edit page'); ?></label>
 								<select name="page_permissions[]" multiple size="4" class="span12">
 									<?php foreach ($permissions as $permission): ?>
 									<option value="<?php echo $permission->name; ?>" <?php echo(in_array($permission->name, $page_permissions) ? 'selected': ''); ?> ><?php echo ucfirst($permission->name); ?></option>
 									<?php endforeach; ?>
 								</select>
-							</span>
-						</p>
-						<?php endif; ?>
+								<?php endif; ?>
+							</div>
 
-						<?php Observer::notify('view_page_edit_options', array($page)); ?>
-					</div><!--/#pageEditOptions-->
-
-					<?php Observer::notify('view_page_edit_sidebar', array($page)); ?>
+							<?php Observer::notify('view_page_edit_options', array($page)); ?>
+						</div><!--/#pageEditOptions-->
+					</div>
+					
+					<?php Observer::notify('view_page_edit_sidebar_after', array($page)); ?>
 				</div><!--/#contentSidebar-->
 			</div>
 		</div>

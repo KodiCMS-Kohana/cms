@@ -14,33 +14,37 @@
 		})
 	})
 </script>
-
-<div id="pluginsMap" class="box map well well-small">
+<div class="outline">
 	
-	<table class="table table-striped table-hover" id="PluginsList">
-		<colgroup>
-			<col />
-			<col width="80px" />
-			<col width="100px" />
-		</colgroup>
-		<thead>
-			<tr>
-				<th><?php echo __('Plugin name'); ?></th>
-				<th><?php echo __('Version'); ?></th>
-				<th><?php echo __('Actions'); ?></th>
-			</tr>
-		</thead>
-		<tbody>
-			<?php foreach ($plugins as $id => $plugin): ?>
-				<?php $status = isset($loaded_plugins[$id]) ? 'activated' : 'deactivated'; ?>
-				<?php
-				echo View::factory( 'plugins/status/' . $status, array(
-					'id' => $id,
-					'plugin' => $plugin
-				));
-				?>
-				</tr>
-			<?php endforeach; ?>
-		</tbody>
-	</table>
-</div><!--/#pluginsMap-->
+	<div id="pluginsMap" class="widget widget-nopad outline_inner">
+		<div class="widget-header"></div>
+		<div class="widget-content">
+			<table class="table table-striped table-hover" id="PluginsList">
+				<colgroup>
+					<col />
+					<col width="80px" />
+					<col width="100px" />
+				</colgroup>
+				<thead>
+					<tr>
+						<th><?php echo __('Plugin name'); ?></th>
+						<th><?php echo __('Version'); ?></th>
+						<th><?php echo __('Actions'); ?></th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach ($plugins as $id => $plugin): ?>
+						<?php $status = isset($loaded_plugins[$id]) ? 'activated' : 'deactivated'; ?>
+						<?php
+						echo View::factory( 'plugins/status/' . $status, array(
+							'id' => $id,
+							'plugin' => $plugin
+						));
+						?>
+						</tr>
+					<?php endforeach; ?>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

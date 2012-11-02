@@ -12,6 +12,7 @@
 /* ===================================================
 	Widget
  ===================================================*/
+@WidgetBorderRadius:       5px;
 .widget {
     clear: both;
     margin-bottom: 2em;
@@ -19,47 +20,61 @@
     position: relative;
     width: auto;
 
+	.widget-title, .widget-header {
+		border: 1px solid #D5D5D5;
+		.border-radius(@WidgetBorderRadius @WidgetBorderRadius 0 0);
+		position: relative;
+		margin: 0;
+		padding: 10px;
+
+		form {
+			margin-bottom: 0;
+		}
+
+		& + .widget-content {
+			border-top: medium none;
+			.border-radius(0);
+		}
+	}
+
+	.widget-title {
+		background: #eee;
+
+		.control-group {
+			margin-bottom: 0;
+		}
+	}
+
 	.widget-header {
 		.gradientBar(#FAFAFA, #E9E9E9, #555555);
-		border: 1px solid #D5D5D5;
-		.border-radius(4px 4px 0 0);
-		height: 40px;
-		line-height: 40px;
-		position: relative;
 
 		h3 {
 			color: #555555;
 			display: inline-block;
-			font-size: 14px;
-			font-weight: 800;
+			font-size: 16px;
+			font-weight: 200;
 			left: 10px;
 			line-height: 18px;
-			margin-right: 3em;
+			margin: 0 3em 0 0;
 			position: relative;
 			text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
 			top: 2px;
 		}
 
-		[class^="icon-"], [class*=" icon-"] {
+		> [class^="icon-"], [class*=" icon-"] {
 			color: #555555;
 			display: inline-block;
-			font-size: 16px;
-			margin-left: 13px;
+			margin-left: 5px;
 			margin-right: -2px;
 			vertical-align: middle;
-		}
-		
-		& + .widget-content {
-			border-top: medium none;
-			.border-radius(0 0 5px 5px);
 		}
 	}
 
 	.widget-content {
 		background: none repeat scroll 0 0 #FFFFFF;
 		border: 1px solid #D5D5D5;
-		.border-radius(5px);
-		padding: 20px 15px 15px;
+		.border-radius(@WidgetBorderRadius);
+		padding: 15px;
 
 		&:before, &:after {
 			content: "";
@@ -69,33 +84,77 @@
 		&:after {
 			clear: both;
 		}
+
+		& + .widget-header {
+			border-top: medium none;
+			.border-radius(0);
+		}
+
+		.nav-stacked a {
+			.border-radius(0);
+		}
 	}
 
-	&.widget-nopad .widget-content {
-		padding: 0;
+	.widget-footer {
+		border: 1px solid #D5D5D5;
+		border-top: 1px solid #fff;
+		background: whitesmoke;
+		.border-radius(0 0 @WidgetBorderRadius @WidgetBorderRadius);
+		padding: 15px auto;
+		margin: 0;
 	}
 
-	&.widget-table  {
+	&.widget-nopad {
 		.widget-content {
 			padding: 0;
 		}
+	}
+}
 
-		.table {
-			border: medium none;
-			margin-bottom: 0;
+/* ===================================================
+	Outline
+ ===================================================*/
+@OutlineBorderRadius: 5px;
+@OutlineMargin: 3px;
 
-			tr {
-				td:first-child {
-					border-left: medium none;
-				}
+.outline {
+    background: rgba(38, 38, 38, 0.1);
+    .border-radius(@OutlineBorderRadius + @OutlineMargin);
+    border: 1px solid #C5C5C5;
+    .box-shadow(0 1px 0 rgba(0, 0, 0, 0.05) inset, 0 1px 0 #FFFFFF);
+}
+.outline_inner {
+    background-color: #FFFFFF;
+    border-color: #CCCCCC;
+    .border-radius(@OutlineBorderRadius);
+    border-width: 1px;
+    .box-shadow(0 2px 2px -1px rgba(0, 0, 0, 0.1));
+    margin: @OutlineMargin;
+    position: relative;
+    width: auto;
+}
 
-				th:first-child {
-					border-left: medium none;
+/* ===================================================
+	Navigation
+ ===================================================*/
+.navbar {
+	.nav {
+		& > li {
+
+			& > .dropdown-menu {
+				&:after {
+					left: 30px;
 				}
 			}
 		}
 	}
 }
+
+.dropdown-menu {
+	.border-radius(0);
+	margin: 0;
+}
+
 
 
 /* ===================================================

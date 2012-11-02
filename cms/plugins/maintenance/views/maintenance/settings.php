@@ -1,6 +1,7 @@
-<fieldset>
-	<legend><?php echo __( 'Maintenance mode' ); ?></legend>
-	
+<div class="widget-header">
+	<h3><?php echo __('Maintenance mode'); ?></h3>
+</div>
+<div class="widget-content">
 	<div class="control-group">
 		<div class="controls">
 			<div class="checkbox">
@@ -8,4 +9,4 @@
 			</div>
 		</div>
 	</div>
-</fieldset>
+</div>

@@ -5,74 +5,84 @@
 	<?php echo Form::hidden('token', Security::token()); ?>
 	
 	<div class="row-fluid">
-		<div class="well-small well span6">		
-			<fieldset>
-				<legend><?php echo __('General'); ?></legend>
-				<div class="control-group">
-					<label class="control-label" for="userEditNameField"><?php echo __('Name'); ?></label>
-					<div class="controls">
-						<?php echo Form::input('user[name]', $user->name, array(
-							'class' => 'input-medium', 'id' => 'userEditNameField'
-						)); ?>
-					</div>
+		<div class="span6">		
+			<div class="widget">
+				<div class="widget-header">
+					<h3><?php echo __('General'); ?></h3>
 				</div>
+				<div class="widget-content">
+					<div class="control-group">
+						<label class="control-label" for="userEditNameField"><?php echo __('Name'); ?></label>
+						<div class="controls">
+							<?php echo Form::input('user[name]', $user->name, array(
+								'class' => 'input-medium', 'id' => 'userEditNameField'
+							)); ?>
+						</div>
+					</div>
 
-				<div class="control-group">
-					<label class="control-label" for="userEditEmailField"><?php echo __('E-mail'); ?></label>
-					<div class="controls">
-						<?php echo Form::input('user[email]', $user->email, array(
-							'class' => 'input-medium', 'id' => 'userEditEmailField'
-						)); ?>
-						<p class="help-block"><?php echo __('Use a valid e-mail address.'); ?></p>
+					<div class="control-group">
+						<label class="control-label" for="userEditEmailField"><?php echo __('E-mail'); ?></label>
+						<div class="controls">
+							<?php echo Form::input('user[email]', $user->email, array(
+								'class' => 'input-medium', 'id' => 'userEditEmailField'
+							)); ?>
+							<p class="help-block"><?php echo __('Use a valid e-mail address.'); ?></p>
+						</div>
+					</div>
+
+					<div class="control-group">
+						<label class="control-label" for="userEditUsernameField"><?php echo __('Username'); ?></label>
+						<div class="controls">
+							<?php echo Form::input('user[username]', $user->username, array(
+								'class' => 'input-medium', 'id' => 'userEditUsernameField'
+							)); ?>
+							<p class="help-block"><?php echo __('At least :num characters. Must be unique.', array(
+								':num' => 3
+							)); ?></p>
+						</div>
 					</div>
 				</div>
-				
-				<div class="control-group">
-					<label class="control-label" for="userEditUsernameField"><?php echo __('Username'); ?></label>
-					<div class="controls">
-						<?php echo Form::input('user[username]', $user->username, array(
-							'class' => 'input-medium', 'id' => 'userEditUsernameField'
-						)); ?>
-						<p class="help-block"><?php echo __('At least :num characters. Must be unique.', array(
-							':num' => 3
-						)); ?></p>
-					</div>
-				</div>
-			</fieldset>
+			</div>
 		</div>
 		
-		<div class="well-small well span6">
-			<fieldset>
-				<legend><?php echo __('Password'); ?></legend>
-				<div class="control-group">
-					<label class="control-label" for="userEditPasswordField"><?php echo __('Password'); ?></label>
-					<div class="controls">
-						<?php echo Form::password('user[password]', NULL, array(
-							'class' => 'input-medium', 'id' => 'userEditPasswordField'
-						)); ?>
-						<p class="help-block"><?php echo __('At least :num characters. Must be unique.', array(
-							':num' => 5
-						)); ?> 
-						<?php if($action=='edit') echo __('Leave password blank for it to remain unchanged.'); ?></p>
-					</div>
+		<div class="span6">
+			<div class="widget">
+				<div class="widget-header">
+					<h3><?php echo __('Password'); ?></h3>
 				</div>
+				<div class="widget-content">
+					<div class="control-group">
+						<label class="control-label" for="userEditPasswordField"><?php echo __('Password'); ?></label>
+						<div class="controls">
+							<?php echo Form::password('user[password]', NULL, array(
+								'class' => 'input-medium', 'id' => 'userEditPasswordField'
+							)); ?>
+							<p class="help-block"><?php echo __('At least :num characters. Must be unique.', array(
+								':num' => 5
+							)); ?> 
+							<?php if($action=='edit') echo __('Leave password blank for it to remain unchanged.'); ?></p>
+						</div>
+					</div>
 
-				<div class="control-group">
-					<label class="control-label" for="userEditPasswordConfirmField"><?php echo __('Confirm Password'); ?></label>
-					<div class="controls">
-						<?php echo Form::password('user[confirm]', NULL, array(
-							'class' => 'input-medium', 'id' => 'userEditPasswordConfirmField'
-						)); ?>
+					<div class="control-group">
+						<label class="control-label" for="userEditPasswordConfirmField"><?php echo __('Confirm Password'); ?></label>
+						<div class="controls">
+							<?php echo Form::password('user[confirm]', NULL, array(
+								'class' => 'input-medium', 'id' => 'userEditPasswordConfirmField'
+							)); ?>
+						</div>
 					</div>
 				</div>
-			</fieldset>
+			</div>
 		</div>
 	</div>
 	
 	<?php if (AuthUser::hasPermission('administrator')): ?>
-	<div class="well-small well">
-		<fieldset>
-			<legend><?php echo __('Roles'); ?></legend>
+	<div class="widget">
+		<div class="widget-header">
+			<h3><?php echo __('Roles'); ?></h3>
+		</div>
+		<div class="widget-content">
 			<div class="control-group">
 				<?php foreach ($permissions as $perm): ?>
 				<label class="checkbox inline" for="userEditPerms<?php echo ucwords($perm->name); ?>">
@@ -83,7 +93,7 @@
 				<?php endforeach; ?>
 				<p class="help-block"><?php echo __('Roles restrict user privileges and turn parts of the administrative interface on or off.'); ?></p>
 			</div>
-		</fieldset>
+		</div>
 	</div>
 	<?php endif; ?>
 	

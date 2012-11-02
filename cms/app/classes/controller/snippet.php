@@ -100,7 +100,7 @@ class Controller_Snippet extends Controller_System_Backend {
 
 		$this->template->title = __('Edit snippet');
 		$this->breadcrumbs
-			->add($this->template->title);
+			->add($snippet_name);
 
 		// check if trying to save
 		if ( Request::current()->method() == Request::POST )

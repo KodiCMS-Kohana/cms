@@ -61,16 +61,23 @@ $(document).ready(function(){
 <hr />
 
 <div class="class-list">
-
-	<?php foreach ($classes as $class => $methods): $link = $route->uri(array('class' => $class)) ?>
-	<div class="class <?php echo Text::alternate('left', 'right') ?>">
-		<h4><?php echo HTML::anchor($link, $class, NULL, NULL, TRUE) ?></h4>
-		<ul class="methods">
-		<?php foreach ($methods as $method): ?>
-			<li><?php echo HTML::anchor("{$link}#{$method}", "{$class}::{$method}", NULL, NULL, TRUE) ?></li>
-		<?php endforeach ?>
-		</ul>
+	<div class="row-fluid">
+		<?php $i = 1; foreach ($classes as $class => $methods): $link = $route->uri(array('class' => $class)) ?>
+		<div class="span4">
+			<h4><?php echo HTML::anchor($link, $class, NULL, NULL, TRUE) ?></h4>
+			<ul class="methods">
+			<?php foreach ($methods as $method): ?>
+				<li><?php echo HTML::anchor("{$link}#{$method}", "{$class}::{$method}", NULL, NULL, TRUE) ?></li>
+			<?php endforeach ?>
+			</ul>
+		</div>
+			<?php if(($i % 3) == 0): ?>
+			
 	</div>
-	<?php endforeach ?>
-
+	<div class="row-fluid">
+			<?php endif; ?>
+			<?php $i++; ?>
+		
+		<?php endforeach ?>
+	</div>
 </div>

@@ -1,13 +1,14 @@
 <?php echo form::open('setting', array(
 	'id' => 'settingForm', 'class' => 'form-horizontal'
 )); ?>
-
 	<?php echo Form::hidden('token', Security::token()); ?>
 	
-	<div class="well well-small">
-		<fieldset>
-			<legend><?php echo __( 'Site options' ); ?></legend>
-
+	<div class="widget">
+		<div class="widget-header">
+			<h3><?php echo __( 'Site options' ); ?></h3>
+		</div>
+		
+		<div class="widget-content">
 			<div class="control-group">
 				<label class="control-label title" for="settingTitle"><?php echo __( 'Site title' ); ?></label>
 				<div class="controls">
@@ -55,7 +56,7 @@
 					<p class="help-block"><?php echo __( 'This allows you to specify which section you will see by default after login.' ); ?></p>
 				</div>
 			</div>
-			
+
 			<div class="control-group">
 				<label class="control-label" for="settingFindSimilar"><?php echo __( 'Find similar pages' ); ?></label>
 				<div class="controls">
@@ -64,7 +65,7 @@
 						'id' => 'settingFindSimilar'
 					) );
 					?>
-					
+
 					<p class="help-block"><?php echo __( 'If requested page url is incorrect, then find similar page.' ); ?></p>
 				</div>
 			</div>
@@ -90,16 +91,17 @@
 					?>
 				</div>
 			</div>
-		</fieldset>
-	</div>
-	<div class="well well-small">
-		<fieldset>
-			<legend><?php echo __( 'Page options' ); ?></legend>
+		</div>
 
+		<div class="widget-header">
+			<h3><?php echo __( 'Page options' ); ?></h3>
+		</div>
+		
+		<div class="widget-content">
 			<div class="control-group">
 				<label class="control-label"><?php echo __( 'Default page status' ); ?> </label>
 				<div class="controls">
-					<label class="radio" for="settingPageStatusDraft">
+					<label class="radio inline" for="settingPageStatusDraft">
 						<?php
 						echo Form::radio( 'setting[default_status_id]', Model_Page::STATUS_DRAFT, (Setting::get( 'default_status_id' ) == Model_Page_Front::STATUS_DRAFT ), array(
 							'id' => 'settingPageStatusDraft'
@@ -107,7 +109,7 @@
 						?>
 					</label>
 
-					<label class="radio" for="settingPageStatusPublished">
+					<label class="radio inline" for="settingPageStatusPublished">
 						<?php
 						echo Form::radio( 'setting[default_status_id]', Model_Page::STATUS_PUBLISHED, (Setting::get( 'default_status_id' ) == Model_Page_Front::STATUS_PUBLISHED ), array(
 							'id' => 'settingPageStatusPublished'
@@ -133,16 +135,14 @@
 					<p class="help-block"><?php echo __( 'Only for filter in pages, <i>not</i> in snippets.' ); ?></p>
 				</div>
 			</div>
-		</fieldset>
-	</div>
+		</div>
 
-	<div class="well well-small">
-	<?php Observer::notify( 'view_setting_plugins' ); ?>
-	</div>
+		<?php Observer::notify( 'view_setting_plugins' ); ?>
 
-	<div class="form-actions">
-		<?php echo Form::button( 'submit', UI::icon( 'ok' ) . ' ' . __( 'Save setting' ), array(
-			'class' => 'btn btn-large btn-success'
-		) ); ?>
+		<div class="form-actions widget-footer">
+			<?php echo Form::button( 'submit', UI::icon( 'ok' ) . ' ' . __( 'Save setting' ), array(
+				'class' => 'btn btn-large'
+			) ); ?>
+		</div>
 	</div>
 <?php Form::close(); ?>
