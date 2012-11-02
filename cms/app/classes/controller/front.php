@@ -62,8 +62,12 @@ class Controller_Front extends Controller
 			
 			// Insert system HTML before closed tag body
 			$matches = preg_split('/(<\/body>)/i', $html, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE); 
-			/* assemble the HTML output back with the iframe code in it */
-			$html = $matches[0] . $inject_html . $matches[1] . $matches[2];
+			
+			if(count($matches) > 1)
+			{
+				/* assemble the HTML output back with the iframe code in it */
+				$html = $matches[0] . $inject_html . $matches[1] . $matches[2];
+			}
 		}
 		
 		echo Response::factory()
