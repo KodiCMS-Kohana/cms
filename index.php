@@ -119,7 +119,7 @@ else
 	
 	if(!URL::match('install', Request::detect_uri()))
 	{
-		$uri = Route::url('install');
+		$uri = Route::get('install')->uri();
 	}
 }
 

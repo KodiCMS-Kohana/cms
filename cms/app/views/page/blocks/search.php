@@ -1,5 +1,5 @@
 <?php 
-echo Form::open(URL::site('page/search'), array(
+echo Form::open('page/search', array(
 	'class' => 'form-search pull-right'
 ));
 echo Form::hidden('token', Security::token()); ?>

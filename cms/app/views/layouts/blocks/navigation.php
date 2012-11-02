@@ -1,7 +1,7 @@
 <div class="navbar navbar-static-top navbar-inverse">
 	<div class="navbar-inner">
 		<?php
-		echo HTML::anchor( URL::site( Setting::get( 'default_tab', 'page' ) ), HTML::image( ADMIN_RESOURCES . 'images/logo.png'), array(
+		echo HTML::anchor( Setting::get( 'default_tab', 'page' ), HTML::image( ADMIN_RESOURCES . 'images/logo.png'), array(
 			'class' => 'brand'
 		) );
 		?>
@@ -29,7 +29,7 @@
 				<span class="caret"></span>
 			</a>
 			<ul class="dropdown-menu">
-				<li><?php echo HTML::anchor( URL::site( 'logout' ), __( 'Logout' ) ); ?></li>
+				<li><?php echo HTML::anchor( 'logout', __( 'Logout' ) ); ?></li>
 			</ul>
 		</div>
 

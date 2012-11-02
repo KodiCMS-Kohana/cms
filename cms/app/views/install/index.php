@@ -1,7 +1,8 @@
 <h1><?php echo __( 'Installation' ); ?></h1>
 
-
-<form action="<?php echo URL::site( 'install/go' ); ?>" class="form-horizontal" method="post">
+<?php echo Form::open('install/go', array(
+	'class' => 'form-horizontal'
+)); ?>
 	<div class="well" id="install-page" >
 		<fieldset>
 			<legend><?php echo __( 'Database information' ); ?></legend>
@@ -157,4 +158,4 @@
 			'class' => 'btn btn-large btn-success', 'icon' => UI::icon( 'ok icon-white' )
 		)); ?>
 	</div>
-</form><!--/#installForm-->
+<?php echo Form::close(); ?><!--/#installForm-->

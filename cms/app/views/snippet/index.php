@@ -23,7 +23,7 @@
 			<?php foreach ($snippets as $snippet): ?>
 			<tr>
 				<th class="name">
-					<?php echo HTML::anchor(URL::site('snippet/edit/'.$snippet->name), HTML::image(ADMIN_RESOURCES . 'images/snippet.png') .' '. $snippet->name); ?>
+					<?php echo HTML::anchor('snippet/edit/'.$snippet->name, HTML::image(ADMIN_RESOURCES . 'images/snippet.png') .' '. $snippet->name); ?>
 				</th>
 				<td class="direction">
 					<?php echo UI::label('/snippets/' . $snippet->name . EXT); ?>

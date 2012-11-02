@@ -65,7 +65,7 @@ class Controller_Layout extends Controller_System_Backend {
 
 		if ( ! $status )
 		{
-			$this->go( URL::site( 'layout/add/' ) );
+			$this->go( 'layout/add/' );
 		}
 		else
 		{
@@ -78,11 +78,11 @@ class Controller_Layout extends Controller_System_Backend {
 		// save and quit or save and continue editing?
 		if ( $this->request->post('commit') !== NULL )
 		{
-			$this->go( URL::site( 'layout' ) );
+			$this->go( 'layout' );
 		}
 		else
 		{
-			$this->go( URL::site( 'layout/edit/' . $layout->name ) );
+			$this->go( 'layout/edit/' . $layout->name );
 		}
 	}
 
@@ -94,7 +94,7 @@ class Controller_Layout extends Controller_System_Backend {
 		if ( !$layout->is_exists() )
 		{
 			Messages::errors(__( 'Layout <b>:name</b> not found!', array( ':name' => $layout->name ) ) );
-			$this->go( URL::site( 'layout' ) );
+			$this->go( 'layout' );
 		}
 
 		// check if trying to save
@@ -136,7 +136,7 @@ class Controller_Layout extends Controller_System_Backend {
 		// save and quit or save and continue editing?
 		if ( $this->request->post('commit') !== NULL )
 		{
-			$this->go( URL::site( 'layout' ) );
+			$this->go( 'layout' );
 		}
 		else
 		{

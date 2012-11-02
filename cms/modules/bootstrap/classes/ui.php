@@ -95,7 +95,7 @@ class UI {
 				'name' => 'commit'
 			))
 			. UI::button(__('Cancel'), array(
-				'href' => URL::site($page), 'icon' => UI::icon('remove'),
+				'href' => $page, 'icon' => UI::icon('remove'),
 				'class' => 'btn btn-link'
 			));
 	}

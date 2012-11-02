@@ -28,7 +28,7 @@
 				<em title="/<?php echo $item->getUri(); ?>"><?php echo $item->title; ?></em>
 				<?php else: ?>
 				<?php echo UI::icon('file'); ?>
-				<a href="<?php echo URL::site('page/edit/'.$item->id); ?>" title="/<?php echo $item->getUri(); ?>"><?php echo $item->title; ?></a>
+				<?php echo HTML::anchor('page/edit/'.$item->id, $item->title); ?>
 				<?php endif; ?>
 			</th>
 			<td class="date">

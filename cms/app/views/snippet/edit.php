@@ -1,6 +1,6 @@
 <?php $uri = ($action == 'edit') 
-	? URL::site('snippet/edit/'. $snippet->name) 
-	: URL::site('snippet/add/' . $snippet->name); ?>
+	? 'snippet/edit/'. $snippet->name 
+	: 'snippet/add/' . $snippet->name; ?>
 
 <?php echo Form::open($uri, array('id' => 'snippetEditForm', 'class' => 'form-horizontal')); ?>
 

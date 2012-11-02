@@ -27,7 +27,7 @@
 			<tr class="item">
 				<td class="name">
 					<?php echo $user->gravatar(20, NULL, array('class' => 'img-circle')); ?> 
-					<?php echo HTML::anchor(URL::site('user/edit/'.$user->id), $user->username); ?>
+					<?php echo HTML::anchor('user/edit/'.$user->id, $user->username); ?>
 				</td>
 				<td class="roles">
 					<?php $roles = explode(',', $user->roles); ?>

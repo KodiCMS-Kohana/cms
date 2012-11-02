@@ -3,7 +3,7 @@
 		<h5>
 			<?php if($plugin->settings): ?>
 			<?php echo UI::button($plugin->title, array(
-				'icon' => UI::icon('cog'), 'href' => Url::site($plugin->id . '/settings/'),
+				'icon' => UI::icon('cog'), 'href' => $plugin->id . '/settings/',
 			)); ?>
 			<?php else: ?>
 			<?php echo $plugin->title; ?>

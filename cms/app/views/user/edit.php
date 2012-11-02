@@ -1,5 +1,7 @@
-<form class="form-horizontal" action="<?php echo $action=='edit' ? URL::site('user/edit/'.$user->id): URL::site('user/add'); ?>" method="post">
-	
+<?php echo Form::open($action=='edit' ? 'user/edit/'.$user->id : 'user/add', array(
+	'class' => 'form-horizontal'
+)); ?>
+
 	<?php echo Form::hidden('token', Security::token()); ?>
 	
 	<div class="row-fluid">

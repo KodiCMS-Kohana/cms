@@ -35,7 +35,7 @@
 			<tbody>
 				<?php if (!empty($path)): ?>
 				<tr>
-					<td colspan="5"><?php echo UI::icon('folder-open');?> <a href="<?php echo URL::site('filemanager/'.(!empty($path) ? substr($path, 0, strrpos($path, '/')): '')); ?>"><?php echo __('Level up'); ?></a></td>
+					<td colspan="5"><?php echo UI::icon('folder-open'); ?> <a href="<?php echo URL::site('filemanager/'.(!empty($path) ? substr($path, 0, strrpos($path, '/')): '')); ?>"><?php echo __('Level up'); ?></a></td>
 				</tr>
 				<?php endif; ?>
 				<?php foreach ($filesystem as $file): ?>

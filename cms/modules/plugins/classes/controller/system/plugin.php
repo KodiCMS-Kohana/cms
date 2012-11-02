@@ -60,7 +60,7 @@ class Controller_System_Plugin extends Controller_Plugins {
 		// save and quit or save and continue editing?
 		if ( $this->request->post('commit') !== NULL )
 		{
-			$this->go( URL::site( 'plugins' ) );
+			$this->go( 'plugins' );
 		}
 		else
 		{

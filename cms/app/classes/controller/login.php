@@ -75,7 +75,7 @@ class Controller_Login extends Controller_System_Template {
 
 		Messages::errors( $array->errors( 'validation' ) );
 
-		$this->go( Route::url( 'user', array( 'action' => 'login' ) ) );
+		$this->go( Route::get('user')->uri(array( 'action' => 'login' ) ) );
 	}
 
 	public function action_logout()
@@ -104,7 +104,7 @@ class Controller_Login extends Controller_System_Template {
 		if(!Valid::email( $email ))
 		{
 			Messages::errors( __('Email address no valid') );
-			$this->go( Route::url( 'user', array( 'action' => 'forgot' ) ) );
+			$this->go( Route::get('user')->uri(array( 'action' => 'forgot' ) ) );
 		}
 		
 		$user = ORM::factory('user', array(
@@ -114,7 +114,7 @@ class Controller_Login extends Controller_System_Template {
 		if(!$user->loaded())
 		{
 			Messages::errors( __('No user found!') );
-			$this->go( Route::url( 'user', array( 'action' => 'forgot' ) ) );
+			$this->go( Route::get('user')->uri(array( 'action' => 'forgot' ) ) );
 		}
 
 		$user = User::findBy('email', $email);
@@ -142,7 +142,7 @@ class Controller_Login extends Controller_System_Template {
 		$email->send();
 
 		Messages::success( __('An email has been send with your new password!') );
-		$this->go( Route::url( 'user', array( 'action' => 'login' ) ) );
+		$this->go( Route::get('user')->uri(array( 'action' => 'login' ) ) );
 
 	}
 

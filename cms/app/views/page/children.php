@@ -28,7 +28,7 @@
 					<?php else: ?>
 					<?php 
 						echo UI::icon('file');
-						echo HTML::anchor( URL::site('page/edit/'.$child->id), $child->title );
+						echo HTML::anchor( 'page/edit/'.$child->id, $child->title );
 					?>
 					<?php endif; ?>				
 					<?php if( !empty($child->behavior_id) ): ?> <?php echo UI::label(Inflector::humanize($child->behavior_id), 'default'); ?><?php endif; ?>

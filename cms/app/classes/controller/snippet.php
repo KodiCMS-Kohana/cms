@@ -66,7 +66,7 @@ class Controller_Snippet extends Controller_System_Backend {
 		if ( !$$status )
 		{
 			Messages::errors( __( 'Snippet <b>:name</b> has not been added. Name must be unique!', array( ':name' => $snippet->name ) ) );
-			$this->go( URL::site( 'snippet/add' ) );
+			$this->go( 'snippet/add' );
 		}
 		else
 		{
@@ -79,11 +79,11 @@ class Controller_Snippet extends Controller_System_Backend {
 		// save and quit or save and continue editing?
 		if ( $this->request->post('commit') !== NULL )
 		{
-			$this->go( URL::site( 'snippet' ) );
+			$this->go( 'snippet' );
 		}
 		else
 		{
-			$this->go( URL::site( 'snippet/edit/' . $snippet->name ) );
+			$this->go( 'snippet/edit/' . $snippet->name );
 		}
 	}
 
@@ -95,7 +95,7 @@ class Controller_Snippet extends Controller_System_Backend {
 		if ( !$snippet->is_exists() )
 		{
 			Messages::errors( __( 'Snippet <b>:name</b> not found!', array( ':name' => $snippet->name ) ) );
-			$this->go( URL::site( 'snippet' ) );
+			$this->go( 'snippet' );
 		}
 
 		$this->template->title = __('Edit snippet');
@@ -135,7 +135,7 @@ class Controller_Snippet extends Controller_System_Backend {
 		if ( !$status )
 		{
 			Messages::errors( __( 'Snippet <b>:name</b> has not been saved. Name must be unique!', array( ':name' => $snippet->name ) ) );
-			$this->go( URL::site( 'snippet/edit/' . $snippet->name ) );
+			$this->go( 'snippet/edit/' . $snippet->name );
 		}
 		else
 		{
@@ -146,11 +146,11 @@ class Controller_Snippet extends Controller_System_Backend {
 		// save and quit or save and continue editing?
 		if ( $this->request->post('commit') !== NULL )
 		{
-			$this->go( URL::site( 'snippet' ) );
+			$this->go( 'snippet' );
 		}
 		else
 		{
-			$this->go( URL::site( 'snippet/edit/' . $snippet->name ) );
+			$this->go( 'snippet/edit/' . $snippet->name );
 		}
 	}
 
@@ -179,7 +179,7 @@ class Controller_Snippet extends Controller_System_Backend {
 			Messages::errors( __( 'Snippet not found!' ) );
 		}
 
-		$this->go( URL::site( 'snippet' ) );
+		$this->go( 'snippet' );
 	}
 
 }

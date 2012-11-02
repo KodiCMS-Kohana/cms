@@ -15,13 +15,13 @@ class Controller_System_Controller extends Kohana_Controller
 		}
 		else
 		{
-			$this->go( Route::url( 'default' ) );
+			$this->go( Route::get( 'default' )->uri() );
 		}
 	}
 	
 	public function go_backend()
 	{
-		$this->go( Route::url( 'admin', array(
+		$this->go( Route::get( 'admin' )->uri(array(
 			'controller' => str_replace(ADMIN_DIR_NAME . '/', '', Setting::get('default_tab')),
 		) ) );
 	}
@@ -47,7 +47,7 @@ class Controller_System_Controller extends Kohana_Controller
 
 		if ( $url === NULL OR is_array( $url ) )
 		{
-			$url = Route::url( 'default', $route );
+			$url = Route::get( 'default' )->uri( $route );
 		}
 
 		$this->redirect( $url, $code );

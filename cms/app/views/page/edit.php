@@ -14,7 +14,7 @@ if (!empty($pagetmp) AND !empty($parttmp) AND !empty($tagstmp))
 ?>
 
 <div id="pageEdit">
-	<?php echo Form::open($action == 'add' ? URL::site('page/add/'.$parent_id) : URL::site('page/edit/'.$page->id), array(
+	<?php echo Form::open($action == 'add' ? 'page/add/'.$parent_id : 'page/edit/'.$page->id, array(
 		'id' => 'pageEditForm', 'class' => 'form-horizontal', 'method' => Request::POST
 	)); ?>
 		<?php echo Form::hidden('token', Security::token()); ?>
@@ -43,9 +43,8 @@ if (!empty($pagetmp) AND !empty($parttmp) AND !empty($tagstmp))
 
 					<?php if($page->title): ?>
 					<?php if (isset($page->updated_on)): ?>
-					<?php echo UI::label(__('Last updated by <a href=":link">:name</a> on :date', array(
-						':link' => URL::site('user/edit/' . $page->updated_by_id), 
-						':name' => $page->updated_by_name, 
+					<?php echo UI::label(__('Last updated by :anchor on :date', array(
+						':anchor' => HTML::anchor('user/edit/' . $page->updated_by_id, $page->updated_by_name),
 						':date' => date('D, j M Y', strtotime($page->updated_on))))); ?>
 					<?php endif; ?>
 

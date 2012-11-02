@@ -13,7 +13,7 @@
 	</div>
 	<?php endif; ?>
 
-	<?php echo Form::open( Route::url( 'user', array('action' => 'login') ), array(
+	<?php echo Form::open( Route::get('user')->uri(array('action' => 'login') ), array(
 		'method' => 'post', 'class' => 'form-vertical'
 	) ); ?>
 

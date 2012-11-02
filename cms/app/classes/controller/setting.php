@@ -35,7 +35,7 @@ class Controller_Setting extends Controller_System_Backend {
 
 		Messages::success( __( 'Settings has been saved!' ) );
 
-		$this->go( URL::site( 'setting' ) );
+		$this->go( 'setting' );
 	}
 
 }// end SettingController class

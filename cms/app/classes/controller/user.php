@@ -85,11 +85,11 @@ class Controller_User extends Controller_System_Backend {
 		// save and quit or save and continue editing?
 		if ( $this->request->post('commit') !== NULL )
 		{
-			$this->go( URL::site( 'user' ) );
+			$this->go( 'user' );
 		}
 		else
 		{
-			$this->go( URL::site( 'user/edit/' . $user->id ) );
+			$this->go( 'user/edit/' . $user->id );
 		}
 	}
 
@@ -180,11 +180,11 @@ class Controller_User extends Controller_System_Backend {
 		// save and quit or save and continue editing?
 		if ( $this->request->post('commit') !== NULL )
 		{
-			$this->go( URL::site( 'user' ) );
+			$this->go( 'user' );
 		}
 		else
 		{
-			$this->go( URL::site( 'user/edit/' . $user->id ) );
+			$this->go( 'user/edit/' . $user->id );
 		}
 	}
 
@@ -217,7 +217,7 @@ class Controller_User extends Controller_System_Backend {
 			Messages::errors( __( 'User <b>:name</b> has not been deleted!', array( ':name' => $user->name ) ) );
 		}
 
-		$this->go( URL::site( 'user' ) );
+		$this->go( 'user' );
 	}
 	
 	protected function _valid(array $data)

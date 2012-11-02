@@ -92,7 +92,7 @@ class Controller_Page extends Controller_System_Backend {
 		if ( empty( $data['title'] ) )
 		{
 			Messages::errors( __( 'You have to specify a title!' ) );
-			$this->go( URL::site( 'page/add/' . $parent_id ) );
+			$this->go( 'page/add/' . $parent_id );
 		}
 
 		/**
@@ -140,7 +140,7 @@ class Controller_Page extends Controller_System_Backend {
 		else
 		{
 			Messages::errors( __( 'Page has not been saved!' ) );
-			$this->go( URL::site( 'page/add/' . $parent_id ) );
+			$this->go( 'page/add/' . $parent_id );
 		}
 		
 		Session::instance()->delete('post_data', 'post_parts_data', 'page_tag');
@@ -148,11 +148,11 @@ class Controller_Page extends Controller_System_Backend {
 		// save and quit or save and continue editing ?
 		if ( $this->request->post('commit') !== NULL )
 		{
-			$this->go( URL::site( 'page' ) );
+			$this->go( 'page' );
 		}
 		else
 		{
-			$this->go( URL::site( 'page/edit/' . $page->id ) );
+			$this->go( 'page/edit/' . $page->id );
 		}
 	}
 
@@ -314,17 +314,17 @@ class Controller_Page extends Controller_System_Backend {
 		else
 		{
 			Messages::errors( __( 'Page <b>:title</b> has not been saved!', array( ':title' => $page->title ) ) );
-			$this->go( URL::site( 'page/edit/' . $page_id ) );
+			$this->go( 'page/edit/' . $page_id );
 		}
 
 		// save and quit or save and continue editing ?
 		if ( $this->request->post('commit') !== NULL )
 		{
-			$this->go( URL::site( 'page' ) );
+			$this->go( 'page' );
 		}
 		else
 		{
-			$this->go( URL::site( 'page/edit/' . $page->id ) );
+			$this->go( 'page/edit/' . $page->id );
 		}
 	}
 
@@ -350,7 +350,7 @@ class Controller_Page extends Controller_System_Backend {
 				if ( !AuthUser::hasPermission( $page->getPermissions() ) )
 				{
 					Messages::errors( __( 'You do not have permission to access the requested page!' ) );
-					$this->go( URL::site( 'page' ) );
+					$this->go( 'page' );
 				}
 
 				if ( $page->delete() )
@@ -376,7 +376,7 @@ class Controller_Page extends Controller_System_Backend {
 			Messages::errors( __( 'Action disabled!' ) );
 		}
 
-		$this->go( URL::site( 'page' ) );
+		$this->go( 'page' );
 	}
 	
 	

@@ -46,7 +46,7 @@
 						<?php else: ?>
 						<?php 
 						echo UI::icon('home'); 
-						echo HTML::anchor( URL::site('page/edit/1'), $page->title );
+						echo HTML::anchor( 'page/edit/1', $page->title );
 						?>
 						<?php endif; ?>
 
