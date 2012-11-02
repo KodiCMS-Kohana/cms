@@ -1,13 +1,11 @@
 <h1><?php echo __( 'Installation' ); ?></h1>
 
 <?php echo Form::open('install/go', array(
-	'class' => 'form-horizontal'
+	'class' => 'form-horizontal outline'
 )); ?>
-	<div class="well" id="install-page" >
-		<fieldset>
-			<legend><?php echo __( 'Database information' ); ?></legend>
-
-			<br />
+	<div class="widget outline_inner">
+		<div class="widget-header"><?php echo __( 'Database information' ); ?></div>
+		<div id="install-page" class="widget-content">
 			<?php echo Form::hidden( 'install[db_driver]', Arr::get( $data, 'db_driver' ) ); ?>
 
 			<div class="control-group">
@@ -16,11 +14,11 @@
 					<?php echo Form::input( 'install[db_server]', Arr::get( $data, 'db_server' ), array(
 						'class' => 'span3', 'id' => 'installDBServerField'
 					) ); ?>
-						
+
 					<?php echo Form::input( 'install[db_port]', Arr::get( $data, 'db_port' ), array(
 						'class' => 'span1'
 					) ); ?>
-						
+
 					<?php echo UI::label( __( 'Required.' ) ); ?>
 				</div>
 			</div>
@@ -70,13 +68,10 @@
 					<p class="help-block"><?php echo __( 'Optional. Usefull to prevent conflicts if you have, or plan to have, multiple Flexo installations with a single database.' ); ?></p>
 				</div>
 			</div>
-		</fieldset>
-	
-	</div>
-	<div class="well" id="install-page" >
-		<fieldset>
-			<legend><?php echo __( 'Other information' ); ?></legend>
-
+		</div>
+		
+		<div class="widget-header"><?php echo __( 'Other information' ); ?></div>
+		<div class="widget-content">
 			<div class="control-group">
 				<label class="control-label" for="installSiteNameField"><?php echo __( 'Site name' ); ?></label>
 				<div class="controls">
@@ -146,16 +141,14 @@
 					?>
 				</div>
 			</div>
-		</fieldset>
-
-	</div>
-	<div class="well" id="install-page" >
+		</div>
+		
 		<?php echo $env_test; ?>
-	</div>
 
-	<div class="form-actions">
-		<?php echo UI::button(__( 'Install now!' ), array(
-			'class' => 'btn btn-large btn-success', 'icon' => UI::icon( 'ok icon-white' )
-		)); ?>
+		<div class="form-actions widget-footer">
+			<?php echo UI::button(__( 'Install now!' ), array(
+				'class' => 'btn btn-large', 'icon' => UI::icon( 'ok' )
+			)); ?>
+		</div>
 	</div>
 <?php echo Form::close(); ?><!--/#installForm-->

@@ -15,9 +15,8 @@ $failed = FALSE;
 
 ?>
 
-<fieldset id="env_test">
-	<legend><?php echo __( 'Environment Tests' ); ?></legend>
-	<br />
+<div class="widget-header"><?php echo __( 'Environment Tests' ); ?></div>
+<div id="env_test" class="widget-content">
 	<table class="table table-striped">
 		<tr>
 			<th>PHP Version</th>
@@ -134,11 +133,10 @@ $failed = FALSE;
 	<?php else: ?>
 		<p id="results" class="alert alert-success"><?php echo UI::icon('ok'); ?> Your environment passed all requirements.</p>
 	<?php endif ?>
+</div>
+<div class="widget-header"><?php echo __( 'Optional Tests' ); ?></div>
+<div class="widget-content">
 
-	<hr />
-	
-	<h4>Optional Tests</h4>
-	
 	<p class="alert alert-info">
 		The following extensions are not required to run the Kohana core, but if enabled can provide access to additional classes.
 	</p>
@@ -193,4 +191,4 @@ $failed = FALSE;
 			<?php endif ?>
 		</tr>
 	</table>
-</fieldset>
+</div>

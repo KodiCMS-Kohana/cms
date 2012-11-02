@@ -1,5 +1,8 @@
-<div class="hero-unit raised" id="login-form">
-	<h1><?php echo Setting::get('admin_title'); ?></h1>
+<div class="hero-unit raised outline" id="login-form">
+	<div class="outline_inner">
+	<?php
+		echo HTML::image( ADMIN_RESOURCES . 'images/logo-color.png');
+	?>
 	
 	<hr />
 	
@@ -47,11 +50,12 @@
 	
 	<hr />
 
-	<?php echo Form::button('sign-in', __('Login') . UI::icon('chevron-right icon-white'), array(
-		'class' => 'btn btn-large btn-primary pull-right'
+	<?php echo Form::button('sign-in', __('Login') . UI::icon('chevron-right'), array(
+		'class' => 'btn btn-large'
 	)); ?>
 	
 	<div class="clearfix"></div>
 
-<?php echo Form::close(); ?>
+	<?php echo Form::close(); ?>
+	</div>
 </div>

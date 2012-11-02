@@ -6913,8 +6913,13 @@ body {
 #login-form {
   width: 450px;
   border-width: 0;
-  padding: 40px;
   border: 1px solid #ccc;
+  padding: 0;
+  background: rgba(38,38,38,0.1);
+}
+#login-form .outline_inner {
+  padding: 20px;
+  background: whitesmoke;
 }
 #login-form .control-group input.login-field {
   font-size: 18px;
