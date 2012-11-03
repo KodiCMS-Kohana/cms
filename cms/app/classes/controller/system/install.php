@@ -241,17 +241,9 @@ class Controller_System_Install extends Controller_System_Template
 			{
 				continue;
 			}
-
-			try 
-			{
-				DB::query(Database::INSERT, $sql)
-					->execute($db);
-			}
-			catch (Exception $e)
-			{
-				echo($e->getMessage());
-				continue;
-			}
+			
+			DB::query(Database::INSERT, $sql)
+				->execute($db);
 		}
 	}
 	
