@@ -102,17 +102,18 @@ CREATE TABLE `TABLE_PREFIX_users` (
   UNIQUE KEY `uniq_email` (`email`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
 
-CREATE TABLE `TABLE_PREFIX_user_tokens` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) unsigned NOT NULL,
+CREATE TABLE IF NOT EXISTS `user_tokens` (
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) UNSIGNED NOT NULL,
   `user_agent` varchar(40) NOT NULL,
-  `token` varchar(32) NOT NULL,
-  `created` int(10) unsigned NOT NULL,
-  `expires` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`id`),
+  `token` varchar(40) NOT NULL,
+  `created` int(10) UNSIGNED NOT NULL,
+  `expires` int(10) UNSIGNED NOT NULL,
+  PRIMARY KEY  (`id`),
   UNIQUE KEY `uniq_token` (`token`),
-  KEY `fk_user_id` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
+  KEY `fk_user_id` (`user_id`),
+  KEY `expires` (`expires`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 ALTER TABLE `TABLE_PREFIX_pages` DROP FOREIGN KEY `pages_ibfk_1` ,
