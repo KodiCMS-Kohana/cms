@@ -116,8 +116,8 @@ CREATE TABLE `TABLE_PREFIX_user_tokens` (
 
 
 ALTER TABLE `TABLE_PREFIX_pages` DROP FOREIGN KEY `pages_ibfk_1` ,
-	ADD FOREIGN KEY ( `created_by_id` ) REFERENCES `flexokohana`.`users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-	ADD FOREIGN KEY ( `updated_by_id` ) REFERENCES `flexokohana`.`users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE ;
+	ADD FOREIGN KEY ( `created_by_id` ) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+	ADD FOREIGN KEY ( `updated_by_id` ) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE ;
 
 ALTER TABLE `TABLE_PREFIX_pages`
   ADD CONSTRAINT `TABLE_PREFIX_pages_ibfk_1` FOREIGN KEY (`created_by_id`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE SET NULL,
