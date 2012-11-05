@@ -3,14 +3,15 @@
 )); ?>
 
 	<?php echo Form::hidden('token', Security::token()); ?>
-	
-	<div class="row-fluid">
-		<div class="span6">		
-			<div class="widget">
-				<div class="widget-header">
-					<h3><?php echo __('General'); ?></h3>
-				</div>
-				<div class="widget-content">
+
+	<div class="widget">
+		<div class="widget-header">
+			<h3><?php echo __('General'); ?></h3>
+		</div>
+		<div class="widget-content">
+			<div class="row-fluid">
+				
+				<div class="span8">
 					<div class="control-group">
 						<label class="control-label" for="userEditNameField"><?php echo __('Name'); ?></label>
 						<div class="controls">
@@ -42,43 +43,51 @@
 						</div>
 					</div>
 				</div>
-			</div>
-		</div>
-		
-		<div class="span6">
-			<div class="widget">
-				<div class="widget-header">
-					<h3><?php echo __('Password'); ?></h3>
-				</div>
-				<div class="widget-content">
-					<div class="control-group">
-						<label class="control-label" for="userEditPasswordField"><?php echo __('Password'); ?></label>
-						<div class="controls">
-							<?php echo Form::password('user[password]', NULL, array(
-								'class' => 'input-medium', 'id' => 'userEditPasswordField'
-							)); ?>
-							<p class="help-block"><?php echo __('At least :num characters. Must be unique.', array(
-								':num' => 5
-							)); ?> 
-							<?php if($action=='edit') echo __('Leave password blank for it to remain unchanged.'); ?></p>
-						</div>
+				<div class="span4 align-right">
+					<?php if($user->id !== NULL): ?>
+					<div id="UserGravatar">
+						<?php echo HTML::anchor('http://gravatar.com/emails/', $user->gravatar(150, NULL, array(
+							'class' => 'img-polaroid')), array(
+							'target' => '_blank'
+						)); ?>
 					</div>
+					<?php endif; ?>
+				</div>
+				
+			</div>
+			
+			
+		</div>
 
-					<div class="control-group">
-						<label class="control-label" for="userEditPasswordConfirmField"><?php echo __('Confirm Password'); ?></label>
-						<div class="controls">
-							<?php echo Form::password('user[confirm]', NULL, array(
-								'class' => 'input-medium', 'id' => 'userEditPasswordConfirmField'
-							)); ?>
-						</div>
-					</div>
+		<div class="widget-header">
+			<h3><?php echo __('Password'); ?></h3>
+		</div>
+		<div class="widget-content">
+			<div class="control-group">
+				<label class="control-label" for="userEditPasswordField"><?php echo __('Password'); ?></label>
+				<div class="controls">
+					<?php echo Form::password('user[password]', NULL, array(
+						'class' => 'input-medium', 'id' => 'userEditPasswordField'
+					)); ?>
+					<p class="help-block"><?php echo __('At least :num characters. Must be unique.', array(
+						':num' => 5
+					)); ?> 
+					<?php if($action=='edit') echo __('Leave password blank for it to remain unchanged.'); ?></p>
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label" for="userEditPasswordConfirmField"><?php echo __('Confirm Password'); ?></label>
+				<div class="controls">
+					<?php echo Form::password('user[confirm]', NULL, array(
+						'class' => 'input-medium', 'id' => 'userEditPasswordConfirmField'
+					)); ?>
 				</div>
 			</div>
 		</div>
-	</div>
-	
-	<?php if (AuthUser::hasPermission('administrator')): ?>
-	<div class="widget">
+
+		<?php if (AuthUser::hasPermission('administrator')): ?>
+
 		<div class="widget-header">
 			<h3><?php echo __('Roles'); ?></h3>
 		</div>
@@ -94,21 +103,13 @@
 				<p class="help-block"><?php echo __('Roles restrict user privileges and turn parts of the administrative interface on or off.'); ?></p>
 			</div>
 		</div>
-	</div>
-	<?php endif; ?>
+		<?php endif; ?>
+		
+		<?php Observer::notify('view_user_edit_plugins', array($user)); ?>
+		
+		<div class="form-actions widget-footer">
+			<?php echo UI::actions($page_name); ?>
+		</div>
 	
-	<?php if($user->id !== NULL): ?>
-	<div id="UserGravatar">
-		<?php echo HTML::anchor('http://gravatar.com/emails/', $user->gravatar(300, NULL, array(
-			'class' => 'img-polaroid')), array(
-			'target' => '_blank'
-		)); ?>
-	</div>
-	<?php endif; ?>
-
-	<?php Observer::notify('view_user_edit_plugins', array($user)); ?>
-
-	<div class="form-actions">
-		<?php echo UI::actions($page_name); ?>
 	</div>
 </form>
