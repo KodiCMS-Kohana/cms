@@ -16,7 +16,13 @@ else
 	require SYSPATH.'classes/kohana'.EXT;
 }
 
-//date_default_timezone_set( 'UTC' );
+/**
+* Set the default time zone.
+*
+* @link http://kohanaframework.org/guide/using.configuration
+* @link http://www.php.net/manual/timezones
+*/
+// date_default_timezone_set('UTC');
 
 /**
  * Set the default locale.
