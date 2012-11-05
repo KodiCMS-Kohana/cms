@@ -9,7 +9,7 @@
 			var search_regex = new RegExp(search,'gi');
 			
 			// Run through each .class definition
-			$('.class', this).each(function(k, container){
+			$('.span4', this).each(function(k, container){
 				if (search == '') {
 					// If search box is empty show everything without doing any regex
 					$(container).show();
