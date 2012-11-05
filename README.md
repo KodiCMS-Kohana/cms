@@ -26,7 +26,16 @@ KodiCMS основана на базе [Kohana framework](http://kohanaframework
 > * `.htaccess => RewriteBase /subfolder/`
 > * `cms\app\bootstrap.php` => `Kohana::init( array( 'base_url' => '/subfolder/', ... ) );`
 
-3. Откройте главную страницу через браузер. Запустится процесс интсалляции системы. 
+3. Откройте главную страницу через браузер. Запустится процесс интсалляции системы.
+
+> Если возникла ошибка ErrorException [ 2 ]: date() [function.date]: It is not 
+> safe to rely on the system's timezone settings. You are required to use the 
+> date.timezone setting or the date_default_timezone_set() function.
+> ....
+> В `cms/app/bootstrap.php` есть строка `date_default_timezone_set( 'UTC' )`, 
+> необходимо ее разкомментировать.
+> [Доступные временные зоны](http://www.php.net/manual/timezones)
+
 4. Заполните все необходимые поля и нажмите кнопку "Установить". 
 5. После установки системы вы окажетесь на странице авторизации, где будет 
 указан ваш логин и пароль для входа в систему.
