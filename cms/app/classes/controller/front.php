@@ -36,6 +36,8 @@ class Controller_Front extends Controller
 		// If page needs login, redirect to login
 		if ($page->getLoginNeeded() == Model_Page_Front::LOGIN_REQUIRED)
 		{
+			Observer::notify('frontpage_login_required', array($page));
+
 			if (!AuthUser::isLoggedIn())
 			{
 				Flash::set('redirect', $page->url());
@@ -47,18 +49,13 @@ class Controller_Front extends Controller
 		}
 
 		Observer::notify('frontpage_found', array($page));
-
 		$html = (string) $page->render_layout();
-		
 
-		if ( AuthUser::isLoggedIn())
+		if ( AuthUser::isLoggedIn() AND AuthUser::hasPermission(array(
+			'administrator', 'developer'
+		)))
 		{
 			$inject_html = (string) View::factory( 'system/blocks/toolbar' );
-			
-			if(Setting::get( 'profiling' ) == 'yes')
-			{
-				$inject_html .= (string) View::factory( 'profiler/stats' );
-			}
 			
 			// Insert system HTML before closed tag body
 			$matches = preg_split('/(<\/body>)/i', $html, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE); 
