@@ -6,11 +6,7 @@
 
 class Setting
 {
-	/**
-	 *
-	 * @var string 
-	 */
-	public static $table_name = 'settings';
+	const TABLE_NAME = 'settings';
 
 	/**
 	 *
@@ -33,8 +29,8 @@ class Setting
         if (! self::$is_loaded)
         {
             self::$settings = DB::select()
-				->from(self::$table_name)
-				->cache_key(self::$table_name)
+				->from(self::TABLE_NAME)
+				->cache_key(self::TABLE_NAME)
 				->cached()
 				->execute()
 				->as_array('name', 'value');
@@ -66,13 +62,13 @@ class Setting
         {
 			if(self::get($name) === NULL)
 			{
-				$query = DB::insert(self::$table_name)
+				$query = DB::insert(self::TABLE_NAME)
 					->columns(array('name', 'value'))
 					->values(array($name, $value));
 			}
 			else 
 			{
-				$query = DB::update(self::$table_name)
+				$query = DB::update(self::TABLE_NAME)
 					->set(array('value' => $value))
 					->where('name', '=', $name);
 			}
@@ -80,6 +76,6 @@ class Setting
 			$query->execute();
         }
 		
-		Kohana::cache('Database::cache('.self::$table_name.')', NULL, -1);
+		Kohana::cache('Database::cache('.self::TABLE_NAME.')', NULL, -1);
     }
 } // end Setting class

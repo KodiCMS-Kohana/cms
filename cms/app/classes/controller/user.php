@@ -13,12 +13,12 @@ class Controller_User extends Controller_System_Backend {
 	{
 		$this->template->title = __('Users');
 
-		$users = DB::select( 'user.*', array( DB::expr('GROUP_CONCAT(Model_Permission.name)'), 'roles' ) )
+		$users = DB::select( 'user.*', array( DB::expr('GROUP_CONCAT('.Database::instance()->quote_column('permission.name').')'), 'roles' ) )
 			->from( array(User::tableName(), 'user') )
 			->join( array( Model_User_Permission::tableName(), 'user_permission'), 'left' )
 				->on( 'user.id', '=', 'user_permission.user_id' )
-			->join( array( Model_Permission::tableName(), 'Model_Permission'), 'left' )
-				->on( 'user_permission.role_id', '=', 'Model_Permission.id' )
+			->join( array( Model_Permission::tableName(), 'permission'), 'left' )
+				->on( 'user_permission.role_id', '=', 'permission.id' )
 			->group_by( 'user.id')
 			->as_object('Model_User')
 			->execute();
@@ -103,7 +103,7 @@ class Controller_User extends Controller_System_Backend {
 			return $this->_edit( $id );
 		}
 
-		$user = DB::select( 'user.*', array(DB::expr('GROUP_CONCAT(user_permission.role_id)'), 'roles' ) )
+		$user = DB::select( 'user.*', array( DB::expr('GROUP_CONCAT('.Database::instance()->quote_column('user_permission.role_id').')'), 'roles' ) )
 			->from( array(User::tableName(), 'user') )
 			->join( array( Model_User_Permission::tableName(), 'user_permission'), 'left' )
 				->on( 'user.id', '=', 'user_permission.user_id' )

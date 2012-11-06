@@ -39,7 +39,9 @@ class Archive
         $this->interval = $interval;
 
         $page = $this->page->children(array(
-            'where' => "behavior_id = 'archive_{$interval}_index'",
+            'where' => array(
+				array('behavior_id', '=', 'archive_' . $interval . '_index')
+			),
             'limit' => 1
         ), array(), TRUE);
         
@@ -70,8 +72,8 @@ class Archive
         $date = join('-', $this->params);
         
         $pages = $this->page->parent->children(array(
-            'where' => "page.created_on LIKE '{$date}%'",
-            'order' => 'page.created_on DESC'
+            'where' => array(array('page.created_on', 'like', $date . '%')),
+            'order' => array(array('page.created_on', 'desc'))
         ));
 
         return $pages;
@@ -79,42 +81,36 @@ class Archive
     
     public function archivesByYear()
     {
-		$sql = "SELECT DISTINCT(DATE_FORMAT(created_on, '%Y')) as date FROM :page_table WHERE parent_id = :page_id AND status_id != :status_id ORDER BY created_on DESC";
-
-		return DB::query(Database::SELECT, $sql)
-			 ->parameters(array(
-				 ':page_table' => DB::expr(Model_Page::TABLE_NAME),
-				 ':page_id' => $this->page->id,
-				 ':status_id' => Model_Page_Front::STATUS_HIDDEN
-			 ))
-			 ->execute()
-			 ->as_array(NULL, 'date');
+		return DB::select(array(DB::expr( 'DATE_FORMAT('. Database::instance()->quote_column('created_on').', "%Y")' ), 'date'))
+			->distinct(TRUE)
+			->from(Model_Page::TABLE_NAME)
+			->where('parent_id', '=', $this->page->id)
+			->where('status_id', '!=', Model_Page_Front::STATUS_HIDDEN)
+			->order_by( 'created_on', 'desc' )
+			->execute()
+			->as_array(NULL, 'date');
     }
     
     public function archivesByMonth()
     {
-		$sql = "SELECT DISTINCT(DATE_FORMAT(created_on, '%Y/%m')) as date FROM :page_table WHERE parent_id = :page_id AND status_id != :status_id ORDER BY created_on DESC";
-        
-		return DB::query(Database::SELECT, $sql)
-			 ->parameters(array(
-				 ':page_table' => DB::expr(Model_Page::TABLE_NAME),
-				 ':page_id' => $this->page->id,
-				 ':status_id' => Model_Page_Front::STATUS_HIDDEN
-			 ))
-			 ->execute()
-			 ->as_array(NULL, 'date');
+		return DB::select(array(DB::expr( 'DATE_FORMAT('. Database::instance()->quote_column('created_on').', "%Y/%m")' ), 'date'))
+			->distinct(TRUE)
+			->from(Model_Page::TABLE_NAME)
+			->where('parent_id', '=', $this->page->id)
+			->where('status_id', '!=', Model_Page_Front::STATUS_HIDDEN)
+			->order_by( 'created_on', 'desc' )
+			->execute()
+			->as_array(NULL, 'date');
     }
     
     public function archivesByDay()
     {
-		$sql = "SELECT DISTINCT(DATE_FORMAT(created_on, '%Y/%m/%d')) as date FROM :page_table WHERE parent_id = :page_id AND status_id != :status_id ORDER BY created_on DESC";
-
-		return DB::query(Database::SELECT, $sql)
-			->parameters(array(
-				':page_table' => DB::expr(Model_Page::TABLE_NAME),
-				':page_id' => $this->page->id,
-				':status_id' => Model_Page_Front::STATUS_HIDDEN
-			))
+		return DB::select(array(DB::expr( 'DATE_FORMAT('. Database::instance()->quote_column('created_on').', "%Y/%m/%d")' ), 'date'))
+			->distinct(TRUE)
+			->from(Model_Page::TABLE_NAME)
+			->where('parent_id', '=', $this->page->id)
+			->where('status_id', '!=', Model_Page_Front::STATUS_HIDDEN)
+			->order_by( 'created_on', 'desc' )
 			->execute()
 			->as_array(NULL, 'date');
     }

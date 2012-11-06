@@ -37,7 +37,8 @@ class User extends Record
     
     public static function findBy($column, $value)
     {
-        return Record::findOneFrom('User', $column.' = :id', array(':id' => $value));
+        return Record::findOneFrom('User', array(
+			'where' => array(array($column, '=', $value))));
     }
 
 	public function beforeInsert()
@@ -54,23 +55,9 @@ class User extends Record
         return true;
     }
     
-    public static function find($args = null)
+    public static function find($clause = array())
     {
-        
-        // Collect attributes...
-        $where    = isset($args['where']) ? trim($args['where']) : '';
-        $order_by = isset($args['order']) ? trim($args['order']) : '';
-        $offset   = isset($args['offset']) ? (int) $args['offset'] : 0;
-        $limit    = isset($args['limit']) ? (int) $args['limit'] : 0;
-        
-        // Prepare query parts
-        $where_string = empty($where) ? '' : "WHERE $where";
-        $order_by_string = empty($order_by) ? '' : "ORDER BY $order_by";
-        $limit_string = $limit > 0 ? "LIMIT $offset, $limit" : '';
-        
-        $tablename = self::TABLE_NAME;
-        
-		$sql = (string) DB::select('user.*')
+		$sql = DB::select('user.*')
 			->select(array('creator.name', 'created_by_name'))
 			->select(array('updator.name', 'updated_by_name'))
 			->from(self::tableName())
@@ -80,14 +67,14 @@ class User extends Record
 				->on('updator.id', '=', 'user.updated_by_id');
 		
         // Prepare SQL
-        $sql .= " $where_string $order_by_string $limit_string";
+        $sql = self::_conditions($sql, $clause);
         
-        $query = DB::query(Database::SELECT, $sql)
+        $query = $sql
 			->as_object(__CLASS__)
 			->execute();
         
         // Run!
-        if ($limit == 1)
+        if (Arr::get($clause, 'limit') == 1)
         {
             return $query->current();
         }
@@ -95,18 +82,17 @@ class User extends Record
         {
             return $query->as_array('id');
         }
-    
     }
     
-    public static function findAll($args = null)
+    public static function findAll($clause = array())
     {
-        return self::find($args);
+        return self::find($clause);
     }
     
     public static function findById($id)
     {
         return self::find(array(
-            'where' => 'user.id='.(int)$id,
+            'where' => array(array('user.id', '=', (int) $id)),
             'limit' => 1
         ));
     }
