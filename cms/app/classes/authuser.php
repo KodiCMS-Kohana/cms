@@ -10,9 +10,9 @@ class AuthUser {
 	 * 
 	 * @return boolean
 	 */
-	public static function isLoggedIn()
+	public static function isLoggedIn($role = NULL)
 	{
-		return Auth::instance()->logged_in();
+		return Auth::instance()->logged_in($role);
 	}
 
 	/**
@@ -67,7 +67,7 @@ class AuthUser {
 	 * @param string $permission Can contain a single permission or comma seperated list of permissions.
 	 * @return boolean
 	 */
-	public static function hasPermission( $permissions )
+	public static function hasPermission( $permissions, $all_required = FALSE )
 	{
 		if(empty($permissions))
 		{
@@ -79,7 +79,7 @@ class AuthUser {
 			$permissions = explode(',', $permissions);
 		}
 
-		return self::getRecord() ? self::getRecord()->has_role($permissions, FALSE) : FALSE;
+		return self::getRecord() ? self::getRecord()->has_role($permissions, $all_required) : FALSE;
 	}
 
 	/**
