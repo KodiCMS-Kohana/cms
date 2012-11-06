@@ -53,10 +53,7 @@
 					</div>
 					<?php endif; ?>
 				</div>
-				
 			</div>
-			
-			
 		</div>
 
 		<div class="widget-header">

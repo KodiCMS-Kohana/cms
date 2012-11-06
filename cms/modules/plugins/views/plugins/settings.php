@@ -2,9 +2,13 @@
 	<?php echo Form::open(NULL, array('class' => 'form-horizontal')); ?>
 	
 	<?php echo Form::hidden('token', Security::token()); ?>
-	<?php echo $content; ?>
-	<div class="form-actions">
-		<?php echo UI::actions('plugins'); ?>
+	<div class="widget">
+		
+		<?php echo $content; ?>
+	
+		<div class="form-actions widget-footer">
+			<?php echo UI::actions('plugins'); ?>
+		</div>
 	</div>
 	<?php echo Form::close(); ?>
 </div>

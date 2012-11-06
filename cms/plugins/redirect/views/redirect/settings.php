@@ -1,28 +1,27 @@
-<div class="widget">
-	<div class="widget-header">
-		<h3><?php echo __('General settings'); ?></h3>
-	</div>
-	<div class="widget-content">
-		<div class="control-group">
-			<label class="control-label" for="domain"><?php echo __( 'Domain' ); ?></label>
-			<div class="controls">
 
-				<?php echo Form::input('setting[domain]', $plugin->get('domain'), array(
-					'class' => 'input-xlarge', 'id' => 'domain'
-				)); ?>
-			</div>
+<div class="widget-header">
+	<h3><?php echo __('General settings'); ?></h3>
+</div>
+<div class="widget-content">
+	<div class="control-group">
+		<label class="control-label" for="domain"><?php echo __( 'Domain' ); ?></label>
+		<div class="controls">
+
+			<?php echo Form::input('setting[domain]', $plugin->get('domain'), array(
+				'class' => 'input-xlarge', 'id' => 'domain'
+			)); ?>
 		</div>
+	</div>
 
-		<div class="control-group">
-			<label class="control-label" for="check_url_suffix"><?php echo __('Check url suffix (<strong>:url_suffix</strong>)', array(':url_suffix' => URL_SUFFIX)); ?></label>
-			<div class="controls">
+	<div class="control-group">
+		<label class="control-label" for="check_url_suffix"><?php echo __('Check url suffix (<strong>:url_suffix</strong>)', array(':url_suffix' => URL_SUFFIX)); ?></label>
+		<div class="controls">
 
-				<label class="checkbox">
-					<?php echo Form::checkbox('setting[check_url_suffix]', 'yes', $plugin->get('check_url_suffix') == 'yes', array(
-						'class' => 'input-xlarge', 'id' => 'check_url_suffix'
-					)); ?>
-				</label>
-			</div>
+			<label class="checkbox">
+				<?php echo Form::checkbox('setting[check_url_suffix]', 'yes', $plugin->get('check_url_suffix') == 'yes', array(
+					'class' => 'input-xlarge', 'id' => 'check_url_suffix'
+				)); ?>
+			</label>
 		</div>
 	</div>
 </div>
