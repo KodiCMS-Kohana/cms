@@ -33,7 +33,7 @@ class Controller_System_Install extends Controller_System_Template
 
 		if ( ! $post )
 		{
-			throw new HTTP_( 'Install data not found!' );
+			throw new Kohana_Exception( 'Install data not found!' );
 		}
 
 		$post['db_driver'] = DB_TYPE;
