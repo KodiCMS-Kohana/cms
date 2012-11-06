@@ -35,8 +35,6 @@ class HTTP_Exception extends Kohana_HTTP_Exception {
 				
 			try
 			{
-//				echo 'test';
-//				echo Route::get('error')->uri($params);
 				$request = Request::factory( Route::get('error')->uri($params), array(), FALSE)
 					->execute()
 					->send_headers(TRUE)

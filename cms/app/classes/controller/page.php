@@ -137,9 +137,13 @@ class Controller_Page extends Controller_System_Backend {
 
 			// save tags
 			$page->saveTags( $tags );
-			
+
 			// save permissions
-			$permissions = Arr::get($_POST, 'page_permissions', array( 'administrator', 'developer', 'editor' ));
+			$permissions = $this->request->post('page_permissions');
+			if(empty($permissions))
+			{
+				$permissions = array( 'administrator', 'developer', 'editor' );
+			}
 			$page->savePermissions( $permissions );
 
 			Observer::notify( 'page_add_after_save', array( $page ) );
@@ -313,7 +317,7 @@ class Controller_Page extends Controller_System_Backend {
 			$page->saveTags(Arr::get($data, 'tags', array()) );
 
 			// save permissions
-			$permissions = Arr::get($_POST, 'page_permissions', array());
+			$permissions = $this->request->post('page_permissions');
 			$page->savePermissions( $permissions );
 
 			Observer::notify( 'page_edit_after_save', array( $page ) );

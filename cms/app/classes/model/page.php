@@ -393,6 +393,11 @@ class Model_Page extends Record
 	// Save Model_Page permissions
 	public function savePermissions( $permissions )
 	{
+		if(!is_array( $permissions ))
+		{
+			$permissions = array();
+		}
+
 		// get permissions that already stored in database		
 		$perms_in_table = DB::select('role.name')
 			->from(array(Model_Page_Role::tableName(), 'page_roles'))
