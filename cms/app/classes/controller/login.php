@@ -63,6 +63,11 @@ class Controller_Login extends Controller_System_Template {
 
 				Session::instance()->delete('install_data');
 
+				if( $next_url = Flash::get( 'redirect') )
+				{
+					$this->go($next_url);
+				}
+
 				// $this->go to defaut controller and action
 				$this->go_backend();
 			}

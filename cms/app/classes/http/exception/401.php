@@ -12,11 +12,12 @@ class HTTP_Exception_401 extends Kohana_HTTP_Exception_401
 	*/
 	public function get_response()
 	{
+		Flash::set('redirect', Request::current()->uri());
+	
 		$response = Response::factory()
 			->status(401)
 			->headers('Location', Route::get( 'user' )->uri( array(
-				'action' => 'login',
-				'next_url' => rawurldecode( Request::current()->uri() )
+				'action' => 'login'
 			) ));
 	
 		return $response;

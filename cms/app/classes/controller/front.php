@@ -11,7 +11,7 @@ class Controller_Front extends Controller
 		$page = Model_Page_Front::find($this->request->uri());
 		
 		// if we fund it, display it!
-		if ($page !== false && $page !== null)
+		if ($page !== FALSE && $page !== NULL)
 		{
 			return $this->_render($page);
 		}
@@ -36,13 +36,13 @@ class Controller_Front extends Controller
 		// If page needs login, redirect to login
 		if ($page->getLoginNeeded() == Model_Page_Front::LOGIN_REQUIRED)
 		{
-			AuthUser::load();
-
 			if (!AuthUser::isLoggedIn())
 			{
 				Flash::set('redirect', $page->url());
 
-				$this->go_backend();
+				$this->redirect(Route::get('user')->uri(array( 
+					'action' => 'login'
+				) ));
 			}
 		}
 
