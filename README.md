@@ -8,6 +8,21 @@ KodiCMS основана на базе [Kohana framework](http://kohanaframework
 который позволит вам не тратить много времени на разработку шаблонов для новых
 разделов.
 
+## Где можно посмотреть?
+Базовые возможности CMS можно оценить на [demo сайте](http://demo.kodicms.ru/).
+
+Настройки сбрасываются каждый час.
+---
+
+#### Frontend
+http://demo.kodicms.ru/
+
+#### Backend
+http://demo.kodicms.ru/backend
+
+* login: demo
+* password: demodemo
+
 ## Требования
 
 * Apache server with .htaccess.
