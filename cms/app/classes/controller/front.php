@@ -1,9 +1,7 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct access allowed.' );
 
-class Controller_Front extends Controller
+class Controller_Front extends Controller_System_Controller
 {
-	public $auto_render = FALSE;
-
 	public function action_index()
 	{
 		Observer::notify('frontpage_requested', array($this->request->uri()));
