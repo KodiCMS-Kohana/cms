@@ -6080,6 +6080,9 @@ a.badge:hover {
   border-radius: 5px;
   padding: 15px;
 }
+.widget .widget-content.widget-nopad {
+  padding: 0;
+}
 .widget .widget-content:before,
 .widget .widget-content:after {
   content: "";

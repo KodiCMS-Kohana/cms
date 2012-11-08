@@ -2,7 +2,9 @@
 	<?php echo Form::hidden('token', Security::token()); ?>
 	<div class="widget">
 		
-		<div class="widget-header"></div>
+		<div class="widget-header">
+			<h3><?php echo $filesystem->getFilename(); ?></h3>
+		</div>
 	
 		<div class="widget-content">
 			<div class="control-group">
@@ -34,25 +36,26 @@
 				<div class="controls">
 					<?php echo UI::field(Date::format($filesystem->getCTime()), 'span12'); ?>
 				</div>
-			</div>
+			</div>		
 		</div>
-	</div>
-
-	<div class="control-group">
-		<div class="controls">
+		<div class="widget-header"><?php echo __('Content'); ?></div>
 		<?php if($filesystem->isImage()): ?>
-		<?php echo HTML::image(PUBLIC_URL . $filesystem->getRelativePath(), array(
-			 'class' => 'img-polaroid'
-		)) ;?>
+		<div class="widget-content align-center">
+			<?php echo HTML::image(PUBLIC_URL . $filesystem->getRelativePath(), array(
+				 'class' => 'img-polaroid'
+			)) ;?>
+		</div>
 		<?php else: ?>
+		<div class="widget-content widget-nopad">
 		<?php echo Form::textarea('file[content]', $content, array(
 			'id' => 'highlight_content', 'class' => 'span12', 'rows' => 200
 		)); ?>
+		</div>
 		<?php endif; ?>
+		<div class="form-actions widget-footer">
+			<?php echo UI::actions($page_name); ?>
 		</div>
 	</div>
 
-	<div class="form-actions">
-		<?php echo UI::actions($page_name); ?>
-	</div>
+	
 <?php echo Form::close(); ?>
