@@ -55,7 +55,7 @@ INSERT INTO `TABLE_PREFIX_roles_users` (`user_id`, `role_id`) VALUES
 
 INSERT INTO `TABLE_PREFIX_settings` (`name`, `value`) VALUES
 ('admin_title', '__SITE_NAME__'),
-('language', '__LANG__'),
+('default_locale', '__LANG__'),
 ('default_status_id', '100'),
 ('default_filter_id', ''),
 ('default_tab', 'page'),

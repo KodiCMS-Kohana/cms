@@ -5,6 +5,13 @@ class Controller_System_Controller extends Kohana_Controller
 	public function before()
 	{
 		parent::before();
+		
+		/*
+		 * Set current lang
+		 */
+		I18n::lang( Setting::get( 'default_locale', I18n::detect_lang() ) );
+		
+		I18n::available_langs();
 	}
 	
 	public function go_home()

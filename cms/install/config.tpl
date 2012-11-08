@@ -14,9 +14,6 @@ define('ADMIN_DIR_NAME', '__ADMIN_DIR_NAME__');
 // Add a suffix to pages (simluating static pages '.html')
 define('URL_SUFFIX', '__URL_SUFFIX__');
 
-// Default system locale
-define('DEFAULT_LOCALE', '__LANG__');
-
 // Default timezone
 define('DEFAULT_TIMEZONE', '__TIMEZONE__');
 

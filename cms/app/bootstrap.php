@@ -78,7 +78,7 @@ else if(IS_INSTALLED)
 /**
  * Set the default language
  */
-I18n::lang('ru');
+I18n::lang('en_US');
 
 
 /**
