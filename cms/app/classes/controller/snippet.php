@@ -63,7 +63,7 @@ class Controller_Snippet extends Controller_System_Backend {
 			$this->go_back();
 		}
 
-		if ( !$$status )
+		if ( !$status )
 		{
 			Messages::errors( __( 'Snippet <b>:name</b> has not been added. Name must be unique!', array( ':name' => $snippet->name ) ) );
 			$this->go( 'snippet/add' );
