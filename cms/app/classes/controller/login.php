@@ -29,6 +29,7 @@ class Controller_Login extends Controller_System_Template {
 			return $this->_login();
 		}
 
+		$this->template->title = __('Login');
 		$this->template->content = View::factory( 'system/login' );
 		
 		$this->template->content->install_data = Session::instance()->get_once('install_data');
@@ -101,6 +102,7 @@ class Controller_Login extends Controller_System_Template {
 			$this->_forgot(Arr::path($_POST, 'forgot.email'));
 		}
 
+		$this->template->title = __('Forgot password');
 		$this->template->content = View::factory( 'system/forgot' );
 	}
 

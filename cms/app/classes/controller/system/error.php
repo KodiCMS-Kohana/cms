@@ -20,6 +20,7 @@ class Controller_System_Error extends Controller_System_Template {
 			}
 		}
 		
+		$this->template->title = __('Error');
 		$this->template->content->code = (int) $this->request->param( 'code' );
 		$this->template->content->error_type = Arr::get(Response::$messages, $this->template->content->code, 'Not found' );
 	}

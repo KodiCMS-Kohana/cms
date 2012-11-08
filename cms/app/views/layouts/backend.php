@@ -4,7 +4,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="generator" content="<?php echo CMS_NAME . ' v.' . CMS_VERSION; ?>">
 		<meta name="author" content="ButscH" />
-		<title>&ndash; <?php echo Setting::get( 'admin_title' ); ?></title>
+		<title><?php echo $title; ?> &ndash; <?php echo Setting::get( 'admin_title' ); ?></title>
 		<base href="<?php echo ADMIN_RESOURCES; ?>" />
 		<link href="<?php echo ADMIN_RESOURCES; ?>favicon.ico" rel="favourites icon" />
 
