@@ -6115,6 +6115,11 @@ a.badge:hover {
 .widget.widget-nopad .widget-content {
   padding: 0;
 }
+.widget .widget-no-border-radius {
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+}
 .outline {
   background: rgba(38,38,38,0.1);
   -webkit-border-radius: 8px;
@@ -6806,9 +6811,6 @@ body {
 #pageEditView {
   margin-left: 10px;
 }
-#pageEditMeta {
-  background: #eee;
-}
 #pageEditMeta p {
   margin: 1em 0;
 }
@@ -6826,22 +6828,19 @@ body {
   width: 100%;
   height: 50px;
 }
-#pageEditMetaTitle {
-  border-bottom: 1px solid #fff;
-  padding: 20px 0 0;
-}
 #pageEditMetaTitle .controls {
   padding-right: 50px;
 }
 #pageEditMetaMoreButton {
   position: absolute;
-  right: 15px;
-  top: 27px;
+  right: 10px;
+  top: 15px;
 }
 #pageEditMetaMore {
   display: none;
-  padding-top: 10px;
-  background-color: whitesmoke;
+}
+#pageEditMetaMore .control-group {
+  margin-bottom: 10px;
 }
 #pageEditMetaMore .controls {
   padding: 0 55px 0 0;
@@ -6863,25 +6862,13 @@ body {
   font-style: normal;
   margin-left: 5px;
 }
-#pageEditParts .item-options-button {
-  position: absolute;
-  right: 15px;
-  top: 5px;
+#pageEditParts .part-options-button {
+  cursor: pointer;
 }
-#pageEditParts .item-options {
-  padding: 5px 15px;
+#pageEditParts .part-options {
   display: none;
-  border-bottom: 1px solid #ccc;
-  background: whitesmoke;
 }
-#pageEditParts .item-options div {
-  margin: 10px 0;
-}
-#pageEditParts .item-content {
-  padding: 1px;
-  background: #ccc;
-}
-#pageEditParts .item-content textarea {
+#pageEditParts .part-textarea textarea {
   width: 100%;
   max-width: 100%;
   min-width: 100%;
@@ -6893,19 +6880,13 @@ body {
   -moz-border-radius: 0;
   border-radius: 0;
 }
-#pageEditParts .item-content textarea:focus {
+#pageEditParts .part-textarea textarea:focus {
   outline: none;
 }
 #pageEditParts .item-part-protected {
   padding: 7px 15px 7px 30px;
   background: url("../images/lock.png") 15px center no-repeat;
   font-size: 90%;
-}
-#pageEditPartAdd {
-  padding: 15px;
-  border-top: 1px solid #ccc;
-  background: #eee;
-  margin-bottom: 5px;
 }
 #pageEditOptions label {
   margin-top: 10px;

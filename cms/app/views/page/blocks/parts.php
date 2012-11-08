@@ -14,10 +14,9 @@
 	}
 ?>
 
-</div><!--/#pageEditParts-->
-<div class="clearfix"></div>
+</div>
 <?php if ( AuthUser::hasPermission( array( 'administrator', 'developer' ) ) ): ?>
-	<div id="pageEditPartAdd">
+	<div id="pageEditPartAdd" class="widget-header widget-no-border-radius">
 		<?php
 		echo UI::button( __( 'Add page part' ), array(
 			'id' => 'pageEditPartAddButton', 'icon' => UI::icon( 'plus' )

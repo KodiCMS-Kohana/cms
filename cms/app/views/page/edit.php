@@ -25,37 +25,40 @@ if (!empty($pagetmp) AND !empty($parttmp) AND !empty($tagstmp))
 		<div class="container-fluid">
 			<div class="row-fluid">
 				<div id="pageEdit" class="box span9">
-					<div id="pageEditMeta" class="widget-header">
-						<?php echo View::factory('page/blocks/meta', array(
-							'page' => $page,
-							'action' => $action,
-							'tags' => $tags
+					<div class="widget widget-no-border-radius">
+						<div id="pageEditMeta" class="widget-title">
+							<?php echo View::factory('page/blocks/meta', array(
+								'page' => $page,
+								'action' => $action,
+								'tags' => $tags
+							)); ?>
+						</div><!--/#pageEditMeta-->
+					
+					
+						<?php echo View::factory('page/blocks/parts', array(
+							'page_parts' => $page_parts,
+							'permissions' => $permissions
 						)); ?>
-					</div><!--/#pageEditMeta-->
-					
-					
-					<?php echo View::factory('page/blocks/parts', array(
-						'page_parts' => $page_parts,
-						'permissions' => $permissions
-					)); ?>
 
-					<?php Observer::notify('view_page_edit_plugins', array($page)); ?>
+						<?php Observer::notify('view_page_edit_plugins', array($page)); ?>
 
-					<?php if($page->title): ?>
-					<?php if (isset($page->updated_on)): ?>
-					<?php echo UI::label(__('Last updated by :anchor on :date', array(
-						':anchor' => HTML::anchor('user/edit/' . $page->updated_by_id, $page->updated_by_name),
-						':date' => date('D, j M Y', strtotime($page->updated_on))))); ?>
-					<?php endif; ?>
+						<div class="widget-content widget-no-border-radius">
+							<?php if($page->title): ?>
+							<?php if (isset($page->updated_on)): ?>
+							<?php echo UI::label(__('Last updated by :anchor on :date', array(
+								':anchor' => HTML::anchor('user/edit/' . $page->updated_by_id, $page->updated_by_name),
+								':date' => date('D, j M Y', strtotime($page->updated_on))))); ?>
+							<?php endif; ?>
 
-					<?php echo HTML::anchor($page->getUrl(), UI::label(__('View page')), array(
-						'class' => 'item-preview', 'target' => '_blankn'
-					)); ?>
-					<?php endif; ?>
-					<div class="form-actions">
-						<?php echo UI::actions($page_name); ?>
+							<?php echo HTML::anchor($page->getUrl(), UI::label(__('View page')), array(
+								'class' => 'item-preview', 'target' => '_blankn'
+							)); ?>
+							<?php endif; ?>
+						</div>
+						<div class="form-actions widget-footer">
+							<?php echo UI::actions($page_name); ?>
+						</div>
 					</div>
-
 				</div><!--/#pageEdit-->
 
 				<div class="span3">

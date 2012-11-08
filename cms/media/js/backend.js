@@ -562,8 +562,13 @@ cms.init.add(['page_add', 'page_edit'], function () {
         return false;
     });
 
-    $('#pageEditParts .item-options-button').live('click', function () {
-        $(this).parent().parent().find('.item-options').slideToggle();
+    $('#pageEditParts .part-options-button').live('click', function () {
+        $(this)
+			.parent()
+			.parent()
+			.parent()
+			.find('.part-options')
+			.slideToggle();
 
         return false;
     });
@@ -582,7 +587,12 @@ cms.init.add(['page_add', 'page_edit'], function () {
 
     $('#pageEditParts .item-remove').live('click', function () {
         if (confirm(__('Are you sure?'))) {
-            $(this).parent().parent().parent().remove();
+            $(this)
+				.parent()
+				.parent()
+				.parent()
+				.parent()
+				.remove();
         }
 
         return false;
@@ -611,7 +621,7 @@ cms.init.add(['page_add', 'page_edit'], function () {
                 $form.find('input[name="part_name"]').focus();
             }
             else {
-                var part_index = parseInt($('#pageEditParts .item:last').attr('id').substring(13)) + 1;
+                var part_index = parseInt($('#pageEditParts .part:last').attr('id').substring(13)) + 1;
 
                 $(this).dialog('close');
 
