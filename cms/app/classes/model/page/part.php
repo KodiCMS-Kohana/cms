@@ -74,5 +74,19 @@ class Model_Page_Part extends Record
 		
 		return $result;
     }
+	
+	public function is_protected($roles = array( 'administrator', 'developer' ))
+	{
+		if(
+			$this->is_protected == Model_Page_Part::PART_PROTECTED
+		AND
+			!AuthUser::hasPermission( $roles )
+		)
+		{
+			return TRUE;
+		}
+		
+		return FALSE;
+	}
 
 } // end Model_Page_Part class

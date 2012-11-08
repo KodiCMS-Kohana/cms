@@ -269,17 +269,20 @@ class Controller_Page extends Controller_System_Backend {
 			foreach ( $old_parts as $old_part )
 			{
 				// check user rights if part is protected
-				if ( $old_part->is_protected == Model_Page_Part::PART_PROTECTED && !AuthUser::hasPermission( array( 'administrator', 'developer' ) ) )
-					continue;
+				if ( $old_part->is_protected() ) continue;
 
-				$not_in = true;
+				$not_in = TRUE;
 				foreach ( $data_parts as $part_id => $part_data )
 				{
 					$part_data['name'] = trim( $part_data['name'] );
+					if(empty($part_data['is_protected']))
+					{
+						$part_data['is_protected'] = FALSE;
+					}
 
 					if ( $old_part->name == $part_data['name'] )
 					{
-						$not_in = false;
+						$not_in = FALSE;
 
 						// this will not really create a new page part because
 						// the id of the part is passed in $data
@@ -298,7 +301,7 @@ class Controller_Page extends Controller_System_Backend {
 					}
 				}
 
-				if ( $not_in )
+				if ( $not_in === TRUE )
 				{
 					$old_part->delete();
 				}
