@@ -14,13 +14,14 @@
 				</div>
 			</div>
 		</div>
+		<div class="widget-header widget-inverse">
+			<h4><?php echo __('Content'); ?></h4>
+		</div>
 		<div class="widget-content">
-			<div class="title-content"><?php echo __('Content'); ?></div>
-
 			<?php echo Form::textarea('content', $layout->content, array(
-					'tabindex'		=> 2,
-					'id'			=> 'textarea_content'
-				)); ?>
+				'tabindex'		=> 2,
+				'id'			=> 'textarea_content'
+			)); ?>
 		</div>
 		<div class="form-actions widget-footer">
 			<?php echo UI::actions($page_name); ?>

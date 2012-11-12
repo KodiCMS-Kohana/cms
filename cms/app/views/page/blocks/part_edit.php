@@ -6,10 +6,10 @@
 			<input id="pageEditPartId-<?php echo ($index - 1); ?>" name="part[<?php echo ($index - 1); ?>][id]" type="hidden" value="<?php echo $page_part->id; ?>" />
 		<?php endif; ?>
 
-		<div class="widget-header widget-no-border-radius">
-			<h3><?php echo $page_part->name; ?></h3>
+		<div class="widget-header widget-no-border-radius widget-inverse">
+			<h4><?php echo $page_part->name; ?></h4>
 			<div class="widget-options pull-right">
-				<?php echo HTML::anchor( '#', UI::icon( 'cog' ), array( 'class' => 'part-options-button' ) ); ?>
+				<?php echo HTML::anchor( '#', UI::icon( 'cog icon-white' ), array( 'class' => 'part-options-button' ) ); ?>
 			</div>
 		</div>
 
