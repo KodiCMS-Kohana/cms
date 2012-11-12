@@ -32,7 +32,7 @@ class Controller_Front extends Controller_System_Controller
 	private function _render($page)
 	{
 		// If page needs login, redirect to login
-		if ($page->getLoginNeeded() == Model_Page_Front::LOGIN_REQUIRED)
+		if ($page->needs_login() == Model_Page_Front::LOGIN_REQUIRED)
 		{
 			Observer::notify('frontpage_login_required', array($page));
 
