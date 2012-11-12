@@ -14,7 +14,7 @@ class Controller_Page extends Controller_System_Backend {
 		$this->template->title = __('Pages');
 
 		$this->template->content = View::factory( 'page/index', array(
-			'page' => Record::findByIdFrom( 'Model_Page', 1 ),
+			'page' => Model_Page::findById( 1 ),
 			'content_children' => $this->children( 1, 0, true )
 		) );
 	}
