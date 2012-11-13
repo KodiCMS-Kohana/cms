@@ -68,11 +68,8 @@ class Model_Navigation {
 	 */
 	public static function get()
 	{
-		if ( version_compare( PHP_VERSION, '5.4.0', '>=' ) )
-		{
-			asort(self::$_sections);
-		}
-		
+		self::sort();
+
 		$break = FALSE;
 		foreach ( self::$_sections as $section )
 		{
@@ -94,5 +91,19 @@ class Model_Navigation {
 		}
 
 		return self::$_sections;
+	}
+	
+	public static function sort()
+	{
+		uasort(self::$_sections, function($a, $b)
+		{
+			if ($a->id() == $b->id()) 
+			{
+				return 0;
+			}
+
+			return ($a->id() < $b->id()) ? -1 : 1;
+			
+		});
 	}
 }
