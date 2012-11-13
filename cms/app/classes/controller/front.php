@@ -65,7 +65,11 @@ class Controller_Front extends Controller_System_Controller
 			}
 		}
 		
-		echo Response::factory()
-			->body($html);
+		$this->check_cache(sha1($html));
+		
+		$this->response
+			->body($html)
+			->headers('last-modified', date('r', strtotime($page->updated_on)));			
+			
 	}
 } // end class FrontController
