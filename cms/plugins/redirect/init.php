@@ -30,10 +30,14 @@ if( $plugin->enabled() )
 
 			if(Plugins_Settings::get_setting( 'check_url_suffix', 'redirect') == 'yes') 
 			{
+				$current_uri = trim($current_uri, '/');
+
 				if(
 					strpos($path, URL_SUFFIX) === FALSE 
 				AND 
-					($current_uri != '/')
+					!empty($current_uri) 
+				AND 
+					$current_uri != 'index.php'
 				) 
 				{
 					$redirect = TRUE;
