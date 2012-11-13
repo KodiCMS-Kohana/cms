@@ -11,8 +11,7 @@ class Controller_Setting extends Controller_System_Backend {
 		}
 
 		$this->template->content = View::factory( 'setting/index', array(
-			'filters' => Filter::findAll(),
-			'loaded_filters' => Filter::$filters
+			'filters' => Filter::findAll()
 		) );
 		
 		$this->template->title = __('Settings');
@@ -22,14 +21,14 @@ class Controller_Setting extends Controller_System_Backend {
 
 	private function _save()
 	{
-		$data = $_POST['setting'];
+		$data = $this->request->post('setting');
 
 		if ( !isset( $data['allow_html_title'] ) )
 		{
 			$data['allow_html_title'] = 'off';
 		}
 		
-		Observer::notify( 'save_settings', $_POST );
+		Observer::notify( 'save_settings', $this->request->post() );
 
 		Setting::saveFromData( $data );
 
