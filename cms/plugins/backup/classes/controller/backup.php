@@ -152,9 +152,11 @@ class Controller_Backup extends Controller_System_Plugin {
 			Messages::errors($errors);
 			$this->go_back();
 		}
+		
+		$ext = pathinfo($file['name'], PATHINFO_EXTENSION);
 
 		# Имя файла
-		$filename = 'uploaded-db-'.date('YmdHis').'.sql';
+		$filename = 'uploaded-' . date('YmdHis') . '-' . $file['name'];
 
 		Upload::$default_directory = BACKUP_PLUGIN_FOLDER;
 			
