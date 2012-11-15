@@ -42,6 +42,7 @@ if (!empty($pagetmp) AND !empty($parttmp) AND !empty($tagstmp))
 
 						<?php Observer::notify('view_page_edit_plugins', array($page)); ?>
 
+						<?php if($action != 'add'): ?>
 						<div class="widget-content widget-no-border-radius">
 							<?php if($page->title): ?>
 							<?php if (isset($page->updated_on)): ?>
@@ -55,6 +56,8 @@ if (!empty($pagetmp) AND !empty($parttmp) AND !empty($tagstmp))
 							)); ?>
 							<?php endif; ?>
 						</div>
+						<?php endif; ?>
+
 						<div class="form-actions widget-footer">
 							<?php echo UI::actions($page_name); ?>
 						</div>
