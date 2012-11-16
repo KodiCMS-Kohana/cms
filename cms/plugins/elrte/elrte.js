@@ -12,6 +12,7 @@ cms.plugins.elrte.switchOn_handler = function( textarea_id, params )
 		allowSource: true,
 		allowTextNodes: false,
 		fmAllow: true,
+		resizable: false,
 		cssClass : 'el-rte',
 		height   : 250,
 		toolbar  : 'kodicms',
