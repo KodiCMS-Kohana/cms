@@ -20,7 +20,7 @@ class Filter {
 	 */
 	public static function add( $filter_id)
 	{
-		self::$filters[$filter_id] = $filter_id;
+		self::$filters[$filter_id] = Inflector::humanize($filter_id);
 	}
 
 	/**

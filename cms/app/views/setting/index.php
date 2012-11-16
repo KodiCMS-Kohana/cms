@@ -130,16 +130,7 @@
 			<div class="control-group">
 				<label class="control-label" for="settingPageFilter"><?php echo __( 'Default filter' ); ?></label>
 				<div class="controls">
-					<select id="settingPageFilter" name="setting[default_filter_id]">
-						<?php $current_default_filter_id = Setting::get( 'default_filter_id' ); ?>
-						<option value="" <?php if ( $current_default_filter_id == '' ) echo ('selected="selected"'); ?> >&ndash; <?php echo __( 'none' ); ?> &ndash;</option>
-						<?php foreach ( $filters as $filter_id ): ?>
-							<?php if ( isset( $loaded_filters[$filter_id] ) ): ?>
-								<option value="<?php echo $filter_id; ?>" <?php if ( $filter_id == $current_default_filter_id ) echo ('selected="selected"'); ?> ><?php echo Inflector::humanize( $filter_id ); ?></option>
-							<?php endif; ?>
-						<?php endforeach; ?>
-					</select>
-
+					<?php echo Form::select('setting[default_filter_id]', $filters, Setting::get( 'default_filter_id' )); ?>
 					<p class="help-block"><?php echo __( 'Only for filter in pages, <i>not</i> in snippets.' ); ?></p>
 				</div>
 			</div>

@@ -11,7 +11,7 @@ class Controller_Setting extends Controller_System_Backend {
 		}
 
 		$this->template->content = View::factory( 'setting/index', array(
-			'filters' => Filter::findAll()
+			'filters' => Arr::merge(array('--none--'), Filter::findAll())
 		) );
 		
 		$this->template->title = __('Settings');
