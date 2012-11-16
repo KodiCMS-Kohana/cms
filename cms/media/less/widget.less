@@ -59,7 +59,7 @@
 			line-height: 16px;
 		}
 
-		> [class^="icon-"], [class*=" icon-"] {
+		> [class^="icon-"], > [class*=" icon-"] {
 			color: #555555;
 			display: inline-block;
 			margin-left: 5px;
@@ -89,6 +89,10 @@
 
 		&.widget-nopad {
 			padding: 0;
+		}
+
+		&.widget-small {
+			padding: 5px 15px;
 		}
 
 		&:before, &:after {
@@ -122,6 +126,12 @@
 	&.widget-nopad {
 		.widget-content {
 			padding: 0;
+		}
+	}
+
+	&.widget-small {
+		.widget-content {
+			padding: 5px;
 		}
 	}
 
