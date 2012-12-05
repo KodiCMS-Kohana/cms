@@ -13,7 +13,7 @@ Plugins::init();
 
 Model_Navigation::add_section('Settings', __('Plugins'),  'plugins', array('administrator'), 101);
 
-Route::set( 'plugins', ADMIN_DIR_NAME.'/plugins(/<action>(/<id>))', array(
+Route::set( 'plugins', ADMIN_DIR_NAME.'/plugins(/<id>)', array(
 	'id' => '.*'
 ) )
 	->defaults( array(
