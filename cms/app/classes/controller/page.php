@@ -21,6 +21,7 @@ class Controller_Page extends Controller_System_Backend {
 
 	public function action_add( )
 	{
+		$this->scripts[] = ADMIN_RESOURCES . 'js/controller/parts.js';
 		$parent_id = (int) $this->request->param('id', 1);
 
 		// check if trying to save
@@ -41,39 +42,6 @@ class Controller_Page extends Controller_System_Backend {
 		$this->breadcrumbs
 			->add($this->template->title);
 
-		$page_parts = Flash::get( 'post_parts_data' );
-
-		if ( empty( $page_parts ) )
-		{
-			// check if we have a big sister ...
-			$big_sister = Record::findOneFrom( 'Model_Page', array(
-				'where' => array(
-					array('parent_id', '=', $parent_id)
-				),
-				'order_by' => array(array('id', 'desc'))
-			));
-	
-			if ( $big_sister )
-			{
-				// get all is part and create the same for the new little sister
-				$big_sister_parts = Record::findAllFrom( 'Model_Page_Part', array(
-					'where' => array(array('page_id', '=', $big_sister->id)),
-					'order_by' => array(array('id', 'asc'))
-				));
-				$page_parts = array( );
-				foreach ( $big_sister_parts as $parts )
-				{
-					$page_parts[] = new Model_Page_Part( array(
-						'name' => $parts->name,
-						'filter_id' => Setting::get( 'default_filter_id' ),
-						'is_protected' => $parts->is_protected
-					) );
-				}
-			}
-			else
-				$page_parts = array( new Model_Page_Part( array( 'filter_id' => Setting::get( 'default_filter_id' ), 'is_protected' => false ) ) );
-		}
-
 		$this->template->content = View::factory( 'page/edit', array(
 			'action' => 'add',
 			'parent_id' => $parent_id,
@@ -81,7 +49,6 @@ class Controller_Page extends Controller_System_Backend {
 			'tags' => array( ),
 			'filters' => Filter::findAll(),
 			'behaviors' => Behavior::findAll(),
-			'page_parts' => $page_parts,
 			'layouts' => Model_File_Layout::find_all(),
 			'permissions' => Record::findAllFrom( 'Model_Permission' ),
 			'page_permissions' => $page->getPermissions()
@@ -92,10 +59,8 @@ class Controller_Page extends Controller_System_Backend {
 	{
 		$data = $_POST['page'];
 		$tags = Arr::get($data, 'tags', array());
-		$parts = Arr::get($_POST, 'part', array());
 
 		Flash::set( 'post_data', (object) $data );
-		Flash::set( 'post_parts_data', (object) $parts );
 		Flash::set( 'page_tag', $tags );
 
 		if ( empty( $data['title'] ) )
@@ -126,15 +91,6 @@ class Controller_Page extends Controller_System_Backend {
 		// save page data
 		if ( $page->save() )
 		{
-			foreach ( $parts as $data_part )
-			{
-				$data_part['page_id'] = $page->id;
-				$data_part['name'] = trim( $data_part['name'] );
-
-				$page_part = new Model_Page_Part( $data_part );
-				$page_part->save();
-			}
-
 			// save tags
 			$page->saveTags( $tags );
 
@@ -169,17 +125,6 @@ class Controller_Page extends Controller_System_Backend {
 		}
 	}
 
-	public function action_add_part()
-	{
-		$this->auto_render = FALSE;
-
-		$data = isset( $_POST ) ? $_POST : array( );
-		$data['name'] = isset( $data['name'] ) ? trim( $data['name'] ) : '';
-		$data['index'] = isset( $data['index'] ) ? (int) $data['index'] : 1;
-
-		echo $this->_getPartView( $data['index'], $data['name'], Setting::get( 'default_filter_id' ) );
-	}
-
 	public function action_edit( )
 	{
 		$this->scripts[] = ADMIN_RESOURCES . 'js/controller/parts.js';
@@ -207,14 +152,6 @@ class Controller_Page extends Controller_System_Backend {
 		{
 			return $this->_edit( $page_id );
 		}
-
-		// find all page_part of this pages
-		$page_parts = Model_Page_Part::findByPageId( $page_id );
-
-		if ( empty( $page_parts ) )
-		{
-			$page_parts = array( new Model_Page_Part );
-		}
 		
 		$this->template->title = __('Edit page');
 		$this->breadcrumbs
@@ -226,7 +163,6 @@ class Controller_Page extends Controller_System_Backend {
 			'tags' => $page->getTags(),
 			'filters' => Filter::findAll(),
 			'behaviors' => Behavior::findAll(),
-			'page_parts' => $page_parts,
 			'layouts' => Model_File_Layout::find_all(),
 			'permissions' => Record::findAllFrom( 'Model_Permission' ),
 			'page_permissions' => $page->getPermissions()
@@ -260,65 +196,7 @@ class Controller_Page extends Controller_System_Backend {
 		Observer::notify( 'page_edit_before_save', array( $page ) );
 
 		if ( $page->save() )
-		{
-			// get data for parts of this page
-			$data_parts = Arr::get($_POST, 'part', array());
-
-			$old_parts = Model_Page_Part::findByPageId( $page_id );
-
-			// check if all old page part are passed in POST
-			// if not ... we need to delete it!
-			foreach ( $old_parts as $old_part )
-			{
-				// check user rights if part is protected
-				if ( $old_part->is_protected() ) continue;
-
-				$not_in = TRUE;
-				foreach ( $data_parts as $part_id => $part_data )
-				{
-					$part_data['name'] = trim( $part_data['name'] );
-					if(empty($part_data['is_protected']))
-					{
-						$part_data['is_protected'] = FALSE;
-					}
-
-					if ( $old_part->name == $part_data['name'] )
-					{
-						$not_in = FALSE;
-
-						// this will not really create a new page part because
-						// the id of the part is passed in $data
-						$part = new Model_Page_Part( $part_data );
-						$part->page_id = $page_id;
-
-						Observer::notify( 'part_edit_before_save', array( $part ) );
-
-						$part->save();
-
-						Observer::notify( 'part_edit_after_save', array( $part ) );
-
-						unset( $data_parts[$part_id] );
-
-						break;
-					}
-				}
-
-				if ( $not_in === TRUE )
-				{
-					$old_part->delete();
-				}
-			}
-
-			// add the new ones
-			foreach ( $data_parts as $part_id => $part_data )
-			{
-				$part_data['name'] = trim( $part_data['name'] );
-				$part = new Model_Page_Part( $part_data );
-				$part->page_id = $page_id;
-				$part->save();
-			}
-
-			// save tags
+		{	// save tags
 			$page->saveTags(Arr::get($data, 'tags', array()) );
 
 			// save permissions
@@ -373,9 +251,6 @@ class Controller_Page extends Controller_System_Backend {
 
 				if ( $page->delete() )
 				{
-					// need to delete all page_parts too !!
-					Model_Page_Part::deleteByPageId( $page_id );
-
 					Observer::notify( 'page_delete', array( $page ) );
 					Messages::success( __( 'Page <b>:title</b> has been deleted!', array( ':title' => $page->title ) ) );
 				}
