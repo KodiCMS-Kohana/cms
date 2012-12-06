@@ -198,10 +198,9 @@ var __ = function (str, values) {
     if (cms.translations[str] !== undefined)
 	{
 		var str = cms.translations[str];
-		return values == undefined ? str : strtr(str, values);
 	}
-    else
-        return str;
+
+    return values == undefined ? str : strtr(str, values);
 };
 
 cms.ui = {

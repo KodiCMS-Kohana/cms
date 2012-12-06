@@ -73,6 +73,8 @@ class Record
 				$this->$key = $value;
 			}
         }
+		
+		return $this;
     }
 	
 	public function __get($field)

@@ -14,7 +14,7 @@ class Model_Page_Part extends Record
 	public function defaults()
 	{
 		return array(
-			'name' => 'body',
+			'name' => '',
 			'page_id' => 0,
 			'is_protected' => self::PART_NOT_PROTECTED
 		);

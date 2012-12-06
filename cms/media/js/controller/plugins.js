@@ -18,7 +18,7 @@ $(function() {
 	});
 	
 	cms.collections.plugins = Backbone.Collection.extend({
-		url: SITE_URL + ADMIN_DIR_NAME + '/plugins',
+		url: '/api/plugins',
 
 		model: cms.models.plugin,
 

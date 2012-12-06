@@ -1,6 +1,6 @@
 $(function() {
 	cms.models.part = Backbone.Model.extend({
-		urlRoot: SITE_URL + ADMIN_DIR_NAME + '/part/index/',
+		urlRoot: '/api/part',
 		defaults: {
 			name: '',
 			filter_id: '',
@@ -27,7 +27,7 @@ $(function() {
 	});
 	
 	cms.collections.parts = Backbone.Collection.extend({
-		url: SITE_URL + ADMIN_DIR_NAME + '/part/index/',
+		url: '/api/part',
 
 		model: cms.models.part,
 
@@ -36,7 +36,7 @@ $(function() {
 		},
 
 		comparator: function(a) {
-			return a.get('name');
+			return a.get('id');
 		}
 	});
 	
@@ -83,8 +83,10 @@ $(function() {
 		},
 
 		// Remove the item, destroy the model.
-		clear: function() {
-			if (confirm(__('Are you sure?'))) this.model.clear();
+		clear: function(e) {
+			e.preventDefault();
+			
+			if (confirm(__('Remove part :name?', {":name": this.model.get('name')}))) this.model.clear();
 		}
 	});
 	
@@ -101,7 +103,7 @@ $(function() {
 				}
 			});
 			
-			cms.event.on('part::add', this.addPart, this);
+			this.collection.on('add', this.render, this);
 		},
 
 		render: function() {
@@ -123,11 +125,16 @@ $(function() {
 		}
 	});
 	
-	cms.views.newPart = Backbone.View.extend({
-		el: $("#pageEditPartAddButton"),
+	cms.views.PartPanel = Backbone.View.extend({
+		el: $("#pageEditPartsPanel"),
+				
+		initialize: function() {
+			if(PAGE_ID == 0)
+				this.$el.remove();
+		},
 
 		events: {
-			'click': 'createPart'
+			'click #pageEditPartAddButton': 'createPart'
 		},
 		
 		createPart: function(e) {
@@ -138,7 +145,7 @@ $(function() {
 				this.model.set('name', 'body');
 
 			this.model.save();
-			cms.event.trigger('part::add', this.model);
+			this.collection.add(this.model);
 		}
 	});
 	
@@ -146,7 +153,7 @@ $(function() {
 	var AppParts = new cms.views.parts({
 		collection: PartCollection
 	});
-	var AppEdit = new cms.views.newPart({
+	var AppEdit = new cms.views.PartPanel({
 		collection: PartCollection
 	});
 })
