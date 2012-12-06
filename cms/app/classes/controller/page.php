@@ -182,6 +182,8 @@ class Controller_Page extends Controller_System_Backend {
 
 	public function action_edit( )
 	{
+		$this->scripts[] = ADMIN_RESOURCES . 'js/controller/parts.js';
+
 		$page_id = $this->request->param('id');
 
 		$page = Model_Page::findById( $page_id );

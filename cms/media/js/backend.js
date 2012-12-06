@@ -44,6 +44,7 @@ var cms = {
 	models: {},
 	views: {},
 	collections: {},
+	event: _.extend({}, Backbone.Events),
 	
 	// Error
 	error: function (msg, e) {
@@ -566,117 +567,85 @@ cms.init.add(['page_add', 'page_edit'], function () {
         return false;
     });
 
-    $('#pageEditParts .part-options-button').live('click', function () {
-        $(this)
-			.parent()
-			.parent()
-			.parent()
-			.find('.part-options')
-			.slideToggle();
-
-        return false;
-    });
-
     $('#pageEditMetaSlugField').keyup(function () {
         $(this).val(cms.convertSlug($(this).val()));
     });
 
-
-    // Parts
-    $('#pageEditParts .item-filter').live('change', function () {
-        var textarea_id = 'pageEditPartContent-' + jQuery(this).attr('rel');
-
-        cms.filters.switchOn(textarea_id, jQuery(this).val());
-    });
-
-    $('#pageEditParts .item-remove').live('click', function () {
-        if (confirm(__('Are you sure?'))) {
-            $(this)
-				.parent()
-				.parent()
-				.parent()
-				.parent()
-				.remove();
-        }
-
-        return false;
-    });
-
-    $('#pageEditPartAddButton').click(function () {
-        var $form = $('<form class="dialog-form">' +
-            '<p><label>' + __('Page part name') + '</label><span><input class="input-text" type="text" name="part_name" /></span></p>' +
-            '</form>');
-
-        var buttons = {};
-
-        var buttons_add_action = function () {
-            var part_name = $form.find('input[name="part_name"]').val().toLowerCase()
-                .replace(/[^a-z0-9\-\_]/g, '_')
-                .replace(/ /g, '_')
-                .replace(/_{2,}/g, '_')
-                .replace(/^_/, '')
-                .replace(/_$/, '');
-
-            $form.find('input[name="part_name"]').val(part_name);
-
-            if (part_name == '') {
-                alert(__('Part name can\'t be empty! Use english chars a-z, 0-9 and _ (underline char).'));
-
-                $form.find('input[name="part_name"]').focus();
-            }
-            else {
-                var part_index = parseInt($('#pageEditParts .part:last').attr('id').substring(13)) + 1;
-
-                $(this).dialog('close');
-
-                cms.loader.show();
-
-                $.ajax({
-                    url:SITE_URL + ADMIN_DIR_NAME + '/page/add_part',
-                    type:'POST',
-                    dataType:'html',
-
-                    data:{
-                        name:part_name,
-                        index:part_index
-                    },
-                    success:function (html_data) {
-                        cms.loader.hide();
-
-                        $('#pageEditParts').append(html_data);
-                    },
-                    error:function () {
-                        cms.error('Ajax error!');
-                    }
-                });
-            }
-
-            return false;
-        };
-
-        buttons[__('Add')] = buttons_add_action;
-
-        buttons[__('Cancel')] = function () {
-            $(this).dialog('close');
-        };
-
-        $form.submit(buttons_add_action);
-
-        $form.dialog({
-            width:235,
-            modal:true,
-            buttons:buttons,
-            resizable:false,
-            title:__('Creating page part')
-        });
-
-        $form.find('input[name="part_name"]')
-            .keyup(function () {
-                $(this).val(cms.convertSlug($(this).val()).replace(/[^a-z0-9\-\_]/, ''));
-            });
-
-        return false;
-    });
+//    $('#pageEditPartAddButton').click(function () {
+//        var $form = $('<form class="dialog-form">' +
+//            '<p><label>' + __('Page part name') + '</label><span><input class="input-text" type="text" name="part_name" /></span></p>' +
+//            '</form>');
+//
+//        var buttons = {};
+//
+//        var buttons_add_action = function () {
+//            var part_name = $form.find('input[name="part_name"]').val().toLowerCase()
+//                .replace(/[^a-z0-9\-\_]/g, '_')
+//                .replace(/ /g, '_')
+//                .replace(/_{2,}/g, '_')
+//                .replace(/^_/, '')
+//                .replace(/_$/, '');
+//
+//            $form.find('input[name="part_name"]').val(part_name);
+//
+//            if (part_name == '') {
+//                alert(__('Part name can\'t be empty! Use english chars a-z, 0-9 and _ (underline char).'));
+//
+//                $form.find('input[name="part_name"]').focus();
+//            }
+//            else {
+//                var part_index = parseInt($('#pageEditParts .part:last').attr('id').substring(13)) + 1;
+//
+//                $(this).dialog('close');
+//
+//                cms.loader.show();
+//
+//                $.ajax({
+//                    url:SITE_URL + ADMIN_DIR_NAME + '/page/add_part',
+//                    type:'POST',
+//                    dataType:'html',
+//
+//                    data:{
+//                        name:part_name,
+//                        index:part_index
+//                    },
+//                    success:function (html_data) {
+//                        cms.loader.hide();
+//
+//                        $('#pageEditParts').append(html_data);
+//                    },
+//                    error:function () {
+//                        cms.error('Ajax error!');
+//                    }
+//                });
+//            }
+//
+//            return false;
+//        };
+//
+//        buttons[__('Add')] = buttons_add_action;
+//
+//        buttons[__('Cancel')] = function () {
+//            $(this).dialog('close');
+//        };
+//
+//        $form.submit(buttons_add_action);
+//
+//        $form.dialog({
+//            width:235,
+//            modal:true,
+//            buttons:buttons,
+//            resizable:false,
+//            title:__('Creating page part')
+//        });
+//
+//        $form.find('input[name="part_name"]')
+//            .keyup(function () {
+//                $(this).val(cms.convertSlug($(this).val()).replace(/[^a-z0-9\-\_]/, ''));
+//            });
+//
+//        return false;
+//    });
 }); // end init page/add, page/edit
 
 

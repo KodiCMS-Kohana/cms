@@ -1,21 +1,3 @@
-<script>
-	$(function() {
-		$('#PluginsList .change-status').live('click', function(){
-			var tr = $(this).parent().parent(),
-				id = tr.attr('id'),
-				status = $(this).data('status') ? 0 : 1;
-
-			$.post(BASE_URL + '/plugins/status', {id: id, status: status}, function(request) {
-				if(!request.status)
-					return;
-
-				tr.replaceWith(request.html)
-			}, 'json');
-		})
-	})
-</script>
-
-
 <script id="plugin-item" type="text/template">
 	<td class="plugin-name">
 		<h5>

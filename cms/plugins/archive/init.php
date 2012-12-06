@@ -29,6 +29,11 @@ if($plugin->enabled())
 				$behaviors[] = $key;
 			}
 		}
+		
+		if(empty($behaviors))
+		{
+			return;
+		}
 
 		$pages = DB::select()
 			->from(Model_Page::tableName())
