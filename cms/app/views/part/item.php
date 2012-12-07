@@ -1,7 +1,7 @@
 <script id="part-body" type="text/template">
 	<div class="part" id="part<%=name %>">
 		<div class="widget-header widget-no-border-radius widget-inverse">
-			<h4><%=name %></h4>
+			<h4 class="part-name"><%=name %></h4><input type="text" class="edit-name" value="<%=name %>" />
 			<div class="widget-options pull-right">
 				<?php echo UI::button(UI::icon( 'cog' ), array(
 					'class' => 'part-options-button btn btn-mini')

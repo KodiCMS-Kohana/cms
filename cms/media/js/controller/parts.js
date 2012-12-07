@@ -2,7 +2,7 @@ $(function() {
 	cms.models.part = Backbone.Model.extend({
 		urlRoot: '/api/part',
 		defaults: {
-			name: '',
+			name: 'part',
 			filter_id: '',
 			page_id: PAGE_ID,
 			content: '',
@@ -49,9 +49,34 @@ $(function() {
 			'click .part-minimize-button': 'toggleMinimize',
 			'change .item-filter': 'changeFilter',
 			'change .is_protected': 'switchProtected',
-			'click .item-remove': 'clear'
+			'click .item-remove': 'clear',
+			'dblclick .part-name': 'editName',
+			"keypress .edit-name"  : "updateOnEnter"
 		},
 		
+		updateOnEnter: function(e) {
+			if (e.keyCode == 13) this.close();
+			this.input.val(cms.convertSlug(this.input.val()).replace(/[^a-z0-9\-\_]/, ''));
+		},
+	
+		editName: function() {
+			this.$el.addClass("editing");
+			this.input.show().focus();
+			this.$el.find('.part-name').hide();
+		},
+		
+		close: function() {
+			var value = this.input.val();
+
+			if (!value) {
+				this.$el.removeClass("editing");
+				return ;
+			}
+
+			this.model.save({name: value});
+			this.render();
+		},
+
 		toggleMinimize: function(e) {
 			e.preventDefault();
 			
@@ -88,9 +113,13 @@ $(function() {
 		render: function() {
 			this.$el.html(this.template(this.model.toJSON()));
 			
+			this.input = this.$el.find('.edit-name').hide();
+			
 			if(this.model.get('is_protected') == 1) {
 				this.$el.find('.is_protected').check();
 			}
+			
+			this.changeFilter();
 
 			return this;
 		},
