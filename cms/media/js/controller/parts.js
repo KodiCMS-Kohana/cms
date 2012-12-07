@@ -9,6 +9,11 @@ $(function() {
 			is_protected: false
 		},
 		
+		validate: function(attrs) {
+			if(!$.trim(attrs.name))
+				return 'Name must be set';
+		},
+		
 		switchProtected: function() {
 			this.save({is_protected: this.get('is_protected') == 1 ? 0 : 1});
 		},
@@ -51,12 +56,13 @@ $(function() {
 			'change .is_protected': 'switchProtected',
 			'click .item-remove': 'clear',
 			'dblclick .part-name': 'editName',
+			'blur .edit-name': 'close', 
 			"keypress .edit-name"  : "updateOnEnter"
 		},
 		
 		updateOnEnter: function(e) {
 			if (e.keyCode == 13) this.close();
-			this.input.val(cms.convertSlug(this.input.val()).replace(/[^a-z0-9\-\_]/, ''));
+			this.input.val(this.input.val().replace(/[^a-z0-9\-\_]/, ''));
 		},
 	
 		editName: function() {
@@ -66,13 +72,7 @@ $(function() {
 		},
 		
 		close: function() {
-			var value = this.input.val();
-
-			if (!value) {
-				this.$el.removeClass("editing");
-				return ;
-			}
-
+			var value = $.trim(this.input.val());
 			this.model.save({name: value});
 			this.render();
 		},
