@@ -6,12 +6,16 @@
 				<?php echo UI::button(UI::icon( 'cog' ), array(
 					'class' => 'part-options-button btn btn-mini')
 				); ?>
+				
+				<?php echo UI::button(UI::icon( 'chevron-up icon-white' ), array(
+					'class' => 'part-minimize-button btn btn-mini btn-inverse')
+				); ?>
 			</div>
 		</div>
 
 		<div class="widget-content part-options">
 			<div class="row-fluid">
-				<div class="span4">
+				<div class="span4 item-filter-cont">
 					<?php echo __( 'Filter' ); ?>
 					<select class="item-filter" name="part_filter">
 						<option value="">&ndash; <?php echo __( 'none' ); ?> &ndash;</option>
@@ -32,9 +36,9 @@
 				<?php endif; ?>
 
 
-				<div class="span4 align-right">
+				<div class="span4 pull-right align-right">
 					<?php echo UI::button(__( 'Remove part :part_name', array( ':part_name' => '<%= name %>' ) ), array(
-						'class' => 'item-remove btn btn-danger', 'icon' => UI::icon( 'trash icon-white' )
+						'class' => 'item-remove btn btn-mini btn-danger', 'icon' => UI::icon( 'trash icon-white' )
 					) ); ?>
 				</div>
 			</div>

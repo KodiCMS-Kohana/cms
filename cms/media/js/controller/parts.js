@@ -16,9 +16,8 @@ $(function() {
 		changeFilter: function(filter_id) {
 			if(this.get('filter_id') != filter_id) 
 				this.save({filter_id: filter_id});
-			
-			if(filter_id )
-				cms.filters.switchOn( 'pageEditPartContent-' + this.get('name'), filter_id );
+
+			cms.filters.switchOn( 'pageEditPartContent-' + this.get('name'), filter_id );
 		},
 
 		clear: function() {
@@ -47,9 +46,23 @@ $(function() {
 		
 		events: {
 			'click .part-options-button': 'toggleOptions',
+			'click .part-minimize-button': 'toggleMinimize',
 			'change .item-filter': 'changeFilter',
 			'change .is_protected': 'switchProtected',
 			'click .item-remove': 'clear'
+		},
+		
+		toggleMinimize: function(e) {
+			e.preventDefault();
+			
+			this.$el.find('.part-minimize-button i')
+				.toggleClass('icon-chevron-up')
+				.toggleClass('icon-chevron-down');
+				
+			this.$el.find('.item-filter-cont').toggle();
+	
+			this.$el.find('.part-textarea').slideToggle();
+			this.model.toggleMinimize();
 		},
 		
 		changeFilter: function() {
@@ -59,7 +72,7 @@ $(function() {
 		toggleOptions: function(e) {
 			e.preventDefault();
 
-			this.$el.find('.part-options').slideToggle();
+			this.$el.find('.part-options').toggle();
 		},
 		
 		switchProtected: function() {
