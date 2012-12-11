@@ -716,7 +716,11 @@ jQuery(document).ready(function () {
 			.parent()
 			.addClass('error');
 			
-		$.jGrowl(MESSAGE_ERRORS[error]);
+		$.jGrowl(MESSAGE_ERRORS[error], {theme: 'alert alert-error'});
+	}
+	
+	for(text in MESSAGE_SUCCESS) {
+		$.jGrowl(MESSAGE_SUCCESS[text], {theme: 'alert alert-success'});
 	}
 });
 

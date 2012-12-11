@@ -6,8 +6,7 @@
 
 class Messages {
 
-	protected static $_errors = array();
-	protected static $_success = array();
+	protected static $_data = array();
 	
 	// Message types
 	const SUCCESS = 'success';
@@ -17,6 +16,17 @@ class Messages {
 	 * @var  string  default session key used for storing messages
 	 */
 	public static $session_key = 'message';
+	
+	/**
+	 * 
+	 * @return array
+	 */
+	public static function types()
+	{
+		return array(
+			Messages::SUCCESS, Messages::ERRORS
+		);
+	}
 
 	/**
 	 * 
@@ -25,23 +35,20 @@ class Messages {
 	 */
 	public static function get( $type = NULL )
 	{
+		$session = Session::instance();
 		if ( $type === NULL )
 		{
 			$array = array();
 
-			$success = Session::instance()
-				->get_once( self::$session_key.'_'.Messages::SUCCESS, array() );
-
-			$errors = Session::instance()
-				->get_once( self::$session_key.'_'.Messages::ERRORS, array() );
-
-			$array[Messages::SUCCESS] = $success;
-			$array[Messages::ERRORS] = $errors;
+			foreach (self::types() as $i => $type)
+			{
+				$array[$type] = $session->get_once( self::$session_key.'::'.$type, array() );
+			}
 
 			return $array;
 		}
 
-		return Session::instance()->get_once( self::$session_key.'_'.$type, array() );
+		return $session->get_once( self::$session_key.'::'.$type, array() );
 	}
 
 	/**
@@ -62,18 +69,13 @@ class Messages {
 			$data[$index] = empty( $values ) ? $string : strtr( $string, $values );
 		}
 
-		if ( $type == Messages::SUCCESS )
-		{
-			self::$_success = Arr::merge( self::$_success, $data );
-			Session::instance()
-				->set( self::$session_key.'_'.Messages::SUCCESS, self::$_success );
-		}
-		else
-		{
-			self::$_errors = Arr::merge( self::$_errors, $data );
-			Session::instance()
-				->set( self::$session_key.'_'.Messages::ERRORS, self::$_errors );
-		}
+
+		self::$_data[$type] = !empty(self::$_data[$type]) 
+			? Arr::merge( self::$_data[$type], $data )
+			: $data;
+
+		Session::instance()
+			->set( self::$session_key.'::'.$type, self::$_data[$type] );
 	}
 
 	/**
