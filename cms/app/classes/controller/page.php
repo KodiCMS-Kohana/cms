@@ -214,7 +214,7 @@ class Controller_Page extends Controller_System_Backend {
 			$page_parts = array( new Model_Page_Part );
 		}
 		
-		$this->template->title = __('Edit page');
+		$this->template->title = $page->title;
 		$this->breadcrumbs
 			->add($this->template->title);
 
