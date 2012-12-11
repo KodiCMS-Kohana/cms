@@ -18,6 +18,10 @@ $(function() {
 			this.save({is_protected: this.get('is_protected') == 1 ? 0 : 1});
 		},
 		
+		toggleMinimize: function() {
+			
+		},
+		
 		changeFilter: function(filter_id) {
 			if(this.get('filter_id') != filter_id) 
 				this.save({filter_id: filter_id});
@@ -56,8 +60,8 @@ $(function() {
 			'change .is_protected': 'switchProtected',
 			'click .item-remove': 'clear',
 			'dblclick .part-name': 'editName',
-			'blur .edit-name': 'close', 
-			"keypress .edit-name"  : "updateOnEnter"
+			'blur .edit-name': 'closeEditName',
+			'keypress .edit-name': 'updateOnEnter'
 		},
 		
 		updateOnEnter: function(e) {
@@ -71,7 +75,7 @@ $(function() {
 			this.$el.find('.part-name').hide();
 		},
 		
-		close: function() {
+		closeEditName: function() {
 			var value = $.trim(this.input.val());
 			this.model.save({name: value});
 			this.render();
