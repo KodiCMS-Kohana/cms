@@ -15,9 +15,9 @@ final class Flash
      * @param string $var Variable name
      * @return mixed
      */
-    public static function get($var)
+    public static function get($var, $default = NULL)
     {
-		return Session::instance()->get_once($var);
+		return Session::instance()->get_once($var, $default);
     }
 
     /**
