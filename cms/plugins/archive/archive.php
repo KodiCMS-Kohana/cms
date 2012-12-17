@@ -85,7 +85,7 @@ class Archive
 			->distinct(TRUE)
 			->from(Model_Page::TABLE_NAME)
 			->where('parent_id', '=', $this->page->id)
-			->where('status_id', '!=', Model_Page_Front::STATUS_HIDDEN)
+			->where('status_id', '!=', Model_Page::STATUS_HIDDEN)
 			->order_by( 'created_on', 'desc' )
 			->execute()
 			->as_array(NULL, 'date');
@@ -97,7 +97,7 @@ class Archive
 			->distinct(TRUE)
 			->from(Model_Page::TABLE_NAME)
 			->where('parent_id', '=', $this->page->id)
-			->where('status_id', '!=', Model_Page_Front::STATUS_HIDDEN)
+			->where('status_id', '!=', Model_Page::STATUS_HIDDEN)
 			->order_by( 'created_on', 'desc' )
 			->execute()
 			->as_array(NULL, 'date');
@@ -109,7 +109,7 @@ class Archive
 			->distinct(TRUE)
 			->from(Model_Page::TABLE_NAME)
 			->where('parent_id', '=', $this->page->id)
-			->where('status_id', '!=', Model_Page_Front::STATUS_HIDDEN)
+			->where('status_id', '!=', Model_Page::STATUS_HIDDEN)
 			->order_by( 'created_on', 'desc' )
 			->execute()
 			->as_array(NULL, 'date');
@@ -125,8 +125,18 @@ class PageArchive extends Model_Page_Front
 		$this->url = trim($this->parent->url . date('/Y/m/d/', strtotime($this->created_on)). $this->slug, '/');
 	}
 
-	public function title() { return isset($this->time) ? strftime($this->title, $this->time): $this->title; }
+	public function title() 
+	{ 
+		return isset($this->time) 
+			? strftime($this->title, $this->time)
+			: $this->title; 
+	}
 
-	public function breadcrumb() { return isset($this->time) ? strftime($this->breadcrumb, $this->time): $this->breadcrumb; }
+	public function breadcrumb() 
+	{ 
+		return isset($this->time) 
+			? strftime($this->breadcrumb, $this->time)
+			: $this->breadcrumb; 
+	}
 	
 } // end class PageArchive

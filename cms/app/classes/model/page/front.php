@@ -5,14 +5,6 @@
  */
 class Model_Page_Front
 {
-	const STATUS_DRAFT = 1;
-	const STATUS_REVIEWED = 50;
-	const STATUS_PUBLISHED = 100;
-	const STATUS_HIDDEN = 101;
-
-	const LOGIN_NOT_REQUIRED = 0;
-	const LOGIN_REQUIRED = 1;
-	const LOGIN_INHERIT = 2;
 
 	public $title = '';
 	public $breadcrumb;
@@ -254,10 +246,10 @@ class Model_Page_Front
 			);
 		}
 
-		$statuses = array(self::STATUS_REVIEWED, self::STATUS_PUBLISHED);
+		$statuses = array(Model_Page::STATUS_REVIEWED, Model_Page::STATUS_PUBLISHED);
 		if($include_hidden !== FALSE)
 		{
-			$statuses[] = self::STATUS_HIDDEN;
+			$statuses[] = Model_Page::STATUS_HIDDEN;
 		}
 
 		$sql = DB::select('page.*')
@@ -294,9 +286,6 @@ class Model_Page_Front
 			foreach ($query as $object)
 			{
 				$page = new $page_class($object, $this);
-
-				Observer::notify('frontpage_children_found', array($page));
-
 				$pages[] = $page;
 			}
 		}
@@ -321,10 +310,10 @@ class Model_Page_Front
 			);
 		}
 
-		$statuses = array(self::STATUS_REVIEWED, self::STATUS_PUBLISHED);
+		$statuses = array(Model_Page::STATUS_REVIEWED, Model_Page::STATUS_PUBLISHED);
 		if($include_hidden)
 		{
-			$statuses[] = self::STATUS_HIDDEN;
+			$statuses[] = Model_Page::STATUS_HIDDEN;
 		}
 
 		$sql = DB::select(array(DB::expr('COUNT(*)'), 'total'))
@@ -407,8 +396,6 @@ class Model_Page_Front
 
 			$page = FALSE;
 
-			Observer::notify('frontpage_byslug_before_found', array(&$page, $slug, $parent));
-
 			if (is_object($page) && ($page instanceof $page_class))
 			{
 				return $page;
@@ -416,7 +403,7 @@ class Model_Page_Front
 			else
 			{
 				$parent_id = $parent ? $parent->id: 0;
-				$statuses = array(self::STATUS_REVIEWED, self::STATUS_PUBLISHED, self::STATUS_HIDDEN);
+				$statuses = array(Model_Page::STATUS_REVIEWED, Model_Page::STATUS_PUBLISHED, Model_Page::STATUS_HIDDEN);
 
 				$page = DB::select('page.*')
 					->select(array('author.name', 'author'))
@@ -451,8 +438,6 @@ class Model_Page_Front
 					$page = new $page_class($page, $parent);
 
 					$pages_cache[ $page_cache_id ] = $page;
-
-					Observer::notify('frontpage_byslug_found', array($page));
 
 					return $page;
 				}
@@ -506,7 +491,7 @@ class Model_Page_Front
 	{
 		$page_class = __CLASS__;
 
-		$statuses = array(self::STATUS_REVIEWED, self::STATUS_PUBLISHED, self::STATUS_HIDDEN);
+		$statuses = array(Model_Page::STATUS_REVIEWED, Model_Page::STATUS_PUBLISHED, Model_Page::STATUS_HIDDEN);
 
 		$page = DB::select('page.*')
 			->select(array('author.name', 'author'))
@@ -546,8 +531,6 @@ class Model_Page_Front
 
 			// create the object page
 			$page = new $page_class($page, $parent);
-
-			Observer::notify('frontpage_byid_found', array($page));
 
 			return $page;
 		}
@@ -635,7 +618,7 @@ class Model_Page_Front
 	 */
 	public function needs_login()
 	{
-		if ($this->needs_login == self::LOGIN_INHERIT AND $this->parent)
+		if ($this->needs_login == Model_Page::LOGIN_INHERIT AND $this->parent)
 		{
 			return $this->parent->needs_login();
 		}
