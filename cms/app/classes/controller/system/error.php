@@ -1,6 +1,6 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct script access.' );
 
-class Controller_System_Error extends Controller_System_Template {
+class Controller_System_Error extends Controller_System_Frontend {
 	
 	public $template = 'layouts/frontend';
 	

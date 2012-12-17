@@ -1,6 +1,6 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct access allowed.' );
 
-class Controller_Login extends Controller_System_Template {
+class Controller_Login extends Controller_System_Frontend {
 
 	public $template = 'layouts/frontend';
 
