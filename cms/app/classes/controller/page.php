@@ -122,6 +122,8 @@ class Controller_Page extends Controller_System_Backend {
 
 		$page = new Model_Page( $data, array('tags') );
 		$page->parent_id = $parent_id;
+		
+		Observer::notify( 'page_add_before_save', array( $page ) );
 
 		// save page data
 		if ( $page->save() )

@@ -170,7 +170,7 @@ class Controller_User extends Controller_System_Backend {
 			}
 
 			Messages::success( __( 'User <b>:name</b> has been saved!', array( ':name' => $user->name ) ) );
-			Observer::notify( 'user_after_edit', array( $user->name ) );
+			Observer::notify( 'user_after_edit', array( $user ) );
 		}
 		else
 		{
