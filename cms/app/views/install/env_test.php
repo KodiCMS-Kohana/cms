@@ -16,7 +16,7 @@ $failed = FALSE;
 ?>
 
 <div class="widget-header"><?php echo __( 'Environment Tests' ); ?></div>
-<div id="env_test" class="widget-content">
+<div class="env_test" class="widget-content">
 	<table class="table table-striped">
 		<tr>
 			<th>PHP Version</th>
@@ -61,9 +61,9 @@ $failed = FALSE;
 		<tr>
 			<th>PCRE UTF-8</th>
 			<?php if ( ! @preg_match('/^.$/u', 'ñ')): $failed = TRUE ?>
-				<td class="fail"><a href="http://php.net/pcre">PCRE</a> has not been compiled with UTF-8 support.</td>
+				<td class="fail"><a href="http://php.net/pcre" target="blank">PCRE</a> has not been compiled with UTF-8 support.</td>
 			<?php elseif ( ! @preg_match('/^\pL$/u', 'ñ')): $failed = TRUE ?>
-				<td class="fail"><a href="http://php.net/pcre">PCRE</a> has not been compiled with Unicode property support.</td>
+				<td class="fail"><a href="http://php.net/pcre" target="blank">PCRE</a> has not been compiled with Unicode property support.</td>
 			<?php else: ?>
 				<td class="pass">Pass</td>
 			<?php endif ?>
@@ -73,7 +73,7 @@ $failed = FALSE;
 			<?php if (function_exists('spl_autoload_register')): ?>
 				<td class="pass">Pass</td>
 			<?php else: $failed = TRUE ?>
-				<td class="fail">PHP <a href="http://www.php.net/spl">SPL</a> is either not loaded or not compiled in.</td>
+				<td class="fail">PHP <a href="http://www.php.net/spl" target="blank">SPL</a> is either not loaded or not compiled in.</td>
 			<?php endif ?>
 		</tr>
 		<tr>
@@ -81,7 +81,7 @@ $failed = FALSE;
 			<?php if (class_exists('ReflectionClass')): ?>
 				<td class="pass">Pass</td>
 			<?php else: $failed = TRUE ?>
-				<td class="fail">PHP <a href="http://www.php.net/reflection">reflection</a> is either not loaded or not compiled in.</td>
+				<td class="fail">PHP <a href="http://www.php.net/reflection" target="blank">reflection</a> is either not loaded or not compiled in.</td>
 			<?php endif ?>
 		</tr>
 		<tr>
@@ -89,7 +89,7 @@ $failed = FALSE;
 			<?php if (function_exists('filter_list')): ?>
 				<td class="pass">Pass</td>
 			<?php else: $failed = TRUE ?>
-				<td class="fail">The <a href="http://www.php.net/filter">filter</a> extension is either not loaded or not compiled in.</td>
+				<td class="fail">The <a href="http://www.php.net/filter" target="blank">filter</a> extension is either not loaded or not compiled in.</td>
 			<?php endif ?>
 		</tr>
 		<tr>
@@ -97,14 +97,14 @@ $failed = FALSE;
 			<?php if (extension_loaded('iconv')): ?>
 				<td class="pass">Pass</td>
 			<?php else: $failed = TRUE ?>
-				<td class="fail">The <a href="http://php.net/iconv">iconv</a> extension is not loaded.</td>
+				<td class="fail">The <a href="http://php.net/iconv" target="blank">iconv</a> extension is not loaded.</td>
 			<?php endif ?>
 		</tr>
 		<?php if (extension_loaded('mbstring')): ?>
 		<tr>
 			<th>Mbstring Not Overloaded</th>
 			<?php if (ini_get('mbstring.func_overload') & MB_OVERLOAD_STRING): $failed = TRUE ?>
-				<td class="fail">The <a href="http://php.net/mbstring">mbstring</a> extension is overloading PHP's native string functions.</td>
+				<td class="fail">The <a href="http://php.net/mbstring" target="blank">mbstring</a> extension is overloading PHP's native string functions.</td>
 			<?php else: ?>
 				<td class="pass">Pass</td>
 			<?php endif ?>
@@ -113,7 +113,7 @@ $failed = FALSE;
 		<tr>
 			<th>Character Type (CTYPE) Extension</th>
 			<?php if ( ! function_exists('ctype_digit')): $failed = TRUE ?>
-				<td class="fail">The <a href="http://php.net/ctype">ctype</a> extension is not enabled.</td>
+				<td class="fail">The <a href="http://php.net/ctype" target="blank">ctype</a> extension is not enabled.</td>
 			<?php else: ?>
 				<td class="pass">Pass</td>
 			<?php endif ?>
@@ -135,7 +135,7 @@ $failed = FALSE;
 	<?php endif ?>
 </div>
 <div class="widget-header"><?php echo __( 'Optional Tests' ); ?></div>
-<div class="widget-content">
+<div class="env_test" class="widget-content">
 
 	<p class="alert alert-info">
 		The following extensions are not required to run the Kohana core, but if enabled can provide access to additional classes.
@@ -147,7 +147,7 @@ $failed = FALSE;
 			<?php if (extension_loaded('http')): ?>
 				<td class="pass">Pass</td>
 			<?php else: ?>
-				<td class="fail">Kohana can use the <a href="http://php.net/http">http</a> extension for the Request_Client_External class.</td>
+				<td class="fail">Kohana can use the <a href="http://php.net/http" target="blank">http</a> extension for the Request_Client_External class.</td>
 			<?php endif ?>
 		</tr>
 		<tr>
@@ -155,7 +155,7 @@ $failed = FALSE;
 			<?php if (extension_loaded('curl')): ?>
 				<td class="pass">Pass</td>
 			<?php else: ?>
-				<td class="fail">Kohana can use the <a href="http://php.net/curl">cURL</a> extension for the Request_Client_External class.</td>
+				<td class="fail">Kohana can use the <a href="http://php.net/curl" target="blank">cURL</a> extension for the Request_Client_External class.</td>
 			<?php endif ?>
 		</tr>
 		<tr>
@@ -163,7 +163,7 @@ $failed = FALSE;
 			<?php if (extension_loaded('mcrypt')): ?>
 				<td class="pass">Pass</td>
 			<?php else: ?>
-				<td class="fail">Kohana requires <a href="http://php.net/mcrypt">mcrypt</a> for the Encrypt class.</td>
+				<td class="fail">Kohana requires <a href="http://php.net/mcrypt" target="blank">mcrypt</a> for the Encrypt class.</td>
 			<?php endif ?>
 		</tr>
 		<tr>
@@ -171,7 +171,7 @@ $failed = FALSE;
 			<?php if (function_exists('gd_info')): ?>
 				<td class="pass">Pass</td>
 			<?php else: ?>
-				<td class="fail">Kohana requires <a href="http://php.net/gd">GD</a> v2 for the Image class.</td>
+				<td class="fail">Kohana requires <a href="http://php.net/gd" target="blank">GD</a> v2 for the Image class.</td>
 			<?php endif ?>
 		</tr>
 		<tr>
@@ -179,7 +179,7 @@ $failed = FALSE;
 			<?php if (function_exists('mysql_connect')): ?>
 				<td class="pass">Pass</td>
 			<?php else: ?>
-				<td class="fail">Kohana can use the <a href="http://php.net/mysql">MySQL</a> extension to support MySQL databases.</td>
+				<td class="fail">Kohana can use the <a href="http://php.net/mysql" target="blank">MySQL</a> extension to support MySQL databases.</td>
 			<?php endif ?>
 		</tr>
 		<tr>
@@ -187,7 +187,7 @@ $failed = FALSE;
 			<?php if (class_exists('PDO')): ?>
 				<td class="pass">Pass</td>
 			<?php else: ?>
-				<td class="fail">Kohana can use <a href="http://php.net/pdo">PDO</a> to support additional databases.</td>
+				<td class="fail">Kohana can use <a href="http://php.net/pdo" target="blank">PDO</a> to support additional databases.</td>
 			<?php endif ?>
 		</tr>
 	</table>

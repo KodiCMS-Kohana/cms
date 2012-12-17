@@ -73,7 +73,7 @@
 		<div class="widget-header"><?php echo __( 'Other information' ); ?></div>
 		<div class="widget-content">
 			<div class="control-group">
-				<label class="control-label" for="installSiteNameField"><?php echo __( 'Site name' ); ?></label>
+				<label class="control-label" for="installSiteNameField"><?php echo __( 'Site title' ); ?></label>
 				<div class="controls">
 					<?php
 					echo Form::input( 'install[site_name]', Arr::get( $data, 'site_name' ), array(
@@ -93,6 +93,41 @@
 					?> <?php echo UI::label( __( 'Required.' ) ); ?>
 
 					<p class="help-block"><?php echo __( 'Required. Allows you to specify a custom username for the administrator. Default: admin' ); ?></p>
+				</div>
+			</div>
+			
+			<div class="control-group">
+				<label class="control-label" for="installPasswordGenerateField"><?php echo __( 'Administrator password generate' ); ?></label>
+				<div class="controls">
+					<?php
+					echo Form::checkbox( 'install[password_generate]', 1, (bool) Arr::get( $data, 'password_generate' ), array(
+						'id' => 'installPasswordGenerateField'
+					) );
+					?>
+				</div>
+			</div>
+			
+
+			<div id="password_form" class="well well-small">
+				<div class="control-group">
+					<label class="control-label" for="userEditPasswordField"><?php echo __('Password'); ?></label>
+					<div class="controls">
+						<?php echo Form::password('install[password_field]', NULL, array(
+							'class' => 'input-medium', 'id' => 'userEditPasswordField'
+						)); ?>
+						<p class="help-block"><?php echo __('At least :num characters. Must be unique.', array(
+							':num' => 5
+						)); ?>
+					</div>
+				</div>
+
+				<div class="control-group">
+					<label class="control-label" for="userEditPasswordConfirmField"><?php echo __('Confirm Password'); ?></label>
+					<div class="controls">
+						<?php echo Form::password('install[password_confirm]', NULL, array(
+							'class' => 'input-medium', 'id' => 'userEditPasswordConfirmField'
+						)); ?>
+					</div>
 				</div>
 			</div>
 

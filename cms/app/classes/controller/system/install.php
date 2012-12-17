@@ -1,11 +1,13 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct access allowed.' );
 
-class Controller_System_Install extends Controller_System_Template 
+class Controller_System_Install extends Controller_System_Frontend 
 {
 	public $template = 'layouts/frontend';
 	
 	public function action_index()
 	{
+		$this->scripts[] = ADMIN_RESOURCES . 'js/install.js';
+
 		$data = array(
 			'db_driver' => 'mysql',
 			'db_server' => 'localhost',
@@ -16,6 +18,7 @@ class Controller_System_Install extends Controller_System_Template
 			'email' => 'admin@yoursite.com',
 			'admin_dir_name' => 'backend',
 			'url_suffix' => '.html',
+			'password_generate' => TRUE,
 			'timezone' => date_default_timezone_get()
 		);
 
@@ -37,7 +40,11 @@ class Controller_System_Install extends Controller_System_Template
 		}
 
 		$post['db_driver'] = DB_TYPE;
-		$post['password'] = Text::random();
+		
+		if(isset($post['password_generate']))
+		{
+			$post['password_field'] = Text::random();
+		}
 		
 		date_default_timezone_set( $post['timezone'] );
 
@@ -128,7 +135,16 @@ class Controller_System_Install extends Controller_System_Template
 			->label('db_name', __( 'Database name' ))
 			->label('admin_dir_name', __( 'Admin dir name' ))
 			->label('username', __( 'Administrator username' ))
-			->label('email', __( 'Administrator email' ));
+			->label('email', __( 'Administrator email' ))
+			->label('password_field', __( 'Administrator password' ));
+		
+		if(!isset($data['password_generate']))
+		{
+			$validation
+				->rule('password_field', 'min_length', array(':value', 8))
+				->rule('password_field', 'not_empty')
+				->rule('password_confirm', 'matches', array(':validation', ':field', 'password_field'));
+		}
 
 		if ( !$validation->check() )
 		{
@@ -178,7 +194,7 @@ class Controller_System_Install extends Controller_System_Template
 			'__EMAIL__' => Arr::get($post, 'email'),
 			'__USERNAME__' => Arr::get($post, 'username'),
 			'TABLE_PREFIX_' => $post['table_prefix'],
-			'__ADMIN_PASSWORD__' => Auth::instance()->hash($post['password']),
+			'__ADMIN_PASSWORD__' => Auth::instance()->hash($post['password_field']),
 			'__DATE__' => date('Y-m-d H:i:s'),
 			'__LANG__' => I18n::lang()
 		);

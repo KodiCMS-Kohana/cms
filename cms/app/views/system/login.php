@@ -11,7 +11,7 @@
 		<h5><?php echo __('CMS succefully installed'); ?></h5>
 		<ul>
 			<li>Login: <?php echo Arr::get($install_data, 'username'); ?></li>
-			<li>Password: <?php echo Arr::get($install_data, 'password'); ?></li>
+			<li>Password: <?php echo Arr::get($install_data, 'password_field'); ?></li>
 		</ul>
 	</div>
 	<?php endif; ?>

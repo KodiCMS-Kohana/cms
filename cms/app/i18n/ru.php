@@ -215,22 +215,25 @@ return array(
 	'Database user' => 'Имя пользователя',
 	'Database password' => 'Пароль',
 	'Optional. If there is no database password, leave it blank.'
-			=> 'Не обязательно. Если у базы нет пароля &mdash; оставьте пустым.',
+			=> 'Если у базы нет пароля &mdash; оставьте пустым.',
 	'Database name' => 'Имя базы данных',
 	'Required. You have to create a database manually and enter its name here.'
-			=> 'Обязательно. При создании базы данных, вы дали ей имя, укажите его здесь.',
+			=> 'При создании базы данных, вы дали ей имя, укажите его здесь.',
 	'Required. Enter the <b>absolute</b> path to the database file.'
-			=> 'Обязательно. Укажите <b>абсолютный</b> путь к файлу базы данных.',
+			=> 'Укажите <b>абсолютный</b> путь к файлу базы данных.',
 	'Prefix' => 'Префикс',
 	'Optional. Usefull to prevent conflicts if you have, or plan to have, multiple Flexo installations with a single database.'
-			=> 'Не обязательно. Укажите префикс, если хотите установить несколько версий Flexo в одну базу данных.',
+			=> 'Укажите префикс, если хотите установить несколько версий Flexo в одну базу данных.',
 	'Other information' => 'Другая информация',
 	'Administrator username' => 'Имя администратора',
+	'Administrator email' => 'E-mail  адрес',
+	'Administrator password generate' => 'Сгенерировать пароль',
+	'Admin dir name' => 'Точка входа в административный интерфейс',
 	'Required. Allows you to specify a custom username for the administrator. Default: admin'
-			=> 'Обязательно. Позволяет задать имя администратора. По-умолчанию: admin',
+			=> 'Позволяет задать имя администратора. По-умолчанию: admin',
 	'URL suffix' => 'URL суффикс',
 	'Optional. Add a suffix to simulate static html files.'
-			=> 'Не обязательно. Можно указать суффикс для эмуляции статических html файлов.',
+			=> 'Можно указать суффикс для эмуляции статических html файлов.',
 	'Install now!' => 'Установить!',
 	'Require support of PHP 5+!' => 'Требуется поддержка PHP 5+!',
 	'Require support of PDO extension!' => 'Требуется поддержка расширения PDO!',
