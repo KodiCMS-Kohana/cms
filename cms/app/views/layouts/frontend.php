@@ -13,13 +13,8 @@
 		</script>
 
 		<?php
-			echo HTML::style(ADMIN_RESOURCES . 'libs/jgrowl/jquery.jgrowl.css' ) . "\n";
-			echo HTML::style(ADMIN_RESOURCES . 'css/common.css') . "\n";
-
-			echo HTML::script(ADMIN_RESOURCES . 'libs/jquery-1.8.0.min.js' ) . "\n";
-			echo HTML::script(ADMIN_RESOURCES . 'libs/bootstrap/js/bootstrap.min.js' ) . "\n";
-			echo HTML::script(ADMIN_RESOURCES . 'libs/jgrowl/jquery.jgrowl_minimized.js' ) . "\n";
-			echo HTML::script(ADMIN_RESOURCES . 'js/backend.js' ) . "\n";
+		foreach ( $styles as $style ) echo HTML::style( $style ) . "\n\t\t";
+		foreach ( $scripts as $script ) echo HTML::script( $script ) . "\n\t\t";
 		?>
 	</head>
 	<body id="body_frontend">
