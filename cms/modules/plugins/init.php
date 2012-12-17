@@ -11,7 +11,7 @@ define('PLUGPATH', realpath($plugins).DIRECTORY_SEPARATOR);
 // Init plugins
 Plugins::init();
 
-Model_Navigation::add_section('Settings', __('Plugins'),  'plugins', array('administrator'), 101);
+Model_Navigation::add_section('System', __('Plugins'),  'plugins', array('administrator'), 101);
 
 Route::set( 'plugins', ADMIN_DIR_NAME.'/plugins(/<action>(/<id>))', array(
 	'id' => '.*'

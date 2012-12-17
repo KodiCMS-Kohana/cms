@@ -25,6 +25,6 @@ if($plugin->enabled())
 	if(IS_BACKEND)
 	{
 		// Add navigation section
-		Model_Navigation::add_section('Settings', 'Backup', 'backup', array('administrator'), 999);
+		Model_Navigation::add_section('System', 'Backup', 'backup', array('administrator'), 999);
 	}
 }

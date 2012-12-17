@@ -56,7 +56,7 @@ return array(
 	'Find page' => 'Найти страницу',
 	'Forgot password' => 'Забыли пароль',
 	'Forgot password?' => 'Забыли пароль?',
-	'General' => 'Главные',
+	'System' => 'Система',
 	'General setting' => 'Главные настройки',
 	'Hidden' => 'Скрыта',
 	//'If some requirements not aviable&hellip;' => '',
