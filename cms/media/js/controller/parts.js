@@ -115,6 +115,7 @@ $(function() {
 
 		// Re-render the titles of the todo item.
 		render: function() {
+			
 			this.$el.html(this.template(this.model.toJSON()));
 			
 			this.input = this.$el.find('.edit-name').hide();
@@ -191,7 +192,13 @@ $(function() {
 				this.model.set('name', 'body');
 
 			this.model.save();
-			this.collection.add(this.model);
+			
+			this.model.on("sync", function() {
+				this.collection.add(this.model);
+				
+				this.model.off('sync');
+			}, this);
+			
 		}
 	});
 	

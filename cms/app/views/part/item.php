@@ -45,7 +45,7 @@
 		</div>
 
 		<div class="widget-content widget-no-border-radius widget-nopad part-textarea">
-			<textarea id="pageEditPartContent-<%= name %>" name="part_content"><%= content %></textarea>
+			<textarea id="pageEditPartContent-<%= name %>" name="part_content[<%= id %>]"><%= content %></textarea>
 		</div>
 	</div>
 </script>

@@ -196,12 +196,25 @@ class Controller_Page extends Controller_System_Backend {
 		Observer::notify( 'page_edit_before_save', array( $page ) );
 
 		if ( $page->save() )
-		{	// save tags
+		{
+			// save parts
+			foreach (Arr::get($this->request->post(), 'part_content', array()) as $id => $content)
+			{
+				$part = Record::findByIdFrom('Model_Page_Part', (int) $id);
+		
+				$part
+					->setFromData(array('content' => $content))
+					->save();
+			}
+
+			// save tags
 			$page->saveTags(Arr::get($data, 'tags', array()) );
 
 			// save permissions
 			$permissions = $this->request->post('page_permissions');
 			$page->savePermissions( $permissions );
+			
+			
 
 			Observer::notify( 'page_edit_after_save', array( $page ) );
 
