@@ -39,11 +39,13 @@ class Controller_Login extends Controller_System_Frontend {
 	{
 		$array = Arr::get($_POST, 'login', array());
 
-		$fieldname = Valid::email( Arr::get($array, 'username') ) ? 'email' : 'username';
+		$fieldname = Valid::email( Arr::get($array, 'username') ) 
+			? AuthUser::EMAIL : AuthUser::USERNAME;
 
 		$array = Validation::factory( $array )
-			->label( 'username', 'Username / Email' )
+			->label( 'username', 'Username' )
 			->label( 'password', 'Password' )
+			->label( 'email', 'Email' )
 			->rules( 'username', array(
 				array( 'not_empty' )
 			) )
@@ -58,7 +60,7 @@ class Controller_Login extends Controller_System_Frontend {
 		{
 			Observer::notify( 'admin_login_before', array( $array ) );
 
-			if ( AuthUser::login( $array['username'], $array['password'], $remember ) )
+			if ( AuthUser::login( $fieldname, $array['username'], $array['password'], $remember ) )
 			{
 				Observer::notify( 'admin_login_success', array( $array['username'] ) );
 

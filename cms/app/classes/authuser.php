@@ -5,6 +5,9 @@
  */
 
 class AuthUser {
+	
+	const EMAIL = 'email';
+	const USERNAME = 'username';
 
 	/**
 	 * 
@@ -89,13 +92,13 @@ class AuthUser {
 	 * @param boolean $remember
 	 * @return boolean
 	 */
-	public static function login( $username, $password, $remember = FALSE )
+	public static function login( $field, $username, $password, $remember = FALSE )
 	{
 		$user = ORM::factory( 'user' );
 		
 		// Attempt to load the user
 		$user
-			->where( 'username', '=', $username )
+			->where( $field, '=', $username )
 			->find();
 		
 		if(
