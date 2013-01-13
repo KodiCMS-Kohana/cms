@@ -11,41 +11,19 @@ class Model_API_Page_Part extends Model_API {
 		'content', 'content_html'
 	);
 	
-	public function get($uids, $fields = array(), $page_id = NULL)
+	public function get($page_id, $fields = array())
 	{
-		$uids = $this->prepare_param($uids, array('Valid', 'numeric'));
 		$fields = $this->prepare_param($fields);
 
 		$parts = DB::select('id', 'name')
 			->select_array( $this->filtered_fields( $fields ) )
 			->from($this->table_name());
-		
-		if(!empty($uids))
-		{
-			$parts->where('id', 'in', $uids);
-		}
-		
-		if($page_id !== NULL)
-		{
-			$op = is_array($page_id) ? 'in' : '=';
-			if(  is_array( $page_id ))
-			{
-				$op = 'in';
-				$page_id = $this->prepare_param($page_id, array('Valid', 'numeric'));
-			}
-			else
-			{
-				$page_id = (int) $page_id;
-				$op = '=';
-			}
 
-			$parts
-				->where('page_id', $op, $page_id);
-		}
+		$parts
+			->where('page_id', '=', (int) $page_id);
 		
-		$parts = $parts
+		return $parts
 			->execute()
 			->as_array();
-		
 	}
 }

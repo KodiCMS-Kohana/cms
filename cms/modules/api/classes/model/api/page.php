@@ -37,7 +37,7 @@ class Model_API_Page extends Model_API {
 		if(in_array('parts', $fields))
 		{
 			$parts = Model::factory('api_page_part')
-				->get(NULL, array_merge($fields, array('page_id')), array_keys($pages));
+				->get(array_keys($pages), array_merge($fields, array('page_id')));
 			
 			if(is_array($parts))
 			{

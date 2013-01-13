@@ -2,7 +2,7 @@
 
 class Controller_API_Users extends Controller_System_Api {
 	
-	public function action_get()
+	public function get_get()
 	{		
 		$uids = $this->param('uids');
 		$fields = $this->param('fields');
@@ -10,10 +10,10 @@ class Controller_API_Users extends Controller_System_Api {
 		$users = Model_API::factory('api_user')
 			->get($uids, $fields);
 
-		$this->json['response'] = $users;
+		$this->response($users);
 	}
 	
-	public function action_roles()
+	public function get_roles()
 	{
 		$uid = $this->param('uid', NULL, TRUE);
 		$fields = $this->param('fields');
@@ -21,6 +21,6 @@ class Controller_API_Users extends Controller_System_Api {
 		$roles = Model_API::factory('api_user_role')
 			->get(NULL, $fields, $uid);
 		
-		$this->json['response'] = $roles;
+		$this->response($roles);
 	}
 }

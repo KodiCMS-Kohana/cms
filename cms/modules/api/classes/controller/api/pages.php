@@ -2,7 +2,7 @@
 
 class Controller_API_Pages extends Controller_System_Api {
 	
-	public function action_get()
+	public function get_get()
 	{		
 		$uids = $this->param('uids');
 		$parent = $this->param('pid');
@@ -14,7 +14,7 @@ class Controller_API_Pages extends Controller_System_Api {
 		$this->json['response'] = $pages;
 	}
 	
-	public function action_tags()
+	public function get_tags()
 	{
 		$uid = $this->param('uid', NULL, TRUE);
 		$fields = $this->param('fields');
@@ -25,7 +25,7 @@ class Controller_API_Pages extends Controller_System_Api {
 		$this->json['response'] = $tags;
 	}
 	
-	public function action_uri()
+	public function get_by_uri()
 	{
 		$uri = $this->param('uri', NULL, TRUE);
 		$fields = $this->param('fields');

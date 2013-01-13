@@ -2,14 +2,14 @@
 
 class Controller_API_Parts extends Controller_System_Api {
 	
-	public function action_get()
+	public function get_get()
 	{		
-		$uids = $this->param('uids', '');
+		$page_id = $this->param('page_id', NULL, TRUE);
 		$fields = $this->param('fields', '');
 		
 		$parts = Model_API::factory('api_page_part')
-			->get($uids, $fields);
+			->get($page_id, $fields);
 
-		$this->json['response'] = $parts;
+		$this->response($parts);
 	}
 }

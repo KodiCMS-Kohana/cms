@@ -2,7 +2,7 @@
 
 class Controller_API_Tags extends Controller_System_Api {
 	
-	public function action_get()
+	public function get_get()
 	{		
 		$uids = $this->param('uids', '');
 		$fields = $this->param('fields', '');

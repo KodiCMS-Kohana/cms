@@ -30,7 +30,7 @@ class Controller_System_API extends Controller_System_Ajax {
 		try 
 		{
 			// Determine the action to use
-			$action = 'action_'.$this->request->action();
+			$action = $this->request->method() . '_' . $this->request->action();
 
 			// If the action doesn't exist, it's a 404
 			if ( ! method_exists($this, $action))
@@ -75,5 +75,10 @@ class Controller_System_API extends Controller_System_Ajax {
 		}
 
 		$this->response->body( $this->json );
+	}
+	
+	public function response($data)
+	{
+		$this->json['response'] = $data;
 	}
 }
