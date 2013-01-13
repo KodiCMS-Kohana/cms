@@ -29,7 +29,10 @@
 	</head>
 	<body id="body_<?php echo $page_body_id; ?>">
 		<div id="content-wrapper">
-			<?php echo View::factory('layouts/blocks/navigation'); ?>
+			<div id="navigation">
+				<?php echo View::factory('layouts/blocks/navigation'); ?>
+			</div>
+			
 
 			<?php echo $breadcrumbs; ?>
 			

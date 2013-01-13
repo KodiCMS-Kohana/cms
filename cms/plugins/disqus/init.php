@@ -10,32 +10,10 @@ $plugin = Plugins_Item::factory( array(
 
 if ( $plugin->enabled() )
 {
-	Observer::observe( array('disqus_comments'), 'enable_disqus_comments' );
+	Observer::observe( 'disqus_comments', 'enable_disqus_comments' );
 
-	function enable_disqus_comments($model)
+	function enable_disqus_comments()
 	{
 		echo View::factory( 'disqus/comments' );
-	}
-	
-	if($plugin->get('counter_status', 'off') == 'on')
-	{
-		Observer::observe( 'advert_infopanel', 'enable_disqus_comments_counter' );
-
-		function enable_disqus_comments_counter($model)
-		{
-			if(isset($model->forbid_comment) AND $model->forbid_comment == 0)
-			{
-				echo View::factory( 'disqus/comments_counter', array('topic' => $model) );
-			}
-		}
-		
-		Observer::observe( 'page_layout_bottom', 'enable_disqus_comments_counter_script', $plugin);
-		
-		function enable_disqus_comments_counter_script($plugin)
-		{
-			echo View::factory( 'disqus/comments_counter_script' , array(
-				'plugin' => $plugin
-			) );
-		}
 	}
 }
