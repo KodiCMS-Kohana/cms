@@ -10,7 +10,7 @@
 		)); ?>
 
 		<?php echo Form::file('file', array(
-			'id' => 'upload_file', 'multiply', 'class' => 'pull-right'
+			'id' => 'upload_file', 'multiple', 'class' => 'pull-right'
 		)); ?>
 	</div>
 
