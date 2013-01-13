@@ -194,17 +194,29 @@ class Model_Page_Front
 		return FALSE;
 	}
 
-	public function content($part = 'body', $inherit = FALSE)
+	public function content($part = 'body', $inherit = FALSE, $cache_lifetime = NULL)
 	{		
 		if (isset($this->part->{$part}))
 		{
-			return View_Front::factory()
-				->set('page', $this)
-				->render_html($this->part->{$part}->content_html);
+			if($cache_lifetime !== NULL AND ! Fragment::load( 'Content::' . $part . '::' .  $this->id, (int) $cache_lifetime))
+			{
+				echo View_Front::factory()
+					->set('page', $this)
+					->render_html($this->part->{$part}->content_html);
+
+				Fragment::save();
+			}
+			else if ($cache_lifetime === NULL)
+			{
+				echo View_Front::factory()
+					->set('page', $this)
+					->render_html($this->part->{$part}->content_html);
+			}
+			
 		}
 		else if ($inherit AND $this->parent)
 		{
-			return $this->parent->content($part, TRUE);
+			return $this->parent->content($part, TRUE, $cache_lifetime);
 		}
 
 		return NULL;
@@ -557,7 +569,7 @@ class Model_Page_Front
 		return $this->parent->parent($level);
 	}
 
-	public function includeSnippet($snippet_name, $vars = NULL)
+	public function includeSnippet($snippet_name, $vars = NULL, $cache_lifetime = NULL)
 	{
 		$snippet = new Model_File_Snippet($snippet_name);
 
@@ -565,9 +577,19 @@ class Model_Page_Front
 		{
 			return NULL;
 		}
+		
+		if($cache_lifetime !== NULL AND ! Fragment::load( 'Snippet::' . $snippet_name . '::' . $this->id, (int) $cache_lifetime ))
+		{
+			echo View_Front::factory($snippet->get_file(), $vars)
+				->set('page', $this);
 
-		return View_Front::factory($snippet->get_file(), $vars)
-			->set('page', $this);
+			Fragment::save();
+		}
+		else if ($cache_lifetime === NULL)
+		{
+			echo View_Front::factory($snippet->get_file(), $vars)
+				->set('page', $this);
+		}
 	}
 
 	public function render_layout()
