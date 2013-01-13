@@ -568,6 +568,11 @@ class Model_Page_Front
 
 		return $this->parent->parent($level);
 	}
+	
+	public function snippet($snippet_name, $vars = NULL, $cache_lifetime = NULL)
+	{
+		return $this->includeSnippet($snippet_name, $vars, $cache_lifetime);
+	}
 
 	public function includeSnippet($snippet_name, $vars = NULL, $cache_lifetime = NULL)
 	{
