@@ -67,10 +67,10 @@ class Model_API extends Model_Database {
 		// Exclude fields
 		$fields = array_diff($fields, $remove_fields);
 		
-		// TODO сделать проверку на возможность доступа к полям
-		if(!empty($secured_fields) /* AND !AuthUser::isLoggedIn('login') */ )
+		// TODO сделать проверку токена, выдаваемого под API
+		if( ! empty($secured_fields) AND ! AuthUser::isLoggedIn('login') )
 		{
-			throw new HTTP_Exception_401('You don`t have permissions to access to this fields (:fields).', array(
+			throw HTTP_API_Exception::factory(API::ERROR_PERMISSIONS, 'You don`t have permissions to access to this fields (:fields).', array(
 				':fields' => implode(', ', $secured_fields)
 			));
 		}

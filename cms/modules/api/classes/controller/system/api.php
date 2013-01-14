@@ -11,11 +11,12 @@ class Controller_System_API extends Controller_System_Ajax {
 	
 	public function param($key, $default = NULL, $is_required = FALSE)
 	{
-		$param = Arr::get($_REQUEST, $key, $default);
+		$params = ARR::merge($this->request->query(), $this->request->post());
+		$param = Arr::get($params, $key, $default);
 		
 		if($is_required === TRUE AND empty($param))
 		{
-			throw HTTP_Exception::factory(API::ERROR_MISSING_PAPAM, 'Missing param :key', array(
+			throw HTTP_API_Exception::factory(API::ERROR_MISSING_PAPAM, 'Missing param :key', array(
 				':key' => $key ));
 		}
 		
@@ -35,7 +36,7 @@ class Controller_System_API extends Controller_System_Ajax {
 			// If the action doesn't exist, it's a 404
 			if ( ! method_exists($this, $action))
 			{
-				throw HTTP_Exception::factory(404,
+				throw HTTP_API_Exception::factory(API::ERROR_PAGE_NOT_FOUND,
 					'The requested method :method was not found on this server.',
 					array(':method' => $this->request->controller() . '.' . $this->request->action())
 				)->request($this->request);
