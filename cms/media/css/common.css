@@ -6179,9 +6179,12 @@ a.badge:hover {
 .navbar .nav > li > .dropdown-menu:after {
   left: 30px;
 }
+.navbar .nav > li > .dropdown-menu li {
+  position: relative;
+}
 .navbar .nav > li > .dropdown-menu .counter {
   left: -22px;
-  top: 5px;
+  top: 0;
   border: 1px solid rgba(0,0,0,0.2);
   width: 20px;
   line-height: 22px;
