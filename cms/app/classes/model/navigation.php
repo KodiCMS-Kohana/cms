@@ -33,7 +33,13 @@ class Model_Navigation {
 			}
 		}
 		
-		return NULL;
+		$section = new Model_Navigation_Section(array(
+			'name' => $name
+		));
+		
+		self::$_sections[] = $section;
+		
+		return $section;
 	}
 
 	/**
@@ -44,38 +50,36 @@ class Model_Navigation {
 	 * @param array $permissions
 	 * @param integer $priority
 	 */
-	public static function add_section( $section = 'Other', $name, $uri, $permissions = array('administrator'), $priority = 0 )
+	public static function add_section( $section = 'Other', $name, $uri, $permissions = array('administrator'), $priority = 0, $counter = 0 )
 	{
-		if ( AuthUser::hasPermission( $permissions ) )
-		{
-			if ( ($section_object = self::get_section( $section )) === NULL )
-			{
-				$section_object = self::$_sections[] = new Model_Navigation_Section(array(
-					'name' => $section
-				));
-			}
-			
-			$section_object->add_page(new Model_Navigation_Page(array(
-				'name' => $name,
-				'url' => URL::site($uri)
-			)), $priority);
-		}
+		self::get_section( $section )
+			->add_page(new Model_Navigation_Page(array(
+			'name' => $name,
+			'url' => URL::site($uri),
+			'counter' => (int) $counter,
+			'permissions' => $permissions
+		)), $priority);
 	}
 	
 	/**
 	 * 
 	 * @return array
 	 */
-	public static function get()
+	public static function get($uri = NULL)
 	{
 		self::sort();
+		
+		if($uri === NULL)
+		{
+			$uri = Request::current()->uri();
+		}
 
 		$break = FALSE;
 		foreach ( self::$_sections as $section )
 		{
 			foreach ( $section->get_pages() as $page )
-			{
-				if ( strpos(Request::current()->uri(), ltrim($page->url(), '/')) !== FALSE )
+			{						
+				if ( strpos($uri, ltrim($page->url(), '/')) !== FALSE )
 				{
 					$page->set_active();
 					
@@ -93,6 +97,19 @@ class Model_Navigation {
 		return self::$_sections;
 	}
 	
+	public static function find_page_by_uri($uri)
+	{
+		foreach ( self::$_sections as $section )
+		{
+			if( $page = $section->find_page_by_uri( $uri ) )
+			{
+				return $page;
+			}
+		}
+		
+		return NULL;
+	}
+
 	public static function sort()
 	{
 		uasort(self::$_sections, function($a, $b)

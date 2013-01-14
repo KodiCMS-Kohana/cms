@@ -10,8 +10,11 @@ class Model_Navigation_Abstract {
 	 *
 	 * @var array
 	 */
-	protected $params = array();
-	
+	protected $_params = array(
+		'counter' => 0,
+		'permissions' => array('administrator')
+	);
+
 
 	/**
 	 * 
@@ -21,8 +24,35 @@ class Model_Navigation_Abstract {
 	{
 		foreach ( $data as $key => $value )
 		{
-			$this->params[$key] = $value;
+			$this->{$key} = $value;
 		}
+	}
+	
+	/**
+	 * 
+	 * @param string $name
+	 * @return mixed
+	 */
+	public function __get( $name )
+	{
+		return $this->get($name);
+	}
+	
+	/**
+	 * 
+	 * @param string $name
+	 * @param mixed $default
+	 * @return mixed
+	 */
+	public function get( $name, $default = NULL )
+	{
+		return Arr::get($this->_params, $name, $default);
+	}
+	
+	public function __set( $name, $value )
+	{
+		$this->_params[$name] = $value;
+		return $this;
 	}
 
 	/**
@@ -31,7 +61,7 @@ class Model_Navigation_Abstract {
 	 */
 	public function is_active()
 	{
-		return Arr::get($this->params, 'is_active', FALSE);
+		return (bool) Arr::get($this->_params, 'is_active', FALSE);
 	}
 	
 	/**
@@ -40,7 +70,7 @@ class Model_Navigation_Abstract {
 	 */
 	public function name()
 	{
-		return __(Arr::get($this->params, 'name'));
+		return __(Arr::get($this->_params, 'name'));
 	}
 	
 	/**
@@ -49,7 +79,12 @@ class Model_Navigation_Abstract {
 	 */
 	public function url()
 	{
-		return Arr::get($this->params, 'url');
+		return Arr::get($this->_params, 'url');
+	}
+	
+	public function counter()
+	{
+		return (int) Arr::get($this->_params, 'counter');
 	}
 	
 	/**
@@ -59,7 +94,7 @@ class Model_Navigation_Abstract {
 	 */
 	public function set_active($status = TRUE)
 	{
-		$this->params['is_active'] = (bool) $status;
+		$this->_params['is_active'] = (bool) $status;
 		
 		return $this;
 	}

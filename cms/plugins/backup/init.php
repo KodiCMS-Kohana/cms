@@ -25,6 +25,10 @@ if($plugin->enabled())
 	if(IS_BACKEND)
 	{
 		// Add navigation section
-		Model_Navigation::add_section('System', 'Backup', 'backup', array('administrator'), 999);
+		Model_Navigation::get_section('System')
+			->add_page(new Model_Navigation_Page(array(
+				'name' => __('Backup'), 
+				'url' => URL::site('backup')
+			)), 999);
 	}
 }

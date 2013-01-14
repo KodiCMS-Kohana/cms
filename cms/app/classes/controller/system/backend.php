@@ -13,15 +13,46 @@ class Controller_System_Backend extends Controller_System_Template
 	public function before()
 	{
 		$page = strtolower(substr(get_class($this), 11));
-		Model_Navigation::add_section('System', __('Settings'),  'setting', array('administrator'), 100);
-		Model_Navigation::add_section('System', __('Users'),    'user',    array('administrator'), 102);
-		Model_Navigation::add_section('Design',   __('Layouts'),  'layout',  array('administrator','developer'), 100);
-		Model_Navigation::add_section('Design',   __('Snippets'), 'snippet', array('administrator','developer'), 101);
-		Model_Navigation::add_section('Content',  __('Pages'),    'page',    array('administrator','developer','editor'), 100);
+		
+		Model_Navigation::get_section('System')
+			->add_page(new Model_Navigation_Page(array(
+				'name' => __('Settings'), 
+				'url' => URL::site('setting')
+			)), 100)
+			->add_page(new Model_Navigation_Page(array(
+				'name' => __('Users'), 
+				'url' => URL::site('user')
+			)), 101);
+		
+		Model_Navigation::get_section('Design')
+			->add_page(new Model_Navigation_Page(array(
+				'name' => __('Layouts'), 
+				'url' => URL::site('layout'),
+				'permissions' => array('administrator','developer')
+			)), 102)
+			->add_page(new Model_Navigation_Page(array(
+				'name' => __('Snippets'), 
+				'url' => URL::site('snippet'),
+				'permissions' => array('administrator','developer')
+			)), 103);
+		
+		Model_Navigation::get_section('Content')
+			->add_page(new Model_Navigation_Page(array(
+				'name' => __('Pages'), 
+				'url' => URL::site('page'),
+				'permissions' => array('administrator','developer','editor')
+			)), 104);
+		
+		
 
 		parent::before();
 		$navigation = Model_Navigation::get();
 		$this->page = Model_Navigation::$current;
+		
+		if( $this->page !== NULL AND ! AuthUser::hasPermission( $this->page->permissions ))
+		{
+			throw new HTTP_Exception_403('Access denied');
+		}
 		
 		if($this->auto_render === TRUE)
 		{

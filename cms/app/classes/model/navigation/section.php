@@ -39,7 +39,7 @@ class Model_Navigation_Section extends Model_Navigation_Abstract implements Coun
 	 */
 	public function id()
 	{
-		return Arr::get($this->params, 'name');
+		return Arr::get($this->_params, 'name');
 	}
 	
 	/**
@@ -57,7 +57,7 @@ class Model_Navigation_Section extends Model_Navigation_Abstract implements Coun
 	 * @param integer $priority
 	 * @return \Model_Navigation_Section
 	 */
-	public function add_page(  Model_Navigation_Page $page, $priority = 0 )
+	public function add_page( Model_Navigation_Page $page, $priority = 0)
 	{
 		$priority = (int) $priority;
 		
@@ -70,15 +70,42 @@ class Model_Navigation_Section extends Model_Navigation_Abstract implements Coun
 		}
 		
 		$page->set_section($this);
+		$this->_pages[$priority] = & $page;
+
+		return $this
+			->update()
+			->sort_pages();
+	}
+	
+	public function find_page_by_uri( $uri )
+	{
+		$url = URL::site($uri);
 		
-		$this->_pages[$priority] = $page;
+		foreach ($this->get_pages() as $page)
+		{
+			if($page->url() == $url)
+			{
+				return $page;
+			}
+		}
 		
-		$this->sort_pages();
-		
+		return NULL;
+	}
+	
+	public function update()
+	{
+		$this->counter = 0;
+		$this->permissions = array();
+
+		foreach ($this->get_pages() as $page)
+		{
+			$this->counter += (int) $page->counter;
+			$this->permissions = Arr::merge($this->permissions, $page->permissions);
+		}
 		
 		return $this;
 	}
-	
+
 	/**
 	 * 
 	 * @return \Model_Navigation_Section

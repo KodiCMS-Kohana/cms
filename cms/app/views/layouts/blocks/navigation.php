@@ -10,10 +10,19 @@
 			<?php foreach ( $navigation as $nav ): ?>
 				<?php if ( count($nav->get_pages() ) > 0 ): ?>
 					<li class="dropdown <?php if ( $nav->is_active() ): ?>active<?php endif; ?>">
-						<a data-toggle="dropdown" class="dropdown-toggle" href="#"><?php echo $nav->name(); ?> <b class="caret"></b></a>
+						<a data-toggle="dropdown" class="dropdown-toggle" href="#"><?php echo $nav->name(); ?> <b class="caret"></b>
+						<?php if($nav->counter > 0): ?>
+						<span class="counter"><?php echo $nav->counter; ?></span>	
+						<?php endif; ?>
+						</a>
 						<ul class="dropdown-menu">
 							<?php foreach ( $nav->get_pages() as $item ): ?>
-								<li <?php if ( $item->is_active() ): ?>class="active"<?php endif; ?>><?php echo HTML::anchor( $item->url(), $item->name() ); ?></li>
+								<li <?php if ( $item->is_active() ): ?>class="active"<?php endif; ?>>
+									<?php echo HTML::anchor( $item->url(), $item->name() ); ?>
+									<?php if($item->counter > 0): ?>
+									<span class="counter"><?php echo $item->counter; ?></span>	
+									<?php endif; ?>
+								</li>
 							<?php endforeach; ?>
 						</ul>
 					</li>

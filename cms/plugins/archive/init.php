@@ -40,7 +40,12 @@ if($plugin->enabled())
 
 		foreach ($pages as $page) 
 		{
-			Model_Navigation::add_section('Archive', $page->title, 'archive/'.$page->id, array());
+			Model_Navigation::get_section('Archive')
+				->add_page(new Model_Navigation_Page(array(
+					'name' => $page->title, 
+					'url' => URL::site('archive/'.$page->id),
+					'permissions' => array(),
+				)), 999);
 		}
 
 		Observer::observe(array('page_delete', 'page_edit_after_save'), 'clear_archive_section_cahe');
