@@ -54,6 +54,11 @@ class Model_Navigation_Abstract {
 		$this->_params[$name] = $value;
 		return $this;
 	}
+	
+	public function __isset($name) 
+	{
+		return isset($this->_params[$name]);
+	}
 
 	/**
 	 * 

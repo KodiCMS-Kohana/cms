@@ -14,7 +14,8 @@ Plugins::init();
 Model_Navigation::get_section('System')
 	->add_page(new Model_Navigation_Page(array(
 		'name' => __('Plugins'), 
-		'url' => URL::site('plugins')
+		'url' => URL::site('plugins'),
+		'divider' => TRUE,
 	)), 103);
 
 Route::set( 'plugins', ADMIN_DIR_NAME.'/plugins(/<action>(/<id>))', array(

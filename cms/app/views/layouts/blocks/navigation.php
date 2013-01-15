@@ -17,7 +17,11 @@
 						</a>
 						<ul class="dropdown-menu">
 							<?php foreach ( $nav->get_pages() as $item ): ?>
+								<?php if($item->divider === TRUE): ?>
+								<li class="divider"></li>
+								<?php endif; ?>
 								<li <?php if ( $item->is_active() ): ?>class="active"<?php endif; ?>>
+									
 									<?php echo HTML::anchor( $item->url(), $item->name() ); ?>
 									<?php if($item->counter > 0): ?>
 									<span class="counter"><?php echo $item->counter; ?></span>	
