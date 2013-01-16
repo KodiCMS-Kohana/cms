@@ -58,6 +58,9 @@
 	<div class="navbar-inner">
 		<ul class="nav">
 			<?php foreach ( $nav->get_pages() as $item ): ?>
+			<?php if($item->divider === TRUE): ?>
+			<li class="divider-vertical"></li>
+			<?php endif; ?>
 			<li class="<?php if($item->is_active()): ?>active<?php endif; ?>">
 				<?php echo HTML::anchor( $item->url(), $item->name() ); ?>
 			</li>
