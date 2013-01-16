@@ -35,6 +35,7 @@ Kohana::modules( array(
 	'userguide'		=> MODPATH . 'userguide',	// User guide and API documentation,
 	'bootstrap'		=> MODPATH . 'bootstrap',
 	'breadcrumbs'	=> MODPATH . 'breadcrumbs',
+	'api'			=> MODPATH . 'api',
 ) );
 
 // Init settings
