@@ -6,33 +6,30 @@ class Controller_API_Pages extends Controller_System_Api {
 	{		
 		$uids = $this->param('uids');
 		$parent = $this->param('pid');
-		$fields = $this->param('fields');
 		
 		$pages = Model_API::factory('api_page')
-			->get($uids, $parent, $fields);
+			->get($uids, $parent, $this->fields);
 
-		$this->json['response'] = $pages;
+		$this->response($pages);
 	}
 	
 	public function get_tags()
 	{
 		$uid = $this->param('uid', NULL, TRUE);
-		$fields = $this->param('fields');
 		
 		$tags = Model_API::factory('api_page_tag')
-			->get(NULL, $fields, $uid);
+			->get(NULL, $this->fields, $uid);
 		
-		$this->json['response'] = $tags;
+		$this->response($tags);
 	}
 	
 	public function get_by_uri()
 	{
 		$uri = $this->param('uri', NULL, TRUE);
-		$fields = $this->param('fields');
 
 		$page = Model::factory('api_page')
-			->find_by_uri($uri, $fields);
+			->find_by_uri($uri, $this->fields);
 		
-		$this->json['response'] = $page;
+		$this->response($page);
 	}
 }

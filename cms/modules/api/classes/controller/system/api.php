@@ -3,15 +3,19 @@
 class Controller_System_API extends Controller_System_Ajax {
 
 	public $json = array();
+	
+	public $fields = array();
 
 	public function before()
 	{
 		parent::before();
+		
+		$this->fields = $this->param('fields');
 	}
 	
 	public function param($key, $default = NULL, $is_required = FALSE)
 	{
-		$params = ARR::merge($this->request->query(), $this->request->post());
+		$params = Arr::merge($this->request->query(), $this->request->post());
 		$param = Arr::get($params, $key, $default);
 		
 		if($is_required === TRUE AND empty($param))
