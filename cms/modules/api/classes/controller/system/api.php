@@ -10,9 +10,24 @@ class Controller_System_API extends Controller_System_Ajax {
 	{
 		parent::before();
 		
+		$this->json['code'] = API::NO_ERROR;
+		
 		$this->fields = $this->param('fields');
+
+		if($this->request->method() === Request::PUT)
+		{
+			$this->param('id', NULL, TRUE);
+		}
 	}
 	
+	/**
+	 * 
+	 * @param string $key
+	 * @param mixed $default
+	 * @param bool $is_required
+	 * @return string
+	 * @throws HTTP_API_Exception
+	 */
 	public function param($key, $default = NULL, $is_required = FALSE)
 	{
 		$params = Arr::merge($this->request->query(), $this->request->post());
@@ -26,9 +41,19 @@ class Controller_System_API extends Controller_System_Ajax {
 		
 		return $param;
 	}
-	
+
+	/**
+	 * 
+	 * @return Response
+	 * @throws HTTP_API_Exception
+	 */
 	public function execute()
 	{
+		if(Setting::get('api_mode') != 'yes')
+		{
+			throw new HTTP_Exception_403('Forbiden');
+		}
+
 		// Execute the "before action" method
 		$this->before();
 			
@@ -51,10 +76,8 @@ class Controller_System_API extends Controller_System_Ajax {
 		}
 		catch (Exception $e)
 		{
-			$this->json['error'] = array(
-				'code' => $e->getCode(),
-				'message' => $e->getMessage()
-			);
+			$this->json['code'] = $e->getCode();
+			$this->json['message'] = $e->getMessage();
 			
 		}
 		
@@ -67,7 +90,7 @@ class Controller_System_API extends Controller_System_Ajax {
 
 	public function after()
 	{
-		if($this->request->query('debug') !== NULL)
+		if($this->param('debug') !== NULL)
 		{
 			$this->response->body( debug::vars($this->json) );
 			return;
@@ -82,6 +105,10 @@ class Controller_System_API extends Controller_System_Ajax {
 		$this->response->body( $this->json );
 	}
 	
+	/**
+	 * 
+	 * @param mixed $data
+	 */
 	public function response($data)
 	{
 		$this->json['response'] = $data;

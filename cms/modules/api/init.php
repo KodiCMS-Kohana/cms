@@ -13,10 +13,10 @@ if(IS_BACKEND)
 
 function behavior_api_mode_settings_save( $post )
 {
-	if(!isset($post['setting']['api_enable']))
+	if(!isset($post['setting']['api_mode']))
 	{
 		Setting::saveFromData(array(
-			'api_enable' => 'no'
+			'api_mode' => 'no'
 		));
 	}
 }

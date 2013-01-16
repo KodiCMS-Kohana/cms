@@ -16,7 +16,7 @@ class Model_API_User extends Model_API {
 		$uids = $this->prepare_param($uids, array('Valid', 'numeric'));
 		$fields = $this->prepare_param($fields);
 		
-		$users = DB::select('id', 'username')
+		$users = DB::select($this->table_name() . '.id', $this->table_name() . '.username')
 			->select_array( $this->filtered_fields( $fields, array('password') ) )
 			->from($this->_table_name);
 		
@@ -28,9 +28,11 @@ class Model_API_User extends Model_API {
 		if(in_array('roles', $fields))
 		{
 			$users
-				->select(array( DB::expr('GROUP_CONCAT('.$this->_db->quote_column('roles_users.role_id').')'), 'roles' ))
+				->select(array( DB::expr('GROUP_CONCAT('.$this->_db->quote_column('roles.name').')'), 'roles' ))
 				->join('roles_users', 'left')
-				->on('roles_users.user_id', '=', $this->table_name() . '.id')
+					->on('roles_users.user_id', '=', $this->table_name() . '.id')
+				->join('roles', 'left')
+					->on('roles_users.role_id', '=', 'roles.id')
 				->group_by( $this->table_name() . '.id' );
 		}
 

@@ -3,7 +3,7 @@
 class HTTP_Exception_110 extends HTTP_API_Exception {
 
 	/**
-	 * @var   integer    HTTP 100
+	 * @var   integer    HTTP 110
 	 */
 	protected $_code = 110;
 
