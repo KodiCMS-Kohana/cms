@@ -16,7 +16,7 @@ Model_Navigation::get_section('System')
 		'name' => __('Plugins'), 
 		'url' => URL::site('plugins'),
 		'divider' => TRUE,
-	)), 103);
+	)), 999);
 
 Route::set( 'plugins', ADMIN_DIR_NAME.'/plugins(/<action>(/<id>))', array(
 	'id' => '.*'
