@@ -1,21 +1,26 @@
-<script>
-	$(function() {
-		$('#PluginsList .change-status').live('click', function(){
-			var tr = $(this).parent().parent(),
-				id = tr.attr('id'),
-				status = $(this).data('status') ? 0 : 1;
+<script id="plugin-item" type="text/template">
+	<td class="plugin-name">
+		<h5>
+			<% if (status  && settings) { %>
+			<a href="/backend/<%= id %>/settings" class="btn">
+				<i class="icon-cog"></i> <%= title %>
+			</a>
+			<% } else { %>
+				<%= title %>
+			<% } %>
+		</h5>
 
-			$.post(BASE_URL + '/plugins/status', {id: id, status: status}, function(request) {
-				if(!request.status)
-					return;
-
-				tr.replaceWith(request.html)
-			}, 'json');
-		})
-	})
+		<p class="muted"><%= description %></p>
+	</td>
+	<td class="plugin-version"><%= version %></td>
+	<td class="plugin-status">
+		<?php echo UI::button(NULL, array(
+			'class' => 'change-status btn btn-mini',
+		)); ?>
+	</td>
 </script>
+
 <div class="outline">
-	
 	<div id="pluginsMap" class="widget widget-nopad outline_inner">
 		<div class="widget-header"></div>
 		<div class="widget-content">
@@ -32,18 +37,7 @@
 						<th><?php echo __('Actions'); ?></th>
 					</tr>
 				</thead>
-				<tbody>
-					<?php foreach ($plugins as $id => $plugin): ?>
-						<?php $status = isset($loaded_plugins[$id]) ? 'activated' : 'deactivated'; ?>
-						<?php
-						echo View::factory( 'plugins/status/' . $status, array(
-							'id' => $id,
-							'plugin' => $plugin
-						));
-						?>
-						</tr>
-					<?php endforeach; ?>
-				</tbody>
+				<tbody></tbody>
 			</table>
 		</div>
 	</div>

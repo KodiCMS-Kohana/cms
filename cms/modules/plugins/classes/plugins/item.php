@@ -74,7 +74,7 @@ class Plugins_Item {
 	 */
 	public function __set( $name, $value )
 	{
-		if ( isset( $this->_data[$name] ) )
+		if ( array_key_exists( $name, $this->_data ) )
 		{
 			if ( $name == 'id' AND $value != NULL )
 			{
@@ -151,7 +151,7 @@ class Plugins_Item {
 	 * @param array $data
 	 * @return \Plugins_Item
 	 */
-	public function data( array $data )
+	public function data( array $data = array() )
 	{
 		foreach ( $data as $key => $value )
 		{
@@ -159,6 +159,11 @@ class Plugins_Item {
 		}
 
 		return $this;
+	}
+	
+	public function as_array()
+	{
+		return $this->_data;
 	}
 	
 	/**

@@ -71,10 +71,13 @@ class Controller_System_Backend extends Controller_System_Template
 			
 			$this->scripts = array(
 				ADMIN_RESOURCES . 'libs/jquery-1.8.2.min.js',
+				ADMIN_RESOURCES . 'libs/underscore-min.js',
+				ADMIN_RESOURCES . 'libs/backbone-min.js',
 				ADMIN_RESOURCES . 'libs/jquery-ui/js/jquery-ui-1.8.23.custom.min.js',
 				ADMIN_RESOURCES . 'libs/bootstrap/js/bootstrap.min.js',
 				ADMIN_RESOURCES . 'libs/jgrowl/jquery.jgrowl_minimized.js',
-				ADMIN_RESOURCES . 'js/backend.js'
+				ADMIN_RESOURCES . 'js/backend.js',
+				ADMIN_RESOURCES . 'js/controller/' . $this->request->controller() . '.js',
 			);
 		}
 	}

@@ -1,4 +1,4 @@
-<?php defined('SYSPATH') or die('No direct access allowed.');
+<?php
 
 // TODO: clean up code/solution
 $pagetmp = Flash::get('page');
@@ -12,6 +12,11 @@ if (!empty($pagetmp) AND !empty($parttmp) AND !empty($tagstmp))
     $tags = $tagstmp;
 }
 ?>
+
+<script type="text/javascript">
+	var PAGE_ID = <?php echo (int) $page->id; ?>;
+</script>
+
 
 <div id="pageEdit">
 	<?php echo Form::open($action == 'add' ? 'page/add/'.$parent_id : 'page/edit/'.$page->id, array(
@@ -35,10 +40,7 @@ if (!empty($pagetmp) AND !empty($parttmp) AND !empty($tagstmp))
 						</div><!--/#pageEditMeta-->
 					
 					
-						<?php echo View::factory('page/blocks/parts', array(
-							'page_parts' => $page_parts,
-							'permissions' => $permissions
-						)); ?>
+						<?php echo View::factory('part/items'); ?>
 
 						<?php Observer::notify('view_page_edit_plugins', array($page)); ?>
 

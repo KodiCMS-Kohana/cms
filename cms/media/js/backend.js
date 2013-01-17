@@ -39,9 +39,154 @@ var console = console || {log:function () {}};
 
 
 // Main object
-var cms = {};
+var cms = {
+	
+	models: {},
+	views: {},
+	collections: {},
+	event: _.extend({}, Backbone.Events),
+	
+	// Error
+	error: function (msg, e) {
+		$.jGrowl(msg);
+	},
+	
+	// Convert slug
+	convert_dict: {
+		'ą':'a', 'ä':'a', 'č':'c', 'ę':'e', 'ė':'e', 'i':'i', 'į':'i', 'š':'s', 'ū':'u', 'ų':'u', 'ü':'u', 'ž':'z', 'ö':'o'},
+	
+	convertSlug: function (str) {
+		return str.toString().toLowerCase()
+			.replace(/[àâ]/g, 'a')
+			.replace(/[éèêë]/g, 'e')
+			.replace(/[îï]/g, 'i')
+			.replace(/[ô]/g, 'o')
+			.replace(/[ùû]/g, 'u')
+			.replace(/[ñ]/g, 'n')
+			.replace(/[äæ]/g, 'ae')
+			.replace(/[öø]/g, 'oe')
+			.replace(/[ü]/g, 'ue')
+			.replace(/[ß]/g, 'ss')
+			.replace(/[å]/g, 'aa')
+			.replace(/(.)/g, function (c) {
+				return (cms.convert_dict[c] != undefined ? cms.convert_dict[c] : c);
+			})
+			.replace(/[^a-zа-яіїє0-9\.\_]/g, '-')
+			.replace(/ /g, '-')
+			.replace(/\-{2,}/g, '-')
+			.replace(/^-/, '');
+		//.replace(/-$/,           '' ); // removed becouse this function used in #pageEditMetaSlugField
+	},
+	
+	// Loader
+	loader: {
+		init: function () {
+			$('body')
+				.append('<div id="loader" class="loader"><span>' + __('Loading') + '</span></div>');
+		},
+		
+		show: function () {
+			$('#loader')
+				.show()
+				.animate({
+					opacity:1
+				}, 300);
+		},
+		
+		hide: function () {
+			$('#loader')
+				.animate({
+					opacity:0
+				}, 300, function () {
+					$(this).hide();
+				});
+		}
+	},
+	
+	translations: {},
+	
+	// Plugins
+	plugins: {},
+	
+	// Messages
+	messages: {
+		init: function () {
+			$('.message')
+				.animate({top:0}, 1000);
+		}
+	},
+	
+	// Filters
+	filters: {
+		// Filters array
+		filters: [],
+		switchedOn: {},
+		
+		// Add new filter
+		add: function (name, to_editor_callback, to_textarea_callback) {
+			if (to_editor_callback == undefined || to_textarea_callback == undefined) {
+				cms.error('System try to add filter without required callbacks.', name, to_editor_callback, to_textarea_callback);
+				return;
+			}
 
-cms.translations = {};
+			this.filters.push([ name, to_editor_callback, to_textarea_callback ]);
+		},
+		
+		// Switch On filter
+		switchOn: function (textarea_id, filter, params) {
+
+			jQuery('#' + textarea_id).css('display', 'block');
+
+			if (this.filters.length > 0) {
+				// Switch off previouse editor with textarea_id
+				cms.filters.switchOff(textarea_id);
+
+				for (var i = 0; i < this.filters.length; i++) {
+					if (this.filters[i][0] == filter) {
+						try {
+							// Call handler that will switch on editor
+							this.filters[i][1](textarea_id, params);
+
+							// Add editor to switchedOn stack
+							cms.filters.switchedOn[textarea_id] = this.filters[i];
+						}
+						catch (e) {
+							//frog.error('Errors with filter switch on!', e);
+						}
+
+						break;
+					}
+				}
+			}
+		},
+		
+		// Switch Off filter
+		switchOff: function (textarea_id) {
+			for (var key in cms.filters.switchedOn) {
+				// if textarea_id param is set we search only one editor and switch off it
+				if (textarea_id != undefined && key != textarea_id)
+					continue;
+				else
+					textarea_id = key;
+
+				try {
+					if (cms.filters.switchedOn[key] != undefined && cms.filters.switchedOn[key] != null && typeof(cms.filters.switchedOn[key][2]) == 'function') {
+						// Call handler that will switch off editor and showed up simple textarea
+						cms.filters.switchedOn[key][2](textarea_id);
+					}
+				}
+				catch (e) {
+					//cms.error('Errors with filter switch off!', e);
+				}
+
+				// Remove editor from switchedOn editors stack
+				if (cms.filters.switchedOn[key] != undefined || cms.filters.switchedOn[key] != null) {
+					cms.filters.switchedOn[key] = null;
+				}
+			}
+		}
+	}
+};
 
 cms.addTranslation = function (obj) {
     for (var i in obj) {
@@ -53,150 +198,9 @@ var __ = function (str, values) {
     if (cms.translations[str] !== undefined)
 	{
 		var str = cms.translations[str];
-		return values == undefined ? str : strtr(str, values);
 	}
-    else
-        return str;
-};
 
-// Error
-cms.error = function (msg, e) {
-    $.jGrowl(msg);
-};
-
-
-// Convert slug
-cms.convert_dict = {'ą':'a', 'ä':'a', 'č':'c', 'ę':'e', 'ė':'e', 'i':'i', 'į':'i', 'š':'s', 'ū':'u', 'ų':'u', 'ü':'u', 'ž':'z', 'ö':'o'};
-
-cms.convertSlug = function (str) {
-    return str.toString().toLowerCase()
-        .replace(/[àâ]/g, 'a')
-        .replace(/[éèêë]/g, 'e')
-        .replace(/[îï]/g, 'i')
-        .replace(/[ô]/g, 'o')
-        .replace(/[ùû]/g, 'u')
-        .replace(/[ñ]/g, 'n')
-        .replace(/[äæ]/g, 'ae')
-        .replace(/[öø]/g, 'oe')
-        .replace(/[ü]/g, 'ue')
-        .replace(/[ß]/g, 'ss')
-        .replace(/[å]/g, 'aa')
-        .replace(/(.)/g, function (c) {
-            return (cms.convert_dict[c] != undefined ? cms.convert_dict[c] : c);
-        })
-        .replace(/[^a-zа-яіїє0-9\.\_]/g, '-')
-        .replace(/ /g, '-')
-        .replace(/\-{2,}/g, '-')
-        .replace(/^-/, '');
-    //.replace(/-$/,           '' ); // removed becouse this function used in #pageEditMetaSlugField
-};
-
-// Loader
-cms.loader = {};
-
-cms.loader.init = function () {
-    $('body').append('<div id="loader" class="loader"><span>' + __('Loading') + '</span></div>');
-};
-
-cms.loader.show = function () {
-    $('#loader')
-        .show()
-        .animate({
-            opacity:1
-        }, 300);
-};
-
-cms.loader.hide = function () {
-    $('#loader')
-        .animate({
-            opacity:0
-        }, 300, function () {
-            $(this).hide();
-        });
-};
-
-
-// Plugins
-cms.plugins = {};
-
-
-// Messages
-cms.messages = {};
-
-cms.messages.init = function () {
-    $('.message').animate({top:0}, 1000);
-};
-
-
-// Filters
-cms.filters = {};
-
-// Filters array
-cms.filters.filters = [];
-cms.filters.switchedOn = {};
-
-// Add new filter
-cms.filters.add = function (name, to_editor_callback, to_textarea_callback) {
-    if (to_editor_callback == undefined || to_textarea_callback == undefined) {
-        frog.error('System try to add filter without required callbacks.', name, to_editor_callback, to_textarea_callback);
-        return;
-    }
-
-    this.filters.push([ name, to_editor_callback, to_textarea_callback ]);
-};
-
-// Switch On filter
-cms.filters.switchOn = function (textarea_id, filter, params) {
-
-    jQuery('#' + textarea_id).css('display', 'block');
-
-    if (this.filters.length > 0) {
-        // Switch off previouse editor with textarea_id
-        cms.filters.switchOff(textarea_id);
-
-        for (var i = 0; i < this.filters.length; i++) {
-            if (this.filters[i][0] == filter) {
-                try {
-                    // Call handler that will switch on editor
-                    this.filters[i][1](textarea_id, params);
-
-                    // Add editor to switchedOn stack
-                    cms.filters.switchedOn[textarea_id] = this.filters[i];
-                }
-                catch (e) {
-                    //frog.error('Errors with filter switch on!', e);
-                }
-
-                break;
-            }
-        }
-    }
-};
-
-// Switch Off filter
-cms.filters.switchOff = function (textarea_id) {
-    for (var key in cms.filters.switchedOn) {
-        // if textarea_id param is set we search only one editor and switch off it
-        if (textarea_id != undefined && key != textarea_id)
-            continue;
-        else
-            textarea_id = key;
-
-        try {
-            if (cms.filters.switchedOn[key] != undefined && cms.filters.switchedOn[key] != null && typeof(cms.filters.switchedOn[key][2]) == 'function') {
-                // Call handler that will switch off editor and showed up simple textarea
-                cms.filters.switchedOn[key][2](textarea_id);
-            }
-        }
-        catch (e) {
-            //cms.error('Errors with filter switch off!', e);
-        }
-
-        // Remove editor from switchedOn editors stack
-        if (cms.filters.switchedOn[key] != undefined || cms.filters.switchedOn[key] != null) {
-            cms.filters.switchedOn[key] = null;
-        }
-    }
+    return values == undefined ? str : strtr(str, values);
 };
 
 cms.ui = {
@@ -562,117 +566,85 @@ cms.init.add(['page_add', 'page_edit'], function () {
         return false;
     });
 
-    $('#pageEditParts .part-options-button').live('click', function () {
-        $(this)
-			.parent()
-			.parent()
-			.parent()
-			.find('.part-options')
-			.slideToggle();
-
-        return false;
-    });
-
     $('#pageEditMetaSlugField').keyup(function () {
         $(this).val(cms.convertSlug($(this).val()));
     });
 
-
-    // Parts
-    $('#pageEditParts .item-filter').live('change', function () {
-        var textarea_id = 'pageEditPartContent-' + jQuery(this).attr('rel');
-
-        cms.filters.switchOn(textarea_id, jQuery(this).val());
-    });
-
-    $('#pageEditParts .item-remove').live('click', function () {
-        if (confirm(__('Are you sure?'))) {
-            $(this)
-				.parent()
-				.parent()
-				.parent()
-				.parent()
-				.remove();
-        }
-
-        return false;
-    });
-
-    $('#pageEditPartAddButton').click(function () {
-        var $form = $('<form class="dialog-form">' +
-            '<p><label>' + __('Page part name') + '</label><span><input class="input-text" type="text" name="part_name" /></span></p>' +
-            '</form>');
-
-        var buttons = {};
-
-        var buttons_add_action = function () {
-            var part_name = $form.find('input[name="part_name"]').val().toLowerCase()
-                .replace(/[^a-z0-9\-\_]/g, '_')
-                .replace(/ /g, '_')
-                .replace(/_{2,}/g, '_')
-                .replace(/^_/, '')
-                .replace(/_$/, '');
-
-            $form.find('input[name="part_name"]').val(part_name);
-
-            if (part_name == '') {
-                alert(__('Part name can\'t be empty! Use english chars a-z, 0-9 and _ (underline char).'));
-
-                $form.find('input[name="part_name"]').focus();
-            }
-            else {
-                var part_index = parseInt($('#pageEditParts .part:last').attr('id').substring(13)) + 1;
-
-                $(this).dialog('close');
-
-                cms.loader.show();
-
-                $.ajax({
-                    url:SITE_URL + ADMIN_DIR_NAME + '/page/add_part',
-                    type:'POST',
-                    dataType:'html',
-
-                    data:{
-                        name:part_name,
-                        index:part_index
-                    },
-                    success:function (html_data) {
-                        cms.loader.hide();
-
-                        $('#pageEditParts').append(html_data);
-                    },
-                    error:function () {
-                        cms.error('Ajax error!');
-                    }
-                });
-            }
-
-            return false;
-        };
-
-        buttons[__('Add')] = buttons_add_action;
-
-        buttons[__('Cancel')] = function () {
-            $(this).dialog('close');
-        };
-
-        $form.submit(buttons_add_action);
-
-        $form.dialog({
-            width:235,
-            modal:true,
-            buttons:buttons,
-            resizable:false,
-            title:__('Creating page part')
-        });
-
-        $form.find('input[name="part_name"]')
-            .keyup(function () {
-                $(this).val(cms.convertSlug($(this).val()).replace(/[^a-z0-9\-\_]/, ''));
-            });
-
-        return false;
-    });
+//    $('#pageEditPartAddButton').click(function () {
+//        var $form = $('<form class="dialog-form">' +
+//            '<p><label>' + __('Page part name') + '</label><span><input class="input-text" type="text" name="part_name" /></span></p>' +
+//            '</form>');
+//
+//        var buttons = {};
+//
+//        var buttons_add_action = function () {
+//            var part_name = $form.find('input[name="part_name"]').val().toLowerCase()
+//                .replace(/[^a-z0-9\-\_]/g, '_')
+//                .replace(/ /g, '_')
+//                .replace(/_{2,}/g, '_')
+//                .replace(/^_/, '')
+//                .replace(/_$/, '');
+//
+//            $form.find('input[name="part_name"]').val(part_name);
+//
+//            if (part_name == '') {
+//                alert(__('Part name can\'t be empty! Use english chars a-z, 0-9 and _ (underline char).'));
+//
+//                $form.find('input[name="part_name"]').focus();
+//            }
+//            else {
+//                var part_index = parseInt($('#pageEditParts .part:last').attr('id').substring(13)) + 1;
+//
+//                $(this).dialog('close');
+//
+//                cms.loader.show();
+//
+//                $.ajax({
+//                    url:SITE_URL + ADMIN_DIR_NAME + '/page/add_part',
+//                    type:'POST',
+//                    dataType:'html',
+//
+//                    data:{
+//                        name:part_name,
+//                        index:part_index
+//                    },
+//                    success:function (html_data) {
+//                        cms.loader.hide();
+//
+//                        $('#pageEditParts').append(html_data);
+//                    },
+//                    error:function () {
+//                        cms.error('Ajax error!');
+//                    }
+//                });
+//            }
+//
+//            return false;
+//        };
+//
+//        buttons[__('Add')] = buttons_add_action;
+//
+//        buttons[__('Cancel')] = function () {
+//            $(this).dialog('close');
+//        };
+//
+//        $form.submit(buttons_add_action);
+//
+//        $form.dialog({
+//            width:235,
+//            modal:true,
+//            buttons:buttons,
+//            resizable:false,
+//            title:__('Creating page part')
+//        });
+//
+//        $form.find('input[name="part_name"]')
+//            .keyup(function () {
+//                $(this).val(cms.convertSlug($(this).val()).replace(/[^a-z0-9\-\_]/, ''));
+//            });
+//
+//        return false;
+//    });
 }); // end init page/add, page/edit
 
 
@@ -723,13 +695,6 @@ jQuery(document).ready(function () {
 		$.jGrowl(MESSAGE_SUCCESS[text], {theme: 'alert alert-success'});
 	}
 });
-
-
-// IE HTML5 hack (If you like to work with IE - you have a big problems ^___^ )
-if (document.all) {
-    var e = ['header', 'nav', 'aside', 'article', 'section', 'footer', 'figure', 'hgroup', 'mark', 'output', 'time'];
-    for (i in e) document.createElement(e[i]);
-}
 
 // Checkbox status
 $.fn.check = function () {

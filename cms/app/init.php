@@ -42,56 +42,64 @@ Kohana::modules( array(
 Setting::init();
 Behavior::init();
 
-if( ! Route::cache())
-{
-	Route::set( 'user', ADMIN_DIR_NAME.'/<action>(?next=<next_url>)', array(
-		'action' => '(login|logout|forgot|register)',
-	) )
-		->defaults( array(
-			'controller' => 'login',
-		) );
 
-	Route::set( 'templates', ADMIN_DIR_NAME.'/(<controller>(/<action>(/<id>)))', array(
-		'controller' => '(layout|snippet)',
-		'id' => '.*'
-	) )
-		->defaults( array(
-			'controller' => 'index',
-			'action' => 'index',
-		) );
-	
-	Route::set( 'downloader', '('.ADMIN_DIR_NAME.'/)download/<path>', array(
-		'path' => '.*'
-	) )
-		->defaults( array(
-			'directory' => 'system',
-			'controller' => 'download',
-			'action' => 'index',
-		) );
 
-	Route::set( 'admin', ADMIN_DIR_NAME.'(/<controller>(/<action>(/<id>)))')
-		->defaults( array(
-			'controller' => Setting::get('default_tab'),
-			'action' => 'index',
-		) );
+Route::set('rest-api', 'api/<controller>(/<id>)')
+	->defaults( array(
+		'directory' => 'rest',
+	) )
+	->filter(function($route, $params, $request)
+	{
+		// Prefix the method to the action name
+		$params['action'] = strtolower($request->method());
+		return $params; // Returning an array will replace the parameters
+	});
 
-	// Системные контроллеры
-	Route::set( 'system', '<directory>-<controller>-<action>(/<id>)', array(
-		'directory' => '(ajax|action|form)',
-		'controller' => '[A-Za-z\_]+',
-		'action' => '[A-Za-z\_]+',
-		'id' => '.+',
+Route::set( 'user', ADMIN_DIR_NAME.'/<action>(?next=<next_url>)', array(
+	'action' => '(login|logout|forgot|register)',
+) )
+	->defaults( array(
+		'controller' => 'login',
 	) );
 
-	Route::set( 'default', '(<page>)(<suffix>)' , array(
-		'page' => '.*',
-		'suffix' => URL_SUFFIX
-	) )
-		->defaults( array(
-			'controller' => 'front',
-			'action' => 'index',
-			'suffix' => URL_SUFFIX
-		) );
+Route::set( 'templates', ADMIN_DIR_NAME.'/(<controller>(/<action>(/<id>)))', array(
+	'controller' => '(layout|snippet)',
+	'id' => '.*'
+) )
+	->defaults( array(
+		'controller' => 'index',
+		'action' => 'index',
+	) );
 
-	Route::cache(Kohana::$environment === Kohana::PRODUCTION);
-}
+Route::set( 'downloader', '('.ADMIN_DIR_NAME.'/)download/<path>', array(
+	'path' => '.*'
+) )
+	->defaults( array(
+		'directory' => 'system',
+		'controller' => 'download',
+		'action' => 'index',
+	) );
+
+Route::set( 'admin', ADMIN_DIR_NAME.'(/<controller>(/<action>(/<id>)))')
+	->defaults( array(
+		'controller' => Setting::get('default_tab'),
+		'action' => 'index',
+	) );
+
+// Системные контроллеры
+Route::set( 'system', '<directory>-<controller>-<action>(/<id>)', array(
+	'directory' => '(ajax|action|form)',
+	'controller' => '[A-Za-z\_]+',
+	'action' => '[A-Za-z\_]+',
+	'id' => '.+',
+) );
+
+Route::set( 'default', '(<page>)(<suffix>)' , array(
+	'page' => '.*',
+	'suffix' => URL_SUFFIX
+) )
+	->defaults( array(
+		'controller' => 'front',
+		'action' => 'index',
+		'suffix' => URL_SUFFIX
+	) );

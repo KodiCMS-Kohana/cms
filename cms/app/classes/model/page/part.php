@@ -10,11 +10,11 @@ class Model_Page_Part extends Record
 	
     const PART_NOT_PROTECTED = 0;
 	const PART_PROTECTED = 1;
-	
+
 	public function defaults()
 	{
 		return array(
-			'name' => 'body',
+			'name' => 'part',
 			'page_id' => 0,
 			'is_protected' => self::PART_NOT_PROTECTED
 		);
