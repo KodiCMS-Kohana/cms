@@ -115,7 +115,7 @@ class Model_API_Page extends Model_API {
 		}
 		
 		// If page needs login, redirect to login
-		if ($page->needs_login() == Model_Page_Front::LOGIN_REQUIRED)
+		if ($page->needs_login() == Model_Page::LOGIN_REQUIRED)
 		{
 			throw new HTTP_Exception_401('You don`t have access to view page :uri. Please login', array(
 				':uri' => $uri ));
