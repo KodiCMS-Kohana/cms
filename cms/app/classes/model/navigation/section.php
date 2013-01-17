@@ -46,7 +46,7 @@ class Model_Navigation_Section extends Model_Navigation_Abstract implements Coun
 	 * 
 	 * @return array
 	 */
-	public function get_pages()
+	public function & get_pages()
 	{
 		return $this->_pages;
 	}
@@ -77,9 +77,11 @@ class Model_Navigation_Section extends Model_Navigation_Abstract implements Coun
 			->sort_pages();
 	}
 	
-	public function find_page_by_uri( $uri )
+	public function & find_page_by_uri( $uri )
 	{
 		$url = URL::site($uri);
+		
+		$_page = NULL;
 		
 		foreach ($this->get_pages() as $page)
 		{
@@ -89,7 +91,7 @@ class Model_Navigation_Section extends Model_Navigation_Abstract implements Coun
 			}
 		}
 		
-		return NULL;
+		return $_page;
 	}
 	
 	public function update()

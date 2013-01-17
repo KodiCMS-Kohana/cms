@@ -38,9 +38,6 @@
 .navbar {
 	.nav {
 		& > li {
-
-			
-
 			& > .dropdown-menu {
 				&:after {
 					left: 30px;
@@ -52,10 +49,12 @@
 
 				.counter {
 					left: -22px;
-					top: 0;
+					top: 0px;
+					background: #60a800;
 					border: 1px solid rgba(0, 0, 0, 0.2);
 					width: 20px;
 					line-height: 22px;
+					font-size: 10px;
 				}
 			}
 		}
@@ -69,9 +68,25 @@
 			color: #fff;
 			text-align: center;
 			right: 11px;
-			top: -1px;
+			top: 0px;
 			position: absolute;
 			border: 1px solid pink;
+			border-top-width: 0px;
+		}
+	}
+}
+
+#subnav {
+	.nav {
+		li {
+			position: relative;
+			.counter {
+				top: 2px;
+				right: 2px;
+				.border-radius(4px);
+				border: 0;
+				background: #60a800;
+			}
 		}
 	}
 }

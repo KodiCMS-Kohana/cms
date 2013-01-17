@@ -73,6 +73,8 @@ class Model_Navigation {
 		{
 			$uri = Request::current()->uri();
 		}
+		
+		$uri = strtolower($uri);
 
 		$break = FALSE;
 		foreach ( self::$_sections as $section )
@@ -83,7 +85,7 @@ class Model_Navigation {
 				{
 					$page->set_active();
 					
-					self::$current = $page;
+					self::$current = & $page;
 
 					$break = TRUE;
 					break;
@@ -97,8 +99,22 @@ class Model_Navigation {
 		return self::$_sections;
 	}
 	
-	public static function find_page_by_uri($uri)
+	public static function update($uri, array $data)
 	{
+		$page = self::find_page_by_uri($uri);
+		
+		if($page instanceof Model_Navigation_Page)
+		{
+			foreach ($data as $key => $value)
+			{
+				$page->{$key} = $value;
+			}
+		}
+	}
+
+	public static function & find_page_by_uri($uri)
+	{
+		$_page = NULL;
 		foreach ( self::$_sections as $section )
 		{
 			if( $page = $section->find_page_by_uri( $uri ) )
@@ -107,7 +123,7 @@ class Model_Navigation {
 			}
 		}
 		
-		return NULL;
+		return $_page;
 	}
 
 	public static function sort()

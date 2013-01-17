@@ -63,6 +63,10 @@
 			<?php endif; ?>
 			<li class="<?php if($item->is_active()): ?>active<?php endif; ?>">
 				<?php echo HTML::anchor( $item->url(), $item->name() ); ?>
+				
+				<?php if($item->counter > 0): ?>
+				<span class="counter"><?php echo $item->counter; ?></span>	
+				<?php endif; ?>
 			</li>
 			<?php endforeach; ?>
 		</ul>

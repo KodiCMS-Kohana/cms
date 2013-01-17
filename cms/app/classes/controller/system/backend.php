@@ -3,7 +3,7 @@
 class Controller_System_Backend extends Controller_System_Template
 {
 	public $auth_required = array('administrator', 'developer', 'editor');
-	
+
 	/**
 	 *
 	 * @var Model_Navigation_Page 
@@ -42,8 +42,6 @@ class Controller_System_Backend extends Controller_System_Template
 				'url' => URL::site('page'),
 				'permissions' => array('administrator','developer','editor')
 			)), 104);
-		
-		
 
 		parent::before();
 		$navigation = Model_Navigation::get();
@@ -59,9 +57,10 @@ class Controller_System_Backend extends Controller_System_Template
 			$this->template->set_global(array(
 				'page_body_id' => $this->get_path(),
 				'page_name' => $page,
-				'navigation' => $navigation,
 				'page' => $this->page
 			));
+			
+			$this->template->bind_global('navigation', $navigation);
 			
 			$this->styles = array(
 				ADMIN_RESOURCES . 'libs/jquery-ui/css/custom-theme/jquery-ui-1.8.16.custom.css',
