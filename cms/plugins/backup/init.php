@@ -21,14 +21,4 @@ if($plugin->enabled())
 	{
 		 mkdir(BACKUP_PLUGIN_FOLDER, 0775);
 	}
-	
-	if(IS_BACKEND)
-	{
-		// Add navigation section
-		Model_Navigation::get_section('System')
-			->add_page(new Model_Navigation_Page(array(
-				'name' => __('Backup'), 
-				'url' => URL::site('backup')
-			)), 999);
-	}
 }

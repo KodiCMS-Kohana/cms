@@ -3,7 +3,6 @@
 /**
  * @package    Kodi/Navigation
  */
-
 class Model_Navigation {
 
 	/**
@@ -18,6 +17,19 @@ class Model_Navigation {
 	 */
 	public static $current = NULL;
 	
+	public static function create(array $sitemap)
+	{
+		foreach ($sitemap as $section => $pages)
+		{
+			$section = self::get_section($section);
+			
+			foreach ($pages as $page)
+			{
+				$section->add_page( new Model_Navigation_Page($page) );
+			}
+		}
+	}
+
 	/**
 	 * 
 	 * @param string $name
@@ -80,7 +92,7 @@ class Model_Navigation {
 		foreach ( self::$_sections as $section )
 		{
 			foreach ( $section->get_pages() as $page )
-			{						
+			{
 				if ( strpos($uri, ltrim($page->url(), '/')) !== FALSE )
 				{
 					$page->set_active();

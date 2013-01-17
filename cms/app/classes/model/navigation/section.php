@@ -46,7 +46,7 @@ class Model_Navigation_Section extends Model_Navigation_Abstract implements Coun
 	 * 
 	 * @return array
 	 */
-	public function & get_pages()
+	public function get_pages()
 	{
 		return $this->_pages;
 	}
@@ -60,6 +60,11 @@ class Model_Navigation_Section extends Model_Navigation_Abstract implements Coun
 	public function add_page( Model_Navigation_Page $page, $priority = 0)
 	{
 		$priority = (int) $priority;
+		
+		if(isset($page->priority))
+		{
+			$priority = (int) $page->priority;
+		}
 		
 		if ( isset( $this->_pages[$priority] ) )
 		{

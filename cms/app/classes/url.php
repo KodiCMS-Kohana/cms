@@ -20,13 +20,24 @@ class URL extends Kohana_URL {
 
 	public static function site( $uri = '', $protocol = NULL, $index = TRUE )
 	{
-		if( defined( 'IS_BACKEND' )) 
+		$is_backend = NULL;
+		
+		if( defined( 'REST_BACKEND' )) 
 		{
-			if ( IS_BACKEND AND IS_INSTALLED AND !URL::match( ADMIN_DIR_NAME, $uri ) )
+			$is_backend = REST_BACKEND;
+		}
+		else if( defined( 'IS_BACKEND' ) )
+		{
+			$is_backend = IS_BACKEND;
+		}
+		
+		if( $is_backend !== NULL ) 
+		{
+			if ( $is_backend AND IS_INSTALLED AND !URL::match( ADMIN_DIR_NAME, $uri ) )
 			{
 				$uri = ADMIN_DIR_NAME . '/' . ltrim( $uri, '/');
 			}
-			else if(!IS_BACKEND AND !URL::check_suffix( $uri, '.' ))
+			else if( ! $is_backend AND ! URL::check_suffix( $uri, '.' ))
 			{
 				if(!empty($uri))
 				{

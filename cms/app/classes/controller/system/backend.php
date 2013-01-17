@@ -14,34 +14,7 @@ class Controller_System_Backend extends Controller_System_Template
 	{
 		$page = strtolower(substr(get_class($this), 11));
 		
-		Model_Navigation::get_section('System')
-			->add_page(new Model_Navigation_Page(array(
-				'name' => __('Settings'), 
-				'url' => URL::site('setting')
-			)), 100)
-			->add_page(new Model_Navigation_Page(array(
-				'name' => __('Users'), 
-				'url' => URL::site('user')
-			)), 101);
-		
-		Model_Navigation::get_section('Design')
-			->add_page(new Model_Navigation_Page(array(
-				'name' => __('Layouts'), 
-				'url' => URL::site('layout'),
-				'permissions' => array('administrator','developer')
-			)), 102)
-			->add_page(new Model_Navigation_Page(array(
-				'name' => __('Snippets'), 
-				'url' => URL::site('snippet'),
-				'permissions' => array('administrator','developer')
-			)), 103);
-		
-		Model_Navigation::get_section('Content')
-			->add_page(new Model_Navigation_Page(array(
-				'name' => __('Pages'), 
-				'url' => URL::site('page'),
-				'permissions' => array('administrator','developer','editor')
-			)), 104);
+		Model_Navigation::create(Kohana::$config->load('sitemap')->as_array());
 
 		parent::before();
 		$navigation = Model_Navigation::get();

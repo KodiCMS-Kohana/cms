@@ -9,7 +9,7 @@ $(function() {
 		},
 
 		toggleStatus: function() {
-			this.save({status: !this.get("status")});
+			this.save({status: ! this.get("status")});
 		},
 
 		clear: function() {
