@@ -1,6 +1,6 @@
 $(function() {
 	cms.models.part = Backbone.Model.extend({
-		urlRoot: '/api/part',
+		urlRoot: '/api/parts',
 		defaults: {
 			name: 'part',
 			filter_id: '',
@@ -35,12 +35,12 @@ $(function() {
 	});
 	
 	cms.collections.parts = Backbone.Collection.extend({
-		url: '/api/part',
+		url: '/api/parts',
 
 		model: cms.models.part,
 
 		parse: function(response) {
-			return response.data;
+			return response.response;
 		},
 
 		comparator: function(a) {
@@ -144,7 +144,10 @@ $(function() {
 		initialize: function() {
 			var $self = this;
 			this.collection.fetch({
-				data: {page_id: PAGE_ID},
+				data: {
+					pid: PAGE_ID,
+					fields: ['filter_id','content','content_html','page_id','is_protected']
+				},
 				success: function () {
 					$self.render();
 				}

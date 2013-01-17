@@ -23,7 +23,7 @@ $(function() {
 		model: cms.models.plugin,
 
 		parse: function(response) {
-			return response.data;
+			return response.response;
 		},
 		
 		// Filter down the list of all todo items that are finished.

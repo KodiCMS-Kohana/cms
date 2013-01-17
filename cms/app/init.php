@@ -42,19 +42,6 @@ Kohana::modules( array(
 Setting::init();
 Behavior::init();
 
-
-
-Route::set('rest-api', 'api/<controller>(/<id>)')
-	->defaults( array(
-		'directory' => 'rest',
-	) )
-	->filter(function($route, $params, $request)
-	{
-		// Prefix the method to the action name
-		$params['action'] = strtolower($request->method());
-		return $params; // Returning an array will replace the parameters
-	});
-
 Route::set( 'user', ADMIN_DIR_NAME.'/<action>(?next=<next_url>)', array(
 	'action' => '(login|logout|forgot|register)',
 ) )

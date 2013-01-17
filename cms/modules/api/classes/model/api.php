@@ -63,7 +63,7 @@ class Model_API extends Model_Database {
 	 * @return array
 	 * @throws HTTP_API_Exception
 	 */
-	public function filtered_fields(array $fields, $related_columns = array(), $remove_fields = array())
+	public function filtered_fields(array $fields, $remove_fields = array())
 	{
 		$secured_fields = array_intersect($this->_secured_columns, $fields);
 
@@ -85,7 +85,7 @@ class Model_API extends Model_Database {
 			$fields[$i] = $this->table_name() . '.' . $field;
 		}
 
-		return array_intersect($related_columns, $fields);
+		return $fields;
 	}
 	
 	/**

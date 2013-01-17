@@ -5,6 +5,8 @@ class Controller_System_API extends Controller_System_Ajax {
 	public $json = array();
 	
 	public $fields = array();
+	
+	protected $_params = array();
 
 	public function before()
 	{
@@ -13,10 +15,10 @@ class Controller_System_API extends Controller_System_Ajax {
 		$this->json['code'] = API::NO_ERROR;
 		
 		$this->fields = $this->param('fields');
-
-		if($this->request->method() === Request::PUT)
+		
+		if($this->request->headers('content-type') == 'application/json')
 		{
-			$this->param('id', NULL, TRUE);
+			$this->request->post(json_decode($this->request->body(), TRUE));
 		}
 	}
 	
@@ -30,8 +32,7 @@ class Controller_System_API extends Controller_System_Ajax {
 	 */
 	public function param($key, $default = NULL, $is_required = FALSE)
 	{
-		$params = Arr::merge($this->request->query(), $this->request->post());
-		$param = Arr::get($params, $key, $default);
+		$param = Arr::get($this->params(), $key, $default);
 		
 		if($is_required === TRUE AND empty($param))
 		{
@@ -40,6 +41,18 @@ class Controller_System_API extends Controller_System_Ajax {
 		}
 		
 		return $param;
+	}
+	
+	public function params($new_params = NULL)
+	{
+		$this->_params = Arr::merge($this->request->query(), $this->request->post(), $this->request->param());
+		
+		if(is_array($new_params))
+		{
+			$this->_params = Arr::merge($this->_params, $new_params);
+		}
+		
+		return $this->_params;
 	}
 
 	/**
@@ -56,12 +69,21 @@ class Controller_System_API extends Controller_System_Ajax {
 
 		// Execute the "before action" method
 		$this->before();
-			
-		try 
+
+		if($this->request->action() == 'index' OR $this->request->action() == '')
+		{
+			$action = 'rest_'.$this->request->method();
+		}
+		else
 		{
 			// Determine the action to use
 			$action = $this->request->method() . '_' . $this->request->action();
+		}
+		
+		$action = strtolower($action);
 
+		try 
+		{
 			// If the action doesn't exist, it's a 404
 			if ( ! method_exists($this, $action))
 			{
