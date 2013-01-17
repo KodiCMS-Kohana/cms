@@ -8,6 +8,14 @@ $(function() {
 			content: '',
 			is_protected: false
 		},
+	
+		parse: function(response, xhr) {
+			if(response.type == 'POST') {
+				return response.response;
+			}
+		
+			return response;
+		},
 		
 		validate: function(attrs) {
 			if(!$.trim(attrs.name))
@@ -39,7 +47,7 @@ $(function() {
 
 		model: cms.models.part,
 
-		parse: function(response) {
+		parse: function(response, xhr) {
 			return response.response;
 		},
 
@@ -198,7 +206,6 @@ $(function() {
 			
 			this.model.on("sync", function() {
 				this.collection.add(this.model);
-				
 				this.model.off('sync');
 			}, this);
 			

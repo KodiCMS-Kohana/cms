@@ -133,6 +133,7 @@ class Controller_System_API extends Controller_System_Ajax {
 	 */
 	public function response($data)
 	{
+		$this->json['type'] = $this->request->method();
 		$this->json['response'] = $data;
 	}
 }
