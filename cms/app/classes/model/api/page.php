@@ -11,7 +11,7 @@ class Model_API_Page extends Model_API {
 		'email', 'logins', 'last_login'
 	);
 	
-	public function get($uids, $pid, $fields)
+	public function get_all($uids, $pid, $fields)
 	{
 		$uids = $this->prepare_param($uids, array('Valid', 'numeric'));
 		$fields = $this->prepare_param($fields);

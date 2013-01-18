@@ -7,17 +7,28 @@ class Controller_API_Users extends Controller_System_Api {
 		$uids = $this->param('uids');
 		
 		$users = Model_API::factory('api_user')
-			->get($uids, $this->fields);
+			->get_all($uids, $this->fields);
 
 		$this->response($users);
 	}
 	
+	public function get_like()
+	{
+		$query = $this->param('key', NULL, TRUE);
+		$search_in = $this->param('sin', NULL);
+
+		$users = Model_API::factory('api_user')
+			->get_like($query, $search_in, $this->fields);
+		
+		$this->response($users);
+	}
+
 	public function get_roles()
 	{
 		$uid = $this->param('uid', NULL, TRUE);
 		
 		$roles = Model_API::factory('api_user_role')
-			->get(NULL, $this->fields, $uid);
+			->get_all(NULL, $this->fields, $uid);
 		
 		$this->response($roles);
 	}

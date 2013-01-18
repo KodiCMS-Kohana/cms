@@ -11,7 +11,7 @@ class Model_API_User extends Model_API {
 		'email', 'logins', 'last_login', 'password
 '	);
 
-	public function get($uids, $fields)
+	public function get_all($uids, $fields)
 	{
 		$uids = $this->prepare_param($uids, array('Valid', 'numeric'));
 		$fields = $this->prepare_param($fields);
@@ -39,5 +39,29 @@ class Model_API_User extends Model_API {
 		return $users
 			->execute()
 			->as_array();
+	}
+	
+	public function get_like($query, $search_in, $fields)
+	{
+		$query = $this->prepare_param($query);
+		$fields = $this->prepare_param($fields);
+		
+		$search_in = $this->prepare_param($search_in);
+		$search_in = $this->filtered_fields( $search_in, array('password') );
+		if( empty($search_in) )
+		{
+			$search_in[] = 'username';
+		}
+
+		$users = DB::select('id')
+			->select_array( $this->filtered_fields( $fields, array('password') ) )
+			->from($this->_table_name);
+		
+		foreach ($search_in as $field)
+		{
+			$users->or_where($field, 'like', $query. '%');
+		}
+
+		return $users->execute()->as_array();
 	}
 }

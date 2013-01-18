@@ -11,7 +11,7 @@ class Model_API_Page_Part extends Model_API {
 		'content', 'content_html'
 	);
 	
-	public function get($page_id, $fields = array())
+	public function get_all($page_id, $fields = array())
 	{
 		$fields = $this->prepare_param($fields);
 

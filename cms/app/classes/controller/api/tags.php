@@ -7,7 +7,7 @@ class Controller_API_Tags extends Controller_System_Api {
 		$uids = $this->param('uids');
 		
 		$tags = Model_API::factory('api_page_tag')
-			->get($uids, $this->fields);
+			->get_all($uids, $this->fields);
 
 		$this->response($tags);
 	}

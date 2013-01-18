@@ -7,7 +7,7 @@ class Model_API_User_Role extends Model_API {
 	
 	protected $_table_name = 'roles';
 
-	public function get($uids, $fields = array(), $user_id = NULL)
+	public function get_all($uids, $fields = array(), $user_id = NULL)
 	{
 		$uids = $this->prepare_param($uids, array('Valid', 'numeric'));
 		$fields = $this->prepare_param($fields);

@@ -7,7 +7,7 @@ class Controller_API_Parts extends Controller_System_Api {
 		$page_id = $this->param('pid', NULL, TRUE);
 		
 		$parts = Model_API::factory('api_page_part')
-			->get($page_id, $this->fields);
+			->get_all($page_id, $this->fields);
 
 		$this->response($parts);
 	}

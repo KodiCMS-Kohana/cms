@@ -8,7 +8,7 @@ class Controller_API_Pages extends Controller_System_Api {
 		$parent = $this->param('pid');
 		
 		$pages = Model_API::factory('api_page')
-			->get($uids, $parent, $this->fields);
+			->get_all($uids, $parent, $this->fields);
 
 		$this->response($pages);
 	}
@@ -18,7 +18,7 @@ class Controller_API_Pages extends Controller_System_Api {
 		$uid = $this->param('uid', NULL, TRUE);
 		
 		$tags = Model_API::factory('api_page_tag')
-			->get(NULL, $this->fields, $uid);
+			->get_all(NULL, $this->fields, $uid);
 		
 		$this->response($tags);
 	}

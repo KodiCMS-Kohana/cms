@@ -7,7 +7,7 @@ class Model_API_Page_Tag extends Model_API {
 	
 	protected $_table_name = 'tags';
 
-	public function get($uids, $fields = array(), $page_id = NULL)
+	public function get_all($uids, $fields = array(), $page_id = NULL)
 	{
 		$uids = $this->prepare_param($uids, array('Valid', 'numeric'));
 		$fields = $this->prepare_param($fields);
