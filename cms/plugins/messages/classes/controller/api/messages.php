@@ -4,15 +4,16 @@ class Controller_API_Messages extends Controller_System_Api {
 
 	public function get_get()
 	{		
-		$user_id = $this->param('user_id');		
+		$user_id = $this->param('uid', NULL, TRUE);
+		$parent_id = (int) $this->param('pid');
 		$messages = Model_API::factory('api_message')
-			->get($user_id, $this->fields);
+			->get_all($user_id, $parent_id, $this->fields);
 
-		$this->json['response'] = $messages;
+		$this->response($messages);
 	}
 	
 	public function get_by_id()
 	{
-		$id = $this->param('id');
+		$id = $this->param('id', NULL, TRUE);
 	}
 }

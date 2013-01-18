@@ -11,8 +11,11 @@ class Controller_Messages extends Controller_System_Backend {
 	
 	public function action_index()
 	{		
+		$messages = Api::get('messages.get', array('uid' => AuthUser::getId(), 'fields' => 'author,title,is_read,created_on'))
+			->as_object();
+
 		$this->template->content = View::factory('messages/index', array(
-			'messages' => ORM::factory( 'message' )->get_all(AuthUser::getId())
+			'messages' => $messages->response
 		));
 	}
 

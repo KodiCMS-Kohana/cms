@@ -126,8 +126,6 @@ class Controller_Login extends Controller_System_Frontend {
 			$this->go( Route::get('user')->uri(array( 'action' => 'forgot' ) ) );
 		}
 
-		$user = User::findBy('email', $email);
-
 		Observer::notify('admin_login_forgot_before', array($user));
 
 		Session::instance()->set('forgot_email', $email);

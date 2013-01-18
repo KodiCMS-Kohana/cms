@@ -63,7 +63,7 @@ class Model_Message extends ORM {
 			->where('ms.parent_id', '=', DB::expr(Database::instance()->quote_column('messages_users.message_id')))
 			->or_where('ms.message_id', '=', DB::expr(Database::instance()->quote_column('messages_users.message_id')));
 		
-		return DB::select($this->table_name().'.*', 'messages_users.status')
+		return DB::select($this->table_name().'.*')
 			->select(array($min_status, 'status'))
 			->from($this->table_name())
 			->join('messages_users', 'left')

@@ -28,11 +28,11 @@
 			</thead>
 			<tbody>
 				<?php foreach($messages as $message): ?>
-				<tr <?php if( ! $message->is_read()): ?>class="info"<?php endif; ?>>
+				<tr <?php if( $message->is_read == Model_Message::STATUS_NEW): ?>class="info"<?php endif; ?>>
 					<td><?php echo Form::checkbox('item['.$message->id.']'); ?></td>
 					<td><strong><?php echo HTML::anchor('messages/view/' . $message->id, $message->title); ?></strong></td>
 					<td><?php echo $message->author; ?></td>
-					<td><?php echo $message->created(); ?></td>
+					<td><?php echo Date::format($message->created_on, 'd F Y H:i:s');; ?></td>
 				</tr>
 				<?php endforeach; ?>
 			</tbody>
