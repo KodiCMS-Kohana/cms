@@ -25,13 +25,16 @@ class Controller_Messages extends Controller_System_Backend {
 		{
 			$username = $this->request->post('to');
 			$user = ORM::factory('user', array('username' => $username));
-			
+
 			if( ! $user->loaded() ) 
 			{
 				throw new HTTP_Exception_404('User not found');
 			}
 
-			return $this->_send($user->id);
+			$post = $this->request->post();
+			$post['from_user_id'] = AuthUser::getId();
+			$post['to_user_id'] = $user->id;
+			return $this->_send(Api::put('messages', $post));
 		}
 
 		$this->template->content = View::factory('messages/add', array(
@@ -45,58 +48,65 @@ class Controller_Messages extends Controller_System_Backend {
 	public function action_view()
 	{
 		$id = (int) $this->request->param('id');
+		$user_id = AuthUser::getId();
+
+		$message = Api::get('messages.get_by_id', array(
+			'id' => $id, 
+			'uid' =>  $user_id,
+			'fields' => 'author,title,is_read,created_on,text'
+		))->as_object();
 		
-		$orm = ORM::factory( 'message');
-		$message = $orm->get_one($id, AuthUser::getId());
-		
-		if( ! $message->loaded())
+		if( ! $message->response )
 		{
 			throw new HTTP_Exception_404('Message not found');
 		}
 		
 		if($this->request->method() === Request::POST)
 		{
-			$users = $orm->get_users_by_id($id);
-			return $this->_send($users, $id);
+			$post = $this->request->post();
+			$post['from_user_id'] = $user_id;
+			$post['parent_id'] = $id;
+			return $this->_send(Api::put('messages', $post), $id);
 		}
 		
-		$message->mark_read(AuthUser::getId());
+		Api::post('messages.mark_read', array(
+			'id' => $id, 'uid' => $user_id
+		));
+		
+		$new = Api::get('messages.count_new', array(
+			'uid' => $user_id
+		))->as_object();
 		
 		Model_Navigation::update(URL::site('messages'), array(
-			'counter' => ORM::factory( 'message' )->count_new(AuthUser::getId())
+			'counter' => $new->response
 		));
+		
+		$messages = Api::get('messages.get', array(
+			'uid' => $user_id, 
+			'fields' => 'author,title,is_read,created_on,text',
+			'pid' => $id
+		))
+			->as_object();
 		
 		$this->template->content = View::factory('messages/view', array(
 			'tpl' => View::factory('messages/item'),
-			'message' => $message,
-			'messages' => $orm->get_all(AuthUser::getId(), $id)
+			'message' => $message->response,
+			'messages' => $messages->response
 		));
 		
 		$this->breadcrumbs
-			->add($message->title);
+			->add($message->response->title);
 	}
 	
-	private function _send($users, $parent_id = 0)
+	private function _send($send, $parent_id = 0)
 	{
-		$data = $this->request->post();
-		
-		$parent_id = (int) $parent_id;
-		$title = Arr::get($data, 'title');
-		$content = Arr::get($data, 'content');
+		$status = $send->as_object()->response;
 
-		if(empty($users))
+		if((int) $status > 0)
 		{
-			return FALSE;
+			$this->go('messages/view/' . (int) $status);
 		}
 		
-		$message_id = ORM::factory( 'message')->send($title, $content, AuthUser::getId(), $users, $parent_id);
-		if($parent_id > 0)
-		{
-			$this->go_back();
-		}
-		else
-		{
-			$this->go('messages/view/' . $message_id);
-		}
+		$this->go_back();
 	}
 }

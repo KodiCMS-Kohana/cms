@@ -11,12 +11,13 @@
 	
 	<?php if(count($messages) > 0): ?>
 	<div class="widget-content widget-nopad">
-		<table class=" table table-striped table-hover" id="SnippetList">
+		<table class=" table table-striped table-hover" id="MessagesList">
 			<colgroup>
 				<col width="50px" />
 				<col />
 				<col width="150px" />
 				<col width="180px" />
+				<col width="100px" />
 			</colgroup>
 			<thead>
 				<tr>
@@ -24,15 +25,22 @@
 					<th><?php echo __('Title'); ?></th>
 					<th><?php echo __('Author'); ?></th>
 					<th><?php echo __('Date created'); ?></th>
+					<th><?php echo __('Actions'); ?></th>
 				</tr>
 			</thead>
 			<tbody>
 				<?php foreach($messages as $message): ?>
-				<tr <?php if( $message->is_read == Model_Message::STATUS_NEW): ?>class="info"<?php endif; ?>>
+				<tr data-id="<?php echo $message->id; ?>" <?php if( $message->is_read == Model_API_Message::STATUS_NEW): ?>class="info"<?php endif; ?>>
 					<td><?php echo Form::checkbox('item['.$message->id.']'); ?></td>
 					<td><strong><?php echo HTML::anchor('messages/view/' . $message->id, $message->title); ?></strong></td>
 					<td><?php echo $message->author; ?></td>
-					<td><?php echo Date::format($message->created_on, 'd F Y H:i:s');; ?></td>
+					<td><?php echo Date::format($message->created_on); ?></td>
+					<td class="actions">
+						<?php echo UI::button(NULL, array(
+							'icon' => UI::icon( 'remove' ),
+							'class' => 'btn btn-mini btn-confirm btn-remove'
+						)); ?>
+					</td>
 				</tr>
 				<?php endforeach; ?>
 			</tbody>

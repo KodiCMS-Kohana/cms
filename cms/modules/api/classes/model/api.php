@@ -18,6 +18,12 @@ class Model_API extends Model_Database {
 	protected $_secured_columns = array();
 	
 	/**
+	 *
+	 * @var array 
+	 */
+	protected $_params = array();
+
+	/**
 	 * Table name
 	 * @var string
 	 */
@@ -63,8 +69,13 @@ class Model_API extends Model_Database {
 	 * @return array
 	 * @throws HTTP_API_Exception
 	 */
-	public function filtered_fields(array $fields, $remove_fields = array())
+	public function filtered_fields($fields, $remove_fields = array())
 	{
+		if( ! is_array($fields) )
+		{
+			$fields = array($fields);
+		}
+
 		$secured_fields = array_intersect($this->_secured_columns, $fields);
 
 		// Exclude fields
@@ -90,18 +101,61 @@ class Model_API extends Model_Database {
 	
 	/**
 	 * 
+	 * @param array $params
+	 * @return \Model_API
+	 */
+	public function set_params( array $params )
+	{
+		$this->_params = $params;
+		
+		return $this;
+	}
+	
+	/**
+	 * 
+	 * @param string $name
+	 * @return mixed
+	 */
+	public function __get($name) 
+	{
+		return $this->get($name);
+	}
+	
+	/**
+	 * 
+	 * @param string $name
+	 * @return bool
+	 */
+	public function __isset($name) 
+	{
+		return isset($this->_params[$name]);
+	}
+
+	/**
+	 * 
+	 * @param string $name
+	 * @param mixed $filter
+	 * @return type
+	 */
+	public function get($name, $default = NULL)
+	{
+		return Arr::get($this->_params, $name, $default);
+	}
+
+		/**
+	 * 
 	 * @param mixed $param
 	 * @param mixed $filter
 	 * @return array
 	 */
 	public function prepare_param($param, $filter = NULL)
 	{
-		if(!is_array($param))
+		if(!is_array($param) AND strpos($param, ',') !== FALSE)
 		{
 			$param = explode(',', $param);
 		}
-		
-		if($filter !== NULL)
+
+		if(is_array($param) AND $filter !== NULL)
 		{
 			$param = array_filter($param, $filter);
 		}

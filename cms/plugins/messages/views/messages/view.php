@@ -16,7 +16,11 @@
 	<?php endif; ?>
 	
 	<?php foreach ($messages as $msg): ?>
-	<?php $msg->mark_read(AuthUser::getId()); ?>
+	<?php if($msg->is_read == Model_API_Message::STATUS_NEW): ?>
+	<?php Api::post('messages.mark_read', array(
+			'id' => $msg->id, 'uid' => AuthUser::getId()
+		)); ?>
+	<?php endif; ?>
 	<?php echo $tpl->set('message', $msg); ?>
 	<?php endforeach; ?>
 

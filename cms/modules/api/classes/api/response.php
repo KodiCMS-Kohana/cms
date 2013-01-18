@@ -51,6 +51,7 @@ class API_Response {
 	public function debug()
 	{
 		echo debug::vars($this->body());
+		return $this;
 	}
 	
 	/**

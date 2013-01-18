@@ -8,6 +8,8 @@ var PLUGINS_URL			= '<?php echo PLUGINS_URL; ?>';
 var LOCALE				= '<?php echo I18n::lang(); ?>';
 var TAG_SEPARATOR		= '<?php echo Model_Tag::SEPARATOR; ?>';
 
+var USER_ID = <?php echo AuthUser::getId(); ?>;
+
 var PAGE_STATUSES = '<?php echo json_encode(Model_Page::statuses()); ?>';
 var PAGE_LOGINS = '<?php echo json_encode(Model_Page::logins()); ?>';
 

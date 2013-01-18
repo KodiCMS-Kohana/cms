@@ -16,7 +16,7 @@
 		<div class="control-group">
 			<label class="control-label"><?php echo __( 'To' ); ?></label>
 			<div class="controls">
-				<?php echo Form::input( 'to' ); ?>
+				<?php echo Form::input( 'to', NULL, array(' autocomplete' => 'off') ); ?>
 			</div>
 		</div>
 	</div>

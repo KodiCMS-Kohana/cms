@@ -1,5 +1,9 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
+$new = Api::get('messages.count_new', array(
+	'uid' => AuthUser::getId()
+))->as_object();
+
 return array(
 	'Content' => array(
 		array(
@@ -8,7 +12,7 @@ return array(
 			'permissions' => array('login'),
 			'icon' => UI::icon('envelope'),
 			'divider' => TRUE,
-			'counter' => ORM::factory( 'message' )->count_new(AuthUser::getId()),
+			'counter' => $new->response,
 			'priority' => 105
 		)
 	)
