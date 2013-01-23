@@ -62,7 +62,7 @@ class Controller_System_API extends Controller_System_Ajax {
 	 */
 	public function execute()
 	{
-		if(Setting::get('api_mode') != 'yes')
+		if( ! IS_BACKEND AND Setting::get('api_mode') == 'no')
 		{
 			throw new HTTP_Exception_403('Forbiden');
 		}
