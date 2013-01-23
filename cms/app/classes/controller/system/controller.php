@@ -2,6 +2,8 @@
 
 class Controller_System_Controller extends Kohana_Controller
 {
+	public $query_params = FALSE;
+	
 	public function before()
 	{
 		parent::before();
@@ -55,6 +57,11 @@ class Controller_System_Controller extends Kohana_Controller
 		if ( $url === NULL OR is_array( $url ) )
 		{
 			$url = Route::get( 'default' )->uri( $route );
+		}
+		
+		if( is_array( $this->query_params ) )
+		{
+			$url .= URL::query( $this->query_params, FALSE);
 		}
 
 		$this->redirect( $url, $code );

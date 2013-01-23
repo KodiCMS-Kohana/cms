@@ -207,35 +207,18 @@ cms.ui = {
     callbacks:[],
     add:function (module, callback) {
         if (typeof(callback) != 'function')
-            return false;
+            return this;
 
         cms.ui.callbacks.push([module, callback]);
+		
+		return this;
     },
     init:function () {
         for (var i = 0; i < cms.ui.callbacks.length; i++) {
             cms.ui.callbacks[i][1]();
         }
-
-        $('.btn-confirm').live('click', function () {
-            if (confirm(__('Are you sure?')))
-                return true;
-
-            return false;
-        });
-
-        $('.slug')
-            .keyup(function () {
-                var val = $(this).val()
-                    .replace(/ /g, '_')
-                    .replace(/[^a-z0-9\_\-\.]/ig, '');
-
-                $(this).val(val);
-            });
-
-        $('.focus').focus();
     }
-},
-
+};
 
 // Pages init
 cms.init = {
@@ -647,14 +630,136 @@ cms.init.add(['page_add', 'page_edit'], function () {
 //    });
 }); // end init page/add, page/edit
 
+cms.ui.add('btn-confirm', function() {
+	$('.btn-confirm').live('click', function () {
+		if (confirm(__('Are you sure?')))
+			return true;
+
+		return false;
+	});
+}).add('slug', function() {
+	$('.slug')
+		.keyup(function () {
+			var val = $(this).val()
+				.replace(/ /g, '_')
+				.replace(/[^a-z0-9\_\-\.]/ig, '');
+
+			$(this).val(val);
+		});
+}).add('focus', function() {
+	$('.focus').focus();
+}).add('popup', function() {
+	$(".popup").fancybox({
+		fitToView	: true,
+		autoSize	: false,
+		width		: '70%',
+		height		: '90%',
+		openEffect	: 'none',
+		closeEffect	: 'none',
+		beforeLoad: function() {
+			this.href += '?type=iframe';
+			this.title = $(this.element).html();
+		},
+		afterLoad: function() {
+			$form_data = $(this.content).find('form').serialize();
+			console.log($form_data);
+		},
+		beforeClose: function() {
+			console.log($form_data);
+			if($form_data != $('form').serialize())
+				return confirm('Close popup?');
+			return true;
+		},
+		helpers : {
+    		title : {
+    			type : 'inside'
+    		}
+    	}
+	});
+
+	var method = ACTION == 'add' ? 'put' : 'post';
+	var $form_actions = $('.iframe .form-actions');
+	
+	$('.btn-save', $form_actions).on('click', function() {
+		var $data = $('form').serializeObject();
+		Api[method](CONTROLLER, $data);
+		return false;
+	});
+
+	$('.btn-save-close', $form_actions).on('click', function() {
+		var $data = $('form').serializeObject();
+		Api[method](CONTROLLER, $data);
+		window.top.$.fancybox.close();	
+		return false;
+	});
+
+	$('.btn-close', $form_actions).on('click', function() {
+		window.top.$.fancybox.close();
+		return false;
+	})
+})
+
+var Api = {
+	_response: null,
+
+	get: function(uri, data) {
+		this.request('GET', uri, data);
+		
+		return this.response();
+	},
+	post: function(uri, data) {
+		this.request('POST', uri, data);
+		
+		return this.response();
+	},
+	put: function(uri, data) {
+		this.request('PUT', uri, data);
+		
+		return this.response();
+	},
+
+	'delete': function(uri, data) {
+		this.request('DELETE', uri, data);
+		
+		return this.response();
+	},
+
+	request: function(method, uri, data) {
+		uri = '/api/' + uri;
+		
+		$.ajaxSetup({
+			contentType : 'application/json',
+			processData : false
+		});
+	
+		if(typeof(data) == 'object') data = JSON.stringify(data);
+
+		var ajas = $.ajax({
+			type: method,
+			url: uri,
+			data: data,
+			dataType: 'json',
+			success: function(response) {
+				if(response.code != 200) return;
+				if(response.redirect) {
+					$.get(window.top.CURRENT_URL, function(resp){
+						window.top.$('#content').html(resp);
+						
+						window.location = response.redirect + '?type=iframe';
+					});
+				}
+				this._response = response;
+			}
+		});
+	},
+	
+	response: function() {
+		return this._response;
+	}
+}
 
 // Run
 jQuery(document).ready(function () {
-    if ($.browser.msie)
-        $('html:first').addClass('msie');
-
-    $('#noscript').hide();
-
     // loader
     cms.loader.init();
 
@@ -669,11 +774,11 @@ jQuery(document).ready(function () {
         try {
             var json = $.parseJSON(response.responseText);
             if (typeof(json.message) == 'string') {
-                $.jGrowl(json.message);
+                window.top.$.jGrowl(json.message, {theme: 'alert alert-success'});
             }
             else if (typeof(json.message) == 'object') {
                 for (msg in json.message) {
-                    $.jGrowl(json.message[msg]);
+                    window.top.$.jGrowl(json.message[msg], {theme: 'alert alert-success'});
                 }
             }
 
@@ -688,11 +793,11 @@ jQuery(document).ready(function () {
 			.parent()
 			.addClass('error');
 			
-		$.jGrowl(MESSAGE_ERRORS[error], {theme: 'alert alert-error'});
+		window.top.$.jGrowl(MESSAGE_ERRORS[error], {theme: 'alert alert-error'});
 	}
 	
 	for(text in MESSAGE_SUCCESS) {
-		$.jGrowl(MESSAGE_SUCCESS[text], {theme: 'alert alert-success'});
+		window.top.$.jGrowl(MESSAGE_SUCCESS[text], {theme: 'alert alert-success'});
 	}
 });
 
@@ -726,4 +831,21 @@ $.fn.tabs = function () {
 		
 		return false;
 	});
+};
+
+$.fn.serializeObject = function()
+{
+    var o = {};
+    var a = this.serializeArray();
+    $.each(a, function() {
+        if (o[this.name] !== undefined) {
+            if (!o[this.name].push) {
+                o[this.name] = [o[this.name]];
+            }
+            o[this.name].push(this.value || '');
+        } else {
+            o[this.name] = this.value || '';
+        }
+    });
+    return o;
 };

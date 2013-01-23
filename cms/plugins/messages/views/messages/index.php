@@ -4,7 +4,7 @@
 		<div class="row-fluid">
 			<?php echo UI::button(__('Send message'), array(
 				'href' => 'messages/add', 'icon' => UI::icon('envelope'),
-				'class' => 'btn btn-large'
+				'class' => 'btn btn-large popup'
 			)); ?>
 		</div>
 	</div>
@@ -32,7 +32,7 @@
 				<?php foreach($messages as $message): ?>
 				<tr data-id="<?php echo $message->id; ?>" <?php if( $message->is_read == Model_API_Message::STATUS_NEW): ?>class="info"<?php endif; ?>>
 					<td><?php echo Form::checkbox('item['.$message->id.']'); ?></td>
-					<td><strong><?php echo HTML::anchor('messages/view/' . $message->id, $message->title); ?></strong></td>
+					<td><?php echo HTML::anchor('messages/view/' . $message->id, $message->title); ?></td>
 					<td><?php echo $message->author; ?></td>
 					<td><?php echo Date::format($message->created_on); ?></td>
 					<td class="actions">

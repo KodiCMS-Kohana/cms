@@ -21,3 +21,7 @@ if(AuthUser::isLoggedIn())
 
 	);
 }
+else
+{
+	return array();
+}

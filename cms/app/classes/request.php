@@ -103,4 +103,8 @@ class Request extends Kohana_Request {
 		}
 	}
 
+	public function is_iframe()
+	{
+		return $this->query('type') == 'iframe';
+	}
 }

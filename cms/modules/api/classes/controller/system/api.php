@@ -118,6 +118,11 @@ class Controller_System_API extends Controller_System_Ajax {
 			return;
 		}
 		
+		if(!isset($this->json['response']))
+		{
+			$this->json['response'] = NULL;
+		}
+		
 		if ( is_array( $this->json ) )
 		{
 			$this->request->headers( 'Content-type', 'application/json' );
@@ -127,6 +132,11 @@ class Controller_System_API extends Controller_System_Ajax {
 		$this->response->body( $this->json );
 	}
 	
+	public function json_redirect($uri)
+	{
+		$this->json['redirect'] = URL::backend($uri);
+	}
+
 	/**
 	 * 
 	 * @param mixed $data

@@ -33,11 +33,28 @@ class Controller_System_Backend extends Controller_System_Template
 				'page' => $this->page
 			));
 			
+			
+			if( $this->request->is_iframe() )
+			{
+				$navigation = NULL;
+				$this->template->footer = NULL;
+				$this->template->breadcrumbs = NULL;
+				Setting::set( 'profiling', 'no' );
+				
+				$this->query_params = array('type' => 'iframe');
+			}
+			else
+			{
+				$this->template->breadcrumbs = $this->breadcrumbs;
+				$this->template->footer = View::factory('layouts/blocks/footer');
+			}
+			
 			$this->template->bind_global('navigation', $navigation);
 			
 			$this->styles = array(
 				ADMIN_RESOURCES . 'libs/jquery-ui/css/custom-theme/jquery-ui-1.8.16.custom.css',
 				ADMIN_RESOURCES . 'libs/jgrowl/jquery.jgrowl.css',
+				ADMIN_RESOURCES . 'libs/fancybox/jquery.fancybox.css',
 				ADMIN_RESOURCES . 'css/common.css',
 			);
 			
@@ -48,6 +65,7 @@ class Controller_System_Backend extends Controller_System_Template
 				ADMIN_RESOURCES . 'libs/jquery-ui/js/jquery-ui-1.8.23.custom.min.js',
 				ADMIN_RESOURCES . 'libs/bootstrap/js/bootstrap.min.js',
 				ADMIN_RESOURCES . 'libs/jgrowl/jquery.jgrowl_minimized.js',
+				ADMIN_RESOURCES . 'libs/fancybox/jquery.fancybox.pack.js',
 				ADMIN_RESOURCES . 'js/backend.js',
 				ADMIN_RESOURCES . 'js/controller/' . $this->request->controller() . '.js',
 			);

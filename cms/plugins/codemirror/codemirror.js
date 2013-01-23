@@ -5,16 +5,21 @@ cms.plugins.codemirror = {};
 
 
 // Switch on tinymce handler
-cms.plugins.codemirror.switchOn_handler = function( textarea_id )
+cms.plugins.codemirror.switchOn_handler = function( textarea_id, params )
 {
-	cms.plugins.codemirror.editor = CodeMirror.fromTextArea(document.getElementById(textarea_id), {
+	var local_params = {
 		tabMode: 'indent',
 		lineNumbers: true,
 		lineWrapping: true,
 		tabSize: 4,
         indentUnit: 4,
 		mode: "application/x-httpd-php"
-	});
+	};
+	
+	params = $.extend(local_params, params);
+	cms.plugins.codemirror.editor = CodeMirror.fromTextArea(document.getElementById(textarea_id), params);
+	
+	$(cms.plugins.codemirror.editor.display.wrapper).css($(document.getElementById(textarea_id)).data());
 };
 
 // Switch off tinymce handler
@@ -39,6 +44,6 @@ jQuery(function(){
 
 cms.init.add(['layout_edit', 'snippet_edit', 'layout_add', 'snippet_add'], function(){
 	jQuery(function(){
-		cms.filters.switchOn( 'textarea_content', 'codemirror' );
+		cms.filters.switchOn( 'textarea_content', 'codemirror', $('#textarea_content').data());
 	});
 })

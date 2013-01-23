@@ -1,3 +1,4 @@
+<?php if($navigation !== NULL): ?>
 <div class="navbar navbar-static-top navbar-inverse">
 	<div class="navbar-inner">
 		<?php
@@ -74,3 +75,5 @@
 </div>
 <?php endif; ?>
 <?php endforeach; ?>
+
+<?php endif; ?>

@@ -6696,6 +6696,9 @@ body {
   padding-top: 15px;
   padding-bottom: 115px;
 }
+.iframe #content {
+  padding-bottom: 15px;
+}
 #footer {
   background-color: #6E6D71;
   border-top: 1px solid #fff;

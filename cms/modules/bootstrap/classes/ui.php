@@ -85,18 +85,21 @@ class UI {
 
 	public static function actions($page) 
 	{
-		return
+		$actions = array(
 			UI::button(__('Save and Continue editing'), array(
-				'class' => 'btn btn-large', 'icon' => UI::icon('repeat'),
+				'class' => 'btn btn-large btn-save', 'icon' => UI::icon('repeat'),
 				'name' => 'continue'
-			))
-			. UI::button(__('Save and Close'), array(
-				'class' => 'btn btn-info', 'icon' => UI::icon('ok icon-white'),
+			)),
+			UI::button(__('Save and Close'), array(
+				'class' => 'btn btn-info btn-save-close', 'icon' => UI::icon('ok icon-white'),
 				'name' => 'commit'
-			))
-			. UI::button(__('Cancel'), array(
+			)),
+			UI::button(__('Cancel'), array(
 				'href' => $page, 'icon' => UI::icon('remove'),
-				'class' => 'btn btn-link'
-			));
+				'class' => 'btn btn-link btn-close'
+			))
+		);
+	
+		return implode('', $actions);
 	}
 }

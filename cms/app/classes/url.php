@@ -17,6 +17,12 @@ class URL extends Kohana_URL {
 		
 		return !(strstr($uri, $suffix) === FALSE);
 	}
+	
+	public static function backend($uri = '', $protocol = NULL, $index = TRUE)
+	{
+		$uri = ADMIN_DIR_NAME . '/' . ltrim( $uri, '/');
+		return parent::site($uri, $protocol, $index);
+	}
 
 	public static function site( $uri = '', $protocol = NULL, $index = TRUE )
 	{
@@ -35,9 +41,9 @@ class URL extends Kohana_URL {
 		{
 			if ( $is_backend AND IS_INSTALLED AND !URL::match( ADMIN_DIR_NAME, $uri ) )
 			{
-				$uri = ADMIN_DIR_NAME . '/' . ltrim( $uri, '/');
+				return URL::backend($uri);
 			}
-			else if( ! $is_backend AND ! URL::check_suffix( $uri, '.' ))
+			else if( $is_backend === FALSE AND ! URL::check_suffix( $uri, '.' ))
 			{
 				if(!empty($uri))
 				{

@@ -6,7 +6,7 @@ class Controller_System_Template extends Controller_System_Security
 	 * @var  View  page template
 	 */
 	public $template = 'layouts/backend';
-	
+
 	/**
 	 *
 	 * @var \Breadcrumbs 
@@ -108,7 +108,7 @@ class Controller_System_Template extends Controller_System_Security
 				}
 				else
 				{
-					$this->template = $this->template->content;
+					$this->only_content = TRUE;
 				}
 			}
 			else
@@ -119,14 +119,14 @@ class Controller_System_Template extends Controller_System_Security
 				$this->template->messages = View::factory('layouts/blocks/messages', array(
 					'messages' => Messages::get() 
 				));
-				
-				$this->template->breadcrumbs = $this->breadcrumbs;
 			}
 			
 			if($this->only_content)
 			{
 				$this->template = $this->template->content;
 			}
+			
+			$this->template->set('request', $this->request);
 			
 			Observer::notify( 'template_before_render', $this->template );
 			$this->response->body( $this->template );

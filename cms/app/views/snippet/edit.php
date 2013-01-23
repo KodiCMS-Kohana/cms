@@ -4,12 +4,14 @@
 		<?php echo Form::hidden('token', Security::token()); ?>	
 		<div class="widget-title">
 			<div class="control-group">
-				<label class="control-label title" for="snippetEditNamelabel"><?php echo __('Snippet name'); ?></label>
+				<label class="control-label" for="snippetEditNamelabel"><?php echo __('Snippet name'); ?></label>
 				<div class="controls">
+					<div class="row-fluid">
 					<?php echo Form::input('name', $snippet->name, array(
-						'class' => 'slug focus input-title', 'id' => 'snippetEditNamelabel',
+						'class' => 'slug focus span12', 'id' => 'snippetEditNamelabel',
 						'tabindex'	=> 1
 					)); ?>
+					</div>
 				</div>
 			</div>
 		</div>

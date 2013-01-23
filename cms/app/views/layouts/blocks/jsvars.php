@@ -1,17 +1,16 @@
-var CURRENT_URL			= '<?php echo Request::current()->url(TRUE) . URL::query() ; ?>';
-var BASE_URL			= '<?php echo URL::site(ADMIN_DIR_NAME, TRUE); ?>';
-var SITE_URL			= '<?php echo URL::base(TRUE); ?>';
-var ADMIN_DIR_NAME		= '<?php echo ADMIN_DIR_NAME; ?>';
-var ADMIN_RESOURCES		= '<?php echo ADMIN_RESOURCES; ?>';
-var PUBLIC_URL			= '<?php echo PUBLIC_URL; ?>';
-var PLUGINS_URL			= '<?php echo PLUGINS_URL; ?>';
-var LOCALE				= '<?php echo I18n::lang(); ?>';
-var TAG_SEPARATOR		= '<?php echo Model_Tag::SEPARATOR; ?>';
-
-var USER_ID = <?php echo AuthUser::getId(); ?>;
-
-var PAGE_STATUSES = '<?php echo json_encode(Model_Page::statuses()); ?>';
-var PAGE_LOGINS = '<?php echo json_encode(Model_Page::logins()); ?>';
-
-var BEHAVIORS = '<?php echo json_encode(Behavior::findAll()); ?>';
-var FILTERS = '<?php echo json_encode(Filter::findAll()); ?>';
+var CURRENT_URL			= '<?php echo Request::current()->url(TRUE) . URL::query() ; ?>',
+	BASE_URL			= '<?php echo URL::site(ADMIN_DIR_NAME, TRUE); ?>',
+	SITE_URL			= '<?php echo URL::base(TRUE); ?>',
+	ADMIN_DIR_NAME		= '<?php echo ADMIN_DIR_NAME; ?>',
+	ADMIN_RESOURCES		= '<?php echo ADMIN_RESOURCES; ?>',
+	PUBLIC_URL			= '<?php echo PUBLIC_URL; ?>',
+	PLUGINS_URL			= '<?php echo PLUGINS_URL; ?>',
+	LOCALE				= '<?php echo I18n::lang(); ?>',
+	CONTROLLER			= '<?php echo strtolower(Request::current()->controller()); ?>',
+	ACTION				= '<?php echo Request::current()->action(); ?>',
+	TAG_SEPARATOR		= '<?php echo Model_Tag::SEPARATOR; ?>',
+	USER_ID				= <?php echo AuthUser::getId(); ?>,
+	PAGE_STATUSES		= '<?php echo json_encode(Model_Page::statuses()); ?>',
+	PAGE_LOGINS			= '<?php echo json_encode(Model_Page::logins()); ?>',
+	BEHAVIORS			= '<?php echo json_encode(Behavior::findAll()); ?>',
+	FILTERS				= '<?php echo json_encode(Filter::findAll()); ?>';

@@ -2,7 +2,8 @@
 	
 	<div class="widget-header">
 		<?php echo UI::button(__('Add layout'), array(
-			'icon' => UI::icon( 'plus' ), 'href' => 'layout/add'
+			'icon' => UI::icon( 'plus' ), 'href' => 'layout/add',
+			'class' => 'popup fancybox.iframe btn'
 		)); ?>
 	</div>
 	
@@ -24,7 +25,7 @@
 				<?php foreach ($layouts as $layout): ?>
 				<tr>
 					<th class="name">
-						<?php echo HTML::anchor('layout/edit/'.$layout->name, HTML::image(ADMIN_RESOURCES . 'images/layout.png') .' '. $layout->name); ?>
+						<?php echo HTML::anchor('layout/edit/'.$layout->name, HTML::image(ADMIN_RESOURCES . 'images/layout.png') .' '. $layout->name, array('class' => 'popup fancybox.iframe')); ?>
 					</th>
 					<td class="direction">
 						<?php echo UI::label('/layouts/' . $layout->name . EXT); ?>

@@ -5,7 +5,6 @@
 		<meta name="generator" content="<?php echo CMS_NAME . ' v.' . CMS_VERSION; ?>">
 		<meta name="author" content="ButscH" />
 		<title><?php echo $title; ?> &ndash; <?php echo Setting::get( 'admin_title' ); ?></title>
-		<base href="<?php echo ADMIN_RESOURCES; ?>" />
 		<link href="<?php echo ADMIN_RESOURCES; ?>favicon.ico" rel="favourites icon" />
 
 		<script type="text/javascript">
@@ -27,13 +26,11 @@
 
 		<?php Observer::notify( 'layout_backend_head' ); ?>
 	</head>
-	<body id="body_<?php echo $page_body_id; ?>">
+	<body id="body_<?php echo $page_body_id; ?>" class="<?php echo $request->query('type'); ?>">
 		<div id="content-wrapper">
 			<div id="navigation">
 				<?php echo View::factory('layouts/blocks/navigation'); ?>
 			</div>
-			
-
 			<?php echo $breadcrumbs; ?>
 			
 			<div class="container-fluid">
@@ -45,7 +42,8 @@
 				</div> <!--/#content-->
 			</div>
 		</div>
-		<?php echo View::factory('layouts/blocks/footer'); ?>
+		
+		<?php echo $footer; ?>
 
 		<?php if ( Setting::get( 'profiling' ) == 'yes' ): ?>
 		<hr />
