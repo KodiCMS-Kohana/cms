@@ -18,7 +18,8 @@ class HTTP_API_Exception extends Kohana_HTTP_Exception {
 		$params = array
 		(
 			'code'  => 500,
-			'message' => rawurlencode($this->getMessage())
+			'message' => rawurlencode($this->getMessage()),
+			'response' => NULL
 		);
 
 		if ($this instanceof HTTP_Exception)

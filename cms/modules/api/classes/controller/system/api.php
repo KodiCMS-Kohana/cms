@@ -100,7 +100,7 @@ class Controller_System_API extends Controller_System_Ajax {
 		{
 			$this->json['code'] = $e->getCode();
 			$this->json['message'] = $e->getMessage();
-			
+			$this->json['response'] = NULL;
 		}
 		
 		// Execute the "after action" method
