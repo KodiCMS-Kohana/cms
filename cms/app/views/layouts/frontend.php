@@ -8,6 +8,7 @@
 		<link href="<?php echo ADMIN_RESOURCES; ?>favicon.ico" rel="favourites icon" />
 		
 		<script type="text/javascript">
+		<?php echo View::factory('layouts/blocks/jsvars'); ?>
 		<?php echo $messages; ?>
 		</script>
 
