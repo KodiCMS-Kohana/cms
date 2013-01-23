@@ -4,7 +4,7 @@
 		<div class="row-fluid">
 			<?php echo UI::button(__('Send message'), array(
 				'href' => 'messages/add', 'icon' => UI::icon('envelope'),
-				'class' => 'btn btn-large popup'
+				'class' => 'btn btn-large'
 			)); ?>
 		</div>
 	</div>

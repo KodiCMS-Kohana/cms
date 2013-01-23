@@ -87,7 +87,7 @@ class Setting
 		self::save();
 	}
 
-	public function save()
+	public static function save()
 	{
 		$insert = DB::insert(self::TABLE_NAME)
 			->columns(array('name', 'value'));
