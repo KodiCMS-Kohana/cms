@@ -193,16 +193,14 @@ class Model_API_Message extends Model_API {
 			->execute();
 		
 		$count = DB::select(array(DB::expr( 'COUNT(*)'), 'total'))
-			->from('messages')
-			->where('id', '=', (int) $message_id)
+			->from('messages_users')
+			->where('message_id', '=', (int) $message_id)
 			->execute()
 			->get('total', 0);
 		
 		if( $count == 0 )
 		{
-			DB::delete('messages')
-				->where('id', '=', (int) $message_id)
-				->execute();
+			$this->delete_by_id($message_id);
 		}
 		
 		self::clear_cache($user_id);
@@ -210,6 +208,13 @@ class Model_API_Message extends Model_API {
 		return $delete;
 	}
 	
+	public function delete_by_id($id)
+	{
+		return DB::delete('messages')
+			->where('id', '=', (int) $id)
+			->execute();
+	}
+
 	protected static function clear_cache($user_id)
 	{
 		Kohana::cache('Database::cache(count_messages::'.$user_id.')', NULL, -1);
