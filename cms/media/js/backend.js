@@ -48,7 +48,13 @@ var cms = {
 	
 	// Error
 	error: function (msg, e) {
-		$.jGrowl(msg);
+		this.message(msg, 'error')
+		$.jGrowl(msg, {theme: 'alert alert-error'});
+	},
+		
+	message: function(msg, type) {
+		if(!type) type = 'success';
+		window.top.$.jGrowl(msg, {theme: 'alert alert-' + type});
 	},
 	
 	// Convert slug
@@ -734,13 +740,13 @@ var Api = {
 	
 		if(typeof(data) == 'object') data = JSON.stringify(data);
 
-		var ajas = $.ajax({
+		$.ajax({
 			type: method,
 			url: uri,
 			data: data,
 			dataType: 'json',
 			success: function(response) {
-				if(response.code != 200) return;
+				if(response.code != 200) return Api.exception(response);
 				if(response.redirect) {
 					$.get(window.top.CURRENT_URL, function(resp){
 						window.top.$('#content').html(resp);
@@ -752,7 +758,16 @@ var Api = {
 			}
 		});
 	},
-	
+
+	exception: function(response) {
+		if(response.code == 120 && typeof(response.errors) == 'object') {
+			for(i in response.errors) {
+				cms.message(response.errors[i], 'error');
+			}
+		} else if (response.message) {
+			window.top.$.jGrowl(response.message, {theme: 'alert alert-error'});
+		}
+	},
 	response: function() {
 		return this._response;
 	}
@@ -774,11 +789,11 @@ jQuery(document).ready(function () {
         try {
             var json = $.parseJSON(response.responseText);
             if (typeof(json.message) == 'string') {
-                window.top.$.jGrowl(json.message, {theme: 'alert alert-success'});
+				cms.message(json.message);
             }
             else if (typeof(json.message) == 'object') {
                 for (msg in json.message) {
-                    window.top.$.jGrowl(json.message[msg], {theme: 'alert alert-success'});
+					cms.message(json.message[msg]);
                 }
             }
 
@@ -792,12 +807,12 @@ jQuery(document).ready(function () {
 			.parentsUntil( '.control-group' )
 			.parent()
 			.addClass('error');
-			
-		window.top.$.jGrowl(MESSAGE_ERRORS[error], {theme: 'alert alert-error'});
+		
+		cms.message(MESSAGE_ERRORS[error], 'error');
 	}
 	
 	for(text in MESSAGE_SUCCESS) {
-		window.top.$.jGrowl(MESSAGE_SUCCESS[text], {theme: 'alert alert-success'});
+		cms.message(MESSAGE_SUCCESS[text]);
 	}
 });
 

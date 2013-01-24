@@ -96,6 +96,14 @@ class Controller_System_API extends Controller_System_Ajax {
 			// Execute the action itself
 			$this->{$action}();
 		}
+		catch (HTTP_API_Exception $e)
+		{
+			$this->json = $e->get_response();
+		}
+		catch (API_Validation_Exception $e)
+		{
+			$this->json = $e->get_response();
+		}
 		catch (Exception $e)
 		{
 			$this->json['code'] = $e->getCode();
