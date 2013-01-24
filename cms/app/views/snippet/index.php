@@ -13,10 +13,14 @@
 				<col />
 				<col width="150px" />
 				<col width="100px" />
+				<col width="100px" />
+				<col width="100px" />
 			</colgroup>
 			<thead>
 				<tr>
 					<th><?php echo __('Snippet name'); ?></th>
+					<th><?php echo __('Modified'); ?></th>
+					<th><?php echo __('Size'); ?></th>
 					<th><?php echo __('Direction'); ?></th>
 					<th><?php echo __('Actions'); ?></th>
 				</tr>
@@ -27,6 +31,12 @@
 					<th class="name">
 						<?php echo HTML::anchor('snippet/edit/'.$snippet->name, HTML::image(ADMIN_RESOURCES . 'images/snippet.png') .' '. $snippet->name, array('class' => 'popup fancybox.iframe')); ?>
 					</th>
+					<td class="modified">
+						<?php echo Date::format($snippet->modified()); ?>
+					</td>
+					<td class="size">
+						<?php echo Text::bytes( $snippet->size()); ?>
+					</td>
 					<td class="direction">
 						<?php echo UI::label('/snippets/' . $snippet->name . EXT); ?>
 					</td>

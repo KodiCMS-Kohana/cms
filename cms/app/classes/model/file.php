@@ -120,7 +120,7 @@ class Model_File {
 		{
 			if (is_file($path.$file) AND substr($file, -strlen(EXT)) == EXT)
 			{
-				$files[] = new self(substr($file, 0, strrpos($file, EXT)));
+				$files[] = new $class(substr($file, 0, strrpos($file, EXT)));
 			}
 		}
 		
@@ -160,6 +160,26 @@ class Model_File {
 	public function is_exists()
 	{
 		return file_exists($this->_file);
+	}
+	
+	/**
+	 * 
+	 * @return string
+	 */
+	public function size()
+	{
+		return filesize($this->_file);
+	}
+	
+	/**
+	 * Get the file's last modification time.
+	 *
+	 * @param  string  $path
+	 * @return int
+	 */
+	public function modified()
+	{
+		return filemtime($this->_file);
 	}
 	
 	/**
