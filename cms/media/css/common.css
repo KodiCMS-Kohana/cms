@@ -6146,6 +6146,17 @@ a.badge:hover {
   -moz-border-radius: 0;
   border-radius: 0;
 }
+.iframe .widget-title,
+.iframe .widget-header,
+.iframe .widget-content,
+.iframe .widget-footer {
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+}
+.iframe .widget:last-child {
+  margin-bottom: 0;
+}
 .align-right {
   text-align: right;
 }
@@ -6696,8 +6707,9 @@ body {
   padding-top: 15px;
   padding-bottom: 115px;
 }
+.iframe .container-fluid,
 .iframe #content {
-  padding-bottom: 15px;
+  padding: 0;
 }
 #footer {
   background-color: #6E6D71;
