@@ -32,12 +32,12 @@
 				<tr>
 					<td><?php echo $data['date']; ?></td>
 					<th>
-						<?php echo HTML::anchor('backup/view/'.$filename, $filename); ?>
+						<?php echo HTML::anchor('backup/view/'.$filename, $filename, array('class' => 'popup fancybox.iframe')); ?>
 					</th>
 					<td><?php echo $data['size']; ?></td>
 					<td>
 						<?php echo UI::button(NULL, array(
-							'class' => 'btn btn-mini', 
+							'class' => 'btn', 
 							'href' => 'download/'.Download::secure_path( BACKUP_PLUGIN_FOLDER . $filename), 
 							'icon' => UI::icon( 'download' )
 						));?>
