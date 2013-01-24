@@ -1,7 +1,10 @@
 <?php echo Form::open(($action == 'edit')  ? 'snippet/edit/'. $snippet->name  : 'snippet/add/' . $snippet->name, array(
 	'id' => 'snippetEditForm', 'class' => 'form-horizontal')); ?>
+
+	<?php echo Form::hidden('token', Security::token()); ?>
+	<?php echo Form::hidden('snippet_name', $snippet->name); ?>
+
 	<div class="widget widget-nopad">
-		<?php echo Form::hidden('token', Security::token()); ?>	
 		<div class="widget-title">
 			<div class="control-group">
 				<label class="control-label" for="snippetEditNamelabel"><?php echo __('Snippet name'); ?></label>
@@ -20,9 +23,10 @@
 		</div>
 		<div class="widget-content">
 			<?php echo Form::textarea('content', $snippet->content, array(
-					'id'			=> 'textarea_content',
-					'tabindex'		=> 2,
-				)); ?>
+				'id'			=> 'textarea_content',
+				'tabindex'		=> 2,
+				'data-height'	=> 600
+			)); ?>
 		</div>
 		<div class="form-actions widget-footer">
 			<?php echo UI::actions($page_name); ?>

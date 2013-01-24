@@ -2,7 +2,8 @@
 	
 	<div class="widget-header">
 		<?php echo UI::button(__('Add snippet'), array(
-			'href' => 'snippet/add', 'icon' => UI::icon('plus')
+			'href' => 'snippet/add', 'icon' => UI::icon('plus'),
+			'class' => 'popup fancybox.iframe btn'
 		)); ?>
 	</div>
 	
@@ -24,7 +25,7 @@
 				<?php foreach ($snippets as $snippet): ?>
 				<tr>
 					<th class="name">
-						<?php echo HTML::anchor('snippet/edit/'.$snippet->name, HTML::image(ADMIN_RESOURCES . 'images/snippet.png') .' '. $snippet->name); ?>
+						<?php echo HTML::anchor('snippet/edit/'.$snippet->name, HTML::image(ADMIN_RESOURCES . 'images/snippet.png') .' '. $snippet->name, array('class' => 'popup fancybox.iframe')); ?>
 					</th>
 					<td class="direction">
 						<?php echo UI::label('/snippets/' . $snippet->name . EXT); ?>
