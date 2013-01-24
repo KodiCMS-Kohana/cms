@@ -14,7 +14,7 @@ if(AuthUser::isLoggedIn())
 				'permissions' => array('login'),
 				'icon' => UI::icon('envelope'),
 				'divider' => TRUE,
-				'counter' => $new->response,
+				'counter' => (int) $new->response,
 				'priority' => 105
 			)
 		)

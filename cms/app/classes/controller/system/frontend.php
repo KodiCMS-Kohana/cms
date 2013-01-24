@@ -10,13 +10,17 @@ class Controller_System_Frontend extends Controller_System_Template
 		{
 			$this->styles = array(
 				ADMIN_RESOURCES . 'libs/jgrowl/jquery.jgrowl.css',
+				ADMIN_RESOURCES . 'libs/fancybox/jquery.fancybox.css',
 				ADMIN_RESOURCES . 'css/common.css',
 			);
 			
 			$this->scripts = array(
 				ADMIN_RESOURCES . 'libs/jquery-1.8.2.min.js',
+				ADMIN_RESOURCES . 'libs/underscore-min.js',
+				ADMIN_RESOURCES . 'libs/backbone-min.js',
 				ADMIN_RESOURCES . 'libs/bootstrap/js/bootstrap.min.js',
 				ADMIN_RESOURCES . 'libs/jgrowl/jquery.jgrowl_minimized.js',
+				ADMIN_RESOURCES . 'libs/fancybox/jquery.fancybox.pack.js',
 				ADMIN_RESOURCES . 'js/backend.js',
 			);
 		}
