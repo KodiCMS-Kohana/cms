@@ -155,7 +155,7 @@ class Controller_Layout extends Controller_System_Backend {
 		$layout = new Model_File_Layout( $layout_name );
 
 		// find the user to delete
-		if ( !$layout->is_used() )
+		if ( ! $layout->is_used() )
 		{
 			if ( $layout->delete() )
 			{

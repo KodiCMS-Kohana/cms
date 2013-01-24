@@ -35,7 +35,10 @@ class Controller_API_Layout extends Controller_System_Api {
 		
 		if ( ! $status )
 		{
-			$this->json['message'] = __( 'Layout :name has not been saved!', array( ':name' => $layout->name ) );
+			throw HTTP_API_Exception::factory(API::ERROR_UNKNOWN,
+				'Layout :name has not been saved!',
+				array(':name' => $layout_name)
+			);
 		}
 		else
 		{
@@ -53,7 +56,33 @@ class Controller_API_Layout extends Controller_System_Api {
 	
 	public function rest_put()
 	{
+		$layout = new Model_File_Layout( $this->param('name', NULL) );
+		$layout->content = $this->param('content', NULL);
 		
+		try
+		{
+			$status = $layout->save();
+		}
+		catch(Validation_Exception $e)
+		{
+			throw new API_Validation_Exception($e->errors('validation'));
+		}
+		
+		if ( ! $status )
+		{			
+			throw HTTP_API_Exception::factory(API::ERROR_UNKNOWN,
+				'Layout :name has not been added!',
+				array(':name' => $layout_name)
+			);
+		}
+		else
+		{
+			$this->json_redirect('layout/edit/' . $layout->name);
+			$this->json['message'] = __( 'Layout :name has been added!', array( ':name' => $layout->name ) );
+			Observer::notify( 'layout_after_add', array( $layout ) );
+		}
+		
+		$this->response($layout);
 	}
 	
 	public function rest_delete()
@@ -80,7 +109,7 @@ class Controller_API_Layout extends Controller_System_Api {
 			else
 			{
 				throw HTTP_API_Exception::factory(API::ERROR_UNKNOWN,
-					'Layout <b>:name</b> has not been deleted!',
+					'Layout :name has not been deleted!',
 					array(':name' => $layout_name)
 				);
 			}

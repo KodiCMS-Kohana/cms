@@ -7023,3 +7023,18 @@ body {
 .env_test td.fail {
   color: red;
 }
+#jGrowl .alert {
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  margin-bottom: 0;
+  padding-right: 10px;
+}
+#jGrowl .alert-success {
+  border-top-color: #ffffff;
+  border-bottom-color: #a1cd7c;
+}
+#jGrowl .alert-success {
+  border-top-color: #ffffff;
+  border-bottom-color: #d59595;
+}

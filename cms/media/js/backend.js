@@ -54,9 +54,19 @@ var cms = {
 		
 	message: function(msg, type) {
 		if(!type) type = 'success';
-		window.top.$.jGrowl(msg, {theme: 'alert alert-' + type});
+		window.top.$.jGrowl(decodeURI(msg), {theme: 'alert alert-' + type});
+		
+		if(type == 'error') {
+			cms.error_field(name, msg)
+		}
 	},
-	
+	error_field: function(name, message) {
+		return input = $('input[name*="' + name + '"]:not(:hidden)', $('.control-group:not(.error)'))
+			.after('<span class="help-inline">' + message + '</span>')
+			.parentsUntil( '.control-group' )
+			.parent()
+			.addClass('error');
+	},
 	// Convert slug
 	convert_dict: {
 		'ą':'a', 'ä':'a', 'č':'c', 'ę':'e', 'ė':'e', 'i':'i', 'į':'i', 'š':'s', 'ū':'u', 'ų':'u', 'ü':'u', 'ž':'z', 'ö':'o'},
@@ -666,16 +676,6 @@ cms.ui.add('btn-confirm', function() {
 			this.href += '?type=iframe';
 			this.title = $(this.element).html();
 		},
-		afterLoad: function() {
-			$form_data = $(this.content).find('form').serialize();
-			console.log($form_data);
-		},
-		beforeClose: function() {
-			console.log($form_data);
-			if($form_data != $('form').serialize())
-				return confirm('Close popup?');
-			return true;
-		},
 		helpers : {
     		title : {
     			type : 'inside'
@@ -747,6 +747,11 @@ var Api = {
 			dataType: 'json',
 			success: function(response) {
 				if(response.code != 200) return Api.exception(response);
+				
+				if (response.message) {
+					cms.message(response.message);
+				}
+	
 				if(response.redirect) {
 					$.get(window.top.CURRENT_URL, function(resp){
 						window.top.$('#content').html(resp);
@@ -763,9 +768,10 @@ var Api = {
 		if(response.code == 120 && typeof(response.errors) == 'object') {
 			for(i in response.errors) {
 				cms.message(response.errors[i], 'error');
+				cms.error_field(i, response.errors[i]);
 			}
 		} else if (response.message) {
-			window.top.$.jGrowl(response.message, {theme: 'alert alert-error'});
+			cms.message(response.message, 'error');
 		}
 	},
 	response: function() {
@@ -784,31 +790,10 @@ jQuery(document).ready(function () {
     // init
     cms.init.run();
     cms.ui.init();
-
-    $(document).ajaxComplete(function (e, response) {
-        try {
-            var json = $.parseJSON(response.responseText);
-            if (typeof(json.message) == 'string') {
-				cms.message(json.message);
-            }
-            else if (typeof(json.message) == 'object') {
-                for (msg in json.message) {
-					cms.message(json.message[msg]);
-                }
-            }
-
-        } catch (e) {}
-    });
 	
 	for(error in MESSAGE_ERRORS) {
-		var msg = '<span class="help-inline">' + MESSAGE_ERRORS[error] + '</span>';
-		var input = $('input[name*="' + error + '"]')
-			.after(msg)
-			.parentsUntil( '.control-group' )
-			.parent()
-			.addClass('error');
-		
 		cms.message(MESSAGE_ERRORS[error], 'error');
+		cms.error_field(error, MESSAGE_ERRORS[error]);
 	}
 	
 	for(text in MESSAGE_SUCCESS) {

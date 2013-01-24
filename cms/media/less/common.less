@@ -459,3 +459,21 @@ html, body {
 		&.fail { color: red; }
 	}
 }
+
+#jGrowl {
+	.alert {
+		.border-radius(0);
+		margin-bottom: 0;
+		padding-right: 10px;
+	}
+
+	.alert-success {
+		border-top-color: lighten(@successBorder, 20%);
+		border-bottom-color: darken(@successBorder, 20%);
+	}
+
+	.alert-success {
+		border-top-color: lighten(@errorBackground, 20%);
+		border-bottom-color: darken(@errorBackground, 20%);
+	}
+}
