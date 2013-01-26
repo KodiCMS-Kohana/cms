@@ -6,6 +6,9 @@ define('DB_NAME', '');
 define('DB_USER', '');
 define('DB_PASS', '');
 define('TABLE_PREFIX', '');
+define('ADMIN_DIR_NAME', '');
+define('PUBLIC_URL', BASE_URL . 'public/');
+define('PLUGINS_URL', BASE_URL . 'cms/plugins/');
 
 /**
  * Set the default cookie salt
