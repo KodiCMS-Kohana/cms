@@ -16,7 +16,7 @@ class Controller_System_API extends Controller_System_Ajax {
 		
 		$this->fields = $this->param('fields');
 		
-		if($this->request->headers('content-type') == 'application/json')
+		if( strpos($this->request->headers('content-type'), 'application/json') !== FALSE )
 		{
 			$this->request->post(json_decode($this->request->body(), TRUE));
 		}
@@ -126,14 +126,15 @@ class Controller_System_API extends Controller_System_Ajax {
 			return;
 		}
 		
-		if(!isset($this->json['response']))
-		{
-			$this->json['response'] = NULL;
-		}
-		
 		if ( is_array( $this->json ) )
 		{
 			$this->request->headers( 'Content-type', 'application/json' );
+			
+			if( ! isset($this->json['response']) )
+			{
+				$this->json['response'] = NULL;
+			}
+		
 			$this->json = json_encode( $this->json );
 		}
 
