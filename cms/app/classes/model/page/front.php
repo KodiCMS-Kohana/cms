@@ -47,7 +47,6 @@ class Model_Page_Front
 
 		$this->level = $this->level();
 		$this->_load_parts();
-
 	}
 
 	protected function setUrl()
@@ -181,7 +180,6 @@ class Model_Page_Front
 
 	public function has_content($part, $inherit = FALSE)
 	{
-
 		if (isset($this->part->{$part}))
 		{
 			return TRUE;
@@ -310,6 +308,13 @@ class Model_Page_Front
 		return $pages;
 	}
 
+	/**
+	 * 
+	 * @param array $clause
+	 * @param array $values
+	 * @param boolean $include_hidden
+	 * @return integer
+	 */
 	public function children_count($clause = NULL, $values = array(), $include_hidden = FALSE)
 	{
 		$page_class = __CLASS__;
@@ -398,6 +403,12 @@ class Model_Page_Front
 		return $page ? $uri : FALSE;
 	}
 
+	/**
+	 * 
+	 * @param string $slug
+	 * @param integer $parent
+	 * @return boolean|\Model_Page_Front
+	 */
 	public static function findBySlug( $slug, $parent )
 	{		
 		$page_cache_id = (is_array($slug) ? join($slug) : $slug) . (isset($parent->id) ? $parent->id : 0);
@@ -461,6 +472,11 @@ class Model_Page_Front
 			return self::$pages_cache[ $page_cache_id ];
 	}
 
+	/**
+	 * 
+	 * @param string $uri
+	 * @return \Model_Page_Front
+	 */
 	public static function find( $uri )
 	{
 		$uri = trim($uri, '/');
@@ -499,6 +515,11 @@ class Model_Page_Front
 		return $page;
 	}
 
+	/**
+	 * 
+	 * @param integer $id
+	 * @return \Model_Page_Front|boolean
+	 */
 	public static function findById( $id )
 	{
 		$page_class = __CLASS__;
@@ -550,6 +571,11 @@ class Model_Page_Front
 			return FALSE;
 	}
 
+	/**
+	 * 
+	 * @param integer $level
+	 * @return boolean|\Model_Page_Front
+	 */
 	public function parent($level = NULL)
 	{
 		if ($level === NULL)
@@ -569,12 +595,14 @@ class Model_Page_Front
 		return $this->parent->parent($level);
 	}
 	
+	/**
+	 * 
+	 * @param string $snippet_name
+	 * @param array $vars
+	 * @param integer $cache_lifetime
+	 * @return null
+	 */
 	public function snippet($snippet_name, $vars = NULL, $cache_lifetime = NULL)
-	{
-		return $this->includeSnippet($snippet_name, $vars, $cache_lifetime);
-	}
-
-	public function includeSnippet($snippet_name, $vars = NULL, $cache_lifetime = NULL)
 	{
 		$snippet = new Model_File_Snippet($snippet_name);
 
@@ -595,6 +623,15 @@ class Model_Page_Front
 			echo View_Front::factory($snippet->get_file(), $vars)
 				->set('page', $this);
 		}
+	}
+
+	/**
+	 * 
+	 * @deprecated
+	 */
+	public function includeSnippet($snippet_name, $vars = NULL, $cache_lifetime = NULL)
+	{
+		return $this->snippet($snippet_name, $vars, $cache_lifetime);
 	}
 
 	public function render_layout()
@@ -670,6 +707,10 @@ class Model_Page_Front
 		}
 	}
 
+	/**
+	 * 
+	 * @return array
+	 */
 	private function _load_tags()
 	{
 		return DB::select('tag.id', 'tag.name')
