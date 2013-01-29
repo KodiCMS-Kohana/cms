@@ -12,12 +12,16 @@ cms.plugins.codemirror.switchOn_handler = function( textarea_id, params )
 		lineNumbers: true,
 		lineWrapping: true,
 		tabSize: 4,
-        indentUnit: 4,
+		indentUnit: 4,
 		mode: "application/x-httpd-php"
 	};
 	
 	params = $.extend(local_params, params);
 	cms.plugins.codemirror.editor = CodeMirror.fromTextArea(document.getElementById(textarea_id), params);
+	
+	cms.plugins.codemirror.editor.on('change', function(ctx, obj) {
+		cms.plugins.codemirror.editor.save();
+	});
 	
 	$(cms.plugins.codemirror.editor.display.wrapper).css($(document.getElementById(textarea_id)).data());
 };
