@@ -1,10 +1,11 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
 // CMS defaults
-define('ADMIN_URL',			BASE_URL . ADMIN_DIR_NAME.'/');
+define('ADMIN_URL',			BASE_URL . ADMIN_DIR_NAME . '/');
 define('PLUGINS_URL',		BASE_URL . 'cms/plugins/');
-define('PUBLICPATH',		DOCROOT . 'public'.DIRECTORY_SEPARATOR);
 define('PUBLIC_URL',		BASE_URL . 'public/');
+
+define('PUBLICPATH',		DOCROOT . 'public' . DIRECTORY_SEPARATOR);
 define('LAYOUTS_SYSPATH',	DOCROOT . 'layouts' . DIRECTORY_SEPARATOR);
 define('SNIPPETS_SYSPATH',	DOCROOT . 'snippets' . DIRECTORY_SEPARATOR);
 
@@ -18,7 +19,6 @@ date_default_timezone_set( DEFAULT_TIMEZONE );
 
 /**
  * Set the default cookie salt
- * 
  */
 Cookie::$salt = COOKIE_SALT;
 
@@ -29,15 +29,19 @@ Kohana::modules( array(
 	'database'		=> MODPATH . 'database',	// Database access
 	'auth'			=> MODPATH . 'auth',		// Basic authentication
 	'orm'			=> MODPATH . 'orm',			// Object Relationship Mapping,
-	'cache'			=> MODPATH . 'cache',		// Object Relationship Mapping,
+	'cache'			=> MODPATH . 'cache',		// Cache manager,
 	'pagination'	=> MODPATH . 'pagination',
 	'plugins'		=> MODPATH . 'plugins',
 	'userguide'		=> MODPATH . 'userguide',	// User guide and API documentation,
 	'bootstrap'		=> MODPATH . 'bootstrap',
 	'breadcrumbs'	=> MODPATH . 'breadcrumbs',
 	'api'			=> MODPATH . 'api',
+	'debug_toolbar'	=> MODPATH . 'debug_toolbar', // Kohana Debug Toolbar http://brotkin.ru/
 ) );
 
+/**
+ * Set the default cache driver
+ */
 Cache::$default = 'file';
 
 // Init settings
