@@ -635,6 +635,8 @@ cms.ui.add('btn-confirm', function() {
 		});
 }).add('focus', function() {
 	$('.focus').focus();
+}).add('loader', function() {
+    cms.loader.init();
 }).add('popup', function() {
 	$(".popup").fancybox({
 		fitToView	: true,
@@ -718,6 +720,9 @@ var Api = {
 			data: data,
 			dataType: 'json',
 //			cache: false,
+			beforeSend: function(){
+				cms.loader.show();
+			},
 			success: function(response) {
 				if(response.code != 200) return Api.exception(response);
 				
@@ -736,7 +741,9 @@ var Api = {
 				
 				if(typeof(callback) == 'function') callback(response);
 			}
-		});
+		}).always(function() { 
+			cms.loader.hide();
+		});;
 	},
 
 	exception: function(response) {
@@ -756,9 +763,6 @@ var Api = {
 
 // Run
 jQuery(document).ready(function () {
-    // loader
-    cms.loader.init();
-
     // messages
     cms.messages.init();
 
