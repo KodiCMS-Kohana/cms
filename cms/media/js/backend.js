@@ -665,8 +665,9 @@ cms.ui.add('btn-confirm', function() {
 
 	$('.btn-save-close', $form_actions).on('click', function() {
 		var $data = $('form').serializeObject();
-		Api[method](CONTROLLER, $data);
-		window.top.$.fancybox.close();	
+		Api[method](CONTROLLER, $data, function(response) {
+			window.top.$.fancybox.close();
+		});
 		return false;
 	});
 
