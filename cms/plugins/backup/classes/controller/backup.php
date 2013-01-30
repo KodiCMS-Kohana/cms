@@ -5,7 +5,6 @@ class Controller_Backup extends Controller_System_Plugin {
 	public function action_index() 
 	{
 		$files = array();
-
 		$handle = opendir(BACKUP_PLUGIN_FOLDER);
 		while (false !== ($file = readdir($handle))) 
 		{

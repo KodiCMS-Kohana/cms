@@ -37,6 +37,7 @@ Kohana::modules( array(
 	'breadcrumbs'	=> MODPATH . 'breadcrumbs',
 	'api'			=> MODPATH . 'api',
 	'debug_toolbar'	=> MODPATH . 'debug_toolbar', // Kohana Debug Toolbar http://brotkin.ru/
+	'sheduler'		=> MODPATH . 'sheduler'
 ) );
 
 /**

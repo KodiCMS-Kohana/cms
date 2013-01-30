@@ -568,83 +568,54 @@ cms.init.add(['page_add', 'page_edit'], function () {
     $('#pageEditMetaSlugField').keyup(function () {
         $(this).val(cms.convertSlug($(this).val()));
     });
-
-//    $('#pageEditPartAddButton').click(function () {
-//        var $form = $('<form class="dialog-form">' +
-//            '<p><label>' + __('Page part name') + '</label><span><input class="input-text" type="text" name="part_name" /></span></p>' +
-//            '</form>');
-//
-//        var buttons = {};
-//
-//        var buttons_add_action = function () {
-//            var part_name = $form.find('input[name="part_name"]').val().toLowerCase()
-//                .replace(/[^a-z0-9\-\_]/g, '_')
-//                .replace(/ /g, '_')
-//                .replace(/_{2,}/g, '_')
-//                .replace(/^_/, '')
-//                .replace(/_$/, '');
-//
-//            $form.find('input[name="part_name"]').val(part_name);
-//
-//            if (part_name == '') {
-//                alert(__('Part name can\'t be empty! Use english chars a-z, 0-9 and _ (underline char).'));
-//
-//                $form.find('input[name="part_name"]').focus();
-//            }
-//            else {
-//                var part_index = parseInt($('#pageEditParts .part:last').attr('id').substring(13)) + 1;
-//
-//                $(this).dialog('close');
-//
-//                cms.loader.show();
-//
-//                $.ajax({
-//                    url:SITE_URL + ADMIN_DIR_NAME + '/page/add_part',
-//                    type:'POST',
-//                    dataType:'html',
-//
-//                    data:{
-//                        name:part_name,
-//                        index:part_index
-//                    },
-//                    success:function (html_data) {
-//                        cms.loader.hide();
-//
-//                        $('#pageEditParts').append(html_data);
-//                    },
-//                    error:function () {
-//                        cms.error('Ajax error!');
-//                    }
-//                });
-//            }
-//
-//            return false;
-//        };
-//
-//        buttons[__('Add')] = buttons_add_action;
-//
-//        buttons[__('Cancel')] = function () {
-//            $(this).dialog('close');
-//        };
-//
-//        $form.submit(buttons_add_action);
-//
-//        $form.dialog({
-//            width:235,
-//            modal:true,
-//            buttons:buttons,
-//            resizable:false,
-//            title:__('Creating page part')
-//        });
-//
-//        $form.find('input[name="part_name"]')
-//            .keyup(function () {
-//                $(this).val(cms.convertSlug($(this).val()).replace(/[^a-z0-9\-\_]/, ''));
-//            });
-//
-//        return false;
-//    });
 }); // end init page/add, page/edit
+
+cms.init.add(['sheduler_index'], function () {
+	var $fullcalendar = $('#calendar');
+	
+	var date = new Date(),
+		dateYear = date.getFullYear(),
+		dateMonth = date.getMonth(),
+		dateDay = date.getDate();
+		
+	// build options
+	var options = {
+		header: {
+			left: 'prev,next,today',
+			center: 'title',
+			right: 'month,agendaWeek,agendaDay'
+		},
+		editable: false,
+		lazyFetching: false,
+		disableResizing: true,
+		year: dateYear,
+		month: dateMonth,
+		date: dateDay,
+		allDaySlot: true,
+
+		events: function(start, end, callback)
+		{
+			var roundedStart = Math.round(start.getTime() / 1000),
+				roundedEnd = Math.round(end.getTime() / 1000);
+		
+			Api.get('sheduler', {from: roundedStart, to: roundedEnd}, function(response) {
+				if( ! response.response) return;
+				
+				var events = [];
+				for(i in response.response) {
+					var item = response.response[i];
+					item.className = 'popup fancybox.iframe';
+					events.push(item);
+				}
+				callback(events);
+			});
+
+			
+		}
+	};
+
+	$fullcalendar.fullCalendar(options);
+});
 
 cms.ui.add('btn-confirm', function() {
 	$('.btn-confirm').live('click', function () {
@@ -708,43 +679,44 @@ cms.ui.add('btn-confirm', function() {
 var Api = {
 	_response: null,
 
-	get: function(uri, data) {
-		this.request('GET', uri, data);
+	get: function(uri, data, callback) {
+		this.request('GET', uri, data, callback);
 		
 		return this.response();
 	},
-	post: function(uri, data) {
-		this.request('POST', uri, data);
+	post: function(uri, data, callback) {
+		this.request('POST', uri, data, callback);
 		
 		return this.response();
 	},
-	put: function(uri, data) {
-		this.request('PUT', uri, data);
-		
-		return this.response();
-	},
-
-	'delete': function(uri, data) {
-		this.request('DELETE', uri, data);
+	put: function(uri, data, callback) {
+		this.request('PUT', uri, data, callback);
 		
 		return this.response();
 	},
 
-	request: function(method, uri, data) {
+	'delete': function(uri, data, callback) {
+		this.request('DELETE', uri, data, callback);
+		
+		return this.response();
+	},
+
+	request: function(method, uri, data, callback) {
 		uri = '/api/' + uri;
 		
 		$.ajaxSetup({
-			contentType : 'application/json',
-			processData : false
+			contentType : 'application/json'
 		});
-	
-		if(typeof(data) == 'object') data = JSON.stringify(data);
+
+		if(typeof(data) == 'object' && method != 'GET') 
+			data = JSON.stringify(data);
 
 		$.ajax({
 			type: method,
 			url: uri,
 			data: data,
 			dataType: 'json',
+//			cache: false,
 			success: function(response) {
 				if(response.code != 200) return Api.exception(response);
 				
@@ -760,6 +732,8 @@ var Api = {
 					});
 				}
 				this._response = response;
+				
+				if(typeof(callback) == 'function') callback(response);
 			}
 		});
 	},
