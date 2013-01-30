@@ -29,7 +29,7 @@ http://www.kodicms.ru/screenshots.html
 
 ## Требования
 
-* Apache server with .htaccess.
+* Apache server with .htaccess либо NGINX
 * PHP 5.3.3 (или более новая)
 * MySQL (и доступ к управлению данными)
 
@@ -59,6 +59,29 @@ http://www.kodicms.ru/screenshots.html
 5. После установки системы вы окажетесь на странице авторизации, где будет 
 указан ваш логин и пароль для входа в систему.
 
+### Пример конфигурации для NGINX
+<pre>
+server {
+        charset        utf8;
+        listen          80;
+        root            /var/www;
+        server_name     backend_node_1;
+        autoindex off;
+        location / {
+                try_files $uri /index.php?$args;
+        }
+        location = /index.php {
+                fastcgi_pass   127.0.0.1:9000;
+                fastcgi_index  index.php;
+                fastcgi_param  KOHANA_ENV production;
+                fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_n$
+                include        fastcgi_params;
+        }
+        location ~ /\.ht {
+            deny all;
+        }
+}
+</pre>
 
 ## Bug tracker
 
