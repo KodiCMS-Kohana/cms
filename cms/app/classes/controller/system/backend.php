@@ -67,7 +67,7 @@ class Controller_System_Backend extends Controller_System_Template
 				ADMIN_RESOURCES . 'libs/jgrowl/jquery.jgrowl_minimized.js',
 				ADMIN_RESOURCES . 'libs/fancybox/jquery.fancybox.pack.js',
 				ADMIN_RESOURCES . 'js/backend.js',
-				ADMIN_RESOURCES . 'js/controller/' . $this->request->controller() . '.js',
+				ADMIN_RESOURCES . 'js/controller/' . strtolower($this->request->controller()) . '.js',
 			);
 		}
 	}
