@@ -38,6 +38,8 @@ Kohana::modules( array(
 	'api'			=> MODPATH . 'api',
 ) );
 
+Cache::$default = 'file';
+
 // Init settings
 Setting::init();
 Behavior::init();

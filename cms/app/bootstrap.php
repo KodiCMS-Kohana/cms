@@ -95,6 +95,7 @@ I18n::lang('en_US');
 Kohana::init( array(
 	'base_url'			=> '/',
 	'index_file'		=> FALSE,
+	'cache_dir'			=> CMSPATH.'cache',
 	'caching'			=> Kohana::$environment === Kohana::PRODUCTION,
 	'profile'			=> Kohana::$environment !== Kohana::PRODUCTION,
 	'errors'			=> TRUE
@@ -111,7 +112,7 @@ define('ADMIN_RESOURCES',	BASE_URL . 'cms/media/');
 /**
  * Attach the file write to logging. Multiple writers are supported.
  */
-Kohana::$log->attach(new Log_File(APPPATH.'logs'));
+Kohana::$log->attach(new Log_File(CMSPATH.'logs'));
 
 /**
  * Attach a file reader to config. Multiple readers are supported.

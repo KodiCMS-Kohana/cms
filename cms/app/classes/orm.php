@@ -4,12 +4,13 @@ class ORM extends Kohana_ORM {
 
 	public function list_columns()
 	{
-		if ( Kohana::cache( 'table_columns_' . $this->_object_name ) )
+		$cache = Cache::instance();
+		if ( ($result = $cache->get( 'table_columns_' . $this->_object_name )) !== NULL )
 		{
-			return Kohana::cache( 'table_columns_' . $this->_object_name );
+			return $result;
 		}
 
-		Kohana::cache( 'table_columns_' . $this->_object_name, $this->_db->list_columns( $this->table_name() ) );
+		$cache->set( 'table_columns_' . $this->_object_name, $this->_db->list_columns( $this->table_name() ) );
 
 		// Proxy to database
 		return $this->_db->list_columns( $this->table_name() );

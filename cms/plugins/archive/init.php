@@ -57,7 +57,7 @@ if($plugin->enabled())
 		
 		function clear_archive_section_cahe() 
 		{
-			Kohana::cache('Database::cache(archive_section)', NULL, -1);
+			Cache::instance()->delete('Database::cache(archive_section)');
 		}
 	}
 }

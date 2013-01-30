@@ -313,13 +313,14 @@ class Record
      * used in save() for creating the insert and/or update sql query
      */
     public function getColumns()
-    {		
-        if ( Kohana::cache( 'table_columns_' . self::tableName() ) )
+    {
+		$cache = Cache::instance();
+        if ( ($result = $cache->get( 'table_columns_' . self::tableName() )) !== NULL )
 		{
-			return Kohana::cache( 'table_columns_' . self::tableName() );
+			return $result;
 		}
 
-		Kohana::cache( 'table_columns_' . self::tableName(), Database::instance()->list_columns( self::tableName() ) );
+		$cache->set( 'table_columns_' . self::tableName(), Database::instance()->list_columns( self::tableName() ) );
 
 		// Proxy to database
 		return Database::instance()->list_columns( self::tableName() );

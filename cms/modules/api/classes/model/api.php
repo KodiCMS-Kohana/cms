@@ -170,12 +170,13 @@ class Model_API extends Model_Database {
 	 */
 	public function list_columns()
 	{
-		if ( Kohana::cache( 'table_columns_' . $this->_table_name ) )
+		$cache = Cache::instance();
+		if ( ($result = $cache->get( 'table_columns_' . $this->_table_name )) !== NULL )
 		{
-			return Kohana::cache( 'table_columns_' . $this->_table_name );
+			return $result;
 		}
 
-		Kohana::cache( 'table_columns_' . $this->_table_name, $this->_db->list_columns( $this->_table_name ) );
+		$cache->set( 'table_columns_' . $this->_table_name, $this->_db->list_columns( $this->_table_name ) );
 
 		// Proxy to database
 		return $this->_db->list_columns( $this->_table_name );

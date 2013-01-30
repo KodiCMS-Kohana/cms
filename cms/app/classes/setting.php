@@ -114,7 +114,7 @@ class Setting
 			$insert->execute();
 		}
 		
-		Kohana::cache('Database::cache('.self::TABLE_NAME.')', NULL, -1);
+		Cache::instance()->delete('Database::cache('.self::TABLE_NAME.')');
 	}
 
 } // end Setting class

@@ -217,6 +217,6 @@ class Model_API_Message extends Model_API {
 
 	protected static function clear_cache($user_id)
 	{
-		Kohana::cache('Database::cache(count_messages::'.$user_id.')', NULL, -1);
+		Cache::instance()->delete('Database::cache(count_messages::'.$user_id.')');
 	}
 }

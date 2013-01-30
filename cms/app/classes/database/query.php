@@ -53,7 +53,7 @@ class Database_Query extends Kohana_Database_Query {
 			}
 
 			// Read the cache first to delete a possible hit with lifetime <= 0
-			if ( ($result = Kohana::cache( $cache_key, NULL, $this->_lifetime )) !== NULL
+			if ( ($result = Cache::instance()->get($cache_key)) !== NULL
 					AND !$this->_force_execute )
 			{
 				// Return a cached result
@@ -67,7 +67,7 @@ class Database_Query extends Kohana_Database_Query {
 		if ( isset( $cache_key ) AND $this->_lifetime > 0 )
 		{
 			// Cache the result array
-			Kohana::cache( $cache_key, $result->as_array(), $this->_lifetime );
+			Cache::instance()->set($cache_key, $result->as_array(), $this->_lifetime);
 		}
 
 		return $result;

@@ -110,14 +110,13 @@ class Model_Page extends Record
 	
 	public function afterUpdate()
 	{
-		Kohana::cache('Database::cache(FrontPage::id::'.$this->id.')', NULL, -1);
-		Kohana::cache('Database::cache(FrontPage::slug::' . $this->slug . '::parent_id::' . $this->parent_id. ')', NULL, -1);
-		
-		Kohana::cache('Database::cache(pageParts::page_id::'.$this->id.')', NULL, -1);
-		Kohana::cache('Database::cache(pageTags::page_id::'.$this->id.')', NULL, -1);
-		
-		Kohana::cache('FrontPage::children::::parent_id::' . $this->id.')', NULL, -1);
-		Kohana::cache('FrontPage::childrenCount::::parent_id::' . $this->id.')', NULL, -1);
+		$cache = Cache::instance();
+		$cache->delete('Database::cache(FrontPage::id::'.$this->id.')');
+		$cache->delete('Database::cache(FrontPage::slug::' . $this->slug . '::parent_id::' . $this->parent_id. ')');
+		$cache->delete('Database::cache(pageParts::page_id::'.$this->id.')');
+		$cache->delete('Database::cache(pageTags::page_id::'.$this->id.')');
+		$cache->delete('FrontPage::children::::parent_id::' . $this->id.')');
+		$cache->delete('FrontPage::childrenCount::::parent_id::' . $this->id.')');
 
 		return $this->afterInsert();
 	}

@@ -184,6 +184,6 @@ class Plugins_Settings {
 
 	protected static function _clear_cache()
 	{
-		Kohana::cache('Database::cache(plugin_get_settings)', NULL, -1);
+		Cache::instance()->delete('Database::cache(plugin_get_settings)');
 	}
 }
