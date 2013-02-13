@@ -7,14 +7,21 @@ $tagstmp = Flash::get('page_tag');
 
 if (!empty($pagetmp) AND !empty($parttmp) AND !empty($tagstmp))
 {
-    $page = $pagetmp;
-    $page_parts = $parttmp;
-    $tags = $tagstmp;
+	$page = $pagetmp;
+	$page_parts = $parttmp;
+	$tags = $tagstmp;
 }
 ?>
 
 <script type="text/javascript">
 	var PAGE_ID = <?php echo (int) $page->id; ?>;
+
+	<?php if($action == 'add'): ?>
+	$(function() {
+		$('#pageEditMetaMoreButton').click();
+	})
+
+	<?php endif; ?>
 </script>
 
 
@@ -38,8 +45,8 @@ if (!empty($pagetmp) AND !empty($parttmp) AND !empty($tagstmp))
 								'tags' => $tags
 							)); ?>
 						</div><!--/#pageEditMeta-->
-					
-					
+
+
 						<?php echo View::factory('part/items'); ?>
 
 						<?php Observer::notify('view_page_edit_plugins', array($page)); ?>
@@ -68,7 +75,7 @@ if (!empty($pagetmp) AND !empty($parttmp) AND !empty($tagstmp))
 
 				<div class="span3">
 					<?php Observer::notify('view_page_edit_sidebar_before', array($page)); ?>
-					
+
 					<div class="outline">
 						<div id="pageEditOptions" class="widget outline_inner">
 							<div class="widget-header">
@@ -126,7 +133,7 @@ if (!empty($pagetmp) AND !empty($parttmp) AND !empty($tagstmp))
 							<?php Observer::notify('view_page_edit_options', array($page)); ?>
 						</div><!--/#pageEditOptions-->
 					</div>
-					
+
 					<?php Observer::notify('view_page_edit_sidebar_after', array($page)); ?>
 				</div><!--/#contentSidebar-->
 			</div>
