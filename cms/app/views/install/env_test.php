@@ -44,18 +44,18 @@ $failed = FALSE;
 		</tr>
 		<tr>
 			<th>Cache Directory</th>
-			<?php if (is_dir(APPPATH) AND is_dir(APPPATH.'cache') AND is_writable(APPPATH.'cache')): ?>
-				<td class="pass"><?php echo APPPATH.'cache/' ?></td>
+			<?php if (is_dir(CMSPATH) AND is_dir(CMSPATH.'cache') AND is_writable(CMSPATH.'cache')): ?>
+				<td class="pass"><?php echo CMSPATH.'cache/' ?></td>
 			<?php else: $failed = TRUE ?>
-				<td class="fail">The <code><?php echo APPPATH.'cache/' ?></code> directory is not writable.</td>
+				<td class="fail">The <code><?php echo CMSPATH.'cache/' ?></code> directory is not writable.</td>
 			<?php endif ?>
 		</tr>
 		<tr>
 			<th>Logs Directory</th>
-			<?php if (is_dir(APPPATH) AND is_dir(APPPATH.'logs') AND is_writable(APPPATH.'logs')): ?>
-				<td class="pass"><?php echo APPPATH.'logs/' ?></td>
+			<?php if (is_dir(CMSPATH) AND is_dir(CMSPATH.'logs') AND is_writable(CMSPATH.'logs')): ?>
+				<td class="pass"><?php echo CMSPATH.'logs/' ?></td>
 			<?php else: $failed = TRUE ?>
-				<td class="fail">The <code><?php echo APPPATH.'logs/' ?></code> directory is not writable.</td>
+				<td class="fail">The <code><?php echo CMSPATH.'logs/' ?></code> directory is not writable.</td>
 			<?php endif ?>
 		</tr>
 		<tr>
