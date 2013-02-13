@@ -1,8 +1,8 @@
 wiki/*
 nbproject/*
 /config.php
-/cms/app/cache/*
-/cms/app/logs/*
-!/cms/app/cache/*.html
-!/cms/app/logs/*.html
+/cms/cache/*
+/cms/logs/*
+!/cms/cache/*.html
+!/cms/logs/*.html
 /.idea/
