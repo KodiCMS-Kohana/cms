@@ -18,7 +18,7 @@ if (!empty($pagetmp) AND !empty($parttmp) AND !empty($tagstmp))
 
 	<?php if($action == 'add'): ?>
 	$(function() {
-		$('#pageEditMetaMoreButton').click();
+		$('.spoiler-toggle').click();
 	})
 
 	<?php endif; ?>
@@ -110,7 +110,7 @@ if (!empty($pagetmp) AND !empty($parttmp) AND !empty($tagstmp))
 
 								<?php if($action == 'add' || ($action == 'edit' && isset($page->id) && $page->id != 1)): ?>
 								<label><?php echo __('Published date'); ?></label>
-								<input type="text" name="page[published_on]" value="<?php echo $page->published_on; ?>" maxlength="20"  class="span12"/>
+								<input type="text" name="page[published_on]" value="<?php echo $page->published_on; ?>" class="span12 datepicker"/>
 								<?php endif; ?>
 
 								<?php if (AuthUser::hasPermission(array('administrator','developer'))): ?>

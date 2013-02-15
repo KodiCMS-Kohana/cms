@@ -4,14 +4,14 @@
 		<div class="controls">
 			<?php
 			echo Form::input( 'page[title]', $page->title, array(
-				'class' => 'span12', 'id' => 'pageEditMetaTitleField'
+				'class' => 'span12 slug-generator'
 			) );
 			?>
 		</div>
 	</div>
-<?php echo HTML::anchor( '#', UI::icon( 'cog' ), array( 'id' => 'pageEditMetaMoreButton' ) ); ?>
+	<?php echo HTML::anchor( '#', UI::icon( 'cog' ), array( 'class' => 'spoiler-toggle', 'data-spoiler' => '#pageEditMetaMore' ) ); ?>
 </div>
-<div id="pageEditMetaMore">
+<div id="pageEditMetaMore" class="spoiler">
 	<hr />
 	<?php if ( $action == 'add' || ($action == 'edit' && isset( $page->id ) && $page->id != 1) ): ?>
 		<div class="control-group">
@@ -19,7 +19,7 @@
 			<div class="controls">
 				<?php
 				echo Form::input( 'page[slug]', $page->slug, array(
-					'class' => 'span12', 'id' => 'pageEditMetaSlugField'
+					'class' => 'span12 slug', 'id' => 'pageEditMetaSlugField'
 				) );
 				?>
 			</div>

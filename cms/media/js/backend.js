@@ -69,10 +69,13 @@ var cms = {
 	},
 	// Convert slug
 	convert_dict: {
-		'ą':'a', 'ä':'a', 'č':'c', 'ę':'e', 'ė':'e', 'i':'i', 'į':'i', 'š':'s', 'ū':'u', 'ų':'u', 'ü':'u', 'ž':'z', 'ö':'o'},
+		'ą':'a', 'ä':'a', 'č':'c', 'ę':'e', 'ė':'e', 'i':'i', 'į':'i', 'š':'s', 'ū':'u', 'ų':'u', 'ü':'u', 'ž':'z', 'ö':'o'
+	},
 	
 	convertSlug: function (str) {
-		return str.toString().toLowerCase()
+		return str
+			.toString()
+			.toLowerCase()
 			.replace(/[àâ]/g, 'a')
 			.replace(/[éèêë]/g, 'e')
 			.replace(/[îï]/g, 'i')
@@ -89,7 +92,7 @@ var cms = {
 			})
 			.replace(/[^a-zа-яіїє0-9\.\_]/g, '-')
 			.replace(/ /g, '-')
-			.replace(/\-{2,}/g, '-')
+			.replace(/\-+/g, '-')
 			.replace(/^-/, '');
 		//.replace(/-$/,           '' ); // removed becouse this function used in #pageEditMetaSlugField
 	},
@@ -528,48 +531,6 @@ cms.init.add('page_index', function () {
 }); // end init page/index
 
 
-cms.init.add(['page_add', 'page_edit'], function () {
-    // Datepicker
-    $('#pageEditOptions input[name="page[published_on]"]').datepicker({
-        // options
-        dateFormat:'yy-mm-dd',
-
-        // events
-        onSelect:function (dateText, inst) {
-            inst.input.val(dateText + ' 00:00:00');
-        }
-    });
-
-
-    // Slug & metadata
-    var slug_is_fresh = false;
-
-    $('#pageEditMetaTitleField').focus();
-
-    $('#pageEditMetaTitleField').keyup(function () {
-        if ($('#pageEditMetaSlugField').val() == '')
-            slug_is_fresh = true;
-
-        if (slug_is_fresh) {
-            var new_slug = cms.convertSlug($(this).val()).replace(/-$/, '');
-
-            $('#pageEditMetaSlugField').val(new_slug);
-        }
-
-        $('#pageEditMetaBreadcrumbField').val($(this).val());
-    });
-
-    $('#pageEditMetaMoreButton').click(function () {
-        $('#pageEditMetaMore').slideToggle();
-
-        return false;
-    });
-
-    $('#pageEditMetaSlugField').keyup(function () {
-        $(this).val(cms.convertSlug($(this).val()));
-    });
-}); // end init page/add, page/edit
-
 cms.init.add(['sheduler_index'], function () {
 	var $fullcalendar = $('#calendar');
 	
@@ -624,14 +585,57 @@ cms.ui.add('btn-confirm', function() {
 
 		return false;
 	});
+}).add('spoiler', function() {
+	$('.spoiler-toggle')
+		.click(function () {
+			var $spoiler_cont = $('.spoiler');
+			
+			if($(this).data('spiler')) {
+				$spoiler_cont = $($(this).data('spiler'));
+			}
+		
+			$spoiler_cont.slideToggle();
+			
+			return false;
+		});
+}).add('datepicker', function() {
+	// Datepicker
+    $('.datepicker').datepicker({
+        // options
+        dateFormat:'yy-mm-dd',
+
+        // events
+        onSelect:function (dateText, inst) {
+            inst.input.val(dateText + ' 00:00:00');
+        }
+    });
 }).add('slug', function() {
+	// Slug & metadata
+    var slugs = {};
+    $('.slug-generator').keyup(function () {
+		var $slug_cont = $('.slug');
+
+		if($(this).data('slug')) {
+			$slug_cont = $($(this).data('slug'));
+		}
+		
+        if ($slug_cont.val() == '')
+            slugs[$slug_cont] = true;
+
+        if (slugs[$slug_cont]) {
+            var new_slug = cms.convertSlug($(this).val());
+
+            $slug_cont.val(new_slug);
+        }
+    });
+
 	$('.slug')
 		.keyup(function () {
-			var val = $(this).val()
-				.replace(/ /g, '_')
-				.replace(/[^a-z0-9\_\-\.]/ig, '');
-
-			$(this).val(val);
+			$(this).val(cms.convertSlug($(this).val()));
+			slugs[$(this)] = false;
+			
+			if ($(this).val() == '')
+				slugs[$(this)] = true;
 		});
 }).add('focus', function() {
 	$('.focus').focus();
@@ -641,8 +645,8 @@ cms.ui.add('btn-confirm', function() {
 	$(".popup").fancybox({
 		fitToView	: true,
 		autoSize	: false,
-		width		: '70%',
-		height		: '90%',
+		width		: '99%',
+		height		: '99%',
 		openEffect	: 'none',
 		closeEffect	: 'none',
 		beforeLoad: function() {
