@@ -29,7 +29,6 @@ Kohana::modules( array(
 	'database'		=> MODPATH . 'database',	// Database access
 	'auth'			=> MODPATH . 'auth',		// Basic authentication
 	'orm'			=> MODPATH . 'orm',			// Object Relationship Mapping,
-	'cache'			=> MODPATH . 'cache',		// Cache manager,
 	'pagination'	=> MODPATH . 'pagination',
 	'plugins'		=> MODPATH . 'plugins',
 	'userguide'		=> MODPATH . 'userguide',	// User guide and API documentation,
@@ -37,7 +36,8 @@ Kohana::modules( array(
 	'breadcrumbs'	=> MODPATH . 'breadcrumbs',
 	'api'			=> MODPATH . 'api',
 	'debug_toolbar'	=> MODPATH . 'debug_toolbar', // Kohana Debug Toolbar http://brotkin.ru/
-	'sheduler'		=> MODPATH . 'sheduler'
+	'sheduler'		=> MODPATH . 'sheduler',
+	'cache'			=> MODPATH . 'cache',		// Cache manager
 ) );
 
 /**

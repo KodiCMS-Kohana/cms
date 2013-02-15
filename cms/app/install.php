@@ -25,6 +25,7 @@ Kohana::modules( array(
 	'orm'			=> MODPATH . 'orm', // Object Relationship Mapping,
 	'bootstrap'		=> MODPATH . 'bootstrap',
 	'breadcrumbs'	=> MODPATH . 'breadcrumbs',
+	'cache'			=> MODPATH . 'cache',		// Cache manager
 ) );
 
 Route::set( 'install', 'install(/<action>(/<id>))' )
