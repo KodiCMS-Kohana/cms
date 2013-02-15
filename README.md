@@ -20,6 +20,14 @@ KodiCMS основана на базе [Kohana framework](http://kohanaframework
 * Обработка ошибочных URL. (Если посетитель допустил ошибку URL, скорее всего он не получит в ответ: Страница не найдена)
 * Удобный инсталлятор
 
+## DEMO
+http://demo.kodicms.ru/
+
+> backend
+> http://demo.kodicms.ru/backend
+> Login: demo
+> Password: demodemo
+
 
 ## Скриншоты
 
