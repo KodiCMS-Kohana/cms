@@ -101,24 +101,16 @@ var cms = {
 	loader: {
 		init: function () {
 			$('body')
-				.append('<div id="loader" class="loader"><span>' + __('Loading') + '</span></div>');
+				.append('<div class="_loader_container"><div class="_loader_bg"></div><span>' + __('Loading') + '</span>\n\
+</div>');
 		},
 		
 		show: function () {
-			$('#loader')
-				.show()
-				.animate({
-					opacity:1
-				}, 300);
+			$('._loader_container').fadeIn();
 		},
 		
 		hide: function () {
-			$('#loader')
-				.animate({
-					opacity:0
-				}, 300, function () {
-					$(this).hide();
-				});
+			$('._loader_container').fadeOut();
 		}
 	},
 	
@@ -234,7 +226,9 @@ cms.ui = {
     },
     init:function () {
         for (var i = 0; i < cms.ui.callbacks.length; i++) {
-            cms.ui.callbacks[i][1]();
+			try {
+				cms.ui.callbacks[i][1]();
+			} catch (e) {}
         }
     }
 };
