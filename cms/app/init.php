@@ -1,5 +1,12 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
+if (PHP_SAPI != 'cli') // Try and load minion
+{
+	define('IS_BACKEND', URL::match(ADMIN_DIR_NAME, Request::detect_uri()));
+}
+
+if( ! defined( 'IS_BACKEND' )) define('IS_BACKEND', FALSE);
+
 // CMS defaults
 define('ADMIN_URL',			BASE_URL . ADMIN_DIR_NAME . '/');
 define('PLUGINS_URL',		BASE_URL . 'cms/plugins/');
@@ -30,6 +37,7 @@ Kohana::modules( array(
 	'auth'			=> MODPATH . 'auth',		// Basic authentication
 	'orm'			=> MODPATH . 'orm',			// Object Relationship Mapping,
 	'pagination'	=> MODPATH . 'pagination',
+	'minion'		=> MODPATH . 'minion',		// Minion
 	'plugins'		=> MODPATH . 'plugins',
 	'userguide'		=> MODPATH . 'userguide',	// User guide and API documentation,
 	'bootstrap'		=> MODPATH . 'bootstrap',
