@@ -20,9 +20,10 @@ Cookie::$salt = 'install_system';
  * Enable modules. Modules are referenced by a relative or absolute path.
  */
 Kohana::modules( array(
-	'database'		=> MODPATH . 'database', // Database access
-	'auth'			=> MODPATH . 'auth', // Basic authentication
-	'orm'			=> MODPATH . 'orm', // Object Relationship Mapping,
+	'database'		=> MODPATH . 'database',	// Database access
+	'auth'			=> MODPATH . 'auth',		// Basic authentication
+	'orm'			=> MODPATH . 'orm',			// Object Relationship Mapping,
+	'minion'		=> MODPATH . 'minion',		// Minion
 	'bootstrap'		=> MODPATH . 'bootstrap',
 	'breadcrumbs'	=> MODPATH . 'breadcrumbs',
 	'cache'			=> MODPATH . 'cache',		// Cache manager

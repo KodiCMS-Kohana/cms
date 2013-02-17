@@ -108,10 +108,10 @@ define('CMS_VERSION',		'1.9.0');
 if(PHP_SAPI != 'cli')
 {
 	define('BASE_URL',			URL::base('http'));
-	define('ADMIN_RESOURCES',	BASE_URL . 'cms/media/');
 }
 
 if( ! defined( 'BASE_URL' ) ) define('BASE_URL', '/');
+define('ADMIN_RESOURCES',	BASE_URL . 'cms/media/');
 
 /**
  * Attach the file write to logging. Multiple writers are supported.

@@ -58,26 +58,62 @@ class Controller_Install extends Controller_System_Frontend
 		}
 		catch (Validation_Exception $e)
 		{
-			Messages::errors($e->getMessage());
-			$this->go_back();
+			$this->_show_error($e);
 		}
 		
 		try 
 		{
+			if(isset($post['empty_database']))
+			{
+				$this->_reset($db);
+			}
+			
 			$this->_import_shema($post, $db);
 			$this->_import_dump($post, $db);
 			$this->_create_config($post);
 		}
 		catch (Exception $e)
 		{
-			$this->_reset($post, $db);
-			Messages::errors($e->getMessage());
-			$this->go_back();
+			$this->_reset($db);
+			$this->_show_error($e);
+		}
+		
+		$this->_complete();
+	}
+	
+	protected function _complete()
+	{
+		if(PHP_SAPI == 'cli')
+		{
+			Minion_CLI::write('==============================================');
+			Minion_CLI::write('KodiCMS installed succefully');
+			Minion_CLI::write('==============================================');
+
+			$install_data = Session::instance()->get_once('install_data');
+			Minion_CLI::write('Login: ' . Arr::get($install_data, 'username'));
+			Minion_CLI::write('Password: ' . Arr::get($install_data, 'password_field'));
+			exit();
 		}
 		
 		$this->go($post['admin_dir_name'] . '/login');
 	}
-	
+
+	protected function _show_error(Exception $e)
+	{
+		if(PHP_SAPI == 'cli')
+		{
+			Minion_CLI::write(__(':text | :file [:line]', array(
+				':text' => $e->getMessage(),
+				':file' => $e->getFile(),
+				':line' => $e->getLine()
+			)));
+			exit();
+		}
+		
+		Messages::errors($e->getMessage());
+		$this->go_back();
+	}
+
 	protected function _connect_to_db(array $post, $validation)
 	{
 		$server = $post['db_server'] . ':' . $post['db_port'];
@@ -190,13 +226,13 @@ class Controller_Install extends Controller_System_Frontend
 		$dump_content = file_get_contents( $dump_file );
 		
 		$replace = array(
-			'__SITE_NAME__' => Arr::get($post, 'site_name'),
-			'__EMAIL__' => Arr::get($post, 'email'),
-			'__USERNAME__' => Arr::get($post, 'username'),
-			'TABLE_PREFIX_' => $post['table_prefix'],
-			'__ADMIN_PASSWORD__' => Auth::instance()->hash($post['password_field']),
-			'__DATE__' => date('Y-m-d H:i:s'),
-			'__LANG__' => I18n::lang()
+			'__SITE_NAME__'			=> Arr::get($post, 'site_name'),
+			'__EMAIL__'				=> Arr::get($post, 'email'),
+			'__USERNAME__'			=> Arr::get($post, 'username'),
+			'TABLE_PREFIX_'			=> $post['table_prefix'],
+			'__ADMIN_PASSWORD__'	=> Auth::instance()->hash($post['password_field']),
+			'__DATE__'				=> date('Y-m-d H:i:s'),
+			'__LANG__'				=> I18n::lang()
 		);
 		
 		$dump_content = str_replace(
@@ -224,16 +260,16 @@ class Controller_Install extends Controller_System_Frontend
 		$tpl_content = file_get_contents( $tpl_file );
 
 		$repl = array(
-			'__DB_TYPE__' => $post['db_driver'],
-			'__DB_SERVER__' => $post['db_server'],
-			'__DB_NAME__' => $post['db_name'],
-			'__DB_USER__' => $post['db_user'],
-			'__DB_PASS__' => $post['db_password'],
-			'__TABLE_PREFIX__' => $post['table_prefix'],
-			'__URL_SUFFIX__' => $post['url_suffix'],
-			'__ADMIN_DIR_NAME__' => $post['admin_dir_name'],
-			'__TIMEZONE__' => $post['timezone'],
-			'__COOKIE_SALT__' => Text::random('alnum', 16)
+			'__DB_TYPE__'			=> $post['db_driver'],
+			'__DB_SERVER__'			=> $post['db_server'],
+			'__DB_NAME__'			=> $post['db_name'],
+			'__DB_USER__'			=> $post['db_user'],
+			'__DB_PASS__'			=> $post['db_password'],
+			'__TABLE_PREFIX__'		=> $post['table_prefix'],
+			'__URL_SUFFIX__'		=> $post['url_suffix'],
+			'__ADMIN_DIR_NAME__'	=> $post['admin_dir_name'],
+			'__TIMEZONE__'			=> $post['timezone'],
+			'__COOKIE_SALT__'		=> Text::random('alnum', 16)
 		);
 
 		$tpl_content = str_replace(
@@ -262,7 +298,7 @@ class Controller_Install extends Controller_System_Frontend
 		}
 	}
 	
-	protected function _reset($post, $db)
+	protected function _reset($db)
 	{
 		DB::query(NULL, 'SET FOREIGN_KEY_CHECKS = 0')
 			->execute($db);

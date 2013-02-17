@@ -26,6 +26,7 @@ http://demo.kodicms.ru/
 
 > backend
 > http://demo.kodicms.ru/backend
+
 > Login: demo
 > Password: demodemo
 
@@ -55,7 +56,9 @@ http://www.kodicms.ru/screenshots.html
 > * `.htaccess => RewriteBase /subfolder/`
 > * `cms\app\bootstrap.php` => `Kohana::init( array( 'base_url' => '/subfolder/', ... ) );`
 
-3. Откройте главную страницу через браузер. Запустится процесс интсалляции системы.
+3. Перед установкой необходимо удалить файл config.php, если он имеется в корне сайта
+
+4. Откройте главную страницу через браузер. Запустится процесс интсалляции системы.
 
 > Если возникла ошибка ErrorException [ 2 ]: date() [function.date]: It is not 
 > safe to rely on the system's timezone settings. You are required to use the 
@@ -65,9 +68,24 @@ http://www.kodicms.ru/screenshots.html
 > необходимо ее разкомментировать.
 > [Доступные временные зоны](http://www.php.net/manual/timezones)
 
-4. Заполните все необходимые поля и нажмите кнопку "Установить". 
-5. После установки системы вы окажетесь на странице авторизации, где будет 
+5. Заполните все необходимые поля и нажмите кнопку "Установить". 
+6. После установки системы вы окажетесь на странице авторизации, где будет 
 указан ваш логин и пароль для входа в систему.
+
+
+## Установка через Cli (Консоль)
+
+> KodiCMS позоляет установить систему через консоль.
+> Для установки используется модуль `Minion`
+
+1. Перед установкой необходимо удалить файл config.php, если он имеется в корне сайта
+
+2. Перейти в корень папки kodicms
+
+3. выполнить команду `php index.php --task=install`. 
+
+> Полный набор параметров можно посмотреть через help `php index.php --task=install --help`
+
 
 ### Пример конфигурации для Nginx
 ```nginx
