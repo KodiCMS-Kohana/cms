@@ -26,11 +26,20 @@ Kohana::modules( array(
 	'bootstrap'		=> MODPATH . 'bootstrap',
 	'breadcrumbs'	=> MODPATH . 'breadcrumbs',
 	'cache'			=> MODPATH . 'cache',		// Cache manager
+	'installer'		=> MODPATH . 'installer'
 ) );
 
-Route::set( 'install', 'install(/<action>(/<id>))' )
-	->defaults( array(
-		'directory' => 'system',
-		'controller' => 'install',
-		'action' => 'index',
-	) );
+
+$modules = Kohana::modules();
+if( ! isset($modules['installer']) OR ! is_dir( MODPATH . 'installer' ))
+{
+	throw HTTP_Exception::factory(404, __('System not installed. Installer not found.'));
+}
+
+if (PHP_SAPI != 'cli')
+{
+	if( ! URL::match('install', Request::detect_uri()) )
+	{
+		$uri = Route::get('install')->uri();
+	}
+}

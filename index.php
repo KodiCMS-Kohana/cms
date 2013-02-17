@@ -111,6 +111,11 @@ if ( IS_INSTALLED )
 	include DOCROOT.'config'.EXT;
 	include APPPATH.'init'.EXT;
 }
+else
+{
+	// Load the installation check
+	include APPPATH.'install'.EXT;
+}
 
 if (PHP_SAPI == 'cli') // Try and load minion
 {
@@ -121,16 +126,6 @@ if (PHP_SAPI == 'cli') // Try and load minion
 }
 else
 {
-	if ( ! IS_INSTALLED )
-	{
-		// Load the installation check
-		include APPPATH.'install'.EXT;
-
-		if( ! URL::match('install', Request::detect_uri()) )
-		{
-			$uri = Route::get('install')->uri();
-		}
-	}
 	/**
 	 * Execute the main request. A source of the URI can be passed, eg: $_SERVER['PATH_INFO'].
 	 * If no source is specified, the URI will be automatically detected.

@@ -1,6 +1,6 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct access allowed.' );
 
-class Controller_System_Install extends Controller_System_Frontend 
+class Controller_Install extends Controller_System_Frontend 
 {
 	public $template = 'layouts/frontend';
 	
@@ -156,7 +156,7 @@ class Controller_System_Install extends Controller_System_Frontend
 
 	protected function _import_shema($post, $db)
 	{
-		$schema_file = CMSPATH . 'install' . DIRECTORY_SEPARATOR . 'schema.sql';
+		$schema_file = INSTALL_DATA . 'schema.sql';
 		
 		if ( !file_exists( $schema_file ) )
 		{
@@ -177,7 +177,7 @@ class Controller_System_Install extends Controller_System_Frontend
 	
 	protected function _import_dump($post, $db)
 	{
-		$dump_file = CMSPATH . 'install' . DIRECTORY_SEPARATOR . 'dump.sql';
+		$dump_file = INSTALL_DATA . 'dump.sql';
 
 		if ( !file_exists( $dump_file ) )
 		{
@@ -211,7 +211,7 @@ class Controller_System_Install extends Controller_System_Frontend
 	
 	protected function _create_config($post)
 	{
-		$tpl_file = CMSPATH . 'install' . DIRECTORY_SEPARATOR . 'config.tpl';
+		$tpl_file = INSTALL_DATA . 'config.tpl';
 		
 		if ( !file_exists( $tpl_file ) )
 		{

@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
-if (PHP_SAPI != 'cli') // Try and load minion
+if (PHP_SAPI != 'cli')
 {
 	define('IS_BACKEND', URL::match(ADMIN_DIR_NAME, Request::detect_uri()));
 }
