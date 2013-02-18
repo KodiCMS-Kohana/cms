@@ -7,6 +7,12 @@ class Database_Query extends Kohana_Database_Query {
 	 * @var string
 	 */
 	protected $_cache_key = NULL;
+	
+	/**
+	 *
+	 * @var array
+	 */
+	protected $_cache_tags = array();
 
 	/**
 	 * 
@@ -16,6 +22,12 @@ class Database_Query extends Kohana_Database_Query {
 	public function cache_key( $key )
 	{
 		$this->_cache_key = $key;
+		return $this;
+	}
+	
+	public function cache_tags( array $tags )
+	{
+		$this->_cache_tags = $tags;
 		return $this;
 	}
 
@@ -67,7 +79,7 @@ class Database_Query extends Kohana_Database_Query {
 		if ( isset( $cache_key ) AND $this->_lifetime > 0 )
 		{
 			// Cache the result array
-			Cache::instance()->set($cache_key, $result->as_array(), $this->_lifetime);
+			Cache::instance()->set_with_tags($cache_key, $result->as_array(), $this->_lifetime, $this->_cache_tags);
 		}
 
 		return $result;

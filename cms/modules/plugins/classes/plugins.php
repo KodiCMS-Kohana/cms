@@ -79,6 +79,7 @@ class Plugins {
 	{		
 		Cache::instance()->delete('Database::cache(plugins_list)');
 		Cache::instance()->delete('Route::cache()');
+		Kohana::cache('Kohana::find_file()', NULL, -1);
 
 		return DB::update( Setting::TABLE_NAME)
 			->set(array('value' => serialize( self::$_plugins )))

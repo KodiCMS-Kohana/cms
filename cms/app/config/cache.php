@@ -10,5 +10,11 @@ return array
 			'.git',
 			'.svn'
 		)
-	)
+	),
+	'sqlite'   => array(
+		'driver'             => 'sqlite',
+		'default_expire'     => 3600,
+		'database'           => CMSPATH.'cache/kohana-cache.sql3',
+		'schema'             => 'CREATE TABLE caches(id VARCHAR(127) PRIMARY KEY, tags VARCHAR(255), expiration INTEGER, cache TEXT)',
+	),
 );

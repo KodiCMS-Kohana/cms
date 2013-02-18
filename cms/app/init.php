@@ -33,6 +33,7 @@ Cookie::$salt = COOKIE_SALT;
  * Enable modules. Modules are referenced by a relative or absolute path.
  */
 Kohana::modules( array(
+	'cache'			=> MODPATH . 'cache',		// Cache manager
 	'database'		=> MODPATH . 'database',	// Database access
 	'auth'			=> MODPATH . 'auth',		// Basic authentication
 	'orm'			=> MODPATH . 'orm',			// Object Relationship Mapping,
@@ -45,13 +46,8 @@ Kohana::modules( array(
 	'api'			=> MODPATH . 'api',
 	'debug_toolbar'	=> MODPATH . 'debug_toolbar', // Kohana Debug Toolbar http://brotkin.ru/
 	'sheduler'		=> MODPATH . 'sheduler',
-	'cache'			=> MODPATH . 'cache',		// Cache manager
+	'snippet'		=> MODPATH . 'snippet',
 ) );
-
-/**
- * Set the default cache driver
- */
-Cache::$default = 'file';
 
 // Init settings
 Setting::init();

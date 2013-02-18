@@ -11,7 +11,7 @@ return array(
 		array(
 			'name' => __('Users'), 
 			'url' => URL::site('user'),
-			'priority' => 101
+			'priority' => 200
 		)
 	),
 	
@@ -22,13 +22,6 @@ return array(
 			'permissions' => array('administrator','developer'),
 			'priority' => 100
 		),
-		
-		array(
-			'name' => __('Snippets'), 
-			'url' => URL::site('snippet'),
-			'permissions' => array('administrator','developer'),
-			'priority' => 101
-		)
 	),
 	
 	'Content' => array(

@@ -5,8 +5,8 @@
 
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="robots" content="index, follow" />
-		<meta name="description" content="<?php echo ($page->description() != '') ? $page->description() : 'Default description goes here'; ?>" />
-		<meta name="keywords" content="<?php echo ($page->keywords() != '') ? $page->keywords() : 'default, keywords, here'; ?>" />
+		<meta name="description" content="<?php echo $page->description('Default description goes here'); ?>" />
+		<meta name="keywords" content="<?php echo $page->keywords('default, keywords, here'); ?>" />
 		<meta name="author" content="Author Name" />
 		
 		<?php echo HTML::style( PUBLIC_URL . 'themes/normal/screen.css' ) . "\n"; ?>
@@ -15,7 +15,7 @@
 	</head>
 	<body>
 		<div id="page">
-			<?php echo $page->includeSnippet( 'header' ); ?>
+            <?php echo Snippet::render('header'); ?>
 			<div id="content">
 				<h2><?php echo $page->title(); ?></h2>
 				<?php echo $page->content(); ?> 
@@ -26,7 +26,7 @@
 				<?php echo $page->content( 'sidebar', TRUE ); ?> 
 			</div> <!-- end #sidebar -->
 
-			<?php echo $page->includeSnippet( 'footer' ); ?>
+			<?php echo Snippet::render('footer'); ?>
 		</div> <!-- end #page -->
 	</body>
 </html>

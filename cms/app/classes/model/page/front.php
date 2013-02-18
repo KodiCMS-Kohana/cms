@@ -196,20 +196,11 @@ class Model_Page_Front
 	{		
 		if (isset($this->part->{$part}))
 		{
-			if($cache_lifetime !== NULL AND ! Fragment::load( 'Content::' . $part . '::' .  $this->id, (int) $cache_lifetime))
-			{
-				echo View_Front::factory()
-					->set('page', $this)
-					->render_html($this->part->{$part}->content_html);
-
-				Fragment::save();
-			}
-			else if ($cache_lifetime === NULL)
-			{
-				echo View_Front::factory()
-					->set('page', $this)
-					->render_html($this->part->{$part}->content_html);
-			}
+			echo View::factory('system/blocks/part')
+				->set('html', View_Front::factory()
+						->set('page', $this)
+						->render_html($this->part->{$part}->content_html)
+				);
 			
 		}
 		else if ($inherit AND $this->parent)
@@ -287,7 +278,8 @@ class Model_Page_Front
 
 		$query = $sql
 			->cache_key( 'FrontPage::children::::parent_id::' . $this->id.')' )
-			->cached((int)Kohana::$config->load('global.cache.front_page'))
+			->cache_tags( array('pages') )
+			->cached((int) Kohana::$config->load('global.cache.front_page'))
 			->execute();
 
 		// Run!
@@ -342,6 +334,7 @@ class Model_Page_Front
 		$sql = Record::_conditions($sql, $clause);
 
 		return (int) $sql
+			->cache_tags( array('pages') )
 			->cache_key( 'FrontPage::childrenCount::::parent_id::' . $this->id.')' )
 			->cached((int)Kohana::$config->load('global.cache.front_page'))
 			->execute()
@@ -441,6 +434,7 @@ class Model_Page_Front
 					->where('published_on', '<=', DB::expr('NOW()'))
 					->where('status_id', 'in', $statuses)
 					->limit(1)
+					->cache_tags( array('pages') )
 					->cache_key( 'FrontPage::slug::' . $slug . '::parent_id::' . $parent_id )
 					->cached((int)Kohana::$config->load('global.cache.front_page'))
 					->as_object()
@@ -538,6 +532,7 @@ class Model_Page_Front
 			->where('published_on', '<=', DB::expr('NOW()'))
 			->where('status_id', 'in', $statuses)
 			->limit(1)
+			->cache_tags( array('pages') )
 			->cache_key( 'FrontPage::id::' . $id )
 			->cached((int)Kohana::$config->load('global.cache.front_page'))
 			->as_object()
@@ -600,29 +595,10 @@ class Model_Page_Front
 	 * @param string $snippet_name
 	 * @param array $vars
 	 * @param integer $cache_lifetime
-	 * @return null
 	 */
-	public function snippet($snippet_name, $vars = NULL, $cache_lifetime = NULL)
+	public function snippet($snippet_name, $vars = NULL, $cache_lifetime = 3600)
 	{
-		$snippet = new Model_File_Snippet($snippet_name);
-
-		if(!$snippet->is_exists())
-		{
-			return NULL;
-		}
-		
-		if($cache_lifetime !== NULL AND ! Fragment::load( 'Snippet::' . $snippet_name . '::' . $this->id, (int) $cache_lifetime ))
-		{
-			echo View_Front::factory($snippet->get_file(), $vars)
-				->set('page', $this);
-
-			Fragment::save();
-		}
-		else if ($cache_lifetime === NULL)
-		{
-			echo View_Front::factory($snippet->get_file(), $vars)
-				->set('page', $this);
-		}
+		Snippet::render($snippet_name, $vars, $cache_lifetime);
 	}
 
 	/**
@@ -653,9 +629,10 @@ class Model_Page_Front
 		{
 			Request::current()->headers('Content-Type',  $mime );
 		}
+		
+		View_Front::set_global('page', $this);
 
-		return View_Front::factory($layout->get_file())
-			->set('page', $this);
+		return View_Front::factory($layout->get_file());
 	}
 
 	/**
@@ -696,6 +673,7 @@ class Model_Page_Front
 		$parts = DB::select('name', 'content', 'content_html')
 			->from(Model_Page_Part::tableName())
 			->where('page_id', '=', $this->id)
+			->cache_tags( array('page_parts') )
 			->cache_key('pageParts::page_id::'.$this->id)
 			->as_object('Model_Page_Part')
 			->cached((int)Kohana::$config->load('global.cache.page_parts'))
@@ -718,6 +696,7 @@ class Model_Page_Front
 			->join(array(Model_Tag::tableName(), 'tag'), 'left')
 				->on('page_tag.page_id', '=', 'tag.id')
 			->where('page_tag.page_id', '=', $this->id)
+			->cache_tags( array('page_tags') )
 			->cache_key( 'pageTags::page_id::' . $this->id )
 			->cached((int)Kohana::$config->load('global.cache.tags'))
 			->execute()

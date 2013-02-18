@@ -111,12 +111,9 @@ class Model_Page extends Record
 	public function afterUpdate()
 	{
 		$cache = Cache::instance();
-		$cache->delete('Database::cache(FrontPage::id::'.$this->id.')');
-		$cache->delete('Database::cache(FrontPage::slug::' . $this->slug . '::parent_id::' . $this->parent_id. ')');
-		$cache->delete('Database::cache(pageParts::page_id::'.$this->id.')');
-		$cache->delete('Database::cache(pageTags::page_id::'.$this->id.')');
-		$cache->delete('FrontPage::children::::parent_id::' . $this->id.')');
-		$cache->delete('FrontPage::childrenCount::::parent_id::' . $this->id.')');
+		$cache->delete_tag('pages');
+		$cache->delete_tag('page_parts');
+		$cache->delete_tag('page_tags');
 
 		return $this->afterInsert();
 	}
