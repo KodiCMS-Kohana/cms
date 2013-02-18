@@ -76,7 +76,7 @@ class Task_Install extends Minion_Task
 			}
 		}
 		
-		if( $params['password'] !== NULL )
+		if( $params['password'] === NULL )
 		{
 			$params['password_generate'] = FALSE;
 		}
