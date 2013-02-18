@@ -79,6 +79,7 @@ class Task_Install extends Minion_Task
 		if( $params['password'] === NULL )
 		{
 			$params['password_generate'] = FALSE;
+			$params['password_field'] = $params['password_confirm'] = $params['password'];
 		}
 		
 		$response = Request::factory('install/go')
