@@ -1,3 +1,13 @@
+<script type="text/javascript">
+	var PAGE_ID = <?php echo (int) $page->id; ?>;
+
+	<?php if($action == 'add'): ?>
+	$(function() {
+		$('.spoiler-toggle').click();
+	})
+	<?php endif; ?>
+</script>
+	
 <?php echo Form::open($action=='edit' ? 'user/edit/'.$user->id : 'user/add', array(
 	'class' => 'form-horizontal'
 )); ?>
@@ -56,15 +66,15 @@
 			</div>
 		</div>
 
-		<div class="widget-header">
-			<h3><?php echo __('Password'); ?></h3>
+		<div class="widget-header spoiler-toggle">
+			<h3><?php echo __('Password'); ?> <?php echo UI::icon( 'chevron-down spoiler-toggle-icon' ); ?></h3>
 		</div>
-		<div class="widget-content">
+		<div class="widget-content spoiler">
 			<div class="control-group">
 				<label class="control-label" for="userEditPasswordField"><?php echo __('Password'); ?></label>
 				<div class="controls">
 					<?php echo Form::password('user[password]', NULL, array(
-						'class' => 'input-medium', 'id' => 'userEditPasswordField'
+						'class' => 'input-medium', 'autocomplete' => 'off'
 					)); ?>
 					<p class="help-block"><?php echo __('At least :num characters. Must be unique.', array(
 						':num' => 5
@@ -77,7 +87,7 @@
 				<label class="control-label" for="userEditPasswordConfirmField"><?php echo __('Confirm Password'); ?></label>
 				<div class="controls">
 					<?php echo Form::password('user[confirm]', NULL, array(
-						'class' => 'input-medium', 'id' => 'userEditPasswordConfirmField'
+						'class' => 'input-medium', 'autocomplete' => 'off'
 					)); ?>
 				</div>
 			</div>
@@ -90,13 +100,10 @@
 		</div>
 		<div class="widget-content">
 			<div class="control-group">
-				<?php foreach ($permissions as $perm): ?>
-				<label class="checkbox inline" for="userEditPerms<?php echo ucwords($perm->name); ?>">
-				<?php echo Form::checkbox('user_permission['.$perm->name.']', $perm->id, in_array($perm->id, $user->roles), array(
-					'id' => 'userEditPerms' . ucwords($perm->name)
-				)) . ' ' .__(ucwords($perm->name)); ?>
-				</label>
-				<?php endforeach; ?>
+				<?php echo Form::select('user_permission[]', $permissions, $user->roles, array(
+					'class' => 'span12'
+				)); ?>
+
 				<p class="help-block"><?php echo __('Roles restrict user privileges and turn parts of the administrative interface on or off.'); ?></p>
 			</div>
 		</div>
@@ -109,4 +116,4 @@
 		</div>
 	
 	</div>
-</form>
+<?php Form::close(); ?>

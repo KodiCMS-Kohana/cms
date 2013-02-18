@@ -12,7 +12,7 @@ class Model_Permission extends Record
 	{
 		return DB::select('id', 'name')
 			->from( Model_Permission::tableName() )
-			->as_object()
-			->execute();
+			->execute()
+			->as_array('id', 'name');
 	}
 } // end class Model_Permission
