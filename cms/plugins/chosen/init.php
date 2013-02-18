@@ -9,4 +9,5 @@ $plugin = Plugins_Item::factory( array(
 		'chosen.js',
 	),
 	'css' => 'vendors/chosen/chosen.css',
+	'iframe' => FALSE
 ) )->register();

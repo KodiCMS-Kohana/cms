@@ -21,7 +21,8 @@ class Plugins_Item {
 		'title' => NULL,
 		'description' => NULL,
 		'version' => '0.0.0',
-		'settings' => FALSE
+		'settings' => FALSE,
+		'iframe' => TRUE
 	);
 
 	/**
@@ -190,7 +191,10 @@ class Plugins_Item {
 	 */
 	public function register()
 	{
-		Plugins::register( $this );
+		if( ! Plugins::register( $this ) )
+		{
+			return $this;
+		}
 
 		foreach ( $this->_javascripts as $file )
 		{

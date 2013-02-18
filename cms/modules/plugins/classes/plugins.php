@@ -116,6 +116,11 @@ class Plugins {
 		{
 			return NULL;
 		}
+		
+		if( $plugin->iframe === FALSE )
+		{
+			return FALSE;
+		}
 
 		self::$_registered[$plugin->id] = $plugin;
 
