@@ -582,13 +582,21 @@ cms.ui.add('btn-confirm', function() {
 }).add('spoiler', function() {
 	$('.spoiler-toggle')
 		.click(function () {
+			var $self = $(this);
 			var $spoiler_cont = $('.spoiler');
 			
 			if($(this).data('spiler')) {
 				$spoiler_cont = $($(this).data('spiler'));
 			}
 		
-			$spoiler_cont.slideToggle();
+			$spoiler_cont.slideToggle('fast', function() {
+				var $icon = $self.find('.spoiler-toggle-icon');
+				if($(this).is(':hidden')) {
+					$icon.removeClass('icon-chevron-up').addClass('icon-chevron-down');
+				} else {
+					$icon.addClass('icon-chevron-up').removeClass('icon-chevron-down');
+				}
+			});
 			
 			return false;
 		});

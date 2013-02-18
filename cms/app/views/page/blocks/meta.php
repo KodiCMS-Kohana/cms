@@ -1,4 +1,3 @@
-<div id="pageEditMetaTitle">
 	<div class="control-group">
 		<label class="control-label" for="pageEditMetaTitleField"><?php echo __( 'Page title' ); ?></label>
 		<div class="controls">
@@ -9,10 +8,13 @@
 			?>
 		</div>
 	</div>
-	<?php echo HTML::anchor( '#', UI::icon( 'cog' ), array( 'class' => 'spoiler-toggle', 'data-spoiler' => '#pageEditMetaMore' ) ); ?>
 </div>
-<div id="pageEditMetaMore" class="spoiler">
-	<hr />
+<div class="spoiler-toggle-container widget-content-bg widget-no-border-radius">
+	<div class="spoiler-toggle">
+		<?php echo UI::icon( 'chevron-down spoiler-toggle-icon' ); ?>
+	</div>
+	<div class="spoiler">
+	<br />
 	<?php if ( $action == 'add' || ($action == 'edit' && isset( $page->id ) && $page->id != 1) ): ?>
 		<div class="control-group">
 			<label class="control-label" for="pageEditMetaSlugField"><?php echo __( 'Slug' ); ?></label>

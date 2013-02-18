@@ -165,7 +165,7 @@ $(function() {
 		},
 
 		render: function() {
-			this.$el.empty();
+			this.clear();
 
 			this.collection.each(function(part) {
 				this.addPart(part);
