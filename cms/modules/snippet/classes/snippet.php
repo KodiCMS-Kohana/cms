@@ -11,15 +11,22 @@ class Snippet {
 			return NULL;
 		}
 		
+		$view = View_Front::factory($snippet->get_file(), $vars);
+		
+		if(isset($view->page_object))
+		{
+			$view->page = $view->page_object;
+		}
+		
 		if( $cache_lifetime !== NULL AND ! Fragment::load( self::_cache_key($snippet_name, $cache_by_uri), (int) $cache_lifetime, $i18n ))
 		{
-			echo View_Front::factory($snippet->get_file(), $vars);
+			echo $view;
 
 			Fragment::save();
 		}
 		else if ($cache_lifetime === NULL)
 		{
-			echo View_Front::factory($snippet->get_file(), $vars);
+			echo $view;
 		}
 	}
 	
