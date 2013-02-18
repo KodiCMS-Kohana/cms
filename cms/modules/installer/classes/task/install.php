@@ -46,7 +46,6 @@ class Task_Install extends Minion_Task
 			->rule('db_port', 'not_empty')
 			->rule('db_port', 'numeric')
 			->rule('db_user', 'not_empty')
-			->rule('password', 'not_empty')
 			->rule('username', 'not_empty')
 			->rule('email', 'not_empty')
 			->rule('email', 'email')
@@ -76,9 +75,9 @@ class Task_Install extends Minion_Task
 			}
 		}
 		
-		if( $params['password'] === NULL )
+		if( $params['password'] !== NULL )
 		{
-			$params['password_generate'] = FALSE;
+			unset($params['password_generate']);
 			$params['password_field'] = $params['password_confirm'] = $params['password'];
 		}
 		
