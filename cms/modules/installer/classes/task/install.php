@@ -26,13 +26,17 @@ class Task_Install extends Minion_Task
 		'db_port' => 3306,
 		'db_user' => 'root',
 		'db_password' => '',
+		'db_name' => NULL,
 		'table_prefix' => '',
 		'site_name' => CMS_NAME,
 		'username' => 'admin',
+		'password' => NULL,
 		'email' => 'admin@yoursite.com',
 		'admin_dir_name' => 'backend',
 		'url_suffix' => '.html',
-		'password_generate' => TRUE
+		'timezone' => NULL,
+		'password_generate' => TRUE,
+		'empty_database' => FALSE
 	);
 	
 	public function build_validation(Validation $validation)
@@ -42,7 +46,10 @@ class Task_Install extends Minion_Task
 			->rule('db_port', 'not_empty')
 			->rule('db_port', 'numeric')
 			->rule('db_user', 'not_empty')
+			->rule('db_name', 'not_empty')
+			->rule('password', 'not_empty')
 			->rule('username', 'not_empty')
+			->rule('timezone', 'not_empty')
 			->rule('email', 'not_empty')
 			->rule('email', 'email')
 			->rule('admin_dir_name', 'not_empty');
@@ -52,12 +59,12 @@ class Task_Install extends Minion_Task
 	{
 		$params['db_driver'] = 'mysql';
 
-		if( ! isset($params['db_name']) )
+		if( $params['db_name'] === NULL )
 		{
 			$params['db_name'] = Minion_CLI::read('Please enter database name');
 		}
 		
-		if( ! isset($params['timezone']) )
+		if( $params['timezone'] === NULL )
 		{
 			$answer = Minion_CLI::read(__('Select current timezone automaticly (:current)', array(':current' => date_default_timezone_get())), array('y', 'n'));
 			
@@ -71,7 +78,7 @@ class Task_Install extends Minion_Task
 			}
 		}
 		
-		if( isset($params['password']) )
+		if( $params['password'] !== NULL )
 		{
 			$params['password_generate'] = FALSE;
 		}
