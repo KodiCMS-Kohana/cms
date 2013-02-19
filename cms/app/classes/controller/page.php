@@ -293,13 +293,13 @@ class Controller_Page extends Controller_System_Backend {
 		$expanded_rows = isset( $_COOKIE['expanded_rows'] ) ? explode( ',', $_COOKIE['expanded_rows'] ) : array( );
 
 		$page = Model_Page::findById($parent_id);
-		$config = Behavior::get( $page->behavior_id );
+		$behavior = Behavior::get( $page->behavior_id );
 		
 		$clause = array();
 		
-		if(!empty($config['limit']))
+		if( ! empty($behavior['limit']))
 		{
-			$clause['limit'] = (int) $config['limit'];
+			$clause['limit'] = (int) $behavior['limit'];
 		}
 			
 		// get all children of the page (parent_id)
@@ -308,6 +308,14 @@ class Controller_Page extends Controller_System_Backend {
 		foreach ( $childrens as $index => $child )
 		{
 			$childrens[$index]->has_children = Model_Page::hasChildren( $child->id );
+			
+			$child_behavior = Behavior::get( $child->behavior_id );
+			
+			if( ! empty($child_behavior['link']))
+			{
+				$childrens[$index]->has_children = TRUE;
+			}
+			
 			$childrens[$index]->is_expanded = in_array( $child->id, $expanded_rows );
 			//$childrens[$index]->is_expanded = true;
 
@@ -317,10 +325,14 @@ class Controller_Page extends Controller_System_Backend {
 			}
 		}
 		
-		if(!empty($config['limit']) AND !empty($config['link']))
+		if( ! empty($behavior['limit']) )
 		{
-			$link = strtr($config['link'], array(':id' => $parent_id));
 			$childrens[] = '...';
+		}
+		
+		if( ! empty($behavior['link']))
+		{
+			$link = strtr($behavior['link'], array(':id' => $parent_id));
 			$childrens[] = __(':icon :link', array(
 				':icon' => UI::icon('folder-open'),
 				':link' => HTML::anchor( $link, __(ucfirst($page->behavior_id)))
@@ -339,6 +351,9 @@ class Controller_Page extends Controller_System_Backend {
 
 		echo $content;
 	}
+	
+	
+	
 
 	public function action_children( )
 	{
