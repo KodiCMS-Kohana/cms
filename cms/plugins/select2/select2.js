@@ -1,5 +1,5 @@
-cms.ui.add('chosen', function() {
+cms.ui.add('select2', function() {
 	var select = $('select').not('.no-script');
-	select.chosen();
+	select.select2();
 	select.trigger("liszt:updated");
 });
