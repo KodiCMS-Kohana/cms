@@ -4,6 +4,41 @@ class Upload extends Kohana_Upload {
 	
 	/**
 	 * 
+	 * @param array $file
+	 * @param array $types
+	 * @return type
+	 * @throws Validation_Exception
+	 */
+	public static function file( $file, array $types = array('jpg', 'gif', 'png') )
+	{
+		$validation = Validation::factory( array('file' => $file ) )
+			->rules( 'file', array(
+				array('Upload::valid'),
+				array('Upload::type', array(':value', $types)),
+				array('Upload::size', array(':value', 100000000))
+			) );
+
+		if ( ! $validation->check() )
+		{
+			return array(FALSE, $validation->errors());
+		}
+
+		$ext = strtolower( pathinfo( $file['name'], PATHINFO_EXTENSION ) );
+		$filename = uniqid() . '.' . $ext;
+		
+		if( ! is_dir( TMPPATH ))
+		{
+			mkdir(TMPPATH, 0777);
+			chmod(TMPPATH, 0777);
+		}
+
+		$uploadedfile = Upload::save( $file, $filename, TMPPATH, 0777 );
+
+		return array(TRUE, $filename);
+	}
+	
+	/**
+	 * 
 	 * @param string $url
 	 * @param string $directory
 	 * @param string $chmod

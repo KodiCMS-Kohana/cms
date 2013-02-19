@@ -8,7 +8,7 @@ $cms = 'cms' . DIRECTORY_SEPARATOR;
  *
  * @see  http://kohanaframework.org/guide/about.install#application
  */
-$application = $cms . 'app';
+$application = $cms . 'application';
 
 /**
  * The directory in which your modules are located.

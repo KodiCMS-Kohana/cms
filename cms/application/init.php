@@ -13,6 +13,7 @@ define('PLUGINS_URL',		BASE_URL . 'cms/plugins/');
 define('PUBLIC_URL',		BASE_URL . 'public/');
 
 define('PUBLICPATH',		DOCROOT . 'public' . DIRECTORY_SEPARATOR);
+define('TMPPATH',			PUBLICPATH . 'temp' . DIRECTORY_SEPARATOR);
 define('LAYOUTS_SYSPATH',	DOCROOT . 'layouts' . DIRECTORY_SEPARATOR);
 define('SNIPPETS_SYSPATH',	DOCROOT . 'snippets' . DIRECTORY_SEPARATOR);
 
@@ -39,6 +40,7 @@ Kohana::modules( array(
 	'orm'			=> MODPATH . 'orm',			// Object Relationship Mapping,
 	'pagination'	=> MODPATH . 'pagination',
 	'minion'		=> MODPATH . 'minion',		// Minion
+	'image'			=> MODPATH . 'image',
 	'plugins'		=> MODPATH . 'plugins',
 	'userguide'		=> MODPATH . 'userguide',	// User guide and API documentation,
 	'bootstrap'		=> MODPATH . 'bootstrap',

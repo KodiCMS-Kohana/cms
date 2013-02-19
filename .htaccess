@@ -1,5 +1,7 @@
 AddDefaultCharset utf8
 
+#SetEnv KOHANA_ENV DEVELOPMENT
+
 # Turn on URL rewriting
 RewriteEngine On
 
@@ -16,7 +18,7 @@ Options -Indexes
 
 # Protect application and system files from being viewed
 # RewriteRule ^(?:cms)\b.* index.php/$0 [L]
-RewriteRule ^(cms/app|cms/system|cms/modules)/ - [F,L]
+RewriteRule ^(cms/application|cms/system|cms/modules)/ - [F,L]
 
 # Allow any files or directories that exist to be displayed directly
 RewriteCond %{REQUEST_FILENAME} !-f
