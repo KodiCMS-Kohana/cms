@@ -11,7 +11,8 @@ cms.plugins.redactor.switchOn_handler = function( textarea_id, params )
 		focus: true,
 		//wym: true,
 		autoresize: false,
-		lang: LOCALE
+		lang: LOCALE,
+		minHeight: 200
 	};
 	
 	params = $.extend(local_params, params);
