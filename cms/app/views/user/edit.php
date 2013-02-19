@@ -99,7 +99,7 @@
 			<h3><?php echo __('Roles'); ?></h3>
 		</div>
 		<div class="widget-content">
-			<div class="control-group">
+			<div class="row-fluid">
 				<?php echo Form::select('user_permission[]', $permissions, $user->roles, array(
 					'class' => 'span12'
 				)); ?>

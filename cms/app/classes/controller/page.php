@@ -50,7 +50,7 @@ class Controller_Page extends Controller_System_Backend {
 			'filters' => Filter::findAll(),
 			'behaviors' => Behavior::findAll(),
 			'layouts' => Model_File_Layout::find_all(),
-			'permissions' => Record::findAllFrom( 'Model_Permission' ),
+			'permissions' => Model_Permission::get_all(),
 			'page_permissions' => $page->getPermissions()
 		) );
 	}
@@ -166,7 +166,7 @@ class Controller_Page extends Controller_System_Backend {
 			'filters' => Filter::findAll(),
 			'behaviors' => Behavior::findAll(),
 			'layouts' => Model_File_Layout::find_all(),
-			'permissions' => Record::findAllFrom( 'Model_Permission' ),
+			'permissions' => Model_Permission::get_all(),
 			'page_permissions' => $page->getPermissions()
 		) );
 	}

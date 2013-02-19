@@ -353,40 +353,20 @@ class Model_Page extends Record
 	
 	public function getPermissions()
 	{
-		if (empty($this->id))
+		if ( empty($this->id) )
 		{
-			return array('administrator', 'developer', 'editor');
+			return Model_Permission::get_all();
 		}
 			
-		static $permissions = array();
-		
-		if (empty($permissions[$this->id]))
-		{
-			$query = DB::select('role.id', 'role.name')
-				->from(array(Model_Page_Role::tableName(), 'page_roles'))
-				->join(array(Model_Permission::tableName(), 'role'), 'left')
-					->on('page_roles.role_id', '=','role.id')
-				->where('page_roles.page_id', '=', $this->id)
-				->as_object()
-				->execute();
-			
-			if( ! $query )
-			{
-				return array();
-			}
-
-			$permissions[$this->id] = array('administrator');
-			
-			foreach ( $query as $object )
-			{
-				$permissions[$this->id][$object->id] = $object->name;
-			}
-        }
-		
-        return $permissions[$this->id];
+		return DB::select('role.id', 'role.name')
+			->from(array(Model_Page_Role::tableName(), 'page_roles'))
+			->join(array(Model_Permission::tableName(), 'role'), 'left')
+				->on('page_roles.role_id', '=','role.id')
+			->where('page_roles.page_id', '=', $this->id )
+			->execute()
+			->as_array('id', 'name');
 	}
-	
-	// Save Model_Page permissions
+
 	public function savePermissions( $permissions )
 	{
 		if(!is_array( $permissions ))
@@ -395,40 +375,26 @@ class Model_Page extends Record
 		}
 
 		// get permissions that already stored in database		
-		$perms_in_table = DB::select('role.name')
-			->from(array(Model_Page_Role::tableName(), 'page_roles'))
-			->join(array(Model_Permission::tableName(), 'role'), 'left')
-				->on('page_roles.role_id', '=', 'role.id')
-			->where( 'page_roles.page_id', '=', $this->id )
-			->execute()
-			->as_array(NULL, 'name');
+		$perms_in_table = array_keys($this->getPermissions());
 
 		$new_perms = array_diff($permissions, $perms_in_table);
 		$del_perms = array_diff($perms_in_table, $permissions);
 		
 		// add new ralates to page_permission
-		foreach ($new_perms as $permission_name)
+		foreach ($new_perms as $id)
 		{
-			$select = DB::select('id')
-				->from(Model_Permission::tableName())
-				->where('name', '=', $permission_name);
-
 			DB::insert(Model_Page_Role::tableName())
 				->columns(array('page_id', 'role_id'))
-				->values(array($this->id, $select))
+				->values(array($this->id, (int) $id))
 				->execute();
 		}
 		
 		// remove old relatives from page_permission
-		foreach ($del_perms as $permission_name)
+		foreach ($del_perms as $id)
 		{
-			$select = DB::select('id')
-				->from(Model_Permission::tableName())
-				->where('name', '=', $permission_name);
-
 			DB::delete(Model_Page_Role::tableName())
 				->where('page_id', '=', $this->id)
-				->where('role_id', '=', $select)
+				->where('role_id', '=', (int) $id)
 				->execute();
 		}
 	}
