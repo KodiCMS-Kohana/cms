@@ -7,9 +7,8 @@ class Controller_Front extends Controller_System_Controller
 		Observer::notify('frontpage_requested', array($this->request->uri()));
 		
 		$page = Model_Page_Front::find($this->request->uri());
-		
-		// if we fund it, display it!
-		if ($page !== FALSE && $page !== NULL)
+
+		if ($page instanceof Model_Page_Front)
 		{
 			return $this->_render($page);
 		}

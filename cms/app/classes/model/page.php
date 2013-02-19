@@ -68,6 +68,8 @@ class Model_Page extends Record
 			$this->position = ((int) $last_position) + 1;
 		}
 		
+		if($this->behavior_id == 0) $this->behavior_id = '';
+		
         return TRUE;
     }
 	
@@ -104,7 +106,10 @@ class Model_Page extends Record
         
         $this->updated_by_id = AuthUser::getId();
         $this->updated_on = date('Y-m-d H:i:s');
-        
+		
+		if($this->behavior_id == 0) $this->behavior_id = '';
+		if($this->layout_file == 0) $this->layout_file = '';
+		
         return TRUE;
     }
 	
@@ -122,7 +127,11 @@ class Model_Page extends Record
 	{
 		// need to delete subpages
 		self::deleteByParentId($this->id);
-
+		
+		$cache = Cache::instance();
+		$cache->delete_tag('pages');
+		$cache->delete_tag('page_parts');
+		$cache->delete_tag('page_tags');
 		return TRUE;
 	}
 
