@@ -69,10 +69,10 @@ class Controller_System_Backend extends Controller_System_Template
 				ADMIN_RESOURCES . 'js/backend.js'
 			);
 			
-			$file = strtolower($this->request->controller()) . '.js';
-			if(file_exists(CMSPATH . implode(DIRECTORY_SEPARATOR, array('media', 'js', 'controller', $file))))
+			$file = strtolower($this->request->controller());
+			if(Kohana::find_file('media', '/js/controller/' . $file, 'js'))
 			{
-				$this->scripts[] = ADMIN_RESOURCES . 'js/controller/' . $file;
+				$this->scripts[] = ADMIN_RESOURCES . 'js/controller/' . $file . '.js';
 			}
 		}
 	}

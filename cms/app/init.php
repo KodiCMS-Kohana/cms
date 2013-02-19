@@ -44,7 +44,7 @@ Kohana::modules( array(
 	'bootstrap'		=> MODPATH . 'bootstrap',
 	'breadcrumbs'	=> MODPATH . 'breadcrumbs',
 	'api'			=> MODPATH . 'api',
-	'debug_toolbar'	=> MODPATH . 'debug_toolbar', // Kohana Debug Toolbar http://brotkin.ru/
+//	'debug_toolbar'	=> MODPATH . 'debug_toolbar', // Kohana Debug Toolbar http://brotkin.ru/
 	'sheduler'		=> MODPATH . 'sheduler',
 	'snippet'		=> MODPATH . 'snippet',
 ) );
@@ -52,6 +52,15 @@ Kohana::modules( array(
 // Init settings
 Setting::init();
 Behavior::init();
+
+Route::set( 'admin_media', 'cms/media/<file>', array(
+	'file' => '.*'
+))
+	->defaults( array(
+		'directory' => 'system',
+		'controller' => 'media',
+		'action' => 'media',
+	) );
 
 Route::set( 'user', ADMIN_DIR_NAME.'/<action>(?next=<next_url>)', array(
 	'action' => '(login|logout|forgot|register)',

@@ -111,4 +111,4 @@ $(function() {
 	});
 	
 	var AppPlugins = new cms.views.plugins();
-})
+});
