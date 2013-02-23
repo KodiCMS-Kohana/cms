@@ -8,8 +8,9 @@ $(function() {
 			status: false
 		},
 
-		toggleStatus: function() {
-			this.save({status: ! this.get("status")});
+		toggleStatus: function(remove_data) {
+			if(!remove_data) remove_data = false;
+			this.save({status: ! this.get("status"), remove_data: remove_data});
 		},
 
 		clear: function() {
@@ -51,7 +52,11 @@ $(function() {
 		},
 
 		toggleStatus: function() {
-			this.model.toggleStatus();
+			remove_data = false;
+			if( this.model.get('status') && confirm(__('Remove database data')))
+				remove_data = true;
+			
+			this.model.toggleStatus(remove_data);
 		},
 
 		// Re-render the titles of the todo item.

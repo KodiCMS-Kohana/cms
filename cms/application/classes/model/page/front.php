@@ -272,10 +272,10 @@ class Model_Page_Front
 		$pages = array();
 
 		// hack to be able to redefine the page class with behavior
-		if ( ! empty($this->behavior_id))
+		if ( !empty( $this->behavior_id ) )
 		{
 			// will return Page by default (if not found!)
-			$page_class = Behavior::loadPageHack($this->behavior_id);
+			$page_class = Behavior::load_page($this->behavior_id);
 		}
 
 		$query = $sql
@@ -444,10 +444,10 @@ class Model_Page_Front
 				if( $page )
 				{
 					// hook to be able to redefine the page class with behavior
-					if ( !empty($parent->behavior_id) )
+					if ( !empty( $parent->behavior_id ) )
 					{
 						// will return Page by default (if not found!)
-						$page_class = Behavior::loadPageHack($parent->behavior_id);
+						$page_class = Behavior::load_page($parent->behavior_id);
 					}
 
 					// create the object page
@@ -490,11 +490,9 @@ class Model_Page_Front
 			if( $page = self::findBySlug($page_slug, $parent) )
 			{
 				// check for behavior
-				if( $page->behavior_id != '' )
+				if( !empty( $page->behavior_id ) )
 				{
-					// add a instance of the behavior with the name of the behavior 
-					$params = preg_split('/\//', substr($uri, strlen($url)), -1, PREG_SPLIT_NO_EMPTY);
-					$page->{$page->behavior_id} = Behavior::load($page->behavior_id, $page, $params);
+					$page->{$page->behavior_id} = Behavior::load($page->behavior_id, $page, $url, $uri);
 
 					return $page;
 				}
@@ -552,7 +550,7 @@ class Model_Page_Front
 			if ( !empty($parent->behavior_id) )
 			{
 				// will return Page by default (if not found!)
-				$page_class = Behavior::loadPageHack($parent->behavior_id);
+				$page_class = Behavior::load_page($parent->behavior_id);
 			}
 
 			// create the object page
@@ -639,11 +637,11 @@ class Model_Page_Front
 	 */	
 	public function layout()
 	{
-		if ($this->layout_file)
+		if ( !empty($this->layout_file) )
 		{
 			return $this->layout_file;
 		}
-		else if ($this->parent)
+		else if( ! empty($this->parent) )
 		{
 			return $this->parent->layout();
 		}

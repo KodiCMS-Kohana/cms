@@ -159,14 +159,17 @@ class Plugins {
 	 * 
 	 * @param string $plugin_id
 	 */
-	public static function deactivate( $plugin_id )
+	public static function deactivate( $plugin_id, $uninstal = TRUE )
 	{
 		if ( isset( self::$_plugins[$plugin_id] ) )
 		{
-			$file = PLUGPATH . $plugin_id . DIRECTORY_SEPARATOR . 'disable.php';
-			if ( file_exists( $file ) )
+			if($uninstal === TRUE)
 			{
-				require_once $file;
+				$file = PLUGPATH . $plugin_id . DIRECTORY_SEPARATOR . 'disable.php';
+				if ( file_exists( $file ) )
+				{
+					require_once $file;
+				}
 			}
 
 			unset( self::$_plugins[$plugin_id] );

@@ -49,6 +49,7 @@ Kohana::modules( array(
 //	'debug_toolbar'	=> MODPATH . 'debug_toolbar', // Kohana Debug Toolbar http://brotkin.ru/
 	'sheduler'		=> MODPATH . 'sheduler',
 	'snippet'		=> MODPATH . 'snippet',
+	'behavior'		=> MODPATH . 'behavior',
 ) );
 
 // Init settings

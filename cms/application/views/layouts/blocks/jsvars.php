@@ -12,5 +12,4 @@ var CURRENT_URL			= '<?php echo Request::current()->url(TRUE) . URL::query() ; ?
 	USER_ID				= <?php echo (int) AuthUser::getId(); ?>,
 	PAGE_STATUSES		= '<?php echo json_encode(Model_Page::statuses()); ?>',
 	PAGE_LOGINS			= '<?php echo json_encode(Model_Page::logins()); ?>',
-	BEHAVIORS			= '<?php echo json_encode(Behavior::findAll()); ?>',
 	FILTERS				= '<?php echo json_encode(Filter::findAll()); ?>';

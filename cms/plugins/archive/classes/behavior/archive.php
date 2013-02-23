@@ -2,39 +2,13 @@
 
 class Behavior_Archive extends Behavior_Abstract
 {
-    public function __construct(&$page, $params)
-    {
-        $this->page =& $page;
-        $this->params = $params;
-        
-        switch(count($params))
-        {
-            case 0: break;
-            case 1:
-                if (strlen((int) $params[0]) == 4)
-                    $this->_archiveBy('year', $params);
-                else
-                    $this->_displayPage($params[0]);
-            break;
-            
-            case 2:
-                $this->_archiveBy('month', $params);
-            break;
-            
-            case 3:
-                $this->_archiveBy('day', $params);
-            break;
-            
-            case 4:
-                $this->_displayPage($params[3]);
-            break;
-            
-            default:
-                Model_Page_Front::not_found();
-        }
-    }
-    
-    private function _archiveBy($interval, $params)
+
+	public function execute()
+	{
+		
+	}
+
+	private function _archiveBy($interval, $params)
     {
         $this->interval = $interval;
 
@@ -84,7 +58,7 @@ class Behavior_Archive extends Behavior_Abstract
 		return DB::select(array(DB::expr( 'DATE_FORMAT('. Database::instance()->quote_column('created_on').', "%Y")' ), 'date'))
 			->distinct(TRUE)
 			->from(Model_Page::TABLE_NAME)
-			->where('parent_id', '=', $this->page->id)
+			->where('parent_id', '=', $this->_page->id)
 			->where('status_id', '!=', Model_Page::STATUS_HIDDEN)
 			->order_by( 'created_on', 'desc' )
 			->execute()
@@ -96,7 +70,7 @@ class Behavior_Archive extends Behavior_Abstract
 		return DB::select(array(DB::expr( 'DATE_FORMAT('. Database::instance()->quote_column('created_on').', "%Y/%m")' ), 'date'))
 			->distinct(TRUE)
 			->from(Model_Page::TABLE_NAME)
-			->where('parent_id', '=', $this->page->id)
+			->where('parent_id', '=', $this->_page->id)
 			->where('status_id', '!=', Model_Page::STATUS_HIDDEN)
 			->order_by( 'created_on', 'desc' )
 			->execute()
@@ -108,11 +82,11 @@ class Behavior_Archive extends Behavior_Abstract
 		return DB::select(array(DB::expr( 'DATE_FORMAT('. Database::instance()->quote_column('created_on').', "%Y/%m/%d")' ), 'date'))
 			->distinct(TRUE)
 			->from(Model_Page::TABLE_NAME)
-			->where('parent_id', '=', $this->page->id)
+			->where('parent_id', '=', $this->_page->id)
 			->where('status_id', '!=', Model_Page::STATUS_HIDDEN)
 			->order_by( 'created_on', 'desc' )
 			->execute()
 			->as_array(NULL, 'date');
     }
 	
-} // end class Archive
+}

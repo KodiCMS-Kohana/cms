@@ -105,12 +105,14 @@ var cms = {
 </div>');
 		},
 		
-		show: function () {
-			$('._loader_container').fadeIn();
+		show: function (speed) {
+			if(!speed)
+				speed = 1500
+			$('._loader_container').fadeTo(speed, 0.4);
 		},
 		
 		hide: function () {
-			$('._loader_container').fadeOut();
+			$('._loader_container').stop().fadeOut();
 		}
 	},
 	
@@ -614,7 +616,7 @@ cms.ui.add('btn-confirm', function() {
 }).add('slug', function() {
 	// Slug & metadata
     var slugs = {};
-    $('.slug-generator').keyup(function () {
+    $('body').on('keyup', '.slug-generator', function () {
 		var $slug_cont = $('.slug');
 
 		if($(this).data('slug')) {
@@ -631,8 +633,7 @@ cms.ui.add('btn-confirm', function() {
         }
     });
 
-	$('.slug')
-		.keyup(function () {
+	$('body').on('keyup', '.slug', function () {
 			$(this).val(cms.convertSlug($(this).val()));
 			slugs[$(this)] = false;
 			
@@ -683,7 +684,10 @@ cms.ui.add('btn-confirm', function() {
 		window.top.$.fancybox.close();
 		return false;
 	})
-})
+}).add('select2', function() {
+	var select = $('select').not('.no-script');
+	select.select2();
+});
 
 var Api = {
 	_response: null,

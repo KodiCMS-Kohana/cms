@@ -55,6 +55,7 @@ class Controller_System_Backend extends Controller_System_Template
 				ADMIN_RESOURCES . 'libs/jquery-ui/css/custom-theme/jquery-ui-1.8.16.custom.css',
 				ADMIN_RESOURCES . 'libs/jgrowl/jquery.jgrowl.css',
 				ADMIN_RESOURCES . 'libs/fancybox/jquery.fancybox.css',
+				ADMIN_RESOURCES . 'libs/select2/select2.css',
 				ADMIN_RESOURCES . 'css/common.css',
 			);
 			
@@ -66,6 +67,7 @@ class Controller_System_Backend extends Controller_System_Template
 				ADMIN_RESOURCES . 'libs/bootstrap/js/bootstrap.min.js',
 				ADMIN_RESOURCES . 'libs/jgrowl/jquery.jgrowl_minimized.js',
 				ADMIN_RESOURCES . 'libs/fancybox/jquery.fancybox.pack.js',
+				ADMIN_RESOURCES . 'libs/select2/select2.min.js',
 				ADMIN_RESOURCES . 'js/backend.js'
 			);
 			

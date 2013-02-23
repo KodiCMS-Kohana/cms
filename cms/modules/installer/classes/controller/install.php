@@ -81,7 +81,7 @@ class Controller_Install extends Controller_System_Frontend
 		$this->_complete();
 	}
 	
-	protected function _complete()
+	protected function _complete($post)
 	{
 		if(PHP_SAPI == 'cli')
 		{
