@@ -10,6 +10,19 @@ class Model_User extends Model_Auth_User {
 		'user_tokens' => array('model' => 'user_token'),
 		'roles'       => array('model' => 'role', 'through' => 'roles_users'),
 	);
+	
+	/**
+	 * Password validation for plain passwords.
+	 *
+	 * @param array $values
+	 * @return Validation
+	 */
+	public static function get_password_validation($values)
+	{
+		return Validation::factory($values)
+			->rule('password', 'min_length', array(':value', Kohana::$config->load('auth')->get( 'password_length' )))
+			->rule('password_confirm', 'matches', array(':validation', ':field', 'password'));
+	}
 
 	public function has_role($role, $all_required = TRUE) 
 	{

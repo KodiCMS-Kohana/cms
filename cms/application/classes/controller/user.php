@@ -237,7 +237,7 @@ class Controller_User extends Controller_System_Backend {
 		{
 			$array
 				->rule('password', 'not_empty')
-				->rule('password', 'min_length', array(':value', 8))
+				->rule('password', 'min_length', array(':value', Kohana::$config->load('auth')->get( 'password_length' )))
 				->rule('confirm', 'matches', array(':validation', ':field', 'password'));
 		}
 		

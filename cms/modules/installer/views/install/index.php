@@ -116,7 +116,7 @@
 							'class' => 'input-medium', 'id' => 'userEditPasswordField'
 						)); ?>
 						<p class="help-block"><?php echo __('At least :num characters. Must be unique.', array(
-							':num' => 5
+							':num' => Kohana::$config->load('auth')->get( 'password_length', 5 )
 						)); ?>
 					</div>
 				</div>

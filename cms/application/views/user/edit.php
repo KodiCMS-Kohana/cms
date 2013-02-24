@@ -77,7 +77,7 @@
 						'class' => 'input-medium', 'autocomplete' => 'off'
 					)); ?>
 					<p class="help-block"><?php echo __('At least :num characters. Must be unique.', array(
-						':num' => 5
+						':num' => Kohana::$config->load('auth')->get( 'password_length' )
 					)); ?> 
 					<?php if($action=='edit') echo __('Leave password blank for it to remain unchanged.'); ?></p>
 				</div>
