@@ -76,12 +76,10 @@ class Behavior
 		{
 			return new $behavior_class($page, $url, $uri);
 		}
-		else
-		{
-			throw new HTTP_Exception_404('Behavior :behavior not found!', array(
-				':behavior' => $behavior_id
-			));
-		}
+		
+		throw new HTTP_Exception_404('Behavior :behavior not found!', array(
+			':behavior' => $behavior_id
+		));
 	}
 
 
