@@ -131,7 +131,7 @@ class Controller_Login extends Controller_System_Frontend {
 		Session::instance()->set('forgot_email', $email);
 
 		$new_pass = Text::random();
-		$user->password = Auth::instance()->hash($new_pass);
+		$user->password = $new_pass;
 		$user->save();
 
 		$message = (string) View::factory('messages/forgot_emil', array(
