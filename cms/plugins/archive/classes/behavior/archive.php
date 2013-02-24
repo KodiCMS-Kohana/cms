@@ -104,7 +104,7 @@ class Behavior_Archive extends Behavior_Abstract
         return $pages;
     }
     
-    public function archivesByYear()
+    public function archives_by_year()
     {
 		return DB::select(array(DB::expr( 'DATE_FORMAT('. Database::instance()->quote_column('created_on').', "%Y")' ), 'date'))
 			->distinct(TRUE)
@@ -116,7 +116,7 @@ class Behavior_Archive extends Behavior_Abstract
 			->as_array(NULL, 'date');
     }
     
-    public function archivesByMonth()
+    public function archives_by_month()
     {
 		return DB::select(array(DB::expr( 'DATE_FORMAT('. Database::instance()->quote_column('created_on').', "%Y/%m")' ), 'date'))
 			->distinct(TRUE)
@@ -128,7 +128,7 @@ class Behavior_Archive extends Behavior_Abstract
 			->as_array(NULL, 'date');
     }
     
-    public function archivesByDay()
+    public function archives_by_day()
     {
 		return DB::select(array(DB::expr( 'DATE_FORMAT('. Database::instance()->quote_column('created_on').', "%Y/%m/%d")' ), 'date'))
 			->distinct(TRUE)
