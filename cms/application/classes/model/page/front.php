@@ -107,10 +107,7 @@ class Model_Page_Front
 
 	public function is_active()
 	{
-		$url = Request::current()->url();		
-		$page_url = $this->url . URL_SUFFIX;
-
-		return (strpos($url, $page_url) === 1);
+		return (strpos(Request::current()->url(), $this->url) === 1);
 	}
 
 	public function link($label = NULL, $options = array(), $check_current = TRUE)
