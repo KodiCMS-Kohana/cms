@@ -29,6 +29,9 @@ abstract class Model_Backup {
 	 */
 	public static function factory($file = NULL)
 	{
+		if( is_dir($file))
+			throw new HTTP_Exception_404('Must be file');
+
 		$ext = pathinfo($file, PATHINFO_EXTENSION);
 		
 		$class = NULL;
