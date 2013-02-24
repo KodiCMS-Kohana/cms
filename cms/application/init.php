@@ -39,6 +39,7 @@ Kohana::modules( array(
 	'auth'			=> MODPATH . 'auth',		// Basic authentication
 	'orm'			=> MODPATH . 'orm',			// Object Relationship Mapping,
 	'pagination'	=> MODPATH . 'pagination',
+	'navigation'	=> MODPATH . 'navigation',
 	'minion'		=> MODPATH . 'minion',		// Minion
 	'image'			=> MODPATH . 'image',
 	'plugins'		=> MODPATH . 'plugins',
@@ -46,10 +47,9 @@ Kohana::modules( array(
 	'bootstrap'		=> MODPATH . 'bootstrap',
 	'breadcrumbs'	=> MODPATH . 'breadcrumbs',
 	'api'			=> MODPATH . 'api',
-//	'debug_toolbar'	=> MODPATH . 'debug_toolbar', // Kohana Debug Toolbar http://brotkin.ru/
 	'sheduler'		=> MODPATH . 'sheduler',
 	'snippet'		=> MODPATH . 'snippet',
-	'behavior'		=> MODPATH . 'behavior',
+	'behavior'		=> MODPATH . 'behavior'
 ) );
 
 // Init settings
