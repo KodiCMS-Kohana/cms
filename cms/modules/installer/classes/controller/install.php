@@ -78,7 +78,7 @@ class Controller_Install extends Controller_System_Frontend
 			$this->_show_error($e);
 		}
 		
-		$this->_complete();
+		$this->_complete($post);
 	}
 	
 	protected function _complete($post)
