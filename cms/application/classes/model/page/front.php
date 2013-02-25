@@ -326,6 +326,7 @@ class Model_Page_Front
 		$sql = DB::select(array(DB::expr('COUNT(*)'), 'total'))
 			->from(array(Model_Page::tableName(), 'page'))
 			->where('published_on', '<=', DB::expr('NOW()'))
+			->where('parent_id', '=', $this->id)
 			->where('status_id', 'in', $statuses);
 
 		// Prepare SQL
