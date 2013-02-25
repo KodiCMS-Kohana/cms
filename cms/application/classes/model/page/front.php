@@ -5,7 +5,6 @@
  */
 class Model_Page_Front
 {
-
 	public $title = '';
 	public $breadcrumb;
 	public $author;
@@ -17,9 +16,11 @@ class Model_Page_Front
 	public $description = '';
 	public $url = '';
 
-	public $parent = FALSE;
-	public $level = FALSE;
-	public $tags = FALSE;
+	public $parent = NULL;
+	public $level = NULL;
+
+	protected $_tags = NULL;
+	protected $_parts = array();
 
 	public $needs_login;
 
@@ -33,20 +34,21 @@ class Model_Page_Front
 
 	public function __construct($object, $parent)
 	{
-		$this->parent = $parent;
+		if($parent instanceof Model_Page_Front)
+			$this->parent = $parent;
 
 		foreach ($object as $key => $value) 
 		{
 			$this->$key = $value;
 		}
 
-		if ($this->parent)
+		if ($this->parent instanceof Model_Page_Front)
 		{
 			$this->setUrl();
 		}
 
 		$this->level = $this->level();
-		$this->_load_parts();
+		$this->_parts = $this->_load_parts();
 	}
 
 	protected function setUrl()
@@ -87,7 +89,7 @@ class Model_Page_Front
 
 	public function level()
 	{
-		if ($this->level === FALSE)
+		if ($this->level === NULL)
 		{
 			$this->level = empty($this->url) ? 0 : substr_count($this->url, '/') + 1;
 		}
@@ -97,12 +99,12 @@ class Model_Page_Front
 
 	public function tags()
 	{
-		if ( ! $this->tags)
+		if ( $this->_tags === NULL )
 		{
-			$this->tags = $this->_load_tags();
+			$this->_tags = $this->_load_tags();
 		}
 
-		return $this->tags;
+		return $this->_tags;
 	}
 
 	public function is_active()
@@ -153,7 +155,8 @@ class Model_Page_Front
 	{
 		$pages = array();
 
-		if ($this->parent && $this->level > $level)
+		if ( $this->parent instanceof Model_Page_Front 
+				AND $this->level > $level)
 		{
 			$pages = Arr::merge($this->parent->_recurse_breadcrumbs($level), $pages);
 		}
@@ -167,7 +170,8 @@ class Model_Page_Front
 	{
 		$pages[] = $this->link($this->breadcrumb, array(), FALSE);
 
-		if ($this->parent && $this->level > $level)
+		if ($this->parent instanceof Model_Page_Front 
+				AND $this->level > $level)
 		{
 			$pages = Arr::merge($this->parent->_recurse_breadcrumbs($level), $pages);
 		}
@@ -177,11 +181,12 @@ class Model_Page_Front
 
 	public function has_content($part, $inherit = FALSE)
 	{
-		if (isset($this->part->{$part}))
+		if (isset($this->_parts[$part]))
 		{
 			return TRUE;
 		}
-		else if ($inherit AND $this->parent)
+		else if ($inherit !== FALSE 
+				AND $this->parent instanceof Model_Page_Front )
 		{
 			return $this->parent->has_content($part, TRUE);
 		}
@@ -191,18 +196,19 @@ class Model_Page_Front
 
 	public function content($part = 'body', $inherit = FALSE, $cache_lifetime = NULL)
 	{		
-		if (isset($this->part->{$part}))
+		if ($this->has_content( $part ))
 		{
 			echo View::factory('system/blocks/part')
 				->set('page', $this)
-				->set('part', $this->part->{$part})
+				->set('part', $this->_parts[$part])
 				->set('html', View_Front::factory()
-						->set('page', $this)
-						->render_html($this->part->{$part}->content_html)
+					->set('page', $this)
+					->render_html($this->_parts[$part]->content_html)
 				);
 			
 		}
-		else if ($inherit AND $this->parent)
+		else if ($inherit !== FALSE
+				AND $this->parent instanceof Model_Page_Front )
 		{
 			return $this->parent->content($part, TRUE, $cache_lifetime);
 		}
@@ -212,7 +218,7 @@ class Model_Page_Front
 
 	public function previous()
 	{
-		if ($this->parent)
+		if( $this->parent instanceof Model_Page_Front )
 		{
 			return $this->parent->children(array(
 				'where' => array(array('page.id', '<', $this->id)),
@@ -224,7 +230,7 @@ class Model_Page_Front
 
 	public function next()
 	{
-		if ($this->parent)
+		if( $this->parent instanceof Model_Page_Front )
 		{
 			return $this->parent->children(array(
 				'where' => array(array('page.id', '<', $this->id)),
@@ -246,12 +252,6 @@ class Model_Page_Front
 			);
 		}
 
-		$statuses = array(Model_Page::STATUS_REVIEWED, Model_Page::STATUS_PUBLISHED);
-		if($include_hidden !== FALSE)
-		{
-			$statuses[] = Model_Page::STATUS_HIDDEN;
-		}
-
 		$sql = DB::select('page.*')
 			->select(array('author.name', 'author'), array('author.id', 'author_id'))
 			->select(array('updator.name', 'updator'), array('updator.id', 'updator_id'))
@@ -262,14 +262,14 @@ class Model_Page_Front
 				->on('updator.id', '=', 'page.updated_by_id')
 			->where('parent_id', '=', $this->id)
 			->where('published_on', '<=', DB::expr('NOW()'))
-			->where('status_id', 'in', $statuses);
+			->where('status_id', 'in', self::_get_statuses($include_hidden));
 
 		$sql = Record::_conditions($sql, $clause);
 
 		$pages = array();
 
 		// hack to be able to redefine the page class with behavior
-		if ( !empty( $this->behavior_id ) )
+		if ( ! empty( $this->behavior_id ) )
 		{
 			// will return Page by default (if not found!)
 			$page_class = Behavior::load_page($this->behavior_id);
@@ -317,17 +317,11 @@ class Model_Page_Front
 			);
 		}
 
-		$statuses = array(Model_Page::STATUS_REVIEWED, Model_Page::STATUS_PUBLISHED);
-		if($include_hidden)
-		{
-			$statuses[] = Model_Page::STATUS_HIDDEN;
-		}
-
 		$sql = DB::select(array(DB::expr('COUNT(*)'), 'total'))
 			->from(array(Model_Page::tableName(), 'page'))
 			->where('published_on', '<=', DB::expr('NOW()'))
 			->where('parent_id', '=', $this->id)
-			->where('status_id', 'in', $statuses);
+			->where('status_id', 'in', self::_get_statuses($include_hidden));
 
 		// Prepare SQL
 		$sql = Record::_conditions($sql, $clause);
@@ -401,8 +395,8 @@ class Model_Page_Front
 	 * @return boolean|\Model_Page_Front
 	 */
 	public static function findBySlug( $slug, $parent )
-	{		
-		$page_cache_id = (is_array($slug) ? join($slug) : $slug) . (isset($parent->id) ? $parent->id : 0);
+	{
+		$page_cache_id = self::_get_cache_id( $slug, $parent );
 
 		if( isset(self::$pages_cache[ $page_cache_id ]) )
 		{
@@ -411,8 +405,7 @@ class Model_Page_Front
 
 		$page_class = __CLASS__;
 
-		$parent_id = $parent ? $parent->id : 0;
-		$statuses = array(Model_Page::STATUS_REVIEWED, Model_Page::STATUS_PUBLISHED, Model_Page::STATUS_HIDDEN);
+		$parent_id = $parent instanceof Model_Page_Front ? $parent->id : 0;
 
 		$page = DB::select('page.*')
 			->select(array('author.name', 'author'))
@@ -425,7 +418,7 @@ class Model_Page_Front
 			->where('slug', '=', $slug)
 			->where('parent_id', '=', $parent_id)
 			->where('published_on', '<=', DB::expr('NOW()'))
-			->where('status_id', 'in', $statuses)
+			->where('status_id', 'in', self::_get_statuses(TRUE))
 			->limit(1)
 			->cache_tags( array('pages') )
 			->cached((int)Kohana::$config->load('global.cache.front_page'))
@@ -433,7 +426,7 @@ class Model_Page_Front
 			->execute()
 			->current();
 
-		if( ! $page ) return FALSE;
+		if( $page === NULL ) return FALSE;
 
 		// hook to be able to redefine the page class with behavior
 		if ( !empty( $parent->behavior_id ) )
@@ -467,7 +460,7 @@ class Model_Page_Front
 		$page = new stdClass;
 		$page->id = 0;
 
-		$parent = FALSE;
+		$parent = NULL;
 
 		foreach ($urls as $page_slug)
 		{
@@ -559,21 +552,23 @@ class Model_Page_Front
 
 		if ($level > $this->level)
 		{
-			return FALSE;
+			return NULL;
 		}
 		else if ($this->level == $level)
 		{
 			return $this;
 		}
+		else if($this->parent instanceof Model_Page_Front)
+		{
+			return $this->parent->parent($level);
+		}
 
-		return $this->parent->parent($level);
+		return NULL;
 	}
 	
 	/**
 	 * 
-	 * @param string $snippet_name
-	 * @param array $vars
-	 * @param integer $cache_lifetime
+	 * @deprecated
 	 */
 	public function snippet($snippet_name, $vars = NULL, $cache_lifetime = 3600)
 	{
@@ -589,6 +584,11 @@ class Model_Page_Front
 		return $this->snippet($snippet_name, $vars, $cache_lifetime);
 	}
 
+	/**
+	 * 
+	 * @return View_Front
+	 * @throws Kohana_Exception
+	 */
 	public function render_layout()
 	{
 		$layout_name = $this->layout();
@@ -624,7 +624,7 @@ class Model_Page_Front
 		{
 			return $this->layout_file;
 		}
-		else if( ! empty($this->parent) )
+		else if( $this->parent instanceof Model_Page_Front )
 		{
 			return $this->parent->layout();
 		}
@@ -639,7 +639,8 @@ class Model_Page_Front
 	 */
 	public function needs_login()
 	{
-		if ($this->needs_login == Model_Page::LOGIN_INHERIT AND $this->parent)
+		if ($this->needs_login == Model_Page::LOGIN_INHERIT 
+				AND $this->parent instanceof Model_Page_Front)
 		{
 			return $this->parent->needs_login();
 		}
@@ -647,28 +648,27 @@ class Model_Page_Front
 		return $this->needs_login;
 	}
 
-	private function _load_parts()
+	/**
+	 * TODO вынести в класс Model_Page_Part
+	 * @return array
+	 */
+	final private function _load_parts()
 	{
-		$this->part = new stdClass;
-		$parts = DB::select('name', 'content', 'content_html')
+		return DB::select('name', 'content', 'content_html')
 			->from(Model_Page_Part::tableName())
 			->where('page_id', '=', $this->id)
 			->cache_tags( array('page_parts') )
 			->as_object('Model_Page_Part')
 			->cached((int)Kohana::$config->load('global.cache.page_parts'))
-			->execute();
-
-		foreach ( $parts as $part_obj )
-		{
-			$this->part->{$part_obj->name} = $part_obj;
-		}
+			->execute()
+			->as_array('name');	
 	}
 
 	/**
-	 * 
+	 * TODO вынести в класс Model_Page_Tags
 	 * @return array
 	 */
-	private function _load_tags()
+	final private function _load_tags()
 	{
 		return DB::select('tag.id', 'tag.name')
 			->from(array(Model_Page_Tag::tableName(), 'page_tag'))
@@ -680,5 +680,47 @@ class Model_Page_Front
 			->execute()
 			->as_array('tag.id', 'tag.name');
 	}
+	
+	/**
+	 * 
+	 * @param boolean $include_hidden
+	 * @return array
+	 */
+	final protected static function _get_statuses($include_hidden = FALSE)
+	{
+		$statuses = array(Model_Page::STATUS_REVIEWED, Model_Page::STATUS_PUBLISHED);
+		
+		if($include_hidden)
+		{
+			$statuses[] = Model_Page::STATUS_HIDDEN;
+		}
 
-} // end Model_Page_Front class
+		return $statuses;
+	}
+	
+	/**
+	 * 
+	 * @param array|string $slug
+	 * @param Model_Page_Front $parent
+	 * @return string
+	 */
+	final protected static function _get_cache_id($slug, $parent)
+	{
+		if(  is_array( $slug ))
+		{
+			$slug = implode('::', $slug);
+		}
+		
+		if($parent instanceof Model_Page_Front)
+		{
+			$parent = $parent->id;
+		}
+		else
+		{
+			$parent = 0;
+		}
+		
+		return $slug . $parent;
+	}
+
+}
