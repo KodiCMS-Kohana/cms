@@ -11,6 +11,11 @@ class Upload extends Kohana_Upload {
 	 */
 	public static function file( $file, array $types = array('jpg', 'gif', 'png') )
 	{
+		if( ! is_array($file) )
+		{
+			return Upload::from_url($file, $types);
+		}
+
 		$validation = Validation::factory( array('file' => $file ) )
 			->rules( 'file', array(
 				array('Upload::valid'),
@@ -20,7 +25,7 @@ class Upload extends Kohana_Upload {
 
 		if ( ! $validation->check() )
 		{
-			return array(FALSE, $validation->errors());
+			return array(FALSE, $validation);
 		}
 
 		$ext = strtolower( pathinfo( $file['name'], PATHINFO_EXTENSION ) );
@@ -45,46 +50,44 @@ class Upload extends Kohana_Upload {
 	 * @return string|boolean
 	 * @throws Kohana_Exception
 	 */
-	public static function save_from_url($url, $directory = NULL, $chmod = 0644)
+	public static function from_url($url, array $types = array('jpg', 'gif', 'png') )
 	{
 		$url = trim($url);
+		$ext = pathinfo($url, PATHINFO_EXTENSION);
 
-		if(!Valid::url( $url ))
+		$validation = Validation::factory( array('url' => $url, 'ext' => $ext ) )
+			->rules( 'url', array(
+				array('url'),
+				array('not_empty'),
+			) )
+			->rules( 'ext', array(
+				array('in_array', array(':value', $types))
+			) );
+			
+		if ( ! $validation->check() )
 		{
-			return 'URL not vaid';
+			return array(FALSE, $validation);
 		}
+
+		$filename = uniqid() . $ext;
 		
-		$filename = pathinfo($url, PATHINFO_BASENAME);
-		$filename = uniqid() . $filename;
-		
-		if (Upload::$remove_spaces === TRUE)
+		if( ! is_dir( TMPPATH ))
 		{
-			// Remove spaces from the filename
-			$filename = preg_replace('/\s+/u', '_', $filename);
-		}
-		
-		if ($directory === NULL)
-		{
-			// Use the pre-configured upload directory
-			$directory = Upload::$default_directory;
-		}
-		
-		if ( ! is_dir($directory) OR ! is_writable(realpath($directory)))
-		{
-			throw new Kohana_Exception('Directory :dir must be writable',
-				array(':dir' => Debug::path($directory)));
+			mkdir(TMPPATH, 0777);
+			chmod(TMPPATH, 0777);
 		}
 
 		// Make the filename into a complete path
-		$filename = realpath($directory).DIRECTORY_SEPARATOR.$filename;
+		$path = TMPPATH.$filename;
 		
 		$file = fopen($url, 'rb');
-		if(!$file)
+
+		if( ! $file)
 		{
-			return FALSE;
+			return array(TRUE, NULL);
 		}
 		
-		$new_file = fopen($filename, 'wb');
+		$new_file = fopen($path, 'wb');
 		
 		if($new_file)
 		{
@@ -93,16 +96,13 @@ class Upload extends Kohana_Upload {
 				// Write the url file to the directory.
 				fwrite($new_file, fread($file, 1024 * 8), 1024 * 8);
 			}
+
+			// Set permissions on filename
+			chmod($path, 0777);
 			
-			if ($chmod !== FALSE)
-			{
-				// Set permissions on filename
-				chmod($filename, $chmod);
-			}
-			
-			return $filename;
+			return array(TRUE, $filename);
 		}
 		
-		return FALSE;
+		return array(TRUE, NULL);
 	}
 }
