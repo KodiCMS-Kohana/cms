@@ -66,7 +66,10 @@ class Controller_Front extends Controller_System_Controller
 			}
 		}
 		
-		$this->check_cache(sha1($html));
+		if( Kohana::$environment === Kohana::PRODUCTION )
+		{
+			$this->check_cache(sha1($html));
+		}
 		
 		$this->response
 			->body($html)
