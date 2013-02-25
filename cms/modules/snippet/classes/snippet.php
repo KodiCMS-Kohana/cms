@@ -4,19 +4,14 @@ class Snippet {
 	
 	public static function render($snippet_name, $vars = NULL, $cache_lifetime = NULL, $cache_by_uri = FALSE, $i18n = NULL)
 	{
+		$view = Snippet::get($snippet_name, $vars);
 		$snippet = new Model_File_Snippet($snippet_name);
-
-		if( ! $snippet->is_exists() )
+		
+		if( $view === NULL )
 		{
 			return NULL;
 		}
-		
-		$view = View_Front::factory($snippet->get_file(), $vars);
-		
-		if(isset($view->page_object))
-		{
-			$view->page = $view->page_object;
-		}
+
 		
 		if( $cache_lifetime !== NULL AND ! Fragment::load( self::_cache_key($snippet_name, $cache_by_uri), (int) $cache_lifetime, $i18n ))
 		{
@@ -30,11 +25,30 @@ class Snippet {
 		}
 	}
 	
-	protected static function _cache_key($snippet_name, $cache_by_uri)
+	public static function get($snippet_name, $vars = NULL)
+	{
+		$snippet = new Model_File_Snippet($snippet_name);
+		
+		if( ! $snippet->is_exists() )
+		{
+			return NULL;
+		}
+		
+		$view = View_Front::factory($snippet->get_file(), $vars);
+		
+		if(isset($view->page_object))
+		{
+			$view->page = $view->page_object;
+		}
+		
+		return $view;
+	}
+
+	protected static function _cache_key($snippet_name, $cache_by_uri = FALSE)
 	{
 		if($cache_by_uri !== FALSE)
 		{
-			$snippet_name .= Request::current()->uri();
+			$snippet_name .= Request::current()->uri() . serialize(Request::current()->query());
 		}
 		
 		return 'Snippet::' . $snippet_name;
