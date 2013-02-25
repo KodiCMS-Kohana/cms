@@ -404,63 +404,51 @@ class Model_Page_Front
 	{		
 		$page_cache_id = (is_array($slug) ? join($slug) : $slug) . (isset($parent->id) ? $parent->id : 0);
 
-		if( !isset(self::$pages_cache[ $page_cache_id ]) )
+		if( isset(self::$pages_cache[ $page_cache_id ]) )
 		{
-			$page_class = __CLASS__;
-
-			$page = FALSE;
-
-			if (is_object($page) && ($page instanceof $page_class))
-			{
-				return $page;
-			}
-			else
-			{
-				$parent_id = $parent ? $parent->id: 0;
-				$statuses = array(Model_Page::STATUS_REVIEWED, Model_Page::STATUS_PUBLISHED, Model_Page::STATUS_HIDDEN);
-
-				$page = DB::select('page.*')
-					->select(array('author.name', 'author'))
-					->select(array('updator.name', 'updator'))
-					->from(array(Model_Page::tableName(), 'page'))
-					->join(array(User::tableName(), 'author'), 'left')
-						->on('author.id', '=', 'page.created_by_id')
-					->join(array(User::tableName(), 'updator'), 'left')
-						->on('updator.id', '=', 'page.updated_by_id')
-					->where('slug', '=', $slug)
-					->where('parent_id', '=', $parent_id)
-					->where('published_on', '<=', DB::expr('NOW()'))
-					->where('status_id', 'in', $statuses)
-					->limit(1)
-					->cache_tags( array('pages') )
-					->cached((int)Kohana::$config->load('global.cache.front_page'))
-					->as_object()
-					->execute()
-					->current();
-
-
-				if( $page )
-				{
-					// hook to be able to redefine the page class with behavior
-					if ( !empty( $parent->behavior_id ) )
-					{
-						// will return Page by default (if not found!)
-						$page_class = Behavior::load_page($parent->behavior_id);
-					}
-
-					// create the object page
-					$page = new $page_class($page, $parent);
-
-					$pages_cache[ $page_cache_id ] = $page;
-
-					return $page;
-				}
-				else
-					return FALSE;
-			}
-		}
-		else
 			return self::$pages_cache[ $page_cache_id ];
+		}
+
+		$page_class = __CLASS__;
+
+		$parent_id = $parent ? $parent->id : 0;
+		$statuses = array(Model_Page::STATUS_REVIEWED, Model_Page::STATUS_PUBLISHED, Model_Page::STATUS_HIDDEN);
+
+		$page = DB::select('page.*')
+			->select(array('author.name', 'author'))
+			->select(array('updator.name', 'updator'))
+			->from(array(Model_Page::tableName(), 'page'))
+			->join(array(User::tableName(), 'author'), 'left')
+				->on('author.id', '=', 'page.created_by_id')
+			->join(array(User::tableName(), 'updator'), 'left')
+				->on('updator.id', '=', 'page.updated_by_id')
+			->where('slug', '=', $slug)
+			->where('parent_id', '=', $parent_id)
+			->where('published_on', '<=', DB::expr('NOW()'))
+			->where('status_id', 'in', $statuses)
+			->limit(1)
+			->cache_tags( array('pages') )
+			->cached((int)Kohana::$config->load('global.cache.front_page'))
+			->as_object()
+			->execute()
+			->current();
+
+		if( ! $page ) return FALSE;
+
+		// hook to be able to redefine the page class with behavior
+		if ( !empty( $parent->behavior_id ) )
+		{
+			// will return Page by default (if not found!)
+			$page_class = Behavior::load_page($parent->behavior_id);
+		}
+
+		// create the object page
+		$page = new $page_class($page, $parent);
+
+		$pages_cache[ $page_cache_id ] = $page;
+
+		return $page;
+	
 	}
 
 	/**
@@ -533,31 +521,28 @@ class Model_Page_Front
 			->execute()
 			->current();
 
-		if( $page )
+		if( ! $page ) return FALSE;
+
+		if ($page->parent_id)
 		{
-			if ($page->parent_id)
-			{
-				$parent = self::findById($page->parent_id);
-			}
-			else
-			{
-				$parent = NULL;
-			}
-
-			// hook to be able to redefine the page class with behavior
-			if ( !empty($parent->behavior_id) )
-			{
-				// will return Page by default (if not found!)
-				$page_class = Behavior::load_page($parent->behavior_id);
-			}
-
-			// create the object page
-			$page = new $page_class($page, $parent);
-
-			return $page;
+			$parent = self::findById($page->parent_id);
 		}
 		else
-			return FALSE;
+		{
+			$parent = NULL;
+		}
+
+		// hook to be able to redefine the page class with behavior
+		if ( !empty($parent->behavior_id) )
+		{
+			// will return Page by default (if not found!)
+			$page_class = Behavior::load_page($parent->behavior_id);
+		}
+
+		// create the object page
+		$page = new $page_class($page, $parent);
+
+		return $page;
 	}
 
 	/**
@@ -635,7 +620,7 @@ class Model_Page_Front
 	 */	
 	public function layout()
 	{
-		if ( !empty($this->layout_file) )
+		if ( ! empty($this->layout_file) )
 		{
 			return $this->layout_file;
 		}
