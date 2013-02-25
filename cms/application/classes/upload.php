@@ -9,7 +9,7 @@ class Upload extends Kohana_Upload {
 	 * @return type
 	 * @throws Validation_Exception
 	 */
-	public static function file( $file, array $types = array('jpg', 'gif', 'png') )
+	public static function file( $file, array $types = array('jpg', 'jpeg', 'gif', 'png') )
 	{
 		if( ! is_array($file) )
 		{
@@ -50,7 +50,7 @@ class Upload extends Kohana_Upload {
 	 * @return string|boolean
 	 * @throws Kohana_Exception
 	 */
-	public static function from_url($url, array $types = array('jpg', 'gif', 'png') )
+	public static function from_url($url, array $types = array('jpg', 'jpeg', 'gif', 'png') )
 	{
 		$url = trim($url);
 		$ext = pathinfo($url, PATHINFO_EXTENSION);
@@ -69,7 +69,7 @@ class Upload extends Kohana_Upload {
 			return array(FALSE, $validation);
 		}
 
-		$filename = uniqid() . $ext;
+		$filename = uniqid() . '.' . $ext;
 		
 		if( ! is_dir( TMPPATH ))
 		{
