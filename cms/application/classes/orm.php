@@ -2,6 +2,10 @@
 
 class ORM extends Kohana_ORM {
 
+	/**
+	 * 
+	 * @return array
+	 */
 	public function list_columns()
 	{
 		$cache = Cache::instance();
@@ -16,6 +20,14 @@ class ORM extends Kohana_ORM {
 		return $this->_db->list_columns( $this->table_name() );
 	}
 	
+	/**
+	 * 
+	 * @param string $file
+	 * @param string $field
+	 * @param array $params
+	 * @return null|string
+	 * @throws Kohana_Exception
+	 */
 	public function add_image( $file, $field = NULL, $params = NULL )
 	{
 		if ( $field !== NULL AND ! $this->loaded() )
@@ -55,7 +67,7 @@ class ORM extends Kohana_ORM {
 				'height' => NULL,
 				'master' => NULL,
 				'quality' => 95,
-				'resize' => TRUE
+				'crop' => TRUE
 			);
 
 			$_params = Arr::merge( $local_params, $_params );
@@ -71,8 +83,11 @@ class ORM extends Kohana_ORM {
 
 			if(!empty($_params['width']) AND !empty($_params['height']))
 			{
-				$image->resize( $_params['width'], $_params['height'], $_params['master'] );
-				$image->crop( $_params['width'], $_params['height'] );
+				if($_params['width'] < $image->width OR $_params['height'] < $image->height )
+					$image->resize( $_params['width'], $_params['height'], $_params['master'] );
+
+				if($_params['crop'])
+					$image->crop( $_params['width'], $_params['height'] );
 			}
 
 			$image->save();
@@ -88,5 +103,34 @@ class ORM extends Kohana_ORM {
 		unlink( $tmp_file );
 
 		return $filename;
+	}
+	
+	/**
+	 * 
+	 * @param type $field
+	 * @return \ORM
+	 * @throws Kohana_Exception
+	 */
+	public function delete_image( $field )
+	{
+		if ( ! $this->loaded() )
+		{
+			throw new Kohana_Exception( 'Model must be loaded' );
+		}
+
+		foreach ($this->images() as $path => $data)
+		{
+			$file = PUBLICPATH . $path . DIRECTORY_SEPARATOR . $this->get($field);
+			if(file_exists($file) AND !is_dir($file))
+			{
+				unlink($file);
+			}
+		}
+
+		$this
+			->set($field, '')
+			->update();
+		
+		return $this;
 	}
 }
