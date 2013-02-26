@@ -56,6 +56,10 @@ class Behavior_Archive extends Behavior_Abstract
 		Model_Page_Front::not_found();
 	}
 
+	/**
+	 * 
+	 * @param string $interval
+	 */
 	protected function _archive_by($interval)
     {
         $this->interval = $interval;
@@ -91,19 +95,35 @@ class Behavior_Archive extends Behavior_Abstract
             Model_Page_Front::not_found();
 		}
     }
-    
-    public function get()
-    {
-        $date = join('-', $this->_params);
-        
-        $pages = $this->_page->parent->children(array(
-            'where' => array(array('page.created_on', 'like', $date . '%')),
-            'order' => array(array('page.created_on', 'desc'))
-        ));
 
-        return $pages;
-    }
+	/**
+	 * 
+	 * @param array $clause
+	 * @return array
+	 */
+	public function get($clause = array())
+	{
+		$date = implode('-', $this->_params);
+
+		if( ! isset($clause['where']) )
+		{
+			$clause['where'] = array(array('page.created_on', 'like', $date . '%'));
+		}
+
+		if( ! isset($clause['order_by']) )
+		{
+			$clause['order_by'] = array(array('page.created_on', 'desc'));
+		}
+
+		$pages = $this->_page->parent->children($clause);
+
+		return $pages;
+	}
     
+	/**
+	 * 
+	 * @return array
+	 */
     public function archives_by_year()
     {
 		return DB::select(array(DB::expr( 'DATE_FORMAT('. Database::instance()->quote_column('created_on').', "%Y")' ), 'date'))
@@ -116,6 +136,10 @@ class Behavior_Archive extends Behavior_Abstract
 			->as_array(NULL, 'date');
     }
     
+	/**
+	 * 
+	 * @return array
+	 */
     public function archives_by_month()
     {
 		return DB::select(array(DB::expr( 'DATE_FORMAT('. Database::instance()->quote_column('created_on').', "%Y/%m")' ), 'date'))
@@ -128,6 +152,10 @@ class Behavior_Archive extends Behavior_Abstract
 			->as_array(NULL, 'date');
     }
     
+	/**
+	 * 
+	 * @return array
+	 */
     public function archives_by_day()
     {
 		return DB::select(array(DB::expr( 'DATE_FORMAT('. Database::instance()->quote_column('created_on').', "%Y/%m/%d")' ), 'date'))
@@ -139,5 +167,4 @@ class Behavior_Archive extends Behavior_Abstract
 			->execute()
 			->as_array(NULL, 'date');
     }
-	
 }
