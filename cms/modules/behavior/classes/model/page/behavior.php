@@ -18,4 +18,17 @@ class Model_Page_Behavior extends Model_Page_Front {
 		
 		return parent::content($part, $inherit, $cache_lifetime);
 	}
+	
+	/**
+	 * 
+	 * @param string $part
+	 * @param Model_Page_Part $data
+	 * @return \Model_Page_Front
+	 */
+	public function set_part($part, Model_Page_Part $data)
+	{
+		$this->_parts[$part] = $data;
+		
+		return $this;
+	}
 }
