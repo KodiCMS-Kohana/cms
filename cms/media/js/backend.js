@@ -644,6 +644,8 @@ cms.ui.add('btn-confirm', function() {
 	$('.focus').focus();
 }).add('loader', function() {
     cms.loader.init();
+}).add('fancybox', function() {
+    $(".fancybox-image").fancybox();
 }).add('popup', function() {
 	$(".popup").fancybox({
 		fitToView	: true,
