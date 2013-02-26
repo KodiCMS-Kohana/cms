@@ -429,11 +429,11 @@ class Model_Page_Front
 		if( $page === NULL ) return FALSE;
 
 		// hook to be able to redefine the page class with behavior
-		if ( !empty( $parent->behavior_id ) )
+		if ( !empty( $page->behavior_id ) )
 		{
 			// will return Page by default (if not found!)
-			$page_class = Behavior::load_page($parent->behavior_id);
-		}
+			$page_class = Behavior::load_page($page->behavior_id);
+		}		
 
 		// create the object page
 		$page = new $page_class($page, $parent);
@@ -514,7 +514,7 @@ class Model_Page_Front
 			->execute()
 			->current();
 
-		if( ! $page ) return FALSE;
+		if( $page === NULL ) return FALSE;
 
 		if ($page->parent_id)
 		{
