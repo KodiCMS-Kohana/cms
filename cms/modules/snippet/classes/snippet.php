@@ -2,7 +2,17 @@
 
 class Snippet {
 	
-	public static function render($snippet_name, $vars = NULL, $cache_lifetime = NULL, $cache_by_uri = FALSE, $i18n = NULL)
+	/**
+	 * 
+	 * @param string $snippet_name
+	 * @param array $vars
+	 * @param integer $cache_lifetime
+	 * @param boolean $cache_by_uri
+	 * @param array $tags
+	 * @param boolean $i18n
+	 * @return void
+	 */
+	public static function render($snippet_name, $vars = NULL, $cache_lifetime = NULL, $cache_by_uri = FALSE, $tags = array(), $i18n = NULL)
 	{
 		$view = Snippet::get($snippet_name, $vars);
 		$snippet = new Model_File_Snippet($snippet_name);
@@ -11,13 +21,15 @@ class Snippet {
 		{
 			return NULL;
 		}
-
 		
-		if( $cache_lifetime !== NULL AND ! Fragment::load( self::_cache_key($snippet_name, $cache_by_uri), (int) $cache_lifetime, $i18n ))
+		$cache_key = self::_cache_key($snippet_name, $cache_by_uri);
+
+		if( $cache_lifetime !== NULL 
+				AND ! Fragment::load( $cache_key, (int) $cache_lifetime, $i18n ))
 		{
 			echo $view;
 
-			Fragment::save();
+			Fragment::save_with_tags((int) $cache_lifetime, $tags);
 		}
 		else if ($cache_lifetime === NULL)
 		{
@@ -25,6 +37,12 @@ class Snippet {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param string $snippet_name
+	 * @param array $vars
+	 * @return null|View_Front
+	 */
 	public static function get($snippet_name, $vars = NULL)
 	{
 		$snippet = new Model_File_Snippet($snippet_name);
@@ -44,13 +62,20 @@ class Snippet {
 		return $view;
 	}
 
-	protected static function _cache_key($snippet_name, $cache_by_uri = FALSE)
+	/**
+	 * 
+	 * @param string $snippet_hash
+	 * @param boolean $cache_by_uri
+	 * @return string
+	 */
+	protected static function _cache_key($snippet_hash, $cache_by_uri = FALSE)
 	{
 		if($cache_by_uri !== FALSE)
 		{
-			$snippet_name .= Request::current()->uri() . serialize(Request::current()->query());
+			$snippet_hash .= '::';
+			$snippet_hash .= md5(Request::current()->uri() . serialize(Request::current()->query()));
 		}
 		
-		return 'Snippet::' . $snippet_name;
+		return 'Snippet::' . $snippet_hash;
 	}
 }
