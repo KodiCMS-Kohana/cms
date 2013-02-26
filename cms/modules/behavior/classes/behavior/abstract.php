@@ -8,13 +8,37 @@ abstract class Behavior_Abstract {
 	// What can be part of a <segment> value
 	const REGEX_SEGMENT = '[^/.,;?\n]++';
 	
+	/**
+	 *
+	 * @var array 
+	 */
 	protected $_routes = array();
+	
+	/**
+	 *
+	 * @var string 
+	 */
 	protected $_matched_route = NULL;
 
+	/**
+	 *
+	 * @var Model_Page_Front 
+	 */
 	protected $_page;
+	
+	/**
+	 *
+	 * @var array 
+	 */
 	protected $_params = array();
 
-	public function __construct(&$page, $url, $uri)
+	/**
+	 * 
+	 * @param Model_Page_Front $page
+	 * @param string $url
+	 * @param string $uri
+	 */
+	public function __construct( Model_Page_Front &$page, $url, $uri)
 	{
 		$this->_page = &$page;
 		
@@ -23,11 +47,22 @@ abstract class Behavior_Abstract {
 		$this->_match_route($uri);
 	}
 	
+	/**
+	 * 
+	 * @param string $name
+	 * @return string|NULL
+	 */
 	public function __get($name) 
 	{
 		return $this->param($name);
 	}
 	
+	/**
+	 * 
+	 * @param string $name
+	 * @param mixed $default
+	 * @return string|NULL
+	 */
 	public function param($name, $default = NULL)
 	{
 		return isset($this->_params[$name]) 
@@ -35,12 +70,21 @@ abstract class Behavior_Abstract {
 			: $default;
 	}
 	
+	/**
+	 * 
+	 * @param string $name
+	 * @return boolean
+	 */
 	public function __isset($name) 
 	{
 		return isset($this->_params[$name]);
 	}
-
-	protected function _match_route($uri)
+	
+	/**
+	 * 
+	 * @param string $uri
+	 */
+	final protected function _match_route($uri)
 	{
 		foreach ($this->_routes as $_uri => $params)
 		{
