@@ -70,7 +70,7 @@ class Behavior
 			$class = $behavior['class'];
 		}
 
-		$behavior_class = 'Behavior_'.URL::title($class, '_');
+		$behavior_class = 'Behavior_'.URL::title($class, '');
 
 		if (class_exists($behavior_class))
 		{
@@ -92,7 +92,7 @@ class Behavior
 	 */
 	public static function load_page($behavior_id)
 	{
-		$behavior_page_class = 'Model_Page_Behavior_' . URL::title($behavior_id, '_');
+		$behavior_page_class = 'Model_Page_Behavior_' . URL::title($behavior_id, '');
 
 		if (class_exists($behavior_page_class))
 		{
