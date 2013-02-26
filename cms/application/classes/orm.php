@@ -54,14 +54,6 @@ class ORM extends Kohana_ORM {
 		{
 			$path = PUBLICPATH . trim( $path, '/' ) . DIRECTORY_SEPARATOR;
 
-			if ( ! is_dir( $path ) )
-			{
-				mkdir( $path, 0777, TRUE );
-				chmod( $path, 0777 );
-			}
-
-			$file = $path . $filename;
-
 			$local_params = array(
 				'width' => NULL,
 				'height' => NULL,
@@ -71,6 +63,19 @@ class ORM extends Kohana_ORM {
 			);
 
 			$_params = Arr::merge( $local_params, $_params );
+			
+			if( !empty($_params['subfolder']) )
+			{
+				$path .= trim($_params['subfolder']) . DIRECTORY_SEPARATOR;
+			}
+			
+			if ( ! is_dir( $path ) )
+			{
+				mkdir( $path, 0777, TRUE );
+				chmod( $path, 0777 );
+			}
+
+			$file = $path . $filename;
 
 			if ( ! copy( $tmp_file, $file ) )
 			{
