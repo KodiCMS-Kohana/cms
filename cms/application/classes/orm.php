@@ -69,6 +69,8 @@ class ORM extends Kohana_ORM {
 				$path .= trim($_params['subfolder']) . DIRECTORY_SEPARATOR;
 			}
 			
+			$path = str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $path);
+			
 			if ( ! is_dir( $path ) )
 			{
 				mkdir( $path, 0777, TRUE );
