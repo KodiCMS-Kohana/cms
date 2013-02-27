@@ -3,9 +3,9 @@
 return array(
 	'Content' => array(
 		array(
-			'name' => __('Sheduler'), 
-			'url' => URL::backend('sheduler'),
-			'priority' => 900
+			'name' => __('File manager'), 
+			'url' => URL::backend('filemanager'),
+			'priority' => 999
 		)
 	)
 );

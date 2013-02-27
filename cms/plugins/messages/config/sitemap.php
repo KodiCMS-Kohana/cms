@@ -10,7 +10,7 @@ if(AuthUser::isLoggedIn())
 		'Content' => array(
 			array(
 				'name' => __('Messages'), 
-				'url' => URL::site('messages'),
+				'url' => URL::backend('messages'),
 				'permissions' => array('login'),
 				'icon' => UI::icon('envelope'),
 				'divider' => TRUE,

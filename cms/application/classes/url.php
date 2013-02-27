@@ -15,15 +15,51 @@ class URL extends Kohana_URL {
 			$suffix = URL_SUFFIX;
 		}
 		
-		return !(strstr($uri, $suffix) === FALSE);
+		return ! (strstr($uri, $suffix) === FALSE);
 	}
 	
+	/**
+	 * 
+	 * @param string $uri
+	 * @param string $protocol
+	 * @param boolean $index
+	 * @return string
+	 */
 	public static function backend($uri = '', $protocol = NULL, $index = TRUE)
 	{
-		$uri = ADMIN_DIR_NAME . '/' . ltrim( $uri, '/');
+		if( ! URL::match( ADMIN_DIR_NAME, $uri ))
+		{
+			$uri = ADMIN_DIR_NAME . '/' . ltrim( $uri, '/');
+		}
+
+		return parent::site($uri, $protocol, $index);
+	}
+	
+	/**
+	 * 
+	 * @param string $uri
+	 * @param string $protocol
+	 * @param boolean $index
+	 * @return string
+	 */
+	public static function frontend($uri = '', $protocol = NULL, $index = TRUE)
+	{
+		if( IS_INSTALLED AND !empty($uri) AND ! URL::check_suffix( $uri, '.' ))
+		{
+			$uri .= URL_SUFFIX;
+		}
+
 		return parent::site($uri, $protocol, $index);
 	}
 
+	/**
+	 * TODO переработать класс
+	 * 
+	 * @param string $uri
+	 * @param string $protocol
+	 * @param boolean $index
+	 * @return string
+	 */
 	public static function site( $uri = '', $protocol = NULL, $index = TRUE )
 	{
 		$is_backend = NULL;
@@ -36,21 +72,13 @@ class URL extends Kohana_URL {
 		{
 			$is_backend = IS_BACKEND;
 		}
-		
-		if( $is_backend !== NULL ) 
+
+		if ( $is_backend AND IS_INSTALLED )
 		{
-			if ( $is_backend AND IS_INSTALLED AND !URL::match( ADMIN_DIR_NAME, $uri ) )
-			{
-				return URL::backend($uri);
-			}
-			else if( $is_backend === FALSE AND ! URL::check_suffix( $uri, '.' ))
-			{
-				if(!empty($uri))
-				{
-					$uri .= URL_SUFFIX;
-				}
-			}
+			return URL::backend($uri);
 		}
+		
+		if( ! $is_backend ) return URL::frontend ($uri, $protocol, $index);
 
 		return parent::site($uri, $protocol, $index);
 	}
@@ -89,7 +117,6 @@ class URL extends Kohana_URL {
 
 		return FALSE;
 	}
-
 }
 
 // End url

@@ -5,12 +5,12 @@ return array(
 	'System' => array(
 		array(
 			'name' => __('Settings'), 
-			'url' => URL::site('setting'),
+			'url' => URL::backend('setting'),
 			'priority' => 100
 		),
 		array(
 			'name' => __('Users'), 
-			'url' => URL::site('user'),
+			'url' => URL::backend('user'),
 			'priority' => 200
 		)
 	),
@@ -18,7 +18,7 @@ return array(
 	'Design' => array(
 		array(
 			'name' => __('Layouts'), 
-			'url' => URL::site('layout'),
+			'url' => URL::backend('layout'),
 			'permissions' => array('administrator','developer'),
 			'priority' => 100
 		),
@@ -27,7 +27,7 @@ return array(
 	'Content' => array(
 		array(
 			'name' => __('Pages'), 
-			'url' => URL::site('page'),
+			'url' => URL::backend('page'),
 			'permissions' => array('administrator','developer','editor'),
 			'priority' => 100
 		)

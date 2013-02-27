@@ -4,7 +4,7 @@ return array(
 	'System' => array(
 		array(
 			'name' => __('Backup'), 
-			'url' => URL::site('backup'),
+			'url' => URL::backend('backup'),
 			'priority' => 110
 		)
 	)

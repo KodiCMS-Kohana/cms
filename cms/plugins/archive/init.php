@@ -48,7 +48,7 @@ if($plugin->enabled())
 			Model_Navigation::get_section('Archive')
 				->add_page(new Model_Navigation_Page(array(
 					'name' => $page->title, 
-					'url' => URL::site('archive/'.$page->id),
+					'url' => URL::backend('archive/'.$page->id),
 					'permissions' => array(),
 				)), 999);
 		}

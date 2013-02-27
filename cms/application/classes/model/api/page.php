@@ -87,7 +87,7 @@ class Model_API_Page extends Model_API {
 				}
 			}
 			
-			$indexed[$id]['url'] = URL::site($indexed[$id]['slug'], TRUE);
+			$indexed[$id]['url'] = URL::frontend($indexed[$id]['slug'], TRUE);
 		}
 		
 		if($root == NULL)

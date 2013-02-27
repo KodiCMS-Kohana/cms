@@ -77,7 +77,7 @@ class Controller_Messages extends Controller_System_Backend {
 			'uid' => $user_id
 		))->as_object();
 		
-		Model_Navigation::update(URL::site('messages'), array(
+		Model_Navigation::update(URL::backend('messages'), array(
 			'counter' => $new->response
 		));
 		

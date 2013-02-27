@@ -5,7 +5,7 @@ return array(
 	'System' => array(
 		array(
 			'name' => __('Plugins'), 
-			'url' => URL::site('plugins'),
+			'url' => URL::backend('plugins'),
 			'priority' => 999,
 			'divider' => TRUE
 		)
