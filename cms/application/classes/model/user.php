@@ -109,14 +109,15 @@ class Model_User extends Model_Auth_User {
 		return serialize($data);
 	}
 	
-	public function change_email($new_email)
+	public function change_email($email)
 	{
 		if(!$this->loaded())
 		{
 			throw new Kohana_Exception( ' User mast be loaded' );
 		}
-	
-		$this->email = $new_email;
-		return $this->update();
+		
+		return $this->update_user( array(
+			'password' => $email, 'password_confirm' => $email
+		));
 	}
 }

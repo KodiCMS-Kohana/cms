@@ -125,18 +125,23 @@ class Controller_Login extends Controller_System_Frontend {
 			Messages::errors( __('No user found!') );
 			$this->go( Route::get('user')->uri(array( 'action' => 'forgot' ) ) );
 		}
+		
+		define('REST_BACKEND', FALSE);
+		
+		$reflink = ORM::factory( 'user_reflink' )
+			->generate($user, Model_User_Reflink::FORGOT_PASSWORD);
 
+		if( ! $reflink )
+		{
+			Messages::errors(__('Reflink generate error'));
+			$this->go_back();
+		}
+		
 		Observer::notify('admin_login_forgot_before', array($user));
 
-		Session::instance()->set('forgot_email', $email);
-
-		$new_pass = Text::random();
-		$user->password = $new_pass;
-		$user->save();
-
-		$message = (string) View::factory('messages/forgot_emil', array(
+		$message = (string) View::factory('messages/email/reflink', array(
 			'username' => $user->username,
-			'password' => $new_pass
+			'link' => HTML::anchor( URL::frontend( Route::url( 'reflink', array('code' => $reflink) ), TRUE ) )
 		));
 
 		$site_host = dirname($_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME']);
@@ -144,15 +149,12 @@ class Controller_Login extends Controller_System_Frontend {
 		$email = new Email();
 		$email->from('no-reply@' . $site_host, Setting::get('admin_title'));
 		$email->to($user->email);
-		$email->subject(__('Your new password from :site_name', array(':site_name' => Setting::get('admin_title'))));
+		$email->subject(__('Forgot password from :site_name', array(':site_name' => Setting::get('admin_title'))));
 		$email->message($message);
 		$email->send();
 
-		Messages::success( __('An email has been send with your new password!') );
-		$this->go( Route::get('user')->uri(array( 'action' => 'login' ) ) );
+		Messages::success( __('Email with reflink send to address set in your profile' ));
 
+		$this->go( Route::url( 'user', array('action' => 'login') ) );
 	}
-
 }
-
-// end LoginController class

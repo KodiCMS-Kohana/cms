@@ -49,7 +49,8 @@ Kohana::modules( array(
 	'api'			=> MODPATH . 'api',
 	'sheduler'		=> MODPATH . 'sheduler',
 	'snippet'		=> MODPATH . 'snippet',
-	'behavior'		=> MODPATH . 'behavior'
+	'behavior'		=> MODPATH . 'behavior',
+	'reflinks'		=> MODPATH . 'reflinks'
 ) );
 
 // Init settings
@@ -66,7 +67,7 @@ Route::set( 'admin_media', 'cms/media/<file>', array(
 	) );
 
 Route::set( 'user', ADMIN_DIR_NAME.'/<action>(?next=<next_url>)', array(
-	'action' => '(login|logout|forgot|register)',
+	'action' => '(login|logout|forgot)',
 ) )
 	->defaults( array(
 		'controller' => 'login',
@@ -96,7 +97,6 @@ Route::set( 'admin', ADMIN_DIR_NAME.'(/<controller>(/<action>(/<id>)))')
 		'action' => 'index',
 	) );
 
-// Системные контроллеры
 Route::set( 'system', '<directory>-<controller>-<action>(/<id>)', array(
 	'directory' => '(ajax|action|form)',
 	'controller' => '[A-Za-z\_]+',
