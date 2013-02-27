@@ -37,6 +37,7 @@ class Model_Page_Front
 		if($parent instanceof Model_Page_Front)
 			$this->parent = $parent;
 
+		
 		foreach ($object as $key => $value) 
 		{
 			$this->$key = $value;
@@ -426,7 +427,7 @@ class Model_Page_Front
 			->execute()
 			->current();
 
-		if( $page === NULL ) return FALSE;
+		if( ! $page ) return FALSE;
 
 		// hook to be able to redefine the page class with behavior
 		if ( !empty( $parent->behavior_id ) )
@@ -514,7 +515,7 @@ class Model_Page_Front
 			->execute()
 			->current();
 
-		if( $page === NULL ) return FALSE;
+		if( ! $page ) return FALSE;
 
 		if ($page->parent_id)
 		{
@@ -722,5 +723,4 @@ class Model_Page_Front
 		
 		return $slug . $parent;
 	}
-
 }
