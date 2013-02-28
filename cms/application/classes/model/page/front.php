@@ -372,10 +372,8 @@ class Model_Page_Front {
 		else if ($inherit !== FALSE
 				AND $this->parent instanceof Model_Page_Front )
 		{
-			return $this->parent->content($part, TRUE, $cache_lifetime);
+			$this->parent->content($part, TRUE, $cache_lifetime);
 		}
-
-		return $this;
 	}
 
 	/**
