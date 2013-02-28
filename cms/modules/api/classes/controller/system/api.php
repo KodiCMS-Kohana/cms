@@ -2,11 +2,24 @@
 
 class Controller_System_API extends Controller_System_Ajax {
 
+	/**
+	 *
+	 * @var array 
+	 */
 	public $json = array();
 	
+	/**
+	 *
+	 * @var array 
+	 */
 	public $fields = array();
 	
+	/**
+	 *
+	 * @var array 
+	 */
 	protected $_params = array();
+
 
 	public function before()
 	{
@@ -14,7 +27,7 @@ class Controller_System_API extends Controller_System_Ajax {
 		
 		$this->json['code'] = API::NO_ERROR;
 		
-		$this->fields = $this->param('fields');
+		$this->fields = $this->param('fields', array());
 		
 		if( strpos($this->request->headers('content-type'), 'application/json') !== FALSE )
 		{
@@ -43,7 +56,12 @@ class Controller_System_API extends Controller_System_Ajax {
 		return $param;
 	}
 	
-	public function params($new_params = NULL)
+	/**
+	 * 
+	 * @param array $new_params
+	 * @return array
+	 */
+	public function params(array $new_params = NULL)
 	{
 		$this->_params = Arr::merge($this->request->query(), $this->request->post(), $this->request->param());
 		
@@ -141,6 +159,10 @@ class Controller_System_API extends Controller_System_Ajax {
 		$this->response->body( $this->json );
 	}
 	
+	/**
+	 * 
+	 * @param string $uri
+	 */
 	public function json_redirect($uri)
 	{
 		$this->json['redirect'] = URL::backend($uri);
