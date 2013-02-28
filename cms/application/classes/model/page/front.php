@@ -3,41 +3,126 @@
 /**
  * @package    Kodi/Model
  */
-class Model_Page_Front
-{
+class Model_Page_Front {
+
+	/**
+	 *
+	 * @var string 
+	 */
 	public $title = '';
+	
+	/**
+	 *
+	 * @var string 
+	 */
 	public $breadcrumb;
+	
+	/**
+	 *
+	 * @var string 
+	 */
 	public $author;
+	
+	/**
+	 *
+	 * @var integer 
+	 */
 	public $author_id;
+	
+	/**
+	 *
+	 * @var string 
+	 */
 	public $updator;
+	
+	/**
+	 *
+	 * @var integer 
+	 */
 	public $updator_id;
+	
+	/**
+	 *
+	 * @var string 
+	 */
 	public $slug = '';
+	
+	/**
+	 *
+	 * @var string 
+	 */
 	public $keywords = '';
+	
+	/**
+	 *
+	 * @var string 
+	 */
 	public $description = '';
+	
+	/**
+	 *
+	 * @var string 
+	 */
 	public $url = '';
 
+	/**
+	 *
+	 * @var Model_Front_Page 
+	 */
 	public $parent = NULL;
+	
+	/**
+	 *
+	 * @var integer 
+	 */
 	public $level = NULL;
-
-	protected $_tags = NULL;
-	protected $_parts = array();
-
+	
+	/**
+	 *
+	 * @var boolean 
+	 */
 	public $needs_login;
 
+	/**
+	 *
+	 * @var array 
+	 */
+	protected $_tags = NULL;
+	
+	/**
+	 *
+	 * @var array 
+	 */
+	protected $_parts = NULL;
+
+	/**
+	 *
+	 * @var array 
+	 */
 	private static $pages_cache = array();
 
+	/**
+	 * 
+	 * @param string $message
+	 * @param array $params
+	 * @throws HTTP_Exception_404
+	 */
 	public static function not_found($message = 'Page not found', $params = NULL)
 	{
 		Observer::notify('page_not_found', $message, $params);
 		throw new HTTP_Exception_404($message, $params);
 	}
 
+	/**
+	 * 
+	 * @param array $object
+	 * @param Model_Page_Front $parent
+	 */
 	public function __construct($object, $parent)
 	{
 		if($parent instanceof Model_Page_Front)
 			$this->parent = $parent;
 
-		
 		foreach ($object as $key => $value) 
 		{
 			$this->$key = $value;
@@ -49,12 +134,16 @@ class Model_Page_Front
 		}
 
 		$this->level = $this->level();
-		$this->_parts = $this->_load_parts();
 	}
 
+	/**
+	 * 
+	 * @return \Model_Page_Front
+	 */
 	protected function setUrl()
 	{
 		$this->url = trim($this->parent->url .'/'. $this->slug, '/');
+		return $this;
 	}
 
 	public function id() { return $this->id; }
@@ -66,16 +155,30 @@ class Model_Page_Front
 	public function updator_id() { return $this->updator_id; }
 	public function slug() { return $this->slug; }
 
+	/**
+	 * 
+	 * @param string $default
+	 * @return string
+	 */
 	public function keywords($default = NULL) 
 	{
 		return !empty($this->keywords) ? $this->keywords : $default; 
 	}
 
+	/**
+	 * 
+	 * @param string $default
+	 * @return string
+	 */
 	public function description($default = NULL) 
 	{ 
-		return !empty($this->description) ? $this->description : $default; 
+		return ! empty($this->description) ? $this->description : $default; 
 	}
 
+	/**
+	 * 
+	 * @return string
+	 */
 	public function url()
 	{
 		$uri = $this->url;
@@ -85,9 +188,12 @@ class Model_Page_Front
 		}
 
 		return URL::base(TRUE) . $uri; 
-
 	}
 
+	/**
+	 * 
+	 * @return integer
+	 */
 	public function level()
 	{
 		if ($this->level === NULL)
@@ -98,6 +204,10 @@ class Model_Page_Front
 		return $this->level;
 	}
 
+	/**
+	 * 
+	 * @return array
+	 */
 	public function tags()
 	{
 		if ( $this->_tags === NULL )
@@ -108,11 +218,22 @@ class Model_Page_Front
 		return $this->_tags;
 	}
 
+	/**
+	 * 
+	 * @return boolean
+	 */
 	public function is_active()
 	{
 		return (strpos(Request::current()->url(), $this->url) === 1);
 	}
 
+	/**
+	 * 
+	 * @param string $label
+	 * @param array $options
+	 * @param boolean $check_current
+	 * @return string
+	 */
 	public function link($label = NULL, $options = array(), $check_current = TRUE)
 	{
 		if ($label == NULL)
@@ -136,6 +257,12 @@ class Model_Page_Front
 		return HTML::anchor($this->url(), $label, $options);
 	}
 
+	/**
+	 * 
+	 * @param string $format
+	 * @param string $which_one
+	 * @return string
+	 */
 	public function date($format = NULL, $which_one = 'publish')
 	{
 		if ($which_one == 'update' || $which_one == 'updated')
@@ -152,6 +279,11 @@ class Model_Page_Front
 		}
 	}
 
+	/**
+	 * 
+	 * @param integer $level
+	 * @return array
+	 */
 	public function breadcrumbs($level = 0)
 	{
 		$pages = array();
@@ -180,13 +312,24 @@ class Model_Page_Front
 		return $pages;
 	}
 
+	/**
+	 * 
+	 * @param string $part
+	 * @param boolean $inherit
+	 * @return boolean
+	 */
 	public function has_content($part, $inherit = FALSE)
 	{
-		if (isset($this->_parts[$part]))
+		if($this->_parts === NULL)
+		{
+			$this->_parts = $this->_load_parts();
+		}
+		
+		if(isset($this->_parts[$part]))
 		{
 			return TRUE;
 		}
-		else if ($inherit !== FALSE 
+		else if($inherit !== FALSE 
 				AND $this->parent instanceof Model_Page_Front )
 		{
 			return $this->parent->has_content($part, TRUE);
@@ -195,17 +338,35 @@ class Model_Page_Front
 		return FALSE;
 	}
 
+	/**
+	 * 
+	 * @param string $part
+	 * @param boolean $inherit
+	 * @param integer $cache_lifetime
+	 * @return null
+	 */
 	public function content($part = 'body', $inherit = FALSE, $cache_lifetime = NULL)
 	{		
 		if ($this->has_content( $part ))
 		{
-			echo View::factory('system/blocks/part')
-				->set('page', $this)
-				->set('part', $this->_parts[$part])
-				->set('html', View_Front::factory()
+			$html = NULL;
+
+			if( $this->_parts[$part] instanceof Model_Page_Part )
+			{
+				$html = View_Front::factory()
 					->set('page', $this)
-					->render_html($this->_parts[$part]->content_html)
-				);
+					->render_html($this->_parts[$part]->content_html);
+			}
+			else if( $this->_parts[$part] instanceof View )
+			{
+				$html = $this->_parts[$part]->render();
+			}
+
+			echo View::factory('system/blocks/part', array(
+				'page' => $this,
+				'part' => $part,
+				'html' => $html
+			));
 			
 		}
 		else if ($inherit !== FALSE
@@ -214,9 +375,13 @@ class Model_Page_Front
 			return $this->parent->content($part, TRUE, $cache_lifetime);
 		}
 
-		return NULL;
+		return $this;
 	}
 
+	/**
+	 * 
+	 * @return Model_Page_Front
+	 */
 	public function previous()
 	{
 		if( $this->parent instanceof Model_Page_Front )
@@ -229,6 +394,10 @@ class Model_Page_Front
 		}
 	}
 
+	/**
+	 * 
+	 * @return Model_Page_Front
+	 */
 	public function next()
 	{
 		if( $this->parent instanceof Model_Page_Front )
@@ -241,6 +410,13 @@ class Model_Page_Front
 		}
 	}
 
+	/**
+	 * 
+	 * @param array $clause
+	 * @param array $values
+	 * @param boolean $include_hidden
+	 * @return \page_class
+	 */
 	public function children($clause = NULL, $values = array(), $include_hidden = FALSE)
 	{
 		$page_class = __CLASS__;
@@ -442,7 +618,6 @@ class Model_Page_Front
 		$pages_cache[ $page_cache_id ] = $page;
 
 		return $page;
-	
 	}
 
 	/**
