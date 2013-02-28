@@ -35,12 +35,12 @@
 				<div class="controls">
 					<?php
 					echo Form::select('setting[date_format]', array(
-						'Y-m-d' => '2011-12-14',
-						'd.m.Y' => '14.12.2011',
-						"Y/m/d" => "2011/12/14",
-						"m/d/Y" => "12/14/2011",
-						"d/m/Y" => "14/12/2011",
-						"d F Y" => '14 декабря 2011'
+						'Y-m-d' => Date::format(time(), 'Y-m-d'),
+						'd.m.Y' => Date::format(time(), 'd.m.Y'),
+						"Y/m/d" => Date::format(time(), 'Y/m/d'),
+						"m/d/Y" => Date::format(time(), 'm/d/Y'),
+						"d/m/Y" => Date::format(time(), 'd/m/Y'),
+						"d F Y" => Date::format(time(), 'd F Y')
 					), Setting::get('date_format'), array('id' => 'setting_date_format'));
 					?>
 				</div>
