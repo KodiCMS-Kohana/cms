@@ -668,8 +668,6 @@ class Model_Page_Front {
 	{
 		$page_class = __CLASS__;
 
-		$statuses = array(Model_Page::STATUS_REVIEWED, Model_Page::STATUS_PUBLISHED, Model_Page::STATUS_HIDDEN);
-
 		$page = DB::select('page.*')
 			->select(array('author.name', 'author'))
 			->select(array('updator.name', 'updator'))
@@ -680,7 +678,7 @@ class Model_Page_Front {
 				->on('updator.id', '=', 'page.updated_by_id')
 			->where('page.id', '=', $id)
 			->where('published_on', '<=', DB::expr('NOW()'))
-			->where('status_id', 'in', $statuses)
+			->where('status_id', 'in', self::_get_statuses(TRUE))
 			->limit(1)
 			->cache_tags( array('pages') )
 			->cached((int)Kohana::$config->load('global.cache.front_page'))
@@ -783,6 +781,7 @@ class Model_Page_Front {
 			Request::current()->headers('Content-Type',  $mime );
 		}
 		
+		// TODO удалить
 		View_Front::set_global('page_object', $this);
 
 		return View_Front::factory($layout->get_file())
