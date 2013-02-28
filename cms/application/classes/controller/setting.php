@@ -10,8 +10,15 @@ class Controller_Setting extends Controller_System_Backend {
 			return $this->_save();
 		}
 
+		$dates = array();
+		foreach (Kohana::$config->load('global')->get('date_formats', array()) as $format)
+		{
+			$dates[$format] = Date::format(time(), $format);
+		}
+
 		$this->template->content = View::factory( 'setting/index', array(
-			'filters' => Arr::merge(array('--none--'), Filter::findAll())
+			'filters' => Arr::merge(array('--none--'), Filter::findAll()),
+			'dates' => $dates
 		) );
 		
 		$this->template->title = __('Settings');

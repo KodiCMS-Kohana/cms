@@ -8,6 +8,20 @@ return array(
 		'tags' => 86400
 	),
 	
+	'date_formats' => array(
+		'Y-m-d',
+		'd.m.Y',
+		'Y/m/d',
+		'm/d/Y',
+		'd/m/Y',
+		'd M.',
+		'd M. Y',
+		'd F',
+		'd F Y',
+		'd F Y H:i',
+		'l, j-S F Y'
+	),
+	
 	'allowed_html_tags' => array(
 		'b' => array(), 'strong' => array(),
 		'i' => array(), 'em' => array(),

@@ -34,14 +34,7 @@
 				<?php echo Form::label('setting_date_format', __('Date format'), array('class' => 'control-label')); ?>
 				<div class="controls">
 					<?php
-					echo Form::select('setting[date_format]', array(
-						'Y-m-d' => Date::format(time(), 'Y-m-d'),
-						'd.m.Y' => Date::format(time(), 'd.m.Y'),
-						"Y/m/d" => Date::format(time(), 'Y/m/d'),
-						"m/d/Y" => Date::format(time(), 'm/d/Y'),
-						"d/m/Y" => Date::format(time(), 'd/m/Y'),
-						"d F Y" => Date::format(time(), 'd F Y')
-					), Setting::get('date_format'), array('id' => 'setting_date_format'));
+					echo Form::select('setting[date_format]', $dates, Setting::get('date_format'), array('id' => 'setting_date_format'));
 					?>
 				</div>
 			</div>
