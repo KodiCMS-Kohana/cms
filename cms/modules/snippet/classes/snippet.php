@@ -12,7 +12,7 @@ class Snippet {
 	 * @param boolean $i18n
 	 * @return void
 	 */
-	public static function render($snippet_name, $vars = NULL, $cache_lifetime = NULL, $cache_by_uri = FALSE, $tags = array(), $i18n = NULL)
+	public static function render($snippet_name, $vars = NULL, $cache_lifetime = NULL, $cache_by_uri = FALSE, array $tags = array(), $i18n = NULL)
 	{
 		$view = Snippet::get($snippet_name, $vars);
 		$snippet = new Model_File_Snippet($snippet_name);
@@ -23,6 +23,11 @@ class Snippet {
 		}
 		
 		$cache_key = self::_cache_key($snippet_name, $cache_by_uri);
+		
+		if( ! in_array($snippet_name, $tags))
+		{
+			$tags[] = $snippet_name;
+		}
 
 		if( $cache_lifetime !== NULL 
 				AND ! Fragment::load( $cache_key, (int) $cache_lifetime, $i18n ))
