@@ -68,6 +68,8 @@ class Controller_User extends Controller_System_Backend {
 			$this->go_back();
 		}
 		
+		$data['password'] = Auth::instance()->hash( $data['password'] );
+
 		$user = new User( $data );
 
 		if ( $user->save() )
