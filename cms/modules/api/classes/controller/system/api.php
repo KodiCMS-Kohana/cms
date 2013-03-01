@@ -19,7 +19,19 @@ class Controller_System_API extends Controller_System_Ajax {
 	 * @var array 
 	 */
 	protected $_params = array();
+	
+	/**
+	 *
+	 * @var boolean 
+	 */
+	protected $_is_backend = FALSE;
+	
+	public function __construct(\Request $request, \Response $response) 
+	{
+		parent::__construct($request, $response);
 
+		$this->_is_backend = URL::match(ADMIN_DIR_NAME, Request::current()->referrer());
+	}
 
 	public function before()
 	{
@@ -80,7 +92,7 @@ class Controller_System_API extends Controller_System_Ajax {
 	 */
 	public function execute()
 	{
-		if( ! IS_BACKEND AND Setting::get('api_mode') == 'no')
+		if( ! $this->_is_backend AND Setting::get('api_mode') == 'no')
 		{
 			throw new HTTP_Exception_403('Forbiden');
 		}
