@@ -7,6 +7,9 @@ class Controller_Page extends Controller_System_Backend {
 		parent::before();
 		$this->breadcrumbs
 			->add(__('Pages'), $this->request->controller());
+		
+		$this->scripts[] = ADMIN_RESOURCES . 'js/controller/page.js';
+		$this->scripts[] = ADMIN_RESOURCES . 'js/controller/behavior.js';
 	}
 
 	public function action_index()
@@ -88,7 +91,7 @@ class Controller_Page extends Controller_System_Backend {
 		$page = new Model_Page( $data, array('tags') );
 		$page->parent_id = $parent_id;
 		
-		Observer::notify( 'page_add_before_save', array( $page ) );
+		Observer::notify( 'page_add_before_save', $page );
 
 		// save page data
 		if ( $page->save() )
@@ -104,7 +107,7 @@ class Controller_Page extends Controller_System_Backend {
 			}
 			$page->savePermissions( $permissions );
 
-			Observer::notify( 'page_add_after_save', array( $page ) );
+			Observer::notify( 'page_add_after_save', $page);
 
 			Messages::success( __( 'Page <b>:title</b> has been saved!', array( ':title' => $page->title ) ) );
 		}
@@ -195,7 +198,7 @@ class Controller_Page extends Controller_System_Backend {
 
 		$page->setFromData( $data, array( 'tags' ) );
 
-		Observer::notify( 'page_edit_before_save', array( $page ) );
+		Observer::notify( 'page_edit_before_save', $page );
 
 		if ( $page->save() )
 		{
@@ -218,7 +221,7 @@ class Controller_Page extends Controller_System_Backend {
 			
 			
 
-			Observer::notify( 'page_edit_after_save', array( $page ) );
+			Observer::notify( 'page_edit_after_save', $page );
 
 			Messages::success( __( 'Page <b>:title</b> has been saved!', array( ':title' => $page->title ) ) );
 		}
@@ -266,7 +269,7 @@ class Controller_Page extends Controller_System_Backend {
 
 				if ( $page->delete() )
 				{
-					Observer::notify( 'page_delete', array( $page ) );
+					Observer::notify( 'page_delete', $page );
 					Messages::success( __( 'Page <b>:title</b> has been deleted!', array( ':title' => $page->title ) ) );
 				}
 				else

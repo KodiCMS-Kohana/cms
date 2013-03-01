@@ -10,6 +10,36 @@ class Behavior
 	 * @var array 
 	 */
 	private static $behaviors = array();
+	
+	/**
+	 * 
+	 * @param string $behavior_id
+	 * @return Behavior_Abstract
+	 * @throws HTTP_Exception_404
+	 */
+	public static function factory($behavior_id)
+	{
+		$behavior = self::get($behavior_id);
+		if( $behavior === NULL ) 
+			throw new HTTP_Exception_404('Behavior :behavior not found!', array(
+				':behavior' => $behavior_id
+			));
+		
+		$class = $behavior_id;
+		if(isset($behavior['class']))
+		{
+			$class = $behavior['class'];
+		}
+		
+		$behavior_class = 'Behavior_'.URL::title($class, '');
+		
+		if ( ! class_exists($behavior_class) ) 
+			throw new HTTP_Exception_404('Behavior class :class not exists!', array(
+				':class' => $behavior_class
+			));
+		
+		return new $behavior_class;
+	}
 
 	/**
 	 * Init behaviors
@@ -32,7 +62,7 @@ class Behavior
 	 */
 	public static function get($behavior_id)
 	{
-		return isset(self::$behaviors[$behavior_id]) ? self::$behaviors[$behavior_id] : NULL;
+		return Arr::get(self::$behaviors, $behavior_id);
 	}
 
 	/**
@@ -48,7 +78,6 @@ class Behavior
 		}
 	}
 
-
 	/**
 	 * Load a behavior and return it
 	 *
@@ -56,32 +85,18 @@ class Behavior
 	 * @param page        object  Will be pass to the behavior
 	 * 
 	 *
-	 * @return object
+	 * @return Behavior_Abstract
 	 */
-	public static function load($behavior_id, &$page, $url, $uri)
+	public static function load($behavior_id, Model_Page_Front &$page, $url, $uri)
 	{
-		$behavior = self::get($behavior_id);
-	
-		if( $behavior === NULL ) return NULL;
-
-		$class = $behavior_id;
-		if(isset($behavior['class']))
-		{
-			$class = $behavior['class'];
-		}
-
-		$behavior_class = 'Behavior_'.URL::title($class, '');
-
-		if (class_exists($behavior_class))
-		{
-			return new $behavior_class($page, $url, $uri);
-		}
+		$behavior = self::factory($behavior_id);
 		
-		throw new HTTP_Exception_404('Behavior :behavior not found!', array(
-			':behavior' => $behavior_id
-		));
+		$uri = substr($uri, strlen($url));
+		
+		return $behavior
+				->set_page($page)
+				->find_route( $uri );
 	}
-
 
 	/**
 	 * Load a behavior and return it
@@ -100,7 +115,7 @@ class Behavior
 		}
 		else
 		{
-			return 'Model_Page_Front';
+			return 'Model_Page_Behavior';
 		}
 	}
 

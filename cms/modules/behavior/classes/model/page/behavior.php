@@ -25,7 +25,7 @@ class Model_Page_Behavior extends Model_Page_Front {
 	 * @param Model_Page_Part $data
 	 * @return \Model_Page_Front
 	 */
-	public function set_part($part, Model_Page_Part $data)
+	public function set_part($part, $data)
 	{
 		$this->_parts[$part] = $data;
 		

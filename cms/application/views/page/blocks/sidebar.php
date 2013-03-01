@@ -10,17 +10,21 @@
 		<option value="<?php echo($layout->name); ?>" <?php echo($layout->name == $page->layout_file ? ' selected="selected"': ''); ?> ><?php echo $layout->name; ?></option>
 		<?php endforeach; ?>
 	</select>
-	<label><?php echo __('Type'); ?></label>
-	<select name="page[behavior_id]" class="span12">
-		<option value="0"<?php if ($page->behavior_id == '') echo ' selected="selected"'; ?>>&ndash; <?php echo __('none'); ?> &ndash;</option>
-		<?php foreach ($behaviors as $behavior): ?>
-		<option value="<?php echo $behavior; ?>"<?php if ($page->behavior_id == $behavior) echo ' selected="selected"'; ?>><?php echo Inflector::humanize($behavior); ?></option>
-		<?php endforeach; ?>
-	</select>
+	<br />
+	<div class="well well-small">
+		<label><?php echo __('Type'); ?></label>
+		<select name="page[behavior_id]" class="span12">
+			<option value="0"<?php if ($page->behavior_id == '') echo ' selected="selected"'; ?>>&ndash; <?php echo __('none'); ?> &ndash;</option>
+			<?php foreach ($behaviors as $behavior): ?>
+			<option value="<?php echo $behavior; ?>"<?php if ($page->behavior_id == $behavior) echo ' selected="selected"'; ?>><?php echo Inflector::humanize($behavior); ?></option>
+			<?php endforeach; ?>
+		</select>
+		
+		<div id="behavor_options"></div>
+	</div>
 
 	<?php if(AuthUser::hasPermission(array('administrator','developer')) && ($action == 'add' || ($action == 'edit' && isset($page->id) && $page->id != 1))): ?>
 	<label><?php echo __('Status'); ?></label>
-
 	<?php echo Form::select('page[status_id]', Model_Page::statuses(), $page->status_id, array(
 		'class' => 'span12'
 	)); ?>

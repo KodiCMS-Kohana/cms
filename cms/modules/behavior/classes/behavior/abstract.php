@@ -24,29 +24,48 @@ abstract class Behavior_Abstract {
 	 *
 	 * @var Model_Page_Front 
 	 */
-	protected $_page;
+	protected $_page = NULL;
 	
+	/**
+	 *
+	 * @var array 
+	 */
+	protected $_settings = NULL;
+
+
 	/**
 	 *
 	 * @var array 
 	 */
 	protected $_params = array();
 
+
+	public function __construct( ) {
+
+	}
+	
 	/**
 	 * 
 	 * @param Model_Page_Front $page
-	 * @param string $url
-	 * @param string $uri
+	 * @return \Behavior_Abstract
 	 */
-	public function __construct( Model_Page_Front &$page, $url, $uri)
+	public function set_page( Model_Page_Front &$page )
 	{
 		$this->_page = &$page;
-		
-		$uri = substr($uri, strlen($url));
-
-		$this->_match_route($uri);
+		return $this;
 	}
 	
+	/**
+	 * 
+	 * @param string $uri
+	 * @return \Behavior_Abstract
+	 */
+	public function find_route( $uri )
+	{
+		$this->_match_route($uri);
+		return $this;
+	}
+
 	/**
 	 * 
 	 * @param string $name
@@ -65,9 +84,7 @@ abstract class Behavior_Abstract {
 	 */
 	public function param($name, $default = NULL)
 	{
-		return isset($this->_params[$name]) 
-			? $this->_params[$name] 
-			: $default;
+		return Arr::get($this->_params, $name, $default);
 	}
 	
 	/**
@@ -80,6 +97,39 @@ abstract class Behavior_Abstract {
 		return isset($this->_params[$name]);
 	}
 	
+	/**
+	 * 
+	 * @return \Behavior_Abstract
+	 * @throws Kohana_Exception
+	 */
+	protected function _load_settings()
+	{
+		if( $this->_page === NULL )
+			throw new Kohana_Exception('Page must be loaded');
+		
+		if( $this->_settings === NULL )
+		{
+			$this->_settings = ORM::factory('Page_Behavior_Setting')
+				->find_by_page($this->_page)
+				->get('data', array());
+		}
+		
+		return $this;
+	}
+	
+	/**
+	 * 
+	 * @param string $name
+	 * @param mixed $default
+	 * @return string
+	 */
+	public function setting($key, $default = NULL)
+	{
+		$this->_load_settings();
+		
+		return Arr::get($this->_settings, $key, $default);
+	}
+
 	/**
 	 * 
 	 * @param string $uri
@@ -129,12 +179,31 @@ abstract class Behavior_Abstract {
 			}
 			
 			$this->_matched_route = $_uri;
-			return $this->{$params['method']}();
+			$this->{$params['method']}();
+			
+			return;
 		}
 		
 		$this->_params = preg_split('/\//', $uri, -1, PREG_SPLIT_NO_EMPTY);		
-		return $this->execute();
+		
+		$this->execute();
 	}
 	
+	/**
+	 * 
+	 * @param Model_Page $page
+	 * @return View
+	 */
+	public function get_page_settings(Model_Page $page)
+	{
+		$this->_page = $page;
+		$this->_load_settings();
+
+		return View::factory('behavior/' . $this->_page->behavior_id)
+			->set('settings', $this->_settings)
+			->set('behavior', $this)
+			->set('page', $this->_page);
+	}
+
 	abstract public function execute();
 }
