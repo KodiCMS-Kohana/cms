@@ -53,6 +53,14 @@ CREATE TABLE `TABLE_PREFIX_page_tags` (
   KEY `tag_id` (`tag_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+
+CREATE TABLE IF NOT EXISTS `TABLE_PREFIX_page_behavior_settings` (
+  `page_id` int(10) unsigned NOT NULL,
+  `behavior_id` varchar(50) NOT NULL,
+  `data` text NOT NULL,
+  PRIMARY KEY (`page_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 CREATE TABLE `TABLE_PREFIX_plugin_settings` (
   `plugin_id` varchar(40) NOT NULL,
   `name` varchar(40) NOT NULL,
@@ -133,6 +141,9 @@ ALTER TABLE `TABLE_PREFIX_pages`
 
 ALTER TABLE `TABLE_PREFIX_page_parts`
   ADD CONSTRAINT `page_parts_ibfk_1` FOREIGN KEY (`page_id`) REFERENCES `TABLE_PREFIX_pages` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `TABLE_PREFIX_page_behavior_settings`
+  ADD CONSTRAINT `page_behavior_settings_ibfk_1` FOREIGN KEY (`page_id`) REFERENCES `TABLE_PREFIX_pages` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `TABLE_PREFIX_page_roles`
   ADD CONSTRAINT `page_roles_ibfk_1` FOREIGN KEY (`page_id`) REFERENCES `TABLE_PREFIX_pages` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
