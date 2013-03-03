@@ -345,7 +345,7 @@ class Model_Page_Front {
 	 * @param integer $cache_lifetime
 	 * @return null
 	 */
-	public function content($part = 'body', $inherit = FALSE, $cache_lifetime = NULL)
+	public function content($part = 'body', $inherit = FALSE, $cache_lifetime = NULL, array $tags = array())
 	{		
 		if ($this->has_content( $part ))
 		{
@@ -361,12 +361,26 @@ class Model_Page_Front {
 			{
 				$html = $this->_parts[$part]->render();
 			}
-
-			echo View::factory('system/blocks/part', array(
+			
+			$view = View::factory('system/blocks/part', array(
 				'page' => $this,
 				'part' => $part,
 				'html' => $html
 			));
+			
+			$tags[] = 'page_parts';
+			
+			if( $cache_lifetime !== NULL 
+				AND ! Fragment::load( $this->id . $part, (int) $cache_lifetime ))
+			{
+				echo $view;
+
+				Fragment::save_with_tags((int) $cache_lifetime, $tags);
+			}
+			else
+			{
+				echo $view;
+			}
 			
 		}
 		else if ($inherit !== FALSE
@@ -780,9 +794,6 @@ class Model_Page_Front {
 		{
 			Request::current()->headers('Content-Type',  $mime );
 		}
-		
-		// TODO удалить
-		View_Front::set_global('page_object', $this);
 
 		return View_Front::factory($layout->get_file())
 			->set('page', $this);
