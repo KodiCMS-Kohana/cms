@@ -6,7 +6,7 @@ class Controller_FileManager extends Controller_System_Plugin {
 	{
 		$this->template->scripts[] = ADMIN_RESOURCES . 'libs/jquery.uploader.js';
 
-		$path = trim($this->request->param('path', '/'), '/');
+		$path = $this->_get_path();
 		
 		try
 		{
@@ -29,7 +29,7 @@ class Controller_FileManager extends Controller_System_Plugin {
 	
 	public function action_view()
 	{
-		$path = trim($this->request->param('path', '/'), '/');
+		$path = $this->_get_path();
 
 		try
 		{
@@ -82,7 +82,7 @@ class Controller_FileManager extends Controller_System_Plugin {
 	
 	public function action_delete()
 	{
-		$path = trim($this->request->param('path', '/'), '/');
+		$path = $this->_get_path();
 		
 		try
 		{
@@ -105,11 +105,11 @@ class Controller_FileManager extends Controller_System_Plugin {
 	public function action_upload()
 	{
 		$this->auto_render = FALSE;
+		$path = FileSystem::normalize_path(PUBLICPATH . $this->_get_path());
+		$path = rtrim($path, DIRECTORY_SEPARATOR);
 
-		$path = PUBLICPATH . ltrim($this->request->param('path', ''), DIRECTORY_SEPARATOR);
-		
 		$filename = $_FILES['file']['name'];
-		if(  file_exists( $path . DIRECTORY_SEPARATOR . $filename))
+		if( file_exists( $path . DIRECTORY_SEPARATOR . $filename ) )
 		{
 			$filename = NULL;
 		}
@@ -118,7 +118,7 @@ class Controller_FileManager extends Controller_System_Plugin {
 		
 		$file = FileSystem::factory($file);
 
-		if($file)
+		if( $file )
 		{
 			echo View::factory('filemanager/item', array(
 				'icon' => 'file', 'file' => $file
@@ -139,7 +139,7 @@ class Controller_FileManager extends Controller_System_Plugin {
 		{
 			$filesystem = FileSystem::factory(PUBLICPATH . $path);
 			
-			$filesystem->createFolder($name);
+			$filesystem->create($name);
 			
 			$this->json['status'] = FALSE;
 			$this->json['message'] = __('Folder created');
@@ -204,5 +204,12 @@ class Controller_FileManager extends Controller_System_Plugin {
 
 			$i++;
 		}
+	}
+	
+	private function _get_path()
+	{
+		$path = $this->request->param('path', '/public/');
+		
+		return str_replace('public', '', ltrim($path, '/'));
 	}
 }

@@ -41,7 +41,7 @@
 		<div class="widget-header"><?php echo __('Content'); ?></div>
 		<?php if($filesystem->isImage()): ?>
 		<div class="widget-content align-center">
-			<?php echo HTML::image(PUBLIC_URL . $filesystem->getRelativePath(), array(
+			<?php echo HTML::image(PUBLIC_URL . $filesystem->getRelativePath(PUBLICPATH), array(
 				 'class' => 'img-polaroid'
 			)) ;?>
 		</div>
