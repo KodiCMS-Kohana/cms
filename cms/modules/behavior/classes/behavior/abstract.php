@@ -43,7 +43,7 @@ abstract class Behavior_Abstract {
 	public function __construct( ) {
 
 	}
-	
+
 	/**
 	 * 
 	 * @param Model_Page_Front $page
@@ -64,6 +64,15 @@ abstract class Behavior_Abstract {
 	{
 		$this->_match_route($uri);
 		return $this;
+	}
+	
+	/**
+	 * 
+	 * @return array
+	 */
+	public function routes()
+	{
+		return $this->_routes;
 	}
 
 	/**
@@ -136,7 +145,7 @@ abstract class Behavior_Abstract {
 	 */
 	final protected function _match_route($uri)
 	{
-		foreach ($this->_routes as $_uri => $params)
+		foreach ($this->routes() as $_uri => $params)
 		{
 			if( ! isset($params['method']))
 			{
