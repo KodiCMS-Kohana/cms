@@ -7,10 +7,39 @@
 class FileSystem {
 	
 	/**
+	 * 
+	 * @param string $path
+	 * @return string
+	 */
+	public static function normalize_path( $path )
+	{
+		return str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $path);
+	}
+
+	/**
 	 *
 	 * @var string
 	 */
 	protected $_file;
+	
+	/**
+	 *
+	 * @var string 
+	 */
+	protected $_path;
+	
+	/**
+	 *
+	 * @var string 
+	 */
+	protected $_root;
+
+
+	/**
+	 *
+	 * @var string 
+	 */
+	protected $_real_path;
 
 	/**
 	 * 
@@ -18,30 +47,32 @@ class FileSystem {
 	 * @return \FileSystem
 	 * @throws Kohana_Exception
 	 */
-	public static function factory( $file )
+	public static function factory( $path )
 	{
-		if(!($file instanceof SplFileInfo))
+		if( ! ($path instanceof SplFileInfo) )
 		{
-			if ( !is_dir( $file ) )
+			$path = FileSystem::normalize_path($path);
+			
+			if ( file_exists( $path ) ) 
 			{
-				if ( file_exists( $file ) ) 
+				if ( ! is_dir( $path ) )
 				{
-					$file = new FileSystem_File( $file );
+					$path = new FileSystem_File( $path );
 				}
-				else
+				else 
 				{
-					throw new Kohana_Exception( 'Directory or file :path not found', array(
-						':path' => $file
-					) );
+					$path = new FileSystem_Directory( $path );
 				}
 			}
 			else
 			{
-				$file = new FileSystem_Directory( $file );
+				throw new Kohana_Exception( 'Directory or file :path not found', array(
+					':path' => $path
+				) );
 			}
 		}
 
-		return new FileSystem($file);
+		return new FileSystem( $path );
 	}
 
 	/**
@@ -51,6 +82,9 @@ class FileSystem {
 	public function __construct( SplFileInfo $file )
 	{
 		$this->_file = $file;
+		
+		$this->_path = $file->getPath();
+		$this->_real_path = $file->getRealPath();
 	}
 	
 	/**
@@ -157,16 +191,16 @@ class FileSystem {
 	 */
 	public function getUrl()
 	{
-		return PUBLIC_URL . $this->getRelativePath();
+		return BASE_URL . str_replace(array('/', '\\'), '/', $this->getRelativePath());
 	}
 	
 	/**
 	 * 
 	 * @return string
 	 */
-	public function getRelativePath()
+	public function getRelativePath($path = DOCROOT)
 	{
-		return trim(str_replace(rtrim(PUBLICPATH, DIRECTORY_SEPARATOR), '', $this->getRealPath()), DIRECTORY_SEPARATOR);
+		return trim(str_replace(rtrim($path, DIRECTORY_SEPARATOR), '', $this->_real_path), DIRECTORY_SEPARATOR);
 	}
 
 	/**
@@ -207,9 +241,9 @@ class FileSystem {
 	 */
 	public function rename($name)
 	{
-		if (rename($this->getRealPath(), $this->getPath() . DIRECTORY_SEPARATOR . $name))
+		if (rename($this->_real_path, $this->_path . DIRECTORY_SEPARATOR . $name))
 		{
-			return FileSystem::factory($this->getPath() . DIRECTORY_SEPARATOR . $name);
+			return FileSystem::factory($this->_path . DIRECTORY_SEPARATOR . $name);
 		}
 		
 		return FALSE;
@@ -222,7 +256,7 @@ class FileSystem {
 	 */
 	public function setPerms($chmod)
 	{
-		return chmod($this->getRealPath(), octdec((int) $chmod));
+		return chmod($this->_real_path, octdec((int) $chmod));
 	}
 
 	/**

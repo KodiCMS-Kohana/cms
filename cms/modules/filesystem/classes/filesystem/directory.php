@@ -9,26 +9,30 @@ class FileSystem_Directory extends DirectoryIterator {
 	/**
 	 * 
 	 * @param string $name
+	 * @param integer $chmod
 	 * @return boolean
 	 */
-	public function createFolder($name)
+	public function create( $name, $chmod = 755 )
 	{
 		$folder_path = $this->getPath() . DIRECTORY_SEPARATOR . $name;
-		if ( ! is_dir($folder_path))
+		if ( ! is_dir($folder_path) )
 		{
-			return mkdir($folder_path);
+			if( mkdir($folder_path) )
+			{
+				chmod($folder_path, $chmod);
+				return TRUE;
+			}
 		}
-		else
-		{
-			return FALSE;
-		}
+		
+		return FALSE;
 	}
 
 	/**
 	 * 
+	 * @param boolean $preserve
 	 * @return boolean
 	 */
-	public function delete()
+	public function delete( $preserve = FALSE )
 	{
 		$dirHandle = opendir($this->getRealPath());
 			
@@ -45,7 +49,7 @@ class FileSystem_Directory extends DirectoryIterator {
 
 		closedir($dirHandle);
 
-		if (file_exists($this->getRealPath()))
+		if ( file_exists($this->getRealPath()) AND $preserve === FALSE )
 		{
 			return rmdir($this->getRealPath());
 		}
@@ -53,6 +57,15 @@ class FileSystem_Directory extends DirectoryIterator {
 		return FALSE;
 	}
 	
+	/**
+	 * 
+	 * @return boolean
+	 */
+	public function clean()
+	{
+		return $this->delete(TRUE);
+	}
+
 	/**
 	 * 
 	 * @return FileSystem

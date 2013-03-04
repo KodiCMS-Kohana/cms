@@ -5,7 +5,7 @@
  */
 
 class FileSystem_File extends SplFileInfo {
-	
+
 	/**
 	 * 
 	 * @param string $content
