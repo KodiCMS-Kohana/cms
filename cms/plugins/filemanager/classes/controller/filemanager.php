@@ -10,7 +10,7 @@ class Controller_FileManager extends Controller_System_Plugin {
 		
 		try
 		{
-			$filesystem = Model_FileSystem::factory(PUBLICPATH . $path);
+			$filesystem = FileSystem::factory(PUBLICPATH . $path);
 		}
 		catch(Exception $e)
 		{
@@ -33,7 +33,7 @@ class Controller_FileManager extends Controller_System_Plugin {
 
 		try
 		{
-			$filesystem = Model_FileSystem::factory(PUBLICPATH . $path);
+			$filesystem = FileSystem::factory(PUBLICPATH . $path);
 		}
 		catch(Exception $e)
 		{
@@ -55,7 +55,7 @@ class Controller_FileManager extends Controller_System_Plugin {
 		));
 	}
 	
-	private function _save( Model_FileSystem $filesystem )
+	private function _save( FileSystem $filesystem )
 	{
 		$data = $_POST['file'];
 		
@@ -86,7 +86,7 @@ class Controller_FileManager extends Controller_System_Plugin {
 		
 		try
 		{
-			$filesystem = Model_FileSystem::factory(PUBLICPATH . $path);
+			$filesystem = FileSystem::factory(PUBLICPATH . $path);
 		}
 		catch(Exception $e)
 		{
@@ -116,7 +116,7 @@ class Controller_FileManager extends Controller_System_Plugin {
 
 		$file = Upload::save($_FILES['file'], $filename, $path);
 		
-		$file = Model_FileSystem::factory($file);
+		$file = FileSystem::factory($file);
 
 		if($file)
 		{
@@ -137,7 +137,7 @@ class Controller_FileManager extends Controller_System_Plugin {
 		
 		try
 		{
-			$filesystem = Model_FileSystem::factory(PUBLICPATH . $path);
+			$filesystem = FileSystem::factory(PUBLICPATH . $path);
 			
 			$filesystem->createFolder($name);
 			
@@ -164,7 +164,7 @@ class Controller_FileManager extends Controller_System_Plugin {
 		
 		try
 		{
-			$filesystem = Model_FileSystem::factory(PUBLICPATH . $path);
+			$filesystem = FileSystem::factory(PUBLICPATH . $path);
 			
 			$filesystem->setPerms($chmod);
 			
@@ -180,7 +180,7 @@ class Controller_FileManager extends Controller_System_Plugin {
 		}
 	}
 
-	private function _breadcrumbs( Model_FileSystem $filesystem, $path )
+	private function _breadcrumbs( FileSystem $filesystem, $path )
 	{
 		$paths = array();
 		$path_array = $filesystem->getPathArray();

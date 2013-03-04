@@ -39,6 +39,7 @@ Kohana::modules( array(
 	'auth'			=> MODPATH . 'auth',		// Basic authentication
 	'orm'			=> MODPATH . 'orm',			// Object Relationship Mapping,
 	'pagination'	=> MODPATH . 'pagination',
+	'filesystem'	=> MODPATH . 'filesystem',
 	'navigation'	=> MODPATH . 'navigation',
 	'minion'		=> MODPATH . 'minion',		// Minion
 	'image'			=> MODPATH . 'image',
@@ -49,13 +50,12 @@ Kohana::modules( array(
 	'api'			=> MODPATH . 'api',
 	'sheduler'		=> MODPATH . 'sheduler',
 	'snippet'		=> MODPATH . 'snippet',
+	'reflinks'		=> MODPATH . 'reflinks',
 	'behavior'		=> MODPATH . 'behavior',
-	'reflinks'		=> MODPATH . 'reflinks'
 ) );
 
 // Init settings
 Setting::init();
-Behavior::init();
 
 Route::set( 'admin_media', 'cms/media/<file>', array(
 	'file' => '.*'
