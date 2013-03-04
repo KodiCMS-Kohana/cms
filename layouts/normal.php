@@ -15,7 +15,7 @@
 	</head>
 	<body>
 		<div id="page">
-            <?php echo Snippet::render('header'); ?>
+            <?php echo Snippet::render('header', array('page' => $page)); ?>
 			<div id="content">
 				<h2><?php echo $page->title(); ?></h2>
 				<?php echo $page->content(); ?> 
@@ -26,7 +26,7 @@
 				<?php echo $page->content( 'sidebar', TRUE ); ?> 
 			</div> <!-- end #sidebar -->
 
-			<?php echo Snippet::render('footer'); ?>
+			<?php echo Snippet::render('footer', array('page' => $page)); ?>
 		</div> <!-- end #page -->
 	</body>
 </html>
