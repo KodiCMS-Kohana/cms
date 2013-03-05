@@ -36,7 +36,7 @@ class Snippet {
 
 			Fragment::save_with_tags((int) $cache_lifetime, $tags);
 		}
-		else	
+		else if( $cache_lifetime === NULL )
 		{
 			echo $view;
 		}
