@@ -69,7 +69,7 @@ class ORM extends Kohana_ORM {
 				$path .= trim($_params['subfolder']) . DIRECTORY_SEPARATOR;
 			}
 			
-			$path = str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $path);
+			$path = FileSystem::normalize_path($path);
 			
 			if ( ! is_dir( $path ) )
 			{
