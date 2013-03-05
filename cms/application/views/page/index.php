@@ -40,7 +40,7 @@
 				<div class="item">
 					<div class="row-fluid">
 						<div class="title span7">
-							<?php if( ! AuthUser::hasPermission($page->getPermissions()) ): ?>
+							<?php if( ! AuthUser::hasPermission($page->get_permissions()) ): ?>
 							<?php echo UI::icon('lock'); ?>
 							<em title="/"><?php echo $page->title; ?></em>
 							<?php else: ?>

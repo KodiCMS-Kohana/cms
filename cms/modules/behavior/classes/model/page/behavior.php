@@ -8,27 +8,14 @@ class Model_Page_Behavior extends Model_Page_Front {
 	 * @param boolean $inherit
 	 * @param integer $cache_lifetime
 	 */
-	public function content($part = 'body', $inherit = FALSE, $cache_lifetime = NULL)
+	public function content($part = 'body', $inherit = FALSE, $cache_lifetime = NULL, array $tags = array())
 	{
 		$method = 'content_' . URL::title($part, '_');
 		if(method_exists($this, $method))
 		{
-			return $this->{$method}($cache_lifetime);
+			return $this->{$method}($cache_lifetime, $tags);
 		}
 		
-		return parent::content($part, $inherit, $cache_lifetime);
-	}
-	
-	/**
-	 * 
-	 * @param string $part
-	 * @param Model_Page_Part $data
-	 * @return \Model_Page_Front
-	 */
-	public function set_part($part, $data)
-	{
-		$this->_parts[$part] = $data;
-		
-		return $this;
+		return parent::content($part, $inherit, $cache_lifetime, $tags);
 	}
 }

@@ -156,97 +156,14 @@ class Model_Page extends Record
 			. (!URL::check_suffix( $uri , '.') ? URL_SUFFIX : '');
 	}
 
-	public function getTags()
+	public function get_tags()
     {
-        $tablename_page_tag = self::tableName('Model_Page_Tag');
-        $tablename_tag = self::tableName('Model_Tag');
-		
-		return DB::select(array('tags.id', 'id'), array('tags.name', 'tag'))
-			->from(array($tablename_page_tag, 'page_tags'))
-			->join(array($tablename_tag, 'tags'), 'left')
-				->on('page_tags.tag_id', '=', 'tags.id')
-			->where('page_tags.page_id', '=', $this->id)
-			->execute()
-			->as_array('id', 'tag');
+		return Model_Page_Tag::find_by_page( $this->id );
     }
     
-    public function saveTags($tags)
+    public function save_tags($tags)
     {
-        if( is_string($tags) )
-		{
-            $tags = explode(Model_Tag::SEPARATOR, $tags);
-		}
-        
-        $tags = array_unique(array_map('trim', $tags));
-        
-        $current_tags = $this->getTags();
-        
-        // no tag before! no tag now! ... nothing to do!
-        if( count($tags) == 0 AND count($current_tags) == 0 )
-		{
-            return;
-		}
-        
-        // delete all tags
-        if( count($tags) == 0 )
-        {
-            // update count (-1) of those tags
-            foreach( $current_tags as $tag )
-			{
-				DB::update(Model_Tag::tableName())
-					->set(array('count' => DB::expr('count - 1')))
-					->where('name', '=', $tag)
-					->execute();
-			}
-            
-            return Record::deleteWhere( 'Model_Page_Tag', array(
-				'where' => array(array('page_id', '=', $this->id))));
-        }
-        else
-        {
-            $old_tags = array_diff($current_tags, $tags);
-            $new_tags = array_diff($tags, $current_tags);
-            
-            // insert all tags in the tag table and then populate the page_tag table
-            foreach( $new_tags as $index => $tag_name )
-            {
-                if ( !empty($tag_name) )
-                {
-					$tag = Record::findOneFrom('Model_Tag', array(
-						'where' => array(array('name', '=', $tag_name))));
-							
-                    // try to get it from tag list, if not we add it to the list
-                    if ( ! $tag);
-					{
-                        $tag = new Model_Tag(array('name' => trim($tag_name)));
-					}
-                    
-                    $tag->count++;
-                    $tag->save();
-                    
-                    // create the relation between the page and the tag
-                    $tag = new Model_Page_Tag( array('page_id' => $this->id, 'tag_id' => $tag->id) );
-                    $tag->save();
-                }
-            }
-            
-            // remove all old tag
-            foreach( $old_tags as $index => $tag_name )
-            {
-                // get the id of the tag
-                $tag = Record::findOneFrom('Model_Tag',
-						array('where' => array(array('name', '=', $tag_name))));
-
-                Record::deleteWhere('Model_Page_Tag', array(
-					'where' => array(
-						array('page_id', '=', $this->id),
-						array('tag_id', '=', $tag->id)
-					)));
-	
-                $tag->count--;
-                $tag->save();
-            }
-        }
+        return Model_Page_Tag::save_by_page( $this->id, $tags );
     }
     
     public static function find($clause = array())
@@ -355,52 +272,19 @@ class Model_Page extends Record
 		return $result;
 	}
 	
-	public function getPermissions()
+	public function get_permissions()
 	{
 		if ( empty($this->id) )
 		{
 			return Model_Permission::get_all();
 		}
 			
-		return DB::select('role.id', 'role.name')
-			->from(array(Model_Page_Role::tableName(), 'page_roles'))
-			->join(array(Model_Permission::tableName(), 'role'), 'left')
-				->on('page_roles.role_id', '=','role.id')
-			->where('page_roles.page_id', '=', $this->id )
-			->execute()
-			->as_array('id', 'name');
+		return Model_Page_Permission::find_by_page( $this->id );
 	}
 
-	public function savePermissions( $permissions )
+	public function save_permissions( $permissions )
 	{
-		if(!is_array( $permissions ))
-		{
-			$permissions = array();
-		}
-
-		// get permissions that already stored in database		
-		$perms_in_table = array_keys($this->getPermissions());
-
-		$new_perms = array_diff($permissions, $perms_in_table);
-		$del_perms = array_diff($perms_in_table, $permissions);
-		
-		// add new ralates to page_permission
-		foreach ($new_perms as $id)
-		{
-			DB::insert(Model_Page_Role::tableName())
-				->columns(array('page_id', 'role_id'))
-				->values(array($this->id, (int) $id))
-				->execute();
-		}
-		
-		// remove old relatives from page_permission
-		foreach ($del_perms as $id)
-		{
-			DB::delete(Model_Page_Role::tableName())
-				->where('page_id', '=', $this->id)
-				->where('role_id', '=', (int) $id)
-				->execute();
-		}
+		return Model_Page_Permission::save_by_page($this->id, $permissions);
 	}
     
 } // end Model_Page class

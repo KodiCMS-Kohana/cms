@@ -94,6 +94,12 @@ class Model_Page_Front {
 	 * @var array 
 	 */
 	protected $_parts = NULL;
+	
+	/**
+	 *
+	 * @var array 
+	 */
+	protected $_parts_data = array();
 
 	/**
 	 *
@@ -368,12 +374,15 @@ class Model_Page_Front {
 				'html' => $html
 			));
 			
+			$cache_lifetime = Arr::path($this->_parts_data, $part . '.cache_lifetime', $cache_lifetime);
+			$tags = Arr::path($this->_parts_data, $part . '.tags', $tags);
+			
 			$tags[] = 'page_parts';
 			
 			if( $cache_lifetime !== NULL 
-				AND ! Fragment::load( $this->id . $part, (int) $cache_lifetime ))
+				AND ! Fragment::load( $this->id . $part . Request::current()->uri(), (int) $cache_lifetime ))
 			{
-				echo $view;
+				echo $view;				
 
 				Fragment::save_with_tags((int) $cache_lifetime, $tags);
 			}
@@ -831,6 +840,23 @@ class Model_Page_Front {
 
 		return $this->needs_login;
 	}
+	
+	/**
+	 * 
+	 * @param string $part
+	 * @param Model_Page_Part $data
+	 * @return \Model_Page_Front
+	 */
+	public function set_part($part, $data, $cache_lifetime = NULL, array $tags = array())
+	{
+		$this->_parts[$part] = $data;
+		$this->_parts_data[$part] = array(
+			'cache_lifetime' => $cache_lifetime,
+			'tags' => $tags
+		);
+		
+		return $this;
+	}
 
 	/**
 	 * TODO вынести в класс Model_Page_Part
@@ -849,20 +875,11 @@ class Model_Page_Front {
 	}
 
 	/**
-	 * TODO вынести в класс Model_Page_Tags
 	 * @return array
 	 */
 	final private function _load_tags()
 	{
-		return DB::select('tag.id', 'tag.name')
-			->from(array(Model_Page_Tag::tableName(), 'page_tag'))
-			->join(array(Model_Tag::tableName(), 'tag'), 'left')
-				->on('page_tag.page_id', '=', 'tag.id')
-			->where('page_tag.page_id', '=', $this->id)
-			->cache_tags( array('page_tags') )
-			->cached((int)Kohana::$config->load('global.cache.tags'))
-			->execute()
-			->as_array('tag.id', 'tag.name');
+		return Model_Page_Tag::find_by_page($this->id);
 	}
 	
 	/**

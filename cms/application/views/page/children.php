@@ -22,7 +22,7 @@
 					<?php endif; ?>
 					
 					
-					<?php if( ! AuthUser::hasPermission($child->getPermissions()) ): ?>
+					<?php if( ! AuthUser::hasPermission($child->get_permissions()) ): ?>
 					<?php echo UI::icon('lock'); ?>
 					<em title="/<?php echo $child->getUri(); ?>"><?php echo $child->title; ?></em>
 					<?php else: ?>
@@ -58,7 +58,7 @@
 						'class' => 'btn btn-mini'
 					)); ?>
 					<?php 
-					if( AuthUser::hasPermission($child->getPermissions()) )
+					if( AuthUser::hasPermission($child->get_permissions()) )
 					{
 						echo UI::button(NULL, array(
 							'href' => 'page/delete/'.$child->id, 'icon' => UI::icon('remove icon-white'), 

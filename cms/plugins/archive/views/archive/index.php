@@ -25,7 +25,7 @@
 				<?php foreach($items as $item): ?>
 				<tr data-id="<?php echo $item->id; ?>">
 					<th class="title">
-						<?php if( ! AuthUser::hasPermission($item->getPermissions()) ): ?>
+						<?php if( ! AuthUser::hasPermission($item->get_permissions()) ): ?>
 						<img src="images/page-text-locked.png" title="<?php echo('You do not have permission to access the requested page!'); ?>" />
 						<em title="/<?php echo $item->getUri(); ?>"><?php echo $item->title; ?></em>
 						<?php else: ?>
@@ -51,7 +51,7 @@
 					</td>
 					<td class="actions">
 						<?php 
-						if( AuthUser::hasPermission($item->getPermissions()) )
+						if( AuthUser::hasPermission($item->get_permissions()) )
 						{
 							echo UI::button(NULL, array(
 								'href' => 'page/delete/'.$item->id, 'icon' => UI::icon('remove'),

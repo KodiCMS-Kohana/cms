@@ -23,6 +23,8 @@ class Model_API_Page_Part extends Model_API {
 			->where('page_id', '=', (int) $page_id);
 		
 		return $parts
+			->cache_tags( array('page_parts') )
+			->cached((int)Kohana::$config->load('global.cache.page_parts'))
 			->execute()
 			->as_array();
 	}

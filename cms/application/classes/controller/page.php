@@ -54,7 +54,7 @@ class Controller_Page extends Controller_System_Backend {
 			'behaviors' => Behavior::findAll(),
 			'layouts' => Model_File_Layout::find_all(),
 			'permissions' => Model_Permission::get_all(),
-			'page_permissions' => $page->getPermissions()
+			'page_permissions' => $page->get_permissions()
 		) );
 	}
 
@@ -97,7 +97,7 @@ class Controller_Page extends Controller_System_Backend {
 		if ( $page->save() )
 		{
 			// save tags
-			$page->saveTags( $tags );
+			$page->save_tags( $tags );
 
 			// save permissions
 			$permissions = $this->request->post('page_permissions');
@@ -105,7 +105,8 @@ class Controller_Page extends Controller_System_Backend {
 			{
 				$permissions = array( 'administrator', 'developer', 'editor' );
 			}
-			$page->savePermissions( $permissions );
+			
+			$page->save_permissions( $permissions );
 
 			Observer::notify( 'page_add_after_save', $page);
 
@@ -145,7 +146,7 @@ class Controller_Page extends Controller_System_Backend {
 		}
 
 		// check for protected page and editor user
-		if ( !AuthUser::hasPermission( $page->getPermissions() ) )
+		if ( !AuthUser::hasPermission( $page->get_permissions() ) )
 		{
 			// Unauthorized / Login Requied
 			throw HTTP_Exception::factory(401, 'You do not have permission to access 
@@ -165,12 +166,12 @@ class Controller_Page extends Controller_System_Backend {
 		$this->template->content = View::factory( 'page/edit', array(
 			'action' => 'edit',
 			'page' => $page,
-			'tags' => $page->getTags(),
+			'tags' => $page->get_tags(),
 			'filters' => Filter::findAll(),
 			'behaviors' => Behavior::findAll(),
 			'layouts' => Model_File_Layout::find_all(),
 			'permissions' => Model_Permission::get_all(),
-			'page_permissions' => $page->getPermissions()
+			'page_permissions' => $page->get_permissions()
 		) );
 	}
 
@@ -213,13 +214,11 @@ class Controller_Page extends Controller_System_Backend {
 			}
 
 			// save tags
-			$page->saveTags(Arr::get($data, 'tags', array()) );
+			$page->save_tags(Arr::get($data, 'tags', array()) );
 
 			// save permissions
 			$permissions = $this->request->post('page_permissions');
-			$page->savePermissions( $permissions );
-			
-			
+			$page->save_permissions( $permissions );
 
 			Observer::notify( 'page_edit_after_save', $page );
 
@@ -238,7 +237,7 @@ class Controller_Page extends Controller_System_Backend {
 		}
 		else
 		{
-			$this->go( 'page/edit/' . $page->id );
+			$this->go( 'page/edit/' . $page_id );
 		}
 	}
 
@@ -261,7 +260,7 @@ class Controller_Page extends Controller_System_Backend {
 			if ( $page = Record::findByIdFrom( 'Model_Page', $page_id ) )
 			{
 				// check for permission to delete this page
-				if ( !AuthUser::hasPermission( $page->getPermissions() ) )
+				if ( !AuthUser::hasPermission( $page->get_permissions() ) )
 				{
 					Messages::errors( __( 'You do not have permission to access the requested page!' ) );
 					$this->go( 'page' );
