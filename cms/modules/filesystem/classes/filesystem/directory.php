@@ -3,9 +3,8 @@
 /**
  * @package    Plugins/Filemanager
  */
-
 class FileSystem_Directory extends DirectoryIterator {
-	
+
 	/**
 	 * 
 	 * @param string $name

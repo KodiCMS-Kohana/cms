@@ -261,15 +261,24 @@ class FileSystem {
 
 	/**
 	 * 
+	 * @param string $ext
 	 * @return array
 	 */
-	public function iteratePaths()
+	public function iteratePaths( $ext = NULL )
     {
 		$array = array();
 
-        foreach ($this->_file as $file)
+		while($this->_file->valid()) 
 		{
-			$array[] = new FileSystem(clone($file));
+			if( $ext !== NULL AND $this->_file->isFile() 
+					AND !(substr($this->_file->getFilename(), -strlen($ext)) == $ext) )
+			{
+				$this->_file->next();
+				continue;
+			}
+
+			$array[] = new FileSystem(clone($this->_file));
+			$this->_file->next();
 		}
 		
 		return $array;
