@@ -144,16 +144,20 @@ class Controller_Login extends Controller_System_Frontend {
 			'link' => HTML::anchor( URL::frontend( Route::url( 'reflink', array('code' => $reflink) ), TRUE ) )
 		));
 
-		$site_host = dirname($_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME']);
+		$email = Email::factory(__('Forgot password from :site_name', array(':site_name' => Setting::get('admin_title'))))
+			->from('no-reply@' . SITE_HTOST, Setting::get('admin_title'))
+			->to($user->email)
+			->message($message);
 
-		$email = new Email();
-		$email->from('no-reply@' . $site_host, Setting::get('admin_title'));
-		$email->to($user->email);
-		$email->subject(__('Forgot password from :site_name', array(':site_name' => Setting::get('admin_title'))));
-		$email->message($message);
-		$email->send();
-
-		Messages::success( __('Email with reflink send to address set in your profile' ));
+		if((bool) $email->send())
+		{
+			Messages::success( __('Email with reflink send to address set in your profile' ));
+		}
+		else
+		{
+			Messages::error( __('Something went wrong' ));
+		}
+		
 
 		$this->go( Route::url( 'user', array('action' => 'login') ) );
 	}

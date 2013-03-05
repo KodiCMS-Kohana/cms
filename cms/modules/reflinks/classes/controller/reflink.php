@@ -21,7 +21,7 @@ class Controller_Reflink extends Controller_System_Controller {
 			switch ( $reflink->type )
 			{
 				case Model_User_Reflink::FORGOT_PASSWORD:
-					if($this->_forgot($reflink, $status));
+					$this->_forgot($reflink, $status);
 					break;
 			}
 			
@@ -38,22 +38,24 @@ class Controller_Reflink extends Controller_System_Controller {
 	
 	protected function _forgot($reflink, $new_password)
 	{
-		Messages::success(__('Password send to email address'));
-		
 		$message = View::factory('messages/email/forgot', array(
 			'username' => ucwords( $reflink->user->username ),
 			'password' => $new_password
 		));
-		
-		$site_host = dirname($_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME']);
 
-		$email = new Email();
-		$email->from('no-reply@' . $site_host, Setting::get('admin_title'));
-		$email->to($reflink->user->email);
-		$email->subject(__('New password for :site_name', array(':site_name' => Setting::get('admin_title'))));
-		$email->message($message);
-		$email->send();
+		$email = Email::factory(__('New password for :site_name', array(':site_name' => Setting::get('admin_title'))))
+			->from('no-reply@' . SITE_HTOST, Setting::get('admin_title'))
+			->to($reflink->user->email)
+			->message($message);
 
-		return $reflink->delete();
+		if((bool) $email->send())
+		{
+			Messages::success(__('Password send to email address'));
+			return $reflink->delete();
+		}
+		else
+		{
+			throw new Kohana_Exception('Email :email not send', array(':email' => $reflink->user->email));
+		}
 	}
 }

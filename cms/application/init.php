@@ -3,6 +3,7 @@
 if (PHP_SAPI != 'cli')
 {
 	define('IS_BACKEND', URL::match(ADMIN_DIR_NAME, Request::detect_uri()));
+	define('SITE_HTOST', dirname($_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME']));
 }
 
 if( ! defined( 'IS_BACKEND' )) define('IS_BACKEND', FALSE);
@@ -39,6 +40,7 @@ Kohana::modules( array(
 	'auth'			=> MODPATH . 'auth',		// Basic authentication
 	'orm'			=> MODPATH . 'orm',			// Object Relationship Mapping,
 	'pagination'	=> MODPATH . 'pagination',
+	'email'			=> MODPATH . 'email',
 	'filesystem'	=> MODPATH . 'filesystem',
 	'navigation'	=> MODPATH . 'navigation',
 	'minion'		=> MODPATH . 'minion',		// Minion
