@@ -2,11 +2,11 @@
 	<?php echo Form::hidden('token', Security::token()); ?>
 	<div class="widget">
 		
-		<div class="widget-header">
-			<h3><?php echo $filesystem->getFilename(); ?></h3>
+		<div class="widget-header spoiler-toggle">
+			<h3><?php echo $filesystem->getFilename(); ?>  <?php echo UI::icon( 'chevron-down spoiler-toggle-icon' ); ?></h3>
 		</div>
 	
-		<div class="widget-content">
+		<div class="widget-content spoiler">
 			<div class="control-group">
 				<label class="control-label title" for="filename"><?php echo __('File name'); ?></label>
 				<div class="controls">
