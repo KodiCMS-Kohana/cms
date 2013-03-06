@@ -30,7 +30,7 @@ class Controller_System_API extends Controller_System_Ajax {
 	{
 		parent::__construct($request, $response);
 
-		$this->_is_backend = URL::match(ADMIN_DIR_NAME, Request::current()->referrer());
+		$this->_is_backend = URL::match(ADMIN_DIR_NAME, Request::initial()->referrer());
 	}
 
 	public function before()
