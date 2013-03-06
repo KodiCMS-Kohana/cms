@@ -278,8 +278,8 @@ cms.ui.add('btn-confirm', function() {
 			var $self = $(this);
 			var $spoiler_cont = $('.spoiler');
 			
-			if($(this).data('spiler')) {
-				$spoiler_cont = $($(this).data('spiler'));
+			if($(this).data('spoiler')) {
+				$spoiler_cont = $($(this).data('spoiler'));
 			}
 		
 			$spoiler_cont.slideToggle('fast', function() {

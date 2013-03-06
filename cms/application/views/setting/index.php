@@ -94,11 +94,11 @@
 			</div>
 		</div>
 
-		<div class="widget-header">
-			<h3><?php echo __( 'Page options' ); ?></h3>
+		<div class="widget-header spoiler-toggle" data-spoiler=".page-options-container">
+			<h3><?php echo __( 'Page options' ); ?> <?php echo UI::icon( 'chevron-down spoiler-toggle-icon' ); ?></h3>
 		</div>
 		
-		<div class="widget-content">
+		<div class="widget-content spoiler page-options-container">
 			<div class="control-group">
 				<label class="control-label"><?php echo __( 'Default page status' ); ?> </label>
 				<div class="controls">
