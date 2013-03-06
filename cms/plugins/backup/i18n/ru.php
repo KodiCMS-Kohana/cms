@@ -2,7 +2,8 @@
 
 return array(
 //	'Backup' => '',
-	'Create backup' => 'Сделать бэкап БД',
+	'Create database backup' => 'Сделать бэкап БД',
+	'Create filesystem backup' => 'Сделать бэкап файлов',
 	'Created' => 'Создан',
 	'File name' => 'Название файла',
 	'File size' => 'Размер',
