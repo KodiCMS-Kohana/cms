@@ -103,11 +103,12 @@ Kohana::init( array(
 
 define('CMS_NAME',			'KodiCMS');
 define('CMS_SITE',			'http://www.kodicms.ru');
-define('CMS_VERSION',		'2.0.0');
+define('CMS_VERSION',		'2.5.0');
 
 if(PHP_SAPI != 'cli')
 {
-	define('BASE_URL',			URL::base('http'));
+	define('BASE_URL',		URL::base('http'));
+	define('SITE_HTOST',	str_replace('www.', '', $_SERVER['HTTP_HOST']));
 }
 
 if( ! defined( 'BASE_URL' ) ) define('BASE_URL', '/');
