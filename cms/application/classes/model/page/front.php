@@ -451,8 +451,8 @@ class Model_Page_Front {
 		}
 
 		$sql = DB::select('page.*')
-			->select(array('author.name', 'author'), array('author.id', 'author_id'))
-			->select(array('updator.name', 'updator'), array('updator.id', 'updator_id'))
+			->select(array('author.username', 'author'), array('author.id', 'author_id'))
+			->select(array('updator.username', 'updator'), array('updator.id', 'updator_id'))
 			->from(array(Model_Page::tableName(), 'page'))
 			->join(array(User::tableName(), 'author'), 'left')
 				->on('author.id', '=', 'page.created_by_id')
@@ -606,8 +606,8 @@ class Model_Page_Front {
 		$parent_id = $parent instanceof Model_Page_Front ? $parent->id : 0;
 
 		$page = DB::select('page.*')
-			->select(array('author.name', 'author'))
-			->select(array('updator.name', 'updator'))
+			->select(array('author.username', 'author'))
+			->select(array('updator.username', 'updator'))
 			->from(array(Model_Page::tableName(), 'page'))
 			->join(array(User::tableName(), 'author'), 'left')
 				->on('author.id', '=', 'page.created_by_id')
@@ -692,8 +692,8 @@ class Model_Page_Front {
 		$page_class = __CLASS__;
 
 		$page = DB::select('page.*')
-			->select(array('author.name', 'author'))
-			->select(array('updator.name', 'updator'))
+			->select(array('author.username', 'author'))
+			->select(array('updator.username', 'updator'))
 			->from(array(Model_Page::tableName(), 'page'))
 			->join(array(User::tableName(), 'author'), 'left')
 				->on('author.id', '=', 'page.created_by_id')

@@ -14,7 +14,7 @@ class Controller_User extends Controller_System_Backend {
 		$this->template->title = __('Users');
 
 		$users = ORM::factory('user')
-			->group_by( 'user.id');
+			->group_by( 'user.id' );
 		
 		$pager = Pagination::factory(array(
 			'total_items' => $users->reset(FALSE)->count_all(),
@@ -88,7 +88,7 @@ class Controller_User extends Controller_System_Backend {
 		}
 		catch (ORM_Validation_Exception $e)
 		{
-			Flash::set( 'error', __( 'User <b>:name</b> has not been added!', array( ':name' => $user->name ) ) );
+			Flash::set( 'error', __( 'User <b>:name</b> has not been added!', array( ':name' => $user->username ) ) );
 			$this->go_back();
 		}
 		
@@ -165,13 +165,13 @@ class Controller_User extends Controller_System_Backend {
 					$user->update_related_ids('roles', $permissions);
 				}
 
-				Messages::success( __( 'User <b>:name</b> has been saved!', array( ':name' => $user->name ) ) );
+				Messages::success( __( 'User <b>:name</b> has been saved!', array( ':name' => $user->username ) ) );
 				Observer::notify( 'user_after_edit', array( $user ) );
 			}
 		}
 		catch (ORM_Validation_Exception $e)
 		{
-			Messages::errors( __( 'User <b>:name</b> has not been saved!', array( ':name' => $user->name ) ) );
+			Messages::errors( __( 'User <b>:name</b> has not been saved!', array( ':name' => $user->username ) ) );
 			$this->go_back();
 		}
 
@@ -207,12 +207,12 @@ class Controller_User extends Controller_System_Backend {
 
 		if ( $user->delete() )
 		{
-			Messages::success( __( 'User <b>:name</b> has been deleted!', array( ':name' => $user->name ) ) );
+			Messages::success( __( 'User <b>:name</b> has been deleted!', array( ':name' => $user->username ) ) );
 			Observer::notify( 'user_after_delete', array( $user->name ) );
 		}
 		else
 		{
-			Messages::errors( __( 'User <b>:name</b> has not been deleted!', array( ':name' => $user->name ) ) );
+			Messages::errors( __( 'User <b>:name</b> has not been deleted!', array( ':name' => $user->username ) ) );
 		}
 
 		$this->go( 'user' );

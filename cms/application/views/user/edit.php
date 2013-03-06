@@ -25,7 +25,7 @@
 					<div class="control-group">
 						<label class="control-label" for="userEditNameField"><?php echo __('Name'); ?></label>
 						<div class="controls">
-							<?php echo Form::input('user[name]', $user->name, array(
+							<?php echo Form::input('user[name]', $user->profile->name, array(
 								'class' => 'input-medium', 'id' => 'userEditNameField'
 							)); ?>
 						</div>

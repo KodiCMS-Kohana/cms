@@ -24,23 +24,6 @@ class Model_User extends Model_Auth_User {
 			->join( array( Model_Permission::tableName(), 'permission'), 'left' )
 				->on( 'user_permission.role_id', '=', 'permission.id' );
 	}
-	
-	public function filter_by_letter( $letter )
-	{
-		if( empty($letter) ) return $this;
-	
-		if( $letter == 'rus' )
-		{
-			$this
-				->where('name', 'regexp', '^[а-я]');
-		}
-		else
-		{
-			$this->where('LEFT("name", 1)', 'like', '%' . $letter);
-		}
-		
-		return $this;
-	}
 
 	/**
 	 * Password validation for plain passwords.

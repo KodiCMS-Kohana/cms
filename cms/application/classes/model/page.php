@@ -172,8 +172,8 @@ class Model_Page extends Record
         $tablename_user = self::tableName('User');
 		
 		$sql = DB::select('page.*')
-			->select(array('author.name', 'created_by_name'))
-			->select(array('updator.name', 'updated_by_name'))
+			->select(array('author.username', 'created_by_name'))
+			->select(array('updator.username', 'updated_by_name'))
 			->from(array(Model_Page::tableName(), 'page'))
 			->join(array(User::tableName(), 'author'), 'left')
 				->on('author.id', '=', 'page.created_by_id')

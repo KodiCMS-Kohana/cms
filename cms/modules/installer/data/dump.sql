@@ -64,7 +64,10 @@ INSERT INTO `TABLE_PREFIX_settings` (`name`, `value`) VALUES
 ('debug', 'no'),
 ('plugins', 'a:9:{s:7:"archive";i:1;s:14:"page_not_found";i:1;s:8:"redactor";i:1;s:10:"codemirror";i:1;s:11:"filemanager";b:1;s:9:"tagsinput";b:1;s:5:"elrte";b:1;s:7:"select2";b:1;s:13:"slug_translit";b:1;}');
 
-INSERT INTO `TABLE_PREFIX_users` (`id`, `email`, `username`, `name`, `password`, `logins`, `last_login`) VALUES
-(1, '__EMAIL__', '__USERNAME__', 'Administrator', '__ADMIN_PASSWORD__', 0, 0);
+INSERT INTO `TABLE_PREFIX_users` (`id`, `email`, `username`, `password`, `logins`, `last_login`) VALUES
+(1, '__EMAIL__', '__USERNAME__', '__ADMIN_PASSWORD__', 0, 0);
+
+INSERT INTO `TABLE_PREFIX_user_profiles` (`id`, `name`, `user_id`, `created_on`) VALUES
+(1, 'Administrator', 1, '__DATE__');
 
 SET FOREIGN_KEY_CHECKS=1;
