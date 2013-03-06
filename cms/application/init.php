@@ -41,6 +41,7 @@ Kohana::modules( array(
 	'minion'		=> MODPATH . 'minion',		// Minion
 	'pagination'	=> MODPATH . 'pagination',
 	'email'			=> MODPATH . 'email',
+	'email_queue'	=> MODPATH . 'email_queue',
 	'filesystem'	=> MODPATH . 'filesystem',
 	'navigation'	=> MODPATH . 'navigation',
 	'image'			=> MODPATH . 'image',

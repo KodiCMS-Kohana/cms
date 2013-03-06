@@ -123,7 +123,7 @@ CREATE TABLE IF NOT EXISTS `TABLE_PREFIX_user_tokens` (
   KEY `expires` (`expires`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `user_reflinks` (
+CREATE TABLE IF NOT EXISTS `TABLE_PREFIX_user_reflinks` (
   `user_id` int(10) unsigned NOT NULL,
   `type` tinyint(4) NOT NULL DEFAULT '0',
   `code` varchar(255) NOT NULL,
@@ -132,8 +132,46 @@ CREATE TABLE IF NOT EXISTS `user_reflinks` (
   UNIQUE KEY `unique_reflink` (`user_id`,`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-ALTER TABLE `user_reflinks`
-  ADD CONSTRAINT `user_reflinks_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+CREATE TABLE IF NOT EXISTS `TABLE_PREFIX_email_queues` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `state` enum('pending','sent','failed') NOT NULL DEFAULT 'pending',
+  `sender_name` varchar(128) DEFAULT NULL,
+  `sender_email` varchar(320) NOT NULL,
+  `recipient_name` varchar(128) DEFAULT NULL,
+  `recipient_email` varchar(320) NOT NULL,
+  `subject` varchar(78) DEFAULT NULL,
+  `priority` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT 'Higher priority is a larger number. Priority 5 is higher than priority 1.',
+  `attempts` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `created_on` datetime NOT NULL,
+  `updated_on` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `state` (`state`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
+
+CREATE TABLE IF NOT EXISTS `TABLE_PREFIX_email_queue_bodies` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `queue_id` int(10) unsigned NOT NULL,
+  `body` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `queue_id` (`queue_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
+
+CREATE TABLE IF NOT EXISTS `TABLE_PREFIX_user_profiles` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `notice` tinyint(1) NOT NULL DEFAULT '0',
+  `created_on` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `user_id` (`user_id`),
+  KEY `country_id` (`country_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+ALTER TABLE `TABLE_PREFIX_user_profiles`
+  ADD CONSTRAINT `user_profiles_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `TABLE_PREFIX_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `TABLE_PREFIX_user_reflinks`
+  ADD CONSTRAINT `user_reflinks_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `TABLE_PREFIX_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `TABLE_PREFIX_pages`
 	ADD FOREIGN KEY ( `created_by_id` ) REFERENCES `TABLE_PREFIX_users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
@@ -159,5 +197,8 @@ ALTER TABLE `TABLE_PREFIX_roles_users`
 
 ALTER TABLE `TABLE_PREFIX_user_tokens`
   ADD CONSTRAINT `user_tokens_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `TABLE_PREFIX_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `TABLE_PREFIX_email_queue_bodies`
+  ADD CONSTRAINT `email_queue_bodies_ibfk_1` FOREIGN KEY (`queue_id`) REFERENCES `TABLE_PREFIX_email_queues` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 SET FOREIGN_KEY_CHECKS=1;

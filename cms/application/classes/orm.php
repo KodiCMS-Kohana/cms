@@ -140,4 +140,63 @@ class ORM extends Kohana_ORM {
 		
 		return $this;
 	}
+	
+	public function get_related_ids( $alias )
+	{
+		if( ! isset($this->_has_many[$alias]))
+		{
+			throw new Kohana_Exception('Relation :alias not exists in object :object', array(
+				':alias' => $alias,
+				':object' => $this->object_name()
+			));
+		}
+
+		if( ! $this->loaded() )
+		{
+			return array();
+		}
+
+		$table_name = $this->_has_many[$alias]['through'];
+		$filed = $this->_has_many[$alias]['foreign_key'];
+		$related_field = $this->_has_many[$alias]['far_key'];
+
+		return DB::select($related_field)
+			->from( $table_name )
+			->where($filed, '=', $this->pk())
+			->execute($this->_db)
+			->as_array( NULL, $related_field);
+	}
+
+	public function update_related_ids( $alias, $new_ids = array(), $current_ids = array() )
+	{
+		if( ! is_array($new_ids) )
+		{
+			return $this;
+		}
+
+		if ( ! $this->loaded() AND ! empty( $new_ids ) )
+		{
+			return $this->add( $alias, $new_ids );
+		}
+		
+		if( empty( $current_ids ) )
+		{
+			$current_ids = $this->get_related_ids( $alias );
+		}
+
+		$old_ids = array_diff( $current_ids, $new_ids );
+		$new_ids = array_diff( $new_ids, $current_ids );
+
+		if ( !empty( $old_ids ) )
+		{
+			$this->remove( $alias, $old_ids );
+		}
+
+		if ( !empty( $new_ids ) )
+		{
+			$this->add( $alias, $new_ids );
+		}
+
+		return $this;
+	}
 }

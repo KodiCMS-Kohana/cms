@@ -64,6 +64,16 @@
 					<?php endif; ?>
 				</div>
 			</div>
+			
+			<hr />
+			<div class="control-group">
+				<div class="controls checkbox">
+					<label>
+						<?php echo __('Subscribe to email notifications'); ?>
+						<?php echo Form::checkbox('user[notice]', 1, $user->profile->notice == 1); ?>
+					</label>
+				</div>
+			</div>
 		</div>
 
 		<div class="widget-header spoiler-toggle">
@@ -92,7 +102,6 @@
 				</div>
 			</div>
 		</div>
-
 		<?php if (AuthUser::hasPermission('administrator')): ?>
 
 		<div class="widget-header">
@@ -100,7 +109,7 @@
 		</div>
 		<div class="widget-content">
 			<div class="row-fluid">
-				<?php echo Form::select('user_permission[]', $permissions, $user->roles, array(
+				<?php echo Form::select('user_permission[]', $permissions, $user->roles->find_all()->as_array('id'), array(
 					'class' => 'span12'
 				)); ?>
 

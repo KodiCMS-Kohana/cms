@@ -69,17 +69,19 @@ class Model_User_Reflink extends ORM {
 
 		if (!$reflink->loaded()) 
 		{
-			$reflink = ORM::factory('user_reflink');
-			$reflink->user_id = (int) $user->id;
-			$reflink->code = uniqid(TRUE) . sha1(microtime());
-			$reflink->type = (int) $type;
-			$reflink->data = $data;
-			$reflink->create();
+			$reflink = ORM::factory('user_reflink')
+				->values(array(
+					'user_id'	=> (int) $user->id,
+					'code'		=> uniqid(TRUE) . sha1(microtime()),
+					'type'		=> (int) $type,
+					'data'		=> $data
+				))->create();
 		} 
 		else 
 		{
-			$reflink->data = $data;
-			$reflink->update();
+			$reflink
+				->set('data', $data)
+				->update();
 		}
 
 		return $reflink->code;

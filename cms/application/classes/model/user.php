@@ -11,6 +11,37 @@ class Model_User extends Model_Auth_User {
 		'roles'       => array('model' => 'role', 'through' => 'roles_users'),
 	);
 	
+	protected $_has_one = array(
+		'profile' => array('model' => 'user_profile'),
+    );
+	
+	public function with_roles()
+	{
+		return $this
+			->select( array( DB::expr('GROUP_CONCAT('.Database::instance()->quote_column('permission.name').')'), 'roles' ) )
+			->join( array( Model_User_Permission::tableName(), 'user_permission'), 'left' )
+				->on( 'user.id', '=', 'user_permission.user_id' )
+			->join( array( Model_Permission::tableName(), 'permission'), 'left' )
+				->on( 'user_permission.role_id', '=', 'permission.id' );
+	}
+	
+	public function filter_by_letter( $letter )
+	{
+		if( empty($letter) ) return $this;
+	
+		if( $letter == 'rus' )
+		{
+			$this
+				->where('name', 'regexp', '^[а-я]');
+		}
+		else
+		{
+			$this->where('LEFT("name", 1)', 'like', '%' . $letter);
+		}
+		
+		return $this;
+	}
+
 	/**
 	 * Password validation for plain passwords.
 	 *

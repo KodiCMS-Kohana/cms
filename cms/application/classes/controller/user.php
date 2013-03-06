@@ -13,37 +13,41 @@ class Controller_User extends Controller_System_Backend {
 	{
 		$this->template->title = __('Users');
 
-		$users = DB::select( 'user.*', array( DB::expr('GROUP_CONCAT('.Database::instance()->quote_column('permission.name').')'), 'roles' ) )
-			->from( array(User::tableName(), 'user') )
-			->join( array( Model_User_Permission::tableName(), 'user_permission'), 'left' )
-				->on( 'user.id', '=', 'user_permission.user_id' )
-			->join( array( Model_Permission::tableName(), 'permission'), 'left' )
-				->on( 'user_permission.role_id', '=', 'permission.id' )
-			->group_by( 'user.id')
-			->as_object('Model_User')
-			->execute();
+		$users = ORM::factory('user')
+			->group_by( 'user.id');
+		
+		$pager = Pagination::factory(array(
+			'total_items' => $users->reset(FALSE)->count_all(),
+			'items_per_page' => 20
+		));
 
 		$this->template->content = View::factory( 'user/index', array(
 			'users' => $users
+				->with_roles()
+				->limit($pager->items_per_page)
+				->offset($pager->offset)
+				->find_all(),
+			'pager' => $pager
 		) );
 	}
 
 	public function action_add()
 	{
+		// check if user have already enter something
+		$data = Flash::get( 'post_data', array() );
+
+		$user = ORM::factory('user')
+			->values($data);
+		
 		// check if trying to save
 		if ( Request::current()->method() == Request::POST )
 		{
-			return $this->_add();
+			return $this->_add($user);
 		}
 		
 		$this->template->title = __('Add user');
 		$this->breadcrumbs
 			->add($this->template->title);
-
-		// check if user have already enter something
-		$data = Flash::get( 'post_data', array() );
-
-		$user = new User( $data );
 
 		$this->template->content = View::factory( 'user/edit', array(
 			'action' => 'add',
@@ -52,36 +56,40 @@ class Controller_User extends Controller_System_Backend {
 		) );
 	}
 
-	private function _add()
+	private function _add($user)
 	{
 		$data = $this->request->post('user');
 		$permissions = $this->request->post('user_permission');
-
+		$this->auto_render = FALSE;
+		
+		if( empty($data['notice'] ))
+		{
+			$data['notice'] = 0;
+		}
+		
 		Flash::set( 'post_data', $data );
-		
-		try
-		{
-			$this->_valid($data);
-		}
-		catch (Validation_Exception $e)
-		{
-			$this->go_back();
-		}
-		
-		$data['password'] = Auth::instance()->hash( $data['password'] );
 
-		$user = new User( $data );
+		$user->values($data);
 
-		if ( $user->save() )
+		try 
 		{
-			Model_User_Permission::setPermissionsFor( $user->id, $permissions );
-			
-			Messages::success(__( 'User has been added!' ) );
-			Observer::notify( 'user_after_add', array( $user ) );
+			if ( $user->create() )
+			{
+				$user->update_related_ids('roles', $permissions);
+
+				$data['user_id'] = $user->id;
+				$user->profile
+					->values($data)
+					->create();
+
+				Messages::success(__( 'User has been added!' ) );
+				Observer::notify( 'user_after_add', array( $user ) );
+			}
 		}
-		else
+		catch (ORM_Validation_Exception $e)
 		{
 			Flash::set( 'error', __( 'User <b>:name</b> has not been added!', array( ':name' => $user->name ) ) );
+			$this->go_back();
 		}
 		
 		// save and quit or save and continue editing?
@@ -98,29 +106,19 @@ class Controller_User extends Controller_System_Backend {
 	public function action_edit( )
 	{
 		$id = $this->request->param('id');
+		
+		$user = ORM::factory('user', $id);
+		
+		if( ! $user->loaded() )
+		{
+			throw new HTTP_Exception_404('User not found!');
+		}
 
 		// check if trying to save
 		if ( Request::current()->method() == Request::POST )
 		{
-			return $this->_edit( $id );
+			return $this->_edit( $user );
 		}
-
-		$user = DB::select( 'user.*', array( DB::expr('GROUP_CONCAT('.Database::instance()->quote_column('user_permission.role_id').')'), 'roles' ) )
-			->from( array(User::tableName(), 'user') )
-			->join( array( Model_User_Permission::tableName(), 'user_permission'), 'left' )
-				->on( 'user.id', '=', 'user_permission.user_id' )
-			->where( 'id', '=', (int) $id )
-			->limit( 1 )
-			->as_object('Model_User')
-			->execute()
-			->current();
-
-		if ( $user === NULL )
-		{
-			throw new HTTP_Exception_404('User not found!');
-		}
-		
-		$user->roles = explode(',', $user->roles);
 
 		$this->template->title = __('Edit user');
 		$this->breadcrumbs
@@ -133,50 +131,48 @@ class Controller_User extends Controller_System_Backend {
 		) );
 	}
 
-// edit
-
-	private function _edit( $id )
+	private function _edit( $user )
 	{
 		$data = $this->request->post('user');
-		$this->auto_render = false;
-		
-		try
-		{
-			$this->_valid($data);
-		}
-		catch (Validation_Exception $e)
-		{
-			$this->go_back();
-		}
+		$this->auto_render = FALSE;
 
 		// check if user want to change the password
-		if ( strlen( $data['password'] ) > 0 )
-		{
-			$data['password'] = Auth::instance()->hash_password( $data['password'] );
-		}
-		else
+		if ( strlen( $data['password'] ) == 0 )
 		{
 			unset( $data['password'] );
 		}
-
-		$user = Record::findByIdFrom( 'User', $id );
-		$user->setFromData( $data, array('confirm') );
-
-		if ( $user->save() )
+		
+		if( empty($data['notice'] ))
 		{
-			if ( AuthUser::hasPermission( 'administrator' ) )
-			{
-				// now we need to add permissions
-				$permissions = $this->request->post('user_permission');
-				Model_User_Permission::setPermissionsFor( $user->id, $permissions );
-			}
-
-			Messages::success( __( 'User <b>:name</b> has been saved!', array( ':name' => $user->name ) ) );
-			Observer::notify( 'user_after_edit', array( $user ) );
+			$data['notice'] = 0;
 		}
-		else
+
+		$user->values($data);
+
+		try
+		{
+			if ( $user->update() )
+			{
+				$data['user_id'] = $user->id;
+				$user->profile
+					->values($data)
+					->save();
+
+				if ( AuthUser::hasPermission( 'administrator' ) )
+				{
+					// now we need to add permissions
+					$permissions = $this->request->post('user_permission');
+					$user->update_related_ids('roles', $permissions);
+				}
+
+				Messages::success( __( 'User <b>:name</b> has been saved!', array( ':name' => $user->name ) ) );
+				Observer::notify( 'user_after_edit', array( $user ) );
+			}
+		}
+		catch (ORM_Validation_Exception $e)
 		{
 			Messages::errors( __( 'User <b>:name</b> has not been saved!', array( ':name' => $user->name ) ) );
+			$this->go_back();
 		}
 
 		// save and quit or save and continue editing?
@@ -202,9 +198,9 @@ class Controller_User extends Controller_System_Backend {
 		}
 
 		// find the user to delete
-		$user = Record::findByIdFrom( 'User', $id );
+		$user = ORM::factory('user', $id);
 
-		if ( !$user )
+		if ( ! $user->loaded() )
 		{
 			throw new HTTP_Exception_404( 'User not found!' );
 		}
@@ -221,34 +217,6 @@ class Controller_User extends Controller_System_Backend {
 
 		$this->go( 'user' );
 	}
-	
-	protected function _valid(array $data)
-	{
-		$array = Validation::factory($data)
-			->rules('username', array(
-				array('not_empty'),
-				array('min_length', array(':value', 3))
-			))
-			->rules('email', array(
-				array('not_empty'),
-				array('email'),
-				array('min_length', array(':value', 5))
-			));
-		
-		if(!empty($data['password']) OR $this->request->action() == 'add')
-		{
-			$array
-				->rule('password', 'not_empty')
-				->rule('password', 'min_length', array(':value', Kohana::$config->load('auth')->get( 'password_length' )))
-				->rule('confirm', 'matches', array(':validation', ':field', 'password'));
-		}
-		
-		if(!$array->check())
-		{
-			throw new Validation_Exception($array);
-		}
-	}
-
 }
 
 // end UserController class
