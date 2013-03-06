@@ -363,7 +363,7 @@ class Model_Page_Front {
 					->set('page', $this)
 					->render_html($this->_parts[$part]->content_html);
 			}
-			else if( $this->_parts[$part] instanceof View )
+			else if( $this->_parts[$part] instanceof Kohana_View )
 			{
 				$html = $this->_parts[$part]->render();
 			}
@@ -386,7 +386,7 @@ class Model_Page_Front {
 
 				Fragment::save_with_tags((int) $cache_lifetime, $tags);
 			}
-			else
+			else if($cache_lifetime === NULL)
 			{
 				echo $view;
 			}
