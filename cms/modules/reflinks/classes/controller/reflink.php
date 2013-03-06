@@ -46,7 +46,7 @@ class Controller_Reflink extends Controller_System_Controller {
 		$email = Email::factory(__('New password for :site_name', array(':site_name' => Setting::get('admin_title'))))
 			->from('no-reply@' . SITE_HTOST, Setting::get('admin_title'))
 			->to($reflink->user->email)
-			->message($message);
+			->message($message, 'type/html');
 
 		if((bool) $email->send())
 		{

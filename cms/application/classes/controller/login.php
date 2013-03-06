@@ -147,7 +147,7 @@ class Controller_Login extends Controller_System_Frontend {
 		$email = Email::factory(__('Forgot password from :site_name', array(':site_name' => Setting::get('admin_title'))))
 			->from('no-reply@' . SITE_HTOST, Setting::get('admin_title'))
 			->to($user->email)
-			->message($message);
+			->message($message, 'type/html');
 
 		if((bool) $email->send())
 		{
