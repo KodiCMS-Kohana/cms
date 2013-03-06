@@ -163,8 +163,7 @@ CREATE TABLE IF NOT EXISTS `TABLE_PREFIX_user_profiles` (
   `notice` tinyint(1) NOT NULL DEFAULT '0',
   `created_on` datetime NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `user_id` (`user_id`),
-  KEY `country_id` (`country_id`)
+  UNIQUE KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 ALTER TABLE `TABLE_PREFIX_user_profiles`
