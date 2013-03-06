@@ -3,7 +3,7 @@
 	<div class="widget">
 		
 		<div class="widget-header spoiler-toggle">
-			<h3><?php echo $filesystem->getFilename(); ?>  <?php echo UI::icon( 'chevron-down spoiler-toggle-icon' ); ?></h3>
+			<h3><?php echo $filesystem->getFilename(); ?> <?php echo UI::icon( 'chevron-down spoiler-toggle-icon' ); ?></h3>
 		</div>
 	
 		<div class="widget-content spoiler">
