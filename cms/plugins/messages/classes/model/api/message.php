@@ -115,7 +115,7 @@ class Model_API_Message extends Model_API {
 
 			$data = array(
 				'created_on' => date('Y-m-d H:i:s'),
-				'text' => $text,
+				'text' => Kses::filter($text, Kohana::$config->load('global')->get('allowed_html_tags')),
 				'title' => $title,
 				'from_user_id' => $from
 			);

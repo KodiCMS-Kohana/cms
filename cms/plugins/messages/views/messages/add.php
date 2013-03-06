@@ -14,18 +14,22 @@
 		<br />
 		
 		<div class="control-group">
-			<label class="control-label"><?php echo __( 'To' ); ?></label>
+			<label class="control-label"><?php echo __( 'Message to' ); ?></label>
 			<div class="controls">
 				<?php echo Form::input( 'to', NULL, array(' autocomplete' => 'off') ); ?>
 			</div>
 		</div>
 	</div>
-	<div class="widget-content widget-no-border-radius">
-		
-		<div class="row-fluid">
-			<?php echo Form::textarea('content', NULL, array('class' => 'span12')); ?>
-		</div>
-		
+	<div class="widget-content widget-no-border-radius widget-nopad">
+
+		<?php echo Form::textarea('content', NULL, array('class' => 'span12', 'id' => 'message-conent')); ?>
+
+		<script>
+		$(function() {
+			cms.filters.switchOn( 'message-conent', '<?php echo Setting::get('default_filter_id'); ?>');
+		});
+		</script>
+				
 	</div>
 	<div class="widget-footer form-actions">
 		<?php echo UI::button(__('Send message'), array('class' => 'btn btn-large')); ?>

@@ -22,8 +22,8 @@
 			<thead>
 				<tr>
 					<th><input type="checkbox" name="check_all" /></th>
-					<th><?php echo __('Title'); ?></th>
-					<th><?php echo __('Author'); ?></th>
+					<th><?php echo __('Message title'); ?></th>
+					<th><?php echo __('Message author'); ?></th>
 					<th><?php echo __('Date created'); ?></th>
 					<th><?php echo __('Actions'); ?></th>
 				</tr>
