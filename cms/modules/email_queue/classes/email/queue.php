@@ -33,6 +33,8 @@ class Email_Queue
 	 */
 	public static function batch_send( $size = NULL )
 	{
+		set_time_limit(1000000);
+
 		$stats = array(
 			'sent' => 0, 
 			'failed' => 0
@@ -65,6 +67,8 @@ class Email_Queue
 	
 	public static function batch_send_with_sleep()
 	{
+		set_time_limit(1000000);
+
 		$stats = array(
 			'sent' => 0, 
 			'failed' => 0
