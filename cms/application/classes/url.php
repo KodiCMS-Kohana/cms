@@ -75,10 +75,10 @@ class URL extends Kohana_URL {
 
 		if ( $is_backend AND IS_INSTALLED )
 		{
-			return URL::backend($uri);
+			return URL::backend($uri, $protocol, $index);
 		}
 		
-		if( ! $is_backend ) return URL::frontend ($uri, $protocol, $index);
+		if( ! $is_backend ) return URL::frontend($uri, $protocol, $index);
 
 		return parent::site($uri, $protocol, $index);
 	}
