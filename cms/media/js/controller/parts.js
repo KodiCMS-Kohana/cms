@@ -73,7 +73,7 @@ $(function() {
 		},
 		
 		updateOnEnter: function(e) {
-			if (e.keyCode == 13) this.close();
+			if (e.keyCode == 13) this.closeEditName();
 			this.input.val(this.input.val().replace(/[^a-z0-9\-\_]/, ''));
 		},
 	
