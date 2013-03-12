@@ -11,13 +11,20 @@ class Model_Page_Permission extends Record
 	
 	public static function find_by_page($page_id)
 	{
-		return DB::select('role.id', 'role.name')
+		$roles = DB::select('role.id', 'role.name')
 			->from(array(Model_Page_Permission::tableName(), 'page_roles'))
 			->join(array(Model_Permission::tableName(), 'role'), 'left')
 				->on('page_roles.role_id', '=','role.id')
 			->where('page_roles.page_id', '=', (int) $page_id )
 			->execute()
 			->as_array('id', 'name');
+		
+		if( !in_array('administrator', $roles))
+		{
+			$roles[] = 'administrator';
+		}
+		
+		return $roles;
 	}
 	
 	public static function save_by_page($page_id, $permissions)

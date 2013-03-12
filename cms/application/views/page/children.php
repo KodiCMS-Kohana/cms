@@ -22,7 +22,7 @@
 					<?php endif; ?>
 					
 					
-					<?php if( ! AuthUser::hasPermission($child->get_permissions()) ): ?>
+					<?php if( ! AuthUser::hasPermission( $child->get_permissions()) ): ?>
 					<?php echo UI::icon('lock'); ?>
 					<em title="/<?php echo $child->getUri(); ?>"><?php echo $child->title; ?></em>
 					<?php else: ?>

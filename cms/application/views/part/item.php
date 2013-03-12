@@ -3,7 +3,7 @@
 		<div class="widget-header widget-no-border-radius widget-inverse">
 			<h4 class="part-name" title="<?php echo __('Double click to edit part name.'); ?>"><%=name %></h4><input type="text" class="edit-name" value="<%=name %>" />
 			
-			<% if (is_protected == <?php echo Model_Page_Part::PART_PROTECTED; ?> && <?php echo (int) AuthUser::hasPermission( 'administrator, developer' ) ?> == 1 ) { %>
+			<% if (is_protected == <?php echo Model_Page_Part::PART_PROTECTED; ?> && is_developer == 1 ) { %>
 			<div class="widget-options pull-right">
 				<?php echo UI::button(UI::icon( 'cog' ), array(
 					'class' => 'part-options-button btn btn-mini')
@@ -16,7 +16,7 @@
 			<% } %>
 		</div>
 
-		<% if (is_protected == <?php echo Model_Page_Part::PART_PROTECTED; ?> && <?php echo (int) AuthUser::hasPermission( 'administrator, developer' ) ?> == 1 ) { %>
+		<% if (is_protected == <?php echo Model_Page_Part::PART_PROTECTED; ?> && is_developer == 1 ) { %>
 		<div class="widget-content part-options">
 			<div class="row-fluid">
 				<div class="span4 item-filter-cont">
@@ -47,7 +47,7 @@
 		</div>
 		<% } %>
 
-		<% if (is_protected == <?php echo Model_Page_Part::PART_PROTECTED; ?> && <?php echo (int) AuthUser::hasPermission( 'administrator, developer' ) ?> == 0 ) { %>
+		<% if (is_protected == <?php echo Model_Page_Part::PART_PROTECTED; ?> && is_developer == 0 ) { %>
 		<div class="widget-content widget-no-border-radius">
 			<p class="text-warning"><?php echo __( 'Content of page part :part_name is protected from changes.', array( ':part_name' => '<%= name %>' ) ); ?></p>
 		</div>

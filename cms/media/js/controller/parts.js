@@ -78,12 +78,16 @@ $(function() {
 		},
 	
 		editName: function() {
+			if(this.model.get('is_protected') == 1 && this.model.get('is_developer') == 0) return;
+
 			this.$el.addClass("editing");
 			this.input.show().focus();
 			this.$el.find('.part-name').hide();
 		},
 		
 		closeEditName: function() {
+			if(this.model.get('is_protected') == 1 && this.model.get('is_developer') == 0) return;
+
 			var value = $.trim(this.input.val());
 			this.model.save({name: value});
 			this.render();

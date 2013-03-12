@@ -19,13 +19,20 @@ class Model_API_Page_Part extends Model_API {
 			->select_array( $this->filtered_fields( $fields ) )
 			->from($this->table_name());
 
-		$parts
-			->where('page_id', '=', (int) $page_id);
-		
-		return $parts
+		$parts = $parts
+			->where('page_id', '=', (int) $page_id)
 			->cache_tags( array('page_parts') )
 			->cached((int)Kohana::$config->load('global.cache.page_parts'))
 			->execute()
 			->as_array();
+		
+		$is_developer = (int) AuthUser::hasPermission( 'administrator, developer' );
+		
+		foreach ($parts as & $part)
+		{
+			$part['is_developer'] = $is_developer;
+		}
+		
+		return $parts;
 	}
 }
