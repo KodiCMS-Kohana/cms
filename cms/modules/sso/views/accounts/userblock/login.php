@@ -13,9 +13,9 @@ foreach ($oauth as $provider => $data)
 	 $providers[$provider] = $data;
 }
 ?>
-
+<?php if(count($providers) > 0): ?>
 <hr />
-<h4><?php echo __('Sign in to your social network'); ?></h4>
+<h4><?php echo __('Sign-in with your social network'); ?></h4>
 <div class="btn-group">
 	<?php foreach ($providers as $provider => $data): ?>
 	<?php echo UI::button(Arr::path($params, $provider.'.name'), array(
@@ -26,3 +26,4 @@ foreach ($oauth as $provider => $data)
 	)) ?>
 	<?php endforeach; ?>
 </div>
+<?php endif; ?>
