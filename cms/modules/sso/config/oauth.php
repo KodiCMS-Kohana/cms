@@ -29,7 +29,7 @@ return array(
 	
 	// https://oauth.yandex.ru/client/new
 	'google' => array(
-		'id' => Setting::get('oauth.google.id'),
+		'key' => Setting::get('oauth.google.id'),
 		'secret' => Setting::get('oauth.google.secret')
 	 ),
 	
