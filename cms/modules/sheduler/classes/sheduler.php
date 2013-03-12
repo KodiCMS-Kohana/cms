@@ -8,7 +8,7 @@ class Sheduler {
 	{
 		if ( ! is_callable($callback))
 		{
-			throw new Kohana_Exception('Invalid Sheduler::callback specified');
+			throw new Sheduler_Exception('Invalid Sheduler::callback specified');
 		}
 		
 		self::$_callbacks[] = $callback;
@@ -16,6 +16,8 @@ class Sheduler {
 	
 	public static function get($start, $end)
 	{
+		Observer::notify('sheduler_callbacks');
+		
 		$data = array();
 
 		foreach (self::$_callbacks as $callback)

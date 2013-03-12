@@ -16,9 +16,7 @@ class Controller_API_Layout extends Controller_System_Api {
 		if ( ! $layout->is_exists() )
 		{
 			throw HTTP_API_Exception::factory(API::ERROR_PAGE_NOT_FOUND,
-				'Layout :name not found!',
-				array(':name' => $layout_name)
-			);
+				'Layout not found!');
 		}
 
 		$layout->name = $this->param('name', NULL);
@@ -36,9 +34,7 @@ class Controller_API_Layout extends Controller_System_Api {
 		if ( ! $status )
 		{
 			throw HTTP_API_Exception::factory(API::ERROR_UNKNOWN,
-				'Layout :name has not been saved!',
-				array(':name' => $layout_name)
-			);
+				'Something went wrong!');
 		}
 		else
 		{
@@ -47,7 +43,7 @@ class Controller_API_Layout extends Controller_System_Api {
 				$this->json_redirect('layout/edit/' . $layout->name);
 			}
 
-			$this->json['message'] = __( 'Layout :name has been saved!', array( ':name' => $layout->name ) );
+			$this->json['message'] = __( 'Layout has been saved!' );
 			Observer::notify( 'layout_after_edit', array( $layout ) );
 		}
 		
@@ -71,14 +67,12 @@ class Controller_API_Layout extends Controller_System_Api {
 		if ( ! $status )
 		{			
 			throw HTTP_API_Exception::factory(API::ERROR_UNKNOWN,
-				'Layout :name has not been added!',
-				array(':name' => $layout_name)
-			);
+				'Something went wrong!');
 		}
 		else
 		{
 			$this->json_redirect('layout/edit/' . $layout->name);
-			$this->json['message'] = __( 'Layout :name has been added!', array( ':name' => $layout->name ) );
+			$this->json['message'] = __( 'Layout has been saved!' );
 			Observer::notify( 'layout_after_add', array( $layout ) );
 		}
 		
@@ -94,7 +88,7 @@ class Controller_API_Layout extends Controller_System_Api {
 		if ( ! $layout->is_exists() )
 		{
 			throw HTTP_API_Exception::factory(API::ERROR_PAGE_NOT_FOUND,
-				'Layout :name not found!',
+				'Layout not found!',
 				array(':name' => $layout_name)
 			);
 		}
@@ -109,17 +103,13 @@ class Controller_API_Layout extends Controller_System_Api {
 			else
 			{
 				throw HTTP_API_Exception::factory(API::ERROR_UNKNOWN,
-					'Layout :name has not been deleted!',
-					array(':name' => $layout_name)
-				);
+					'Something went wrong!');
 			}
 		}
 		else
 		{
 			throw HTTP_API_Exception::factory(API::ERROR_PERMISSIONS,
-				'Layout :name is used! It can not be deleted!',
-				array(':name' => $layout_name)
-			);
+				'Layout is used! It CAN NOT be deleted!');
 		}
 	}
 }

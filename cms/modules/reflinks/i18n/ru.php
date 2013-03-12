@@ -9,6 +9,6 @@ return array(
 	
 	'Hello, :username!' => 'Здравствуйте, :username!',
 	'New password: :password' => 'Новый пароль: :password',
-	'To proceed with the recovery password follow this link :link'
+	'To proceed with the recovery password follow this :link'
 		=> 'Для продолжения процедуры восстановления пароля проследуйте по ссылке :link'
 );

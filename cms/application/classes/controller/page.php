@@ -66,18 +66,6 @@ class Controller_Page extends Controller_System_Backend {
 		Flash::set( 'post_data', (object) $data );
 		Flash::set( 'page_tag', $tags );
 
-		if ( empty( $data['title'] ) )
-		{
-			Messages::errors( __( 'You have to specify a title!' ) );
-			$this->go( 'page/add/' . $parent_id );
-		}
-
-		/**
-		 * Make sure the title doesn't contain HTML
-		 * 
-		 * @todo Replace this by HTML Purifier?
-		 * @todo HTML Purifier is too big. What about another? Jevix?
-		 */
 		if ( Setting::get( 'allow_html_title' ) == 'off' )
 		{
 			$data['title'] = Kses::filter( trim( $data['title'] ), array( ) );
@@ -110,7 +98,7 @@ class Controller_Page extends Controller_System_Backend {
 
 			Observer::notify( 'page_add_after_save', $page);
 
-			Messages::success( __( 'Page <b>:title</b> has been saved!', array( ':title' => $page->title ) ) );
+			Messages::success( __( 'Page has been saved!' ) );
 		}
 		else
 		{
@@ -139,18 +127,18 @@ class Controller_Page extends Controller_System_Backend {
 
 		$page = Model_Page::findById( $page_id );
 
-		if ( !$page )
+		if ( ! $page )
 		{
-			throw new HTTP_Exception_404('Page :id not found!', array(
-				':id' => $page_id));
+			Messages::errors( __( 'Page not found!' ) );
+			$this->go( 'page' );
 		}
 
 		// check for protected page and editor user
 		if ( !AuthUser::hasPermission( $page->get_permissions() ) )
 		{
 			// Unauthorized / Login Requied
-			throw HTTP_Exception::factory(401, 'You do not have permission to access 
-				the requested page!');
+			Messages::errors( __( 'You do not have permission to access the requested page!' ) );
+			$this->go( 'page' );
 		}
 
 		// check if trying to save
@@ -179,12 +167,6 @@ class Controller_Page extends Controller_System_Backend {
 	{
 		$data = $this->request->post('page');
 
-		/**
-		 * Make sure the title doesn't contain HTML
-		 * 
-		 * @todo Replace this by HTML Purifier?
-
-		 */
 		if ( Setting::get( 'allow_html_title' ) == 'off' )
 		{
 			$data['title'] = Kses::filter( trim( $data['title'] ), array( ) );
@@ -216,17 +198,20 @@ class Controller_Page extends Controller_System_Backend {
 			// save tags
 			$page->save_tags(Arr::get($data, 'tags', array()) );
 
-			// save permissions
-			$permissions = $this->request->post('page_permissions');
-			$page->save_permissions( $permissions );
+			if( AuthUser::hasPermission( 'administrator, developer' ) )
+			{
+				// save permissions
+				$permissions = $this->request->post('page_permissions');
+				$page->save_permissions( $permissions );
+			}
 
 			Observer::notify( 'page_edit_after_save', $page );
 
-			Messages::success( __( 'Page <b>:title</b> has been saved!', array( ':title' => $page->title ) ) );
+			Messages::success( __( 'Page has been saved!' ) );
 		}
 		else
 		{
-			Messages::errors( __( 'Page <b>:title</b> has not been saved!', array( ':title' => $page->title ) ) );
+			Messages::errors( __( 'Something went wrong!' ) );
 			$this->go( 'page/edit/' . $page_id );
 		}
 
@@ -269,11 +254,11 @@ class Controller_Page extends Controller_System_Backend {
 				if ( $page->delete() )
 				{
 					Observer::notify( 'page_delete', $page );
-					Messages::success( __( 'Page <b>:title</b> has been deleted!', array( ':title' => $page->title ) ) );
+					Messages::success( __( 'Page has been deleted!' ) );
 				}
 				else
 				{
-					Messages::errors( __( 'Page <b>:title</b> has not been deleted!', array( ':title' => $page->title ) ) );
+					Messages::errors( __( 'Something went wrong!' ) );
 				}
 			}
 			else
@@ -283,7 +268,7 @@ class Controller_Page extends Controller_System_Backend {
 		}
 		else
 		{
-			Messages::errors( __( 'Action disabled!' ) );
+			Messages::errors( __( 'Something went wrong!' ) );
 		}
 
 		$this->go( 'page' );

@@ -13,8 +13,7 @@ class Controller_User extends Controller_System_Backend {
 	{
 		$this->template->title = __('Users');
 
-		$users = ORM::factory('user')
-			->group_by( 'user.id' );
+		$users = ORM::factory('user');
 		
 		$pager = Pagination::factory(array(
 			'total_items' => $users->reset(FALSE)->count_all(),
@@ -23,6 +22,7 @@ class Controller_User extends Controller_System_Backend {
 
 		$this->template->content = View::factory( 'user/index', array(
 			'users' => $users
+				->group_by( 'user.id')
 				->with_roles()
 				->limit($pager->items_per_page)
 				->offset($pager->offset)
@@ -88,7 +88,7 @@ class Controller_User extends Controller_System_Backend {
 		}
 		catch (ORM_Validation_Exception $e)
 		{
-			Flash::set( 'error', __( 'User <b>:name</b> has not been added!', array( ':name' => $user->username ) ) );
+			Messages::errors( $e->errors('validation') );
 			$this->go_back();
 		}
 		
@@ -111,8 +111,11 @@ class Controller_User extends Controller_System_Backend {
 		
 		if( ! $user->loaded() )
 		{
-			throw new HTTP_Exception_404('User not found!');
+			Messages::errors( __('User not found!') );
+			$this->go( 'user' );
 		}
+		
+		$this->_save_referer('account/login');
 
 		// check if trying to save
 		if ( Request::current()->method() == Request::POST )
@@ -165,13 +168,13 @@ class Controller_User extends Controller_System_Backend {
 					$user->update_related_ids('roles', $permissions);
 				}
 
-				Messages::success( __( 'User <b>:name</b> has been saved!', array( ':name' => $user->username ) ) );
+				Messages::success( __( 'User has been saved!' ) );
 				Observer::notify( 'user_after_edit', array( $user ) );
 			}
 		}
 		catch (ORM_Validation_Exception $e)
 		{
-			Messages::errors( __( 'User <b>:name</b> has not been saved!', array( ':name' => $user->username ) ) );
+			Messages::errors( $e->errors('validation') );
 			$this->go_back();
 		}
 
@@ -200,19 +203,20 @@ class Controller_User extends Controller_System_Backend {
 		// find the user to delete
 		$user = ORM::factory('user', $id);
 
-		if ( ! $user->loaded() )
+		if( ! $user->loaded() )
 		{
-			throw new HTTP_Exception_404( 'User not found!' );
+			Messages::errors( __('User not found!') );
+			$this->go( 'user' );
 		}
 
 		if ( $user->delete() )
 		{
-			Messages::success( __( 'User <b>:name</b> has been deleted!', array( ':name' => $user->username ) ) );
+			Messages::success( __( 'User has been deleted!' ) );
 			Observer::notify( 'user_after_delete', array( $user->name ) );
 		}
 		else
 		{
-			Messages::errors( __( 'User <b>:name</b> has not been deleted!', array( ':name' => $user->username ) ) );
+			Messages::errors( __( 'Something went wrong!' ) );
 		}
 
 		$this->go( 'user' );

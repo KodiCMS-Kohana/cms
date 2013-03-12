@@ -57,7 +57,7 @@ if (!empty($pagetmp) AND !empty($parttmp) AND !empty($tagstmp))
 							<?php if (isset($page->updated_on)): ?>
 							<?php echo UI::label(__('Last updated by :anchor on :date', array(
 								':anchor' => HTML::anchor('user/edit/' . $page->updated_by_id, $page->updated_by_name),
-								':date' => date('D, j M Y', strtotime($page->updated_on))))); ?>
+								':date' => Date::format($page->updated_on, 'D, j F Y')))); ?>
 							<?php endif; ?>
 
 							<?php echo HTML::anchor($page->getUrl(), UI::label(__('View page')), array(

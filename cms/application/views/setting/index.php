@@ -117,6 +117,8 @@
 						) ) . ' ' . __( 'Published' );
 						?>
 					</label>
+					
+					<p class="help-block"><?php echo __( 'This status will be autoselected when page creating.' ); ?></p>
 				</div>
 			</div>
 

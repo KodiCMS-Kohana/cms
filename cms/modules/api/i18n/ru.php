@@ -1,5 +1,5 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct access allowed.' );
 
 return array(
-	'Archive' => 'Архив',
+	'API enable' => 'Включено'
 );

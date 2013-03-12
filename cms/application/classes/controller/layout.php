@@ -65,11 +65,12 @@ class Controller_Layout extends Controller_System_Backend {
 
 		if ( ! $status )
 		{
+			Messages::errors( __( 'Something went wrong!' ) );
 			$this->go( 'layout/add/' );
 		}
 		else
 		{
-			Messages::success( __( 'Layout <b>:name</b> has been added!', array( ':name' => $layout->name ) ) );
+			Messages::success( __( 'Layout has been saved!' ) );
 			Observer::notify( 'layout_after_add', array( $layout ) );
 		}
 		
@@ -91,9 +92,9 @@ class Controller_Layout extends Controller_System_Backend {
 		$layout_name = $this->request->param('id');
 		$layout = new Model_File_Layout( $layout_name );
 
-		if ( !$layout->is_exists() )
+		if ( ! $layout->is_exists() )
 		{
-			Messages::errors(__( 'Layout <b>:name</b> not found!', array( ':name' => $layout->name ) ) );
+			Messages::errors(__( 'Layout not found!' ) );
 			$this->go( 'layout' );
 		}
 		
@@ -128,11 +129,12 @@ class Controller_Layout extends Controller_System_Backend {
 
 		if ( !$status )
 		{
+			Messages::errors( __( 'Something went wrong!' ) );
 			$this->go_back();
 		}
 		else
 		{
-			Messages::success(__( 'Layout <b>:name</b> has been saved!', array( ':name' => $layout->name ) ) );
+			Messages::success( __( 'Layout has been saved!' ) );
 			Observer::notify( 'layout_after_edit', array( $layout ) );
 		}
 
@@ -159,17 +161,17 @@ class Controller_Layout extends Controller_System_Backend {
 		{
 			if ( $layout->delete() )
 			{
-				Messages::success( __( 'Layout <b>:name</b> has been deleted!', array( ':name' => $layout_name ) ) );
+				Messages::success( __( 'Layout has been deleted!' ) );
 				Observer::notify( 'layout_after_delete', array( $layout_name ) );
 			}
 			else
 			{
-				Messages::errors( __( 'Layout <b>:name</b> has not been deleted!', array( ':name' => $layout_name ) ) );
+				Messages::errors( __( 'Something went wrong!' ) );
 			}
 		}
 		else
 		{
-			Messages::errors( __( 'Layout <b>:name</b> is used! It <i>can not</i> be deleted!', array( ':name' => $layout_name ) ) );
+			Messages::errors( __( 'Layout is used! It CAN NOT be deleted!' ) );
 		}
 
 		$this->go_back();

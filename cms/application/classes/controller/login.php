@@ -77,11 +77,16 @@ class Controller_Login extends Controller_System_Frontend {
 			else
 			{
 				Observer::notify( 'admin_login_failed', array( $array['username'] ) );
+				
+				Messages::errors( __('Login failed. Please check your login data and try again.') );
+				
 				$array->error( $fieldname, 'incorrect' );
 			}
 		}
-
-		Messages::errors( $array->errors( 'validation' ) );
+		else
+		{
+			Messages::errors( $array->errors( 'validation' ) );
+		}
 
 		$this->go( Route::get('user')->uri(array( 'action' => 'login' ) ) );
 	}
@@ -112,7 +117,7 @@ class Controller_Login extends Controller_System_Frontend {
 	{
 		if(!Valid::email( $email ))
 		{
-			Messages::errors( __('Email address no valid') );
+			Messages::errors( __('Use a valid e-mail address.') );
 			$this->go( Route::get('user')->uri(array( 'action' => 'forgot' ) ) );
 		}
 		
@@ -120,7 +125,7 @@ class Controller_Login extends Controller_System_Frontend {
 			'email' => $email
 		));
 		
-		if(!$user->loaded())
+		if( ! $user->loaded() )
 		{
 			Messages::errors( __('No user found!') );
 			$this->go( Route::get('user')->uri(array( 'action' => 'forgot' ) ) );
@@ -147,7 +152,7 @@ class Controller_Login extends Controller_System_Frontend {
 		$email = Email::factory(__('Forgot password from :site_name', array(':site_name' => Setting::get('admin_title'))))
 			->from('no-reply@' . SITE_HTOST, Setting::get('admin_title'))
 			->to($user->email)
-			->message($message, 'type/html');
+			->message($message, 'text/html');
 
 		if((bool) $email->send())
 		{

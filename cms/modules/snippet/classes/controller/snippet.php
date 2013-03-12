@@ -65,12 +65,12 @@ class Controller_Snippet extends Controller_System_Backend {
 
 		if ( !$status )
 		{
-			Messages::errors( __( 'Snippet <b>:name</b> has not been added. Name must be unique!', array( ':name' => $snippet->name ) ) );
+			Messages::errors( __( 'Snippet has not been saved. Name must be unique!' ) );
 			$this->go( 'snippet/add' );
 		}
 		else
 		{
-			Messages::success( __( 'Snippet <b>:name</b> has been added!', array( ':name' => $snippet->name ) ) );
+			Messages::success( __( 'Snippet has been saved!' ) );
 			Observer::notify( 'snippet_after_add', array( $snippet ) );
 		}
 		
@@ -94,7 +94,7 @@ class Controller_Snippet extends Controller_System_Backend {
 
 		if ( !$snippet->is_exists() )
 		{
-			Messages::errors( __( 'Snippet <b>:name</b> not found!', array( ':name' => $snippet->name ) ) );
+			Messages::errors( __( 'Snippet not found!' ) );
 			$this->go( 'snippet' );
 		}
 
@@ -134,12 +134,12 @@ class Controller_Snippet extends Controller_System_Backend {
 
 		if ( !$status )
 		{
-			Messages::errors( __( 'Snippet <b>:name</b> has not been saved. Name must be unique!', array( ':name' => $snippet->name ) ) );
+			Messages::errors( __( 'Snippet has not been saved. Name must be unique!' ) );
 			$this->go( 'snippet/edit/' . $snippet->name );
 		}
 		else
 		{
-			Messages::success( __( 'Snippet <b>:name</b> has been saved!', array( ':name' => $snippet->name ) ) );
+			Messages::success( __( 'Snippet has been saved!' ) );
 			Observer::notify( 'snippet_after_edit', array( $snippet ) );
 		}
 
@@ -166,12 +166,12 @@ class Controller_Snippet extends Controller_System_Backend {
 		{
 			if ( $snippet->delete() )
 			{
-				Messages::suceess( __( 'Snippet <b>:name</b> has been deleted!', array( ':name' => $snippet->name ) ) );
+				Messages::suceess( __( 'Snippet has been deleted!' ) );
 				Observer::notify( 'snippet_after_delete', array( $snippet_name ) );
 			}
 			else
 			{
-				Messages::errors( __( 'Snippet <b>:name</b> has not been deleted!', array( ':name' => $snippet->name ) ) );
+				Messages::errors( __( 'Something went wrong!' ) );
 			}
 		}
 		else

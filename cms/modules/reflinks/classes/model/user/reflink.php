@@ -9,10 +9,26 @@ class Model_User_Reflink extends ORM {
 	public static $types = array(
 		self::FORGOT_PASSWORD	=> 'Forgot password'
 	);
+	
+	protected $_created_column = array(
+		'column' => 'created',
+		'format' => 'Y-m-d H:i:s'
+	);
 
 	protected $_belongs_to = array(
 		'user' => array(),
 	);
+	
+
+	public function get($column) 
+	{
+		if($column == 'data')
+		{
+			return unserialize($this->_object[$column]);
+		}
+
+		return parent::get($column);
+	}
 
 	/**
 	 * Confirm referial operation
@@ -60,22 +76,28 @@ class Model_User_Reflink extends ORM {
 		{
 			throw new Reflink_Exception(' User not loaded ');
 		}
+		
+		$data = serialize($data);
 
 		$reflink = $this
+			->reset(FALSE)
 			->where('user_id', '=', $user->id)
 			->where('type', '=', (int) $type)
 			->where('created', '>', DB::expr('CURDATE() - INTERVAL 1 HOUR'))
 			->find();
 
-		if (!$reflink->loaded()) 
+		if ( ! $reflink->loaded() ) 
 		{
+			$values = array(
+				'user_id'	=> (int) $user->id,
+				'code'		=> uniqid(TRUE) . sha1(microtime()),
+				'type'		=> (int) $type,
+				'data'		=> $data
+			);
+
 			$reflink = ORM::factory('user_reflink')
-				->values(array(
-					'user_id'	=> (int) $user->id,
-					'code'		=> uniqid(TRUE) . sha1(microtime()),
-					'type'		=> (int) $type,
-					'data'		=> $data
-				))->create();
+				->values($values, array_keys($values))
+				->create();
 		} 
 		else 
 		{

@@ -83,6 +83,7 @@
 			<div class="control-group">
 				<label class="control-label" for="userEditPasswordField"><?php echo __('Password'); ?></label>
 				<div class="controls">
+					
 					<?php echo Form::password('user[password]', NULL, array(
 						'class' => 'input-medium', 'autocomplete' => 'off'
 					)); ?>
@@ -101,6 +102,9 @@
 					)); ?>
 				</div>
 			</div>
+			<div class="alert alert-info">
+				<?php echo __('Leave password blank for it to remain unchanged.'); ?>
+			</div>
 		</div>
 		<?php if (AuthUser::hasPermission('administrator')): ?>
 
@@ -118,7 +122,7 @@
 		</div>
 		<?php endif; ?>
 		
-		<?php Observer::notify('view_user_edit_plugins', array($user)); ?>
+		<?php Observer::notify('view_user_edit_plugins', $user); ?>
 		
 		<div class="form-actions widget-footer">
 			<?php echo UI::actions($page_name); ?>
