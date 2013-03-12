@@ -123,6 +123,11 @@ return array(
 	'User not found!' => 'Пользователь не найден!',
 	'Username must contain a minimum of 3 characters!' 
 		=> 'Имя пользователя должно содержать не менее 3 символов!',
+	
+	'Roles restrict user privileges and turn parts of the administrative interface on or off.'
+		=> 'Роли определяют права пользователей, позволяют включать/выключать разделы панели управления.',
+	'Subscribe to email notifications'
+		=> 'Получать уведомления по почте',
 
 	/*********************** Settings *******************/
 	'General setting' => 'Главные настройки',

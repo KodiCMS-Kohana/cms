@@ -38,6 +38,8 @@ Kohana::modules( array(
 	'database'		=> MODPATH . 'database',	// Database access
 	'auth'			=> MODPATH . 'auth',		// Basic authentication
 	'orm'			=> MODPATH . 'orm',			// Object Relationship Mapping,
+	'oauth'			=> MODPATH . 'oauth',
+	'sso'			=> MODPATH . 'sso',
 	'minion'		=> MODPATH . 'minion',		// Minion
 	'pagination'	=> MODPATH . 'pagination',
 	'email'			=> MODPATH . 'email',

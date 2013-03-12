@@ -42,6 +42,18 @@ class Controller_System_Controller extends Kohana_Controller
 			$this->go( $this->request->referrer() );
 		}
 	}
+	
+	/**
+	 * @param string  $event
+	 * @param string  $default_uri
+	 *
+	 * @throws HTTP_Exception_301
+	 */
+	protected function _go_back($event, $default_uri = '')
+	{
+		$uri = Session::instance()->get_once($event, $default_uri);
+		$this->go($uri);
+	}
 
 	public function go( $url = NULL, $code = 302 )
 	{
@@ -66,4 +78,47 @@ class Controller_System_Controller extends Kohana_Controller
 
 		$this->redirect( $url, $code );
 	}
+
+	protected function _changed_uri($params)
+	{
+		if (is_string($params))
+		{
+			// assume its an action name
+			$params = array('action' => $params);
+		}
+
+		$current_params = $this->request->param();
+		$current_params['controller'] = strtolower($this->request->controller());
+		$current_params['directory'] = strtolower($this->request->directory());
+		$current_params['action'] = strtolower($this->request->action());
+		$params = $params + $current_params;
+		return Route::url(Route::name(Request::current()->route()), $params, TRUE);
+	}
+	
+	protected function _save_referer($event, $referer = FALSE)
+	{
+		if ($referer === TRUE)
+		{
+			$referer = $this->request->uri();
+		}
+		elseif ($referer === FALSE)
+		{
+			$referer = Request::initial()->referrer();
+		}
+		else
+		{
+			$referer = (string) $referer;
+		}
+
+		$hostname = parse_url($referer, PHP_URL_HOST);
+		$current_hostname = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_NAME'];
+		if ($hostname == $current_hostname)
+		{
+			Session::instance()->set($event, $referer);
+			return TRUE;
+		}
+
+		return FALSE;
+	}
+
 } // end Controller class

@@ -6983,6 +6983,9 @@ body {
   font-style: normal;
   margin-left: 5px;
 }
+#pageEditParts .part-name {
+  cursor: pointer;
+}
 #pageEditParts .part-options-button {
   cursor: pointer;
 }

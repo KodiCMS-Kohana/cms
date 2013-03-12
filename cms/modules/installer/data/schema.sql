@@ -143,8 +143,8 @@ CREATE TABLE IF NOT EXISTS `TABLE_PREFIX_user_reflinks` (
   `user_id` int(10) unsigned NOT NULL,
   `type` tinyint(4) NOT NULL DEFAULT '0',
   `code` varchar(255) NOT NULL,
-  `data` varchar(255) DEFAULT NULL,
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `data` text NOT NULL DEFAULT '',
+  `created` datetime NOT NULL,
   UNIQUE KEY `unique_reflink` (`user_id`,`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

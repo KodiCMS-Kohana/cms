@@ -1,0 +1,28 @@
+<?php
+$providers = array();
+foreach ($oauth as $provider => $data)
+{
+	 if( (isset($data['id']) AND empty($data['id']))
+		OR
+			(isset($data['key']) AND empty($data['key']))		
+		OR 
+			empty($data['secret'])
+		)
+		continue;
+	 
+	 $providers[$provider] = $data;
+}
+?>
+
+<hr />
+<h4><?php echo __('Sign in to your social network'); ?></h4>
+<div class="btn-group">
+	<?php foreach ($providers as $provider => $data): ?>
+	<?php echo UI::button(Arr::path($params, $provider.'.name'), array(
+		'href' => Route::url('accounts-auth', array(
+			'directory' => 'oauth', 
+			'controller' => $provider, 
+			'action' => 'login'))
+	)) ?>
+	<?php endforeach; ?>
+</div>

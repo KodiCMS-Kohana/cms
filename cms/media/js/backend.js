@@ -292,6 +292,14 @@ cms.ui.add('btn-confirm', function() {
 			});
 			
 			return false;
+		}).each(function() {
+			console.log($(this).data('hash'), window.location.hash.substring(1));
+			if($(this).data('hash') == window.location.hash.substring(1))
+			{
+				$(this).click();
+				$('html,body').animate({scrollTop: $(this).offset().top}, 'slow');
+			}
+			
 		});
 }).add('datepicker', function() {
 	// Datepicker
