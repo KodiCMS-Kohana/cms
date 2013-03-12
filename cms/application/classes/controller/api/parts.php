@@ -26,6 +26,7 @@ class Controller_API_Parts extends Controller_System_Api {
 			->setFromData($this->params(), array('id'))
 			->save();
 		
+		Cache::instance()->delete_tag('page_parts');
 		$this->response($part->prepare_data());
 	}
 	
@@ -37,6 +38,7 @@ class Controller_API_Parts extends Controller_System_Api {
 			->setFromData($this->params())
 			->save();
 		
+		Cache::instance()->delete_tag('page_parts');
 		$this->response($part->prepare_data());
 	}
 	

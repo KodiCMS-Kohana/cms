@@ -6,7 +6,7 @@ $(function() {
 			filter_id: '',
 			page_id: PAGE_ID,
 			content: '',
-			is_protected: false
+			is_protected: 0
 		},
 	
 		parse: function(response, xhr) {

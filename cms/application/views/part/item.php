@@ -1,7 +1,9 @@
 <script id="part-body" type="text/template">
 	<div class="part" id="part<%=name %>">
 		<div class="widget-header widget-no-border-radius widget-inverse">
-			<h4 class="part-name"><%=name %></h4><input type="text" class="edit-name" value="<%=name %>" />
+			<h4 class="part-name" title="<?php echo __('Double click to edit part name.'); ?>"><%=name %></h4><input type="text" class="edit-name" value="<%=name %>" />
+			
+			<% if (is_protected == <?php echo Model_Page_Part::PART_PROTECTED; ?> && <?php echo (int) AuthUser::hasPermission( 'administrator, developer' ) ?> == 1 ) { %>
 			<div class="widget-options pull-right">
 				<?php echo UI::button(UI::icon( 'cog' ), array(
 					'class' => 'part-options-button btn btn-mini')
@@ -11,8 +13,10 @@
 					'class' => 'part-minimize-button btn btn-mini btn-inverse')
 				); ?>
 			</div>
+			<% } %>
 		</div>
 
+		<% if (is_protected == <?php echo Model_Page_Part::PART_PROTECTED; ?> && <?php echo (int) AuthUser::hasPermission( 'administrator, developer' ) ?> == 1 ) { %>
 		<div class="widget-content part-options">
 			<div class="row-fluid">
 				<div class="span4 item-filter-cont">
@@ -25,12 +29,10 @@
 					</select>
 				</div>
 
-				<?php if ( AuthUser::hasPermission( 'administrator,developer' ) ): ?>
+				<?php if ( AuthUser::hasPermission( 'administrator, developer' ) ): ?>
 				<div class="span4">
-					<label class="checkbox ">
-						<?php echo Form::checkbox( 'is_protected', NULL, FALSE, array(
-							'class' => 'is_protected'
-						) ) . ' ' . __( 'Is protected' ); ?>
+					<label class="checkbox inline">
+						<input type="checkbox" name="is_protected" class="is_protected" <% if (is_protected == <?php echo Model_Page_Part::PART_PROTECTED; ?>) { print('checked="checked"')} %>> <?php echo __( 'Is protected' ); ?>
 					</label>
 				</div>
 				<?php endif; ?>
@@ -43,9 +45,16 @@
 				</div>
 			</div>
 		</div>
+		<% } %>
 
+		<% if (is_protected == <?php echo Model_Page_Part::PART_PROTECTED; ?> && <?php echo (int) AuthUser::hasPermission( 'administrator, developer' ) ?> == 0 ) { %>
+		<div class="widget-content widget-no-border-radius">
+			<p class="text-warning"><?php echo __( 'Content of page part :part_name is protected from changes.', array( ':part_name' => '<%= name %>' ) ); ?></p>
+		</div>
+		<% } else { %>
 		<div class="widget-content widget-no-border-radius widget-nopad part-textarea">
 			<textarea id="pageEditPartContent-<%= name %>" name="part_content[<%= id %>]"><%= content %></textarea>
 		</div>
+		<% } %>
 	</div>
 </script>
