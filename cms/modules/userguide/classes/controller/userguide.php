@@ -237,16 +237,16 @@ class Controller_Userguide extends Controller_System_Backend {
 			// Add styles
 			$this->template->styles = array(
 				$media->uri(array('file' => 'css/kodoc.css')),
-				$media->uri(array('file' => 'css/shCore.css')),
-				$media->uri(array('file' => 'css/shThemeKodoc.css')),
+				$media->uri(array('file' => 'css/shcore.css')),
+				$media->uri(array('file' => 'css/shthemekodoc.css')),
 			);
 
 			// Add scripts
 			$this->template->scripts = array(
 				$media->uri(array('file' => 'js/kodoc.js')),
 				// Syntax Highlighter
-				$media->uri(array('file' => 'js/shCore.js')),
-				$media->uri(array('file' => 'js/shBrushPhp.js')),
+				$media->uri(array('file' => 'js/shcore.js')),
+				$media->uri(array('file' => 'js/shbrushphp.js')),
 			);
 
 			// Add languages
