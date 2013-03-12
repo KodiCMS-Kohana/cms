@@ -1,2 +1,2 @@
-<h2>Здравствуйте, <?php echo $username; ?>!</h2>
-<p>Для продолжения процедуры восстановления пароля проследуйте по ссылке <?php echo $link; ?></p>
+<h2><?php echo __('Hello, :username!', array(':username' => $username)); ?></h2>
+<p><?php echo __('To proceed with the recovery password follow this :link', array(':link' => $link)); ?></p>

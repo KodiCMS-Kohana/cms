@@ -25,7 +25,7 @@ class Model_User_Reflink extends ORM {
 	{
 		if (!$this->loaded()) 
 		{
-			throw new Kohana_Exception('Reflink model not loaded or not found');
+			throw new Reflink_Exception( 'Model not loaded or not found.' );
 		}
 
 		$status = TRUE;
@@ -56,9 +56,9 @@ class Model_User_Reflink extends ORM {
 	 */
 	public function generate(Model_User $user, $type, $data = NULL) 
 	{
-		if (!$user->loaded()) 
+		if ( ! $user->loaded() ) 
 		{
-			throw new Kohana_Exception(' User not loaded ');
+			throw new Reflink_Exception(' User not loaded ');
 		}
 
 		$reflink = $this
@@ -95,9 +95,9 @@ class Model_User_Reflink extends ORM {
 	 */
 	public function delete() 
 	{
-		if (!$this->loaded()) 
+		if ( ! $this->loaded() ) 
 		{
-			throw new Kohana_Exception('Reflink not loaded or not found');
+			throw new Reflink_Exception( 'Model not loaded or not found.' );
 		}
 
 		return DB::delete($this->table_name())

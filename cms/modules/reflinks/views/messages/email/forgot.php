@@ -1,2 +1,2 @@
-<h2>Здравствуйте, <?php echo $username; ?>!</h2>
-<p>Ваш новый пароль <?php echo $password; ?></p>
+<h2><?php echo __('Hello, :username!', array(':username' => $username)); ?></h2>
+<p><?php echo __('New password: :password', array(':password' => $password)); ?></p>

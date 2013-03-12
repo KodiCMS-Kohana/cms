@@ -27,10 +27,10 @@ class Controller_Reflink extends Controller_System_Controller {
 			
 			Database::instance()->commit();
 		}
-		catch (Exception $e )
+		catch ( Kohana_Exception $e )
 		{
 			Database::instance()->rollback();
-			Messages::errors( __('Something went wrong' ));
+			Messages::errors( $e->getMessage() );
 		}
 		
 		$this->go( Route::get('user')->uri(array( 'action' => 'login' ) ) );
@@ -50,12 +50,12 @@ class Controller_Reflink extends Controller_System_Controller {
 
 		if((bool) $email->send())
 		{
-			Messages::success(__('Password send to email address'));
+			Messages::success(__('An email has been send with your new password!'));
 			return $reflink->delete();
 		}
 		else
 		{
-			throw new Kohana_Exception('Email :email not send', array(':email' => $reflink->user->email));
+			throw new Reflink_Exception('Email :email not send', array(':email' => $reflink->user->email));
 		}
 	}
 }
