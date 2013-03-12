@@ -1,5 +1,18 @@
 SET FOREIGN_KEY_CHECKS=0;
 
+CREATE TABLE `TABLE_PREFIX_settings` (
+  `name` varchar(40) NOT NULL,
+  `value` text NOT NULL,
+  UNIQUE KEY `id` (`name`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE `TABLE_PREFIX_plugin_settings` (
+  `plugin_id` varchar(40) NOT NULL,
+  `name` varchar(40) NOT NULL,
+  `value` varchar(255) NOT NULL,
+  UNIQUE KEY `plugin_setting_id` (`plugin_id`,`name`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
 CREATE TABLE `TABLE_PREFIX_pages` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(255) DEFAULT NULL,
@@ -25,6 +38,22 @@ CREATE TABLE `TABLE_PREFIX_pages` (
   KEY `slug` (`slug`),
   KEY `status_id` (`status_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
+
+CREATE TABLE `TABLE_PREFIX_tags` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(40) NOT NULL,
+  `count` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `TABLE_PREFIX_roles` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(32) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uniq_name` (`name`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE `TABLE_PREFIX_page_parts` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -53,7 +82,6 @@ CREATE TABLE `TABLE_PREFIX_page_tags` (
   KEY `tag_id` (`tag_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-
 CREATE TABLE IF NOT EXISTS `TABLE_PREFIX_page_behavior_settings` (
   `page_id` int(10) unsigned NOT NULL,
   `behavior_id` varchar(50) NOT NULL,
@@ -61,41 +89,6 @@ CREATE TABLE IF NOT EXISTS `TABLE_PREFIX_page_behavior_settings` (
   PRIMARY KEY (`page_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `TABLE_PREFIX_plugin_settings` (
-  `plugin_id` varchar(40) NOT NULL,
-  `name` varchar(40) NOT NULL,
-  `value` varchar(255) NOT NULL,
-  UNIQUE KEY `plugin_setting_id` (`plugin_id`,`name`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-CREATE TABLE `TABLE_PREFIX_roles` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(32) NOT NULL,
-  `description` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `uniq_name` (`name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
-CREATE TABLE `TABLE_PREFIX_roles_users` (
-  `user_id` int(10) unsigned NOT NULL,
-  `role_id` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`user_id`,`role_id`),
-  KEY `fk_role_id` (`role_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE `TABLE_PREFIX_settings` (
-  `name` varchar(40) NOT NULL,
-  `value` text NOT NULL,
-  UNIQUE KEY `id` (`name`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-CREATE TABLE `TABLE_PREFIX_tags` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(40) NOT NULL,
-  `count` int(11) unsigned NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE `TABLE_PREFIX_users` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -108,6 +101,30 @@ CREATE TABLE `TABLE_PREFIX_users` (
   UNIQUE KEY `uniq_username` (`username`),
   UNIQUE KEY `uniq_email` (`email`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
+
+CREATE TABLE IF NOT EXISTS `TABLE_PREFIX_user_profiles` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `notice` tinyint(1) NOT NULL DEFAULT '0',
+  `created_on` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `user_id` (`user_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `TABLE_PREFIX_user_social` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) unsigned DEFAULT NULL,
+  `service_id` varchar(200) NOT NULL DEFAULT '',
+  `service_name` varchar(200) NOT NULL DEFAULT '',
+  `service_type` varchar(100) NOT NULL DEFAULT '',
+  `email` varchar(200) DEFAULT NULL,
+  `avatar` varchar(200) DEFAULT NULL,
+  `response` text NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `service_key` (`service_id`,`service_type`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
 
 CREATE TABLE IF NOT EXISTS `TABLE_PREFIX_user_tokens` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -129,6 +146,13 @@ CREATE TABLE IF NOT EXISTS `TABLE_PREFIX_user_reflinks` (
   `data` varchar(255) DEFAULT NULL,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   UNIQUE KEY `unique_reflink` (`user_id`,`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `TABLE_PREFIX_roles_users` (
+  `user_id` int(10) unsigned NOT NULL,
+  `role_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`user_id`,`role_id`),
+  KEY `fk_role_id` (`role_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `TABLE_PREFIX_email_queues` (
@@ -155,22 +179,6 @@ CREATE TABLE IF NOT EXISTS `TABLE_PREFIX_email_queue_bodies` (
   KEY `queue_id` (`queue_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
 
-CREATE TABLE IF NOT EXISTS `TABLE_PREFIX_user_profiles` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(10) unsigned NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `notice` tinyint(1) NOT NULL DEFAULT '0',
-  `created_on` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `user_id` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
-ALTER TABLE `TABLE_PREFIX_user_profiles`
-  ADD CONSTRAINT `user_profiles_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `TABLE_PREFIX_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
-ALTER TABLE `TABLE_PREFIX_user_reflinks`
-  ADD CONSTRAINT `user_reflinks_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `TABLE_PREFIX_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
 ALTER TABLE `TABLE_PREFIX_pages`
 	ADD FOREIGN KEY ( `created_by_id` ) REFERENCES `TABLE_PREFIX_users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
 	ADD FOREIGN KEY ( `updated_by_id` ) REFERENCES `TABLE_PREFIX_users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
@@ -178,23 +186,32 @@ ALTER TABLE `TABLE_PREFIX_pages`
 ALTER TABLE `TABLE_PREFIX_page_parts`
   ADD CONSTRAINT `page_parts_ibfk_1` FOREIGN KEY (`page_id`) REFERENCES `TABLE_PREFIX_pages` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE `TABLE_PREFIX_page_behavior_settings`
-  ADD CONSTRAINT `page_behavior_settings_ibfk_1` FOREIGN KEY (`page_id`) REFERENCES `TABLE_PREFIX_pages` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `TABLE_PREFIX_page_tags`
+  ADD CONSTRAINT `page_tags_ibfk_1` FOREIGN KEY (`page_id`) REFERENCES `TABLE_PREFIX_pages` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `page_tags_ibfk_2` FOREIGN KEY (`tag_id`) REFERENCES `TABLE_PREFIX_tags` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `TABLE_PREFIX_page_roles`
   ADD CONSTRAINT `page_roles_ibfk_1` FOREIGN KEY (`page_id`) REFERENCES `TABLE_PREFIX_pages` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `page_roles_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `TABLE_PREFIX_roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE `TABLE_PREFIX_page_tags`
-  ADD CONSTRAINT `page_tags_ibfk_1` FOREIGN KEY (`page_id`) REFERENCES `TABLE_PREFIX_pages` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `page_tags_ibfk_2` FOREIGN KEY (`tag_id`) REFERENCES `TABLE_PREFIX_tags` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `TABLE_PREFIX_page_behavior_settings`
+  ADD CONSTRAINT `page_behavior_settings_ibfk_1` FOREIGN KEY (`page_id`) REFERENCES `TABLE_PREFIX_pages` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `TABLE_PREFIX_roles_users`
   ADD CONSTRAINT `roles_users_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `TABLE_PREFIX_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `roles_users_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `TABLE_PREFIX_roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
+ALTER TABLE `TABLE_PREFIX_user_profiles`
+  ADD CONSTRAINT `user_profiles_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `TABLE_PREFIX_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `TABLE_PREFIX_user_social`
+  ADD CONSTRAINT `user_social_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `TABLE_PREFIX_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
 ALTER TABLE `TABLE_PREFIX_user_tokens`
   ADD CONSTRAINT `user_tokens_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `TABLE_PREFIX_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `TABLE_PREFIX_user_reflinks`
+  ADD CONSTRAINT `user_reflinks_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `TABLE_PREFIX_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `TABLE_PREFIX_email_queue_bodies`
   ADD CONSTRAINT `email_queue_bodies_ibfk_1` FOREIGN KEY (`queue_id`) REFERENCES `TABLE_PREFIX_email_queues` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;

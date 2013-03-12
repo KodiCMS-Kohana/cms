@@ -1,76 +1,79 @@
-<?php if (!defined('SYSPATH')) die;
+<?php defined( 'SYSPATH' ) or die( 'No direct access allowed.' );
 
 return array(
-	// Start
-	'Installation' => 'Установка',
-	'supported' => 'поддерживается',
-	'not supported' => 'не поддерживается',
-	'writable' => 'доступен для записи',
-	'not writable' => 'не доступен для записи',
-	'optional' => 'не обязательно',
+	/********************* Database information *******************/
+	'Installation' => 'Установка системы',
 	'Database information' => 'Информация о базе данных',
-	'Database driver' => 'Драйвер',
+	
 	'Database server' => 'Сервер',
-	'Required.' => 'Обязательно.',
 	'Database port' => 'Порт',
-	'Optional. Default: 3306' => 'По-умолчанию: 3306',
 	'Database user' => 'Имя пользователя',
 	'Database password' => 'Пароль',
-	'Optional. If there is no database password, leave it blank.'
-			=> 'Если у базы нет пароля &mdash; оставьте пустым.',
+	
 	'Database name' => 'Имя базы данных',
-	'Required. You have to create a database manually and enter its name here.'
-			=> 'При создании базы данных, вы дали ей имя, укажите его здесь.',
-	'Required. Enter the <b>absolute</b> path to the database file.'
-			=> 'Укажите <b>абсолютный</b> путь к файлу базы данных.',
 	'Prefix' => 'Префикс',
-	'Optional. Usefull to prevent conflicts if you have, or plan to have, multiple Flexo installations with a single database.'
+	'You have to create a database manually and enter its name here.'
+			=> 'При создании базы данных, вы дали ей имя, укажите его здесь.',
+	
+	'If there is no database password, leave it blank.'
+			=> 'Если у базы данных нет пароля &mdash; оставьте пустым.',
+	
+	'Usefull to prevent conflicts if you have, or plan to have, multiple Flexo installations with a single database.'
 			=> 'Укажите префикс, если хотите установить несколько версий Flexo в одну базу данных.',
-	'Other information' => 'Другая информация',
-	'Administrator username' => 'Имя администратора',
-	'Administrator email' => 'E-mail  адрес',
-	'Administrator password generate' => 'Сгенерировать пароль',
+	
+	/********************* Other information *******************/
+	'Site information' => 'Настройки',
+	'Administrator username' => 'Имя пользователя администратора',
+	
+	'Administrator email' => 'E-mail адрес',
+	'Administrator password generate' => 'Сгенерировать пароль автоматически',
 	'Admin dir name' => 'Точка входа в административный интерфейс',
-	'Required. Allows you to specify a custom username for the administrator. Default: admin'
-			=> 'Позволяет задать имя администратора. По-умолчанию: admin',
-	'URL suffix' => 'URL суффикс',
-	'Optional. Add a suffix to simulate static html files.'
+	'URL suffix' => 'Окончание URL адреса',
+	'Add a suffix to simulate static html files.'
 			=> 'Можно указать суффикс для эмуляции статических html файлов.',
+	'Timezone' => 'Временная зона',
+
+	/********************* Environment *******************/
+	'Environment Tests' => 'Проверка окружения',
+	'Pass' => 'Успешно',
+	'PHP Version' => 'Версия PHP',
+	'Kohana requires PHP 5.3.3 or newer, this version is :version.'
+		=> 'Kohana требуется версия PHP 5.3.3 или выше, текущая версия :version.',
+	'System Directory' => 'Путь до директории system',
+	'Application Directory' => 'Путь до директории application',
+	'Cache Directory' => 'Путь до директории cache',
+	'Logs Directory' => 'Путь до директории logs',
+	'The configured <code>system</code> directory does not exist or does not contain required files.'
+		=> 'Указанный путь до директории :dir не существует или не содержит необходимых файлов.',
+	'The :dir directory is not writable.' => 'Директория защищена от записи.',
+	
+	'Kohana may not work correctly with your environment.' 
+		=> 'Kohana не может корректно работать в вашем окружении.',
+	'Your environment passed all requirements.' 
+		=> 'Ваше окружение прошло все требования.',
+	'Optional Tests' => 'Опционально',
+	'The following extensions are not required to run the Kohana core, but if enabled can provide access to additional classes.'
+		=> 'Следующие расширения не требуются для работы основных компонентов Kohana, но если включены, могут обеспечить доступ к дополнительным классам.',
+	'Kohana can use the :extension extension for the :class class.' 
+		=> 'Kohana может использовать расширение: :extension для класса :class',
+	'Kohana requires :extension for the :class class'
+		=> 'Kohana требуется расширение :extension для класса :class',
+	'Kohana can use the :extension to support additional databases.'
+		=> 'Kohana может использовать расширение: :extension для поддержки доболнительных БД',
+	
+	
+	/******************** Install  *************************/
 	'Install now!' => 'Установить!',
-	'Require support of PHP 5+!' => 'Требуется поддержка PHP 5+!',
-	'Require support of PDO extension!' => 'Требуется поддержка расширения PDO!',
-	'Require support of PDO driver MySQL or PostgreSQL or SQLite!'
-			=> 'Требуется поддержка PDO драйвера MySQL или PostgreSQL или SQLite!',
-	'Fields <b>Database driver</b>, <b>Database server</b>, <b>Database user</b>, <b>Database name</b> are required!'
-			=> 'Поля <b>Драйвер базы данных</b>, <b>Сервер базы данных</b>, <b>Имя пользователя базы данных</b>, <b>Имя базы данных</b> обязательны!',
-	'Field <b>Database name</b> is required!' => 'Поле <b>Имя базы данных</b> обязательно!',
-	'Field <b>Administrator username</b> is required!' => 'Поле <b>Имя администратора</b> обязательно!',
-	'Can\'t connect to Database! :message' => 'Невозможно подключиться к Базе данных! :message',
-	'Database schema file :file not found!' => 'Файл :file схемы Базы данных не найден!',
-	'Problems with creating Database schema! :message' => 'Проблемы при создании схемы Базы данных! :message',
-	'Database dump file  :file not found!' => 'Файл :file с дампом Базы данных не найден!',
-	'Config template file :file not found!' => 'Шаблон конфиг файла :file не найден!',
-	'Problems with importing Database dump! :message' => 'Проблемы с импортом дампа Базы данных! :message',
-	'Can\'t write config.php file!' => 'Невозможно записать данные в файл config.php!',
-    'Environment Tests' => 'Проверка окружения',
-    'PHP Version' => 'Версия PHP',
-    'Application Directory' => 'Папка приложения',
-    'Cache Directory' => 'Папка кэша',
-    'SPL Enabled' => 'SPL Включен',
-    'CMS requires PHP 5.3.3 or newer, this version is' => 'Для нормальной работы система нуждается в PHP версии 5.3.3 или более новой, ваша версия',
-    'The configured <code>application</code> directory does not exist or does not contain required files.' => 'Основная папка приложения не существует или не содержит необходимых файлов',
-	
-	// Finsh
-	'You should now:' => 'Вы сейчас должны:',
-	'delete the <em>install/</em> folder!' => 'удалить директорию <em>install/</em>!',
-	'remove all write permissions from the <em>config.php</em> file!' => 'убрать все права на запись у файла <em>config.php</em>!',
-	'delete directory <em>readme/</em> to enhance security.' => 'удалить директорию <em>readme/</em>, чтобы повысить безопасность.',
-	'CMS succefully installed' => 'CMS успешно установлена',
-	'Administration login page' => 'Раздел администрирования',
-	'Username:' => 'Имя пользователя:',
-	'Password:' => 'Пароль:',
-	'Please be aware: the password is generated by Flexo, please use it to login to Flexo and <strong>change your password</strong>!'
-			=> 'Имейте ввиду: пароль был сгенерирован Флексо автоматически, используйте этот пароль для входа в систему, но затем необходимо <strong>сменить пароль</strong>!',
-	
-	'Other' => 'Другие',
+	'No install data!' => 'Отсутсвуют данные!',
+	'KodiCMS installed succefully' => 'KodiCMS успешно установлена',
+	'Login: :login' => 'Ваш логин: :login',
+	'Password: :password' => 'Ваш пароль: :password',
+	'Database schema file :file not found!' 
+		=> 'Файл :file схемы Базы данных не найден!',
+	'Database dump file :file not found!' 
+		=> 'Файл :file с дампом Базы данных не найден!',
+	'Config template file :file not found!'
+		=> 'Шаблон конфиг файла :file не найден!',
+	'Can\'t write config.php file!'
+		=> 'Невозможно записать данные в файл config.php!',
 );

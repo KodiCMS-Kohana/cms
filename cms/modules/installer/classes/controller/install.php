@@ -34,9 +34,9 @@ class Controller_Install extends Controller_System_Frontend
 		
 		$post = $this->request->post('install');
 
-		if ( ! $post )
+		if ( empty($post) )
 		{
-			throw new Kohana_Exception( 'Install data not found!' );
+			throw new Installer_Exception( 'No install data!' );
 		}
 
 		$post['db_driver'] = DB_TYPE;
@@ -86,12 +86,12 @@ class Controller_Install extends Controller_System_Frontend
 		if(PHP_SAPI == 'cli')
 		{
 			Minion_CLI::write('==============================================');
-			Minion_CLI::write('KodiCMS installed succefully');
+			Minion_CLI::write(__('KodiCMS installed succefully'));
 			Minion_CLI::write('==============================================');
 
 			$install_data = Session::instance()->get_once('install_data');
-			Minion_CLI::write('Login: ' . Arr::get($install_data, 'username'));
-			Minion_CLI::write('Password: ' . Arr::get($install_data, 'password_field'));
+			Minion_CLI::write(__('Login: :login', array(':login' => Arr::get($install_data, 'username'))));
+			Minion_CLI::write(__('Password: :password', array(':password' => Arr::get($install_data, 'password_field'))));
 			exit();
 		}
 		
@@ -196,7 +196,7 @@ class Controller_Install extends Controller_System_Frontend
 		
 		if ( !file_exists( $schema_file ) )
 		{
-			throw new  Kohana_Exception( 'Database schema file :file not found!', array(
+			throw new Installer_Exception( 'Database schema file :file not found!', array(
 				':file' => $schema_file
 			) );
 		}
@@ -217,7 +217,7 @@ class Controller_Install extends Controller_System_Frontend
 
 		if ( !file_exists( $dump_file ) )
 		{
-			throw new  Kohana_Exception( 'Database dump file :file not found!', array(
+			throw new Installer_Exception( 'Database dump file :file not found!', array(
 				':file' => $dump_file
 			) );
 		}
@@ -251,7 +251,7 @@ class Controller_Install extends Controller_System_Frontend
 		
 		if ( !file_exists( $tpl_file ) )
 		{
-			throw new  Kohana_Exception( 'Config template file :file not found!', array(
+			throw new Installer_Exception( 'Config template file :file not found!', array(
 				':file' => $tpl_file
 			) );
 		}
@@ -278,7 +278,7 @@ class Controller_Install extends Controller_System_Frontend
 
 		if ( !file_put_contents( DOCROOT . 'config' . EXT, $tpl_content ) !== FALSE )
 		{
-			throw new  Kohana_Exception( 'Can\'t write config.php file!' );
+			throw new Installer_Exception( 'Can\'t write config.php file!' );
 		}
 	}
 	

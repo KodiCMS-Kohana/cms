@@ -15,43 +15,49 @@ $failed = FALSE;
 
 ?>
 
-<div class="widget-header"><?php echo __( 'Environment Tests' ); ?></div>
+<div class="widget-header"><h3><?php echo __( 'Environment Tests' ); ?></h3></div>
 <div class="env_test" class="widget-content">
 	<table class="table table-striped">
 		<tr>
-			<th>PHP Version</th>
+			<th><?php echo __('PHP Version'); ?></th>
 			<?php if (version_compare(PHP_VERSION, '5.3.3', '>=')): ?>
 				<td class="pass"><?php echo PHP_VERSION ?></td>
 			<?php else: $failed = TRUE ?>
-				<td class="fail">Kohana requires PHP 5.3.3 or newer, this version is <?php echo PHP_VERSION ?>.</td>
+				<td class="fail"><?php echo __('Kohana requires PHP 5.3.3 or newer, this version is :version.', array(':version' => PHP_VERSION)); ?></td>
 			<?php endif ?>
 		</tr>
 		<tr>
-			<th>System Directory</th>
+			<th><?php echo __('System Directory'); ?></th>
 			<?php if (is_dir(SYSPATH) AND is_file(SYSPATH.'classes/kohana'.EXT)): ?>
 				<td class="pass"><?php echo SYSPATH ?></td>
 			<?php else: $failed = TRUE ?>
-				<td class="fail">The configured <code>system</code> directory does not exist or does not contain required files.</td>
+				<td class="fail"><?php echo __('The configured :dir directory does not exist or does not contain required files.', array(
+					':dir' => '<code>system</code>'
+				)); ?></td>
 			<?php endif ?>
 		</tr>
 		<tr>
-			<th>Application Directory</th>
+			<th><?php echo __('Application Directory'); ?></th>
 			<?php if (is_dir(APPPATH) AND is_file(APPPATH.'bootstrap'.EXT)): ?>
 				<td class="pass"><?php echo APPPATH ?></td>
 			<?php else: $failed = TRUE ?>
-				<td class="fail">The configured <code>application</code> directory does not exist or does not contain required files.</td>
+				<td class="fail"><?php echo __('The configured :dir directory does not exist or does not contain required files.', array(
+					':dir' => '<code>application</code>'
+				)); ?></td>
 			<?php endif ?>
 		</tr>
 		<tr>
-			<th>Cache Directory</th>
+			<th><?php echo __('Cache Directory'); ?></th>
 			<?php if (is_dir(CMSPATH) AND is_dir(CMSPATH.'cache') AND is_writable(CMSPATH.'cache')): ?>
 				<td class="pass"><?php echo CMSPATH.'cache/' ?></td>
 			<?php else: $failed = TRUE ?>
-				<td class="fail">The <code><?php echo CMSPATH.'cache/' ?></code> directory is not writable.</td>
+				<td class="fail"><?php echo __('The :dir directory is not writable.', array(
+					':dir' => '<code>'.CMSPATH.'cache/</code>'
+				)); ?></td>
 			<?php endif ?>
 		</tr>
 		<tr>
-			<th>Logs Directory</th>
+			<th><?php echo __('Logs Directory'); ?></th>
 			<?php if (is_dir(CMSPATH) AND is_dir(CMSPATH.'logs') AND is_writable(CMSPATH.'logs')): ?>
 				<td class="pass"><?php echo CMSPATH.'logs/' ?></td>
 			<?php else: $failed = TRUE ?>
@@ -65,13 +71,13 @@ $failed = FALSE;
 			<?php elseif ( ! @preg_match('/^\pL$/u', 'ñ')): $failed = TRUE ?>
 				<td class="fail"><a href="http://php.net/pcre" target="blank">PCRE</a> has not been compiled with Unicode property support.</td>
 			<?php else: ?>
-				<td class="pass">Pass</td>
+				<td class="pass"><?php echo __('Pass'); ?></td>
 			<?php endif ?>
 		</tr>
 		<tr>
 			<th>SPL Enabled</th>
 			<?php if (function_exists('spl_autoload_register')): ?>
-				<td class="pass">Pass</td>
+				<td class="pass"><?php echo __('Pass'); ?></td>
 			<?php else: $failed = TRUE ?>
 				<td class="fail">PHP <a href="http://www.php.net/spl" target="blank">SPL</a> is either not loaded or not compiled in.</td>
 			<?php endif ?>
@@ -79,7 +85,7 @@ $failed = FALSE;
 		<tr>
 			<th>Reflection Enabled</th>
 			<?php if (class_exists('ReflectionClass')): ?>
-				<td class="pass">Pass</td>
+				<td class="pass"><?php echo __('Pass'); ?></td>
 			<?php else: $failed = TRUE ?>
 				<td class="fail">PHP <a href="http://www.php.net/reflection" target="blank">reflection</a> is either not loaded or not compiled in.</td>
 			<?php endif ?>
@@ -87,7 +93,7 @@ $failed = FALSE;
 		<tr>
 			<th>Filters Enabled</th>
 			<?php if (function_exists('filter_list')): ?>
-				<td class="pass">Pass</td>
+				<td class="pass"><?php echo __('Pass'); ?></td>
 			<?php else: $failed = TRUE ?>
 				<td class="fail">The <a href="http://www.php.net/filter" target="blank">filter</a> extension is either not loaded or not compiled in.</td>
 			<?php endif ?>
@@ -95,7 +101,7 @@ $failed = FALSE;
 		<tr>
 			<th>Iconv Extension Loaded</th>
 			<?php if (extension_loaded('iconv')): ?>
-				<td class="pass">Pass</td>
+				<td class="pass"><?php echo __('Pass'); ?></td>
 			<?php else: $failed = TRUE ?>
 				<td class="fail">The <a href="http://php.net/iconv" target="blank">iconv</a> extension is not loaded.</td>
 			<?php endif ?>
@@ -106,7 +112,7 @@ $failed = FALSE;
 			<?php if (ini_get('mbstring.func_overload') & MB_OVERLOAD_STRING): $failed = TRUE ?>
 				<td class="fail">The <a href="http://php.net/mbstring" target="blank">mbstring</a> extension is overloading PHP's native string functions.</td>
 			<?php else: ?>
-				<td class="pass">Pass</td>
+				<td class="pass"><?php echo __('Pass'); ?></td>
 			<?php endif ?>
 		</tr>
 		<?php endif ?>
@@ -115,13 +121,13 @@ $failed = FALSE;
 			<?php if ( ! function_exists('ctype_digit')): $failed = TRUE ?>
 				<td class="fail">The <a href="http://php.net/ctype" target="blank">ctype</a> extension is not enabled.</td>
 			<?php else: ?>
-				<td class="pass">Pass</td>
+				<td class="pass"><?php echo __('Pass'); ?></td>
 			<?php endif ?>
 		</tr>
 		<tr>
 			<th>URI Determination</th>
 			<?php if (isset($_SERVER['REQUEST_URI']) OR isset($_SERVER['PHP_SELF']) OR isset($_SERVER['PATH_INFO'])): ?>
-				<td class="pass">Pass</td>
+				<td class="pass"><?php echo __('Pass'); ?></td>
 			<?php else: $failed = TRUE ?>
 				<td class="fail">Neither <code>$_SERVER['REQUEST_URI']</code>, <code>$_SERVER['PHP_SELF']</code>, or <code>$_SERVER['PATH_INFO']</code> is available.</td>
 			<?php endif ?>
@@ -129,65 +135,80 @@ $failed = FALSE;
 	</table>
 
 	<?php if ($failed === TRUE): ?>
-		<p id="results" class="alert alert-error"><?php echo UI::icon('remove'); ?> Kohana may not work correctly with your environment.</p>
+		<p id="results" class="alert alert-error"><?php echo UI::icon('remove'); ?> <?php echo __('Kohana may not work correctly with your environment.'); ?></p>
 	<?php else: ?>
-		<p id="results" class="alert alert-success"><?php echo UI::icon('ok'); ?> Your environment passed all requirements.</p>
+		<p id="results" class="alert alert-success"><?php echo UI::icon('ok'); ?> <?php echo __('Your environment passed all requirements.'); ?></p>
 	<?php endif ?>
 </div>
-<div class="widget-header"><?php echo __( 'Optional Tests' ); ?></div>
+<div class="widget-header widget-no-border-radius"><h3><?php echo __( 'Optional Tests' ); ?></h3></div>
 <div class="env_test" class="widget-content">
-
-	<p class="alert alert-info">
-		The following extensions are not required to run the Kohana core, but if enabled can provide access to additional classes.
-	</p>
+	<p class="alert alert-info"><?php echo __('The following extensions are not required to run the Kohana core, but if enabled can provide access to additional classes.'); ?></p>
 
 	<table class="table table-striped">
 		<tr>
 			<th>PECL HTTP Enabled</th>
 			<?php if (extension_loaded('http')): ?>
-				<td class="pass">Pass</td>
+				<td class="pass"><?php echo __('Pass'); ?></td>
 			<?php else: ?>
-				<td class="fail">Kohana can use the <a href="http://php.net/http" target="blank">http</a> extension for the Request_Client_External class.</td>
+				<td class="fail"><?php echo __('Kohana can use the :extension extension for the :class class.', array(
+					':extension' => '<a href="http://php.net/http" target="blank">http</a>',
+					':class' => 'Request_Client_External'
+				)); ?></td>
 			<?php endif ?>
 		</tr>
 		<tr>
 			<th>cURL Enabled</th>
 			<?php if (extension_loaded('curl')): ?>
-				<td class="pass">Pass</td>
+				<td class="pass"><?php echo __('Pass'); ?></td>
 			<?php else: ?>
-				<td class="fail">Kohana can use the <a href="http://php.net/curl" target="blank">cURL</a> extension for the Request_Client_External class.</td>
+				<td class="fail"><?php echo __('Kohana can use the :extension extension for the :class class.', array(
+					':extension' => '<a href="http://php.net/curl" target="blank">cURL</a>',
+					':class' => 'Request_Client_External'
+				)); ?></td>
 			<?php endif ?>
 		</tr>
 		<tr>
 			<th>mcrypt Enabled</th>
 			<?php if (extension_loaded('mcrypt')): ?>
-				<td class="pass">Pass</td>
+				<td class="pass"><?php echo __('Pass'); ?></td>
 			<?php else: ?>
-				<td class="fail">Kohana requires <a href="http://php.net/mcrypt" target="blank">mcrypt</a> for the Encrypt class.</td>
+				<td class="fail"><?php echo __('Kohana requires :extension for the :class class.', array(
+					':extension' => '<a href="http://php.net/mcrypt" target="blank">mcrypt</a>',
+					':class' => 'Encrypt'
+				)); ?></td>
 			<?php endif ?>
 		</tr>
 		<tr>
 			<th>GD Enabled</th>
 			<?php if (function_exists('gd_info')): ?>
-				<td class="pass">Pass</td>
+				<td class="pass"><?php echo __('Pass'); ?></td>
 			<?php else: ?>
-				<td class="fail">Kohana requires <a href="http://php.net/gd" target="blank">GD</a> v2 for the Image class.</td>
+				<td class="fail"><?php echo __('Kohana requires :extension for the :class class.', array(
+					':extension' => '<a href="http://php.net/gd" target="blank">GD</a>',
+					':class' => 'Image'
+				)); ?></td>
 			<?php endif ?>
 		</tr>
 		<tr>
 			<th>MySQL Enabled</th>
 			<?php if (function_exists('mysql_connect')): ?>
-				<td class="pass">Pass</td>
+				<td class="pass"><?php echo __('Pass'); ?></td>
 			<?php else: ?>
-				<td class="fail">Kohana can use the <a href="http://php.net/mysql" target="blank">MySQL</a> extension to support MySQL databases.</td>
+				<td class="fail"><?php echo __('Kohana can use the :extension extension for the :class class.', array(
+					':extension' => '<a href="http://php.net/mysql" target="blank">MySQL</a>',
+					':class' => 'MySQL'
+				)); ?></td>
 			<?php endif ?>
 		</tr>
 		<tr>
 			<th>PDO Enabled</th>
 			<?php if (class_exists('PDO')): ?>
-				<td class="pass">Pass</td>
+				<td class="pass"><?php echo __('Pass'); ?></td>
 			<?php else: ?>
-				<td class="fail">Kohana can use <a href="http://php.net/pdo" target="blank">PDO</a> to support additional databases.</td>
+				<td class="fail"><?php echo __('Kohana can use the :extension to support additional databases.', array(
+					':extension' => '<a href="http://php.net/pdo" target="blank">PDO</a>',
+					':class' => 'MySQL'
+				)); ?></td>
 			<?php endif ?>
 		</tr>
 	</table>

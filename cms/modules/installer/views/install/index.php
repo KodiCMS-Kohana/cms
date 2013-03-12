@@ -4,7 +4,7 @@
 	'class' => 'form-horizontal outline'
 )); ?>
 	<div class="widget outline_inner">
-		<div class="widget-header"><?php echo __( 'Database information' ); ?></div>
+		<div class="widget-header"><h3><?php echo __( 'Database information' ); ?></h3></div>
 		<div id="install-page" class="widget-content">
 			<?php echo Form::hidden( 'install[db_driver]', Arr::get( $data, 'db_driver' ) ); ?>
 
@@ -19,7 +19,7 @@
 						'class' => 'span1'
 					) ); ?>
 
-					<?php echo UI::label( __( 'Required.' ) ); ?>
+					<?php echo UI::label( __( 'Required' ) ); ?>
 				</div>
 			</div>
 
@@ -28,7 +28,7 @@
 				<div class="controls">
 					<?php echo Form::input( 'install[db_user]', Arr::get( $data, 'db_user' ), array(
 						'class' => 'input-xlarge', 'id' => 'installDBUserField'
-					) ); ?> <?php echo UI::label( __( 'Required.' ) ); ?>
+					) ); ?> <?php echo UI::label( __( 'Required' ) ); ?>
 				</div>
 			</div>
 
@@ -40,6 +40,8 @@
 						'class' => 'input-xlarge', 'id' => 'installDBPasswordField'
 					) );
 					?>
+					
+					<p class="help-block"><?php echo __( 'If there is no database password, leave it blank.' ); ?></p>
 				</div>
 			</div>
 
@@ -50,9 +52,9 @@
 					echo Form::input( 'install[db_name]', Arr::get( $data, 'db_name' ), array(
 						'class' => 'input-xlarge', 'id' => 'installDBNameField'
 					) );
-					?> <?php echo UI::label( __( 'Required.' ) ); ?>
+					?> <?php echo UI::label( __( 'Required' ) ); ?>
 
-					<p class="help-block"><?php echo __( 'Required. You have to create a database manually and enter its name here.' ); ?></p>
+					<p class="help-block"><?php echo __( 'You have to create a database manually and enter its name here.' ); ?></p>
 				</div>
 			</div>
 
@@ -65,12 +67,12 @@
 					) );
 					?>
 
-					<p class="help-block"><?php echo __( 'Optional. Usefull to prevent conflicts if you have, or plan to have, multiple Flexo installations with a single database.' ); ?></p>
+					<p class="help-block"><?php echo __( 'Usefull to prevent conflicts if you have, or plan to have, multiple Flexo installations with a single database.' ); ?></p>
 				</div>
 			</div>
 		</div>
 		
-		<div class="widget-header"><?php echo __( 'Other information' ); ?></div>
+		<div class="widget-header"><h3><?php echo __( 'Site information' ); ?></h3></div>
 		<div class="widget-content">
 			<div class="control-group">
 				<label class="control-label" for="installSiteNameField"><?php echo __( 'Site title' ); ?></label>
@@ -79,7 +81,7 @@
 					echo Form::input( 'install[site_name]', Arr::get( $data, 'site_name' ), array(
 						'class' => 'span7', 'id' => 'installSiteNameField'
 					) );
-					?> <?php echo UI::label( __( 'Required.' ) ); ?>
+					?> <?php echo UI::label( __( 'Required' ) ); ?>
 				</div>
 			</div>
 
@@ -90,9 +92,7 @@
 					echo Form::input( 'install[username]', Arr::get( $data, 'username' ), array(
 						'class' => 'input-medium', 'id' => 'installUsernameField'
 					) );
-					?> <?php echo UI::label( __( 'Required.' ) ); ?>
-
-					<p class="help-block"><?php echo __( 'Required. Allows you to specify a custom username for the administrator. Default: admin' ); ?></p>
+					?> <?php echo UI::label( __( 'Required' ) ); ?>
 				</div>
 			</div>
 			
@@ -138,7 +138,7 @@
 					echo Form::input( 'install[email]', Arr::get( $data, 'email' ), array(
 						'class' => 'input-medium', 'id' => 'installEmailField'
 					) );
-					?> <?php echo UI::label( __( 'Required.' ) ); ?>
+					?> <?php echo UI::label( __( 'Required' ) ); ?>
 				</div>
 			</div>
 
@@ -149,7 +149,7 @@
 					echo Form::input( 'install[admin_dir_name]', Arr::get( $data, 'admin_dir_name' ), array(
 						'class' => 'input-small', 'id' => 'installAdminDirNamexField'
 					) );
-					?> <?php echo UI::label( __( 'Required.' ) ); ?>
+					?> <?php echo UI::label( __( 'Required' ) ); ?>
 				</div>
 			</div>
 
@@ -162,7 +162,7 @@
 					) );
 					?>
 
-					<p class="help-block"><?php echo __( 'Optional. Add a suffix to simulate static html files.' ); ?></p>
+					<p class="help-block"><?php echo __( 'Add a suffix to simulate static html files.' ); ?></p>
 				</div>
 			</div>
 
