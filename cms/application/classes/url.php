@@ -44,9 +44,17 @@ class URL extends Kohana_URL {
 	 */
 	public static function frontend($uri = '', $protocol = NULL, $index = TRUE)
 	{
+		$hash = '';
+		if( strpos($uri, '#') !== FALSE)
+		{
+			list($uri, $hash) = preg_split('/#/', $uri);
+			
+			$hash = '#' . $hash;
+		}
+		
 		if( IS_INSTALLED AND !empty($uri) AND ! URL::check_suffix( $uri, '.' ))
 		{
-			$uri .= URL_SUFFIX;
+			$uri .= URL_SUFFIX . $hash;
 		}
 
 		return parent::site($uri, $protocol, $index);
