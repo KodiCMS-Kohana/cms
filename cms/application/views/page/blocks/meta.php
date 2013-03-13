@@ -10,7 +10,7 @@
 	</div>
 </div>
 <div class="spoiler-toggle-container widget-content-bg widget-no-border-radius">
-	<div class="spoiler-toggle align-center">
+	<div class="spoiler-toggle text-center">
 		<?php echo UI::icon( 'chevron-down spoiler-toggle-icon' ); ?>
 	</div>
 	<div id="pageEditMetaMore" class="spoiler">

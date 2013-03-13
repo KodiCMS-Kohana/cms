@@ -40,7 +40,7 @@
 		</div>
 		<div class="widget-header"><?php echo __('Content'); ?></div>
 		<?php if($filesystem->isImage()): ?>
-		<div class="widget-content align-center">
+		<div class="widget-content text-center">
 			<?php echo HTML::image(PUBLIC_URL . $filesystem->getRelativePath(PUBLICPATH), array(
 				 'class' => 'img-polaroid'
 			)) ;?>

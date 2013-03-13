@@ -7,49 +7,53 @@
 		) );
 		?>
 
-		<ul class="nav">
-			<?php foreach ( $navigation as $nav ): ?>
-				<?php if ( count($nav->get_pages() ) > 0 ): ?>
-					<li class="dropdown <?php if ( $nav->is_active() ): ?>active<?php endif; ?>">
-						<a data-toggle="dropdown" class="dropdown-toggle" href="#"><?php echo $nav->name(); ?> <b class="caret"></b>
-						<?php if($nav->counter > 0): ?>
-						<span class="counter"><?php echo $nav->counter; ?></span>	
-						<?php endif; ?>
-						</a>
-						<ul class="dropdown-menu">
-							<?php foreach ( $nav->get_pages() as $item ): ?>
-								<?php if($item->divider === TRUE): ?>
-								<li class="divider"></li>
-								<?php endif; ?>
-								<li <?php if ( $item->is_active() ): ?>class="active"<?php endif; ?>>
-									
-									<?php echo HTML::anchor( $item->url(), $item->name() ); ?>
-									<?php if($item->counter > 0): ?>
-									<span class="counter"><?php echo $item->counter; ?></span>	
+		<div class="nav-collapse collapse navbar-responsive-collapse">
+			<ul class="nav">
+				<?php foreach ( $navigation as $nav ): ?>
+					<?php if ( count($nav->get_pages() ) > 0 ): ?>
+						<li class="dropdown <?php if ( $nav->is_active() ): ?>active<?php endif; ?>">
+							<a data-toggle="dropdown" class="dropdown-toggle" href="#"><?php echo $nav->name(); ?> <b class="caret"></b>
+							<?php if($nav->counter > 0): ?>
+							<span class="counter"><?php echo $nav->counter; ?></span>	
+							<?php endif; ?>
+							</a>
+							<ul class="dropdown-menu">
+								<?php foreach ( $nav->get_pages() as $item ): ?>
+									<?php if($item->divider === TRUE): ?>
+									<li class="divider"></li>
 									<?php endif; ?>
-								</li>
-							<?php endforeach; ?>
-						</ul>
-					</li>
-				<?php endif; ?>
-			<?php endforeach; ?>
-		</ul>
+									<li <?php if ( $item->is_active() ): ?>class="active"<?php endif; ?>>
 
-		<div class="btn-group pull-right">
-			<?php echo UI::button( AuthUser::getRecord()->username, array( 
-				'href' => 'user/edit/' . AuthUser::getId(), 'icon' => UI::icon( 'user' ) ) ); ?>
-	
-			<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-				<span class="caret"></span>
-			</a>
-			<ul class="dropdown-menu">
-				<li><?php echo HTML::anchor( 'logout', __( 'Logout' ) ); ?></li>
+										<?php echo HTML::anchor( $item->url(), $item->name() ); ?>
+										<?php if($item->counter > 0): ?>
+										<span class="counter"><?php echo $item->counter; ?></span>	
+										<?php endif; ?>
+									</li>
+								<?php endforeach; ?>
+							</ul>
+						</li>
+					<?php endif; ?>
+				<?php endforeach; ?>
+			</ul>
+
+			<ul class="nav pull-right">
+				<li><?php echo HTML::anchor( URL::base(TRUE), UI::icon( 'globe icon-white' ) . ' ' .  __( 'View Site' ), array( 'target' => '_blank' ) ); ?></li>
+				<li class="divider-vertical"></li>
+				<li class="dropdown">
+					<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+						<?php echo UI::icon( 'user icon-white' ) . ' ' .  AuthUser::getRecord()->username; ?> <b class="caret"></b>
+					</a>
+					<ul class="dropdown-menu">
+						<li>
+							<?php echo HTML::anchor( 'user/edit/' . AuthUser::getId(), __( 'Profile' ) ); ?>
+						</li>
+						<li>
+							<?php echo HTML::anchor( 'logout', __( 'Logout' ) ); ?>
+						</li>
+					</ul>
+				</li>
 			</ul>
 		</div>
-
-		<ul class="nav pull-right">
-			<li><?php echo HTML::anchor( URL::base(TRUE), __( 'View Site' ), array( 'target' => '_blank' ) ); ?></li>
-		</ul>
 	</div>
 </div>
 

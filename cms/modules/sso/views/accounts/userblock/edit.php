@@ -11,7 +11,7 @@ $socials = $user->socials->find_all();
 	<div class="row-fluid social-accounts-linked">
 	<?php foreach($user->socials->find_all() as $social): ?>
 		<?php $linked[] = $social->provider(); ?>
-		<div class="span2 align-center">
+		<div class="span2 text-center">
 			<?php echo HTML::image($social->avatar(), array('class' => 'img-polaroid')); ?><br />
 			<strong><?php echo $social->link(); ?></strong>
 			<br />
