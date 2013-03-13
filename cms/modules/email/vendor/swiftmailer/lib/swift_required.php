@@ -19,7 +19,7 @@ if (defined('SWIFT_REQUIRED_LOADED')) {
 define('SWIFT_REQUIRED_LOADED', true);
 
 //Load Swift utility class
-require dirname(__FILE__) . '/classes/Swift.php';
+require dirname(__FILE__) . '/classes/swift.php';
 
 if (!function_exists('_swiftmailer_init')) {
     function _swiftmailer_init()

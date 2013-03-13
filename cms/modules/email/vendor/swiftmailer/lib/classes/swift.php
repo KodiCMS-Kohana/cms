@@ -43,8 +43,9 @@ abstract class Swift
      */
     public static function autoload($class)
     {
+		$class = strtolower($class);
         //Don't interfere with other autoloaders
-        if (0 !== strpos($class, 'Swift_')) {
+        if (0 !== strpos($class, 'swift_')) {
             return;
         }
 
