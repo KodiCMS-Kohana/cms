@@ -45,7 +45,7 @@ foreach ($oauth as $provider => $data)
 }
 ?>
 
-<?php if(count($linked) < count($providers) AND $user->id == AuthUser::getId()): ?>
+<?php if($user->id == AuthUser::getId()): ?>
 <div class="widget-header spoiler-toggle" data-spoiler=".social-accouns-binder">
 	<h3><?php echo __('List of supported OAuth providers'); ?> <?php echo UI::icon( 'chevron-down spoiler-toggle-icon' ); ?></h3>
 </div>
