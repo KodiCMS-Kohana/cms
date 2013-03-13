@@ -71,8 +71,14 @@ class Controller_System_Backend extends Controller_System_Template
 				ADMIN_RESOURCES . 'js/backend.js'
 			);
 			
+			$lang_file = CMSPATH . FileSystem::normalize_path('media/js/i18n/'.I18n::lang().'.js');
+			if( file_exists($lang_file))
+			{
+				$this->scripts[] = ADMIN_RESOURCES . 'js/i18n/'.I18n::lang().'.js';
+			}
+			
 			$file = strtolower($this->request->controller());
-			if(Kohana::find_file('media', '/js/controller/' . $file, 'js'))
+			if( Kohana::find_file('media', FileSystem::normalize_path('/js/controller/' . $file, 'js')))
 			{
 				$this->scripts[] = ADMIN_RESOURCES . 'js/controller/' . $file . '.js';
 			}

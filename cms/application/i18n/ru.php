@@ -32,9 +32,9 @@ return array(
 	'or' => 'или',
 	
 	'unknown' => 'неизвестно',
-	
+	'Loading' => 'Загрузка',
 	'View Site' => 'Просмотреть сайт',
-	
+	'Are you sure?' => 'Вы уверены?',
 	'Something went wrong!' => 'Что то пошло не так',
 	
 	'Failed to validate array' => 'Ошибка',
@@ -86,6 +86,7 @@ return array(
 	'Pages' => 'Страницы',
 	'Published' => 'Опубликована',
 	'Remove part :part_name' => 'Удалить часть :part_name',
+	'Remove part :part_name?' => 'Удалить часть :part_name?',
 	'Reorder' => 'Сортировать',
 	'Reviewed' => 'Просмотрена',
 	'Tags' => 'Тэги',
