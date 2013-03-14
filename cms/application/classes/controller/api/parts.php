@@ -26,8 +26,11 @@ class Controller_API_Parts extends Controller_System_Api {
 			->setFromData($this->params(), array('id'))
 			->save();
 		
+		$part = $part->prepare_data();
+		$part['is_developer'] = (int) AuthUser::hasPermission( 'administrator, developer' );
+		
 		Cache::instance()->delete_tag('page_parts');
-		$this->response($part->prepare_data());
+		$this->response($part);
 	}
 	
 	public function rest_post()
@@ -37,9 +40,12 @@ class Controller_API_Parts extends Controller_System_Api {
 		$part
 			->setFromData($this->params())
 			->save();
+
+		$part = $part->prepare_data();
+		$part['is_developer'] = (int) AuthUser::hasPermission( 'administrator, developer' );
 		
 		Cache::instance()->delete_tag('page_parts');
-		$this->response($part->prepare_data());
+		$this->response($part);
 	}
 	
 	public function rest_delete()

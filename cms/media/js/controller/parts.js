@@ -145,7 +145,7 @@ $(function() {
 		clear: function(e) {
 			e.preventDefault();
 			
-			if (confirm(__('Remove part :name?', {":name": this.model.get('name')}))) this.model.clear();
+			if (confirm(__('Remove part :part_name?', {":part_name": this.model.get('name')}))) this.model.clear();
 		}
 	});
 	
