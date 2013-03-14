@@ -129,8 +129,35 @@ class Model_Page extends Record
 		$cache->delete_tag('page_tags');
 		return TRUE;
 	}
+	
+	public function get_status()
+	{
+		switch ($this->status_id)
+		{
+			case Model_Page::STATUS_DRAFT: 
+				return UI::label(__('Draft'), 'info');
+			case Model_Page::STATUS_REVIEWED: 
+				return UI::label(__('Reviewed'), 'info');
+			case Model_Page::STATUS_HIDDEN:   
+				return UI::label(__('Hidden'), 'default');
+			case Model_Page::STATUS_PUBLISHED:
+				if( strtotime($this->published_on) > time() )
+					return UI::label(__('Pending'), 'success');
+				else
+					return UI::label(__('Published'), 'success');
+		}
+		
+		return UI::label(__('None'), 'default');
+	}
+	
+	public function get_public_anchor()
+	{
+		return HTML::anchor($this->get_frontend_url(), UI::label(UI::icon( 'globe icon-white' ) . ' ' . __('View page')), array(
+			'class' => 'item-preview', 'target' => '_blank'
+		));
+	}
 
-    public function getUri()
+	public function get_uri()
     {
         $result = NULL;
 
@@ -138,7 +165,7 @@ class Model_Page extends Record
 		
         if( $parent != NULL && $parent->slug != '' )
 		{
-            $result = $parent->getUri().'/'.$this->slug;
+            $result = $parent->get_uri().'/'.$this->slug;
         }
         else
 		{
@@ -148,12 +175,14 @@ class Model_Page extends Record
         return $result;
     }
 	
-	public function getUrl()
+	public function get_frontend_url()
 	{
-		$uri = $this->getUri();
-		return URL::base(TRUE) 
-			. $uri 
-			. (!URL::check_suffix( $uri , '.') ? URL_SUFFIX : '');
+		return URL::frontend($this->get_uri(), TRUE);
+	}
+	
+	public function get_url()
+	{
+		return URL::backend( 'page/edit/'.$this->id );
 	}
 
 	public function get_tags()

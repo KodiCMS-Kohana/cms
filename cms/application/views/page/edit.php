@@ -60,7 +60,7 @@ if (!empty($pagetmp) AND !empty($parttmp) AND !empty($tagstmp))
 								':date' => Date::format($page->updated_on, 'D, j F Y')))); ?>
 							<?php endif; ?>
 
-							<?php echo HTML::anchor($page->getUrl(), UI::label(__('View page')), array(
+							<?php echo HTML::anchor($page->get_url(), UI::label(__('View page')), array(
 								'class' => 'item-preview', 'target' => '_blankn'
 							)); ?>
 							<?php endif; ?>

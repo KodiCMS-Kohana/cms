@@ -24,33 +24,22 @@
 					
 					<?php if( ! AuthUser::hasPermission( $child->get_permissions()) ): ?>
 					<?php echo UI::icon('lock'); ?>
-					<em title="/<?php echo $child->getUri(); ?>"><?php echo $child->title; ?></em>
+					<em title="/<?php echo $child->get_uri(); ?>"><?php echo $child->title; ?></em>
 					<?php else: ?>
 					<?php 
 						echo UI::icon('file');
-						echo HTML::anchor( 'page/edit/'.$child->id, $child->title );
+						echo HTML::anchor( $child->get_url(), $child->title );
 					?>
 					<?php endif; ?>				
 					<?php if( !empty($child->behavior_id) ): ?> <?php echo UI::label(Inflector::humanize($child->behavior_id), 'default'); ?><?php endif; ?>
-					<?php echo HTML::anchor($child->getUrl(), UI::label(__('View page')), array(
-						'class' => 'item-preview', 'target' => '_blank'
-					)); ?>
+					
+					<?php echo $child->get_public_anchor(); ?>
 				</div>
 				<div class="date span2">
 					<?php echo Date::format($child->published_on); ?>
 				</div>
 				<div class="status span2">
-					<?php switch ($child->status_id):
-						case Model_Page::STATUS_DRAFT:    echo UI::label(__('Draft'), 'info');       break;
-						case Model_Page::STATUS_REVIEWED: echo UI::label(__('Reviewed'), 'info'); break;
-						case Model_Page::STATUS_HIDDEN:   echo UI::label(__('Hidden'), 'default');     break;
-						case Model_Page::STATUS_PUBLISHED:
-							if( strtotime($child->published_on) > time() )
-								echo UI::label(__('Pending'), 'success');
-							else
-								echo UI::label(__('Published'), 'success');
-						break;
-					endswitch; ?>
+					<?php echo $child->get_status(); ?>
 				</div>
 				<div class="actions span1">
 					<?php echo UI::button(NULL, array(

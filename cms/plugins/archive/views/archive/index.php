@@ -27,7 +27,7 @@
 					<th class="title">
 						<?php if( ! AuthUser::hasPermission($item->get_permissions()) ): ?>
 						<img src="images/page-text-locked.png" title="<?php echo('You do not have permission to access the requested page!'); ?>" />
-						<em title="/<?php echo $item->getUri(); ?>"><?php echo $item->title; ?></em>
+						<em title="/<?php echo $item->get_uri(); ?>"><?php echo $item->title; ?></em>
 						<?php else: ?>
 						<?php echo UI::icon('file'); ?>
 						<?php echo HTML::anchor('page/edit/'.$item->id, $item->title); ?>

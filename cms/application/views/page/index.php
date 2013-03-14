@@ -46,11 +46,11 @@
 							<?php else: ?>
 							<?php 
 							echo UI::icon('home'); 
-							echo HTML::anchor( 'page/edit/1', $page->title );
+							echo HTML::anchor( $page->get_url(), $page->title );
 							?>
 							<?php endif; ?>
 
-							<?php echo HTML::anchor((URL::base(TRUE)), UI::label(__('View page')), array('class' => 'item-preview', 'target' => '_blank')); ?>
+							<?php echo $page->get_public_anchor(); ?>
 						</div>
 						<div class="actions offset4 span1">
 							<?php echo UI::button(NULL, array(
