@@ -22,7 +22,7 @@ abstract class Kohana_SSO_Driver_OAuth2_Vk extends SSO_Driver_OAuth2 {
 			'realname'      => $login,
 			'service_type'  => 'OAuth2.Vk',
 			'email'         => NULL,
-			'avatar'        => $user->photo,
+			'avatar'        => ! empty($user->photo_medium) ? $user->photo_medium : $user->photo,
 			'response'		=> $response
 		);
 	}

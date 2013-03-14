@@ -118,6 +118,7 @@ CREATE TABLE IF NOT EXISTS `TABLE_PREFIX_user_social` (
   `service_id` varchar(200) NOT NULL DEFAULT '',
   `service_name` varchar(200) NOT NULL DEFAULT '',
   `service_type` varchar(100) NOT NULL DEFAULT '',
+  `realname` varchar(200) NOT NULL DEFAULT '',
   `email` varchar(200) DEFAULT NULL,
   `avatar` varchar(200) DEFAULT NULL,
   `response` text NOT NULL,

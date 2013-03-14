@@ -94,6 +94,7 @@ abstract class Kohana_SSO_ORM implements Interface_SSO_ORM {
 				'service_id' => $data['service_id'],
 				'service_type' => $data['service_type'],
 				'service_name' => $data['service_name'],
+				'realname' => $data['realname'],
 				'email' => $data['email'],
 				'avatar' => Arr::get($data, 'avatar'),
 				'response' => Arr::get($data, 'response')
