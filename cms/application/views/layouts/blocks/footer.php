@@ -4,7 +4,7 @@
 			<div class="span8">
 				<p><?php echo __('Thank you for using :site', array(':site' => HTML::anchor(CMS_SITE, CMS_NAME))); ?></p>
 			</div>
-			<div class="span4 align-right">
+			<div class="span4 text-right">
 				<p>
 				&copy; 2012<?php echo (date('Y') > 2012) ? ' - ' . date('Y') : ''; ?> <?php echo HTML::anchor( CMS_SITE, CMS_NAME ) ?> v<?php echo CMS_VERSION; ?><br />
 				<?php echo __('Powered by :framework v:version :codename', array(
