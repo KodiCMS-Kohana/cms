@@ -66,7 +66,7 @@ class Plugins {
 			->from(Setting::TABLE_NAME)
 			->where( 'name', '=', 'plugins' )
 			->cache_key('plugins_list')
-			->cached()
+			->cached(Date::DAY)
 			->execute()
 			->get('value');
 	}
