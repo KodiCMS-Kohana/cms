@@ -1,6 +1,24 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct script access.' );
 
 class ORM extends Kohana_ORM {
+	
+	/**
+	 * Enables the query to be cached for a specified amount of time.
+	 *
+	 * @param   integer  $lifetime  number of seconds to cache
+	 * @return  $this
+	 * @uses    Kohana::$cache_life
+	 */
+	public function cache_tags( array $tags )
+	{
+		// Add pending database call which is executed after query type is determined
+		$this->_db_pending[] = array(
+			'name' => 'cache_tags',
+			'args' => array( $tags ),
+		);
+
+		return $this;
+	}
 
 	/**
 	 * 
