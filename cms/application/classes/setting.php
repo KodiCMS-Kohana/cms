@@ -37,7 +37,7 @@ class Setting
 			self::$settings = DB::select()
 				->from(self::TABLE_NAME)
 				->cache_key(self::TABLE_NAME)
-				->cached()
+				->cached(Date::DAY)
 				->execute()
 				->as_array('name', 'value');
 
