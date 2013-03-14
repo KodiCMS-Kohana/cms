@@ -78,7 +78,7 @@ class Controller_System_Backend extends Controller_System_Template
 			}
 			
 			$file = strtolower($this->request->controller());
-			if( Kohana::find_file('media', FileSystem::normalize_path('/js/controller/' . $file, 'js')))
+			if( Kohana::find_file('media', FileSystem::normalize_path('/js/controller/' . $file), 'js'))
 			{
 				$this->scripts[] = ADMIN_RESOURCES . 'js/controller/' . $file . '.js';
 			}
