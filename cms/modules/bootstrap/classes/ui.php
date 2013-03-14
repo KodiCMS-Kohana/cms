@@ -102,4 +102,11 @@ class UI {
 	
 		return implode('', $actions);
 	}
+	
+	public static function counter( $num = 0 )
+	{
+		if($num == 0) return '';
+
+		return '<span'.HTML::attributes(array('class' => 'counter')).'>' . (int)$num . '</span>';
+	}
 }
