@@ -37,8 +37,7 @@
 			</ul>
 
 			<ul class="nav pull-right">
-				<li><?php echo HTML::anchor( URL::base(TRUE), UI::icon( 'globe icon-white' ) . ' ' .  __( 'View Site' ), array( 'target' => '_blank' ) ); ?></li>
-				<li class="divider-vertical"></li>
+				
 				<li class="dropdown">
 					<a data-toggle="dropdown" class="dropdown-toggle" href="#">
 						<?php echo UI::icon( 'user icon-white' ) . ' ' .  AuthUser::getRecord()->username; ?> <b class="caret"></b>
@@ -52,6 +51,9 @@
 						</li>
 					</ul>
 				</li>
+				<li class="divider-vertical"></li>
+				<li><?php echo HTML::anchor( URL::base(TRUE), UI::label(UI::icon( 'globe icon-white' ) . ' ' .  __( 'View Site' )), array( 'target' => '_blank' ) ); ?></li>
+				
 			</ul>
 		</div>
 	</div>
