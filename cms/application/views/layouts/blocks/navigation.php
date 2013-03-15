@@ -13,12 +13,15 @@
 							<?php $dropdown = UI_Navigation_Dropdown::factory(); 
 								foreach ( $nav->get_pages() as $item )
 								{
+									if( ! AuthUser::hasPermission($item->permissions) ) continue;
+
 									if($item->divider === TRUE)
 									{
 										$dropdown->add_item(NULL, FALSE, array(
 											'class' => UI_Navigation_Dropdown::DIVIDER
 										));
 									}
+									
 									$dropdown->add_item(HTML::anchor( $item->url(), $item->name() ) . UI::counter($item->counter), $item->is_active());
 								}
 					
@@ -55,6 +58,8 @@
 	<div class="navbar-inner">
 		<ul class="nav">
 			<?php foreach ( $nav->get_pages() as $item ): ?>
+			<?php if( ! AuthUser::hasPermission($item->permissions) ) continue; ?>
+			
 			<?php if($item->divider === TRUE): ?>
 			<?php echo UI_Navigation::divider(); ?>
 			<?php endif; ?>
