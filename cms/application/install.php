@@ -25,6 +25,7 @@ Kohana::modules( array(
 	'auth'			=> MODPATH . 'auth',		// Basic authentication
 	'orm'			=> MODPATH . 'orm',			// Object Relationship Mapping,
 	'minion'		=> MODPATH . 'minion',		// Minion
+	'filesystem'	=> MODPATH . 'filesystem',
 	'bootstrap'		=> MODPATH . 'bootstrap',
 	'breadcrumbs'	=> MODPATH . 'breadcrumbs',
 	'installer'		=> MODPATH . 'installer'
