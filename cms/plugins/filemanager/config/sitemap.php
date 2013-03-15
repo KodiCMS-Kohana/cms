@@ -5,7 +5,8 @@ return array(
 		array(
 			'name' => __('File manager'), 
 			'url' => URL::backend('filemanager'),
-			'priority' => 999
+			'priority' => 999,
+			'permissions' => array('administrator', 'developer'),
 		)
 	)
 );
