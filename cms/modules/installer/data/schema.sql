@@ -121,7 +121,7 @@ CREATE TABLE IF NOT EXISTS `TABLE_PREFIX_user_social` (
   `realname` varchar(200) NOT NULL DEFAULT '',
   `email` varchar(200) DEFAULT NULL,
   `avatar` varchar(200) DEFAULT NULL,
-  `response` text NOT NULL,
+  `response` text,
   PRIMARY KEY (`id`),
   UNIQUE KEY `service_key` (`service_id`,`service_type`),
   KEY `user_id` (`user_id`)
@@ -144,7 +144,7 @@ CREATE TABLE IF NOT EXISTS `TABLE_PREFIX_user_reflinks` (
   `user_id` int(10) unsigned NOT NULL,
   `type` tinyint(4) NOT NULL DEFAULT '0',
   `code` varchar(255) NOT NULL,
-  `data` text NOT NULL DEFAULT '',
+  `data` text,
   `created` datetime NOT NULL,
   UNIQUE KEY `unique_reflink` (`user_id`,`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
