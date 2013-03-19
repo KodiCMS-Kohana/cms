@@ -23,7 +23,9 @@
 	<div class="control-group">
 		<div class="input-prepend">
 			<span class="add-on"><i class="icon-user"></i></span>
-			<input class="login-field" type="text" id="username" name="login[username]" value="">
+			<?php echo Form::input('login[username]', NULL, array(
+				'id' => 'username', 'class' => 'login-field'
+			)); ?>
 		</div>
 	</div>
 
@@ -32,15 +34,19 @@
 			<span class="add-on">
 				<i class="icon-lock"></i>
 			</span>
-			<input class="login-field" type="password" id="password" name="login[password]" value="">
+			<?php echo Form::password('login[password]', NULL, array(
+				'id' => 'password', 'class' => 'login-field'
+			)); ?>
+			
 			<?php echo HTML::anchor(ADMIN_DIR_NAME . '/login/forgot', __('Forgot password?'), array('class' => 'btn btn-large btn-link')); ?>
 		</div>
 	</div>
 
 	<div class="control-group">
 		<label class="checkbox">
-			<input name="login[remember]" type="checkbox" value="checked" tabindex="4">
-			<?php echo __('Remember me for :num days', array(':num' => Kohana::$config->load('auth.lifetime') / 60 / 60 / 24 )); ?>
+			<?php echo Form::checkbox('login[remember]', 'checked', TRUE); ?>
+			<?php echo __('Remember me for :num days', array(
+				':num' => Kohana::$config->load('auth.lifetime') / Date::DAY )); ?>
 		</label>
 	</div>
 
@@ -48,7 +54,7 @@
 	
 	<?php Observer::notify('admin_login_form'); ?>
 
-	<?php echo Form::button('sign-in', __('Login') . UI::icon('chevron-right'), array(
+	<?php echo Form::button('sign-in', __('Login') . ' ' . UI::icon('chevron-right'), array(
 		'class' => 'btn btn-large'
 	)); ?>
 	

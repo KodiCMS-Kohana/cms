@@ -165,7 +165,9 @@ return array(
 	'Needs login' => 'Необходим вход',
 	'No user found!' => 'Пользователь не найден!',
 	'Use a valid e-mail address.' 
-		=> 'Используйте правильный адрес эл. почты',
+		=> 'Используйте правильный адрес эл. почты.',
+	'Enter your e-mail, which you want to forgot password.' => 
+		'Укажите email адрес, для которого вы хотите восстановить пароль.',
 	'Send password' => 'Отправить пароль',
 
     
