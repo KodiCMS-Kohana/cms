@@ -13,7 +13,9 @@ return array(
 	'Direction' => 'Расположение',
 	'Hidden' => 'Скрыта',
 	'Information' => 'Информация',
-	
+	'Actions' => 'Действия',
+	'Search' => 'Поиск',
+	'Home' => 'Главная',
 	'Login' => 'Вход',
 	'Logout' => 'Выйти',
 	'Not required' => 'Не обязательно',
@@ -30,7 +32,6 @@ return array(
 	'none' => 'остутствует',
 	'optional' => 'не обязательно',
 	'or' => 'или',
-	
 	'unknown' => 'неизвестно',
 	'Loading' => 'Загрузка',
 	'View Site' => 'Просмотреть сайт',
@@ -39,6 +40,8 @@ return array(
 	
 	'Failed to validate array' => 'Ошибка',
 	'KodiCMS succefully installed!' => 'KodiCMS успешно установлена',
+	
+	'Thank you for using :site' => 'Спасибо, за использование :site',
 	
 	/*********************** Layouts *********************************/
 	'Add layout' => 'Добавить шаблон',
@@ -53,7 +56,7 @@ return array(
 	'Layout not found!' => 'Шаблон не найден!',
 	'Layout name' => 'Название шаблона',
 	'Layouts' => 'Шаблоны',
-
+	'Modified' => 'Изменен',
 	
 	
 	/*********************** Page *********************************/
@@ -74,6 +77,8 @@ return array(
 	'Draft' => 'Черновик',
 	'Latest' => 'Последнее',
 	'Published date' => 'Дата публикации',
+	'Tags (separator: ":sep")' => 'Теги (разделитель ":sep")',
+	'Breadcrumb' => 'Хлебные крошки',
 	'Page' => 'Страница',
 	'Page has been deleted!' => 'Страница :title удалена!',
 	'Page has been saved!' => 'Страница :title сохранена!',
@@ -98,6 +103,7 @@ return array(
 		=> 'У вас нет прав для доступа к запрашиваемой страние!',
 	'Double click to edit part name.' 
 		=> 'Для редактирования заголовка кликнете по нему два раза',
+
 
 	/*********************** Users *********************************/
 	'User' => 'Пользователь',
@@ -129,6 +135,7 @@ return array(
 		=> 'Роли определяют права пользователей, позволяют включать/выключать разделы панели управления.',
 	'Subscribe to email notifications'
 		=> 'Получать уведомления по почте',
+	'Last login' => 'Последний вход',
 
 	/*********************** Settings *******************/
 	'General setting' => 'Главные настройки',
@@ -145,6 +152,8 @@ return array(
 	'Yes' => 'Да',
 	'No' => 'Нет',
 	'Find similar pages' => 'Похожая страница',
+	'This text will be present at backend and can be used in frontend pages.' 
+		=> 'Этот текс будет использоваться в Backend, а также использоваться во Frontend',
 	'If requested page url is incorrect, then find similar page.' 
 		=> 'Если запрашиваемая страница не найдена, то показать наиболее похожую страницу',
 	'This allows you to specify which section you will see by default after login.' 
@@ -154,6 +163,7 @@ return array(
 	'Default page status' => 'Статус страницы по-умолчанию',
 	'Settings has been saved!' => 'Настройки сохранены!',
 	'Site options' => 'Опции сайта',
+	'For detailed profiling use Kohana::$enviroment = Kohana::DEVELOPMENT or SetEnv KOHANA_ENV DEVELOPMENT in .htaccess' => 'Для детального профилирования используйте Kohana::$enviroment = Kohana::DEVELOPMENT или SetEnv KOHANA_ENV DEVELOPMENT в файле .htaccess',
 	
 	/*********************** Autorization *******************/
 	'Username' => 'Логин',

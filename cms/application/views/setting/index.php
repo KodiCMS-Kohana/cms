@@ -18,7 +18,7 @@
 					) );
 					?>
 
-					<p class="help-block"><?php echo __( 'This text will be bresent at backend and can be used in themes.' ); ?></p>
+					<p class="help-block"><?php echo __( 'This text will be present at backend and can be used in frontend pages.' ); ?></p>
 				</div>
 			</div>
 			
@@ -79,6 +79,8 @@
 						'id' => 'settingProfiling'
 					) );
 					?>
+					
+					<p class="help-block"><?php echo __('For detailed profiling use Kohana::$enviroment = Kohana::DEVELOPMENT or SetEnv KOHANA_ENV DEVELOPMENT in .htaccess'); ?></p>
 				</div>
 			</div>
 
