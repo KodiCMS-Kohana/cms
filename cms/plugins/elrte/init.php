@@ -31,7 +31,10 @@ $plugin = Plugins_Item::factory( array(
 if( $plugin->enabled() )
 {
 	Filter::add('elrte');
-	
+}
+
+if ( ! Route::cache())
+{
 	Route::set( 'elfinder', ADMIN_DIR_NAME.'/elfinder(/<path>)', array(
 		'path' => '.*'
 	) )

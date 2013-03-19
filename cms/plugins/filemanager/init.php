@@ -7,25 +7,21 @@ $plugin = Plugins_Item::factory( array(
 	'javascripts' => 'filemanager.js'
 ) )->register();
 
-if($plugin->enabled())
-{	
-	if(IS_BACKEND)
-	{
-		Route::set( 'view_file', ADMIN_DIR_NAME.'/filemanager/<action>(/<path>)', array(
-			'action' => '(view|delete|upload|chmod|folder)',
-			'path' => '.*'
-		) )
-			->defaults( array(
-				'controller' => 'filemanager',
-				'action' => 'view'
-			) );
+if ( ! Route::cache())
+{
+	Route::set( 'view_file', ADMIN_DIR_NAME.'/filemanager/<action>(/<path>)', array(
+		'action' => '(view|delete|upload|chmod|folder)',
+		'path' => '.*'
+	) )
+		->defaults( array(
+			'controller' => 'filemanager',
+			'action' => 'view'
+		) );
 
-		Route::set( 'filemanager', ADMIN_DIR_NAME.'/filemanager(/<path>)', array(
-			'path' => '.*'
-		) )
-			->defaults( array(
-				'controller' => 'filemanager'
-			) );
-	}
+	Route::set( 'filemanager', ADMIN_DIR_NAME.'/filemanager(/<path>)', array(
+		'path' => '.*'
+	) )
+		->defaults( array(
+			'controller' => 'filemanager'
+		) );
 }
-

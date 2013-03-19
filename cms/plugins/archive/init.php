@@ -11,16 +11,6 @@ if($plugin->enabled())
 {
 	if(IS_BACKEND)
 	{
-		Route::set( 'archive', ADMIN_DIR_NAME . '/archive/<id>' , array(
-			'id' => '[0-9]+',
-			'controller' => 'archive',
-			'action' => 'index',
-		) )
-			->defaults( array(
-				'controller' => 'archive',
-				'action' => 'index',
-			) );
-		
 		$behaviors = array();
 		foreach (Kohana::$config->load('behaviors') as $key => $behavior)
 		{
@@ -60,4 +50,17 @@ if($plugin->enabled())
 			Cache::instance()->delete('Database::cache(archive_section)');
 		}
 	}
+}
+
+if ( ! Route::cache())
+{
+	Route::set( 'archive', ADMIN_DIR_NAME . '/archive/<id>' , array(
+		'id' => '[0-9]+',
+		'controller' => 'archive',
+		'action' => 'index',
+	) )
+		->defaults( array(
+			'controller' => 'archive',
+			'action' => 'index',
+		) );
 }

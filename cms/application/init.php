@@ -61,59 +61,65 @@ Kohana::modules( array(
 // Init settings
 Setting::init();
 
-Route::set( 'admin_media', 'cms/media/<file>', array(
-	'file' => '.*'
-))
-	->defaults( array(
-		'directory' => 'system',
-		'controller' => 'media',
-		'action' => 'media',
+if ( ! Route::cache())
+{
+	Route::set( 'admin_media', 'cms/media/<file>', array(
+		'file' => '.*'
+	))
+		->defaults( array(
+			'directory' => 'system',
+			'controller' => 'media',
+			'action' => 'media',
+		) );
+
+	Route::set( 'user', ADMIN_DIR_NAME.'/<action>(?next=<next_url>)', array(
+		'action' => '(login|logout|forgot)',
+	) )
+		->defaults( array(
+			'controller' => 'login',
+		) );
+
+	Route::set( 'templates', ADMIN_DIR_NAME.'/(<controller>(/<action>(/<id>)))', array(
+		'controller' => '(layout|snippet)',
+		'id' => '.*'
+	) )
+		->defaults( array(
+			'controller' => 'index',
+			'action' => 'index',
+		) );
+
+	Route::set( 'downloader', '('.ADMIN_DIR_NAME.'/)download/<path>', array(
+		'path' => '.*'
+	) )
+		->defaults( array(
+			'directory' => 'system',
+			'controller' => 'download',
+			'action' => 'index',
+		) );
+
+	Route::set( 'admin', ADMIN_DIR_NAME.'(/<controller>(/<action>(/<id>)))')
+		->defaults( array(
+			'controller' => Setting::get('default_tab'),
+			'action' => 'index',
+		) );
+
+	Route::set( 'system', '<directory>-<controller>-<action>(/<id>)', array(
+		'directory' => '(ajax|action|form)',
+		'controller' => '[A-Za-z\_]+',
+		'action' => '[A-Za-z\_]+',
+		'id' => '.+',
 	) );
 
-Route::set( 'user', ADMIN_DIR_NAME.'/<action>(?next=<next_url>)', array(
-	'action' => '(login|logout|forgot)',
-) )
-	->defaults( array(
-		'controller' => 'login',
-	) );
-
-Route::set( 'templates', ADMIN_DIR_NAME.'/(<controller>(/<action>(/<id>)))', array(
-	'controller' => '(layout|snippet)',
-	'id' => '.*'
-) )
-	->defaults( array(
-		'controller' => 'index',
-		'action' => 'index',
-	) );
-
-Route::set( 'downloader', '('.ADMIN_DIR_NAME.'/)download/<path>', array(
-	'path' => '.*'
-) )
-	->defaults( array(
-		'directory' => 'system',
-		'controller' => 'download',
-		'action' => 'index',
-	) );
-
-Route::set( 'admin', ADMIN_DIR_NAME.'(/<controller>(/<action>(/<id>)))')
-	->defaults( array(
-		'controller' => Setting::get('default_tab'),
-		'action' => 'index',
-	) );
-
-Route::set( 'system', '<directory>-<controller>-<action>(/<id>)', array(
-	'directory' => '(ajax|action|form)',
-	'controller' => '[A-Za-z\_]+',
-	'action' => '[A-Za-z\_]+',
-	'id' => '.+',
-) );
-
-Route::set( 'default', '(<page>)(<suffix>)' , array(
-	'page' => '.*',
-	'suffix' => URL_SUFFIX
-) )
-	->defaults( array(
-		'controller' => 'front',
-		'action' => 'index',
+	Route::set( 'default', '(<page>)(<suffix>)' , array(
+		'page' => '.*',
 		'suffix' => URL_SUFFIX
-	) );
+	) )
+		->defaults( array(
+			'controller' => 'front',
+			'action' => 'index',
+			'suffix' => URL_SUFFIX
+		) );
+	
+	// Cache the routes in production
+	Route::cache(Kohana::$environment === Kohana::PRODUCTION);
+}

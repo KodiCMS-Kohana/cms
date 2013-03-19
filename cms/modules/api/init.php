@@ -1,9 +1,12 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-Route::set('api', 'api/<controller>(.<action>)(/<id>)')
-	->defaults(array(
-		'directory' => 'api'
-	));
+if ( ! Route::cache())
+{
+	Route::set('api', 'api/<controller>(.<action>)(/<id>)')
+		->defaults(array(
+			'directory' => 'api'
+		));
+}
 
 if(IS_BACKEND)
 {

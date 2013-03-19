@@ -11,19 +11,20 @@ define('PLUGPATH', realpath($plugins).DIRECTORY_SEPARATOR);
 // Init plugins
 Plugins::init();
 
-Route::set( 'plugins', ADMIN_DIR_NAME.'/plugins(/<action>(/<id>))', array(
-	'id' => '.*'
-) )
-	->defaults( array(
-		'controller' => 'plugins',
-		'action' => 'index',
-	) );
+if ( ! Route::cache())
+{
+	Route::set( 'plugins', ADMIN_DIR_NAME.'/plugins(/<action>(/<id>))', array(
+		'id' => '.*'
+	) )
+		->defaults( array(
+			'controller' => 'plugins',
+			'action' => 'index',
+		) );
+}
 
 //Вставка JS и Стилей в шаблон
-Observer::observe( 'layout_backend_head',  'plugins_header_meta');
+Observer::observe( 'layout_backend_head',  function() {
 
-function plugins_header_meta()
-{
 	foreach ( Plugins::$javascripts as $javascript )
 	{
 		echo HTML::script( $javascript ) . "\n";
@@ -32,4 +33,5 @@ function plugins_header_meta()
 	{
 		echo HTML::style( $stylesheet ) . "\n";
 	}
-}
+
+});
