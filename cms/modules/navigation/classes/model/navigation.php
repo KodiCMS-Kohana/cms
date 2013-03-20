@@ -17,6 +17,10 @@ class Model_Navigation {
 	 */
 	public static $current = NULL;
 	
+	/**
+	 * 
+	 * @param array $sitemap
+	 */
 	public static function create(array $sitemap)
 	{
 		foreach ($sitemap as $section => $pages)
@@ -66,11 +70,11 @@ class Model_Navigation {
 	{
 		self::get_section( $section )
 			->add_page(new Model_Navigation_Page(array(
-			'name' => $name,
-			'url' => URL::site($uri),
-			'counter' => (int) $counter,
-			'permissions' => $permissions
-		)), $priority);
+				'name' => $name,
+				'url' => URL::site($uri),
+				'counter' => (int) $counter,
+				'permissions' => $permissions
+			)), $priority);
 	}
 	
 	/**
@@ -85,6 +89,8 @@ class Model_Navigation {
 		{
 			$uri = Request::current()->uri();
 		}
+		
+		if($uri == ADMIN_DIR_NAME) $uri .= '/' . Setting::get('default_tab');
 		
 		$uri = strtolower($uri);
 
@@ -111,6 +117,11 @@ class Model_Navigation {
 		return self::$_sections;
 	}
 	
+	/**
+	 * 
+	 * @param string $uri
+	 * @param array $data
+	 */
 	public static function update($uri, array $data)
 	{
 		$page = self::find_page_by_uri($uri);
@@ -124,6 +135,11 @@ class Model_Navigation {
 		}
 	}
 
+	/**
+	 * 
+	 * @param string $uri
+	 * @return NULL|Model_Navigation_Page
+	 */
 	public static function & find_page_by_uri($uri)
 	{
 		$_page = NULL;
