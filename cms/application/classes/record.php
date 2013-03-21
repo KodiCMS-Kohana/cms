@@ -111,6 +111,11 @@ class Record
 	{
 		unset($this->_object_data[$field]);
 	}
+	
+	public function as_array()
+	{
+		return $this->_object_data;
+	}
 
 	/**
      * Generates an insert or update string from the supplied data and executes it
