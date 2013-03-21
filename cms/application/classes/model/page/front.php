@@ -760,24 +760,6 @@ class Model_Page_Front {
 
 		return NULL;
 	}
-	
-	/**
-	 * 
-	 * @deprecated
-	 */
-	public function snippet($snippet_name, $vars = NULL, $cache_lifetime = 3600)
-	{
-		Snippet::render($snippet_name, $vars, $cache_lifetime);
-	}
-
-	/**
-	 * 
-	 * @deprecated
-	 */
-	public function includeSnippet($snippet_name, $vars = NULL, $cache_lifetime = NULL)
-	{
-		return $this->snippet($snippet_name, $vars, $cache_lifetime);
-	}
 
 	/**
 	 * 
