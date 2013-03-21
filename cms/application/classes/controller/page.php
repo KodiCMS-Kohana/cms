@@ -321,7 +321,7 @@ class Controller_Page extends Controller_System_Backend {
 		{
 			$link = strtr($behavior['link'], array(':id' => $parent_id));
 			$childrens[] = __(':icon :link', array(
-				':icon' => UI::icon('folder-open'),
+				':icon' => UI::icon('book'),
 				':link' => HTML::anchor( $link, __(ucfirst($page->behavior_id)))
 			));
 		}
@@ -447,7 +447,5 @@ class Controller_Page extends Controller_System_Backend {
 			'page_part' => $page_part
 		) );
 	}
-
 }
-
 // end PageController class

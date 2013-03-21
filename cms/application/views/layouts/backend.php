@@ -12,16 +12,9 @@
 		<?php echo $messages; ?>
 		</script>
 
-		<?php
-		foreach ( $styles as $style )
-		{
-			echo HTML::style( $style ) . "\n\t\t";
-		}
-		
-		foreach ( $scripts as $script )
-		{
-			echo HTML::script( $script ) . "\n\t\t";
-		}
+		<?php 
+		foreach ( $styles as $style ) echo HTML::style( $style ) . "\n\t\t";	
+		foreach ( $scripts as $script ) echo HTML::script( $script ) . "\n\t\t";
 		?>
 
 		<?php Observer::notify( 'layout_backend_head' ); ?>
@@ -35,9 +28,6 @@
 			
 			<div class="container-fluid">
 				<div id="content" >
-				<?php if(!empty($title)): ?>
-				<?php //echo UI::page_header($title); ?>
-				<?php endif; ?>
 				<?php echo $content; ?>
 				</div> <!--/#content-->
 			</div>

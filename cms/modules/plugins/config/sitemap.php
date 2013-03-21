@@ -7,7 +7,8 @@ return array(
 			'name' => __('Plugins'), 
 			'url' => URL::backend('plugins'),
 			'priority' => 999,
-			'divider' => TRUE
+			'divider' => TRUE,
+			'icon' => 'cogs'
 		)
 	)
 

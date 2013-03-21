@@ -157,7 +157,7 @@ return array(
 	'If requested page url is incorrect, then find similar page.' 
 		=> 'Если запрашиваемая страница не найдена, то показать наиболее похожую страницу',
 	'This allows you to specify which section you will see by default after login.' 
-		=> 'Это позволит срзау перейти к нужномц разделу после входа.',
+		=> 'Это позволит сразу перейти к нужному разделу после входа.',
 	'Default backend section' => 'Раздел по-умолчанию панели управления',
 	'Default filter' => 'Фильтр по-умолчанию',
 	'Default page status' => 'Статус страницы по-умолчанию',

@@ -6,7 +6,8 @@ return array(
 			'name' => __('Snippets'), 
 			'url' => URL::backend('snippet'),
 			'permissions' => array('administrator', 'developer'),
-			'priority' => 200
+			'priority' => 200,
+			'icon' => 'food'
 		)
 	)
 );

@@ -24,7 +24,7 @@
 					
 					<?php if( ! AuthUser::hasPermission( $child->get_permissions()) ): ?>
 					<?php echo UI::icon('lock'); ?>
-					<em title="/<?php echo $child->get_uri(); ?>"><?php echo $child->title; ?></em>
+					<?php echo $child->title; ?>
 					<?php else: ?>
 					<?php 
 						echo UI::icon('file');

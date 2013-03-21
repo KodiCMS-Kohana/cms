@@ -6,12 +6,14 @@ return array(
 		array(
 			'name' => __('Settings'), 
 			'url' => URL::backend('setting'),
-			'priority' => 100
+			'priority' => 100,
+			'icon' => 'cog',
 		),
 		array(
 			'name' => __('Users'), 
 			'url' => URL::backend('user'),
-			'priority' => 200
+			'priority' => 200,
+			'icon' => 'user'
 		)
 	),
 	
@@ -20,7 +22,8 @@ return array(
 			'name' => __('Layouts'), 
 			'url' => URL::backend('layout'),
 			'permissions' => array('administrator','developer'),
-			'priority' => 100
+			'priority' => 100,
+			'icon' => 'desktop'
 		),
 	),
 	
@@ -29,7 +32,8 @@ return array(
 			'name' => __('Pages'), 
 			'url' => URL::backend('page'),
 			'permissions' => array('administrator','developer','editor'),
-			'priority' => 100
+			'priority' => 100,
+			'icon' => 'sitemap'
 		)
 	)
 

@@ -55,7 +55,7 @@ foreach ($oauth as $provider => $data)
 	<div class="btn-group">
 		<?php foreach ($providers as $provider => $data): ?>
 		<?php if(in_array($provider, $linked)) continue; ?>
-		<?php echo UI::button(Arr::path($params, $provider.'.name'), array(
+		<?php echo UI::button(UI::icon($provider.'-sign') . ' ' . Arr::path($params, $provider.'.name'), array(
 			'class' => 'btn btn-social-'.$provider,
 			'href' => Route::url('accounts-auth', array(
 				'directory' => 'oauth', 

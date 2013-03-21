@@ -5,7 +5,7 @@
 <div class="widget-content spoiler social-accounts-settings">
 	<?php foreach ($oauth as $provider => $data): ?>
 	
-	<h5><?php echo Arr::path($params, $provider.'.name'); ?> <?php if(Arr::path($params, $provider.'.create_link')): ?>(<?php echo HTML::anchor(Arr::path($params, $provider.'.create_link'), NULL, array(
+	<h5><?php echo UI::icon($provider.'-sign'); ?> <?php echo Arr::path($params, $provider.'.name'); ?> <?php if(Arr::path($params, $provider.'.create_link')): ?>(<?php echo HTML::anchor(Arr::path($params, $provider.'.create_link'), NULL, array(
 		'target' => 'blank'
 	)); ?>)<?php endif; ?></h5>
 

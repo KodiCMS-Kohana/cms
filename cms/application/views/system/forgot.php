@@ -1,6 +1,6 @@
 <div id="login-form" class="hero-unit raised outline">
 	<div class="outline_inner">
-		<h1><?php echo __( 'Forgot password' ); ?></h1>
+		<h1><?php echo __( 'Forgot password?' ); ?></h1>
 		<p class="muted"><?php echo __('Enter your e-mail, which you want to forgot password.'); ?></p>
 		<hr />
 		<?php echo Form::open( Route::get( 'user' )->uri( array( 'action' => 'forgot' ) ), array( 'method' => 'post' ) ); ?>

@@ -5,7 +5,8 @@ return array(
 		array(
 			'name' => __('Sheduler'), 
 			'url' => URL::backend('sheduler'),
-			'priority' => 900
+			'priority' => 900,
+			'icon' => 'calendar'
 		)
 	)
 );

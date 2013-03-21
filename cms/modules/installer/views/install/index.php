@@ -1,7 +1,7 @@
 <h1><?php echo __( 'Installation' ); ?></h1>
 
 <?php echo Form::open('install/go', array(
-	'class' => 'form-horizontal outline'
+	'class' => array(Bootstrap_Form::HORIZONTAL, 'outline')
 )); ?>
 	<div class="widget outline_inner">
 		<div class="widget-header"><h3><?php echo __( 'Database information' ); ?></h3></div>

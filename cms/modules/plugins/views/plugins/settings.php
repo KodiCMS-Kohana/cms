@@ -1,5 +1,5 @@
 <div id="settings">
-	<?php echo Form::open(NULL, array('class' => 'form-horizontal')); ?>
+	<?php echo Form::open(NULL, array('class' => Bootstrap_Form::HORIZONTAL)); ?>
 	
 	<?php echo Form::hidden('token', Security::token()); ?>
 	<div class="widget">

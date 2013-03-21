@@ -44,6 +44,7 @@ var cms = {
 	models: {},
 	views: {},
 	collections: {},
+	routes: {},
 	event: _.extend({}, Backbone.Events),
 	
 	// Error
@@ -94,7 +95,6 @@ var cms = {
 			.replace(/ /g, '-')
 			.replace(/\-+/g, '-')
 			.replace(/^-/, '');
-		//.replace(/-$/,           '' ); // removed becouse this function used in #pageEditMetaSlugField
 	},
 	
 	// Loader
@@ -253,8 +253,6 @@ cms.init = {
 	},
 	run:function () {
 		var body_id = $('body:first').attr('id').toString();
-		
-		
 
 		for (var i = 0; i < cms.init.callbacks.length; i++) {
 			var rout_to_id = 'body_' + cms.init.callbacks[i][0];

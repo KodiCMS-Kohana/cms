@@ -3,19 +3,13 @@
 /**
  * @package    Kodi/Navigation
  */
-class Model_Navigation_Section extends Model_Navigation_Abstract implements Countable, Iterator, SeekableIterator, ArrayAccess {
+class Model_Navigation_Section extends Model_Navigation_Abstract implements Countable, Iterator {
 	
 	/**
 	 *
 	 * @var array
 	 */
 	protected $_pages = array();
-	
-	/**
-	 *
-	 * @var integer
-	 */
-	protected $_total_pages = 0;
 	
 	/**
 	 *
@@ -120,7 +114,6 @@ class Model_Navigation_Section extends Model_Navigation_Abstract implements Coun
 	public function sort_pages()
 	{
 		ksort($this->_pages);
-		
 		return $this;
 	}
 	
@@ -133,63 +126,7 @@ class Model_Navigation_Section extends Model_Navigation_Abstract implements Coun
 	 */
 	public function count()
 	{
-		return $this->_total_pages;
-	}
-
-	/**
-	 * Implements [ArrayAccess::offsetExists], determines if row exists.
-	 *
-	 *     if (isset($result[10]))
-	 *     {
-	 *         // Row 10 exists
-	 *     }
-	 *
-	 * @return  boolean
-	 */
-	public function offsetExists($offset)
-	{
-		return ($offset >= 0 AND $offset < $this->_total_pages);
-	}
-
-	/**
-	 * Implements [ArrayAccess::offsetGet], gets a given row.
-	 *
-	 *     $row = $result[10];
-	 *
-	 * @return  mixed
-	 */
-	public function offsetGet($offset)
-	{
-		if ( ! $this->seek($offset))
-			return NULL;
-
-		return $this->current();
-	}
-
-	/**
-	 * Implements [ArrayAccess::offsetSet], throws an error.
-	 *
-	 * [!!] You cannot modify a database result.
-	 *
-	 * @return  void
-	 * @throws  Kohana_Exception
-	 */
-	final public function offsetSet($offset, $value)
-	{
-		throw new Kohana_Exception('Breadcrumbs are read-only');
-	}
-
-	/**
-	 * Implements [ArrayAccess::offsetUnset], throws an error.
-	 *
-	 * [!!] You cannot modify a database result.
-	 *
-	 * @return  void
-	 * @throws  Kohana_Exception
-	 */
-	final public function offsetUnset($offset)
-	{
-		throw new Kohana_Exception('Breadcrumbs are read-only');
+		return count($this->_pages);
 	}
 
 	/**
@@ -201,7 +138,7 @@ class Model_Navigation_Section extends Model_Navigation_Abstract implements Coun
 	 */
 	public function key()
 	{
-		return $this->_current_key;
+		return key($this->_pages);
 	}
 	
 	/**
@@ -213,25 +150,7 @@ class Model_Navigation_Section extends Model_Navigation_Abstract implements Coun
 	 */
 	public function current()
 	{
-		return $this->_items[$this->_current_key];
-	}
-	
-	/**
-	 * Implements [SeekableIterator::seek], changes the key to a position
-	 * @param int $position The position to seek to.
-	 * @return bool
-	 */
-	public function seek($position)
-	{
-		if($this->offsetExists($position))
-		{
-			$this->_current_key = $position;
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return current($this->_pages);
 	}
 
 	/**
@@ -243,8 +162,7 @@ class Model_Navigation_Section extends Model_Navigation_Abstract implements Coun
 	 */
 	public function next()
 	{
-		++$this->_current_key;
-		return $this;
+		next($this->_pages);
 	}
 
 	/**
@@ -257,7 +175,6 @@ class Model_Navigation_Section extends Model_Navigation_Abstract implements Coun
 	public function prev()
 	{
 		--$this->_current_key;
-		return $this;
 	}
 
 	/**
@@ -269,8 +186,7 @@ class Model_Navigation_Section extends Model_Navigation_Abstract implements Coun
 	 */
 	public function rewind()
 	{
-		$this->_current_key = 0;
-		return $this;
+		reset($this->_pages);
 	}
 
 	/**
@@ -282,6 +198,7 @@ class Model_Navigation_Section extends Model_Navigation_Abstract implements Coun
 	 */
 	public function valid()
 	{
-		return $this->offsetExists($this->_current_key);
+		$key = key($this->_pages);
+		return ($key !== NULL AND $key !== FALSE);
 	}
 }

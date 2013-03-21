@@ -1,5 +1,5 @@
 <?php echo Form::open(($action == 'edit')  ? 'snippet/edit/'. $snippet->name  : 'snippet/add/' . $snippet->name, array(
-	'id' => 'snippetEditForm', 'class' => 'form-horizontal')); ?>
+	'id' => 'snippetEditForm', 'class' => Bootstrap_Form::HORIZONTAL)); ?>
 
 	<?php echo Form::hidden('token', Security::token()); ?>
 	<?php echo Form::hidden('snippet_name', $snippet->name); ?>

@@ -45,6 +45,3 @@ class Markdown_Autoloader {
 
 // Register the autoloader
 spl_autoload_register(array('Markdown_Autoloader', 'autoload'));
-
-Model_Navigation::add_section('Documentation', __('User Guide'),  'guide/doc', array(), 101);
-Model_Navigation::add_section('Documentation', __('API Browser'),  'guide/api', array(), 102);

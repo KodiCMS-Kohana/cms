@@ -7,6 +7,7 @@ return array(
 			'url' => URL::backend('filemanager'),
 			'priority' => 999,
 			'permissions' => array('administrator', 'developer'),
+			'icon' => 'folder-open'
 		)
 	)
 );

@@ -27,7 +27,7 @@ if (!empty($pagetmp) AND !empty($parttmp) AND !empty($tagstmp))
 
 <div id="pageEdit">
 	<?php echo Form::open($action == 'add' ? 'page/add/'.$parent_id : 'page/edit/'.$page->id, array(
-		'id' => 'pageEditForm', 'class' => 'form-horizontal', 'method' => Request::POST
+		'id' => 'pageEditForm', 'class' => Bootstrap_Form::HORIZONTAL, 'method' => Request::POST
 	)); ?>
 		<?php echo Form::hidden('token', Security::token()); ?>
 		<?php if (!empty($parent_id)): ?>
