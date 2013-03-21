@@ -1,27 +1,17 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct access allowed.' );
 
 /**
- * @package    Twitte bootstrap/UI
+ * @package    Twitter bootstrap/UI
  */
 
 class UI {
 	
 	const BUTTON_TYPE_BUTTON = 0;
 	const BUTTON_TYPE_ANCHOR = 1;
-	
-	public static function field($content, $size = 'input-xlarge')
-	{
-		return '<span class="'.$size.' uneditable-input">'.$content.'</span>';
-	}
 
 	public static function icon( $name )
 	{
 		return '<i class="icon-' . HTML::chars( $name ) .'"></i>';
-	}
-	
-	public static function sprite( $name )
-	{
-		return '<i class="sprite-' . HTML::chars( $name ) .'"></i>';
 	}
 	
 	public static function label( $text, $type = 'info' )
