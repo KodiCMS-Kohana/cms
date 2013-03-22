@@ -13,7 +13,7 @@ return array(
 			'name' => __('Users'), 
 			'url' => URL::backend('user'),
 			'priority' => 200,
-			'icon' => 'user'
+			'icon' => 'group'
 		)
 	),
 	
@@ -24,7 +24,7 @@ return array(
 			'permissions' => array('administrator','developer'),
 			'priority' => 100,
 			'icon' => 'desktop'
-		),
+		)
 	),
 	
 	'Content' => array(
