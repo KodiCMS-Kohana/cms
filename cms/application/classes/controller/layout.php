@@ -11,7 +11,7 @@ class Controller_Layout extends Controller_System_Backend {
 			->add(__('Layouts'), $this->request->controller());
 	}
 
-	function action_index()
+	public function action_index()
 	{
 		$this->template->title = __('Layouts');
 
@@ -20,7 +20,7 @@ class Controller_Layout extends Controller_System_Backend {
 		) );
 	}
 
-	function action_add()
+	public function action_add()
 	{
 		// check if trying to save
 		if ( Request::current()->method() == Request::POST )
@@ -46,7 +46,7 @@ class Controller_Layout extends Controller_System_Backend {
 		) );
 	}
 
-	function _add()
+	protected function _add()
 	{
 		$data = $this->request->post();
 		Flash::set( 'post_data', (object) $data );
@@ -87,7 +87,7 @@ class Controller_Layout extends Controller_System_Backend {
 		}
 	}
 
-	function action_edit( )
+	public function action_edit( )
 	{
 		$layout_name = $this->request->param('id');
 		$layout = new Model_File_Layout( $layout_name );
@@ -113,7 +113,7 @@ class Controller_Layout extends Controller_System_Backend {
 		) );
 	}
 
-	function _edit( $layout )
+	protected function _edit( $layout )
 	{
 		$layout->name = $this->request->post('name');
 		$layout->content = $this->request->post('content');
@@ -149,7 +149,7 @@ class Controller_Layout extends Controller_System_Backend {
 		}
 	}
 
-	function action_delete( )
+	public function action_delete( )
 	{
 		$this->auto_render = FALSE;
 		$layout_name = $this->request->param('id');
