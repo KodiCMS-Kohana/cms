@@ -180,7 +180,7 @@ return array(
 	'Enter your e-mail, which you want to forgot password.' => 
 		'Укажите email адрес, для которого вы хотите восстановить пароль.',
 	'Send password' => 'Отправить пароль',
-	'Login: :login' => 'Логин: :lodin',
+	'Login: :login' => 'Логин: :login',
 	'Password: :password' => 'Пароль: :password',
     
 	'Message sended from' => 'Сообщение отправлено с сайта',
