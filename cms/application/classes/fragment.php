@@ -76,4 +76,46 @@ class Fragment extends Kohana_Fragment {
 		}
 	}
 	
+	/**
+	 * Saves the currently open fragment in the cache.
+	 *
+	 *     Fragment::save();
+	 *
+	 * @return  void
+	 */
+	public static function save()
+	{
+		// Get the buffer level
+		$level = ob_get_level();
+
+		if (isset(Fragment::$_caches[$level]))
+		{
+			// Get the cache key based on the level
+			$cache_key = Fragment::$_caches[$level];
+
+			// Delete the cache key, we don't need it anymore
+			unset(Fragment::$_caches[$level]);
+
+			// Get the output buffer and display it at the same time
+			$fragment = ob_get_flush();
+
+			// Cache the fragment
+			Cache::instance()->set($cache_key, $fragment);
+		}
+	}
+	
+	/**
+	 * Delete a cached fragment.
+	 *
+	 *     Fragment::delete($key);
+	 *
+	 * @param   string  $name   fragment name
+	 * @param   boolean $i18n   multilingual fragment support
+	 * @return  void
+	 */
+	public static function delete($name, $i18n = NULL)
+	{
+		// Invalid the cache
+		Cache::instance()->delete(Fragment::_cache_key($name, $i18n));
+	}
 }
