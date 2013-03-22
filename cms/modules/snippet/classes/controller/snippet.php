@@ -166,7 +166,7 @@ class Controller_Snippet extends Controller_System_Backend {
 		{
 			if ( $snippet->delete() )
 			{
-				Messages::suceess( __( 'Snippet has been deleted!' ) );
+				Messages::success( __( 'Snippet has been deleted!' ) );
 				Observer::notify( 'snippet_after_delete', array( $snippet_name ) );
 			}
 			else
