@@ -1,16 +1,18 @@
-<div id="header">
-	<h1><?php echo HTML::anchor(Url::base(TRUE), Setting::get('admin_title')); ?> <span>content management simplified</span></h1>
-	
-	<div id="nav">
-		<ul>
+<br />
+<div class="navbar">
+	<div class="navbar-inner">
+		<a class="brand" href="/"><?php echo Setting::get('admin_title'); ?></a>
+		<ul class="nav">
+			<?php if ( ! URL::match( '/' ) ): ?>
 			<li>
-				<?php echo HTML::anchor(Url::base(TRUE), 'Home', array(
-					'class' => URL::match('/') ? 'current' : ''
-				)); ?>
+				<?php echo HTML::anchor('', 'Home'); ?>
 			</li>
-			<?php foreach($page->find('/')->children() as $menu): ?>
-			<li><?php echo $menu->link(NULL, NULL, TRUE); ?></li>
-			<?php endforeach; ?> 
+			<?php endif; ?>
+			<?php foreach($pages as $page): ?>
+			<li class="<?php echo $page['is_active'] ? 'active' : ''; ?>">
+				<?php echo HTML::anchor($page['uri'], $page['title']); ?>
+			</li>
+			<?php endforeach; ?>
 		</ul>
 	</div>
 </div>

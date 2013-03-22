@@ -291,7 +291,6 @@ cms.ui.add('btn-confirm', function() {
 			
 			return false;
 		}).each(function() {
-			console.log($(this).data('hash'), window.location.hash.substring(1));
 			if($(this).data('hash') == window.location.hash.substring(1))
 			{
 				$(this).click();
@@ -448,7 +447,10 @@ var Api = {
 				}
 				this._response = response;
 				
-				if(typeof(callback) == 'function') callback(response);
+				var $event = method + uri.replace(/\//g, ':');
+				window.top.$('body').trigger($event.toLowerCase(), [this._response.response]);
+				
+				if(typeof(callback) == 'function') callback(this._response);
 			}
 		}).always(function() { 
 			cms.loader.hide();

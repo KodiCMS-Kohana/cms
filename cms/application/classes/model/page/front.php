@@ -106,6 +106,12 @@ class Model_Page_Front {
 	 * @var array 
 	 */
 	private static $pages_cache = array();
+	
+	/**
+	 *
+	 * @var array 
+	 */
+	protected $_blocks = array();
 
 	/**
 	 * 
@@ -355,24 +361,7 @@ class Model_Page_Front {
 	{		
 		if ($this->has_content( $part ))
 		{
-			$html = NULL;
-
-			if( $this->_parts[$part] instanceof Model_Page_Part )
-			{
-				$html = View_Front::factory()
-					->set('page', $this)
-					->render_html($this->_parts[$part]->content_html);
-			}
-			else if( $this->_parts[$part] instanceof Kohana_View )
-			{
-				$html = $this->_parts[$part]->render();
-			}
-			
-			$view = View::factory('system/blocks/part', array(
-				'page' => $this,
-				'part' => $part,
-				'html' => $html
-			));
+			$view = $this->get_part($part);
 			
 			$cache_lifetime = Arr::path($this->_parts_data, $part . '.cache_lifetime', $cache_lifetime);
 			$tags = Arr::path($this->_parts_data, $part . '.tags', $tags);
@@ -397,6 +386,36 @@ class Model_Page_Front {
 		{
 			$this->parent->content($part, TRUE, $cache_lifetime);
 		}
+	}
+	
+	/**
+	 * 
+	 * @param string $part
+	 * @return View
+	 */
+	public function get_part( $part )
+	{
+		$html = NULL;
+
+		if( $this->_parts[$part] instanceof Model_Page_Part )
+		{
+			$html = View_Front::factory()
+				->set('page', $this)
+				->render_html($this->_parts[$part]->content_html);
+		}
+		else if( $this->_parts[$part] instanceof Kohana_View )
+		{
+			$html = $this->_parts[$part]->render();
+		}
+
+		$view = View::factory('system/blocks/part', array(
+			'page' => $this,
+			'part' => $part,
+			'html' => $html,
+			'block' => $part
+		));
+		
+		return $view;
 	}
 
 	/**
@@ -678,7 +697,6 @@ class Model_Page_Front {
 
 			$parent = $page;
 		}
-
 		return $page;
 	}
 
@@ -772,6 +790,20 @@ class Model_Page_Front {
 
 		$layout = new Model_File_Layout($layout_name);
 
+		$widgets = $this->_load_widgets();
+		
+		foreach($layout->blocks() as $block)
+		{
+			if( ! $this->has_content($block))
+			{
+				continue;
+			}
+
+			$widgets[] = $this->get_part($block);
+		}
+		
+		Context::instance()->register_widgets($widgets);
+		
 		if(!$layout->is_exists())
 		{
 			throw new  Kohana_Exception('Layout file :file not found!', array(
@@ -864,6 +896,34 @@ class Model_Page_Front {
 		return Model_Page_Tag::find_by_page($this->id);
 	}
 	
+	/**
+	 * 
+	 * @return array
+	 */
+	final private function _load_widgets()
+	{
+		$res_widgets = DB::select('page_widgets.block')
+			->select('widgets.*')
+			->from('page_widgets')
+			->join('widgets')
+				->on('widgets.id', '=', 'page_widgets.widget_id')
+			->where('page_id', '=', $this->id)
+			->execute()
+			->as_array();
+		
+		$widgets = array();
+		foreach($res_widgets as $id => $widget)
+		{
+			$widgets[$id] = unserialize($widget['code']);
+			$widgets[$id]->id = $widget['id'];
+			$widgets[$id]->template = $widget['template'];
+			$widgets[$id]->block = $widget['block'];
+		}
+		
+		return $widgets;
+	}
+
+
 	/**
 	 * 
 	 * @param boolean $include_hidden

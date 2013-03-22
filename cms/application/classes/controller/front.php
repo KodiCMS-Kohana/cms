@@ -30,12 +30,14 @@ class Controller_Front extends Controller_System_Controller
 	
 	private function _render($page)
 	{
-		Observer::notify('frontpage_found', array($page));
+		Observer::notify('frontpage_found', $page);
+		
+		Context::instance()->set_page($page);
 
 		// If page needs login, redirect to login
 		if ($page->needs_login() == Model_Page::LOGIN_REQUIRED)
 		{
-			Observer::notify('frontpage_login_required', array($page));
+			Observer::notify('frontpage_login_required', $page);
 
 			if (!AuthUser::isLoggedIn())
 			{
@@ -46,8 +48,6 @@ class Controller_Front extends Controller_System_Controller
 				) ));
 			}
 		}
-
-
 		$html = (string) $page->render_layout();
 
 		if ( AuthUser::isLoggedIn() AND AuthUser::hasPermission(array(

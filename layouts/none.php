@@ -1,1 +1,1 @@
-<?php echo $page->content(); ?>
+<?php Block::run('body'); ?>

@@ -1,0 +1,57 @@
+<?php defined('SYSPATH') or die('No direct access allowed.');
+
+class Model_Widget_Page_Menu extends Model_Widget_Decorator {
+	
+	public $exclude = array();
+
+	public function load_template_data()
+	{
+		$pages = Model_Page_Sitemap::get();
+		
+		$select = array('-');
+		foreach($pages->flatten() as $page)
+		{
+			$uri = !empty($page['uri']) ? $page['uri'] : '/';
+			$select[$page['id']] = $page['title'] . ' (' . $uri . ')';
+		}
+		
+		return array(
+			'select' => $select,
+			'pages' => $pages->flatten(),
+		);
+	}
+	
+	public function set_values(array $data)
+	{
+		if( empty( $data['exclude'] ))
+		{
+			$this->exclude = array();
+		}
+		
+		if( empty( $data['match_all_paths'] ))
+		{
+			$this->match_all_paths = 0;
+		}
+		return parent::set_values($data);
+	}
+
+	public function fetch_data()
+	{
+		$pages = Model_Page_Sitemap::get();
+		
+		if($this->page_id > 1)
+		{
+			$pages->find($this->page_id);
+		}
+		else if($this->page_id == 0 AND ($page = Context::instance()->get_page()) instanceof Model_Page_Front)
+		{
+			$pages->find($page->id);
+		}
+		
+		$pages->exclude( $this->exclude );
+
+		return array(
+			'pages' => $pages->children()->as_array( $this->match_all_paths == 1 )
+		);
+	}
+}

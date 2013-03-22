@@ -8,25 +8,34 @@
 		<meta name="description" content="<?php echo $page->description('Default description goes here'); ?>" />
 		<meta name="keywords" content="<?php echo $page->keywords('default, keywords, here'); ?>" />
 		<meta name="author" content="Author Name" />
-		
-		<?php echo HTML::style( PUBLIC_URL . 'themes/normal/screen.css' ) . "\n"; ?>
 
-		<link rel="alternate" type="application/rss+xml" title="Frog Default RSS Feed" href="<?php echo URL::site('rss.xml', TRUE); ?>" />
+		<?php echo HTML::script( PUBLIC_URL . 'js/jquery-1.9.0.min.js' ) . "\n"; ?>
+		<?php echo HTML::script( PUBLIC_URL . 'js/bootstrap.min.js' ) . "\n"; ?>
+		<?php echo HTML::script( PUBLIC_URL . 'js/holder.js' ) . "\n"; ?>
+
+		<?php echo HTML::style( PUBLIC_URL . 'css/bootstrap.min.css' ) . "\n"; ?>
 	</head>
 	<body>
-		<div id="page">
-            <?php echo Snippet::render('header', array('page' => $page)); ?>
-			<div id="content">
-				<h2><?php echo $page->title(); ?></h2>
-				<?php echo $page->content(); ?> 
-				<?php echo $page->content( 'extended' ); ?> 
-			</div> <!-- end #content -->
+		<div class="container">
+			<?php Block::run('header'); ?>
+			<?php Block::run('bradcrumbs'); ?>
+			
+			<?php Block::run('top_banner'); ?>
 
-			<div id="sidebar">
-				<?php echo $page->content( 'sidebar', TRUE ); ?> 
-			</div> <!-- end #sidebar -->
+			<div class="row-fluid">
+				<div class="span9">
+				<div class="page-header">
+					<h1><?php echo $page->title(); ?></h1>
+				</div>
 
-			<?php echo Snippet::render('footer', array('page' => $page)); ?>
+				<?php Block::run('body'); ?>
+				<?php Block::run('extended'); ?>
+				</div>
+				<div class="span3">
+					<?php Block::run('sidebar'); ?>
+				</div>
+			</div>
+			<?php Block::run('footer'); ?>
 		</div> <!-- end #page -->
 	</body>
 </html>

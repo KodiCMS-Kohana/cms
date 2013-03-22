@@ -30,6 +30,11 @@
 				<tr>
 					<th class="name">
 						<?php echo HTML::anchor('layout/edit/'.$layout->name, HTML::image(ADMIN_RESOURCES . 'images/layout.png') .' '. $layout->name, array('class' => 'popup fancybox.iframe')); ?>
+						<?php if(count($layout->blocks()) > 0): ?>
+						<span class="muted">
+						<?php echo __('Layout blocks'); ?>: <?php echo implode(', ', $layout->blocks()); ?>
+						</span>
+						<?php endif; ?>
 					</th>
 					<td class="modified">
 						<?php echo Date::format($layout->modified()); ?>
@@ -47,6 +52,7 @@
 						)); ?>
 					</td>
 				</tr>
+				
 				<?php endforeach; ?>
 			</tbody>
 		</table>

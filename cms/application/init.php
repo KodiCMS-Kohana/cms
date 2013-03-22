@@ -54,8 +54,9 @@ Kohana::modules( array(
 	'api'			=> MODPATH . 'api',
 	'sheduler'		=> MODPATH . 'sheduler',
 	'snippet'		=> MODPATH . 'snippet',
+	'widget'		=> MODPATH . 'widget',
 	'reflinks'		=> MODPATH . 'reflinks',
-	'behavior'		=> MODPATH . 'behavior',
+	'behavior'		=> MODPATH . 'behavior'
 ) );
 
 // Init settings

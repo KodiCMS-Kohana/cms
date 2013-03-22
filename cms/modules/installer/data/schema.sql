@@ -13,6 +13,13 @@ CREATE TABLE `TABLE_PREFIX_plugin_settings` (
   UNIQUE KEY `plugin_setting_id` (`plugin_id`,`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+CREATE TABLE IF NOT EXISTS `TABLE_PREFIX_layout_blocks` (
+  `layout_name` varchar(100) NOT NULL,
+  `block` varchar(100) NOT NULL,
+  `position` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`layout_name`,`block`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 CREATE TABLE `TABLE_PREFIX_pages` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(255) DEFAULT NULL,
@@ -80,6 +87,15 @@ CREATE TABLE `TABLE_PREFIX_page_tags` (
   `tag_id` int(11) unsigned NOT NULL,
   UNIQUE KEY `page_id` (`page_id`,`tag_id`),
   KEY `tag_id` (`tag_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `TABLE_PREFIX_page_widgets` (
+  `page_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `widget_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `block` varchar(32) NOT NULL DEFAULT '',
+  PRIMARY KEY (`page_id`,`widget_id`),
+  KEY `page_block` (`page_id`,`block`),
+  KEY `widget_id` (`widget_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `TABLE_PREFIX_page_behavior_settings` (
@@ -180,6 +196,17 @@ CREATE TABLE IF NOT EXISTS `TABLE_PREFIX_email_queue_bodies` (
   KEY `queue_id` (`queue_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
 
+CREATE TABLE IF NOT EXISTS `TABLE_PREFIX_widgets` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `type` varchar(100) NOT NULL,
+  `template` varchar(100) DEFAULT NULL,
+  `name` varchar(64) NOT NULL DEFAULT '',
+  `description` varchar(255) DEFAULT NULL,
+  `created_on` datetime DEFAULT NULL,
+  `code` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
 ALTER TABLE `TABLE_PREFIX_pages`
 	ADD FOREIGN KEY ( `created_by_id` ) REFERENCES `TABLE_PREFIX_users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
 	ADD FOREIGN KEY ( `updated_by_id` ) REFERENCES `TABLE_PREFIX_users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
@@ -194,6 +221,10 @@ ALTER TABLE `TABLE_PREFIX_page_tags`
 ALTER TABLE `TABLE_PREFIX_page_roles`
   ADD CONSTRAINT `page_roles_ibfk_1` FOREIGN KEY (`page_id`) REFERENCES `TABLE_PREFIX_pages` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `page_roles_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `TABLE_PREFIX_roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `TABLE_PREFIX_page_widgets`
+  ADD CONSTRAINT `page_widgets_ibfk_2` FOREIGN KEY (`widget_id`) REFERENCES `TABLE_PREFIX_widgets` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `page_widgets_ibfk_1` FOREIGN KEY (`page_id`) REFERENCES `TABLE_PREFIX_pages` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `TABLE_PREFIX_page_behavior_settings`
   ADD CONSTRAINT `page_behavior_settings_ibfk_1` FOREIGN KEY (`page_id`) REFERENCES `TABLE_PREFIX_pages` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
