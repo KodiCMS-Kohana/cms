@@ -43,11 +43,13 @@ if($navigation !== NULL)
 				->add(
 					Bootstrap_Element_Button::factory(array(
 						'href' => 'user/edit/' . AuthUser::getId(), 'title' => __( 'Profile' )
-					)))
+					))->icon('eye-open')
+					)
 					->add_divider()
 					->add(Bootstrap_Element_Button::factory(array(
 							'href' => 'logout', 'title' => __( 'Logout' )
-					)))
+					))->icon('signout')
+					)
 				)
 			->add_divider()
 			->add(Bootstrap_Element_Button::factory(array(
