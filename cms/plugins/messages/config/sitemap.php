@@ -12,7 +12,7 @@ if(AuthUser::isLoggedIn())
 				'name' => __('Messages'), 
 				'url' => URL::backend('messages'),
 				'permissions' => array('login'),
-				'icon' => UI::icon('envelope'),
+				'icon' => 'envelope',
 				'divider' => TRUE,
 				'counter' => (int) $new->response,
 				'priority' => 105
