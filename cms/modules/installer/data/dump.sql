@@ -71,6 +71,16 @@ INSERT INTO `TABLE_PREFIX_users` (`id`, `email`, `username`, `password`, `logins
 INSERT INTO `TABLE_PREFIX_user_profiles` (`id`, `name`, `user_id`, `created_on`) VALUES
 (1, 'Administrator', 1, '__DATE__');
 
+INSERT INTO `TABLE_PREFIX_layout_blocks` (`layout_name`, `block`, `position`) VALUES
+('none', 'body', 0),
+('normal', 'body', 3),
+('normal', 'bradcrumbs', 1),
+('normal', 'extended', 4),
+('normal', 'footer', 6),
+('normal', 'header', 0),
+('normal', 'sidebar', 5),
+('normal', 'top_banner', 2);
+
 INSERT INTO `TABLE_PREFIX_page_widgets` (`page_id`, `widget_id`, `block`) VALUES
 (1, 2, 'bradcrumbs'),
 (1, 3, 'footer'),
