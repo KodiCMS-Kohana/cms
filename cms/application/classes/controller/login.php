@@ -37,7 +37,7 @@ class Controller_Login extends Controller_System_Frontend {
 
 	private function _login()
 	{
-		$array = Arr::get($_POST, 'login', array());
+		$array = $this->request->post('login');
 
 		$fieldname = Valid::email( Arr::get($array, 'username') ) 
 			? AuthUser::EMAIL : AuthUser::USERNAME;
@@ -58,11 +58,11 @@ class Controller_Login extends Controller_System_Frontend {
 
 		if ( $array->check() )
 		{
-			Observer::notify( 'admin_login_before', array( $array ) );
+			Observer::notify( 'admin_login_before', $array );
 
 			if ( AuthUser::login( $fieldname, $array['username'], $array['password'], $remember ) )
 			{
-				Observer::notify( 'admin_login_success', array( $array['username'] ) );
+				Observer::notify( 'admin_login_success', $array['username'] );
 
 				Session::instance()->delete('install_data');
 
@@ -76,10 +76,8 @@ class Controller_Login extends Controller_System_Frontend {
 			}
 			else
 			{
-				Observer::notify( 'admin_login_failed', array( $array['username'] ) );
-				
+				Observer::notify( 'admin_login_failed', $array['username'] );
 				Messages::errors( __('Login failed. Please check your login data and try again.') );
-				
 				$array->error( $fieldname, 'incorrect' );
 			}
 		}
@@ -94,10 +92,14 @@ class Controller_Login extends Controller_System_Frontend {
 	public function action_logout()
 	{
 		$this->auto_render = FALSE;
-
 		AuthUser::logout();
 		Observer::notify('admin_after_logout', array(AuthUser::getUserName()));
-
+		
+		if( $next_url = Flash::get( 'redirect') )
+		{
+			$this->go($next_url);
+		}
+				
 		$this->go_home();
 	}
 
