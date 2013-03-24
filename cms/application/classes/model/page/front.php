@@ -164,9 +164,38 @@ class Model_Page_Front {
 		return $this;
 	}
 
-	public function id() { return $this->id; }
-	public function title() { return $this->title; }
-	public function breadcrumb() { return $this->breadcrumb; }
+	/**
+	 * 
+	 * @return integer
+	 */
+	public function id() 
+	{ 
+		return $this->id; 
+	}
+	
+	/**
+	 * 
+	 * @return string
+	 */
+	public function title() 
+	{ 
+		return $this->title; 
+	}
+	
+	/**
+	 * 
+	 * @return string
+	 */
+	public function breadcrumb() 
+	{
+		if(empty($this->breadcrumb))
+		{
+			$this->breadcrumb = $this->title;
+		}
+
+		return $this->breadcrumb; 
+	}
+
 	public function author() { return $this->author; }
 	public function author_id() { return $this->author_id; }
 	public function updator() { return $this->updator; }
