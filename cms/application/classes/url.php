@@ -52,7 +52,7 @@ class URL extends Kohana_URL {
 			$hash = '#' . $hash;
 		}
 		
-		if( IS_INSTALLED AND !empty($uri) AND ! URL::check_suffix( $uri, '.' ))
+		if( IS_INSTALLED AND ! empty($uri) AND $uri != '/' AND ! URL::check_suffix( $uri, '.' ))
 		{
 			$uri .= URL_SUFFIX . $hash;
 		}
