@@ -15,7 +15,12 @@ class Model_Page extends Record
     const LOGIN_NOT_REQUIRED	= 0;
     const LOGIN_REQUIRED		= 1;
     const LOGIN_INHERIT			= 2;
-	
+
+
+	/**
+	 * 
+	 * @return array
+	 */
 	public function filters()
 	{
 		return array(
@@ -25,6 +30,10 @@ class Model_Page extends Record
 		);
 	}
 
+	/**
+	 * 
+	 * @return array
+	 */
 	public static function logins()
 	{
 		return array(
@@ -34,6 +43,10 @@ class Model_Page extends Record
 		);
 	}
 
+	/**
+	 * 
+	 * @return array
+	 */
 	public static function statuses()
 	{
 		return array(
@@ -130,6 +143,10 @@ class Model_Page extends Record
 		return TRUE;
 	}
 	
+	/**
+	 * 
+	 * @return string
+	 */
 	public function get_status()
 	{
 		switch ($this->status_id)
@@ -150,6 +167,10 @@ class Model_Page extends Record
 		return UI::label(__('None'), 'default');
 	}
 	
+	/**
+	 * 
+	 * @return string
+	 */
 	public function get_public_anchor()
 	{
 		return HTML::anchor($this->get_frontend_url(), UI::label(UI::icon( 'globe icon-white' ) . ' ' . __('View page')), array(
@@ -157,6 +178,10 @@ class Model_Page extends Record
 		));
 	}
 
+	/**
+	 * 
+	 * @return string
+	 */
 	public function get_uri()
     {
         $result = NULL;
@@ -175,31 +200,40 @@ class Model_Page extends Record
         return $result;
     }
 	
+	/**
+	 * 
+	 * @return string
+	 */
 	public function get_frontend_url()
 	{
 		return URL::frontend($this->get_uri(), TRUE);
 	}
 	
+	/**
+	 * 
+	 * @return string
+	 */
 	public function get_url()
 	{
 		return URL::backend( 'page/edit/'.$this->id );
 	}
 
+	/**
+	 * 
+	 * @return array
+	 */
 	public function get_tags()
     {
 		return Model_Page_Tag::find_by_page( $this->id );
     }
-    
+
     public function save_tags($tags)
     {
         return Model_Page_Tag::save_by_page( $this->id, $tags );
     }
     
     public static function find($clause = array())
-    {
-        $tablename = self::tableName('Model_Page');
-        $tablename_user = self::tableName('User');
-		
+    {		
 		$sql = DB::select('page.*')
 			->select(array('author.username', 'created_by_name'))
 			->select(array('updator.username', 'updated_by_name'))
@@ -315,5 +349,5 @@ class Model_Page extends Record
 	{
 		return Model_Page_Permission::save_by_page($this->id, $permissions);
 	}
-    
+
 } // end Model_Page class
