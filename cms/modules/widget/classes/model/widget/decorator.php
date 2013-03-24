@@ -131,11 +131,15 @@ abstract class Model_Widget_Decorator {
 	protected function _fetch_render($params)
 	{
 		$params = Arr::merge($params, $this->template_params);
+		$context = & Context::instance();
+
 		$data = $this->fetch_data();
 		$data['params'] = $params;
-		$data['header'] = $this->header;
-		$data['page'] = Context::instance()->get_page();
-		return View_Front::factory($this->template, $data);
+		$data['page'] = $context->get_page();
+	
+		return View_Front::factory($this->template, $data)
+			->bind('header', $this->header)
+			->bind('ctx', $this->get( 'ctx' ));
 	}
 	
 	/**
@@ -168,9 +172,33 @@ abstract class Model_Widget_Decorator {
 		return $this;
 	}
 	
-	public function get( $name, $default = NULL)
+	/**
+	 * 
+	 * @param string $name
+	 * @param mixed $value
+	 * @return \Model_Widget_Decorator
+	 */
+	public function bind( $name, & $value )
 	{
-		return Arr::get($this->_data, $name, $default);
+		$this->_data[$name] = & $value;
+		return $this;
+	}
+
+	/**
+	 * 
+	 * @param string $name
+	 * @param mixed $default
+	 * @return mided
+	 */
+	public function & get( $name, $default = NULL)
+	{
+		$result = NULL;
+		if (array_key_exists($name, $this->_data))
+		{
+			$result = $this->_data[$name];
+		}
+		
+		return $result;
 	}
 
 	/**
@@ -188,7 +216,7 @@ abstract class Model_Widget_Decorator {
 	 * @param string $name
 	 * @return mixed
 	 */
-	public function __get( $name )
+	public function & __get( $name )
 	{
 		return $this->get( $name );
 	}

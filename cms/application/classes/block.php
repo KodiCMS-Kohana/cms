@@ -4,20 +4,24 @@ class Block {
 
 	public static function run( $name, array $params = array() )
 	{
-		$ctx = Context::instance();
+		$ctx = & Context::instance();
 
-		$block = $ctx->get_widget_by_block( $name );
+		$block = & $ctx->get_widget_by_block( $name );
 		
 		if( $block !== NULL)
 		{
 			if($block instanceof View) 
 			{
-				echo $block->set('params', $params)->render();
+				echo $block
+					->bind('ctx', $ctx)
+					->set('params', $params)->render();
 			}
 			else if($block instanceof Model_Widget_Decorator ) 
 			{
 				
-				echo $block->render($params);
+				echo $block
+					->bind('ctx', $ctx)
+					->render($params);
 			}
 		}	
 	}
