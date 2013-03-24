@@ -9,6 +9,7 @@
 	<div class="widget-content">
 		<table class=" table table-striped table-hover" id="SnippetList">
 			<colgroup>
+				<col width="200px" />
 				<col width="150px" />
 				<col />
 				<col width="100px" />
@@ -16,20 +17,20 @@
 			<thead>
 				<tr>
 					<th><?php echo __('Widget name'); ?></th>
+					<th><?php echo __('Type'); ?></th>
 					<th><?php echo __('Description'); ?></th>
 					<th><?php echo __('Actions'); ?></th>
 				</tr>
 			</thead>
 			<tbody>
-				<?php foreach ($widgets as $type => $_widgets): ?>
-				<tr>
-					<td colspan="3"><h5><?php echo $type; ?></h5></td>
-				</tr>
-				<?php foreach ($_widgets as $widget): ?>
+				<?php foreach ($widgets as $widget): ?>
 				<tr>
 					<th class="name">
 						<?php echo HTML::anchor('widgets/edit/'.$widget->id, $widget->name); ?>
 					</th>
+					<td class="type">
+						<?php echo UI::label($widget->type()); ?>
+					</td>
 					<td class="description">
 						<span class="muted"><?php echo $widget->description; ?></span>
 					</td>
@@ -40,7 +41,6 @@
 						)); ?>
 					</td>
 				</tr>
-				<?php endforeach; ?>
 				<?php endforeach; ?>
 			</tbody>
 		</table>

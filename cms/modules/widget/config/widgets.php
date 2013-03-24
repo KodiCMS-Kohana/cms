@@ -1,7 +1,16 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
 return array(
-	'page_menu' => __('Menu'),
-	'page_breadcrumbs' => __('Breadcrumbs'),
-	'html' => __('HTML')
+	__('Pages') => array(
+		'page_menu' => __('Menu'),
+		'page_pages' => __('Pages with parts'),
+		'page_breadcrumbs' => __('Breadcrumbs'),
+	),
+	__('User') => array(
+		'user_login' => __('Authentication'),
+		'user_logout' => __('Authentication destroy')
+	),
+	__('Other') => array(
+		'html' => __('HTML'),
+	)
 );

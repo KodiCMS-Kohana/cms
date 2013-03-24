@@ -38,7 +38,7 @@
 			<div class="controls">
 				<?php
 				echo Form::select( 'type', $types, NULL, array(
-					'class' => 'input-medium'
+					'class' => Bootstrap_Form_Element_Input::XXLARGE
 				) );
 				?>
 			</div>

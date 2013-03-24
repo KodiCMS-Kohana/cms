@@ -19,18 +19,8 @@ class Controller_Widgets extends Controller_System_Backend {
 		$res_widgets = ORM::factory('widget')
 			->find_all();
 		
-		$types = Widget_Manager::map();
-
-		$widgets = array();
-		foreach ($res_widgets as $widget)
-		{
-			$type = $widget->type;
-			if( (isset($types[$type]))) $type = $types[$type];
-			$widgets[$type][] = $widget;
-		}
-		
 		$this->template->content = View::factory( 'widgets/index', array(
-			'widgets' => $widgets
+			'widgets' => $res_widgets
 		));
 	}
 	
@@ -79,7 +69,9 @@ class Controller_Widgets extends Controller_System_Backend {
 		foreach ($res_blocks as $block)
 		{
 			if(empty($blocks[$block->layout_name])) 
-				$blocks[$block->layout_name] = array('----');
+				$blocks[$block->layout_name] = array(
+					'----', 'PRE' => __('Before page render')
+				);
 
 			$blocks[$block->layout_name][$block->block] = $block->block;
 		}
@@ -201,13 +193,23 @@ class Controller_Widgets extends Controller_System_Backend {
 		{
 			$templates[$snippet->name] = $snippet->name;
 		}
+		
+		// Если не создать View шаблон, не загружаем его
+		try
+		{
+			$content = View::factory( 'widgets/widget/' . $widget->type, array(
+						'widget' => $widget
+				))->set($widget->load_template_data());
+		}
+		catch( Kohana_Exception $e)
+		{
+			$content = NULL;
+		}
 
 		$this->template->content = View::factory( 'widgets/edit', array(
 			'widget' => $widget,
 			'templates' => $templates,
-			'content' =>  View::factory( 'widgets/widget/' . $widget->type, array(
-					'widget' => $widget
-			))->set($widget->load_template_data())
+			'content' =>  $content
 		) );
 	}
 	

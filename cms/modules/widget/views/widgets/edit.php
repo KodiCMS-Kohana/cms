@@ -38,6 +38,7 @@
 					'name' => 'name', 'value' => $widget->name
 				))
 				->label(__('Widget Header'))
+				->attributes('class', Bootstrap_Form_Element_Input::XXLARGE)
 			));
 
 			echo Bootstrap_Form_Element_Control_Group::factory(array(
@@ -48,6 +49,7 @@
 			));
 		?>
 	</div>
+	<?php if($widget->use_template): ?>
 	<div class="widget-header">
 		<h4><?php echo __('Widget template'); ?></h4>
 	</div>
@@ -102,23 +104,21 @@
 		?>
 		<?php endif; ?>
 	</div>
-	
+	<?php endif; ?>
 	<div class="widget-header">
 		<h4><?php echo __('Widget parameters'); ?></h4>
 	</div>
+	<?php if($widget->use_template): ?>
 	<div class="widget-content">
-		<div class="control-group">
-			<label class="control-label"><?php echo __('Header'); ?></label>
-			<div class="controls">
-				<?php
-				echo Form::input( 'header', $widget->header, array(
-					'class' => Bootstrap_Form_Element_Input::BLOCK_LEVEL
-				) );
-				?>
-			</div>
-		</div>
+		<?php echo Bootstrap_Form_Element_Control_Group::factory(array(
+			'element' => Bootstrap_Form_Element_Input::factory(array(
+				'name' => 'header', 'value' => $widget->header
+			))
+			->label(__('Header'))
+			->attributes('class', Bootstrap_Form_Element_Input::BLOCK_LEVEL)
+		)); ?>
 	</div>
-	
+	<?php endif; ?>
 	<?php echo $content; ?>
 
 	<div class="widget-content widget-no-border-radius">

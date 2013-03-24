@@ -1,5 +1,16 @@
 <script>
 	var BLOCKS = <?php echo json_encode($blocks); ?>;
+	
+	$(function() {
+		$('#select_for_all').click(function(){
+			var value = $('input[name="select_for_all"]').val();
+			console.log(value);
+			$('select.blocks').select2("val", value);
+			return false;
+		});
+	})
+	
+
 </script>
 <div class="widget">
 	<?php echo Form::open(Request::current()->uri()); ?>
@@ -15,7 +26,14 @@
 			</tbody>
 		</table>
 	</div>
-
+	<div class="widget-content widget-no-border-radius">
+		<div class="input-prepend input-append">
+			<?php echo Form::input('select_for_all', NULL, array('class' => 'inline')); ?>
+			<?php echo UI::button( __('Select for all'), array(
+				'icon' => UI::icon('sitemap'), 'class' => 'btn inline', 'id' => 'select_for_all'
+			)); ?>
+		</div>
+	</div>
 	<div class="widget-footer form-actions">
 		<?php echo UI::button( __('Save locations'), array(
 			'icon' => UI::icon( 'plus'), 'class' => 'btn btn-large'
@@ -47,7 +65,7 @@ function recurse_pages( $pages, $spaces = 0, $blocks = array(), $page_widgets = 
 		
 		$data .= '<tr data-id="'.$page['id'].'">';
 		$data .= '<td>';
-		$data .= Form::select('blocks[' . $page['id'] . ']', $current_page_blocks, $current_block );
+		$data .= Form::select('blocks[' . $page['id'] . ']', $current_page_blocks, $current_block, array('class' => 'blocks') );
 		$data .= '</td></td><td>';
 		$data .= '<th>' . str_repeat('- ', $spaces) . $page['title'] . '</th>';
 		$data .= '</tr>';

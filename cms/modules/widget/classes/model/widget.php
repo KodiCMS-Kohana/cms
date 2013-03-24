@@ -20,10 +20,21 @@ class Model_Widget extends ORM {
 				array('not_empty'),
 				array('min_length', array(':value', 2)),
 				array('max_length', array(':value', 100))
-			),
-			'type' => array(
-				array('in_array', array(':value', array_keys(Widget_Manager::map()))),
 			)
 		);
+	}
+	
+	public function type()
+	{
+		$widget_types = Widget_Manager::map();
+		
+		$type = $this->type;
+
+		foreach($widget_types as $group => $types)
+		{
+			if(isset($types[$type])) $type = $types[$type];
+		}
+		
+		return $type;
 	}
 }

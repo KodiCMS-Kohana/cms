@@ -59,10 +59,33 @@ class Widget_Manager {
 	public static function get_all_widgets()
 	{
 		return DB::select( 'id', 'type', 'name', 'description' )
-				->from( 'widgets' )
-				->order_by( 'type', 'asc' )
-				->order_by( 'name', 'asc' )
-				->execute('id');
+			->from( 'widgets' )
+			->order_by( 'type', 'asc' )
+			->order_by( 'name', 'asc' )
+			->execute('id');
+	}
+	
+	public static function get_widgets_by_page( $id )
+	{
+		$res = DB::select('page_widgets.block')
+			->select('widgets.*')
+			->from('page_widgets')
+			->join('widgets')
+				->on('widgets.id', '=', 'page_widgets.widget_id')
+			->where('page_id', '=', (int) $id)
+			->execute()
+			->as_array('id');
+		
+		$widgets = array();
+		foreach($res as $id => $widget)
+		{
+			$widgets[$id] = unserialize($widget['code']);
+			$widgets[$id]->id = $widget['id'];
+			$widgets[$id]->template = $widget['template'];
+			$widgets[$id]->block = $widget['block'];
+		}
+		
+		return $widgets;
 	}
 
 	/**

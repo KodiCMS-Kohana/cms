@@ -36,6 +36,12 @@ class Context {
 	 *
 	 * @var array 
 	 */
+	protected $_widget_ids = NULL;
+
+	/**
+	 *
+	 * @var array 
+	 */
 	protected $_blocks = array();
 	
 	/**
@@ -146,7 +152,14 @@ class Context {
 		$result = NULL;
 		if( !empty($block) AND isset($this->_blocks[$block]))
 		{
-			$result = & $this->_blocks[$block];
+			if(count($this->_blocks[$block]) == 1)
+			{
+				$result = & $this->_blocks[$block][0];
+			}
+			else
+			{
+				$result = & $this->_blocks[$block];
+			}
 		}
 		
 		return $result;
@@ -159,15 +172,23 @@ class Context {
 	 */
 	public function register_widgets( array & $widgets )
 	{
-		foreach($widgets as $id => & $widget ) 
+		$this->_widgets =& $widgets;
+		$this->_sort_widgets();
+		
+		foreach( $this->_widget_ids as $id ) 
 		{
-			$this->_widgets[$id] = $widget;
-			if( $widget->block ) 
+			$widget =& $this->_widgets[$id];
+			if( !empty($widget->block) ) 
 			{
-				$this->_blocks[$widget->block] = $widget;
+				$this->_blocks[$widget->block][] = & $widget;
+				
+				if($widget instanceof Model_Widget_Decorator)
+				{
+					Observer::observe('load_blocks', array(& $widget, 'on_page_load'));
+				}
 			}
 		}
-		
+
 		return $this;
 	}
 	
@@ -228,5 +249,35 @@ class Context {
 		}
 		
 		return $this;
+	}
+	
+	protected function _sort_widgets() 
+	{
+		if( $this->_widget_ids !== NULL ) return;
+
+		$ids = array_keys( & $this->_widgets );
+
+		$widgets = array(); 
+		$types = array('PRE' => array(), '*named' => array(), 'POST' => array());
+	
+		foreach($ids as $id)
+		{
+			if(isset($types[$this->_widgets[$id]->block]))
+			{
+				$types[$this->_widgets[$id]->block][] = $id;
+			}
+			else
+				$types['*named'][] = $id;
+		}
+	
+		foreach($types as $v)
+		{
+			for($i = 0, $l = sizeof($v); $i < $l; $i++)
+				if($v[$i])
+					$widgets[$v[$i]] = & $this->_widgets[$v[$i]];
+		}
+
+		$this->_widget_ids = array_keys( & $widgets );
+		$this->_widgets = & $widgets;
 	}
 }

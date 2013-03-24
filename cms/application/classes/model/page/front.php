@@ -112,6 +112,12 @@ class Model_Page_Front {
 	 * @var array 
 	 */
 	protected $_blocks = array();
+	
+	/**
+	 *
+	 * @var Model_File_Layout 
+	 */
+	protected $_layout_object = NULL;
 
 	/**
 	 * 
@@ -778,6 +784,29 @@ class Model_Page_Front {
 
 		return NULL;
 	}
+	
+	/**
+	 * 
+	 * @return Model_File_Layout
+	 * @throws Kohana_Exception
+	 */
+	public function get_layout_object()
+	{
+		if($this->_layout_object === NULL)
+		{
+			$layout_name = $this->layout();
+			$this->_layout_object = new Model_File_Layout($layout_name);
+		}
+		
+		if( ! $this->_layout_object->is_exists())
+		{
+			throw new  Kohana_Exception('Layout file :file not found!', array(
+				':file' => $layout_name
+			));
+		}
+		
+		return $this->_layout_object;
+	}
 
 	/**
 	 * 
@@ -786,30 +815,7 @@ class Model_Page_Front {
 	 */
 	public function render_layout()
 	{
-		$layout_name = $this->layout();
-
-		$layout = new Model_File_Layout($layout_name);
-
-		$widgets = $this->_load_widgets();
-		
-		foreach($layout->blocks() as $block)
-		{
-			if( ! $this->has_content($block))
-			{
-				continue;
-			}
-
-			$widgets[] = $this->get_part($block);
-		}
-		
-		Context::instance()->register_widgets($widgets);
-		
-		if(!$layout->is_exists())
-		{
-			throw new  Kohana_Exception('Layout file :file not found!', array(
-				':file' => $layout_name
-			));
-		}
+		$layout = $this->get_layout_object();
 
 		$mime = File::mime_by_ext(pathinfo($this->url(), PATHINFO_EXTENSION));
 
@@ -894,33 +900,6 @@ class Model_Page_Front {
 	final private function _load_tags()
 	{
 		return Model_Page_Tag::find_by_page($this->id);
-	}
-	
-	/**
-	 * 
-	 * @return array
-	 */
-	final private function _load_widgets()
-	{
-		$res_widgets = DB::select('page_widgets.block')
-			->select('widgets.*')
-			->from('page_widgets')
-			->join('widgets')
-				->on('widgets.id', '=', 'page_widgets.widget_id')
-			->where('page_id', '=', $this->id)
-			->execute()
-			->as_array();
-		
-		$widgets = array();
-		foreach($res_widgets as $id => $widget)
-		{
-			$widgets[$id] = unserialize($widget['code']);
-			$widgets[$id]->id = $widget['id'];
-			$widgets[$id]->template = $widget['template'];
-			$widgets[$id]->block = $widget['block'];
-		}
-		
-		return $widgets;
 	}
 
 

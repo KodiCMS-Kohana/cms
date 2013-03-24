@@ -32,14 +32,16 @@ class Controller_Front extends Controller_System_Controller
 	{
 		Observer::notify('frontpage_found', $page);
 		
-		Context::instance()->set_page($page);
+		$ctx =& Context::instance();
+	
+		$ctx->set_page($page);		
 
 		// If page needs login, redirect to login
 		if ($page->needs_login() == Model_Page::LOGIN_REQUIRED)
 		{
 			Observer::notify('frontpage_login_required', $page);
 
-			if (!AuthUser::isLoggedIn())
+			if ( ! AuthUser::isLoggedIn())
 			{
 				Flash::set('redirect', $page->url());
 
@@ -48,6 +50,9 @@ class Controller_Front extends Controller_System_Controller
 				) ));
 			}
 		}
+		
+		Block::run('PRE');
+		
 		$html = (string) $page->render_layout();
 
 		if ( AuthUser::isLoggedIn() AND AuthUser::hasPermission(array(

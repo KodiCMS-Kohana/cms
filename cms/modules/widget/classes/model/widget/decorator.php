@@ -40,6 +40,13 @@ abstract class Model_Widget_Decorator {
 	
 	/**
 	 *
+	 * @var boolean 
+	 */
+	public $use_template = TRUE;
+
+	
+	/**
+	 *
 	 * @var array
 	 */
 	public $template_params = array();
@@ -275,10 +282,16 @@ abstract class Model_Widget_Decorator {
 		return isset($this->id) AND $this->id > 0;
 	}
 	
+	/**
+	 * 
+	 * @return array
+	 */
 	public function load_template_data()
 	{
 		return array();
 	}
+	
+	public function on_page_load() {}
 
 	/**
 	 * 
