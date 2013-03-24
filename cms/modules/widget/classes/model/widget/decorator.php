@@ -59,6 +59,12 @@ abstract class Model_Widget_Decorator {
 	
 	/**
 	 *
+	 * @var boolean 
+	 */
+	public $crumbs = FALSE;
+
+	/**
+	 *
 	 * @var bool 
 	 */
 	public $caching = FALSE;
@@ -292,6 +298,8 @@ abstract class Model_Widget_Decorator {
 	}
 	
 	public function on_page_load() {}
+	
+	public function change_crumbs( &$crumbs) {}
 
 	/**
 	 * 

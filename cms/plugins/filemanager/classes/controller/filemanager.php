@@ -187,7 +187,7 @@ class Controller_FileManager extends Controller_System_Plugin {
 		
 		if(!empty($path_array))
 		{
-			$this->breadcrumbs->change(__($this->plugin->title), 'filemanager');
+			$this->breadcrumbs->change_by('name', __($this->plugin->title), 'filemanager');
 		}
 
 		$i = 1;

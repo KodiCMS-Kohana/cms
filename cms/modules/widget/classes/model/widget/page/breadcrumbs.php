@@ -23,26 +23,20 @@ class Model_Widget_Page_Breadcrumbs extends Model_Widget_Decorator {
 
 	public function fetch_data()
 	{
-		$pages = array();
+		$crumbs = array();
+		
+		$ctx = Context::instance();
 
-		if( ($page = Context::instance()->get_page()) instanceof Model_Page_Front)
+		if( ($crumbs = &$ctx->get_crumbs()) instanceof Breadcrumbs)
 		{
-			$pages = Model_Page_Sitemap::get();
-			$pages = $pages->find($page->id)->breadcrumbs();
-			
-			if( !empty($this->exclude))
+			if( ! empty($this->exclude))
 			{
-				foreach($pages as $i => $page)
-				{
-					if(  in_array( $page['id'], $this->exclude )) unset($pages[$i]);
-				}
+				$crumbs->delete_by('id', $this->exclude);
 			}
-			
-			if(count($pages) == 1) $pages = array();
 		}
 
 		return array(
-			'pages' => $pages
+			'crumbs' => $crumbs
 		);
 	}
 }

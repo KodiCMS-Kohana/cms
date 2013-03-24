@@ -1,24 +1,12 @@
 <?php defined('SYSPATH') OR die('No direct script access!');
 
-abstract class Kohana_Breadcrumbs implements Countable, Iterator, SeekableIterator, ArrayAccess {
+abstract class Kohana_Breadcrumbs implements Countable, Iterator {
 	
 	/**
 	 *
 	 * @var array 
 	 */
 	protected $options = array();
-	
-	/**
-	 *
-	 * @var integer
-	 */
-	protected $_current_key = 0;
-	
-	/**
-	 *
-	 * @var integer
-	 */
-	protected $_total_items = 0;
 	
 	/**
 	 *
@@ -42,7 +30,8 @@ abstract class Kohana_Breadcrumbs implements Countable, Iterator, SeekableIterat
 	 */
 	public function __construct($options = array())
 	{
-		$this->options = Arr::merge(Kohana::$config->load('breadcrumbs')->get('default'), $options);
+		$local_options = Kohana::$config->load('breadcrumbs')->get('default');
+		$this->options = Arr::merge($local_options, $options);
 	}
 	
 	/**
@@ -52,13 +41,11 @@ abstract class Kohana_Breadcrumbs implements Countable, Iterator, SeekableIterat
 	 * @param integer $position
 	 * @return \Breadcrumbs
 	 */
-	public function add($name, $url = FALSE, $position = NULL)
+	public function add($name, $url = FALSE, $is_active = FALSE, $position = NULL, array $data = array())
 	{
-		$item = new Breadcrumbs_Item($this->options['urls'], $name, $url);
+		$item = new Breadcrumbs_Item($name, $url, $is_active, $data);
 		
-		$position = $this->_set_positon($position);
-		
-		$this->_total_items++;
+		$position = $this->_get_next_positon($position);
 		$this->_items[$position] = $item;
 		
 		return $this;
@@ -71,24 +58,32 @@ abstract class Kohana_Breadcrumbs implements Countable, Iterator, SeekableIterat
 	 * @param integer $position
 	 * @return \Breadcrumbs
 	 */
-	public function change($name, $url = FALSE, $new_position = NULL)
+	public function change_by($key, $value, $url = FALSE, $is_active = FALSE, $position = NULL, array $data = array())
 	{
-		$position = $this->find_by( 'name', $name );
-		if($position === NULL)
+		$item = $this->get_by($key, $value);
+		if($item === NULL)
 		{
 			return FALSE;
 		}
 		
-		$item = $this->_items[$position];
-		
 		$item->url = $url;
-		
-		if($new_position !== NULL)
+
+		if($is_active === TRUE)
 		{
-			$new_position = $this->_set_positon($new_position);
-			$this->_items[$new_position] = $item;
-	
-			unlink($this->_items[$position]);
+			$item->active = TRUE;
+		}
+		
+		if( !empty($data))
+		{
+			$item->set($data);
+		}
+		
+		if($position !== NULL)
+		{
+			$position = $this->_get_next_positon($position);
+			$this->_items[$position] = $item;
+			
+			$this->delete($item->name);
 		}
 		
 		return $this;
@@ -101,13 +96,25 @@ abstract class Kohana_Breadcrumbs implements Countable, Iterator, SeekableIterat
 	 */
 	public function delete($name)
 	{
-		$position = $this->find_by( 'name', $name );
+		return $this->delete_by('name', $name);
+	}
+	
+	/**
+	 * 
+	 * @param string $key
+	 * @param string $value
+	 * @return boolean|\Kohana_Breadcrumbs
+	 */
+	public function delete_by( $key, $value )
+	{
+		$position = $this->find_by( $key, $value );
+		
 		if($position === NULL)
 		{
 			return FALSE;
 		}
-		
-		unlink($this->_items[$position]);
+
+		unset($this->_items[$position]);
 		return $this;
 	}
 
@@ -116,12 +123,12 @@ abstract class Kohana_Breadcrumbs implements Countable, Iterator, SeekableIterat
 	 * @param integer $position
 	 * @return integer
 	 */
-	protected function _set_positon($position = NULL)
+	protected function _get_next_positon($position = NULL)
 	{
 		$position = (int) $position;
-		if(empty($position) || ! $this->offsetExists($position))
+		if(empty($position) OR !isset($this->_items[$position]))
 		{
-			$position = $this->_total_items;
+			$position = $this->count() + 1;
 		}
 		else
 		{
@@ -144,7 +151,14 @@ abstract class Kohana_Breadcrumbs implements Countable, Iterator, SeekableIterat
 	{
 		foreach ($this->_items as $pos => $item)
 		{
-			if($item->$key == $value)
+			if(is_array($value))
+			{
+				if(in_array($item->$key, $value))
+				{
+					return $pos;
+				}
+			}
+			else if($item->$key == $value)
 			{
 				return $pos;
 			}
@@ -152,167 +166,63 @@ abstract class Kohana_Breadcrumbs implements Countable, Iterator, SeekableIterat
 		
 		return NULL;
 	}
+	
+	/**
+	 * 
+	 * @param string $key
+	 * @param atring $value
+	 */
+	public function get_by($key, $value)
+	{
+		$position = $this->find_by($key, $value);
+		
+		if($position === NULL)
+		{
+			return NULL;
+		}
+		
+		return $this->_items[$position];
+	}
 
 	/**
-	 * Implements [Countable::count], returns the total number of rows.
-	 *
-	 *     echo count($result);
-	 *
+	 * 
 	 * @return  integer
 	 */
 	public function count()
 	{
-		return $this->_total_items;
-	}
-
-	/**
-	 * Implements [ArrayAccess::offsetExists], determines if row exists.
-	 *
-	 *     if (isset($result[10]))
-	 *     {
-	 *         // Row 10 exists
-	 *     }
-	 *
-	 * @return  boolean
-	 */
-	public function offsetExists($offset)
-	{
-		return ($offset >= 0 AND $offset < $this->_total_items);
-	}
-
-	/**
-	 * Implements [ArrayAccess::offsetGet], gets a given row.
-	 *
-	 *     $row = $result[10];
-	 *
-	 * @return  mixed
-	 */
-	public function offsetGet($offset)
-	{
-		if ( ! $this->seek($offset))
-			return NULL;
-
-		return $this->current();
-	}
-
-	/**
-	 * Implements [ArrayAccess::offsetSet], throws an error.
-	 *
-	 * [!!] You cannot modify a database result.
-	 *
-	 * @return  void
-	 * @throws  Kohana_Exception
-	 */
-	final public function offsetSet($offset, $value)
-	{
-		throw new Kohana_Exception('Breadcrumbs are read-only');
-	}
-
-	/**
-	 * Implements [ArrayAccess::offsetUnset], throws an error.
-	 *
-	 * [!!] You cannot modify a database result.
-	 *
-	 * @return  void
-	 * @throws  Kohana_Exception
-	 */
-	final public function offsetUnset($offset)
-	{
-		throw new Kohana_Exception('Breadcrumbs are read-only');
-	}
-
-	/**
-	 * Implements [Iterator::key], returns the current row number.
-	 *
-	 *     echo key($result);
-	 *
-	 * @return  integer
-	 */
-	public function key()
-	{
-		return $this->_current_key;
+		return count($this->_items);
 	}
 	
-	/**
-	 * Implements [Iterator::key], returns the current breadcrumb item.
-	 *
-	 *     echo key($result);
-	 *
-	 * @return  integer
-	 */
+	
+    public function rewind()
+    {
+        reset($this->_items);
+    }
+
 	public function current()
-	{
-		return $this->_items[$this->_current_key];
-	}
+    {
+        $item = current($this->_items);
+        return $item;
+    }
 	
-	/**
-	 * Implements [SeekableIterator::seek], changes the key to a position
-	 * @param int $position The position to seek to.
-	 * @return bool
-	 */
-	public function seek($position)
-	{
-		if($this->offsetExists($position))
-		{
-			$this->_current_key = $position;
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
-
-	/**
-	 * Implements [Iterator::next], moves to the next row.
-	 *
-	 *     next($result);
-	 *
-	 * @return  $this
-	 */
-	public function next()
-	{
-		++$this->_current_key;
-		return $this;
-	}
-
-	/**
-	 * Implements [Iterator::prev], moves to the previous row.
-	 *
-	 *     prev($result);
-	 *
-	 * @return  $this
-	 */
-	public function prev()
-	{
-		--$this->_current_key;
-		return $this;
-	}
-
-	/**
-	 * Implements [Iterator::rewind], sets the current row to zero.
-	 *
-	 *     rewind($result);
-	 *
-	 * @return  $this
-	 */
-	public function rewind()
-	{
-		$this->_current_key = 0;
-		return $this;
-	}
-
-	/**
-	 * Implements [Iterator::valid], checks if the current row exists.
-	 *
-	 * [!!] This method is only used internally.
-	 *
-	 * @return  boolean
-	 */
+	public function key() 
+    {
+        $item = key($this->_items);
+        return $item;
+    }
+	
+	public function next() 
+    {
+        $item = next($this->_items);
+        return $item;
+    }
+	
 	public function valid()
-	{
-		return $this->offsetExists($this->_current_key);
-	}
+    {
+        $key = key($this->_items);
+        $item = ($key !== NULL AND $key !== FALSE);
+        return $item;
+    }
 	
 	public function render()
 	{
@@ -327,5 +237,4 @@ abstract class Kohana_Breadcrumbs implements Countable, Iterator, SeekableIterat
 	{
 		return (string) $this->render();
 	}
-	
 }

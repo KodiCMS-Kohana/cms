@@ -34,7 +34,7 @@ class Controller_Front extends Controller_System_Controller
 		
 		$ctx =& Context::instance();
 	
-		$ctx->set_page($page);		
+		$ctx->set_page($page);
 
 		// If page needs login, redirect to login
 		if ($page->needs_login() == Model_Page::LOGIN_REQUIRED)
@@ -52,6 +52,8 @@ class Controller_Front extends Controller_System_Controller
 		}
 		
 		Block::run('PRE');
+		
+		$ctx->build_crumbs();
 		
 		$html = (string) $page->render_layout();
 

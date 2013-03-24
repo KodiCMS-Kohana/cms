@@ -6,7 +6,7 @@ class Kohana_Breadcrumbs_Item {
 	 *
 	 * @var string 
 	 */
-	public $url = FALSE;
+	public $url = NULL;
 	
 	/**
 	 *
@@ -21,6 +21,13 @@ class Kohana_Breadcrumbs_Item {
 	public $active = TRUE;
 	
 	/**
+	 *
+	 * @var string
+	 */
+	protected $_data = array();
+
+
+	/**
 	 * 
 	 * @param boolean $urls
 	 * @param string $name
@@ -28,33 +35,85 @@ class Kohana_Breadcrumbs_Item {
 	 * @param boolean $active
 	 * @throws Kohana_Exception
 	 */
-	public function __construct($urls, $name, $url = NULL, $active = FALSE)
+	public function __construct($name, $url = NULL, $active = FALSE, array $data = array())
 	{
 		if(empty($name))
 		{
 			throw new Kohana_Exception('Breadcrumbs: The breadcrumb name could not be empty!');
 		}
-		$this->name = $name;
-		if($urls && $url !== FALSE)
-		{
-			if(empty($url))
-			{
-				$url = $name;
-			}
 
-			$this->set_url($url);
+		$this->name = $name;
+		if( ! empty($url))
+		{
+			$this->_set_url($url);
 		}
 
 		$this->active = $active;
+		
+		$this->_data = $data;
 	}
 	
 	/**
 	 * 
 	 * @param string $url
 	 */
-	protected function set_url($url)
+	protected function _set_url($url)
 	{
 		$this->url = url::site($url);
 		return $this;
-	}	
+	}
+	
+	/**
+	 * 
+	 * @return boolean
+	 */
+	public function is_active()
+	{
+		return (bool) $this->active;
+	}
+
+	/**
+	 * 
+	 * @return string
+	 */
+	public function link()
+	{
+		return HTML::anchor($this->url, $this->name);
+	}
+
+	/**
+	 * 
+	 * @param string|array $key
+	 * @param mixed $value
+	 * @return \Kohana_Breadcrumbs_Item
+	 */
+	public function set($key, $value = NULL)
+	{
+		if( is_array( $key ))
+			$this->_data = $key;
+		else
+			$this->_data[$key] = $value;
+
+		return $this;
+	}
+	
+	/**
+	 * 
+	 * @param string $key
+	 * @return mixed|NULL
+	 */
+	public function get($key)
+	{
+		return Arr::get($this->_data, $key);
+	}
+	
+	/**
+	 * 
+	 * @param string $key
+	 * @return midex|NULL
+	 */
+	public function __get( $key )
+	{
+		return $this->get( $key );
+	}
 }

@@ -304,30 +304,32 @@ class Model_Page_Front {
 	 */
 	public function breadcrumbs($level = 0)
 	{
-		$pages = array();
+		$crumbs = Breadcrumbs::factory();
 
 		if ( $this->parent instanceof Model_Page_Front 
 				AND $this->level > $level)
 		{
-			$pages = Arr::merge($this->parent->_recurse_breadcrumbs($level), $pages);
+			$this->parent->_recurse_breadcrumbs($level, $crumbs);
 		}
 
-		$pages[] = $this->breadcrumb;
+		$crumbs->add($this->breadcrumb(), $this->url, TRUE, NULL, array(
+			'id' => $this->id
+		));
 
-		return $pages;
+		return $crumbs;
 	}
 
-	private function _recurse_breadcrumbs($level)
+	private function _recurse_breadcrumbs($level, &$crumbs)
 	{
-		$pages[] = $this->link($this->breadcrumb, array(), FALSE);
-
 		if ($this->parent instanceof Model_Page_Front 
 				AND $this->level > $level)
 		{
-			$pages = Arr::merge($this->parent->_recurse_breadcrumbs($level), $pages);
+			$this->parent->_recurse_breadcrumbs($level, $crumbs);
 		}
-
-		return $pages;
+		
+		$crumbs->add($this->breadcrumb(), $this->url, FALSE, NULL, array(
+			'id' => $this->id
+		));
 	}
 
 	/**

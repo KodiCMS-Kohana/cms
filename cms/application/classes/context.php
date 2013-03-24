@@ -28,6 +28,12 @@ class Context {
 	
 	/**
 	 *
+	 * @var Breadcrumbs 
+	 */
+	protected $_crumbs = NULL;
+
+	/**
+	 *
 	 * @var array 
 	 */
 	protected $_widgets = array();
@@ -112,7 +118,8 @@ class Context {
 	public function set_page( Model_Page_Front & $page )
 	{
 		$this->_page = & $page;
-		
+		$this->_crumbs = $page->breadcrumbs();
+
 		return $this;
 	}
 	
@@ -125,6 +132,15 @@ class Context {
 		return $this->_page;
 	}
 	
+	/**
+	 * 
+	 * @return Breadcrumbs
+	 */
+	public function & get_crumbs()
+	{
+		return $this->_crumbs;
+	}
+
 	/**
 	 * 
 	 * @param integer $id
@@ -255,7 +271,7 @@ class Context {
 	{
 		if( $this->_widget_ids !== NULL ) return;
 
-		$ids = array_keys( & $this->_widgets );
+		$ids = array_keys( $this->_widgets );
 
 		$widgets = array(); 
 		$types = array('PRE' => array(), '*named' => array(), 'POST' => array());
@@ -277,7 +293,19 @@ class Context {
 					$widgets[$v[$i]] = & $this->_widgets[$v[$i]];
 		}
 
-		$this->_widget_ids = array_keys( & $widgets );
+		$this->_widget_ids = array_keys( $widgets );
 		$this->_widgets = & $widgets;
+	}
+	
+	public function build_crumbs()
+	{
+		foreach($this->_widget_ids as $id)
+		{
+			if($this->_widgets[$id] instanceof Model_Widget_Decorator 
+					AND $this->_widgets[$id]->crumbs)
+			{
+				$this->_widgets[$id]->change_crumbs($this->_crumbs);
+			}
+		}
 	}
 }
