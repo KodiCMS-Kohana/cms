@@ -72,6 +72,9 @@ if ( isset( $_SERVER['KOHANA_ENV'] ) )
 else if(IS_INSTALLED)
 {
 	Kohana::$environment = Kohana::PRODUCTION;
+	
+	// Turn off notices and strict errors
+    error_reporting(E_ALL ^ E_NOTICE ^ E_STRICT);
 }
 
 
