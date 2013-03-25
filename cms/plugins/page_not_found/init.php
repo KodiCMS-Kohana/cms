@@ -32,9 +32,7 @@ function behavior_page_not_found()
 		// if we fund it, display it!
 		if( is_object($page) )
 		{
-			echo Response::factory()
-				->status(404)
-				->body($page->render_layout());
+			echo Request::factory($page->url)->execute()->status(404);
 			exit(); // need to exit here otherwise the true error page will be sended
 		}
 	}
