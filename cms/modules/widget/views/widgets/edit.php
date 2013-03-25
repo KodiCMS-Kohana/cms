@@ -90,7 +90,7 @@
 
 				echo Bootstrap_Form_Element_Control_Group::factory(array(
 					'element' => Bootstrap_Form_Element_Input::factory(array(
-						'name' => 'cache_lifetime', 'value' => (int) $widget->lifetime
+						'name' => 'cache_lifetime', 'value' => (int) $widget->cache_lifetime
 					))
 					->label(__('Cache lifetime'))
 				));

@@ -73,7 +73,7 @@ abstract class Model_Widget_Decorator {
 	 *
 	 * @var integer 
 	 */
-	public $cache_lifetime = Date::HOUR;
+	public $cache_lifetime = Date::MONTH;
 	
 	/**
 	 *
