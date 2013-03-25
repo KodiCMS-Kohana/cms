@@ -39,19 +39,39 @@ class Model_Widget_Page_Menu extends Model_Widget_Decorator {
 	{
 		$pages = Model_Page_Sitemap::get();
 		
-		if($this->page_id > 1)
+		if( ($page_id = $this->get_page_id()) !== NULL )
 		{
-			$pages->find($this->page_id);
+			$pages->find($page_id);
 		}
-		else if($this->page_id == 0 AND ($page = Context::instance()->get_page()) instanceof Model_Page_Front)
-		{
-			$pages->find($page->id);
-		}
-		
+
 		$pages->exclude( $this->exclude );
 
 		return array(
 			'pages' => $pages->children()->as_array( $this->match_all_paths == 1 )
 		);
+	}
+	
+	public function get_page_id()
+	{
+		if($this->page_id > 1)
+		{
+			return $this->page_id;
+		}
+		else if($this->page_id == 0 AND ($page = $this->_ctx->get_page()) instanceof Model_Page_Front)
+		{
+			return $page->id;
+		}
+		
+		return NULL;
+	}
+
+	public function get_cache_id()
+	{
+		return 'Widget::' . $this->id . '::' . $this->_ctx->get_page()->id;
+	}
+	
+	public function clear_cache()
+	{
+		return $this;
 	}
 }

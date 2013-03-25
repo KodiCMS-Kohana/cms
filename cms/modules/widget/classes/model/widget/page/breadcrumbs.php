@@ -25,9 +25,7 @@ class Model_Widget_Page_Breadcrumbs extends Model_Widget_Decorator {
 	{
 		$crumbs = array();
 		
-		$ctx = Context::instance();
-
-		if( ($crumbs = &$ctx->get_crumbs()) instanceof Breadcrumbs)
+		if( ($crumbs = &$this->_ctx->get_crumbs()) instanceof Breadcrumbs)
 		{
 			if( ! empty($this->exclude))
 			{
@@ -38,5 +36,15 @@ class Model_Widget_Page_Breadcrumbs extends Model_Widget_Decorator {
 		return array(
 			'crumbs' => $crumbs
 		);
+	}
+	
+	public function get_cache_id()
+	{
+		return 'Widget::' . $this->id . '::' . $this->_ctx->get_page()->id;
+	}
+	
+	public function clear_cache()
+	{
+		return $this;
 	}
 }

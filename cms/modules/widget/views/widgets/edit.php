@@ -76,8 +76,6 @@
 			)); ?>
 			</div>
 		</div>
-		
-		<?php if( ! empty($widget->template)): ?>
 		<hr />
 		<?php
 				echo Bootstrap_Form_Element_Control_Group::factory(array(
@@ -102,7 +100,6 @@
 	//				->label(__('Cache tags'))
 	//			));
 		?>
-		<?php endif; ?>
 	</div>
 	<?php endif; ?>
 	<div class="widget-header">

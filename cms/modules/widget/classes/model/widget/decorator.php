@@ -96,10 +96,17 @@ abstract class Model_Widget_Decorator {
 	
 	/**
 	 *
+	 * @var Context 
+	 */
+	protected $_ctx = NULL;
+
+
+	/**
+	 *
 	 * @var array 
 	 */
 	protected $_data = array();
-	
+
 	/**
 	 * 
 	 * @return string
@@ -367,5 +374,10 @@ abstract class Model_Widget_Decorator {
 	public function __toString()
 	{
 		return (string) $this->render();
+	}
+	
+	public function __wakeup()
+	{
+		$this->_ctx =& Context::instance();
 	}
 }
