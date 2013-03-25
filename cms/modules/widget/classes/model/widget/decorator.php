@@ -34,10 +34,23 @@ abstract class Model_Widget_Decorator {
 
 	/**
 	 *
-	 * @var strimg
+	 * @var string
 	 */
 	public $template = NULL;
 	
+	/**
+	 *
+	 * @var string 
+	 */
+	public $backend_template = NULL;
+	
+	/**
+	 *
+	 * @var string 
+	 */
+	public $frontend_template = NULL;
+
+
 	/**
 	 *
 	 * @var boolean 
@@ -86,6 +99,34 @@ abstract class Model_Widget_Decorator {
 	 * @var array 
 	 */
 	protected $_data = array();
+	
+	/**
+	 * 
+	 * @return string
+	 */
+	public function backend_template()
+	{
+		if($this->backend_template === NULL)
+		{
+			$this->backend_template = $this->type;
+		}
+		
+		return $this->backend_template;
+	}
+	
+	/**
+	 * 
+	 * @return string
+	 */
+	public function frontend_template()
+	{
+		if($this->frontend_template === NULL)
+		{
+			$this->frontend_template = $this->type;
+		}
+		
+		return $this->frontend_template;
+	}
 
 	/**
 	 * 
@@ -95,12 +136,12 @@ abstract class Model_Widget_Decorator {
 	{
 		if(Kohana::$profiling === TRUE)
 		{
-			$benchmark = Profiler::start('Widget render', __CLASS__);
+			$benchmark = Profiler::start('Widget render', $this->name);
 		}
 
 		if( empty($this->template) ) 
 		{
-			if( ($this->template = Kohana::find_file('views', 'widgets/template/' . $this->type)) === FALSE  )
+			if( ($this->template = Kohana::find_file('views', 'widgets/template/' . $this->frontend_template())) === FALSE  )
 			{
 				$this->template = Kohana::find_file('views', 'widgets/template/default');
 			}
@@ -112,7 +153,16 @@ abstract class Model_Widget_Decorator {
 		
 		$allow_omments = (bool) Arr::get($params, 'comments');
 
-		echo "<!--{Widget: {$this->name}}-->";
+		if( $this->block != 'PRE' )
+		{
+			echo "<!--{Widget: {$this->name}}-->";
+
+//			if(AuthUser::isLoggedIn() AND Request::current()->headers('Content-Type') == 'text/html')
+//			{
+//				echo "<div class='widget-block'".
+//					" data-id='$this->id' data-section='widget' data-type='$this->type'>";
+//			}
+		}
 		
 		if( 
 			$this->caching === TRUE 
@@ -128,7 +178,16 @@ abstract class Model_Widget_Decorator {
 			echo $this->_fetch_render($params);
 		}
 
-		echo "<!--{/Widget: {$this->name}}-->";
+		if( $this->block != 'PRE' )
+		{
+//			if(AuthUser::isLoggedIn() AND Request::current()->headers('Content-Type') == 'text/html')
+//			{
+//				$block_id = sprintf('obj.%x', crc32(rand().microtime()));
+//				
+//				echo "<div class='clearfix'></div></div>";
+//			}
+			echo "<!--{/Widget: {$this->name}}-->";
+		}
 		
 		if(isset($benchmark))
 		{

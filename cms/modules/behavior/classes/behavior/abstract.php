@@ -98,6 +98,15 @@ abstract class Behavior_Abstract {
 	
 	/**
 	 * 
+	 * @return array
+	 */
+	public function params()
+	{
+		return $this->_params;
+	}
+	
+	/**
+	 * 
 	 * @param string $name
 	 * @return boolean
 	 */

@@ -197,8 +197,8 @@ class Controller_Widgets extends Controller_System_Backend {
 		// Если не создать View шаблон, не загружаем его
 		try
 		{
-			$content = View::factory( 'widgets/widget/' . $widget->type, array(
-						'widget' => $widget
+			$content = View::factory( 'widgets/widget/' . $widget->backend_template(), array(
+					'widget' => $widget
 				))->set($widget->load_template_data());
 		}
 		catch( Kohana_Exception $e)

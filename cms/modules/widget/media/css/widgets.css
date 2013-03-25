@@ -1,0 +1,7 @@
+.widget-block {
+	position: relative;
+}
+
+.widget-block.visible {
+	border: 1px dashed #ccc;
+}

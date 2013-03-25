@@ -20,3 +20,8 @@ Observer::observe( 'frontpage_found',  function($page) {
 	
 	Observer::notify('load_blocks');
 });
+
+//Observer::observe('front_page_toolbar', function() {
+//	echo View::factory('widgets/frontpage');
+//	
+//});
