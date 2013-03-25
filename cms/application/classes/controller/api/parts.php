@@ -53,6 +53,7 @@ class Controller_API_Parts extends Controller_System_Api {
 		$id = $this->param('id', NULL, TRUE);
 		
 		$part = Model_Page_Part::findByIdFrom( 'Model_Page_Part', (int) $id );
+		Cache::instance()->delete_tag('page_parts');
 		$part->delete();
 	}
 }
