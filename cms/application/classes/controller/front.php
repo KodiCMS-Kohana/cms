@@ -107,6 +107,11 @@ class Controller_Front extends Controller_System_Controller
 			$this->check_cache(sha1($html));
 		}
 		
+		if($mime = $page->mime())
+		{
+			$this->response->headers('Content-Type',  $mime );
+		}
+		
 		$this->response
 			->body($html)
 			->headers('last-modified', date('r', strtotime($page->updated_on)));			

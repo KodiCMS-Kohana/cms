@@ -847,16 +847,17 @@ class Model_Page_Front {
 	public function render_layout()
 	{
 		$layout = $this->get_layout_object();
-
-		$mime = File::mime_by_ext(pathinfo($this->url(), PATHINFO_EXTENSION));
-
-		if($mime)
-		{
-			Request::current()->headers('Content-Type',  $mime );
-		}
-
 		return View_Front::factory($layout->get_file())
 			->set('page', $this);
+	}
+	
+	/**
+	 * Mime type
+	 * @return string
+	 */
+	public function mime()
+	{
+		return File::mime_by_ext(pathinfo($this->url(), PATHINFO_EXTENSION));
 	}
 
 	/**
