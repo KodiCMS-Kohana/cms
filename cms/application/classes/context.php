@@ -28,6 +28,19 @@ class Context {
 	
 	/**
 	 *
+	 * @var Request 
+	 */
+	protected $_request = NULL;
+	
+	/**
+	 *
+	 * @var Response 
+	 */
+	protected $_response = NULL;
+
+
+	/**
+	 *
 	 * @var Breadcrumbs 
 	 */
 	protected $_crumbs = NULL;
@@ -109,6 +122,38 @@ class Context {
 		
 		return $this;
 	}
+	
+	/**
+	 * 
+	 * @param Response $response
+	 * @return \Context|Response
+	 */
+	public function response( Response $response = NULL )
+	{
+		if( $response === NULL )
+		{
+			return $this->_response;
+		}
+		
+		$this->_response = $response;
+		return $this;
+	}
+	
+	/**
+	 * 
+	 * @param Request $request
+	 * @return \Context|Request
+	 */
+	public function request( Request $request = NULL )
+	{
+		if( $request === NULL )
+		{
+			return $this->_request;
+		}
+		
+		$this->_request = $request;
+		return $this;
+	}
 
 	/**
 	 * 
@@ -133,6 +178,16 @@ class Context {
 	}
 	
 	/**
+	 * 
+	 * @return \Context
+	 */
+	public function throw_404()
+	{
+		$this->response()->status(404);
+		return $this;
+	}
+
+		/**
 	 * 
 	 * @return Breadcrumbs
 	 */
@@ -235,7 +290,7 @@ class Context {
 		
 		return $this;
 	}
-	
+
 	/**
 	 * 
 	 * @param Model_Widget_Decorator|View $widget
@@ -296,7 +351,11 @@ class Context {
 		$this->_widget_ids = array_keys( $widgets );
 		$this->_widgets = & $widgets;
 	}
-	
+
+	/**
+	 * Каждый виджет может добавлять или имзенять хлебные крошки на странице
+	 * Этот метод обходит все виджеты и запускает метод change_crumbs()
+	 */
 	public function build_crumbs()
 	{
 		foreach($this->_widget_ids as $id)
@@ -307,5 +366,20 @@ class Context {
 				$this->_widgets[$id]->change_crumbs($this->_crumbs);
 			}
 		}
+		
+		return $this;
+	}
+	
+	/**
+	 * Используется для вывода ошибки 404
+	 * Если не сбрасывать объект, то все блоки на странице дублируются
+	 */
+	public function __destruct()
+	{
+		$this->_widgets = array();
+		$this->_widget_ids = array();
+		$this->_blocks = array();
+		$this->_params = array();
+		$this->_injections = array();
 	}
 }

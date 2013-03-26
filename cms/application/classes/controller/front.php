@@ -2,6 +2,23 @@
 
 class Controller_Front extends Controller_System_Controller
 {
+	/**
+	 *
+	 * @var Context 
+	 */
+	protected $_ctx = NULL;
+
+	public function before()
+	{
+		parent::before();
+		
+		$this->_ctx =& Context::instance();
+
+		$this->_ctx
+			->request( $this->request )
+			->response( $this->response );
+	}
+
 	public function action_index()
 	{
 		Observer::notify('frontpage_requested', array($this->request->uri()));
@@ -14,6 +31,8 @@ class Controller_Front extends Controller_System_Controller
 		}
 		else
 		{
+			// Если включен поиск похожей страницы и она найдена, производим
+			// редирект на найденую страницу
 			if(Setting::get('find_similar') == 'yes')
 			{
 				$uri = Model_Page_Front::find_similar($this->request->uri());
@@ -30,11 +49,9 @@ class Controller_Front extends Controller_System_Controller
 	
 	private function _render($page)
 	{
-		Observer::notify('frontpage_found', $page);
+		$this->_ctx->set_page($page);
 		
-		$ctx =& Context::instance();
-	
-		$ctx->set_page($page);
+		Observer::notify('frontpage_found', $page);
 
 		// If page needs login, redirect to login
 		if ($page->needs_login() == Model_Page::LOGIN_REQUIRED)
@@ -53,10 +70,21 @@ class Controller_Front extends Controller_System_Controller
 		
 		Block::run('PRE');
 		
-		$ctx->build_crumbs();
+		$this->_ctx->build_crumbs();
 		
+		// Если установлен статус 404, то выводим страницу 404
+		// Страницу 404 могут выкидывать также Виджеты
+		if( Request::current()->is_initial() AND $this->response->status() == 404)
+		{
+			$this->_ctx = NULL;
+			Model_Page_Front::not_found();
+		}
+
 		$html = (string) $page->render_layout();
 
+		// Если пользователь Администраторо или девелопер, в конец шаблона 
+		// добавляем View 'system/blocks/toolbar', в котором можно добавлять 
+		// собственный HTML, например панель администратора
 		if ( AuthUser::isLoggedIn() AND AuthUser::hasPermission(array(
 			'administrator', 'developer'
 		)))
@@ -73,6 +101,7 @@ class Controller_Front extends Controller_System_Controller
 			}
 		}
 		
+		// Если окружение - PRODUCTION, то включить etag кеширование
 		if( Kohana::$environment === Kohana::PRODUCTION )
 		{
 			$this->check_cache(sha1($html));
