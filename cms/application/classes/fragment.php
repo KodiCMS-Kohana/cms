@@ -23,6 +23,9 @@ class Fragment extends Kohana_Fragment {
 
 		// Get the cache key name
 		$cache_key = Fragment::_cache_key($name, $i18n);
+		
+		// If cache lifetime < 0 then clear
+		if( $lifetime < 0 ) Fragment::delete( $name, $i18n );
 
 		if ($fragment = Cache::instance()->get($cache_key))
 		{
