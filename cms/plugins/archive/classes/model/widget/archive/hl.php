@@ -1,24 +1,8 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
-class Model_Widget_Archive_HL extends Model_Widget_Decorator {
-
-	protected $_data = array(
-		'list_offset' => 0,
-		'list_size' => 10
-	);
+class Model_Widget_Archive_HL extends Model_Widget_Page_Pages {
 	
-	public function set_values(array $data)
-	{
-		$data['list_offset'] = (int) $data['list_offset'];
-		$data['list_size'] = (int) $data['list_size'];
-
-		return parent::set_values($data);
-	}
-
-	public function get_page()
-	{
-		return Context::instance()->get_page();
-	}
+	public $frontend_template = 'page_pages';
 
 	public function fetch_data()
 	{
