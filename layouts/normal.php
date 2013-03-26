@@ -33,6 +33,7 @@
 				</div>
 				<div class="span3">
 					<?php Block::run('sidebar'); ?>
+                    <?php Block::run('recent'); ?>
 				</div>
 			</div>
 			<?php Block::run('footer'); ?>

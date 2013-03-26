@@ -13,15 +13,3 @@
 		<?php echo HTML::anchor('https://github.com/butschster/kodicms', 'KodiCMS'); ?>
 	</li>
 </ul>
-
-<?php if ( URL::match( '/' ) ): ?>
-	<h3>Recent Entries</h3>
-	<?php $page_article = $page->find( '/articles/' ); ?>
-	<?php if($page_article): ?>
-	<ul>
-		<?php foreach ( $page_article->children( array( 'limit' => 10, 'order' => 'page.created_on DESC' ) ) as $article ): ?>
-			<li><?php echo $article->link(); ?></li> 
-		<?php endforeach; ?>
-	</ul>
-	<?php endif; ?>
-<?php endif; ?>
