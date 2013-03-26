@@ -87,6 +87,36 @@ class Widget_Manager {
 		
 		return $widgets;
 	}
+	
+	public static function copy_widgets( $from_page_id, $to_page_id ) 
+	{
+		$widgets = DB::select('widget_id', 'block')
+			->from('page_widgets')
+			->where('page_id', '=', (int) $from_page_id)
+			->execute()
+			->as_array('widget_id', 'block');
+		
+		if(count($widgets) > 0)
+		{
+			$insert = DB::insert('page_widgets')
+				->columns(array('page_id', 'widget_id', 'block'));
+			
+			foreach($widgets as $widget_id => $block)
+			{
+				$insert->values(array(
+					'page_id' => (int) $to_page_id,
+					'widget_id' => $widget_id,
+					'block' => $block
+				));
+			}
+			
+			$insert->execute();
+			
+			return $insert[1];
+		}
+		
+		return FALSE;
+	}
 
 	/**
 	 * 
