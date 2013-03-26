@@ -79,6 +79,7 @@ if (!empty($pagetmp) AND !empty($parttmp) AND !empty($tagstmp))
 					<div class="outline">
 						<div id="pageEditOptions" class="widget outline_inner">
 							<?php echo View::factory('page/blocks/sidebar', array(
+								'pages' => $pages,
 								'page' => $page,
 								'layouts' => $layouts,
 								'behaviors' => $behaviors,

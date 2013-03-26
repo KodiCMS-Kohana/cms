@@ -3,6 +3,14 @@
 </div>
 
 <div class="widget-content">
+	<label><?php echo __('Parent page'); ?></label>
+	<select name="page[parent_id]" class="span12">
+		<?php foreach ($pages as $p): ?>
+		<option value="<?php echo($p['id']); ?>" <?php echo($p['id'] == $page->parent_id ? ' selected="selected"': ''); ?> ><?php echo str_repeat('- ', $p['level'] * 2).$p['title']; ?></option>
+		<?php endforeach; ?>
+	</select>
+	<br />
+	
 	<label><?php echo __('Layout'); ?></label>
 	<select name="page[layout_file]" class="span12">
 		<option value="0">&ndash; <?php echo __('inherit'); ?> &ndash;</option>

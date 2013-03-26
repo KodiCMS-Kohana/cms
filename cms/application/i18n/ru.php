@@ -98,6 +98,7 @@ return array(
 	'Tags' => 'Тэги',
 	'Status' => 'Статус',
 	'Type' => 'Тип',
+	'Parent page' => 'Родительская страница',
 	'Users roles that can edit page' => 'Страница доступна для ролей',
 	'View page' => 'Просмотреть страницу',
 	'You do not have permission to access the requested page!' 

@@ -154,6 +154,7 @@ class Controller_Page extends Controller_System_Backend {
 		$this->template->content = View::factory( 'page/edit', array(
 			'action' => 'edit',
 			'page' => $page,
+			'pages' => Model_Page_Sitemap::get()->exclude(array($page->id))->flatten(),
 			'tags' => $page->get_tags(),
 			'filters' => Filter::findAll(),
 			'behaviors' => Behavior::findAll(),
