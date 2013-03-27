@@ -30,7 +30,7 @@
 		</div>
 	</div>
 	<div class="widget-header">
-		<h4><?php echo __('Data'); ?></h4>
+		<h4><?php echo __('Widget data'); ?></h4>
 	</div>
 	<div class="widget-content">
 		<div class="control-group">

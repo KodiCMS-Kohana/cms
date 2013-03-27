@@ -90,6 +90,13 @@ abstract class Model_Widget_Decorator {
 	
 	/**
 	 *
+	 * @var array 
+	 */
+	public $cache_tags = array();
+
+
+	/**
+	 *
 	 * @var bool 
 	 */
 	public $throw_404 = FALSE;
@@ -178,7 +185,7 @@ abstract class Model_Widget_Decorator {
 		)
 		{
 			echo $this->_fetch_render($params);
-			Fragment::save();
+			Fragment::save_with_tags($this->cache_lifetime, $this->cache_tags);
 		}
 		else if( ! $this->caching )
 		{
@@ -333,6 +340,31 @@ abstract class Model_Widget_Decorator {
 			Fragment::delete($this->get_cache_id());
 		}
 
+		return $this;
+	}
+	
+	public function clear_cache_by_tags()
+	{
+		if(!empty($this->cache_tags))
+		{
+			$cache = Cache::instance();
+			
+			if($cache instanceof Cache_Tagging)
+			{
+				if( is_array( $this->cache_tags ))
+				{
+					foreach($this->cache_tags as $tag)
+					{
+						$cache->delete_tag($tag);
+					}
+				}
+				else
+				{
+					$cache->delete_tag( $this->cache_tags );
+				}
+			}
+		}
+		
 		return $this;
 	}
 

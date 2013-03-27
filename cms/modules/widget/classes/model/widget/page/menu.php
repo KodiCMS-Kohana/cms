@@ -3,6 +3,8 @@
 class Model_Widget_Page_Menu extends Model_Widget_Decorator {
 	
 	public $exclude = array();
+	
+	public $cache_tags = array('pages');
 
 	public function load_template_data()
 	{
@@ -72,6 +74,8 @@ class Model_Widget_Page_Menu extends Model_Widget_Decorator {
 	
 	public function clear_cache()
 	{
+		$this->clear_cache_by_tags();
+
 		return $this;
 	}
 }

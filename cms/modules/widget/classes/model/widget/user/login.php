@@ -9,14 +9,66 @@ class Model_Widget_User_Login extends Model_Widget_Decorator {
 		'password_field' => 'password',
 		'remember_field' => 'remember',
 		'next_url' => '/',
-		'remember' => TRUE
+		'remember' => TRUE,
+		'roles_redirect' => array(
+			array(
+				'roles' => array(),
+				'next_url' => '/'
+			)
+		)
 	);
+	
+	public function load_template_data()
+	{
+		$roles = Model_Permission::get_all();
+		
+		$_roles = array();
+		foreach($roles as $role)
+		{
+			$_roles[$role] = $role;
+		}
+		return array(
+			'roles' => $_roles
+		);
+	}
 	
 	public function set_values(array $data)
 	{
 		$data['remember'] = empty($data['remember']) ? FALSE : (bool) $data['remember'];
+		
+		if(empty($data['roles_redirect']) OR !is_array($data['roles_redirect']))
+		{
+			$data['roles_redirect'] =  $this->get_default_roles();
+		}
+		else
+		{
+			$roles = array();
+			foreach($data['roles_redirect'] as $data)
+			{
+				if(empty($data['roles']) OR empty($data['next_url'])) continue;
+				
+				$roles[] = array(
+					'roles' => $data['roles'],
+					'next_url' => $data['next_url']
+				);
+			}
+			
+			if(empty($roles))
+				$roles = $this->get_default_roles();
+			$data['roles_redirect'] = $roles;
+		}
 
 		return parent::set_values($data);
+	}
+	
+	public function get_default_roles()
+	{
+		return array(
+			array(
+				'roles' => array(),
+				'next_url' => '/'
+			)
+		);
 	}
 
 	public function fetch_data()
@@ -48,10 +100,10 @@ class Model_Widget_User_Login extends Model_Widget_Decorator {
 		$remember = isset( $data[$this->get( 'remember_field' )] ) AND $this->get( 'remember' ) === TRUE;
 		
 		if ( $data->check() )
-		{			
+		{	
 			if ( AuthUser::login( $login_fieldname, $data[$this->get( 'login_field' )], $data[$this->get( 'password_field' )], $remember ) )
 			{
-				HTTP::redirect($this->get('next_url', Request::current()->referrer()));
+				HTTP::redirect($this->get_next_url());
 			}
 			else
 			{
@@ -63,6 +115,27 @@ class Model_Widget_User_Login extends Model_Widget_Decorator {
 			Messages::errors( $data->errors( 'validation' ) );
 		}
 
-		HTTP::redirect($this->get( Request::current()->referrer()) );
+//		HTTP::redirect( Request::current()->referrer() );
+	}
+	
+	public function get_next_url()
+	{
+		$next_url = $this->get('next_url', Request::current()->referrer());
+		
+		$roles_redirect = $this->get('roles_redirect', array());
+		if( empty($roles_redirect) OR !is_array($roles_redirect))
+		{
+			return $next_url;
+		}
+
+		foreach($roles_redirect as $data)
+		{
+			if( AuthUser::hasPermission( $data['roles'] ))
+			{
+				return $data['next_url'];
+			}
+		}
+		
+		return $next_url;
 	}
 }

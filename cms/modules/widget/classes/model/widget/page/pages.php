@@ -7,6 +7,8 @@ class Model_Widget_Page_Pages extends Model_Widget_Decorator {
 		'list_size' => 10
 	);
 	
+	public $cache_tags = array('pages', 'page_parts', 'page_tags');
+	
 	public function on_page_load() 
 	{
 		$page = Model_Page_Front::findById($this->get_page_id());
@@ -92,6 +94,8 @@ class Model_Widget_Page_Pages extends Model_Widget_Decorator {
 	
 	public function clear_cache()
 	{
+		$this->clear_cache_by_tags();
+
 		return $this;
 	}
 }

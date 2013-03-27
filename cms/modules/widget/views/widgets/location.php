@@ -21,6 +21,13 @@
 				<col width="50px" />
 				<col />
 			</colgroup>
+			<thead>
+				<tr>
+					<th><?php echo __('Layout block'); ?></th>
+					<th><?php echo __('Page'); ?></th>
+					<th></th>
+				</tr>
+			</thead>
 			<tbody>
 				<?php echo recurse_pages($pages, 0, $blocks, $page_widgets, $pages_widgets); ?>
 			</tbody>
@@ -29,14 +36,14 @@
 	<div class="widget-content widget-no-border-radius">
 		<div class="input-prepend input-append">
 			<?php echo Form::input('select_for_all', NULL, array('class' => 'inline')); ?>
-			<?php echo UI::button( __('Select for all'), array(
+			<?php echo UI::button( __('Select for all pages'), array(
 				'icon' => UI::icon('sitemap'), 'class' => 'btn inline', 'id' => 'select_for_all'
 			)); ?>
 		</div>
 	</div>
 	<div class="widget-footer form-actions">
 		<?php echo UI::button( __('Save locations'), array(
-			'icon' => UI::icon( 'plus'), 'class' => 'btn btn-large'
+			'icon' => UI::icon( 'ok'), 'class' => 'btn btn-large'
 		)); ?>
 	</div>
 	<?php echo Form::close(); ?>

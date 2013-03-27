@@ -1,27 +1,3 @@
-<script>		
-	$(function() {
-		$('#WidgetTemplate').change(function() {
-			var $option = $('option:selected', this);
-			if($option.val() == 0)
-				$('#WidgetTemplateButton').hide();
-			else
-				$('#WidgetTemplateButton')
-					.show()
-					.attr('href', '<?php echo URL::backend('snippet/edit'); ?>/' + $option.val())
-		});
-		
-		$('body').on('post:api:snippet, put:api:snippet', function(event, response) {
-			var $option = $('<option selected value="'+response.name+'">'+response.name+'</oprion>');
-			$('#WidgetTemplate')
-				.find('option:selected')
-					.removeAttr('selected')
-				.end()
-				.append($option)
-				.change();
-		})
-	})
-</script>
-
 <div class="widget">
 <?php echo Form::open(Request::current()->uri(), array(
 	'class' => Bootstrap_Form::HORIZONTAL
@@ -81,7 +57,7 @@
 				echo Bootstrap_Form_Element_Control_Group::factory(array(
 					'element' => Bootstrap_Form_Element_Checkbox::factory(array(
 						'name' => 'caching', 'value' => 1
-					))
+					), array('id' => 'caching'))
 					->checked($widget->caching)
 					->label(__('Cache enabled'))
 				));
@@ -89,9 +65,9 @@
 				echo Bootstrap_Form_Element_Control_Group::factory(array(
 					'element' => Bootstrap_Form_Element_Input::factory(array(
 						'name' => 'cache_lifetime', 'value' => (int) $widget->cache_lifetime
-					))
+					), array('id' => 'cache_lifetime'))
 					->label(__('Cache lifetime'))
-				));
+				), array('id' => 'cache_lifetime_group'));
 
 	//			echo Bootstrap_Form_Element_Control_Group::factory(array(
 	//				'element' => Bootstrap_Form_Element_Textarea::factory(array(
