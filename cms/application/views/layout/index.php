@@ -5,6 +5,11 @@
 			'icon' => UI::icon( 'plus' ), 'href' => 'layout/add',
 			'class' => 'popup fancybox.iframe btn'
 		)); ?>
+		
+		<?php echo UI::button(__('Rebuild blocks'), array(
+			'icon' => UI::icon( 'stethoscope' ), 'href' => 'layout/rebuild',
+			'class' => 'btn'
+		)); ?>
 	</div>
 	
 	<div class="widget-content">
