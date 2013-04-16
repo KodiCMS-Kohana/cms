@@ -258,6 +258,13 @@ cms.init.add('page_index', function () {
 		});
 });
 
+
+cms.init.add('page_add', function () {
+	$('body').on('keyup', 'input[name="page[title]"]', function () {
+		$('input[name="page[breadcrumb]"]').val($(this).val());
+	});
+});
+
 $(function() {
 	cms.models.page = Backbone.Model.extend({
 		urlRoot: '/api/page',
