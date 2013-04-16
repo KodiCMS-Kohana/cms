@@ -6,7 +6,7 @@ cms.init.add('widgets_edit', function() {
 		else
 			$('#WidgetTemplateButton')
 				.show()
-				.attr('href', '/'+ADMIN_DIR_NAME+'/snippet/edit/' + $option.val())
+				.attr('href', BASE_URL + '/snippet/edit/' + $option.val())
 	});
 
 	$('body').on('post:api:snippet, put:api:snippet', function(event, response) {

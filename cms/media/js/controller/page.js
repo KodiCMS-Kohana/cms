@@ -267,7 +267,7 @@ cms.init.add('page_add', function () {
 
 $(function() {
 	cms.models.page = Backbone.Model.extend({
-		urlRoot: '/api/page',
+		urlRoot: SITE_URL + 'api/page',
 		
 		defaults: {
 			slug: '',

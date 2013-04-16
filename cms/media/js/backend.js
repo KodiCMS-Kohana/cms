@@ -413,7 +413,7 @@ var Api = {
 	},
 
 	request: function(method, uri, data, callback) {
-		uri = '/api/' + uri;
+		uri = SITE_URL + 'api/' + uri;
 		
 		$.ajaxSetup({
 			contentType : 'application/json'
