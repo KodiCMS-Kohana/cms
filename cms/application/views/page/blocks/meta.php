@@ -10,10 +10,10 @@
 	</div>
 </div>
 <div class="spoiler-toggle-container widget-content-bg widget-no-border-radius">
-	<div class="spoiler-toggle text-center">
+	<div class="spoiler-toggle text-center" data-spoiler=".spoiler-meta">
 		<?php echo UI::icon( 'chevron-down spoiler-toggle-icon' ); ?>
 	</div>
-	<div id="pageEditMetaMore" class="spoiler">
+	<div id="pageEditMetaMore" class="spoiler spoiler-meta">
 	<br />
 	<?php if ( $action == 'add' || ($action == 'edit' && isset( $page->id ) && $page->id != 1) ): ?>
 		<div class="control-group">
