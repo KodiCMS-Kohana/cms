@@ -242,4 +242,12 @@ class Controller_Widgets extends Controller_System_Backend {
 			$this->go( 'widgets/edit/' . $widget->id );
 		}
 	}
+	
+	public function action_delete( )
+	{
+		$id = $this->request->param('id');
+		
+		Widget_Manager::remove(array($id));
+		$this->go( 'widgets' );
+	}
 }
