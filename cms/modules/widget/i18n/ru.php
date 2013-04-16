@@ -38,4 +38,6 @@ return array(
 	'Breadcrumbs' => 'Хлебные крошки',
 	'Authentication' => 'Авторизация',
 	'Authentication destroy' => 'Выход',
+	
+	'Copy widgets from' => 'Скопировать выджеты у страницы'
 );

@@ -88,7 +88,7 @@ class Widget_Manager {
 		return $widgets;
 	}
 	
-	public static function copy_widgets( $from_page_id, $to_page_id ) 
+	public static function copy( $from_page_id, $to_page_id ) 
 	{
 		$widgets = DB::select('widget_id', 'block')
 			->from('page_widgets')
@@ -110,9 +110,9 @@ class Widget_Manager {
 				));
 			}
 			
-			$insert->execute();
+			list($insert_id, $total_rows) = $insert->execute();
 			
-			return $insert[1];
+			return $total_rows;
 		}
 		
 		return FALSE;
