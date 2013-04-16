@@ -44,7 +44,7 @@ class Controller_API_Layout extends Controller_System_Api {
 			}
 
 			$this->json['message'] = __( 'Layout has been saved!' );
-			Observer::notify( 'layout_after_edit', array( $layout ) );
+			Observer::notify( 'layout_after_edit', $layout );
 		}
 		
 		$this->response($layout);
@@ -73,7 +73,7 @@ class Controller_API_Layout extends Controller_System_Api {
 		{
 			$this->json_redirect('layout/edit/' . $layout->name);
 			$this->json['message'] = __( 'Layout has been saved!' );
-			Observer::notify( 'layout_after_add', array( $layout ) );
+			Observer::notify( 'layout_after_add', $layout );
 		}
 		
 		$this->response($layout);

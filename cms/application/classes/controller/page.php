@@ -28,7 +28,7 @@ class Controller_Page extends Controller_System_Backend {
 		$parent_id = (int) $this->request->param('id', 1);
 
 		// check if trying to save
-		if ( Request::current()->method() == Request::POST )
+		if ( $this->request->method() == Request::POST )
 		{
 			return $this->_add( $parent_id );
 		}
@@ -50,7 +50,7 @@ class Controller_Page extends Controller_System_Backend {
 			'parent_id' => $parent_id,
 			'page' => $page,
 			'pages' => Model_Page_Sitemap::get()->exclude(array($page->id))->flatten(),
-			'tags' => array(),
+			'tags' => Flash::get('page_tag', array()),
 			'filters' => Filter::findAll(),
 			'behaviors' => Behavior::findAll(),
 			'layouts' => Model_File_Layout::find_all(),
@@ -61,7 +61,7 @@ class Controller_Page extends Controller_System_Backend {
 
 	private function _add( $parent_id )
 	{
-		$data = $_POST['page'];
+		$data = $this->request->post('page');
 		$tags = Arr::get($data, 'tags', array());
 
 		Flash::set( 'post_data', (object) $data );
@@ -143,7 +143,7 @@ class Controller_Page extends Controller_System_Backend {
 		}
 
 		// check if trying to save
-		if ( Request::current()->method() == Request::POST )
+		if ( $this->request->method() == Request::POST )
 		{
 			return $this->_edit( $page_id );
 		}
@@ -156,7 +156,7 @@ class Controller_Page extends Controller_System_Backend {
 			'action' => 'edit',
 			'page' => $page,
 			'pages' => Model_Page_Sitemap::get()->exclude(array($page->id))->flatten(),
-			'tags' => $page->get_tags(),
+			'tags' => Flash::get('page_tag', $page->get_tags()),
 			'filters' => Filter::findAll(),
 			'behaviors' => Behavior::findAll(),
 			'layouts' => Model_File_Layout::find_all(),

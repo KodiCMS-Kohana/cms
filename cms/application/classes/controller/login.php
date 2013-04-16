@@ -93,7 +93,7 @@ class Controller_Login extends Controller_System_Frontend {
 	{
 		$this->auto_render = FALSE;
 		AuthUser::logout();
-		Observer::notify('admin_after_logout', array(AuthUser::getUserName()));
+		Observer::notify('admin_after_logout', AuthUser::getUserName());
 		
 		if( $next_url = Flash::get( 'redirect') )
 		{
@@ -144,7 +144,7 @@ class Controller_Login extends Controller_System_Frontend {
 			$this->go_back();
 		}
 		
-		Observer::notify('admin_login_forgot_before', array($user));
+		Observer::notify('admin_login_forgot_before', $user);
 
 		$message = (string) View::factory('messages/email/reflink', array(
 			'username' => $user->username,

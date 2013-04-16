@@ -18,8 +18,8 @@ class I18n extends Kohana_I18n {
 			}
 			
 			// Create the log file
-			file_put_contents($filename, '// Auto generated i18n lang file for lang '. $lang, FILE_APPEND);
-			file_put_contents($filename, 'cms.addTranslation(' . json_encode($table) . ');');
+			file_put_contents($filename, '// Auto generated i18n lang file for lang '. $lang."\n");
+			file_put_contents($filename, 'cms.addTranslation(' . json_encode($table) . ');', FILE_APPEND);
 	
 			// Allow anyone to write to log files
 			chmod($filename, 0666);

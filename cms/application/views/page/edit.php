@@ -1,18 +1,3 @@
-<?php
-
-// TODO: clean up code/solution
-$pagetmp = Flash::get('page');
-$parttmp = Flash::get('page_parts');
-$tagstmp = Flash::get('page_tag');
-
-if (!empty($pagetmp) AND !empty($parttmp) AND !empty($tagstmp))
-{
-	$page = $pagetmp;
-	$page_parts = $parttmp;
-	$tags = $tagstmp;
-}
-?>
-
 <script type="text/javascript">
 	var PAGE_ID = <?php echo (int) $page->id; ?>;
 
@@ -49,7 +34,7 @@ if (!empty($pagetmp) AND !empty($parttmp) AND !empty($tagstmp))
 
 						<?php echo View::factory('part/items'); ?>
 
-						<?php Observer::notify('view_page_edit_plugins', array($page)); ?>
+						<?php Observer::notify('view_page_edit_plugins', $page); ?>
 
 						<?php if($action != 'add'): ?>
 						<div class="widget-content widget-no-border-radius">
@@ -74,7 +59,7 @@ if (!empty($pagetmp) AND !empty($parttmp) AND !empty($tagstmp))
 				</div><!--/#pageEdit-->
 
 				<div class="span3">
-					<?php Observer::notify('view_page_edit_sidebar_before', array($page)); ?>
+					<?php Observer::notify('view_page_edit_sidebar_before', $page); ?>
 
 					<div class="outline">
 						<div id="pageEditOptions" class="widget outline_inner">
@@ -90,7 +75,7 @@ if (!empty($pagetmp) AND !empty($parttmp) AND !empty($tagstmp))
 						</div><!--/#pageEditOptions-->
 					</div>
 
-					<?php Observer::notify('view_page_edit_sidebar_after', array($page)); ?>
+					<?php Observer::notify('view_page_edit_sidebar_after', $page); ?>
 				</div><!--/#contentSidebar-->
 			</div>
 		</div>

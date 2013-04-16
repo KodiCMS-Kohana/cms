@@ -15,6 +15,6 @@ class Model_Layout_Block extends ORM {
 		return $this
 			->where('layout_name', '=', $name)
 			->find_all()
-			->as_array(NULL, 'block');
+			->as_array('block', 'block');
 	}
 }

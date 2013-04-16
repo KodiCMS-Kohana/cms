@@ -58,6 +58,8 @@ return array(
 	'Layouts' => 'Шаблоны',
 	'Modified' => 'Изменен',
 	'Layout blocks' => 'Блоки',
+	'Rebuild blocks' => 'Обновить список блоков',
+	'Layout blocks succefully update!' => 'Список блоков успешно обновлен!',
 	
 	
 	/*********************** Page *********************************/

@@ -14,7 +14,7 @@ return array(
 			'name' => __('API Browser'), 
 			'url' => URL::backend('guide/api'),
 			'priority' => 102,
-			'icon' => 'wrench',
+			'icon' => 'beaker',
 			'permissions' => array()
 		)
 	)
