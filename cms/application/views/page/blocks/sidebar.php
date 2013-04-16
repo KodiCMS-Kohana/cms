@@ -11,13 +11,21 @@
 	</select>
 	<br />
 	
-	<label><?php echo __('Layout'); ?></label>
+	<label>
+		<?php echo __('Layout'); ?>
+		<?php if( empty($page->layout_file) ): ?>
+		<span class="pull-right">
+			<?php echo UI::label(__('Current layput: :name', array(':name' => $page->layout()))); ?>
+		</span>
+		<?php endif; ?>
+	</label>
 	<select name="page[layout_file]" class="span12">
 		<option value="0">&ndash; <?php echo __('inherit'); ?> &ndash;</option>
 		<?php foreach ($layouts as $layout): ?>
 		<option value="<?php echo($layout->name); ?>" <?php echo($layout->name == $page->layout_file ? ' selected="selected"': ''); ?> ><?php echo $layout->name; ?></option>
 		<?php endforeach; ?>
 	</select>
+
 	<br />
 	<div class="well well-small">
 		<label><?php echo __('Type'); ?></label>

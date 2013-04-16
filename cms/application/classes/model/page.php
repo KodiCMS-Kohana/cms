@@ -231,8 +231,23 @@ class Model_Page extends Record
     {
         return Model_Page_Tag::save_by_page( $this->id, $tags );
     }
-    
-    public static function find($clause = array())
+	
+	public function layout()
+	{
+		if( empty($this->layout_file) AND ! empty($this->parent_id) )
+		{
+			$parent = $this->findById($this->parent_id);
+			
+			if( $parent != NULL )
+			{
+				return $parent->layout();
+			}
+		}
+		
+		return $this->layout_file;
+	}
+
+	public static function find($clause = array())
     {		
 		$sql = DB::select('page.*')
 			->select(array('author.username', 'created_by_name'))
