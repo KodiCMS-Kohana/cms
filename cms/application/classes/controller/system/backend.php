@@ -52,7 +52,7 @@ class Controller_System_Backend extends Controller_System_Template
 			$this->template->bind_global('navigation', $navigation);
 			
 			$this->styles = array(
-				ADMIN_RESOURCES . 'libs/jquery-ui/css/custom-theme/jquery-ui-1.8.16.custom.css',
+				ADMIN_RESOURCES . 'libs/jquery-ui/css/custom-theme/jquery-ui-1.10.0.custom.css',
 				ADMIN_RESOURCES . 'libs/jgrowl/jquery.jgrowl.css',
 				ADMIN_RESOURCES . 'libs/fancybox/jquery.fancybox.css',
 				ADMIN_RESOURCES . 'libs/select2/select2.css',
@@ -60,10 +60,10 @@ class Controller_System_Backend extends Controller_System_Template
 			);
 			
 			$this->scripts = array(
-				ADMIN_RESOURCES . 'libs/jquery-1.8.2.min.js',
+				ADMIN_RESOURCES . 'libs/jquery-1.9.1.min.js',
 				ADMIN_RESOURCES . 'libs/underscore-min.js',
 				ADMIN_RESOURCES . 'libs/backbone-min.js',
-				ADMIN_RESOURCES . 'libs/jquery-ui/js/jquery-ui-1.8.23.custom.min.js',
+				ADMIN_RESOURCES . 'libs/jquery-ui/js/jquery-ui-1.10.2.custom.min.js',
 				ADMIN_RESOURCES . 'libs/bootstrap/js/bootstrap.min.js',
 				ADMIN_RESOURCES . 'libs/jgrowl/jquery.jgrowl_minimized.js',
 				ADMIN_RESOURCES . 'libs/fancybox/jquery.fancybox.pack.js',

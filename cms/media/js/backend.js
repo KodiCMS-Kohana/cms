@@ -264,7 +264,7 @@ cms.init = {
 };
 
 cms.ui.add('btn-confirm', function() {
-	$('.btn-confirm').live('click', function () {
+	$('body').live('click', '.btn-confirm', function () {
 		if (confirm(__('Are you sure?')))
 			return true;
 

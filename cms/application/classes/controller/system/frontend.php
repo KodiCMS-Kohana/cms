@@ -15,7 +15,7 @@ class Controller_System_Frontend extends Controller_System_Template
 			);
 			
 			$this->scripts = array(
-				ADMIN_RESOURCES . 'libs/jquery-1.8.2.min.js',
+				ADMIN_RESOURCES . 'libs/jquery-1.9.1.min.js',
 				ADMIN_RESOURCES . 'libs/underscore-min.js',
 				ADMIN_RESOURCES . 'libs/backbone-min.js',
 				ADMIN_RESOURCES . 'libs/bootstrap/js/bootstrap.min.js',

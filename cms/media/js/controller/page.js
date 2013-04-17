@@ -28,7 +28,7 @@ cms.init.add('page_index', function () {
 	}
 
 
-	$('#pageMapItems .item-expander').live('click', function () {
+	$('#pageMapItems').on('click', ' .item-expander', function () {
 		var li = $(this).parent().parent().parent().parent();
 		var parent_id = li.data('id');
 
