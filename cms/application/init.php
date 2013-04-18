@@ -56,7 +56,8 @@ Kohana::modules( array(
 	'snippet'		=> MODPATH . 'snippet',
 	'widget'		=> MODPATH . 'widget',
 	'reflinks'		=> MODPATH . 'reflinks',
-	'behavior'		=> MODPATH . 'behavior'
+	'behavior'		=> MODPATH . 'behavior',
+	'elfinder'		=> MODPATH . 'elfinder'
 ) );
 
 // Init settings

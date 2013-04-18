@@ -52,7 +52,7 @@ class Controller_System_Backend extends Controller_System_Template
 			$this->template->bind_global('navigation', $navigation);
 			
 			$this->styles = array(
-				ADMIN_RESOURCES . 'libs/jquery-ui/css/custom-theme/jquery-ui-1.10.0.custom.css',
+				ADMIN_RESOURCES . 'libs/jquery-ui/css/flick/jquery-ui-1.10.2.custom.css',
 				ADMIN_RESOURCES . 'libs/jgrowl/jquery.jgrowl.css',
 				ADMIN_RESOURCES . 'libs/fancybox/jquery.fancybox.css',
 				ADMIN_RESOURCES . 'libs/select2/select2.css',
