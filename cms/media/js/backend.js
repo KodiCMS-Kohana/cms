@@ -136,13 +136,13 @@ var cms = {
 		switchedOn: {},
 		
 		// Add new filter
-		add: function (name, to_editor_callback, to_textarea_callback) {
-			if (to_editor_callback == undefined || to_textarea_callback == undefined) {
-				cms.error('System try to add filter without required callbacks.', name, to_editor_callback, to_textarea_callback);
+		add: function (name, switchOn_handler, switchOff_handler, exec_handler) {
+			if (switchOn_handler == undefined || switchOff_handler == undefined) {
+				cms.error('System try to add filter without required callbacks.', name, switchOn_handler, switchOff_handler);
 				return;
 			}
 
-			this.filters.push([ name, to_editor_callback, to_textarea_callback ]);
+			this.filters.push([ name, switchOn_handler, switchOff_handler, exec_handler ]);
 		},
 		
 		// Switch On filter
@@ -152,7 +152,7 @@ var cms = {
 
 			if (this.filters.length > 0) {
 				// Switch off previouse editor with textarea_id
-				cms.filters.switchOff(textarea_id);
+				this.switchOff(textarea_id);
 
 				for (var i = 0; i < this.filters.length; i++) {
 					if (this.filters[i][0] == filter) {
@@ -161,7 +161,7 @@ var cms = {
 							this.filters[i][1](textarea_id, params);
 
 							// Add editor to switchedOn stack
-							cms.filters.switchedOn[textarea_id] = this.filters[i];
+							this.switchedOn[textarea_id] = this.filters[i];
 						}
 						catch (e) {
 							//frog.error('Errors with filter switch on!', e);
@@ -175,28 +175,38 @@ var cms = {
 		
 		// Switch Off filter
 		switchOff: function (textarea_id) {
-			for (var key in cms.filters.switchedOn) {
-				// if textarea_id param is set we search only one editor and switch off it
-				if (textarea_id != undefined && key != textarea_id)
-					continue;
-				else
-					textarea_id = key;
-
-				try {
-					if (cms.filters.switchedOn[key] != undefined && cms.filters.switchedOn[key] != null && typeof(cms.filters.switchedOn[key][2]) == 'function') {
-						// Call handler that will switch off editor and showed up simple textarea
-						cms.filters.switchedOn[key][2](textarea_id);
-					}
+			var filter = this.get(textarea_id);
+			
+			try {
+				if ( filter && typeof(filter[2]) == 'function' ) {
+					// Call handler that will switch off editor and showed up simple textarea
+					filter[2](textarea_id);
 				}
-				catch (e) {
-					//cms.error('Errors with filter switch off!', e);
-				}
-
-				// Remove editor from switchedOn editors stack
-				if (cms.filters.switchedOn[key] != undefined || cms.filters.switchedOn[key] != null) {
-					cms.filters.switchedOn[key] = null;
-				}
+				
+				this.switchedOn[textarea_id] = null;
 			}
+			catch (e) {
+				//cms.error('Errors with filter switch off!', e);
+			}
+		},
+				
+		get: function(textarea_id) {
+			for (var key in this.switchedOn) {
+				// if textarea_id param is set we search only one editor and switch off it
+				if ( key == textarea_id )
+					return this.switchedOn[key];
+			}
+
+			return null;
+		},
+				
+		insert: function(textarea_id, data) {
+			var filter = this.get(textarea_id);
+			
+			if( filter && typeof(filter[3]) == 'function' )
+				return filter[3](textarea_id, data);
+			
+			return false;
 		}
 	}
 };
@@ -215,6 +225,18 @@ var __ = function (str, values) {
 
     return values == undefined ? str : strtr(str, values);
 };
+
+cms.filemanager = {
+	open: function(redactor_id) {
+		return $.fancybox.open({
+			href : BASE_URL + '/elfinder/?id='+redactor_id,
+			type: 'iframe'
+		}, {
+			autoSize: false,
+			width: 1000
+		});
+	}
+}
 
 cms.ui = {
     callbacks:[],
@@ -264,7 +286,7 @@ cms.init = {
 };
 
 cms.ui.add('btn-confirm', function() {
-	$('body').live('click', '.btn-confirm', function () {
+	$('body').on('click', '.btn-confirm', function () {
 		if (confirm(__('Are you sure?')))
 			return true;
 
@@ -523,22 +545,38 @@ $.fn.tabs = function () {
 	});
 };
 
-$.fn.serializeObject = function()
-{
-    var o = {};
-    var a = this.serializeArray();
-    $.each(a, function() {
-        if (o[this.name] !== undefined) {
-            if (!o[this.name].push) {
-                o[this.name] = [o[this.name]];
-            }
-            o[this.name].push(this.value || '');
-        } else {
-            o[this.name] = this.value || '';
+
+
+(function($) {
+	$.fn.serializeObject = function()
+	{
+		var o = {};
+		var a = this.serializeArray();
+		$.each(a, function() {
+			if (o[this.name] !== undefined) {
+				if (!o[this.name].push) {
+					o[this.name] = [o[this.name]];
+				}
+				o[this.name].push(this.value || '');
+			} else {
+				o[this.name] = this.value || '';
+			}
+		});
+		return o;
+	};
+
+    $.QueryString = (function(a) {
+        if (a == "") return {};
+        var b = {};
+        for (var i = 0; i < a.length; ++i)
+        {
+            var p=a[i].split('=');
+            if (p.length != 2) continue;
+            b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
         }
-    });
-    return o;
-};
+        return b;
+    })(window.location.search.substr(1).split('&'))
+})(jQuery);
 
 /*Browser detection patch*/
 jQuery.browser = {};
