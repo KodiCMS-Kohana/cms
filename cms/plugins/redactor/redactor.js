@@ -12,7 +12,16 @@ cms.plugins.redactor.switchOn_handler = function( textarea_id, params )
 		//wym: true,
 		autoresize: false,
 		lang: LOCALE,
-		minHeight: 200
+		minHeight: 200,
+		buttonsAdd: ['|', 'elfinder'], 
+		buttonsCustom: {
+			elfinder: {
+				title: 'elFinder', 
+				callback: function(obj, event, key) {
+					cms.filemanager.open(obj.$el.attr('id'));
+				} 
+			}
+		}
 	};
 	
 	params = $.extend(local_params, params);
@@ -27,11 +36,24 @@ cms.plugins.redactor.switchOff_handler = function( textarea_id )
 	$('#' + textarea_id).destroyEditor();	
 };
 
+cms.plugins.redactor.exec_handler = function( textarea_id, data )
+{
+	if (/(jpg|gif|png|JPG|GIF|PNG|JPEG|jpeg)$/.test(data)){
+		data = '<img src="' + data + '">';
+	} else {
+		data = '<a href="' + data + '">' + data + '</a>';
+	}
+
+	$('#' + textarea_id).insertHtml(data);
+	
+	return true;
+};
+
 /*
 	When DOM init
 */
 jQuery(function(){
 
 	cms.filters
-		.add( 'redactor', cms.plugins.redactor.switchOn_handler, cms.plugins.redactor.switchOff_handler );
+		.add( 'redactor', cms.plugins.redactor.switchOn_handler, cms.plugins.redactor.switchOff_handler, cms.plugins.redactor.exec_handler );
 });

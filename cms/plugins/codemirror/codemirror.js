@@ -35,13 +35,18 @@ cms.plugins.codemirror.switchOff_handler = function( textarea_id )
 	}
 }
 
+cms.plugins.codemirror.exec_handler = function( textarea_id, data )
+{
+	
+}
+
 /*
 	When DOM init
 */
 jQuery(function(){
 
 	cms.filters
-		.add( 'codemirror', cms.plugins.codemirror.switchOn_handler, cms.plugins.codemirror.switchOff_handler );
+		.add( 'codemirror', cms.plugins.codemirror.switchOn_handler, cms.plugins.codemirror.switchOff_handler, cms.plugins.codemirror.exec_handler );
 
 	cms.filters.switchOn( 'highlight_content', 'codemirror' );
 });
