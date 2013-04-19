@@ -8,6 +8,9 @@ Version: 3.3.2 Timestamp: Mon Mar 25 12:14:18 PDT 2013
     zoom: 1;
     *display: inline;
     vertical-align: middle;
+	float: none !important;
+	margin-left: 0 !important;
+	width: 220px;
 }
 
 .select2-container,
