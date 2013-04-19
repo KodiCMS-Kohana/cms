@@ -11,8 +11,8 @@ class Controller_Scheduler extends Controller_System_Backend {
 	
 	public function action_index()
 	{
-		$this->scripts[] = ADMIN_RESOURCES . 'libs/fullcalendar/fullcalendar.min.js';
-		$this->styles[] = ADMIN_RESOURCES . 'libs/fullcalendar/fullcalendar.css';
+		Assets::css('fullcalendar', ADMIN_RESOURCES . 'libs/fullcalendar/fullcalendar.css', 'global');
+		Assets::js('fullcalendar', ADMIN_RESOURCES . 'libs/fullcalendar/fullcalendar.min.js', 'jquery');
 		
 		$this->template->content = View::factory( 'scheduler/index' );
 	}

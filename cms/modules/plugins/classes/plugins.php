@@ -208,32 +208,6 @@ class Plugins {
 	}
 
 	/**
-	 * 
-	 * @param string $plugin_id
-	 * @param string $file
-	 */
-	public static function add_javascript( $plugin_id, $file )
-	{
-		if ( self::is_enabled( $plugin_id ) )
-		{
-			self::$javascripts[] = PLUGINS_URL . $plugin_id . '/' . $file;
-		}
-	}
-
-	/**
-	 * 
-	 * @param string $plugin_id
-	 * @param string $file
-	 */
-	public static function add_style( $plugin_id, $file )
-	{
-		if ( self::is_enabled( $plugin_id ) )
-		{
-			self::$styles[] = PLUGINS_URL . $plugin_id . '/' . $file;
-		}
-	}
-
-	/**
 	 * Returns TRUE if a plugin is enabled for use.
 	 *
 	 * @param string $plugin_id

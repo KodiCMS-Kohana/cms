@@ -34,6 +34,7 @@ Cookie::$salt = COOKIE_SALT;
  * Enable modules. Modules are referenced by a relative or absolute path.
  */
 Kohana::modules( array(
+	'assets'		=> MODPATH . 'assets',		// Asset Manager
 	'cache'			=> MODPATH . 'cache',		// Cache manager
 	'database'		=> MODPATH . 'database',	// Database access
 	'auth'			=> MODPATH . 'auth',		// Basic authentication

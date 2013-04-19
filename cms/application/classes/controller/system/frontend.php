@@ -8,21 +8,21 @@ class Controller_System_Frontend extends Controller_System_Template
 
 		if($this->auto_render === TRUE)
 		{
-			$this->styles = array(
-				ADMIN_RESOURCES . 'libs/jgrowl/jquery.jgrowl.css',
-				ADMIN_RESOURCES . 'libs/fancybox/jquery.fancybox.css',
-				ADMIN_RESOURCES . 'css/common.css',
-			);
+			Assets::js('jquery', ADMIN_RESOURCES . 'libs/jquery-1.9.1.min.js');
 			
-			$this->scripts = array(
-				ADMIN_RESOURCES . 'libs/jquery-1.9.1.min.js',
-				ADMIN_RESOURCES . 'libs/underscore-min.js',
-				ADMIN_RESOURCES . 'libs/backbone-min.js',
-				ADMIN_RESOURCES . 'libs/bootstrap/js/bootstrap.min.js',
-				ADMIN_RESOURCES . 'libs/jgrowl/jquery.jgrowl_minimized.js',
-				ADMIN_RESOURCES . 'libs/fancybox/jquery.fancybox.pack.js',
-				ADMIN_RESOURCES . 'js/backend.js',
-			);
+			Assets::js('underscore', ADMIN_RESOURCES . 'libs/underscore-min.js', 'jquery');
+			Assets::js('backbone', ADMIN_RESOURCES . 'libs/backbone-min.js', 'underscore');
+			
+			Assets::js('bootstrap', ADMIN_RESOURCES . 'libs/bootstrap/js/bootstrap.min.js', 'jquery');
+			
+			Assets::css('fancybox', ADMIN_RESOURCES . 'libs/fancybox/jquery.fancybox.css', 'jquery');
+			Assets::js('fancybox', ADMIN_RESOURCES . 'libs/fancybox/jquery.fancybox.pack.js', 'jquery');
+			
+			Assets::css('jgrowl', ADMIN_RESOURCES . 'libs/jgrowl/jquery.jgrowl.css', 'jquery');
+			Assets::js('jgrowl', ADMIN_RESOURCES . 'libs/jgrowl/jquery.jgrowl_minimized.js', 'jquery');
+			
+			Assets::css('global', ADMIN_RESOURCES . 'css/common.css');
+			Assets::js('global', ADMIN_RESOURCES . 'js/backend.js', 'backbone');
 		}
 	}
 }

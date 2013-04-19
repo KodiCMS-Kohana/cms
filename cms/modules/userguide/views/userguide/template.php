@@ -11,8 +11,8 @@
 		<?php echo $messages; ?>
 		</script>
 
-		<?php foreach ($styles as $style) echo HTML::style($style, NULL, TRUE), "\n" ?>
-		<?php foreach ($scripts as $script) echo HTML::script($script, NULL, NULL, TRUE), "\n" ?>
+		<?php echo Assets::css(); ?>
+		<?php echo Assets::js(); ?>
 
 		<?php Observer::notify( 'layout_backend_head' ); ?>
 	</head>

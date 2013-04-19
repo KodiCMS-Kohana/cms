@@ -198,12 +198,12 @@ class Plugins_Item {
 
 		foreach ( $this->_javascripts as $file )
 		{
-			Plugins::add_javascript( $this->id, $file );
+			Assets::js('plugin.' . $this->id . '.js.' . $file, PLUGINS_URL . $this->id . '/' . $file, 'global');
 		}
 
 		foreach ( $this->_styles as $file )
 		{
-			Plugins::add_style( $this->id, $file );
+			Assets::css('plugin.' . $this->id . '.css.' . $file, PLUGINS_URL . $this->id . '/' . $file, 'global');
 		}
 		
 		$this->init();

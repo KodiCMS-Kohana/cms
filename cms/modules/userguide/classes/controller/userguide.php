@@ -233,21 +233,14 @@ class Controller_Userguide extends Controller_System_Backend {
 		{
 			// Get the media route
 			$media = Route::get('docs/media');
-
-			// Add styles
-			$this->template->styles = array(
-				$media->uri(array('file' => 'css/kodoc.css')),
-				$media->uri(array('file' => 'css/shcore.css')),
-				$media->uri(array('file' => 'css/shthemekodoc.css')),
-			);
-
-			// Add scripts
-			$this->template->scripts = array(
-				$media->uri(array('file' => 'js/kodoc.js')),
-				// Syntax Highlighter
-				$media->uri(array('file' => 'js/shcore.js')),
-				$media->uri(array('file' => 'js/shbrushphp.js')),
-			);
+			
+			Assets::css('jquery', $media->uri(array('file' => 'css/kodoc.css')), 'jquery');
+			Assets::css('jquery', $media->uri(array('file' => 'css/shcore.css')), 'jquery');
+			Assets::css('jquery', $media->uri(array('file' => 'css/shthemekodoc.css')), 'jquery');
+			
+			Assets::js('jquery', $media->uri(array('file' => 'js/kodoc.js')), 'jquery');
+			Assets::js('jquery', $media->uri(array('file' => 'js/shcore.js')), 'jquery');
+			Assets::js('jquery', $media->uri(array('file' => 'js/shbrushphp.js')), 'jquery');
 
 			// Add languages
 			$this->template->translations = Kohana::message('userguide', 'translations');

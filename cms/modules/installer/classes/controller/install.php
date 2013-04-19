@@ -6,7 +6,7 @@ class Controller_Install extends Controller_System_Frontend
 	
 	public function action_index()
 	{
-		$this->scripts[] = ADMIN_RESOURCES . 'js/install.js';
+		Assets::js('install', ADMIN_RESOURCES . 'js/install.js', 'global');
 
 		$data = array(
 			'db_driver' => 'mysql',

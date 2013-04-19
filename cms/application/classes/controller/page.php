@@ -8,8 +8,8 @@ class Controller_Page extends Controller_System_Backend {
 		$this->breadcrumbs
 			->add(__('Pages'), $this->request->controller());
 		
-		$this->scripts[] = ADMIN_RESOURCES . 'js/controller/page.js';
-		$this->scripts[] = ADMIN_RESOURCES . 'js/controller/behavior.js';
+		Assets::js('controller.page', ADMIN_RESOURCES . 'js/controller/page.js', 'global');
+		Assets::js('controller.behavior', ADMIN_RESOURCES . 'js/controller/behavior.js', 'global');
 	}
 
 	public function action_index()
@@ -24,7 +24,7 @@ class Controller_Page extends Controller_System_Backend {
 
 	public function action_add( )
 	{
-		$this->scripts[] = ADMIN_RESOURCES . 'js/controller/parts.js';
+		Assets::js('controller.parts', ADMIN_RESOURCES . 'js/controller/parts.js', 'global');
 		$parent_id = (int) $this->request->param('id', 1);
 
 		// check if trying to save
@@ -122,7 +122,7 @@ class Controller_Page extends Controller_System_Backend {
 
 	public function action_edit( )
 	{
-		$this->scripts[] = ADMIN_RESOURCES . 'js/controller/parts.js';
+		Assets::js('controller.parts', ADMIN_RESOURCES . 'js/controller/parts.js', 'global');
 
 		$page_id = $this->request->param('id');
 

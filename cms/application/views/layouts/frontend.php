@@ -12,10 +12,9 @@
 		<?php echo $messages; ?>
 		</script>
 
-		<?php
-		foreach ( $styles as $style ) echo HTML::style( $style ) . "\n\t\t";
-		foreach ( $scripts as $script ) echo HTML::script( $script ) . "\n\t\t";
-		?>
+		<?php echo Assets::css(); ?>
+		<?php echo Assets::js(); ?>
+
 	</head>
 	<body id="body_frontend">
 		<div id="content-wrapper">

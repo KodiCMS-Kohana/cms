@@ -29,18 +29,6 @@ class Controller_System_Template extends Controller_System_Security
 	 * @var mixed
 	 */
 	public $json = NULL;
-	
-	/**
-	 *
-	 * @var array
-	 */
-	public $styles = array();
-	
-	/**
-	 *
-	 * @var array
-	 */
-	public $scripts = array();
 
 	/**
 	 * Loads the template [View] object.
@@ -73,9 +61,6 @@ class Controller_System_Template extends Controller_System_Security
 			// Initialize empty values
 			$this->template->title = NULL;
 			$this->template->content = NULL;
-
-			$this->template->styles = array();
-			$this->template->scripts = array();
 			
 			$index_page_url = FALSE;
 			$this->breadcrumbs = Breadcrumbs::factory()
@@ -113,9 +98,6 @@ class Controller_System_Template extends Controller_System_Security
 			}
 			else
 			{
-				$this->template->styles = array_merge( $this->styles, $this->template->styles );
-				$this->template->scripts = array_merge( $this->scripts, $this->template->scripts );
-
 				$this->template->messages = View::factory('layouts/blocks/messages', array(
 					'messages' => Messages::get() 
 				));

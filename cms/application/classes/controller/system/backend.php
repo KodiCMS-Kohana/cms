@@ -51,36 +51,38 @@ class Controller_System_Backend extends Controller_System_Template
 			
 			$this->template->bind_global('navigation', $navigation);
 			
-			$this->styles = array(
-				ADMIN_RESOURCES . 'libs/jquery-ui/css/flick/jquery-ui-1.10.2.custom.css',
-				ADMIN_RESOURCES . 'libs/jgrowl/jquery.jgrowl.css',
-				ADMIN_RESOURCES . 'libs/fancybox/jquery.fancybox.css',
-				ADMIN_RESOURCES . 'libs/select2/select2.css',
-				ADMIN_RESOURCES . 'css/common.css',
-			);
+			Assets::js('jquery', ADMIN_RESOURCES . 'libs/jquery-1.9.1.min.js');
 			
-			$this->scripts = array(
-				ADMIN_RESOURCES . 'libs/jquery-1.9.1.min.js',
-				ADMIN_RESOURCES . 'libs/underscore-min.js',
-				ADMIN_RESOURCES . 'libs/backbone-min.js',
-				ADMIN_RESOURCES . 'libs/jquery-ui/js/jquery-ui-1.10.2.custom.min.js',
-				ADMIN_RESOURCES . 'libs/bootstrap/js/bootstrap.min.js',
-				ADMIN_RESOURCES . 'libs/jgrowl/jquery.jgrowl_minimized.js',
-				ADMIN_RESOURCES . 'libs/fancybox/jquery.fancybox.pack.js',
-				ADMIN_RESOURCES . 'libs/select2/select2.min.js',
-				ADMIN_RESOURCES . 'js/backend.js'
-			);
+			Assets::css('jquery-ui', ADMIN_RESOURCES . 'libs/jquery-ui/css/flick/jquery-ui-1.10.2.custom.css', 'jquery');
+			Assets::js('jquery-ui', ADMIN_RESOURCES . 'libs/jquery-ui/js/jquery-ui-1.10.2.custom.min.js', 'jquery');
 			
+			Assets::js('underscore', ADMIN_RESOURCES . 'libs/underscore-min.js', 'jquery-ui');
+			Assets::js('backbone', ADMIN_RESOURCES . 'libs/backbone-min.js', 'underscore');
+			
+			Assets::css('jgrowl', ADMIN_RESOURCES . 'libs/jgrowl/jquery.jgrowl.css', 'jquery');
+			Assets::js('jgrowl', ADMIN_RESOURCES . 'libs/jgrowl/jquery.jgrowl_minimized.js', 'jquery');
+
+			Assets::js('bootstrap', ADMIN_RESOURCES . 'libs/bootstrap/js/bootstrap.min.js', 'jquery');
+			
+			Assets::css('fancybox', ADMIN_RESOURCES . 'libs/fancybox/jquery.fancybox.css', 'jquery');
+			Assets::js('fancybox', ADMIN_RESOURCES . 'libs/fancybox/jquery.fancybox.pack.js', 'jquery');
+			
+			Assets::css('select2', ADMIN_RESOURCES . 'libs/select2/select2.css', 'jquery');
+			Assets::js('select2', ADMIN_RESOURCES . 'libs/select2/select2.min.js', 'jquery');
+			
+			Assets::css('global', ADMIN_RESOURCES . 'css/common.css');
+			Assets::js('global', ADMIN_RESOURCES . 'js/backend.js', 'backbone');
+
 			$lang_file = CMSPATH . FileSystem::normalize_path('media/js/i18n/'.I18n::lang().'.js');
 			if( file_exists($lang_file))
 			{
-				$this->scripts[] = ADMIN_RESOURCES . 'js/i18n/'.I18n::lang().'.js';
+				Assets::js('i18n', ADMIN_RESOURCES . 'js/i18n/'.I18n::lang().'.js', 'global');
 			}
 			
 			$file = strtolower($this->request->controller());
 			if( Kohana::find_file('media', FileSystem::normalize_path('/js/controller/' . $file), 'js'))
 			{
-				$this->scripts[] = ADMIN_RESOURCES . 'js/controller/' . $file . '.js';
+				Assets::js('controller', ADMIN_RESOURCES . 'js/controller/' . $file . '.js', 'global');
 			}
 		}
 	}

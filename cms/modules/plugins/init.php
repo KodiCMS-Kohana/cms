@@ -21,17 +21,3 @@ if ( ! Route::cache())
 			'action' => 'index',
 		) );
 }
-
-//Вставка JS и Стилей в шаблон
-Observer::observe( 'layout_backend_head',  function() {
-
-	foreach ( Plugins::$javascripts as $javascript )
-	{
-		echo HTML::script( $javascript ) . "\n";
-	}
-	foreach ( Plugins::$styles as $stylesheet )
-	{
-		echo HTML::style( $stylesheet ) . "\n";
-	}
-
-});

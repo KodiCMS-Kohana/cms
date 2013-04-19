@@ -7,24 +7,20 @@ class Controller_Elfinder extends Controller_System_Template {
 	public function before()
 	{
 		parent::before();
+		
+		Assets::js('jquery', ADMIN_RESOURCES . 'libs/jquery-1.9.1.min.js');
+		
+		Assets::css('jquery-ui', ADMIN_RESOURCES . 'libs/jquery-ui/css/flick/jquery-ui-1.10.2.custom.css', 'jquery');
+		Assets::js('jquery-ui', ADMIN_RESOURCES . 'libs/jquery-ui/js/jquery-ui-1.10.2.custom.min.js', 'jquery');
+		
+		Assets::js('underscore', ADMIN_RESOURCES . 'libs/underscore-min.js', 'jquery');
+		Assets::js('backbone', ADMIN_RESOURCES . 'libs/backbone-min.js', 'underscore');
+		
+		Assets::css('elfinder', ADMIN_RESOURCES . 'libs/elfinder/css/elfinder.min.css');
+		Assets::js('elfinder', ADMIN_RESOURCES . 'libs/elfinder/js/elfinder.min.js', 'jquery');
+		Assets::js('elfinder.ru', ADMIN_RESOURCES . 'libs/elfinder/js/i18n/elfinder.ru.js', 'jquery');
 
-		if($this->auto_render === TRUE)
-		{
-			$this->styles = array(
-				ADMIN_RESOURCES . 'libs/jquery-ui/css/flick/jquery-ui-1.10.2.custom.css',
-				ADMIN_RESOURCES . 'libs/elfinder/css/elfinder.min.css',
-			);
-			
-			$this->scripts = array(
-				ADMIN_RESOURCES . 'libs/jquery-1.8.1.min.js',
-				ADMIN_RESOURCES . 'libs/jquery-ui/js/jquery-ui-1.10.2.custom.min.js',
-				ADMIN_RESOURCES . 'libs/underscore-min.js',
-				ADMIN_RESOURCES . 'libs/backbone-min.js',
-				ADMIN_RESOURCES . 'js/backend.js',
-				ADMIN_RESOURCES . 'libs/elfinder/js/elfinder.min.js',
-				ADMIN_RESOURCES . 'libs/elfinder/js/i18n/elfinder.ru.js',
-			);
-		}
+		Assets::js('global', ADMIN_RESOURCES . 'js/backend.js', 'backbone');
 	}
 	
 	public function action_index()
