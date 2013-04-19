@@ -1,6 +1,6 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct access allowed.' );
 
-class Sheduler {
+class Scheduler {
 	
 	protected static $_callbacks = array();
 	
@@ -8,7 +8,7 @@ class Sheduler {
 	{
 		if ( ! is_callable($callback))
 		{
-			throw new Sheduler_Exception('Invalid Sheduler::callback specified');
+			throw new scheduler_Exception('Invalid scheduler::callback specified');
 		}
 		
 		self::$_callbacks[] = $callback;
@@ -16,7 +16,7 @@ class Sheduler {
 	
 	public static function get($start, $end)
 	{
-		Observer::notify('sheduler_callbacks');
+		Observer::notify('scheduler_callbacks');
 		
 		$data = array();
 

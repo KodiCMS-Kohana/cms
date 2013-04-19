@@ -1,4 +1,4 @@
-cms.init.add(['sheduler_index'], function () {
+cms.init.add(['scheduler_index'], function () {
 	var $fullcalendar = $('#calendar');
 
 	var date = new Date(),
@@ -26,7 +26,7 @@ cms.init.add(['sheduler_index'], function () {
 			var roundedStart = Math.round(start.getTime() / 1000),
 				roundedEnd = Math.round(end.getTime() / 1000);
 
-			Api.get('sheduler', {from: roundedStart, to: roundedEnd}, function(response) {
+			Api.get('scheduler', {from: roundedStart, to: roundedEnd}, function(response) {
 				if( ! response.response) return;
 
 				var events = [];

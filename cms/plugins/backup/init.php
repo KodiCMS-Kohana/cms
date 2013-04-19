@@ -14,8 +14,8 @@ if($plugin->enabled())
 		 mkdir(BACKUP_PLUGIN_FOLDER, 0775);
 	}
 	
-	Observer::observe('sheduler_callbacks', function() {
-		Sheduler::add(function($from, $to) {
+	Observer::observe('scheduler_callbacks', function() {
+		scheduler::add(function($from, $to) {
 			$color = 'green';
 			$data = array();
 			$handle = opendir(BACKUP_PLUGIN_FOLDER);

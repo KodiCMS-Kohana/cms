@@ -1,7 +1,7 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
-Observer::observe('sheduler_callbacks', function() {
-	Sheduler::add(function($from, $to) {
+Observer::observe('scheduler_callbacks', function() {
+	scheduler::add(function($from, $to) {
 		$from = date('Y-m-d', $from);
 		$to = date('Y-m-d', $to);
 

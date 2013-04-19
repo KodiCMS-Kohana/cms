@@ -52,7 +52,7 @@ Kohana::modules( array(
 	'bootstrap'		=> MODPATH . 'bootstrap',
 	'breadcrumbs'	=> MODPATH . 'breadcrumbs',
 	'api'			=> MODPATH . 'api',
-	'sheduler'		=> MODPATH . 'sheduler',
+	'scheduler'		=> MODPATH . 'scheduler',
 	'snippet'		=> MODPATH . 'snippet',
 	'widget'		=> MODPATH . 'widget',
 	'reflinks'		=> MODPATH . 'reflinks',

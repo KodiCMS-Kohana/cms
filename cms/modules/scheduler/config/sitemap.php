@@ -3,8 +3,8 @@
 return array(
 	'Content' => array(
 		array(
-			'name' => __('Sheduler'), 
-			'url' => URL::backend('sheduler'),
+			'name' => __('Scheduler'), 
+			'url' => URL::backend('scheduler'),
 			'priority' => 900,
 			'icon' => 'calendar'
 		)
