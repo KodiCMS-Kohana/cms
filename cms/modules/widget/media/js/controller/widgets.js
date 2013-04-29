@@ -20,25 +20,13 @@ cms.init.add('widgets_edit', function() {
 	});
 	
 	var cache_enabled = function() {
+		
 		var $caching_input = $('#caching');
 		var $cache_lifetime = $('#cache_lifetime');
-		if($caching_input.checked()) {
-			$cache_lifetime.removeAttr('disabled');
-		} else {
-			$cache_lifetime.attr('disabled', 'disabled');
-		}
+		
+		$cache_lifetime.prop('disabled', !$caching_input.prop('checked'));
 	}
-	
 	
 	$('#caching').on('change', cache_enabled);
 	cache_enabled();
 });
-
-//$(function() {
-//	$(document).on('keydown', function(e) {
-//		if(e.ctrlKey){
-//			var $blocks = $('.widget-block');
-//			$blocks.toggleClass('visible');
-//		}
-//	});
-//});

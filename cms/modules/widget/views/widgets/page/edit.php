@@ -10,8 +10,6 @@
 <?php else: ?>
 <div class="widget-header widget-no-border-radius spoiler-toggle" data-spoiler=".spoiler-widgets">
 	<h4><?php echo __('Widgets'); ?> <?php echo UI::icon( 'chevron-down spoiler-toggle-icon' ); ?></h4>
-	
-	
 </div>
 
 <div class="widget-content widget-no-border-radius spoiler spoiler-widgets">

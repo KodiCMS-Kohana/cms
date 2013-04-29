@@ -153,17 +153,7 @@ abstract class Model_Widget_Decorator {
 			$benchmark = Profiler::start('Widget render', $this->name);
 		}
 
-		if( empty($this->template) ) 
-		{
-			if( ($this->template = Kohana::find_file('views', 'widgets/template/' . $this->frontend_template())) === FALSE  )
-			{
-				$this->template = Kohana::find_file('views', 'widgets/template/default');
-			}
-		}
-		else
-		{
-			$this->template = SNIPPETS_SYSPATH . $this->template . EXT;
-		}
+		$this->_fetch_template();
 		
 		$allow_omments = (bool) Arr::get($params, 'comments');
 
@@ -209,7 +199,24 @@ abstract class Model_Widget_Decorator {
 		}
 	}
 	
-	/**
+	protected function _fetch_template()
+	{
+		if( empty($this->template) ) 
+		{
+			if( ($this->template = Kohana::find_file('views', 'widgets/template/' . $this->frontend_template())) === FALSE  )
+			{
+				$this->template = Kohana::find_file('views', 'widgets/template/default');
+			}
+		}
+		else
+		{
+			$this->template = SNIPPETS_SYSPATH . $this->template . EXT;
+		}
+		
+		return $this->template;
+	}
+
+		/**
 	 * 
 	 * @param array $params
 	 * @return View
@@ -278,7 +285,7 @@ abstract class Model_Widget_Decorator {
 	 */
 	public function & get( $name, $default = NULL)
 	{
-		$result = NULL;
+		$result = $default;
 		if (array_key_exists($name, $this->_data))
 		{
 			$result = $this->_data[$name];

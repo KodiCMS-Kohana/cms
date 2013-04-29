@@ -66,12 +66,12 @@ class Controller_Widgets extends Controller_System_Backend {
 		$res_blocks = ORM::factory('layout_block')->find_all();
 		
 		$blocks = array();
+		
+		$default_blocks = array('----', 'PRE' => __('Before page render'));
 		foreach ($res_blocks as $block)
 		{
 			if(empty($blocks[$block->layout_name])) 
-				$blocks[$block->layout_name] = array(
-					'----', 'PRE' => __('Before page render')
-				);
+				$blocks[$block->layout_name] = $default_blocks;
 
 			$blocks[$block->layout_name][$block->block] = $block->block;
 		}
@@ -81,7 +81,8 @@ class Controller_Widgets extends Controller_System_Backend {
 			'pages' => $pages,
 			'page_widgets' => $page_widgets,
 			'pages_widgets' => $pages_widgets,
-			'blocks' => $blocks
+			'blocks' => $blocks,
+			'default_blocks' => $default_blocks
 		));
 	}
 	

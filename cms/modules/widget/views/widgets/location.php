@@ -57,7 +57,7 @@ function recurse_pages( $pages, $spaces = 0, $blocks = array(), $page_widgets = 
 		// Выбираем из всех блоков, для шаблона текущей страницы
 		$current_page_blocks = isset($blocks[$page['layout_file']]) 
 				? $blocks[$page['layout_file']] 
-				: array();
+				: $default_blocks;
 		
 		// Исключаем из списка блоки, занятые другими виджетами
 		if(!empty($pages_widgets[$page['id']]) AND is_array($current_page_blocks))
