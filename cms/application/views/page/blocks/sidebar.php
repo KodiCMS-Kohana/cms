@@ -3,6 +3,7 @@
 </div>
 
 <div class="widget-content">
+	<?php if( $page->id != 1 ): ?>
 	<label><?php echo __('Parent page'); ?></label>
 	<select name="page[parent_id]" class="span12">
 		<?php foreach ($pages as $p): ?>
@@ -10,7 +11,7 @@
 		<?php endforeach; ?>
 	</select>
 	<br />
-	
+	<?php endif; ?>
 	<label>
 		<?php echo __('Layout'); ?>
 		<?php if( empty($page->layout_file) ): ?>
