@@ -3,9 +3,9 @@
 return array(
 
 	'cache' => array(
-		'page_parts' => 86400,
-		'front_page' => 86400,
-		'tags' => 86400
+		'page_parts' => Date::DAY,
+		'front_page' => Date::DAY,
+		'tags' => Date::DAY
 	),
 	
 	'date_formats' => array(

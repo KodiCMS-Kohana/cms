@@ -73,4 +73,19 @@ class Date extends Kohana_Date
 
 		return strtr( date( $format, $date ), self::_translate() );
 	}
+	
+	/**
+	 * 
+	 * @return array
+	 */
+	public static function formats()
+	{
+		$dates = array();
+		foreach (Kohana::$config->load('global')->get('date_formats', array()) as $format)
+		{
+			$dates[$format] = Date::format(time(), $format);
+		}
+		
+		return $dates;
+	}
 }
