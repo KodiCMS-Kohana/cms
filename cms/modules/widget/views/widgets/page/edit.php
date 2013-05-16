@@ -1,3 +1,14 @@
+<?php 
+	$_blocks = array(
+		'----', 'PRE' => __('Before page render')
+	);
+	$_blocks += $blocks;
+?>
+
+<script>
+	var LAYOUT_BLOCKS = <?php echo json_encode( $_blocks ); ?>;
+</script>
+
 <?php if(empty($page->id)): ?>
 <div class="widget-content widget-no-border-radius">
 	<h4><?php echo __('Copy widgets from'); ?></h4>
@@ -33,12 +44,8 @@
 				<?php endif; ?>
 			</th>
 			<td>
-				<?php 
-				$_blocks = array(
-					'----', 'PRE' => __('Before page render')
-				);
-				$_blocks += $blocks;
-				echo Form::select('widget['.$widget->id.'][block]', $_blocks, $widget->block, array('disabled')); 
+				<?php
+				echo Form::select('widget['.$widget->id.'][block]', $_blocks, $widget->block, array('class' => 'widget-select-block no-script')); 
 				?>
 			</td>
 		</tr>

@@ -30,3 +30,34 @@ cms.init.add('widgets_edit', function() {
 	$('#caching').on('change', cache_enabled);
 	cache_enabled();
 });
+
+cms.init.add('page_edit', function() {
+	$(function() {
+		reload_blocks();
+		$('.widget-select-block').on('change', function() {
+			reload_blocks();
+		});
+	});
+	
+	function reload_blocks() {
+		var FILLED_BLOCKS = {};
+
+		$('.widget-select-block').each(function() {
+			var cb = $(this).val();
+			
+			if(!cb || cb == 0 || cb == 'PRE') return;
+			FILLED_BLOCKS[cb] = LAYOUT_BLOCKS[cb];
+		});
+		
+		$('.widget-select-block').each(function() {		
+			var cb = $(this).val();
+			$(this).empty();
+			for(block in LAYOUT_BLOCKS) {
+				if(!FILLED_BLOCKS[block] || (FILLED_BLOCKS[block] && block == cb) )
+					$(this).append('<option value="'+ block +'">' + LAYOUT_BLOCKS[block] + '</option>');
+			}
+			
+			$('option[value="'+cb+'"]', this).attr('selected', 'selected');
+		});
+	}
+});

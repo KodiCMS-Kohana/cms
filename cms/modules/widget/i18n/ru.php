@@ -19,7 +19,7 @@ return array(
 	'Create widget' => 'Создать',
 	'General Information' => 'Основная информация',
 	'Widget data' => 'Параметры',
-	'' => '',
+	'Add widget to page' => 'Добавить виджет на страницу',
 	'' => '',
 	'Match All Pages within Given Deepness' => 'Выводить все подразделы в пределах заданной глубины',
 	'Exclude pages' => 'Исключить страницы',
@@ -38,6 +38,8 @@ return array(
 	'Breadcrumbs' => 'Хлебные крошки',
 	'Authentication' => 'Авторизация',
 	'Authentication destroy' => 'Выход',
+	
+	'Send mail' => 'Отправка писем',
 	
 	'Copy widgets from' => 'Скопировать выджеты у страницы'
 );

@@ -1,5 +1,7 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
+Assets::js('controller.widgets', ADMIN_RESOURCES . 'js/controller/widgets.js', 'global');
+
 //Вставка JS и Стилей в шаблон
 Observer::observe( 'frontpage_found',  function($page) {
 	
@@ -22,6 +24,7 @@ Observer::observe( 'frontpage_found',  function($page) {
 });
 
 Observer::observe('view_page_edit_plugins', function($page) {
+
 	echo View::factory('widgets/page/edit', array(
 		'page' => $page,
 		'pages' => Model_Page_Sitemap::get()->exclude(array($page->id))->flatten(),
@@ -36,5 +39,20 @@ Observer::observe('page_add_after_save', function($page) {
 	if(!empty($post_data['from_page_id']))
 	{
 		Widget_Manager::copy($post_data['from_page_id'], $page->id);
+	}
+});
+
+Observer::observe('page_edit_after_save', function($page) {
+	$post_data = Request::current()->post('widget');
+	
+	if(  is_array($post_data))
+	{
+		foreach($post_data as $widget_id => $block)
+		{
+			DB::update('page_widgets')
+				->where('widget_id', '=',$widget_id)
+				->set( array('block' => $block) )
+				->execute();
+		}
 	}
 });

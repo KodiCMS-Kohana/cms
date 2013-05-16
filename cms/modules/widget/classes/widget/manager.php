@@ -73,6 +73,7 @@ class Widget_Manager {
 			->join('widgets')
 				->on('widgets.id', '=', 'page_widgets.widget_id')
 			->where('page_id', '=', (int) $id)
+			->order_by('widgets.name', 'ASC')
 			->execute()
 			->as_array('id');
 		
