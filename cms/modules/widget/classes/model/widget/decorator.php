@@ -247,7 +247,14 @@ abstract class Model_Widget_Decorator {
 	{
 		foreach($data as $key => $value)
 		{
-			$this->{$key} = $value;
+			if( method_exists( $this, 'set_' . $key ))
+			{
+				$this->{'set_'.$key}($value);
+			}
+			else 
+			{
+				$this->{$key} = $value;
+			}
 		}
 		
 		return $this;
@@ -324,6 +331,8 @@ abstract class Model_Widget_Decorator {
 		$this->caching = (bool) Arr::get($data, 'caching', FALSE);
 		$this->cache_lifetime = (int) Arr::get($data, 'cache_lifetime');
 		
+		$this->cache_tags = explode(',', Arr::get($data, 'cache_tags'));
+		
 		return $this;
 	}
 
@@ -336,6 +345,11 @@ abstract class Model_Widget_Decorator {
 		return 'Widget::' . $this->type . '::' . $this->id;
 	}
 	
+	public function cache_tags()
+	{
+		return implode(', ', (array) $this->cache_tags);
+	}
+
 	/**
 	 * 
 	 * @return \Model_Widget_Decorator
