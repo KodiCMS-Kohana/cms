@@ -11,6 +11,7 @@ return array(
 	'Widget cache' => 'Кеширование',
 	'Cache lifetime' => 'Время кеширования',
 	'Cache enabled' => 'Включить кеширование',
+	'Cache tags' => 'Теги кеширования',
 	'Widget location' => 'Места применения виджета',
 	'Widget parameters' => 'Параметры виджета',
 	'Header' => 'Заголовок',

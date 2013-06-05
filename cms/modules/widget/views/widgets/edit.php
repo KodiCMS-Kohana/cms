@@ -69,12 +69,13 @@
 					->label(__('Cache lifetime'))
 				), array('id' => 'cache_lifetime_group'));
 
-	//			echo Bootstrap_Form_Element_Control_Group::factory(array(
-	//				'element' => Bootstrap_Form_Element_Textarea::factory(array(
-	//					'name' => 'cache_tags', 'body' => $widget->cache_tags
-	//				))
-	//				->label(__('Cache tags'))
-	//			));
+				echo Bootstrap_Form_Element_Control_Group::factory(array(
+					'element' => Bootstrap_Form_Element_Textarea::factory(array(
+						'name' => 'cache_tags', 'body' => $widget->cache_tags()
+					))
+					->attributes('class', 'tags')
+					->label(__('Cache tags'))
+				));
 		?>
 	</div>
 	<?php endif; ?>
