@@ -32,12 +32,26 @@ cms.init.add('widgets_edit', function() {
 });
 
 cms.init.add('page_edit', function() {
-	$(function() {
+	reload_blocks();
+	$('.widget-select-block').on('change', function() {
 		reload_blocks();
-		$('.widget-select-block').on('change', function() {
-			reload_blocks();
-		});
 	});
+	
+	$('body').on('click', '.popup-widget-item', function() {
+		var widget_id = $(this).data('id');
+		$.get('/ajax-widget-add', {
+			widget_id: widget_id,
+			page_id: PAGE_ID
+		}, function(response) {
+			window.location = '#widgets';
+			
+			$.fancybox.close();
+			
+			$('#widget-list tbody').append(response.widget);
+			
+			reload_blocks();
+		}, 'json');
+	})
 	
 	function reload_blocks() {
 		var FILLED_BLOCKS = {};

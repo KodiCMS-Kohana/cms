@@ -10,7 +10,7 @@
 </script>
 
 <?php if(empty($page->id)): ?>
-<div class="widget-content widget-no-border-radius">
+<div class="widget-content widget-no-border-radius" data-hash="widgets">
 	<h4><?php echo __('Copy widgets from'); ?></h4>
 	<select name="widgets[from_page_id]" class="span12">
 		<?php foreach ($pages as $p): ?>
@@ -19,17 +19,14 @@
 	</select>
 </div>
 <?php else: ?>
-<div class="widget-header widget-no-border-radius spoiler-toggle" data-spoiler=".spoiler-widgets">
+<div class="widget-header widget-no-border-radius spoiler-toggle" data-spoiler=".spoiler-widgets" data-hash="widgets">
 	<h4><?php echo __('Widgets'); ?> <?php echo UI::icon( 'chevron-down spoiler-toggle-icon' ); ?></h4>
 </div>
 
 <div class="widget-content widget-no-border-radius spoiler spoiler-widgets">
-	
-	<?php echo UI::button( __( 'Add widget to page' ), array(
-		'id' => 'addWidgetToPage', 'icon' => UI::icon( 'plus' )
-	) ); ?>
+	<a class="btn fancybox.ajax popup" href="/ajax-widget-list/<?php echo $page->id; ?>" id="addWidgetToPage"><i class="icon-plus"></i> <?php echo __( 'Add widget to page' ); ?></a>
 	<br /><br />
-	<table class="table table-hover">
+	<table class="table table-hover" id="widget-list">
 		<colgroup>
 			<col />
 			<col width="250px" />
