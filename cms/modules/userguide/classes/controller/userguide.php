@@ -234,13 +234,13 @@ class Controller_Userguide extends Controller_System_Backend {
 			// Get the media route
 			$media = Route::get('docs/media');
 			
-			Assets::css('jquery', $media->uri(array('file' => 'css/kodoc.css')), 'jquery');
-			Assets::css('jquery', $media->uri(array('file' => 'css/shcore.css')), 'jquery');
-			Assets::css('jquery', $media->uri(array('file' => 'css/shthemekodoc.css')), 'jquery');
+			Assets::css('kodoc', $media->uri(array('file' => 'css/kodoc.css')), 'jquery');
+			Assets::css('shcore', $media->uri(array('file' => 'css/shcore.css')), 'jquery');
+			Assets::css('shthemekodoc', $media->uri(array('file' => 'css/shthemekodoc.css')), 'jquery');
 			
-			Assets::js('jquery', $media->uri(array('file' => 'js/kodoc.js')), 'jquery');
-			Assets::js('jquery', $media->uri(array('file' => 'js/shcore.js')), 'jquery');
-			Assets::js('jquery', $media->uri(array('file' => 'js/shbrushphp.js')), 'jquery');
+			Assets::js('kodoc', $media->uri(array('file' => 'js/kodoc.js')), 'jquery');
+			Assets::js('shcore', $media->uri(array('file' => 'js/shcore.js')), 'jquery');
+			Assets::js('shbrushphp', $media->uri(array('file' => 'js/shbrushphp.js')), 'jquery');
 
 			// Add languages
 			$this->template->translations = Kohana::message('userguide', 'translations');
