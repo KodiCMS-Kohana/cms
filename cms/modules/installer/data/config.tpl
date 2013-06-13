@@ -19,3 +19,6 @@ define('DEFAULT_TIMEZONE', '__TIMEZONE__');
 
 // Cookie salt
 define('COOKIE_SALT', '__COOKIE_SALT__');
+
+// Cache
+define('CACHE_TYPE', '__CACHE_TYPE__');

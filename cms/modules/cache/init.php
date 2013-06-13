@@ -3,4 +3,4 @@
 /**
  * Set the default cache driver
  */
-Cache::$default = 'sqlite';
+Cache::$default = defined('CACHE_TYPE') ? CACHE_TYPE : 'file';

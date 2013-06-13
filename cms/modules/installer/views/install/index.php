@@ -178,6 +178,18 @@
 			</div>
 		</div>
 		
+		<div class="widget-header"><h3><?php echo __( 'Cache system' ); ?></h3></div>
+		<div class="widget-content">
+			<div class="control-group">
+				<label class="control-label"><?php echo __( 'Cache type' ); ?></label>
+				<div class="controls">
+					<?php echo Form::select( 'install[cache_type]', $cache_types, Arr::get( $data, 'cache_type' ), array(
+						'class' => 'input-xlarge'
+					) ); ?>
+				</div>
+			</div>
+		</div>
+		
 		<?php echo $env_test; ?>
 
 		<div class="form-actions widget-footer">

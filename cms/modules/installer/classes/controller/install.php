@@ -8,6 +8,8 @@ class Controller_Install extends Controller_System_Frontend
 	{
 		Assets::js('install', ADMIN_RESOURCES . 'js/install.js', 'global');
 
+		$this->template->title = __( 'Installation' );
+
 		$data = array(
 			'db_driver' => 'mysql',
 			'db_server' => 'localhost',
@@ -19,12 +21,14 @@ class Controller_Install extends Controller_System_Frontend
 			'admin_dir_name' => 'backend',
 			'url_suffix' => '.html',
 			'password_generate' => TRUE,
-			'timezone' => date_default_timezone_get()
+			'timezone' => date_default_timezone_get(),
+			'cache_type' => 'sqlite'
 		);
 
 		$this->template->content = View::factory('install/index', array(
 			'data' => Session::instance()->get_once( 'install_data', $data ),
-			'env_test' => View::factory('install/env_test')
+			'env_test' => View::factory('install/env_test'),
+			'cache_types' => array('file' => 'File cache', 'sqlite' => 'SQLite cache', 'memcachetag' => 'Memcache')
 		));
 	}
 
@@ -269,7 +273,8 @@ class Controller_Install extends Controller_System_Frontend
 			'__URL_SUFFIX__'		=> $post['url_suffix'],
 			'__ADMIN_DIR_NAME__'	=> $post['admin_dir_name'],
 			'__TIMEZONE__'			=> $post['timezone'],
-			'__COOKIE_SALT__'		=> Text::random('alnum', 16)
+			'__COOKIE_SALT__'		=> Text::random('alnum', 16),
+			'__CACHE_TYPE__'		=> $post['cache_type']
 		);
 
 		$tpl_content = str_replace(
