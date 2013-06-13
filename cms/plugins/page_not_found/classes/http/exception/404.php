@@ -23,5 +23,7 @@ class HTTP_Exception_404 extends Kohana_HTTP_Exception_404
 					->execute();
 			}
 		}
+		
+		throw new HTTP_Exception_404('Something went wrong');
 	}
 }

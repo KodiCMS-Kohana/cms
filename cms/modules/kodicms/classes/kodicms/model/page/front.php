@@ -671,12 +671,15 @@ class KodiCMS_Model_Page_Front {
 				->on('updator.id', '=', 'page.updated_by_id')
 			->where('slug', '=', $slug)
 			->where('parent_id', '=', $parent_id)
-			->where('published_on', '<=', DB::expr('NOW()'))
 			->where('status_id', 'in', self::_get_statuses(TRUE))
 			->limit(1)
 			->cache_tags( array('pages') )
 			->cached((int)Kohana::$config->load('global.cache.front_page'))
-			->as_object()
+			->as_object();
+			
+		if(!empty($slug)) $page->where('published_on', '<=', DB::expr('NOW()'));
+		
+		$page = $page
 			->execute()
 			->current();
 
