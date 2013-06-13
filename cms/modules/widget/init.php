@@ -49,10 +49,21 @@ Observer::observe('page_edit_after_save', function($page) {
 	{
 		foreach($post_data as $widget_id => $block)
 		{
-			DB::update('page_widgets')
-				->where('widget_id', '=',$widget_id)
-				->set( array('block' => $block) )
-				->execute();
+			if(!empty($block['block']))
+			{
+				DB::update('page_widgets')
+					->where('widget_id', '=',$widget_id)
+					->where('page_id', '=', $page->id)
+					->set( array('block' => $block) )
+					->execute();
+			}
+			else 
+			{
+				DB::delete('page_widgets')
+					->where('widget_id', '=',$widget_id)
+					->where('page_id', '=', $page->id)
+					->execute();
+			}
 		}
 	}
 });
