@@ -16,7 +16,7 @@ abstract class Kohana_SSO_Driver_Oauth2_Google extends SSO_Driver_OAuth2 {
 		return array(
 			'service_id'    => $user->id,
 			'service_name'  => $name,
-			'realname'      => $name,
+			'name'      => $name,
 			'service_type'  => 'OAuth2.Google',
 			'email'         => isset($user->email) ? $user->email : NULL, // may be empty
 			'avatar'        => $user->picture ? $user->picture : '',

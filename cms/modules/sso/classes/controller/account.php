@@ -22,26 +22,26 @@ abstract class Controller_Account extends Controller_System_SSO {
 		$this->_do_login();
 	}
 	
-	public function action_connect()
+	public function action_register()
+	{
+		$this->_save_referer('account/identify', $this->_changed_uri('complete_register'));
+		$this->_do_login();
+	}
+	
+	public function action_connect($next_action = 'complete_connect')
 	{
 		if( ! AuthUser::isLoggedIn())
 		{
 			Messages::errors(__('User must be logged in'));
 		}
 
-		$this->_save_referer('account/identify', $this->_changed_uri('complete_connect'));
+		$this->_save_referer('account/identify', $this->_changed_uri($next_action));
 		$this->_do_login();
 	}
 	
 	public function action_disconnect()
 	{
-		if( ! AuthUser::isLoggedIn())
-		{
-			Messages::errors(__('User must be logged in'));
-		}
-		
-		$this->_save_referer('account/identify', $this->_changed_uri('complete_disconnect'));
-		$this->_do_login();
+		return $this->action_connect('complete_disconnect');
 	}
 
 	public function action_complete_login()
@@ -66,6 +66,66 @@ abstract class Controller_Account extends Controller_System_SSO {
 					Messages::errors( __('Social account not linked!') );
 					$user->delete();
 				}
+			}
+			
+		}
+		$this->go_home();
+	}
+	
+	public function action_complete_register()
+	{
+		$params = $this->_login_params();
+
+		if (empty($params) OR call_user_func_array(array($this->_sso, 'login'), $params) === FALSE)
+		{
+			
+		}
+		else
+		{
+			$user = $this->_sso->get_user();
+			if( $user->loaded() AND ! AuthUser::isLoggedIn() )
+			{
+				if( ! $user->user->loaded())
+				{
+					$password = Text::random();
+					$local_user = ORM::factory('user')
+						->values(array(
+							'email' => !empty($user->email) ? $user->email : $user->service_type . '_' . $user->service_id . '@brutalmen.ru',
+							'username' => $user->service_type . '_' . $user->service_id,
+							'password' => $password,
+							'confirm' => $password
+						));
+					
+					try 
+					{
+						if($local_user->create())
+						{
+							ORM::factory('user_profile')
+								->values(array(
+									'user_id' => $local_user->id,
+									'name' => empty($user->name) ? $user->service_name : $user->name,
+									'avatar' => $user->avatar
+								))
+								->create();
+
+							$local_user->update_related_ids('roles', array(1));
+							$user->set('user_id', $local_user->id)->update();
+
+							Auth::instance()->force_login($local_user);
+						}
+					}
+					catch(ORM_Validation_Exception $e)
+					{
+						Messages::errors( __('User :name from social account not registered!', array(
+							':name' => $user->name
+						)) );
+					}
+				}
+				else 
+				{
+					Auth::instance()->force_login($user->user);
+				}
+				
 			}
 			
 		}

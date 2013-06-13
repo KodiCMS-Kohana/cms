@@ -32,8 +32,13 @@ abstract class Kohana_SSO_Driver_OAuth2 extends SSO_Driver {
 
 		$request->params($this->_credential_params($client, $token));
 
-		$response = $request->execute(array(CURLOPT_FOLLOWLOCATION => TRUE));
+		$response = $request->execute($this->_get_headers());
 		return $this->_get_user_data($response);
+	}
+	
+	protected function _get_headers()
+	{
+		return array(CURLOPT_FOLLOWLOCATION => TRUE);
 	}
 
 	protected function _credential_params(OAuth2_Client $client, OAuth2_Token_Access $token)

@@ -31,5 +31,10 @@ return array(
 		'name' => 'Google',
 		'create_link' => 'https://accounts.google.com/ManageDomains',
 		'account_link' => 'https://plus.google.com/:id'
+	),
+	'disqus' => array(
+		'name' => 'Disqus',
+		'create_link' => 'http://disqus.com/api/applications/register/',
+		'account_link' => 'http://disqus.com/ButscH/:username'
 	)
 );

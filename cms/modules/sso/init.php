@@ -7,6 +7,7 @@ if ( ! Route::cache())
 		'action' => '('.implode('|', array(
 			'identify',
 			'login', 'complete_login',
+			'register', 'complete_register',
 			'connect', 'complete_connect',
 			'disconnect', 'complete_disconnect'
 		)).')'

@@ -24,7 +24,7 @@ class Kohana_SSO_Driver_OAuth2_Yandex extends SSO_Driver_OAuth2 {
 		return array(
 			'service_id'    => $user->id,
 			'service_name'  => $user->name,
-			'realname'      => $user->name,
+			'name'			=> $user->name,
 			'service_type'  => 'OAuth2.Yandex',
 			'email'         => $user->email,
 			'avatar'        => $avatar,

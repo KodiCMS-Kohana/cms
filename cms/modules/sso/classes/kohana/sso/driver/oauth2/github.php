@@ -17,12 +17,22 @@ class Kohana_SSO_Driver_OAuth2_Github extends SSO_Driver_OAuth2 {
 		return array(
 			'service_id'    => $user['id'],
 			'service_name'  => $user['login'],
-			'realname'      => Arr::get($user, 'name'),
+			'name'			=> Arr::get($user, 'name'),
 			'service_type'  => 'OAuth2.Github',
 			'email'         => Arr::get($user, 'email'),
 			// Github uses Gravatar for profile images
 			'avatar'        => $avatar,
 			'response'		=> $response
+		);
+	}
+	
+	protected function _get_headers()
+	{
+		return array(
+			CURLOPT_FOLLOWLOCATION => TRUE,
+			CURLOPT_HTTPHEADER => array(
+				'User-Agent: Awesome-Octocat-App'
+			)
 		);
 	}
 

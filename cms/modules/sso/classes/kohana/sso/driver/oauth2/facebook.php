@@ -21,7 +21,7 @@ abstract class Kohana_SSO_Driver_OAuth2_Facebook extends SSO_Driver_OAuth2 {
 		return array(
 			'service_id'    => $user->id,
 			'service_name'  => $user->nickname,
-			'realname'      => $user->name,
+			'name'			=> $user->name,
 			'service_type'  => 'OAuth2.Facebook',
 			'email'         => $user->email,
 			// @see http://developers.facebook.com/docs/reference/api/#pictures

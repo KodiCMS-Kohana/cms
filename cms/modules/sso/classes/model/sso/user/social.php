@@ -8,7 +8,6 @@ class Model_SSO_User_Social extends ORM {
 		'user' => array()
 	);
 
-
 	public function provider()
 	{
 		return strtolower(substr($this->service_type, strpos($this->service_type, '.') + 1));

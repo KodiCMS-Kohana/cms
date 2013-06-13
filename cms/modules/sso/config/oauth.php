@@ -38,4 +38,10 @@ return array(
 		'id' => Setting::get('oauth.github.id'),
 		'secret' => Setting::get('oauth.github.secret')
 	 ),
+	
+	// http://disqus.com/api/applications/register/
+	'disqus' => array(
+		'id' => Setting::get('oauth.disqus.id'),
+		'secret' => Setting::get('oauth.disqus.secret')
+	 ),
 );

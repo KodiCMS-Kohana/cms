@@ -28,13 +28,11 @@ abstract class Kohana_SSO_Driver_OAuth_Yahoo extends SSO_Driver_OAuth {
 		return array(
 			'service_id'    => $user->guid,
 			'service_name'  => $user->nickname,
-			'realname'      => $realname ? $realname : $user->nickname,
+			'name'      => $realname ? $realname : $user->nickname,
 			'service_type'  => 'OAuth.Yahoo',
 			'email'         => NULL,
 			'avatar'        => $user->image->imageUrl,
 			'response'		=> $response
 		);
-
 	}
-
 }

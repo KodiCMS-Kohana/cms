@@ -23,7 +23,7 @@ abstract class Kohana_SSO_Driver_OAuth_LinkedIn extends SSO_Driver_OAuth {
 		return array(
 			'service_id'    => $user['id'],
 			'service_name'  => $login,
-			'realname'      => $login,
+			'name'			=> $login,
 			'service_type'  => 'OAuth.Linkedin',
 			'email'         => NULL,
 			'avatar'        => Arr::get($user, 'picture-url'),
