@@ -112,6 +112,7 @@ class KodiCMS_Model_Page_Sitemap {
 	 */
 	protected function _find( $array, $id )
 	{
+		$found = array();
 		foreach($array as $page)
 		{
 			if($page['id'] == $id)
@@ -119,13 +120,13 @@ class KodiCMS_Model_Page_Sitemap {
 				return array($page);
 			}
 			
-			if( !empty($page['childs']))
+			if( ! empty($page['childs']))
 			{
-				return $this->_find($page['childs'], $id);
+				$found = $this->_find($page['childs'], $id);
 			}
 		}
 		
-		return array();
+		return $found;
 	}
 	
 	/**
