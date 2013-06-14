@@ -36,11 +36,13 @@ class Task_Install extends Minion_Task
 		'url_suffix' => '.html',
 		'timezone' => NULL,
 		'password_generate' => TRUE,
-		'empty_database' => FALSE
+		'empty_database' => FALSE,
+		'cache_type' => 'sqlite'
 	);
 	
 	public function build_validation(Validation $validation)
 	{
+		$cache_types = Kohana::$config->load('installer')->get( 'cache_types', array() );
 		return parent::build_validation($validation)
 			->rule('db_server', 'not_empty')
 			->rule('db_port', 'not_empty')
@@ -49,6 +51,8 @@ class Task_Install extends Minion_Task
 			->rule('username', 'not_empty')
 			->rule('email', 'not_empty')
 			->rule('email', 'email')
+			->rule('cache_type', 'not_empty')
+			->rule('cache_type', 'in_array', array(':value', array_keys( $cache_types )))
 			->rule('admin_dir_name', 'not_empty');
 	}
 
@@ -58,7 +62,7 @@ class Task_Install extends Minion_Task
 
 		if( $params['db_name'] === NULL )
 		{
-			$params['db_name'] = Minion_CLI::read('Please enter database name');
+			$params['db_name'] = Minion_CLI::read(__('Please enter database name'));
 		}
 		
 		if( $params['timezone'] === NULL )
@@ -73,6 +77,14 @@ class Task_Install extends Minion_Task
 			{
 				$params['timezone'] = Minion_CLI::read(__('Please enter current timezone (:site)', array(':site' => 'http://www.php.net/manual/en/timezones.php')), DateTimeZone::listIdentifiers());
 			}
+		}
+		
+		if( $params['cache_type'] === NULL )
+		{
+			$cache_types = Kohana::$config->load('installer')->get( 'cache_types', array() );
+			$params['cache_type'] = Minion_CLI::read(__('Please enter cache type (:types)', array(
+				':types' => implode(', ', $cache_types)
+			)));
 		}
 		
 		if( $params['password'] !== NULL )

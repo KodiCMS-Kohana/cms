@@ -28,7 +28,7 @@ class Controller_Install extends Controller_System_Frontend
 		$this->template->content = View::factory('install/index', array(
 			'data' => Session::instance()->get_once( 'install_data', $data ),
 			'env_test' => View::factory('install/env_test'),
-			'cache_types' => array('file' => 'File cache', 'sqlite' => 'SQLite cache', 'memcachetag' => 'Memcache')
+			'cache_types' => Kohana::$config->load('installer')->get( 'cache_types', array() )
 		));
 	}
 
@@ -161,6 +161,8 @@ class Controller_Install extends Controller_System_Frontend
 
 	protected function _valid(array $data)
 	{
+		$cache_types = Kohana::$config->load('installer')->get( 'cache_types', array() );
+
 		$validation = Validation::factory( $data )
 			->rule( 'db_server', 'not_empty' )
 			->rule( 'db_user', 'not_empty' )
@@ -169,6 +171,8 @@ class Controller_Install extends Controller_System_Frontend
 			->rule( 'username', 'not_empty' )
 			->rule( 'email', 'not_empty' )
 			->rule( 'email', 'email' )
+			->rule( 'cache_type', 'not_empty')
+			->rule( 'cache_type', 'in_array', array(':value', array_keys( $cache_types )))
 			->label('db_server', __('Database server'))
 			->label('db_user', __( 'Database user' ))
 			->label('db_password', __( 'Database password' ))
@@ -176,7 +180,8 @@ class Controller_Install extends Controller_System_Frontend
 			->label('admin_dir_name', __( 'Admin dir name' ))
 			->label('username', __( 'Administrator username' ))
 			->label('email', __( 'Administrator email' ))
-			->label('password_field', __( 'Administrator password' ));
+			->label('password_field', __( 'Administrator password' ))
+			->label('cache_type', __( 'Cache type' ));
 		
 		if(!isset($data['password_generate']))
 		{

@@ -32,6 +32,8 @@ return array(
 	'Add a suffix to simulate static html files.'
 			=> 'Можно указать суффикс для эмуляции статических html файлов.',
 	'Timezone' => 'Временная зона',
+	'Cache system' => 'Кеширование',
+	'Cache type' => 'Тип кеширования',
 
 	/********************* Environment *******************/
 	'Environment Tests' => 'Проверка окружения',
