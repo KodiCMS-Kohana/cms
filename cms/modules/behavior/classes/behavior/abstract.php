@@ -196,13 +196,17 @@ abstract class Behavior_Abstract {
 				$this->_params[$key] = $value;
 			}
 			
+			Context::instance()->route_segments( $this->_params );
+			
 			$this->_matched_route = $_uri;
 			$this->{$params['method']}();
 			
 			return;
 		}
 		
-		$this->_params = preg_split('/\//', $uri, -1, PREG_SPLIT_NO_EMPTY);		
+		$this->_params = preg_split('/\//', $uri, -1, PREG_SPLIT_NO_EMPTY);
+		
+		Context::instance()->route_segments( $this->_params );
 		
 		$this->execute();
 	}

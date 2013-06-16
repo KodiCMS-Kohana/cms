@@ -73,6 +73,12 @@ class KodiCMS_Context {
 	 *
 	 * @var array 
 	 */
+	protected $_route_segments = array();
+	
+	/**
+	 *
+	 * @var array 
+	 */
 	protected $_injections = array();
 
 	public function __construct(array $params = array())
@@ -177,6 +183,21 @@ class KodiCMS_Context {
 		return $this->_page;
 	}
 	
+	/**
+	 * 
+	 * @param array $route_segments
+	 * @return array
+	 */
+	public function route_segments( $route_segments = NULL )
+	{
+		if(is_array($route_segments))
+		{
+			$this->_route_segments = $route_segments;
+		}
+		
+		return $this->_route_segments;
+	}
+
 	/**
 	 * 
 	 * @return \Context
