@@ -45,7 +45,7 @@
 							<em title="/"><?php echo $page->title; ?></em>
 							<?php else: ?>
 							<?php 
-							echo UI::icon('home'); 
+							echo UI::icon('home') . ' '; 
 							echo HTML::anchor( $page->get_url(), $page->title );
 							?>
 							<?php endif; ?>

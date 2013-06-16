@@ -27,7 +27,7 @@
 					<?php echo $child->title; ?>
 					<?php else: ?>
 					<?php 
-						echo UI::icon('file');
+						echo UI::icon('file') . ' ';
 						echo HTML::anchor( $child->get_url(), $child->title );
 					?>
 					<?php endif; ?>				
