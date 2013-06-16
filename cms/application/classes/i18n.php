@@ -52,9 +52,12 @@ class I18n extends Kohana_I18n {
 	{
 		$locale_names = Kohana::$config->load('locales');
 
-		$langs = array('en' => __($locale_names->get('en')));
+		$langs = array(
+			'en' => __($locale_names->get('en')),
+			'ru' => __($locale_names->get('ru')),
+		);
 		
-		$paths = array(APPPATH);
+		$paths = array(APPPATH, MODPATH);
 
 		if( defined( 'PLUGPATH' ))
 		{
