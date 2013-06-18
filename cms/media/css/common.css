@@ -6924,6 +6924,9 @@ legend:after {
 .ui-dialog-buttonset button [class*=" icon-"].icon-spin.icon-large {
   line-height: .8em;
 }
+.hidden {
+  display: none;
+}
 .lifted {
   position: relative;
   padding: 20px;
