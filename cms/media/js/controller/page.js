@@ -150,8 +150,6 @@ cms.init.add('page_index', function () {
 						pages_ids.push(child_id);
 				});
 
-				pages_ids = pages_ids.reverse();
-
 				var success_handler = function () {
 					cms.loader.hide();
 				};

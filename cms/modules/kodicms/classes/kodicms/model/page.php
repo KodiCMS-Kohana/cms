@@ -314,8 +314,8 @@ class KodiCMS_Model_Page extends Record
 		$default_clause = array(
 			'where' => array(array('parent_id', '=', $id)),
 			'order_by' => array(
-				array('position', 'desc'),
-				array('page.created_on', 'desc')
+				array('position', 'asc'),
+				array('page.created_on', 'asc')
 			));
 		
 		if( is_array( $clause ))
