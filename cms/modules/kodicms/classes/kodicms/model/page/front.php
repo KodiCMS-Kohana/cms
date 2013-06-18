@@ -384,7 +384,7 @@ class KodiCMS_Model_Page_Front {
 		else if ($inherit !== FALSE
 				AND $this->parent instanceof Model_Page_Front )
 		{
-			$this->parent->field($key, $inherit);
+			return $this->parent->field($key, $default, $inherit);
 		}
 		
 		return $default;

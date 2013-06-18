@@ -22,7 +22,7 @@ class KodiCMS_Model_Page_Field extends ORM {
 	{
 		return array(
 			'key' => array(
-				array('URL::title')
+				array('URL::title', array(':value', '_'))
 			)
 		);
 	}
