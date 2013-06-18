@@ -99,6 +99,12 @@ class KodiCMS_Model_Page_Front {
 	 *
 	 * @var array 
 	 */
+	protected $_fields = NULL;
+	
+	/**
+	 *
+	 * @var array 
+	 */
 	protected $_parts_data = array();
 
 	/**
@@ -359,6 +365,55 @@ class KodiCMS_Model_Page_Front {
 		$crumbs->add($this->breadcrumb(), $this->url, FALSE, NULL, array(
 			'id' => $this->id
 		));
+	}
+	
+	/**
+	 * 
+	 * @param string $key
+	 * @param string $default
+	 * @param boolean $inherit
+	 * @return string
+	 */
+	public function field($key, $default = NULL, $inherit = FALSE) 
+	{
+		if ($this->has_field( $key ))
+		{
+			return $this->_fields[$key];
+			
+		}
+		else if ($inherit !== FALSE
+				AND $this->parent instanceof Model_Page_Front )
+		{
+			$this->parent->field($key, $inherit);
+		}
+		
+		return $default;
+	}
+
+	/**
+	 * 
+	 * @param string $key
+	 * @param boolean $inherit
+	 * @return boolean
+	 */
+	public function has_field($key, $inherit = FALSE)
+	{
+		if($this->_fields === NULL)
+		{
+			$this->_fields = ORM::factory('Page_Field')->get_by_page_id($this->id)->as_array('key', 'value');
+		}
+		
+		if(isset($this->_fields[$key]))
+		{
+			return TRUE;
+		}
+		else if($inherit !== FALSE 
+				AND $this->parent instanceof Model_Page_Front )
+		{
+			return $this->parent->has_field($key, $inherit);
+		}
+
+		return FALSE;
 	}
 
 	/**

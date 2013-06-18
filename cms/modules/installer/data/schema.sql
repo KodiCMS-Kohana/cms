@@ -98,6 +98,16 @@ CREATE TABLE IF NOT EXISTS `TABLE_PREFIX_page_widgets` (
   KEY `widget_id` (`widget_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE IF NOT EXISTS `TABLE_PREFIX_page_fields` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `page_id` int(10) unsigned NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `key` varchar(20) NOT NULL,
+  `value` text NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `page_id` (`page_id`,`key`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
+
 CREATE TABLE IF NOT EXISTS `TABLE_PREFIX_page_behavior_settings` (
   `page_id` int(10) unsigned NOT NULL,
   `behavior_id` varchar(50) NOT NULL,
@@ -225,6 +235,9 @@ ALTER TABLE `TABLE_PREFIX_page_roles`
 ALTER TABLE `TABLE_PREFIX_page_widgets`
   ADD CONSTRAINT `page_widgets_ibfk_2` FOREIGN KEY (`widget_id`) REFERENCES `TABLE_PREFIX_widgets` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `page_widgets_ibfk_1` FOREIGN KEY (`page_id`) REFERENCES `TABLE_PREFIX_pages` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `TABLE_PREFIX_page_fields`
+  ADD CONSTRAINT `page_fields_ibfk_1` FOREIGN KEY (`page_id`) REFERENCES `TABLE_PREFIX_pages` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `TABLE_PREFIX_page_behavior_settings`
   ADD CONSTRAINT `page_behavior_settings_ibfk_1` FOREIGN KEY (`page_id`) REFERENCES `TABLE_PREFIX_pages` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
