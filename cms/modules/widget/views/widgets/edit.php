@@ -39,10 +39,9 @@
 			?>
 			
 			<?php 
-			if( ! empty($widget->template))
-				echo UI::button(__('Edit snippet'), array(
+			echo UI::button(__('Edit snippet'), array(
 					'href' => 'snippet/edit/' . $widget->template, 'icon' => UI::icon('edit'),
-					'class' => 'popup fancybox.iframe btn btn-link', 'id' => 'WidgetTemplateButton'
+					'class' => 'popup fancybox.iframe btn btn-link hidden', 'id' => 'WidgetTemplateButton'
 				)); 
 			?>
 				
