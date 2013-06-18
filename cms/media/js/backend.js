@@ -73,7 +73,8 @@ var cms = {
 		'ą':'a', 'ä':'a', 'č':'c', 'ę':'e', 'ė':'e', 'i':'i', 'į':'i', 'š':'s', 'ū':'u', 'ų':'u', 'ü':'u', 'ž':'z', 'ö':'o'
 	},
 	
-	convertSlug: function (str) {
+	convertSlug: function (str, separator) {
+		if(!separator) var separator = '-';
 		return str
 			.toString()
 			.toLowerCase()
@@ -91,9 +92,9 @@ var cms = {
 			.replace(/(.)/g, function (c) {
 				return (cms.convert_dict[c] != undefined ? cms.convert_dict[c] : c);
 			})
-			.replace(/[^a-zа-яіїє0-9\.\_]/g, '-')
-			.replace(/ /g, '-')
-			.replace(/\-+/g, '-')
+			.replace(/[^a-zа-яіїє0-9\.\_]/g, separator)
+			.replace(/ /g, separator)
+			.replace(/\-+/g, separator)
 			.replace(/^-/, '');
 	},
 	
@@ -341,23 +342,33 @@ cms.ui.add('btn-confirm', function() {
 			$slug_cont = $($(this).data('slug'));
 		}
 		
+		$separator = '-';
+		if($(this).data('separator')) {
+			$separator = $(this).data('separator');
+		}
+		
         if ($slug_cont.val() == '')
             slugs[$slug_cont] = true;
 
         if (slugs[$slug_cont]) {
-            var new_slug = cms.convertSlug($(this).val());
+            var new_slug = cms.convertSlug($(this).val(), $separator);
 
             $slug_cont.val(new_slug);
         }
     });
 
 	$('body').on('keyup', '.slug', function () {
-			$(this).val(cms.convertSlug($(this).val()));
-			slugs[$(this)] = false;
-			
-			if ($(this).val() == '')
-				slugs[$(this)] = true;
-		});
+		$separator = '-';
+		if($(this).data('separator')) {
+			$separator = $(this).data('separator');
+		}
+		
+		$(this).val(cms.convertSlug($(this).val(), $separator));
+		slugs[$(this)] = false;
+
+		if ($(this).val() == '')
+			slugs[$(this)] = true;
+	});
 }).add('focus', function() {
 	$('.focus').focus();
 }).add('loader', function() {
