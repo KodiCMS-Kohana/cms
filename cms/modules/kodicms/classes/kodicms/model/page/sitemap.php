@@ -22,7 +22,7 @@ class KodiCMS_Model_Page_Sitemap {
 			$res_pages = Model_Page::findAll(array(
 				'order_by' => array(
 					array('parent_id', 'asc'),
-					array('position', 'desc')
+					array('position', 'asc')
 				)
 			));
 			
