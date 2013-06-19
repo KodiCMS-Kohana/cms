@@ -293,6 +293,11 @@ cms.ui.add('btn-confirm', function() {
 
 		return false;
 	});
+}).add('outline', function() {
+	$('.widget')
+		.addClass('outline_inner')
+		.wrap('<div class="outline"></div>');
+
 }).add('spoiler', function() {
 	$('.spoiler-toggle')
 		.click(function () {

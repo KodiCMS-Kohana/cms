@@ -19,7 +19,9 @@
 	<body id="body_frontend">
 		<div id="content-wrapper">
 			<div class="container" id="content">
-				<?php echo $content; ?>
+				<div id="content">
+					<?php echo $content; ?>
+				</div>
 			</div>
 		</div>
 

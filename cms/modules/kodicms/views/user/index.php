@@ -1,4 +1,4 @@
-<div class="map widget widget-nopad">
+<div class="widget widget-nopad">
 	<div class="widget-header">
 		<?php echo UI::button(__('Add user'), array(
 			'href' => 'user/add', 'icon' => UI::icon('plus')

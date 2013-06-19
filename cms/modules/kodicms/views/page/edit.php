@@ -29,7 +29,7 @@
 								'action' => $action,
 								'tags' => $tags
 							)); ?>
-						</div><!--/#pageEditMeta-->
+						</div>
 
 
 						<?php echo View::factory('part/items'); ?>
@@ -56,27 +56,25 @@
 							<?php echo UI::actions($page_name); ?>
 						</div>
 					</div>
-				</div><!--/#pageEdit-->
+				</div>
 
 				<div class="span3">
 					<?php Observer::notify('view_page_edit_sidebar_before', $page); ?>
 
-					<div class="outline">
-						<div id="pageEditOptions" class="widget outline_inner">
-							<?php echo View::factory('page/blocks/sidebar', array(
-								'pages' => $pages,
-								'page' => $page,
-								'layouts' => $layouts,
-								'behaviors' => $behaviors,
-								'permissions' => $permissions,
-								'action' => $action,
-								'page_permissions' => $page_permissions
-							)); ?>
-						</div><!--/#pageEditOptions-->
+					<div id="pageEditOptions" class="widget">
+						<?php echo View::factory('page/blocks/sidebar', array(
+							'pages' => $pages,
+							'page' => $page,
+							'layouts' => $layouts,
+							'behaviors' => $behaviors,
+							'permissions' => $permissions,
+							'action' => $action,
+							'page_permissions' => $page_permissions
+						)); ?>
 					</div>
 
 					<?php Observer::notify('view_page_edit_sidebar_after', $page); ?>
-				</div><!--/#contentSidebar-->
+				</div>
 			</div>
 		</div>
 	<?php echo Form::close(); ?>

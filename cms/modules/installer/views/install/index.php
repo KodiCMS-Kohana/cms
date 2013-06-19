@@ -1,9 +1,9 @@
 <h1><?php echo __( 'Installation' ); ?></h1>
 
 <?php echo Form::open('install/go', array(
-	'class' => Bootstrap_Form::HORIZONTAL .' outline'
+	'class' => Bootstrap_Form::HORIZONTAL
 )); ?>
-	<div class="widget outline_inner">
+	<div class="widget">
 		<div class="widget-header"><h3><?php echo __( 'Database information' ); ?></h3></div>
 		<div id="install-page" class="widget-content">
 			<?php echo Form::hidden( 'install[db_driver]', Arr::get( $data, 'db_driver' ) ); ?>

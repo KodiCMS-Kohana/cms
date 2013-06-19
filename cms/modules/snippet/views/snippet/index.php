@@ -1,12 +1,11 @@
-<div class="map widget widget-nopad">
-	
+ <div class="widget widget-nopad outline_inner">
 	<div class="widget-header">
 		<?php echo UI::button(__('Add snippet'), array(
 			'href' => 'snippet/add', 'icon' => UI::icon('plus'),
 			'class' => 'popup fancybox.iframe btn'
 		)); ?>
 	</div>
-	
+
 	<div class="widget-content">
 		<table class=" table table-striped table-hover" id="SnippetList">
 			<colgroup>
@@ -51,4 +50,4 @@
 			</tbody>
 		</table>
 	</div>
-</div><!--/#snippetMap-->
+</div>

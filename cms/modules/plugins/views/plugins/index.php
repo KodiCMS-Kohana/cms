@@ -20,25 +20,23 @@
 	</td>
 </script>
 
-<div class="outline">
-	<div id="pluginsMap" class="widget widget-nopad outline_inner">
-		<div class="widget-header"></div>
-		<div class="widget-content">
-			<table class="table table-striped table-hover" id="PluginsList">
-				<colgroup>
-					<col />
-					<col width="80px" />
-					<col width="100px" />
-				</colgroup>
-				<thead>
-					<tr>
-						<th><?php echo __('Plugin name'); ?></th>
-						<th><?php echo __('Version'); ?></th>
-						<th><?php echo __('Actions'); ?></th>
-					</tr>
-				</thead>
-				<tbody></tbody>
-			</table>
-		</div>
+<div id="pluginsMap" class="widget widget-nopad">
+	<div class="widget-header"></div>
+	<div class="widget-content">
+		<table class="table table-striped table-hover" id="PluginsList">
+			<colgroup>
+				<col />
+				<col width="80px" />
+				<col width="100px" />
+			</colgroup>
+			<thead>
+				<tr>
+					<th><?php echo __('Plugin name'); ?></th>
+					<th><?php echo __('Version'); ?></th>
+					<th><?php echo __('Actions'); ?></th>
+				</tr>
+			</thead>
+			<tbody></tbody>
+		</table>
 	</div>
 </div>

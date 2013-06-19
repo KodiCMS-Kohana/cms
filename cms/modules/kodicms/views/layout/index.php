@@ -1,17 +1,16 @@
-<div class="map widget widget-nopad">
-	
+<div class="widget widget-nopad">
 	<div class="widget-header">
 		<?php echo UI::button(__('Add layout'), array(
 			'icon' => UI::icon( 'plus' ), 'href' => 'layout/add',
 			'class' => 'popup fancybox.iframe btn'
 		)); ?>
-		
+
 		<?php echo UI::button(__('Rebuild blocks'), array(
 			'icon' => UI::icon( 'stethoscope' ), 'href' => 'layout/rebuild',
 			'class' => 'btn'
 		)); ?>
 	</div>
-	
+
 	<div class="widget-content">
 		<table class=" table table-striped table-hover" id="LayoutList">
 			<colgroup>
@@ -57,9 +56,9 @@
 						)); ?>
 					</td>
 				</tr>
-				
+
 				<?php endforeach; ?>
 			</tbody>
 		</table>
 	</div>
-</div><!--/#layoutMap-->
+</div>
