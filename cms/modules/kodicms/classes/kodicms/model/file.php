@@ -164,6 +164,15 @@ class KodiCMS_Model_File {
 	
 	/**
 	 * 
+	 * @return boolean
+	 */
+	public function is_writable()
+	{
+		return is_writable($this->_file);
+	}
+	
+	/**
+	 * 
 	 * @return string
 	 */
 	public function size()

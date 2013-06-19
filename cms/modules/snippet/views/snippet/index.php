@@ -28,7 +28,12 @@
 				<?php foreach ($snippets as $snippet): ?>
 				<tr>
 					<th class="name">
-						<?php echo HTML::anchor('snippet/edit/'.$snippet->name, HTML::image(ADMIN_RESOURCES . 'images/snippet.png') .' '. $snippet->name, array('class' => 'popup fancybox.iframe')); ?>
+						<?php echo HTML::image(ADMIN_RESOURCES . 'images/snippet.png'); ?>
+						<?php if( ! $snippet->is_writable()): ?>
+						<span class="label label-warning"><?php echo __('Read only'); ?></span>
+						<?php endif; ?>
+						
+						<?php echo HTML::anchor('snippet/edit/'.$snippet->name, $snippet->name, array('class' => 'popup fancybox.iframe')); ?>
 					</th>
 					<td class="modified">
 						<?php echo Date::format($snippet->modified()); ?>

@@ -60,6 +60,7 @@ return array(
 	'Layout blocks' => 'Блоки',
 	'Rebuild blocks' => 'Обновить список блоков',
 	'Layout blocks succefully update!' => 'Список блоков успешно обновлен!',
+	'Read only' => 'Только чтение',
 	
 	
 	/*********************** Page *********************************/
