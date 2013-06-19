@@ -8,7 +8,36 @@ class Kses {
 
 	public static function filter($string, $allowed_html = array(), $allowed_protocols = array('http', 'https', 'ftp', 'mailto'))
 	{
+		if( !is_array( $allowed_html ))
+		{
+			$allowed_html = self::parse_tags($allowed_html);
+		}
+
 		return kses($string, $allowed_html, $allowed_protocols);
+	}
+	
+	public static function parse_tags($tags)
+	{
+		$allowed_html = array();
+		if( preg_match_all('~<([a-z0-9_\-]+|\*\*?)\s*(?:(\*?)[\s,]*(\!?)\s*(\*|(?:[\w,]+)))?\s*>~us', $tags, $matches) > 0)
+		{
+			for($i = 0, $l = count($matches[0]); $i < $l; $i++) 
+			{
+				$allowed_html[$matches[1][$i]] = array();
+
+				if($matches[4][$i]) 
+				{
+					$attrs = explode(',', $matches[4][$i]);
+					
+					foreach($attrs as $attr)
+					{
+						$allowed_html[$matches[1][$i]][$attr] = 1; 
+					}
+				}
+			}
+		}
+		
+		return $allowed_html;
 	}
 }
 

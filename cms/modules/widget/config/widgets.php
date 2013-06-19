@@ -12,5 +12,6 @@ return array(
 	),
 	__('Other') => array(
 		'html' => __('HTML'),
+		'sendmail' => __('Send mail')
 	)
 );

@@ -41,6 +41,23 @@ return array(
 	'Authentication destroy' => 'Выход',
 	
 	'Send mail' => 'Отправка писем',
+	'Message subject' => 'Заголовок письма',
+	'Message from' => 'От',
+	'Message to' => 'Кому',
+	'Message to (copy)' => 'Кому (копия)',
+	'Message blind to (copy)' => 'Кому (скрытая копия)',
+	'Message type' => 'Тип сообщения',
+	'Send messages in HTML format' => 'Отправить письмо в HTML формате',
+	'Allowed tags' => 'Разрешенные теги',
+	'Message fields' => 'Поля сообщения',
+	'Add field' => 'Новое поле',
+	'Field' => 'Поле',
+	'Field source' => 'Источник данных',
+	'Field source key' => 'Ключ',
+	'Field value type' => 'Типа поля',
+	'Validator' => 'Валидация',
+	'Field error message' => 'Текст ошишки',
+	'Field error' => 'Ошибки',
 	
 	'Copy widgets from' => 'Скопировать выджеты у страницы'
 );
