@@ -16,6 +16,8 @@ if($navigation !== NULL)
 			$dropdown = Bootstrap_Navbar_Dropdown::factory(array(
 				'title' => $section->name() . UI::counter($section->counter),
 			));
+			
+			$is_active = FALSE;
 
 			foreach ( $section as $item )
 			{
@@ -29,9 +31,15 @@ if($navigation !== NULL)
 				$dropdown->add(Bootstrap_Element_Button::factory(array(
 						'href' => $item->url(), 'title' => $item->name()
 				))->icon($item->icon), $item->is_active());
+				
+				if($item->is_active())
+				{
+					$is_active = TRUE;
+				}
 			}
 
-			$menu_nav->add($dropdown);
+			$menu_nav
+				->add($dropdown, $is_active);
 		}
 
 		$right_nav = Bootstrap_Nav::factory()
