@@ -16,7 +16,6 @@
 		<span class="clearfix"></span>
 	</div>
 	<div class="widget-content">
-
 		<table id="pageMapHeader" class="table">
 			<colgroup>
 				<col />
@@ -34,7 +33,7 @@
 			</thead>
 		</table>
 
-		<ul id="pageMapItems" class="map-items unstyled" data-level="0">
+		<ul id="pageMapItems" class="map-items page-items unstyled" data-level="0">
 			<li data-id="<?php echo $page->id; ?>">
 				<div class="item">
 					<div class="row-fluid">
@@ -62,6 +61,6 @@
 				<?php echo $content_children; ?>
 			</li>
 		</ul>
-		<ul id="pageMapSearchItems"></ul>
+		<ul id="pageMapSearchItems" class="map-items page-items unstyled"></ul>
 	</div>
 </div>
