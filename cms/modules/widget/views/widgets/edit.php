@@ -39,9 +39,10 @@
 			?>
 			
 			<?php 
+			$hidden = empty($widget->template) ? 'hidden' : '';
 			echo UI::button(__('Edit snippet'), array(
 					'href' => 'snippet/edit/' . $widget->template, 'icon' => UI::icon('edit'),
-					'class' => 'popup fancybox.iframe btn btn-link hidden', 'id' => 'WidgetTemplateButton'
+					'class' => 'popup fancybox.iframe btn btn-link '.$hidden, 'id' => 'WidgetTemplateButton'
 				)); 
 			?>
 				
