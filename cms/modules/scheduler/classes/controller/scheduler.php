@@ -5,8 +5,10 @@ class Controller_Scheduler extends Controller_System_Backend {
 	public function before()
 	{
 		parent::before();
+		
+		$this->template->title = __('Scheduler');
 		$this->breadcrumbs
-			->add(__('scheduler'), $this->request->controller());
+			->add($this->template->title, $this->request->controller());
 	}
 	
 	public function action_index()
