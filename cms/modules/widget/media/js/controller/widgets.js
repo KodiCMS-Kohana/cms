@@ -54,24 +54,28 @@ cms.init.add('page_edit', function() {
 	})
 	
 	function reload_blocks() {
-		var FILLED_BLOCKS = {};
+		var FILLED_BLOCKS = [];
 
 		$('.widget-select-block').each(function() {
 			var cb = $(this).val();
 			
 			if(!cb || cb == 0 || cb == 'PRE') return;
+
 			FILLED_BLOCKS[cb] = LAYOUT_BLOCKS[cb];
 		});
 		
+		
 		$('.widget-select-block').each(function() {		
 			var cb = $(this).val();
-			$(this).empty();
+			var blocks = [];
 			for(block in LAYOUT_BLOCKS) {
 				if(!FILLED_BLOCKS[block] || (FILLED_BLOCKS[block] && block == cb) )
-					$(this).append('<option value="'+ block +'">' + LAYOUT_BLOCKS[block] + '</option>');
+					blocks.push({id: block, text: LAYOUT_BLOCKS[block]});
 			}
-			
-			$('option[value="'+cb+'"]', this).attr('selected', 'selected');
+		
+			$(this).select2({
+				data: blocks
+			}).select2('val', cb);
 		});
 	}
 });

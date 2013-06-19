@@ -1,6 +1,6 @@
 <?php 
 	$_blocks = array(
-		'----', 'PRE' => __('Before page render')
+		0 => '----', 'PRE' => __('Before page render')
 	);
 	$_blocks += $blocks;
 ?>
@@ -30,19 +30,9 @@
 		</colgroup>
 		<tbody>
 		<?php foreach($widgets as $widget): ?>
-		<tr>
-			<th>
-				<?php echo HTML::anchor('widgets/edit/' . $widget->id, $widget->name, array('target' => 'blank')); ?>
-				<?php if(!empty($widget->description)): ?>
-				<p class="muted"><?php echo $widget->description; ?></p>
-				<?php endif; ?>
-			</th>
-			<td>
-				<?php
-				echo Form::select('widget['.$widget->id.'][block]', $_blocks, $widget->block, array('class' => 'widget-select-block no-script')); 
-				?>
-			</td>
-		</tr>
+		<?php echo View::factory( 'widgets/ajax/row', array(
+			'widget' => $widget
+		)); ?>
 		<?php endforeach; ?>
 		</tbody>
 	</table>

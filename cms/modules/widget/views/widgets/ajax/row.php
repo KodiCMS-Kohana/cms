@@ -7,7 +7,7 @@
 	</th>
 	<td>
 		<?php
-		echo Form::select('widget['.$widget->id.'][block]', array(), NULL, array('class' => 'widget-select-block no-script')); 
+		echo Form::hidden('widget['.$widget->id.'][block]', !empty($widget->block) ? $widget->block : 0, array('class' => 'widget-select-block'));
 		?>
 	</td>
 </tr>
