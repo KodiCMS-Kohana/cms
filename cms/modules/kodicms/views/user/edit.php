@@ -79,7 +79,7 @@
 		<div class="widget-content spoiler">
 		<?php
 			echo Bootstrap_Form_Element_Control_Group::factory(array(
-				'element' => Bootstrap_Form_Element_Input::factory(array(
+				'element' => Bootstrap_Form_Element_Password::factory(array(
 					'name' => 'user[password]'
 				), array('id' => 'userEditPasswordField', 'autocomplete' => 'off'))
 				->label(__('Password'))
@@ -90,7 +90,7 @@
 			));
 			
 			echo Bootstrap_Form_Element_Control_Group::factory(array(
-				'element' => Bootstrap_Form_Element_Input::factory(array(
+				'element' => Bootstrap_Form_Element_Password::factory(array(
 					'name' => 'user[confirm]'
 				), array('id' => 'userEditPasswordConfirmField', 'autocomplete' => 'off'))
 				->label(__('Confirm Password'))
