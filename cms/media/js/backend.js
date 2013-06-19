@@ -228,13 +228,17 @@ var __ = function (str, values) {
 };
 
 cms.filemanager = {
-	open: function(redactor_id) {
+	open: function(object) {
+
 		return $.fancybox.open({
-			href : BASE_URL + '/elfinder/?id='+redactor_id,
+			href : BASE_URL + '/elfinder/',
 			type: 'iframe'
 		}, {
 			autoSize: false,
-			width: 1000
+			width: 1000,
+			afterShow: function() {
+				this.content[0].contentWindow.elfinderInit(object)
+			}
 		});
 	}
 }
@@ -249,10 +253,17 @@ cms.ui = {
 		
 		return this;
     },
-    init:function () {
+    init:function (module) {
         for (var i = 0; i < cms.ui.callbacks.length; i++) {
 			try {
-				cms.ui.callbacks[i][1]();
+				if(!module)
+					cms.ui.callbacks[i][1]();
+				else if(_.isArray(module) && _.indexOf(module, cms.ui.callbacks[i][0]) != -1 ) {
+					cms.ui.callbacks[i][1]();
+				}
+				else if (module == cms.ui.callbacks[i][0]) {
+					cms.ui.callbacks[i][1]();
+				}
 			} catch (e) {}
         }
     }
@@ -297,6 +308,17 @@ cms.ui.add('btn-confirm', function() {
 	$('.widget')
 		.addClass('outline_inner')
 		.wrap('<div class="outline"></div>');
+
+})
+.add('filemanager', function() {
+	var input = $('input.input-filemanager:not(.init)')
+		.addClass('init')
+	
+	$('<button class="btn" type="button"><i class="icon-folder-open"></i></button>')
+		.insertAfter(input)
+		.on('click', function() {
+			cms.filemanager.open($(this).prev());
+		});
 
 }).add('spoiler', function() {
 	$('.spoiler-toggle')

@@ -5,6 +5,7 @@ cms.init.add('page_edit', function() {
 			if(response.response)
 			{
 				$('.spoiler-page-fields').append(response.response);
+				cms.ui.init('filemanager');
 				fields.val('');
 			}
 		});

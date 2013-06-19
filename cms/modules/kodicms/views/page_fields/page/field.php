@@ -24,7 +24,7 @@
 
 	<?php echo FORM::input('value', $field->value, array(
 		'placeholder' => (empty($field->value) AND $field->loaded()) ? '' : __('Field value'), 
-		'class' => 'span6'
+		'class' => 'span6 input-filemanager'
 	)); ?>
 
 	<?php if($field->loaded()): ?>
