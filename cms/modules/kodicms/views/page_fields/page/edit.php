@@ -13,9 +13,17 @@
 	</select>
 	<?php else: ?>
 	<div class="well">
-	<?php echo View::factory('page_fields/page/field', array(
-		'field' => ORM::factory( 'page_field')
-	)); ?>
+		<div class="span5 select-field-container" style='display:none;'>
+			<?php echo Form::hidden('field_id', NULL, array(
+				'disabled', 'class' => 'span12', 'id' => 'select-page-field-container'
+			)); ?>
+		</div>
+		
+		<?php echo View::factory('page_fields/page/field', array(
+			'field' => ORM::factory( 'page_field')
+		)); ?>
+		<hr />
+		<button id="select-page-field" class="btn"><?php echo __('Show field select'); ?></button>
 	</div>
 	<?php foreach($fields as $field): ?>
 	<?php echo View::factory('page_fields/page/field', array(
