@@ -90,7 +90,7 @@ abstract class Controller_Account extends Controller_System_SSO {
 					$password = Text::random();
 					$local_user = ORM::factory('user')
 						->values(array(
-							'email' => !empty($user->email) ? $user->email : $user->service_type . '_' . $user->service_id . '@brutalmen.ru',
+							'email' => !empty($user->email) ? $user->email : $user->service_type . '_' . $user->service_id . '@example.com',
 							'username' => $user->service_type . '_' . $user->service_id,
 							'password' => $password,
 							'confirm' => $password
