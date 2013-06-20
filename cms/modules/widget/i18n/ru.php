@@ -13,6 +13,7 @@ return array(
 	'Cache enabled' => 'Включить кеширование',
 	'Cache tags' => 'Теги кеширования',
 	'Widget location' => 'Места применения виджета',
+	'Widget :name location' => 'Места применения виджета ;name',
 	'Widget parameters' => 'Параметры виджета',
 	'Header' => 'Заголовок',
 	'Layout block' => 'Блок',

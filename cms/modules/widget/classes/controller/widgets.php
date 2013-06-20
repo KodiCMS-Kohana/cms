@@ -40,7 +40,11 @@ class Controller_Widgets extends Controller_System_Backend {
 		if ( Request::current()->method() == Request::POST )
 		{
 			return $this->_add_location($widget);
-		}		
+		}
+		
+		$this->template->title = __('Widget :name location', array(
+			':name' => $widget->name
+		));
 		
 		$this->breadcrumbs
 			->add(__('Widget :name', array(':name' => $widget->name)), 'widgets/edit/' . $widget->id)
@@ -177,6 +181,7 @@ class Controller_Widgets extends Controller_System_Backend {
 			$this->go( 'widgets' );
 		}
 		
+		$this->template->title = $widget->name;
 		$this->breadcrumbs
 			->add($widget->name);
 

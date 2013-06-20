@@ -13,6 +13,8 @@ class Controller_Messages extends Controller_System_Backend {
 	{		
 		$messages = Api::get('messages.get', array('uid' => AuthUser::getId(), 'fields' => 'author,title,is_read,created_on'))
 			->as_object();
+		
+		$this->template->title = __('Messages');
 
 		$this->template->content = View::factory('messages/index', array(
 			'messages' => $messages->response
@@ -40,6 +42,8 @@ class Controller_Messages extends Controller_System_Backend {
 		$this->template->content = View::factory('messages/add', array(
 			'user_id' => AuthUser::getId()
 		));
+		
+		$this->template->title = __('Send message');
 		
 		$this->breadcrumbs
 			->add(__('Send message'));
@@ -93,6 +97,8 @@ class Controller_Messages extends Controller_System_Backend {
 			'message' => $message->response,
 			'messages' => $messages->response
 		));
+		
+		$this->template->title = $message->response->title;
 		
 		$this->breadcrumbs
 			->add($message->response->title);
