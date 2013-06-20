@@ -35,7 +35,7 @@
 				'data-height'	=> 600
 			)); ?>
 		</div>
-		<?php if( $snippet->is_writable()): ?>
+		<?php if( ! $snippet->is_exists() OR ($snippet->is_exists() AND ! $snippet->is_writable())): ?>
 		<div class="form-actions widget-footer">
 			<?php echo UI::actions($page_name); ?>
 		</div>
