@@ -62,7 +62,8 @@ class Widget_Manager {
 			->from( 'widgets' )
 			->order_by( 'type', 'asc' )
 			->order_by( 'name', 'asc' )
-			->execute('id');
+			->execute()
+			->as_array('id');
 	}
 	
 	public static function get_widgets_by_page( $id )

@@ -59,5 +59,6 @@ return array(
 	'Field error message' => 'Текст ошишки',
 	'Field error' => 'Ошибки',
 	
-	'Copy widgets from' => 'Скопировать выджеты у страницы'
+	'Copy widgets from' => 'Скопировать выджеты у страницы',
+	'Cache time' => 'Время кеширования'
 );

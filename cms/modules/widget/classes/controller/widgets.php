@@ -7,6 +7,9 @@ class Controller_Widgets extends Controller_System_Backend {
 	public function before()
 	{
 		parent::before();
+		
+		Assets::css('widgets', ADMIN_RESOURCES . 'css/widgets.css');
+		
 		$this->breadcrumbs
 			->add(__('Widgets'), $this->request->controller());
 	}
@@ -15,12 +18,10 @@ class Controller_Widgets extends Controller_System_Backend {
 	{
 		$this->template->title = __('Widgets');
 		$this->template->content = View::factory( 'widgets/index');
-		
-		$res_widgets = ORM::factory('widget')
-			->find_all();
+
 		
 		$this->template->content = View::factory( 'widgets/index', array(
-			'widgets' => $res_widgets
+			'widgets' => ORM::factory('widget')->find_all()
 		));
 	}
 	

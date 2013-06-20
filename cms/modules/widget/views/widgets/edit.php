@@ -61,14 +61,21 @@
 					->checked($widget->caching)
 					->label(__('Cache enabled'))
 				));
-
-				echo Bootstrap_Form_Element_Control_Group::factory(array(
-					'element' => Bootstrap_Form_Element_Input::factory(array(
-						'name' => 'cache_lifetime', 'value' => (int) $widget->cache_lifetime
-					), array('id' => 'cache_lifetime'))
-					->label(__('Cache lifetime'))
-				), array('id' => 'cache_lifetime_group'));
-
+		?>
+		
+		<div id="cache_lifetime_group" class="control-group">
+			<label id="bootstrap_form_element_label_QuXTwt2D" class="control-label" for="cache_lifetime">Время кеширования</label>
+			<div class="controls">
+				<input type="text" id="cache_lifetime" name="cache_lifetime" value="<?php echo $widget->cache_lifetime; ?>" class="input-medium">
+				
+				<span class="label cache-time-label" data-time="<?php echo Date::MINUTE; ?>"><?php echo __('Minute'); ?></span> 
+				<span class="label cache-time-label" data-time="<?php echo Date::HOUR; ?>"><?php echo __('Hour'); ?></span>
+				<span class="label cache-time-label" data-time="<?php echo Date::WEEK; ?>"><?php echo __('Week'); ?></span>
+				<span class="label cache-time-label" data-time="<?php echo Date::MONTH; ?>"><?php echo __('Month'); ?></span>
+				<span class="label cache-time-label" data-time="<?php echo Date::YEAR; ?>"><?php echo __('Year'); ?></span>
+			</div>
+	</div>
+		<?php
 				echo Bootstrap_Form_Element_Control_Group::factory(array(
 					'element' => Bootstrap_Form_Element_Textarea::factory(array(
 						'name' => 'cache_tags', 'body' => $widget->cache_tags()

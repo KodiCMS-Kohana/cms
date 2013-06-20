@@ -37,4 +37,16 @@ class Model_Widget extends ORM {
 		
 		return $type;
 	}
+	
+	public function code()
+	{
+		try 
+		{
+			return unserialize($this->code);	
+		}
+		catch (Exception $e) 
+		{
+			return NULL;
+		}
+	}
 }

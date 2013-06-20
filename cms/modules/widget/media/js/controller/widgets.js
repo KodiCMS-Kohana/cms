@@ -9,18 +9,26 @@ cms.init.add('widgets_edit', function() {
 				.attr('href', BASE_URL + '/snippet/edit/' + $option.val())
 	});
 
-	$('body').on('post:api:snippet, put:api:snippet', function(event, response) {
-		var $option = $('<option selected value="'+response.name+'">'+response.name+'</oprion>');
-		$('#WidgetTemplate')
-			.find('option:selected')
-				.removeAttr('selected')
-			.end()
-			.append($option)
-			.change();
-	});
+	$('body').on('post:api:snippet', update_snippets_list);
+	$('body').on('put:api:snippet', update_snippets_list);
+	
+	function update_snippets_list(e, response) {
+		var select = $('#WidgetTemplate');
+
+		if(select.find('option[value="'+response.name+'"]'))
+			return;
+		else {
+			var $option = $('<option selected value="'+response.name+'">'+response.name+'</oprion>');
+			$('#WidgetTemplate')
+				.find('option:selected')
+					.removeAttr('selected')
+				.end()
+				.append($option)
+				.change();
+		}
+	}
 	
 	var cache_enabled = function() {
-		
 		var $caching_input = $('#caching');
 		var $cache_lifetime = $('#cache_lifetime');
 		
@@ -29,6 +37,25 @@ cms.init.add('widgets_edit', function() {
 	
 	$('#caching').on('change', cache_enabled);
 	cache_enabled();
+	
+	$('.cache-time-label').on('click', function() {
+		$('#cache_lifetime').val($(this).data('time'));
+		 higlight_cache_time();
+	});
+	
+	$('#cache_lifetime').on('keyup', function() {
+		higlight_cache_time();
+	});
+	
+	function higlight_cache_time() {
+		$('.cache-time-label').removeClass('label-success');
+		$('.cache-time-label').each(function() {
+			if($('#cache_lifetime').val() == $(this).data('time'))
+				$(this).addClass('label-success');
+		})
+	};
+	
+	higlight_cache_time();
 });
 
 cms.init.add('page_edit', function() {
