@@ -61,7 +61,7 @@
 
 <div class="widget">
 	<div class="widget-header spoiler-toggle">
-		<?php echo UI::icon('upload'); ?><h3><?php echo __('Upload backup file'); ?> <?php echo UI::icon( 'chevron-down spoiler-toggle-icon' ); ?></h3>
+		<?php echo UI::icon('upload'); ?><h3><?php echo __('Upload backup file'); ?></h3>
 	</div>
 	<div class="widget-content spoiler">
 		<?php 

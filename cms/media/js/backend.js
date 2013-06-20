@@ -330,6 +330,9 @@ cms.ui.add('btn-confirm', function() {
 	});
 
 }).add('spoiler', function() {
+	var icon_open = 'icon-chevron-up',
+		icon_close = 'icon-chevron-down';
+
 	$('.spoiler-toggle')
 		.click(function () {
 			var $self = $(this);
@@ -342,9 +345,9 @@ cms.ui.add('btn-confirm', function() {
 			$spoiler_cont.slideToggle('fast', function() {
 				var $icon = $self.find('.spoiler-toggle-icon');
 				if($(this).is(':hidden')) {
-					$icon.removeClass('icon-chevron-up').addClass('icon-chevron-down');
+					$icon.removeClass(icon_open).addClass(icon_close);
 				} else {
-					$icon.addClass('icon-chevron-up').removeClass('icon-chevron-down');
+					$icon.addClass(icon_open).removeClass(icon_close);
 				}
 			});
 			
@@ -356,7 +359,9 @@ cms.ui.add('btn-confirm', function() {
 				$('html,body').animate({scrollTop: $(this).offset().top}, 'slow');
 			}
 			
-		});
+		})
+		.find('h3, h4')
+		.append(' <i class="spoiler-toggle-icon '+icon_close+'"></i>');
 }).add('datepicker', function() {
 	// Datepicker
     $('.datepicker').datepicker({

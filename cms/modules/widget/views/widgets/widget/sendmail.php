@@ -38,7 +38,7 @@
 </div>
 
 <div class="widget-header spoiler-toggle" data-spoiler=".spoiler-message-type">
-	<h4><?php echo __('Message type'); ?> <?php echo UI::icon( 'chevron-down spoiler-toggle-icon' ); ?></h4>
+	<h4><?php echo __('Message type'); ?></h4>
 </div>
 <div class="widget-content spoiler spoiler-message-type">
 	<?php

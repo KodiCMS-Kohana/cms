@@ -2,4 +2,5 @@
 
 return array(
 	'Maintenance mode' => ' Режим обслуживания',
+	'Enable maintenance mode' => 'Включить'
 );

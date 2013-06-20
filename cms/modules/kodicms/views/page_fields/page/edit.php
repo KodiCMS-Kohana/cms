@@ -1,5 +1,5 @@
 <div class="widget-header widget-no-border-radius spoiler-toggle" data-spoiler=".spoiler-page-fields" data-hash="page-fields">
-	<h4><?php echo __('Page fields'); ?> <?php echo UI::icon( 'chevron-down spoiler-toggle-icon' ); ?></h4>
+	<h4><?php echo __('Page fields'); ?></h4>
 </div>
 
 <div class="widget-content widget-no-border-radius spoiler spoiler-page-fields">

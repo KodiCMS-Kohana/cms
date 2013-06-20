@@ -74,7 +74,7 @@
 		</div>
 
 		<div class="widget-header spoiler-toggle">
-			<h3><?php echo __('Password'); ?> <?php echo UI::icon( 'chevron-down spoiler-toggle-icon' ); ?></h3>
+			<h3><?php echo __('Password'); ?></h3>
 		</div>
 		<div class="widget-content spoiler">
 		<?php

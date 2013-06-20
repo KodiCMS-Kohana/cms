@@ -97,7 +97,7 @@
 	</div>
 
 	<div class="widget-header spoiler-toggle" data-spoiler=".page-options-container">
-		<h3><?php echo __( 'Page options' ); ?> <?php echo UI::icon( 'chevron-down spoiler-toggle-icon' ); ?></h3>
+		<h3><?php echo __( 'Page options' ); ?></h3>
 	</div>
 
 	<div class="widget-content spoiler page-options-container">

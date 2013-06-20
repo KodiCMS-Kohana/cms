@@ -47,7 +47,7 @@ foreach ($oauth as $provider => $data)
 
 <?php if($user->id == AuthUser::getId()): ?>
 <div class="widget-header spoiler-toggle" data-spoiler=".social-accouns-binder">
-	<h3><?php echo __('List of supported OAuth providers'); ?> <?php echo UI::icon( 'chevron-down spoiler-toggle-icon' ); ?></h3>
+	<h3><?php echo __('List of supported OAuth providers'); ?></h3>
 </div>
 <div class="widget-content spoiler social-accouns-binder">
 	<p class="muted"><?php echo __('Binding account to an account in a social network will allow to enter the site with a single click. You can bind the account to several accounts. :settings_link', array(':settings_link' => HTML::anchor('setting#social-accounts-settings', __('Settings')))); ?></p>

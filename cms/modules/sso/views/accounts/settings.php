@@ -1,6 +1,6 @@
 <?php if( AuthUser::hasPermission( array('administrator', 'developer') ) ): ?>
 <div class="widget-header spoiler-toggle" data-spoiler=".social-accounts-settings" data-hash="social-accounts-settings">
-	<h3 id="social-accounts-settings"><?php echo __('Social accounts settings'); ?> <?php echo UI::icon( 'chevron-down spoiler-toggle-icon' ); ?></h3>
+	<h3 id="social-accounts-settings"><?php echo __('Social accounts settings'); ?></h3>
 </div>
 <div class="widget-content spoiler social-accounts-settings">
 	<?php foreach ($oauth as $provider => $data): ?>

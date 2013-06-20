@@ -4,7 +4,7 @@
 )); ?>
 	<?php echo Form::hidden('id', $widget->id); ?>
 	<div class="widget-header spoiler-toggle" data-spoiler=".general-spoiler">
-		<h4><?php echo __('Widget Information'); ?> <?php echo UI::icon( 'chevron-down spoiler-toggle-icon' ); ?></h4>
+		<h4><?php echo __('Widget Information'); ?></h4>
 	</div>
 	<div class="widget-content spoiler general-spoiler">
 		<?php

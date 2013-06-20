@@ -9,7 +9,7 @@
 	var LAYOUT_BLOCKS = <?php echo json_encode( $_blocks ); ?>;
 </script>
 <div class="widget-header widget-no-border-radius spoiler-toggle" data-spoiler=".spoiler-widgets" data-hash="widgets">
-	<h4><?php echo __('Widgets'); ?> <?php echo UI::icon( 'chevron-down spoiler-toggle-icon' ); ?></h4>
+	<h4><?php echo __('Widgets'); ?></h4>
 </div>
 
 <div class="widget-content widget-no-border-radius spoiler spoiler-widgets">
