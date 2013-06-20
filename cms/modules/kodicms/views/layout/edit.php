@@ -21,10 +21,12 @@
 		<div class="widget-header widget-inverse">
 			<h4><?php echo __('Content'); ?></h4>
 			
+			<?php if( $layout->is_writable()): ?>
 			<?php echo UI::button(__('File manager'), array(
 				'class' => 'btn btn-filemanager', 'data-el' => 'textarea_content',
 				'icon' => UI::icon( 'folder-open')
 			)); ?>
+			<?php endif; ?>
 		</div>
 		<div class="widget-content">
 			<?php echo Form::textarea('content', $layout->content, array(
@@ -33,9 +35,11 @@
 				'data-height'	=> 600
 			)); ?>
 		</div>
+		<?php if( $layout->is_writable()): ?>
 		<div class="form-actions widget-footer">
 			<?php echo UI::actions($page_name); ?>
 		</div>
+		<?php endif; ?>
 	</div>
 <?php echo Form::close(); ?>
 <!--/#layoutEditForm-->
