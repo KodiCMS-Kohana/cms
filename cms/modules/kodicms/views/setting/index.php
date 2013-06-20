@@ -5,7 +5,13 @@
 
 <div class="widget">
 	<div class="widget-header">
-		<h3><?php echo __( 'Site options' ); ?></h3>
+		<h3>
+			<?php echo __( 'Site options' ); ?>
+			<?php echo UI::button(__('Clear cache'), array(
+				'icon' => UI::icon( 'stethoscope' ), 'href' => 'setting/clear_cache',
+				'class' => 'btn btn-warning'
+			)); ?>
+		</h3>
 	</div>
 
 	<div class="widget-content">
