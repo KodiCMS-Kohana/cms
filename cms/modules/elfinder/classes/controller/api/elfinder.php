@@ -17,10 +17,11 @@ class Controller_API_Elfinder extends Controller_System_Api {
 					'driver'        => 'LocalFileSystem',	// driver for accessing file system (REQUIRED)
 					'path'          => substr(PUBLICPATH, 0, -1),			// path to files (REQUIRED)
 					'URL'           => PUBLIC_URL,			// URL to files (REQUIRED),
-					'uploadAllow'	=> array('image'),
+					'rootAlias'     => __('Public'),
 					'uploadMaxSize'	=> '10M',
 					'mimeDetect'	=> 'internal',
 					'imgLib'		=> 'gd',
+					
 				)
 			)
 		);
