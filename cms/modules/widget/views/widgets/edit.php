@@ -70,6 +70,7 @@
 				
 				<span class="label cache-time-label" data-time="<?php echo Date::MINUTE; ?>"><?php echo __('Minute'); ?></span> 
 				<span class="label cache-time-label" data-time="<?php echo Date::HOUR; ?>"><?php echo __('Hour'); ?></span>
+				<span class="label cache-time-label" data-time="<?php echo Date::DAY; ?>"><?php echo __('Day'); ?></span>
 				<span class="label cache-time-label" data-time="<?php echo Date::WEEK; ?>"><?php echo __('Week'); ?></span>
 				<span class="label cache-time-label" data-time="<?php echo Date::MONTH; ?>"><?php echo __('Month'); ?></span>
 				<span class="label cache-time-label" data-time="<?php echo Date::YEAR; ?>"><?php echo __('Year'); ?></span>
