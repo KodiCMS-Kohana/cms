@@ -32,8 +32,8 @@ class Model_API_Message extends Model_API {
 		if(in_array('author', $fields))
 		{
 			$query->join( 'users', 'left' )
-				->select( array('users.name', 'author') )
-				->on( 'users.id', '=', $this->_table_name . '.from_user_id' );
+				->on( 'users.id', '=', $this->_table_name . '.from_user_id' )
+				->select( array('users.username', 'author') );
 		}
 		
 		if(in_array('status', $fields))
@@ -82,7 +82,7 @@ class Model_API_Message extends Model_API {
 		if(in_array('author', $fields))
 		{
 			$query->join( 'users', 'left' )
-				->select( array('users.name', 'author') )
+				->select( array('users.username', 'author') )
 				->on( 'users.id', '=', $this->_table_name . '.from_user_id' );
 		}
 		

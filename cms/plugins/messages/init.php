@@ -6,11 +6,3 @@ $plugin = Plugins_Item::factory( array(
 	'description' => 'Provides user messages system.',
 	'javascripts' => 'messages.js'
 ) )->register();
-
-if($plugin->enabled())
-{	
-	if(IS_BACKEND)
-	{
-		
-	}
-}

@@ -1,17 +1,31 @@
 cms.init.add('messages_add', function(){
-	$('input[name="to"]').typeahead({
-		source: function(query, process) {
-			$.get('/api/users.like', {key: query, sin: 'username,email,name', fields:'username'}, function(resp) {
-				users = [];
-				
+	
+	$('input[name="to"]').select2({
+		placeholder: __("Type first 2 chars"),
+		minimumInputLength: 2,
+		ajax: {
+			url: '/api/users.like',
+			data: function(query, pageNumber, context) {
+				return {
+					key: query, 
+					sin: 'username,email,name', 
+					fields:'username'
+				}
+			},
+			dataType: 'json',
+			results: function (resp, page) {
+				var users = [];
 				if(resp.response) {
-					
 					for(i in resp.response) {
-						users.push(resp.response[i]['username']);
+						users.push({
+							id: resp.response[i]['id'],
+							text: resp.response[i]['username']
+						});
 					}
 				}
-				return process(users);
-			}, 'json');
+
+				return {results: users};
+			}
 		}
 	});
 });

@@ -23,8 +23,8 @@ class Controller_Messages extends Controller_System_Backend {
 	{
 		if($this->request->method() === Request::POST)
 		{
-			$username = $this->request->post('to');
-			$user = ORM::factory('user', array('username' => $username));
+			$id = (int) $this->request->post('to');
+			$user = ORM::factory('user', $id);
 
 			if( ! $user->loaded() ) 
 			{
