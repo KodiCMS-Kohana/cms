@@ -37,7 +37,7 @@
 						<?php if( ! $layout->is_writable()): ?>
 						<span class="label label-warning"><?php echo __('Read only'); ?></span>
 						<?php endif; ?>
-						<?php echo HTML::anchor('layout/edit/'.$layout->name, $layout->name, array('class' => 'popup fancybox.iframe')); ?>
+						<?php echo HTML::anchor('layout/edit/'.$layout->name, $layout->name, array(/*'class' => 'popup fancybox.iframe'*/)); ?>
 						<?php if(count($layout->blocks()) > 0): ?>
 						<span class="muted">
 							<?php echo __('Layout blocks'); ?>: <?php echo implode(', ', $layout->blocks()); ?>

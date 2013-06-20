@@ -228,7 +228,7 @@ var __ = function (str, values) {
 };
 
 cms.filemanager = {
-	open: function(object) {
+	open: function(object, type) {
 
 		return $.fancybox.open({
 			href : BASE_URL + '/elfinder/',
@@ -236,8 +236,8 @@ cms.filemanager = {
 		}, {
 			autoSize: false,
 			width: 1000,
-			afterShow: function() {
-				this.content[0].contentWindow.elfinderInit(object)
+			afterLoad: function() {
+				this.content[0].contentWindow.elfinderInit(object, type)
 			}
 		});
 	}
@@ -319,6 +319,15 @@ cms.ui.add('btn-confirm', function() {
 		.on('click', function() {
 			cms.filemanager.open($(this).prev());
 		});
+		
+	$('body').on('click', '.btn-filemanager', function() {
+		var el = $(this).data('el');
+
+		if(!el) return false;
+		
+		cms.filemanager.open(el, 'codemirror');
+		return false;
+	});
 
 }).add('spoiler', function() {
 	$('.spoiler-toggle')

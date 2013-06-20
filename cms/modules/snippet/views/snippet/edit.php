@@ -20,6 +20,11 @@
 		</div>
 		<div class="widget-header widget-inverse">
 			<h4><?php echo __('Content'); ?></h4>
+			
+			<?php echo UI::button('filemanager', array(
+				'class' => 'btn btn-filemanager', 'data-el' => 'textarea_content',
+				'icon' => UI::icon( 'folder-open')
+			)); ?>
 		</div>
 		<div class="widget-content">
 			<?php echo Form::textarea('content', $snippet->content, array(
