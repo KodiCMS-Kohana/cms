@@ -36,11 +36,12 @@
 		<div class="control-group">
 			<label class="control-label"><?php echo __('Type'); ?></label>
 			<div class="controls">
-				<?php
-				echo Form::select( 'type', $types, NULL, array(
-					'class' => Bootstrap_Form_Element_Input::XXLARGE
-				) );
-				?>
+				<div class="row-fluid">
+					<?php echo Form::select( 'type', $types, NULL, array(
+						'class' => 'span6'
+					) ); ?>
+				</div>
+				
 			</div>
 		</div>
 	</div>
