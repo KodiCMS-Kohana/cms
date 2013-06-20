@@ -33,7 +33,7 @@
 						<span class="label label-warning"><?php echo __('Read only'); ?></span>
 						<?php endif; ?>
 						
-						<?php echo HTML::anchor('snippet/edit/'.$snippet->name, $snippet->name, array(/*'class' => 'popup fancybox.iframe'*/)); ?>
+						<?php echo HTML::anchor('snippet/edit/'.$snippet->name, $snippet->name, array('class' => ! $snippet->is_writable() ? 'popup fancybox.iframe' : '')); ?>
 					</th>
 					<td class="modified">
 						<?php echo Date::format($snippet->modified()); ?>

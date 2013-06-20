@@ -21,7 +21,7 @@
 		<div class="widget-header widget-inverse">
 			<h4><?php echo __('Content'); ?></h4>
 			
-			<?php echo UI::button('filemanager', array(
+			<?php echo UI::button(__('File manager'), array(
 				'class' => 'btn btn-filemanager', 'data-el' => 'textarea_content',
 				'icon' => UI::icon( 'folder-open')
 			)); ?>
