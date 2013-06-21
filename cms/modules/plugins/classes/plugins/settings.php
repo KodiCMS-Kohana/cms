@@ -175,6 +175,21 @@ class Plugins_Settings {
 	
 	/**
 	 * 
+	 * @param type $string
+	 */
+	public static function delete_settings($plugin_id)
+	{
+		DB::delete('plugin_settings')
+			->where('plugin_id', '=', $plugin_id)
+			->execute();
+		
+		self::_clear_cache();
+		
+		return TRUE;
+	}
+
+	/**
+	 * 
 	 * @return boolean
 	 */
 	public static function is_loaded()

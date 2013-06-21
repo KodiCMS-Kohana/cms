@@ -17,18 +17,6 @@ class Plugins {
 	 */
 	protected static $_registered = array();
 
-	/**
-	 *
-	 * @var array
-	 */
-	public static $javascripts = array();
-	
-	/**
-	 *
-	 * @var array
-	 */
-	public static $styles = array();
-
 	public static function init()
 	{
 		$plugins = self::_get_list_from_db();
@@ -42,9 +30,9 @@ class Plugins {
 
 		foreach ( self::$_plugins as $plugin_id => $tmp )
 		{
-			if(  is_dir( PLUGPATH . $plugin_id . DIRECTORY_SEPARATOR ) )
+			if(  is_dir( self::path($plugin_id) ) )
 			{
-				$plugins[$plugin_id] = PLUGPATH . $plugin_id . DIRECTORY_SEPARATOR;
+				$plugins[$plugin_id] = self::path($plugin_id);
 			}
 		}
 
@@ -145,8 +133,7 @@ class Plugins {
 	 */
 	public static function activate( $plugin_id )
 	{
-		$file = PLUGPATH . $plugin_id . DIRECTORY_SEPARATOR . 'enable.php';
-		if ( file_exists( $file ) )
+		if ( self::is_exists($plugin_id, 'enable.php') )
 		{
 			require_once $file;
 		}
@@ -166,10 +153,11 @@ class Plugins {
 		{
 			if($uninstal === TRUE)
 			{
-				$file = PLUGPATH . $plugin_id . DIRECTORY_SEPARATOR . 'disable.php';
-				if ( file_exists( $file ) )
+				Plugins_Settings::delete_settings($plugin_id);
+
+				if ( self::is_exists($plugin_id, 'disable.php') )
 				{
-					require_once $file;
+					require_once self::path( $plugin_id, 'disable.php' );
 				}
 			}
 
@@ -193,10 +181,9 @@ class Plugins {
 
 				if ( is_dir( $dir . $plugin_id ) && strpos( $plugin_id, '.' ) !== 0 )
 				{
-					$file = PLUGPATH . $plugin_id . DIRECTORY_SEPARATOR . 'init.php';
-					if ( file_exists( $file ) )
+					if ( self::is_exists($plugin_id, 'init.php') )
 					{
-						require_once $file;
+						require_once self::path( $plugin_id, 'init.php' );
 					}
 				}
 			}
@@ -220,5 +207,15 @@ class Plugins {
 		}
 
 		return FALSE;
+	}
+	
+	public static function path($plugin_id, $file = NULL)
+	{
+		return PLUGPATH . $plugin_id . DIRECTORY_SEPARATOR . $file;
+	}
+	
+	public static function is_exists($plugin_id, $file)
+	{
+		return file_exists( self::path( $plugin_id, $file ) );
 	}
 }
