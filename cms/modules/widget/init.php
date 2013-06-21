@@ -1,6 +1,13 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
-Assets::js('controller.widgets', ADMIN_RESOURCES . 'js/controller/widgets.js', 'global');
+Observer::observe( 'template_before_render',  function($request) {
+	
+	if(in_array( $request->controller(), array('Page', 'Widgets') ))
+	{
+		Assets::js('controller.widgets', ADMIN_RESOURCES . 'js/controller/widgets.js', 'global');
+	}
+});
+
 
 //Вставка JS и Стилей в шаблон
 Observer::observe( 'frontpage_found',  function($page) {

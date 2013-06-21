@@ -1,7 +1,5 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
-Assets::js('controller.page_fields', ADMIN_RESOURCES . 'js/controller/page_fields.js', 'global');
-
 Observer::observe('view_page_edit_plugins', function($page) {
 
 	echo View::factory('page_fields/page/edit', array(

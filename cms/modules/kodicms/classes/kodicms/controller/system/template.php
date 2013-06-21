@@ -110,7 +110,7 @@ class KodiCMS_Controller_System_Template extends Controller_System_Security
 			
 			$this->template->set('request', $this->request);
 			
-			Observer::notify( 'template_before_render', $this->template );
+			Observer::notify( 'template_before_render', $this->request );
 			$this->response->body( $this->template );
 		}
 	}
