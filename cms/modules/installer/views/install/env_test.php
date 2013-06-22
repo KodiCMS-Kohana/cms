@@ -65,6 +65,22 @@ $failed = FALSE;
 			<?php endif ?>
 		</tr>
 		<tr>
+			<th><?php echo __('Config file placement'); ?></th>
+			<?php if (is_dir(pathinfo(CFGFATH, PATHINFO_DIRNAME) . DIRECTORY_SEPARATOR) AND ! is_file( CFGFATH)): ?>
+				<td class="pass">
+					<?php echo CFGFATH; ?>
+					<div class="text-warning"><?php echo __('To change config file placement edit index.php file'); ?></div>
+				</td>
+			<?php else: $failed = TRUE ?>
+				<td class="fail">
+					<?php echo __('The config :dir directory does not exist or config file is exists.', array(
+					':dir' => CFGFATH, ':file' => pathinfo( CFGFATH, PATHINFO_FILENAME) .'.'. pathinfo( CFGFATH, PATHINFO_EXTENSION)
+				)); ?>
+					<div class="text-warning"><?php echo __('To change config file placement edit index.php file'); ?></div>
+				</td>
+			<?php endif ?>
+		</tr>
+		<tr>
 			<th>PCRE UTF-8</th>
 			<?php if ( ! @preg_match('/^.$/u', 'ñ')): $failed = TRUE ?>
 				<td class="fail"><a href="http://php.net/pcre" target="blank">PCRE</a> has not been compiled with UTF-8 support.</td>

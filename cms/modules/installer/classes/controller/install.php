@@ -286,7 +286,7 @@ class Controller_Install extends Controller_System_Frontend
 			array_keys( $repl ), array_values( $repl ), $tpl_content
 		);
 
-		if ( !file_put_contents( DOCROOT . 'config' . EXT, $tpl_content ) !== FALSE )
+		if ( !file_put_contents( CFGFATH, $tpl_content ) !== FALSE )
 		{
 			throw new Installer_Exception( 'Can\'t write config.php file!' );
 		}
@@ -326,9 +326,9 @@ class Controller_Install extends Controller_System_Frontend
 				->execute($db);
 		}
 		
-		if(  file_exists( DOCROOT . 'config' . EXT ) !== FALSE )
+		if(  file_exists( CFGFATH ) !== FALSE )
 		{
-			unlink(DOCROOT . 'config' . EXT);
+			unlink(CFGFATH);
 		}
 	}
 }

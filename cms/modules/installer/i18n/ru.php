@@ -45,6 +45,9 @@ return array(
 	'Application Directory' => 'Путь до директории application',
 	'Cache Directory' => 'Путь до директории cache',
 	'Logs Directory' => 'Путь до директории logs',
+	'Config file placement' => 'Расположение конфиг файла',
+	'To change config file placement edit index.php file' => 'Дли изменения пути расположения конфиг файла, необходимо редактировать index.php',
+	'The config :dir directory does not exist or config file is exists.' => 'Указанный путь до директории :dir не существует или файл (:file) с таким именем уже существует.',
 	'The configured <code>system</code> directory does not exist or does not contain required files.'
 		=> 'Указанный путь до директории :dir не существует или не содержит необходимых файлов.',
 	'The :dir directory is not writable.' => 'Директория защищена от записи.',

@@ -79,6 +79,7 @@ define('CMSPATH', realpath($cms).DIRECTORY_SEPARATOR);
 define('APPPATH', realpath($application).DIRECTORY_SEPARATOR);
 define('MODPATH', realpath($modules).DIRECTORY_SEPARATOR);
 define('SYSPATH', realpath($system).DIRECTORY_SEPARATOR);
+define('CFGFATH', DOCROOT.'config'.EXT);
 
 // Clean up the configuration vars
 unset($application, $modules, $system, $cms);
@@ -99,7 +100,7 @@ if ( ! defined('KOHANA_START_MEMORY'))
 	define('KOHANA_START_MEMORY', memory_get_usage());
 }
 
-define('IS_INSTALLED', file_exists(DOCROOT . 'config'.EXT));
+define('IS_INSTALLED', file_exists(CFGFATH));
 
 // Bootstrap the application
 require APPPATH.'bootstrap'.EXT;
@@ -108,7 +109,7 @@ $uri = TRUE;
 
 if ( IS_INSTALLED )
 {
-	include DOCROOT.'config'.EXT;
+	include CFGFATH;
 	include APPPATH.'init'.EXT;
 }
 else
