@@ -135,7 +135,7 @@ class Plugins {
 	{
 		if ( self::is_exists($plugin_id, 'enable.php') )
 		{
-			require_once $file;
+			require_once self::path( $plugin_id, 'enable.php' );
 		}
 
 		self::$_plugins[$plugin_id] = TRUE;
