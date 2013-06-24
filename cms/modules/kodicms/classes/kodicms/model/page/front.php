@@ -124,6 +124,12 @@ class KodiCMS_Model_Page_Front {
 	 * @var Model_File_Layout 
 	 */
 	protected $_layout_object = NULL;
+	
+	/**
+	 *
+	 * @var Behavior_Abstract 
+	 */
+	protected $_behavior = NULL;
 
 	/**
 	 * 
@@ -330,6 +336,15 @@ class KodiCMS_Model_Page_Front {
 		{
 			return Date::format($this->created_on, $format);
 		}
+	}
+	
+	/**
+	 * 
+	 * @return Behavior_Abstract
+	 */
+	public function behavior()
+	{
+		return $this->_behavior;
 	}
 
 	/**
@@ -782,7 +797,7 @@ class KodiCMS_Model_Page_Front {
 				// check for behavior
 				if( !empty( $page->behavior_id ) )
 				{
-					$page->{$page->behavior_id} = Behavior::load($page->behavior_id, $page, $url, $uri);
+					$page->_behavior = Behavior::load($page->behavior_id, $page, $url, $uri);
 
 					return $page;
 				}

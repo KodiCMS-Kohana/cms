@@ -66,19 +66,6 @@ class Behavior
 	}
 
 	/**
-	 * Remove a behavior to Frog CMS
-	 *
-	 * @param behavior_id string  The Behavior plugin folder name
-	 */
-	public static function remove($behavior_id)
-	{
-		if (isset(self::$behaviors[$behavior_id]))
-		{
-			unset(self::$behaviors[$behavior_id]);
-		}
-	}
-
-	/**
 	 * Load a behavior and return it
 	 *
 	 * @param behavior_id string  The Behavior plugin folder name
@@ -95,7 +82,7 @@ class Behavior
 		
 		return $behavior
 				->set_page($page)
-				->find_route( $uri );
+				->execute_uri( $uri );
 	}
 
 	/**

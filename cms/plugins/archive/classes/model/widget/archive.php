@@ -32,7 +32,7 @@ class Model_Widget_Archive extends Model_Widget_Decorator {
 		}
 		else if( empty($this->page_id) )
 		{
-			$page = Context::instance()->get_page();
+			$page = $this->_ctx->get_page();
 		}
 		
 		return $page;

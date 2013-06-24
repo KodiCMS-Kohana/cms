@@ -8,12 +8,12 @@ class Model_Widget_Archive_HL extends Model_Widget_Page_Pages {
 	{
 		$page = $this->get_page();
 		
-		if(!($page instanceof Model_Page_Behavior_Archive))
+		if( ! ($page instanceof Model_Page_Behavior_Archive) )
 		{
 			Model_Page_Front::not_found();
 		}
 		
-		$params = $page->archive->params();
+		$params = $page->behavior()->router()->params();
 		$date = implode('-', $params);
 		
 		$clause = array(

@@ -3,52 +3,55 @@
 class Behavior_Archive extends Behavior_Abstract
 {
 	
-	protected $_routes = array(
-		'/<year>/<month>/<day>/<slug>' => array(
-			'regex' => array(
-				'year' => '[0-9]{4}',
-				'month' => '[0-9]{2}',
-				'day' => '[0-9]{2}'
+	public function routes()
+	{
+		return array(
+			'/<year>/<month>/<day>/<slug>' => array(
+				'regex' => array(
+					'year' => '[0-9]{4}',
+					'month' => '[0-9]{2}',
+					'day' => '[0-9]{2}'
+				),
+				'method' => '_display_page'
 			),
-			'method' => '_display_page'
-		),
-		'/<year>/<month>/<day>' => array(
-			'regex' => array(
-				'year' => '[0-9]{4}',
-				'month' => '[0-9]{2}',
-				'day' => '[0-9]{2}'
-			)
-		),
-		'/<year>/<month>' => array(
-			'regex' => array(
-				'year' => '[0-9]{4}',
-				'month' => '[0-9]{2}'
-			)
-		),
-		'/<year>' => array(
-			'regex' => array(
-				'year' => '[0-9]{4}'
-			)
-		),
-		'/<slug>' => array(
-			'method' => '_display_page'
-		),
-		'' => array(
-			'method' => '_display_page'
-		),
-	);
+			'/<year>/<month>/<day>' => array(
+				'regex' => array(
+					'year' => '[0-9]{4}',
+					'month' => '[0-9]{2}',
+					'day' => '[0-9]{2}'
+				)
+			),
+			'/<year>/<month>' => array(
+				'regex' => array(
+					'year' => '[0-9]{4}',
+					'month' => '[0-9]{2}'
+				)
+			),
+			'/<year>' => array(
+				'regex' => array(
+					'year' => '[0-9]{4}'
+				)
+			),
+			'/<slug>' => array(
+				'method' => '_display_page'
+			),
+			'' => array(
+				'method' => '_display_page'
+			),
+		);
+	}
 
 	public function execute()
 	{
-		if( isset($this->day) )
+		if( isset($this->router()->day) )
 		{
 			return $this->_archive_by('day');
 		}
-		else if( isset($this->month) )
+		else if( isset($this->router()->month) )
 		{
 			return $this->_archive_by('month');
 		}
-		else if( isset($this->year) )
+		else if( isset($this->router()->year) )
 		{
 			return $this->_archive_by('year');
 		}
@@ -64,7 +67,7 @@ class Behavior_Archive extends Behavior_Abstract
     {
         $this->interval = $interval;
 
-        $page = $this->_page->children(array(
+        $page = $this->page()->children(array(
             'where' => array(
 				array('behavior_id', '=', 'archive_' . $interval . '_index')
 			),
@@ -74,7 +77,7 @@ class Behavior_Archive extends Behavior_Abstract
         if ($page)
         {
             $this->_page = $page;
-            $this->_page->time = mktime(0, 0, 0, $this->param('month', 1), $this->param('day', 1), $this->param('year'));
+            $this->page()->time = mktime(0, 0, 0, $this->router()->param('month', 1), $this->router()->param('day', 1), $this->router()->param('year'));
         }
         else
         {
@@ -84,13 +87,14 @@ class Behavior_Archive extends Behavior_Abstract
     
     protected function _display_page()
     {
-		$slug = $this->param('slug');
+		$slug = $this->router()->param('slug');
+
 		if(empty($slug))
 		{
 			return;
 		}
 
-        if(($this->_page = Model_Page_Front::findBySlug($slug, $this->_page)) === FALSE )
+        if(($this->_page = Model_Page_Front::findBySlug($slug, $this->page())) === FALSE )
 		{
             Model_Page_Front::not_found();
 		}
@@ -103,7 +107,7 @@ class Behavior_Archive extends Behavior_Abstract
 	 */
 	public function get($clause = array())
 	{
-		$date = implode('-', $this->_params);
+		$date = implode('-', $this->router()->params());
 
 		if( ! isset($clause['where']) )
 		{
@@ -115,7 +119,7 @@ class Behavior_Archive extends Behavior_Abstract
 			$clause['order_by'] = array(array('page.created_on', 'desc'));
 		}
 
-		$pages = $this->_page->parent->children($clause);
+		$pages = $this->page()->parent->children($clause);
 
 		return $pages;
 	}

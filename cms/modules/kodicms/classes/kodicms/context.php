@@ -71,9 +71,9 @@ class KodiCMS_Context {
 	
 	/**
 	 *
-	 * @var array 
+	 * @var Behavior_Route 
 	 */
-	protected $_route_segments = array();
+	protected $_behavior_router = array();
 	
 	/**
 	 *
@@ -185,17 +185,17 @@ class KodiCMS_Context {
 	
 	/**
 	 * 
-	 * @param array $route_segments
-	 * @return array
+	 * @param Behavior_Route $router
+	 * @return Behavior_Route
 	 */
-	public function route_segments( $route_segments = NULL )
+	public function behavior_router( Behavior_Route $router = NULL )
 	{
-		if(is_array($route_segments))
+		if( $router !== NULL )
 		{
-			$this->_route_segments = $route_segments;
+			$this->_behavior_router = $router;
 		}
 		
-		return $this->_route_segments;
+		return $this->_behavior_router;
 	}
 
 	/**
