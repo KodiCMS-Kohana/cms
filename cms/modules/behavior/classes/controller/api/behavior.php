@@ -21,8 +21,7 @@ class Controller_API_Behavior extends Controller_System_Api {
 		
 		try
 		{
-			$behavior = Behavior::factory( $id )
-				->get_page_settings($page);
+			$behavior = new Behavior_Settings($page);
 			
 			$this->response( $behavior->render() );
 
