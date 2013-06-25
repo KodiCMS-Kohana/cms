@@ -74,55 +74,21 @@ abstract class Behavior_Abstract {
 	{
 		return $this->_page;
 	}
-
+	
 	/**
 	 * 
-	 * @return \Behavior_Abstract
-	 * @throws Kohana_Exception
+	 * @return Behavior_Settings
 	 */
-	protected function _load_settings()
+	public function settings()
 	{
-		if( $this->page() === NULL )
-			throw new Kohana_Exception('Page must be loaded');
-		
-		if( $this->_settings === NULL )
+		if($this->_settings === NULL)
 		{
-			$this->_settings = ORM::factory('Page_Behavior_Setting')
-				->find_by_page($this->page())
-				->get('data', array());
+			$this->_settings = new Behavior_Settings($this->page());
 		}
 		
-		return $this;
-	}
-	
-	/**
-	 * 
-	 * @param string $name
-	 * @param mixed $default
-	 * @return string
-	 */
-	public function setting($key, $default = NULL)
-	{
-		$this->_load_settings();
-		
-		return Arr::get($this->_settings, $key, $default);
-	}
-	
-	/**
-	 * 
-	 * @param Model_Page $page
-	 * @return View
-	 */
-	public function get_page_settings(Model_Page $page)
-	{
-		$this->_page = $page;
-		$this->_load_settings();
-
-		return View::factory('behavior/' . $this->page()->behavior_id)
-			->set('settings', $this->_settings)
-			->set('behavior', $this)
-			->set('page', $this->page());
+		return $this->_settings;
 	}
 
+	
 	abstract public function execute();
 }
