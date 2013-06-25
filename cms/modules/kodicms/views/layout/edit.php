@@ -32,7 +32,8 @@
 			<?php echo Form::textarea('content', $layout->content, array(
 				'tabindex'		=> 2,
 				'id'			=> 'textarea_content',
-				'data-height'	=> 600
+				'data-height'	=> 600,
+				'data-readonly'		=> $layout->is_writable() ? 'off' : 'on'
 			)); ?>
 		</div>
 		<?php if( ! $layout->is_exists() OR ($layout->is_exists() AND $layout->is_writable())): ?>

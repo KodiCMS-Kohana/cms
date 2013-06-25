@@ -16,7 +16,7 @@ cms.plugins.ace.switchOn_handler = function( textarea_id, params )
 	
 	var editor = ace.edit(textarea_id + 'Div');
 	editor.setValue(textarea.val());
-    //editor.setTheme("ace/theme/monokai");
+
 	editor.clearSelection();
     editor.getSession().setMode("ace/mode/php");
 	editor.getSession().setTabSize(4);
@@ -26,13 +26,20 @@ cms.plugins.ace.switchOn_handler = function( textarea_id, params )
 		textarea.val(editor.getSession().getValue());
 	});
 	
-	editor.commands.addCommand({
-		name: 'myCommand',
-		bindKey: {win: 'Ctrl-S',  mac: 'Command-S'},
-		exec: function(editor) {
-			$('button[name="continue"]').click();
-		}
-	});
+	if(textarea.data('readonly') == 'off') {
+//		editor.setTheme("ace/theme/monokai");
+		editor.setReadOnly(true);
+	} else {
+		editor.commands.addCommand({
+			name: 'myCommand',
+			bindKey: {win: 'Ctrl-S',  mac: 'Command-S'},
+			exec: function(editor) {
+				$('button[name="continue"]').click();
+			}
+		});
+	}
+	
+	
 };
 
 // Switch off tinymce handler
