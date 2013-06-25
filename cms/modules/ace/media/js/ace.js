@@ -26,7 +26,7 @@ cms.plugins.ace.switchOn_handler = function( textarea_id, params )
 		textarea.val(editor.getSession().getValue());
 	});
 	
-	if(textarea.data('readonly') == 'off') {
+	if(textarea.data('readonly') == 'on') {
 //		editor.setTheme("ace/theme/monokai");
 		editor.setReadOnly(true);
 	} else {
