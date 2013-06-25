@@ -5,7 +5,7 @@
 
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="robots" content="index, follow" />
-		<meta name="description" content="<?php echo $page->description('Default description goes here'); ?>" />
+		<meta name="description" content="<?php echo $page->description(Setting::get('site_description')); ?>" />
 		<meta name="keywords" content="<?php echo $page->keywords('default, keywords, here'); ?>" />
 		<meta name="author" content="Author Name" />
 		
