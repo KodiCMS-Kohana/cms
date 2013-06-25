@@ -255,6 +255,8 @@ class KodiCMS_Controller_Page extends Controller_System_Backend {
 					Messages::errors( __( 'You do not have permission to access the requested page!' ) );
 					$this->go( 'page' );
 				}
+				
+				Observer::notify( 'page_before_delete', $page );
 
 				if ( $page->delete() )
 				{
