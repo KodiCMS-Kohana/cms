@@ -25,18 +25,53 @@ cms.plugins.ace.switchOn_handler = function( textarea_id, params )
 	editor.getSession().on('change', function(){
 		textarea.val(editor.getSession().getValue());
 	});
+	editor.setTheme("ace/theme/textmate");
+	
+	function fullscreen(editArea, editor, height) {
+		if(!editArea.data('fullscreen') || editArea.data('fullscreen') == 'off') {
+			editArea
+				.css({
+					position: 'fixed',
+					width: '100%', 
+					height: '100%',
+					top: 0, left: 0
+				})
+				.data('fullscreen', 'on')
+		
+			editor.setTheme("ace/theme/monokai");
+		} else {
+			
+			editor.setTheme("ace/theme/textmate");
+			editArea
+				.data('fullscreen', 'off')
+				.css({
+					position: 'relative',
+					width: 'auto', 
+					height: height,
+					top: 'auto', left: 'auto'
+				});
+		}
+	}
 	
 	if(textarea.data('readonly') == 'on') {
 //		editor.setTheme("ace/theme/monokai");
 		editor.setReadOnly(true);
 	} else {
 		editor.commands.addCommand({
-			name: 'myCommand',
+			name: 'Save',
 			bindKey: {win: 'Ctrl-S',  mac: 'Command-S'},
 			exec: function(editor) {
 				$('button[name="continue"]').click();
 			}
 		});
+		
+		editor.commands.addCommand({
+			name: 'Full-screen',
+			bindKey: {win: 'Ctrl-F',  mac: 'Command-F'},
+			exec: function(editor) {
+				fullscreen(editArea, editor, height)
+			}
+		});		
 	}
 	
 	
