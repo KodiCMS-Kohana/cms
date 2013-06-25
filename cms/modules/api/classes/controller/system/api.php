@@ -43,7 +43,14 @@ class Controller_System_API extends Controller_System_Ajax {
 		
 		if( strpos($this->request->headers('content-type'), 'application/json') !== FALSE )
 		{
-			$this->request->post(json_decode($this->request->body(), TRUE));
+			$data = json_decode($this->request->body(), TRUE);
+			
+			if( !is_array( $data ))
+			{
+				parse_str($this->request->body(), $data);
+			}
+		
+			$this->request->post($data);
 		}
 	}
 	

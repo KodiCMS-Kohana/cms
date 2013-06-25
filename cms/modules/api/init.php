@@ -2,7 +2,15 @@
 
 if ( ! Route::cache())
 {
-	Route::set('api', 'api/<controller>(.<action>)(/<id>)')
+	Route::set('api', 'api/(<directory>/)<controller>(.<action>)(/<id>)', array('directory' => '.*'))
+		->filter(function($route, $params, $request)
+		{
+			if (strpos($params['directory'], 'Api') === FALSE)
+			{
+				$params['directory'] = 'Api/' . $params['directory'];
+			}
+			return $params;
+		})
 		->defaults(array(
 			'directory' => 'api'
 		));
