@@ -33,7 +33,7 @@
 				'id'			=> 'textarea_content',
 				'tabindex'		=> 2,
 				'data-height'	=> 600,
-				'data-readonly'		=> $snippet->is_writable() ? 'off' : 'on'
+				'data-readonly'		=> ( ! $snippet->is_exists() OR ($snippet->is_exists() AND $snippet->is_writable())) ? 'off' : 'on'
 			)); ?>
 		</div>
 		<?php if( ! $snippet->is_exists() OR ($snippet->is_exists() AND $snippet->is_writable())): ?>
