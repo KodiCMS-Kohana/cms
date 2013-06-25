@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="<?php echo I18n::lang(); ?>">
 	<head>
-		<title><?php echo $page->title(); ?> | <?php echo Setting::get('admin_title'); ?></title>
+		<title><?php echo $page->title(); ?> | <?php echo Setting::get('site_title'); ?></title>
 
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="robots" content="index, follow" />
 		<meta name="description" content="<?php echo $page->description('Default description goes here'); ?>" />
 		<meta name="keywords" content="<?php echo $page->keywords('default, keywords, here'); ?>" />
 		<meta name="author" content="Author Name" />
-
+		
 		<?php echo HTML::script( PUBLIC_URL . 'js/jquery-1.9.0.min.js' ) . "\n"; ?>
 		<?php echo HTML::script( PUBLIC_URL . 'js/bootstrap.min.js' ) . "\n"; ?>
 		<?php echo HTML::script( PUBLIC_URL . 'js/holder.js' ) . "\n"; ?>

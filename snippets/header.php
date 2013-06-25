@@ -1,7 +1,7 @@
 <br />
 <div class="navbar">
 	<div class="navbar-inner">
-		<a class="brand" href="/"><?php echo Setting::get('admin_title'); ?></a>
+		<a class="brand" href="/"><?php echo Setting::get('site_title'); ?></a>
 		<ul class="nav">
 			<?php if ( ! URL::match( '/' ) ): ?>
 			<li>

@@ -17,6 +17,9 @@ class KodiCMS_Controller_Front extends Controller_System_Controller
 		$this->_ctx
 			->request( $this->request )
 			->response( $this->response );
+		
+		Assets::remove_js();
+		Assets::remove_css();
 	}
 
 	public function action_index()

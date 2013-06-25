@@ -4,6 +4,31 @@
 	<?php echo Form::hidden('token', Security::token()); ?>
 
 <div class="widget">
+	<div class="widget-header spoiler-toggle" data-spoiler=".site-information-content">
+		<h3><?php echo __( 'Site information' ); ?></h3>
+	</div>
+	<div class="widget-content spoiler site-information-content">
+		<div class="control-group">
+			<label class="control-label title" for="settingTitle"><?php echo __( 'Site title' ); ?></label>
+			<div class="controls">
+				<?php
+				echo Form::input( 'setting[site_title]', Setting::get( 'site_title' ), array(
+					'class' => 'input-title input-block-level', 'id' => 'settingTitle'
+				) );
+				?>
+				<p class="help-block"><?php echo __( 'This text will be present at backend and can be used in frontend pages.' ); ?></p>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="settingDescription"><?php echo __( 'Site description' ); ?></label>
+			<div class="controls">
+				<?php echo Form::textarea( 'setting[site_description]', Setting::get( 'site_description' ), array(
+					'id' => 'settingDescription', 'class' => 'input-block-level', 'rows' => 3
+				) ); ?>
+			</div>
+		</div>
+	</div>
+	
 	<div class="widget-header">
 		<h3>
 			<?php echo __( 'Site options' ); ?>
@@ -13,21 +38,7 @@
 			)); ?>
 		</h3>
 	</div>
-
 	<div class="widget-content">
-		<div class="control-group">
-			<label class="control-label title" for="settingTitle"><?php echo __( 'Site title' ); ?></label>
-			<div class="controls">
-				<?php
-				echo Form::input( 'setting[admin_title]', Setting::get( 'admin_title' ), array(
-					'class' => 'input-title', 'id' => 'settingTitle'
-				) );
-				?>
-
-				<p class="help-block"><?php echo __( 'This text will be present at backend and can be used in frontend pages.' ); ?></p>
-			</div>
-		</div>
-
 		<div class="control-group">
 			<?php echo Form::label('setting_default_locale', __('Interface language'), array('class' => 'control-label')); ?>
 			<div class="controls">
@@ -35,7 +46,6 @@
 					'id' => 'setting_default_locale')); ?>
 			</div>
 		</div>
-
 		<div class="control-group">
 			<?php echo Form::label('setting_date_format', __('Date format'), array('class' => 'control-label')); ?>
 			<div class="controls">
@@ -44,7 +54,6 @@
 				?>
 			</div>
 		</div>
-
 		<div class="control-group">
 			<label class="control-label" for="settingSection"><?php echo __( 'Default backend section' ); ?></label>
 			<div class="controls">
