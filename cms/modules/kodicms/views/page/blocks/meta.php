@@ -1,9 +1,9 @@
 	<div class="control-group">
-		<label class="control-label" for="pageEditMetaTitleField"><?php echo __( 'Page title' ); ?></label>
+		<label class="control-label title" for="pageEditMetaTitleField"><?php echo __( 'Page title' ); ?></label>
 		<div class="controls">
 			<?php
 			echo Form::input( 'page[title]', $page->title, array(
-				'class' => 'span12 slug-generator'
+				'class' => 'span12 slug-generator input-title'
 			) );
 			?>
 		</div>

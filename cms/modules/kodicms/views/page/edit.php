@@ -30,8 +30,6 @@
 								'tags' => $tags
 							)); ?>
 						</div>
-
-
 						<?php echo View::factory('part/items'); ?>
 
 						<?php Observer::notify('view_page_edit_plugins', $page); ?>

@@ -81,7 +81,8 @@
 			echo Bootstrap_Form_Element_Control_Group::factory(array(
 				'element' => Bootstrap_Form_Element_Password::factory(array(
 					'name' => 'user[password]'
-				), array('id' => 'userEditPasswordField', 'autocomplete' => 'off'))
+				), array('id' => 'userEditPasswordField', 'autocomplete' => 'off', 
+					'placeholder' => __('Password')))
 				->label(__('Password'))
 				->append(Bootstrap_Form_Element_Input::add_on(UI::icon('lock')))
 				->help_text(__('At least :num characters. Must be unique.', array(
@@ -92,7 +93,8 @@
 			echo Bootstrap_Form_Element_Control_Group::factory(array(
 				'element' => Bootstrap_Form_Element_Password::factory(array(
 					'name' => 'user[confirm]'
-				), array('id' => 'userEditPasswordConfirmField', 'autocomplete' => 'off'))
+				), array('id' => 'userEditPasswordConfirmField', 
+					'autocomplete' => 'off', 'placeholder' => __('Confirm Password')))
 				->label(__('Confirm Password'))
 			)); 
 		?>

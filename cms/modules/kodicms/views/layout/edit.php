@@ -7,11 +7,11 @@
 	<div class="widget widget-nopad">
 		<div class="widget-title">
 			<div class="control-group">
-				<label class="control-label" for="layoutEditNameField"><?php echo __('Layout name'); ?></label>
+				<label class="control-label title" for="layoutEditNameField"><?php echo __('Layout name'); ?></label>
 				<div class="controls">
 					<div class="row-fluid">
 					<?php echo Form::input('name', $layout->name, array(
-						'class' => 'slug focus span12', 'id' => 'layoutEditNameField',
+						'class' => 'slug focus span12 input-title', 'id' => 'layoutEditNameField',
 						'tabindex'	=> 1
 					)); ?>
 					</div>
