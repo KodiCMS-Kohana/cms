@@ -1,20 +1,17 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-if ( ! Route::cache())
-{
-	Route::set('api', 'api/(<directory>/)<controller>(.<action>)(/<id>)', array('directory' => '.*'))
-		->filter(function($route, $params, $request)
+Route::set('api', 'api/(<directory>/)<controller>(.<action>)(/<id>)', array('directory' => '.*'))
+	->filter(function($route, $params, $request) {
+		if (strpos($params['directory'], 'Api') === FALSE)
 		{
-			if (strpos($params['directory'], 'Api') === FALSE)
-			{
-				$params['directory'] = 'Api/' . $params['directory'];
-			}
-			return $params;
-		})
-		->defaults(array(
-			'directory' => 'api'
-		));
-}
+			$params['directory'] = 'Api/' . $params['directory'];
+		}
+
+		return $params;
+	})
+	->defaults(array(
+		'directory' => 'api'
+	));
 
 if(IS_BACKEND)
 {

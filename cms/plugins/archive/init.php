@@ -52,15 +52,12 @@ if($plugin->enabled())
 	}
 }
 
-if ( ! Route::cache())
-{
-	Route::set( 'archive', ADMIN_DIR_NAME . '/archive/<id>' , array(
-		'id' => '[0-9]+',
+Route::set( 'archive', ADMIN_DIR_NAME . '/archive/<id>' , array(
+	'id' => '[0-9]+',
+	'controller' => 'archive',
+	'action' => 'index',
+) )
+	->defaults( array(
 		'controller' => 'archive',
 		'action' => 'index',
-	) )
-		->defaults( array(
-			'controller' => 'archive',
-			'action' => 'index',
-		) );
-}
+	) );

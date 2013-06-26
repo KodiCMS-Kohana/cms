@@ -11,11 +11,9 @@ catch (Exception $e)
 	date_default_timezone_set('UTC');
 }
 
-if ( ! Route::cache())
-{
-	Route::set( 'install', 'install(/<action>(/<id>))' )
-		->defaults( array(
-			'controller' => 'install',
-			'action' => 'index',
-		) );
-}
+
+Route::set( 'install', 'install(/<action>(/<id>))' )
+	->defaults( array(
+		'controller' => 'install',
+		'action' => 'index',
+	) );

@@ -1,18 +1,15 @@
 <?php defined('SYSPATH') OR die('No direct access allowed.');
 
-if ( ! Route::cache())
-{
-	Route::set('accounts-auth', '('.ADMIN_DIR_NAME.'/)'.'<directory>/<controller>/<action>', array(
-		'directory' => '(openid|oauth)', 
-		'action' => '('.implode('|', array(
-			'identify',
-			'login', 'complete_login',
-			'register', 'complete_register',
-			'connect', 'complete_connect',
-			'disconnect', 'complete_disconnect'
-		)).')'
-	));
-}
+Route::set('accounts-auth', '('.ADMIN_DIR_NAME.'/)'.'<directory>/<controller>/<action>', array(
+	'directory' => '(openid|oauth)', 
+	'action' => '('.implode('|', array(
+		'identify',
+		'login', 'complete_login',
+		'register', 'complete_register',
+		'connect', 'complete_connect',
+		'disconnect', 'complete_disconnect'
+	)).')'
+));
 
 Observer::observe('view_user_edit_plugins', function($user) {
 	echo View::factory('accounts/userblock/edit', array(

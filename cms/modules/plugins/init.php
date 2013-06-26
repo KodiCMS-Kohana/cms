@@ -11,13 +11,11 @@ define('PLUGPATH', realpath($plugins).DIRECTORY_SEPARATOR);
 // Init plugins
 Plugins::init();
 
-if ( ! Route::cache())
-{
-	Route::set( 'plugins', ADMIN_DIR_NAME.'/plugins(/<action>(/<id>))', array(
-		'id' => '.*'
-	) )
-		->defaults( array(
-			'controller' => 'plugins',
-			'action' => 'index',
-		) );
-}
+
+Route::set( 'plugins', ADMIN_DIR_NAME.'/plugins(/<action>(/<id>))', array(
+	'id' => '.*'
+) )
+	->defaults( array(
+		'controller' => 'plugins',
+		'action' => 'index',
+	) );

@@ -47,13 +47,10 @@ if($plugin->enabled())
 	});
 }
 
-if ( ! Route::cache())
-{
-	Route::set( 'backup', ADMIN_DIR_NAME.'/backup(/<action>(/<file>))', array(
-		'action' => '(view|delete|restore)',
-		'file' => '.*'
-	) )
-		->defaults( array(
-			'controller' => 'backup'
-		) );
-}
+Route::set( 'backup', ADMIN_DIR_NAME.'/backup(/<action>(/<file>))', array(
+	'action' => '(view|delete|restore)',
+	'file' => '.*'
+) )
+	->defaults( array(
+		'controller' => 'backup'
+	) );
