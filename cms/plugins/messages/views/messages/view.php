@@ -17,7 +17,7 @@
 	
 	<?php foreach ($messages as $msg): ?>
 	<?php if($msg->is_read == Model_API_Message::STATUS_NEW): ?>
-	<?php Api::post('messages.mark_read', array(
+	<?php Api::post('user-messages.mark_read', array(
 			'id' => $msg->id, 'uid' => AuthUser::getId()
 		)); ?>
 	<?php endif; ?>

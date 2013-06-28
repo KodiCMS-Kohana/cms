@@ -1,6 +1,6 @@
 $(function() {
 	cms.models.part = Backbone.Model.extend({
-		urlRoot: SITE_URL + 'api/parts',
+		urlRoot: SITE_URL + 'api/page-parts',
 		defaults: {
 			name: 'part',
 			filter_id: '',
@@ -43,7 +43,7 @@ $(function() {
 	});
 	
 	cms.collections.parts = Backbone.Collection.extend({
-		url: SITE_URL + 'api/parts',
+		url: SITE_URL + 'api/page-parts',
 
 		model: cms.models.part,
 

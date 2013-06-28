@@ -2,7 +2,7 @@
 
 if(AuthUser::isLoggedIn())
 {
-	$new = Api::get('messages.count_new', array(
+	$new = Api::get('user-messages.count_new', array(
 		'uid' => AuthUser::getId()
 	))->as_object();
 

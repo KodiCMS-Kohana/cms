@@ -11,7 +11,7 @@ class Controller_Messages extends Controller_System_Backend {
 	
 	public function action_index()
 	{		
-		$messages = Api::get('messages.get', array('uid' => AuthUser::getId(), 'fields' => 'author,title,is_read,created_on'))
+		$messages = Api::get('user-messages.get', array('uid' => AuthUser::getId(), 'fields' => 'author,title,is_read,created_on'))
 			->as_object();
 		
 		$this->template->title = __('Messages');
@@ -36,7 +36,7 @@ class Controller_Messages extends Controller_System_Backend {
 			$post = $this->request->post();
 			$post['from_user_id'] = AuthUser::getId();
 			$post['to_user_id'] = $user->id;
-			return $this->_send(Api::put('messages', $post));
+			return $this->_send(Api::put('user-messages', $post));
 		}
 
 		$this->template->content = View::factory('messages/add', array(
@@ -54,7 +54,7 @@ class Controller_Messages extends Controller_System_Backend {
 		$id = (int) $this->request->param('id');
 		$user_id = AuthUser::getId();
 
-		$message = Api::get('messages.get_by_id', array(
+		$message = Api::get('user-messages.get_by_id', array(
 			'id' => $id, 
 			'uid' =>  $user_id,
 			'fields' => 'author,title,is_read,created_on,text'
@@ -70,14 +70,14 @@ class Controller_Messages extends Controller_System_Backend {
 			$post = $this->request->post();
 			$post['from_user_id'] = $user_id;
 			$post['parent_id'] = $id;
-			return $this->_send(Api::put('messages', $post), $id);
+			return $this->_send(Api::put('user-messages', $post), $id);
 		}
 		
 		Api::post('messages.mark_read', array(
 			'id' => $id, 'uid' => $user_id
 		));
 		
-		$new = Api::get('messages.count_new', array(
+		$new = Api::get('user-messages.count_new', array(
 			'uid' => $user_id
 		))->as_object();
 		
@@ -85,7 +85,7 @@ class Controller_Messages extends Controller_System_Backend {
 			'counter' => $new->response
 		));
 		
-		$messages = Api::get('messages.get', array(
+		$messages = Api::get('user-messages.get', array(
 			'uid' => $user_id, 
 			'fields' => 'author,title,is_read,created_on,text',
 			'pid' => $id

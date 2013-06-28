@@ -487,7 +487,10 @@ var Api = {
 	},
 
 	request: function(method, uri, data, callback) {
-		uri = SITE_URL + 'api/' + uri;
+		if(uri.indexOf('-') == -1) uri = '-' + uri;
+		else if(uri.indexOf('-') > 0 && uri.indexOf('/') == -1)  uri = '/' + uri;
+		
+		uri = '/api' + uri;
 		
 		$.ajaxSetup({
 			contentType : 'application/json'

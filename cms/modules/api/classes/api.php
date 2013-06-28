@@ -80,7 +80,20 @@ class API {
 	 */
 	public static function request($uri)
 	{
-		return Request::factory('api/' . $uri);
+		if(strpos( $uri, '-' ) === FALSE)
+		{
+			$uri = '-' . $uri;
+		}
+		else if (
+			strpos( $uri, '-' ) > 0
+		AND
+			strpos( $uri, '/' ) === FALSE
+		)
+		{
+			$uri = '/' . $uri;
+		}
+
+		return Request::factory('api' . $uri);
 	}
 	
 	/**

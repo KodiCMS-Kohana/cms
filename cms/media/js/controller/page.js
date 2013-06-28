@@ -265,7 +265,7 @@ cms.init.add('page_add', function () {
 
 $(function() {
 	cms.models.page = Backbone.Model.extend({
-		urlRoot: SITE_URL + 'api/page',
+		urlRoot: SITE_URL + 'api-page',
 		
 		defaults: {
 			slug: '',
@@ -275,7 +275,7 @@ $(function() {
 	});
 
 	cms.collections.pages = Backbone.Collection.extend({
-		url: '/api/page',
+		url: '/api-page',
 		model: cms.models.page,
 		
 		parse: function(response) {
