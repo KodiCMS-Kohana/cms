@@ -10,7 +10,7 @@
 					window.top.$.fancybox.close();
 				}
 				else {
-					if(window.top.cms.filters.insert(id, file))
+					if(window.top.cms.filters.exec(id, 'insert', file))
 						window.top.$.fancybox.close();
 				}
 			},

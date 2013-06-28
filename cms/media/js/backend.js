@@ -202,10 +202,10 @@ var cms = {
 			return null;
 		},
 				
-		insert: function(textarea_id, data) {
+		exec: function(textarea_id, command, data) {
 			var filter = this.get(textarea_id);
 			if( filter && typeof(filter[3]) == 'function' )
-				return filter[3](this.editors[textarea_id], textarea_id, data);
+				return filter[3](this.editors[textarea_id], command, textarea_id, data);
 			
 			return false;
 		}

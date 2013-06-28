@@ -35,15 +35,20 @@ cms.plugins.redactor.switchOff_handler = function( editor, textarea_id )
 	editor.destroyEditor();	
 };
 
-cms.plugins.redactor.exec_handler = function( editor, textarea_id, data )
+cms.plugins.redactor.exec_handler = function( editor, command, textarea_id, data )
 {
-	if (/(jpg|gif|png|JPG|GIF|PNG|JPEG|jpeg)$/.test(data)){
-		data = '<img src="' + data + '">';
-	} else {
-		data = '<a href="' + data + '">' + data + '</a>';
-	}
+	switch(command) {
+		case 'insert':
+			if (/(jpg|gif|png|JPG|GIF|PNG|JPEG|jpeg)$/.test(data)){
+				data = '<img src="' + data + '">';
+			} else {
+				data = '<a href="' + data + '">' + data + '</a>';
+			}
 
-	editor.insertHtml(data);
+			editor.insertHtml(data);
+			break;
+	}
+	
 	
 	return true;
 };

@@ -83,9 +83,14 @@ cms.plugins.ace.switchOff_handler = function( editor, textarea_id )
 	$('#' + textarea_id + 'Div').remove();
 }
 
-cms.plugins.ace.exec_handler = function( editor, textarea_id, data )
+cms.plugins.ace.exec_handler = function( editor, command, textarea_id, data )
 {
-	editor.insert(data);
+	switch(command) {
+		case 'insert':
+			editor.insert(data);
+			break;
+	}
+	
 	return true;
 }
 
