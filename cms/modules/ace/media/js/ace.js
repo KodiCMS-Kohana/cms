@@ -74,18 +74,19 @@ cms.plugins.ace.switchOn_handler = function( textarea_id, params )
 		});		
 	}
 	
-	
+	return editor;
 };
 
 // Switch off tinymce handler
-cms.plugins.ace.switchOff_handler = function( textarea_id )
+cms.plugins.ace.switchOff_handler = function( editor, textarea_id )
 {
 	$('#' + textarea_id + 'Div').remove();
 }
 
-cms.plugins.ace.exec_handler = function( textarea_id, data )
+cms.plugins.ace.exec_handler = function( editor, textarea_id, data )
 {
-	
+	editor.insert(data);
+	return true;
 }
 
 /*

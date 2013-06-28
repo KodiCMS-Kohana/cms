@@ -26,17 +26,16 @@ cms.plugins.redactor.switchOn_handler = function( textarea_id, params )
 	
 	params = $.extend(local_params, params);
 
-	$('#' + textarea_id).redactor(params);
+	return $('#' + textarea_id).redactor(params);
 };
 
 // Switch off tinymce handler
-cms.plugins.redactor.switchOff_handler = function( textarea_id )
+cms.plugins.redactor.switchOff_handler = function( editor, textarea_id )
 {
-	 // destroy editor
-	$('#' + textarea_id).destroyEditor();	
+	editor.destroyEditor();	
 };
 
-cms.plugins.redactor.exec_handler = function( textarea_id, data )
+cms.plugins.redactor.exec_handler = function( editor, textarea_id, data )
 {
 	if (/(jpg|gif|png|JPG|GIF|PNG|JPEG|jpeg)$/.test(data)){
 		data = '<img src="' + data + '">';
@@ -44,7 +43,7 @@ cms.plugins.redactor.exec_handler = function( textarea_id, data )
 		data = '<a href="' + data + '">' + data + '</a>';
 	}
 
-	$('#' + textarea_id).insertHtml(data);
+	editor.insertHtml(data);
 	
 	return true;
 };

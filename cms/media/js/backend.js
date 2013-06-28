@@ -135,6 +135,7 @@ var cms = {
 		// Filters array
 		filters: [],
 		switchedOn: {},
+		editors: {},
 		
 		// Add new filter
 		add: function (name, switchOn_handler, switchOff_handler, exec_handler) {
@@ -159,7 +160,7 @@ var cms = {
 					if (this.filters[i][0] == filter) {
 						try {
 							// Call handler that will switch on editor
-							this.filters[i][1](textarea_id, params);
+							this.editors[textarea_id] = this.filters[i][1](textarea_id, params);
 
 							// Add editor to switchedOn stack
 							this.switchedOn[textarea_id] = this.filters[i];
@@ -181,7 +182,7 @@ var cms = {
 			try {
 				if ( filter && typeof(filter[2]) == 'function' ) {
 					// Call handler that will switch off editor and showed up simple textarea
-					filter[2](textarea_id);
+					filter[2](this.editors[textarea_id], textarea_id);
 				}
 				
 				this.switchedOn[textarea_id] = null;
@@ -203,9 +204,8 @@ var cms = {
 				
 		insert: function(textarea_id, data) {
 			var filter = this.get(textarea_id);
-			
 			if( filter && typeof(filter[3]) == 'function' )
-				return filter[3](textarea_id, data);
+				return filter[3](this.editors[textarea_id], textarea_id, data);
 			
 			return false;
 		}
@@ -226,22 +226,6 @@ var __ = function (str, values) {
 
     return values == undefined ? str : strtr(str, values);
 };
-
-cms.filemanager = {
-	open: function(object, type) {
-
-		return $.fancybox.open({
-			href : BASE_URL + '/elfinder/',
-			type: 'iframe'
-		}, {
-			autoSize: false,
-			width: 1000,
-			afterLoad: function() {
-				this.content[0].contentWindow.elfinderInit(object, type)
-			}
-		});
-	}
-}
 
 cms.ui = {
     callbacks:[],
@@ -310,26 +294,7 @@ cms.ui.add('btn-confirm', function() {
 		.wrap('<div class="outline"></div>');
 
 })
-.add('filemanager', function() {
-	var input = $('input.input-filemanager:not(.init)')
-		.addClass('init')
-	
-	$('<button class="btn" type="button"><i class="icon-folder-open"></i></button>')
-		.insertAfter(input)
-		.on('click', function() {
-			cms.filemanager.open($(this).prev());
-		});
-		
-	$('body').on('click', '.btn-filemanager', function() {
-		var el = $(this).data('el');
-
-		if(!el) return false;
-		
-		cms.filemanager.open(el, 'codemirror');
-		return false;
-	});
-
-}).add('spoiler', function() {
+.add('spoiler', function() {
 	var icon_open = 'icon-chevron-up',
 		icon_close = 'icon-chevron-down';
 
