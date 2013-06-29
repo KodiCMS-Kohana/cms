@@ -145,9 +145,12 @@ return array(
 	'Last login' => 'Последний вход',
 
 	/*********************** Settings *******************/
-	'General setting' => 'Главные настройки',
+	'General settings' => 'Главные настройки',
 	'Interface language' => 'Язык интерфейса',
-	'Site title' => 'Заголовок сайта',
+	'Clear cache' => 'Очистить кеш',
+	'Site information' => 'Информация о сайте',
+	'Site title' => 'Заголовок',
+	'Site description' => 'Описание',
 	'Setting'  => 'Настройка',
 	'Settings' => 'Настройки',
 	'This status will be autoselected when page creating.' 
@@ -203,6 +206,9 @@ return array(
 	'Field title' => 'Название',
 	'Field key' => 'Ключ',
 	'Field value' => 'Значение',
+	
+	/*********************** Languages *******************/
+	'Russian' => 'Русский',
 
 	/*********************** Date *******************/
     'am' => 'дп',

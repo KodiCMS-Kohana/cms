@@ -9,6 +9,7 @@ return array(
 	'Plugin file :file has errors! You can\'t activate this plugin!' => 'Плагин :file содержит ошибки! Вы не можете активировать этот плагин!',
 	'Plugin name' => 'Название плагина',
 	'Plugin settings' => 'Настройки плагина',
+	'Version' => 'Версия',
 	
 	
 	'Deactivate plugin' => 'Деактивировать плагин',

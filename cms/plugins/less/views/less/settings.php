@@ -6,11 +6,6 @@
 		<div class="checkbox">
 			<label><?php echo Form::checkbox('setting[enabled]', 'yes', $plugin->get('enabled', 'no') == 'yes'); ?> <?php echo __('Enable compiler'); ?></label>
 		</div>
-
-		<div class="checkbox">
-			<label><?php echo Form::checkbox('setting[format_css]', 'yes', $plugin->get('format_css', 'no') == 'yes'); ?> <?php echo __('Format css code'); ?></label>
-		</div>
-
 	</div>
 </div>
 <div class="widget-header">
@@ -41,10 +36,3 @@
 		</div>
 	</div>
 </div>
-<?php if(!$is_dir_less): ?>
-
-<div class="widget-header">
-	<h3><?php echo __('Less files to compile'); ?></h3>
-</div>
-
-<?php endif; ?>
