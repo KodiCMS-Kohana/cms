@@ -7,7 +7,7 @@
 /* ===================================================
 	Design
  =================================================== */
-@contentBottomPadding: 50px;
+@contentBottomPadding: 30px;
 @footerHeight: 55px;
 @footerPadding: 20px;
 
@@ -24,13 +24,13 @@ html, body {
 }
 
 #content {
-	padding-top: 15px;
-	padding-bottom: @footerHeight + @contentBottomPadding - 15px;
+	margin-top: 15px;
+	margin-bottom: @footerHeight + @contentBottomPadding - 15px;
 }
 
 .iframe {
 	.container-fluid, #content {
-		padding: 0;
+		margin: 0; padding: 0;
 	}
 }
 

@@ -80,7 +80,7 @@ class KodiCMS_Controller_System_Backend extends Controller_System_Template
 			}
 			
 			$file = strtolower($this->request->controller());
-			if( Kohana::find_file('media', FileSystem::normalize_path('/js/controller/' . $file), 'js'))
+			if( Kohana::find_file('media', FileSystem::normalize_path('js/controller/' . $file), 'js'))
 			{
 				Assets::js('controller', ADMIN_RESOURCES . 'js/controller/' . $file . '.js', 'global');
 			}

@@ -2,7 +2,6 @@
 	<div class="widget-header">
 		<?php echo UI::button(__('Add layout'), array(
 			'icon' => UI::icon( 'plus' ), 'href' => 'layout/add',
-			'class' => 'popup fancybox.iframe btn'
 		)); ?>
 
 		<?php echo UI::button(__('Rebuild blocks'), array(

@@ -1,0 +1,16 @@
+cms.init.add('snippet_edit', function () {
+	function calculateEditorHeight() {
+		var conentH = calculateContentHeight();
+		var h = $('.widget-title').outerHeight(true) + $('.widget-header').outerHeight(true) + $('.form-actions').outerHeight(true) + 10;
+		
+		return conentH - h;
+	}
+	
+	$('#textarea_content').on('filter:switch:on', function(e, editor) {
+		cms.filters.exec('textarea_content', 'changeHeight', calculateEditorHeight());
+	});
+	
+	$(window).resize(function() {
+		$('#textarea_content').trigger('filter:switch:on')
+	});
+});

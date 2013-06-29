@@ -23,9 +23,8 @@
 				<nav>
 					<?php echo View::factory('layouts/blocks/navigation'); ?>
 				</nav>
+				<?php echo $breadcrumbs; ?>
 			</header>
-			<?php echo $breadcrumbs; ?>
-			
 			<div class="container-fluid">
 				<section id="content" >
 				<?php echo $content; ?>

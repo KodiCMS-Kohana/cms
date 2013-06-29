@@ -2,7 +2,6 @@
 	<div class="widget-header">
 		<?php echo UI::button(__('Add snippet'), array(
 			'href' => 'snippet/add', 'icon' => UI::icon('plus'),
-			'class' => 'popup fancybox.iframe btn'
 		)); ?>
 	</div>
 

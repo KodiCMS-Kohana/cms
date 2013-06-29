@@ -7182,11 +7182,12 @@ body {
   min-height: 100%;
 }
 #content {
-  padding-top: 15px;
-  padding-bottom: 90px;
+  margin-top: 15px;
+  margin-bottom: 70px;
 }
 .iframe .container-fluid,
 .iframe #content {
+  margin: 0;
   padding: 0;
 }
 footer {

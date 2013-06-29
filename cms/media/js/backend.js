@@ -164,9 +164,11 @@ var cms = {
 
 							// Add editor to switchedOn stack
 							this.switchedOn[textarea_id] = this.filters[i];
+							
+							$('#' + textarea_id).trigger('filter:switch:on', this.editors[textarea_id]);
 						}
 						catch (e) {
-							//frog.error('Errors with filter switch on!', e);
+							
 						}
 
 						break;
@@ -186,6 +188,7 @@ var cms = {
 				}
 				
 				this.switchedOn[textarea_id] = null;
+				$('#' + textarea_id).trigger('filter:switch:off');
 			}
 			catch (e) {
 				//cms.error('Errors with filter switch off!', e);
@@ -512,6 +515,18 @@ var Api = {
 	response: function() {
 		return this._response;
 	}
+}
+
+function calculateContentHeight() {
+	var contenrCont = $('#content'),
+		headerCont = $('header'),
+		footerCont = $('footer'),
+		windowCont = $(window);
+
+	var contentContHeight = windowCont.outerHeight() - headerCont.outerHeight(),
+		contentContPadding = contenrCont.outerHeight(!$('body').hasClass('iframe')) - contenrCont.innerHeight();
+
+	return contentContHeight - contentContPadding;
 }
 
 // Run
