@@ -19,9 +19,9 @@
 	<body id="body_frontend">
 		<div id="content-wrapper">
 			<div class="container" id="content">
-				<div id="content">
+				<section id="content">
 					<?php echo $content; ?>
-				</div>
+				</section>
 			</div>
 		</div>
 

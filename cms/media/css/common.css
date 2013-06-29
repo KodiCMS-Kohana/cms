@@ -7189,7 +7189,7 @@ body {
 .iframe #content {
   padding: 0;
 }
-#footer {
+footer {
   background-color: #6E6D71;
   border-top: 1px solid #fff;
   border-bottom: 1px solid #252525;
@@ -7202,7 +7202,7 @@ body {
   margin-top: -55px;
   position: relative;
 }
-#footer a {
+footer a {
   color: #ccc;
   text-decoration: underline;
 }
