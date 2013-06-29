@@ -16,7 +16,7 @@
 
 	<div class="widget">
 		<div class="widget-header">
-			<h3><?php echo __('General'); ?></h3>
+			<h3><?php echo __('General information'); ?></h3>
 		</div>
 		<div class="widget-content">
 			<div class="row-fluid">
@@ -104,7 +104,7 @@
 			</div>
 			<?php endif; ?>
 		</div>
-		<?php if (AuthUser::hasPermission('administrator')): ?>
+		<?php if (AuthUser::hasPermission('administrator') AND $user->id > 1): ?>
 		<div class="widget-header">
 			<h3><?php echo __('Roles'); ?></h3>
 		</div>
