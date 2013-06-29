@@ -1,4 +1,4 @@
-cms.init.add('layout_edit', function () {
+cms.init.add(['layout_edit', 'layout_add'], function () {
 	function calculateEditorHeight() {
 		var conentH = calculateContentHeight();
 		var h = $('.widget-title').outerHeight(true) + $('.widget-header').outerHeight(true) + $('.form-actions').outerHeight(true) + 10;

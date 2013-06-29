@@ -1,4 +1,4 @@
-cms.init.add('snippet_edit', function () {
+cms.init.add(['snippet_edit', 'snippet_add'], function () {
 	function calculateEditorHeight() {
 		var conentH = calculateContentHeight();
 		var h = $('.widget-title').outerHeight(true) + $('.widget-header').outerHeight(true) + $('.form-actions').outerHeight(true) + 10;
