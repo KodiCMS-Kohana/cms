@@ -177,6 +177,16 @@ RewriteRule .* index.php/$0 [PT]# Set environment
 
 https://github.com/butschster/kodicms/issues
 
+## Changelog
+
+### 5.5.0
+
+* Удален из поставки плагин CodeMirror (Теперь для подсветки используется Ace)
+* Доработан JS API добавления фильтров(редакторов) в систему
+* Изменен роут для доступа к системному API 
+* JS файлового менеджера elfiner вынесен в папку модуля
+
+
 
 ## Copyright and license
 ```
