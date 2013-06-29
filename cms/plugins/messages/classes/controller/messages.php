@@ -73,7 +73,7 @@ class Controller_Messages extends Controller_System_Backend {
 			return $this->_send(Api::put('user-messages', $post), $id);
 		}
 		
-		Api::post('messages.mark_read', array(
+		$read = Api::post('user-messages.mark_read', array(
 			'id' => $id, 'uid' => $user_id
 		));
 		
