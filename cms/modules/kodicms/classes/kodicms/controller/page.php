@@ -7,8 +7,7 @@ class KodiCMS_Controller_Page extends Controller_System_Backend {
 		parent::before();
 		$this->breadcrumbs
 			->add(__('Pages'), $this->request->controller());
-		
-		Assets::js('controller.page', ADMIN_RESOURCES . 'js/controller/page.js', 'global');
+
 		Assets::js('controller.behavior', ADMIN_RESOURCES . 'js/controller/behavior.js', 'global');
 	}
 

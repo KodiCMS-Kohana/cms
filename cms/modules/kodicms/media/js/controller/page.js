@@ -28,7 +28,7 @@ cms.init.add('page_index', function () {
 	}
 
 
-	$('#pageMapItems').on('click', ' .item-expander', function () {
+	$('#pageMapItems').on('click', '.item-expander', function () {
 		var li = $(this).parent().parent().parent().parent();
 		var parent_id = li.data('id');
 
@@ -36,15 +36,8 @@ cms.init.add('page_index', function () {
 
 		if (!li.hasClass('item-expanded')) {
 			var level = parseInt(li.parent().data('level'));
-			//alert(level);
-			// When information of page reordering updated
 			var success_handler = function (html) {
 				li.append(html);
-
-				//cms.cssZebraItems('.map-items .item');
-
-				//li.find('ul .page-expander').click(frogPages.expanderClick);
-
 				expander
 					.addClass('item-expander-expand')
 					.removeClass('icon-plus')
@@ -261,30 +254,4 @@ cms.init.add('page_add', function () {
 	$('body').on('keyup', 'input[name="page[title]"]', function () {
 		$('input[name="page[breadcrumb]"]').val($(this).val());
 	});
-});
-
-$(function() {
-	cms.models.page = Backbone.Model.extend({
-		urlRoot: SITE_URL + 'api-page',
-		
-		defaults: {
-			slug: '',
-			parent_id: 0,
-			position: 0
-		},
-	});
-
-	cms.collections.pages = Backbone.Collection.extend({
-		url: '/api-page',
-		model: cms.models.page,
-		
-		parse: function(response) {
-			return response.data;
-		},
-			
-		comparator: function(a) {
-			return a.get('position');
-		}
-	});
-	
 });
