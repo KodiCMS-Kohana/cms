@@ -126,17 +126,22 @@ class Plugin_Decorator extends Plugin {
 	 */
 	public function set( $key, $value = NULL )
 	{
-		if( is_array($key) )
-		{
-			foreach ($key as $k => $v)
-			{
-				$this->set($k, $v);
-			}
-			
-			return $this;
-		}
-
 		$this->_settings[$key] = $value;
+		
+		return $this;
+	}
+	
+	/**
+	 * 
+	 * @param array $data
+	 * @return \Plugin_Decorator
+	 */
+	public function set_settings( array $data )
+	{
+		foreach ($data as $k => $v)
+		{
+			$this->set($k, $v);
+		}
 		
 		return $this;
 	}
