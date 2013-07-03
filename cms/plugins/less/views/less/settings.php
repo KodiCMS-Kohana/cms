@@ -27,7 +27,7 @@
 	<div class="control-group <?php if(!$plugin->is_dir_css()): ?>error<?php endif; ?>">
 		<label class="control-label"><?php echo __('Css folder path'); ?></label>
 		<div class="controls">
-			<?php echo Form::input('setting[css_folder_path]', $plugin->get('css_folder_path', $css_folder_path), array(
+			<?php echo Form::input('setting[css_folder_path]', $plugin->get('css_folder_path'), array(
 				'class' => 'input-xlarge'
 			)); ?>
 			<?php if(!$plugin->is_dir_css()): ?>
