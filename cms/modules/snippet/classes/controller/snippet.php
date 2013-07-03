@@ -70,6 +70,10 @@ class Controller_Snippet extends Controller_System_Backend {
 		}
 		else
 		{
+			Kohana::$log->add(Log::INFO, 'Snippet :name has been added', array(
+				':name' => $snippet->name
+			))->write();
+			
 			Messages::success( __( 'Snippet has been saved!' ) );
 			Observer::notify( 'snippet_after_add', array( $snippet ) );
 		}
@@ -139,6 +143,10 @@ class Controller_Snippet extends Controller_System_Backend {
 		}
 		else
 		{
+			Kohana::$log->add(Log::INFO, 'Snippet :name has been changed', array(
+				':name' => $snippet->name
+			))->write();
+			
 			Messages::success( __( 'Snippet has been saved!' ) );
 			Observer::notify( 'snippet_after_edit', array( $snippet ) );
 		}
@@ -166,6 +174,10 @@ class Controller_Snippet extends Controller_System_Backend {
 		{
 			if ( $snippet->delete() )
 			{
+				Kohana::$log->add(Log::INFO, 'Snippet :name has been deleted', array(
+					':name' => $snippet_name
+				))->write();
+				
 				Messages::success( __( 'Snippet has been deleted!' ) );
 				Observer::notify( 'snippet_after_delete', array( $snippet_name ) );
 			}

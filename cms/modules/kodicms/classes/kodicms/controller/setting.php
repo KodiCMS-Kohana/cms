@@ -33,6 +33,8 @@ class KodiCMS_Controller_Setting extends Controller_System_Backend {
 
 		Setting::saveFromData( $data );
 
+		Kohana::$log->add(Log::INFO, 'Change settings')->write();
+		
 		Messages::success( __( 'Settings has been saved!' ) );
 
 		$this->go( 'setting' );
@@ -46,6 +48,8 @@ class KodiCMS_Controller_Setting extends Controller_System_Backend {
 		Kohana::cache('Kohana::find_file()', NULL, -1);
 		Kohana::cache('Route::cache()', NULL, -1);
 		Kohana::cache('profiler_application_stats', NULL, -1);
+		
+		Kohana::$log->add(Log::INFO, 'Clear cache')->write();
 		
 		Messages::success( __( 'Cache cleared' ) );
 		$this->go_back();

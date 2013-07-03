@@ -84,6 +84,10 @@ class KodiCMS_Controller_Layout extends Controller_System_Backend {
 		}
 		else
 		{
+			Kohana::$log->add(Log::INFO, 'Layout :name has been added!', array(
+				':name' => $layout->name
+			))->write();
+			
 			Messages::success( __( 'Layout has been saved!' ) );
 			Observer::notify( 'layout_after_add', array( $layout ) );
 		}
@@ -148,6 +152,11 @@ class KodiCMS_Controller_Layout extends Controller_System_Backend {
 		}
 		else
 		{
+			Kohana::$log->add(Log::INFO, 'Layout :name has been edited', array(
+				':name' => $layout->name
+			))->write();
+			
+
 			Messages::success( __( 'Layout has been saved!' ) );
 			Observer::notify( 'layout_after_edit', array( $layout ) );
 		}
@@ -175,6 +184,10 @@ class KodiCMS_Controller_Layout extends Controller_System_Backend {
 		{
 			if ( $layout->delete() )
 			{
+				Kohana::$log->add(Log::INFO, 'Layout :name has been deleted', array(
+					':name' => $layout_name
+				))->write();
+				
 				Messages::success( __( 'Layout has been deleted!' ) );
 				Observer::notify( 'layout_after_delete', array( $layout_name ) );
 			}

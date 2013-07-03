@@ -62,7 +62,7 @@ class Plugins {
 	/**
 	 * 
 	 * @param string $plugin_id
-	 * @return array
+	 * @return Plugin_Decorator
 	 */
 	public static function get_registered( $plugin_id = NULL )
 	{

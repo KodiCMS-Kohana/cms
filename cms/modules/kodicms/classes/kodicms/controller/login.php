@@ -65,6 +65,11 @@ class KodiCMS_Controller_Login extends Controller_System_Frontend {
 				Observer::notify( 'admin_login_success', $array['username'] );
 
 				Session::instance()->delete('install_data');
+				
+				Kohana::$log->add(LOG_AUTH, 'User log in with :field: :value', array(
+					':field' => $fieldname,
+					':value' => $array['username']
+				))->write();
 
 				if( $next_url = Flash::get( 'redirect') )
 				{
@@ -79,6 +84,12 @@ class KodiCMS_Controller_Login extends Controller_System_Frontend {
 				Observer::notify( 'admin_login_failed', $array['username'] );
 				Messages::errors( __('Login failed. Please check your login data and try again.') );
 				$array->error( $fieldname, 'incorrect' );
+				
+				Kohana::$log->add(LOG_ALERT, 'Try to login with :field: :value. Incorrect data', 
+						array(
+							':field' => $fieldname,
+							':value' => $array['username']
+						))->write();
 			}
 		}
 		else

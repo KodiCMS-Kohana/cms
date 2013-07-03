@@ -113,6 +113,10 @@ class KodiCMS_Controller_Page extends Controller_System_Backend {
 			}
 			
 			$page->save_permissions( $permissions );
+			
+			Kohana::$log->add(Log::INFO, 'Page :id added', array(
+				':id' => $page->id
+			))->write();
 
 			Observer::notify( 'page_add_after_save', $page);
 
@@ -224,6 +228,10 @@ class KodiCMS_Controller_Page extends Controller_System_Backend {
 				$permissions = $this->request->post('page_permissions');
 				$page->save_permissions( $permissions );
 			}
+			
+			Kohana::$log->add(Log::INFO, 'Page :id edited', array(
+				':id' => $page->id
+			))->write();
 
 			Observer::notify( 'page_edit_after_save', $page );
 
@@ -267,6 +275,10 @@ class KodiCMS_Controller_Page extends Controller_System_Backend {
 				// check for permission to delete this page
 				if ( !AuthUser::hasPermission( $page->get_permissions() ) )
 				{
+					Kohana::$log->add(Log::ALERT, 'Trying to delete page  :id', array(
+						':id' => $page_id
+					))->write();
+					
 					Messages::errors( __( 'You do not have permission to access the requested page!' ) );
 					$this->go( 'page' );
 				}
@@ -275,6 +287,10 @@ class KodiCMS_Controller_Page extends Controller_System_Backend {
 
 				if ( $page->delete() )
 				{
+					Kohana::$log->add(Log::INFO, 'Page :id deleted', array(
+						':id' => $page_id
+					))->write();
+					
 					Observer::notify( 'page_delete', $page );
 					Messages::success( __( 'Page has been deleted!' ) );
 				}
