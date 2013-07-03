@@ -109,7 +109,7 @@ cms.init.add('page_index', function () {
 			$('#pageMapHeader').show();
 			self.removeClass('btn-inverse');
 			
-			$.get('page/children', {parent_id: 1, level: 0}, function(resp) {
+			$.get(SITE_URL + ADMIN_DIR_NAME + '/page/children', {parent_id: 1, level: 0}, function(resp) {
 				$('#pageMapItems')
 					.find('ul')
 					.remove();
@@ -124,7 +124,7 @@ cms.init.add('page_index', function () {
 			self.addClass('btn-inverse');
 			$('#pageMapItems').hide();
 			$('#pageMapHeader').hide();
-			$.get('page/sort', function(resp) {
+			$.get(SITE_URL + ADMIN_DIR_NAME + '/page/sort', function(resp) {
 				$('#pageMapSearchItems')
 					.html(resp)
 					.show();
