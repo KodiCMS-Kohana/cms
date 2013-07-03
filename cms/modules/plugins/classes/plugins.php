@@ -116,9 +116,16 @@ class Plugins {
 		{
 			while ( FALSE !== ($plugin_id = readdir( $handle )) ) 
 			{
-				if(  file_exists( $dir . $plugin_id . DIRECTORY_SEPARATOR . 'init' . EXT))
+				$path = $dir . $plugin_id . DIRECTORY_SEPARATOR;
+				if(  file_exists( $path . 'init' . EXT))
 				{
-					include_once $dir . $plugin_id . DIRECTORY_SEPARATOR . 'init' . EXT;
+					include_once $path . 'init' . EXT;
+					
+					// If exists plugin model, include them
+					if($file = Kohana::find_file( $path . 'plugin', $plugin_id ))
+					{
+						include_once $file;
+					}
 				}
 			}
 
