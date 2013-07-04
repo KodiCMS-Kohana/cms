@@ -17,9 +17,6 @@ class KodiCMS_Controller_Front extends Controller_System_Controller
 		$this->_ctx
 			->request( $this->request )
 			->response( $this->response );
-		
-		Assets::remove_js();
-		Assets::remove_css();
 	}
 
 	public function action_index()
@@ -104,20 +101,24 @@ class KodiCMS_Controller_Front extends Controller_System_Controller
 			}
 		}
 		
-		// Если окружение - PRODUCTION, то включить etag кеширование
-		if( Kohana::$environment === Kohana::PRODUCTION )
+		// Если в начтройках выключен режим отладки, то включить etag кеширование
+		if( Setting::get( 'debug ') == 'no' )
 		{
-			$this->check_cache(sha1($html));
+			$this
+				->check_cache(sha1($html));
+	
+			$this->response
+				->headers('last-modified', date('r', strtotime($page->updated_on)));
 		}
 		
 		if($mime = $page->mime())
 		{
-			$this->response->headers('Content-Type',  $mime );
+			$this->response
+				->headers('Content-Type',  $mime );
 		}
 		
 		$this->response
-			->body($html)
-			->headers('last-modified', date('r', strtotime($page->updated_on)));			
+			->body($html);			
 			
 	}
-} // end class FrontController
+}
