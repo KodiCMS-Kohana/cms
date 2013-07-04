@@ -285,12 +285,32 @@ class Plugin_Decorator extends Plugin {
 
 		if(  file_exists( $this->path() . 'frontend' . EXT ) AND ! IS_BACKEND )
 		{
+			if(Kohana::$profiling === TRUE)
+			{
+				$benchmark = Profiler::start('Fronend plugins', $this->title());
+			}
+		
 			include $this->path() . 'frontend' . EXT;
+			
+			if(isset($benchmark))
+			{
+				Profiler::stop($benchmark);
+			}
 		}
 		
 		if(  file_exists( $this->path() . 'backend' . EXT ) AND IS_BACKEND )
 		{
+			if(Kohana::$profiling === TRUE)
+			{
+				$benchmark = Profiler::start('Backend plugins', $this->title());
+			}
+			
 			include $this->path() . 'backend' . EXT;
+			
+			if(isset($benchmark))
+			{
+				Profiler::stop($benchmark);
+			}
 		}
 		
 		return $this;
