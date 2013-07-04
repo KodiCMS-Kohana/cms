@@ -1,14 +1,17 @@
 <?php defined('SYSPATH') OR die('No direct access allowed.');
 
-Route::set('accounts-auth', '('.ADMIN_DIR_NAME.'/)'.'<directory>/<controller>/<action>', array(
+$route = (IS_BACKEND ? '('.ADMIN_DIR_NAME.'/)' : '') . '<directory>/<controller>/<action>';
+$actions = array(
+	'identify',
+	'login', 'complete_login',
+	'register', 'complete_register',
+	'connect', 'complete_connect',
+	'disconnect', 'complete_disconnect'
+);
+
+Route::set('accounts-auth', $route, array(
 	'directory' => '(openid|oauth)', 
-	'action' => '('.implode('|', array(
-		'identify',
-		'login', 'complete_login',
-		'register', 'complete_register',
-		'connect', 'complete_connect',
-		'disconnect', 'complete_disconnect'
-	)).')'
+	'action' => '('.implode('|', $actions).')'
 ));
 
 Observer::observe('view_user_edit_plugins', function($user) {
@@ -36,6 +39,10 @@ if(IS_BACKEND)
 	});
 
 	Observer::observe('save_settings', function($post) {
-
+		if(!isset($post['setting']['oauth_register'])) 
+		{
+			Setting::set( 'oauth_register', 0 );
+			Setting::save();
+		}
 	});
 }

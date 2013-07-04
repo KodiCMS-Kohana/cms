@@ -24,6 +24,8 @@ abstract class Controller_Account extends Controller_System_SSO {
 	
 	public function action_register()
 	{
+		if(Setting::get( 'oauth_register' ) != 'yes') throw new SSO_Exception('Registration is denied');
+			
 		$this->_save_referer('account/identify', $this->_changed_uri('complete_register'));
 		$this->_do_login();
 	}
@@ -67,7 +69,6 @@ abstract class Controller_Account extends Controller_System_SSO {
 					$user->delete();
 				}
 			}
-			
 		}
 		$this->go_home();
 	}
@@ -95,7 +96,6 @@ abstract class Controller_Account extends Controller_System_SSO {
 							'password' => $password,
 							'confirm' => $password
 						));
-					
 					try 
 					{
 						if($local_user->create())
@@ -125,10 +125,9 @@ abstract class Controller_Account extends Controller_System_SSO {
 				{
 					Auth::instance()->force_login($user->user);
 				}
-				
 			}
-			
 		}
+
 		$this->go_home();
 	}
 	
