@@ -66,7 +66,7 @@ class KodiCMS_Controller_Login extends Controller_System_Frontend {
 
 				Session::instance()->delete('install_data');
 				
-				Kohana::$log->add(LOG_AUTH, 'User log in with :field: :value', array(
+				Kohana::$log->add(Log::INFO, 'User log in with :field: :value', array(
 					':field' => $fieldname,
 					':value' => $array['username']
 				))->write();
@@ -85,7 +85,7 @@ class KodiCMS_Controller_Login extends Controller_System_Frontend {
 				Messages::errors( __('Login failed. Please check your login data and try again.') );
 				$array->error( $fieldname, 'incorrect' );
 				
-				Kohana::$log->add(LOG_ALERT, 'Try to login with :field: :value. Incorrect data', 
+				Kohana::$log->add(Log::ALERT, 'Try to login with :field: :value. Incorrect data', 
 						array(
 							':field' => $fieldname,
 							':value' => $array['username']
