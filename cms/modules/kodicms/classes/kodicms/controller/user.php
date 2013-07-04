@@ -51,8 +51,7 @@ class KodiCMS_Controller_User extends Controller_System_Backend {
 
 		$this->template->content = View::factory( 'user/edit', array(
 			'action' => 'add',
-			'user' => $user,
-			'permissions' => Model_Permission::get_all()
+			'user' => $user
 		) );
 	}
 
@@ -75,7 +74,7 @@ class KodiCMS_Controller_User extends Controller_System_Backend {
 		{
 			if ( $user->create() )
 			{
-				$user->update_related_ids('roles', $permissions);
+				$user->update_related_ids('roles', explode(',', $permissions));
 
 				$data['user_id'] = $user->id;
 				$user->profile
@@ -129,8 +128,7 @@ class KodiCMS_Controller_User extends Controller_System_Backend {
 
 		$this->template->content = View::factory( 'user/edit', array(
 			'action' => 'edit',
-			'user' => $user,
-			'permissions' => Model_Permission::get_all()
+			'user' => $user
 		) );
 	}
 
@@ -165,7 +163,7 @@ class KodiCMS_Controller_User extends Controller_System_Backend {
 				{
 					// now we need to add permissions
 					$permissions = $this->request->post('user_permission');
-					$user->update_related_ids('roles', $permissions);
+					$user->update_related_ids('roles', explode(',', $permissions));
 				}
 
 				Messages::success( __( 'User has been saved!' ) );

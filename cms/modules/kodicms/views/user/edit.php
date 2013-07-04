@@ -1,19 +1,11 @@
 <script type="text/javascript">
-	var PAGE_ID = <?php echo (int) $page->id; ?>;
-
-	<?php if($action == 'add'): ?>
-	$(function() {
-		$('.spoiler-toggle').click();
-	})
-	<?php endif; ?>
+	var USER_ID = <?php echo (int) $user->id; ?>;
 </script>
 	
 <?php echo Form::open($action=='edit' ? 'user/edit/'.$user->id : 'user/add', array(
 	'class' => Bootstrap_Form::HORIZONTAL
 )); ?>
-
 	<?php echo Form::hidden('token', Security::token()); ?>
-
 	<div class="widget">
 		<div class="widget-header">
 			<h3><?php echo __('General information'); ?></h3>
@@ -104,14 +96,14 @@
 			</div>
 			<?php endif; ?>
 		</div>
-		<?php if (AuthUser::hasPermission('administrator') AND $user->id > 1): ?>
+		<?php if (AuthUser::hasPermission('administrator') AND ($user->id === NULL OR $user->id > 1)): ?>
 		<div class="widget-header">
 			<h3><?php echo __('Roles'); ?></h3>
 		</div>
 		<div class="widget-content">
 			<div class="row-fluid">
 			<?php 
-				echo Form::select('user_permission[]', $permissions, $user->roles->find_all()->as_array('id'), array(
+				echo Form::hidden('user_permission', $user->id, array(
 					'class' => 'span12'
 				));
 				
