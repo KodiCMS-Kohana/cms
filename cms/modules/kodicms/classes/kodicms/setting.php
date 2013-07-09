@@ -53,9 +53,10 @@ class KodiCMS_Setting
 	 * @param name  string  The setting name
 	 * @return string the value of the setting name
 	 */
-	public static function get($name, $default = NULL)
+	public static function get($key, $default = NULL)
 	{
-		return Arr::get(self::$settings, $name, $default);
+		$config = Kohana::$config->load('global');
+		return Arr::get(self::$settings, $key, $config->get($key, $default));
 	}
 	
 	/**
@@ -65,7 +66,7 @@ class KodiCMS_Setting
 	 */
 	public static function set($name, $value)
 	{
-		if(self::get($name) === NULL)
+		if( ! isset(self::$settings[$name]) )
 		{
 			self::$_new_settings[] = $name;
 		}

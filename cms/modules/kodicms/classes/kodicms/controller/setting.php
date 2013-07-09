@@ -29,9 +29,9 @@ class KodiCMS_Controller_Setting extends Controller_System_Backend {
 			$data['allow_html_title'] = 'off';
 		}
 		
-		Observer::notify( 'save_settings', $this->request->post() );
-
 		Setting::saveFromData( $data );
+
+		Observer::notify( 'save_settings', $this->request->post() );
 
 		Kohana::$log->add(Log::INFO, 'Change settings')->write();
 		
