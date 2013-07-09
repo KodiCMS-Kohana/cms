@@ -362,11 +362,12 @@ class KodiCMS_Context {
 				$types['*named'][] = $id;
 		}
 	
-		foreach($types as $v)
+		foreach($types as $type => $ids)
 		{
-			for($i = 0, $l = sizeof($v); $i < $l; $i++)
-				if($v[$i])
-					$widgets[$v[$i]] = & $this->_widgets[$v[$i]];
+			foreach($ids as $id )
+			{
+				$widgets[$id] = & $this->_widgets[$id];
+			}
 		}
 
 		$this->_widget_ids = array_keys( $widgets );
