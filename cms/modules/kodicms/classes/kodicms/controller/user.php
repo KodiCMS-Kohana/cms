@@ -159,7 +159,7 @@ class KodiCMS_Controller_User extends Controller_System_Backend {
 					->values($data)
 					->save();
 
-				if ( AuthUser::hasPermission( 'administrator' ) )
+				if ( AuthUser::hasPermission( 'administrator' ) AND $user->id > 1 )
 				{
 					// now we need to add permissions
 					$permissions = $this->request->post('user_permission');
