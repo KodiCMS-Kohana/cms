@@ -37,7 +37,7 @@ class KodiCMS_Controller_Setting extends Controller_System_Backend {
 		
 		Messages::success( __( 'Settings has been saved!' ) );
 
-		$this->go( 'setting' );
+		$this->go_back();
 	}
 	
 	public function action_clear_cache()

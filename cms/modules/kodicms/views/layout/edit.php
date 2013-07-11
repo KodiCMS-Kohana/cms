@@ -1,5 +1,10 @@
-<?php echo Form::open(($action == 'edit') ? 'layout/edit/'. $layout->name : 'layout/add/', array(
-	'id' => 'layoutEditForm', 'class' => 'form-horizontal')); ?>
+<?php echo Form::open(Route::url('backend', array(
+	'controller' => 'layout', 
+	'action' => $action, 
+	'id' => $layout->name)), array(
+		'id' => 'layoutEditForm', 
+		'class' => 
+		'form-horizontal')); ?>
 
 	<?php echo Form::hidden('token', Security::token()); ?>
 	<?php echo Form::hidden('layout_name', $layout->name); ?>
@@ -42,4 +47,3 @@
 		<?php endif; ?>
 	</div>
 <?php echo Form::close(); ?>
-<!--/#layoutEditForm-->

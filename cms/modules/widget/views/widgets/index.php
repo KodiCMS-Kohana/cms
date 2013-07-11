@@ -1,8 +1,13 @@
 <div class="widget widget-nopad outline_inner">
 	<div class="widget-header">
+		<?php if( ACL::check('widgets.add')): ?>
 		<?php echo UI::button(__('Add widget'), array(
-			'href' => 'widgets/add', 'icon' => UI::icon('plus'),
+			'href' => Route::url('backend', array(
+				'controller' => 'widgets', 
+				'action' => 'add')),
+			'icon' => UI::icon('plus'),
 		)); ?>
+		<?php endif; ?>
 	</div>
 	
 	<div class="widget-content">
@@ -27,7 +32,14 @@
 				<?php foreach ($widgets as $widget): ?>
 				<tr>
 					<th class="name">
-						<?php echo HTML::anchor('widgets/edit/'.$widget->id, $widget->name); ?>
+						<?php if( ACL::check('widgets.edit')): ?>
+						<?php echo HTML::anchor(Route::url('backend', array(
+							'controller' => 'widgets', 
+							'action' => 'edit',
+							'id' => $widget->id)), $widget->name); ?>
+						<?php else: ?>
+						<?php echo UI::icon('lock'); ?> <?php echo $widget->name; ?>
+						<?php endif; ?>
 					</th>
 					<td class="type">
 						<?php echo UI::label($widget->type()); ?>
@@ -43,10 +55,16 @@
 						<?php endif; ?>
 					</td>
 					<td class="actions">
+						<?php if( ACL::check('widgets.delete')): ?>
 						<?php echo UI::button(NULL, array(
-							'href' => 'widgets/delete/'. $widget->id, 'icon' => UI::icon('remove'),
-							 'class' => 'btn btn-mini btn-confirm'
+							'href' => Route::url('backend', array(
+								'controller' => 'widgets', 
+								'action' => 'delete',
+								'id' => $widget->id)), 
+							'icon' => UI::icon('remove'),
+							'class' => 'btn btn-mini btn-confirm'
 						)); ?>
+						<?php endif; ?>
 					</td>
 				</tr>
 				<?php endforeach; ?>

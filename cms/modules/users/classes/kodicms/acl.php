@@ -37,6 +37,16 @@ class KodiCMS_ACL {
 			return self::DENY;
 		}
 		
+		if( empty($action) )
+		{
+			return self::ALLOW;
+		}
+		
+		if($user->id == self::ADMIN_USER OR in_array( self::ADMIN_ROLE, $user->roles() ))
+		{
+			return self::ALLOW;
+		}
+		
 		if( $action instanceof Request)
 		{
 			$params = array();
@@ -55,12 +65,7 @@ class KodiCMS_ACL {
 		{
 			$action = implode('.', $action);
 		}
-		
-		if($user->id == self::ADMIN_USER OR in_array( self::ADMIN_ROLE, $user->roles() ))
-		{
-			return self::ALLOW;
-		}
-		
+
 		if( !isset( self::$_permissions[$user->id] ))
 		{
 			self::_set_permissions($user);

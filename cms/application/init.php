@@ -56,7 +56,6 @@ Kohana::modules( array(
 	'reflinks'		=> MODPATH . 'reflinks',
 	'behavior'		=> MODPATH . 'behavior',
 	'elfinder'		=> MODPATH . 'elfinder',
-	'files'			=> MODPATH . 'files',
 	'ace'			=> MODPATH . 'ace',
 	'api'			=> MODPATH . 'api',
 	'bootstrap'		=> MODPATH . 'bootstrap',

@@ -9,6 +9,8 @@
 class Controller_Userguide extends Controller_System_Backend {
 
 	public $template = 'userguide/template';
+	
+	public $auth_required = FALSE;
 
 	// Routes
 	protected $media;

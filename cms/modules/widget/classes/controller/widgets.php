@@ -33,7 +33,7 @@ class Controller_Widgets extends Controller_System_Backend {
 		if ( ! $widget->loaded() )
 		{
 			Messages::errors(__( 'Widget not found!' ) );
-			$this->go( 'widgets' );
+			$this->go_back();
 		}
 		
 		// check if trying to save
@@ -161,11 +161,15 @@ class Controller_Widgets extends Controller_System_Backend {
 		// save and quit or save and continue editing?
 		if ( $this->request->post('commit') !== NULL )
 		{
-			$this->go( 'widgets' );
+			$this->go();
 		}
 		else
 		{
-			$this->go( 'widgets/edit/' . $id );
+			$this->go(array(
+				'controller' => 'widgets',
+				'action' => 'edit',
+				'id' => $id
+			));
 		}
 	}
 	
@@ -178,7 +182,7 @@ class Controller_Widgets extends Controller_System_Backend {
 		if ( ! $widget )
 		{
 			Messages::errors(__( 'Widget not found!' ) );
-			$this->go( 'widgets' );
+			$this->go_back();
 		}
 		
 		$this->template->title = $widget->name;
@@ -242,11 +246,15 @@ class Controller_Widgets extends Controller_System_Backend {
 		// save and quit or save and continue editing?
 		if ( $this->request->post('commit') !== NULL )
 		{
-			$this->go( 'widgets' );
+			$this->go();
 		}
 		else
 		{
-			$this->go( 'widgets/edit/' . $widget->id );
+			$this->go(array(
+				'controller' => 'widgets',
+				'action' => 'edit',
+				'id' => $widget->id
+			));
 		}
 	}
 	
@@ -255,6 +263,6 @@ class Controller_Widgets extends Controller_System_Backend {
 		$id = $this->request->param('id');
 		
 		Widget_Manager::remove(array($id));
-		$this->go( 'widgets' );
+		$this->go_back();
 	}
 }

@@ -103,11 +103,17 @@
 	<?php endif; ?>
 	<?php echo $content; ?>
 
+	<?php if( ACL::check('widgets.location') ): ?>
 	<div class="widget-content widget-no-border-radius">
 		<?php echo Bootstrap_Element_Button::factory(array(
-			'href' => 'widgets/location/' . $widget->id, 'title' => __('Widget location')
+			'href' => Route::url('backend', array(
+					'controller' => 'widgets', 
+					'action' => 'location',
+					'id' => $widget->id)), 
+			'title' => __('Widget location')
 		), array('target' => 'blank'))->icon('sitemap'); ?>
 	</div>
+	<?php endif; ?>
 	<div class="widget-footer form-actions">
 		<?php echo UI::actions($page_name); ?>
 	</div>
