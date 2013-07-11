@@ -31,27 +31,42 @@
 	</div>
 	<div class="widget-content">
 		<div class="control-group">
+			<label class="control-label"><?php echo __('Snippet'); ?></label>
 			<div class="controls">
-			<?php
-			echo Form::select( 'template', $templates, $widget->template, array(
-				'class' => 'input-medium', 'id' => 'WidgetTemplate'
-			) );
-			?>
-			
-			<?php 
-			$hidden = empty($widget->template) ? 'hidden' : '';
-			echo UI::button(__('Edit snippet'), array(
-					'href' => 'snippet/edit/' . $widget->template, 'icon' => UI::icon('edit'),
-					'class' => 'popup fancybox.iframe btn btn-link '.$hidden, 'id' => 'WidgetTemplateButton'
-				)); 
-			?>
-				
-			<?php echo UI::button(__('Add snippet'), array(
-				'href' => 'snippet/add', 'icon' => UI::icon('plus'),
-				'class' => 'popup fancybox.iframe btn'
-			)); ?>
+
+				<?php
+				echo Form::select( 'template', $templates, $widget->template, array(
+					'class' => 'input-medium', 'id' => 'WidgetTemplate'
+				) );
+				?>
+
+				<?php if( ACL::check('snippet.edit')): ?>
+				<?php 
+				$hidden = empty($widget->template) ? 'hidden' : '';
+				echo UI::button(__('Edit snippet'), array(
+						'href' => Route::url('backend', array(
+							'controller' => 'snippet', 
+							'action' => 'edit',
+							'id' => $widget->template
+						)), 'icon' => UI::icon('edit'),
+						'class' => 'popup fancybox.iframe btn btn-link '.$hidden, 'id' => 'WidgetTemplateButton'
+					)); 
+				?>
+				<?php endif; ?>
+
+				<?php if( ACL::check('snippet.add')): ?>
+				<?php echo UI::button(__('Add snippet'), array(
+					'href' => Route::url('backend', array(
+						'controller' => 'snippet', 
+						'action' => 'add'
+					)),
+					'icon' => UI::icon('plus'),
+					'class' => 'popup fancybox.iframe btn'
+				)); ?>
+				<?php endif; ?>
 			</div>
 		</div>
+		<?php if( ACL::check('widgets.cache')): ?>
 		<hr />
 		<?php
 				echo Bootstrap_Form_Element_Control_Group::factory(array(
@@ -85,6 +100,8 @@
 					->label(__('Cache tags'))
 				));
 		?>
+		
+		<?php endif; ?>
 	</div>
 	<?php endif; ?>
 	<div class="widget-header">

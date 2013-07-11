@@ -1,3 +1,5 @@
+<?php if( ACL::check( 'widgets.index')): ?>
+	
 <?php 
 	$_blocks = array(
 		0 => '----', 'PRE' => __('Before page render')
@@ -38,3 +40,4 @@
 	</table>
 	<?php endif; ?>
 </div>
+<?php endif; ?>

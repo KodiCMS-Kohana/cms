@@ -44,13 +44,22 @@
 				<div class="actions span1">
 					<?php if ( Acl::check( 'page.add')): ?>
 					<?php echo UI::button(NULL, array(
-						'href' => 'page/add/'.$child->id, 'icon' => UI::icon('plus'), 
+						'href' => Route::url('backend', array(
+							'controller' => 'page',
+							'action' => 'add',
+							'id' => $child->id
+						)), 
+						'icon' => UI::icon('plus'), 
 						'class' => 'btn btn-mini'
 					)); ?>
 					<?php endif; ?>
 					<?php if (Acl::check( 'page.delete')): ?>
 					<?php echo UI::button(NULL, array(
-						'href' => 'page/delete/'.$child->id, 'icon' => UI::icon('remove icon-white'), 
+						'href' => Route::url('backend', array(
+							'controller' => 'page',
+							'action' => 'delete',
+							'id' => $child->id
+						)), 'icon' => UI::icon('remove icon-white'), 
 						'class' => 'btn btn-mini btn-confirm btn-danger'
 					)); ?>
 					<?php endif; ?>

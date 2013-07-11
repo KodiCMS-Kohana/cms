@@ -11,7 +11,9 @@ class Controller_Widgets extends Controller_System_Backend {
 		Assets::css('widgets', ADMIN_RESOURCES . 'css/widgets.css');
 		
 		$this->breadcrumbs
-			->add(__('Widgets'), $this->request->controller());
+			->add(__('Widgets'), Route::url('backend', array(
+				'controller' => 'widgets'
+			)));
 	}
 
 	public function action_index()
@@ -47,8 +49,15 @@ class Controller_Widgets extends Controller_System_Backend {
 		));
 		
 		$this->breadcrumbs
-			->add(__('Widget :name', array(':name' => $widget->name)), 'widgets/edit/' . $widget->id)
-			->add(__('Widget location'));
+			->add(__('Widget :name', array(
+				':name' => $widget->name)
+				), 
+				Route::url('backend', array(
+					'controller' => 'widgets',
+					'action' => 'edit',
+					'id' => $widget->id
+				))
+			)->add(__('Widget location'));
 		
 		$res_page_widgets = DB::select()
 			->from('page_widgets')
@@ -231,8 +240,12 @@ class Controller_Widgets extends Controller_System_Backend {
 		try 
 		{
 			$widget
-				->set_values( $data )
-				->set_cache_settings( $data );
+				->set_values( $data );
+			
+			if( ACL::check( 'widgets.cache'))
+			{
+				$widget->set_cache_settings( $data );
+			}
 			
 			Widget_Manager::update($widget);
 		}

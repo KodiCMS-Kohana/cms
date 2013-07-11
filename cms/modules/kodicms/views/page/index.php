@@ -58,7 +58,8 @@
 						<div class="actions offset4 span1">
 							<?php if ( Acl::check( 'page.add')): ?>
 							<?php echo UI::button(NULL, array(
-								'icon' => UI::icon('plus'), 'href' => 'page/add/',
+								'icon' => UI::icon('plus'), 
+								'href' => Route::url('backend', array('controller' => 'page', 'action' => 'add')),
 								'class' => 'btn btn-mini')); ?>
 							<?php endif; ?>
 						</div>

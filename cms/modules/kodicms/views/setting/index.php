@@ -33,7 +33,11 @@
 		<h3>
 			<?php echo __( 'Site options' ); ?>
 			<?php echo UI::button(__('Clear cache'), array(
-				'icon' => UI::icon( 'stethoscope' ), 'href' => 'setting/clear_cache',
+				'icon' => UI::icon( 'stethoscope' ), 
+				'href' => Route::url('backend', array(
+					'controller' => 'setting', 
+					'action' => 'clear_cache'
+				)),
 				'class' => 'btn btn-warning'
 			)); ?>
 		</h3>

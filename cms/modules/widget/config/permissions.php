@@ -1,18 +1,31 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
 return array(
-	'plugins' => array(
+	'widgets' => array(
 		array(
 			'action' => 'index',
-			'description' => 'View plugins'
+			'description' => 'View widgets'
 		),
 		array(
-			'action' => 'settings',
-			'description' => 'Edit plugin settings'
+			'action' => 'add',
+			'description' => 'Add widget'
 		),
 		array(
-			'action' => 'change_status',
-			'description' => 'Install(Uninstall) plugins'
+			'action' => 'edit',
+			'description' => 'Edit widget'
 		),
+		array(
+			'action' => 'location',
+			'description' => 'Set widget location'
+		),
+		array(
+			'action' => 'cache',
+			'description' => 'Manage widget cache'
+		),
+		array(
+			'action' => 'delete',
+			'description' => 'Delete widget'
+		),
+		
 	),
 );
