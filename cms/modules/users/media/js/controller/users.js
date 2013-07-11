@@ -1,5 +1,5 @@
-cms.init.add(['user_edit', 'user_add'], function () {
-
+cms.init.add(['users_edit', 'users_add'], function () {
+	console.log($('input[name="users_permission"]')[0]);
 	$('input[name="user_permission"]').select2({
 		placeholder: __("Click to get list of roles"),
 		minimumInputLength: 0,
@@ -52,7 +52,7 @@ cms.init.add(['user_edit', 'user_add'], function () {
 	});
 });
 
-cms.init.add('user_add', function () {
+cms.init.add('users_add', function () {
 	$(function() {
 		$('.spoiler-toggle').click();
 	})

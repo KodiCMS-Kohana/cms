@@ -2,7 +2,7 @@
 
 class KodiCMS_Controller_System_Backend extends Controller_System_Template
 {
-	public $auth_required = array('administrator', 'developer', 'editor');
+	public $auth_required = TRUE;
 
 	/**
 	 *
@@ -19,11 +19,6 @@ class KodiCMS_Controller_System_Backend extends Controller_System_Template
 		parent::before();
 		$navigation = Model_Navigation::get();
 		$this->page = Model_Navigation::$current;
-		
-		if( $this->page !== NULL AND ! AuthUser::hasPermission( $this->page->permissions ))
-		{
-			throw new HTTP_Exception_403('Access denied');
-		}
 		
 		if($this->auto_render === TRUE)
 		{

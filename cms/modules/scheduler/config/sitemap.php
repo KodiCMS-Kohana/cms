@@ -4,9 +4,10 @@ return array(
 	'Content' => array(
 		array(
 			'name' => __('Scheduler'), 
-			'url' => URL::backend('scheduler'),
+			'url' => Route::url('backend', array('controller' => 'scheduler')),
 			'priority' => 900,
-			'icon' => 'calendar'
+			'icon' => 'calendar',
+			'permissions' => 'scheduler.index'
 		)
 	)
 );

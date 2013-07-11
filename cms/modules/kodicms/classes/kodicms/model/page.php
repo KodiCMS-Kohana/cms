@@ -215,7 +215,11 @@ class KodiCMS_Model_Page extends Record
 	 */
 	public function get_url()
 	{
-		return URL::backend( 'page/edit/'.$this->id );
+		return Route::url('backend', array(
+			'controller' => 'page', 
+			'action' => 'edit', 
+			'id' => $this->id
+		));
 	}
 
 	/**
@@ -248,14 +252,15 @@ class KodiCMS_Model_Page extends Record
 	}
 
 	public static function find($clause = array())
-    {		
+    {
+		$user = ORM::factory('user');
 		$sql = DB::select('page.*')
 			->select(array('author.username', 'created_by_name'))
 			->select(array('updator.username', 'updated_by_name'))
 			->from(array(Model_Page::tableName(), 'page'))
-			->join(array(User::tableName(), 'author'), 'left')
+			->join(array($user->table_name(), 'author'), 'left')
 				->on('author.id', '=', 'page.created_by_id')
-			->join(array(User::tableName(), 'updator'), 'left')
+			->join(array($user->table_name(), 'updator'), 'left')
 				->on('updator.id', '=', 'page.updated_by_id');
         
         // Prepare SQL

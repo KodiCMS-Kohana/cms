@@ -2,7 +2,7 @@
 	var USER_ID = <?php echo (int) $user->id; ?>;
 </script>
 	
-<?php echo Form::open($action=='edit' ? 'user/edit/'.$user->id : 'user/add', array(
+<?php echo Form::open(Route::url('backend', array('controller' => 'users', 'action' => $action, 'id' => $user->id)), array(
 	'class' => Bootstrap_Form::HORIZONTAL
 )); ?>
 	<?php echo Form::hidden('token', Security::token()); ?>
@@ -96,7 +96,8 @@
 			</div>
 			<?php endif; ?>
 		</div>
-		<?php if (AuthUser::hasPermission('administrator') AND ($user->id === NULL OR $user->id > 1)): ?>
+
+		<?php if (Acl::check( 'users.change_roles') AND ($user->id === NULL OR $user->id > 1)): ?>
 		<div class="widget-header">
 			<h3><?php echo __('Roles'); ?></h3>
 		</div>

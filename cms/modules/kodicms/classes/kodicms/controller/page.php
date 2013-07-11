@@ -2,11 +2,16 @@
 
 class KodiCMS_Controller_Page extends Controller_System_Backend {
 	
+	public $not_secured_actions = array(
+		'children'
+	);
+
 	public function before()
 	{
 		parent::before();
+
 		$this->breadcrumbs
-			->add(__('Pages'), $this->request->controller());
+			->add(__('Pages'), Route::url('backend', array('controller' => 'page')));
 
 		Assets::js('controller.behavior', ADMIN_RESOURCES . 'js/controller/behavior.js', 'global');
 	}
@@ -89,10 +94,7 @@ class KodiCMS_Controller_Page extends Controller_System_Backend {
 			$data['title'] = Kses::filter( trim( $data['title'] ), array( ) );
 		}
 
-		if ( !AuthUser::hasPermission( array( 'administrator', 'developer' ) ) )
-		{
-			$data['status_id'] = Setting::get( 'default_status_id' );
-		}
+		$data['status_id'] = Setting::get( 'default_status_id' );
 
 		$page = new Model_Page( $data, array('tags') );
 		$page->parent_id = $parent_id;
@@ -105,14 +107,17 @@ class KodiCMS_Controller_Page extends Controller_System_Backend {
 			// save tags
 			$page->save_tags( $tags );
 
-			// save permissions
-			$permissions = $this->request->post('page_permissions');
-			if(empty($permissions))
+			if ( ACL::check( 'page.permissions' ) )
 			{
-				$permissions = array( 'administrator', 'developer', 'editor' );
+				// save permissions
+				$permissions = $this->request->post('page_permissions');
+				if(empty($permissions))
+				{
+					$permissions = array( 'administrator', 'developer', 'editor' );
+				}
+
+				$page->save_permissions( $permissions );
 			}
-			
-			$page->save_permissions( $permissions );
 			
 			Kohana::$log->add(Log::INFO, 'Page :id added', array(
 				':id' => $page->id
@@ -125,7 +130,10 @@ class KodiCMS_Controller_Page extends Controller_System_Backend {
 		else
 		{
 			Messages::errors( __( 'Page has not been saved!' ) );
-			$this->go( 'page/add/' . $parent_id );
+			$this->go( array(
+				'action' => 'add',
+				'id' => $parent_id
+			));
 		}
 		
 		Session::instance()->delete('post_data', 'post_parts_data', 'page_tag');
@@ -133,11 +141,14 @@ class KodiCMS_Controller_Page extends Controller_System_Backend {
 		// save and quit or save and continue editing ?
 		if ( $this->request->post('commit') !== NULL )
 		{
-			$this->go( 'page' );
+			$this->go();
 		}
 		else
 		{
-			$this->go( 'page/edit/' . $page->id );
+			$this->go( array(
+				'action' => 'edit',
+				'id' => $page->id
+			));
 		}
 	}
 
@@ -153,15 +164,15 @@ class KodiCMS_Controller_Page extends Controller_System_Backend {
 		if ( ! $page )
 		{
 			Messages::errors( __( 'Page not found!' ) );
-			$this->go( 'page' );
+			$this->go();
 		}
 
 		// check for protected page and editor user
-		if ( !AuthUser::hasPermission( $page->get_permissions() ) )
+		if ( ! AuthUser::hasPermission( $page->get_permissions() ) )
 		{
 			// Unauthorized / Login Requied
 			Messages::errors( __( 'You do not have permission to access the requested page!' ) );
-			$this->go( 'page' );
+			$this->go();
 		}
 
 		// check if trying to save
@@ -196,11 +207,6 @@ class KodiCMS_Controller_Page extends Controller_System_Backend {
 			$data['title'] = Kses::filter( trim( $data['title'] ), array( ) );
 		}
 
-		if ( isset( $data['status_id'] ) && !AuthUser::hasPermission( array( 'administrator', 'developer' ) ) )
-		{
-			unset( $data['status_id'] );
-		}
-
 		$page = Record::findByIdFrom( 'Model_Page', $page_id );
 
 		$page->setFromData( $data, array( 'tags' ) );
@@ -222,7 +228,7 @@ class KodiCMS_Controller_Page extends Controller_System_Backend {
 			// save tags
 			$page->save_tags(Arr::get($data, 'tags', array()) );
 
-			if( AuthUser::hasPermission( 'administrator, developer' ) )
+			if ( ACL::check( 'page.permissions' ) )
 			{
 				// save permissions
 				$permissions = $this->request->post('page_permissions');
@@ -240,25 +246,28 @@ class KodiCMS_Controller_Page extends Controller_System_Backend {
 		else
 		{
 			Messages::errors( __( 'Something went wrong!' ) );
-			$this->go( 'page/edit/' . $page_id );
+			$this->go( array(
+				'action' => 'edit',
+				'id' => $page_id
+			));
 		}
 
 		// save and quit or save and continue editing ?
 		if ( $this->request->post('commit') !== NULL )
 		{
-			$this->go( 'page' );
+			$this->go();
 		}
 		else
 		{
-			$this->go( 'page/edit/' . $page_id );
+			$this->go( array(
+				'action' => 'edit',
+				'id' => $page_id
+			));
 		}
 	}
 
 	/**
 	 * Used to delete a page.
-	 * 
-	 * TODO - make sure we not only delete the page but also all parts and all children!
-	 *
 	 * @param int $id Id of page to delete
 	 */
 	public function action_delete( )
@@ -280,7 +289,7 @@ class KodiCMS_Controller_Page extends Controller_System_Backend {
 					))->write();
 					
 					Messages::errors( __( 'You do not have permission to access the requested page!' ) );
-					$this->go( 'page' );
+					$this->go();
 				}
 				
 				Observer::notify( 'page_before_delete', $page );
@@ -309,7 +318,7 @@ class KodiCMS_Controller_Page extends Controller_System_Backend {
 			Messages::errors( __( 'Something went wrong!' ) );
 		}
 
-		$this->go( 'page' );
+		$this->go();
 	}
 	
 	

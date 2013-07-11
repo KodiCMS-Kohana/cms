@@ -64,7 +64,7 @@ class KodiCMS_Controller_System_Template extends Controller_System_Security
 			
 			$index_page_url = FALSE;
 			$this->breadcrumbs = Breadcrumbs::factory()
-				->add(__('Home'), Setting::get('default_tab'));
+				->add(__('Home'), Route::url( 'backend' ));
 		}
 	}
 	

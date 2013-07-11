@@ -9,9 +9,8 @@
 	<?php endif; ?>
 </script>
 
-
 <div id="pageEdit">
-	<?php echo Form::open($action == 'add' ? 'page/add/'.$parent_id : 'page/edit/'.$page->id, array(
+	<?php echo Form::open(Route::url('backend', array('controller' => 'page', 'action' => $action, 'id' => $action == 'add' ? $parent_id : $page->id)), array(
 		'id' => 'pageEditForm', 'class' => Bootstrap_Form::HORIZONTAL, 'method' => Request::POST
 	)); ?>
 		<?php echo Form::hidden('token', Security::token()); ?>

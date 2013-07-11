@@ -4,7 +4,7 @@ class KodiCMS_Model_User extends Model_Auth_User {
 	
 	protected $_reload_on_wakeup = FALSE;
 	
-	protected $_roles = array();
+	protected $_roles = NULL;
 
 	protected $_has_many = array(
 		'user_tokens' => array('model' => 'user_token'),
@@ -18,11 +18,12 @@ class KodiCMS_Model_User extends Model_Auth_User {
 	
 	public function with_roles()
 	{
+		$role = ORM::factory('role');
 		return $this
 			->select( array( DB::expr('GROUP_CONCAT('.Database::instance()->quote_column('permission.name').')'), 'roles' ) )
-			->join( array( Model_User_Permission::tableName(), 'user_permission'), 'left' )
+			->join( array( 'roles_users', 'user_permission'), 'left' )
 				->on( 'user.id', '=', 'user_permission.user_id' )
-			->join( array( Model_Permission::tableName(), 'permission'), 'left' )
+			->join( array( $role->table_name(), 'permission'), 'left' )
 				->on( 'user_permission.role_id', '=', 'permission.id' );
 	}
 
@@ -50,7 +51,7 @@ class KodiCMS_Model_User extends Model_Auth_User {
 			foreach ($role as $_role)
 			{
 				// If the user doesn't have the role
-				if ( !in_array($_role, $this->_roles))
+				if ( !in_array($_role, $this->roles()))
 				{
 					// Set the status false and get outta here
 					$status = FALSE;
@@ -69,7 +70,7 @@ class KodiCMS_Model_User extends Model_Auth_User {
 		}
 		else
 		{
-			$status = in_array($role, $this->_roles);
+			$status = in_array($role, $this->roles());
 		}
 		
 		return $status;
@@ -93,16 +94,40 @@ class KodiCMS_Model_User extends Model_Auth_User {
 
 	public function roles()
 	{
+		if($this->_roles === NULL)
+		{
+			$this->_roles = $this->roles
+				->find_all()
+				->as_array('id', 'name');
+		}
+		
 		return $this->_roles;
 	}
 	
+	public function permissions()
+	{
+		$permissions = array();
+		$roles = $this->roles();
+		
+		if( !empty($roles) )
+		{
+			$permissions = DB::select('action')
+				->from('roles_permissions')
+				->where('role_id', 'in', array_keys($roles))
+				->execute()
+				->as_array(NULL, 'action');
+		}
+		
+		return array_unique($permissions);
+	}
+
 	public function complete_login()
 	{
 		$roles = $this->roles->find_all();
 		
 		foreach ($roles as $role)
 		{
-			$this->_roles[] = $role->name;
+			$this->_roles[$role->id] = $role->name;
 		}
 
 		parent::complete_login();
@@ -111,8 +136,7 @@ class KodiCMS_Model_User extends Model_Auth_User {
 	public function serialize()
 	{
 		$parameters = array(
-			'_primary_key_value', '_object', '_changed', '_loaded', '_saved', '_sorting', 
-			'_roles'
+			'_primary_key_value', '_object', '_changed', '_loaded', '_saved', '_sorting'
 		);
 		
 		// Store only information about the object

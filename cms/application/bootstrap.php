@@ -111,7 +111,7 @@ define('CMS_VERSION',		'5.14.0');
 if(PHP_SAPI != 'cli')
 {
 	define('BASE_URL',		URL::base('http'));
-	define('SITE_HTOST',	str_replace('www.', '', $_SERVER['HTTP_HOST']));
+	define('SITE_HOST',	str_replace('www.', '', $_SERVER['HTTP_HOST']));
 }
 
 if( ! defined( 'BASE_URL' ) ) define('BASE_URL', '/');

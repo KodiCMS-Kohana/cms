@@ -5,10 +5,11 @@ return array(
 	'System' => array(
 		array(
 			'name' => __('Plugins'), 
-			'url' => URL::backend('plugins'),
+			'url' => Route::url('backend', array('controller' => 'plugins')),
 			'priority' => 999,
 			'divider' => TRUE,
-			'icon' => 'cogs'
+			'icon' => 'puzzle-piece',
+			'permissions' => 'plugins.index',
 		)
 	)
 

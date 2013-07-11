@@ -4,40 +4,33 @@ class KodiCMS_Controller_System_Security extends Controller_System_Controller
 {
 	/**
 	 *
-	 * @var array
-	 */
-	public $secure_actions = FALSE;
-	
-	/**
-	 *
-	 * @var mixed 
+	 * @var bool 
 	 */
 	public $auth_required = FALSE;
 	
+	/**
+	 *
+	 * @var array 
+	 */
+	public $not_secured_actions = array();
+
+
 	public function before()
 	{
 		parent::before();
 
-		$action_name = $this->request->action();
-
-		if ( (
-				$this->auth_required !== FALSE
-				AND
-				$this->role( $this->auth_required ) === FALSE
-			)
-			OR
-			(
-				is_array( $this->secure_actions )
-				AND
-				array_key_exists( $action_name, $this->secure_actions )
-				AND
-				$this->role( $this->secure_actions[$action_name] ) === FALSE
-			) )
+		if (
+			$this->auth_required === TRUE
+		AND 
+			! in_array($this->request->action(), $this->not_secured_actions)
+		AND 
+			! ACL::check( $this->request )
+		)
 		{
 			if ( AuthUser::isLoggedIn() OR $this->request->is_ajax() )
 			{
-				// Forbidden / Model_Permission Deined
-				throw HTTP_Exception::factory(403);
+				// Forbidden
+				throw HTTP_Exception::factory(403, 'You don`t have permissions to acces this page');
 			}
 			else
 			{
@@ -46,20 +39,4 @@ class KodiCMS_Controller_System_Security extends Controller_System_Controller
 			}
 		}
 	}
-	
-	/**
-	 * 
-	 * @param mixed $role
-	 * @return boolean
-	 */
-	public function role( $role )
-	{
-		if( ! AuthUser::isLoggedIn())
-		{
-			return FALSE;
-		}
-
-		return AuthUser::hasPermission( $role );
-	}
-	
 }

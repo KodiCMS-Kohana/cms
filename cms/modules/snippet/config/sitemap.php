@@ -4,8 +4,8 @@ return array(
 	'Design' => array(
 		array(
 			'name' => __('Snippets'), 
-			'url' => URL::backend('snippet'),
-			'permissions' => array('administrator', 'developer'),
+			'url' => Route::url('backend', array('controller' => 'snippet')),
+			'permissions' => 'snippet.index',
 			'priority' => 200,
 			'icon' => 'food'
 		)

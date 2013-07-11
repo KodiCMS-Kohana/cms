@@ -40,26 +40,26 @@
 		<div id="behavor_options"></div>
 	</div>
 
-	<?php if(AuthUser::hasPermission(array('administrator','developer')) && ($action == 'add' || ($action == 'edit' && isset($page->id) && $page->id != 1))): ?>
+	<?php if( $page->id != 1 ): ?>
 	<label><?php echo __('Status'); ?></label>
 	<?php echo Form::select('page[status_id]', Model_Page::statuses(), $page->status_id, array(
 		'class' => 'span12'
 	)); ?>
 	<?php endif; ?>
 
-	<?php if($action == 'add' || ($action == 'edit' && isset($page->id) && $page->id != 1)): ?>
+	<?php if( $page->id != 1 ): ?>
 	<label><?php echo __('Published date'); ?></label>
 	<?php echo Form::input('page[published_on]', $page->published_on, array('class' => 'span12 datepicker')); ?>
 	<?php endif; ?>
 
-	<?php if (AuthUser::hasPermission(array('administrator','developer'))): ?>
+	<?php if ( ACL::check( 'page.permissions' ) ): ?>
 	<label><?php echo __('Needs login'); ?></label>
 	<?php echo Form::select('page[needs_login]', Model_Page::logins(), $page->needs_login, array(
 		'class' => 'span12'
 	)); ?>
 	<?php endif; ?>
 
-	<?php if (AuthUser::hasPermission(array('administrator','developer'))): ?>
+	<?php if ( ACL::check( 'page.permissions' ) ): ?>
 	<label><?php echo __('Users roles that can edit page'); ?></label>
 	<?php echo Form::select('page_permissions[]', $permissions, array_keys($page_permissions), array(
 		'class' => 'span12'

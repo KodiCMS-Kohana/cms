@@ -1,8 +1,10 @@
  <div class="widget widget-nopad outline_inner">
 	<div class="widget-header">
+		<?php if( ACL::check( 'snippet.add')): ?>
 		<?php echo UI::button(__('Add snippet'), array(
-			'href' => 'snippet/add', 'icon' => UI::icon('plus'),
+			'href' => Route::url('backend', array('controller' => 'snippet', 'action' => 'add')), 'icon' => UI::icon('plus'),
 		)); ?>
+		<?php endif; ?>
 	</div>
 
 	<div class="widget-content">
@@ -27,12 +29,16 @@
 				<?php foreach ($snippets as $snippet): ?>
 				<tr>
 					<th class="name">
-						<?php echo HTML::image(ADMIN_RESOURCES . 'images/snippet.png'); ?>
+						<?php echo UI::icon('code'); ?> 
 						<?php if( ! $snippet->is_writable()): ?>
 						<span class="label label-warning"><?php echo __('Read only'); ?></span>
 						<?php endif; ?>
 						
-						<?php echo HTML::anchor('snippet/edit/'.$snippet->name, $snippet->name, array('class' => ! $snippet->is_writable() ? 'popup fancybox.iframe' : '')); ?>
+						<?php if( ACL::check( 'snippet.edit') ): ?>
+						<?php echo HTML::anchor(Route::url('backend', array('controller' => 'snippet', 'action' => 'edit', 'id' => $snippet->name)), $snippet->name, array('class' => ! $snippet->is_writable() ? 'popup fancybox.iframe' : '')); ?>
+						<?php else: ?>
+						<?php echo UI::icon('lock'); ?> <?php echo $snippet->name; ?>
+						<?php endif; ?>
 					</th>
 					<td class="modified">
 						<?php echo Date::format($snippet->modified()); ?>
@@ -44,10 +50,13 @@
 						<?php echo UI::label('/snippets/' . $snippet->name . EXT); ?>
 					</td>
 					<td class="actions">
+						<?php if( ACL::check( 'snippet.delete')): ?>
 						<?php echo UI::button(NULL, array(
-							'href' => 'snippet/delete/'. $snippet->name, 'icon' => UI::icon('remove'),
-							 'class' => 'btn btn-mini btn-confirm'
+							'href' => Route::url('backend', array('controller' => 'snippet', 'action' => 'delete', 'id' => $snippet->name)), 
+							'icon' => UI::icon('remove'),
+							'class' => 'btn btn-mini btn-confirm'
 						)); ?>
+						<?php endif; ?>
 					</td>
 				</tr>
 				<?php endforeach; ?>

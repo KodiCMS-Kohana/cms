@@ -8,6 +8,7 @@ return array(
 		'tags' => Date::DAY
 	),
 	
+	'default_locale' => I18n::detect_lang(),
 	'default_email' => 'no-reply@' . SITE_HOST,
 	
 	'date_formats' => array(

@@ -1,14 +1,14 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct access allowed.' );
 
 class KodiCMS_Controller_Layout extends Controller_System_Backend {
-
-	public $auth_required = array( 'administrator', 'developer' );
+	
+	public $not_secured_actions = array('rebuild');
 	
 	public function before()
 	{
 		parent::before();
 		$this->breadcrumbs
-			->add(__('Layouts'), $this->request->controller());
+			->add(__('Layouts'), Route::url('backend', array('controller' => 'layout')));
 	}
 
 	public function action_index()
@@ -80,7 +80,7 @@ class KodiCMS_Controller_Layout extends Controller_System_Backend {
 		if ( ! $status )
 		{
 			Messages::errors( __( 'Something went wrong!' ) );
-			$this->go( 'layout/add/' );
+			$this->go(array('action' => 'add'));
 		}
 		else
 		{
@@ -97,11 +97,11 @@ class KodiCMS_Controller_Layout extends Controller_System_Backend {
 		// save and quit or save and continue editing?
 		if ( $this->request->post('commit') !== NULL )
 		{
-			$this->go( 'layout' );
+			$this->go();
 		}
 		else
 		{
-			$this->go( 'layout/edit/' . $layout->name );
+			$this->go(array('action' => 'edit', 'id' => $layout->name));
 		}
 	}
 
@@ -113,7 +113,7 @@ class KodiCMS_Controller_Layout extends Controller_System_Backend {
 		if ( ! $layout->is_exists() )
 		{
 			Messages::errors(__( 'Layout not found!' ) );
-			$this->go( 'layout' );
+			$this->go();
 		}
 		
 		$this->breadcrumbs
@@ -164,7 +164,7 @@ class KodiCMS_Controller_Layout extends Controller_System_Backend {
 		// save and quit or save and continue editing?
 		if ( $this->request->post('commit') !== NULL )
 		{
-			$this->go( 'layout' );
+			$this->go();
 		}
 		else
 		{
@@ -201,7 +201,7 @@ class KodiCMS_Controller_Layout extends Controller_System_Backend {
 			Messages::errors( __( 'Layout is used! It CAN NOT be deleted!' ) );
 		}
 
-		$this->go_back();
+		$this->go();
 	}
 
 }

@@ -1,11 +1,13 @@
 <div class="widget widget-nopad">
 	<div class="widget-header">
+		<?php if( ACL::check( 'layout.add')): ?>
 		<?php echo UI::button(__('Add layout'), array(
-			'icon' => UI::icon( 'plus' ), 'href' => 'layout/add',
+			'icon' => UI::icon( 'plus' ), 'href' => Route::url('backend', array('controller' => 'layout', 'action' => 'add')),
 		)); ?>
+		<?php endif; ?>
 
 		<?php echo UI::button(__('Rebuild blocks'), array(
-			'icon' => UI::icon( 'refresh' ), 'href' => 'layout/rebuild',
+			'icon' => UI::icon( 'refresh' ), 'href' => Route::url('backend', array('controller' => 'layout', 'action' => 'rebuild')),
 			'class' => 'btn btn-inverse btn-mini'
 		)); ?>
 	</div>
@@ -32,11 +34,17 @@
 				<?php foreach ($layouts as $layout): ?>
 				<tr>
 					<th class="name">
-						<?php echo HTML::image(ADMIN_RESOURCES . 'images/layout.png'); ?>
+						<?php echo UI::icon( 'desktop' ); ?>
+
 						<?php if( ! $layout->is_writable()): ?>
 						<span class="label label-warning"><?php echo __('Read only'); ?></span>
 						<?php endif; ?>
-						<?php echo HTML::anchor('layout/edit/'.$layout->name, $layout->name, array('class' => ! $layout->is_writable() ? 'popup fancybox.iframe' : '')); ?>
+						
+						<?php if( ACL::check( 'layout.edit')): ?>
+						<?php echo HTML::anchor(Route::url('backend', array('controller' => 'layout', 'action' => 'edit', 'id' => $layout->name)), $layout->name, array('class' => ! $layout->is_writable() ? 'popup fancybox.iframe' : '')); ?>
+						<?php else: ?>
+						<?php echo UI::icon('lock'); ?> <?php echo $layout->name; ?>
+						<?php endif; ?>
 						<?php if(count($layout->blocks()) > 0): ?>
 						<span class="muted">
 							<?php echo __('Layout blocks'); ?>: <?php echo implode(', ', $layout->blocks()); ?>
@@ -53,10 +61,13 @@
 						<?php echo UI::label('/layouts/' . $layout->name . EXT); ?>
 					</td>
 					<td class="actions">
+						<?php if( ACL::check( 'layout.delete')): ?>
 						<?php echo UI::button(NULL, array(
-							'icon' => UI::icon( 'remove' ), 'href' => 'layout/delete/'. $layout->name,
+							'icon' => UI::icon( 'remove' ),
+							'href' => Route::url('backend', array('controller' => 'layout', 'action' => 'delete', 'id' => $layout->name)),
 							'class' => 'btn btn-mini btn-confirm'
 						)); ?>
+						<?php endif; ?>
 					</td>
 				</tr>
 
