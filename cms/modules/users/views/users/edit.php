@@ -66,10 +66,10 @@
 		</div>
 
 		<?php if( ACL::check('users.change_password') OR $user->id == AuthUser::getId() ): ?>
-		<div class="widget-header spoiler-toggle">
+		<div class="widget-header spoiler-toggle" data-spoiler=".password-spoiler">
 			<h3><?php echo __('Password'); ?></h3>
 		</div>
-		<div class="widget-content spoiler">
+		<div class="widget-content spoiler password-spoiler">
 		<?php
 			echo Bootstrap_Form_Element_Control_Group::factory(array(
 				'element' => Bootstrap_Form_Element_Password::factory(array(
@@ -115,6 +115,23 @@
 				)); 
 			?>
 			</div>
+		</div>
+		<?php endif; ?>
+		
+		<?php if ( $user->id === NULL OR $user->id > 1): ?>
+		<div class="widget-header spoiler-toggle" data-spoiler=".permissions-spoiler">
+			<h3><?php echo __('Permissions'); ?></h3>
+		</div>
+		<div class="widget-content spoiler permissions-spoiler">
+			<?php foreach(Acl::get_permissions() as $title => $actions): ?>
+				<?php echo __('Section ":section"', array(':section' => __(ucfirst($title)))); ?>
+				<?php foreach($actions as $action => $title): ?>
+				<?php if( in_array( $action, $user->permissions())): ?>
+				<?php echo UI::label($title); ?>
+				<?php endif; ?>
+				<?php endforeach; ?>
+				<hr />
+			<?php endforeach; ?>
 		</div>
 		<?php endif; ?>
 		
