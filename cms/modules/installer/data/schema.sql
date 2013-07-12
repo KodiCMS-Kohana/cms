@@ -182,6 +182,12 @@ CREATE TABLE `TABLE_PREFIX_roles_users` (
   KEY `fk_role_id` (`role_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE IF NOT EXISTS `TABLE_PREFIX_roles_permissions` (
+  `role_id` int(5) unsigned NOT NULL,
+  `action` varchar(255) NOT NULL,
+  UNIQUE KEY `role_id` (`role_id`,`action`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 CREATE TABLE IF NOT EXISTS `TABLE_PREFIX_email_queues` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `state` enum('pending','sent','failed') NOT NULL DEFAULT 'pending',
@@ -245,6 +251,9 @@ ALTER TABLE `TABLE_PREFIX_page_behavior_settings`
 ALTER TABLE `TABLE_PREFIX_roles_users`
   ADD CONSTRAINT `roles_users_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `TABLE_PREFIX_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `roles_users_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `TABLE_PREFIX_roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `TABLE_PREFIX_roles_permissions`
+  ADD CONSTRAINT `roles_permissions_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `TABLE_PREFIX_roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `TABLE_PREFIX_user_profiles`
   ADD CONSTRAINT `user_profiles_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `TABLE_PREFIX_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
