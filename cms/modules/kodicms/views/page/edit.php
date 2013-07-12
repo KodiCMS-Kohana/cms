@@ -38,7 +38,11 @@
 							<?php if($page->title): ?>
 							<?php if (isset($page->updated_on)): ?>
 							<?php echo UI::label(__('Last updated by :anchor on :date', array(
-								':anchor' => HTML::anchor('user/edit/' . $page->updated_by_id, $page->updated_by_name),
+								':anchor' => HTML::anchor(Route::url('backend', array(
+										'controller' => 'users',
+										'action' => 'edit', 
+										'id' => $page->updated_by_id
+									)), $page->updated_by_name),
 								':date' => Date::format($page->updated_on, 'D, j F Y'))), 'important'); ?>
 							<?php endif; ?>
 

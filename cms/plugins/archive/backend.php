@@ -27,8 +27,10 @@ foreach ($pages as $page)
 	Model_Navigation::get_section('Archive')
 		->add_page(new Model_Navigation_Page(array(
 			'name' => $page->title, 
-			'url' => URL::backend('archive/'.$page->id),
-			'permissions' => array(),
+			'url' => Route::url('archive', array(
+				'controller' => 'archive', 'id' => $page->id
+			)),
+			'icon' => 'archive'
 		)), 999);
 }
 

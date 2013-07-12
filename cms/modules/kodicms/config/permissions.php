@@ -23,6 +23,14 @@ return array(
 			'description' => 'Set page permissions'
 		),
 		array(
+			'action' => 'custom_fields',
+			'description' => 'Manage custom fields'
+		),
+		array(
+			'action' => 'parts',
+			'description' => 'Manage parts'
+		),
+		array(
 			'action' => 'delete',
 			'description' => 'Delete pages'
 		),
@@ -43,6 +51,16 @@ return array(
 		array(
 			'action' => 'delete',
 			'description' => 'Delete layout'
+		),
+	),
+	'setting' => array(
+		array(
+			'action' => 'index',
+			'description' => 'View settings'
+		),
+		array(
+			'action' => 'clear_cache',
+			'description' => 'Clear cache'
 		),
 	),
 );

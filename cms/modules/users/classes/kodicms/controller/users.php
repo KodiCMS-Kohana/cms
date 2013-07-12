@@ -145,12 +145,19 @@ class KodiCMS_Controller_Users extends Controller_System_Backend {
 		$data = $this->request->post('user');
 		$this->auto_render = FALSE;
 
-		// check if user want to change the password
-		if ( strlen( $data['password'] ) == 0 )
+		if( ACL::check('users.change_password') OR $user->id == AuthUser::getId() )
+		{
+			if ( strlen( $data['password'] ) == 0 )
+			{
+				unset( $data['password'] );
+			}
+		}
+		else
 		{
 			unset( $data['password'] );
 		}
 		
+
 		if( empty($data['notice'] ))
 		{
 			$data['notice'] = 0;

@@ -19,6 +19,10 @@ return array(
 			'description' => 'Change user roles'
 		),
 		array(
+			'action' => 'change_password',
+			'description' => 'Change password'
+		),
+		array(
 			'action' => 'delete',
 			'description' => 'Delete users'
 		),

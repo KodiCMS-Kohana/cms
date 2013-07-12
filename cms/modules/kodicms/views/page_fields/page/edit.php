@@ -1,3 +1,4 @@
+<?php if( ACL::check('page.custom_fields')): ?>
 <div class="widget-header widget-no-border-radius spoiler-toggle" data-spoiler=".spoiler-page-fields" data-hash="page-fields">
 	<h4><?php echo __('Page fields'); ?></h4>
 </div>
@@ -32,3 +33,4 @@
 	<?php endforeach; ?>
 	<?php endif; ?>
 </div>
+<?php endif; ?>

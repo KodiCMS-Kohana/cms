@@ -32,6 +32,8 @@
 	<div class="widget-header">
 		<h3>
 			<?php echo __( 'Site options' ); ?>
+			
+			<?php if( ACL::check('setting.clear_cache')): ?>
 			<?php echo UI::button(__('Clear cache'), array(
 				'icon' => UI::icon( 'stethoscope' ), 
 				'href' => Route::url('backend', array(
@@ -40,6 +42,7 @@
 				)),
 				'class' => 'btn btn-warning'
 			)); ?>
+			<?php endif; ?>
 		</h3>
 	</div>
 	<div class="widget-content">

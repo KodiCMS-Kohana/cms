@@ -1,3 +1,4 @@
+<?php if( ACL::check('setting.api')): ?>
 <div class="widget-header spoiler-toggle" data-spoiler=".api-settings">
 	<h3><?php echo __('API'); ?></h3>
 </div>
@@ -11,3 +12,4 @@
 		</div>
 	</div>
 </div>
+<?php endif; ?>

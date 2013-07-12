@@ -65,6 +65,7 @@
 			)); ?>
 		</div>
 
+		<?php if( ACL::check('users.change_password') OR $user->id == AuthUser::getId() ): ?>
 		<div class="widget-header spoiler-toggle">
 			<h3><?php echo __('Password'); ?></h3>
 		</div>
@@ -96,6 +97,7 @@
 			</div>
 			<?php endif; ?>
 		</div>
+		<?php endif; ?>
 
 		<?php if (Acl::check( 'users.change_roles') AND ($user->id === NULL OR $user->id > 1)): ?>
 		<div class="widget-header">
