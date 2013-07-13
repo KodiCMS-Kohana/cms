@@ -227,5 +227,22 @@ return array(
 	'Hour' => 'Час',
 	'Minute' => 'Минута',
 	'Month' => 'Месяц',
-	'Year' => 'Год'
+	'Year' => 'Год',
+	
+	//============Permissions============//
+	'Permissions' => 'Права',
+	'View layouts' => 'Видеть раздел',
+	'Delete layout' => 'Удаление шаблонов',
+	'View pages' => 'Видеть раздел',
+	'Add pages' => 'Добавлять новые страницы',
+	'Edit pages' => 'Редактировать страницы',
+	'Sort pages' => 'Сортировать',
+	'Set page permissions' => 'Устанавливать права доступа',
+	'Manage custom fields' => 'Укравлять дополнительными полями',
+	'Manage parts' => 'Управлять частями страниц',
+	'Delete pages' => 'Удалять страницы',
+	
+	'Manage api' => 'Управлять API сайта',
+	'Manage social accounts' => 'Управлять аккаунтами соц. сетей',
+	'View settings' => 'Видеть раздел'
 );

@@ -33,5 +33,18 @@ return array(
 		=> 'Получать уведомления по почте',
 	'Last login' => 'Последний вход',
 	
-	'Section ":section"' => 'Раздел ":section"'
+	'Section :section' => 'Раздел :section',
+	
+	//============Permissions============//
+	'View users' => 'Видеть раздел',
+	'Add new users' => 'Добавлять новых пользователей',
+	'Edit users' => 'Редактировать профиль',
+	'Change user roles' => 'Изменять роли',
+	'Change password' => 'Изменять пароль',
+	'Delete users' => 'Удалять пользователей',
+	'View roles' => 'Видеть раздел',
+	'Add new roles' => 'Добавлять новые роли',
+	'Edit roles' => 'Редактировать информацию',
+	'Change role permissions' => 'Редактировать привелегии',
+	'Delete roles' => 'Удалять роли',
 );

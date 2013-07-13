@@ -122,15 +122,26 @@
 		<div class="widget-header spoiler-toggle" data-spoiler=".permissions-spoiler">
 			<h3><?php echo __('Permissions'); ?></h3>
 		</div>
-		<div class="widget-content spoiler permissions-spoiler">
+		<div class="widget-content widget-nopad spoiler permissions-spoiler">
 			<?php foreach(Acl::get_permissions() as $title => $actions): ?>
-				<?php echo __('Section ":section"', array(':section' => __(ucfirst($title)))); ?>
-				<?php foreach($actions as $action => $title): ?>
-				<?php if( in_array( $action, $user->permissions())): ?>
-				<?php echo UI::label($title); ?>
-				<?php endif; ?>
-				<?php endforeach; ?>
-				<hr />
+			<table class='table'>
+				<thead>
+					<tr>
+						<th><?php echo __('Section :section', array(':section' => __(ucfirst($title)))); ?></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th>
+						<?php foreach($actions as $action => $title): ?>
+						<?php if( in_array( $action, $user->permissions())): ?>
+						<?php echo UI::label(__($title)); ?>
+						<?php endif; ?>
+						<?php endforeach; ?>
+						</th>
+					</tr>
+				</tbody>
+			</table>
 			<?php endforeach; ?>
 		</div>
 		<?php endif; ?>

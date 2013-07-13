@@ -11,4 +11,10 @@ return array(
 	'Snippet name' => 'Название сниппета',
 	'Snippet not found!' => 'Сниппет не найден!',
 	'Snippets' => 'Сниппеты',
+	
+	//============Permissions============//
+	'View snippets' => 'Видеть раздел',
+	'Add snippets' => 'Создавать сниппеты',
+	'Edit snippets' => 'Редактировать сниппеты',
+	'Delete snippets' => 'Удалять сниппеты',
 );

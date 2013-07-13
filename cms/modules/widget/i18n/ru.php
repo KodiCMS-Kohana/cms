@@ -61,5 +61,12 @@ return array(
 	'Field error' => 'Ошибки',
 	
 	'Copy widgets from' => 'Скопировать выджеты у страницы',
-	'Cache time' => 'Время кеширования'
+	'Cache time' => 'Время кеширования',
+	
+	//============Permissions============//
+	'View widgets' => 'Видеть раздел',
+	'Edit widget' => 'Редактировать виджет',
+	'Set widget location' => 'Устанавливать расположение виджета',
+	'Manage widget cache' => 'Управлять кешем виджета',
+	'Delete widget' => 'Удалять виджет',
 );
