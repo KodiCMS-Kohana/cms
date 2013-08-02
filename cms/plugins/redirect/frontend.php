@@ -1,6 +1,6 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct script access.' );
 
-Observer::observe('frontpage_requested', function($plugin) {
+Observer::observe('frontpage_requested', function($uri, $plugin) {
 	$redirect = FALSE;
 	$current_uri = $_SERVER['REQUEST_URI'];
 	$path = $_SERVER['HTTP_HOST'] . $current_uri;
