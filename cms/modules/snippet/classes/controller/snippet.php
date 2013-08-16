@@ -83,11 +83,11 @@ class Controller_Snippet extends Controller_System_Backend {
 		// save and quit or save and continue editing?
 		if ( $this->request->post('commit') !== NULL )
 		{
-			$this->go( 'snippet' );
+			$this->go();
 		}
 		else
 		{
-			$this->go( 'snippet/edit/' . $snippet->name );
+			$this->go(array('action' => 'edit', 'id' => $snippet->name));
 		}
 	}
 
@@ -99,7 +99,7 @@ class Controller_Snippet extends Controller_System_Backend {
 		if ( !$snippet->is_exists() )
 		{
 			Messages::errors( __( 'Snippet not found!' ) );
-			$this->go( 'snippet' );
+			$this->go();
 		}
 
 		$this->template->title = __('Edit snippet');
@@ -139,7 +139,7 @@ class Controller_Snippet extends Controller_System_Backend {
 		if ( !$status )
 		{
 			Messages::errors( __( 'Snippet has not been saved. Name must be unique!' ) );
-			$this->go( 'snippet/edit/' . $snippet->name );
+			$this->go(array('action' => 'edit', 'id' => $snippet->name));
 		}
 		else
 		{
@@ -154,11 +154,11 @@ class Controller_Snippet extends Controller_System_Backend {
 		// save and quit or save and continue editing?
 		if ( $this->request->post('commit') !== NULL )
 		{
-			$this->go( 'snippet' );
+			$this->go();
 		}
 		else
 		{
-			$this->go( 'snippet/edit/' . $snippet->name );
+			$this->go(array('action' => 'edit', 'id' => $snippet->name));
 		}
 	}
 
@@ -191,7 +191,7 @@ class Controller_Snippet extends Controller_System_Backend {
 			Messages::errors( __( 'Snippet not found!' ) );
 		}
 
-		$this->go( 'snippet' );
+		$this->go();
 	}
 
 }
