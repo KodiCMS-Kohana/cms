@@ -1,5 +1,15 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct script access.' );
 
+Route::set( 'archive', ADMIN_DIR_NAME . '/archive/<id>' , array(
+	'id' => '[0-9]+',
+	'controller' => 'archive',
+	'action' => 'index',
+) )
+	->defaults( array(
+		'controller' => 'archive',
+		'action' => 'index',
+	) );
+
 $behaviors = array();
 foreach (Kohana::$config->load('behaviors') as $key => $behavior)
 {
@@ -38,12 +48,3 @@ Observer::observe(array('page_delete', 'page_edit_after_save'), function() {
 	Cache::instance()->delete('Database::cache(archive_section)');
 });
 
-Route::set( 'archive', ADMIN_DIR_NAME . '/archive/<id>' , array(
-	'id' => '[0-9]+',
-	'controller' => 'archive',
-	'action' => 'index',
-) )
-	->defaults( array(
-		'controller' => 'archive',
-		'action' => 'index',
-	) );
