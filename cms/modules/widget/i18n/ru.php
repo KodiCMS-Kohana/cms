@@ -63,6 +63,10 @@ return array(
 	'Copy widgets from' => 'Скопировать выджеты у страницы',
 	'Cache time' => 'Время кеширования',
 	
+	'Pagination' => 'Постраничная навигация',
+	'Widget' => 'Виджет',
+	'Query key (GET)' => 'GET параметр текущей страницы',
+	
 	//============Permissions============//
 	'View widgets' => 'Видеть раздел',
 	'Edit widget' => 'Редактировать виджет',
