@@ -38,12 +38,23 @@
 			?>
 		</div>
 	</div>
-
+	
 	<div class="control-group">
-		<label class="control-label" for="pageEditMetaKeywordsField"><?php echo __( 'Keywords' ); ?></label>
+		<label class="control-label" for="pageEditMetaTitleField"><?php echo __( 'Meta title' ); ?></label>
 		<div class="controls">
 			<?php
-			echo Form::textarea( 'page[keywords]', $page->keywords, array(
+			echo Form::input( 'page[meta_title]', $page->meta_title, array(
+				'class' => 'span12', 'id' => 'pageEditMetaTitleField'
+			) );
+			?>
+		</div>
+	</div>
+
+	<div class="control-group">
+		<label class="control-label" for="pageEditMetaKeywordsField"><?php echo __( 'Meta keywords' ); ?></label>
+		<div class="controls">
+			<?php
+			echo Form::textarea( 'page[meta_keywords]', $page->meta_keywords, array(
 				'class' => 'span12', 'id' => 'pageEditMetaKeywordsField'
 			) );
 			?>
@@ -51,10 +62,10 @@
 	</div>
 
 	<div class="control-group">
-		<label class="control-label" for="pageEditMetaDescriptionField"><?php echo __( 'Description' ); ?></label>
+		<label class="control-label" for="pageEditMetaDescriptionField"><?php echo __( 'Meta description' ); ?></label>
 		<div class="controls">
 			<?php
-			echo Form::textarea( 'page[description]', $page->description, array(
+			echo Form::textarea( 'page[meta_description]', $page->meta_description, array(
 				'class' => 'span12', 'id' => 'pageEditMetaDescriptionField'
 			) );
 			?>

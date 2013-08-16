@@ -301,8 +301,8 @@ class KodiCMS_Model_Page extends Record
 				array(DB::expr('LOWER(title)'), 'like', '%:query%'),
 				array('slug', 'like', '%:query%'),
 				array('breadcrumb', 'like', '%:query%'),
-				array('keywords', 'like', '%:query%'),
-				array('description', 'like', '%:query%'),
+				array('meta_keywords', 'like', '%:query%'),
+				array('meta_keywords', 'like', '%:query%'),
 				array('published_on', 'like', '%:query%'),
 				array('created_on', 'like', '%:query%'),
 			)

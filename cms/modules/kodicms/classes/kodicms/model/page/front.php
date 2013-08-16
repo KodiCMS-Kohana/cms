@@ -51,13 +51,19 @@ class KodiCMS_Model_Page_Front {
 	 *
 	 * @var string 
 	 */
-	public $keywords = '';
+	public $meta_title = '';
 	
 	/**
 	 *
 	 * @var string 
 	 */
-	public $description = '';
+	public $meta_keywords = '';
+	
+	/**
+	 *
+	 * @var string 
+	 */
+	public $meta_description = '';
 	
 	/**
 	 *
@@ -190,8 +196,72 @@ class KodiCMS_Model_Page_Front {
 	 * @return string
 	 */
 	public function title() 
-	{ 
+	{
 		return $this->title; 
+	}
+	
+	/**
+	 * 
+	 * @return string
+	 */
+	public function meta_title() 
+	{
+		$title = strtr($this->meta_title, array('\'' => '\\\'', '\\' => '\\\\'));
+		$fields = array();
+		
+		$found = preg_match_all(
+			'/(?<!\{)\{('.
+				'((\$|\:)[A-Za-z0-9_\-\.\/]+)'. // {$abc}, {:abc}
+				'|(\-?[0-9]+(\|[^\'\}]*)?)'. // {1}, {-1| &gt; }
+				'|[\.]+'.
+			')\}(?!\})/u', $title, $fields);
+
+		if($found) 
+		{
+			$fields = array_unique($fields[1]);
+			$parts = array();
+			foreach($fields as $i => $f) 
+			{
+				$patterns[] = '/(?<!\\{)\\{'.preg_quote($f, '/').'\\}(?!\\})/u';
+				$param = NULL;
+				switch($f) 
+				{
+					case '.': // Current page
+						$parts[] = $this->title();
+					break;
+					case '..': // Parent page
+						$parent = $this->parent();
+						if($parent instanceof Model_Page_Front)
+							$parts[] = $this->parent()->meta_title();
+					break;
+					default: // Level
+						if($f >= 0 AND $this->level() != $f)
+						{
+							$parent = $this->parent($f);
+							if($parent instanceof Model_Page_Front)
+								$parts[] = $this->parent()->meta_title();
+						}
+					break;
+					
+				}
+				
+				switch($f{0}) 
+				{
+					case '$':
+						$param = substr($f, 1);
+					break;
+				}
+				
+				if($param !== NULL)
+				{
+					$parts[] = Setting::get($param);
+				}
+			}
+			
+			$title = preg_replace($patterns, $parts, $title);
+		}
+		
+		return $title; 
 	}
 	
 	/**
@@ -219,9 +289,9 @@ class KodiCMS_Model_Page_Front {
 	 * @param string $default
 	 * @return string
 	 */
-	public function keywords($default = NULL) 
+	public function meta_keywords($default = NULL) 
 	{
-		return !empty($this->keywords) ? $this->keywords : $default; 
+		return !empty($this->meta_keywords) ? $this->meta_keywords : $default; 
 	}
 
 	/**
@@ -229,9 +299,9 @@ class KodiCMS_Model_Page_Front {
 	 * @param string $default
 	 * @return string
 	 */
-	public function description($default = NULL) 
+	public function meta_description($default = NULL) 
 	{ 
-		return ! empty($this->description) ? $this->description : $default; 
+		return ! empty($this->meta_description) ? $this->meta_description : $default; 
 	}
 
 	/**

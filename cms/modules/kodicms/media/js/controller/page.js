@@ -165,6 +165,8 @@ cms.init.add('page_index', function () {
 
 cms.init.add('page_add', function () {
 	$('body').on('keyup', 'input[name="page[title]"]', function () {
-		$('input[name="page[breadcrumb]"]').val($(this).val());
+		$('input[name="page[breadcrumb]"]')
+			.add('input[name="page[meta_title]"]')
+			.val($(this).val());
 	});
 });
