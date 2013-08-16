@@ -8,7 +8,7 @@
 			<col width="20px" />
 			<col />
 		</colgroup>
-		<thead>
+		<thead class="highlight">
 			<tr>
 				<th>
 					<?php echo Bootstrap_Form_Element_Checkbox::factory(array(

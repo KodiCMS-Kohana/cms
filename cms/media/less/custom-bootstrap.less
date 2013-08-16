@@ -116,7 +116,23 @@
  ===================================================*/
 table.table {
 
-	thead th {
+	thead {
+		td, th {
+			background: #4D4D4F;
+			color: #fff;
+			font-weight: normal;
+			padding: 10px;
+			text-align: left;
+		}
+
+		&.highlight td, 
+		&.highlight th {
+			background: whitesmoke;
+			color: #333;
+		}
+	}
+
+	thead. th {
 		background: #4D4D4F;
 		color: #fff;
 		font-weight: normal;

@@ -125,7 +125,7 @@
 		<div class="widget-content widget-nopad spoiler permissions-spoiler">
 			<?php foreach(Acl::get_permissions() as $title => $actions): ?>
 			<table class='table'>
-				<thead>
+				<thead class="highlight">
 					<tr>
 						<th><?php echo __('Section :section', array(':section' => __(ucfirst($title)))); ?></th>
 					</tr>
