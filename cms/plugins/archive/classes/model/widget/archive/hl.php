@@ -2,7 +2,7 @@
 
 class Model_Widget_Archive_HL extends Model_Widget_Page_Pages {
 	
-	public $frontend_template = 'page_pages';
+	public $backend_template = 'page_pages';
 
 	public function fetch_data()
 	{
