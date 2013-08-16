@@ -44,7 +44,7 @@ cms.init.add('widgets_edit', function() {
 	});
 	
 	$('#cache_lifetime').on('keyup', function() {
-		higlight_cache_time();
+		higlight_cache_time();		
 	});
 	
 	function higlight_cache_time() {
@@ -53,6 +53,9 @@ cms.init.add('widgets_edit', function() {
 			if($('#cache_lifetime').val() == $(this).data('time'))
 				$(this).addClass('label-success');
 		})
+		
+		 $('#caching').check();
+		 cache_enabled();
 	};
 	
 	higlight_cache_time();
