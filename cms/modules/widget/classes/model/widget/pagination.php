@@ -9,13 +9,14 @@ class Model_Widget_Pagination extends Model_Widget_Decorator {
 	public function on_page_load() 
 	{
 		$this->widget = $this->_ctx->get_widget($this->related_widget_id);
+		$this->pagination = Pagination::factory();
 		
 		if(!($this->widget instanceof Model_Widget_Decorator)) 
 		{
 			return FALSE;
 		}
 		
-		$this->pagination = $pagination = Pagination::factory(array(
+		$this->pagination->setup(array(
 			'items_per_page' => $this->widget->list_size,
 			'total_items' => $this->widget->count_total(),
 			'current_page' => array(
@@ -44,11 +45,6 @@ class Model_Widget_Pagination extends Model_Widget_Decorator {
 	
 	public function fetch_data()
 	{
-		if(!($this->widget instanceof Model_Widget_Decorator)) 
-		{
-			return FALSE;
-		}
-
 		$data = array(
 			'total_items' => $this->pagination->total_items,
 			'items_per_page' => $this->pagination->items_per_page,

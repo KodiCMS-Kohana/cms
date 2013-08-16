@@ -24,12 +24,14 @@
 
 			<div class="row-fluid">
 				<div class="span9">
-				<div class="page-header">
-					<h1><?php echo $page->title(); ?></h1>
-				</div>
-
-				<?php Block::run('body'); ?>
-				<?php Block::run('extended'); ?>
+					<div class="page-header">
+						<h1><?php echo $page->title(); ?></h1>
+					</div>
+	
+					<?php Block::run('body'); ?>
+					<?php Block::run('pagination'); ?>
+					
+					<?php Block::run('extended'); ?>
 				</div>
 				<div class="span3">
 					<?php Block::run('sidebar'); ?>
