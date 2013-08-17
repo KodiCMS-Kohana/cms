@@ -50,14 +50,16 @@ class Block {
 		}	
 	}
 	
+	public static function def( $name ){}
+	
 	public static function parse_content( $content )
 	{
 		$content = str_replace(' ', '', $content);
-		preg_match_all("/Block::run\(\'(\w+)\'\)/i", $content, $blocks);
+		preg_match_all("/Block::([a-z]+)\(\'(\w+)\'\)/i", $content, $blocks);
 		
-		if( !empty($blocks[1]))
+		if( !empty($blocks[2]))
 		{
-			return $blocks[1];
+			return $blocks[2];
 		}
 		return array();
 	}
