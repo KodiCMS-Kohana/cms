@@ -9,23 +9,16 @@ cms.init.add('widgets_edit', function() {
 				.attr('href', BASE_URL + '/snippet/edit/' + $option.val())
 	});
 
-	$('body').on('post:api:snippet', update_snippets_list);
-	$('body').on('put:api:snippet', update_snippets_list);
+	$('body').on('post:api-snippet', update_snippets_list);
+	$('body').on('put:api-snippet', update_snippets_list);
 	
 	function update_snippets_list(e, response) {
 		var select = $('#WidgetTemplate');
 
-		if(select.find('option[value="'+response.name+'"]'))
-			return;
-		else {
-			var $option = $('<option selected value="'+response.name+'">'+response.name+'</oprion>');
-			$('#WidgetTemplate')
-				.find('option:selected')
-					.removeAttr('selected')
-				.end()
-				.append($option)
-				.change();
-		}
+		select
+			.append($('<option>', {value: response.name, text: response.name}))
+			.select2('val', response.name)
+			.change();
 	}
 	
 	var cache_enabled = function() {

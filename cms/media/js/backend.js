@@ -425,8 +425,7 @@ cms.ui.add('btn-confirm', function() {
 		return false;
 	})
 }).add('select2', function() {
-	var select = $('select').not('.no-script');
-	select.select2();
+	$('select').not('.no-script').select2();
 });
 
 var Api = {
@@ -485,8 +484,7 @@ var Api = {
 	
 				if(response.redirect) {
 					$.get(window.top.CURRENT_URL, function(resp){
-						window.top.$('#content').html(resp);
-						
+//						window.top.$('#content').html(resp);
 						window.location = response.redirect + '?type=iframe';
 					});
 				}
@@ -494,7 +492,7 @@ var Api = {
 				
 				var $event = method + uri.replace(/\//g, ':');
 				window.top.$('body').trigger($event.toLowerCase(), [this._response.response]);
-				
+				console.log($event.toLowerCase());
 				if(typeof(callback) == 'function') callback(this._response);
 			}
 		}).always(function() { 
