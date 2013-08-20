@@ -8,7 +8,7 @@ class KodiCMS_Controller_System_Frontend extends Controller_System_Template
 
 		if($this->auto_render === TRUE)
 		{
-			Assets::js('jquery', ADMIN_RESOURCES . 'libs/jquery-2.0.2.min.js');
+			Assets::js('jquery', ADMIN_RESOURCES . 'libs/jquery-2.0.3.min.js');
 			
 			Assets::js('underscore', ADMIN_RESOURCES . 'libs/underscore-min.js', 'jquery');
 			Assets::js('backbone', ADMIN_RESOURCES . 'libs/backbone-min.js', 'underscore');

@@ -46,7 +46,7 @@ class KodiCMS_Controller_System_Backend extends Controller_System_Template
 			
 			$this->template->bind_global('navigation', $navigation);
 			
-			Assets::js('jquery', ADMIN_RESOURCES . 'libs/jquery-2.0.2.min.js');
+			Assets::js('jquery', ADMIN_RESOURCES . 'libs/jquery-2.0.3.min.js');
 			
 			Assets::css('jquery-ui', ADMIN_RESOURCES . 'libs/jquery-ui/css/flick/jquery-ui-1.10.2.custom.css', 'jquery');
 			Assets::js('jquery-ui', ADMIN_RESOURCES . 'libs/jquery-ui/js/jquery-ui-1.10.2.custom.min.js', 'jquery');
