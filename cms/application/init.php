@@ -60,12 +60,11 @@ Kohana::modules( array(
 	'bootstrap'		=> MODPATH . 'bootstrap',
 	'navigation'	=> MODPATH . 'navigation',
 	'breadcrumbs'	=> MODPATH . 'breadcrumbs',
-	'plugins'		=> MODPATH . 'plugins',
 	'behavior'		=> MODPATH . 'behavior',
+	'plugins'		=> MODPATH . 'plugins',
 ) );
 
-// Init settings
-Setting::init();
+Observer::notify('modules::afer_load');
 
 Route::set( 'admin_media', 'cms/media/<file>', array(
 	'file' => '.*'

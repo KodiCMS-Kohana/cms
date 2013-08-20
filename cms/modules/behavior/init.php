@@ -1,7 +1,5 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
-Behavior::init();
-
 Observer::observe( array('page_add_after_save', 'page_edit_after_save'), function($page) {
 	if( !empty($page->behavior_id) )
 	{
@@ -22,4 +20,9 @@ Observer::observe( array('page_add_after_save', 'page_edit_after_save'), functio
 			$model->delete();
 		}
 	}
+});
+
+// Init behavior
+Observer::observe('modules::afer_load', function() {
+	Behavior::init();
 });
