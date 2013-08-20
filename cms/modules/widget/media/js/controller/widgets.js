@@ -28,8 +28,7 @@ cms.init.add('widgets_edit', function() {
 		$cache_lifetime.prop('disabled', !$caching_input.prop('checked'));
 	}
 	
-	$('#caching').on('change', cache_enabled);
-	cache_enabled();
+	$('#caching').on('change', cache_enabled).change();
 	
 	$('.cache-time-label').on('click', function() {
 		$('#cache_lifetime').val($(this).data('time'));
@@ -50,8 +49,6 @@ cms.init.add('widgets_edit', function() {
 		 $('#caching').check();
 		 cache_enabled();
 	};
-	
-	higlight_cache_time();
 });
 
 cms.init.add('page_edit', function() {
