@@ -3,7 +3,7 @@
 </div>
 <div class="widget-content widget-nopad">
 <?php foreach($permissions as $title => $actions): ?>
-	<table class="table">
+	<table class="table table-hover">
 		<colgroup>
 			<col width="20px" />
 			<col />
