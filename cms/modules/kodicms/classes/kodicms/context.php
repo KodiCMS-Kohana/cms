@@ -94,6 +94,10 @@ class KodiCMS_Context {
 		{
 			$result = & $this->_params[$param];
 		}
+		else if($this->request()->query( $param ))
+		{
+			$result = $this->request()->query( $param );
+		}
 		
 		return $result;
 	}
