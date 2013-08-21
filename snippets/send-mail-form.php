@@ -5,6 +5,17 @@
 	$status = Arr::get($_GET, 'status');
 ?>
 
+<?php if(!empty($errors)): ?>
+<div class="alert">
+	<h3><?php echo __('Errors'); ?></h3>
+	<ul>
+	<?php foreach($errors as $error): ?>
+		<li><?php echo $error['error']; ?></li>
+	<?php endforeach; ?>
+	</ul>
+</div>
+<?php endif; ?>
+
 <?php if($status == 'ok'):?>
 <div class="alert alert-success">
 	<h3><?php echo __('Message send'); ?></h3>
