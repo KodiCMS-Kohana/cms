@@ -3,7 +3,7 @@
 return array(
 	'Add snippet' => 'Добавить сниппет',
 	'Edit snippet' => 'Редактировать сниппет',
-
+	'View snippet' => 'Просматривать сниппет',
 	'Snippet' => 'Сниппет',
 	'Snippet has been deleted!' => 'Сниппет удален!',
 	'Snippet has been saved!' => 'Сниппет сохранен!',

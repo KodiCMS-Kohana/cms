@@ -49,6 +49,10 @@ return array(
 			'description' => 'Edit layout'
 		),
 		array(
+			'action' => 'view',
+			'description' => 'View layout'
+		),
+		array(
 			'action' => 'delete',
 			'description' => 'Delete layout'
 		),

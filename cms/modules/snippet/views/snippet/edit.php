@@ -40,7 +40,15 @@
 				'data-readonly'		=> ( ! $snippet->is_exists() OR ($snippet->is_exists() AND $snippet->is_writable())) ? 'off' : 'on'
 			)); ?>
 		</div>
-		<?php if( ! $snippet->is_exists() OR ($snippet->is_exists() AND $snippet->is_writable())): ?>
+		<?php if(
+			(ACL::check('snippet.edit')
+		AND
+			(
+				! $snippet->is_exists() 
+			OR 
+				($snippet->is_exists() AND $snippet->is_writable())
+			))
+		OR ! ACL::check('snippet.view') ): ?>
 		<div class="form-actions widget-footer">
 			<?php echo UI::actions($page_name); ?>
 		</div>

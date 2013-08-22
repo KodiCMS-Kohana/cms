@@ -6,7 +6,7 @@ class KodiCMS_Controller_Users extends Controller_System_Backend {
 	{
 		if($this->request->action() == 'edit' AND AuthUser::getId() == $this->request->param('id'))
 		{
-			$this->not_secured_actions[] = 'edit';
+			$this->allowed_actions[] = 'edit';
 		}
 
 		parent::before();

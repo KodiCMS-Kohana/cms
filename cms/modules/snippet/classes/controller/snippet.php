@@ -2,10 +2,13 @@
 
 class Controller_Snippet extends Controller_System_Backend {
 
-	public $auth_required = array( 'administrator', 'developer' );
-
 	public function before()
 	{
+		if($this->request->action() == 'edit' AND ACL::check('snippet.view' ))
+		{
+			$this->allowed_actions[] = 'edit';
+		}
+		
 		parent::before();
 		$this->breadcrumbs
 			->add(__('Snippets'), $this->request->controller());
@@ -107,7 +110,7 @@ class Controller_Snippet extends Controller_System_Backend {
 			->add($snippet_name);
 
 		// check if trying to save
-		if ( Request::current()->method() == Request::POST )
+		if ( Request::current()->method() == Request::POST AND ACL::check('snippet.edit'))
 		{
 			return $this->_edit( $snippet_name );
 		}

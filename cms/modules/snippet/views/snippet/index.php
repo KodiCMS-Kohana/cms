@@ -34,7 +34,7 @@
 						<span class="label label-warning"><?php echo __('Read only'); ?></span>
 						<?php endif; ?>
 						
-						<?php if( ACL::check( 'snippet.edit') ): ?>
+						<?php if( ACL::check('snippet.edit') OR ACL::check('snippet.view')): ?>
 						<?php echo HTML::anchor(Route::url('backend', array('controller' => 'snippet', 'action' => 'edit', 'id' => $snippet->name)), $snippet->name, array('class' => ! $snippet->is_writable() ? 'popup fancybox.iframe' : '')); ?>
 						<?php else: ?>
 						<?php echo UI::icon('lock'); ?> <?php echo $snippet->name; ?>

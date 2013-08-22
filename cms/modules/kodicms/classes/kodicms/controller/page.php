@@ -2,7 +2,7 @@
 
 class KodiCMS_Controller_Page extends Controller_System_Backend {
 	
-	public $not_secured_actions = array(
+	public $allowed_actions = array(
 		'children'
 	);
 

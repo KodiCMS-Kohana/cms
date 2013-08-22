@@ -2,15 +2,19 @@
 
 class KodiCMS_Controller_Layout extends Controller_System_Backend {
 	
-	public $not_secured_actions = array('rebuild');
+	public $allowed_actions = array('rebuild');
 	
 	public function before()
 	{
+		if($this->request->action() == 'edit' AND ACL::check( 'layout.view' ))
+		{
+			$this->allowed_actions[] = 'edit';
+		}
+		
 		parent::before();
 		$this->breadcrumbs
 			->add(__('Layouts'), Route::url('backend', array('controller' => 'layout')));
 	}
-
 	public function action_index()
 	{
 		$this->template->title = __('Layouts');
@@ -120,7 +124,7 @@ class KodiCMS_Controller_Layout extends Controller_System_Backend {
 			->add($layout_name);
 
 		// check if trying to save
-		if ( Request::current()->method() == Request::POST )
+		if ( Request::current()->method() == Request::POST AND ACL::check('layout.edit') )
 		{
 			return $this->_edit( $layout );
 		}

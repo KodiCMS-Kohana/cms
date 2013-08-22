@@ -40,7 +40,15 @@
 				'data-readonly'		=> ( ! $layout->is_exists() OR ($layout->is_exists() AND $layout->is_writable())) ? 'off' : 'on'
 			)); ?>
 		</div>
-		<?php if( ! $layout->is_exists() OR ($layout->is_exists() AND $layout->is_writable())): ?>
+		<?php if(
+			(ACL::check('layout.edit')
+		AND
+			(
+				! $layout->is_exists() 
+			OR 
+				($layout->is_exists() AND $layout->is_writable())
+			))
+		OR ! ACL::check( 'layout.view') ): ?>
 		<div class="form-actions widget-footer">
 			<?php echo UI::actions($page_name); ?>
 		</div>

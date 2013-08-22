@@ -15,6 +15,10 @@ return array(
 			'description' => 'Edit snippets'
 		),
 		array(
+			'action' => 'view',
+			'description' => 'View snippets'
+		),
+		array(
 			'action' => 'delete',
 			'description' => 'Delete snippets'
 		),

@@ -12,7 +12,7 @@ class KodiCMS_Controller_System_Security extends Controller_System_Controller
 	 *
 	 * @var array 
 	 */
-	public $not_secured_actions = array();
+	public $allowed_actions = array();
 
 
 	public function before()
@@ -22,7 +22,7 @@ class KodiCMS_Controller_System_Security extends Controller_System_Controller
 		if (
 			$this->auth_required === TRUE
 		AND 
-			! in_array($this->request->action(), $this->not_secured_actions)
+			! in_array($this->request->action(), $this->allowed_actions)
 		AND 
 			! ACL::check( $this->request )
 		)

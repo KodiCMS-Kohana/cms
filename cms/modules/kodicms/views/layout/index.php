@@ -40,7 +40,7 @@
 						<span class="label label-warning"><?php echo __('Read only'); ?></span>
 						<?php endif; ?>
 						
-						<?php if( ACL::check( 'layout.edit')): ?>
+						<?php if( ACL::check( 'layout.edit') OR ACL::check( 'layout.view')): ?>
 						<?php echo HTML::anchor(Route::url('backend', array('controller' => 'layout', 'action' => 'edit', 'id' => $layout->name)), $layout->name, array('class' => ! $layout->is_writable() ? 'popup fancybox.iframe' : '')); ?>
 						<?php else: ?>
 						<?php echo UI::icon('lock'); ?> <?php echo $layout->name; ?>

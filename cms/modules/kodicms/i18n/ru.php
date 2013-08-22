@@ -46,6 +46,7 @@ return array(
 	/*********************** Layouts *********************************/
 	'Add layout' => 'Добавить шаблон',
 	'Edit layout' => 'Редактировать шаблон',
+	'View layout' => 'Просматривать шаблон',
 	'Layout' => 'Шаблон',
 	'Layout has been saved!' => 'Шаблон сохранен!',
 	'Layout has been deleted!' => 'Шаблон удален!',
