@@ -3,7 +3,7 @@
 </div>
 <div class="widget-content widget-nopad">
 <?php foreach($permissions as $title => $actions): ?>
-	<table class="table table-hover">
+	<table class="table table-hover" id="permissions-list">
 		<colgroup>
 			<col width="20px" />
 			<col />
@@ -16,9 +16,10 @@
 					)); ?>
 				</th>
 				<th>
-					<?php echo __('Section :section', array(
-						':section' => UI::label(__(ucfirst($title)))
-					)); ?>
+					<h4>
+						<small><?php echo __('Section'); ?></small> 
+						<?php echo __(ucfirst($title)); ?>
+					</h4>
 				</th>
 			</tr>
 		</thead>

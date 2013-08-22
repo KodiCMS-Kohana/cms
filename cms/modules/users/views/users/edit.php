@@ -124,10 +124,15 @@
 		</div>
 		<div class="widget-content widget-nopad spoiler permissions-spoiler">
 			<?php foreach(Acl::get_permissions() as $title => $actions): ?>
-			<table class='table'>
+			<table class='table' id="permissions-list">
 				<thead class="highlight">
 					<tr>
-						<th><?php echo __('Section :section', array(':section' => __(ucfirst($title)))); ?></th>
+						<th>
+							<h4>
+								<small><?php echo __('Section'); ?></small> 
+								<?php echo __(ucfirst($title)); ?>
+							</h4>
+						</th>
 					</tr>
 				</thead>
 				<tbody>
