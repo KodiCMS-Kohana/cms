@@ -73,8 +73,13 @@ class UI {
 		return '<div class="page-header"><h1>' . $title . '</h1></div>';
 	}
 
-	public static function actions($page) 
+	public static function actions($page = NULL, $uri = NULL) 
 	{
+		if($uri === NULL)
+		{
+			$uri = Route::url('backend', array('controller' => $page));
+		}
+			
 		$actions = array(
 			UI::button(__('Save and Continue editing'), array(
 				'class' => 'btn btn-large btn-save', 
@@ -87,7 +92,7 @@ class UI {
 				'name' => 'commit'
 			)),
 			UI::button(__('Cancel'), array(
-				'href' => Route::url('backend', array('controller' => $page)), 
+				'href' => $uri, 
 				'icon' => UI::icon('ban-circle'),
 				'class' => 'btn btn-link btn-close'
 			))
