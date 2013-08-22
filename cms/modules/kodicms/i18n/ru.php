@@ -111,6 +111,7 @@ return array(
 	'Current layput: :name' => 'Текущий шаблон :name',
 	'Show field select' => 'Выбрать из списка',
 	'Hide field select' => 'Скрыть список полей',
+	'inherit ( :layout )' => 'Наследовать ( :layout )',
 
 	/*********************** Settings *******************/
 	'General settings' => 'Главные настройки',
