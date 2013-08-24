@@ -149,7 +149,7 @@ class KodiCMS_Controller_Users extends Controller_System_Backend {
 		{
 			if ( strlen( $data['password'] ) == 0 )
 			{
-				unset( $data['password'] );
+				unset( $data['password'], $values['password_confirm'] );
 			}
 		}
 		else
@@ -163,11 +163,11 @@ class KodiCMS_Controller_Users extends Controller_System_Backend {
 			$data['notice'] = 0;
 		}
 
-		$user->values($data);
-
 		try
 		{
-			if ( $user->update() )
+			if ( $user->update_user($data, array(
+				'email', 'username', 'password'
+			)) )
 			{
 				$data['user_id'] = $user->id;
 				$user->profile

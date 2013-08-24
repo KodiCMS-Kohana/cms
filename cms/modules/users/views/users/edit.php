@@ -85,7 +85,7 @@
 			
 			echo Bootstrap_Form_Element_Control_Group::factory(array(
 				'element' => Bootstrap_Form_Element_Password::factory(array(
-					'name' => 'user[confirm]'
+					'name' => 'user[password_confirm]'
 				), array('id' => 'userEditPasswordConfirmField', 
 					'autocomplete' => 'off', 'placeholder' => __('Confirm Password')))
 				->label(__('Confirm Password'))
