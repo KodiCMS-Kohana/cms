@@ -16,9 +16,19 @@ class KodiCMS_ACL {
 		
 		foreach(Kohana::$config->load('permissions')->as_array() as $module => $actions)
 		{
+			if(isset($actions['title']))
+			{
+				$title = $actions['title'];
+			}
+			else
+			{
+				$title = $module;
+			}
+
 			foreach($actions as $action)
 			{
-				$permissions[$module][$module.'.'.$action['action']] = $action['description'];
+				if(is_array($action))
+					$permissions[$title][$module.'.'.$action['action']] = $action['description'];
 			}
 		}
 		
@@ -56,14 +66,14 @@ class KodiCMS_ACL {
 				$params[] = $action->directory();
 			}
 
-			$params[] = strtolower($action->controller());
+			$params[] = $action->controller();
 			$params[] = $action->action();
 			$action = $params;
 		}
 		
 		if( is_array( $action ))
 		{
-			$action = implode('.', $action);
+			$action = strtolower(implode('.', $action));
 		}
 
 		if( !isset( self::$_permissions[$user->id] ))
