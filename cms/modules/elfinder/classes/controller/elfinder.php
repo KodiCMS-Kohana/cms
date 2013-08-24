@@ -18,7 +18,7 @@ class Controller_Elfinder extends Controller_System_Template {
 		
 		Assets::css('elfinder', ADMIN_RESOURCES . 'libs/elfinder/css/elfinder.min.css');
 		Assets::js('elfinder', ADMIN_RESOURCES . 'libs/elfinder/js/elfinder.min.js', 'global');
-		Assets::js('elfinder.ru', ADMIN_RESOURCES . 'libs/elfinder/js/i18n/elfinder.ru.js', 'global');
+		Assets::js('elfinder.ru', ADMIN_RESOURCES . 'libs/elfinder/js/i18n/elfinder.ru.js', 'elfinder');
 
 		Assets::js('global', ADMIN_RESOURCES . 'js/backend.js', 'backbone');
 	}
