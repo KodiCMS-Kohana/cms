@@ -1,5 +1,4 @@
 cms.init.add(['users_edit', 'users_add'], function () {
-	console.log($('input[name="users_permission"]')[0]);
 	$('input[name="user_permission"]').select2({
 		placeholder: __("Click to get list of roles"),
 		minimumInputLength: 0,
@@ -28,6 +27,7 @@ cms.init.add(['users_edit', 'users_add'], function () {
 			}
 		},
 		initSelection: function(element, callback) {
+			element.val('');
 			if (USER_ID == 0) return;
 			$.ajax('/api-users.roles', {
 				data: {
@@ -46,6 +46,7 @@ cms.init.add(['users_edit', 'users_add'], function () {
 					}
 				}
 
+				
 				callback(roles);
 			});
 		}
