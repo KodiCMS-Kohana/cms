@@ -21,8 +21,8 @@ return array(
 	'Password:' => 'Пароль:',
 	'Roles' => 'Роли',
 	'Profile' => 'Профиль',
-	'User has been deleted!' => 'Пользователь :name удален!',
-	'User has been saved!' => 'Пользователь :name сохранен!',
+	'User has been deleted!' => 'Пользователь удален!',
+	'User has been saved!' => 'Пользователь сохранен!',
 	'User not found!' => 'Пользователь не найден!',
 	'Username must contain a minimum of 3 characters!' 
 		=> 'Имя пользователя должно содержать не менее 3 символов!',
