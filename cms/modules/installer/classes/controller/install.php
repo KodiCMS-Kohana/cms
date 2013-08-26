@@ -189,7 +189,7 @@ class Controller_Install extends Controller_System_Frontend
 				->rule('password_field', 'min_length', array(':value', Kohana::$config->load('auth')->get( 'password_length' )))
 				->rule('password_field', 'not_empty')
 				->rule('password_confirm', 'matches', array(':validation', ':field', 'password_field'))
-				->label('password_field', __( 'Confirm Password' ));
+				->label('password_confirm', __( 'Confirm Password' ));
 		}
 
 		if ( !$validation->check() )
