@@ -67,7 +67,7 @@
 					) );
 					?>
 
-					<p class="help-block"><?php echo __( 'Usefull to prevent conflicts if you have, or plan to have, multiple Flexo installations with a single database.' ); ?></p>
+					<p class="help-block"><?php echo __( 'Usefull to prevent conflicts if you have, or plan to have, multiple :cms installations with a single database.', array(':cms' => CMS_NAME) ); ?></p>
 				</div>
 			</div>
 		</div>
