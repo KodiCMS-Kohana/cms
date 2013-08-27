@@ -6,4 +6,4 @@ nbproject/*
 !/cms/cache/*.html
 !/cms/logs/*.html
 /.idea/
-/.tmb/
+/public/.tmb/
