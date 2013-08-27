@@ -201,7 +201,7 @@ class Plugin_Decorator extends Plugin {
 			->values($data)
 			->execute();
 
-		$install_file = $this->path() . 'install.' . EXT;
+		$install_file = $this->path() . 'install' . EXT;
 
 		if( file_exists( $install_file ))
 		{
@@ -225,7 +225,7 @@ class Plugin_Decorator extends Plugin {
 		
 		Plugins::uninstall( $this );
 
-		$uninstall_file = $this->path() . 'uninstall.' . EXT;
+		$uninstall_file = $this->path() . 'uninstall' . EXT;
 		if($run_script === TRUE AND file_exists( $uninstall_file ))
 		{
 			Kohana::load($uninstall_file);
