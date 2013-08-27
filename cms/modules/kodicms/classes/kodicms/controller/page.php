@@ -219,6 +219,10 @@ class KodiCMS_Controller_Page extends Controller_System_Backend {
 			foreach (Arr::get($this->request->post(), 'part_content', array()) as $id => $content)
 			{
 				$part = Record::findByIdFrom('Model_Page_Part', (int) $id);
+				
+				if($content == $part->content) continue;
+
+				Observer::notify( 'part_before_save', $part );
 		
 				$part
 					->setFromData(array('content' => $content))
@@ -240,7 +244,6 @@ class KodiCMS_Controller_Page extends Controller_System_Backend {
 			))->write();
 
 			Observer::notify( 'page_edit_after_save', $page );
-
 			Messages::success( __( 'Page has been saved!' ) );
 		}
 		else
