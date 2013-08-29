@@ -4,7 +4,7 @@ Observer::observe('frontpage_requested', function($plugin) {
 	$redirect = FALSE;
 	$current_uri = $_SERVER['REQUEST_URI'];
 	$path = $_SERVER['HTTP_HOST'] . $current_uri;
-	$domain = $plugin->get('domain');
+	$domain = $plugin->domain;
 
 	if($_SERVER['HTTP_HOST'] != $domain) 
 	{
@@ -12,7 +12,7 @@ Observer::observe('frontpage_requested', function($plugin) {
 		$path = $domain . $current_uri;
 	}
 
-	if($plugin->get( 'check_url_suffix') == 'yes') 
+	if($plugin->check_url_suffix == 'yes') 
 	{
 		$current_uri = trim($current_uri, '/');
 
