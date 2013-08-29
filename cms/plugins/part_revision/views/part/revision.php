@@ -61,22 +61,50 @@ function htmlspecialchars_decode (string, quote_style) {
 
   return string;
 }
+
+$(function() {
+	var text1 = $('#text').html();
+	
+	$('.btn-clear').on('click', function() {
+		$('#text').html(text1);
+	});
+
+	$('.btn-diff').on('click', function() {
+		var id = $(this).data('id');
+		
+		var dmp = new diff_match_patch();
+		
+		var text2 = $('.text'+id).html();
+
+		var d = dmp.diff_main(text1, text2);
+		dmp.diff_cleanupSemantic(d);
+		var ds = dmp.diff_prettyHtml(d);
+		$('#text').html(htmlspecialchars_decode(ds));
+	});
+});
 </script>
 
-<h3><?php echo __('Current'); ?></h3>
+<h3><?php echo __('Current'); ?>  <button class="btn btn-mini btn-clear"><?php echo __('Clear'); ?></button></h3>
 <pre id="text"><?php echo htmlspecialchars($part->content); ?></pre>
 
-<?php foreach($parts as $i => $p):?>
-<h3><?php echo Date::format($p->created_on, 'd F Y H:i'); ?></h3>
-<pre class="text<?php echo $i; ?>"><?php echo htmlspecialchars($p->content); ?></pre>
-<script>
-	var dmp = new diff_match_patch();
-	var text1 = $('#text').html();
-	var text2 = $('.text<?php echo $i; ?>').html();
+<?php foreach($parts as $id => $p):?>
+<h3><?php echo Date::format($p->created_on, 'd F Y H:i'); ?> 
+	<span class="btn-group">
+		<button class="btn btn-mini btn-diff" data-id="<?php echo $p->id; ?>">
+			<?php echo __('Show diff'); ?>
+		</button>
+		<?php 
+		$url =  Route::url('backend', array(
+			'controller' => 'part',
+			'action' => 'revert',
+			'id' => $p->id
+		)); ?>
+		<a href="<?php echo $url; ?>" class="btn btn-mini btn-confirm btn-success">
+			<?php echo __('Use this revision'); ?>
+		</a>
+	</span>
 	
-	var d = dmp.diff_main(text1, text2);
-	dmp.diff_cleanupSemantic(d);
-	var ds = dmp.diff_prettyHtml(d);
-	$('.text<?php echo $i; ?>').html(htmlspecialchars_decode(ds));
-</script>
+
+</h3>
+<pre class="text<?php echo $p->id; ?>"><?php echo htmlspecialchars($p->content); ?></pre>
 <?php endforeach; ?>
