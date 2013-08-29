@@ -84,15 +84,19 @@ $(function() {
 });
 </script>
 
+<?php if(!empty($part->id)): ?>
 <h3><?php echo __('Current'); ?>  <button class="btn btn-mini btn-clear"><?php echo __('Clear'); ?></button></h3>
 <pre id="text"><?php echo htmlspecialchars($part->content); ?></pre>
+<?php endif ;?>
 
 <?php foreach($parts as $id => $p):?>
 <h3><?php echo Date::format($p->created_on, 'd F Y H:i'); ?> 
 	<span class="btn-group">
+		<?php if(!empty($part->id)): ?>
 		<button class="btn btn-mini btn-diff" data-id="<?php echo $p->id; ?>">
 			<?php echo __('Show diff'); ?>
 		</button>
+		<?php endif ;?>
 		<?php 
 		$url =  Route::url('backend', array(
 			'controller' => 'part',

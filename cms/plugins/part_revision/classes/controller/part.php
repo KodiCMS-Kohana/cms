@@ -17,32 +17,35 @@ class Controller_Part extends Controller_System_Backend
 		
 		$part_id = (int) $this->request->param('id');
 		$part = Record::findByIdFrom('Model_Page_Part', $part_id);
-		if(empty($part->id)) 
+		
+		$parts = DB::select()
+			->from('part_revision')
+			->order_by('created_on', 'desc')
+			->as_object();
+		
+		if(!empty($part->id)) 
 		{
-			Messages::errors( __( 'Part not found!' ) );
-			$this->go(array(
-				'controller' => 'page'
-			));
+			$page = Record::findByIdFrom( 'Model_Page', $part->page_id );
+		
+			$this->breadcrumbs
+				->add($page->title, Route::url('backend', array(
+					'controller' => 'page',
+					'action' => 'edit',
+					'id' => $page->id
+				)))
+				->add(__('Revision for part :name', array(':name' => $part->name)));
+			
+			$parts->where('part_id', '=', $part_id);
+		}
+		else
+		{
+			$this->breadcrumbs->add(__('Parts revision'));
 		}
 
-		$page = Record::findByIdFrom( 'Model_Page', $part->page_id );
-		
-		$this->breadcrumbs
-			->add($page->title, Route::url('backend', array(
-				'controller' => 'page',
-				'action' => 'edit',
-				'id' => $page->id
-			)))
-			->add(__('Revision for part :name', array(':name' => $part->name)));
 		
 		$this->template->content = View::factory('part/revision', array(
 			'part' => $part,
-			'parts' => DB::select()
-				->from('part_revision')
-				->where('part_id', '=', $part_id)
-				->order_by('created_on', 'desc')
-				->as_object()
-				->execute()
+			'parts' => $parts->execute()
 		));
 	}
 	
