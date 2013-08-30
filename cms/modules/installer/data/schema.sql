@@ -133,6 +133,7 @@ CREATE TABLE IF NOT EXISTS `TABLE_PREFIX_user_profiles` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL,
   `name` varchar(255) NOT NULL,
+  `locale` varchar(10) NOT NULL DEFAULT 'en-us',
   `notice` tinyint(1) NOT NULL DEFAULT '0',
   `created_on` datetime NOT NULL,
   PRIMARY KEY (`id`),

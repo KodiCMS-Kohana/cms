@@ -47,13 +47,6 @@
 	</div>
 	<div class="widget-content">
 		<div class="control-group">
-			<?php echo Form::label('setting_default_locale', __('Interface language'), array('class' => 'control-label')); ?>
-			<div class="controls">
-				<?php echo Form::select('setting[default_locale]', I18n::available_langs(), Setting::get('default_locale', I18n::lang()), array(
-					'id' => 'setting_default_locale')); ?>
-			</div>
-		</div>
-		<div class="control-group">
 			<?php echo Form::label('setting_date_format', __('Date format'), array('class' => 'control-label')); ?>
 			<div class="controls">
 				<?php

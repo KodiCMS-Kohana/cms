@@ -64,7 +64,6 @@ INSERT INTO `TABLE_PREFIX_roles_users` (`user_id`, `role_id`) VALUES
 INSERT INTO `TABLE_PREFIX_settings` (`name`, `value`) VALUES
 ('site_title', '__SITE_NAME__'),
 ('site_description', ''),
-('default_locale', '__LANG__'),
 ('default_status_id', '100'),
 ('default_filter_id', 'redactor'),
 ('default_tab', 'page'),
@@ -86,8 +85,8 @@ INSERT INTO `TABLE_PREFIX_plugins` (`id`, `title`, `settings`) VALUES
 INSERT INTO `TABLE_PREFIX_users` (`id`, `email`, `username`, `password`, `logins`, `last_login`) VALUES
 (1, '__EMAIL__', '__USERNAME__', '__ADMIN_PASSWORD__', 0, 0);
 
-INSERT INTO `TABLE_PREFIX_user_profiles` (`id`, `name`, `user_id`, `created_on`) VALUES
-(1, 'Administrator', 1, '__DATE__');
+INSERT INTO `TABLE_PREFIX_user_profiles` (`id`, `name`, `user_id`, `locale`, `created_on`) VALUES
+(1, 'Administrator', 1, '__LANG__', '__DATE__');
 
 INSERT INTO `TABLE_PREFIX_layout_blocks` (`layout_name`, `block`, `position`) VALUES
 ('none', 'body', 0),

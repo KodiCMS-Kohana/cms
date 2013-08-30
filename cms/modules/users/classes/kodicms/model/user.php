@@ -2,6 +2,32 @@
 
 class KodiCMS_Model_User extends Model_Auth_User {
 	
+	/**
+	 * Password validation for plain passwords.
+	 *
+	 * @param array $values
+	 * @return Validation
+	 */
+	public static function get_password_validation($values)
+	{
+		return Validation::factory($values)
+			->rule('password', 'min_length', array(':value', Kohana::$config->load('auth')->get( 'password_length' )))
+			->rule('password_confirm', 'matches', array(':validation', ':field', 'password'));
+	}
+	
+	public static function locale()
+	{
+		$user = Auth::instance()->get_user();
+		
+		if($user instanceof Model_User)
+		{
+			return $user->profile->get('locale');
+		}
+		
+		return I18n::detect_lang();
+	}
+
+
 	protected $_reload_on_wakeup = FALSE;
 	
 	protected $_roles = NULL;
@@ -25,19 +51,6 @@ class KodiCMS_Model_User extends Model_Auth_User {
 				->on( 'user.id', '=', 'user_permission.user_id' )
 			->join( array( $role->table_name(), 'permission'), 'left' )
 				->on( 'user_permission.role_id', '=', 'permission.id' );
-	}
-
-	/**
-	 * Password validation for plain passwords.
-	 *
-	 * @param array $values
-	 * @return Validation
-	 */
-	public static function get_password_validation($values)
-	{
-		return Validation::factory($values)
-			->rule('password', 'min_length', array(':value', Kohana::$config->load('auth')->get( 'password_length' )))
-			->rule('password_confirm', 'matches', array(':validation', ':field', 'password'));
 	}
 
 	public function has_role($role, $all_required = TRUE) 
