@@ -39,10 +39,6 @@ class Controller_Backup extends Controller_System_Backend {
 			->view();
 		
 		$this->template->title = __( 'Backup view :file', array(':file' => $file));
-		$this->breadcrumbs
-			->change($this->plugin->title, 'backup')
-			->add($this->template->title);
-		
 		
 		$this->template->content = View::factory('backup/view', array(
 			'file' => $backup,
