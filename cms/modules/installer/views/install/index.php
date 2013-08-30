@@ -142,6 +142,18 @@
 				</div>
 			</div>
 
+			
+			
+			<?php echo Bootstrap_Form_Element_Control_Group::factory(array(
+				'element' => Bootstrap_Form_Element_Select::factory(array(
+					'name' => 'install[locale]', 'options' => I18n::available_langs()
+				))
+				->selected(Arr::get( $data, 'locale' ))
+				->label(__('Interface language'))
+			)); ?>
+			
+			<hr />
+
 			<div class="control-group">
 				<label class="control-label" for="installAdminDirNamexField"><?php echo __( 'Admin dir name' ); ?></label>
 				<div class="controls">
@@ -152,7 +164,6 @@
 					?> <?php echo UI::label( __( 'Required' ) ); ?>
 				</div>
 			</div>
-
 			<div class="control-group">
 				<label class="control-label" for="installURLSuffixField"><?php echo __( 'URL suffix' ); ?></label>
 				<div class="controls">
@@ -165,29 +176,28 @@
 					<p class="help-block"><?php echo __( 'Add a suffix to simulate static html files.' ); ?></p>
 				</div>
 			</div>
-
-			<div class="control-group">
-				<label class="control-label" for="installTimezoneField"><?php echo __( 'Timezone' ); ?></label>
-				<div class="controls">
-					<?php
-					echo Form::select( 'install[timezone]', Date::timezones(), Arr::get( $data, 'timezone' ), array(
-						'class' => 'input-xlarge', 'id' => 'installTimezoneField'
-					) );
-					?>
-				</div>
-			</div>
+			<?php echo Bootstrap_Form_Element_Control_Group::factory(array(
+				'element' => Bootstrap_Form_Element_Select::factory(array(
+					'name' => 'install[timezone]', 'options' => Date::timezones()
+				))
+				->selected(Arr::get( $data, 'timezone' ))
+				->label(__('Timezone'))
+			)); ?>
+			
+			
+			
 		</div>
 		
 		<div class="widget-header"><h3><?php echo __( 'Cache system' ); ?></h3></div>
 		<div class="widget-content">
-			<div class="control-group">
-				<label class="control-label"><?php echo __( 'Cache type' ); ?></label>
-				<div class="controls">
-					<?php echo Form::select( 'install[cache_type]', $cache_types, Arr::get( $data, 'cache_type' ), array(
-						'class' => 'input-xlarge'
-					) ); ?>
-				</div>
-			</div>
+			
+			<?php echo Bootstrap_Form_Element_Control_Group::factory(array(
+				'element' => Bootstrap_Form_Element_Select::factory(array(
+					'name' => 'install[cache_type]', 'options' => $cache_types
+				))
+				->selected(Arr::get( $data, 'cache_type' ))
+				->label(__('Cache type'))
+			)); ?>
 		</div>
 		
 		<?php echo $env_test; ?>

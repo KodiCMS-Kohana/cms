@@ -7,6 +7,8 @@ class Controller_Install extends Controller_System_Frontend
 	public function action_index()
 	{
 		Assets::js('install', ADMIN_RESOURCES . 'js/install.js', 'global');
+		Assets::css('select2', ADMIN_RESOURCES . 'libs/select2/select2.css', 'jquery');
+		Assets::js('select2', ADMIN_RESOURCES . 'libs/select2/select2.min.js', 'jquery');
 
 		$this->template->title = __( 'Installation' );
 
@@ -22,7 +24,8 @@ class Controller_Install extends Controller_System_Frontend
 			'url_suffix' => '.html',
 			'password_generate' => TRUE,
 			'timezone' => date_default_timezone_get(),
-			'cache_type' => 'sqlite'
+			'cache_type' => 'sqlite',
+			'locale' => I18n::detect_lang()
 		);
 
 		$this->template->content = View::factory('install/index', array(
@@ -242,7 +245,7 @@ class Controller_Install extends Controller_System_Frontend
 			'TABLE_PREFIX_'			=> $post['table_prefix'],
 			'__ADMIN_PASSWORD__'	=> Auth::instance()->hash($post['password_field']),
 			'__DATE__'				=> date('Y-m-d H:i:s'),
-			'__LANG__'				=> I18n::lang()
+			'__LANG__'				=> Arr::get($post, 'locale'),
 		);
 		
 		$dump_content = str_replace(
