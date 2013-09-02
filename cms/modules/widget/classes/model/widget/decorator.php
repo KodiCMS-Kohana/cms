@@ -155,17 +155,14 @@ abstract class Model_Widget_Decorator {
 
 		$this->_fetch_template();
 		
-		$allow_omments = (bool) Arr::get($params, 'comments');
+		$allow_omments = (bool) Arr::get($params, 'comments', TRUE);
 
 		if( $this->block != 'PRE' )
 		{
-			echo "<!--{Widget: {$this->name}}-->";
-
-//			if(AuthUser::isLoggedIn() AND Request::current()->headers('Content-Type') == 'text/html')
-//			{
-//				echo "<div class='widget-block'".
-//					" data-id='$this->id' data-section='widget' data-type='$this->type'>";
-//			}
+			if($allow_omments)
+			{
+				echo "<!--{Widget: {$this->name}}-->";
+			}
 		}
 		
 		if( 
@@ -184,13 +181,10 @@ abstract class Model_Widget_Decorator {
 
 		if( $this->block != 'PRE' )
 		{
-//			if(AuthUser::isLoggedIn() AND Request::current()->headers('Content-Type') == 'text/html')
-//			{
-//				$block_id = sprintf('obj.%x', crc32(rand().microtime()));
-//				
-//				echo "<div class='clearfix'></div></div>";
-//			}
-			echo "<!--{/Widget: {$this->name}}-->";
+			if($allow_omments)
+			{
+				echo "<!--{/Widget: {$this->name}}-->";
+			}
 		}
 		
 		if(isset($benchmark))
