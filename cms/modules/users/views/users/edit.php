@@ -86,7 +86,7 @@
 					'placeholder' => __('Password')))
 				->label(__('Password'))
 				->append(Bootstrap_Form_Element_Input::add_on(UI::icon('lock')))
-				->help_text(__('At least :num characters. Must be unique.', array(
+				->help_text(__('At least :num characters.', array(
 					':num' => Kohana::$config->load('auth')->get( 'password_length' )
 				)))
 			));

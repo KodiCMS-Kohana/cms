@@ -11,8 +11,8 @@ return array(
 	'E-mail address' => 'Адрес эл. почты',
 	'Leave password blank for it to remain unchanged.' 
 		=> 'Если не желаете менять пароль &mdash; оставьте поля пустыми.',
-	'At least :num characters. Must be unique.' 
-		=> 'Не менее :num символов. Должен быть уникальным.',
+	'At least :num characters.' 
+		=> 'Не менее :num символов.',
 	
 	'An email has been send with your new password!' 
 		=> 'На вашу эл. почту отпавлено письмо с новым паролем!',
