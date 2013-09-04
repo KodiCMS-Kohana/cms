@@ -149,7 +149,7 @@ class KodiCMS_Controller_Users extends Controller_System_Backend {
 		{
 			if ( strlen( $data['password'] ) == 0 )
 			{
-				unset( $data['password'], $values['password_confirm'] );
+				unset( $data['password'], $data['password_confirm'] );
 			}
 		}
 		else
