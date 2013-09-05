@@ -4,6 +4,8 @@ nbproject/*
 /cms/cache/*
 /cms/logs/*
 !/cms/cache/*.html
+!/cms/cache/tags/
+!/cms/cache/tags/*.html
 !/cms/logs/*.html
 /.idea/
 /public/.tmb/
