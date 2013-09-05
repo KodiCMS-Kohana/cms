@@ -19,9 +19,7 @@ class Controller_Widgets extends Controller_System_Backend {
 	public function action_index()
 	{
 		$this->template->title = __('Widgets');
-		$this->template->content = View::factory( 'widgets/index');
 
-		
 		$this->template->content = View::factory( 'widgets/index', array(
 			'widgets' => ORM::factory('widget')->find_all()
 		));
