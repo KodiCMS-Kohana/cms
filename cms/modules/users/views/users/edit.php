@@ -114,7 +114,7 @@
 		<div class="widget-content">
 			<div class="row-fluid">
 			<?php 
-				echo Form::hidden('user_permission', $user->id, array(
+				echo Form::hidden('user_permission', (int) $user->id, array(
 					'class' => 'span12'
 				));
 				

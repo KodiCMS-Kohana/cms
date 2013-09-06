@@ -28,7 +28,10 @@ cms.init.add(['users_edit', 'users_add'], function () {
 		},
 		initSelection: function(element, callback) {
 			element.val('');
-			if (USER_ID == 0) return;
+			if (USER_ID == 0) {
+				callback([{'id':1, 'text':'login'}]);
+				return ;
+			}
 			$.ajax('/api-users.roles', {
 				data: {
 					uid: USER_ID,
