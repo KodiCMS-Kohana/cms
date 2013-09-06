@@ -6,7 +6,7 @@ class KodiCMS_ACL {
 	const ALLOW = TRUE;
 	
 	const ADMIN_USER = 1;
-	const ADMIN_ROLE = 'admin';
+	const ADMIN_ROLE = 'administrator';
 	
 	protected static $_permissions = array();
 	
