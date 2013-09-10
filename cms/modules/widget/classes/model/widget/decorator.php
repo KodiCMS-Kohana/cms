@@ -197,9 +197,9 @@ abstract class Model_Widget_Decorator {
 	{
 		if( empty($this->template) ) 
 		{
-			if( ($this->template = Kohana::find_file('views', 'widgets/template/' . $this->frontend_template())) === FALSE  )
+			if( ($this->template = Kohana::find_file('views', 'widgets/frontend/' . $this->frontend_template())) === FALSE  )
 			{
-				$this->template = Kohana::find_file('views', 'widgets/template/default');
+				$this->template = Kohana::find_file('views', 'widgets/frontend/default');
 			}
 		}
 		else

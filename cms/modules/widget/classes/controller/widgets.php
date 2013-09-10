@@ -215,7 +215,7 @@ class Controller_Widgets extends Controller_System_Backend {
 		// Если не создать View шаблон, не загружаем его
 		try
 		{
-			$content = View::factory( 'widgets/widget/' . $widget->backend_template(), array(
+			$content = View::factory( 'widgets/backend/' . $widget->backend_template(), array(
 					'widget' => $widget
 				))->set($widget->load_template_data());
 		}
