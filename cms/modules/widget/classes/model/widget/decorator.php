@@ -243,7 +243,7 @@ abstract class Model_Widget_Decorator {
 		{
 			if( method_exists( $this, 'set_' . $key ))
 			{
-				$this->{'set_'.$key}($value);
+				$this->{$key} = $this->{'set_'.$key}($value);
 			}
 			else 
 			{
@@ -404,8 +404,19 @@ abstract class Model_Widget_Decorator {
 	/**
 	 * 
 	 * @return array
+	 * @deprecated
 	 */
 	public function load_template_data()
+	{
+		return $this->backend_data();
+	}
+	
+	
+	/**
+	 * 
+	 * @return array
+	 */
+	public function backend_data()
 	{
 		return array();
 	}
