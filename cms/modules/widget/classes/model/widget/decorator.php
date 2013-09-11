@@ -113,6 +113,67 @@ abstract class Model_Widget_Decorator {
 	 * @var array 
 	 */
 	protected $_data = array();
+	
+	/**
+	 * 
+	 * @param string $name
+	 * @param mixed $value
+	 * @return \Model_Widget_Decorator
+	 */
+	public function set( $name, $value )
+	{
+		$this->_data[$name] = $value;
+		return $this;
+	}
+	
+	/**
+	 * 
+	 * @param string $name
+	 * @param mixed $value
+	 * @return \Model_Widget_Decorator
+	 */
+	public function bind( $name, & $value )
+	{
+		$this->_data[$name] = & $value;
+		return $this;
+	}
+
+	/**
+	 * 
+	 * @param string $name
+	 * @param mixed $default
+	 * @return mided
+	 */
+	public function & get( $name, $default = NULL)
+	{
+		$result = $default;
+		if (array_key_exists($name, $this->_data))
+		{
+			$result = $this->_data[$name];
+		}
+		
+		return $result;
+	}
+
+	/**
+	 * 
+	 * @param string $name
+	 * @param mixed $value
+	 */
+	public function __set( $name, $value )
+	{
+		$this->set($name, $value);
+	}
+	
+	/**
+	 * 
+	 * @param string $name
+	 * @return mixed
+	 */
+	public function & __get( $name )
+	{
+		return $this->get( $name );
+	}
 
 	/**
 	 * 
@@ -210,7 +271,7 @@ abstract class Model_Widget_Decorator {
 		return $this->template;
 	}
 
-		/**
+	/**
 	 * 
 	 * @param array $params
 	 * @return View
@@ -230,11 +291,6 @@ abstract class Model_Widget_Decorator {
 	}
 	
 	/**
-	 * @return array
-	 */
-	abstract public function fetch_data();
-	
-	/**
 	 * @param array $data
 	 */
 	public function set_values(array $data)
@@ -252,67 +308,6 @@ abstract class Model_Widget_Decorator {
 		}
 		
 		return $this;
-	}
-	
-	/**
-	 * 
-	 * @param string $name
-	 * @param mixed $value
-	 * @return \Model_Widget_Decorator
-	 */
-	public function set( $name, $value )
-	{
-		$this->_data[$name] = $value;
-		return $this;
-	}
-	
-	/**
-	 * 
-	 * @param string $name
-	 * @param mixed $value
-	 * @return \Model_Widget_Decorator
-	 */
-	public function bind( $name, & $value )
-	{
-		$this->_data[$name] = & $value;
-		return $this;
-	}
-
-	/**
-	 * 
-	 * @param string $name
-	 * @param mixed $default
-	 * @return mided
-	 */
-	public function & get( $name, $default = NULL)
-	{
-		$result = $default;
-		if (array_key_exists($name, $this->_data))
-		{
-			$result = $this->_data[$name];
-		}
-		
-		return $result;
-	}
-
-	/**
-	 * 
-	 * @param string $name
-	 * @param mixed $value
-	 */
-	public function __set( $name, $value )
-	{
-		$this->set($name, $value);
-	}
-	
-	/**
-	 * 
-	 * @param string $name
-	 * @return mixed
-	 */
-	public function & __get( $name )
-	{
-		return $this->get( $name );
 	}
 
 	/**
@@ -420,10 +415,6 @@ abstract class Model_Widget_Decorator {
 	{
 		return array();
 	}
-	
-	public function on_page_load() {}
-	
-	public function change_crumbs( &$crumbs) {}
 
 	/**
 	 * 
@@ -438,4 +429,14 @@ abstract class Model_Widget_Decorator {
 	{
 		$this->_ctx =& Context::instance();
 	}
+	
+	
+	public function on_page_load() {}
+	
+	public function change_crumbs( &$crumbs) {}
+	
+	/**
+	 * @return array
+	 */
+	abstract public function fetch_data();
 }

@@ -1,11 +1,6 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
-class Model_Widget_Page_Pages extends Model_Widget_Decorator {
-	
-	protected $_data = array(
-		'list_offset' => 0,
-		'list_size' => 10
-	);
+class Model_Widget_Page_Pages extends Model_Widget_Decorator_Pagination {
 	
 	public $cache_tags = array('pages', 'page_parts', 'page_tags');
 	
@@ -33,14 +28,6 @@ class Model_Widget_Page_Pages extends Model_Widget_Decorator {
 		return array(
 			'select' => $select
 		);
-	}
-	
-	public function set_values(array $data)
-	{
-		$data['list_offset'] = (int) $data['list_offset'];
-		$data['list_size'] = (int) $data['list_size'];
-
-		return parent::set_values($data);
 	}
 	
 	public function get_page()
@@ -72,12 +59,12 @@ class Model_Widget_Page_Pages extends Model_Widget_Decorator {
 		
 		if($this->list_offset > 0)
 		{
-			$clause['offset'] = (int) $this->list_offset;
+			$clause['offset'] = $this->list_offset;
 		}
 		
 		if($this->list_size > 0)
 		{
-			$clause['limit'] = (int) $this->list_size;
+			$clause['limit'] = $this->list_size;
 		}
 
 		$pages = $page->children($clause);
