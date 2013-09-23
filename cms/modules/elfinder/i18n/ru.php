@@ -6,4 +6,8 @@ return array(
 	
 	//============Permissions============//
 	'View filemanager' => 'Видеть раздел',
+	'Make directories' => 'Создавать директории',
+	'Upload files' => 'Загружать файлы',
+	'Delete files and folders' => 'Удалять файлы и папки',
+	'Edit files and folders' => 'Редактировать файлы и папки'
 );

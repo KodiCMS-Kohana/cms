@@ -4,7 +4,24 @@
 			lang: 'ru',
 			url : '/api-elfinder',
             resizable: false,
-			height: calculateContentHeight()
+			height: calculateContentHeight(),
+			uiOptions: {
+				toolbar : [
+					[<?php if(ACL::check('filemanager.mkdir')): ?>'mkdir'<?php endif; ?>, <?php if(ACL::check('filemanager.upload')): ?>'upload'<?php endif; ?>],
+					['open', 'download'],
+					['info'],
+					['quicklook'],
+					<?php if(ACL::check('filemanager.edit')): ?>['copy', 'cut', 'paste'],<?php endif; ?>
+					<?php if(ACL::check('filemanager.delete')): ?>['rm'],<?php endif; ?>
+					<?php if(ACL::check('filemanager.edit')): ?>['duplicate', 'rename', 'edit', 'resize'],<?php endif; ?>
+					<?php if(ACL::check('filemanager.edit')): ?>['extract', 'archive'],<?php endif; ?>
+					['search'],
+					['view']
+				]
+			}
+			<?php if(!ACL::check('filemanager.edit')): ?>,contextmenu: false<?php endif; ?>
+			<?php if(!ACL::check('filemanager.upload')): ?>,dragUploadAllow: false<?php endif; ?>
+			<?php if(!ACL::check('filemanager.edit')): ?>,allowShortcuts : false<?php endif; ?>
 		}).elfinder('instance');
 		
 		$(window).resize(function() {
