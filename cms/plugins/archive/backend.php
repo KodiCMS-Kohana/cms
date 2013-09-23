@@ -40,6 +40,7 @@ foreach ($pages as $page)
 			'url' => Route::url('archive', array(
 				'controller' => 'archive', 'id' => $page->id
 			)),
+			'permissions' => 'page.index',
 			'icon' => 'archive'
 		)), 999);
 }
