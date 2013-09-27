@@ -27,14 +27,16 @@ class Widget_Manager {
 	public static function get_widgets( $type )
 	{
 		$result = array( );
+		
+		if(!is_array($type)) $type = array($type);
 
-		$res = DB::select( 'w.id', 'w.name', 'w.description', 'w.date', 'w.type' )
+		$res = DB::select( 'w.id', 'w.name', 'w.description', 'w.created_on', 'w.type' )
 				->select( array( DB::expr( 'COUNT(:table)' )->param(
 							':table', Database::instance()->quote_column( 'pw.page_id' ) ), 'used' ) )
 				->from( array( 'widgets', 'w' ) )
 				->join( array( 'page_widgets', 'pw' ), 'left' )
 				->on( 'w.id', '=', 'pw.widget_id' )
-				->where( 'w.type', '=', $type )
+				->where( 'w.type', 'in', $type )
 				->group_by( 'w.id' )
 				->group_by( 'w.name' )
 				->order_by( 'w.name' )
@@ -46,7 +48,7 @@ class Widget_Manager {
 				'name' => $row['name'],
 				'description' => $row['description'],
 				'is_used' => $row['used'] > 0,
-				'date' => $row['date']
+				'date' => $row['created_on']
 			);
 		}
 
