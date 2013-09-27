@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
-class KodiCMS_Controller_System_Controller extends Kohana_Controller
+class KodiCMS_Controller_System_Controller extends Controller
 {
 	public $query_params = FALSE;
 	
