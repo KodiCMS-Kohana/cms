@@ -2,6 +2,32 @@
 
 class Block {
 
+	/**
+	 * 
+	 * @param type string|array
+	 */
+	public static function not_empty( $name )
+	{
+		if( ! is_array($name) )
+		{
+			$name = array($name);
+		}
+		
+		$blocks = Context::instance()->get_blocks();
+
+		foreach($name as $block)
+		{
+			if(in_array($block, $blocks)) return FALSE;
+		}
+		
+		return TRUE;
+	}
+
+	/**
+	 * 
+	 * @param string $name
+	 * @param array $params
+	 */
 	public static function run( $name, array $params = array() )
 	{
 		$ctx = & Context::instance();
@@ -50,17 +76,27 @@ class Block {
 		}	
 	}
 	
+	/**
+	 * 
+	 * @param string $name
+	 */
 	public static function def( $name ){}
 	
+	/**
+	 * 
+	 * @param string $content
+	 * @return string
+	 */
 	public static function parse_content( $content )
 	{
 		$content = str_replace(' ', '', $content);
-		preg_match_all("/Block::([a-z]+)\(\'(\w+)\'\)/i", $content, $blocks);
+		preg_match_all("/Block::([a-z]{3})\(\'(\w+)\'\)/i", $content, $blocks);
 		
 		if( !empty($blocks[2]))
 		{
 			return $blocks[2];
 		}
-		return array();
+
+		return NULL;
 	}
 }
