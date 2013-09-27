@@ -94,6 +94,10 @@ class KodiCMS_Context {
 		{
 			$result = & $this->_params[$param];
 		}
+		else if($this->request()->query( $param ))
+		{
+			$result = $this->request()->query( $param );
+		}
 		
 		return $result;
 	}
@@ -259,6 +263,15 @@ class KodiCMS_Context {
 	
 	/**
 	 * 
+	 * @return array
+	 */
+	public function get_blocks()
+	{
+		return array_keys($this->_blocks);
+	}
+
+	/**
+	 * 
 	 * @param array $widgets
 	 * @return \Context
 	 */
@@ -362,11 +375,12 @@ class KodiCMS_Context {
 				$types['*named'][] = $id;
 		}
 	
-		foreach($types as $v)
+		foreach($types as $type => $ids)
 		{
-			for($i = 0, $l = sizeof($v); $i < $l; $i++)
-				if($v[$i])
-					$widgets[$v[$i]] = & $this->_widgets[$v[$i]];
+			foreach($ids as $id )
+			{
+				$widgets[$id] = & $this->_widgets[$id];
+			}
 		}
 
 		$this->_widget_ids = array_keys( $widgets );

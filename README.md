@@ -21,7 +21,7 @@ KodiCMS основана на базе [Kohana framework](http://kohanaframework
 * Обработка ошибочных URL. (Если посетитель допустил ошибку URL, скорее всего он не получит в ответ: Страница не найдена)
 * Удобный инсталлятор
 
-## DEMO
+## DEMO / Демо сайт
 http://demo.kodicms.ru/
 
 > backend
@@ -31,10 +31,13 @@ http://demo.kodicms.ru/
 > Password: demodemo
 
 
-## Скриншоты
+## Screenshots / Скриншоты
 
 http://www.kodicms.ru/screenshots.html
 
+## Forum / Форум
+
+http://www.kodicms.ru/forum.html
 
 ## Требования
 
@@ -43,7 +46,7 @@ http://www.kodicms.ru/screenshots.html
 * MySQL (и доступ к управлению данными)
 
 
-## Установка
+## Install / Установка
 
 1. Создайте клон репозитория `https://github.com/butschster/kodicms.git` или 
 [скачайте zip архив](https://github.com/butschster/kodicms/zipball/master)
@@ -178,6 +181,19 @@ RewriteRule .* index.php/$0 [PT]# Set environment
 https://github.com/butschster/kodicms/issues
 
 ## Changelog
+
+### 6.0.0
+
+ * Добавлен раздел "Роли"
+ * Добавлены права доступа к разделам
+ * В редакторе страниц добавлено поле "Meta title"
+ * Исправлены ошибки в файловом менеджере (удаление файлов и т.д.)
+ * Настройки языка интерфейса перенесены в профиль пользователя
+ * Добавлены новые виджеты
+ * Обновление Kohana до версии 3.3.1
+ * Обновление до послдених версий сторонних библиотек
+ * Другие улучшения ядра
+
 
 ### 5.14.0
 

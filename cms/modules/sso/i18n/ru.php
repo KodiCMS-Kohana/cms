@@ -14,5 +14,11 @@ return array(
 	'Social account disconnected' => 'Профиль отвязан',
 	'Social account not linked!' => 'Учетная запись не найдена',
 	
-	'Disconnect' => 'Отключить'
+	'Disconnect' => 'Отключить',
+	
+	'Social' => 'Социальные сети',
+	'Enable registration' => 'Включить регистрацию через соц. сети',
+	'Social providers' => 'Список доступных провайдеров',
+	'Social registration' => 'Регистрация через соц. сети',
+	'Social auth' => 'Авторизация через соц. сети'
 );

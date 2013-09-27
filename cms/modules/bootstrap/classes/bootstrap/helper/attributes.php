@@ -83,11 +83,17 @@ class Bootstrap_Helper_Attributes extends Bootstrap_Helper_Abstract {
 			{
 				$value = explode(' ', $value);
 			}
-
+			
+			$values = $this->offsetExists($key) 
+					? $this->offsetGet($key) 
+					: array();
+	
 			foreach ($value as $class)
 			{
-				$this->{$key}[] = $class;
+				$values[] = $class;
 			}
+			
+			$this->offsetSet($key, $values);
 		}
 		else
 		{

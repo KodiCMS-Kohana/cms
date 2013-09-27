@@ -29,7 +29,10 @@ class Model_Navigation {
 			
 			foreach ($pages as $page)
 			{
-				$section->add_page( new Model_Navigation_Page($page) );
+				$page = new Model_Navigation_Page($page);
+				
+				if(ACL::check( $page->permissions )) 
+					$section->add_page( $page );
 			}
 		}
 	}
@@ -66,14 +69,13 @@ class Model_Navigation {
 	 * @param array $permissions
 	 * @param integer $priority
 	 */
-	public static function add_section( $section = 'Other', $name, $uri, $permissions = array('administrator'), $priority = 0, $counter = 0 )
+	public static function add_section( $section = 'Other', $name, $uri, $priority = 0, $counter = 0 )
 	{
 		self::get_section( $section )
 			->add_page(new Model_Navigation_Page(array(
 				'name' => $name,
-				'url' => URL::site($uri),
+				'url' => $uri,
 				'counter' => (int) $counter,
-				'permissions' => $permissions
 			)), $priority);
 	}
 	
@@ -91,7 +93,7 @@ class Model_Navigation {
 		}
 		
 		if($uri == ADMIN_DIR_NAME) $uri .= '/' . Setting::get('default_tab');
-		
+
 		$uri = strtolower($uri);
 
 		$break = FALSE;
@@ -113,7 +115,6 @@ class Model_Navigation {
 			if ( $break )
 				break;
 		}
-
 		return self::$_sections;
 	}
 	

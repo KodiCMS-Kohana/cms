@@ -4,9 +4,9 @@ return array(
 	'Content' => array(
 		array(
 			'name' => __('File manager'), 
-			'url' => URL::backend('filemanager'),
+			'url' => Route::url('backend', array('controller' => 'filemanager')),
 			'priority' => 999,
-			'permissions' => array('administrator', 'developer'),
+			'permissions' => 'filemanager.index',
 			'icon' => 'folder-open'
 		)
 	)

@@ -2,17 +2,21 @@
 	<div class="widget-header">
 		<?php echo View::factory('page/blocks/search'); ?>
 
+		<?php if ( Acl::check( 'page.add')): ?>
 		<?php echo UI::button(__('Add page'), array(
 			'id' => 'pageAddButton', 'class' => 'btn',
-			'href' => 'page/add/',
+			'href' => Route::url('backend', array('controller' => 'page', 'action' => 'add')),
 			'icon' => UI::icon('plus')
 		)); ?>
+		<?php endif; ?>
 
+		<?php if ( Acl::check( 'page.sort')): ?>
 		<?php echo UI::button(__('Reorder'), array(
 			'id' => 'pageMapReorderButton', 
 			'class' => 'btn btn-primary',
 			'icon' => UI::icon('move icon-white')
 		)); ?>
+		<?php endif; ?>
 
 		<span class="clearfix"></span>
 	</div>
@@ -39,7 +43,7 @@
 				<div class="item">
 					<div class="row-fluid">
 						<div class="title span7">
-							<?php if( ! AuthUser::hasPermission($page->get_permissions()) ): ?>
+							<?php if( ! ACL::check('page.edit') OR ! AuthUser::hasPermission( $page->get_permissions() ) ): ?>
 							<?php echo UI::icon('lock'); ?>
 							<em title="/"><?php echo $page->title; ?></em>
 							<?php else: ?>
@@ -52,9 +56,12 @@
 							<?php echo $page->get_public_anchor(); ?>
 						</div>
 						<div class="actions offset4 span1">
+							<?php if ( Acl::check( 'page.add')): ?>
 							<?php echo UI::button(NULL, array(
-								'icon' => UI::icon('plus'), 'href' => 'page/add/',
+								'icon' => UI::icon('plus'), 
+								'href' => Route::url('backend', array('controller' => 'page', 'action' => 'add')),
 								'class' => 'btn btn-mini')); ?>
+							<?php endif; ?>
 						</div>
 					</div>
 				</div>

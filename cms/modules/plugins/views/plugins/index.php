@@ -2,9 +2,12 @@
 	<td class="plugin-name">
 		<h5>
 			<% if (installed  && settings) { %>
-			<%= title %> <a href="/backend/plugins/settings/<%= id %>" class="btn pull-right">
+			<%= title %>
+			<?php if( ACL::check('plugins.settings')): ?>
+			<a href="/backend/plugins/settings/<%= id %>" class="btn pull-right">
 				<i class="icon-cog"></i> <%= __('Settings') %>
 			</a>
+			<?php endif; ?>
 			<% } else { %>
 				<%= title %>
 			<% } %>
@@ -13,11 +16,13 @@
 		<p class="muted"><%= description %></p>
 	</td>
 	<td class="plugin-version"><%= version %></td>
+	<?php if( ACL::check('plugins.change_status')): ?>
 	<td class="plugin-status">
 		<?php echo UI::button(NULL, array(
 			'class' => 'change-status btn btn-mini',
 		)); ?>
 	</td>
+	<?php endif; ?>
 </script>
 
 <div id="pluginsMap" class="widget widget-nopad">
@@ -33,7 +38,10 @@
 				<tr>
 					<th><?php echo __('Plugin name'); ?></th>
 					<th><?php echo __('Version'); ?></th>
+					
+					<?php if( ACL::check('plugins.change_status')): ?>
 					<th><?php echo __('Actions'); ?></th>
+					<?php endif; ?>
 				</tr>
 			</thead>
 			<tbody></tbody>

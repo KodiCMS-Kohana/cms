@@ -19,7 +19,10 @@ foreach ($oauth as $provider => $data)
 <div class="btn-group">
 	<?php foreach ($providers as $provider => $data): ?>
 	<?php echo UI::button(Arr::path($params, $provider.'.name'), array(
+		'icon' => UI::icon($provider),
+		'class' => 'btn btn-inverse',
 		'href' => Route::url('accounts-auth', array(
+			
 			'directory' => 'oauth', 
 			'controller' => $provider, 
 			'action' => 'login'))

@@ -78,8 +78,6 @@ class Model_Navigation_Section extends Model_Navigation_Abstract implements Coun
 	
 	public function & find_page_by_uri( $uri )
 	{
-		$url = URL::site($uri);
-		
 		$_page = NULL;
 		
 		foreach ($this->get_pages() as $page)
@@ -101,7 +99,6 @@ class Model_Navigation_Section extends Model_Navigation_Abstract implements Coun
 		foreach ($this->get_pages() as $page)
 		{
 			$this->counter += (int) $page->counter;
-			$this->permissions = Arr::merge($this->permissions, $page->permissions);
 		}
 		
 		return $this;

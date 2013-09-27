@@ -8,8 +8,13 @@ class Model_Widget_User_Logout extends Model_Widget_Decorator {
 	{
 		
 	}
+	
+	public function render( $params = array( ) )
+	{
+		return;
+	}
 
-	public function render($params = array())
+	public function on_page_load()
 	{
 		AuthUser::logout();
 		Observer::notify('admin_after_logout', array(AuthUser::getUserName()));

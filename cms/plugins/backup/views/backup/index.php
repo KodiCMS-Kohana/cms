@@ -1,11 +1,18 @@
 <div class="widget widget-nopad">
 	<div class="widget-header">
 		<?php echo UI::button(__('Create database backup'), array(
-			'icon' => UI::icon('list'), 'href' => 'backup/database'
+			'icon' => UI::icon('list'), 
+			'href' => Route::url('backend', array(
+				'controller' => 'backup',
+				'action' => 'database'
+			))
 		)); ?>
 
 		<?php echo UI::button(__('Create filesystem backup'), array(
-			'icon' => UI::icon('file'), 'href' => 'backup/filesystem'
+			'icon' => UI::icon('file'), 'href' => Route::url('backend', array(
+				'controller' => 'backup',
+				'action' => 'filesystem'
+			))
 		)); ?>
 	</div>
 
@@ -32,21 +39,34 @@
 				<tr>
 					<td><?php echo $data['date']; ?></td>
 					<th>
-						<?php echo HTML::anchor('backup/view/'.$filename, $filename, array('class' => 'popup fancybox.iframe')); ?>
+						<?php echo HTML::anchor(Route::url('backend', array(
+							'controller' => 'backup',
+							'action' => 'view', 'id' => $filename
+						)), $filename, array('class' => 'popup fancybox.iframe')); ?>
 					</th>
 					<td><?php echo $data['size']; ?></td>
 					<td>
 						<?php echo UI::button(NULL, array(
 							'class' => 'btn', 
-							'href' => 'download/'.Download::secure_path( BACKUP_PLUGIN_FOLDER . $filename), 
+							'href' => Route::url('downloader', array(
+								'path' => Download::secure_path( BACKUP_PLUGIN_FOLDER . $filename)
+							)),
 							'icon' => UI::icon( 'download' )
 						));?>
 						<?php echo UI::button(NULL, array(
-							'class' => 'btn btn-mini btn-success btn-confirm', 'href' => 'backup/restore/'.$filename, 
+							'class' => 'btn btn-mini btn-success btn-confirm', 
+							'href' => Route::url('backend', array(
+								'controller' => 'backup',
+								'action' => 'restore', 'id' => $filename
+							)), 
 							'icon' => UI::icon( 'off icon-white' )
 						));?> 
 						<?php echo UI::button(NULL, array(
-							'class' => 'btn btn-mini btn-danger btn-confirm', 'href' => 'backup/delete/'.$filename, 
+							'class' => 'btn btn-mini btn-danger btn-confirm', 
+							'href' => Route::url('backend', array(
+								'controller' => 'backup',
+								'action' => 'delete', 'id' => $filename
+							)), 
 							'icon' => UI::icon( 'trash icon-white' )
 						));
 						?>

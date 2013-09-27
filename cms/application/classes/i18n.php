@@ -46,8 +46,10 @@ class I18n extends Kohana_I18n {
 	 */
 	public static function detect_lang()
 	{
-		$browser_langs = array_keys(Request::accept_lang());		
-		return array_shift($browser_langs);
+		$browser_langs = array_keys(Request::accept_lang());
+		$lang = array_shift($browser_langs);
+				
+		return self::normalize_lang_key($lang);
 	}
 	
 	/**
@@ -56,34 +58,19 @@ class I18n extends Kohana_I18n {
 	 */
 	public static function available_langs()
 	{
-		$locale_names = Kohana::$config->load('locales');
-
-		$langs = array(
-			'en' => __($locale_names->get('en')),
-			'ru' => __($locale_names->get('ru')),
-		);
+		$langs = Kohana::$config->load('locales')->as_array();
 		
-		$paths = array(APPPATH, MODPATH);
-
-		if( defined( 'PLUGPATH' ))
+		$_langs = array();
+		foreach ($langs as $lang => $name)
 		{
-			$paths[] = PLUGPATH;
+			$_langs[self::normalize_lang_key($lang)] = $name;
 		}
-
-		if ($files = Kohana::list_files('i18n', $paths))
-		{
-			foreach ($files as $file)
-			{
-				$lang = pathinfo($file, PATHINFO_FILENAME);
-				
-				if(!in_array($lang, $langs))
-				{
-					$langs[$lang] = __($locale_names->get($lang));
-				}
-			}
-		}
-	
-		return $langs;
+		
+		return $_langs;
 	}
-
+	
+	public static function normalize_lang_key($lang)
+	{
+		return strtolower(str_replace(array(' ', '_'), '-', $lang));
+	}
 }

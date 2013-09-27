@@ -14,4 +14,9 @@ return array(
 	
 	'Deactivate plugin' => 'Деактивировать плагин',
 	'Documentation' => 'Документация',
+	
+	//============Permissions============//
+	'View plugins' => 'Видеть раздел',
+	'Edit plugin settings' => 'Редактировать настройки',
+	'Install(Uninstall) plugins' => 'Активировать/Деактивировать плагины'
 );

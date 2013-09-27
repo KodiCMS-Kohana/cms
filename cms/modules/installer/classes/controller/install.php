@@ -7,6 +7,8 @@ class Controller_Install extends Controller_System_Frontend
 	public function action_index()
 	{
 		Assets::js('install', ADMIN_RESOURCES . 'js/install.js', 'global');
+		Assets::css('select2', ADMIN_RESOURCES . 'libs/select2/select2.css', 'jquery');
+		Assets::js('select2', ADMIN_RESOURCES . 'libs/select2/select2.min.js', 'jquery');
 
 		$this->template->title = __( 'Installation' );
 
@@ -22,7 +24,8 @@ class Controller_Install extends Controller_System_Frontend
 			'url_suffix' => '.html',
 			'password_generate' => TRUE,
 			'timezone' => date_default_timezone_get(),
-			'cache_type' => 'sqlite'
+			'cache_type' => 'sqlite',
+			'locale' => I18n::detect_lang()
 		);
 
 		$this->template->content = View::factory('install/index', array(
@@ -180,7 +183,7 @@ class Controller_Install extends Controller_System_Frontend
 			->label('admin_dir_name', __( 'Admin dir name' ))
 			->label('username', __( 'Administrator username' ))
 			->label('email', __( 'Administrator email' ))
-			->label('password_field', __( 'Administrator password' ))
+			->label('password_field', __( 'Password' ))
 			->label('cache_type', __( 'Cache type' ));
 		
 		if(!isset($data['password_generate']))
@@ -188,7 +191,8 @@ class Controller_Install extends Controller_System_Frontend
 			$validation
 				->rule('password_field', 'min_length', array(':value', Kohana::$config->load('auth')->get( 'password_length' )))
 				->rule('password_field', 'not_empty')
-				->rule('password_confirm', 'matches', array(':validation', ':field', 'password_field'));
+				->rule('password_confirm', 'matches', array(':validation', ':field', 'password_field'))
+				->label('password_confirm', __( 'Confirm Password' ));
 		}
 
 		if ( !$validation->check() )
@@ -241,7 +245,7 @@ class Controller_Install extends Controller_System_Frontend
 			'TABLE_PREFIX_'			=> $post['table_prefix'],
 			'__ADMIN_PASSWORD__'	=> Auth::instance()->hash($post['password_field']),
 			'__DATE__'				=> date('Y-m-d H:i:s'),
-			'__LANG__'				=> I18n::lang()
+			'__LANG__'				=> Arr::get($post, 'locale'),
 		);
 		
 		$dump_content = str_replace(

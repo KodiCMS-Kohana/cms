@@ -5,17 +5,15 @@ return array(
 	'Documentation' => array(
 		array(
 			'name' => __('User Guide'), 
-			'url' => URL::backend('guide/doc'),
+			'url' => Route::url('backend', array('controller' => 'guide', 'action' => 'doc')),
 			'priority' => 101,
 			'icon' => 'book',
-			'permissions' => array()
 		),
 		array(
 			'name' => __('API Browser'), 
-			'url' => URL::backend('guide/api'),
+			'url' => Route::url('backend', array('controller' => 'guide', 'action' => 'api')),
 			'priority' => 102,
 			'icon' => 'beaker',
-			'permissions' => array()
 		)
 	)
 

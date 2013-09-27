@@ -2,7 +2,7 @@
 
 class KodiCMS_Controller_System_Backend extends Controller_System_Template
 {
-	public $auth_required = array('administrator', 'developer', 'editor');
+	public $auth_required = TRUE;
 
 	/**
 	 *
@@ -19,11 +19,6 @@ class KodiCMS_Controller_System_Backend extends Controller_System_Template
 		parent::before();
 		$navigation = Model_Navigation::get();
 		$this->page = Model_Navigation::$current;
-		
-		if( $this->page !== NULL AND ! AuthUser::hasPermission( $this->page->permissions ))
-		{
-			throw new HTTP_Exception_403('Access denied');
-		}
 		
 		if($this->auto_render === TRUE)
 		{
@@ -51,7 +46,7 @@ class KodiCMS_Controller_System_Backend extends Controller_System_Template
 			
 			$this->template->bind_global('navigation', $navigation);
 			
-			Assets::js('jquery', ADMIN_RESOURCES . 'libs/jquery-2.0.2.min.js');
+			Assets::js('jquery', ADMIN_RESOURCES . 'libs/jquery-2.0.3.min.js');
 			
 			Assets::css('jquery-ui', ADMIN_RESOURCES . 'libs/jquery-ui/css/flick/jquery-ui-1.10.2.custom.css', 'jquery');
 			Assets::js('jquery-ui', ADMIN_RESOURCES . 'libs/jquery-ui/js/jquery-ui-1.10.2.custom.min.js', 'jquery');

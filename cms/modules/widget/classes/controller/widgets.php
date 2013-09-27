@@ -11,15 +11,15 @@ class Controller_Widgets extends Controller_System_Backend {
 		Assets::css('widgets', ADMIN_RESOURCES . 'css/widgets.css');
 		
 		$this->breadcrumbs
-			->add(__('Widgets'), $this->request->controller());
+			->add(__('Widgets'), Route::url('backend', array(
+				'controller' => 'widgets'
+			)));
 	}
 
 	public function action_index()
 	{
 		$this->template->title = __('Widgets');
-		$this->template->content = View::factory( 'widgets/index');
 
-		
 		$this->template->content = View::factory( 'widgets/index', array(
 			'widgets' => ORM::factory('widget')->find_all()
 		));
@@ -33,7 +33,7 @@ class Controller_Widgets extends Controller_System_Backend {
 		if ( ! $widget->loaded() )
 		{
 			Messages::errors(__( 'Widget not found!' ) );
-			$this->go( 'widgets' );
+			$this->go_back();
 		}
 		
 		// check if trying to save
@@ -47,8 +47,15 @@ class Controller_Widgets extends Controller_System_Backend {
 		));
 		
 		$this->breadcrumbs
-			->add(__('Widget :name', array(':name' => $widget->name)), 'widgets/edit/' . $widget->id)
-			->add(__('Widget location'));
+			->add(__('Widget :name', array(
+				':name' => $widget->name)
+				), 
+				Route::url('backend', array(
+					'controller' => 'widgets',
+					'action' => 'edit',
+					'id' => $widget->id
+				))
+			)->add(__('Widget location'));
 		
 		$res_page_widgets = DB::select()
 			->from('page_widgets')
@@ -161,11 +168,15 @@ class Controller_Widgets extends Controller_System_Backend {
 		// save and quit or save and continue editing?
 		if ( $this->request->post('commit') !== NULL )
 		{
-			$this->go( 'widgets' );
+			$this->go();
 		}
 		else
 		{
-			$this->go( 'widgets/edit/' . $id );
+			$this->go(array(
+				'controller' => 'widgets',
+				'action' => 'edit',
+				'id' => $id
+			));
 		}
 	}
 	
@@ -178,7 +189,7 @@ class Controller_Widgets extends Controller_System_Backend {
 		if ( ! $widget )
 		{
 			Messages::errors(__( 'Widget not found!' ) );
-			$this->go( 'widgets' );
+			$this->go_back();
 		}
 		
 		$this->template->title = $widget->name;
@@ -204,7 +215,7 @@ class Controller_Widgets extends Controller_System_Backend {
 		// Если не создать View шаблон, не загружаем его
 		try
 		{
-			$content = View::factory( 'widgets/widget/' . $widget->backend_template(), array(
+			$content = View::factory( 'widgets/backend/' . $widget->backend_template(), array(
 					'widget' => $widget
 				))->set($widget->load_template_data());
 		}
@@ -227,8 +238,12 @@ class Controller_Widgets extends Controller_System_Backend {
 		try 
 		{
 			$widget
-				->set_values( $data )
-				->set_cache_settings( $data );
+				->set_values( $data );
+			
+			if( ACL::check( 'widgets.cache'))
+			{
+				$widget->set_cache_settings( $data );
+			}
 			
 			Widget_Manager::update($widget);
 		}
@@ -242,11 +257,15 @@ class Controller_Widgets extends Controller_System_Backend {
 		// save and quit or save and continue editing?
 		if ( $this->request->post('commit') !== NULL )
 		{
-			$this->go( 'widgets' );
+			$this->go();
 		}
 		else
 		{
-			$this->go( 'widgets/edit/' . $widget->id );
+			$this->go(array(
+				'controller' => 'widgets',
+				'action' => 'edit',
+				'id' => $widget->id
+			));
 		}
 	}
 	
@@ -255,6 +274,6 @@ class Controller_Widgets extends Controller_System_Backend {
 		$id = $this->request->param('id');
 		
 		Widget_Manager::remove(array($id));
-		$this->go( 'widgets' );
+		$this->go_back();
 	}
 }

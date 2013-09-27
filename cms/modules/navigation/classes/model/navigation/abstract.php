@@ -12,7 +12,7 @@ class Model_Navigation_Abstract {
 	 */
 	protected $_params = array(
 		'counter' => 0,
-		'permissions' => array('administrator')
+		'permissions' => NULL
 	);
 
 

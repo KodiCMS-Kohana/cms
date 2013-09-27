@@ -55,6 +55,7 @@ var cms = {
 		
 	message: function(msg, type) {
 		if(!type) type = 'success';
+		
 		window.top.$.jGrowl(decodeURI(msg), {theme: 'alert alert-' + type});
 		
 		if(type == 'error') {
@@ -425,8 +426,7 @@ cms.ui.add('btn-confirm', function() {
 		return false;
 	})
 }).add('select2', function() {
-	var select = $('select').not('.no-script');
-	select.select2();
+	$('select').not('.no-script').select2();
 });
 
 var Api = {
@@ -485,8 +485,7 @@ var Api = {
 	
 				if(response.redirect) {
 					$.get(window.top.CURRENT_URL, function(resp){
-						window.top.$('#content').html(resp);
-						
+//						window.top.$('#content').html(resp);
 						window.location = response.redirect + '?type=iframe';
 					});
 				}
@@ -494,7 +493,6 @@ var Api = {
 				
 				var $event = method + uri.replace(/\//g, ':');
 				window.top.$('body').trigger($event.toLowerCase(), [this._response.response]);
-				
 				if(typeof(callback) == 'function') callback(this._response);
 			}
 		}).always(function() { 
@@ -529,6 +527,22 @@ function calculateContentHeight() {
 	return contentContHeight - contentContPadding;
 }
 
+function parse_messages($messages, $type) {
+	for(text in $messages) {
+		console.log(text);
+		if(text == '_external') {
+			parse_messages($messages[text], $type);
+			continue;
+		}
+		
+		if($type == 'error'){
+			cms.error_field(text, $messages[text]);
+		}
+
+		cms.message($messages[text], $type);
+	}
+}
+
 // Run
 jQuery(document).ready(function () {
     // messages
@@ -538,14 +552,8 @@ jQuery(document).ready(function () {
     cms.init.run();
     cms.ui.init();
 	
-	for(error in MESSAGE_ERRORS) {
-		cms.message(MESSAGE_ERRORS[error], 'error');
-		cms.error_field(error, MESSAGE_ERRORS[error]);
-	}
-	
-	for(text in MESSAGE_SUCCESS) {
-		cms.message(MESSAGE_SUCCESS[text]);
-	}
+	parse_messages(MESSAGE_ERRORS, 'error');
+	parse_messages(MESSAGE_SUCCESS);
 });
 
 // Checkbox status

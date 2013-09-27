@@ -29,13 +29,15 @@ class KodiCMS_Controller_Setting extends Controller_System_Backend {
 			$data['allow_html_title'] = 'off';
 		}
 		
-		Observer::notify( 'save_settings', $this->request->post() );
-
 		Setting::saveFromData( $data );
 
+		Observer::notify( 'save_settings', $this->request->post() );
+
+		Kohana::$log->add(Log::INFO, 'Change settings')->write();
+		
 		Messages::success( __( 'Settings has been saved!' ) );
 
-		$this->go( 'setting' );
+		$this->go_back();
 	}
 	
 	public function action_clear_cache()
@@ -46,6 +48,8 @@ class KodiCMS_Controller_Setting extends Controller_System_Backend {
 		Kohana::cache('Kohana::find_file()', NULL, -1);
 		Kohana::cache('Route::cache()', NULL, -1);
 		Kohana::cache('profiler_application_stats', NULL, -1);
+		
+		Kohana::$log->add(Log::INFO, 'Clear cache')->write();
 		
 		Messages::success( __( 'Cache cleared' ) );
 		$this->go_back();

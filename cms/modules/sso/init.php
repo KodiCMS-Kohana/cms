@@ -1,21 +1,45 @@
 <?php defined('SYSPATH') OR die('No direct access allowed.');
 
-Route::set('accounts-auth', '('.ADMIN_DIR_NAME.'/)'.'<directory>/<controller>/<action>', array(
+$route = (IS_BACKEND ? '('.ADMIN_DIR_NAME.'/)' : '') . '<directory>/<controller>/<action>';
+$actions = array(
+	'identify',
+	'login', 'complete_login',
+	'register', 'complete_register',
+	'connect', 'complete_connect',
+	'disconnect', 'complete_disconnect'
+);
+
+Route::set('accounts-auth', $route, array(
 	'directory' => '(openid|oauth)', 
-	'action' => '('.implode('|', array(
-		'identify',
-		'login', 'complete_login',
-		'register', 'complete_register',
-		'connect', 'complete_connect',
-		'disconnect', 'complete_disconnect'
-	)).')'
+	'action' => '('.implode('|', $actions).')'
 ));
 
 Observer::observe('view_user_edit_plugins', function($user) {
+	
+	$providers  = array();
+	
+	foreach (Kohana::$config->load('oauth') as $provider => $data)
+	{
+		 if(
+				(isset($data['id']) AND empty($data['id']))
+			OR
+				(isset($data['key']) AND empty($data['key']))		
+			OR 
+				empty($data['secret'])
+			)
+			continue;
+
+		 $providers[$provider] = $data;
+	}
 	echo View::factory('accounts/userblock/edit', array(
 		'user' => $user,
-		'oauth' => Kohana::$config->load('oauth'),
-		'params' => Kohana::$config->load('social')->as_array()
+		'settings_link' => Route::url('backend', array(
+			'controller' => 'setting')
+		) . '#social-accounts-settings',
+		'params' => Kohana::$config->load('social')->as_array(),
+		'socials' => $user->socials->find_all(),
+		'providers' => $providers,
+		'linked' => array()
 	));
 });
 
@@ -36,6 +60,10 @@ if(IS_BACKEND)
 	});
 
 	Observer::observe('save_settings', function($post) {
-
+		if(!isset($post['setting']['oauth_register'])) 
+		{
+			Setting::set( 'oauth_register', 0 );
+			Setting::save();
+		}
 	});
 }

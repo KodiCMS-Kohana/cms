@@ -21,7 +21,7 @@ if($navigation !== NULL)
 
 			foreach ( $section as $item )
 			{
-				if( ! AuthUser::hasPermission($item->permissions) ) continue;
+//				if( ! AuthUser::hasPermission($item->permissions) ) continue;
 
 				if($item->divider === TRUE)
 				{
@@ -50,14 +50,16 @@ if($navigation !== NULL)
 				))
 				->add(
 					Bootstrap_Element_Button::factory(array(
-						'href' => 'user/edit/' . AuthUser::getId(), 'title' => __( 'Profile' )
+						'href' => Route::url('backend', array('controller' => 'users', 'action' => 'edit', 'id' => AuthUser::getId())),
+						'title' => __( 'Profile' )
 					))->icon('eye-open')
-					)
-					->add_divider()
-					->add(Bootstrap_Element_Button::factory(array(
-							'href' => 'logout', 'title' => __( 'Logout' )
+				)
+				->add_divider()
+				->add(
+					Bootstrap_Element_Button::factory(array(
+							'href' => Route::url('user', array('action' => 'logout')), 'title' => __( 'Logout' )
 					))->icon('signout')
-					)
+				)
 				)
 			->add_divider()
 			->add(Bootstrap_Element_Button::factory(array(
@@ -82,7 +84,7 @@ if($navigation !== NULL)
 		$nav = Bootstrap_Nav::factory();
 		foreach ( $section as $item )
 		{
-			if( ! AuthUser::hasPermission($item->permissions) ) continue;
+//			if( ! AuthUser::hasPermission($item->permissions) ) continue;
 
 			if($item->divider === TRUE) $nav->add_divider();
 

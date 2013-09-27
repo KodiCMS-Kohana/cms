@@ -34,7 +34,8 @@ Cookie::$salt = COOKIE_SALT;
  * Enable modules. Modules are referenced by a relative or absolute path.
  */
 Kohana::modules( array(
-	'kodicms'		=> MODPATH . 'kodicms',		// Core
+	'users'			=> MODPATH . 'users',
+	'kodicms'		=> MODPATH . 'kodicms',
 	'assets'		=> MODPATH . 'assets',		// Asset Manager
 	'cache'			=> MODPATH . 'cache',		// Cache manager
 	'database'		=> MODPATH . 'database',	// Database access
@@ -47,24 +48,23 @@ Kohana::modules( array(
 	'email'			=> MODPATH . 'email',
 	'email_queue'	=> MODPATH . 'email_queue',
 	'filesystem'	=> MODPATH . 'filesystem',
-	'navigation'	=> MODPATH . 'navigation',
 	'image'			=> MODPATH . 'image',
-	'plugins'		=> MODPATH . 'plugins',
 	'userguide'		=> MODPATH . 'userguide',	// User guide and API documentation,
-	'bootstrap'		=> MODPATH . 'bootstrap',
-	'breadcrumbs'	=> MODPATH . 'breadcrumbs',
-	'api'			=> MODPATH . 'api',
 	'scheduler'		=> MODPATH . 'scheduler',
 	'snippet'		=> MODPATH . 'snippet',
 	'widget'		=> MODPATH . 'widget',
 	'reflinks'		=> MODPATH . 'reflinks',
-	'behavior'		=> MODPATH . 'behavior',
 	'elfinder'		=> MODPATH . 'elfinder',
-	'ace'			=> MODPATH . 'ace',		// Core
+	'ace'			=> MODPATH . 'ace',
+	'api'			=> MODPATH . 'api',
+	'bootstrap'		=> MODPATH . 'bootstrap',
+	'navigation'	=> MODPATH . 'navigation',
+	'breadcrumbs'	=> MODPATH . 'breadcrumbs',
+	'behavior'		=> MODPATH . 'behavior',
+	'plugins'		=> MODPATH . 'plugins',
 ) );
 
-// Init settings
-Setting::init();
+Observer::notify('modules::afer_load');
 
 Route::set( 'admin_media', 'cms/media/<file>', array(
 	'file' => '.*'
@@ -100,7 +100,7 @@ Route::set( 'downloader', '('.ADMIN_DIR_NAME.'/)download/<path>', array(
 		'action' => 'index',
 	) );
 
-Route::set( 'admin', ADMIN_DIR_NAME.'(/<controller>(/<action>(/<id>)))')
+Route::set( 'backend', ADMIN_DIR_NAME.'(/<controller>(/<action>(/<id>)))')
 	->defaults( array(
 		'controller' => Setting::get('default_tab'),
 		'action' => 'index',

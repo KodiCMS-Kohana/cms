@@ -113,152 +113,6 @@ abstract class Model_Widget_Decorator {
 	 * @var array 
 	 */
 	protected $_data = array();
-
-	/**
-	 * 
-	 * @return string
-	 */
-	public function backend_template()
-	{
-		if($this->backend_template === NULL)
-		{
-			$this->backend_template = $this->type;
-		}
-		
-		return $this->backend_template;
-	}
-	
-	/**
-	 * 
-	 * @return string
-	 */
-	public function frontend_template()
-	{
-		if($this->frontend_template === NULL)
-		{
-			$this->frontend_template = $this->type;
-		}
-		
-		return $this->frontend_template;
-	}
-
-	/**
-	 * 
-	 * @param array $params
-	 */
-	public function render($params = array())
-	{
-		if(Kohana::$profiling === TRUE)
-		{
-			$benchmark = Profiler::start('Widget render', $this->name);
-		}
-
-		$this->_fetch_template();
-		
-		$allow_omments = (bool) Arr::get($params, 'comments');
-
-		if( $this->block != 'PRE' )
-		{
-			echo "<!--{Widget: {$this->name}}-->";
-
-//			if(AuthUser::isLoggedIn() AND Request::current()->headers('Content-Type') == 'text/html')
-//			{
-//				echo "<div class='widget-block'".
-//					" data-id='$this->id' data-section='widget' data-type='$this->type'>";
-//			}
-		}
-		
-		if( 
-			$this->caching === TRUE 
-		AND 
-			! Fragment::load($this->get_cache_id(), $this->cache_lifetime)
-		)
-		{
-			echo $this->_fetch_render($params);
-			Fragment::save_with_tags($this->cache_lifetime, $this->cache_tags);
-		}
-		else if( ! $this->caching )
-		{
-			echo $this->_fetch_render($params);
-		}
-
-		if( $this->block != 'PRE' )
-		{
-//			if(AuthUser::isLoggedIn() AND Request::current()->headers('Content-Type') == 'text/html')
-//			{
-//				$block_id = sprintf('obj.%x', crc32(rand().microtime()));
-//				
-//				echo "<div class='clearfix'></div></div>";
-//			}
-			echo "<!--{/Widget: {$this->name}}-->";
-		}
-		
-		if(isset($benchmark))
-		{
-			Profiler::stop($benchmark);
-		}
-	}
-	
-	protected function _fetch_template()
-	{
-		if( empty($this->template) ) 
-		{
-			if( ($this->template = Kohana::find_file('views', 'widgets/template/' . $this->frontend_template())) === FALSE  )
-			{
-				$this->template = Kohana::find_file('views', 'widgets/template/default');
-			}
-		}
-		else
-		{
-			$this->template = SNIPPETS_SYSPATH . $this->template . EXT;
-		}
-		
-		return $this->template;
-	}
-
-		/**
-	 * 
-	 * @param array $params
-	 * @return View
-	 */
-	protected function _fetch_render($params)
-	{
-		$params = Arr::merge($params, $this->template_params);
-		$context = & Context::instance();
-
-		$data = $this->fetch_data();
-		$data['params'] = $params;
-		$data['page'] = $context->get_page();
-	
-		return View_Front::factory($this->template, $data)
-			->bind('header', $this->header)
-			->bind('ctx', $this->get( 'ctx' ));
-	}
-	
-	/**
-	 * @return array
-	 */
-	abstract public function fetch_data();
-	
-	/**
-	 * @param array $data
-	 */
-	public function set_values(array $data)
-	{
-		foreach($data as $key => $value)
-		{
-			if( method_exists( $this, 'set_' . $key ))
-			{
-				$this->{'set_'.$key}($value);
-			}
-			else 
-			{
-				$this->{$key} = $value;
-			}
-		}
-		
-		return $this;
-	}
 	
 	/**
 	 * 
@@ -319,6 +173,141 @@ abstract class Model_Widget_Decorator {
 	public function & __get( $name )
 	{
 		return $this->get( $name );
+	}
+
+	/**
+	 * 
+	 * @return string
+	 */
+	public function backend_template()
+	{
+		if($this->backend_template === NULL)
+		{
+			$this->backend_template = $this->type;
+		}
+		
+		return $this->backend_template;
+	}
+	
+	/**
+	 * 
+	 * @return string
+	 */
+	public function frontend_template()
+	{
+		if($this->frontend_template === NULL)
+		{
+			$this->frontend_template = $this->type;
+		}
+		
+		return $this->frontend_template;
+	}
+
+	/**
+	 * 
+	 * @param array $params
+	 */
+	public function render($params = array())
+	{
+		if(Kohana::$profiling === TRUE)
+		{
+			$benchmark = Profiler::start('Widget render', $this->name);
+		}
+
+		$this->_fetch_template();
+		
+		$allow_omments = (bool) Arr::get($params, 'comments', TRUE);
+
+		if( $this->block != 'PRE' )
+		{
+			if($allow_omments)
+			{
+				echo "<!--{Widget: {$this->name}}-->";
+			}
+		}
+		
+		if( 
+			$this->caching === TRUE 
+		AND 
+			! Fragment::load($this->get_cache_id(), $this->cache_lifetime)
+		)
+		{
+			echo $this->_fetch_render($params);
+			Fragment::save_with_tags($this->cache_lifetime, $this->cache_tags);
+		}
+		else if( ! $this->caching )
+		{
+			echo $this->_fetch_render($params);
+		}
+
+		if( $this->block != 'PRE' )
+		{
+			if($allow_omments)
+			{
+				echo "<!--{/Widget: {$this->name}}-->";
+			}
+		}
+		
+		if(isset($benchmark))
+		{
+			Profiler::stop($benchmark);
+		}
+	}
+	
+	protected function _fetch_template()
+	{
+		if( empty($this->template) ) 
+		{
+			if( ($this->template = Kohana::find_file('views', 'widgets/frontend/' . $this->frontend_template())) === FALSE  )
+			{
+				$this->template = Kohana::find_file('views', 'widgets/frontend/default');
+			}
+		}
+		else
+		{
+			$this->template = SNIPPETS_SYSPATH . $this->template . EXT;
+		}
+		
+		return $this->template;
+	}
+
+	/**
+	 * 
+	 * @param array $params
+	 * @return View
+	 */
+	protected function _fetch_render($params)
+	{
+		$params = Arr::merge($params, $this->template_params);
+		$context = & Context::instance();
+
+		$data = $this->fetch_data();
+		$data['params'] = $params;
+		$data['page'] = $context->get_page();
+	
+		return View_Front::factory($this->template, $data)
+			->bind('header', $this->header)
+			->bind('ctx', $this->get( 'ctx' ));
+	}
+	
+	/**
+	 * @param array $data
+	 */
+	public function set_values(array $data)
+	{
+		foreach($data as $key => $value)
+		{
+			if( method_exists( $this, 'set_' . $key ))
+			{
+				$this->{$key} = $this->{'set_'.$key}($value);
+			}
+			else 
+			{
+				$this->{$key} = $value;
+			}
+		}
+		
+		return $this;
 	}
 
 	/**
@@ -410,15 +399,22 @@ abstract class Model_Widget_Decorator {
 	/**
 	 * 
 	 * @return array
+	 * @deprecated
 	 */
 	public function load_template_data()
 	{
-		return array();
+		return $this->backend_data();
 	}
 	
-	public function on_page_load() {}
 	
-	public function change_crumbs( &$crumbs) {}
+	/**
+	 * 
+	 * @return array
+	 */
+	public function backend_data()
+	{
+		return array();
+	}
 
 	/**
 	 * 
@@ -433,4 +429,14 @@ abstract class Model_Widget_Decorator {
 	{
 		$this->_ctx =& Context::instance();
 	}
+	
+	
+	public function on_page_load() {}
+	
+	public function change_crumbs( &$crumbs) {}
+	
+	/**
+	 * @return array
+	 */
+	abstract public function fetch_data();
 }

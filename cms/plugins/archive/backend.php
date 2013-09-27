@@ -1,5 +1,15 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct script access.' );
 
+Route::set( 'archive', ADMIN_DIR_NAME . '/archive/<id>' , array(
+	'id' => '[0-9]+',
+	'controller' => 'archive',
+	'action' => 'index',
+) )
+	->defaults( array(
+		'controller' => 'archive',
+		'action' => 'index',
+	) );
+
 $behaviors = array();
 foreach (Kohana::$config->load('behaviors') as $key => $behavior)
 {
@@ -27,8 +37,11 @@ foreach ($pages as $page)
 	Model_Navigation::get_section('Archive')
 		->add_page(new Model_Navigation_Page(array(
 			'name' => $page->title, 
-			'url' => URL::backend('archive/'.$page->id),
-			'permissions' => array(),
+			'url' => Route::url('archive', array(
+				'controller' => 'archive', 'id' => $page->id
+			)),
+			'permissions' => 'page.index',
+			'icon' => 'archive'
 		)), 999);
 }
 
@@ -36,12 +49,3 @@ Observer::observe(array('page_delete', 'page_edit_after_save'), function() {
 	Cache::instance()->delete('Database::cache(archive_section)');
 });
 
-Route::set( 'archive', ADMIN_DIR_NAME . '/archive/<id>' , array(
-	'id' => '[0-9]+',
-	'controller' => 'archive',
-	'action' => 'index',
-) )
-	->defaults( array(
-		'controller' => 'archive',
-		'action' => 'index',
-	) );

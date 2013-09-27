@@ -2,13 +2,16 @@
 
 class Controller_Snippet extends Controller_System_Backend {
 
-	public $auth_required = array( 'administrator', 'developer' );
-
 	public function before()
 	{
+		if($this->request->action() == 'edit' AND ACL::check('snippet.view' ))
+		{
+			$this->allowed_actions[] = 'edit';
+		}
+		
 		parent::before();
 		$this->breadcrumbs
-			->add(__('Snippets'), $this->request->controller());
+			->add(__('Snippets'), Route::url('backend', array('controller' => 'snippet')));
 	}
 
 	public function action_index()
@@ -70,6 +73,10 @@ class Controller_Snippet extends Controller_System_Backend {
 		}
 		else
 		{
+			Kohana::$log->add(Log::INFO, 'Snippet :name has been added', array(
+				':name' => $snippet->name
+			))->write();
+			
 			Messages::success( __( 'Snippet has been saved!' ) );
 			Observer::notify( 'snippet_after_add', array( $snippet ) );
 		}
@@ -79,11 +86,11 @@ class Controller_Snippet extends Controller_System_Backend {
 		// save and quit or save and continue editing?
 		if ( $this->request->post('commit') !== NULL )
 		{
-			$this->go( 'snippet' );
+			$this->go();
 		}
 		else
 		{
-			$this->go( 'snippet/edit/' . $snippet->name );
+			$this->go(array('action' => 'edit', 'id' => $snippet->name));
 		}
 	}
 
@@ -95,7 +102,7 @@ class Controller_Snippet extends Controller_System_Backend {
 		if ( !$snippet->is_exists() )
 		{
 			Messages::errors( __( 'Snippet not found!' ) );
-			$this->go( 'snippet' );
+			$this->go();
 		}
 
 		$this->template->title = __('Edit snippet');
@@ -103,7 +110,7 @@ class Controller_Snippet extends Controller_System_Backend {
 			->add($snippet_name);
 
 		// check if trying to save
-		if ( Request::current()->method() == Request::POST )
+		if ( Request::current()->method() == Request::POST AND ACL::check('snippet.edit'))
 		{
 			return $this->_edit( $snippet_name );
 		}
@@ -135,10 +142,14 @@ class Controller_Snippet extends Controller_System_Backend {
 		if ( !$status )
 		{
 			Messages::errors( __( 'Snippet has not been saved. Name must be unique!' ) );
-			$this->go( 'snippet/edit/' . $snippet->name );
+			$this->go(array('action' => 'edit', 'id' => $snippet->name));
 		}
 		else
 		{
+			Kohana::$log->add(Log::INFO, 'Snippet :name has been changed', array(
+				':name' => $snippet->name
+			))->write();
+			
 			Messages::success( __( 'Snippet has been saved!' ) );
 			Observer::notify( 'snippet_after_edit', array( $snippet ) );
 		}
@@ -146,11 +157,11 @@ class Controller_Snippet extends Controller_System_Backend {
 		// save and quit or save and continue editing?
 		if ( $this->request->post('commit') !== NULL )
 		{
-			$this->go( 'snippet' );
+			$this->go();
 		}
 		else
 		{
-			$this->go( 'snippet/edit/' . $snippet->name );
+			$this->go(array('action' => 'edit', 'id' => $snippet->name));
 		}
 	}
 
@@ -166,6 +177,10 @@ class Controller_Snippet extends Controller_System_Backend {
 		{
 			if ( $snippet->delete() )
 			{
+				Kohana::$log->add(Log::INFO, 'Snippet :name has been deleted', array(
+					':name' => $snippet_name
+				))->write();
+				
 				Messages::success( __( 'Snippet has been deleted!' ) );
 				Observer::notify( 'snippet_after_delete', array( $snippet_name ) );
 			}
@@ -179,7 +194,7 @@ class Controller_Snippet extends Controller_System_Backend {
 			Messages::errors( __( 'Snippet not found!' ) );
 		}
 
-		$this->go( 'snippet' );
+		$this->go();
 	}
 
 }

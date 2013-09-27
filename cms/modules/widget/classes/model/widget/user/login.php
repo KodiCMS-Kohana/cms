@@ -75,8 +75,13 @@ class Model_Widget_User_Login extends Model_Widget_Decorator {
 	{
 		
 	}
+	
+	public function render( $params = array( ) )
+	{
+		return;
+	}
 
-	public function render($params = array())
+	public function on_page_load()
 	{
 		if(Request::current()->method() !== Request::POST) return;
 
@@ -115,7 +120,7 @@ class Model_Widget_User_Login extends Model_Widget_Decorator {
 			Messages::errors( $data->errors( 'validation' ) );
 		}
 
-//		HTTP::redirect( Request::current()->referrer() );
+		HTTP::redirect( Request::current()->referrer() );
 	}
 	
 	public function get_next_url()

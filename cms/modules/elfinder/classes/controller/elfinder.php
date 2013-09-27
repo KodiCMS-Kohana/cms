@@ -8,7 +8,7 @@ class Controller_Elfinder extends Controller_System_Template {
 	{
 		parent::before();
 		
-		Assets::js('jquery', ADMIN_RESOURCES . 'libs/jquery-2.0.2.min.js');
+		Assets::js('jquery', ADMIN_RESOURCES . 'libs/jquery-2.0.3.min.js');
 		
 		Assets::css('jquery-ui', ADMIN_RESOURCES . 'libs/jquery-ui/css/flick/jquery-ui-1.10.2.custom.css', 'jquery');
 		Assets::js('jquery-ui', ADMIN_RESOURCES . 'libs/jquery-ui/js/jquery-ui-1.10.2.custom.min.js', 'jquery');
@@ -18,7 +18,7 @@ class Controller_Elfinder extends Controller_System_Template {
 		
 		Assets::css('elfinder', ADMIN_RESOURCES . 'libs/elfinder/css/elfinder.min.css');
 		Assets::js('elfinder', ADMIN_RESOURCES . 'libs/elfinder/js/elfinder.min.js', 'global');
-		Assets::js('elfinder.ru', ADMIN_RESOURCES . 'libs/elfinder/js/i18n/elfinder.ru.js', 'global');
+		Assets::js('elfinder.ru', ADMIN_RESOURCES . 'libs/elfinder/js/i18n/elfinder.ru.js', 'elfinder');
 
 		Assets::js('global', ADMIN_RESOURCES . 'js/backend.js', 'backbone');
 	}

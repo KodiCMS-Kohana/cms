@@ -1,16 +1,20 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct access allowed.' );
 
 class KodiCMS_Controller_Layout extends Controller_System_Backend {
-
-	public $auth_required = array( 'administrator', 'developer' );
+	
+	public $allowed_actions = array('rebuild');
 	
 	public function before()
 	{
+		if($this->request->action() == 'edit' AND ACL::check( 'layout.view' ))
+		{
+			$this->allowed_actions[] = 'edit';
+		}
+		
 		parent::before();
 		$this->breadcrumbs
-			->add(__('Layouts'), $this->request->controller());
+			->add(__('Layouts'), Route::url('backend', array('controller' => 'layout')));
 	}
-
 	public function action_index()
 	{
 		$this->template->title = __('Layouts');
@@ -80,10 +84,14 @@ class KodiCMS_Controller_Layout extends Controller_System_Backend {
 		if ( ! $status )
 		{
 			Messages::errors( __( 'Something went wrong!' ) );
-			$this->go( 'layout/add/' );
+			$this->go(array('action' => 'add'));
 		}
 		else
 		{
+			Kohana::$log->add(Log::INFO, 'Layout :name has been added!', array(
+				':name' => $layout->name
+			))->write();
+			
 			Messages::success( __( 'Layout has been saved!' ) );
 			Observer::notify( 'layout_after_add', array( $layout ) );
 		}
@@ -93,11 +101,11 @@ class KodiCMS_Controller_Layout extends Controller_System_Backend {
 		// save and quit or save and continue editing?
 		if ( $this->request->post('commit') !== NULL )
 		{
-			$this->go( 'layout' );
+			$this->go();
 		}
 		else
 		{
-			$this->go( 'layout/edit/' . $layout->name );
+			$this->go(array('action' => 'edit', 'id' => $layout->name));
 		}
 	}
 
@@ -109,14 +117,14 @@ class KodiCMS_Controller_Layout extends Controller_System_Backend {
 		if ( ! $layout->is_exists() )
 		{
 			Messages::errors(__( 'Layout not found!' ) );
-			$this->go( 'layout' );
+			$this->go();
 		}
 		
 		$this->breadcrumbs
 			->add($layout_name);
 
 		// check if trying to save
-		if ( Request::current()->method() == Request::POST )
+		if ( Request::current()->method() == Request::POST AND ACL::check('layout.edit') )
 		{
 			return $this->_edit( $layout );
 		}
@@ -148,6 +156,11 @@ class KodiCMS_Controller_Layout extends Controller_System_Backend {
 		}
 		else
 		{
+			Kohana::$log->add(Log::INFO, 'Layout :name has been edited', array(
+				':name' => $layout->name
+			))->write();
+			
+
 			Messages::success( __( 'Layout has been saved!' ) );
 			Observer::notify( 'layout_after_edit', array( $layout ) );
 		}
@@ -155,7 +168,7 @@ class KodiCMS_Controller_Layout extends Controller_System_Backend {
 		// save and quit or save and continue editing?
 		if ( $this->request->post('commit') !== NULL )
 		{
-			$this->go( 'layout' );
+			$this->go();
 		}
 		else
 		{
@@ -175,6 +188,10 @@ class KodiCMS_Controller_Layout extends Controller_System_Backend {
 		{
 			if ( $layout->delete() )
 			{
+				Kohana::$log->add(Log::INFO, 'Layout :name has been deleted', array(
+					':name' => $layout_name
+				))->write();
+				
 				Messages::success( __( 'Layout has been deleted!' ) );
 				Observer::notify( 'layout_after_delete', array( $layout_name ) );
 			}
@@ -188,7 +205,7 @@ class KodiCMS_Controller_Layout extends Controller_System_Backend {
 			Messages::errors( __( 'Layout is used! It CAN NOT be deleted!' ) );
 		}
 
-		$this->go_back();
+		$this->go();
 	}
 
 }

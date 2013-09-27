@@ -73,19 +73,27 @@ class UI {
 		return '<div class="page-header"><h1>' . $title . '</h1></div>';
 	}
 
-	public static function actions($page) 
+	public static function actions($page = NULL, $uri = NULL) 
 	{
+		if($uri === NULL)
+		{
+			$uri = Route::url('backend', array('controller' => $page));
+		}
+			
 		$actions = array(
 			UI::button(__('Save and Continue editing'), array(
-				'class' => 'btn btn-large btn-save', 'icon' => UI::icon('repeat'),
+				'class' => 'btn btn-large btn-save', 
+				'icon' => UI::icon('retweet'),
 				'name' => 'continue'
 			)),
 			UI::button(__('Save and Close'), array(
-				'class' => 'btn btn-info btn-save-close', 'icon' => UI::icon('ok icon-white'),
+				'class' => 'btn btn-info btn-save-close', 
+				'icon' => UI::icon('ok icon-white'),
 				'name' => 'commit'
 			)),
 			UI::button(__('Cancel'), array(
-				'href' => $page, 'icon' => UI::icon('remove'),
+				'href' => $uri, 
+				'icon' => UI::icon('ban-circle'),
 				'class' => 'btn btn-link btn-close'
 			))
 		);

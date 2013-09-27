@@ -1,5 +1,10 @@
-<?php echo Form::open(($action == 'edit') ? 'layout/edit/'. $layout->name : 'layout/add/', array(
-	'id' => 'layoutEditForm', 'class' => 'form-horizontal')); ?>
+<?php echo Form::open(Route::url('backend', array(
+	'controller' => 'layout', 
+	'action' => $action, 
+	'id' => $layout->name)), array(
+		'id' => 'layoutEditForm', 
+		'class' => 
+		'form-horizontal')); ?>
 
 	<?php echo Form::hidden('token', Security::token()); ?>
 	<?php echo Form::hidden('layout_name', $layout->name); ?>
@@ -35,11 +40,18 @@
 				'data-readonly'		=> ( ! $layout->is_exists() OR ($layout->is_exists() AND $layout->is_writable())) ? 'off' : 'on'
 			)); ?>
 		</div>
-		<?php if( ! $layout->is_exists() OR ($layout->is_exists() AND $layout->is_writable())): ?>
+		<?php if(
+			(ACL::check('layout.edit')
+		AND
+			(
+				! $layout->is_exists() 
+			OR 
+				($layout->is_exists() AND $layout->is_writable())
+			))
+		OR ! ACL::check( 'layout.view') ): ?>
 		<div class="form-actions widget-footer">
 			<?php echo UI::actions($page_name); ?>
 		</div>
 		<?php endif; ?>
 	</div>
 <?php echo Form::close(); ?>
-<!--/#layoutEditForm-->

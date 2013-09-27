@@ -5,5 +5,8 @@ return array(
 	'Today' => 'Сегодня',
 	'Month' => 'Месяц',
 	'Week' => 'Неделя',
-	'Day' => 'День'
+	'Day' => 'День',
+	
+	//============Permissions============//
+	'View scheduler' => 'Видеть раздел',
 );

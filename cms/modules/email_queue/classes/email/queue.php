@@ -43,6 +43,8 @@ class Email_Queue
 		$size = Kohana::$config->load('email_queue')->get('batch_size', 50);
 		
 		$emails = ORM::factory('email_queue')->find_batch( $size );
+		
+		Kohana::$log->add(Log::INFO, 'Send emails')->write();
 
 		foreach($emails as $email)
 		{
@@ -62,6 +64,10 @@ class Email_Queue
 			}
 		}
 		
+		Kohana::$log->add(Log::INFO, 'Send emails. Sent: :sent, failed: :failed', array(
+			':sent' => $stats['sent'], ':failed' => $stats['failed']
+		))->write();
+		
 		return $stats;
 	}
 	
@@ -79,6 +85,10 @@ class Email_Queue
 		
 		$emails = ORM::factory('email_queue')->find_batch();
 		
+		Kohana::$log->add(Log::INFO, 'Send emails with sleep, interval: :interval, size: :size.', array(
+			':interval' => $interval, ':size' => $size
+		))->write();
+
 		$i = 0;
 		foreach($emails as $email)
 		{
@@ -106,6 +116,10 @@ class Email_Queue
 			$i++;
 		}
 		
+		Kohana::$log->add(Log::INFO, 'Send emails with sleep. Sent: :sent, failed: :failed', array(
+			':sent' => $stats['sent'], ':failed' => $stats['failed']
+		))->write();
+
 		return $stats;
 	}
 }

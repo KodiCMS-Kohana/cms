@@ -123,6 +123,11 @@ class KodiCMS_Model_Page_Sitemap {
 			if( ! empty($page['childs']))
 			{
 				$found = $this->_find($page['childs'], $id);
+				
+				if(!empty($found)) 
+				{
+					return $found;
+				}
 			}
 		}
 		

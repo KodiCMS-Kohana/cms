@@ -18,8 +18,8 @@ return array(
 	'If there is no database password, leave it blank.'
 			=> 'Если у базы данных нет пароля &mdash; оставьте пустым.',
 	
-	'Usefull to prevent conflicts if you have, or plan to have, multiple Flexo installations with a single database.'
-			=> 'Укажите префикс, если хотите установить несколько версий Flexo в одну базу данных.',
+	'Usefull to prevent conflicts if you have, or plan to have, multiple :cms installations with a single database.'
+			=> 'Укажите префикс, если хотите установить несколько версий :cms в одну базу данных.',
 	
 	/********************* Other information *******************/
 	'Site information' => 'Настройки',

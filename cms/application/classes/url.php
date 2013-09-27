@@ -61,37 +61,6 @@ class URL extends Kohana_URL {
 	}
 
 	/**
-	 * TODO переработать класс
-	 * 
-	 * @param string $uri
-	 * @param string $protocol
-	 * @param boolean $index
-	 * @return string
-	 */
-	public static function site( $uri = '', $protocol = NULL, $index = TRUE )
-	{
-		$is_backend = NULL;
-		
-		if( defined( 'REST_BACKEND' )) 
-		{
-			$is_backend = REST_BACKEND;
-		}
-		else if( defined( 'IS_BACKEND' ) )
-		{
-			$is_backend = IS_BACKEND;
-		}
-
-		if ( $is_backend AND IS_INSTALLED )
-		{
-			return URL::backend($uri, $protocol, $index);
-		}
-		
-		if( ! $is_backend ) return URL::frontend($uri, $protocol, $index);
-
-		return parent::site($uri, $protocol, $index);
-	}
-
-	/**
 	 * 
 	 * @param string $uri
 	 * @param string $current

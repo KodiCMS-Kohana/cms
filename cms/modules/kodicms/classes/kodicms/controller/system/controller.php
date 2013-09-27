@@ -1,19 +1,12 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
-class KodiCMS_Controller_System_Controller extends Kohana_Controller
+class KodiCMS_Controller_System_Controller extends Controller
 {
 	public $query_params = FALSE;
 	
 	public function before()
 	{
 		parent::before();
-		
-		/*
-		 * Set current lang
-		 */
-		I18n::lang( Setting::get( 'default_locale', I18n::detect_lang() ) );
-		
-		I18n::available_langs();
 	}
 	
 	public function go_home()
@@ -30,7 +23,7 @@ class KodiCMS_Controller_System_Controller extends Kohana_Controller
 	
 	public function go_backend()
 	{
-		$this->go( Route::get( 'admin' )->uri(array(
+		$this->go( Route::get( 'backend' )->uri(array(
 			'controller' => str_replace(ADMIN_DIR_NAME . '/', '', Setting::get('default_tab')),
 		) ) );
 	}
@@ -57,18 +50,18 @@ class KodiCMS_Controller_System_Controller extends Kohana_Controller
 
 	public function go( $url = NULL, $code = 302 )
 	{
-		$route = array(
-			'controller' => $this->request->controller()
+		$route_params = array(
+			'controller' => strtolower($this->request->controller())
 		);
 
-		if ( is_array( $url ) )
+		if ( is_array( $url ) OR $url === NULL )
 		{
-			$route = array_merge( $route, $url );
-		}
-
-		if ( $url === NULL OR is_array( $url ) )
-		{
-			$url = Route::get( 'default' )->uri( $route );
+			if(is_array( $url ))
+			{
+				$route_params = Arr::merge( $route_params, $url );
+			}
+			
+			$url = Route::url('backend', $route_params);
 		}
 		
 		if( is_array( $this->query_params ) )

@@ -9,23 +9,16 @@ cms.init.add('widgets_edit', function() {
 				.attr('href', BASE_URL + '/snippet/edit/' + $option.val())
 	});
 
-	$('body').on('post:api:snippet', update_snippets_list);
-	$('body').on('put:api:snippet', update_snippets_list);
+	$('body').on('post:api-snippet', update_snippets_list);
+	$('body').on('put:api-snippet', update_snippets_list);
 	
 	function update_snippets_list(e, response) {
 		var select = $('#WidgetTemplate');
 
-		if(select.find('option[value="'+response.name+'"]'))
-			return;
-		else {
-			var $option = $('<option selected value="'+response.name+'">'+response.name+'</oprion>');
-			$('#WidgetTemplate')
-				.find('option:selected')
-					.removeAttr('selected')
-				.end()
-				.append($option)
-				.change();
-		}
+		select
+			.append($('<option>', {value: response.name, text: response.name}))
+			.select2('val', response.name)
+			.change();
 	}
 	
 	var cache_enabled = function() {
@@ -35,8 +28,7 @@ cms.init.add('widgets_edit', function() {
 		$cache_lifetime.prop('disabled', !$caching_input.prop('checked'));
 	}
 	
-	$('#caching').on('change', cache_enabled);
-	cache_enabled();
+	$('#caching').on('change', cache_enabled).change();
 	
 	$('.cache-time-label').on('click', function() {
 		$('#cache_lifetime').val($(this).data('time'));
@@ -44,7 +36,7 @@ cms.init.add('widgets_edit', function() {
 	});
 	
 	$('#cache_lifetime').on('keyup', function() {
-		higlight_cache_time();
+		higlight_cache_time();		
 	});
 	
 	function higlight_cache_time() {
@@ -53,9 +45,10 @@ cms.init.add('widgets_edit', function() {
 			if($('#cache_lifetime').val() == $(this).data('time'))
 				$(this).addClass('label-success');
 		})
+		
+		 $('#caching').check();
+		 cache_enabled();
 	};
-	
-	higlight_cache_time();
 });
 
 cms.init.add('page_edit', function() {

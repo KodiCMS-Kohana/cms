@@ -17,3 +17,8 @@ Observer::observe('page_add_after_save', function($page) {
 		ORM::factory('page_field')->copy($post_data['from_page_id'], $page->id);
 	}
 });
+
+// Init settings
+Observer::observe('modules::afer_load', function() {
+	Setting::init();
+});

@@ -1,4 +1,4 @@
-<?php echo form::open('setting', array(
+<?php echo form::open(Route::url('backend', array('controller' => 'setting')), array(
 	'id' => 'settingForm', 'class' => 'form-horizontal'
 )); ?>
 	<?php echo Form::hidden('token', Security::token()); ?>
@@ -32,20 +32,20 @@
 	<div class="widget-header">
 		<h3>
 			<?php echo __( 'Site options' ); ?>
+			
+			<?php if( ACL::check('setting.clear_cache')): ?>
 			<?php echo UI::button(__('Clear cache'), array(
-				'icon' => UI::icon( 'stethoscope' ), 'href' => 'setting/clear_cache',
+				'icon' => UI::icon( 'stethoscope' ), 
+				'href' => Route::url('backend', array(
+					'controller' => 'setting', 
+					'action' => 'clear_cache'
+				)),
 				'class' => 'btn btn-warning'
 			)); ?>
+			<?php endif; ?>
 		</h3>
 	</div>
 	<div class="widget-content">
-		<div class="control-group">
-			<?php echo Form::label('setting_default_locale', __('Interface language'), array('class' => 'control-label')); ?>
-			<div class="controls">
-				<?php echo Form::select('setting[default_locale]', I18n::available_langs(), Setting::get('default_locale', I18n::lang()), array(
-					'id' => 'setting_default_locale')); ?>
-			</div>
-		</div>
 		<div class="control-group">
 			<?php echo Form::label('setting_date_format', __('Date format'), array('class' => 'control-label')); ?>
 			<div class="controls">

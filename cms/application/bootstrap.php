@@ -57,6 +57,14 @@ spl_autoload_register(array('Kohana', 'auto_load_lowercase'));
 ini_set('unserialize_callback_func', 'spl_autoload_call');
 
 /**
+ * Set the mb_substitute_character to "none"
+ *
+ * @link http://www.php.net/manual/function.mb-substitute-character.php
+ */
+mb_substitute_character('none');
+
+
+/**
  * Set Kohana::$environment if a 'KOHANA_ENV' environment variable has been supplied.
  *
  * Note: If you supply an invalid environment name, a PHP warning will be thrown
@@ -83,6 +91,12 @@ else if(IS_INSTALLED)
  */
 I18n::lang('en_US');
 
+if (isset($_SERVER['SERVER_PROTOCOL']))
+{
+	// Replace the default protocol.
+	HTTP::$protocol = $_SERVER['SERVER_PROTOCOL'];
+}
+
 
 /**
  * InitializeCore, setting the default options.
@@ -106,15 +120,17 @@ Kohana::init( array(
 
 define('CMS_NAME',			'KodiCMS');
 define('CMS_SITE',			'http://www.kodicms.ru');
-define('CMS_VERSION',		'5.14.0');
+define('CMS_VERSION',		'6.0.0');
 
 if(PHP_SAPI != 'cli')
 {
 	define('BASE_URL',		URL::base('http'));
-	define('SITE_HTOST',	str_replace('www.', '', $_SERVER['HTTP_HOST']));
+	define('SITE_HOST',		str_replace('www.', '', $_SERVER['HTTP_HOST']));
 }
 
 if( ! defined( 'BASE_URL' ) ) define('BASE_URL', '/');
+if( ! defined( 'SITE_HOST' ) ) define('SITE_HOST', 'test');
+
 define('ADMIN_RESOURCES',	BASE_URL . 'cms/media/');
 
 /**

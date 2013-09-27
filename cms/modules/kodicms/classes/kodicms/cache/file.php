@@ -27,9 +27,10 @@ class KodiCMS_Cache_File extends Kohana_Cache_File implements Cache_Tagging {
 		// Setup parent
 		parent::__construct($config);
 		
+		$directory = Arr::get($this->_config, 'cache_dir', Kohana::$cache_dir) . DIRECTORY_SEPARATOR . 'tags';
+		
 		try
 		{
-			$directory = Arr::get($this->_config, 'cache_dir', Kohana::$cache_dir) . DIRECTORY_SEPARATOR . 'tags';
 			$this->_tags_cache_dir = new SplFileInfo($directory);
 		}
 		// PHP < 5.3 exception handle
@@ -46,19 +47,19 @@ class KodiCMS_Cache_File extends Kohana_Cache_File implements Cache_Tagging {
 		// If the defined directory is a file, get outta here
 		if ($this->_tags_cache_dir->isFile())
 		{
-			throw new Cache_Exception('Unable to create cache directory as a file already exists : :resource', array(':resource' => $this->_tags_cache_dir->getRealPath()));
+			throw new Cache_Exception('Unable to create cache directory as a file already exists : :resource', array(':resource' => $directory));
 		}
 
 		// Check the read status of the directory
 		if ( ! $this->_tags_cache_dir->isReadable())
 		{
-			throw new Cache_Exception('Unable to read from the cache directory :resource', array(':resource' => $this->_tags_cache_dir->getRealPath()));
+			throw new Cache_Exception('Unable to read from the cache directory :resource', array(':resource' => $directory));
 		}
 
 		// Check the write status of the directory
 		if ( ! $this->_tags_cache_dir->isWritable())
 		{
-			throw new Cache_Exception('Unable to write to the cache directory :resource', array(':resource' => $this->_tags_cache_dir->getRealPath()));
+			throw new Cache_Exception('Unable to write to the cache directory :resource', array(':resource' => $directory));
 		}
 		
 	}

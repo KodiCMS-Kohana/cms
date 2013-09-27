@@ -4,24 +4,19 @@ return array(
 
 	'System' => array(
 		array(
-			'name' => __('Settings'), 
-			'url' => URL::backend('setting'),
+			'name' => __('Settings'),
+			'url' => Route::url('backend', array('controller' => 'setting')),
+			'permissions' => 'setting.index',
 			'priority' => 100,
 			'icon' => 'cog',
-		),
-		array(
-			'name' => __('Users'), 
-			'url' => URL::backend('user'),
-			'priority' => 200,
-			'icon' => 'group'
 		)
 	),
 	
 	'Design' => array(
 		array(
 			'name' => __('Layouts'), 
-			'url' => URL::backend('layout'),
-			'permissions' => array('administrator','developer'),
+			'url' => Route::url('backend', array('controller' => 'layout')),
+			'permissions' => 'layout.index',
 			'priority' => 100,
 			'icon' => 'desktop'
 		)
@@ -29,9 +24,9 @@ return array(
 	
 	'Content' => array(
 		array(
-			'name' => __('Pages'), 
+			'name' => __('Pages'),
 			'url' => URL::backend('page'),
-			'permissions' => array('administrator','developer','editor'),
+			'permissions' => 'page.index',
 			'priority' => 100,
 			'icon' => 'sitemap'
 		)

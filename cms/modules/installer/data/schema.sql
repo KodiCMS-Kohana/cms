@@ -24,9 +24,10 @@ CREATE TABLE `TABLE_PREFIX_pages` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(255) DEFAULT NULL,
   `slug` varchar(100) DEFAULT NULL,
-  `breadcrumb` varchar(160) DEFAULT NULL,
-  `keywords` varchar(255) DEFAULT NULL,
-  `description` text,
+  `breadcrumb` varchar(160) DEFAULT '',
+  `meta_title` varchar(255) DEFAULT '',
+  `meta_keywords` varchar(255) DEFAULT '',
+  `meta_description` text,
   `parent_id` int(11) unsigned DEFAULT NULL,
   `layout_file` varchar(250) NOT NULL,
   `behavior_id` varchar(25) NOT NULL,
@@ -132,6 +133,7 @@ CREATE TABLE IF NOT EXISTS `TABLE_PREFIX_user_profiles` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL,
   `name` varchar(255) NOT NULL,
+  `locale` varchar(10) NOT NULL DEFAULT 'en-us',
   `notice` tinyint(1) NOT NULL DEFAULT '0',
   `created_on` datetime NOT NULL,
   PRIMARY KEY (`id`),
@@ -180,6 +182,12 @@ CREATE TABLE `TABLE_PREFIX_roles_users` (
   `role_id` int(10) unsigned NOT NULL,
   PRIMARY KEY (`user_id`,`role_id`),
   KEY `fk_role_id` (`role_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `TABLE_PREFIX_roles_permissions` (
+  `role_id` int(5) unsigned NOT NULL,
+  `action` varchar(255) NOT NULL,
+  UNIQUE KEY `role_id` (`role_id`,`action`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `TABLE_PREFIX_email_queues` (
@@ -245,6 +253,9 @@ ALTER TABLE `TABLE_PREFIX_page_behavior_settings`
 ALTER TABLE `TABLE_PREFIX_roles_users`
   ADD CONSTRAINT `roles_users_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `TABLE_PREFIX_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `roles_users_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `TABLE_PREFIX_roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `TABLE_PREFIX_roles_permissions`
+  ADD CONSTRAINT `roles_permissions_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `TABLE_PREFIX_roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `TABLE_PREFIX_user_profiles`
   ADD CONSTRAINT `user_profiles_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `TABLE_PREFIX_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
