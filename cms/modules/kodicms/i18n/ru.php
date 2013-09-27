@@ -233,6 +233,8 @@ return array(
 	
 	//============Permissions============//
 	'Permissions' => 'Права',
+	'Allow' => 'Разрешить',
+	'Deny' => 'Запретить',
 	'View layouts' => 'Видеть раздел',
 	'Delete layout' => 'Удаление шаблонов',
 	'View pages' => 'Видеть раздел',
