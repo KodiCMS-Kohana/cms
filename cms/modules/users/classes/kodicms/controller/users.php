@@ -228,7 +228,7 @@ class KodiCMS_Controller_Users extends Controller_System_Backend {
 		if ( $user->delete() )
 		{
 			Messages::success( __( 'User has been deleted!' ) );
-			Observer::notify( 'user_after_delete', $user->name );
+			Observer::notify( 'user_after_delete', $id );
 		}
 		else
 		{
