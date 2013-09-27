@@ -33,7 +33,7 @@ class Kohana_Minion_Exception extends Kohana_Exception {
 			{
 				echo Kohana_Exception::text($e);
 			}
-			
+
 			$exit_code = $e->getCode();
 
 			// Never exit "0" after an exception.
@@ -59,6 +59,6 @@ class Kohana_Minion_Exception extends Kohana_Exception {
 
 	public function format_for_cli()
 	{
-		return Kohana_Exception::text($e);
+		return Kohana_Exception::text($this);
 	}
 }
