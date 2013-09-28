@@ -182,6 +182,8 @@ https://github.com/butschster/kodicms/issues
 
 ## Changelog
 
+ * Исправлен механизм установки виджетов для всех страниц (issue #181)
+
 ### 6.0.0
 
  * Добавлен раздел "Роли"

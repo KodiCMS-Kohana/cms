@@ -1,16 +1,5 @@
 <script>
 	var BLOCKS = <?php echo json_encode($blocks); ?>;
-	
-	$(function() {
-		$('#select_for_all').click(function(){
-			var value = $('input[name="select_for_all"]').val();
-			console.log(value);
-			$('select.blocks').select2("val", value);
-			return false;
-		});
-	})
-	
-
 </script>
 <div class="widget">
 	<?php echo Form::open(Request::current()->uri()); ?>
@@ -24,8 +13,8 @@
 			<thead>
 				<tr>
 					<th><?php echo __('Layout block'); ?></th>
-					<th><?php echo __('Page'); ?></th>
 					<th></th>
+					<th><?php echo __('Page'); ?></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -73,7 +62,7 @@ function recurse_pages( $pages, $spaces = 0, $blocks = array(), $page_widgets = 
 		$data .= '<tr data-id="'.$page['id'].'">';
 		$data .= '<td>';
 		$data .= Form::select('blocks[' . $page['id'] . ']', $current_page_blocks, $current_block, array('class' => 'blocks') );
-		$data .= '</td></td><td>';
+		$data .= '</td><td></td>';
 		$data .= '<th>' . str_repeat('- ', $spaces) . $page['title'] . '</th>';
 		$data .= '</tr>';
 		
