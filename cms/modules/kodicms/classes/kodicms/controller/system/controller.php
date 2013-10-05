@@ -6,6 +6,7 @@ class KodiCMS_Controller_System_Controller extends Controller
 	
 	public function before()
 	{
+		Context::instance()->request($this->request);
 		parent::before();
 	}
 	
