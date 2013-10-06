@@ -182,7 +182,8 @@ https://github.com/butschster/kodicms/issues
 
 ## Changelog
 
- * Исправлен механизм установки виджетов для всех страниц (issue #181)
+ * [bug] При работе с Context из backend в нем не работал Request
+ * [bug] Исправлен механизм установки виджетов для всех страниц (issue #181)
 
 ### 6.0.0
 
