@@ -9,3 +9,4 @@ nbproject/*
 !/cms/logs/*.html
 /.idea/
 /public/.tmb/
+cms/media/js/i18n

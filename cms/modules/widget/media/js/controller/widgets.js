@@ -99,3 +99,18 @@ cms.init.add('page_edit', function() {
 		});
 	}
 });
+
+cms.init.add('widgets_location', function() {
+	$('#select_for_all').click(function(){
+		var value = $('input[name="select_for_all"]').val();
+		
+		if(!value.length) return false;
+
+		$('select.blocks').each(function() {
+			if(val = $(this).find('option[value*="'+value+'"]').val())
+				$(this).select2("val", val);
+		});
+
+		return false;
+	});
+});
