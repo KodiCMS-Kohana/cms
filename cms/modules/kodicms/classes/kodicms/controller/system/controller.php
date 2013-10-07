@@ -67,7 +67,8 @@ class KodiCMS_Controller_System_Controller extends Controller
 		
 		if( is_array( $this->query_params ) )
 		{
-			$url .= URL::query( $this->query_params, FALSE);
+			$url = preg_replace('/\?.*/', '', $url);
+			$url .= URL::query( $this->query_params, TRUE);
 		}
 
 		$this->redirect( $url, $code );

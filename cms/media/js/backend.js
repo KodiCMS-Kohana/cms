@@ -394,7 +394,7 @@ cms.ui.add('btn-confirm', function() {
 		openEffect	: 'none',
 		closeEffect	: 'none',
 		beforeLoad: function() {
-			this.href += '?type=iframe';
+			this.href = updateQueryStringParameter(this.href, 'type', 'iframe');
 			this.title = $(this.element).html();
 		},
 		helpers : {
@@ -493,6 +493,7 @@ var Api = {
 				
 				var $event = method + uri.replace(/\//g, ':');
 				window.top.$('body').trigger($event.toLowerCase(), [this._response.response]);
+				console.log($event.toLowerCase());
 				if(typeof(callback) == 'function') callback(this._response);
 			}
 		}).always(function() { 
@@ -512,6 +513,17 @@ var Api = {
 	},
 	response: function() {
 		return this._response;
+	}
+}
+
+function updateQueryStringParameter(uri, key, value) {
+	var re = new RegExp("([?|&])" + key + "=.*?(&|$)", "i");
+	separator = uri.indexOf('?') !== -1 ? "&" : "?";
+	if (uri.match(re)) {
+		return uri.replace(re, '$1' + key + "=" + value + '$2');
+	}
+	else {
+		return uri + separator + key + "=" + value;
 	}
 }
 
