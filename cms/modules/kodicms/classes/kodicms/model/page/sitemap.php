@@ -35,9 +35,9 @@ class KodiCMS_Model_Page_Sitemap {
 			$_pages = array();
 			foreach ($res_pages as $page)
 			{
-				$page->uri = '';
+				$page->uri = '/' . $page->get_uri();
 				$page->level = 0;
-				$page->is_active = $current_page == $page->id;
+				$page->is_active = URL::match($page->uri);
 				$_pages[$page->id] = $page->as_array();
 			}
 
@@ -64,10 +64,6 @@ class KodiCMS_Model_Page_Sitemap {
 						
 						if($_page['is_active'])
 							$page['is_active'] = TRUE;
-
-						$_page['uri'] = $_page['slug'];
-						if(isset($page['uri']))
-							$_page['uri'] = $page['uri'] . '/' . $_page['uri'];
 					}
 
 					$page['childs'] = $pages[$page['id']];
