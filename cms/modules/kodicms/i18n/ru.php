@@ -242,7 +242,7 @@ return array(
 	'Edit pages' => 'Редактировать страницы',
 	'Sort pages' => 'Сортировать',
 	'Set page permissions' => 'Устанавливать права доступа',
-	'Manage custom fields' => 'Укравлять дополнительными полями',
+	'Manage custom fields' => 'Управлять дополнительными полями',
 	'Manage parts' => 'Управлять частями страниц',
 	'Delete pages' => 'Удалять страницы',
 	
