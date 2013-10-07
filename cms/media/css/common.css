@@ -6566,7 +6566,7 @@ a .icon-flip-vertical:before {
   -webkit-border-radius: 0 0 5px 5px;
   -moz-border-radius: 0 0 5px 5px;
   border-radius: 0 0 5px 5px;
-  padding: 15px auto;
+  padding: 10px 15px;
   margin: 0;
 }
 .widget.widget-nopad .widget-content {
@@ -6934,6 +6934,7 @@ legend:after {
   line-height: .8em;
 }
 .list-group {
+  margin-left: 0;
   margin-bottom: 20px;
   padding-left: 0;
 }
@@ -6963,14 +6964,17 @@ legend:after {
   border-bottom-left-radius: 4px;
 }
 .list-group-item > .action,
-.list-group-item .bage,
+.list-group-item .badge,
 .list-group-item .label {
   float: right;
 }
 .list-group-item > .action  + .action,
-.list-group-item .bage  + .action,
+.list-group-item .badge  + .action,
 .list-group-item .label  + .action {
   margin-right: 5px;
+}
+.list-group-item > a.list-group-item-link {
+  color: #08c;
 }
 a.list-group-item {
   color: #08c;
@@ -7000,6 +7004,11 @@ a.list-group-item:focus {
 .list-group-item.active:hover .list-group-item-text,
 .list-group-item.active:focus .list-group-item-text {
   color: #99ddff;
+}
+.list-group-item.active > .list-group-item-link,
+.list-group-item.active:hover > .list-group-item-link,
+.list-group-item.active:focus > .list-group-item-link {
+  color: #fff;
 }
 .list-group-item-heading {
   margin-top: 0;
