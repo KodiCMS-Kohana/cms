@@ -218,12 +218,14 @@ abstract class Model_Widget_Decorator {
 		
 		$allow_omments = (bool) Arr::get($params, 'comments', TRUE);
 
-		if( $this->block != 'PRE' )
+		if( $this->block == 'PRE' OR $this->block == 'POST' )
 		{
-			if($allow_omments)
-			{
-				echo "<!--{Widget: {$this->name}}-->";
-			}
+			$allow_omments = FALSE;
+		}
+		
+		if($allow_omments)
+		{
+			echo "<!--{Widget: {$this->name}}-->";
 		}
 		
 		if( 
@@ -240,12 +242,9 @@ abstract class Model_Widget_Decorator {
 			echo $this->_fetch_render($params);
 		}
 
-		if( $this->block != 'PRE' )
+		if($allow_omments)
 		{
-			if($allow_omments)
-			{
-				echo "<!--{/Widget: {$this->name}}-->";
-			}
+			echo "<!--{/Widget: {$this->name}}-->";
 		}
 		
 		if(isset($benchmark))
