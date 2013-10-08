@@ -997,7 +997,9 @@ class KodiCMS_Model_Page_Front {
 	 */
 	public function mime()
 	{
-		return File::mime_by_ext(pathinfo($this->url(), PATHINFO_EXTENSION));
+		$mime = File::mime_by_ext(pathinfo($this->url(), PATHINFO_EXTENSION));
+
+		return $mime === FALSE ? 'text/html' : $mime;
 	}
 
 	/**
