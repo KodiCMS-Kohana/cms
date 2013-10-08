@@ -102,18 +102,12 @@ class KodiCMS_Controller_Front extends Controller_System_Controller
 		// Если в начтройках выключен режим отладки, то включить etag кеширование
 		if( Setting::get( 'debug ') == 'no' )
 		{
-			$this
-				->check_cache(sha1($html));
-	
-			$this->response
-				->headers('last-modified', date('r', strtotime($page->updated_on)));
+			$this->check_cache(sha1($html));
+			$this->response->headers('last-modified', date('r', strtotime($page->updated_on)));
 		}
 		
-		if($mime = $page->mime())
-		{
-			$this->response
-				->headers('Content-Type',  $mime );
-		}
+		$this->response->headers('Content-Type',  $mime );
+		$this->response->headers('X-Powered-CMS',  CMS_NAME . ' ' . CMS_VERSION );
 		
 		echo $html;
 	}
