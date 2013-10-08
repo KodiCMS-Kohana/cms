@@ -1,19 +1,15 @@
 <!DOCTYPE html>
 <html lang="<?php echo I18n::lang(); ?>">
 	<head>
-		<title><?php echo $page->meta_title(); ?></title>
-
-		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-		<meta name="robots" content="index, follow" />
-		<meta name="description" content="<?php echo $page->meta_description(Setting::get('site_description')); ?>" />
-		<meta name="keywords" content="<?php echo $page->meta_keywords('default, keywords, here'); ?>" />
-		<meta name="author" content="Author Name" />
-		
-		<?php echo HTML::script( PUBLIC_URL . 'js/jquery-1.9.0.min.js' ) . "\n"; ?>
-		<?php echo HTML::script( PUBLIC_URL . 'js/bootstrap.min.js' ) . "\n"; ?>
-		<?php echo HTML::script( PUBLIC_URL . 'js/holder.js' ) . "\n"; ?>
-
-		<?php echo HTML::style( PUBLIC_URL . 'css/bootstrap.min.css' ) . "\n"; ?>
+		<?php
+		echo Meta::factory($page)
+				->group('author', '<meta name="author" content="butschster" />')
+				->group('robots', '<meta name="robots" content="index, follow" />')
+				->js('jquery', PUBLIC_URL . 'js/jquery-1.9.0.min.js')
+				->js('bootstrap', PUBLIC_URL . 'js/bootstrap.min.js', 'jquery')
+				->js('holder', PUBLIC_URL . 'js/holder.js', 'jquery')
+				->css('bootstrap', PUBLIC_URL . 'css/bootstrap.min.css'); 
+		?>
 	</head>
 	<body>
 		<div class="container">
