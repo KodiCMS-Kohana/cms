@@ -2,7 +2,7 @@
 	
 <?php 
 	$_blocks = array(
-		0 => '----', 'PRE' => __('Before page render')
+		0 => '----', 'PRE' => __('Before page render'), 'POST' => __('After page render')
 	);
 	$_blocks += $blocks;
 ?>

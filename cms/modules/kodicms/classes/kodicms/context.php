@@ -289,7 +289,8 @@ class KodiCMS_Context {
 				
 				if($widget instanceof Model_Widget_Decorator)
 				{
-					Observer::observe('load_blocks', array(& $widget, 'on_page_load'));
+					Observer::observe('on_page_load', array(& $widget, 'on_page_load'));
+					Observer::observe('after_page_load', array(& $widget, 'after_page_load'));
 				}
 			}
 		}
@@ -388,7 +389,7 @@ class KodiCMS_Context {
 	}
 
 	/**
-	 * Каждый виджет может добавлять или имзенять хлебные крошки на странице
+	 * Каждый виджет может добавлять или изменять хлебные крошки на странице
 	 * Этот метод обходит все виджеты и запускает метод change_crumbs()
 	 */
 	public function build_crumbs()

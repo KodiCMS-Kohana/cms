@@ -50,8 +50,6 @@ class KodiCMS_Controller_Front extends Controller_System_Controller
 	private function _render($page)
 	{
 		$this->_ctx->set_page($page);
-		
-		Observer::notify('frontpage_found', $page);
 
 		// If page needs login, redirect to login
 		if ($page->needs_login() == Model_Page::LOGIN_REQUIRED)
@@ -68,7 +66,7 @@ class KodiCMS_Controller_Front extends Controller_System_Controller
 			}
 		}
 		
-		Block::run('PRE');
+		Observer::notify('frontpage_found', $page);
 		
 		$this->_ctx->build_crumbs();
 		
@@ -117,8 +115,13 @@ class KodiCMS_Controller_Front extends Controller_System_Controller
 				->headers('Content-Type',  $mime );
 		}
 		
-		$this->response
-			->body($html);			
-			
+		echo $html;
+	}
+	
+	public function after()
+	{
+		parent::after();
+
+		Observer::notify('frontpage_after_render');
 	}
 }

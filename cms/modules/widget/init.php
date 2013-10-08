@@ -9,9 +9,7 @@ Observer::observe( 'template_before_render',  function($request) {
 });
 
 
-//Вставка JS и Стилей в шаблон
 Observer::observe( 'frontpage_found',  function($page) {
-	
 	$layout = $page->get_layout_object();
 	$widgets = Widget_Manager::get_widgets_by_page($page->id);
 	
@@ -26,8 +24,34 @@ Observer::observe( 'frontpage_found',  function($page) {
 	}
 	
 	Context::instance()->register_widgets($widgets);
-	
-	Observer::notify('load_blocks');
+
+	/**
+	 * Запуск метода в виджетах текущей страницы 
+	 * Model_Widget_Decorator::on_page_load
+	 */
+	Observer::notify('on_page_load');
+
+	/**
+	 * Блок служит для помещения в него виджета с произволным PHP кодом,
+	 * который выполняется до загрузки HTML, вывод данных в этом блоке делать
+	 * не надо
+	 */
+	Block::run('PRE');
+});
+
+Observer::observe( 'frontpage_after_render',  function() {
+
+	/**
+	 * Запуск метода в виджетах текущей страницы 
+	 * Model_Widget_Decorator::after_page_load
+	 */
+	Observer::notify('after_page_load');
+
+	/**
+	 * Блок служит для помещения в него виджета с произволным PHP кодом,
+	 * который выполняется после загрузки HTML
+	 */
+	Block::run('POST');
 });
 
 Observer::observe('view_page_edit_plugins', function($page) {

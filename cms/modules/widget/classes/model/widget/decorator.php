@@ -430,10 +430,21 @@ abstract class Model_Widget_Decorator {
 		$this->_ctx =& Context::instance();
 	}
 	
-	
+	/**
+	 * Функция запоскается через обсервер frontpage_found
+	 */
 	public function on_page_load() {}
 	
-	public function change_crumbs( &$crumbs) {}
+	/**
+	 * Функция запоскается через обсервер frontpage_render
+	 */
+	public function after_page_load() {}
+	
+	/**
+	 * 
+	 * @param type $crumbs
+	 */
+	public function change_crumbs(&$crumbs) {}
 	
 	/**
 	 * @return array

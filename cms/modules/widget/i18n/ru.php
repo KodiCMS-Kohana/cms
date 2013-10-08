@@ -66,6 +66,8 @@ return array(
 	'Pagination' => 'Постраничная навигация',
 	'Widget' => 'Виджет',
 	'Query key (GET)' => 'GET параметр текущей страницы',
+	'Before page render' => 'До загрузки страницы',
+	'After page render' => 'После загрузки страницы',
 	
 	//============Permissions============//
 	'View widgets' => 'Видеть раздел',
