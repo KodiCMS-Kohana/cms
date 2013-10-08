@@ -187,6 +187,8 @@ https://github.com/butschster/kodicms/issues
  * [bug] Исправлена ошибка с добавлением query string
  * [feature] Run block after page load (issue #184)
  * [feature] Метод Model_Page_Front::children() теперь всегда выводит массив
+ * [feature] Класс Meta для вставки в шаблон сайта meta информации, js и css.
+ * [bug] Исправлена проблема с сохранением настроек после установки системы.
 
 ### 6.0.0
 
