@@ -47,7 +47,11 @@ class KodiCMS_Controller_Front extends Controller_System_Controller
 		}
 	}
 	
-	private function _render($page)
+	/**
+	 * 
+	 * @param type Model_Page_Front
+	 */
+	private function _render( Model_Page_Front $page)
 	{
 		$this->_ctx->set_page($page);
 
@@ -106,7 +110,7 @@ class KodiCMS_Controller_Front extends Controller_System_Controller
 			$this->response->headers('last-modified', date('r', strtotime($page->updated_on)));
 		}
 		
-		$this->response->headers('Content-Type',  $mime );
+		$this->response->headers('Content-Type',  $page->mime() );
 		$this->response->headers('X-Powered-CMS',  CMS_NAME . ' ' . CMS_VERSION );
 		
 		echo $html;
