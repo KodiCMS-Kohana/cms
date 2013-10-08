@@ -41,7 +41,7 @@ class KodiCMS_Setting
 				->execute()
 				->as_array('name', 'value');
 
-			self::$is_loaded = true;
+			self::$is_loaded = TRUE;
 		}
 
 		return self::$settings;
@@ -114,6 +114,14 @@ class KodiCMS_Setting
 		{
 			$insert->execute();
 		}
+		
+		self::reset();
+	}
+	
+	public static function reset()
+	{
+		self::$_new_settings = array();
+		self::$is_loaded = FALSE;
 		
 		Cache::instance()->delete('Database::cache('.self::TABLE_NAME.')');
 	}
