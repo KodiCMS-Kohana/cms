@@ -184,6 +184,9 @@ https://github.com/butschster/kodicms/issues
 
  * [bug] При работе с Context из backend в нем не работал Request
  * [bug] Исправлен механизм установки виджетов для всех страниц (issue #181)
+ * [bug] Исправлена ошибка с добавлением query string
+ * [feature] Run block after page load (issue #184)
+ * [feature] Метод Model_Page_Front::children() теперь всегда выводит массив
 
 ### 6.0.0
 

@@ -603,12 +603,16 @@ class KodiCMS_Model_Page_Front {
 	{
 		if( $this->parent instanceof Model_Page_Front )
 		{
-			return $this->parent->children(array(
+			$pages = $this->parent->children(array(
 				'where' => array(array('page.id', '<', $this->id)),
 				'order_by' => array(array('page.created_on', 'desc')),
 				'limit' => 1
 			));
+			
+			return isset($pages[0]) ? $pages[0] : NULL;
 		}
+		
+		return NULL;
 	}
 
 	/**
@@ -619,12 +623,16 @@ class KodiCMS_Model_Page_Front {
 	{
 		if( $this->parent instanceof Model_Page_Front )
 		{
-			return $this->parent->children(array(
+			$pages = $this->parent->children(array(
 				'where' => array(array('page.id', '<', $this->id)),
 				'order_by' => array(array('page.created_on', 'asc')),
 				'limit' => 1
 			));
+			
+			return isset($pages[0]) ? $pages[0] : NULL;
 		}
+		
+		return NULL;
 	}
 
 	/**
@@ -632,7 +640,7 @@ class KodiCMS_Model_Page_Front {
 	 * @param array $clause
 	 * @param array $values
 	 * @param boolean $include_hidden
-	 * @return \page_class
+	 * @return array
 	 */
 	public function children($clause = NULL, $values = array(), $include_hidden = FALSE)
 	{
@@ -660,8 +668,6 @@ class KodiCMS_Model_Page_Front {
 
 		$sql = Record::_conditions($sql, $clause);
 
-		$pages = array();
-
 		// hack to be able to redefine the page class with behavior
 		if ( ! empty( $this->behavior_id ) )
 		{
@@ -674,19 +680,10 @@ class KodiCMS_Model_Page_Front {
 			->cached((int) Kohana::$config->load('global.cache.front_page'))
 			->execute();
 
-		// Run!
-		if ($query)
+		$pages = array();
+		foreach ($query as $object)
 		{
-			foreach ($query as $object)
-			{
-				$page = new $page_class($object, $this);
-				$pages[] = $page;
-			}
-		}
-
-		if (Arr::get($clause, 'limit', 0) == 1)
-		{
-			return isset($pages[0]) ? $pages[0]: FALSE;
+			$pages[] = new $page_class($object, $this);
 		}
 
 		return $pages;
