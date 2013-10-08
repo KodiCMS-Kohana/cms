@@ -12,6 +12,11 @@ class Model_Widget extends ORM {
 		'column' => 'created_on'
 	);
 
+	/**
+	 *
+	 * @var Model_Widget_Decorator 
+	 */
+	protected $_code = FALSE;
 
 	public function rules() 
 	{
@@ -40,13 +45,18 @@ class Model_Widget extends ORM {
 	
 	public function code()
 	{
-		try 
+		if($this->_code === FALSE)
 		{
-			return unserialize($this->code);	
+			try 
+			{
+				$this->_code = unserialize($this->code);	
+			}
+			catch (Exception $e) 
+			{
+				$this->_code = new Model_Widget_HTML();
+			}
 		}
-		catch (Exception $e) 
-		{
-			return NULL;
-		}
+		
+		return $this->_code;
 	}
 }
