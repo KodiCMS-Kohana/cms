@@ -1,12 +1,12 @@
 SET FOREIGN_KEY_CHECKS=0;
 
-CREATE TABLE `TABLE_PREFIX_settings` (
+CREATE TABLE IF NOT EXISTS `TABLE_PREFIX_settings` (
   `name` varchar(40) NOT NULL,
   `value` text NOT NULL,
   UNIQUE KEY `id` (`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE `TABLE_PREFIX_plugins` (
+CREATE TABLE IF NOT EXISTS `TABLE_PREFIX_plugins` (
   `id` varchar(50) NOT NULL,
   `title` varchar(100) NOT NULL,
   `settings` text NOT NULL,
@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS `TABLE_PREFIX_layout_blocks` (
   PRIMARY KEY (`layout_name`,`block`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `TABLE_PREFIX_pages` (
+CREATE TABLE IF NOT EXISTS `TABLE_PREFIX_pages` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(255) DEFAULT NULL,
   `slug` varchar(100) DEFAULT NULL,
@@ -47,7 +47,7 @@ CREATE TABLE `TABLE_PREFIX_pages` (
   KEY `status_id` (`status_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
 
-CREATE TABLE `TABLE_PREFIX_tags` (
+CREATE TABLE IF NOT EXISTS `TABLE_PREFIX_tags` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(40) NOT NULL,
   `count` int(11) unsigned NOT NULL,
@@ -55,7 +55,7 @@ CREATE TABLE `TABLE_PREFIX_tags` (
   UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
-CREATE TABLE `TABLE_PREFIX_roles` (
+CREATE TABLE IF NOT EXISTS `TABLE_PREFIX_roles` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(32) NOT NULL,
   `description` varchar(255) NOT NULL,
@@ -63,7 +63,7 @@ CREATE TABLE `TABLE_PREFIX_roles` (
   UNIQUE KEY `uniq_name` (`name`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
-CREATE TABLE `TABLE_PREFIX_page_parts` (
+CREATE TABLE IF NOT EXISTS `TABLE_PREFIX_page_parts` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) DEFAULT NULL,
   `filter_id` varchar(25) DEFAULT NULL,
@@ -76,14 +76,14 @@ CREATE TABLE `TABLE_PREFIX_page_parts` (
   KEY `name` (`name`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
 
-CREATE TABLE `TABLE_PREFIX_page_roles` (
+CREATE TABLE IF NOT EXISTS `TABLE_PREFIX_page_roles` (
   `page_id` int(11) unsigned NOT NULL,
   `role_id` int(11) unsigned NOT NULL,
   KEY `page_id` (`page_id`,`role_id`),
   KEY `role_id` (`role_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `TABLE_PREFIX_page_tags` (
+CREATE TABLE IF NOT EXISTS `TABLE_PREFIX_page_tags` (
   `page_id` int(11) unsigned NOT NULL,
   `tag_id` int(11) unsigned NOT NULL,
   UNIQUE KEY `page_id` (`page_id`,`tag_id`),
@@ -117,7 +117,7 @@ CREATE TABLE IF NOT EXISTS `TABLE_PREFIX_page_behavior_settings` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `TABLE_PREFIX_users` (
+CREATE TABLE IF NOT EXISTS `TABLE_PREFIX_users` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `email` varchar(127) NOT NULL,
   `username` varchar(32) NOT NULL DEFAULT '',
@@ -177,7 +177,7 @@ CREATE TABLE IF NOT EXISTS `TABLE_PREFIX_user_reflinks` (
   UNIQUE KEY `unique_reflink` (`user_id`,`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `TABLE_PREFIX_roles_users` (
+CREATE TABLE IF NOT EXISTS `TABLE_PREFIX_roles_users` (
   `user_id` int(10) unsigned NOT NULL,
   `role_id` int(10) unsigned NOT NULL,
   PRIMARY KEY (`user_id`,`role_id`),
