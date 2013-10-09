@@ -21,10 +21,10 @@
 		echo Bootstrap_Form_Element_Control_Group::factory(array(
 			'element' => Bootstrap_Form_Element_Select::factory(array(
 				'name' => 'order_by', 'options' => array(
-					'name_asc' => __('Tag name asc'),
-					'name_desc' => __('Tag name desc'),
-					'count_asc' => __('Count tags asc'),
-					'count_desc' => __('Count tags desc'),
+					'name_asc' => __('Tag name A-Z'),
+					'name_desc' => __('Tag name Z-A'),
+					'count_asc' => __('Count tags 0-9'),
+					'count_desc' => __('Count tags 9-0'),
 				)
 			))
 			->attributes('class', Bootstrap_Form_Element_Input::XXLARGE)

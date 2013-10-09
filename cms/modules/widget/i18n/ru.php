@@ -68,7 +68,14 @@ return array(
 	'Query key (GET)' => 'GET параметр текущей страницы',
 	'Before page render' => 'До загрузки страницы',
 	'After page render' => 'После загрузки страницы',
-	
+	'Tags cloud' => 'Облако тегов',
+	'Min font-size (px)' => 'Минимальный размер шрифта (px)',
+	'Max font-size (px)' => 'Максимальный размер шрифта (px)',
+	'Order by' => 'Сортироват теги по',
+	'Tag name A-Z' => 'Название А-Я',
+	'Tag name Z-A' => 'Название Я-А',
+	'Count tags 0-9' => 'Количеству 0-9',
+	'Count tags 9-0' => 'Количеству 9-0',
 	//============Permissions============//
 	'View widgets' => 'Видеть раздел',
 	'Edit widget' => 'Редактировать виджет',
