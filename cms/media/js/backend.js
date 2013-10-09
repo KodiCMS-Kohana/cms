@@ -493,7 +493,7 @@ var Api = {
 				
 				var $event = method + uri.replace(/\//g, ':');
 				window.top.$('body').trigger($event.toLowerCase(), [this._response.response]);
-				console.log($event.toLowerCase());
+
 				if(typeof(callback) == 'function') callback(this._response);
 			}
 		}).always(function() { 
