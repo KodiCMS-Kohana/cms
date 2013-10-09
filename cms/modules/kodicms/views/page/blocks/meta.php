@@ -77,7 +77,7 @@
 		<div class="controls">
 			<?php 
 			echo Form::textarea( 'page[tags]', implode(Model_Tag::SEPARATOR, $tags ), array(
-				'class' => 'span12', 'id' => 'pageEditMetaTagsField'
+				'class' => 'span12 tags', 'id' => 'pageEditMetaTagsField'
 			) );
 			?>
 		</div>
