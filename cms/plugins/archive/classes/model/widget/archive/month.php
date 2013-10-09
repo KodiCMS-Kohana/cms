@@ -6,15 +6,15 @@ class Model_Widget_Archive_Month extends Model_Widget_Archive {
 	{
 		$page = $this->get_page();
 
-		$result = DB::select(array(DB::expr( 'DATE_FORMAT('. Database::instance()->quote_column('created_on').', "%Y/%m")' ), 'date'))
-			->distinct(TRUE)
+		$result = DB::select(array(DB::expr( 'DATE_FORMAT('. Database::instance()->quote_column('published_on').', "%Y/%m")' ), 'date'))
+			->distinct( TRUE )
 			->from(Model_Page::TABLE_NAME)
 			->where('parent_id', '=', $page->id)
 			->where('status_id', '!=', Model_Page::STATUS_HIDDEN)
-			->order_by( 'created_on', 'desc' )
+			->order_by( 'published_on', 'desc' )
 			->execute()
 			->as_array(NULL, 'date');
-		
+
 		$data = array();
 		foreach($result as $date)
 		{

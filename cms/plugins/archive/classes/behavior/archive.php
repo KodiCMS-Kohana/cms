@@ -73,10 +73,10 @@ class Behavior_Archive extends Behavior_Abstract
 			),
             'limit' => 1
         ), array(), TRUE);
-        
-        if ($page)
+
+        if (isset($page[0]))
         {
-            $this->_page = $page;
+            $this->_page = $page[0];
             $this->page()->time = mktime(0, 0, 0, $this->router()->param('month', 1), $this->router()->param('day', 1), $this->router()->param('year'));
         }
         else

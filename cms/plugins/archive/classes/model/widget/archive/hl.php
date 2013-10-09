@@ -12,13 +12,14 @@ class Model_Widget_Archive_HL extends Model_Widget_Page_Pages {
 		{
 			Model_Page_Front::not_found();
 		}
-		
+
 		$params = $page->behavior()->router()->params();
+
 		$date = implode('-', $params);
 		
 		$clause = array(
-			'where' => array(array('page.created_on', 'like', $date . '%')),
-			'order_by' => array(array('page.created_on', 'desc'))
+			'where' => array(array('page.published_on', 'like', $date . '%')),
+			'order_by' => array(array('page.published_on', 'desc'))
 		);
 		
 		if($this->list_offset > 0)
