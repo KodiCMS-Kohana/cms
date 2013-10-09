@@ -23,7 +23,14 @@ class KodiCMS_Record
 	 * @var array 
 	 */
 	protected $_object_data = array();
-    
+	
+	/**
+	 *
+	 * @var string 
+	 */
+	protected $_primary_key = 'id';
+
+
 	/**
 	 * 
 	 * @param array $data
@@ -126,7 +133,7 @@ class KodiCMS_Record
     {
         if ( ! $this->beforeSave()) return FALSE;
 
-        if( !isset($this->id ))
+        if( ! isset($this->{$this->_primary_key} ) )
 		{
             if ( ! $this->beforeInsert()) return FALSE;
 
@@ -134,7 +141,7 @@ class KodiCMS_Record
 
 			$return = static::insert(NULL, $data);
 
-            $this->id = $return[0]; 
+            $this->{$this->_primary_key} = $return[0]; 
              
             if ( ! $this->afterInsert()) return FALSE;
         }
@@ -142,10 +149,10 @@ class KodiCMS_Record
 		{
             if ( ! $this->beforeUpdate()) return FALSE;
             
-			$data = $this->prepare_data(array('id'));
+			$data = $this->prepare_data(array($this->_primary_key));
 
 			static::update(NULL, $data, array(
-				'where' => array(array('id', '=', $this->id))));
+				'where' => array(array($this->_primary_key, '=', $this->{$this->_primary_key}))));
 			
 			$return = TRUE;
             
@@ -198,7 +205,7 @@ class KodiCMS_Record
         if ( ! $this->beforeDelete()) return FALSE;
 		
 		$return = DB::delete(static::tableName())
-			->where('id', '=', $this->id )
+			->where($this->_primary_key, '=', $this->{$this->_primary_key} )
 			->execute();
 
         if ( ! $this->afterDelete()) 

@@ -35,7 +35,7 @@ class KodiCMS_Model_Page_Tag extends Record
 		{
             $tags = explode(Model_Tag::SEPARATOR, $tags);
 		}
-		
+
 		$tags = array_unique(array_map('trim', $tags));
         
         $current_tags = Model_Page_Tag::find_by_page($page_id);
@@ -43,7 +43,7 @@ class KodiCMS_Model_Page_Tag extends Record
         // no tag before! no tag now! ... nothing to do!
         if( empty($tags) AND empty($current_tags) )
 		{
-            return;
+            return NULL;
 		}
         
         // delete all tags
@@ -69,24 +69,27 @@ class KodiCMS_Model_Page_Tag extends Record
             // insert all tags in the tag table and then populate the page_tag table
             foreach( $new_tags as $index => $tag_name )
             {
-                if ( !empty($tag_name) )
-                {
-					$tag = Record::findOneFrom('Model_Tag', array(
-						'where' => array(array('name', '=', $tag_name))));
-							
-                    // try to get it from tag list, if not we add it to the list
-                    if ( ! $tag );
-					{
-                        $tag = new Model_Tag(array('name' => trim($tag_name)));
-					}
-                    
-                    $tag->count++;
-                    $tag->save();
-                    
-                    // create the relation between the page and the tag
-                    $tag = new Model_Page_Tag( array('page_id' => (int) $page_id, 'tag_id' => $tag->id) );
-                    $tag->save();
-                }
+                if ( empty($tag_name) )	continue;
+
+				$tag = Record::findOneFrom('Model_Tag', array(
+					'where' => array(
+						array('name', '=', $tag_name)
+					)
+				));
+
+				// try to get it from tag list, if not we add it to the list
+				if ( !($tag instanceof Model_Tag))
+				{
+					$tag = new Model_Tag(array('name' => trim($tag_name)));
+				}
+
+				$tag->count++;
+				$tag->save();
+
+				// create the relation between the page and the tag
+				$page_tag = new Model_Page_Tag( array('page_id' => (int) $page_id, 'tag_id' => $tag->id) );
+				$page_tag->save();
+
             }
             
             // remove all old tag
