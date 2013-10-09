@@ -9,7 +9,7 @@ class KodiCMS_Model_Tag extends Record
     const TABLE_NAME = 'tags';
 	const SEPARATOR = ',';
 	
-	protected $_primary_key = 'name';
+//	protected $_primary_key = 'name';
 	
 	public static function findAllLike($tag)
 	{
