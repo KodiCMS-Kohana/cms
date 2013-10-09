@@ -12,6 +12,7 @@ return array(
 	),
 	__('Other') => array(
 		'html' => __('HTML'),
+		'tags_cloud' => __('Tags cloud'),
 		'sendmail' => __('Send mail'),
 		'pagination' => __('Pagination')
 	)
