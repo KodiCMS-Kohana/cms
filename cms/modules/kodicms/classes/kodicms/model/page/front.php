@@ -665,6 +665,8 @@ class KodiCMS_Model_Page_Front {
 			->where('parent_id', '=', $this->id)
 			->where('published_on', '<=', DB::expr('NOW()'))
 			->where('status_id', 'in', self::_get_statuses($include_hidden));
+		
+		$sql = $this->filter_by_tags($sql);
 
 		$sql = Record::_conditions($sql, $clause);
 
@@ -713,6 +715,8 @@ class KodiCMS_Model_Page_Front {
 			->where('published_on', '<=', DB::expr('NOW()'))
 			->where('parent_id', '=', $this->id)
 			->where('status_id', 'in', self::_get_statuses($include_hidden));
+		
+		$sql = $this->filter_by_tags($sql);
 
 		// Prepare SQL
 		$sql = Record::_conditions($sql, $clause);
@@ -722,6 +726,21 @@ class KodiCMS_Model_Page_Front {
 			->cached((int)Kohana::$config->load('global.cache.front_page'))
 			->execute()
 			->get('total');
+	}
+	
+	public function filter_by_tags($sql)
+	{
+		$tags = Context::instance()->get('tag');
+		
+		if(empty($tags)) return $sql;
+		$tags = explode(',', $tags);
+
+		return $sql->join(array(Model_Page_Tag::TABLE_NAME, 'pts'), 'inner')
+			->distinct(TRUE)
+			->on('pts.page_id', '=', 'page.id')
+			->join(array(Model_Tag::TABLE_NAME, 'ts'))
+			->on('pts.tag_id', '=', 'ts.id')
+			->where('ts.name', 'in', $tags);
 	}
 
 	/**
