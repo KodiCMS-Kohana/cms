@@ -91,7 +91,7 @@ class Model_Widget_Page_Pages extends Model_Widget_Decorator_Pagination {
 	
 	public function get_cache_id()
 	{
-		return 'Widget::' . $this->id . '::' . Request::current()->uri();
+		return 'Widget::' . $this->id . '::' . Request::current()->uri() . Request::current()->query('tag');
 	}
 	
 	public function clear_cache()
