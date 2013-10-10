@@ -13,6 +13,17 @@ class KodiCMS_Meta {
 	}
 	
 	/**
+	 * Remove all assets data
+	 * @return \KodiCMS_Meta
+	 */
+	public static function clear()
+	{
+		Assets::remove_css();
+		Assets::remove_js();
+		Assets::remove_group();
+	}
+	
+	/**
 	 *
 	 * @var Model_Page_Front 
 	 */
@@ -26,25 +37,12 @@ class KodiCMS_Meta {
 	{
 		$this->_page = $page;
 
-		$this->clear()
+		$this
 			->group('title', '<title>' . $this->_page->meta_title() . '</title>')
 			->group('keywords', '<meta name="keywords" content="' . $this->_page->meta_keywords() . '" />')
 			->group('description', '<meta name="description" content="' . $this->_page->meta_description() . '" />')
 			->group('content-type', '<meta http-equiv="content-type" content="' . $this->_page->mime() . '; charset=utf-8" />')
 			->group('robots', '<meta name="robots" content="' . $this->_page->robots . '" />');
-	}
-	
-	/**
-	 * Remove all assets data
-	 * @return \KodiCMS_Meta
-	 */
-	public function clear()
-	{
-		Assets::remove_css();
-		Assets::remove_js();
-		Assets::remove_group();
-		
-		return $this;
 	}
 	
 	/**

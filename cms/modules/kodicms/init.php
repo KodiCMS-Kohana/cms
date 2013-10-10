@@ -22,3 +22,7 @@ Observer::observe('page_add_after_save', function($page) {
 Observer::observe('modules::afer_load', function() {
 	Setting::init();
 });
+
+Observer::observe('frontpage_requested', function($page) {
+	Meta::clear();
+});
