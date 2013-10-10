@@ -182,6 +182,8 @@ https://github.com/butschster/kodicms/issues
 
 ## Changelog
 
+ * [feature] В страницах поле Robots (issue #186)
+
 ### 6.4.21
 
  * [bug] При работе с Context из backend в нем не работал Request

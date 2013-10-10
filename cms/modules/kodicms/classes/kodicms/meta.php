@@ -30,7 +30,8 @@ class KodiCMS_Meta {
 			->group('title', '<title>' . $this->_page->meta_title() . '</title>')
 			->group('keywords', '<meta name="keywords" content="' . $this->_page->meta_keywords() . '" />')
 			->group('description', '<meta name="description" content="' . $this->_page->meta_description() . '" />')
-			->group('content-type', '<meta http-equiv="content-type" content="' . $this->_page->mime() . '; charset=utf-8" />');
+			->group('content-type', '<meta http-equiv="content-type" content="' . $this->_page->mime() . '; charset=utf-8" />')
+			->group('robots', '<meta name="robots" content="' . $this->_page->robots . '" />');
 	}
 	
 	/**

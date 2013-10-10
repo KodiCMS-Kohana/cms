@@ -4,7 +4,6 @@
 		<?php
 		echo Meta::factory($page)
 				->group('author', '<meta name="author" content="butschster" />')
-				->group('robots', '<meta name="robots" content="index, follow" />')
 				->js('jquery', PUBLIC_URL . 'js/jquery-1.9.0.min.js')
 				->js('bootstrap', PUBLIC_URL . 'js/bootstrap.min.js', 'jquery')
 				->js('holder', PUBLIC_URL . 'js/holder.js', 'jquery')

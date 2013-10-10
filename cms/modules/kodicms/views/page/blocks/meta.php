@@ -82,5 +82,24 @@
 			?>
 		</div>
 	</div>
+	
+	<hr />
+	
+	<div class="control-group">
+		<label class="control-label" for="pageEditMetaRobotsField"><?php echo __( 'Robots' ); ?></label>
+		<div class="controls">
+			<?php
+			echo Form::select( 'page[robots]', array(
+				'INDEX, FOLLOW' => 'INDEX, FOLLOW',
+				'INDEX, NOFOLLOW' => 'INDEX, NOFOLLOW',
+				'NOINDEX, FOLLOW' => 'NOINDEX, FOLLOW',
+				'NOINDEX, NOFOLLOW' => 'NOINDEX, NOFOLLOW'
+			), $page->robots, array(
+				'id' => 'pageEditMetaRobotsField'
+			) );
+			?>
+		</div>
+	</div>
+
 	<?php Observer::notify( 'view_page_edit_meta', array( $page ) ); ?>
 </div>
