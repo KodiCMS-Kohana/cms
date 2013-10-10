@@ -6,7 +6,7 @@ class Model_Widget_Archive extends Model_Widget_Decorator {
 	
 	public $frontend_template = 'archive';
 	
-	public function load_template_data()
+	public function backend_data()
 	{
 		$pages = Model_Page_Sitemap::get();
 		
