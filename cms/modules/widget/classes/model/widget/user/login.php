@@ -18,7 +18,7 @@ class Model_Widget_User_Login extends Model_Widget_Decorator {
 		)
 	);
 	
-	public function load_template_data()
+	public function backend_data()
 	{
 		$roles = Model_Permission::get_all();
 		

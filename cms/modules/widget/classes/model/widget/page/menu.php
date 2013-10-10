@@ -6,7 +6,7 @@ class Model_Widget_Page_Menu extends Model_Widget_Decorator {
 	
 	public $cache_tags = array('pages');
 
-	public function load_template_data()
+	public function backend_data()
 	{
 		$pages = Model_Page_Sitemap::get();
 		

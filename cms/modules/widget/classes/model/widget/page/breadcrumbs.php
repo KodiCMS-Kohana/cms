@@ -6,7 +6,7 @@ class Model_Widget_Page_Breadcrumbs extends Model_Widget_Decorator {
 	
 	public $cache_tags = array('pages');
 
-	public function load_template_data()
+	public function backend_data()
 	{
 		return array(
 			'pages' => Model_Page_Sitemap::get()->flatten(),

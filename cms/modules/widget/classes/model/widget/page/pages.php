@@ -14,7 +14,7 @@ class Model_Widget_Page_Pages extends Model_Widget_Decorator_Pagination {
 		}
 	}
 	
-	public function load_template_data()
+	public function backend_data()
 	{
 		$pages = Model_Page_Sitemap::get();
 		

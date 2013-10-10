@@ -28,7 +28,7 @@ class Model_Widget_Pagination extends Model_Widget_Decorator {
 		$this->widget->list_offset = (int) $this->pagination->offset;
 	}
 	
-	public function load_template_data()
+	public function backend_data()
 	{
 		$widgets = Widget_Manager::get_all_widgets();
 		
