@@ -36,9 +36,11 @@ class Model_Widget_Pagination extends Model_Widget_Decorator {
 		foreach($widgets as $id => $widget)
 		{
 			$class = 'Model_Widget_' . $widget['type'];
-			$class = new $class;
 			
-			if($class instanceof Model_Widget_Decorator_Pagination)
+			if(!class_exists($class)) continue;
+			
+			$class = new ReflectionClass($class);
+			if( $class->isSubclassOf('Model_Widget_Decorator_Pagination') )
 				$select[$id] = $widget['name'];
 		}
 		
