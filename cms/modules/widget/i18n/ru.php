@@ -76,6 +76,7 @@ return array(
 	'Tag name Z-A' => 'Название Я-А',
 	'Count tags 0-9' => 'Количеству 0-9',
 	'Count tags 9-0' => 'Количеству 9-0',
+	'List settings' => 'Настройки списка',
 	//============Permissions============//
 	'View widgets' => 'Видеть раздел',
 	'Edit widget' => 'Редактировать виджет',
