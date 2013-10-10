@@ -182,6 +182,7 @@ https://github.com/butschster/kodicms/issues
 
 ## Changelog
 
+ * [fix] Исправлены ошибки в плагине Archive
  * [feature] В страницах поле Robots (issue #186)
 
 ### 6.4.21
