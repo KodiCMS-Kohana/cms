@@ -117,7 +117,7 @@ abstract class Model_Widget_Decorator {
 	 * @var array 
 	 */
 	protected $_data = array();
-	
+
 	/**
 	 * 
 	 * @param string $name
@@ -257,6 +257,10 @@ abstract class Model_Widget_Decorator {
 		}
 	}
 	
+	/**
+	 * 
+	 * @return string
+	 */
 	protected function _fetch_template()
 	{
 		if( empty($this->template) ) 
@@ -337,6 +341,10 @@ abstract class Model_Widget_Decorator {
 		return 'Widget::' . $this->type . '::' . $this->id;
 	}
 	
+	/**
+	 * 
+	 * @return string
+	 */
 	public function cache_tags()
 	{
 		return implode(', ', (array) $this->cache_tags);
@@ -356,6 +364,10 @@ abstract class Model_Widget_Decorator {
 		return $this;
 	}
 	
+	/**
+	 * 
+	 * @return \Model_Widget_Decorator
+	 */
 	public function clear_cache_by_tags()
 	{
 		if(!empty($this->cache_tags))
@@ -409,7 +421,6 @@ abstract class Model_Widget_Decorator {
 		return $this->backend_data();
 	}
 	
-	
 	/**
 	 * 
 	 * @return array
@@ -419,20 +430,6 @@ abstract class Model_Widget_Decorator {
 		return array();
 	}
 
-	/**
-	 * 
-	 * @return string
-	 */
-	public function __toString()
-	{
-		return (string) $this->render();
-	}
-	
-	public function __wakeup()
-	{
-		$this->_ctx =& Context::instance();
-	}
-	
 	/**
 	 * Функция запоскается через обсервер frontpage_found
 	 */
@@ -448,6 +445,28 @@ abstract class Model_Widget_Decorator {
 	 * @param type $crumbs
 	 */
 	public function change_crumbs( Breadcrumbs &$crumbs) {}
+
+	/**
+	 * 
+	 * @return string
+	 */
+	public function __toString()
+	{
+		return (string) $this->render();
+	}
+	
+	public function __wakeup()
+	{
+		$this->_ctx = Context::instance();
+	}
+	
+	public function __sleep()
+	{
+		$vars = get_object_vars($this);
+
+		unset($vars['_ctx']);
+		return array_keys($vars);
+	}
 	
 	/**
 	 * @return array
