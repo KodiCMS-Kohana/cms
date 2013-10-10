@@ -182,6 +182,8 @@ https://github.com/butschster/kodicms/issues
 
 ## Changelog
 
+### 6.4.21
+
  * [bug] При работе с Context из backend в нем не работал Request
  * [bug] Исправлен механизм установки виджетов для всех страниц (issue #181)
  * [bug] Исправлена ошибка с добавлением query string
@@ -195,6 +197,7 @@ https://github.com/butschster/kodicms/issues
  * [fix] Исправлена ошибка из за которой не работал resize в Файловом менеджере
  * [feature] Произведен рефакторинг класса Model_Widget_Decorator
  * [feature] Настройки для виджета наследуемого от Model_Widget_Decorator_Pagination подставляются в шаблон админики автоматически.
+ * [fix] Исправлен внешний вид диалогового окна ресайза изображений в файловом менеджере
 
 ### 6.0.0
 
