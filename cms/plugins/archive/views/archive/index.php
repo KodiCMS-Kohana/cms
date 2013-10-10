@@ -1,7 +1,11 @@
 <div class="widget widget-nopad">
 	<div class="widget-header">
 		<?php echo UI::button(__('Add page'), array(
-			'href' => 'page/add/'.$page->id, 'icon' => UI::icon('plus')
+			'href' => Route::url('backend', array(
+				'controller' => 'page',
+				'action' => 'add',
+				'id' => $page->id
+			)), 'icon' => UI::icon('plus')
 		)); ?>
 	</div>
 
@@ -11,53 +15,52 @@
 				<col />
 				<col width="150px" />
 				<col width="150px" />
+				<col width="150px" />
 				<col width="100px" />
 			</colgroup>
 			<thead>
 				<tr>
 					<th><?php echo __('Page'); ?></th>
+					<th><?php echo __('Public link'); ?></th>
 					<th><?php echo __('Status'); ?></th>
 					<th><?php echo __('Date'); ?></th>
 					<th><?php echo __('Actions'); ?></th>
 				</tr>
 			</thead>
 			<tbody>
-				<?php foreach($items as $item): ?>
-				<tr data-id="<?php echo $item->id; ?>">
+				<?php foreach($items as $page): ?>
+				<tr data-id="<?php echo $page->id; ?>">
 					<th class="title">
-						<?php if( ! AuthUser::hasPermission($item->get_permissions()) ): ?>
-						<img src="images/page-text-locked.png" title="<?php echo('You do not have permission to access the requested page!'); ?>" />
-						<em title="/<?php echo $item->get_uri(); ?>"><?php echo $item->title; ?></em>
+						<?php if( ! ACL::check('page.edit') OR ! AuthUser::hasPermission( $page->get_permissions() ) ): ?>
+						<?php echo UI::icon('lock'); ?>
+						<em title="/"><?php echo $page->title; ?></em>
 						<?php else: ?>
-						<?php echo UI::icon('file'); ?>
-						<?php echo HTML::anchor('page/edit/'.$item->id, $item->title); ?>
+						<?php 
+						echo UI::icon('file') . ' '; 
+						echo HTML::anchor( $page->get_url(), $page->title );
+						?>
 						<?php endif; ?>
 					</th>
-					<td class="date">
-						<?php echo Date::format($item->published_on); ?>
+					<td class="public_link">
+						<?php echo $page->get_public_anchor(); ?>
 					</td>
 					<td class="status">
-						<?php switch ($item->status_id):
-							case Model_Page::STATUS_DRAFT:    echo UI::label(__('Draft'), 'info');       break;
-							case Model_Page::STATUS_REVIEWED: echo UI::label(__('Reviewed'), 'info'); break;
-							case Model_Page::STATUS_HIDDEN:   echo UI::label(__('Hidden'), 'default');     break;
-							case Model_Page::STATUS_PUBLISHED:
-								if( strtotime($item->published_on) > time() )
-									echo UI::label(__('Pending'), 'success');
-								else
-									echo UI::label(__('Published'), 'success');
-							break;
-						endswitch; ?>
+						<?php echo $page->get_status(); ?>
+					</td>
+					<td class="date">
+						<?php echo Date::format($page->published_on); ?>
 					</td>
 					<td class="actions">
-						<?php 
-						if( AuthUser::hasPermission($item->get_permissions()) )
-						{
-							echo UI::button(NULL, array(
-								'href' => 'page/delete/'.$item->id, 'icon' => UI::icon('remove'),
-								'class' => 'btn btn-mini btn-confirm'
-							));
-						}?>
+						<?php if (Acl::check( 'page.delete')): ?>
+						<?php echo UI::button(NULL, array(
+							'href' => Route::url('backend', array(
+								'controller' => 'page',
+								'action' => 'delete',
+								'id' => $page->id
+							)), 'icon' => UI::icon('remove icon-white'), 
+							'class' => 'btn btn-mini btn-confirm btn-danger'
+						)); ?>
+						<?php endif; ?>
 					</td>
 				</tr>
 				<?php endforeach; ?>

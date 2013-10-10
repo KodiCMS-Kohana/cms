@@ -15,6 +15,7 @@ class Controller_Archive extends Controller_System_Backend
 		
 		$this->template->title = $page->title;
 		$this->breadcrumbs
+			->add(__('Pages'), Route::url('backend', array('controller' => 'page')))
 			->add($this->template->title);
 
 		$pager = Pagination::factory(array(
@@ -23,7 +24,7 @@ class Controller_Archive extends Controller_System_Backend
 			))
 		));
 
-		$items = $pages = Record::findAllFrom('Model_Page', array(
+		$pages = Record::findAllFrom('Model_Page', array(
 			'where' => array(array('parent_id', '=', (int) $page_id)),
 			'order_by' => array(array('created_on', 'desc')),
 			'limit' => $pager->items_per_page,
@@ -31,7 +32,7 @@ class Controller_Archive extends Controller_System_Backend
 		));
 		
 		$this->template->content = View::factory('archive/index', array(
-			'items' => $items,
+			'items' => $pages,
 			'page'	=> $page,
 			'pager' => $pager
 		));
