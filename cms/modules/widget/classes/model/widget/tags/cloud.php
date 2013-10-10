@@ -21,25 +21,15 @@ class Model_Widget_Tags_Cloud extends Model_Widget_Decorator {
 
 		foreach ($tags as $word => $frequency) 
 		{
-			if ($frequency > $tmin) 
-			{
-				$font_size = floor(($frequency - $tmin) / ($tmax - $tmin) * ($fmax - $fmin) + $fmin);
-				$r = $g = 0; $b = floor( 255 * ($frequency / $tmax) );
-				$color = '#' . sprintf('%02s', dechex($r)) . sprintf('%02s', dechex($g)) . sprintf('%02s', dechex($b));
-			}
-			else 
-			{
-				$font_size = 0;
-			}
+			$font_size = floor(($frequency - $tmin) / ($tmax - $tmin) * ($fmax - $fmin) + $fmin);
+			$r = $g = 0; $b = floor( 255 * ($frequency / $tmax) );
+			$color = '#' . sprintf('%02s', dechex($r)) . sprintf('%02s', dechex($g)) . sprintf('%02s', dechex($b));
 
-			if ($font_size >= $fmin) 
-			{
-				$cloud[$word] = array(
-					'count' => $frequency,
-					'size' => $font_size,
-					'color' => $color
-				);
-			}
+			$cloud[$word] = array(
+				'count' => $frequency,
+				'size' => $font_size,
+				'color' => $color
+			);
 		}
 	
 		return array(
