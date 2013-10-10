@@ -373,7 +373,7 @@ class KodiCMS_Controller_Page extends Controller_System_Backend {
 			$link = strtr($behavior['link'], array(':id' => $parent_id));
 			$childrens[] = __(':icon :link', array(
 				':icon' => UI::icon('book'),
-				':link' => HTML::anchor( $link, __(ucfirst($page->behavior_id)))
+				':link' => HTML::anchor( URL::backend($link), __(ucfirst($page->behavior_id)))
 			));
 		}
 
