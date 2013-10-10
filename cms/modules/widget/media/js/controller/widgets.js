@@ -6,6 +6,9 @@ cms.init.add('widgets_edit', function() {
 		else
 			$('#WidgetTemplateButton')
 				.show()
+				.css({
+					display: 'inline-block'
+				})
 				.attr('href', BASE_URL + '/snippet/edit/' + $option.val())
 	});
 
@@ -50,6 +53,23 @@ cms.init.add('widgets_edit', function() {
 		 cache_enabled();
 	};
 });
+
+cms.init.add('widgets_template', function() {
+	function calculateEditorHeight() {
+		var conentH = calculateContentHeight();
+		var h = $('.widget-title').outerHeight(true) + $('.widget-header').outerHeight(true) + $('.form-actions').outerHeight(true) + 10;
+
+		return conentH - h;
+	}
+
+	$('#highlight_content').on('filter:switch:on', function(e, editor) {
+		cms.filters.exec('highlight_content', 'changeHeight', calculateEditorHeight());
+	});
+
+	$(window).resize(function() {
+		$('#highlight_content').trigger('filter:switch:on')
+	});
+})
 
 cms.init.add('page_edit', function() {
 	reload_blocks();

@@ -211,14 +211,26 @@ abstract class Model_Widget_Decorator {
 	 * 
 	 * @return string
 	 */
+	public function default_template()
+	{
+		if( ($template = Kohana::find_file('views', 'widgets/frontend/' . $this->frontend_template())) === FALSE  )
+		{
+			$template = Kohana::find_file('views', 'widgets/frontend/default');
+		}
+
+		return $template;
+	}
+	
+	/**
+	 * 
+	 * @return string
+	 */
 	protected function _fetch_template()
 	{
 		if( empty($this->template) ) 
 		{
-			if( ($this->template = Kohana::find_file('views', 'widgets/frontend/' . $this->frontend_template())) === FALSE  )
-			{
-				$this->template = Kohana::find_file('views', 'widgets/frontend/default');
-			}
+			$this->template = $this->default_template();
+			
 		}
 		else
 		{

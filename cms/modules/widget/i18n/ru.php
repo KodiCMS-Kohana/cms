@@ -77,6 +77,7 @@ return array(
 	'Count tags 0-9' => 'Количеству 0-9',
 	'Count tags 9-0' => 'Количеству 9-0',
 	'List settings' => 'Настройки списка',
+	'Default template' => 'Шаблон по умолчанию',
 	//============Permissions============//
 	'View widgets' => 'Видеть раздел',
 	'Edit widget' => 'Редактировать виджет',

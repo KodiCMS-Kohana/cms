@@ -39,7 +39,8 @@
 					'class' => 'input-medium', 'id' => 'WidgetTemplate'
 				) );
 				?>
-
+				
+				<div class="btn-group">
 				<?php if( ACL::check('snippet.edit')): ?>
 				<?php 
 				$hidden = empty($widget->template) ? 'hidden' : '';
@@ -49,7 +50,7 @@
 							'action' => 'edit',
 							'id' => $widget->template
 						)), 'icon' => UI::icon('edit'),
-						'class' => 'popup fancybox.iframe btn btn-link '.$hidden, 'id' => 'WidgetTemplateButton'
+						'class' => 'popup fancybox.iframe btn '.$hidden, 'id' => 'WidgetTemplateButton'
 					)); 
 				?>
 				<?php endif; ?>
@@ -61,9 +62,23 @@
 						'action' => 'add'
 					)),
 					'icon' => UI::icon('plus'),
-					'class' => 'popup fancybox.iframe btn'
+					'class' => 'popup fancybox.iframe btn btn-success'
 				)); ?>
 				<?php endif; ?>
+				
+				<?php if($widget->default_template()): ?>
+				<?php 
+				echo UI::button(__('Default template'), array(
+						'href' => Route::url('backend', array(
+							'controller' => 'widgets', 
+							'action' => 'template',
+							'id' => $widget->id
+						)), 'icon' => UI::icon('desktop'),
+						'class' => 'popup fancybox.iframe btn btn-primary'
+					)); 
+				?>
+				<?php endif; ?>
+				</div>
 			</div>
 		</div>
 		<?php if( ACL::check('widgets.cache')): ?>

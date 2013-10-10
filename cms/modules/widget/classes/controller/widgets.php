@@ -257,11 +257,31 @@ class Controller_Widgets extends Controller_System_Backend {
 		}
 	}
 	
-	public function action_delete( )
+	public function action_delete()
 	{
 		$id = $this->request->param('id');
 		
 		Widget_Manager::remove(array($id));
 		$this->go_back();
+	}
+	
+	public function action_template()
+	{
+		$id = (int) $this->request->param('id');
+		
+		$widget = Widget_Manager::load( $id );
+
+		if ( ! $widget )
+		{
+			Messages::errors(__( 'Widget not found!' ) );
+			$this->go_back();
+		}
+		
+		$template = $widget->default_template();
+		
+		$data = file_get_contents( $template );
+		$this->template->content = View::factory('widgets/default_template', array(
+			'data' => $data
+		));
 	}
 }
