@@ -211,23 +211,11 @@ class Controller_Widgets extends Controller_System_Backend {
 		{
 			$templates[$snippet->name] = $snippet->name;
 		}
-		
-		// Если не создать View шаблон, не загружаем его
-		try
-		{
-			$content = View::factory( 'widgets/backend/' . $widget->backend_template(), array(
-					'widget' => $widget
-				))->set($widget->load_template_data());
-		}
-		catch( Kohana_Exception $e)
-		{
-			$content = NULL;
-		}
 
 		$this->template->content = View::factory( 'widgets/edit', array(
 			'widget' => $widget,
 			'templates' => $templates,
-			'content' =>  $content
+			'content' =>  $widget->fetch_backend_content()
 		) );
 	}
 	

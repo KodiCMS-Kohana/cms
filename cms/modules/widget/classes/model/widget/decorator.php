@@ -206,56 +206,6 @@ abstract class Model_Widget_Decorator {
 		
 		return $this->frontend_template;
 	}
-
-	/**
-	 * 
-	 * @param array $params
-	 */
-	public function render($params = array())
-	{
-		if(Kohana::$profiling === TRUE)
-		{
-			$benchmark = Profiler::start('Widget render', $this->name);
-		}
-
-		$this->_fetch_template();
-		
-		$allow_omments = (bool) Arr::get($params, 'comments', TRUE);
-
-		if( $this->block == 'PRE' OR $this->block == 'POST' )
-		{
-			$allow_omments = FALSE;
-		}
-		
-		if($allow_omments)
-		{
-			echo "<!--{Widget: {$this->name}}-->";
-		}
-		
-		if( 
-			$this->caching === TRUE 
-		AND 
-			! Fragment::load($this->get_cache_id(), $this->cache_lifetime)
-		)
-		{
-			echo $this->_fetch_render($params);
-			Fragment::save_with_tags($this->cache_lifetime, $this->cache_tags);
-		}
-		else if( ! $this->caching )
-		{
-			echo $this->_fetch_render($params);
-		}
-
-		if($allow_omments)
-		{
-			echo "<!--{/Widget: {$this->name}}-->";
-		}
-		
-		if(isset($benchmark))
-		{
-			Profiler::stop($benchmark);
-		}
-	}
 	
 	/**
 	 * 
@@ -295,26 +245,6 @@ abstract class Model_Widget_Decorator {
 		return View_Front::factory($this->template, $data)
 			->bind('header', $this->header)
 			->bind('ctx', $this->get( 'ctx' ));
-	}
-	
-	/**
-	 * @param array $data
-	 */
-	public function set_values(array $data)
-	{
-		foreach($data as $key => $value)
-		{
-			if( method_exists( $this, 'set_' . $key ))
-			{
-				$this->{$key} = $this->{'set_'.$key}($value);
-			}
-			else 
-			{
-				$this->{$key} = $value;
-			}
-		}
-		
-		return $this;
 	}
 
 	/**
@@ -392,15 +322,6 @@ abstract class Model_Widget_Decorator {
 		
 		return $this;
 	}
-
-	/**
-	 * 
-	 * @param array $params
-	 */
-	public function run($params = array()) 
-	{
-		return $this->render($params);
-	}
 	
 	/**
 	 * 
@@ -411,6 +332,26 @@ abstract class Model_Widget_Decorator {
 		return isset($this->id) AND $this->id > 0;
 	}
 	
+	/**
+	 * 
+	 * @return View|null
+	 */
+	public function fetch_backend_content()
+	{
+		try
+		{
+			$content = View::factory( 'widgets/backend/' . $this->backend_template(), array(
+					'widget' => $this
+				))->set($this->backend_data());
+		}
+		catch( Kohana_Exception $e)
+		{
+			$content = NULL;
+		}
+		
+		return $content;
+	}
+
 	/**
 	 * 
 	 * @return array
@@ -429,22 +370,85 @@ abstract class Model_Widget_Decorator {
 	{
 		return array();
 	}
-
-	/**
-	 * Функция запоскается через обсервер frontpage_found
-	 */
-	public function on_page_load() {}
 	
 	/**
-	 * Функция запоскается через обсервер frontpage_render
+	 * @param array $data
 	 */
-	public function after_page_load() {}
+	public function set_values(array $data)
+	{
+		foreach($data as $key => $value)
+		{
+			if( method_exists( $this, 'set_' . $key ))
+			{
+				$this->{$key} = $this->{'set_'.$key}($value);
+			}
+			else 
+			{
+				$this->{$key} = $value;
+			}
+		}
+		
+		return $this;
+	}
 	
 	/**
 	 * 
-	 * @param type $crumbs
+	 * @param array $params
 	 */
-	public function change_crumbs( Breadcrumbs &$crumbs) {}
+	public function run($params = array()) 
+	{
+		return $this->render($params);
+	}
+
+	/**
+	 * 
+	 * @param array $params
+	 */
+	public function render($params = array())
+	{
+		if(Kohana::$profiling === TRUE)
+		{
+			$benchmark = Profiler::start('Widget render', $this->name);
+		}
+
+		$this->_fetch_template();
+		
+		$allow_omments = (bool) Arr::get($params, 'comments', TRUE);
+
+		if( $this->block == 'PRE' OR $this->block == 'POST' )
+		{
+			$allow_omments = FALSE;
+		}
+		
+		if($allow_omments)
+		{
+			echo "<!--{Widget: {$this->name}}-->";
+		}
+		
+		if( 
+			$this->caching === TRUE 
+		AND 
+			! Fragment::load($this->get_cache_id(), $this->cache_lifetime)
+		)
+		{
+			echo $this->_fetch_render($params);
+			Fragment::save_with_tags($this->cache_lifetime, $this->cache_tags);
+		}
+		else if( ! $this->caching )
+		{
+			echo $this->_fetch_render($params);
+		}
+
+		if($allow_omments)
+		{
+			echo "<!--{/Widget: {$this->name}}-->";
+		}
+		
+		if(isset($benchmark))
+		{
+			Profiler::stop($benchmark);
+		}
+	}
 
 	/**
 	 * 
@@ -467,6 +471,22 @@ abstract class Model_Widget_Decorator {
 		unset($vars['_ctx']);
 		return array_keys($vars);
 	}
+
+	/**
+	 * Функция запоскается через обсервер frontpage_found
+	 */
+	public function on_page_load() {}
+	
+	/**
+	 * Функция запоскается через обсервер frontpage_render
+	 */
+	public function after_page_load() {}
+	
+	/**
+	 * 
+	 * @param type $crumbs
+	 */
+	public function change_crumbs( Breadcrumbs &$crumbs) {}
 	
 	/**
 	 * @return array
