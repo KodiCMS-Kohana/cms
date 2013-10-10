@@ -50,7 +50,7 @@
 							'action' => 'edit',
 							'id' => $widget->template
 						)), 'icon' => UI::icon('edit'),
-						'class' => 'popup fancybox.iframe btn '.$hidden, 'id' => 'WidgetTemplateButton'
+						'class' => 'popup fancybox.iframe btn btn-primary '.$hidden, 'id' => 'WidgetTemplateButton'
 					)); 
 				?>
 				<?php endif; ?>
@@ -74,7 +74,7 @@
 							'action' => 'template',
 							'id' => $widget->id
 						)), 'icon' => UI::icon('desktop'),
-						'class' => 'popup fancybox.iframe btn btn-primary'
+						'class' => 'popup fancybox.iframe btn'
 					)); 
 				?>
 				<?php endif; ?>
