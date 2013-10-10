@@ -28,6 +28,7 @@ CREATE TABLE IF NOT EXISTS `TABLE_PREFIX_pages` (
   `meta_title` varchar(255) DEFAULT '',
   `meta_keywords` varchar(255) DEFAULT '',
   `meta_description` text,
+  `robots` varchar(100) DEFAULT 'INDEX, FOLLOW',
   `parent_id` int(11) unsigned DEFAULT NULL,
   `layout_file` varchar(250) NOT NULL,
   `behavior_id` varchar(25) NOT NULL,
