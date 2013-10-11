@@ -109,6 +109,19 @@
 				?>
 			</div>
 		</div>
+		
+		<hr />
+		
+		<div class="control-group">
+			<label class="control-label" for="settingBreadcrumbs"><?php echo __( 'Show breadcrumbs' ); ?></label>
+			<div class="controls">
+				<?php
+				echo Form::select( 'setting[breadcrumbs]', array( 'yes' => __( 'Yes' ), 'no' => __( 'No' ) ), Setting::get( 'breadcrumbs', 'no' ), array(
+					'id' => 'settingBreadcrumbs'
+				) );
+				?>
+			</div>
+		</div>
 	</div>
 
 	<div class="widget-header spoiler-toggle" data-spoiler=".page-options-container">

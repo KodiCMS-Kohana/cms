@@ -128,6 +128,7 @@ return array(
 	'Debug mode' => 'Режим отладки',
 	'Login page' => 'Страница для входа',
 	'Profiling' => 'Профайлинг',
+	'Show breadcrumbs' => 'Показывать хлебные крошки',
 	'Yes' => 'Да',
 	'No' => 'Нет',
 	'Find similar pages' => 'Похожая страница',

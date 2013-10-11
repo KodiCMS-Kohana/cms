@@ -40,7 +40,7 @@ class KodiCMS_Controller_System_Backend extends Controller_System_Template
 			}
 			else
 			{
-				$this->template->breadcrumbs = $this->breadcrumbs;
+				$this->template->breadcrumbs = Setting::get( 'breadcrumbs' ) == 'yes' ? $this->breadcrumbs : NULL;
 				$this->template->footer = View::factory('layouts/blocks/footer');
 			}
 			
