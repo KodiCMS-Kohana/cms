@@ -184,6 +184,9 @@ https://github.com/butschster/kodicms/issues
 
  * [fix] Исправлены ошибки в плагине Archive
  * [feature] В страницах поле Robots (issue #186)
+ * [feature] Адаптация меню админ панели под ширину экрана
+ * [fix] Минимальная ширина админ панели - 860px
+ * [feature] Добавлена подстветка SQL кода в плагине Backup
 
 ### 6.4.21
 
