@@ -42,7 +42,7 @@ RedactorPlugins.elfinder = {
 	{
 		var self = this;
 		this.addBtnSeparator();
-		this.addBtn('file', 'elFinder', function() {
+		this.addBtn('filemanager', 'elFinder', function() {
 			cms.filemanager.open(self.$el.attr('id'));
 		});
 	},
