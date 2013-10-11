@@ -191,6 +191,8 @@ https://github.com/butschster/kodicms/issues
  * [fix] Обновлен redactor js до последней доступной версии на github
  * [fix] Файловый менеджер для редактора вынесен в качестве плагина в модуль elfinder
  * [feature] Добавлен плагин типографа http://mdash.ru/ , доступен в redactor.js
+ * [feature] Добавлен плагин в redactor.js для открытия во весь экран
+ * [fix] Исправлена ошибка с открытием редактора Ace во весь экран
 
 ### 6.4.21
 
