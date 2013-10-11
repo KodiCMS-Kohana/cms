@@ -7,6 +7,7 @@ cms.plugins.ace.switchOn_handler = function( textarea_id, params )
 {
 	var textarea = $('#' + textarea_id).hide();
 	var height = textarea.data('height') ? textarea.data('height') : 300;
+	var mode = textarea.data('mode') ? textarea.data('mode') : 'php';
 	var editArea = $('<div id=' + textarea_id + 'Div />')
 		.insertAfter(textarea)
 		.css({
@@ -18,7 +19,7 @@ cms.plugins.ace.switchOn_handler = function( textarea_id, params )
 	editor.setValue(textarea.val());
 
 	editor.clearSelection();
-    editor.getSession().setMode("ace/mode/php");
+    editor.getSession().setMode("ace/mode/" + mode);
 	editor.getSession().setTabSize(4);
 	editor.getSession().setUseSoftTabs(false);
 	editor.getSession().setUseWrapMode(true);

@@ -85,7 +85,7 @@ class Model_Backup_FileSystem extends Model_Backup {
 		for( $i = 0; $i < $za->numFiles; $i++ )
 		{
 			$stat = $za->statIndex( $i );
-			$files .= $stat['name'] . '<br />';
+			$files .= $stat['name'] . "\n";
 		}
 
 		return $files;
