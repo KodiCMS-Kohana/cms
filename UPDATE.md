@@ -1,8 +1,14 @@
+### 5.14.0
+
+ * UPDATE `settings` SET  `name` = 'site_title' WHERE `name` = 'admin_title';
+
 ### 6.0.0
 
  * ALTER TABLE  `pages` ADD  `meta_title` VARCHAR( 255 ) NOT NULL DEFAULT  '' AFTER  `breadcrumb`;
  * ALTER TABLE  `pages` CHANGE  `keywords`  `meta_keywords` VARCHAR( 255 ) NOT NULL DEFAULT  '';
  * ALTER TABLE  `pages` CHANGE  `description`  `meta_description` TEXT;
+ * ALTER TABLE  `user_profiles` ADD  `locale` VARCHAR( 10 ) NOT NULL DEFAULT  'en-us' AFTER  `name`;
+ * DELETE FROM  `settings` WHERE `name` = 'default_locale';
 
 <pre>
 CREATE TABLE IF NOT EXISTS `TABLE_PREFIX_roles_permissions` (
