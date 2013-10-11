@@ -4,7 +4,7 @@
 			lang: 'ru',
 			url : '/api-elfinder',
             resizable: false,
-			height: calculateContentHeight(),
+			height: cms.content_height,
 			uiOptions: {
 				toolbar : [
 					[<?php if(ACL::check('filemanager.mkdir')): ?>'mkdir'<?php endif; ?>, <?php if(ACL::check('filemanager.upload')): ?>'upload'<?php endif; ?>],
@@ -26,7 +26,7 @@
 		
 		$(window).resize(function() {
 			var node = elfinder.getUI('node');
-			var h = calculateContentHeight();
+			var h = cms.content_height;
 			node.height(h);
 			node.find('.elfinder-navbar')
 				.add(node.find('.elfinder-cwd'))

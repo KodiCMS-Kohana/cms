@@ -7300,6 +7300,7 @@ body {
 #content-wrapper {
   height: auto !important;
   min-height: 100%;
+  min-width: 860px;
 }
 #content {
   margin-top: 15px;

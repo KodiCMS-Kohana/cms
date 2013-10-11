@@ -8,7 +8,8 @@ if($navigation !== NULL)
 			Bootstrap_Navbar::brand(HTML::image( ADMIN_RESOURCES . 'images/logo.png'), ADMIN_DIR_NAME )
 		);
 
-		$menu_nav = Bootstrap_Nav::factory();
+		$menu_nav = Bootstrap_Nav::factory()
+			->attributes('id', 'site_nav');
 		foreach ( $navigation as $section )
 		{ 
 			if(count($section) == 0) continue;
@@ -44,9 +45,10 @@ if($navigation !== NULL)
 
 		$right_nav = Bootstrap_Nav::factory()
 			->pull_right()
+			->attributes('id', 'user_nav')
 			->add(
 				Bootstrap_Navbar_Dropdown::factory(array(
-					'title' => UI::label(UI::icon( 'user icon-white' ) . ' ' .  AuthUser::getUserName())
+					'title' => UI::label(UI::icon( 'user icon-white' ) . ' <span class="text">' .  AuthUser::getUserName() . '</span>')
 				))
 				->add(
 					Bootstrap_Element_Button::factory(array(
@@ -64,7 +66,7 @@ if($navigation !== NULL)
 			->add_divider()
 			->add(Bootstrap_Element_Button::factory(array(
 				'href' => URL::base(TRUE), 
-				'title' => UI::label(UI::icon( 'globe icon-white' ) . ' ' .  __( 'View Site' )))
+				'title' => UI::label(UI::icon( 'globe icon-white' ) . ' <span class="text">' .   __( 'View Site' ) . '</span>'))
 			, array('target' => '_blank'))	); 
 
 		$nav_container

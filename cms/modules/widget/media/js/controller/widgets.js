@@ -56,9 +56,8 @@ cms.init.add('widgets_edit', function() {
 
 cms.init.add('widgets_template', function() {
 	function calculateEditorHeight() {
-		var conentH = calculateContentHeight();
+		var conentH = cms.content_height;
 		var h = $('.widget-title').outerHeight(true) + $('.widget-header').outerHeight(true) + $('.form-actions').outerHeight(true) + 10;
-
 		return conentH - h;
 	}
 

@@ -40,7 +40,6 @@ var console = console || {log:function () {}};
 
 // Main object
 var cms = {
-	
 	models: {},
 	views: {},
 	collections: {},
@@ -99,23 +98,42 @@ var cms = {
 			.replace(/^-/, '');
 	},
 	
-	// Loader
+	// 
 	loader: {
 		init: function () {
 			$('body')
 				.append('<div class="_loader_container"><div class="_loader_bg"></div><span>' + __('Loading') + '</span>\n\
 </div>');
 		},
-		
 		show: function (speed) {
 			if(!speed)
-				speed = 1500
+				speed = 500
 			$('._loader_container').fadeTo(speed, 0.4);
 		},
-		
 		hide: function () {
 			$('._loader_container').stop().fadeOut();
 		}
+	},
+	
+	/**
+	 * Вычисление высоты контейнера с контентом
+	 */
+	content_height: null,
+	calculateContentHeight: function() {
+		if(this.content_height != null) 
+			return this.content_height;
+
+		var contenrCont = $('#content'),
+			headerCont = $('header'),
+			footerCont = $('footer'),
+			windowCont = $(window);
+
+		var contentContHeight = windowCont.outerHeight() - headerCont.outerHeight(),
+			contentContPadding = contenrCont.outerHeight(!$('body').hasClass('iframe')) - contenrCont.innerHeight();
+
+		this.content_height = contentContHeight - contentContPadding;
+
+		return this.content_height;
 	},
 	
 	translations: {},
@@ -296,9 +314,51 @@ cms.ui.add('btn-confirm', function() {
 	$('.widget')
 		.addClass('outline_inner')
 		.wrap('<div class="outline"></div>');
+}).add('calculate_height', function() {
+	cms.calculateContentHeight();
 
-})
-.add('spoiler', function() {
+	$(window).resize(function() {
+		cms.content_height = null;
+		cms.calculateContentHeight();
+	});
+}).add('navbar', function() {
+	
+	var user_nav = $('#user_nav');
+	var brand = $('.brand');
+
+	var sw = $('#site_nav').outerWidth();
+	var uw = user_nav.outerWidth();
+	var bw = brand.outerWidth(true);
+
+	$(window).resize(function() {
+		calcNav()
+	});
+	
+	function calcNav() {
+		var nw = $('.navbar-inner').width();
+		var w = nw - sw - uw - bw - 20;
+		var wh = false;
+		
+		if(w <= 0) {
+			$('.text, .divider-vertical', user_nav).hide();
+			wh = true;
+		} else {
+			wh = false;
+			$('.text, .divider-vertical', user_nav).show();
+		}
+		
+		if(wh) {
+			var unw = $(user_nav).outerWidth();
+			var nw = w + uw - unw;
+			
+			if(w <= 0 && nw < 0) brand.hide();
+			else brand.fadeIn();
+				
+		} else brand.fadeIn();
+	};
+	
+	calcNav();
+}).add('spoiler', function() {
 	var icon_open = 'icon-chevron-up',
 		icon_close = 'icon-chevron-down';
 
@@ -527,18 +587,6 @@ function updateQueryStringParameter(uri, key, value) {
 	}
 }
 
-function calculateContentHeight() {
-	var contenrCont = $('#content'),
-		headerCont = $('header'),
-		footerCont = $('footer'),
-		windowCont = $(window);
-
-	var contentContHeight = windowCont.outerHeight() - headerCont.outerHeight(),
-		contentContPadding = contenrCont.outerHeight(!$('body').hasClass('iframe')) - contenrCont.innerHeight();
-
-	return contentContHeight - contentContPadding;
-}
-
 function parse_messages($messages, $type) {
 	for(text in $messages) {
 		console.log(text);
@@ -556,7 +604,7 @@ function parse_messages($messages, $type) {
 }
 
 // Run
-jQuery(document).ready(function () {
+jQuery(document).ready(function() {
     // messages
     cms.messages.init();
 
