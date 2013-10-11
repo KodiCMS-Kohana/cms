@@ -34,3 +34,16 @@ cms.ui.add('filemanager', function() {
 		return false;
 	});
 });
+
+if (!RedactorPlugins) var RedactorPlugins = {};
+
+RedactorPlugins.elfinder = {
+	init: function ()
+	{
+		var self = this;
+		this.addBtnSeparator();
+		this.addBtn('file', 'elFinder', function() {
+			cms.filemanager.open(self.$el.attr('id'));
+		});
+	},
+};

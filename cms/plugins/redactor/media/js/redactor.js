@@ -12,16 +12,7 @@ cms.plugins.redactor.switchOn_handler = function( textarea_id, params )
 		//wym: true,
 		autoresize: false,
 		lang: LOCALE,
-		minHeight: 200,
-		buttonsAdd: ['|', 'elfinder'], 
-		buttonsCustom: {
-			elfinder: {
-				title: 'elFinder', 
-				callback: function(obj, event, key) {
-					cms.filemanager.open(obj.$el.attr('id'));
-				} 
-			}
-		}
+		minHeight: 200
 	};
 	
 	params = $.extend(local_params, params);
