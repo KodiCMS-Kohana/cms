@@ -33,7 +33,13 @@
 				.add(node.find('.elfinder-cwd-wrapper'))
 				.height(h - node.find('.elfinder-toolbar').height() - node.find('.elfinder-statusbar').height() )
 		});
+		
+		$('#elfinder')
+			.addClass('outline_inner')
+			.wrap('<div class="outline"></div>');
 	});
+	
+	
 </script>
 
 <div id="elfinder"></div>
