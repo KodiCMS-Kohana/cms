@@ -26,7 +26,7 @@
 		
 		$(window).resize(function() {
 			var node = elfinder.getUI('node');
-			var h = cms.content_height;
+			var h = cms.content_height - 20;
 			node.height(h);
 			node.find('.elfinder-navbar')
 				.add(node.find('.elfinder-cwd'))
