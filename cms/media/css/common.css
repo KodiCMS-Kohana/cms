@@ -7749,3 +7749,6 @@ footer a {
   border-top-color: #ffffff;
   border-bottom-color: #d59595;
 }
+.ace_editor {
+  z-index: 999;
+}
