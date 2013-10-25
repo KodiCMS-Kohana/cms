@@ -441,6 +441,28 @@ cms.ui.add('btn-confirm', function() {
 	});
 }).add('focus', function() {
 	$('.focus').focus();
+}).add('dropzone', function() {
+	cms.uploader = new Dropzone('.dropzone', {
+		success: function(file, r) {
+			var response = $.parseJSON(r);
+			var self = this;
+			if(response.code != 200) {
+				$(file.previewElement).fadeOut(500, function() {
+					self.removeFile(file);
+				})
+				cms.message(response.message, 'error');
+				
+			} else {
+				cms.message(response.response);
+			}
+		},
+		error: function(file, message) {
+			cms.message(message, 'error');
+			this.removeFile(file);
+		}
+	});
+	
+	
 }).add('loader', function() {
     cms.loader.init();
 }).add('fancybox', function() {
@@ -589,7 +611,6 @@ function updateQueryStringParameter(uri, key, value) {
 
 function parse_messages($messages, $type) {
 	for(text in $messages) {
-		console.log(text);
 		if(text == '_external') {
 			parse_messages($messages[text], $type);
 			continue;

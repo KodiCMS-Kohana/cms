@@ -54,6 +54,9 @@ class KodiCMS_Controller_System_Backend extends Controller_System_Template
 			Assets::js('underscore', ADMIN_RESOURCES . 'libs/underscore-min.js', 'jquery-ui');
 			Assets::js('backbone', ADMIN_RESOURCES . 'libs/backbone-min.js', 'underscore');
 			
+			Assets::css('dropzone', ADMIN_RESOURCES . 'libs/dropzone/css/basic.css', 'jquery');
+			Assets::js('dropzone', ADMIN_RESOURCES . 'libs/dropzone/dropzone.min.js', 'jquery');
+			
 			Assets::css('jgrowl', ADMIN_RESOURCES . 'libs/jgrowl/jquery.jgrowl.css', 'jquery');
 			Assets::js('jgrowl', ADMIN_RESOURCES . 'libs/jgrowl/jquery.jgrowl_minimized.js', 'jquery');
 
