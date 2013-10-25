@@ -29,7 +29,6 @@ class Controller_System_API extends Controller_System_Ajax {
 	public function __construct(\Request $request, \Response $response) 
 	{
 		parent::__construct($request, $response);
-
 		$this->_is_backend = URL::match(ADMIN_DIR_NAME, Request::initial()->referrer());
 	}
 
@@ -82,7 +81,7 @@ class Controller_System_API extends Controller_System_Ajax {
 	 */
 	public function params(array $new_params = NULL)
 	{
-		$this->_params = Arr::merge($this->request->query(), $this->request->post(), $this->request->param());
+		$this->_params = Arr::merge($this->request->query(), $this->request->post(), $this->request->param(), $_FILES);
 		
 		if(is_array($new_params))
 		{
