@@ -459,10 +459,18 @@ cms.ui.add('btn-confirm', function() {
 		error: function(file, message) {
 			cms.message(message, 'error');
 			this.removeFile(file);
-		}
+		},
+        dictDefaultMessage: __("Drop files here to upload"),
+        dictFallbackMessage: __("Your browser does not support drag'n'drop file uploads."),
+        dictFallbackText: __("Please use the fallback form below to upload your files like in the olden days."),
+        dictFileTooBig: __("File is too big ({{filesize}}MB). Max filesize: {{maxFilesize}}MB."),
+        dictInvalidFileType: __("You can't upload files of this type."),
+        dictResponseError: __("Server responded with {{statusCode}} code."),
+        dictCancelUpload: __("Cancel upload"),
+        dictCancelUploadConfirmation: __("Are you sure you want to cancel this upload?"),
+        dictRemoveFile: __("Remove file"),
+        dictMaxFilesExceeded: __("You can only upload {{maxFiles}} files."),
 	});
-	
-	
 }).add('loader', function() {
     cms.loader.init();
 }).add('fancybox', function() {

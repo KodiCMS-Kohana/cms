@@ -249,5 +249,18 @@ return array(
 	
 	'Manage api' => 'Управлять API сайта',
 	'Manage social accounts' => 'Управлять аккаунтами соц. сетей',
-	'View settings' => 'Видеть раздел'
+	'View settings' => 'Видеть раздел',
+    
+    //============Dropzone============//
+    'Drop files here to upload' => 'Перетащите сюда файлы для загрузки на сервер',
+    "Your browser does not support drag'n'drop file uploads." 
+        => "Ваш браузер не поддерживает drag'n'drop загрузку",
+    "File is too big ({{filesize}}MB). Max filesize: {{maxFilesize}}MB."
+        => 'Размер файла ({{filesize}}MB) слишком большой. Максимальный размер {{maxFilesize}}MB.',
+    "You can't upload files of this type." => 'Вы не можете загружать файлы этого типа.',
+    "Server responded with {{statusCode}} code." => 'Сервер ответил с кодом {{statusCode}}.',
+    "Cancel upload" => 'Отмена загрузки',
+    "Are you sure you want to cancel this upload?" => 'Вы уверены, что хотите отменить загрузку?',
+    "Remove file" => 'Удалить файл',
+    "You can only upload {{maxFiles}} files." => 'Вы можете загрузить только {{maxFiles}} файла(-ов).'
 );

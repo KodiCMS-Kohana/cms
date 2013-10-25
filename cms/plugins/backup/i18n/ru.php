@@ -1,7 +1,7 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
 return array(
-//	'Backup' => '',
+	'Backup' => 'Резервное копирование',
 	'Create database backup' => 'Сделать бэкап БД',
 	'Create filesystem backup' => 'Сделать бэкап файлов',
 	'Created' => 'Создан',
