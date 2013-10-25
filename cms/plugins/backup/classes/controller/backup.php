@@ -3,32 +3,11 @@
 class Controller_Backup extends Controller_System_Backend {
 	
 	public function action_index() 
-	{
-		$files = array();
-		$handle = opendir(BACKUP_PLUGIN_FOLDER);
-		while (false !== ($file = readdir($handle))) 
-		{
-			if (!preg_match("/(sql|zip)/", $file, $m)) 
-			{
-				continue;
-			}
-			
-			$date_create = preg_replace('![^\d]*!', '', $file);
-			$date_create = preg_replace('#^([\d]{4})([\d]{2})([\d]{2})([\d]{2})([\d]{2})([\d]{2})$#', '$3/$2/$1 $4:$5:$6', $date_create);
-
-			$files[$file] = array(
-				'size' => Text::bytes(filesize(BACKUP_PLUGIN_FOLDER.$file)),
-				'path' => BACKUP_PLUGIN_FOLDER.$file,
-				'date' => $date_create
-			);
-		}
-
-		closedir($handle);
-		
+	{		
 		$this->template->title = __('Backup');
 		
 		$this->template->content = View::factory('backup/index', array(
-			'files' => $files
+			'files' => Api::get('backup.list')->as_object()->response
 		));
 	}
 	
