@@ -72,7 +72,7 @@ class Controller_API_Snippet extends Controller_System_Api {
 		{			
 			throw HTTP_API_Exception::factory(API::ERROR_UNKNOWN,
 				'Snippet :name has not been added!',
-				array(':name' => $snippet_name)
+				array(':name' => $snippet->name)
 			);
 		}
 		else
