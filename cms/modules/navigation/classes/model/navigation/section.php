@@ -82,7 +82,7 @@ class Model_Navigation_Section extends Model_Navigation_Abstract implements Coun
 		
 		foreach ($this->get_pages() as $page)
 		{
-			if($page->url() == $url)
+			if($page->url() == $uri)
 			{
 				return $page;
 			}
