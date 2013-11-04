@@ -180,7 +180,7 @@ RewriteRule .* index.php/$0 [PT]# Set environment
 
 https://github.com/butschster/kodicms/issues
 
-## Changelog
+### 6.7.27
 
  * [fix] Исправлены ошибки в плагине Archive
  * [feature] В страницах поле Robots (issue #186)
@@ -193,6 +193,9 @@ https://github.com/butschster/kodicms/issues
  * [feature] Добавлен плагин типографа http://mdash.ru/ , доступен в redactor.js
  * [feature] Добавлен плагин в redactor.js для открытия во весь экран
  * [fix] Исправлена ошибка с открытием редактора Ace во весь экран
+ * [feature] Замена jquery.uploader на jquery.dropzone (http://www.dropzonejs.com/)
+ * [fix] Исправление плагина Backup
+ * [fix] Исправление мелких ошибок
 
 ### 6.4.21
 
