@@ -570,7 +570,11 @@ var Api = {
 				if(response.code != 200) return Api.exception(response);
 				
 				if (response.message) {
-					cms.message(response.message);
+					if(response.message instanceof Object) {
+						parse_messages(response.message)
+					} else {
+						cms.message(response.message);
+					}
 				}
 	
 				if(response.redirect) {
