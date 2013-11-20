@@ -163,7 +163,7 @@ class KodiCMS_Controller_Login extends Controller_System_Frontend {
 		));
 
 		$email = Email::factory(__('Forgot password from :site_name', array(':site_name' => Config::get('site', 'title'))))
-			->from(Config::get('site', 'default_email'), Config::get('site', 'title'))
+			->from(Config::get('email', 'default'), Config::get('site', 'title'))
 			->to($user->email)
 			->message($message, 'text/html');
 

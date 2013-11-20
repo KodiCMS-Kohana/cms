@@ -32,4 +32,26 @@ class Config extends Kohana_Config {
 		
 		return $config;
 	}
+	
+	/**
+	 * 
+	 * @param array $array
+	 */
+	public static function set_from_array(array $array)
+	{
+		foreach($array as $group => $values)
+		{
+			if(is_array($values))
+			{
+				foreach($values as $key => $value)
+				{
+					Config::set($group, $key, $value);
+				}
+			}
+			else
+			{
+				Config::set('site', $group, $values);
+			}
+		}
+	}
 }

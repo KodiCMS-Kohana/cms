@@ -182,6 +182,7 @@ https://github.com/butschster/kodicms/issues
 
 ### 7.7.27
  * [feature] Замена класса Setting на Config_Database, в связи с этим замена таблицы Setting на Config
+ * [feature] Добавлен раздел с настройкой модуля Email
 
 ### 6.8.27
 

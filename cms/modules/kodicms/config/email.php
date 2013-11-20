@@ -1,5 +1,13 @@
 <?php defined('SYSPATH') OR die('No direct access allowed.');
+
 return array(
+	
+	'drivers' => array(
+		'native' => __('Native'),
+		'sendmail' => 'Sendmail',
+		'smtp' => 'SMTP'
+	),
+	
 	/**
 	 * SwiftMailer driver, used with the email module.
 	 *
@@ -25,5 +33,7 @@ return array(
 	 * @param   string  sendmail: executable path, with -bs or equivalent attached
 	 * @param   array   smtp: hostname, (username), (password), (port), (encryption)
 	 */
-	'options' => NULL
+	'options' => NULL,
+	
+	'default' => 'no-reply@' . SITE_HOST,
 );

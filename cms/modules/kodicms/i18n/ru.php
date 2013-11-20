@@ -24,7 +24,7 @@ return array(
 	'Remove' => 'Удалить',
 	'Save and Close' => 'Сохранить и Закрыть',
 	'Save and Continue editing' => 'Сохранить и Продолжить',
-	'Save setting' => 'Сохранить настройки',
+	'Save settings' => 'Сохранить настройки',
 	'Save changes' => 'Сохранить изменения',
 	'System' => 'Система',
 	'inherit' => 'наследовать',
