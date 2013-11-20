@@ -61,7 +61,7 @@ INSERT INTO `__TABLE_PREFIX__roles_users` (`user_id`, `role_id`) VALUES
 (1, 1),
 (1, 2);
 
-INSERT INTO `config` (`group_name`, `config_key`, `config_value`) VALUES
+INSERT INTO `__TABLE_PREFIX__config` (`group_name`, `config_key`, `config_value`) VALUES
 ('api', 'mode', 's:2:"no";'),
 ('site', 'allow_html_title', 's:3:"off";'),
 ('site', 'breadcrumbs', 's:2:"no";'),

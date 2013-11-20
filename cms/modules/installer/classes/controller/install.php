@@ -216,7 +216,7 @@ class Controller_Install extends Controller_System_Frontend
 
 		// Create tables
 		$schema_content = file_get_contents( $schema_file );
-		$schema_content = str_replace( 'TABLE_PREFIX_', $post['table_prefix'], $schema_content );
+		$schema_content = str_replace( '__TABLE_PREFIX__', $post['table_prefix'], $schema_content );
 
 		if ( !empty( $schema_content ) )
 		{
