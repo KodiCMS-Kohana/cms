@@ -1,4 +1,4 @@
-cms.init.add('email_index', function () {
+cms.init.add('email_settings', function () {
     
     var driver = $('#smtp_driver').on('change', function() {
         change_smtp_driver($(this).val());
