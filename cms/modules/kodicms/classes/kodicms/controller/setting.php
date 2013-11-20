@@ -2,6 +2,13 @@
 
 class KodiCMS_Controller_Setting extends Controller_System_Backend {
 
+	public function before()
+	{
+		parent::before();
+		$this->breadcrumbs
+			->add(__('Settings'), 'backend/setting');
+	}
+	
 	public function action_index()
 	{
 		// check if trying to save
@@ -16,8 +23,6 @@ class KodiCMS_Controller_Setting extends Controller_System_Backend {
 		) );
 		
 		$this->template->title = __('Settings');
-		$this->breadcrumbs
-			->add($this->template->title, 'setting');
 	}
 
 	private function _save()
@@ -37,21 +42,6 @@ class KodiCMS_Controller_Setting extends Controller_System_Backend {
 		
 		Messages::success( __( 'Settings has been saved!' ) );
 
-		$this->go_back();
-	}
-	
-	public function action_clear_cache()
-	{
-		$this->auto_render = FALSE;
-		
-		Cache::instance()->delete_all();
-		Kohana::cache('Kohana::find_file()', NULL, -1);
-		Kohana::cache('Route::cache()', NULL, -1);
-		Kohana::cache('profiler_application_stats', NULL, -1);
-		
-		Kohana::$log->add(Log::INFO, 'Clear cache')->write();
-		
-		Messages::success( __( 'Cache cleared' ) );
 		$this->go_back();
 	}
 }

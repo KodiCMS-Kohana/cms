@@ -117,6 +117,7 @@ return array(
 	'General settings' => 'Главные настройки',
 	'Interface language' => 'Язык интерфейса',
 	'Clear cache' => 'Очистить кеш',
+	'Cache has been cleared!' => 'Кеш успешно очищен!',
 	'Site information' => 'Информация о сайте',
 	'Site title' => 'Заголовок',
 	'Site description' => 'Описание',
