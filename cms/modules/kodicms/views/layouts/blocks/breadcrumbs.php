@@ -5,11 +5,11 @@
 		<?php if( ! empty($breadcrumb->url) AND $i < $breadcrumbs->count()): ?>
 		<?php echo HTML::anchor( $breadcrumb->url, $breadcrumb->name ); ?>
 		<?php else: ?>
-		<?php echo $breadcrumb->name; ?>
+		<span><?php echo $breadcrumb->name; ?></span>
 		<?php endif; ?>
-		<?php if($i < $breadcrumbs->count()): ?>
+		<?php /*if($i < $breadcrumbs->count()): ?>
 		<span class="divider">></span>
-		<?php endif; ?>
+		<?php endif;*/ ?>
 	</li>
 	<?php $i++; ?>
 	<?php endforeach; ?>

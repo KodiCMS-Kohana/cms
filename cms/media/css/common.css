@@ -6787,6 +6787,7 @@ table.table thead. th {
 }
 .breadcrumb {
   margin: 0;
+  padding: 0 20px;
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
   border-radius: 0;
@@ -6795,6 +6796,32 @@ table.table thead. th {
   border-radius: 0;
   border-top: 1px solid #fff;
   border-bottom: 1px solid #D4D4D4;
+  background: #fff;
+}
+.breadcrumb li a,
+.breadcrumb li span {
+  float: left;
+  padding: 5px 0px;
+  line-height: 20px;
+}
+.breadcrumb li:first-child a {
+  font-size: 20px;
+}
+.breadcrumb li:after {
+  position: relative;
+  top: 3px;
+  content: '';
+  display: inline-block;
+  width: 22px;
+  height: 23px;
+  border-top: 1px solid #E5E5E5;
+  border-right: 1px solid #E5E5E5;
+  transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}
+.breadcrumb li + li {
+  padding-left: 15px;
 }
 input.input-title {
   font-size: 20px;

@@ -112,6 +112,7 @@ return array(
 	'Show field select' => 'Выбрать из списка',
 	'Hide field select' => 'Скрыть список полей',
 	'inherit ( :layout )' => 'Наследовать ( :layout )',
+	'Metadata' => 'Метаданные',
 
 	/*********************** Settings *******************/
 	'General settings' => 'Главные настройки',

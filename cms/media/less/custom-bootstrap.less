@@ -237,10 +237,43 @@ table.table {
 
 .breadcrumb {
 	margin: 0;
+	padding: 0 20px;
 	.border-radius(0);
 	border-top: 1px solid #fff;
 	border-bottom: 1px solid #D4D4D4;
+	background: #fff;
+	
+	li {
+		a, span {
+			float: left;
+			padding: 5px 0px;
+			line-height: 20px;
+		}
+		
+		&:first-child a {
+			font-size: 20px;
+		}
+		
+		&:after {
+			position: relative;
+			top: 3px;
+			content: '';
+			display: inline-block;
+			width: 22px;
+			height: 23px;
+			border-top: 1px solid #E5E5E5;
+			border-right: 1px solid #E5E5E5;
+			transform: rotate(45deg);
+			-ms-transform: rotate(45deg);
+			-webkit-transform: rotate(45deg);
+		}
+		
+		& + li {
+			padding-left: 15px;
+		}
+	}
 }
+
 
 input.input-title {
 	font-size: 20px;

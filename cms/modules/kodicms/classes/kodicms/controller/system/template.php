@@ -70,7 +70,7 @@ class KodiCMS_Controller_System_Template extends Controller_System_Security
 			if( isset($routes['backend']) )
 			{
 				$this->breadcrumbs
-						->add(__('Home'), Route::url( 'backend' ));
+						->add(UI::icon('home'), Route::url( 'backend' ));
 			}
 		}
 	}
