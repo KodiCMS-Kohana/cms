@@ -33,7 +33,7 @@ class KodiCMS_Controller_Front extends Controller_System_Controller
 		{
 			// Если включен поиск похожей страницы и она найдена, производим
 			// редирект на найденую страницу
-			if(Setting::get('find_similar') == 'yes')
+			if(Config::get('site', 'find_similar') == 'yes')
 			{
 				$uri = Model_Page_Front::find_similar($this->request->uri());
 				
@@ -104,7 +104,7 @@ class KodiCMS_Controller_Front extends Controller_System_Controller
 		}
 		
 		// Если в начтройках выключен режим отладки, то включить etag кеширование
-		if( Setting::get( 'debug ') == 'no' )
+		if( Config::get('site', 'debug ') == 'no' )
 		{
 			$this->check_cache(sha1($html));
 			$this->response->headers('last-modified', date('r', strtotime($page->updated_on)));

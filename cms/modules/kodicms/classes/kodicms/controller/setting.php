@@ -29,12 +29,25 @@ class KodiCMS_Controller_Setting extends Controller_System_Backend {
 	{
 		$data = $this->request->post('setting');
 
-		if ( !isset( $data['allow_html_title'] ) )
+		if ( !isset( $data['site']['allow_html_title'] ) )
 		{
-			$data['allow_html_title'] = 'off';
+			$data['site']['allow_html_title'] = 'off';
 		}
 		
-		Setting::saveFromData( $data );
+		foreach($data as $group => $values)
+		{
+			if(is_array($values))
+			{
+				foreach($values as $key => $value)
+				{
+					Config::set($group, $key, $value);
+				}
+			}
+			else
+			{
+				Config::set('site', $group, $values);
+			}
+		}
 
 		Observer::notify( 'save_settings', $this->request->post() );
 

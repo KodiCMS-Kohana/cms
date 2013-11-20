@@ -28,3 +28,12 @@ ALTER TABLE `TABLE_PREFIX_roles_permissions` ADD CONSTRAINT `roles_permissions_i
 ### 6.5.21
 
  * ALTER TABLE  `pages` ADD  `robots` VARCHAR( 100 ) NOT NULL DEFAULT  'INDEX,FOLLOW' AFTER  `meta_description`;
+
+### 7.7.21
+
+	CREATE TABLE IF NOT EXISTS `config` (
+		`group_name` varchar(128) NOT NULL,
+		`config_key` varchar(128) NOT NULL,
+		`config_value` text NOT NULL,
+		PRIMARY KEY (`group_name`,`config_key`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;

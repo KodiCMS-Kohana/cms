@@ -54,16 +54,15 @@ if(IS_BACKEND)
 {
 	Observer::observe('view_setting_plugins', function() {
 		echo View::factory('accounts/settings', array(
-			'oauth' => Kohana::$config->load('oauth'),
-			'params' => Kohana::$config->load('social')->as_array()
+			'oauth' => Config::get('oauth.accounts'),
+			'params' => Config::get('social')
 		));
 	});
 
 	Observer::observe('save_settings', function($post) {
-		if(!isset($post['setting']['oauth_register'])) 
+		if(!isset($post['setting']['oauth']['register'])) 
 		{
-			Setting::set( 'oauth_register', 0 );
-			Setting::save();
+			Config::set('oauth', 'register', 0);
 		}
 	});
 }

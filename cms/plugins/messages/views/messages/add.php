@@ -26,7 +26,7 @@
 
 		<script>
 		$(function() {
-			cms.filters.switchOn( 'message-conent', '<?php echo Setting::get('default_filter_id'); ?>');
+			cms.filters.switchOn( 'message-conent', '<?php echo Config::get('site', 'default_filter_id'); ?>');
 		});
 		</script>
 				

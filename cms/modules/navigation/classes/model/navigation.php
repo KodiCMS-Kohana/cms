@@ -92,7 +92,7 @@ class Model_Navigation {
 			$uri = Request::current()->uri();
 		}
 		
-		if($uri == ADMIN_DIR_NAME) $uri .= '/' . Setting::get('default_tab');
+		if($uri == ADMIN_DIR_NAME) $uri .= '/' . Config::get('site', 'default_tab');
 
 		$uri = strtolower($uri);
 

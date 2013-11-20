@@ -4,7 +4,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="generator" content="<?php echo CMS_NAME . ' v.' . CMS_VERSION; ?>">
 		<meta name="author" content="ButscH" />
-		<title><?php echo $title; ?> &ndash; <?php echo Setting::get( 'site_title' ); ?></title>
+		<title><?php echo $title; ?> &ndash; <?php echo Config::get('site', 'title' ); ?></title>
 		<link href="<?php echo ADMIN_RESOURCES; ?>favicon.ico" rel="favourites icon" />
 
 		<script type="text/javascript">
@@ -34,7 +34,7 @@
 		
 		<?php echo $footer; ?>
 
-		<?php if ( Setting::get( 'profiling' ) == 'yes' ): ?>
+		<?php if ( Config::get('site', 'profiling' ) == 'yes' ): ?>
 		<hr />
 		<?php echo View::factory( 'profiler/stats' ) ?>
 		<?php endif; ?>

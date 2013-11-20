@@ -12,7 +12,7 @@
 			<label class="control-label title" for="settingTitle"><?php echo __( 'Site title' ); ?></label>
 			<div class="controls">
 				<?php
-				echo Form::input( 'setting[site_title]', Setting::get( 'site_title' ), array(
+				echo Form::input( 'setting[site][title]', Config::get('site', 'title' ), array(
 					'class' => 'input-title input-block-level', 'id' => 'settingTitle'
 				) );
 				?>
@@ -22,7 +22,7 @@
 		<div class="control-group">
 			<label class="control-label" for="settingDescription"><?php echo __( 'Site description' ); ?></label>
 			<div class="controls">
-				<?php echo Form::textarea( 'setting[site_description]', Setting::get( 'site_description' ), array(
+				<?php echo Form::textarea( 'setting[site][description]', Config::get('site', 'description' ), array(
 					'id' => 'settingDescription', 'class' => 'input-block-level', 'rows' => 3
 				) ); ?>
 			</div>
@@ -47,15 +47,15 @@
 			<?php echo Form::label('setting_date_format', __('Date format'), array('class' => 'control-label')); ?>
 			<div class="controls">
 				<?php
-				echo Form::select('setting[date_format]', $dates, Setting::get('date_format'), array('id' => 'setting_date_format'));
+				echo Form::select('setting[site][date_format]', $dates, Config::get('site', 'date_format'), array('id' => 'setting_date_format'));
 				?>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label" for="settingSection"><?php echo __( 'Default backend section' ); ?></label>
 			<div class="controls">
-				<select id="settingSection" name="setting[default_tab]">
-					<?php $current_default_nav = Setting::get( 'default_tab' ); ?>
+				<select id="settingSection" name="setting[site][default_tab]">
+					<?php $current_default_nav = Config::get('site', 'default_tab' ); ?>
 					<?php foreach ( Model_Navigation::get() as $section ): ?>
 						<optgroup label="<?php echo $section->name(); ?>">
 							<?php foreach ( $section->get_pages() as $item ): ?>
@@ -74,7 +74,7 @@
 			<label class="control-label" for="settingFindSimilar"><?php echo __( 'Find similar pages' ); ?></label>
 			<div class="controls">
 				<?php
-				echo Form::select( 'setting[find_similar]', array( 'yes' => __( 'Yes' ), 'no' => __( 'No' ) ), Setting::get( 'find_similar' ), array(
+				echo Form::select( 'setting[site][find_similar]', array( 'yes' => __( 'Yes' ), 'no' => __( 'No' ) ), Config::get('site', 'find_similar' ), array(
 					'id' => 'settingFindSimilar'
 				) );
 				?>
@@ -87,7 +87,7 @@
 			<label class="control-label" for="settingProfiling"><?php echo __( 'Profiling' ); ?></label>
 			<div class="controls">
 				<?php
-				echo Form::select( 'setting[profiling]', array( 'yes' => __( 'Yes' ), 'no' => __( 'No' ) ), Setting::get( 'profiling' ), array(
+				echo Form::select( 'setting[site][profiling]', array( 'yes' => __( 'Yes' ), 'no' => __( 'No' ) ), Config::get('site', 'profiling' ), array(
 					'id' => 'settingProfiling'
 				) );
 				?>
@@ -100,7 +100,7 @@
 			<label class="control-label" for="settingDebugMode"><?php echo __( 'Debug mode' ); ?></label>
 			<div class="controls">
 				<?php
-				echo Form::select( 'setting[debug]', array( 'yes' => __( 'Yes' ), 'no' => __( 'No' ) ), Setting::get( 'debug' ), array(
+				echo Form::select( 'setting[site][debug]', array( 'yes' => __( 'Yes' ), 'no' => __( 'No' ) ), Config::get('site', 'debug' ), array(
 					'id' => 'settingDebugMode'
 				) );
 				?>
@@ -113,7 +113,7 @@
 			<label class="control-label" for="settingBreadcrumbs"><?php echo __( 'Show breadcrumbs' ); ?></label>
 			<div class="controls">
 				<?php
-				echo Form::select( 'setting[breadcrumbs]', array( 'yes' => __( 'Yes' ), 'no' => __( 'No' ) ), Setting::get( 'breadcrumbs', 'no' ), array(
+				echo Form::select( 'setting[site][breadcrumbs]', array( 'yes' => __( 'Yes' ), 'no' => __( 'No' ) ), Config::get('site', 'breadcrumbs', 'no' ), array(
 					'id' => 'settingBreadcrumbs'
 				) );
 				?>
@@ -131,7 +131,7 @@
 			<div class="controls">
 				<label class="radio inline" for="settingPageStatusDraft">
 					<?php
-					echo Form::radio( 'setting[default_status_id]', Model_Page::STATUS_DRAFT, (Setting::get( 'default_status_id' ) == Model_Page::STATUS_DRAFT ), array(
+					echo Form::radio( 'setting[default_status_id]', Model_Page::STATUS_DRAFT, (Config::get('site', 'default_status_id' ) == Model_Page::STATUS_DRAFT ), array(
 						'id' => 'settingPageStatusDraft'
 					) ) . ' ' . __( 'Draft' );
 					?>
@@ -139,7 +139,7 @@
 
 				<label class="radio inline" for="settingPageStatusPublished">
 					<?php
-					echo Form::radio( 'setting[default_status_id]', Model_Page::STATUS_PUBLISHED, (Setting::get( 'default_status_id' ) == Model_Page::STATUS_PUBLISHED ), array(
+					echo Form::radio( 'setting[site][default_status_id]', Model_Page::STATUS_PUBLISHED, (Config::get('site', 'default_status_id' ) == Model_Page::STATUS_PUBLISHED ), array(
 						'id' => 'settingPageStatusPublished'
 					) ) . ' ' . __( 'Published' );
 					?>
@@ -152,7 +152,7 @@
 		<div class="control-group">
 			<label class="control-label" for="settingPageFilter"><?php echo __( 'Default filter' ); ?></label>
 			<div class="controls">
-				<?php echo Form::select('setting[default_filter_id]', $filters, Setting::get( 'default_filter_id' )); ?>
+				<?php echo Form::select('setting[site][default_filter_id]', $filters, Config::get('site', 'default_filter_id' )); ?>
 				<p class="help-block"><?php echo __( 'Only for filter in pages, <i>not</i> in snippets.' ); ?></p>
 			</div>
 		</div>

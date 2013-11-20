@@ -7,7 +7,7 @@
 		<label class="control-label"><?php echo __( 'API enable' ); ?></label>
 		<div class="controls">
 			<?php
-			echo Form::select( 'setting[api_mode]', array( 'yes' => __( 'Yes' ), 'no' => __( 'No' ) ), Setting::get( 'api_mode' ));
+			echo Form::select( 'setting[api][mode]', array( 'yes' => __( 'Yes' ), 'no' => __( 'No' ) ), Config::get('api', 'mode'));
 			?>
 		</div>
 	</div>

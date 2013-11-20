@@ -98,7 +98,7 @@ class Controller_System_API extends Controller_System_Ajax {
 	 */
 	public function execute()
 	{
-		if( ! $this->_is_backend AND Setting::get('api_mode') == 'no')
+		if( ! $this->_is_backend AND Config::get('api', 'mode') == 'no')
 		{
 			throw new HTTP_Exception_403('Forbiden');
 		}

@@ -20,7 +20,7 @@ Observer::observe('page_add_after_save', function($page) {
 
 // Init settings
 Observer::observe('modules::afer_load', function() {
-	Setting::init();
+
 });
 
 Observer::observe('frontpage_requested', function($page) {

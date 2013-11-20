@@ -1,6 +1,6 @@
 SET FOREIGN_KEY_CHECKS=0;
 
-INSERT INTO `TABLE_PREFIX_pages` (`id`, `title`, `slug`, `breadcrumb`, `meta_title`, `meta_keywords`, `meta_description`, `parent_id`, `layout_file`, `behavior_id`, `status_id`, `created_on`, `published_on`, `updated_on`, `created_by_id`, `updated_by_id`, `position`, `needs_login`) VALUES
+INSERT INTO `__TABLE_PREFIX__pages` (`id`, `title`, `slug`, `breadcrumb`, `meta_title`, `meta_keywords`, `meta_description`, `parent_id`, `layout_file`, `behavior_id`, `status_id`, `created_on`, `published_on`, `updated_on`, `created_by_id`, `updated_by_id`, `position`, `needs_login`) VALUES
 (1, 'Home', '', 'Home', 'Home', '', '', 0, 'normal', '', 100, '__DATE__', '__DATE__', '__DATE__', 1, 1, 0, 0),
 (2, 'Page not found', 'page-not-found', 'Page not found', 'Page not found', '', '', 1, '', 'page_not_found', 101, '__DATE__', '__DATE__', '__DATE__', 1, 1, 4, 2),
 (3, 'About us', 'about-us', 'About us', 'About us', '', '', 1, '', '', 100, '__DATE__', '__DATE__', '__DATE__', NULL, 1, 1, 2),
@@ -15,13 +15,13 @@ INSERT INTO `TABLE_PREFIX_pages` (`id`, `title`, `slug`, `breadcrumb`, `meta_tit
 (12, 'Send page', 'send', 'send', 'send', '', '', 11, 'none', '0', 101, '__DATE__', '__DATE__', '__DATE__', 1, 1, 1, 2);
 
 
-INSERT INTO `TABLE_PREFIX_page_parts` (`id`, `name`, `filter_id`, `content`, `content_html`, `page_id`, `is_protected`) VALUES
+INSERT INTO `__TABLE_PREFIX__page_parts` (`id`, `name`, `filter_id`, `content`, `content_html`, `page_id`, `is_protected`) VALUES
 (2, 'body', 'redactor', '<h3>Sorry</h3>\n\n<p>This page not found<br>\n</p>\n', '<h3>Sorry</h3>\n\n<p>This page not found<br>\n</p>\n', 2, 0),
 (3, 'body', 'redactor', '<p>This is my site. I live in this city ... I do some nice things, like this and that ...</p>', '<p>This is my site. I live in this city ... I do some nice things, like this and that ...</p>', 3, 0),
 (6, 'body', 'redactor', '<p>My first test of my first article.</p>\n', '<p>My first test of my first article.</p>\n', 5, 0),
 (7, 'body', 'redactor', '<p>This is my second article.</p>\n', '<p>This is my second article.</p>\n', 7, 0);
 
-INSERT INTO `TABLE_PREFIX_page_roles` (`page_id`, `role_id`) VALUES
+INSERT INTO `__TABLE_PREFIX__page_roles` (`page_id`, `role_id`) VALUES
 (1, 2),
 (2, 2),
 (3, 2),
@@ -51,29 +51,31 @@ INSERT INTO `TABLE_PREFIX_page_roles` (`page_id`, `role_id`) VALUES
 (12, 3),
 (12, 4);
 
-INSERT INTO `TABLE_PREFIX_roles` (`id`, `name`, `description`) VALUES
+INSERT INTO `__TABLE_PREFIX__roles` (`id`, `name`, `description`) VALUES
 (1, 'login', 'Login privileges, granted after account confirmation'),
 (2, 'administrator', 'Administrative user, has access to everything.'),
 (3, 'developer', 'Developers role'),
 (4, 'editor', '');
 
-INSERT INTO `TABLE_PREFIX_roles_users` (`user_id`, `role_id`) VALUES
+INSERT INTO `__TABLE_PREFIX__roles_users` (`user_id`, `role_id`) VALUES
 (1, 1),
 (1, 2);
 
-INSERT INTO `TABLE_PREFIX_settings` (`name`, `value`) VALUES
-('site_title', '__SITE_NAME__'),
-('site_description', ''),
-('default_status_id', '100'),
-('default_filter_id', 'redactor'),
-('default_tab', 'page'),
-('allow_html_title', 'off'),
-('profiling', 'no'),
-('date_format', 'd F Y'),
-('debug', 'no'),
-('find_similar', 'yes');
+INSERT INTO `config` (`group_name`, `config_key`, `config_value`) VALUES
+('api', 'mode', 's:2:"no";'),
+('site', 'allow_html_title', 's:3:"off";'),
+('site', 'breadcrumbs', 's:2:"no";'),
+('site', 'date_format', 's:5:"d F Y";'),
+('site', 'debug', 's:2:"no";'),
+('site', 'default_filter_id', 's:8:"redactor";'),
+('site', 'default_status_id', 's:3:"100";'),
+('site', 'default_tab', 's:4:"page";'),
+('site', 'description', 's:0:"";'),
+('site', 'find_similar', 's:3:"yes";'),
+('site', 'profiling', 's:2:"no";'),
+('site', 'title', '__SITE_NAME__');
 
-INSERT INTO `TABLE_PREFIX_plugins` (`id`, `title`, `settings`) VALUES
+INSERT INTO `__TABLE_PREFIX__plugins` (`id`, `title`, `settings`) VALUES
 ('archive', 'Archive', 'a:0:{}'),
 ('maintenance', 'Maintenance mode', 'a:0:{}'),
 ('page_not_found', 'Page not found', 'a:0:{}'),
@@ -82,13 +84,13 @@ INSERT INTO `TABLE_PREFIX_plugins` (`id`, `title`, `settings`) VALUES
 ('tagsinput', 'jQuery Tags Input', 'a:0:{}');
 
 
-INSERT INTO `TABLE_PREFIX_users` (`id`, `email`, `username`, `password`, `logins`, `last_login`) VALUES
+INSERT INTO `__TABLE_PREFIX__users` (`id`, `email`, `username`, `password`, `logins`, `last_login`) VALUES
 (1, '__EMAIL__', '__USERNAME__', '__ADMIN_PASSWORD__', 0, 0);
 
-INSERT INTO `TABLE_PREFIX_user_profiles` (`id`, `name`, `user_id`, `locale`, `created_on`) VALUES
+INSERT INTO `__TABLE_PREFIX__user_profiles` (`id`, `name`, `user_id`, `locale`, `created_on`) VALUES
 (1, 'Administrator', 1, '__LANG__', '__DATE__');
 
-INSERT INTO `TABLE_PREFIX_layout_blocks` (`layout_name`, `block`, `position`) VALUES
+INSERT INTO `__TABLE_PREFIX__layout_blocks` (`layout_name`, `block`, `position`) VALUES
 ('none', 'body', 0),
 ('normal', 'body', 3),
 ('normal', 'bradcrumbs', 1),
@@ -100,7 +102,7 @@ INSERT INTO `TABLE_PREFIX_layout_blocks` (`layout_name`, `block`, `position`) VA
 ('normal', 'sidebar', 6),
 ('normal', 'top_banner', 2);
 
-INSERT INTO `TABLE_PREFIX_page_widgets` (`page_id`, `widget_id`, `block`) VALUES
+INSERT INTO `__TABLE_PREFIX__page_widgets` (`page_id`, `widget_id`, `block`) VALUES
 (1, 11, 'body'),
 (1, 2, 'bradcrumbs'),
 (1, 10, 'extended'),
@@ -160,7 +162,7 @@ INSERT INTO `TABLE_PREFIX_page_widgets` (`page_id`, `widget_id`, `block`) VALUES
 (11, 4, 'sidebar'),
 (12, 14, 'body');
 
-INSERT INTO `TABLE_PREFIX_widgets` (`id`, `type`, `template`, `name`, `description`, `created_on`, `code`) VALUES
+INSERT INTO `__TABLE_PREFIX__widgets` (`id`, `type`, `template`, `name`, `description`, `created_on`, `code`) VALUES
 (1, 'page_menu', 'header', 'Header menu', '', '2013-03-22 18:38:11', 'O:22:"Model_Widget_Page_Menu":13:{s:7:"exclude";a:3:{i:0;s:1:"6";i:1;s:1:"4";i:2;s:1:"2";}s:2:"id";s:2:"10";s:4:"type";s:9:"page_menu";s:4:"name";s:11:"Header menu";s:11:"description";s:0:"";s:6:"header";s:0:"";s:8:"template";s:6:"header";s:15:"template_params";a:0:{}s:5:"block";N;s:7:"caching";b:0;s:14:"cache_lifetime";i:0;s:9:"throw_404";b:0;s:8:"\0*\0_data";a:3:{s:15:"match_all_paths";i:0;s:7:"page_id";s:1:"1";s:8:"continue";s:0:"";}}'),
 (2, 'page_breadcrumbs', 'bradcrumbs', 'Breadcrumbs', '', '2013-03-22 19:45:02', 'O:29:"Model_Widget_Page_Breadcrumbs":18:{s:7:"exclude";a:0:{}s:2:"id";s:1:"2";s:4:"type";s:16:"page_breadcrumbs";s:4:"name";s:11:"Breadcrumbs";s:11:"description";s:0:"";s:6:"header";s:0:"";s:8:"template";s:10:"bradcrumbs";s:16:"backend_template";N;s:17:"frontend_template";N;s:12:"use_template";b:1;s:15:"template_params";a:0:{}s:5:"block";N;s:6:"crumbs";b:0;s:7:"caching";b:0;s:14:"cache_lifetime";i:0;s:9:"throw_404";b:0;s:7:"\0*\0_ctx";O:7:"Context":9:{s:8:"\0*\0_page";N;s:11:"\0*\0_request";N;s:12:"\0*\0_response";N;s:10:"\0*\0_crumbs";N;s:11:"\0*\0_widgets";a:0:{}s:14:"\0*\0_widget_ids";N;s:10:"\0*\0_blocks";a:0:{}s:10:"\0*\0_params";a:0:{}s:14:"\0*\0_injections";a:0:{}}s:8:"\0*\0_data";a:1:{s:8:"continue";s:0:"";}}'),
 (3, 'html', 'footer', 'Footer', '', '2013-03-22 20:29:27', 'O:17:"Model_Widget_HTML":12:{s:2:"id";s:2:"12";s:4:"type";s:4:"html";s:4:"name";s:6:"Footer";s:11:"description";s:0:"";s:6:"header";s:0:"";s:8:"template";s:6:"footer";s:15:"template_params";a:0:{}s:5:"block";N;s:7:"caching";b:0;s:14:"cache_lifetime";i:0;s:9:"throw_404";b:0;s:8:"\0*\0_data";a:1:{s:8:"continue";s:0:"";}}'),

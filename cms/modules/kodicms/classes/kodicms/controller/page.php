@@ -58,7 +58,7 @@ class KodiCMS_Controller_Page extends Controller_System_Backend {
 		$data = Flash::get( 'post_data' );
 		$page = new Model_Page( $data );
 		$page->parent_id = $parent_id;
-		$page->status_id = Setting::get( 'default_status_id' );
+		$page->status_id = Config::get('site', 'default_status_id' );
 		$page->needs_login = Model_Page::LOGIN_INHERIT;
 		$page->published_on = date( 'Y-m-d H:i:s' );
 		
@@ -89,12 +89,12 @@ class KodiCMS_Controller_Page extends Controller_System_Backend {
 		Flash::set( 'post_data', (object) $data );
 		Flash::set( 'page_tag', $tags );
 
-		if ( Setting::get( 'allow_html_title' ) == 'off' )
+		if ( Config::get('site', 'allow_html_title' ) == 'off' )
 		{
 			$data['title'] = Kses::filter( trim( $data['title'] ), array( ) );
 		}
 
-		$data['status_id'] = Setting::get( 'default_status_id' );
+		$data['status_id'] = Config::get('site', 'default_status_id' );
 
 		$page = new Model_Page( $data, array('tags') );
 		$page->parent_id = $parent_id;
@@ -202,7 +202,7 @@ class KodiCMS_Controller_Page extends Controller_System_Backend {
 	{
 		$data = $this->request->post('page');
 
-		if ( Setting::get( 'allow_html_title' ) == 'off' )
+		if ( Config::get('site', 'allow_html_title' ) == 'off' )
 		{
 			$data['title'] = Kses::filter( trim( $data['title'] ), array( ) );
 		}

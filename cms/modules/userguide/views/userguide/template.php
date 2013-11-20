@@ -48,7 +48,7 @@
 		
 		<?php echo View::factory('layouts/blocks/footer'); ?>
 
-		<?php if ( Setting::get( 'profiling' ) == 'yes' ): ?>
+		<?php if ( Config::get('site', 'profiling' ) == 'yes' ): ?>
 		<hr />
 		<?php echo View::factory( 'profiler/stats' ) ?>
 		<?php endif; ?>

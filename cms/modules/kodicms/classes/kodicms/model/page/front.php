@@ -254,7 +254,7 @@ class KodiCMS_Model_Page_Front {
 				
 				if($param !== NULL)
 				{
-					$parts[] = Setting::get($param);
+					$parts[] = Config::get('site', $param);
 				}
 			}
 			

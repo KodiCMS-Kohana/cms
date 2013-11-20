@@ -162,8 +162,8 @@ class KodiCMS_Controller_Login extends Controller_System_Frontend {
 			'link' => HTML::anchor( URL::frontend( Route::url( 'reflink', array('code' => $reflink) ), TRUE ) )
 		));
 
-		$email = Email::factory(__('Forgot password from :site_name', array(':site_name' => Setting::get('site_title'))))
-			->from(Setting::get('default_email'), Setting::get('site_title'))
+		$email = Email::factory(__('Forgot password from :site_name', array(':site_name' => Config::get('site', 'title'))))
+			->from(Config::get('site', 'default_email'), Config::get('site', 'title'))
 			->to($user->email)
 			->message($message, 'text/html');
 

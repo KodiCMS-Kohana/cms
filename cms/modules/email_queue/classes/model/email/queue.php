@@ -140,11 +140,11 @@ class Model_Email_Queue extends ORM
 	public function failed()
 	{
 		$this->attempts++;
-		$max_attempts = Setting::get('queue_max_attempts', Kohana::$config->load('email_queue')->get('max_attempts', 5));
+		$max_attempts = Config::get('email_queue', 'max_attempts', 5);
 
 		if($max_attempts <= $this->attempts)
 		{
-			$this->state 	= self::STATUS_FAILED;
+			$this->state = self::STATUS_FAILED;
 		}
 
 		return $this->update();

@@ -34,13 +34,13 @@ class KodiCMS_Controller_System_Backend extends Controller_System_Template
 				$navigation = NULL;
 				$this->template->footer = NULL;
 				$this->template->breadcrumbs = NULL;
-				Setting::set( 'profiling', 'no' );
+				Config::set('site', 'profiling', 'no');
 				
 				$this->query_params = array('type' => 'iframe');
 			}
 			else
 			{
-				$this->template->breadcrumbs = Setting::get( 'breadcrumbs' ) == 'yes' ? $this->breadcrumbs : NULL;
+				$this->template->breadcrumbs = Config::get('site', 'breadcrumbs' ) == 'yes' ? $this->breadcrumbs : NULL;
 				$this->template->footer = View::factory('layouts/blocks/footer');
 			}
 			

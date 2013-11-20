@@ -64,6 +64,8 @@ Kohana::modules( array(
 	'plugins'		=> MODPATH . 'plugins',
 ) );
 
+Kohana::$config->attach(new Config_Database);
+
 Observer::notify('modules::afer_load');
 
 Route::set( 'admin_media', 'cms/media/<file>', array(
@@ -102,7 +104,7 @@ Route::set( 'downloader', '('.ADMIN_DIR_NAME.'/)download/<path>', array(
 
 Route::set( 'backend', ADMIN_DIR_NAME.'(/<controller>(/<action>(/<id>)))')
 	->defaults( array(
-		'controller' => Setting::get('default_tab'),
+		'controller' => Config::get('site', 'default_tab'),
 		'action' => 'index',
 	) );
 

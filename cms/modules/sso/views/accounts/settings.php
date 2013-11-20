@@ -8,7 +8,7 @@
 			'element' => Bootstrap_Form_Element_Checkbox::factory(array(
 				'name' => 'setting[oauth_register]', 'value' => 'yes'
 			))
-			->checked(Setting::get('oauth_register') == 'yes')
+			->checked(Config::get('oauth', 'register') == 'yes')
 			->label(__('Enable registration'))
 		));
 	?>
@@ -18,12 +18,12 @@
 	<h5><?php echo UI::icon($provider.'-sign'); ?> <?php echo Arr::path($params, $provider.'.name'); ?> <?php if(Arr::path($params, $provider.'.create_link')): ?>(<?php echo HTML::anchor(Arr::path($params, $provider.'.create_link'), NULL, array(
 		'target' => 'blank'
 	)); ?>)<?php endif; ?></h5>
-
 	<?php foreach ($data as $key => $value): ?>
+	
 	<div class="control-group">
 		<label class="control-label"><?php echo strtoupper($key); ?></label>
 		<div class="controls">
-			<?php echo Form::input( 'setting[oauth.'.$provider.'.'.$key.']', Setting::get('oauth.'.$provider.'.'.$key), array(
+			<?php echo Form::input( 'setting[oauth][accounts]['.$provider.']['.$key.']', $value, array(
 				'class' => 'input-xxlarge'
 			)); ?>
 		</div>
