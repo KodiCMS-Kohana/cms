@@ -6688,6 +6688,33 @@ a .icon-flip-vertical:before {
   border-radius: 0;
   margin: 0;
 }
+.tabbable {
+  background: whitesmoke;
+  border-bottom: 1px solid #ddd;
+}
+.tabbable .nav {
+  margin-right: 0;
+  border-right-width: 0;
+  width: 250px;
+}
+.tabbable .nav:last-child {
+  margin-bottom: 0;
+}
+.tabbable .nav li {
+  margin: 5px 0 5px 15px;
+  font-size: 14px;
+}
+.tabbable .tab-content {
+  padding: 10px 20px 20px 40px;
+  background: #fff;
+  border-left: 1px solid #ddd;
+}
+.tabbable .tab-content .tab-pane h2 {
+  font-weight: normal;
+}
+.tabbable .tab-content .tab-pane h2:last-child {
+  margin-top: 0;
+}
 table.table thead td,
 table.table thead th {
   background: #4D4D4F;

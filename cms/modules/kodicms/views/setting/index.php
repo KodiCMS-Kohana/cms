@@ -3,7 +3,15 @@
 )); ?>
 	<?php echo Form::hidden('token', Security::token()); ?>
 
+
+
 <div class="widget">
+	
+	<div class="tabbable tabs-left">
+		<ul class="nav nav-tabs"></ul>
+		<div class="tab-content"></div>
+	</div>
+	
 	<div class="widget-header spoiler-toggle" data-spoiler=".site-information-content">
 		<h3><?php echo __( 'Site information' ); ?></h3>
 	</div>
@@ -30,19 +38,10 @@
 	</div>
 	
 	<div class="widget-header">
-		<h3>
-			<?php echo __( 'Site options' ); ?>
-			
-			<?php if( ACL::check('setting.clear_cache')): ?>
-			<?php echo UI::button(__('Clear cache'), array(
-				'icon' => UI::icon( 'stethoscope' ),
-				'id' => 'clear-cache',
-				'class' => 'btn btn-warning'
-			)); ?>
-			<?php endif; ?>
-		</h3>
+		<h3><?php echo __( 'Site options' ); ?></h3>
 	</div>
 	<div class="widget-content">
+
 		<div class="control-group">
 			<?php echo Form::label('setting_date_format', __('Date format'), array('class' => 'control-label')); ?>
 			<div class="controls">
@@ -119,6 +118,16 @@
 				?>
 			</div>
 		</div>
+		
+		<?php if( ACL::check('setting.clear_cache')): ?>
+		<hr />
+		<?php echo UI::button(__('Clear cache'), array(
+			'icon' => UI::icon( 'stethoscope' ),
+			'id' => 'clear-cache',
+			'class' => 'btn btn-warning'
+		)); ?>
+		
+		<?php endif; ?>
 	</div>
 
 	<div class="widget-header spoiler-toggle" data-spoiler=".page-options-container">
