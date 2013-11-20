@@ -180,8 +180,12 @@ RewriteRule .* index.php/$0 [PT]# Set environment
 
 https://github.com/butschster/kodicms/issues
 
-### 6.7.27
+### 7.7.27
+ * [feature] Замена класса Setting на Config_Database, в связи с этим замена таблицы Setting на Config
 
+### 6.8.27
+
+ * [feature] Кнопка обновления кеша в настройках теперь сбрасывает кеш через ajax
  * [fix] Исправлены ошибки в плагине Archive
  * [feature] В страницах поле Robots (issue #186)
  * [feature] Адаптация меню админ панели под ширину экрана
