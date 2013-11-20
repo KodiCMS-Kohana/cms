@@ -47,5 +47,6 @@ return array(
 	'Edit roles' => 'Редактировать информацию',
 	'Change role permissions' => 'Редактировать привелегии',
 	'Delete roles' => 'Удалять роли',
-	'Section' => 'Раздел'
+	'Section' => 'Раздел',
+	'Section permissions' => 'Доступ к разделам'
 );

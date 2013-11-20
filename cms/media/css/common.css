@@ -6597,6 +6597,12 @@ a .icon-flip-vertical:before {
 .iframe .widget:last-child {
   margin-bottom: 0;
 }
+.check_all {
+  color: #049cdb;
+  border-bottom: 1px dashed #049cdb;
+  font-size: 14px;
+  display: inline-block;
+}
 .spoiler-toggle-container {
   display: block;
   padding: 0 10px;
@@ -6703,6 +6709,13 @@ a .icon-flip-vertical:before {
 .tabbable .nav li {
   margin: 5px 0 5px 15px;
   font-size: 14px;
+}
+.tabbable .nav li h5 {
+  margin-top: 20px;
+  color: #666;
+  font-size: 15px;
+  font-weight: normal;
+  padding-left: 12px;
 }
 .tabbable .tab-content {
   padding: 10px 20px 20px 40px;

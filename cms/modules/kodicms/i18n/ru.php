@@ -37,6 +37,7 @@ return array(
 	'View Site' => 'Просмотреть сайт',
 	'Are you sure?' => 'Вы уверены?',
 	'Something went wrong!' => 'Что то пошло не так',
+	'Select all' => 'Выбрать все',
 	
 	'Failed to validate array' => 'Ошибка',
 	'KodiCMS succefully installed!' => 'KodiCMS успешно установлена',

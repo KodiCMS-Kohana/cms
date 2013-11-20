@@ -1,10 +1,11 @@
 <div class="widget-header widget-section">
-	<h2><?php echo __('Permissions'); ?></h2>
+	<h2><?php echo __('Section permissions'); ?></h2>
 </div>
 
-<?php foreach($permissions as $title => $actions): ?>
+<?php foreach($permissions as $title => $actions):?>
+
 <div class="widget-header">
-	<h3><small><?php echo __('Section'); ?></small> <?php echo __(ucfirst($title)); ?></h3>
+	<h3><?php echo __(ucfirst($title)); ?></h3>
 </div>
 <div class="widget-content widget-nopad">
 
@@ -16,9 +17,7 @@
 		<thead class="highlight">
 			<tr>
 				<th colspan="2">
-					<?php echo Bootstrap_Form_Element_Checkbox::factory(array(
-						'name' => 'check_all', 'value' => 1, 'class' => 'checkbox'
-					)); ?> <?php echo __('Select all'); ?>
+					<label class="check_all"><?php echo __('Select all'); ?></label>
 				</th>
 			</tr>
 		</thead>
