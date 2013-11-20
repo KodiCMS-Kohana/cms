@@ -1,5 +1,5 @@
 cms.init.add(['roles_edit', 'roles_add'], function () {
-	$('input[name=check_all]').on('change', function() {
+	$('.widget').on('change', 'input[name=check_all]', function() {
 		var $list = $(this)
 			.parent()
 			.parent()

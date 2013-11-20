@@ -314,6 +314,28 @@ cms.ui.add('btn-confirm', function() {
 	$('.widget')
 		.addClass('outline_inner')
 		.wrap('<div class="outline"></div>');
+}).add('tabable', function() {
+	if($('.tabbable').length > 0) {
+		$('#content .widget-header').each(function(i) {
+			if($(this).hasClass('widget-section')) {
+				$('<li class="nav-section"><h5>' + $(this).text() + '</h5></li>').appendTo($('.tabbable .nav'));
+			} else {
+				$('<li><a href="#tab' + i + '" data-toggle="tab">' + $(this).text() + '</a></li>').appendTo($('.tabbable .nav'));
+				$('<div class="tab-pane" id="tab' + i + '"><h2>'+$(this).text()+'</h2><hr />' + $(this).next().html() + '</div>').appendTo($('.tabbable .tab-content'));
+
+				$(this).next().remove();
+			}
+			
+			$(this).remove();
+		});
+
+		$('.tabbable .nav li:first-child').addClass('active');
+		$('.tabbable .tab-pane:first-child').addClass('active');
+
+		$('.tabbable .tab-pane').css({
+			'min-height': $('.tabbable .nav').height()
+		});
+	}
 }).add('calculate_height', function() {
 	cms.calculateContentHeight();
 

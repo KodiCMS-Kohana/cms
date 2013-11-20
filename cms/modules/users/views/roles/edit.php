@@ -8,6 +8,10 @@
 
 <?php echo Form::hidden('token', Security::token()); ?>
 <div class="widget">
+	<div class="tabbable tabs-left">
+		<ul class="nav nav-tabs"></ul>
+		<div class="tab-content"></div>
+	</div>
 	<div class="widget-header">
 		<h3><?php echo __('General information'); ?></h3>
 	</div>
