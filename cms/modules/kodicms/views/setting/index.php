@@ -35,11 +35,8 @@
 			
 			<?php if( ACL::check('setting.clear_cache')): ?>
 			<?php echo UI::button(__('Clear cache'), array(
-				'icon' => UI::icon( 'stethoscope' ), 
-				'href' => Route::url('backend', array(
-					'controller' => 'setting', 
-					'action' => 'clear_cache'
-				)),
+				'icon' => UI::icon( 'stethoscope' ),
+				'id' => 'clear-cache',
 				'class' => 'btn btn-warning'
 			)); ?>
 			<?php endif; ?>
