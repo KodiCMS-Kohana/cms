@@ -11,7 +11,7 @@
 </div>
 <div class="spoiler-toggle-container widget-content-bg widget-no-border-radius">
 	<div class="spoiler-toggle text-center" data-spoiler=".spoiler-meta">
-		<?php echo UI::icon( 'chevron-down spoiler-toggle-icon' ); ?>
+		<?php echo UI::icon( 'chevron-down spoiler-toggle-icon' ); ?> <span class="muted"><?php echo __( 'Metadata' ); ?></span>
 	</div>
 	<div id="pageEditMetaMore" class="spoiler spoiler-meta">
 	<br />
