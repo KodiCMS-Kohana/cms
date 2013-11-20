@@ -1,7 +1,7 @@
 <br />
 <div class="navbar">
 	<div class="navbar-inner">
-		<a class="brand" href="/"><?php echo Cinfig::get('site', 'title'); ?></a>
+		<a class="brand" href="/"><?php echo Config::get('site', 'title'); ?></a>
 		<ul class="nav">
 			<?php if ( ! URL::match( '/' ) ): ?>
 			<li>
