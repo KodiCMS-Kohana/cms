@@ -14,21 +14,27 @@
 	<div class="control-group">
 		<label class="control-label"><?php echo __('Pages cache time'); ?></label>
 		<div class="controls">
-			<?php echo Form::input( 'setting[cache][front_page]', Config::get('cache', 'front_page')); ?> <span class="muted"><?php echo __('(Sec.)'); ?></span>
+			<?php echo Form::input( 'setting[cache][front_page]', (int) Config::get('cache', 'front_page'), array(
+				'class' => 'input-mini'
+			)); ?> <span class="muted"><?php echo __('(Sec.)'); ?></span>
 		</div>
 	</div>
 	
 	<div class="control-group">
 		<label class="control-label"><?php echo __('Page parts cache time'); ?></label>
 		<div class="controls">
-			<?php echo Form::input( 'setting[cache][page_parts]', Config::get('cache', 'page_parts')); ?> <span class="muted"><?php echo __('(Sec.)'); ?></span>
+			<?php echo Form::input( 'setting[cache][page_parts]', (int) Config::get('cache', 'page_parts'), array(
+				'class' => 'input-mini'
+			)); ?> <span class="muted"><?php echo __('(Sec.)'); ?></span>
 		</div>
 	</div>
 	
 	<div class="control-group">
 		<label class="control-label"><?php echo __('Page tags cache time'); ?></label>
 		<div class="controls">
-			<?php echo Form::input( 'setting[cache][tags]', Config::get('cache', 'tags')); ?> <span class="muted"><?php echo __('(Sec.)'); ?></span>
+			<?php echo Form::input( 'setting[cache][tags]', (int) Config::get('cache', 'tags'), array(
+				'class' => 'input-mini'
+			)); ?> <span class="muted"><?php echo __('(Sec.)'); ?></span>
 		</div>
 	</div>
 	

@@ -40,7 +40,7 @@ class Email_Queue
 			'failed' => 0
 		);
 		
-		$size = Kohana::$config->load('email_queue')->get('batch_size', 50);
+		$size = Config::get('email_queue', 'batch_size');
 		
 		$emails = ORM::factory('email_queue')->find_batch( $size );
 		
@@ -80,8 +80,8 @@ class Email_Queue
 			'failed' => 0
 		);
 
-		$size = Kohana::$config->load('email_queue')->get('batch_size', 50);
-		$interval = Kohana::$config->load('email_queue')->get('interval', 120);
+		$size = Config::get('email_queue', 'batch_size');
+		$interval = Config::get('email_queue', 'interval');
 		
 		$emails = ORM::factory('email_queue')->find_batch();
 		
