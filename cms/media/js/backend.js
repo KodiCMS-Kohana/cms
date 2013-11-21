@@ -335,7 +335,13 @@ cms.ui.add('btn-confirm', function() {
 		$('.tabbable .tab-pane:first-child').addClass('active');
 
 		$('.tabbable .tab-pane').css({
-			'min-height': $('.tabbable .nav').height()
+			'min-height': cms.calculateContentHeight() - 130
+		});
+		
+		$(window).resize(function() {
+			$('.tabbable .tab-pane').css({
+				'min-height': cms.calculateContentHeight() - 130
+			});
 		});
 	}
 	
@@ -543,6 +549,20 @@ cms.ui.add('btn-confirm', function() {
 	})
 }).add('select2', function() {
 	$('select').not('.no-script').select2();
+}).add('ajax_form', function() {
+	$('body').on('submit', 'form.form-ajax', function() {
+		var $self = $(this);
+		var $buttons = $('button', $self)
+			.attr('disabled', 'disabled');
+
+		Api.post($self.attr('action'), $self.serialize(), function(response) {
+			setTimeout(function() {
+				$buttons.removeAttr('disabled');
+			}, 5000);
+		});
+
+		return false;
+	})
 });
 
 var Api = {
@@ -574,7 +594,8 @@ var Api = {
 		if(uri.indexOf('-') == -1) uri = '-' + uri;
 		else if(uri.indexOf('-') > 0 && uri.indexOf('/') == -1)  uri = '/' + uri;
 		
-		uri = '/api' + uri;
+		if(uri.indexOf('/api') == -1)
+			uri = '/api' + uri;
 		
 		$.ajaxSetup({
 			contentType : 'application/json'
@@ -612,6 +633,7 @@ var Api = {
 				this._response = response;
 				
 				var $event = method + uri.replace(/\//g, ':');
+				console.log($event);
 				window.top.$('body').trigger($event.toLowerCase(), [this._response.response]);
 
 				if(typeof(callback) == 'function') callback(this._response);
