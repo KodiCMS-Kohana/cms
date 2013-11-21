@@ -56,7 +56,8 @@ class KodiCMS_Controller_Users extends Controller_System_Backend {
 
 		$this->template->content = View::factory( 'users/edit', array(
 			'action' => 'add',
-			'user' => $user
+			'user' => $user,
+			'permissions' => array()
 		) );
 	}
 
@@ -136,7 +137,8 @@ class KodiCMS_Controller_Users extends Controller_System_Backend {
 
 		$this->template->content = View::factory( 'users/edit', array(
 			'action' => 'edit',
-			'user' => $user
+			'user' => $user,
+			'permissions' => $user->permissions_list()
 		) );
 	}
 

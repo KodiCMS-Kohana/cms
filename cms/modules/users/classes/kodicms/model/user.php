@@ -133,6 +133,24 @@ class KodiCMS_Model_User extends Model_Auth_User {
 		
 		return array_unique($permissions);
 	}
+	
+	public function permissions_list()
+	{
+		$permissions = array();
+		
+		foreach(Acl::get_permissions() as $section_title => $actions)
+		{
+			foreach($actions as $action => $title)
+			{
+				if( in_array( $action, $this->permissions()))
+				{
+					$permissions[$section_title][$action] = $title;
+				}
+			}
+		}
+		
+		return $permissions;
+	}
 
 	public function complete_login()
 	{

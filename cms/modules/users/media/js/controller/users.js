@@ -1,5 +1,6 @@
 cms.init.add(['users_edit', 'users_add'], function () {
-	$('input[name="user_permission"]').select2({
+	$(window).on('tabbable', function() {
+		$('input[name="user_permission"]').select2({
 		placeholder: __("Click to get list of roles"),
 		minimumInputLength: 0,
 		multiple: true,
@@ -54,6 +55,8 @@ cms.init.add(['users_edit', 'users_add'], function () {
 			});
 		}
 	});
+	});
+	
 });
 
 cms.init.add('users_add', function () {

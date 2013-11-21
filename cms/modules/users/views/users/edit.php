@@ -7,6 +7,10 @@
 )); ?>
 	<?php echo Form::hidden('token', Security::token()); ?>
 	<div class="widget">
+		<div class="tabbable tabs-left">
+			<ul class="nav nav-tabs"></ul>
+			<div class="tab-content"></div>
+		</div>
 		<div class="widget-header">
 			<h3><?php echo __('General information'); ?></h3>
 		</div>
@@ -126,37 +130,29 @@
 		</div>
 		<?php endif; ?>
 		
-		<?php if ( $user->id === NULL OR $user->id > 1): ?>
-		<div class="widget-header spoiler-toggle" data-spoiler=".permissions-spoiler">
-			<h3><?php echo __('Permissions'); ?></h3>
+		<?php if ( !empty($permissions) ): ?>
+		<div class="widget-header widget-section">
+			<h2><?php echo __('Section permissions'); ?></h2>
 		</div>
+		
+		<?php foreach($permissions as $title => $actions): ?>
 		<div class="widget-content widget-nopad spoiler permissions-spoiler">
-			<?php foreach(Acl::get_permissions() as $title => $actions): ?>
+			<div class="widget-header spoiler-toggle" data-spoiler=".permissions-spoiler">
+				<h3><?php echo __(ucfirst($title)); ?></h3>
+			</div>
 			<table class='table' id="permissions-list">
-				<thead class="highlight">
-					<tr>
-						<th>
-							<h4>
-								<small><?php echo __('Section'); ?></small> 
-								<?php echo __(ucfirst($title)); ?>
-							</h4>
-						</th>
-					</tr>
-				</thead>
 				<tbody>
 					<tr>
 						<th>
 						<?php foreach($actions as $action => $title): ?>
-						<?php if( in_array( $action, $user->permissions())): ?>
 						<?php echo UI::label(__($title)); ?>
-						<?php endif; ?>
 						<?php endforeach; ?>
 						</th>
 					</tr>
 				</tbody>
 			</table>
-			<?php endforeach; ?>
 		</div>
+		<?php endforeach; ?>
 		<?php endif; ?>
 		
 		<?php Observer::notify('view_user_edit_plugins', $user); ?>

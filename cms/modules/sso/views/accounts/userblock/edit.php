@@ -1,3 +1,9 @@
+<?php if(count($socials) > 0 OR $user->id == AuthUser::getId()): ?>
+<div class="widget-header widget-section">
+	<h2><?php echo __('Social accounts'); ?></h2>
+</div>
+<?php endif; ?>
+
 <?php if(count($socials) > 0): ?>
 <div class="widget-header">
 	<h3><?php echo __('Linked social accounts'); ?></h3>
