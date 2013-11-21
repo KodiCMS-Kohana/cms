@@ -329,10 +329,20 @@ cms.ui.add('btn-confirm', function() {
 			}
 			
 			$(this).remove();
+			
+			
 		});
+		$('.tabbable .nav li a').on('click', function() {
+			window.location.hash = $(this).attr('href');
+		})
 
-		$('.tabbable .nav li:first-child').addClass('active');
-		$('.tabbable .tab-pane:first-child').addClass('active');
+		if(window.location.hash.length > 0 && $('.tabbable .nav li a[href='+window.location.hash+']').length > 0) {
+			$('.tabbable .nav li a[href='+window.location.hash+']').parent().addClass('active');
+			$('.tabbable ' + window.location.hash).addClass('active');
+		} else {
+			$('.tabbable .nav li:first-child').addClass('active');
+			$('.tabbable .tab-pane:first-child').addClass('active');
+		}
 
 		$('.tabbable .tab-pane').css({
 			'min-height': cms.calculateContentHeight() - 130
