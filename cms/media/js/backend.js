@@ -290,6 +290,8 @@ cms.init = {
 			cms.init.callbacks.push([rout, callback]);
 		else
 			return false;
+		
+		cms.init.callbacks.reverse();
 	},
 	run:function () {
 		var body_id = $('body:first').attr('id').toString();
@@ -318,7 +320,7 @@ cms.ui.add('btn-confirm', function() {
 	if($('.tabbable').length > 0) {
 		$('#content .widget-header').each(function(i) {
 			if($(this).hasClass('widget-section')) {
-				$('<li class="nav-section"><h5>' + $(this).text() + '</h5></li>').appendTo($('.tabbable .nav'));
+				$('<li class="nav-section"><h5><i class="icon-arrow-down"></i> ' + $(this).text() + '</h5></li>').appendTo($('.tabbable .nav'));
 			} else {
 				$('<li><a href="#tab' + i + '" data-toggle="tab">' + $(this).text() + '</a></li>').appendTo($('.tabbable .nav'));
 				$('<div class="tab-pane" id="tab' + i + '"><h2>'+$(this).text()+'</h2><hr />' + $(this).next().html() + '</div>').appendTo($('.tabbable .tab-content'));
@@ -336,6 +338,8 @@ cms.ui.add('btn-confirm', function() {
 			'min-height': $('.tabbable .nav').height()
 		});
 	}
+	
+	$(window).trigger('tabbable');
 }).add('calculate_height', function() {
 	cms.calculateContentHeight();
 

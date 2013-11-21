@@ -126,6 +126,7 @@
 	border-bottom: 1px solid #ddd;
 	
 	.nav {
+		margin-top: 20px;
 		margin-right: 0;
 		border-right-width: 0;
 		width: 250px;
@@ -138,12 +139,27 @@
 			margin: 5px 0 5px 15px;
 			font-size: 14px;
 			
+			
 			h5 {
-				margin-top: 20px;
+				margin-left: -5px;
 				color: #666;
 				font-size: 15px;
 				font-weight: normal;
-				padding-left: 12px;
+			}
+			
+			&.active {
+				font-weight: bold;
+				
+				a {
+					.box-shadow(-3px 0px 6px 0px #ddd);
+				}
+				
+			}
+			
+			&.nav-section {
+				margin: 15px 0 0;
+				padding: 1px 15px;
+				border-top: 1px solid #ddd;
 			}
 		}
 	}
@@ -155,6 +171,10 @@
 		
 		.tab-pane h2 {
 			font-weight: normal;
+			
+			+ hr {
+				margin-top: 0;
+			}
 			
 			&:last-child {
 				margin-top: 0; 

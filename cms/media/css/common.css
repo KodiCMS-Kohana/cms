@@ -6699,6 +6699,7 @@ a .icon-flip-vertical:before {
   border-bottom: 1px solid #ddd;
 }
 .tabbable .nav {
+  margin-top: 20px;
   margin-right: 0;
   border-right-width: 0;
   width: 250px;
@@ -6711,11 +6712,23 @@ a .icon-flip-vertical:before {
   font-size: 14px;
 }
 .tabbable .nav li h5 {
-  margin-top: 20px;
+  margin-left: -5px;
   color: #666;
   font-size: 15px;
   font-weight: normal;
-  padding-left: 12px;
+}
+.tabbable .nav li.active {
+  font-weight: bold;
+}
+.tabbable .nav li.active a {
+  -webkit-box-shadow: -3px 0px 6px 0px #ddd;
+  -moz-box-shadow: -3px 0px 6px 0px #ddd;
+  box-shadow: -3px 0px 6px 0px #ddd;
+}
+.tabbable .nav li.nav-section {
+  margin: 15px 0 0;
+  padding: 1px 15px;
+  border-top: 1px solid #ddd;
 }
 .tabbable .tab-content {
   padding: 10px 20px 20px 40px;
@@ -6724,6 +6737,9 @@ a .icon-flip-vertical:before {
 }
 .tabbable .tab-content .tab-pane h2 {
   font-weight: normal;
+}
+.tabbable .tab-content .tab-pane h2 + hr {
+  margin-top: 0;
 }
 .tabbable .tab-content .tab-pane h2:last-child {
   margin-top: 0;
