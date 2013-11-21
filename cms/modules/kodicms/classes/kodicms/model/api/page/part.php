@@ -22,7 +22,7 @@ class KodiCMS_Model_API_Page_Part extends Model_API {
 		$parts = $parts
 			->where('page_id', '=', (int) $page_id)
 			->cache_tags( array('page_parts') )
-			->cached((int)Kohana::$config->load('global.cache.page_parts'))
+			->cached((int) Config::get('cache', 'page_parts'))
 			->execute()
 			->as_array();
 		

@@ -115,16 +115,6 @@
 					?>
 				</div>
 			</div>
-
-			<?php if( ACL::check('setting.clear_cache')): ?>
-			<hr />
-			<?php echo UI::button(__('Clear cache'), array(
-				'icon' => UI::icon( 'stethoscope' ),
-				'id' => 'clear-cache',
-				'class' => 'btn btn-warning'
-			)); ?>
-
-			<?php endif; ?>
 		</div>
 
 		<div class="widget-header spoiler-toggle" data-spoiler=".page-options-container">

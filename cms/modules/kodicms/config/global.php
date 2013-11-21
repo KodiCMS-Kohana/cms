@@ -1,16 +1,7 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
 return array(
-
-	'cache' => array(
-		'page_parts' => Date::DAY,
-		'front_page' => Date::DAY,
-		'tags' => Date::DAY
-	),
-	
 	'default_locale' => I18n::detect_lang(),
-	
-	
 	'date_formats' => array(
 		'Y-m-d',
 		'd.m.Y',

@@ -62,9 +62,5 @@ return array(
 			'action' => 'index',
 			'description' => 'View settings'
 		),
-		array(
-			'action' => 'clear_cache',
-			'description' => 'Clear cache'
-		),
 	),
 );

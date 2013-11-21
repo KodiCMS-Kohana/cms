@@ -679,7 +679,7 @@ class KodiCMS_Model_Page_Front {
 
 		$query = $sql
 			->cache_tags( array('pages') )
-			->cached((int) Kohana::$config->load('global.cache.front_page'))
+			->cached((int) Config::get('cache', 'front_page'))
 			->execute();
 
 		$pages = array();
@@ -723,7 +723,7 @@ class KodiCMS_Model_Page_Front {
 
 		return (int) $sql
 			->cache_tags( array('pages') )
-			->cached((int)Kohana::$config->load('global.cache.front_page'))
+			->cached((int) Config::get('cache', 'front_page'))
 			->execute()
 			->get('total');
 	}
@@ -830,7 +830,7 @@ class KodiCMS_Model_Page_Front {
 			->where('status_id', 'in', self::_get_statuses(TRUE))
 			->limit(1)
 			->cache_tags( array('pages') )
-			->cached((int)Kohana::$config->load('global.cache.front_page'))
+			->cached((int)Config::get('cache', 'front_page'))
 			->as_object();
 			
 		if(!empty($slug)) $page->where('published_on', '<=', DB::expr('NOW()'));
@@ -918,7 +918,7 @@ class KodiCMS_Model_Page_Front {
 			->where('status_id', 'in', self::_get_statuses(TRUE))
 			->limit(1)
 			->cache_tags( array('pages') )
-			->cached((int)Kohana::$config->load('global.cache.front_page'))
+			->cached((int)Config::get('cache', 'front_page'))
 			->as_object()
 			->execute()
 			->current();
@@ -1082,7 +1082,7 @@ class KodiCMS_Model_Page_Front {
 			->where('page_id', '=', $this->id)
 			->cache_tags( array('page_parts') )
 			->as_object('Model_Page_Part')
-			->cached((int)Kohana::$config->load('global.cache.page_parts'))
+			->cached((int)Config::get('cache', 'page_parts'))
 			->execute()
 			->as_array('name');	
 	}

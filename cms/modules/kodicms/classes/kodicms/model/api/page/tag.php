@@ -31,7 +31,7 @@ class KodiCMS_Model_API_Page_Tag extends Model_API {
 		
 		return $tags
 			->cache_tags( array('page_tags') )
-			->cached((int)Kohana::$config->load('global.cache.tags'))
+			->cached( (int) Config::get('cache', 'tags') )
 			->execute()
 			->as_array();
 	}
