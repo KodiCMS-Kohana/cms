@@ -14,13 +14,6 @@ class Controller_Email extends Controller_Setting {
 		$this->breadcrumbs
 			->add($this->template->title, Route::url( 'backend', array('controller' => 'email', 'action' => 'settings')));
 
-		$users = ORM::factory('user');
-		
-		$pager = Pagination::factory(array(
-			'total_items' => $users->reset(FALSE)->count_all(),
-			'items_per_page' => 20
-		));
-
 		$this->template->content = View::factory( 'email/index', array(
 			'settings' => Config::get('email'),
 			'drivers' => Config::get('email', 'drivers', array()),
