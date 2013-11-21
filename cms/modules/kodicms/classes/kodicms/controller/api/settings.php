@@ -2,6 +2,8 @@
 
 class KodiCMS_Controller_API_Settings extends Controller_System_Api {
 	
+	protected $_check_token = TRUE;
+	
 	public function before() 
 	{
 		define('REST_BACKEND', TRUE);
@@ -23,6 +25,6 @@ class KodiCMS_Controller_API_Settings extends Controller_System_Api {
 
 		Kohana::$log->add(Log::INFO, 'Change settings')->write();
 		
-		$this->json['message'] = __( 'Settings has been saved!' );
+		$this->message(__( 'Settings has been saved!'));
 	}
 }
