@@ -6,7 +6,8 @@ $(function() {
 			filter_id: '',
 			page_id: PAGE_ID,
 			content: '',
-			is_protected: 0
+			is_protected: 0,
+			is_expanded: 1
 		},
 	
 		parse: function(response, xhr) {
@@ -27,7 +28,7 @@ $(function() {
 		},
 		
 		toggleMinimize: function() {
-			
+			this.save({is_expanded: this.get('is_expanded') == 1 ? 0 : 1});
 		},
 		
 		changeFilter: function(filter_id) {
@@ -158,7 +159,7 @@ $(function() {
 			this.collection.fetch({
 				data: {
 					pid: PAGE_ID,
-					fields: ['filter_id','content','content_html','page_id','is_protected']
+					fields: ['filter_id','content','content_html','page_id','is_protected','is_expanded']
 				},
 				success: function () {
 					$self.render();

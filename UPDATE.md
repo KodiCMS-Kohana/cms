@@ -37,3 +37,7 @@ ALTER TABLE `TABLE_PREFIX_roles_permissions` ADD CONSTRAINT `roles_permissions_i
 		`config_value` text NOT NULL,
 		PRIMARY KEY (`group_name`,`config_key`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+### 7.10.21
+
+ * ALTER TABLE  `page_parts` ADD  `is_expanded` INT( 1 ) NOT NULL DEFAULT  '1';

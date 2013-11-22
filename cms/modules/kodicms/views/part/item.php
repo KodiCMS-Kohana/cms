@@ -11,9 +11,15 @@
 				); ?>
 				<?php endif; ?>
 				
+				<% if ( is_expanded == 0 ) { %>
+				<?php echo UI::button(UI::icon( 'chevron-down icon-white' ), array(
+					'class' => 'part-minimize-button btn btn-mini btn-inverse')
+				); ?>		
+				<% } else { %>		
 				<?php echo UI::button(UI::icon( 'chevron-up icon-white' ), array(
 					'class' => 'part-minimize-button btn btn-mini btn-inverse')
 				); ?>
+				<% } %>
 			</div>
 			<% } %>
 		</div>
@@ -63,7 +69,7 @@
 			<p class="text-warning"><?php echo __( 'Content of page part :part_name is protected from changes.', array( ':part_name' => '<%= name %>' ) ); ?></p>
 		</div>
 		<% } else { %>
-		<div class="widget-content widget-no-border-radius widget-nopad part-textarea">
+		<div class="widget-content widget-no-border-radius widget-nopad part-textarea" <% if ( is_expanded == 0 ) { %>style="display:none;"<% } %>>
 			<textarea id="pageEditPartContent-<%= name %>" name="part_content[<%= id %>]"><%= content %></textarea>
 		</div>
 		<% } %>
