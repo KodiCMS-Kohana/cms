@@ -1,6 +1,19 @@
 <script>
 	var MESSAGE_ID = <?php echo $message->id; ?>;
 </script>
+<style>
+	.widget-content.new-message {
+		background: #e8efcf
+	}
+	.widget-content.own-message {
+		background: #FCF8E3
+	}
+	
+	.message-text {
+		border-top: 1px solid #ddd;
+		padding-top: 5px;
+	}
+</style>
 
 <div class="widget">
 	<div class="widget-header">
@@ -24,13 +37,5 @@
 		<?php echo Form::close(); ?>
 	</div>
 	
-	<div id="messages">
-	<?php foreach ($messages as $msg): ?>
-	<?php if($msg->is_read == Model_API_Message::STATUS_NEW): ?>
-	<?php Api::post('user-messages.mark_read', array(
-			'id' => $msg->id, 'uid' => AuthUser::getId()
-		)); ?>
-	<?php endif; ?>
-	<?php echo $tpl->set('message', $msg); ?>
-	<?php endforeach; ?>
+	<div id="messages"></div>
 </div>

@@ -51,13 +51,6 @@ class Model_API_Message extends Model_API {
 			$query->select(array($min_status, 'is_read'))
 				->order_by('is_read', 'asc');
 		}
-
-		$query->limit( (int) $this->get('limit', 10) );
-		
-		if( isset($this->offset) )
-		{
-			$query->offset( (int) $this->offset );
-		}
 		
 		return $query
 			->execute()
