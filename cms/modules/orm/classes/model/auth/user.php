@@ -138,7 +138,7 @@ class Model_Auth_User extends ORM {
 	public static function get_password_validation($values)
 	{
 		return Validation::factory($values)
-			->rule('password', 'min_length', array(':value', Kohana::$config->load('auth')->get( 'password_length' )))
+			->rule('password', 'min_length', array(':value', 8))
 			->rule('password_confirm', 'matches', array(':validation', ':field', 'password'));
 	}
 

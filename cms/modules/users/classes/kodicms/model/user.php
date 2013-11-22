@@ -11,7 +11,7 @@ class KodiCMS_Model_User extends Model_Auth_User {
 	public static function get_password_validation($values)
 	{
 		return Validation::factory($values)
-			->rule('password', 'min_length', array(':value', Kohana::$config->load('auth')->get( 'password_length' )))
+			->rule('password', 'min_length', array(':value', Config::get('auth', 'password_length')))
 			->rule('password_confirm', 'matches', array(':validation', ':field', 'password'));
 	}
 	
