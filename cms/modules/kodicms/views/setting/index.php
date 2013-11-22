@@ -35,7 +35,7 @@
 		</div>
 
 		<div class="widget-header">
-			<h3><?php echo __( 'Site options' ); ?></h3>
+			<h3><?php echo __( 'Site settings' ); ?></h3>
 		</div>
 		<div class="widget-content">
 
@@ -65,25 +65,15 @@
 					<p class="help-block"><?php echo __( 'This allows you to specify which section you will see by default after login.' ); ?></p>
 				</div>
 			</div>
-
-			<div class="control-group">
-				<label class="control-label" for="settingFindSimilar"><?php echo __( 'Find similar pages' ); ?></label>
-				<div class="controls">
-					<?php
-					echo Form::select( 'setting[site][find_similar]', array( 'yes' => __( 'Yes' ), 'no' => __( 'No' ) ), Config::get('site', 'find_similar' ), array(
-						'id' => 'settingFindSimilar'
-					) );
-					?>
-
-					<p class="help-block"><?php echo __( 'If requested page url is incorrect, then find similar page.' ); ?></p>
-				</div>
-			</div>
+			
+			<h3><?php echo __( 'Debug' ); ?></h3>
+			<hr />
 
 			<div class="control-group">
 				<label class="control-label" for="settingProfiling"><?php echo __( 'Profiling' ); ?></label>
 				<div class="controls">
 					<?php
-					echo Form::select( 'setting[site][profiling]', array( 'yes' => __( 'Yes' ), 'no' => __( 'No' ) ), Config::get('site', 'profiling' ), array(
+					echo Form::select( 'setting[site][profiling]', Form::choises(), Config::get('site', 'profiling' ), array(
 						'id' => 'settingProfiling'
 					) );
 					?>
@@ -91,34 +81,39 @@
 					<p class="help-block"><?php echo __('For detailed profiling use Kohana::$enviroment = Kohana::DEVELOPMENT or SetEnv KOHANA_ENV DEVELOPMENT in .htaccess'); ?></p>
 				</div>
 			</div>
+			
+			
 
 			<div class="control-group">
 				<label class="control-label" for="settingDebugMode"><?php echo __( 'Debug mode' ); ?></label>
 				<div class="controls">
 					<?php
-					echo Form::select( 'setting[site][debug]', array( 'yes' => __( 'Yes' ), 'no' => __( 'No' ) ), Config::get('site', 'debug' ), array(
+					echo Form::select( 'setting[site][debug]', Form::choises(), Config::get('site', 'debug' ), array(
 						'id' => 'settingDebugMode'
 					) );
 					?>
 				</div>
 			</div>
 
+			<h3><?php echo __( 'Design' ); ?></h3>
 			<hr />
 
 			<div class="control-group">
 				<label class="control-label" for="settingBreadcrumbs"><?php echo __( 'Show breadcrumbs' ); ?></label>
 				<div class="controls">
 					<?php
-					echo Form::select( 'setting[site][breadcrumbs]', array( 'yes' => __( 'Yes' ), 'no' => __( 'No' ) ), Config::get('site', 'breadcrumbs', 'no' ), array(
+					echo Form::select( 'setting[site][breadcrumbs]', Form::choises(), Config::get('site', 'breadcrumbs', Config::NO ), array(
 						'id' => 'settingBreadcrumbs'
 					) );
 					?>
 				</div>
 			</div>
+
+			
 		</div>
 
 		<div class="widget-header spoiler-toggle" data-spoiler=".page-options-container">
-			<h3><?php echo __( 'Page options' ); ?></h3>
+			<h3><?php echo __( 'Page settings' ); ?></h3>
 		</div>
 
 		<div class="widget-content spoiler page-options-container">
@@ -150,6 +145,30 @@
 				<div class="controls">
 					<?php echo Form::select('setting[site][default_filter_id]', $filters, Config::get('site', 'default_filter_id' )); ?>
 					<p class="help-block"><?php echo __( 'Only for filter in pages, <i>not</i> in snippets.' ); ?></p>
+				</div>
+			</div>
+			
+			<hr />
+			
+			<div class="control-group">
+				<label class="control-label" for="settingFindSimilar"><?php echo __( 'Find similar pages' ); ?></label>
+				<div class="controls">
+					<?php
+					echo Form::select( 'setting[site][find_similar]', Form::choises(), Config::get('site', 'find_similar' ), array(
+						'id' => 'settingFindSimilar'
+					) );
+					?>
+
+					<p class="help-block"><?php echo __( 'If requested page url is incorrect, then find similar page.' ); ?></p>
+				</div>
+			</div>
+			
+			<div class="control-group">
+				<label class="control-label" for="settingCheckPageDate"><?php echo __( 'Check page date' ); ?></label>
+				<div class="controls">
+					<?php echo Form::select( 'setting[page][check_date]', Form::choises(), Config::get('site', 'check_page_date', Config::NO ), array(
+						'id' => 'settingCheckPageDate'
+					) );?>
 				</div>
 			</div>
 		</div>

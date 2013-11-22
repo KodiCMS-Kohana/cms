@@ -2,7 +2,7 @@
 
 $settings = array(
 	'domain'       => $_SERVER['HTTP_HOST'],
-	'check_url_suffix'  => 'yes',
+	'check_url_suffix'  => Config::YES,
 );
 
 // Save plugin settings

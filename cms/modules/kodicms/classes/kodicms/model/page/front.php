@@ -663,8 +663,12 @@ class KodiCMS_Model_Page_Front {
 			->join(array('users', 'updator'), 'left')
 				->on('updator.id', '=', 'page.updated_by_id')
 			->where('parent_id', '=', $this->id)
-			->where('published_on', '<=', DB::expr('NOW()'))
 			->where('status_id', 'in', self::_get_statuses($include_hidden));
+		
+		if(Config::get('page', 'check_date') == Config::YES)
+		{
+			$sql->where('published_on', '<=', DB::expr('NOW()'));
+		}
 		
 		$sql = $this->filter_by_tags($sql);
 
@@ -712,9 +716,13 @@ class KodiCMS_Model_Page_Front {
 
 		$sql = DB::select(array(DB::expr('COUNT(*)'), 'total'))
 			->from(array(Model_Page::tableName(), 'page'))
-			->where('published_on', '<=', DB::expr('NOW()'))
 			->where('parent_id', '=', $this->id)
 			->where('status_id', 'in', self::_get_statuses($include_hidden));
+		
+		if(Config::get('page', 'check_date') == Config::YES)
+		{
+			$sql->where('published_on', '<=', DB::expr('NOW()'));
+		}
 		
 		$sql = $this->filter_by_tags($sql);
 
@@ -762,7 +770,14 @@ class KodiCMS_Model_Page_Front {
 
 		$slugs = DB::select('id', 'slug')
 			->from(Model_Page::tableName())
-			->where('status_id', 'in', $statuses)
+			->where('status_id', 'in', $statuses);
+		
+		if(Config::get('page', 'check_date') == Config::YES)
+		{
+			$slugs->where('published_on', '<=', DB::expr('NOW()'));
+		}
+		
+		$slugs = $slug
 			->execute()
 			->as_array('id', 'slug');
 
@@ -832,8 +847,11 @@ class KodiCMS_Model_Page_Front {
 			->cache_tags( array('pages') )
 			->cached((int)Config::get('cache', 'front_page'))
 			->as_object();
-			
-		if(!empty($slug)) $page->where('published_on', '<=', DB::expr('NOW()'));
+		
+		if(Config::get('page', 'check_date') == Config::YES)
+		{
+			$page->where('published_on', '<=', DB::expr('NOW()'));
+		}
 		
 		$page = $page
 			->execute()
@@ -919,7 +937,14 @@ class KodiCMS_Model_Page_Front {
 			->limit(1)
 			->cache_tags( array('pages') )
 			->cached((int)Config::get('cache', 'front_page'))
-			->as_object()
+			->as_object();
+		
+		if(Config::get('page', 'check_date') == Config::YES)
+		{
+			$page->where('published_on', '<=', DB::expr('NOW()'));
+		}
+		
+		$page = $page
 			->execute()
 			->current();
 

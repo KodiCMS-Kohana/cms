@@ -140,7 +140,7 @@ class Model_Email_Queue extends ORM
 	public function failed()
 	{
 		$this->attempts++;
-		$max_attempts = Config::get('email_queue', 'max_attempts', 5);
+		$max_attempts = Config::get('email_queue', 'max_attempts');
 
 		if($max_attempts <= $this->attempts)
 		{

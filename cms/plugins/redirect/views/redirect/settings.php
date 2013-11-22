@@ -18,7 +18,7 @@
 		<div class="controls">
 
 			<label class="checkbox">
-				<?php echo Form::checkbox('setting[check_url_suffix]', 'yes', $plugin->get('check_url_suffix') == 'yes', array(
+				<?php echo Form::checkbox('setting[check_url_suffix]', Config::YES, $plugin->get('check_url_suffix') == Config::YES, array(
 					'class' => 'input-xlarge', 'id' => 'check_url_suffix'
 				)); ?>
 			</label>

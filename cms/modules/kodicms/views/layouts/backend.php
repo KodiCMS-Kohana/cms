@@ -34,7 +34,7 @@
 		
 		<?php echo $footer; ?>
 
-		<?php if ( Config::get('site', 'profiling' ) == 'yes' ): ?>
+		<?php if ( Config::get('site', 'profiling' ) == Config::YES ): ?>
 		<hr />
 		<?php echo View::factory( 'profiler/stats' ) ?>
 		<?php endif; ?>

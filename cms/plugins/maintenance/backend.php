@@ -10,11 +10,11 @@ Observer::observe('save_settings', function($post, $plugin) {
 
 	if(!isset($post['plugin']['maintenance_mode']))
 	{
-		$plugin->set('maintenance_mode', 'no');
+		$plugin->set('maintenance_mode', Config::NO);
 	}
 	else
 	{
-		$plugin->set('maintenance_mode', 'yes');
+		$plugin->set('maintenance_mode', Config::YES);
 	}
 	
 	$plugin->save_settings();

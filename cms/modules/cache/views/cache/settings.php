@@ -2,15 +2,15 @@
 	<h3 id="cache-settings"><?php echo __('Cache settings'); ?></h3>
 </div>
 <div class="widget-content spoiler cache-settings">
-	<?php if( ACL::check('cache.clear')): ?>
-	<?php echo UI::button(__('Clear cache'), array(
-		'icon' => UI::icon( 'stethoscope' ),
-		'id' => 'clear-cache',
-		'class' => 'btn btn-warning'
-	)); ?>
-	<hr />
-	<?php endif; ?>
-
+	<div class="well">
+		<?php if( ACL::check('cache.clear')): ?>
+		<?php echo UI::button(__('Clear cache'), array(
+			'icon' => UI::icon( 'stethoscope' ),
+			'id' => 'clear-cache',
+			'class' => 'btn btn-warning'
+		)); ?>
+		<?php endif; ?>
+	</div>
 	<div class="control-group">
 		<label class="control-label"><?php echo __('Pages cache time'); ?></label>
 		<div class="controls">

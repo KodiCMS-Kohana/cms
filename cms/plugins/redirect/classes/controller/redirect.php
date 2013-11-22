@@ -7,7 +7,7 @@ class Controller_Redirect extends Controller_System_Plugin
 	{
 		if(!isset($_POST['setting']['check_url_suffix']))
 		{
-			$_POST['setting']['check_url_suffix'] = 'no';
+			$_POST['setting']['check_url_suffix'] = Config::NO;
 		}
 
 		parent::_settings_save($plugin);

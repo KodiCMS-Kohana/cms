@@ -33,7 +33,7 @@ class KodiCMS_Controller_Front extends Controller_System_Controller
 		{
 			// Если включен поиск похожей страницы и она найдена, производим
 			// редирект на найденую страницу
-			if(Config::get('site', 'find_similar') == 'yes')
+			if(Config::get('site', 'find_similar') == Config::YES)
 			{
 				$uri = Model_Page_Front::find_similar($this->request->uri());
 				

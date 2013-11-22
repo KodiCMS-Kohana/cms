@@ -4,7 +4,7 @@
 <div class="widget-content">
 	<div class="control-group">
 		<div class="checkbox">
-			<label><?php echo Form::checkbox('setting[enabled]', 'yes', $plugin->get('enabled') == 'yes'); ?> <?php echo __('Enable compiler'); ?></label>
+			<label><?php echo Form::checkbox('setting[enabled]', Config::YES, $plugin->get('enabled') == Config::YES); ?> <?php echo __('Enable compiler'); ?></label>
 		</div>
 	</div>
 </div>

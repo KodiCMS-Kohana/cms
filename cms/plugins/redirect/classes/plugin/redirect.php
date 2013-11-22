@@ -7,7 +7,7 @@ class Plugin_Redirect extends Plugin_Decorator {
 		$settings = parent::default_settings();
 		
 		$settings['domain'] = $_SERVER['HTTP_HOST'];
-		$settings['check_url_suffix'] = 'yes';
+		$settings['check_url_suffix'] = Config::YES;
 
 		return $settings;
 	}

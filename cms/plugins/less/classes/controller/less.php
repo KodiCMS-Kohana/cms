@@ -24,12 +24,12 @@ class Controller_Less extends Controller_System_Plugin {
 	{
 		if(!isset($_POST['setting']['enabled']))
 		{
-			$_POST['setting']['enabled'] = 'no';
+			$_POST['setting']['enabled'] = Config::NO;
 		}
 
 		if(!isset($_POST['setting']['format_css']))
 		{
-			$_POST['setting']['format_css'] = 'no';
+			$_POST['setting']['format_css'] = Config::NO;
 		}
 
 		parent::_settings_save($plugin);

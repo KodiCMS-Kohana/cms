@@ -24,7 +24,7 @@ abstract class Controller_Account extends Controller_System_SSO {
 	
 	public function action_register()
 	{
-		if(Config::get('oauth',  'register' ) != 'yes') throw new SSO_Exception('Registration is denied');
+		if(Config::get('oauth',  'register' ) != Config::YES) throw new SSO_Exception('Registration is denied');
 			
 		$this->_save_referer('account/identify', $this->_changed_uri('complete_register'));
 		$this->_do_login();

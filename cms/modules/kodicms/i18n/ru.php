@@ -136,7 +136,7 @@ return array(
 	'No' => 'Нет',
 	'Find similar pages' => 'Похожая страница',
 	'This text will be present at backend and can be used in frontend pages.' 
-		=> 'Этот текс будет использоваться в Backend, а также использоваться во Frontend',
+		=> 'Этот текст будет использоваться в Backend, а также использоваться во Frontend',
 	'If requested page url is incorrect, then find similar page.' 
 		=> 'Если запрашиваемая страница не найдена, то показать наиболее похожую страницу',
 	'This allows you to specify which section you will see by default after login.' 
@@ -145,7 +145,9 @@ return array(
 	'Default filter' => 'Фильтр по-умолчанию',
 	'Default page status' => 'Статус страницы по-умолчанию',
 	'Settings has been saved!' => 'Настройки сохранены!',
-	'Site options' => 'Опции сайта',
+	'Site settings' => 'Настройки сайта',
+	'Page settings' => 'Настройки страницы',
+	'Check page date' => 'Проверять дату создания страницы',
 	'For detailed profiling use Kohana::$enviroment = Kohana::DEVELOPMENT or SetEnv KOHANA_ENV DEVELOPMENT in .htaccess' => 'Для детального профилирования используйте Kohana::$enviroment = Kohana::DEVELOPMENT или SetEnv KOHANA_ENV DEVELOPMENT в файле .htaccess',
 	
 	/*********************** Autorization *******************/

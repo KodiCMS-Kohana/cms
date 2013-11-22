@@ -8,14 +8,14 @@ class Plugin_Less extends Plugin_Decorator {
 		
 		$settings['less_folder_path'] = 'media/less';
 		$settings['css_folder_path'] = 'media/css';
-		$settings['enabled'] = 'no';
+		$settings['enabled'] = Config::NO;
 		
 		return $settings;
 	}
 	
 	public function set_settings( array $data )
 	{
-		if( !isset($data['enabled']) ) $data['enabled'] = 'no';
+		if( !isset($data['enabled']) ) $data['enabled'] = Config::NO;
 
 		return parent::set_settings($data);
 	}

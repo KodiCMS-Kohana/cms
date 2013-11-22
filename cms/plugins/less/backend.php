@@ -18,7 +18,7 @@ function less_compile($plugin)
 		$css_path = DOCROOT.$css_folder_path.DIRECTORY_SEPARATOR;
 		
 		
-		if((!is_dir($less_path) AND !is_dir($css_path)) OR $plugin->get('enabled') == 'no')
+		if((!is_dir($less_path) AND !is_dir($css_path)) OR $plugin->get('enabled') == Config::NO)
 		{
 			return;
 		}
@@ -26,7 +26,7 @@ function less_compile($plugin)
 		$files = new DirectoryIterator($less_path);
 
 		$params = array();
-		if( $plugin->get('format_css', 'no') == 'no' )
+		if( $plugin->get('format_css', Config::NO) == Config::NO )
 		{
 			$params = array(
 				'newlineChar' => '',

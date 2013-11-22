@@ -6,7 +6,7 @@ class Plugin_Maintenance extends Plugin_Decorator {
 	{
 		$settings = parent::default_settings();
 		
-		$settings['maintenance_mode'] = 'no';
+		$settings['maintenance_mode'] = Config::NO;
 		return $settings;
 	}
 }

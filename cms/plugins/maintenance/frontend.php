@@ -1,6 +1,6 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct script access.' );
 
-if($plugin->get('maintenance_mode') == 'yes')
+if($plugin->get('maintenance_mode') == Config::YES)
 {
 	// Observe
 	Observer::observe('frontpage_requested', function() {

@@ -23,7 +23,7 @@ function behavior_api_mode_settings_save( $post )
 {
 	if(!isset($post['setting']['api']['mode']))
 	{
-		Config::set('api', 'mode', 'no');
+		Config::set('api', 'mode', Config::NO);
 	}
 }
 

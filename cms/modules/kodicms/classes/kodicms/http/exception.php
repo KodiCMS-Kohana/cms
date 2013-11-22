@@ -15,7 +15,7 @@ class KodiCMS_HTTP_Exception extends Kohana_HTTP_Exception {
 		// Lets log the Exception, Just in case it's important!
 		Kohana_Exception::log($this);
 
-		if ( Config::get('site', 'debug') == 'yes')
+		if ( Config::get('site', 'debug') == Config::YES)
 		{
 			// Show the normal Kohana error page.
 			return parent::get_response();

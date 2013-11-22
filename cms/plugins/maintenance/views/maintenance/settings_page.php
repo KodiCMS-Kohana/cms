@@ -5,7 +5,7 @@
 	<div class="control-group">
 		<div class="controls">
 			<div class="checkbox">
-				<label><?php echo Form::checkbox('plugin[maintenance_mode]', 'yes', $plugin->get('maintenance_mode') == 'yes'); ?> <?php echo __('Enable maintenance mode'); ?></label>
+				<label><?php echo Form::checkbox('plugin[maintenance_mode]', Config::YES, $plugin->get('maintenance_mode') == Config::YES); ?> <?php echo __('Enable maintenance mode'); ?></label>
 			</div>
 		</div>
 	</div>

@@ -12,7 +12,7 @@ Observer::observe('frontpage_requested', function($plugin) {
 		$path = $domain . $current_uri;
 	}
 
-	if($plugin->check_url_suffix == 'yes') 
+	if($plugin->check_url_suffix == Config::YES) 
 	{
 		$current_uri = trim($current_uri, '/');
 
