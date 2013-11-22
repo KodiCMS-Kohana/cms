@@ -30,7 +30,7 @@ if($navigation !== NULL)
 				}
 
 				$dropdown->add(Bootstrap_Element_Button::factory(array(
-						'href' => $item->url(), 'title' => $item->name()
+						'href' => $item->url(), 'title' => $item->name() . UI::counter($item->counter)
 				))->icon($item->icon), $item->is_active());
 				
 				if($item->is_active())
