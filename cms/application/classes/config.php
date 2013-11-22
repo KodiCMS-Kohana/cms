@@ -2,6 +2,9 @@
 
 class Config extends Kohana_Config {
 	
+	const YES = 'yes';
+	const NO = 'no';
+	
 	/**
 	 * Get the value of a setting
 	 * @param group string  The setting name
