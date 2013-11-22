@@ -600,12 +600,15 @@ var Api = {
 		return this.response();
 	},
 
-	request: function(method, uri, data, callback) {
+	request: function(method, uri, data, callback, show_loader) {
 		if(uri.indexOf('-') == -1) uri = '-' + uri;
 		else if(uri.indexOf('-') > 0 && uri.indexOf('/') == -1)  uri = '/' + uri;
 		
 		if(uri.indexOf('/api') == -1)
 			uri = '/api' + uri;
+		
+		if(show_loader == 'undefined')
+			show_loader = true;
 		
 		$.ajaxSetup({
 			contentType : 'application/json'
@@ -621,7 +624,7 @@ var Api = {
 			dataType: 'json',
 //			cache: false,
 			beforeSend: function(){
-				cms.loader.show();
+				if(show_loader) cms.loader.show();
 			},
 			success: function(response) {
 				if(response.code != 200) return Api.exception(response);
