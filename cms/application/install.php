@@ -9,7 +9,7 @@ define('TABLE_PREFIX', '');
 define('ADMIN_DIR_NAME', '');
 define('PUBLIC_URL', BASE_URL . 'public/');
 define('PLUGINS_URL', BASE_URL . 'cms/plugins/');
-
+define('IS_BACKEND', FALSE);
 /**
  * Set the default cookie salt
  * 
