@@ -21,15 +21,12 @@
 		</div>
 	</div>
 	<div class="widget-content widget-no-border-radius widget-nopad">
-
-		<?php echo Form::textarea('content', NULL, array('class' => 'span12', 'id' => 'message-conent')); ?>
-
+		<?php echo Form::textarea('content', NULL, array('id' => 'message-conent')); ?>
 		<script>
 		$(function() {
 			cms.filters.switchOn( 'message-conent', '<?php echo Config::get('site', 'default_filter_id'); ?>');
 		});
 		</script>
-				
 	</div>
 	<div class="widget-footer form-actions">
 		<?php echo UI::button(__('Send message'), array('class' => 'btn btn-large')); ?>

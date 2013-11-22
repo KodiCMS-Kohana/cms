@@ -3,8 +3,8 @@
 	<div class="widget-header">
 		<div class="row-fluid">
 			<?php echo UI::button(__('Send message'), array(
-				'href' => 'messages/add', 'icon' => UI::icon('envelope'),
-				'class' => 'btn btn-large'
+				'href' => Route::url('backend', array('controller' => 'messages', 'action' => 'add')), 'icon' => UI::icon('envelope'),
+				'class' => 'btn'
 			)); ?>
 		</div>
 	</div>
@@ -13,7 +13,6 @@
 	<div class="widget-content widget-nopad">
 		<table class=" table table-striped table-hover" id="MessagesList">
 			<colgroup>
-				<col width="50px" />
 				<col />
 				<col width="150px" />
 				<col width="180px" />
@@ -21,7 +20,6 @@
 			</colgroup>
 			<thead>
 				<tr>
-					<th><input type="checkbox" name="check_all" /></th>
 					<th><?php echo __('Message title'); ?></th>
 					<th><?php echo __('Message author'); ?></th>
 					<th><?php echo __('Date created'); ?></th>
@@ -31,8 +29,7 @@
 			<tbody>
 				<?php foreach($messages as $message): ?>
 				<tr data-id="<?php echo $message->id; ?>" <?php if( $message->is_read == Model_API_Message::STATUS_NEW): ?>class="info"<?php endif; ?>>
-					<td><?php echo Form::checkbox('item['.$message->id.']'); ?></td>
-					<td><?php echo HTML::anchor('messages/view/' . $message->id, $message->title); ?></td>
+					<td><?php echo HTML::anchor(Route::url('backend', array('controller' => 'messages', 'action' => 'view', 'id' => (int) $message->id)), $message->title); ?></td>
 					<td><?php echo $message->author; ?></td>
 					<td><?php echo Date::format($message->created_on); ?></td>
 					<td class="actions">

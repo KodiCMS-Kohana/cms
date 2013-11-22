@@ -8,9 +8,10 @@ return array(
 	'Message to' => 'Кому',
 	'Message author' => 'Отправитель',
 	'Date created' => 'Дата получения',
-	'' => '',
-	'' => '',
-	'' => '',
-	'' => '',
-	'' => '',
+	'View messages list' => 'Видеть раздел',
+	'Send messages' => 'Отправлять сообщения',
+	'Read own messages' => 'Читать свои сообщения',
+	'Delete own messages' => 'Удалять свои сообщения',
+	'Subject' => 'Тема',
+	'Answer' => 'Ответ'
 );

@@ -1,5 +1,4 @@
 cms.init.add('messages_add', function(){
-	
 	$('input[name="to"]').select2({
 		placeholder: __("Type first 2 chars"),
 		minimumInputLength: 2,
@@ -28,6 +27,27 @@ cms.init.add('messages_add', function(){
 			}
 		}
 	});
+});
+
+function get_messages() {
+	Api.get('user-messages.list', {
+		uid: USER_ID, 
+		fields: 'author,from_user_id,title,is_read,created_on,text',
+		pid: MESSAGE_ID
+	}, function(response) {
+		if(!response.response) return;
+		
+		var $msg_cont = $('#messages').empty();
+		for(msg in response.response) {
+			$msg_cont.append($(response.response[msg]));
+		}
+	}, false)
+	
+	setTimeout(get_messages, 10000);
+}
+
+cms.init.add('messages_view', function(){
+	get_messages();
 });
 
 cms.init.add('messages_index', function(){

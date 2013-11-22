@@ -145,6 +145,13 @@ class Model_API_Message extends Model_API {
 
 				$insert->execute($this->_db);
 				
+				if($from !== NULL)
+				{
+					Api::post('user-messages.mark_read', array(
+						'id' => $message_id, 'uid' => $from
+					));
+				}
+				
 				return $message_id;
 			}
 		}

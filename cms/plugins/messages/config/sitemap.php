@@ -10,8 +10,8 @@ if(AuthUser::isLoggedIn())
 		'Content' => array(
 			array(
 				'name' => __('Messages'), 
-				'url' => URL::backend('messages'),
-				'permissions' => array('login'),
+				'url' => Route::url('backend', array('controller' => 'messages')),
+				'permissions' => 'messages.index',
 				'icon' => 'envelope',
 				'divider' => TRUE,
 				'counter' => (int) $new->response,
