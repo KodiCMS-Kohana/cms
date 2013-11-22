@@ -3,10 +3,9 @@
 </div>
 <div class="widget-content spoiler maintenance-spoiler">
 	<div class="control-group">
+		<label class="control-label"><?php echo __('Enable maintenance mode'); ?></label>
 		<div class="controls">
-			<div class="checkbox">
-				<label><?php echo Form::checkbox('plugin[maintenance_mode]', Config::YES, $plugin->get('maintenance_mode') == Config::YES); ?> <?php echo __('Enable maintenance mode'); ?></label>
-			</div>
+			<?php echo Form::select( 'plugin[maintenance_mode]', Form::choises(), $plugin->get('maintenance_mode')); ?>
 		</div>
 	</div>
 </div>
