@@ -2,6 +2,9 @@
 
 class API_Response {
 	
+	const OBJ = 'object';
+	const ARR = 'array';
+	
 	/**
 	 *
 	 * @var Response 
@@ -13,6 +16,18 @@ class API_Response {
 	 * @var integer 
 	 */
 	protected $_code = 200;
+	
+	/**
+	 *
+	 * @var string 
+	 */
+	protected $_data_type = NULL;
+	
+	/**
+	 *
+	 * @var mixed 
+	 */
+	protected $_data = NULL;
 
 	/**
 	 * 
@@ -21,33 +36,41 @@ class API_Response {
 	public function __construct(Response $response) 
 	{
 		$this->_response = $response;
-		
-		$data = $this->as_array();
-		
-		if( isset($data['code']) )
+
+		if(isset($this->code))
 		{
-			$this->_code = $data['code'];
+			$this->_code = $this->get('code');
 		}
 	}
 	
 	/**
 	 * 
-	 * @return array
+	 * @return \API_Response
 	 */
 	public function as_array()
 	{
-		return json_decode( $this->body(), TRUE );
+		$this->_data_type = self::ARR;
+		$this->_data = json_decode( $this->body(), TRUE );
+		
+		return $this;
 	}
 	
 	/**
 	 * 
-	 * @return stdClass
+	 * @return \API_Response
 	 */
 	public function as_object()
 	{
-		return json_decode( $this->body() );
+		$this->_data_type = self::OBJ;
+		$this->_data = json_decode( $this->body() );
+		
+		return $this;
 	}
 
+	/**
+	 * 
+	 * @return \API_Response
+	 */
 	public function debug()
 	{
 		echo debug::vars($this->body());
@@ -71,9 +94,7 @@ class API_Response {
 	{
 		if($this->status()) return NULL;
 
-		$data = $this->as_array();
-		
-		return Arr::get($data, 'message');
+		return $this->get('message');
 	}
 	
 	/**
@@ -97,5 +118,54 @@ class API_Response {
 	public function __toString() 
 	{
 		return $this->body();
+	}
+	
+	public function __isset($name)
+	{
+		if( $this->_data_type === NULL )
+		{
+			$this->as_array();
+		}
+
+		if($this->_data_type == self::OBJ)
+		{
+			return isset($this->_data->{$name});
+		}
+		else if($this->_data_type == self::ARR)
+		{
+			return isset($this->_data[$name]);
+		}
+	}
+
+		/**
+	 * 
+	 * @param string $name
+	 * @return mixed
+	 */
+	public function __get($name)
+	{
+		return $this->get($name);
+	}
+	
+	/**
+	 * 
+	 * @param string $name
+	 * @param mixed $default
+	 * @return mixed
+	 */
+	public function get($name, $default = NULL)
+	{
+		if($this->_data_type == self::OBJ)
+		{
+			return isset($this->_data->{$name})
+				? $this->_data->{$name}
+				: $default;
+		}
+		else if($this->_data_type == self::ARR)
+		{
+			return Arr::path($this->_data, $name, $default);
+		}
+		
+		return $this->as_array()->get($name, $default);
 	}
 }
