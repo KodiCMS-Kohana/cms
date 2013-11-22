@@ -777,7 +777,7 @@ class KodiCMS_Model_Page_Front {
 			$slugs->where('published_on', '<=', DB::expr('NOW()'));
 		}
 		
-		$slugs = $slug
+		$slugs = $slugs
 			->execute()
 			->as_array('id', 'slug');
 
