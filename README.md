@@ -180,9 +180,13 @@ RewriteRule .* index.php/$0 [PT]# Set environment
 
 https://github.com/butschster/kodicms/issues
 
-### 7.7.27
+### 7.10.40
  * [feature] Замена класса Setting на Config_Database, в связи с этим замена таблицы Setting на Config
  * [feature] Добавлен раздел с настройкой модуля Email
+ * [update] Обновление плагина Сообщения
+ * [refactoring] Доработан класс Api_Response
+ * [fix] Исправлено отображения коунтрера в навигации
+ * [fix] Исправление мелких ошибок
 
 ### 6.8.27
 
