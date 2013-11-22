@@ -6597,6 +6597,19 @@ a .icon-flip-vertical:before {
 .iframe .widget:last-child {
   margin-bottom: 0;
 }
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: normal;
+}
+.well {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
 .check_all {
   color: #049cdb;
   border-bottom: 1px dashed #049cdb;
