@@ -122,7 +122,7 @@
 				<div class="controls">
 					<label class="radio inline" for="settingPageStatusDraft">
 						<?php
-						echo Form::radio( 'setting[default_status_id]', Model_Page::STATUS_DRAFT, (Config::get('site', 'default_status_id' ) == Model_Page::STATUS_DRAFT ), array(
+						echo Form::radio( 'setting[site][default_status_id]', Model_Page::STATUS_DRAFT, (Config::get('site', 'default_status_id' ) == Model_Page::STATUS_DRAFT ), array(
 							'id' => 'settingPageStatusDraft'
 						) ) . ' ' . __( 'Draft' );
 						?>
