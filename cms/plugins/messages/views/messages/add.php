@@ -6,7 +6,7 @@
 			<label class="control-label title"><?php echo __( 'Message title' ); ?></label>
 			<div class="controls">
 				<?php echo Form::input( 'title', NULL, array(
-					'class' => 'span12 input-title focus'
+					'class' => 'input-block-level input-title focus'
 				) ); ?>
 			</div>
 		</div>
