@@ -249,6 +249,42 @@ var __ = function (str, values) {
     return values == undefined ? str : strtr(str, values);
 };
 
+cms.navigation = {
+	counter: {
+		init: function() {
+			$('#site_nav .dropdown').each(function() {
+				var total = 0;
+
+				$('.dropdown-menu a', this).each(function() {
+					if($(this).data('counter') > 0) {
+						total += $(this).data('counter');
+						$(this).append('<span class="counter">' + $(this).data('counter') + '</span>');
+					}
+				});
+
+				if(total > 0)
+					$('.dropdown-toggle', this).append('<span class="counter">' + total + '</span>');
+			});
+			
+			$('#subnav a').each(function() {
+				if($(this).data('counter') > 0) {
+					$(this).append('<span class="counter">' + $(this).data('counter') + '</span>');
+				}
+			});
+		},
+		add: function(href, count) {
+			$('.dropdown-menu a[href*="'+href+'"]').data('counter', count);
+			$('#subnav a[href*="'+href+'"]').data('counter', count);
+			this.init();
+		},
+		remove: function(href) {
+			$('.dropdown-menu a[href*="'+href+'"]').removeData('counter');
+			$('#subnav a[href*="'+href+'"]').removeData('counter');
+			this.init();
+		}
+	}
+}
+
 cms.ui = {
     callbacks:[],
     add:function (module, callback) {
@@ -312,6 +348,10 @@ cms.ui.add('btn-confirm', function() {
 
 		return false;
 	});
+}).add('nav-counter', function() {
+
+	cms.navigation.counter.init();
+
 }).add('outline', function() {
 	$('.widget')
 		.addClass('outline_inner')
