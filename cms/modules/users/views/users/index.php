@@ -33,7 +33,7 @@
 						<?php if ( Acl::check( 'users.edit') OR $user->id == AuthUser::getId() ): ?>
 						<?php echo HTML::anchor(Route::url('backend', array(
 							'controller' => 'users',
-							'action' => 'edit',
+							'action' => 'profile',
 							'id' => $user->id
 						)), $user->username); ?>
 						<?php else: ?>

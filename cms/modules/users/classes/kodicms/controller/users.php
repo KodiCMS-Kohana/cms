@@ -2,11 +2,15 @@
 
 class KodiCMS_Controller_Users extends Controller_System_Backend {
 
+	public $allowed_actions = array(
+		'profile'
+	);
+
 	public function before()
 	{
-		if($this->request->action() == 'edit' AND AuthUser::getId() == $this->request->param('id'))
+		if(in_array($this->request->action(), array('edit')) AND AuthUser::getId() == $this->request->param('id'))
 		{
-			$this->allowed_actions[] = 'edit';
+			$this->allowed_actions[] = $this->request->action();
 		}
 
 		parent::before();
@@ -110,6 +114,36 @@ class KodiCMS_Controller_Users extends Controller_System_Backend {
 			));
 		}
 	}
+	
+	
+	
+	public function action_profile()
+	{
+		$id = $this->request->param('id');
+		
+		if(empty($id) AND AuthUser::isLoggedIn())
+		{
+			$id = AuthUser::getId();
+		}
+		
+		$user = ORM::factory('user', $id);
+		
+		if( ! $user->loaded() )
+		{
+			Messages::errors( __('User not found!') );
+			$this->go();
+		}
+		
+		$this->template->title = __(':user profile', array(':user' => $user->username));
+		$this->breadcrumbs
+			->add($this->template->title);
+		
+		$this->template->content = View::factory( 'users/profile', array(
+			'user' => $user,
+			'permissions' => $user->permissions_list()
+		) );
+	}
+
 
 	public function action_edit( )
 	{
@@ -137,8 +171,7 @@ class KodiCMS_Controller_Users extends Controller_System_Backend {
 
 		$this->template->content = View::factory( 'users/edit', array(
 			'action' => 'edit',
-			'user' => $user,
-			'permissions' => $user->permissions_list()
+			'user' => $user
 		) );
 	}
 

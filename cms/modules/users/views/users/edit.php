@@ -46,27 +46,9 @@
 					)); 
 				?>
 				</div>
-				<div class="span4 align-right">
-					<?php if($user->id !== NULL): ?>
-					<div id="UserGravatar">
-						<?php echo HTML::anchor('http://gravatar.com/emails/', $user->gravatar(150, NULL, array(
-							'class' => 'img-polaroid')), array(
-							'target' => '_blank'
-						)); ?>
-					</div>
-					<?php endif; ?>
-				</div>
 			</div>
 			
 			<hr />
-			
-			<?php echo Bootstrap_Form_Element_Control_Group::factory(array(
-				'element' => Bootstrap_Form_Element_Checkbox::factory(array(
-					'name' => 'user[notice]', 'value' => 1
-				))
-				->checked($user->profile->notice == 1)
-				->label(__('Subscribe to email notifications'))
-			)); ?>
 			
 			<?php echo Bootstrap_Form_Element_Control_Group::factory(array(
 				'element' => Bootstrap_Form_Element_Select::factory(array(
@@ -75,6 +57,22 @@
 				->selected($user->profile->locale)
 				->label(__('Interface language'))
 			)); ?>
+		</div>
+		
+		<div class="widget-header">
+			<h3><?php echo __('Notifications'); ?></h3>
+		</div>
+		
+		<div class="widget-content">
+			<?php echo Bootstrap_Form_Element_Control_Group::factory(array(
+				'element' => Bootstrap_Form_Element_Checkbox::factory(array(
+					'name' => 'user[notice]', 'value' => 1
+				))
+				->checked($user->profile->notice == 1)
+				->label(__('Subscribe to email notifications'))
+			)); ?>
+			
+			<?php Observer::notify('view_user_edit_notifications', $user->id); ?>
 		</div>
 
 		<?php if( ACL::check('users.change_password') OR $user->id == AuthUser::getId() ): ?>
@@ -108,6 +106,8 @@
 				<?php echo __('Leave password blank for it to remain unchanged.'); ?>
 			</div>
 			<?php endif; ?>
+			
+			<?php Observer::notify('view_user_edit_password', $user->id); ?>
 		</div>
 		<?php endif; ?>
 
@@ -128,31 +128,6 @@
 			?>
 			</div>
 		</div>
-		<?php endif; ?>
-		
-		<?php if ( !empty($permissions) ): ?>
-		<div class="widget-header widget-section">
-			<h2><?php echo __('Section permissions'); ?></h2>
-		</div>
-		
-		<?php foreach($permissions as $title => $actions): ?>
-		<div class="widget-content widget-nopad spoiler permissions-spoiler">
-			<div class="widget-header spoiler-toggle" data-spoiler=".permissions-spoiler">
-				<h3><?php echo __(ucfirst($title)); ?></h3>
-			</div>
-			<table class='table' id="permissions-list">
-				<tbody>
-					<tr>
-						<th>
-						<?php foreach($actions as $action => $title): ?>
-						<?php echo UI::label(__($title)); ?>
-						<?php endforeach; ?>
-						</th>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-		<?php endforeach; ?>
 		<?php endif; ?>
 		
 		<?php Observer::notify('view_user_edit_plugins', $user); ?>

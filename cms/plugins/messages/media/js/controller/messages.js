@@ -1,5 +1,5 @@
 cms.init.add('messages_add', function(){
-	$('input[name="to"]').select2({
+	$('#messageTo').select2({
 		placeholder: __("Type first 2 chars"),
 		minimumInputLength: 2,
 		ajax: {

@@ -52,7 +52,7 @@ if($navigation !== NULL)
 				))
 				->add(
 					Bootstrap_Element_Button::factory(array(
-						'href' => Route::url('backend', array('controller' => 'users', 'action' => 'edit', 'id' => AuthUser::getId())),
+						'href' => Route::url('backend', array('controller' => 'users', 'action' => 'profile')),
 						'title' => __( 'Profile' )
 					))->icon('eye-open')
 				)

@@ -11,14 +11,18 @@
 			</div>
 		</div>
 		
+		<?php if($to !== NULL): ?>
+		<?php echo Form::hidden( 'to', $to ); ?>
+		<?php else: ?>
 		<br />
 		
 		<div class="control-group">
 			<label class="control-label"><?php echo __( 'Message to' ); ?></label>
 			<div class="controls">
-				<?php echo Form::input( 'to', NULL, array(' autocomplete' => 'off') ); ?>
+				<?php echo Form::input( 'to', Request::current()->query('to'), array(' autocomplete' => 'off', 'id' => 'messageTo') ); ?>
 			</div>
 		</div>
+		<?php endif; ?>
 	</div>
 	<div class="widget-content widget-no-border-radius widget-nopad">
 		<?php echo Form::textarea('content', NULL, array('id' => 'message-conent')); ?>

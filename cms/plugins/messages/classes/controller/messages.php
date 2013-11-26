@@ -36,9 +36,13 @@ class Controller_Messages extends Controller_System_Backend {
 			$post['to_user_id'] = $user->id;
 			return $this->_send(Api::put('user-messages', $post));
 		}
+		
+		$to = $this->request->query('to');
+		$to = ORM::factory('user', $to)->id;
 
 		$this->template->content = View::factory('messages/add', array(
-			'user_id' => AuthUser::getId()
+			'user_id' => AuthUser::getId(),
+			'to' => $to
 		));
 		
 		$this->template->title = __('Send message');
