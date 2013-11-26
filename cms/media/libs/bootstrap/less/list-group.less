@@ -6,44 +6,44 @@
 //
 // Easily usable on <ul>, <ol>, or <div>.
 .list-group {
-  // No need to set list-style: none; since .list-group-item is block level
-  margin-bottom: 20px;
-  padding-left: 0; // reset padding because ul and ol
+	// No need to set list-style: none; since .list-group-item is block level
+	margin-bottom: 20px;
+	padding-left: 0; // reset padding because ul and ol
 }
 
 // Individual list items
 // -------------------------
 
 .list-group-item {
-  position: relative;
-  display: block;
-  padding: 10px 15px;
-  // Place the border on the list items and negative margin up for better styling
-  margin-bottom: -1px;
-  background-color: @list-group-bg;
-  border: 1px solid @list-group-border;
+	position: relative;
+	display: block;
+	padding: 10px 15px;
+	// Place the border on the list items and negative margin up for better styling
+	margin-bottom: -1px;
+	background-color: @list-group-bg;
+	border: 1px solid @list-group-border;
 
-  // Round the first and last items
-  &:first-child {
-    .border-top-radius(@list-group-border-radius);
-  }
-  &:last-child {
-    margin-bottom: 0;
-    .border-bottom-radius(@list-group-border-radius);
-  }
+	// Round the first and last items
+	&:first-child {
+		//.border-top-radius(@list-group-border-radius);
+	}
+	&:last-child {
+		margin-bottom: 0;
+		//.border-bottom-radius(@list-group-border-radius);
+	}
 
-  // Align badges within list items
-  > .badge {
-    float: right;
-  }
-  > .badge + .badge {
-    margin-right: 5px;
-  }
+	// Align badges within list items
+	> .badge {
+		float: right;
+	}
+	> .badge + .badge {
+		margin-right: 5px;
+	}
 }
 
 // Linked list items
 a.list-group-item {
-	color: @list-group-link-color;
+	// color: @list-group-link-color;
   
 	.list-group-chevron {
 		float: right;

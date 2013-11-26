@@ -143,7 +143,7 @@ h1, h2, h3, h4 ,h5, h6 {
 	Tabs
  ===================================================*/
 .tabbable {
-	background: whitesmoke;
+	background: rgb(255, 252, 245);
 	border-bottom: 1px solid #ddd;
 	
 	.nav {
@@ -437,5 +437,80 @@ legend {
 		.list-group-item:first-child {
 			border-top-width: 0;
 		}
+	}
+}
+
+.feed-item {
+	position: relative;
+	padding-top: 15px;
+	padding-bottom: 15px;
+	padding-left: 40px;
+	margin-left: 20px;
+	border-left: 2px solid #DDD;
+	
+	&:last-child {
+		padding-bottom: 15px;
+	}
+	
+	.feed-subject {
+		margin-bottom: 1.5em;
+		
+		a {
+			font-weight: 600;
+		}
+	}
+	
+	.feed-content {
+		padding-left: 25px;
+	}
+	
+	.feed-actions {
+		padding: 10px 10px;
+		margin-top: 2em;
+		border-top: 1px dotted #ccc;
+		
+		&:before, &:after {
+			content: " ";
+			display: table;
+		}
+		
+		&:after {
+			clear: both;
+		}
+		
+		a {
+			color: #999;
+			font-size: 13px;
+			
+			&:hover {
+				text-decoration: none;
+				color: #e5412d;
+			}
+		}
+		
+		.pull-left {
+			margin: 0 15px 0 0;
+		}
+		
+		.pull-right {
+			margin: 0 0 0 15px;
+		}
+	}
+	
+	.feed-icon {
+		position: absolute;
+		top: 0;
+		left: -23px;
+		width: 40px;
+		height: 40px;
+		color: #FFF;
+		text-align: center;
+		font-size: 16px;
+		line-height: 38px;
+		background-color: #e5412d;
+		border: 3px solid #FFF;
+		
+		.border-radius(100px);
+		.box-shadow(1px 1px 2px rgba(0, 0, 0, 0.35));
 	}
 }

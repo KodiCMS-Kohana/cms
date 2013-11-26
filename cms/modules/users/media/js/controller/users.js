@@ -63,7 +63,7 @@ cms.init.add('users_profile', function () {
 	var toolbar = $('.profile-toolbar');
 	var toolbar_l = toolbar.text().replace(/\t/g, '').replace(/\n/g, '').replace(/&nbsp;/g, '').replace(/ /g, '').length;
 	
-	if(!toolbar_l) toolbar.remove();
+	if(!toolbar_l) toolbar.css({'padding': 0});
 })
 
 cms.init.add('users_add', function () {

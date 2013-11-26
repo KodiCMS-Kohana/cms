@@ -1,21 +1,30 @@
-<div class="widget">
+<div class="widget" id="profile">
 	<div class="tabbable tabs-left">
 		<ul class="nav nav-tabs"></ul>
 		<div class="tab-content"></div>
 	</div>
-	<div class="widget-header">
+	<div class="widget-header widget-header-onlytab">
 		<h3><?php echo __('General information'); ?></h3>
 	</div>
-
 	<div class="widget-content">
+		<div class="profile-header">
+			<?php echo HTML::anchor('http://gravatar.com/emails/', $user->gravatar(100, NULL, array('class' => 'profile-avatar img-circle')), array(
+				'target' => '_blank',
+			)); ?>
+
+			<h2 class="profile-username"><?php echo $user->username; ?> <small><?php echo __('Last login'); ?> <?php echo Date::format($user->last_login); ?></small></h2>
+			<?php if(!empty($user->profile->name)): ?><p class="profile-name muted"><?php echo $user->profile->name; ?></p><?php endif; ?>
+			
+			<div class="clearfix"></div>
+		</div>
+		
+		<div class="profile-toolbar">
+			<?php Observer::notify('view_user_profile_toolbar', $user->id); ?>
+		</div>
+		
 		<div class="row-fluid">
-			<div class="span4">
-				<div class="thumbnail">
-					<?php echo HTML::anchor('http://gravatar.com/emails/', $user->gravatar(360, NULL, array()), array(
-						'target' => '_blank'
-					)); ?>
-				</div>
-				<br />
+			
+			<div class="span5">
 				<div class="list-group">
 					<?php if ( Acl::check( 'users.edit') OR $user->id == AuthUser::getId() ): ?>
 					<a href="<?php echo Route::url('backend', array(
@@ -34,24 +43,10 @@
 					<?php endif; ?>
 					<?php Observer::notify('view_user_profile_sidebar_list', $user->id); ?>
 				</div>
-				
-				<p class="muted"><i class="icon-flag"></i> <?php echo __('Last login'); ?> <?php echo Date::format($user->last_login); ?></p>
-				
 				<?php Observer::notify('view_user_profile_sidebar', $user->id); ?>
 			</div>
-			<div class="span8">
-				<h2><?php echo $user->username; ?> <?php if(!empty($user->profile->name)): ?><small><?php echo $user->profile->name; ?></small><?php endif; ?></h2>
-
-				<div class="profile-toolbar well">
-					<?php Observer::notify('view_user_profile_toolbar', $user->id); ?>
-				</div>
-
+			<div class="span7">
 				<?php Observer::notify('view_user_profile_information', $user->id); ?>
-
-				<?php if ( !empty($activity) ): ?>
-				<hr />
-				<h3 class="page-header"><?php echo __('Activity'); ?></h3>
-				<?php endif; ?>
 			</div>
 		</div>
 		
