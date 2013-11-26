@@ -25,10 +25,10 @@
 		<?php endif; ?>
 	</div>
 	<div class="widget-content widget-no-border-radius widget-nopad">
-		<?php echo Form::textarea('content', NULL, array('id' => 'message-conent')); ?>
+		<?php echo Form::textarea('content', NULL, array('id' => 'message-content')); ?>
 		<script>
 		$(function() {
-			cms.filters.switchOn( 'message-conent', '<?php echo Config::get('site', 'default_filter_id'); ?>');
+			cms.filters.switchOn( 'message-content', '<?php echo Config::get('site', 'default_filter_id'); ?>');
 		});
 		</script>
 	</div>

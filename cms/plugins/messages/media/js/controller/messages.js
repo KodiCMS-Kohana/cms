@@ -27,6 +27,21 @@ cms.init.add('messages_add', function(){
 			}
 		}
 	});
+	
+	function calculateEditorHeight() {
+		var conentH = cms.content_height;
+		var h = $('.widget-title').outerHeight(true) + $('.form-actions').outerHeight(true) + 77;
+		return conentH - h;
+	}
+	
+	$('#message-content').on('filter:switch:on', function(e, editor) {
+		cms.filters.exec('message-content', 'changeHeight', calculateEditorHeight());
+	});
+	
+	$(window).resize(function() {
+		$('#message-content').trigger('filter:switch:on')
+	});
+	
 });
 
 function get_messages() {
