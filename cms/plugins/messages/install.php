@@ -7,7 +7,7 @@ try {
 		`id` int(10) unsigned NOT NULL AUTO_INCREMENT,
 		`created_on` datetime NOT NULL,
 		`from_user_id` int(10) unsigned DEFAULT NULL,
-		`title` varchar(255) NOT NULL DEFAULT '',
+		`title` varchar(255) DEFAULT NULL,
 		`text` text NOT NULL,
 		PRIMARY KEY (`id`),
 		KEY `from_user_id` (`from_user_id`)

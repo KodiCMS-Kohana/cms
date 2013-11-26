@@ -41,6 +41,9 @@ function get_messages() {
 		for(msg in response.response) {
 			$msg_cont.append($(response.response[msg]));
 		}
+		
+		cms.navigation.counter.add('messages', $('.new-message', $msg_cont).length)
+		
 	}, false)
 	
 	setTimeout(get_messages, 10000);
