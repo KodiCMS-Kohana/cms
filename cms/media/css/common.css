@@ -4926,6 +4926,83 @@ a.badge:focus {
 .hero-unit li {
   line-height: 27px;
 }
+.list-group {
+  margin-bottom: 20px;
+  padding-left: 0;
+}
+.list-group-item {
+  position: relative;
+  display: block;
+  padding: 10px 15px;
+  margin-bottom: -1px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+}
+.list-group-item:first-child {
+  -webkit-border-top-right-radius: 4px;
+  -moz-border-radius-topright: 4px;
+  border-top-right-radius: 4px;
+  -webkit-border-top-left-radius: 4px;
+  -moz-border-radius-topleft: 4px;
+  border-top-left-radius: 4px;
+}
+.list-group-item:last-child {
+  margin-bottom: 0;
+  -webkit-border-bottom-right-radius: 4px;
+  -moz-border-radius-bottomright: 4px;
+  border-bottom-right-radius: 4px;
+  -webkit-border-bottom-left-radius: 4px;
+  -moz-border-radius-bottomleft: 4px;
+  border-bottom-left-radius: 4px;
+}
+.list-group-item > .badge {
+  float: right;
+}
+.list-group-item > .badge + .badge {
+  margin-right: 5px;
+}
+a.list-group-item {
+  color: #555;
+}
+a.list-group-item .list-group-chevron {
+  float: right;
+  margin-top: 4px;
+  color: #bbb;
+}
+a.list-group-item .list-group-item-heading {
+  color: #333;
+}
+a.list-group-item:hover,
+a.list-group-item:focus {
+  text-decoration: none;
+  background-color: #f5f5f5;
+}
+a.list-group-item.active,
+a.list-group-item.active:hover,
+a.list-group-item.active:focus {
+  z-index: 2;
+  color: #fff;
+  background-color: #428bca;
+  border-color: #428bca;
+}
+a.list-group-item.active .list-group-item-heading,
+a.list-group-item.active:hover .list-group-item-heading,
+a.list-group-item.active:focus .list-group-item-heading {
+  color: inherit;
+}
+a.list-group-item.active .list-group-item-text,
+a.list-group-item.active:hover .list-group-item-text,
+a.list-group-item.active:focus .list-group-item-text {
+  color: #e1edf7;
+}
+.list-group-item-heading {
+  margin-top: 0;
+  margin-bottom: 5px;
+}
+.list-group-item-text {
+  margin-bottom: 0;
+  line-height: 1.3;
+}
 .pull-right {
   float: right;
 }
@@ -6707,6 +6784,14 @@ h6 {
   border-radius: 0;
   margin: 0;
 }
+.span-sidebar-right {
+  border-left: 1px solid #DDD;
+  padding-left: 20px;
+}
+.span-sidebar-left {
+  border-right: 1px solid #DDD;
+  padding-right: 20px;
+}
 .tabbable {
   background: whitesmoke;
   border-bottom: 1px solid #ddd;
@@ -7028,91 +7113,6 @@ legend:after {
 .ui-dialog-buttonset button [class^="icon-"].icon-spin.icon-large,
 .ui-dialog-buttonset button [class*=" icon-"].icon-spin.icon-large {
   line-height: .8em;
-}
-.list-group {
-  margin-left: 0;
-  margin-bottom: 20px;
-  padding-left: 0;
-}
-.list-group-item {
-  position: relative;
-  display: block;
-  padding: 10px 15px;
-  margin-bottom: -1px;
-  background-color: #fff;
-  border: 1px solid #d4d4d4;
-}
-.list-group-item:first-child {
-  -webkit-border-top-right-radius: 4px;
-  -moz-border-radius-topright: 4px;
-  border-top-right-radius: 4px;
-  -webkit-border-top-left-radius: 4px;
-  -moz-border-radius-topleft: 4px;
-  border-top-left-radius: 4px;
-}
-.list-group-item:last-child {
-  margin-bottom: 0;
-  -webkit-border-bottom-right-radius: 4px;
-  -moz-border-radius-bottomright: 4px;
-  border-bottom-right-radius: 4px;
-  -webkit-border-bottom-left-radius: 4px;
-  -moz-border-radius-bottomleft: 4px;
-  border-bottom-left-radius: 4px;
-}
-.list-group-item > .action,
-.list-group-item .badge,
-.list-group-item .label {
-  float: right;
-}
-.list-group-item > .action  + .action,
-.list-group-item .badge  + .action,
-.list-group-item .label  + .action {
-  margin-right: 5px;
-}
-.list-group-item > a.list-group-item-link {
-  color: #08c;
-}
-a.list-group-item {
-  color: #08c;
-}
-a.list-group-item .list-group-item-heading {
-  color: #08c;
-}
-a.list-group-item:hover,
-a.list-group-item:focus {
-  text-decoration: none;
-  background-color: #eee;
-}
-.list-group-item.active,
-.list-group-item.active:hover,
-.list-group-item.active:focus {
-  z-index: 2;
-  color: #fff;
-  background-color: #08c;
-  border-color: #08c;
-}
-.list-group-item.active .list-group-item-heading,
-.list-group-item.active:hover .list-group-item-heading,
-.list-group-item.active:focus .list-group-item-heading {
-  color: inherit;
-}
-.list-group-item.active .list-group-item-text,
-.list-group-item.active:hover .list-group-item-text,
-.list-group-item.active:focus .list-group-item-text {
-  color: #99ddff;
-}
-.list-group-item.active > .list-group-item-link,
-.list-group-item.active:hover > .list-group-item-link,
-.list-group-item.active:focus > .list-group-item-link {
-  color: #fff;
-}
-.list-group-item-heading {
-  margin-top: 0;
-  margin-bottom: 5px;
-}
-.list-group-item-text {
-  margin-bottom: 0;
-  line-height: 1.3;
 }
 .widget > .list-group {
   margin-bottom: 0;
