@@ -1,6 +1,28 @@
 <?php defined('SYSPATH') OR die('No direct access allowed.');
 
 abstract class Kohana_SSO {
+	
+	public static function connected_accounts()
+	{
+		$accounts = Config::get('oauth.accounts');
+		$providers = array();
+		
+		foreach ($accounts as $provider => $data)
+		{
+			if(
+					(isset($data['id']) AND empty($data['id']))
+				OR
+					(isset($data['key']) AND empty($data['key']))		
+				OR 
+					empty($data['secret'])
+			)
+				continue;
+
+			 $providers[$provider] = $data;
+		}
+		
+		return $providers;
+	}
 
 	/**
 	 * @var  SSO

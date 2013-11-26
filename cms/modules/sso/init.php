@@ -15,38 +15,23 @@ Route::set('accounts-auth', $route, array(
 ));
 
 Observer::observe('view_user_edit_plugins', function($user) {
-	
-	$providers  = array();
-	
-	foreach (Kohana::$config->load('oauth') as $provider => $data)
-	{
-		 if(
-				(isset($data['id']) AND empty($data['id']))
-			OR
-				(isset($data['key']) AND empty($data['key']))		
-			OR 
-				empty($data['secret'])
-			)
-			continue;
 
-		 $providers[$provider] = $data;
-	}
 	echo View::factory('accounts/userblock/edit', array(
 		'user' => $user,
 		'settings_link' => Route::url('backend', array(
 			'controller' => 'setting')
 		) . '#social-accounts-settings',
-		'params' => Kohana::$config->load('social')->as_array(),
+		'params' => Config::get('oauth.accounts'),
 		'socials' => $user->socials->find_all(),
-		'providers' => $providers,
+		'providers' => SSO::connected_accounts(),
 		'linked' => array()
 	));
 });
 
 Observer::observe('admin_login_form_after_button', function() {
 	echo View::factory('accounts/userblock/login', array(
-		'oauth' => Kohana::$config->load('oauth'),
-		'params' => Kohana::$config->load('social')->as_array()
+		'providers' => SSO::connected_accounts(),
+		'params' => Config::get('social')
 	));
 });
 

@@ -1,18 +1,3 @@
-<?php
-$providers = array();
-foreach ($oauth as $provider => $data)
-{
-	 if( (isset($data['id']) AND empty($data['id']))
-		OR
-			(isset($data['key']) AND empty($data['key']))		
-		OR 
-			empty($data['secret'])
-		)
-		continue;
-	 
-	 $providers[$provider] = $data;
-}
-?>
 <?php if(count($providers) > 0): ?>
 <hr />
 <h4><?php echo __('Sign-in with your social network'); ?></h4>

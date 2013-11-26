@@ -1,7 +1,6 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
 return array(
-
 	'vk' => array(
 		'name' => __('Vkontakte'),
 		'create_link' => 'http://vk.com/editapp?act=create',

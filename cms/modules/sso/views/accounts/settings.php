@@ -14,8 +14,7 @@
 			<p class="help-block"><?php echo __('For detailed profiling use Kohana::$enviroment = Kohana::DEVELOPMENT or SetEnv KOHANA_ENV DEVELOPMENT in .htaccess'); ?></p>
 		</div>
 	</div>
-	
-	
+
 	<?php foreach ($oauth as $provider => $data): ?>
 	<div class="well">
 		<h4><?php echo UI::icon($provider.'-sign'); ?> <?php echo Arr::path($params, $provider.'.name'); ?> <?php if(Arr::path($params, $provider.'.create_link')): ?>(<?php echo HTML::anchor(Arr::path($params, $provider.'.create_link'), NULL, array(
