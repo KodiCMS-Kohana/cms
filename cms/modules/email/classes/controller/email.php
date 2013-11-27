@@ -1,6 +1,6 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct access allowed.' );
 
-class Controller_Email extends Controller_Setting {
+class Controller_Email extends Controller_System {
 
 	public function action_settings()
 	{
