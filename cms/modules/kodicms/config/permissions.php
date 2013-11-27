@@ -57,10 +57,14 @@ return array(
 			'description' => 'Delete layout'
 		),
 	),
-	'setting' => array(
+	'system' => array(
 		array(
-			'action' => 'index',
+			'action' => 'settings',
 			'description' => 'View settings'
+		),
+		array(
+			'action' => 'information',
+			'description' => 'View system information'
 		),
 	),
 );

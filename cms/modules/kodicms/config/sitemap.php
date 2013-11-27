@@ -4,9 +4,16 @@ return array(
 
 	'System' => array(
 		array(
+			'name' => __('Information'),
+			'url' => Route::url('backend', array('controller' => 'system', 'action' => 'information')),
+			'permissions' => 'system.information',
+			'priority' => 90,
+			'icon' => 'info-sign',
+		),
+		array(
 			'name' => __('Settings'),
-			'url' => Route::url('backend', array('controller' => 'setting')),
-			'permissions' => 'setting.index',
+			'url' => Route::url('backend', array('controller' => 'system', 'action' => 'settings')),
+			'permissions' => 'system.settings',
 			'priority' => 100,
 			'icon' => 'cog',
 		)
