@@ -95,8 +95,16 @@ class KodiCMS_Controller_Users extends Controller_System_Backend {
 				$user->profile
 					->values($data)
 					->create();
+				
+				Kohana::$log->add(Log::INFO, 'User :new_user has been added by :user', array(
+					':new_user' => HTML::anchor(Route::url('backend', array(
+						'controller' => 'users',
+						'action' => 'profile',
+						'id' => $user->id
+					)), $user->username),
+				))->write();
 
-				Messages::success(__( 'User has been added!' ) );
+				Messages::success(__( '!' ) );
 				Observer::notify( 'user_after_add', $user );
 			}
 		}
@@ -225,6 +233,14 @@ class KodiCMS_Controller_Users extends Controller_System_Backend {
 					$permissions = $this->request->post('user_permission');
 					$user->update_related_ids('roles', explode(',', $permissions));
 				}
+				
+				Kohana::$log->add(Log::INFO, 'User :new_user has been updated by :user', array(
+					':new_user' => HTML::anchor(Route::url('backend', array(
+						'controller' => 'users',
+						'action' => 'profile',
+						'id' => $user->id
+					)), $user->username),
+				))->write();
 
 				Messages::success( __( 'User has been saved!' ) );
 				Observer::notify( 'user_after_edit', $user );
@@ -258,6 +274,10 @@ class KodiCMS_Controller_Users extends Controller_System_Backend {
 		// security (dont delete the first admin)
 		if ( $id <= 1 )
 		{
+			Kohana::$log->add(Log::INFO, ':user trying to delete administrator', array(
+				':user_id' => $id,
+			))->write();
+			
 			throw new Kohana_Exception( 'Action disabled!' );
 		}
 
@@ -272,6 +292,10 @@ class KodiCMS_Controller_Users extends Controller_System_Backend {
 
 		if ( $user->delete() )
 		{
+			Kohana::$log->add(Log::INFO, 'User with id :user_id has been deleted by :user', array(
+				':user_id' => $id,
+			))->write();
+			
 			Messages::success( __( 'User has been deleted!' ) );
 			Observer::notify( 'user_after_delete', $id );
 		}

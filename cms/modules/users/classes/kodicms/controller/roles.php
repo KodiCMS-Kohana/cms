@@ -76,6 +76,14 @@ class KodiCMS_Controller_Roles extends Controller_System_Backend {
 				{
 					$role->set_permissions($data['permissions']);
 				}
+				
+				Kohana::$log->add(Log::INFO, 'Role :role has been added by :user', array(
+					':role' => HTML::anchor(Route::url('backend', array(
+						'controller' => 'roles',
+						'action' => 'edit',
+						'id' => $role->id
+					)), $role->name),
+				))->write();
 
 				Messages::success(__( 'Role has been added!' ) );
 				Observer::notify( 'role_after_add', array( $role ) );
@@ -140,10 +148,18 @@ class KodiCMS_Controller_Roles extends Controller_System_Backend {
 		{
 			if ( $role->update() )
 			{
-				if (Acl::check( 'roles.change_permissions') )
+				if ( Acl::check( 'roles.change_permissions') AND !empty($data['permissions']))
 				{
 					$role->set_permissions($data['permissions']);
 				}
+				
+				Kohana::$log->add(Log::INFO, 'Role :role has been updated by :user', array(
+					':role' => HTML::anchor(Route::url('backend', array(
+						'controller' => 'roles',
+						'action' => 'edit',
+						'id' => $role->id
+					)), $role->name),
+				))->write();
 
 				Messages::success( __( 'Role has been saved!' ) );
 				Observer::notify( 'role_after_edit', $role );
@@ -181,7 +197,7 @@ class KodiCMS_Controller_Roles extends Controller_System_Backend {
 		}
 
 		$role = ORM::factory('role', $id);
-
+		$name = $role->name;
 		if( ! $role->loaded() )
 		{
 			Messages::errors( __('Role not found!') );
@@ -190,6 +206,14 @@ class KodiCMS_Controller_Roles extends Controller_System_Backend {
 
 		if ( $role->delete() )
 		{
+			Kohana::$log->add(Log::INFO, 'Role :role has been deleted by :user', array(
+				':role' => HTML::anchor(Route::url('backend', array(
+					'controller' => 'roles',
+					'action' => 'edit',
+					'id' => $id
+				)), $name),
+			))->write();
+			
 			Messages::success( __( 'Role has been deleted!' ) );
 			Observer::notify( 'role_after_delete', $role->name );
 		}

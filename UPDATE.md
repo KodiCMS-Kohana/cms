@@ -53,6 +53,3 @@ ALTER TABLE `TABLE_PREFIX_roles_permissions` ADD CONSTRAINT `roles_permissions_i
 		`additional` text NOT NULL,
 		PRIMARY KEY (`id`)
 	) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
-	ALTER TABLE `logs`
-		ADD CONSTRAINT `logs_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
