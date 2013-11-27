@@ -2,7 +2,9 @@
 
 /**
  * http://twitter.github.com/bootstrap/base-css.html#forms
- * @package    Twitter bootstrap/Dropdown
+ * @package		Twitter Bootstrap
+ * @category	Components
+ * @author		ButscHSter
  */
 class Bootstrap_Nav_Element extends Bootstrap_Helper_Elements {
 	

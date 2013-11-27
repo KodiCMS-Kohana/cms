@@ -2,7 +2,9 @@
 
 /**
  * http://twitter.github.com/bootstrap/base-css.html#forms
- * @package    Twitter bootstrap/Helper
+ * @package		Twitter Bootstrap
+ * @category	Form/Helper
+ * @author		ButscHSter
  */
 class Bootstrap_Form_Helper_Elements extends Bootstrap_Form_Helper_Element {
 

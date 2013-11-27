@@ -1,5 +1,10 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct access allowed.' );
 
+/**
+ * @package		KodiCMS/Users
+ * @category	Controller
+ * @author		ButscHSter
+ */
 class KodiCMS_Controller_Roles extends Controller_System_Backend {
 	
 	public function before()

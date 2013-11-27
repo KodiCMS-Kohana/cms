@@ -1,9 +1,10 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
 /**
- * @package    Kodi/Helpers
+ * @package		KodiCMS
+ * @category	Helper
+ * @author		ButscHSter
  */
-
 class Kses {
 
 	public static function filter($string, $allowed_html = array(), $allowed_protocols = array('http', 'https', 'ftp', 'mailto'))

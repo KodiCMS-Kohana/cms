@@ -18,3 +18,7 @@ Observer::observe('view_user_profile_toolbar', function($user_id) {
 		'user_id' => (int) $user_id
 	));
 });
+
+Observer::observe('layout_backend_head', function() {
+	echo View::factory('messages/scripts');
+});

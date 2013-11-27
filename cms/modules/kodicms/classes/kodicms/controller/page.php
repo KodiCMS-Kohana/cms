@@ -1,5 +1,10 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct access allowed.' );
 
+/**
+ * @package		KodiCMS
+ * @category	Controller
+ * @author		ButscHSter
+ */
 class KodiCMS_Controller_Page extends Controller_System_Backend {
 	
 	public $allowed_actions = array(

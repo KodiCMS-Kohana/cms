@@ -5,6 +5,10 @@
  *
  * It can accept the following options:
  *  - file: Путь до файла ( .sql, .zip), который необходимо восстановить
+ * 
+ * @package		KodiCMS/Backup
+ * @category	Task
+ * @author		ButscHSter
  */
 class Task_Backup_Restore extends Minion_Task
 {

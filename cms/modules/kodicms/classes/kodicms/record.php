@@ -1,9 +1,10 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
 /**
- * @package    Kodi
+ * @package		KodiCMS
+ * @category	Database
+ * @author		ButscHSter
  */
-
 class KodiCMS_Record
 {
 	/**

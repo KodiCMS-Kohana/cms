@@ -1,7 +1,8 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct access allowed.' );
 
 /**
- * @package    Plugins/Filemanager
+ * @package		KodiCMS/FileSystem
+ * @author		ButscHSter
  */
 class FileSystem_Directory extends DirectoryIterator {
 

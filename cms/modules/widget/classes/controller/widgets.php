@@ -1,5 +1,10 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct access allowed.' );
 
+/**
+ * @package		KodiCMS/Widgets
+ * @category	Controller
+ * @author		ButscHSter
+ */
 class Controller_Widgets extends Controller_System_Backend {
 
 	public $auth_required = array( 'administrator', 'developer' );

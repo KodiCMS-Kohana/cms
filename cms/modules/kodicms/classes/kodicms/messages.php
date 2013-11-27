@@ -1,9 +1,10 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct script access.' );
 
 /**
- * @package    Kodi/Helpers
+ * @package		KodiCMS
+ * @category	Helper
+ * @author		ButscHSter
  */
-
 class KodiCMS_Messages {
 
 	protected static $_data = array();

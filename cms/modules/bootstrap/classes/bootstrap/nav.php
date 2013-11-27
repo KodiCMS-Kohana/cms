@@ -2,7 +2,9 @@
 
 /**
  * http://twitter.github.com/bootstrap/components.html#navs
- * @package    Twitter bootstrap/UI
+ * @package		Twitter Bootstrap
+ * @category	Components
+ * @author		ButscHSter
  */
 class Bootstrap_Nav extends Bootstrap_Helper_Elements {
 	

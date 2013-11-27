@@ -1,10 +1,10 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
-
 /**
- * @package    Kodi
+ * @package		KodiCMS
+ * @category	Helper
+ * @author		ButscHSter
  */
-
 final class Flash
 {
     const SESSION_KEY = 'framework_flash';

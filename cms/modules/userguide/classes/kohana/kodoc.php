@@ -55,6 +55,13 @@ class Kohana_Kodoc {
 	 */
 	public static function menu()
 	{
+		$menu = Kohana::cache('kodocMenu');
+		if($menu !== NULL)
+		{
+			return View::factory('userguide/api/menu')
+				->bind('menu', $menu);
+		}
+
 		$classes = Kodoc::classes();
 
 		foreach ($classes as $class)
@@ -63,6 +70,12 @@ class Kohana_Kodoc {
 			{
 				// Remove extended classes
 				unset($classes['kohana_'.$class]);
+			}
+			
+			if (isset($classes['kodicms_'.$class]))
+			{
+				// Remove extended classes
+				unset($classes['kodicms_'.$class]);
 			}
 		}
 
@@ -107,6 +120,8 @@ class Kohana_Kodoc {
 
 		// Sort the packages
 		ksort($menu);
+		
+		Kohana::cache('kodocMenu', $menu, Date::HOUR);
 
 		return View::factory('userguide/api/menu')
 			->bind('menu', $menu);
@@ -173,6 +188,12 @@ class Kohana_Kodoc {
 				// Skip transparent extension classes
 				continue;
 			}
+			
+			if (stripos($_class->name, 'KodiCMS_') === 0)
+			{
+				// Skip transparent extension classes
+				continue;
+			}
 
 			$methods = array();
 
@@ -184,6 +205,12 @@ class Kohana_Kodoc {
 				{
 					// Remove "Kohana_"
 					$declares = substr($declares, 7);
+				}
+				
+				if (stripos($declares, 'KodiCMS_') === 0)
+				{
+					// Remove "Kohana_"
+					$declares = substr($declares, 8);
 				}
 
 				if ($declares === $_class->name OR $declares === "Core")

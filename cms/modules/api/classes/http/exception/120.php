@@ -1,5 +1,10 @@
 <?php defined('SYSPATH') OR die('No direct script access.');
 
+/**
+ * @package		KodiCMS/Api
+ * @category	Exception
+ * @author		ButscHSter
+ */
 class HTTP_Exception_120 extends HTTP_API_Exception {
 
 	/**

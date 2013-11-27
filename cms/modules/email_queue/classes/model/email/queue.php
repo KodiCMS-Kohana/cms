@@ -1,7 +1,9 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
 /**
- * Mail Queue Model. Used for interacting with the database.
+ * @package		KodiCMS/EmailQueue
+ * @category	Model
+ * @author		ButscHSter
  */
 class Model_Email_Queue extends ORM
 {

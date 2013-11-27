@@ -1,5 +1,10 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
+/**
+ * @package		KodiCMS
+ * @category	Helper
+ * @author		ButscHSter
+ */
 class KodiCMS_Upload extends Kohana_Upload {
 	
 	/**

@@ -1,9 +1,10 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct access allowed.' );
 
 /**
- * @package    Kodi/Helpers
+ * @package		KodiCMS
+ * @category	Helper
+ * @author		ButscHSter
  */
-
 final class Observer {
 
 	static protected $events = array( );

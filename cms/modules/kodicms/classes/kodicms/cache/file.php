@@ -1,5 +1,9 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
+/**
+ * @package		KodiCMS/Cache
+ * @author		ButscHSter
+ */
 class KodiCMS_Cache_File extends Kohana_Cache_File implements Cache_Tagging {
 	
 	/**

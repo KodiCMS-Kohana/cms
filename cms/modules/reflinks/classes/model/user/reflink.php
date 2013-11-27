@@ -1,5 +1,10 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
+/**
+ * @package		KodiCMS/Reflink
+ * @category	Model
+ * @author		ButscHSter
+ */
 class Model_User_Reflink extends ORM {
 
 	protected $_primary_key = 'code';

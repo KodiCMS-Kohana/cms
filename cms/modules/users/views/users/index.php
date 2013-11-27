@@ -30,15 +30,11 @@
 				<tr class="item">
 					<td class="name">
 						<?php echo $user->gravatar(20, NULL, array('class' => 'img-circle')); ?>
-						<?php if ( Acl::check( 'users.edit') OR $user->id == AuthUser::getId() ): ?>
 						<?php echo HTML::anchor(Route::url('backend', array(
 							'controller' => 'users',
 							'action' => 'profile',
 							'id' => $user->id
 						)), $user->username); ?>
-						<?php else: ?>
-						<?php echo UI::icon('lock'); ?> <?php echo $user->username; ?>
-						<?php endif; ?>
 					</td>
 					<td class="email"><?php echo UI::label(HTML::mailto($user->email)); ?></td>
 					<td class="roles">

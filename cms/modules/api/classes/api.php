@@ -1,5 +1,9 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
+/**
+ * @package		KodiCMS/Api
+ * @author		ButscHSter
+ */
 class API {
 	
 	const NO_ERROR = 200;

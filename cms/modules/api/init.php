@@ -1,5 +1,9 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
+/**
+ * @package		KodiCMS/Api
+ * @author		ButscHSter
+ */
 Route::set('api', 'api(/<directory>)-<controller>(.<action>)(/<id>)', array('directory' => '.*'))
 	->filter(function($route, $params, $request) {
 		if (strpos($params['directory'], 'Api') === FALSE)

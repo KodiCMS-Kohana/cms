@@ -1,5 +1,10 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
+/**
+ * @package		KodiCMS/Archive
+ * @category	Model
+ * @author		ButscHSter
+ */
 class Model_Page_Behavior_Archive extends Model_Page_Front
 {
 	protected function setUrl()

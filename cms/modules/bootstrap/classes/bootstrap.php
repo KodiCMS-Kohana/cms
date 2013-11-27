@@ -1,9 +1,9 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct access allowed.' );
 
 /**
- * @package    Twitter bootstrap/UI
+ * @package		Twitter Bootstrap
+ * @author		ButscHSter
  */
-
 class Bootstrap {
 	
 	public static function HTML( $string )

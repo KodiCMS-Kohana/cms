@@ -10,28 +10,27 @@ if($navigation !== NULL)
 
 		$menu_nav = Bootstrap_Nav::factory()
 			->attributes('id', 'site_nav');
+		
 		foreach ( $navigation as $section )
 		{ 
 			if(count($section) == 0) continue;
 
 			$dropdown = Bootstrap_Navbar_Dropdown::factory(array(
-				'title' => $section->name() . UI::counter($section->counter),
+				'title' => $section->name(),
 			));
 			
 			$is_active = FALSE;
 
 			foreach ( $section as $item )
 			{
-//				if( ! AuthUser::hasPermission($item->permissions) ) continue;
-
 				if($item->divider === TRUE)
 				{
 					$dropdown->add_divider();
 				}
 
 				$dropdown->add(Bootstrap_Element_Button::factory(array(
-						'href' => $item->url(), 'title' => $item->name() . UI::counter($item->counter)
-				))->icon($item->icon), $item->is_active());
+						'href' => $item->url(), 'title' => $item->name()
+				))->attributes('data-counter', $item->counter)->icon($item->icon), $item->is_active());
 				
 				if($item->is_active())
 				{
@@ -86,13 +85,11 @@ if($navigation !== NULL)
 		$nav = Bootstrap_Nav::factory();
 		foreach ( $section as $item )
 		{
-//			if( ! AuthUser::hasPermission($item->permissions) ) continue;
-
 			if($item->divider === TRUE) $nav->add_divider();
 
 			$nav->add(Bootstrap_Element_Button::factory(array(
-				'href' => $item->url(), 'title' => $item->name() . UI::counter($item->counter)
-			))->icon($item->icon), $item->is_active());
+				'href' => $item->url(), 'title' => $item->name()
+			))->attributes('data-counter', $item->counter)->icon($item->icon), $item->is_active());
 		}
 
 		$navbar->add($nav);

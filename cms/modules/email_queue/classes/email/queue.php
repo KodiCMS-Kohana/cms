@@ -1,11 +1,8 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
 /**
- * Mail Queue Main Class.
- *
- * @package 	kMailQueue
- * @category  	Core
- * @author 		Alex Gisby <alex@solution10.com>
+ * @package		KodiCMS/EmailQueue
+ * @author		ButscHSter
  */
 class Email_Queue
 {

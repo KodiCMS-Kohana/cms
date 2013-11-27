@@ -1,5 +1,10 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
+/**
+ * @package		KodiCMS/Widgets
+ * @category	Archive
+ * @author		ButscHSter
+ */
 class Model_Widget_Archive_Year extends Model_Widget_Archive {
 
 	public function fetch_data()

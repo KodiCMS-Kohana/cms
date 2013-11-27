@@ -7,6 +7,10 @@
  *  - folder: Папка, в которую необходимо поместить бэкапы (По умолчанию BACKUP_PLUGIN_FOLDER).
  *  - database: Делать бэкап БД. 0 или 1.
  *  - filesystem: Делать бэкап ФС. 0 или 1.
+ * 
+ * @package		KodiCMS/Backup
+ * @category	Task
+ * @author		ButscHSter
  */
 class Task_Backup extends Minion_Task
 {

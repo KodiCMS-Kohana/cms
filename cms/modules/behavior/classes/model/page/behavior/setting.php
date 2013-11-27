@@ -1,5 +1,10 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
+/**
+ * @package		KodiCMS/Behavior
+ * @category	Model
+ * @author		ButscHSter
+ */
 class Model_Page_Behavior_Setting extends ORM {
 	
 	protected $_primary_key = 'page_id';

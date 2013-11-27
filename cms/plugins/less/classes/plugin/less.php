@@ -20,7 +20,7 @@ class Plugin_Less extends Plugin_Decorator {
 		return parent::set_settings($data);
 	}
 	
-	public function is_dir_lees()
+	public function is_dir_less()
 	{
 		return is_dir( $this->less_path());
 	}

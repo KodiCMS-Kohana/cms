@@ -1,5 +1,10 @@
-<?php
+<?php defined('SYSPATH') OR die('No direct access allowed.');
 
+/**
+ * @package		KodiCMS/SSO
+ * @category	Driver
+ * @author		ButscHSter
+ */
 abstract class Kohana_SSO_Driver_Oauth2_Google extends SSO_Driver_OAuth2 {
 
 	protected $_provider = 'google';

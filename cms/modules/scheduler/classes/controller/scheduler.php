@@ -1,5 +1,10 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct script access.' );
 
+/**
+ * @package		KodiCMS/Scheduler
+ * @category	Controller
+ * @author		ButscHSter
+ */
 class Controller_Scheduler extends Controller_System_Backend {
 
 	public function before()

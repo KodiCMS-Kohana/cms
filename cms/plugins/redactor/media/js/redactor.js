@@ -69,8 +69,6 @@ RedactorPlugins.fullscreen = {
 
 			var height = this.fsheight;
 			if (this.opts.autoresize) height = 'auto';
-			
-			console.log('test', height)
 
 			if (this.opts.toolbarExternal)
 			{
@@ -186,9 +184,10 @@ cms.plugins.redactor.exec_handler = function( editor, command, textarea_id, data
 
 			editor.insertHtml(data);
 			break;
+		case 'changeHeight':
+			editor.data('redactor').$editor.height(data);
 	}
-	
-	
+
 	return true;
 };
 
@@ -196,7 +195,6 @@ cms.plugins.redactor.exec_handler = function( editor, command, textarea_id, data
 	When DOM init
 */
 jQuery(function(){
-
 	cms.filters
 		.add( 'redactor', cms.plugins.redactor.switchOn_handler, cms.plugins.redactor.switchOff_handler, cms.plugins.redactor.exec_handler );
 });

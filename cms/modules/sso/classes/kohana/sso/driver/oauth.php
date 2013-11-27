@@ -3,6 +3,8 @@
 /**
  * OAuth module required
  * @link https://github.com/kohana/oauth
+ * @package		KodiCMS/SSO
+ * @author		ButscHSter
  */
 abstract class Kohana_SSO_Driver_OAuth extends SSO_Driver {
 

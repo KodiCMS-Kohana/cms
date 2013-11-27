@@ -2,7 +2,9 @@
 
 /**
  * http://twitter.github.com/bootstrap/base-css.html#forms
- * @package    Twitter bootstrap/UI
+ * @package		Twitter Bootstrap
+ * @category	Helper
+ * @author		ButscHSter
  */
 class Bootstrap_Helper_Elements extends Bootstrap_Helper_Element implements Countable, Iterator {
 	

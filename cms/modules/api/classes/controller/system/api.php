@@ -1,5 +1,10 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct script access.' );
 
+/**
+ * @package		KodiCMS/Api
+ * @category	Controller
+ * @author		ButscHSter
+ */
 class Controller_System_API extends Controller_System_Ajax {
 
 	/**

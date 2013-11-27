@@ -1,5 +1,10 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
+/**
+ * @package		KodiCMS/Widgets
+ * @category	SSO
+ * @author		ButscHSter
+ */
 class Model_Widget_Social_Registration extends Model_Widget_Decorator {
 	
 	public $providers = array();

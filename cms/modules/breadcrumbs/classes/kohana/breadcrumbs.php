@@ -1,5 +1,9 @@
 <?php defined('SYSPATH') OR die('No direct script access!');
 
+/**
+ * @package		KodiCMS/Breadcrumbs
+ * @author		ButscHSter
+ */
 abstract class Kohana_Breadcrumbs implements Countable, Iterator {
 	
 	/**

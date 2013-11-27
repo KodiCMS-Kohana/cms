@@ -1,5 +1,10 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct script access.' );
 
+/**
+ * @package		KodiCMS/Widgets
+ * @category	Controller
+ * @author		ButscHSter
+ */
 class Controller_Ajax_Widget extends Controller_Ajax_JSON {
 
 	public function action_list()

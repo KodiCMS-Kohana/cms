@@ -1,5 +1,10 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
+/**
+ * @package		KodiCMS/Elfinder
+ * @category	Controller
+ * @author		ButscHSter
+ */
 class Controller_FileManager extends Controller_System_Backend {
 	
 	public function action_index()

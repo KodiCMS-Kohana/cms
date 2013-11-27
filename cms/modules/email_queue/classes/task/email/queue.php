@@ -2,6 +2,9 @@
 
 /**
  * Задача отправки отложенных писем
+ * @package		KodiCMS/EmailQueue
+ * @category	Task
+ * @author		ButscHSter
  */
 class Task_Email_Queue extends Minion_Task
 {

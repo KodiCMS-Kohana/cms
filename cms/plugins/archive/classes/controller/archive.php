@@ -1,5 +1,10 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
+/**
+ * @package		KodiCMS/Archive
+ * @category	Controller
+ * @author		ButscHSter
+ */
 class Controller_Archive extends Controller_System_Backend
 {
 	public function action_index() 

@@ -1,5 +1,10 @@
 <?php defined('SYSPATH') OR die('No direct access allowed.');
 
+/**
+ * @package		KodiCMS/SSO
+ * @category	Driver
+ * @author		ButscHSter
+ */
 class Kohana_SSO_Driver_OAuth2_Github extends SSO_Driver_OAuth2 {
 
 	protected $_provider = 'github';

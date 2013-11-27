@@ -1,5 +1,10 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
+/**
+ * @package		KodiCMS/Widgets
+ * @category	Archive
+ * @author		ButscHSter
+ */
 class Model_Widget_Archive_HL extends Model_Widget_Page_Pages {
 	
 	public $backend_template = 'page_pages';

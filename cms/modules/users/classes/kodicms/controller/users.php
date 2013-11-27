@@ -1,5 +1,10 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct access allowed.' );
 
+/**
+ * @package		KodiCMS/Users
+ * @category	Controller
+ * @author		ButscHSter
+ */
 class KodiCMS_Controller_Users extends Controller_System_Backend {
 
 	public $allowed_actions = array(
@@ -167,6 +172,11 @@ class KodiCMS_Controller_Users extends Controller_System_Backend {
 
 		$this->template->title = __('Edit user');
 		$this->breadcrumbs
+			->add(__(':user profile', array(':user' => $user->username)), Route::url('backend', array(
+				'controller' => 'users',
+				'action' => 'profile',
+				'id' => $user->id
+			)))
 			->add($this->template->title);
 
 		$this->template->content = View::factory( 'users/edit', array(

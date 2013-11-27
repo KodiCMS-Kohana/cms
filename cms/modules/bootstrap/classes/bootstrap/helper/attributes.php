@@ -1,7 +1,9 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct access allowed.' );
 
 /**
- * @package    Twitter bootstrap/Attributes
+ * @package		Twitter Bootstrap
+ * @category	Helper
+ * @author		ButscHSter
  */
 class Bootstrap_Helper_Attributes extends Bootstrap_Helper_Abstract {
 	

@@ -1,7 +1,9 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct access allowed.' );
 
 /**
- * @package    Twitter bootstrap/Helper
+ * @package		Twitter Bootstrap
+ * @category	Helper
+ * @author		ButscHSter
  */
 class Bootstrap_Helper_Abstract extends ArrayObject {
 
