@@ -77,7 +77,6 @@ INSERT INTO `__TABLE_PREFIX__config` (`group_name`, `config_key`, `config_value`
 
 INSERT INTO `__TABLE_PREFIX__plugins` (`id`, `title`, `settings`) VALUES
 ('archive', 'Archive', 'a:0:{}'),
-('messages', 'User messages', 'a:0:{}'),
 ('maintenance', 'Maintenance mode', 'a:0:{}'),
 ('page_not_found', 'Page not found', 'a:0:{}'),
 ('redactor', 'Redactor', 'a:0:{}'),
