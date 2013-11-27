@@ -189,7 +189,10 @@ class Model_API_Message extends Model_API {
 
 		$delete = DB::delete('messages_users')
 			->where('user_id', '=', (int) $user_id)
-			->where('message_id', '=', (int) $message_id)
+			->where_open()
+				->where('message_id', '=', (int) $message_id)
+				->or_where('parent_id', '=', (int) $message_id)
+			->where_close()
 			->execute();
 		
 		$count = DB::select(array(DB::expr( 'COUNT(*)'), 'total'))
@@ -210,9 +213,11 @@ class Model_API_Message extends Model_API {
 	
 	public function delete_by_id($id)
 	{
-		return DB::delete('messages')
+		DB::delete('messages')
 			->where('id', '=', (int) $id)
 			->execute();
+		 
+		return TRUE;
 	}
 
 	protected static function clear_cache($user_id)
