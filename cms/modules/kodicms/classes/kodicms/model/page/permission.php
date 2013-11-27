@@ -1,9 +1,10 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
 /**
- * @package    Kodi/Model
+ * @package		KodiCMS
+ * @category	Model
+ * @author		ButscHSter
  */
-
 class KodiCMS_Model_Page_Permission extends Record
 {
     const TABLE_NAME = 'page_roles';

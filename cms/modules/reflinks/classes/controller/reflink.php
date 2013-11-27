@@ -1,5 +1,10 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct access allowed.' );
 
+/**
+ * @package		KodiCMS/Reflink
+ * @category	Controller
+ * @author		ButscHSter
+ */
 class Controller_Reflink extends Controller_System_Controller {
 
 	public function action_index()

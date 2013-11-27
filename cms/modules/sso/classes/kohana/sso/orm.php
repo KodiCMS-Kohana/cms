@@ -1,5 +1,9 @@
 <?php defined('SYSPATH') OR die('No direct access allowed.');
 
+/**
+ * @package		KodiCMS/SSO
+ * @author		ButscHSter
+ */
 abstract class Kohana_SSO_ORM implements Interface_SSO_ORM {
 
 	/**

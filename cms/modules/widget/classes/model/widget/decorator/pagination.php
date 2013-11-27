@@ -1,5 +1,10 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct access allowed.' );
 
+/**
+ * @package		KodiCMS/Widgets
+ * @category	Decorator
+ * @author		ButscHSter
+ */
 abstract class Model_Widget_Decorator_Pagination extends Model_Widget_Decorator {
 
 	/**

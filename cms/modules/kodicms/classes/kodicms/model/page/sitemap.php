@@ -1,7 +1,9 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
 /**
- * @package    Kodi/Sitemap
+ * @package		KodiCMS
+ * @category	Model
+ * @author		ButscHSter
  */
 class KodiCMS_Model_Page_Sitemap {
 	

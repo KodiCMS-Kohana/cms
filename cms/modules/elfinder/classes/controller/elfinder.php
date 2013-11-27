@@ -1,5 +1,10 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct script access.' );
 
+/**
+ * @package		KodiCMS/Elfinder
+ * @category	Controller
+ * @author		ButscHSter
+ */
 class Controller_Elfinder extends Controller_System_Template {
 	
 	public $template = 'layouts/frontend';

@@ -1,5 +1,10 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
+/**
+ * @package		KodiCMS/Api
+ * @category	Exception
+ * @author		ButscHSter
+ */
 class API_Validation_Exception extends Kohana_Exception 
 {
 	/**

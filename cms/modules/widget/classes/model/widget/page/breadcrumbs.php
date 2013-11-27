@@ -1,5 +1,10 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
+/**
+ * @package		KodiCMS/Widgets
+ * @category	Page
+ * @author		ButscHSter
+ */
 class Model_Widget_Page_Breadcrumbs extends Model_Widget_Decorator {
 	
 	public $exclude = array();

@@ -1,5 +1,9 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct access allowed.' );
 
+/**
+ * @package		KodiCMS/Behavior
+ * @author		ButscHSter
+ */
 abstract class Behavior_Abstract {
 
 	/**

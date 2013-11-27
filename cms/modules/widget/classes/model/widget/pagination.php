@@ -1,5 +1,10 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
+/**
+ * @package		KodiCMS/Widgets
+ * @category	Other
+ * @author		ButscHSter
+ */
 class Model_Widget_Pagination extends Model_Widget_Decorator {
 	
 	protected $_data = array(

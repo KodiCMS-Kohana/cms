@@ -1,5 +1,10 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
+/**
+ * @package		KodiCMS/Widgets
+ * @category	Tags
+ * @author		ButscHSter
+ */
 class Model_Widget_Tags_Cloud extends Model_Widget_Decorator {
 	
 	protected $_data = array(

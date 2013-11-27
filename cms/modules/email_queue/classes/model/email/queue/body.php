@@ -2,6 +2,9 @@
 
 /**
  * Mail Queue Body Model. Contains the actual content of the email. Splitting them off improves performance.
+ * @package		KodiCMS/EmailQueue
+ * @category	Model
+ * @author		ButscHSter
  */
 class Model_Email_Queue_Body extends ORM
 {

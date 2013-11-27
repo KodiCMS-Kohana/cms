@@ -1,7 +1,8 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct script access.' );
 
 /**
- * @package    Plugins
+ * @package		KodiCMS/Plugins
+ * @author		ButscHSter
  */
 class Plugins {
 

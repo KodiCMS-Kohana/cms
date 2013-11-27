@@ -1,5 +1,9 @@
 <?php defined('SYSPATH') OR die('No direct access allowed.');
 
+/**
+ * @package		KodiCMS/SSO
+ * @author		ButscHSter
+ */
 abstract class Kohana_SSO {
 	
 	public static function connected_accounts()

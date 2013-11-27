@@ -1,9 +1,10 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
 /**
- * @package    Plugins/Backup
+ * @package		KodiCMS/Backup
+ * @category	Model
+ * @author		ButscHSter
  */
-
 abstract class Model_Backup {
 
 	/**

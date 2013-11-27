@@ -1,5 +1,10 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
+/**
+ * @package		KodiCMS/Users
+ * @category	Task
+ * @author		ButscHSter
+ */
 class KodiCMS_Task_Users_Add extends Minion_Task
 {
 	protected $_options = array(

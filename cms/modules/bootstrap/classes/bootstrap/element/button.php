@@ -2,7 +2,8 @@
 
 /**
  * http://twitter.github.com/bootstrap/base-css.html#forms
- * @package    Twitter bootstrap/UI
+ * @package		Twitter Bootstrap
+ * @author		ButscHSter
  */
 class Bootstrap_Element_Button extends Bootstrap_Helper_Elements {
 	

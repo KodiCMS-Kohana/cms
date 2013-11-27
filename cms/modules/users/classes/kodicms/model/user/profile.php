@@ -1,5 +1,10 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
+/**
+ * @package		KodiCMS/Users
+ * @category	Model
+ * @author		ButscHSter
+ */
 class KodiCMS_Model_User_Profile extends ORM {
 
 	protected $_created_column = array(

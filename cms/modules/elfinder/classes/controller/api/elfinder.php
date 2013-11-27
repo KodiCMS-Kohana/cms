@@ -1,5 +1,10 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct script access.' );
 
+/**
+ * @package		KodiCMS/Elfinder
+ * @category	API
+ * @author		ButscHSter
+ */
 class Controller_API_Elfinder extends Controller_System_Api {
 	
 	public function before()

@@ -1,5 +1,9 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
+/**
+ * @package		KodiCMS
+ * @author		ButscHSter
+ */
 class KodiCMS_Context {
 	
 	protected static $_instance = NULL;

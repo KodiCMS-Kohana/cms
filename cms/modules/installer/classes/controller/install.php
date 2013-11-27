@@ -1,5 +1,10 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct access allowed.' );
 
+/**
+ * @package		KodiCMS/Installer
+ * @category	Controller
+ * @author		ButscHSter
+ */
 class Controller_Install extends Controller_System_Frontend 
 {
 	public $template = 'layouts/frontend';

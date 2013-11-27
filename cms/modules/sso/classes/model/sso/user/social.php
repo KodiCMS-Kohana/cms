@@ -1,5 +1,10 @@
 <?php defined('SYSPATH') OR die('No direct access allowed.');
 
+/**
+ * @package		KodiCMS/SSO
+ * @category	Model
+ * @author		ButscHSter
+ */
 class Model_SSO_User_Social extends ORM {
 
 	protected $_table_name = 'user_social';

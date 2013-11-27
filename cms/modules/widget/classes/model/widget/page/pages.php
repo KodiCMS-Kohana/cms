@@ -1,5 +1,10 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
+/**
+ * @package		KodiCMS/Widgets
+ * @category	Page
+ * @author		ButscHSter
+ */
 class Model_Widget_Page_Pages extends Model_Widget_Decorator_Pagination {
 	
 	public $cache_tags = array('pages', 'page_parts', 'page_tags');

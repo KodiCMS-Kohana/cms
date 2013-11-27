@@ -1,5 +1,10 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
+/**
+ * @package		KodiCMS/Users
+ * @category	Model
+ * @author		ButscHSter
+ */
 class KodiCMS_Model_User extends Model_Auth_User {
 	
 	/**

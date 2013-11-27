@@ -1,5 +1,10 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct access allowed.' );
 
+/**
+ * @package		KodiCMS/Snippet
+ * @category	Controller
+ * @author		ButscHSter
+ */
 class Controller_Snippet extends Controller_System_Backend {
 
 	public function before()

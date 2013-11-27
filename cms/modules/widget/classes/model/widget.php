@@ -1,7 +1,9 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct access allowed.' );
 
 /**
- * @package    Kodi
+ * @package		KodiCMS/Widgets
+ * @category	Model
+ * @author		ButscHSter
  */
 class Model_Widget extends ORM {
 

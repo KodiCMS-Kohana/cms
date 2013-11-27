@@ -1,5 +1,9 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct access allowed.' );
 
+/**
+ * @package		KodiCMS/Users
+ * @author		ButscHSter
+ */
 class KodiCMS_ACL {
 
 	const DENY = FALSE;

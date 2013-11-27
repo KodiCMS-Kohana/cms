@@ -1,8 +1,12 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
+/**
+ * @package		KodiCMS/Archive
+ * @category	Behavior
+ * @author		ButscHSter
+ */
 class Behavior_Archive extends Behavior_Abstract
 {
-	
 	public function routes()
 	{
 		return array(

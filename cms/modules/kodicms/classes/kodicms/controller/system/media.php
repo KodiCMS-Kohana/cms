@@ -1,5 +1,10 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
+/**
+ * @package		KodiCMS
+ * @category	System Controller
+ * @author		ButscHSter
+ */
 class KodiCMS_Controller_System_Media extends Controller
 {
 	public function action_media()

@@ -18,6 +18,10 @@
  *  - url_suffix: URL suffix append to url (default - .html)
  *  - timezone: Current timezone (http://www.php.net/manual/en/timezones.php)
  *  - empty_database: Clear selected database before import new data
+
+ * @package		KodiCMS/Installer
+ * @category	Task
+ * @author		ButscHSter
  */
 class Task_Install extends Minion_Task
 {

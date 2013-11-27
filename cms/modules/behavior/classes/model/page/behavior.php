@@ -1,5 +1,10 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
+/**
+ * @package		KodiCMS/Behavior
+ * @category	Model
+ * @author		ButscHSter
+ */
 class Model_Page_Behavior extends Model_Page_Front {
 
 	/**

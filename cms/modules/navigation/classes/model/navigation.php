@@ -1,7 +1,9 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct access allowed.' );
 
 /**
- * @package    Kodi/Navigation
+ * @package		KodiCMS/Navigation
+ * @category	Model
+ * @author		ButscHSter
  */
 class Model_Navigation {
 

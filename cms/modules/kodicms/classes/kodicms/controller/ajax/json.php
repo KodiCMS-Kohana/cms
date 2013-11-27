@@ -1,5 +1,10 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct script access.' );
 
+/**
+ * @package		KodiCMS
+ * @category	Controller
+ * @author		ButscHSter
+ */
 class KodiCMS_Controller_Ajax_JSON extends Controller_System_Ajax {
 
 	public $json = array(

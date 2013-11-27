@@ -1,5 +1,9 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct access allowed.' );
 
+/**
+ * @package		KodiCMS/Scheduler
+ * @author		ButscHSter
+ */
 class Scheduler {
 	
 	protected static $_callbacks = array();

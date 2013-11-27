@@ -1,5 +1,10 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
+/**
+ * @package		KodiCMS/Widgets
+ * @category	User
+ * @author		ButscHSter
+ */
 class Model_Widget_User_Logout extends Model_Widget_Decorator {
 	
 	public $use_template = FALSE;

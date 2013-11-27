@@ -1,5 +1,10 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
+/**
+ * @package		KodiCMS/Widgets
+ * @category	Decorator
+ * @author		ButscHSter
+ */
 abstract class Model_Widget_Decorator {
 	
 	const ORDER_ASC = 'ASC';

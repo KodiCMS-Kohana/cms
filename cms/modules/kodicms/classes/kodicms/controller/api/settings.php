@@ -1,5 +1,10 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct script access.' );
 
+/**
+ * @package		KodiCMS
+ * @category	API
+ * @author		ButscHSter
+ */
 class KodiCMS_Controller_API_Settings extends Controller_System_Api {
 	
 	protected $_check_token = TRUE;

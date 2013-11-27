@@ -1,7 +1,9 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct access allowed.' );
 
 /**
- * @package    Kodi/Api
+ * @package		KodiCMS
+ * @category	Model/Api
+ * @author		ButscHSter
  */
 class KodiCMS_Model_API_Page extends Model_API {
 	
