@@ -27,7 +27,8 @@ Observer::observe('scheduler_callbacks', function() {
 			$data[] = array(
 				'title' => strip_tags($log->message),
 				'start' => strtotime($log->created_on),
-				'allDay' => FALSE
+				'allDay' => FALSE,
+				'color' => '#f89406',
 			);
 		}
 		return $data;
