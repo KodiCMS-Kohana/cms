@@ -71,10 +71,7 @@ class KodiCMS_Controller_Login extends Controller_System_Frontend {
 
 				Session::instance()->delete('install_data');
 				
-				Kohana::$log->add(Log::INFO, 'User log in with :field: :value', array(
-					':field' => $fieldname,
-					':value' => $array['username']
-				))->write();
+				Kohana::$log->add(Log::INFO, ':user login')->write();
 
 				if( $next_url = Flash::get( 'redirect') )
 				{

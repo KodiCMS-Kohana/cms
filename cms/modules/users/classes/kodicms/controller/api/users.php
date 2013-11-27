@@ -6,7 +6,7 @@
  * @author		ButscHSter
  */
 class KodiCMS_Controller_API_Users extends Controller_System_Api {
-	
+
 	public function get_get()
 	{		
 		$uids = $this->param('uids');
@@ -20,6 +20,9 @@ class KodiCMS_Controller_API_Users extends Controller_System_Api {
 		$this->response($users);
 	}
 	
+	/**
+	 * @link /api-users.like
+	 */
 	public function get_like()
 	{
 		$query = $this->param('key', NULL, TRUE);

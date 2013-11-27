@@ -36,7 +36,7 @@ class Controller_Backup extends Controller_System_Backend {
 			->create()
 			->save();
 		
-		Kohana::$log->add(Log::INFO, 'Create database backup')->write();
+		Kohana::$log->add(Log::INFO, ':user create database backup')->write();
 		
 		Messages::success(__('Database backup created succefully'));
 		
@@ -48,7 +48,7 @@ class Controller_Backup extends Controller_System_Backend {
 		if($backup = Model_Backup::factory(BACKUP_PLUGIN_FOLDER . 'filesystem-'.date('YmdHis').'.zip')
 			->create())
 		{
-			Kohana::$log->add(Log::INFO, 'Create filesystem backup')->write();
+			Kohana::$log->add(Log::INFO, ':user create filesystem backup')->write();
 			Messages::success(__('Filesystem backup created succefully'));
 		}
 		
@@ -64,7 +64,7 @@ class Controller_Backup extends Controller_System_Backend {
 		$backup = Model_Backup::factory(BACKUP_PLUGIN_FOLDER . $file)
 			->restore();
 		
-		Kohana::$log->add(Log::INFO, 'Restore backup')->write();
+		Kohana::$log->add(Log::INFO, ':user restore backup')->write();
 		Messages::success(__('Backup restored succefully'));
 		
 		$this->go_back();
@@ -83,7 +83,7 @@ class Controller_Backup extends Controller_System_Backend {
 		
 		unlink(BACKUP_PLUGIN_FOLDER.$file);
 		
-		Kohana::$log->add(Log::ALERT, 'Delete backup file')->write();
+		Kohana::$log->add(Log::ALERT, ':user delete backup file')->write();
 		Messages::success(__('File :filename deleted succefully', array(
 			':filename' => $file
 		)));
@@ -150,7 +150,7 @@ class Controller_Backup extends Controller_System_Backend {
 				':filename' => $filename
 			)));
 			
-			Kohana::$log->add(Log::ALERT, 'Backup file :filename uploaded', array(
+			Kohana::$log->add(Log::ALERT, 'Backup file :filename uploaded by :user', array(
 				':filename' => $filename
 			))->write();
 

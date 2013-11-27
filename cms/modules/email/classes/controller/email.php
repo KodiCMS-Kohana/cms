@@ -39,7 +39,7 @@ class Controller_Email extends Controller_Setting {
 		
 		Config::set_from_array($data);
 
-		Kohana::$log->add(Log::INFO, 'Change email settings')->write();
+		Kohana::$log->add(Log::INFO, ':user change email settings')->write();
 		
 		Messages::success( __( 'Settings has been saved!' ) );
 

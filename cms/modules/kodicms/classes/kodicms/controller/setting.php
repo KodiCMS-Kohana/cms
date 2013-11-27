@@ -43,7 +43,7 @@ class KodiCMS_Controller_Setting extends Controller_System_Backend {
 
 		Observer::notify( 'save_settings', $this->request->post() );
 
-		Kohana::$log->add(Log::INFO, 'Change settings')->write();
+		Kohana::$log->add(Log::INFO, ':user change settings')->write();
 		
 		Messages::success( __( 'Settings has been saved!' ) );
 

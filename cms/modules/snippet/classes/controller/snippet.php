@@ -78,7 +78,7 @@ class Controller_Snippet extends Controller_System_Backend {
 		}
 		else
 		{
-			Kohana::$log->add(Log::INFO, 'Snippet :name has been added', array(
+			Kohana::$log->add(Log::INFO, 'Snippet :name has been added by :user', array(
 				':name' => $snippet->name
 			))->write();
 			
@@ -151,7 +151,7 @@ class Controller_Snippet extends Controller_System_Backend {
 		}
 		else
 		{
-			Kohana::$log->add(Log::INFO, 'Snippet :name has been changed', array(
+			Kohana::$log->add(Log::INFO, 'Snippet :name has been changed by :user', array(
 				':name' => $snippet->name
 			))->write();
 			
@@ -182,7 +182,7 @@ class Controller_Snippet extends Controller_System_Backend {
 		{
 			if ( $snippet->delete() )
 			{
-				Kohana::$log->add(Log::INFO, 'Snippet :name has been deleted', array(
+				Kohana::$log->add(Log::INFO, 'Snippet :name has been deleted by :user', array(
 					':name' => $snippet_name
 				))->write();
 				

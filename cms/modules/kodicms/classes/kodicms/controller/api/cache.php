@@ -20,7 +20,7 @@ class KodiCMS_Controller_API_Cache extends Controller_System_Api {
 		Kohana::cache('Route::cache()', NULL, -1);
 		Kohana::cache('profiler_application_stats', NULL, -1);
 		
-		Kohana::$log->add(Log::INFO, 'Clear cache')->write();
+		Kohana::$log->add(Log::INFO, ':user clear cache')->write();
 		
 		$this->json['message'] = __( 'Cache has been cleared!' );
 	}

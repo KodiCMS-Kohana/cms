@@ -7118,74 +7118,125 @@ legend:after {
 .widget-header + .list-group .list-group-item:first-child {
   border-top-width: 0;
 }
-.feed-item {
-  position: relative;
-  padding-top: 15px;
-  padding-bottom: 15px;
-  padding-left: 40px;
-  margin-left: 20px;
-  border-left: 2px solid #DDD;
+.chat-box {
+  list-style: none;
+  margin: 0;
+  font-size: 11px;
+  line-height: 20px;
+  color: #5f5f5f;
 }
-.feed-item:last-child {
-  padding-bottom: 15px;
-}
-.feed-item .feed-subject {
-  margin-bottom: 1.5em;
-}
-.feed-item .feed-subject a {
-  font-weight: 600;
-}
-.feed-item .feed-content {
-  padding-left: 25px;
-}
-.feed-item .feed-actions {
-  padding: 10px 10px;
-  margin-top: 2em;
-  border-top: 1px dotted #ccc;
-}
-.feed-item .feed-actions:before,
-.feed-item .feed-actions:after {
-  content: " ";
-  display: table;
-}
-.feed-item .feed-actions:after {
-  clear: both;
-}
-.feed-item .feed-actions a {
-  color: #999;
-  font-size: 13px;
-}
-.feed-item .feed-actions a:hover {
-  text-decoration: none;
-  color: #e5412d;
-}
-.feed-item .feed-actions .pull-left {
-  margin: 0 15px 0 0;
-}
-.feed-item .feed-actions .pull-right {
-  margin: 0 0 0 15px;
-}
-.feed-item .feed-icon {
+.chat-box .avatar {
+  display: inline-block;
   position: absolute;
   top: 0;
-  left: -23px;
-  width: 40px;
-  height: 40px;
-  color: #FFF;
-  text-align: center;
-  font-size: 16px;
-  line-height: 38px;
-  background-color: #e5412d;
-  border: 3px solid #FFF;
-  -webkit-border-radius: 100px;
-  -moz-border-radius: 100px;
-  border-radius: 100px;
-  -webkit-border-radius: 100px;
-  -moz-border-radius: 100px;
-  border-radius: 100px;
-  -webkit-box-shadow: 1px 1px 2px rgba(0,0,0,0.35);
-  -moz-box-shadow: 1px 1px 2px rgba(0,0,0,0.35);
-  box-shadow: 1px 1px 2px rgba(0,0,0,0.35);
+  font-size: 25px;
+}
+.chat-box .avatar img {
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  -webkit-box-shadow: 0 1px 3px 0px rgba(0,0,0,0.3);
+  -moz-box-shadow: 0 1px 3px 0px rgba(0,0,0,0.3);
+  box-shadow: 0 1px 3px 0px rgba(0,0,0,0.3);
+}
+.chat-box .arrow-box-left {
+  margin: 15px 15px 15px 65px;
+  padding: 5px 10px;
+}
+.chat-box .arrow-box-left .avatar {
+  left: -50px;
+}
+.chat-box .arrow-box-left.gray .info .name strong {
+  color: #393939;
+}
+.chat-box .info {
+  *zoom: 1;
+  padding: 5px;
+  margin-bottom: 5px;
+}
+.chat-box .info:before,
+.chat-box .info:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.chat-box .info:after {
+  clear: both;
+}
+.chat-box .time {
+  float: right;
+  color: #949494;
+}
+.arrow-box-left {
+  position: relative;
+  border: 1px solid #b5cdd7;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  -webkit-box-shadow: 0px 1px 3px -1px rgba(0,0,0,0.1);
+  -moz-box-shadow: 0px 1px 3px -1px rgba(0,0,0,0.1);
+  box-shadow: 0px 1px 3px -1px rgba(0,0,0,0.1);
+}
+.arrow-box-left:after,
+.arrow-box-left:before {
+  right: 100%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+.arrow-box-left:after {
+  border-right-color: #fafeff;
+  border-width: 6px;
+  top: 7px;
+}
+.arrow-box-left:before {
+  border-right-color: #b5cdd7;
+  border-width: 7px;
+  top: 6px;
+}
+.arrow-box-left.gray {
+  border-color: #d8d8d8;
+}
+.arrow-box-left.gray:before {
+  border-right-color: #d8d8d8;
+}
+.arrow-box-left.log-level-0 .label {
+  color: #fff;
+  background: #000;
+}
+.arrow-box-left.log-level-1 .label {
+  color: #fff;
+  background: #c58f2e;
+}
+.arrow-box-left.log-level-2 .label {
+  color: #fff;
+  background: red;
+}
+.arrow-box-left.log-level-3 .label {
+  color: #fff;
+  background: #b75959;
+}
+.arrow-box-left.log-level-4 .label {
+  color: #fff;
+  background: #f6e1a4;
+}
+.arrow-box-left.log-level-5 .label {
+  color: #fff;
+  background: #ccc;
+}
+.arrow-box-left.log-level-6 .label {
+  color: #fff;
+  background: #49a3cb;
+}
+.arrow-box-left.log-level-7 .label {
+  color: #fff;
+  background: #728092;
 }
 .hidden {
   display: none;

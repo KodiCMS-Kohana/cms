@@ -2,9 +2,8 @@
 /**
  * Database log writer. Stores log information in a database.
  *
- * @package    kohana-log-database
- * @category   Logging
- * @author     Nick Zahn
+ * @package		KodiCMS/Logs
+ * @author		ButscHSter
  */
 class Log_Database extends Log_Writer {
 
@@ -40,14 +39,31 @@ class Log_Database extends Log_Writer {
 	 */
 	public function write(array $messages)
 	{
+		$user = Auth::instance()->get_user(ORM::factory('user'));
+		$request = Request::initial();
+
 		foreach ($messages as $message)
 		{
+			$values = array(
+				':user' => HTML::anchor(Route::url('backend', array(
+					'controller' => 'users',
+					'action' => 'profile',
+					'id' => $user->id
+				)), '@' . $user->username),
+				':controller' => $request->controller()
+			);
+
+			$message['additional'][':url'] = $request->url();
+			$message['additional'][':ip'] = Request::$client_ip;
+			
+			$message['body'] = strtr($message['body'], $values);
+			
 			$data = array(
 				'created_on' => date('Y-m-d H:i:s'),
 				'user_id' => AuthUser::getId(),
-				'level' => Arr::get($message, 'level'),
-				'message' => Arr::get($message, 'body'),
-				'additional' => serialize(Arr::get($message, 'additional'))
+				'level' => $message['level'],
+				'message' => $message['body'],
+				'additional' => serialize($message['additional'])
 			);
 
 			// Write each message into the log database table

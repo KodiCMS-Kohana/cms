@@ -1,5 +1,10 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct script access.' );
 
+/**
+ * @package		KodiCMS/Logs
+ * @category	Api
+ * @author		ButscHSter
+ */
 class Controller_API_Log extends Controller_System_Api {
 	
 	public function get_get()
@@ -13,8 +18,11 @@ class Controller_API_Log extends Controller_System_Api {
 		if(!empty($level))
 			$level = explode(',', $level);
 
-		$list = DB::select('id', 'created_on', 'level', 'message', 'user_id')
+		$list = DB::select('logs.id', 'logs.created_on', 'logs.level', 'logs.message', 'logs.user_id')
+			->select('users.email', 'users.username')
 			->from('logs')
+			->join('users')
+				->on('users.id', '=', 'logs.user_id')
 			->limit(10)
 			->order_by('created_on', 'desc');
 		

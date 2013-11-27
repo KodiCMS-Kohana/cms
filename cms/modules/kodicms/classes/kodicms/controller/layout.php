@@ -93,7 +93,7 @@ class KodiCMS_Controller_Layout extends Controller_System_Backend {
 		}
 		else
 		{
-			Kohana::$log->add(Log::INFO, 'Layout :name has been added!', array(
+			Kohana::$log->add(Log::INFO, 'Layout :name has been added by :user!', array(
 				':name' => $layout->name
 			))->write();
 			
@@ -161,7 +161,7 @@ class KodiCMS_Controller_Layout extends Controller_System_Backend {
 		}
 		else
 		{
-			Kohana::$log->add(Log::INFO, 'Layout :name has been edited', array(
+			Kohana::$log->add(Log::INFO, 'Layout :name has been edited by :user', array(
 				':name' => $layout->name
 			))->write();
 			
@@ -193,7 +193,7 @@ class KodiCMS_Controller_Layout extends Controller_System_Backend {
 		{
 			if ( $layout->delete() )
 			{
-				Kohana::$log->add(Log::INFO, 'Layout :name has been deleted', array(
+				Kohana::$log->add(Log::INFO, 'Layout :name has been deleted by :user', array(
 					':name' => $layout_name
 				))->write();
 				

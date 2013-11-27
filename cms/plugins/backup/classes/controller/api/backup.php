@@ -44,7 +44,7 @@ class Controller_API_Backup extends Controller_System_API {
 				':filename' => $filename
 			)));
 
-			Kohana::$log->add(Log::ALERT, 'Backup file :filename uploaded', array(
+			Kohana::$log->add(Log::ALERT, 'Backup file :filename uploaded by :user', array(
 				':filename' => $filename
 			))->write();
 		}
