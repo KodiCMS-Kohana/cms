@@ -39,6 +39,7 @@ Kohana::modules( array(
 	'assets'		=> MODPATH . 'assets',		// Asset Manager
 	'cache'			=> MODPATH . 'cache',		// Cache manager
 	'database'		=> MODPATH . 'database',	// Database access
+	'logs'			=> MODPATH . 'logs',
 	'auth'			=> MODPATH . 'auth',		// Basic authentication
 	'orm'			=> MODPATH . 'orm',			// Object Relationship Mapping,
 	'oauth'			=> MODPATH . 'oauth',
@@ -65,6 +66,7 @@ Kohana::modules( array(
 ) );
 
 Kohana::$config->attach(new Config_Database);
+Kohana::$log->attach(new Log_Database('logs'));
 
 Observer::notify('modules::afer_load');
 

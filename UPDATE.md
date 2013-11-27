@@ -41,3 +41,18 @@ ALTER TABLE `TABLE_PREFIX_roles_permissions` ADD CONSTRAINT `roles_permissions_i
 ### 7.10.21
 
  * ALTER TABLE  `page_parts` ADD  `is_expanded` INT( 1 ) NOT NULL DEFAULT  '1';
+
+### 8.0.0
+
+	CREATE TABLE IF NOT EXISTS `logs` (
+		`id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+		`created_on` datetime NOT NULL,
+		`user_id` int(11) unsigned DEFAULT NULL,
+		`level` tinytext NOT NULL,
+		`message` text NOT NULL,
+		`additional` text NOT NULL,
+		PRIMARY KEY (`id`)
+	) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+	ALTER TABLE `logs`
+		ADD CONSTRAINT `logs_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;

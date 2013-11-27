@@ -228,6 +228,16 @@ CREATE TABLE IF NOT EXISTS `__TABLE_PREFIX__widgets` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
+CREATE TABLE IF NOT EXISTS `__TABLE_PREFIX__logs` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `created_on` datetime NOT NULL,
+  `user_id` int(11) unsigned DEFAULT NULL,
+  `level` tinytext NOT NULL,
+  `message` text NOT NULL,
+  `additional` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
 ALTER TABLE `__TABLE_PREFIX__pages`
 	ADD FOREIGN KEY ( `created_by_id` ) REFERENCES `__TABLE_PREFIX__users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
 	ADD FOREIGN KEY ( `updated_by_id` ) REFERENCES `__TABLE_PREFIX__users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
@@ -274,5 +284,8 @@ ALTER TABLE `__TABLE_PREFIX__user_reflinks`
 
 ALTER TABLE `__TABLE_PREFIX__email_queue_bodies`
   ADD CONSTRAINT `email_queue_bodies_ibfk_1` FOREIGN KEY (`queue_id`) REFERENCES `__TABLE_PREFIX__email_queues` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `__TABLE_PREFIX__logs`
+  ADD CONSTRAINT `logs_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `__TABLE_PREFIX__users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 SET FOREIGN_KEY_CHECKS=1;
