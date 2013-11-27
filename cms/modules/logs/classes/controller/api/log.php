@@ -11,6 +11,15 @@ class Controller_API_Log extends Controller_System_Api {
 	{		
 		$uids = $this->param('uids');
 		$level = $this->param('level');
+		$from = $this->param('from');
+		$to = $this->param('to');
+		
+		$limit = (int) $this->param('to', 10);
+		
+		if($limit > 100)
+		{
+			$limit == 100;
+		}
 		
 		if(!empty($uids))
 			$uids = explode(',', $uids);
@@ -23,8 +32,13 @@ class Controller_API_Log extends Controller_System_Api {
 			->from('logs')
 			->join('users')
 				->on('users.id', '=', 'logs.user_id')
-			->limit(10)
+			->limit($limit)
 			->order_by('created_on', 'desc');
+		
+		if(!empty($from) AND !empty($to))
+		{
+			$list->where(DB::expr('DATE(created_on)'), 'between', array($from, $to));
+		}
 		
 		if(!empty($uids))
 		{
