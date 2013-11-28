@@ -134,6 +134,8 @@ return array(
 	'Show breadcrumbs' => 'Показывать хлебные крошки',
 	'Yes' => 'Да',
 	'No' => 'Нет',
+	'Enabled' => 'Включен',
+	'Disabled' => 'Выключен',
 	'Find similar pages' => 'Похожая страница',
 	'This text will be present at backend and can be used in frontend pages.' 
 		=> 'Этот текст будет использоваться в Backend, а также использоваться во Frontend',

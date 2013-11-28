@@ -11,6 +11,26 @@
 		)); ?>
 		<?php endif; ?>
 	</div>
+	
+	<div class="control-group">
+		<?php echo Form::label('setting_cache_driver', __('Cache driver'), array('class' => 'control-label')); ?>
+		<div class="controls">
+			<?php echo Form::select('', array(
+				'file' => __('File cache'), 'apc' => __('APC cache'), 'sqlite' => __('SQLite cache'), 'memcachetag' => __('Memcache')
+			), Cache::$default, array('id' => 'setting_cache_driver', 'disabled', 'readonly'));?>
+			
+			<div class="help-block">
+				<i class="icon icon-lightbulb"></i> <?php echo __('The cache driver can change in the config file (:path)', array(':path' => CFGFATH)); ?>
+			</div>
+		</div>
+	</div>
+	
+	<div class="control-group">
+		<?php echo Form::label('setting_cache_status', __('Cache status'), array('class' => 'control-label')); ?>
+		<div class="controls">
+			<?php echo Form::select('', array('1' => __('Enabled'), '0' => __('Disabled')), (int) (Kohana::$environment === Kohana::PRODUCTION), array('disabled', 'readonly'));?>
+		</div>
+	<hr />
 	<div class="control-group">
 		<label class="control-label"><?php echo __('Pages cache time'); ?></label>
 		<div class="controls">

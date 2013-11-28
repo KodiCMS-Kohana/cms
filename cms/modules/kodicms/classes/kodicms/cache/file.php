@@ -5,25 +5,12 @@
  * @author		ButscHSter
  */
 class KodiCMS_Cache_File extends Kohana_Cache_File implements Cache_Tagging {
-	
-	/**
-	 * Creates a hashed filename based on the string. This is used
-	 * to create shorter unique IDs for each cache filename.
-	 *
-	 *     // Create the cache filename
-	 *     $filename = Cache_File::filename($this->_sanitize_id($id));
-	 *
-	 * @param   string  $string  string to hash into filename
-	 * @return  string
-	 */
+
 	protected static function filename($string)
 	{
 		return sha1($string).'.txt';
 	}
-	
-	/**
-	 * @var  string   the tags caching directory
-	 */
+
 	protected $_tags_cache_dir;
 	
 	protected function __construct(array $config)
@@ -67,19 +54,7 @@ class KodiCMS_Cache_File extends Kohana_Cache_File implements Cache_Tagging {
 		}
 		
 	}
-	
-	/**
-	 * Set a value based on an id. Optionally add tags.
-	 *
-	 * Note : Some caching engines do not support
-	 * tagging
-	 *
-	 * @param   string   $id        id
-	 * @param   mixed    $data      data
-	 * @param   integer  $lifetime  lifetime [Optional]
-	 * @param   array    $tags      tags [Optional]
-	 * @return  boolean
-	 */
+
 	public function set_with_tags($id, $data, $lifetime = NULL, array $tags = NULL)
 	{
 		if($this->set($id, $data, $lifetime))
@@ -90,12 +65,7 @@ class KodiCMS_Cache_File extends Kohana_Cache_File implements Cache_Tagging {
 		
 		return FALSE;
 	}
-	
-	/**
-	 * Delete cache entries based on a tag
-	 *
-	 * @param   string  $tag  tag
-	 */
+
 	public function delete_tag($tag)
 	{
 		foreach ($this->find($tag) as $id)
@@ -107,12 +77,6 @@ class KodiCMS_Cache_File extends Kohana_Cache_File implements Cache_Tagging {
 			unlink($this->_get_file_by_tag($tag));
 	}
 
-	/**
-	 * Find cache entries based on a tag
-	 *
-	 * @param   string  $tag  tag
-	 * @return  array
-	 */
 	public function find($tag)
 	{
 		return $this->_exists_tag_file( $tag ) ? file($this->_get_file_by_tag($tag), FILE_IGNORE_NEW_LINES) : array();

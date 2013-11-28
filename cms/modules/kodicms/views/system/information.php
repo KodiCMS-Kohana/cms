@@ -36,6 +36,10 @@
 					<th><?php echo __('Web server') ?></th>
 					<td><?php echo Arr::get($_SERVER, 'SERVER_SOFTWARE'); ?></td>
 				</tr>
+				<tr>
+					<th><?php echo __('Cache driver') ?></th>
+					<td><?php echo Cache::$default; ?></td>
+				</tr>
 			</tbody>
 		</table>
 	</div>

@@ -9,5 +9,8 @@ return array(
 	'Page tags cache time' => 'Время кеширования тегов страницы',
 	'Cache driver' => 'Драйвер',
 	'File cache' => 'Файловый кеш',
-	'SQLite cache' => 'SQLite кеш'
+	'SQLite cache' => 'SQLite кеш',
+	'Cache status' => 'Статус кеша',
+	'APC cache' => 'APC кеш',
+	'The cache driver can change in the config file (:path)' => 'Драйвер кеширования можно изменить через конфиг файл (:path)'
 );

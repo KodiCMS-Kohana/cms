@@ -1,5 +1,9 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
+/**
+ * @package		KodiCMS/Cache
+ * @author		ButscHSter
+ */
 class KodiCMS_Cache_Apc extends Kohana_Cache_Apc implements Cache_Tagging {
 
 	public function set_with_tags($id, $data, $lifetime = NULL, array $tags = NULL)
