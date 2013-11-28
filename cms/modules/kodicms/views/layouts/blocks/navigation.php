@@ -50,6 +50,13 @@ if($navigation !== NULL)
 					'title' => UI::label(UI::icon( 'user icon-white' ) . ' <span class="text">' .  AuthUser::getUserName() . '</span>')
 				))
 				->add(
+					Bootstrap_Helper_HTML::factory(array(
+						'string' => AuthUser::getRecord()->gravatar(90, NULL, array('class' => 'img-circle'))
+					)),
+					FALSE, array('class' => 'navigation-avatar')
+				)
+				->add_divider()
+				->add(
 					Bootstrap_Element_Button::factory(array(
 						'href' => Route::url('backend', array('controller' => 'users', 'action' => 'profile')),
 						'title' => __( 'Profile' )
