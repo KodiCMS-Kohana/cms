@@ -48,4 +48,6 @@
 	<div class="widget-content">
 		<iframe src="/backend/system/phpinfo" width="100%" height="500px" align="left" id="phpinfo" style="border: 0"></iframe>
 	</div>
+	
+	<?php Observer::notify( 'view_system_information' ); ?>
 </div>
