@@ -30,6 +30,7 @@
 		<div class="controls">
 			<?php echo Form::select('', array('1' => __('Enabled'), '0' => __('Disabled')), (int) (Kohana::$environment === Kohana::PRODUCTION), array('disabled', 'readonly'));?>
 		</div>
+	</div>
 	<hr />
 	<div class="control-group">
 		<label class="control-label"><?php echo __('Pages cache time'); ?></label>
@@ -57,18 +58,4 @@
 			)); ?> <span class="muted"><?php echo __('(Sec.)'); ?></span>
 		</div>
 	</div>
-	
-	<hr />
-	<?php /*
-	<div class="control-group">
-		<?php echo Form::label('setting_cache_driver', __('Cache driver'), array('class' => 'control-label')); ?>
-		<div class="controls">
-			<?php echo Form::select('setting[cache][driver]', array(
-				'file' => __('File cache'), 'sqlite' => __('SQLite cache'), 'memcachetag' => __('Memcache')
-			), Cache::$default, array('id' => 'setting_cache_driver'));?>
-		</div>
-	</div>
-	 * 
-	 */
-	?>
 </div>
