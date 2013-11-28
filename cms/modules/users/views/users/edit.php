@@ -80,7 +80,12 @@
 			<h3><?php echo __('Password'); ?></h3>
 		</div>
 		<div class="widget-content spoiler password-spoiler">
-		<?php
+			<?php if($action == 'edit'): ?>
+			<div class="alert alert-warning">
+				<i class="icon icon-lightbulb"></i> <?php echo __('Leave password blank for it to remain unchanged.'); ?>
+			</div>
+			<?php endif; ?>
+			<?php
 			echo Bootstrap_Form_Element_Control_Group::factory(array(
 				'element' => Bootstrap_Form_Element_Password::factory(array(
 					'name' => 'user[password]'
@@ -100,12 +105,8 @@
 					'autocomplete' => 'off', 'placeholder' => __('Confirm Password')))
 				->label(__('Confirm Password'))
 			)); 
-		?>
-			<?php if($action == 'edit'): ?>
-			<div class="alert alert-info">
-				<?php echo __('Leave password blank for it to remain unchanged.'); ?>
-			</div>
-			<?php endif; ?>
+			?>
+			
 			
 			<?php Observer::notify('view_user_edit_password', $user->id); ?>
 		</div>

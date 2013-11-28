@@ -6676,6 +6676,19 @@ h6 {
   font-size: 14px;
   display: inline-block;
 }
+.alert {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.alert.alert-warning {
+  color: #ac8643;
+  border-color: #e6dba2;
+}
+.alert .icon {
+  font-size: 20px;
+  margin-right: 10px;
+  color: #666;
+}
 .spoiler-toggle-container {
   display: block;
   padding: 0 10px;
