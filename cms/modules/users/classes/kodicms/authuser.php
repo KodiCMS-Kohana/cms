@@ -22,9 +22,9 @@ class KodiCMS_AuthUser {
 	 * 
 	 * @return Model_User
 	 */
-	public static function getRecord()
+	public static function getRecord( $default = FALSE )
 	{
-		return Auth::instance()->get_user(FALSE);
+		return Auth::instance()->get_user($default);
 	}
 
 	/**
