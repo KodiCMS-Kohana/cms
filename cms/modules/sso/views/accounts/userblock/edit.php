@@ -34,14 +34,14 @@
 	<h3><?php echo __('List of supported OAuth providers'); ?></h3>
 </div>
 <div class="widget-content spoiler social-accouns-binder">
-	<p class="muted">
-		<?php echo __('Binding account to an account in a social network will allow to enter the site with a single click. You can bind the account to several accounts. :settings_link', array(':settings_link' => HTML::anchor($settings_link, __('Settings')))); ?>
-	</p>
-	
+	<div class="alert alert-warning">
+		<i class="icon icon-lightbulb"></i> <?php echo __('Binding account to an account in a social network will allow to enter the site with a single click. You can bind the account to several accounts. :settings_link', array(':settings_link' => HTML::anchor($settings_link, __('Settings')))); ?>
+	</div>
+
 	<div class="btn-group">
 		<?php foreach ($providers as $provider => $data): ?>
 		<?php if(in_array($provider, $linked)) continue; ?>
-		<?php echo UI::button(UI::icon($provider.'-sign') . ' ' . Arr::path($params, $provider.'.name'), array(
+		<?php echo UI::button(UI::icon($provider) . ' ' . Arr::path($params, $provider.'.name'), array(
 			'class' => 'btn btn-social-'.$provider,
 			'href' => Route::url('accounts-auth', array(
 				'directory' => 'oauth', 

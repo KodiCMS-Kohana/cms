@@ -21,7 +21,7 @@ Observer::observe('view_user_edit_plugins', function($user) {
 		'settings_link' => Route::url('backend', array(
 			'controller' => 'system', 'action' => 'settings')
 		) . '#social-accounts-settings',
-		'params' => Config::get('oauth.accounts'),
+		'params' => Config::get('social'),
 		'socials' => $user->socials->find_all(),
 		'providers' => SSO::connected_accounts(),
 		'linked' => array()
