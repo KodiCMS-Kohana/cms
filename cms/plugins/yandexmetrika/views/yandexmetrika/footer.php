@@ -12,7 +12,7 @@
 (function (d, w, c) {
 	(w[c] = w[c] || []).push(function() {
 		try {
-			w.yaCounter21680515 = new Ya.Metrika({
+			w.yaCounter<?php echo $plugin->counter_id ?> = new Ya.Metrika({
 					id:<?php echo $plugin->counter_id ?><?php if(!empty($options)): ?>,<?php echo implode(',', $options); ?><?php endif; ?>
 			});
 		} catch(e) { }
