@@ -56,11 +56,15 @@ Observer::observe( 'frontpage_after_render',  function() {
 
 Observer::observe('view_page_edit_plugins', function($page) {
 
+	$blocks = array(0 => __('--Remove from page--'), 'PRE' => __('Before page render'));
+	$blocks += ORM::factory( 'layout_block')->find_by_layout($page->layout());
+	$blocks += array('POST' => __('After page render'));
+	
 	echo View::factory('widgets/page/edit', array(
 		'page' => $page,
 		'pages' => Model_Page_Sitemap::get()->exclude(array($page->id))->flatten(),
 		'widgets' => Widget_Manager::get_widgets_by_page( $page->id ),
-		'blocks' => ORM::factory( 'layout_block')->find_by_layout($page->layout())
+		'blocks' => $blocks
 	));
 });
 
@@ -76,7 +80,7 @@ Observer::observe('page_add_after_save', function($page) {
 Observer::observe('page_edit_after_save', function($page) {
 	$post_data = Request::current()->post('widget');
 	
-	if(  is_array($post_data))
+	if( is_array($post_data) )
 	{
 		foreach($post_data as $widget_id => $block)
 		{

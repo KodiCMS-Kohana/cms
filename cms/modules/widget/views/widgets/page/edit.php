@@ -1,14 +1,7 @@
 <?php if( ACL::check( 'widgets.index')): ?>
-	
-<?php 
-	$_blocks = array(
-		0 => '----', 'PRE' => __('Before page render'), 'POST' => __('After page render')
-	);
-	$_blocks += $blocks;
-?>
 
 <script>
-	var LAYOUT_BLOCKS = <?php echo json_encode( $_blocks ); ?>;
+	var LAYOUT_BLOCKS = <?php echo json_encode( $blocks ); ?>;
 </script>
 <div class="widget-header widget-no-border-radius spoiler-toggle" data-spoiler=".spoiler-widgets" data-hash="widgets">
 	<h4><?php echo __('Widgets'); ?></h4>
