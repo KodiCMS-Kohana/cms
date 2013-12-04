@@ -14,8 +14,6 @@ class Task_Email_Queue extends Minion_Task
 
 	protected function _execute(array $params)
 	{
-		ORM::factory('email_queue')->clean_old();
-
 		try
 		{
 			if($params['use_sleep'] == 1)
