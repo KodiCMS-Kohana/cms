@@ -19,6 +19,4 @@ cms.init.add('system_information', function () {
 	$(window).resize(function() {
 		$('#phpinfo').height(calculateEditorHeight())
 	});
-	
-	console.log();
 });

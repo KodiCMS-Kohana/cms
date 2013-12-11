@@ -44,38 +44,12 @@ class KodiCMS_Controller_System extends Controller_System_Backend {
 	
 	public function action_settings()
 	{
-		// check if trying to save
-		if ( Request::current()->method() == Request::POST )
-		{
-			return $this->_save();
-		}
-
 		$this->template->content = View::factory( 'system/settings', array(
 			'filters' => Arr::merge(array('--none--'), WYSIWYG::findAll()),
 			'dates' => Date::formats()
 		) );
 		
 		$this->template->title = __('Settings');
-	}
-
-	private function _save()
-	{
-		$data = $this->request->post('setting');
-
-		if ( !isset( $data['site']['allow_html_title'] ) )
-		{
-			$data['site']['allow_html_title'] = 'off';
-		}
-		
-		Config::set_from_array($data);
-
-		Observer::notify( 'save_settings', $this->request->post() );
-
-		Kohana::$log->add(Log::INFO, ':user change settings')->write();
-		
-		Messages::success( __( 'Settings has been saved!' ) );
-
-		$this->go_back();
 	}
 	
 	public function action_phpinfo()

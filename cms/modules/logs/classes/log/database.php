@@ -44,6 +44,8 @@ class Log_Database extends Log_Writer {
 
 		foreach ($messages as $message)
 		{
+			if($message['level'] < Log::INFO) continue;
+
 			$values = array(
 				':user' => HTML::anchor(Route::url('backend', array(
 					'controller' => 'users',
