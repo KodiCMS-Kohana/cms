@@ -2,7 +2,7 @@
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
     var disqus_shortname = '<?php echo $plugin->get('disqus_id'); ?>'; // required: replace example with your forum shortname
-	var disqus_url = '<?php echo URL::site(Request::current()->uri(), 'http'); ?>';
+	var disqus_identifier = '<?php echo URL::site(Request::current()->uri(), 'http'); ?>';
 
     /* * * DON'T EDIT BELOW THIS LINE * * */
     (function() {
