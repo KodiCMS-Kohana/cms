@@ -61,7 +61,7 @@ var cms = {
 		name = name.indexOf('.') !== -1 ? '['+name.replace(/\./g, '][') + ']' : name;
 		var gpoups = $('.control-group:not(.error)');
 		
-		return input = $(':input[name*="' + name + '"]:not(:hidden)', gpoups)
+		return input = $(':input[name*="' + name + '"]', gpoups)
 			.after('<span class="help-inline error-message">' + message + '</span>')
 			.parentsUntil( '.control-group' )
 			.parent()
