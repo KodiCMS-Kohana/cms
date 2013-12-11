@@ -6,17 +6,35 @@
  */
 class KodiCMS_View_Front extends Kohana_View {
 	
+	/**
+	 * 
+	 * @param string $file
+	 * @param array $data
+	 * @return \View_Front
+	 */
 	public static function factory($file = NULL, array $data = NULL)
 	{
 		return new View_Front($file, $data);
 	}
 	
+	/**
+	 * 
+	 * @param string $html
+	 * @return string
+	 */
 	public function render_html($html)
 	{
 		// Combine local and global data and capture the output
 		return View_Front::capture_html($html, $this->_data);
 	}
 	
+	/**
+	 * 
+	 * @param string $html
+	 * @param array $view_data
+	 * @return string
+	 * @throws Exception
+	 */
 	protected static function capture_html($html, array $view_data)
 	{
 		// Import the view variables to local namespace
@@ -42,7 +60,12 @@ class KodiCMS_View_Front extends Kohana_View {
 		return ob_get_clean();
 	}
 
-
+	/**
+	 * 
+	 * @param string $file
+	 * @return \KodiCMS_View_Front
+	 * @throws View_Exception
+	 */
 	public function set_filename($file)
 	{
 		if (!file_exists($file))
