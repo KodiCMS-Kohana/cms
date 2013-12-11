@@ -17,24 +17,29 @@ class Model_Widget_Tags_Cloud extends Model_Widget_Decorator {
 	{
 		$tags = $this->get_tags();
 
-		$fmax = $this->max_size;
-		$fmin = $this->min_size;
-		$tmin = min($tags);
-		$tmax = max($tags);
-		
 		$cloud = array();
 
-		foreach ($tags as $word => $frequency) 
+		if( !empty($tags) ) 
 		{
-			$font_size = floor(($frequency - $tmin) / ($tmax - $tmin) * ($fmax - $fmin) + $fmin);
-			$r = $g = 0; $b = floor( 255 * ($frequency / $tmax) );
-			$color = '#' . sprintf('%02s', dechex($r)) . sprintf('%02s', dechex($g)) . sprintf('%02s', dechex($b));
+			$fmax = $this->max_size;
+			$fmin = $this->min_size;
+			$tmin = min($tags);
+			$tmax = max($tags);
 
-			$cloud[$word] = array(
-				'count' => $frequency,
-				'size' => $font_size,
-				'color' => $color
-			);
+
+
+			foreach ($tags as $word => $frequency) 
+			{
+				$font_size = floor(($frequency - $tmin) / ($tmax - $tmin) * ($fmax - $fmin) + $fmin);
+				$r = $g = 0; $b = floor( 255 * ($frequency / $tmax) );
+				$color = '#' . sprintf('%02s', dechex($r)) . sprintf('%02s', dechex($g)) . sprintf('%02s', dechex($b));
+
+				$cloud[$word] = array(
+					'count' => $frequency,
+					'size' => $font_size,
+					'color' => $color
+				);
+			}
 		}
 	
 		return array(
