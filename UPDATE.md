@@ -53,3 +53,7 @@ ALTER TABLE `TABLE_PREFIX_roles_permissions` ADD CONSTRAINT `roles_permissions_i
 		`additional` text NOT NULL,
 		PRIMARY KEY (`id`)
 	) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+### 8.2.14
+
+	* Класс Filter отвечающий за текстовые редакторы переименован в WYSIWYG
