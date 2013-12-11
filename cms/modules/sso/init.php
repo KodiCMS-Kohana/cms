@@ -35,7 +35,7 @@ Observer::observe('admin_login_form_after_button', function() {
 	));
 });
 
-if(IS_BACKEND)
+if(ACL::check('social.settings'))
 {
 	Observer::observe('view_setting_plugins', function() {
 		echo View::factory('accounts/settings', array(
@@ -43,11 +43,9 @@ if(IS_BACKEND)
 			'params' => Config::get('social')
 		));
 	});
-
-	Observer::observe('save_settings', function($post) {
-		if(!isset($post['setting']['oauth']['register'])) 
-		{
-			Config::set('oauth', 'register', 0);
-		}
+	
+	Observer::observe('validation_settings', function( $validation, $filter ) {
+		$filter
+			->rule('oauth.register', 'intval', 0);
 	});
 }
