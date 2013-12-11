@@ -1,20 +1,5 @@
 @import url('api.css');
 
-code {
-	color:#6BAA3D;
-	font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;
-}
-
-pre {
-	background:#fff;
-	border-radius:10px;
-	padding:1.5em;
-	font-size:0.9em;
-	margin-top:1.5em;
-	margin-bottom:1.5em;
-	overflow:auto;
-}
-
 .highlighted div.line {
 	font-size:1em;
 	line-height:1.3 !important;

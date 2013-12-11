@@ -23,8 +23,8 @@ div.properties dl dd {margin-left:1.5em; margin-bottom:1.5em;}
 
 /* functions */
 
-div.method { padding:0 1.5em; border:1px solid #c8cfaf; border-radius:5px; margin-bottom:1.5em; }
-div.method h3 { background:none; margin-top:0; margin-left:-1em; margin-right:-1em; padding:.75em 0 .75em 1.17em; background:#e8efcf; border-top-left-radius:5px; border-top-right-radius:5px; }
+div.method { padding:0 20px; border:1px solid #c8cfaf; margin-bottom:1.5em; background: #fff;}
+div.method h3 { background:none; margin-top:0; margin-left:-20px; margin-right:-20px; padding:.75em 0 .75em 1.17em; background:#e8efcf; }
 div.method h3 .param { font-weight: normal; cursor: help; border-bottom:1px dashed #666;}
 div.method h3 abbr.param { text-transform: none; font-size: 1em; }
 
