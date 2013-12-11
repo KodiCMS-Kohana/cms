@@ -1,4 +1,4 @@
-<?php echo form::open(Route::url('backend', array('controller' => 'email')), array(
+<?php echo form::open(Route::url('backend', array('controller' => 'email', 'action' => 'settings')), array(
 	'id' => 'settingForm', 'class' => 'form-horizontal'
 )); ?>
 	<?php echo Form::hidden('token', Security::token()); ?>
