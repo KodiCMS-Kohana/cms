@@ -366,7 +366,16 @@ cms.ui.add('btn-confirm', function() {
 			if($(this).hasClass('widget-section')) {
 				$('<li class="nav-section"><h5><i class="icon-arrow-down"></i> ' + $(this).text() + '</h5></li>').appendTo($('.tabbable .nav'));
 			} else {
-				$('<li><a href="#tab' + i + '" data-toggle="tab">' + $(this).text() + '</a></li>').appendTo($('.tabbable .nav'));
+				var text = $(this).text();
+				
+				if($(this).data('icon')) {
+					text = '<i class="icon-'+$(this).data('icon')+'"></i> ' + text;
+				}
+				
+				$('<li><a href="#tab' + i + '" data-toggle="tab">' + text + '</a></li>')
+					.appendTo($('.tabbable .nav'));
+			
+				
 				
 				if($(this).hasClass('widget-header-onlytab'))
 					$('<div class="tab-pane" id="tab' + i + '">' + $(this).next().html() + '</div>').appendTo($('.tabbable .tab-content'));

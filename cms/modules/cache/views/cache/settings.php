@@ -1,4 +1,4 @@
-<div class="widget-header spoiler-toggle" data-spoiler=".cache-settings" data-hash="cache-settings">
+<div class="widget-header spoiler-toggle" data-spoiler=".cache-settings" data-hash="cache-settings" data-icon="hdd">
 	<h3 id="cache-settings"><?php echo __('Cache settings'); ?></h3>
 </div>
 <div class="widget-content spoiler cache-settings">

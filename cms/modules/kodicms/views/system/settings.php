@@ -9,7 +9,7 @@
 			<div class="tab-content"></div>
 		</div>
 
-		<div class="widget-header spoiler-toggle" data-spoiler=".site-information-content">
+		<div class="widget-header spoiler-toggle" data-spoiler=".site-information-content" data-icon="info">
 			<h3><?php echo __( 'Site information' ); ?></h3>
 		</div>
 		<div class="widget-content spoiler site-information-content">
@@ -34,7 +34,7 @@
 			</div>
 		</div>
 
-		<div class="widget-header">
+		<div class="widget-header" data-icon="globe">
 			<h3><?php echo __( 'Site settings' ); ?></h3>
 		</div>
 		<div class="widget-content">
@@ -112,7 +112,7 @@
 			
 		</div>
 
-		<div class="widget-header spoiler-toggle" data-spoiler=".page-options-container">
+		<div class="widget-header spoiler-toggle" data-spoiler=".page-options-container" data-icon="edit">
 			<h3><?php echo __( 'Page settings' ); ?></h3>
 		</div>
 

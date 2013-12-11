@@ -15,7 +15,7 @@ function change_email_driver(driver) {
 }
 </script>
 
-<div class="widget-header">
+<div class="widget-header" data-icon="envelope">
 	<h3><?php echo __( 'Email settings' ); ?></h3>
 </div>
 <div class="widget-content">

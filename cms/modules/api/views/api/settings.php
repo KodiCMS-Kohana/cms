@@ -1,5 +1,5 @@
 <?php if( ACL::check('setting.api')): ?>
-<div class="widget-header spoiler-toggle" data-spoiler=".api-settings">
+<div class="widget-header spoiler-toggle" data-spoiler=".api-settings" data-icon="beaker">
 	<h3><?php echo __('API'); ?></h3>
 </div>
 <div class="widget-content spoiler api-settings">

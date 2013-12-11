@@ -1,5 +1,5 @@
 <?php if( ACL::check('setting.social') ): ?>
-<div class="widget-header spoiler-toggle" data-spoiler=".social-accounts-settings" data-hash="social-accounts-settings">
+<div class="widget-header spoiler-toggle" data-spoiler=".social-accounts-settings" data-hash="social-accounts-settings" data-icon="comments">
 	<h3 id="social-accounts-settings"><?php echo __('Social accounts settings'); ?></h3>
 </div>
 <div class="widget-content spoiler social-accounts-settings">
