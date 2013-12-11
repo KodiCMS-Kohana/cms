@@ -1,9 +1,9 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
 return array(
-	'setting' => array(
+	'api' => array(
 		array(
-			'action' => 'api',
+			'action' => 'settings',
 			'description' => 'Manage api'
 		),
 	),
