@@ -56,17 +56,21 @@ var cms = {
 		if(!type) type = 'success';
 		
 		window.top.$.jGrowl(decodeURI(msg), {theme: 'alert alert-' + type});
-		
-		if(type == 'error') {
-			cms.error_field(name, msg)
-		}
 	},
 	error_field: function(name, message) {
-		return input = $('input[name*="' + name + '"]:not(:hidden)', $('.control-group:not(.error)'))
-			.after('<span class="help-inline">' + message + '</span>')
+		name = name.indexOf('.') !== -1 ? '['+name.replace(/\./g, '][') + ']' : name;
+		var gpoups = $('.control-group:not(.error)');
+		
+		return input = $(':input[name*="' + name + '"]:not(:hidden)', gpoups)
+			.after('<span class="help-inline error-message">' + message + '</span>')
 			.parentsUntil( '.control-group' )
 			.parent()
 			.addClass('error');
+	},
+	clear_error: function() {
+		$('.control-group')
+			.removeClass('error')
+			.find('.error-message').remove();
 	},
 	// Convert slug
 	convert_dict: {
@@ -671,7 +675,12 @@ var Api = {
 				if(show_loader) cms.loader.show();
 			},
 			success: function(response) {
-				if(response.code != 200) return Api.exception(response);
+				cms.clear_error();
+
+				if(response.code != 200) {
+					if(typeof(callback) == 'function') callback(response);
+					return Api.exception(response);
+				}
 				
 				if (response.message) {
 					if(response.message instanceof Object) {
@@ -683,17 +692,18 @@ var Api = {
 	
 				if(response.redirect) {
 					$.get(window.top.CURRENT_URL, function(resp){
-//						window.top.$('#content').html(resp);
 						window.location = response.redirect + '?type=iframe';
 					});
 				}
 				this._response = response;
 				
 				var $event = method + uri.replace(/\//g, ':');
-				console.log($event);
 				window.top.$('body').trigger($event.toLowerCase(), [this._response.response]);
 
 				if(typeof(callback) == 'function') callback(this._response);
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				if(typeof(callback) == 'function') callback(textStatus);
 			}
 		}).always(function() { 
 			cms.loader.hide();
