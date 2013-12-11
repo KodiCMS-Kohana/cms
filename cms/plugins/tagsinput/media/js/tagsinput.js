@@ -1,5 +1,5 @@
 cms.ui.add('tags_input', function() {
-	$('.tags').tagsInput({
+	$(':input.tags').tagsInput({
 		width: 'auto',
 		delimiter: TAG_SEPARATOR,
 		defaultText: __('Add a tag'),
