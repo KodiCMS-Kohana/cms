@@ -7,4 +7,4 @@ Assets::js('redactor', ADMIN_RESOURCES . 'js/redactor.js', 'global');
 
 Assets::css('redator', PLUGINS_URL . $plugin->id() . '/vendors/redactor/redactor.css');
 
-Filter::add('redactor');
+WYSIWYG::add('redactor');

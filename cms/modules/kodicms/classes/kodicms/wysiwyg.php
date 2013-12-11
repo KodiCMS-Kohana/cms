@@ -5,19 +5,19 @@
  * @category	Helper
  * @author		ButscHSter
  */
-class KodiCMS_Filter {
+class KodiCMS_WYSIWYG {
 
 	/**
 	 *
 	 * @var array
 	 */
-	static $filters = array( );
+	static $filters = array();
 
 	/**
-	 * Add a new filter to Frog CMS
+	 * Add a new filter
 	 *
-	 * @param filter_id string  The Filter plugin folder name
-	 * @param file      string  The file where the Filter class is
+	 * @param filter_id string  The WYSIWYG plugin folder name
+	 * @param file      string  The file where the WYSIWYG class is
 	 */
 	public static function add( $filter_id)
 	{
@@ -25,9 +25,9 @@ class KodiCMS_Filter {
 	}
 
 	/**
-	 * Remove a filter to Frog CMS
+	 * Remove a filter
 	 *
-	 * @param filter_id string  The Filter plugin folder name
+	 * @param filter_id string  The WYSIWYG plugin folder name
 	 */
 	public static function remove( $filter_id )
 	{
@@ -50,7 +50,7 @@ class KodiCMS_Filter {
 	/**
 	 * Get a instance of a filter
 	 *
-	 * @param filter_id string  The Filter plugin folder name
+	 * @param filter_id string  The WYSIWYG plugin folder name
 	 *
 	 * @return mixed   if founded an object, else FALSE
 	 */
@@ -58,7 +58,7 @@ class KodiCMS_Filter {
 	{
 		if ( isset( self::$filters[$filter_id] ) )
 		{
-			if ( !class_exists( $filter_id ) )
+			if ( ! class_exists( $filter_id ) )
 			{
 				return FALSE;
 			}
@@ -70,7 +70,4 @@ class KodiCMS_Filter {
 			return FALSE;
 		}
 	}
-
 }
-
-// end Filter class

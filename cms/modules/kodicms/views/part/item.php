@@ -32,7 +32,7 @@
 					<label><?php echo __( 'Filter' ); ?></label>
 					<select class="item-filter" name="part_filter">
 						<option value="">&ndash; <?php echo __( 'none' ); ?> &ndash;</option>
-						<?php foreach ( Filter::findAll() as $filter ): ?> 
+						<?php foreach ( WYSIWYG::findAll() as $filter ): ?> 
 							<option value="<?php echo $filter; ?>" <% if (filter_id == "<?php echo $filter; ?>") { print('selected="selected"')} %> ><?php echo Inflector::humanize( $filter ); ?></option>
 						<?php endforeach; ?> 
 					</select>
@@ -55,7 +55,7 @@
 			<?php else: ?>
 			<select class="item-filter" name="part_filter">
 				<option value="">&ndash; <?php echo __( 'none' ); ?> &ndash;</option>
-				<?php foreach ( Filter::findAll() as $filter ): ?> 
+				<?php foreach ( WYSIWYG::findAll() as $filter ): ?> 
 					<option value="<?php echo $filter; ?>" <% if (filter_id == "<?php echo $filter; ?>") { print('selected="selected"')} %> ><?php echo Inflector::humanize( $filter ); ?></option>
 				<?php endforeach; ?> 
 			</select>

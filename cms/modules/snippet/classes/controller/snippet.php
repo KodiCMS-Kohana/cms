@@ -49,7 +49,7 @@ class Controller_Snippet extends Controller_System_Backend {
 
 		$this->template->content = View::factory( 'snippet/edit', array(
 			'action' => 'add',
-			'filters' => Filter::findAll(),
+			'filters' => WYSIWYG::findAll(),
 			'snippet' => $snippet
 		) );
 	}
@@ -122,7 +122,7 @@ class Controller_Snippet extends Controller_System_Backend {
 
 		$this->template->content = View::factory( 'snippet/edit', array(
 			'action' => 'edit',
-			'filters' => Filter::findAll(),
+			'filters' => WYSIWYG::findAll(),
 			'snippet' => $snippet
 		) );
 	}

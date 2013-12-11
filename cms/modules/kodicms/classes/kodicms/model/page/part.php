@@ -33,9 +33,9 @@ class KodiCMS_Model_Page_Part extends Record
         // apply filter to save is generated result in the database
         if ( ! empty($this->filter_id))
 		{
-			if (Filter::get($this->filter_id))
+			if (WYSIWYG::get($this->filter_id))
 			{
-				$filter_class = Filter::get($this->filter_id);
+				$filter_class = WYSIWYG::get($this->filter_id);
 
 				if($filter_class !== FALSE)
 				{

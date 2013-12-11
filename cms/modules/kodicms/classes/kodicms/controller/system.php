@@ -51,7 +51,7 @@ class KodiCMS_Controller_System extends Controller_System_Backend {
 		}
 
 		$this->template->content = View::factory( 'system/settings', array(
-			'filters' => Arr::merge(array('--none--'), Filter::findAll()),
+			'filters' => Arr::merge(array('--none--'), WYSIWYG::findAll()),
 			'dates' => Date::formats()
 		) );
 		

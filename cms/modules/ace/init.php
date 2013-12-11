@@ -2,4 +2,4 @@
 
 Assets::js('ace-library', ADMIN_RESOURCES . 'libs/ace/src-min/ace.js', 'global');
 Assets::js('ace', ADMIN_RESOURCES . 'js/ace.js', 'global');
-Filter::add('ace');
+WYSIWYG::add('ace');
