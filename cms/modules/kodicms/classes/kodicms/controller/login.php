@@ -146,8 +146,6 @@ class KodiCMS_Controller_Login extends Controller_System_Frontend {
 			$this->go( Route::get('user')->uri(array( 'action' => 'forgot' ) ) );
 		}
 		
-		define('REST_BACKEND', FALSE);
-		
 		$reflink = ORM::factory( 'user_reflink' )
 			->generate($user, Model_User_Reflink::FORGOT_PASSWORD);
 

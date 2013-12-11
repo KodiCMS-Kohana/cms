@@ -9,7 +9,6 @@ class Controller_API_Snippet extends Controller_System_Api {
 	
 	public function before() 
 	{
-		define('REST_BACKEND', TRUE);
 		parent::before();
 	}
 

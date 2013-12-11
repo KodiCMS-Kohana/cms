@@ -9,7 +9,6 @@ class KodiCMS_Controller_API_Layout extends Controller_System_Api {
 	
 	public function before() 
 	{
-		define('REST_BACKEND', TRUE);
 		parent::before();
 	}
 
