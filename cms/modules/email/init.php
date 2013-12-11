@@ -18,3 +18,8 @@ if(ACL::check('email.settings'))
 			->label('email.driver', 'SMTP Driver');
 	});
 }
+
+Route::set( 'email_controllers', ADMIN_DIR_NAME.'/email/<controller>(/<action>(/<id>))')
+	->defaults( array(
+		'action' => 'index',
+	) );
