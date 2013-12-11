@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-if(IS_BACKEND)
+if(ACL::check('email.settings'))
 {
 	if( ACL::check('email.settings'))
 	{

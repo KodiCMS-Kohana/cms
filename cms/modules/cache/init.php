@@ -16,19 +16,16 @@ Cache::$default = defined('CACHE_TYPE') ? CACHE_TYPE : 'file';
 //	Cache::$default = Config::get('cache', 'driver');
 //});
 
-if(IS_BACKEND)
+if(ACL::check('cache.settings'))
 {
-	if( ACL::check('cache.settings'))
-	{
-		Observer::observe('view_setting_plugins', function() {
-			echo View::factory('cache/settings');
-		});
+	Observer::observe('view_setting_plugins', function() {
+		echo View::factory('cache/settings');
+	});
 
-		Observer::observe('validation_settings', function( $validation, $filter ) {
-			$filter
-				->rule('cache.front_page', 'intval')
-				->rule('cache.page_parts', 'intval')
-				->rule('cache.tags', 'intval');
-		});
-	}
+	Observer::observe('validation_settings', function( $validation, $filter ) {
+		$filter
+			->rule('cache.front_page', 'intval')
+			->rule('cache.page_parts', 'intval')
+			->rule('cache.tags', 'intval');
+	});
 }
