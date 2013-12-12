@@ -21,11 +21,19 @@ class Model_Email_Template extends ORM
 	);
 	
 	protected $_belongs_to = array(
-		'email_type'	=> array(
-			'model'	=> 'Email_Type'
+		'type'	=> array(
+			'model'	=> 'Email_Type',
+			'foreign_key' => 'email_type'
 		),
 	);
 	
+	protected $_cast_data = array(
+		'email_from' => '{email_from}',
+		'email_to' => '{email_to}',
+		'message_type' => Model_Email_Template::TYPE_HTML,
+		'status' => Model_Email_Template::ACTIVE
+	);
+
 	public function rules()
 	{
 		return array(
@@ -34,22 +42,16 @@ class Model_Email_Template extends ORM
 			),
 			'email_from' => array(
 				array('not_empty'),
-				array('email'),
 			),
 			'email_to' => array(
 				array('not_empty'),
-				array('email'),
 			),
 			'message_type' => array(
 				array('not_empty'),
 				array('in_array', array(':value', array(Model_Email_Template::TYPE_HTML, Model_Email_Template::TYPE_TEXT))),
 			),
-			'reply_to' => array(
-				array('email'),
-			),
-			'cc' => array(
-				array('email'),
-			),
+			'reply_to' => array(),
+			'cc' => array(),
 			'status' => array(
 				array('not_empty'),
 				array('in_array', array(':value', array(Model_Email_Template::ACTIVE, Model_Email_Template::INACTIVE))),
@@ -62,7 +64,7 @@ class Model_Email_Template extends ORM
 		return array(
 			'email_from' => __('Email from'),
 			'email_to' => __('Email to'),
-			'event_type' => __('Event type'),
+			'email_type' => __('Email type'),
 			'status' => __('Email status'),
 			'message' => __('Email message'),
 			'message_type' => __('Email message type'),

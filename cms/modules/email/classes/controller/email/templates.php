@@ -26,8 +26,178 @@ class Controller_Email_Templates extends Controller_System_Backend {
 		));
 		
 		$this->template->content = View::factory( 'email/templates/index', array(
-			'templates' => $templates->with('email_type')->find_all(),
+			'templates' => $templates->with('type')->find_all(),
 			'pager' => $pager
 		));
+	}
+	
+	public function action_add()
+	{
+		// check if user have already enter something
+		$data = Flash::get( 'post_data', array() );
+
+		$template = ORM::factory('email_template')
+			->values($data);
+		
+		// check if trying to save
+		if ( Request::current()->method() == Request::POST )
+		{
+			return $this->_add($template);
+		}
+		
+		$this->template->title = __('Add email template');
+		$this->breadcrumbs
+			->add($this->template->title);
+		
+		$types = ORM::factory('email_type')->find_all();
+		$select_types = array();
+		
+		foreach ($types as $type)
+		{
+			$select_types[$type->id] = $type->name . '( ' . $type->code . ' )';
+		}
+
+		$this->template->content = View::factory( 'email/templates/edit', array(
+			'action' => 'add',
+			'template' => $template,
+			'types' => $select_types
+		) );
+	}
+	
+	private function _add($template)
+	{
+		$data = $this->request->post();
+		$this->auto_render = FALSE;
+		
+		if( empty($data['status'] ))
+		{
+			$data['status'] = Model_Email_Template::INACTIVE;
+		}
+		
+		Flash::set( 'post_data', $data );
+
+		$template->values($data);
+
+		try 
+		{
+			if ( $template->create() )
+			{
+				Kohana::$log->add(Log::INFO, 'Template :template has been added by :user', array(
+					':template' => HTML::anchor(Route::url('email_controllers', array(
+						'controller' => 'templates',
+						'action' => 'edit',
+						'id' => $template->id
+					)), $template->subject),
+				))->write();
+
+				Messages::success(__( 'Email template has been saved!' ) );
+				Observer::notify( 'email_templates_add', $template );
+			}
+		}
+		catch (ORM_Validation_Exception $e)
+		{
+			Messages::errors( $e->errors('validation') );
+			$this->go_back();
+		}
+		
+		// save and quit or save and continue editing?
+		if ( $this->request->post('commit') !== NULL )
+		{
+			$this->go();
+		}
+		else
+		{
+			$this->go(Route::url('email_controllers', array(
+				'controller' => 'templates',
+				'action' => 'edit',
+				'id' => $template->id
+			)));
+		}
+	}
+	
+	public function action_edit( )
+	{
+		$id = $this->request->param('id');
+		
+		$template = ORM::factory('email_template', $id);
+		
+		if( ! $template->loaded() )
+		{
+			Messages::errors( __('Email template not found!') );
+			$this->go();
+		}
+
+		// check if trying to save
+		if ( Request::current()->method() == Request::POST )
+		{
+			return $this->_edit( $template );
+		}
+
+		$this->template->title = __('Edit template');
+		$this->breadcrumbs
+			->add($this->template->title);
+
+		$types = ORM::factory('email_type')->find_all();
+		$select_types = array();
+		
+		foreach ($types as $type)
+		{
+			$select_types[$type->id] = $type->name . '( ' . $type->code . ' )';
+		}
+
+		$this->template->content = View::factory( 'email/templates/edit', array(
+			'action' => 'edit',
+			'template' => $template,
+			'types' => $select_types
+		) );
+	}
+	
+	private function _edit( $template )
+	{
+		$data = $this->request->post();
+		$this->auto_render = FALSE;
+		
+		if( empty($data['status'] ))
+		{
+			$data['status'] = Model_Email_Template::INACTIVE;
+		}
+
+		$template->values($data);
+
+		try
+		{
+			if ( $template->update() )
+			{
+				Kohana::$log->add(Log::INFO, 'Template :template has been updated by :user', array(
+					':template' => HTML::anchor(Route::url('email_controllers', array(
+						'controller' => 'templates',
+						'action' => 'edit',
+						'id' => $template->id
+					)), $template->subject),
+				))->write();
+
+				Messages::success( __( 'Email template has been saved!' ) );
+				Observer::notify( 'email_template_after_edit', $template );
+			}
+		}
+		catch (ORM_Validation_Exception $e)
+		{
+			Messages::errors( $e->errors('validation') );
+			$this->go_back();
+		}
+
+		// save and quit or save and continue editing?
+		if ( $this->request->post('commit') !== NULL )
+		{
+			$this->go();
+		}
+		else
+		{
+			$this->go(Route::url('email_controllers', array(
+				'controller' => 'templates',
+				'action' => 'edit',
+				'id' => $template->id
+			)));
+		}
 	}
 }

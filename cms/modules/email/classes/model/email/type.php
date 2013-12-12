@@ -7,7 +7,7 @@
  */
 class Model_Email_Type extends ORM
 {
-	protected $_primary_key = 'code';
+	protected $_primary_key = 'id';
 
 	protected $_foreign_key_suffix = '';
 	
@@ -33,10 +33,10 @@ class Model_Email_Type extends ORM
 	{
 		return array(
 			'code' => array(
-				'URL::title'
+				array('URL::title', array(':value', '_'))
 			),
 			'data' => array(
-				'serialize'
+				array('serialize')
 			)
 		);
 	}
