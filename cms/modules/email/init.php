@@ -22,4 +22,5 @@ if(ACL::check('email.settings'))
 Route::set( 'email_controllers', ADMIN_DIR_NAME.'/email/<controller>(/<action>(/<id>))')
 	->defaults( array(
 		'action' => 'index',
+		'directory' => 'email'
 	) );
