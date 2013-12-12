@@ -12,13 +12,15 @@
 			$(this).parent().remove();
 			return false;
 		});
-		
-		console.log(EMAIL_TYPE_DATA);
+
 		for(key in EMAIL_TYPE_DATA) {
-			var row = $('#type-fields .field-row.hidden').clone().removeClass('hidden').prependTo($('#type-fields .controls'));
-			console.log(key);
-			row.find('.field_key_input').val(key);
-			row.find('.field_desription_input').val(EMAIL_TYPE_DATA[key]);
+			var row = $('#type-fields .field-row.hidden')
+					.clone()
+					.removeClass('hidden')
+					.prependTo($('#type-fields .controls'));
+
+			row.find('.field_key_input').removeAttr('disabled').val(key);
+			row.find('.field_desription_input').removeAttr('disabled').val(EMAIL_TYPE_DATA[key]);
 		}
 	});
 </script>
@@ -44,18 +46,20 @@
 			</div>
 		</div>
 		
-		<?php if($action == 'add'): ?>
+		
 		<div class="control-group">
 			<label class="control-label" for="code"><?php echo __( 'Email type code' ); ?></label>
 			<div class="controls">
-				<?php
-				echo Form::input( 'code', $type->code, array(
+				<?php if($action == 'add'): ?>
+				<?php echo Form::input( 'code', $type->code, array(
 					'class' => 'slug', 'id' => 'code', 'data-separator' => '_'
-				) );
-				?>
+				) ); ?>
+				<?php else: ?>
+				<span class="input-xlarge uneditable-input"><?php echo $type->code; ?></span>
+				<?php endif; ?>
 			</div>
 		</div>
-		<?php endif; ?>
+		
 	</div>
 	
 	<div class="widget-header">
@@ -65,8 +69,8 @@
 		<div class="control-group">
 			<div class="controls">
 				<div class="field-row hidden">
-					<input type="text" name="data[key][]" class="input-small slug field_key_input" data-separator="_" placeholder="Field key">
-					<input type="text" name="data[name][]" class="input-xxlarge field_desription_input" placeholder="Desription">
+					<input type="text" name="data[key][]" disabled="disabled" class="input-small slug field_key_input" data-separator="_" placeholder="Field key">
+					<input type="text" name="data[name][]" disabled="disabled" class="input-xxlarge field_desription_input" placeholder="Desription">
 					<button class="btn btn-mini remove-field"><?php echo UI::icon('trash'); ?></button>
 					<br /><br />
 				</div>

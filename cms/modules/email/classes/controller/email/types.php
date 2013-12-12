@@ -60,14 +60,6 @@ class Controller_Email_Types extends Controller_System_Backend {
 		
 		Flash::set( 'post_data', $data );
 		
-		if( ! empty($data['data']))
-		{
-			$fields = $data['data']['key'];
-			$values = $data['data']['name'];
-			
-			$data['data'] = array_combine($fields, $values);
-		}
-		
 		$type->values($data, array('code', 'data', 'name'));
 
 		try 
@@ -139,14 +131,6 @@ class Controller_Email_Types extends Controller_System_Backend {
 	{
 		$data = $this->request->post();
 		$this->auto_render = FALSE;
-		
-		if( ! empty($data['data']))
-		{
-			$fields = $data['data']['key'];
-			$values = $data['data']['name'];
-			
-			$data['data'] = array_combine($fields, $values);
-		}
 		
 		if(!empty($data['code'])) unset($data['code']);
 

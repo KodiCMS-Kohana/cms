@@ -48,19 +48,11 @@ class Controller_Email_Templates extends Controller_System_Backend {
 		$this->template->title = __('Add email template');
 		$this->breadcrumbs
 			->add($this->template->title);
-		
-		$types = ORM::factory('email_type')->find_all();
-		$select_types = array();
-		
-		foreach ($types as $type)
-		{
-			$select_types[$type->id] = $type->name . '( ' . $type->code . ' )';
-		}
 
 		$this->template->content = View::factory( 'email/templates/edit', array(
 			'action' => 'add',
 			'template' => $template,
-			'types' => $select_types
+			'types' => ORM::factory('email_type')->select_array()
 		) );
 	}
 	
@@ -137,18 +129,10 @@ class Controller_Email_Templates extends Controller_System_Backend {
 		$this->breadcrumbs
 			->add($this->template->title);
 
-		$types = ORM::factory('email_type')->find_all();
-		$select_types = array();
-		
-		foreach ($types as $type)
-		{
-			$select_types[$type->id] = $type->name . '( ' . $type->code . ' )';
-		}
-
 		$this->template->content = View::factory( 'email/templates/edit', array(
 			'action' => 'edit',
 			'template' => $template,
-			'types' => $select_types
+			'types' => ORM::factory('email_type')->select_array()
 		) );
 	}
 	

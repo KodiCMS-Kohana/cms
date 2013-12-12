@@ -36,6 +36,7 @@ class Model_Email_Type extends ORM
 				array('URL::title', array(':value', '_'))
 			),
 			'data' => array(
+				array('Model_Email_Type::parse_data'),
 				array('serialize')
 			)
 		);
@@ -49,6 +50,20 @@ class Model_Email_Type extends ORM
 		);
 	}
 	
+	public function select_array()
+	{
+		$data = $this->find_all();
+		
+		$select_types = array();
+		
+		foreach ($data as $type)
+		{
+			$select_types[$type->id] = $type->name . '( ' . $type->code . ' )';
+		}
+		
+		return $select_types;
+	}
+
 	public function send( array $options = NULL )
 	{
 		if ( ! $this->_loaded)
@@ -87,5 +102,18 @@ class Model_Email_Type extends ORM
 		}
 		
 		return TRUE;
+	}
+	
+	public static function parse_data($values)
+	{
+		if( ! empty($values))
+		{
+			$keys = $values['key'];
+			$names = $values['name'];
+			
+			$values = array_combine($keys, $names);
+		}
+		
+		return $values;
 	}
 }
