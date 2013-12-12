@@ -73,6 +73,20 @@ class Bootstrap_Dropdown extends Bootstrap_Helper_Elements {
 		return $this;
 	}
 	
+	public function icon( $icon_name )
+	{
+		if( ! empty($icon_name))
+		{
+			$title = $this->get('title');
+			
+			
+			$this->set('title', 
+				UI::icon( $icon_name ) . ' ' . $title);
+		}
+		
+		return $this;
+	}
+	
 	/**
 	 * 
 	 * @return \Bootstrap_Dropdown

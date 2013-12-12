@@ -15,7 +15,11 @@ class Model_Navigation_Abstract {
 		'counter' => 0,
 		'permissions' => NULL
 	);
-
+		
+	/**
+	 *
+	 * @var Model_Navigation_Section 
+	 */
 
 	/**
 	 * 
@@ -102,6 +106,31 @@ class Model_Navigation_Abstract {
 	{
 		$this->_params['is_active'] = (bool) $status;
 		
+		if($this->_section instanceof Model_Navigation_Section)
+		{
+			$this->_section->set_active($status);
+		}
+
 		return $this;
+	}
+
+	/**
+	 * 
+	 * @param Model_Navigation_Section $section
+	 * @return \Model_Navigation_Page
+	 */
+	public function set_section( Model_Navigation_Section & $section)
+	{
+		$this->_section = $section;
+		return $this;
+	}
+	
+	/**
+	 * 
+	 * @return Model_Navigation_Section
+	 */
+	public function get_section()
+	{
+		return $this->_section;
 	}
 }

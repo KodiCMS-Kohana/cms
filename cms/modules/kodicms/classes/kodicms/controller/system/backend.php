@@ -19,7 +19,7 @@ class KodiCMS_Controller_System_Backend extends Controller_System_Template
 	{
 		$page = strtolower(substr(get_class($this), 11));
 		
-		Model_Navigation::create(Kohana::$config->load('sitemap')->as_array());
+		Model_Navigation::init(Kohana::$config->load('sitemap')->as_array());
 
 		parent::before();
 		$navigation = Model_Navigation::get();

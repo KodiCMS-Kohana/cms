@@ -12,7 +12,13 @@ class Model_Navigation_Section extends Model_Navigation_Abstract implements Coun
 	 * @var array
 	 */
 	protected $_pages = array();
-	
+
+	/**
+	 *
+	 * @var array 
+	 */
+	protected $_sections = array();
+
 	/**
 	 *
 	 * @var integer
@@ -46,6 +52,29 @@ class Model_Navigation_Section extends Model_Navigation_Abstract implements Coun
 	{
 		return $this->_pages;
 	}
+	
+	public function add_pages( array $pages )
+	{
+		foreach ($pages as $page)
+		{
+			if(!empty($page['children']))
+			{
+				$section = Model_Navigation::get_section($page['name'], $this);
+				if(isset($page['icon']))
+					$section->icon = $page['icon'];
+
+				$section->add_pages($page['children']);
+			}
+			else
+			{
+				$page = new Model_Navigation_Page($page);
+				if(ACL::check( $page->permissions )) 
+					$this->add_page( $page );
+			}
+		}
+		
+		return $this;
+	}
 
 	/**
 	 * 
@@ -53,7 +82,7 @@ class Model_Navigation_Section extends Model_Navigation_Abstract implements Coun
 	 * @param integer $priority
 	 * @return \Model_Navigation_Section
 	 */
-	public function add_page( Model_Navigation_Page $page, $priority = 0)
+	public function add_page(Model_Navigation_Abstract & $page, $priority = 0)
 	{
 		$priority = (int) $priority;
 		
@@ -62,22 +91,84 @@ class Model_Navigation_Section extends Model_Navigation_Abstract implements Coun
 			$priority = (int) $page->priority;
 		}
 		
-		if ( isset( $this->_pages[$priority] ) )
+		if($page instanceof Model_Navigation_Section)
+		{		
+			$this->_sections[] = $page;
+			$page->set_section($this);
+		}
+		else
 		{
-			while ( isset( $this->_pages[$priority] ) )
+			if ( isset( $this->_pages[$priority] ) )
 			{
-				$priority++;
-			}
+				while ( isset( $this->_pages[$priority] ) )
+				{
+					$priority++;
+				}
+			}			
+		
+			$this->_pages[$priority] = $page;
 		}
 		
 		$page->set_section($this);
-		$this->_pages[$priority] = & $page;
 
 		return $this
 			->update()
-			->sort_pages();
+			->sort();
 	}
 	
+	public function find_active_page_by_uri($uri)
+	{
+		$found = FALSE;
+		foreach ( $this->get_pages() as $page )
+		{
+			if ( strpos($uri, ltrim($page->url(), '/')) !== FALSE )
+			{
+				$page->set_active();
+
+				Model_Navigation::$current = & $page;
+
+				$found = TRUE;
+				break;
+			}
+		}
+		
+		if($found === FALSE)
+		{
+			foreach ($this->_sections as $section)
+			{
+				$found = $section->find_active_page_by_uri($uri);
+				if($found !== FALSE)
+				{
+					return $found;
+				}
+			}
+		}
+		
+		return $found;
+	}
+
+	public function & find_section($name)
+	{
+		foreach ($this->_sections as $section)
+		{
+			if($section->id() == $name)
+			{
+				return $section;
+			}
+		}
+		
+		foreach ($this->_sections as $section)
+		{
+			$found = $section->find_section($name);
+			if($found !== NULL)
+			{
+				return $found;
+			}
+		}
+		
+		return NULL;
+	}
+
 	public function & find_page_by_uri( $uri )
 	{
 		$_page = NULL;
@@ -87,6 +178,15 @@ class Model_Navigation_Section extends Model_Navigation_Abstract implements Coun
 			if($page->url() == $uri)
 			{
 				return $page;
+			}
+		}
+		
+		foreach ($this->_sections as $section)
+		{
+			$found = $section->find_page_by_uri($uri);
+			if($found !== NULL)
+			{
+				return $found;
 			}
 		}
 		
@@ -110,10 +210,21 @@ class Model_Navigation_Section extends Model_Navigation_Abstract implements Coun
 	 * 
 	 * @return \Model_Navigation_Section
 	 */
-	public function sort_pages()
+	public function sort()
 	{
+		asort($this->_sections);
 		ksort($this->_pages);
+
 		return $this;
+	}
+	
+	/**
+	 * 
+	 * @return array
+	 */
+	public function sections()
+	{
+		return $this->_sections;
 	}
 	
 	/**

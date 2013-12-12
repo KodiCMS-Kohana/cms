@@ -354,6 +354,7 @@ cms.ui.add('btn-confirm', function() {
 	});
 }).add('nav-counter', function() {
 
+	$('.dropdown-submenu .caret').remove();
 	cms.navigation.counter.init();
 
 }).add('outline', function() {

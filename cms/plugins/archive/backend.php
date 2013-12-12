@@ -32,17 +32,19 @@ $pages = DB::select()
 	->as_object()
 	->execute();
 
+$root_section = Model_Navigation::get_section('Archive', Model_Navigation::get_section('Content'));
+
 foreach ($pages as $page) 
 {
-	Model_Navigation::get_section('Archive')
-		->add_page(new Model_Navigation_Page(array(
-			'name' => $page->title, 
-			'url' => Route::url('archive', array(
-				'controller' => 'archive', 'id' => $page->id
-			)),
-			'permissions' => 'page.index',
-			'icon' => 'archive'
-		)), 999);
+	$root_section
+			->add_page(new Model_Navigation_Page(array(
+				'name' => $page->title, 
+				'url' => Route::url('archive', array(
+					'controller' => 'archive', 'id' => $page->id
+				)),
+				'permissions' => 'page.index',
+				'icon' => 'archive'
+			)), 999);
 }
 
 Observer::observe(array('page_delete', 'page_edit_after_save'), function() {

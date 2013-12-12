@@ -1,9 +1,10 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
 return array(
-
-	'System' => array(
-		array(
+	array(
+		'name' => 'System',
+		'children' => array(
+			array(
 			'name' => __('Plugins'), 
 			'url' => Route::url('backend', array('controller' => 'plugins')),
 			'priority' => 999,
@@ -11,6 +12,7 @@ return array(
 			'icon' => 'puzzle-piece',
 			'permissions' => 'plugins.index',
 		)
+		)
+		
 	)
-
 );

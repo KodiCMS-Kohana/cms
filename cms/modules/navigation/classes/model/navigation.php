@@ -11,7 +11,7 @@ class Model_Navigation {
 	 *
 	 * @var array
 	 */
-	protected static $_sections = array();
+	protected static $_root_section = NULL;
 	
 	/**
 	 *
@@ -23,19 +23,14 @@ class Model_Navigation {
 	 * 
 	 * @param array $sitemap
 	 */
-	public static function create(array $sitemap)
+	public static function init(array $sitemap)
 	{
-		foreach ($sitemap as $section => $pages)
+		foreach ($sitemap as $section)
 		{
-			$section = self::get_section($section);
-			
-			foreach ($pages as $page)
-			{
-				$page = new Model_Navigation_Page($page);
-				
-				if(ACL::check( $page->permissions )) 
-					$section->add_page( $page );
-			}
+			if(!isset($section['name'])) continue;
+
+			$section_object = self::get_section($section['name']);
+			$section_object->add_pages($section['children']);
 		}
 	}
 
@@ -44,21 +39,30 @@ class Model_Navigation {
 	 * @param string $name
 	 * @return Model_Navigation_Section
 	 */
-	public static function get_section($name)
+	public static function get_section($name, Model_Navigation_Section $parent = NULL)
 	{
-		foreach (self::$_sections as $section)
+		if($parent === NULL)
 		{
-			if($section->id() == $name)
+			if(self::$_root_section === NULL)
 			{
-				return $section;
+				self::$_root_section = new Model_Navigation_Section(array(
+					'name' => 'root'
+				));
 			}
+			
+			$parent = & self::$_root_section;
 		}
-		
-		$section = new Model_Navigation_Section(array(
-			'name' => $name
-		));
-		
-		self::$_sections[] = $section;
+
+		$section = & $parent->find_section($name);
+
+		if( $section === NULL )
+		{
+			$section = new Model_Navigation_Section(array(
+				'name' => $name
+			));
+
+			$parent->add_page($section);
+		}
 		
 		return $section;
 	}
@@ -99,25 +103,10 @@ class Model_Navigation {
 		$uri = strtolower($uri);
 
 		$break = FALSE;
-		foreach ( self::$_sections as $section )
-		{
-			foreach ( $section->get_pages() as $page )
-			{
-				if ( strpos($uri, ltrim($page->url(), '/')) !== FALSE )
-				{
-					$page->set_active();
-					
-					self::$current = & $page;
+		
+		self::$_root_section->find_active_page_by_uri($uri);
 
-					$break = TRUE;
-					break;
-				}
-			}
-
-			if ( $break )
-				break;
-		}
-		return self::$_sections;
+		return self::$_root_section;
 	}
 	
 	/**
@@ -146,7 +135,7 @@ class Model_Navigation {
 	public static function & find_page_by_uri($uri)
 	{
 		$_page = NULL;
-		foreach ( self::$_sections as $section )
+		foreach ( self::$_root_section->sections() as $section )
 		{
 			if( $page = $section->find_page_by_uri( $uri ) )
 			{
@@ -159,7 +148,7 @@ class Model_Navigation {
 
 	public static function sort()
 	{
-		uasort(self::$_sections, function($a, $b)
+		uasort(self::$_root_section->sections(), function($a, $b)
 		{
 			if ($a->id() == $b->id()) 
 			{
@@ -167,7 +156,51 @@ class Model_Navigation {
 			}
 
 			return ($a->id() < $b->id()) ? -1 : 1;
-			
 		});
+	}
+	
+	public static function build_dropdown(Bootstrap_Helper_Elements $nav, $sections, & $is_active = FALSE)
+	{
+		foreach ( $sections as $section )
+		{
+			$is_active = FALSE;
+			if(count($section) == 0) continue;
+
+			$dropdown = Bootstrap_Navbar_Dropdown::factory(array(
+				'title' => $section->name(),
+			))->icon($section->icon);
+
+			foreach ( $section as $page )
+			{
+				if($page->divider === TRUE)
+				{
+					$dropdown->add_divider();
+				}
+
+				$dropdown->add(Bootstrap_Element_Button::factory(array(
+						'href' => $page->url(), 'title' => $page->name()
+				))->attributes('data-counter', $page->counter)->icon($page->icon), $page->is_active());
+
+				if($page->is_active())
+				{
+					$is_active = TRUE;
+				}
+				
+				if(count($section->sections()) > 0)
+				{
+					$is_sub_active = FALSE;
+					$dropdown = self::build_dropdown($dropdown, $section->sections(), $is_sub_active);
+					
+					if($is_sub_active === TRUE)
+					{
+						$is_active = TRUE;
+					}
+				}
+			}
+
+			$nav->add($dropdown, $is_active);
+		}
+		
+		return $nav;
 	}
 }

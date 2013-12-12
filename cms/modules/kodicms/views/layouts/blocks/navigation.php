@@ -11,8 +11,8 @@ if($navigation !== NULL)
 		$menu_nav = Bootstrap_Nav::factory()
 			->attributes('id', 'site_nav');
 		
-		foreach ( $navigation as $section )
-		{ 
+		foreach ( $navigation->sections() as $section )
+		{
 			if(count($section) == 0) continue;
 
 			$dropdown = Bootstrap_Navbar_Dropdown::factory(array(
@@ -36,6 +36,12 @@ if($navigation !== NULL)
 				{
 					$is_active = TRUE;
 				}
+			}
+			
+			if(count($section->sections()) > 0)
+			{
+				$dropdown->add_divider();
+				$dropdown = Model_Navigation::build_dropdown($dropdown, $section->sections(), $is_active);
 			}
 
 			$menu_nav
@@ -81,7 +87,7 @@ if($navigation !== NULL)
 
 		echo $nav_container;
 
-	foreach ( $navigation as $section)
+	foreach ( $navigation->sections() as $section )
 	{
 		if( ! $section->is_active() OR count($section) == 0) continue;
 
@@ -97,6 +103,13 @@ if($navigation !== NULL)
 			$nav->add(Bootstrap_Element_Button::factory(array(
 				'href' => $item->url(), 'title' => $item->name()
 			))->attributes('data-counter', $item->counter)->icon($item->icon), $item->is_active());
+		}
+		
+		if(count($section->sections()) > 0)
+		{
+			$nav->add_divider();
+
+			$nav = Model_Navigation::build_dropdown($nav, $section->sections());
 		}
 
 		$navbar->add($nav);
