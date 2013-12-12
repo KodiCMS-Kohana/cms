@@ -121,7 +121,8 @@ class Model_Navigation_Section extends Model_Navigation_Abstract implements Coun
 		$found = FALSE;
 		foreach ( $this->get_pages() as $page )
 		{
-			if ( strpos($uri, ltrim($page->url(), '/')) !== FALSE )
+			$url = $page->url();
+			if ( !empty($url) AND strpos($uri, ltrim($url, '/')) !== FALSE )
 			{
 				$page->set_active();
 

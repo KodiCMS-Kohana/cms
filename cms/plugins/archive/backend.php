@@ -33,6 +33,7 @@ $pages = DB::select()
 	->execute();
 
 $root_section = Model_Navigation::get_section('Archive', Model_Navigation::get_section('Content'));
+$root_section->icon = 'archive';
 
 foreach ($pages as $page) 
 {
@@ -43,7 +44,6 @@ foreach ($pages as $page)
 					'controller' => 'archive', 'id' => $page->id
 				)),
 				'permissions' => 'page.index',
-				'icon' => 'archive'
 			)), 999);
 }
 

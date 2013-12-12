@@ -30,7 +30,11 @@ class Model_Navigation {
 			if(!isset($section['name'])) continue;
 
 			$section_object = self::get_section($section['name']);
-			$section_object->add_pages($section['children']);
+			
+			if(!empty($section['children']))
+			{
+				$section_object->add_pages($section['children']);
+			}
 		}
 	}
 
