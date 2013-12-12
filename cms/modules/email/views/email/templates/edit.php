@@ -1,5 +1,16 @@
 <script type="text/javascript">
 	var EMAIL_TEMPLATE_ID = <?php echo (int) $template->id; ?>;
+	
+	$('#email_types').on('change', function() {
+		show_options($(this).val());
+	});
+
+	function show_options(id) {
+		console.log(id);
+		Api.get('email-types.options', {uid: id}, function(resp) {
+		
+		})
+	}
 </script>
 
 <?php echo Form::open(Route::url('email_controllers', array('controller' => 'templates', 'action' => $action, 'id' => $template->id)), array(
@@ -18,7 +29,7 @@
 			<div class="controls">
 				<?php
 				echo Form::select( 'status', array(Model_Email_Template::ACTIVE => __('Active'), Model_Email_Template::INACTIVE => __('Inactive')), (bool) $template->status, array(
-					'id' => 'email_type'
+					'id' => 'status'
 				) );
 				?>
 			</div>
@@ -29,7 +40,7 @@
 			<div class="controls">
 				<?php
 				echo Form::select( 'email_type', $types, $template->email_type, array(
-					'id' => 'email_type'
+					'id' => 'email_types'
 				) );
 				?>
 			</div>

@@ -1,6 +1,6 @@
 <script type="text/javascript">
 	var EMAIL_TYPE_ID = <?php echo (int) $type->id; ?>;
-	var EMAIL_TYPE_DATA = <?php echo json_encode(unserialize($type->data)); ?>
+	var EMAIL_TYPE_DATA = <?php echo json_encode($type->data()); ?>
 	
 	$(function() {
 		$('#add-field').on('click', function() {

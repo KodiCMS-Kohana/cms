@@ -50,6 +50,11 @@ class Model_Email_Type extends ORM
 		);
 	}
 	
+	public function data()
+	{
+		return unserialize($this->data);
+	}
+
 	public function select_array()
 	{
 		$data = $this->find_all();
