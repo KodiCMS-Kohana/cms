@@ -213,7 +213,7 @@ class Model_Navigation_Section extends Model_Navigation_Abstract implements Coun
 	 */
 	public function sort()
 	{
-		asort($this->_sections);
+		sort($this->_sections);
 		ksort($this->_pages);
 
 		return $this;
