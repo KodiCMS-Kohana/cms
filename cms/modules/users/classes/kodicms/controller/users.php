@@ -1,3 +1,4 @@
+
 <?php defined( 'SYSPATH' ) or die( 'No direct access allowed.' );
 
 /**
@@ -104,7 +105,7 @@ class KodiCMS_Controller_Users extends Controller_System_Backend {
 					)), $user->username),
 				))->write();
 
-				Messages::success(__( '!' ) );
+				Messages::success(__( 'User has been added!' ) );
 				Observer::notify( 'user_after_add', $user );
 			}
 		}
