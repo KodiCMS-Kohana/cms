@@ -685,7 +685,6 @@ var Api = {
 				if(show_loader) cms.loader.show();
 			},
 			success: function(response) {
-				cms.clear_error();
 
 				if(response.code != 200) {
 					if(typeof(callback) == 'function') callback(response);
@@ -693,6 +692,8 @@ var Api = {
 				}
 				
 				if (response.message) {
+					cms.clear_error();
+
 					if(response.message instanceof Object) {
 						parse_messages(response.message)
 					} else {
