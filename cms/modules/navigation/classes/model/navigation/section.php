@@ -213,7 +213,16 @@ class Model_Navigation_Section extends Model_Navigation_Abstract implements Coun
 	 */
 	public function sort()
 	{
-		sort($this->_sections);
+		uasort($this->_sections, function($a, $b)
+		{
+			if ($a->id() == $b->id()) 
+			{
+				return 0;
+			}
+
+			return ($a->id() < $b->id()) ? -1 : 1;
+		});
+		
 		ksort($this->_pages);
 
 		return $this;

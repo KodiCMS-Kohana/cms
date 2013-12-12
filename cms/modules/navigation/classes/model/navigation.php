@@ -95,7 +95,7 @@ class Model_Navigation {
 	 */
 	public static function get($uri = NULL)
 	{
-		self::sort();
+//		self::sort();
 		
 		if($uri === NULL)
 		{
