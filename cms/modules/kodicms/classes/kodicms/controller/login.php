@@ -88,10 +88,10 @@ class KodiCMS_Controller_Login extends Controller_System_Frontend {
 				$array->error( $fieldname, 'incorrect' );
 				
 				Kohana::$log->add(Log::ALERT, 'Try to login with :field: :value. Incorrect data', 
-						array(
-							':field' => $fieldname,
-							':value' => $array['username']
-						))->write();
+                    array(
+                        ':field' => $fieldname,
+                        ':value' => $array['username']
+                    ))->write();
 			}
 		}
 		else
@@ -156,26 +156,21 @@ class KodiCMS_Controller_Login extends Controller_System_Frontend {
 		}
 		
 		Observer::notify('admin_login_forgot_before', $user);
-
-		$message = (string) View::factory('messages/email/reflink', array(
-			'username' => $user->username,
-			'link' => HTML::anchor( URL::frontend( Route::url( 'reflink', array('code' => $reflink) ), TRUE ) )
-		));
-
-		$email = Email::factory(__('Forgot password from :site_name', array(':site_name' => Config::get('site', 'title'))))
-			->from(Config::get('email', 'default'), Config::get('site', 'title'))
-			->to($user->email)
-			->message($message, 'text/html');
-
-		if((bool) $email->send())
+		
+		try
 		{
+			Email_Type::get('user_request_password')->send(array(
+				'username' => $user->username,
+				'email' => $user->email,
+				'link' => Route::url( 'reflink', array('code' => $reflink) )
+			));
+
 			Messages::success( __('Email with reflink send to address set in your profile' ));
-		}
-		else
+		} 
+		catch (Exception $e)
 		{
 			Messages::error( __('Something went wrong' ));
 		}
-		
 
 		$this->go( Route::url( 'user', array('action' => 'login') ) );
 	}

@@ -43,24 +43,21 @@ class Controller_Reflink extends Controller_System_Controller {
 	
 	protected function _forgot($reflink, $new_password)
 	{
-		$message = View::factory('messages/email/forgot', array(
-			'username' => ucwords( $reflink->user->username ),
-			'password' => $new_password
-		));
-
-		$email = Email::factory(__('New password for :site_name', array(':site_name' => Config::get('site', 'title'))))
-			->from(Config::get('email', 'default'), Config::get('site', 'title'))
-			->to($reflink->user->email)
-			->message($message, 'text/html');
-
-		if((bool) $email->send())
+		try
 		{
+			Email_Type::get('user_new_password')->send(array(
+				'username' => $reflink->user->username,
+				'email' => $reflink->user->email,
+				'password' => $new_password
+			));
+			
 			Messages::success(__('An email has been send with your new password!'));
 			return $reflink->delete();
 		}
-		else
+		catch ( Kohana_Exception $e )
 		{
-			throw new Reflink_Exception('Email :email not send', array(':email' => $reflink->user->email));
+			throw new Reflink_Exception('Email :email not send', array(
+				':email' => $reflink->user->email));
 		}
 	}
 }
