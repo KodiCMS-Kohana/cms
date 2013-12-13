@@ -51,7 +51,6 @@
 		<h3><?php echo __('General information'); ?></h3>
 	</div>
 	<div class="widget-content">
-		
 		<div class="control-group">
 			<label class="control-label" for="status"><?php echo __( 'Email status' ); ?></label>
 			<div class="controls">
@@ -62,7 +61,6 @@
 				?>
 			</div>
 		</div>
-		
 		<div class="control-group">
 			<label class="control-label" for="email_type"><?php echo __( 'Email type' ); ?></label>
 			<div class="controls">
@@ -108,7 +106,11 @@
 				->label(__('Email to'))
 			));
 		?>
-		<hr />
+	</div>
+	<div class="widget-header">
+		<h3><?php echo __('Email message'); ?></h3>
+	</div>
+	<div class="widget-content">
 		<div class="control-group">
 			<label class="control-label"><?php echo __( 'Message type' ); ?></label>
 			<div class="controls">
@@ -131,13 +133,7 @@
 				->label(__('Email message'))
 			));
 		?>
-		
-		<div class="control-group" id="field_description">
-			<div class="controls">
-				
-			</div>
-		</div>
-		
+		<div class="control-group" id="field_description"><div class="controls"></div></div>
 	</div>
 	<div class="form-actions widget-footer">
 		<?php echo UI::actions($page_name); ?>

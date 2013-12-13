@@ -25,5 +25,14 @@ return array(
 	 * @param   string  sendmail: executable path, with -bs or equivalent attached
 	 * @param   array   smtp: hostname, (username), (password), (port), (encryption)
 	 */
-	'options' => NULL
+	'options' => NULL,
+	
+	'default_template_data' => array(
+		'default_email' => __('Default E-Mail address'),
+		'site_title' => __('Site title'),
+		'site_description' => __('Site description'),
+		'base_url' => __('Base url (format: :format)', array(':format' => URL::base(TRUE))),
+		'current_date' => __('Current date (format: :format)', array(':format' => Config::get('site', 'date_format'))),
+		'current_time' => __('Current time (format: :format)', array(':format' => 'H:i:s'))
+	)
 );

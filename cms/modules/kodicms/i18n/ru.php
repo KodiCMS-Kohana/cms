@@ -253,7 +253,8 @@ return array(
 	'Manage custom fields' => 'Управлять дополнительными полями',
 	'Manage parts' => 'Управлять частями страниц',
 	'Delete pages' => 'Удалять страницы',
-	
+	'Active' => 'Активен',
+	'Inactive' => 'Неактивен',
 	'Manage api' => 'Управлять API сайта',
 	'Manage social accounts' => 'Управлять аккаунтами соц. сетей',
 	'View settings' => 'Видеть раздел',

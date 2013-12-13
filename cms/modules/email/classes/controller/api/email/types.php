@@ -13,6 +13,7 @@ class Controller_API_Email_Types extends Controller_System_Api {
 
 		$options = ORM::factory('email_type', (int) $uid)->data();
 
+		$options = Arr::merge($options, Config::get('email', 'default_template_data', array()));
 		$this->response($options);
 	}
 }

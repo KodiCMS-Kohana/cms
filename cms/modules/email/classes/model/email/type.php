@@ -75,9 +75,12 @@ class Model_Email_Type extends ORM
 			return FALSE;
 		
 		$default_options = array(
-			'default_email_from' => Config::get('email', 'default'),
+			'default_email' => Config::get('email', 'default'),
 			'site_title' => Config::get('site', 'title'),
-			'server_name' => URL::base(TRUE)
+			'site_description' => Config::get('site', 'description'),
+			'base_url' => URL::base(TRUE),
+			'current_time' => date('H:i:s'),
+			'current_date' => Date::format(date('Y-m-d')),
 		);
 
 		if(empty($options))
