@@ -35,6 +35,12 @@ class Controller_Email_Templates extends Controller_System_Backend {
 	{
 		// check if user have already enter something
 		$data = Flash::get( 'post_data', array() );
+		
+		$email_type_id = (int) $this->request->query('email_type');
+		if($email_type_id > 0 AND ORM::factory('email_type', array('id' => $email_type_id))->loaded())
+		{
+			$data['email_type'] = $email_type_id;
+		}
 
 		$template = ORM::factory('email_template')
 			->values($data);

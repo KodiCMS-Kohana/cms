@@ -1,16 +1,44 @@
 <script type="text/javascript">
 	var EMAIL_TEMPLATE_ID = <?php echo (int) $template->id; ?>;
 	
-	$('#email_types').on('change', function() {
-		show_options($(this).val());
-	});
-
-	function show_options(id) {
-		console.log(id);
-		Api.get('email-types.options', {uid: id}, function(resp) {
+	$(function() {
+		$('#email_types').on('change', function() {
+			show_options($(this).val());
+		});
 		
+		var activeInput;
+		$(':input').not(':radio').not('select').on('focus', function() {
+			activeInput = $(this);
 		})
-	}
+		
+		$('#field_description').on('click', 'a', function() {
+			var curInput = activeInput;
+			
+			if(!activeInput) return false;
+			
+			var cursorPos = curInput.prop('selectionStart');
+			var v = curInput.val();
+			var textBefore = v.substring(0,  cursorPos );
+			var textAfter  = v.substring( cursorPos, v.length );
+			curInput.val( textBefore+ $(this).text() +textAfter );
+			
+			return false;
+		});
+
+		show_options($('#email_types').val());
+		function show_options(id) {
+			Api.get('email-types.options', {uid: id}, function(resp) {
+				var cont = $('#field_description .controls');
+				var ul = $('<ul class="unstyled" />').appendTo(cont);
+				if(resp.response) {
+					for(field in resp.response) {
+						$('<li><a href="#">{'+field+'}</a> - ' + resp.response[field] + '</li>').appendTo(ul);
+					}
+				}
+			})
+		}
+	});
+	
 </script>
 
 <?php echo Form::open(Route::url('email_controllers', array('controller' => 'templates', 'action' => $action, 'id' => $template->id)), array(
@@ -43,6 +71,13 @@
 					'id' => 'email_types'
 				) );
 				?>
+				
+				<?php if ( Acl::check( 'email_type.add')): ?>
+				<?php echo UI::button(__('Add email type'), array(
+					'href' => Route::url( 'email_controllers', array('controller' => 'types', 'action' => 'add')), 'icon' => UI::icon('plus'),
+					'class' => 'btn btn-primary'
+				)); ?>
+				<?php endif; ?>
 			</div>
 		</div>
 		<hr />
@@ -91,6 +126,7 @@
 				'element' => Bootstrap_Form_Element_Textarea::factory(array(
 					'name' => 'message', 'body' => $template->message
 				))
+				->attributes('id', 'message')
 				->attributes('class', 'input-block-level')
 				->label(__('Email message'))
 			));

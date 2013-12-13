@@ -4,7 +4,7 @@
 	
 	$(function() {
 		$('#add-field').on('click', function() {
-			$('#type-fields .field-row.hidden').clone().removeClass('hidden').prependTo($('#type-fields .controls'));
+			clone_row();
 			return false;
 		});
 		
@@ -14,15 +14,22 @@
 		});
 
 		for(key in EMAIL_TYPE_DATA) {
-			var row = $('#type-fields .field-row.hidden')
-					.clone()
-					.removeClass('hidden')
-					.prependTo($('#type-fields .controls'));
+			var row = clone_row();
 
-			row.find('.field_key_input').removeAttr('disabled').val(key);
-			row.find('.field_desription_input').removeAttr('disabled').val(EMAIL_TYPE_DATA[key]);
+			row.find('.field_key_input').val(key);
+			row.find('.field_desription_input').val(EMAIL_TYPE_DATA[key]);
 		}
 	});
+	
+	function clone_row() {
+		return $('#type-fields .field-row.hidden')
+			.clone()
+			.removeClass('hidden')
+			.prependTo($('#type-fields .controls'))
+			.find(':input')
+			.removeAttr('disabled')
+			.end();
+	}
 </script>
 
 <?php echo Form::open(Route::url('email_controllers', array('controller' => 'types', 'action' => $action, 'id' => $type->id)), array(
@@ -46,7 +53,6 @@
 			</div>
 		</div>
 		
-		
 		<div class="control-group">
 			<label class="control-label" for="code"><?php echo __( 'Email type code' ); ?></label>
 			<div class="controls">
@@ -59,7 +65,6 @@
 				<?php endif; ?>
 			</div>
 		</div>
-		
 	</div>
 	
 	<div class="widget-header">
@@ -77,8 +82,33 @@
 				<button id="add-field" class="btn"><?php echo UI::icon('plus'); ?></button>
 			</div>
 		</div>
-		  
 	</div>
+	
+	<?php if($action == 'edit'): ?>
+	<div class="widget-header">
+		<h3><?php echo __('Linked email templates'); ?></h3>
+	</div>
+	<div class="widget-content">
+		<?php if(count($templates) > 0): ?>
+		<ul class="unstyled">
+		<?php foreach($templates as $tpl): ?>
+			<li><?php echo HTML::anchor(Route::url('email_controllers', array(
+				'controller' => 'templates',
+				'action' => 'edit',
+				'id' => $tpl->id
+			)), $tpl->subject); ?></li>
+		<?php endforeach; ?>
+		</ul>
+		<hr />
+		<?php endif; ?>
+		
+		<?php if ( Acl::check( 'email_template.add')): ?>
+		<?php echo UI::button(__('Add linked template'), array(
+			'href' => Route::url( 'email_controllers', array('controller' => 'templates', 'action' => 'add')) . '?email_type='.$type->id, 'icon' => UI::icon('plus')
+		)); ?>
+		<?php endif; ?>
+	</div>
+	<?php endif; ?>
 	<div class="form-actions widget-footer">
 		<?php echo UI::actions($page_name); ?>
 	</div>
