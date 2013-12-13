@@ -178,7 +178,7 @@ cms.plugins.redactor.exec_handler = function( editor, command, textarea_id, data
 		case 'insert':
 			if (/(jpg|gif|png|JPG|GIF|PNG|JPEG|jpeg)$/.test(data)){
 				data = '<img src="' + data + '">';
-			} else {
+			} else if (/((ftp|http|https|gopher|mailto|news|nntp|telnet|wais|file|prospero|aim|webcal):(([A-Za-z0-9$_.+!*(),;/?:@&~=-])|%[A-Fa-f0-9]{2}){2,}(#([a-zA-Z0-9][a-zA-Z0-9$_.+!*(),;/?:@&~=%-]*))?([A-Za-z0-9$_+!*();/?:~-]))/.test(data)) {
 				data = '<a href="' + data + '">' + data + '</a>';
 			}
 
