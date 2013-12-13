@@ -12,13 +12,12 @@ class Controller_Email_Templates extends Controller_System_Backend {
 		parent::before();
 
 		$this->breadcrumbs
-			->add(__('Email'), Route::url('email_controllers', array('controller' => 'templates')));
+			->add(__('Email'))
+			->add(__('Email templates'), Route::url('email_controllers', array('controller' => 'templates')));
 	}
 	
 	public function action_index()
-	{
-		$this->template->title = __('Email templates');
-		
+	{		
 		$templates = ORM::factory('email_template');
 		$pager = Pagination::factory(array(
 			'total_items' => $templates->reset(FALSE)->count_all(),
@@ -131,7 +130,7 @@ class Controller_Email_Templates extends Controller_System_Backend {
 			return $this->_edit( $template );
 		}
 
-		$this->template->title = __('Edit template');
+		$this->template->title = __('Edit email template');
 		$this->breadcrumbs
 			->add($this->template->title);
 

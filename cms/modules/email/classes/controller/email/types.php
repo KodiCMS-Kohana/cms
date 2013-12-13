@@ -12,13 +12,12 @@ class Controller_Email_Types extends Controller_System_Backend {
 		parent::before();
 
 		$this->breadcrumbs
-			->add(__('Email'), Route::url('email_controllers', array('controller' => 'types')));
+			->add(__('Email'))
+			->add(__('Email types'), Route::url('email_controllers', array('controller' => 'types')));
 	}
 	
 	public function action_index()
 	{
-		$this->template->title = __('Email types');
-		
 		$types = ORM::factory('email_type');
 		$pager = Pagination::factory(array(
 			'total_items' => $types->reset(FALSE)->count_all(),
