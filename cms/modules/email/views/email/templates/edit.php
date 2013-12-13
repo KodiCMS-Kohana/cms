@@ -6,21 +6,40 @@
 			show_options($(this).val());
 		});
 		
+		var message_type = $(':radio[name="message_type"]:checked').val();
+		$(':radio[name="message_type"]').on('change', function() {
+			message_type = $(this).val();
+			change_message_redator(message_type)
+		});
+		
+		change_message_redator(message_type);
+
+		function change_message_redator(type) {
+			if(type == '<?php echo Model_Email_Template::TYPE_HTML; ?>')
+				cms.filters.switchOn( 'message', 'redactor' );
+			else
+				cms.filters.switchOff('message');
+		}
+		
 		var activeInput;
 		$(':input').not(':radio').not('select').on('focus', function() {
 			activeInput = $(this);
 		})
 		
 		$('#field_description').on('click', 'a', function() {
-			var curInput = activeInput;
-			
-			if(!activeInput) return false;
-			
-			var cursorPos = curInput.prop('selectionStart');
-			var v = curInput.val();
-			var textBefore = v.substring(0,  cursorPos );
-			var textAfter  = v.substring( cursorPos, v.length );
-			curInput.val( textBefore+ $(this).text() +textAfter );
+			if(message_type == '<?php echo Model_Email_Template::TYPE_HTML; ?>') {
+				cms.filters.exec('message', 'insert', $(this).text());
+			} else {
+				var curInput = activeInput;
+
+				if(!activeInput) return false;
+
+				var cursorPos = curInput.prop('selectionStart');
+				var v = curInput.val();
+				var textBefore = v.substring(0,  cursorPos );
+				var textAfter  = v.substring( cursorPos, v.length );
+				curInput.val( textBefore+ $(this).text() +textAfter );
+			}
 			
 			return false;
 		});
