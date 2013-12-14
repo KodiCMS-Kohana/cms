@@ -42,26 +42,13 @@
 			<div class="control-group">
 				<?php echo Form::label('setting_date_format', __('Date format'), array('class' => 'control-label')); ?>
 				<div class="controls">
-					<?php
-					echo Form::select('setting[site][date_format]', $dates, Config::get('site', 'date_format'), array('id' => 'setting_date_format'));
-					?>
+					<?php echo Form::select('setting[site][date_format]', $dates, Config::get('site', 'date_format'), array('id' => 'setting_date_format')); ?>
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="control-label" for="settingSection"><?php echo __( 'Default backend section' ); ?></label>
 				<div class="controls">
-					<select id="settingSection" name="setting[site][default_tab]">
-						<?php $current_default_nav = Config::get('site', 'default_tab' ); ?>
-						<?php foreach ( Model_Navigation::get() as $section ): ?>
-							<optgroup label="<?php echo $section->name(); ?>">
-								<?php foreach ( $section->get_pages() as $item ): ?>
-								<?php $tab = trim(str_replace(ADMIN_DIR_NAME, '', $item->url()), '/'); ?>
-								<option value="<?php echo $tab; ?>" <?php if ( $tab == $current_default_nav ) echo 'selected="selected"'; ?> ><?php echo $item->name(); ?></option>
-								<?php endforeach; ?>
-							</optgroup>
-						<?php endforeach; ?>
-					</select>
-
+					<?php echo Form::select('setting[site][default_tab]', $site_pages, Config::get('site', 'default_tab'), array('id' => 'settingSection')); ?>
 					<p class="help-block"><?php echo __( 'This allows you to specify which section you will see by default after login.' ); ?></p>
 				</div>
 			</div>

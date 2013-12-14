@@ -44,12 +44,23 @@ class KodiCMS_Controller_System extends Controller_System_Backend {
 	
 	public function action_settings()
 	{
+		$this->template->title = __('Settings');
+		
+		$site_pages = array();
+
+		foreach ( Model_Navigation::get()->sections() as $section )
+		{
+			foreach ( $section->get_pages() as $item )
+			{
+				$site_pages[$section->name()][trim(str_replace(ADMIN_DIR_NAME, '', $item->url()), '/')] = $item->name();
+			}
+		}
+
 		$this->template->content = View::factory( 'system/settings', array(
 			'filters' => Arr::merge(array('--none--'), WYSIWYG::findAll()),
-			'dates' => Date::formats()
-		) );
-		
-		$this->template->title = __('Settings');
+			'dates' => Date::formats(),
+			'site_pages' => $site_pages
+		) );		
 	}
 	
 	public function action_phpinfo()
