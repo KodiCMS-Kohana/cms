@@ -1,56 +1,6 @@
 <div class="widget-content">
 	<?php
 		echo Bootstrap_Form_Element_Control_Group::factory(array(
-			'element' => Bootstrap_Form_Element_Input::factory(array(
-				'name' => 'subject', 'value' => $widget->get('subject')
-			))
-			->label(__('Message subject'))
-		));
-	
-		echo Bootstrap_Form_Element_Control_Group::factory(array(
-			'element' => Bootstrap_Form_Element_Input::factory(array(
-				'name' => 'from', 'value' => $widget->get('from')
-			))
-			->label(__('Message from'))
-		));
-		
-		echo Bootstrap_Form_Element_Control_Group::factory(array(
-			'element' => Bootstrap_Form_Element_Input::factory(array(
-				'name' => 'to', 'value' => $widget->get('to')
-			))
-			->label(__('Message to'))
-		));
-		
-		echo Bootstrap_Form_Element_Control_Group::factory(array(
-			'element' => Bootstrap_Form_Element_Input::factory(array(
-				'name' => 'to_cc', 'value' => $widget->get('to_cc')
-			))
-			->label(__('Message to (copy)'))
-		));
-		
-		echo Bootstrap_Form_Element_Control_Group::factory(array(
-			'element' => Bootstrap_Form_Element_Input::factory(array(
-				'name' => 'to_bcc', 'value' => $widget->get('bto_cc')
-			))
-			->label(__('Message blind to (copy)'))
-		));
-	?>
-</div>
-
-<div class="widget-header spoiler-toggle" data-spoiler=".spoiler-message-type">
-	<h4><?php echo __('Message type'); ?></h4>
-</div>
-<div class="widget-content spoiler spoiler-message-type">
-	<?php
-		echo Bootstrap_Form_Element_Control_Group::factory(array(
-			'element' => Bootstrap_Form_Element_Checkbox::factory(array(
-				'name' => 'is_html', 'value' => 1
-			))
-			->checked($widget->is_html == 1)
-			->label(__('Send messages in HTML format'))
-		));
-		
-		echo Bootstrap_Form_Element_Control_Group::factory(array(
 			'element' => Bootstrap_Form_Element_Textarea::factory(array(
 				'name' => 'allowed_tags', 'body' => $widget->get('allowed_tags')
 			))
