@@ -28,7 +28,8 @@ class Model_Email_Template extends ORM
 	);
 	
 	protected $_cast_data = array(
-		'email_from' => '{email_from}',
+		'subject' => '{site_title}',
+		'email_from' => '{default_email}',
 		'email_to' => '{email_to}',
 		'message_type' => Model_Email_Template::TYPE_HTML,
 		'status' => Model_Email_Template::ACTIVE

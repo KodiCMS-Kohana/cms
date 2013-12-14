@@ -162,7 +162,8 @@ class KodiCMS_Controller_Login extends Controller_System_Frontend {
 			Email_Type::get('user_request_password')->send(array(
 				'username' => $user->username,
 				'email' => $user->email,
-				'reflink' => Route::url( 'reflink', array('code' => $reflink) )
+				'reflink' => ltrim( Route::url( 'reflink', array('code' => $reflink) ), '/'),
+				'code' => $reflink
 			));
 
 			Messages::success( __('Email with reflink send to address set in your profile' ));
