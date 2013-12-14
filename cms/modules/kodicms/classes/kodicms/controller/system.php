@@ -59,7 +59,11 @@ class KodiCMS_Controller_System extends Controller_System_Backend {
 		$this->template->content = View::factory( 'system/settings', array(
 			'filters' => Arr::merge(array('--none--'), WYSIWYG::findAll()),
 			'dates' => Date::formats(),
-			'site_pages' => $site_pages
+			'site_pages' => $site_pages,
+			'default_status_id' => array(
+				Model_Page::STATUS_DRAFT => __( 'Draft' ),
+				Model_Page::STATUS_PUBLISHED => __( 'Published' )
+			)
 		) );		
 	}
 	
