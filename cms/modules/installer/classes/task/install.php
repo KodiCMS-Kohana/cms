@@ -31,7 +31,7 @@ class Task_Install extends Minion_Task
 		'db_user' => 'root',
 		'db_password' => '',
 		'db_name' => NULL,
-		'table_prefix' => '',
+		'db_table_prefix' => '',
 		'site_name' => CMS_NAME,
 		'username' => 'admin',
 		'password' => NULL,
