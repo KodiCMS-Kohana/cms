@@ -22,18 +22,18 @@
 		}
 		
 		var activeInput;
-		$(':input').not(':radio').not('select').on('focus', function() {
+		$(':input').not(':radio').not('select').add('.redactor_editor').on('focus', function() {
 			activeInput = $(this);
 		})
 		
 		$('#field_description').on('click', 'a', function() {
-			if(message_type == '<?php echo Model_Email_Template::TYPE_HTML; ?>') {
+			var curInput = activeInput;
+
+			if(!activeInput) return false;
+
+			if(curInput.hasClass('redactor_editor') && message_type == '<?php echo Model_Email_Template::TYPE_HTML; ?>') {
 				cms.filters.exec('message', 'insert', $(this).text());
 			} else {
-				var curInput = activeInput;
-
-				if(!activeInput) return false;
-
 				var cursorPos = curInput.prop('selectionStart');
 				var v = curInput.val();
 				var textBefore = v.substring(0,  cursorPos );
@@ -47,7 +47,7 @@
 		show_options($('#email_types').val());
 		function show_options(id) {
 			Api.get('email-types.options', {uid: id}, function(resp) {
-				var cont = $('#field_description .controls');
+				var cont = $('#field_description .controls').empty();
 				var ul = $('<ul class="unstyled" />').appendTo(cont);
 				if(resp.response) {
 					for(field in resp.response) {
