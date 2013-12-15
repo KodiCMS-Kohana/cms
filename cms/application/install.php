@@ -32,6 +32,7 @@ Kohana::modules( array(
 	'bootstrap'		=> MODPATH . 'bootstrap',
 	'breadcrumbs'	=> MODPATH . 'breadcrumbs',
 	'widget'		=> MODPATH . 'widget',
+	'email'			=> MODPATH . 'email',
 	'installer'		=> MODPATH . 'installer'
 ) );
 
