@@ -55,6 +55,16 @@
 						<?php endif; ?>
 					</td>
 					<td class="actions">
+						<?php if( ACL::check('widgets.location') ): ?>
+						<?php echo UI::button(NULL, array(
+							'href' => Route::url('backend', array(
+								'controller' => 'widgets', 
+								'action' => 'location',
+								'id' => $widget->id)), 
+							'icon' => UI::icon('sitemap'),
+							'class' => 'btn btn-mini btn-primary'
+						)); ?>
+						<?php endif; ?>
 						<?php if( ACL::check('widgets.delete')): ?>
 						<?php echo UI::button(NULL, array(
 							'href' => Route::url('backend', array(
@@ -62,7 +72,7 @@
 								'action' => 'delete',
 								'id' => $widget->id)), 
 							'icon' => UI::icon('remove'),
-							'class' => 'btn btn-mini btn-confirm'
+							'class' => 'btn btn-mini btn-danger btn-confirm'
 						)); ?>
 						<?php endif; ?>
 					</td>

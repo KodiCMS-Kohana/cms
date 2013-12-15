@@ -106,30 +106,7 @@ class Controller_Widgets extends Controller_System_Backend {
 	protected function _add_location( $widget )
 	{
 		$data = $this->request->post();
-		
-		DB::delete('page_widgets')
-			->where('widget_id', '=', $widget->id)
-			->execute();
-		
-		if(!empty($data))
-		{
-			$insert = DB::insert('page_widgets')
-				->columns(array('page_id', 'widget_id', 'block'));
-
-			$i = 0;
-			foreach($data['blocks'] as $page_id => $block)
-			{
-				if(empty($block)) continue;
-
-				$insert->values(array(
-					$page_id, $widget->id, $block
-				));
-				$i++;
-			}
-			
-			if( $i > 0 ) $insert->execute();
-		}
-		
+		Widget_Manager::set_location($widget->id, Arr::get($data, 'blocks', array()));
 		$this->go_back();
 	}
 

@@ -15,16 +15,28 @@ class Widget_Manager {
 		return Kohana::$config->load( 'widgets' )->as_array();
 	}
 	
+	/**
+	 * 
+	 * @param string $type
+	 * @return Model_Widget_Decorator
+	 */
 	public static function get_empty_object( $type )
 	{
 		$class = 'Model_Widget_' . $type;
 
+		if( ! class_exists($class) ) return NULL;
+	
 		$widget = new $class;
 		$widget->type = $type;
 
 		return $widget;
 	}
 	
+	/**
+	 * 
+	 * @param string $type
+	 * @return array
+	 */
 	public static function get_widgets( $type )
 	{
 		$result = array( );
@@ -69,14 +81,19 @@ class Widget_Manager {
 			->as_array('id');
 	}
 	
-	public static function get_widgets_by_page( $id )
+	/**
+	 * 
+	 * @param integer $id
+	 * @return type
+	 */
+	public static function get_widgets_by_page( $page_id )
 	{
 		$res = DB::select('page_widgets.block')
 			->select('widgets.*')
 			->from('page_widgets')
 			->join('widgets')
 				->on('widgets.id', '=', 'page_widgets.widget_id')
-			->where('page_id', '=', (int) $id)
+			->where('page_id', '=', (int) $page_id)
 			->order_by('widgets.name', 'ASC')
 			->execute()
 			->as_array('id');
@@ -93,6 +110,12 @@ class Widget_Manager {
 		return $widgets;
 	}
 	
+	/**
+	 * 
+	 * @param integer $from_page_id
+	 * @param integer $to_page_id
+	 * @return boolean
+	 */
 	public static function copy( $from_page_id, $to_page_id ) 
 	{
 		$widgets = DB::select('widget_id', 'block')
@@ -207,5 +230,85 @@ class Widget_Manager {
 
 		return $widget;
 	}
+	
+	/**
+	 * 
+	 * @param integer $widget_id
+	 * @param array $data
+	 */
+	public static function set_location($widget_id, array $data)
+	{
+		DB::delete('page_widgets')
+			->where('widget_id', '=', (int) $widget_id)
+			->execute();
+		
+		if( ! empty($data) )
+		{
+			$insert = DB::insert('page_widgets')
+				->columns(array('page_id', 'widget_id', 'block'));
 
+			$i = 0;
+			foreach($data as $page_id => $block)
+			{
+				if(empty($block)) continue;
+
+				$insert->values(array(
+					$page_id, (int) $widget_id, $block
+				));
+				$i++;
+			}
+			
+			if( $i > 0 ) $insert->execute();
+		}
+	}
+	
+	/**
+	 * 
+	 * @param array $widget_array
+	 * @return integer $id
+	 */
+	public static function install(array $widget_array)
+	{
+		if( 
+			empty($widget_array['type']) 
+		OR 
+			empty($widget_array['data'])
+		OR 
+			empty($widget_array['data']['name'])) return;
+
+		$widget = Widget_Manager::get_empty_object( $widget_array['type'] );
+		
+		if( $widget === NULL ) return FALSE;
+		
+		try 
+		{
+			$widget->name = $widget_array['data']['name'];
+			$widget->description = Arr::get($widget_array, 'description');
+	
+			$id = Widget_Manager::create($widget);
+		}
+		catch (Exception $e)
+		{
+			return FALSE;
+		}
+		
+		$widget = Widget_Manager::load( $id );
+		
+		try 
+		{
+			$widget
+				->set_values( $widget_array['data'] )
+				->set_cache_settings( $widget_array['data'] );
+	
+			Widget_Manager::update($widget);
+		}
+		catch (Exception $e)
+		{
+			return FALSE;
+		}
+		
+		Widget_Manager::set_location($id, Arr::get($widget_array, 'blocks', array()));
+		
+		return $id;
+	}
 }
