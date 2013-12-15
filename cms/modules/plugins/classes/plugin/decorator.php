@@ -205,6 +205,10 @@ class Plugin_Decorator extends Plugin {
 			->values($data)
 			->execute();
 
+		Kohana::modules( Kohana::modules() + array('plugin_' . $this->id() => PLUGPATH . $this->id()) );
+
+		$this->_clear_cache();
+
 		$install_file = $this->path() . 'install' . EXT;
 
 		if( file_exists( $install_file ))
@@ -213,8 +217,6 @@ class Plugin_Decorator extends Plugin {
 		}
 		
 		Plugins::install( $this );
-
-		return $this->_clear_cache();
 	}
 	
 	/**

@@ -28,7 +28,7 @@ class Plugins {
 		{
 			if(  is_dir( PLUGPATH . $plugin_id ) )
 			{
-				$plugins[$plugin_id] = PLUGPATH . $plugin_id;
+				$plugins['plugin_' . $plugin_id] = PLUGPATH . $plugin_id;
 			}
 		}
 
