@@ -34,7 +34,9 @@ Kohana::modules( array(
 	'installer'		=> MODPATH . 'installer'
 ) );
 
-
+/**
+ * Проверка на существование модуля `installer`
+ */
 $modules = Kohana::modules();
 if( ! isset($modules['installer']) OR ! is_dir( MODPATH . 'installer' ))
 {

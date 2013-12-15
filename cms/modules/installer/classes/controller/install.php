@@ -9,6 +9,18 @@ class Controller_Install extends Controller_System_Frontend
 {
 	public $template = 'layouts/frontend';
 	
+	/**
+	 *
+	 * @var Validation 
+	 */
+	protected $_validation = NULL;
+	
+	/**
+	 *
+	 * @var Database 
+	 */
+	protected $_db_instance = NULL;
+
 	public function action_index()
 	{
 		Assets::js('install', ADMIN_RESOURCES . 'js/install.js', 'global');
@@ -40,6 +52,10 @@ class Controller_Install extends Controller_System_Frontend
 		));
 	}
 
+	/**
+	 * 
+	 * @throws Installer_Exception
+	 */
 	public function action_go()
 	{
 		$this->auto_render = FALSE;
@@ -65,8 +81,10 @@ class Controller_Install extends Controller_System_Frontend
 
 		try
 		{
-			$validation = $this->_valid($post);
-			$db = $this->_connect_to_db($post, $validation);
+			$this->_validation = $this->_valid($post);
+			$this->_db_instance = $this->_connect_to_db($post);
+			
+			Database::$default = 'install';
 		}
 		catch (Validation_Exception $e)
 		{
@@ -77,22 +95,28 @@ class Controller_Install extends Controller_System_Frontend
 		{
 			if(isset($post['empty_database']))
 			{
-				$this->_reset($db);
+				$this->_reset();
 			}
 			
-			$this->_import_shema($post, $db);
-			$this->_import_dump($post, $db);
-			$this->_create_config($post);
+			$this->_import_shema($post);
+			$this->_import_dump($post);
+			$this->_install_plugins();
+			$this->_install_modules($post);
+			$this->_create_site_config($post);
+			$this->_create_config_file($post);
 		}
 		catch (Exception $e)
 		{
-			$this->_reset($db);
 			$this->_show_error($e);
 		}
 		
 		$this->_complete($post);
 	}
 	
+	/**
+	 * 
+	 * @param array $post
+	 */
 	protected function _complete($post)
 	{
 		if(PHP_SAPI == 'cli')
@@ -110,6 +134,10 @@ class Controller_Install extends Controller_System_Frontend
 		$this->go($post['admin_dir_name'] . '/login');
 	}
 
+	/**
+	 * Вывод ошибок
+	 * @param Exception $e
+	 */
 	protected function _show_error(Exception $e)
 	{
 		if(PHP_SAPI == 'cli')
@@ -126,10 +154,19 @@ class Controller_Install extends Controller_System_Frontend
 		$this->go_back();
 	}
 
-	protected function _connect_to_db(array $post, $validation)
+	/**
+	 * Создание коннекта к БД
+	 * 
+	 * @param array $post
+	 * @return Database
+	 * @throws Validation_Exception
+	 */
+	protected function _connect_to_db(array $post)
 	{
 		$server = $post['db_server'] . ':' . $post['db_port'];
-		$db = Database::instance( 'install', array(
+		
+		$config = Kohana::$config->load('database');
+		$config->set('install', array(
 			'type' => $post['db_driver'],
 			'connection' => array(
 				'hostname' => $server,
@@ -142,11 +179,14 @@ class Controller_Install extends Controller_System_Frontend
 			'charset' => 'utf8',
 			'caching' => FALSE,
 			'profiling' => TRUE
-		) );
+		));
+
+		$db = Database::instance( 'install');
 
 		try
 		{
 			$db->connect();
+			
 			return $db;
 		} 
 		catch (Database_Exception $exc)
@@ -154,19 +194,26 @@ class Controller_Install extends Controller_System_Frontend
 			switch ($exc->getCode())
 			{
 				case 1049:
-					$validation->error( 'db_name' , 'incorrect' );
+					$this->_validation->error( 'db_name' , 'incorrect' );
 					break;
 				case 2:
-					$validation
+					$this->_validation
 						->error( 'db_server' , 'incorrect' )
 						->error( 'db_user' , 'incorrect' )
 						->error( 'db_password' , 'incorrect' );
 					break;
 			}
-			throw new Validation_Exception($validation, $exc->getMessage(), NULL, $exc->getCode());
+			throw new Validation_Exception($this->_validation, $exc->getMessage(), NULL, $exc->getCode());
 		}
 	}
 
+	/**
+	 * Проверка данных формы
+	 * 
+	 * @param array $data
+	 * @return Validation
+	 * @throws Validation_Exception
+	 */
 	protected function _valid(array $data)
 	{
 		$cache_types = Kohana::$config->load('installer')->get( 'cache_types', array() );
@@ -208,7 +255,12 @@ class Controller_Install extends Controller_System_Frontend
 		return $validation;
 	}
 
-	protected function _import_shema($post, $db)
+	/**
+	 * Импорт схемы БД из файла `data/schema.sql`
+	 * @param array $post
+	 * @throws Installer_Exception
+	 */
+	protected function _import_shema($post)
 	{
 		$schema_file = INSTALL_DATA . 'schema.sql';
 		
@@ -225,11 +277,17 @@ class Controller_Install extends Controller_System_Frontend
 
 		if ( !empty( $schema_content ) )
 		{
-			$this->_insert_data($schema_content, $db);
+			$this->_insert_data($schema_content);
 		}
 	}
 	
-	protected function _import_dump($post, $db)
+	/**
+	 * Импорт данных из файла `data/dump.sql`
+	 * 
+	 * @param array $post
+	 * @throws Installer_Exception
+	 */
+	protected function _import_dump($post)
 	{
 		$dump_file = INSTALL_DATA . 'dump.sql';
 
@@ -244,26 +302,103 @@ class Controller_Install extends Controller_System_Frontend
 		$dump_content = file_get_contents( $dump_file );
 		
 		$replace = array(
-			'__SITE_NAME__'			=> serialize(Arr::get($post, 'site_name')),
 			'__EMAIL__'				=> Arr::get($post, 'email'),
 			'__USERNAME__'			=> Arr::get($post, 'username'),
 			'__TABLE_PREFIX__'		=> $post['table_prefix'],
 			'__ADMIN_PASSWORD__'	=> Auth::instance()->hash($post['password_field']),
 			'__DATE__'				=> date('Y-m-d H:i:s'),
-			'__LANG__'				=> Arr::get($post, 'locale'),
+			'__LANG__'				=> Arr::get($post, 'locale')
 		);
 		
 		$dump_content = str_replace(
 			array_keys( $replace ), array_values( $replace ), $dump_content
 		);
 
-		if ( !empty( $dump_content ) )
+		if ( ! empty( $dump_content ) )
 		{
-			$this->_insert_data($dump_content, $db);
+			$this->_insert_data($dump_content);
 		}
 	}
 	
-	protected function _create_config($post)
+	/**
+	 * Запись в БД данных в таблицу config
+	 * Значения по умолчанию устанавливаются в конфиг файле `installer`
+	 * 
+	 * @param array $post
+	 */
+	protected function _create_site_config($post)
+	{
+		$config_values = Kohana::$config->load('installer')->get('default_config', array());
+		
+		$config_values['site']['title'] = Arr::get($post, 'site_name');
+		$config_values['site']['default_locale'] = Arr::get($post, 'locale');
+
+		$insert = DB::insert('config', array('group_name', 'config_key', 'config_value'));
+		foreach ($config_values as $group => $data)
+		{
+			foreach ($data as $key => $config)
+			{
+				$insert->values(array($group, $key, serialize($config)));
+					
+			}
+		}
+		
+		$insert->execute($this->_db_instance);
+	}
+	
+	/**
+	 * Установка пллагинов по умолчанию
+	 * 
+	 * Список плагинов по умолчанию указывается в конфиг файле `installer`
+	 */
+	protected function _install_plugins()
+	{
+		Kohana::modules(Kohana::modules() + array('plugins'		=> MODPATH . 'plugins'));
+
+		$default_plugins = Kohana::$config->load('installer')->get('default_plugins', array());
+		
+		Plugins::find_all();
+		foreach ($default_plugins as $name)
+		{
+			$plugin = Plugins::get_registered( $name );
+			$plugin->install();
+		}
+	}
+	
+	/**
+	 * Используется для установки данных из модулей
+	 * 
+	 * Метод проходится по модулям, ищет в них файл install.php, если существует
+	 * запускает его и передает массив $post
+	 *
+	 * @param type $post
+	 * @return type
+	 */
+	protected function _install_modules($post)
+	{
+		if ( ! is_dir(MODPATH) ) return;
+		
+		// Create a new directory iterator
+		$path = new DirectoryIterator(MODPATH);
+		
+		foreach ($path as $dir)
+		{
+			if($dir->isDot()) continue;
+			$file_name = MODPATH . $dir->getBasename() . DIRECTORY_SEPARATOR . 'install' . EXT;
+			if(file_exists($file_name))
+			{
+				include $file_name;
+			}
+		}
+	}
+
+	/**
+	 * Создание конфиг файла
+	 * 
+	 * @param array $post
+	 * @throws Installer_Exception
+	 */
+	protected function _create_config_file($post)
 	{
 		$tpl_file = INSTALL_DATA . 'config.tpl';
 		
@@ -300,30 +435,52 @@ class Controller_Install extends Controller_System_Frontend
 			throw new Installer_Exception( 'Can\'t write config.php file!' );
 		}
 	}
-	
-	protected function _insert_data($data, $db)
+
+	/**
+	 * Вставка SQL строк в БД
+	 * 
+	 * @param array $data
+	 * @throws Validation_Exception
+	 */
+	protected function _insert_data($data)
 	{
 		$data = preg_split( '/;(\s*)$/m', $data );
 
-		foreach($data as $sql)
+		try
 		{
-			if(empty($sql))
+			foreach($data as $sql)
 			{
-				continue;
+				if(empty($sql))
+				{
+					continue;
+				}
+
+				DB::query(Database::INSERT, $sql)
+					->execute($this->_db_instance);
 			}
-			
-			DB::query(Database::INSERT, $sql)
-				->execute($db);
+		} 
+		catch (Database_Exception $exc)
+		{
+			switch ($exc->getCode())
+			{
+				case 1005:
+					$this->_validation->error( 'db_name' , 'database_not_empty' );
+					break;
+			}
+			throw new Validation_Exception($this->_validation, $exc->getMessage(), NULL, $exc->getCode());
 		}
 	}
 	
-	protected function _reset($db)
+	/**
+	 * Очистка указанной БД от записей
+	 */
+	protected function _reset()
 	{
 		DB::query(NULL, 'SET FOREIGN_KEY_CHECKS = 0')
-			->execute($db);
-		
+			->execute($this->_db_instance);
+
 		$tables = DB::query(Database::SELECT, 'SHOW TABLES')
-			->execute($db);
+			->execute($this->_db_instance);
 		
 		foreach ($tables as $table) 
 		{
@@ -332,7 +489,7 @@ class Controller_Install extends Controller_System_Frontend
 
 			DB::query(NULL, 'DROP TABLE `:table_name`')
 				->param( ':table_name', DB::expr($table_name) )
-				->execute($db);
+				->execute($this->_db_instance);
 		}
 		
 		if(  file_exists( CFGFATH ) !== FALSE )

@@ -61,29 +61,6 @@ INSERT INTO `__TABLE_PREFIX__roles_users` (`user_id`, `role_id`) VALUES
 (1, 1),
 (1, 2);
 
-INSERT INTO `__TABLE_PREFIX__config` (`group_name`, `config_key`, `config_value`) VALUES
-('api', 'mode', 's:2:"no";'),
-('site', 'allow_html_title', 's:3:"off";'),
-('site', 'breadcrumbs', 's:2:"no";'),
-('site', 'date_format', 's:5:"d F Y";'),
-('site', 'debug', 's:2:"no";'),
-('site', 'default_filter_id', 's:8:"redactor";'),
-('site', 'default_status_id', 's:3:"100";'),
-('site', 'default_tab', 's:4:"page";'),
-('site', 'description', 's:0:"";'),
-('site', 'find_similar', 's:3:"yes";'),
-('site', 'profiling', 's:2:"no";'),
-('site', 'title', '__SITE_NAME__');
-
-INSERT INTO `__TABLE_PREFIX__plugins` (`id`, `title`, `settings`) VALUES
-('archive', 'Archive', 'a:0:{}'),
-('maintenance', 'Maintenance mode', 'a:0:{}'),
-('page_not_found', 'Page not found', 'a:0:{}'),
-('redactor', 'Redactor', 'a:0:{}'),
-('slug_translit', 'Slug translit', 'a:0:{}'),
-('tagsinput', 'jQuery Tags Input', 'a:0:{}');
-
-
 INSERT INTO `__TABLE_PREFIX__users` (`id`, `email`, `username`, `password`, `logins`, `last_login`) VALUES
 (1, '__EMAIL__', '__USERNAME__', '__ADMIN_PASSWORD__', 0, 0);
 
