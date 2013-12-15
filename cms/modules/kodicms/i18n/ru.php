@@ -118,6 +118,7 @@ return array(
 	/*********************** Settings *******************/
 	'General settings' => 'Главные настройки',
 	'Interface language' => 'Язык интерфейса',
+	'Default interface language' => 'Язык интерфейса по умолчанию',
 	'Clear cache' => 'Очистить кеш',
 	'Cache has been cleared!' => 'Кеш успешно очищен!',
 	'Site information' => 'Информация о сайте',

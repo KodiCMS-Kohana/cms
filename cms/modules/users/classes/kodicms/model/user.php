@@ -29,7 +29,7 @@ class KodiCMS_Model_User extends Model_Auth_User {
 			return $user->profile->get('locale');
 		}
 		
-		return I18n::detect_lang();
+		return Config::get('site', 'locale', I18n::detect_lang());
 	}
 
 

@@ -34,11 +34,19 @@
 		</div>
 		<div class="widget-content">
 			<div class="control-group">
+				<?php echo Form::label('setting_default_locale', __('Default interface language'), array('class' => 'control-label')); ?>
+				<div class="controls">
+					<?php echo Form::select('setting[site][default_locale]', I18n::available_langs(), Config::get('site', 'default_locale'), array('id' => 'setting_default_locale')); ?>
+				</div>
+			</div>
+			
+			<div class="control-group">
 				<?php echo Form::label('setting_date_format', __('Date format'), array('class' => 'control-label')); ?>
 				<div class="controls">
 					<?php echo Form::select('setting[site][date_format]', $dates, Config::get('site', 'date_format'), array('id' => 'setting_date_format')); ?>
 				</div>
 			</div>
+			
 			<div class="control-group">
 				<label class="control-label" for="settingSection"><?php echo __( 'Default backend section' ); ?></label>
 				<div class="controls">
