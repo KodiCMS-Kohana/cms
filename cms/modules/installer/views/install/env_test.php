@@ -12,11 +12,9 @@ else
 }
 
 $failed = FALSE;
-
 ?>
 
-<div class="widget-header"><h3><?php echo __( 'Environment Tests' ); ?></h3></div>
-<div class="env_test" class="widget-content">
+<div id="env_test widget-content">
 	<table class="table table-striped">
 		<tr>
 			<th><?php echo __('PHP Version'); ?></th>
@@ -66,16 +64,22 @@ $failed = FALSE;
 		</tr>
 		<tr>
 			<th><?php echo __('Config file placement'); ?></th>
-			<?php if (is_dir(pathinfo(CFGFATH, PATHINFO_DIRNAME) . DIRECTORY_SEPARATOR) AND ! is_file( CFGFATH)): ?>
+			<?php if (is_dir(pathinfo(CFGFATH, PATHINFO_DIRNAME) . DIRECTORY_SEPARATOR) AND ! is_file( CFGFATH) AND is_writable( pathinfo(CFGFATH, PATHINFO_DIRNAME) )): ?>
 				<td class="pass">
 					<?php echo CFGFATH; ?>
 					<div class="text-warning"><?php echo __('To change config file placement edit index.php file'); ?></div>
 				</td>
 			<?php else: $failed = TRUE ?>
 				<td class="fail">
+					<?php if(!is_writable( pathinfo(CFGFATH, PATHINFO_DIRNAME) )): ?>
+					<?php echo __('The config :dir directory must be writable.', array(
+						':dir' => pathinfo(CFGFATH, PATHINFO_DIRNAME)
+					)); ?>
+					<?php else: ?>
 					<?php echo __('The config :dir directory does not exist or config file is exists.', array(
-					':dir' => CFGFATH, ':file' => pathinfo( CFGFATH, PATHINFO_FILENAME) .'.'. pathinfo( CFGFATH, PATHINFO_EXTENSION)
-				)); ?>
+						':dir' => CFGFATH, ':file' => pathinfo( CFGFATH, PATHINFO_FILENAME) .'.'. pathinfo( CFGFATH, PATHINFO_EXTENSION)
+					)); ?>
+					<?php endif; ?>
 					<div class="text-warning"><?php echo __('To change config file placement edit index.php file'); ?></div>
 				</td>
 			<?php endif ?>
@@ -151,14 +155,14 @@ $failed = FALSE;
 	</table>
 
 	<?php if ($failed === TRUE): ?>
-		<p id="results" class="alert alert-error"><?php echo UI::icon('remove'); ?> <?php echo __('Kohana may not work correctly with your environment.'); ?></p>
+		<p id="results" class="alert alert-error lead"><?php echo UI::icon('remove'); ?> <?php echo __('Kohana may not work correctly with your environment.'); ?></p>
 	<?php else: ?>
-		<p id="results" class="alert alert-success"><?php echo UI::icon('ok'); ?> <?php echo __('Your environment passed all requirements.'); ?></p>
+		<p id="results" class="alert alert-success lead"><?php echo UI::icon('ok'); ?> <?php echo __('Your environment passed all requirements.'); ?></p>
 	<?php endif ?>
 </div>
 <div class="widget-header widget-no-border-radius"><h3><?php echo __( 'Optional Tests' ); ?></h3></div>
-<div class="env_test" class="widget-content">
-	<p class="alert alert-info"><?php echo __('The following extensions are not required to run the Kohana core, but if enabled can provide access to additional classes.'); ?></p>
+<div class="env_test widget-content">
+	<p id="info" class="lead alert alert-info"><?php echo UI::icon('lightbulb'); ?> <?php echo __('The following extensions are not required to run the Kohana core, but if enabled can provide access to additional classes.'); ?></p>
 
 	<table class="table table-striped">
 		<tr>
@@ -229,3 +233,5 @@ $failed = FALSE;
 		</tr>
 	</table>
 </div>
+
+<script>var failed = <?php echo $failed ? 'true' : 'false'; ?>;</script>

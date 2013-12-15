@@ -12,11 +12,6 @@ define('ADMIN_URL',			BASE_URL . ADMIN_DIR_NAME . '/');
 define('PLUGINS_URL',		BASE_URL . 'cms/plugins/');
 define('PUBLIC_URL',		BASE_URL . 'public/');
 
-define('PUBLICPATH',		DOCROOT . 'public' . DIRECTORY_SEPARATOR);
-define('TMPPATH',			PUBLICPATH . 'temp' . DIRECTORY_SEPARATOR);
-define('LAYOUTS_SYSPATH',	DOCROOT . 'layouts' . DIRECTORY_SEPARATOR);
-define('SNIPPETS_SYSPATH',	DOCROOT . 'snippets' . DIRECTORY_SEPARATOR);
-
 /**
  * Set the default time zone.
  *
@@ -69,15 +64,6 @@ Kohana::$config->attach(new Config_Database);
 Kohana::$log->attach(new Log_Database('logs'));
 
 Observer::notify('modules::afer_load');
-
-Route::set( 'admin_media', 'cms/media/<file>', array(
-	'file' => '.*'
-))
-	->defaults( array(
-		'directory' => 'system',
-		'controller' => 'media',
-		'action' => 'media',
-	) );
 
 Route::set( 'user', ADMIN_DIR_NAME.'/<action>(?next=<next_url>)', array(
 	'action' => '(login|logout|forgot)',

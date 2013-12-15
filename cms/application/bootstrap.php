@@ -122,6 +122,11 @@ define('CMS_NAME',			'KodiCMS');
 define('CMS_SITE',			'http://www.kodicms.ru');
 define('CMS_VERSION',		'8.2.14');
 
+define('PUBLICPATH',		DOCROOT . 'public' . DIRECTORY_SEPARATOR);
+define('TMPPATH',			PUBLICPATH . 'temp' . DIRECTORY_SEPARATOR);
+define('LAYOUTS_SYSPATH',	DOCROOT . 'layouts' . DIRECTORY_SEPARATOR);
+define('SNIPPETS_SYSPATH',	DOCROOT . 'snippets' . DIRECTORY_SEPARATOR);
+
 if(PHP_SAPI != 'cli')
 {
 	define('BASE_URL',		URL::base('http'));
@@ -151,4 +156,13 @@ Route::set( 'error', 'system/error(/<code>(/<message>))', array(
 		'directory' => 'system',
 		'controller' => 'error',
 		'action' => 'index'
+	) );
+
+Route::set( 'admin_media', 'cms/media/<file>', array(
+	'file' => '.*'
+))
+	->defaults( array(
+		'directory' => 'system',
+		'controller' => 'media',
+		'action' => 'media',
 	) );

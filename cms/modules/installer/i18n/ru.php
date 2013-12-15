@@ -2,7 +2,7 @@
 
 return array(
 	/********************* Database information *******************/
-	'Installation' => 'Установка системы',
+	':cms_name &rsaquo; installation' => 'Установка системы :cms_name',
 	'Database information' => 'Информация о базе данных',
 	
 	'Database server' => 'Сервер',
@@ -79,6 +79,8 @@ return array(
 		=> 'Файл :file с дампом Базы данных не найден!',
 	'Config template file :file not found!'
 		=> 'Шаблон конфиг файла :file не найден!',
+	'The config :dir directory must be writable.' 
+		=> 'Директория :dir расположения конфиг файла должна быть доступна для записи',
 	'Can\'t write config.php file!'
 		=> 'Невозможно записать данные в файл config.php!',
 );

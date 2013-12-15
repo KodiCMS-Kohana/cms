@@ -16,5 +16,5 @@ Database::$default = 'install';
 Route::set( 'install', 'install(/<action>(/<id>))' )
 	->defaults( array(
 		'controller' => 'install',
-		'action' => 'index',
+		'action' => 'error',
 	) );

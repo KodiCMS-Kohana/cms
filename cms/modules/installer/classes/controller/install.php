@@ -21,19 +21,31 @@ class Controller_Install extends Controller_System_Frontend
 	 */
 	protected $_db_instance = NULL;
 
+	public function action_error()
+	{
+		$this->template->title = __( ':cms_name &rsaquo; error', array(':cms_name' => CMS_NAME ));
+		$this->template->content = View::factory('install/error', array(
+			'title' => $this->template->title
+		));
+	}
+	
 	public function action_index()
 	{
-		Assets::js('install', ADMIN_RESOURCES . 'js/install.js', 'global');
+		Assets::js('steps', ADMIN_RESOURCES . 'libs/steps/jquery.steps.min.js', 'jquery');
 		Assets::css('select2', ADMIN_RESOURCES . 'libs/select2/select2.css', 'jquery');
 		Assets::js('select2', ADMIN_RESOURCES . 'libs/select2/select2.min.js', 'jquery');
+		
+		Assets::js('install', ADMIN_RESOURCES . 'js/install.js', 'global');
+		Assets::css('install', ADMIN_RESOURCES . 'css/install.css', 'global');
 
-		$this->template->title = __( 'Installation' );
+		$this->template->title = __( ':cms_name &rsaquo; installation', array(':cms_name' => CMS_NAME ) );
 
 		$data = array(
 			'db_driver' => 'mysql',
-			'db_server' => 'localhost',
+			'db_server' => '127.0.0.1',
 			'db_port' => 3306,
 			'db_user' => 'root',
+			'db_name' => 'kodicms',
 			'site_name' => CMS_NAME,
 			'username' => 'admin',
 			'email' => 'admin@yoursite.com',
@@ -48,7 +60,8 @@ class Controller_Install extends Controller_System_Frontend
 		$this->template->content = View::factory('install/index', array(
 			'data' => Session::instance()->get_once( 'install_data', $data ),
 			'env_test' => View::factory('install/env_test'),
-			'cache_types' => Kohana::$config->load('installer')->get( 'cache_types', array() )
+			'cache_types' => Kohana::$config->load('installer')->get( 'cache_types', array() ),
+			'title' => $this->template->title
 		));
 	}
 
@@ -175,7 +188,7 @@ class Controller_Install extends Controller_System_Frontend
 				'password' => $post['db_password'],
 				'persistent' => FALSE,
 			),
-			'table_prefix' => $post['table_prefix'],
+			'table_prefix' => $post['db_table_prefix'],
 			'charset' => 'utf8',
 			'caching' => FALSE,
 			'profiling' => TRUE
@@ -203,6 +216,7 @@ class Controller_Install extends Controller_System_Frontend
 						->error( 'db_password' , 'incorrect' );
 					break;
 			}
+
 			throw new Validation_Exception($this->_validation, $exc->getMessage(), NULL, $exc->getCode());
 		}
 	}
@@ -273,7 +287,7 @@ class Controller_Install extends Controller_System_Frontend
 
 		// Create tables
 		$schema_content = file_get_contents( $schema_file );
-		$schema_content = str_replace( '__TABLE_PREFIX__', $post['table_prefix'], $schema_content );
+		$schema_content = str_replace( '__TABLE_PREFIX__', $post['db_table_prefix'], $schema_content );
 
 		if ( !empty( $schema_content ) )
 		{
@@ -304,7 +318,7 @@ class Controller_Install extends Controller_System_Frontend
 		$replace = array(
 			'__EMAIL__'				=> Arr::get($post, 'email'),
 			'__USERNAME__'			=> Arr::get($post, 'username'),
-			'__TABLE_PREFIX__'		=> $post['table_prefix'],
+			'__TABLE_PREFIX__'		=> $post['db_table_prefix'],
 			'__ADMIN_PASSWORD__'	=> Auth::instance()->hash($post['password_field']),
 			'__DATE__'				=> date('Y-m-d H:i:s'),
 			'__LANG__'				=> Arr::get($post, 'locale')
@@ -418,7 +432,7 @@ class Controller_Install extends Controller_System_Frontend
 			'__DB_NAME__'			=> $post['db_name'],
 			'__DB_USER__'			=> $post['db_user'],
 			'__DB_PASS__'			=> $post['db_password'],
-			'__TABLE_PREFIX__'		=> $post['table_prefix'],
+			'__TABLE_PREFIX__'		=> $post['db_table_prefix'],
 			'__URL_SUFFIX__'		=> $post['url_suffix'],
 			'__ADMIN_DIR_NAME__'	=> $post['admin_dir_name'],
 			'__TIMEZONE__'			=> $post['timezone'],
