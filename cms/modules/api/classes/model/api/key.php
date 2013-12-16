@@ -27,6 +27,20 @@ class Model_Api_key extends ORM {
 		return $this->id;
 	}
 	
+	public function refresh( $old_key )
+	{
+		$this->where('id', '=', $old_key)->find();
+		
+		if( ! $this->loaded()) return FALSE;
+		
+		$this->values(array(
+			'id' => self::generate_key()
+		), array('id'))
+			->update();
+
+		return $this->id;
+	}
+	
 	/**
 	 * 
 	 * @param string $key

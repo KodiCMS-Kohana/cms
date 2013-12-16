@@ -18,4 +18,18 @@ class Controller_API_Api extends Controller_System_API
 		
 		$this->response($key);
 	}
+	
+	public function post_refresh()
+	{
+		if( ! ACL::check('api.refresh')) 
+		{
+			throw HTTP_API_Exception::factory(API::ERROR_PERMISSIONS, 'You dont hanve permissions to refresh api key');
+		}
+	
+		$key = $this->param('key', NULL, TRUE);	
+		$key = ORM::factory('api_key')->refresh($key);
+		Config::set('api', 'key', $key);
+
+		$this->response($key);
+	}
 }
