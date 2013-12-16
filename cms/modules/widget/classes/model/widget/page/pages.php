@@ -79,11 +79,19 @@ class Model_Widget_Page_Pages extends Model_Widget_Decorator_Pagination {
 		);
 	}
 	
+	/**
+	 * 
+	 * @return integer
+	 */
 	public function count_total()
 	{
 		return $this->get_current_page()->children_count();
 	}
 
+	/**
+	 * 
+	 * @return Model_Page_Front
+	 */
 	public function get_current_page()
 	{
 		if(!$this->current_page)
