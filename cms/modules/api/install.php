@@ -1,9 +1,7 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-$api_key = ORM::factory('api_key')->generate('KodiCMS API key');
+$config = Kohana::$config->load('installer');
+$default = $config->get('default_config', array());
 
-Kohana::$config->load('installer')->set('default_config', array(
-	'api' => array(
-		'key' => $api_key
-	)
-));
+$default['api']['key'] = ORM::factory('api_key')->generate('KodiCMS API key');
+$config->set('default_config', $default);
