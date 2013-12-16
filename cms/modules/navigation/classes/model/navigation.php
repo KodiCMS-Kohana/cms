@@ -57,7 +57,7 @@ class Model_Navigation {
 			$parent = & self::$_root_section;
 		}
 
-		$section = & $parent->find_section($name);
+		$section = $parent->find_section($name);
 
 		if( $section === NULL )
 		{

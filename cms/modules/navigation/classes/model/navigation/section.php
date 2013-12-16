@@ -148,7 +148,7 @@ class Model_Navigation_Section extends Model_Navigation_Abstract implements Coun
 		return $found;
 	}
 
-	public function & find_section($name)
+	public function find_section($name)
 	{
 		foreach ($this->_sections as $section)
 		{
