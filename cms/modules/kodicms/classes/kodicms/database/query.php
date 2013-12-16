@@ -52,7 +52,7 @@ class KodiCMS_Database_Query extends Kohana_Database_Query {
 		// Compile the SQL query
 		$sql = $this->compile( $db );
 
-		if ( $this->_lifetime !== NULL AND $this->_type === Database::SELECT )
+		if ( $this->_lifetime !== NULL AND $this->_type === Database::SELECT AND Kohana::$caching === TRUE )
 		{
 			// Set the cache key based on the database instance name and SQL
 			if ( $this->_cache_key !== NULL )
@@ -76,7 +76,7 @@ class KodiCMS_Database_Query extends Kohana_Database_Query {
 		// Execute the query
 		$result = $db->query( $this->_type, $sql, $as_object, $object_params );
 
-		if ( isset( $cache_key ) AND $this->_lifetime > 0 )
+		if ( isset( $cache_key ) AND $this->_lifetime > 0 AND Kohana::$caching === TRUE )
 		{
 			// Cache the result array
 			Cache::instance()->set_with_tags($cache_key, $result->as_array(), $this->_lifetime, $this->_cache_tags);

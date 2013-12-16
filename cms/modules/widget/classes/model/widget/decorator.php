@@ -317,7 +317,7 @@ abstract class Model_Widget_Decorator {
 	 */
 	public function clear_cache_by_tags()
 	{
-		if(!empty($this->cache_tags))
+		if(!empty($this->cache_tags) AND Kohana::$caching === TRUE)
 		{
 			$cache = Cache::instance();
 			
@@ -442,8 +442,10 @@ abstract class Model_Widget_Decorator {
 			echo "<!--{Widget: {$this->name}}-->";
 		}
 		
-		if( 
-			$this->caching === TRUE 
+		if(
+			Kohana::$caching === TRUE
+		AND
+			$this->caching === TRUE
 		AND 
 			! Fragment::load($this->get_cache_id(), $this->cache_lifetime)
 		)

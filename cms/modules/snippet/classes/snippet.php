@@ -33,8 +33,12 @@ class Snippet {
 			$tags[] = $snippet_name;
 		}
 
-		if( $cache_lifetime !== NULL 
-				AND ! Fragment::load( $cache_key, (int) $cache_lifetime, $i18n ))
+		if( 
+			Kohana::$caching === TRUE
+		AND
+			$cache_lifetime !== NULL 
+		AND 
+			! Fragment::load( $cache_key, (int) $cache_lifetime, $i18n ))
 		{
 			echo $view;
 

@@ -125,10 +125,13 @@ class KodiCMS_Model_Page extends Record
 	
 	public function afterUpdate()
 	{
-		$cache = Cache::instance();
-		$cache->delete_tag('pages');
-		$cache->delete_tag('page_parts');
-		$cache->delete_tag('page_tags');
+		if(Kohana::$caching === TRUE)
+		{
+			$cache = Cache::instance();
+			$cache->delete_tag('pages');
+			$cache->delete_tag('page_parts');
+			$cache->delete_tag('page_tags');
+		}
 
 		return $this->afterInsert();
 	}
@@ -138,10 +141,14 @@ class KodiCMS_Model_Page extends Record
 		// need to delete subpages
 		static::deleteByParentId($this->id);
 		
-		$cache = Cache::instance();
-		$cache->delete_tag('pages');
-		$cache->delete_tag('page_parts');
-		$cache->delete_tag('page_tags');
+		if(Kohana::$caching === TRUE)
+		{
+			$cache = Cache::instance();
+			$cache->delete_tag('pages');
+			$cache->delete_tag('page_parts');
+			$cache->delete_tag('page_tags');
+		}
+
 		return TRUE;
 	}
 	

@@ -34,7 +34,11 @@ class KodiCMS_Controller_API_Page_Parts extends Controller_System_Api {
 		$part = $part->prepare_data();
 		$part['is_developer'] = (int) AuthUser::hasPermission( 'administrator, developer' );
 		
-		Cache::instance()->delete_tag('page_parts');
+		if(Kohana::$caching === TRUE)
+		{
+			Cache::instance()->delete_tag('page_parts');
+		}
+
 		$this->response($part);
 	}
 	
@@ -49,7 +53,11 @@ class KodiCMS_Controller_API_Page_Parts extends Controller_System_Api {
 		$part = $part->prepare_data();
 		$part['is_developer'] = (int) AuthUser::hasPermission( 'administrator, developer' );
 		
-		Cache::instance()->delete_tag('page_parts');
+		if(Kohana::$caching === TRUE)
+		{
+			Cache::instance()->delete_tag('page_parts');
+		}
+
 		$this->response($part);
 	}
 	
@@ -58,7 +66,12 @@ class KodiCMS_Controller_API_Page_Parts extends Controller_System_Api {
 		$id = $this->param('id', NULL, TRUE);
 		
 		$part = Model_Page_Part::findByIdFrom( 'Model_Page_Part', (int) $id );
-		Cache::instance()->delete_tag('page_parts');
+		
+		if(Kohana::$caching === TRUE)
+		{
+			Cache::instance()->delete_tag('page_parts');
+		}
+
 		$part->delete();
 	}
 }

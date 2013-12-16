@@ -327,13 +327,16 @@ class KodiCMS_Record
      */
     public function getColumns()
     {
-		$cache = Cache::instance();
-        if ( ($result = $cache->get( 'table_columns_' . static::tableName() )) !== NULL )
+		if(Kohana::$caching === TRUE)
 		{
-			return $result;
-		}
+			$cache = Cache::instance();
+			if ( ($result = $cache->get( 'table_columns_' . static::tableName() )) !== NULL )
+			{
+				return $result;
+			}
 
-		$cache->set( 'table_columns_' . static::tableName(), Database::instance()->list_columns( static::tableName() ) );
+			$cache->set( 'table_columns_' . static::tableName(), Database::instance()->list_columns( static::tableName() ) );
+		}
 
 		// Proxy to database
 		return Database::instance()->list_columns( static::tableName() );

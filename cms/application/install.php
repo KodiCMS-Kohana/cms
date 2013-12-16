@@ -10,11 +10,16 @@ define('ADMIN_DIR_NAME', '');
 define('PUBLIC_URL', BASE_URL . 'public/');
 define('PLUGINS_URL', BASE_URL . 'cms/plugins/');
 define('IS_BACKEND', FALSE);
+
 /**
  * Set the default cookie salt
- * 
  */
 Cookie::$salt = 'install_system';
+
+/**
+ * Disable kohana caching
+ */
+Kohana::$caching = FALSE;
 
 /**
  * Enable modules. Modules are referenced by a relative or absolute path.

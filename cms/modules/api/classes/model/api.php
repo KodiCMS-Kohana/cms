@@ -172,13 +172,16 @@ class Model_API extends Model_Database {
 	 */
 	public function list_columns()
 	{
-		$cache = Cache::instance();
-		if ( ($result = $cache->get( 'table_columns_' . $this->_table_name )) !== NULL )
+		if(Kohana::$caching === TRUE)
 		{
-			return $result;
-		}
+			$cache = Cache::instance();
+			if ( ($result = $cache->get( 'table_columns_' . $this->_table_name )) !== NULL )
+			{
+				return $result;
+			}
 
-		$cache->set( 'table_columns_' . $this->_table_name, $this->_db->list_columns( $this->_table_name ) );
+			$cache->set( 'table_columns_' . $this->_table_name, $this->_db->list_columns( $this->_table_name ) );
+		}
 
 		// Proxy to database
 		return $this->_db->list_columns( $this->_table_name );
