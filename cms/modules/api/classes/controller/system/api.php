@@ -6,6 +6,12 @@
  * @author		ButscHSter
  */
 class Controller_System_API extends Controller_System_Ajax {
+	
+	/**
+	 *
+	 * @var Model_API_Key 
+	 */
+	protected $_model = NULL;
 
 	/**
 	 *
@@ -27,20 +33,19 @@ class Controller_System_API extends Controller_System_Ajax {
 	
 	/**
 	 *
-	 * @var bool
+	 * @var array 
 	 */
-	protected $_check_token = FALSE;
+	public $public_actions = array();
 
 	/**
 	 *
-	 * @var boolean 
+	 * @var bool
 	 */
-	protected $_is_backend = FALSE;
+	protected $_check_token = FALSE;
 	
 	public function __construct(\Request $request, \Response $response) 
 	{
 		parent::__construct($request, $response);
-		$this->_is_backend = URL::match(ADMIN_DIR_NAME, Request::initial()->referrer());
 	}
 
 	public function before()
@@ -109,33 +114,53 @@ class Controller_System_API extends Controller_System_Ajax {
 	 */
 	public function execute()
 	{
+		$this->_model = ORM::factory('Api_Key');
+		
+		if($this->request->action() == 'index' OR $this->request->action() == '')
+		{
+			$action = 'rest_'.$this->request->method();
+		}
+		else
+		{
+			// Determine the action to use
+			$action = $this->request->method() . '_' . $this->request->action();
+		}
+
+		$action = strtolower($action);
+
 		try 
 		{
-			if( ! $this->_is_backend AND Config::get('api', 'mode') == 'no')
+			/**
+			 * Если выключено API, запретить доступ не авторизованным пользователям к нему
+			 */
+			if( Config::get('api', 'mode') == 'no' AND ! AuthUser::isLoggedIn() )
 			{
 				throw new HTTP_Exception_403('Forbiden');
+			}
+			
+			/**
+			 * Если невалидный ключ и пользователь не авторизован 
+			 * или экшен не публичный то запретить доступ к API
+			 */
+			if( ! AuthUser::isLoggedIn() AND ! in_array( $action, $this->public_actions ) )
+			{
+				if( ! $this->_model->is_valid($this->param('api_key')))
+				{
+					throw new HTTP_Exception_403('Api key not valid');
+				}
 			}
 
 			// Execute the "before action" method
 			$this->before();
-			
+
+			/**
+			 * Проверка токена на валидность, если этого требует экшен или контроллер
+			 */
 			if( $this->_check_token !== FALSE )
 			{
 				$this->_check_token();
 			}
 
-			if($this->request->action() == 'index' OR $this->request->action() == '')
-			{
-				$action = 'rest_'.$this->request->method();
-			}
-			else
-			{
-				// Determine the action to use
-				$action = $this->request->method() . '_' . $this->request->action();
-			}
-
-			$action = strtolower($action);
-		
 			// If the action doesn't exist, it's a 404
 			if ( ! method_exists($this, $action))
 			{
@@ -225,6 +250,10 @@ class Controller_System_API extends Controller_System_Ajax {
 		$this->json['response'] = $data;
 	}
 	
+	/**
+	 * Проверка токена на валидность
+	 * @throws HTTP_API_Exception
+	 */
 	protected function _check_token()
 	{
 		$token = $this->param('token', NULL, TRUE);

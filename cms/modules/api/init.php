@@ -29,4 +29,4 @@ if(ACL::check('api.settings'))
 	function api_mode_settings_page() {
 		echo View::factory('api/settings');
 	}
-}
+};

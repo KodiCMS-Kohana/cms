@@ -674,6 +674,9 @@ var Api = {
 
 		if(typeof(data) == 'object' && method != 'GET') 
 			data = JSON.stringify(data);
+		
+		if(API_KEY)
+			data['api_key'] = API_KEY;
 
 		$.ajax({
 			type: method,

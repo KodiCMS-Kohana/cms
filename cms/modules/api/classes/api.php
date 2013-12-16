@@ -25,6 +25,7 @@ class API {
 		$request = static::request($uri)
 			->method(Request::GET)
 			->query($params)
+			->query('api_key', Config::get('api', 'key'))
 			->execute();
 		
 		return static::response($request);
@@ -41,6 +42,7 @@ class API {
 		$request = static::request($uri)
 			->method(Request::PUT)
 			->post($params)
+			->post('api_key', Config::get('api', 'key'))
 			->execute();
 		
 		return static::response($request);
@@ -57,6 +59,7 @@ class API {
 		$request = static::request($uri)
 			->method(Request::POST)
 			->post($params)
+			->post('api_key', Config::get('api', 'key'))
 			->execute();
 		
 		return static::response($request);
@@ -73,6 +76,7 @@ class API {
 		$request = static::request($uri)
 			->method(Request::DELETE)
 			->post($params)
+			->post('api_key', Config::get('api', 'key'))
 			->execute();
 		
 		return static::response($request);
