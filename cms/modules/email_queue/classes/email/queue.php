@@ -30,7 +30,7 @@ class Email_Queue
 	 */
 	public static function batch_send( $size = NULL )
 	{
-		set_time_limit(1000000);
+		set_time_limit(0);
 
 		$stats = array(
 			'sent' => 0, 
@@ -70,7 +70,7 @@ class Email_Queue
 	
 	public static function batch_send_with_sleep()
 	{
-		set_time_limit(1000000);
+		set_time_limit(0);
 
 		$stats = array(
 			'sent' => 0, 
@@ -87,12 +87,14 @@ class Email_Queue
 		))->write();
 
 		$i = 0;
+		ob_end_flush();
 		foreach($emails as $email)
 		{
-			if( $i == $size )
+			if( $i >= $size )
 			{
 				$i = 0;
-				sleep( $interval );
+				@ob_flush();
+				sleep($interval);
 			}
 
 			if(Email::factory($email->subject)
