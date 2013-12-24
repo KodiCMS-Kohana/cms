@@ -23,6 +23,8 @@ Observer::observe('modules::afer_load', function() {
 
 });
 
-Observer::observe('frontpage_requested', function($page) {
+Observer::observe('frontpage_found', function($page) {
 	Meta::clear();
+
+	Context::instance()->meta(Meta::factory($page));
 });

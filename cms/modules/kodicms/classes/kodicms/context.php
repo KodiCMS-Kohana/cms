@@ -1,11 +1,11 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
-/**
- * @package		KodiCMS
- * @author		ButscHSter
- */
 class KodiCMS_Context {
 	
+	/**
+	 *
+	 * @var Context 
+	 */
 	protected static $_instance = NULL;
 
 	/**
@@ -81,26 +81,71 @@ class KodiCMS_Context {
 	
 	/**
 	 *
+	 * @var Meta 
+	 */
+	protected $_meta = NULL;
+
+	/**
+	 *
 	 * @var array 
 	 */
 	protected $_injections = array();
 
+	/**
+	 * 
+	 * @param array $params
+	 */
 	public function __construct(array $params = array())
 	{
 		$this->_params = $params;
 	}
 	
+	/**
+	 * 
+	 * @param Meta $meta
+	 * @return Meta
+	 */
+	public function meta(Meta $meta = NULL)
+	{
+		if($meta !== NULL)
+		{
+			$this->_meta = $meta;
+		}
+		
+		return $this->_meta;
+	}
+
+	/**
+	 * 
+	 * @param string $param
+	 * @return mixed
+	 */
 	public function &get($param) 
 	{
 		$result = NULL;
 		
 		if(isset($this->_params[$param]))
 		{
-			$result = & $this->_params[$param];
+			$result = $this->_params[$param];
 		}
-		else if($this->request()->query( $param ))
+		elseif ( $this->request()->query($param) !== NULL) 
 		{
-			$result = $this->request()->query( $param );
+			$result = $this->request()->query($param);
+		}
+		else if($this->request()->post( $param ) !== NULL)
+		{
+			$result = $this->request()->post( $param );
+		}
+		elseif(
+			$this->behavior_router() instanceof Behavior_Route 
+		AND 
+			$this->behavior_router()->param($param) !== NULL)
+		{
+			$result = $this->behavior_router()->param($param);
+		}
+		else if($this->request()->param( $param ) !== NULL)
+		{
+			$result = $this->request()->param( $param );
 		}
 		
 		return $result;

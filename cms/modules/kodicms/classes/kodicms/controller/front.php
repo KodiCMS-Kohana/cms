@@ -22,6 +22,8 @@ class KodiCMS_Controller_Front extends Controller_System_Controller
 		$this->_ctx
 			->request( $this->request )
 			->response( $this->response );
+		
+		View_Front::bind_global('ctx', $this->_ctx);
 	}
 
 	public function action_index()

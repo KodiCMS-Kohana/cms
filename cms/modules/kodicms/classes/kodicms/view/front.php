@@ -39,6 +39,12 @@ class KodiCMS_View_Front extends Kohana_View {
 	{
 		// Import the view variables to local namespace
 		extract($view_data, EXTR_SKIP);
+		
+		if (View::$_global_data)
+		{
+			// Import the global view variables to local namespace
+			extract(View::$_global_data, EXTR_SKIP | EXTR_REFS);
+		}
 
 		// Capture the view output
 		ob_start();
