@@ -7,6 +7,11 @@
  */
 class KodiCMS_Date extends Kohana_Date 
 {
+	const DATE_FORMAT = 'Y-m-d';
+	const TIME_FORMAT = 'H:i:s';
+	const DATETIME_FORMAT = 'Y-m-d H:i:s';
+	const RFC2616_FORMAT = 'D, d M Y H:i:s \G\M\T';
+	
 	/**
 	 *
 	 * @var array 
