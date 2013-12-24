@@ -17,6 +17,18 @@
 			->label(__('Match All Pages within Given Deepness'))
 		));
 	?>
+	
+	<hr />
+	
+	<?php
+		echo Bootstrap_Form_Element_Control_Group::factory(array(
+			'element' => Bootstrap_Form_Element_Checkbox::factory(array(
+				'name' => 'include_hidden', 'value' => 1
+			))
+			->checked($widget->include_hidden == 1)
+			->label(__('Include hidden pages'))
+		));
+	?>
 </div>
 <div class="widget-header">
 	<h4><?php echo __('Exclude pages'); ?></h4>

@@ -39,12 +39,18 @@ class Model_Widget_Page_Menu extends Model_Widget_Decorator {
 		{
 			$this->match_all_paths = 0;
 		}
+		
+		if( empty( $data['include_hidden'] ))
+		{
+			$this->include_hidden = 0;
+		}
+		
 		return parent::set_values($data);
 	}
 
 	public function fetch_data()
 	{
-		$pages = Model_Page_Sitemap::get();
+		$pages = Model_Page_Sitemap::get( (bool) $this->include_hidden );
 		
 		if( ($page_id = $this->get_page_id()) !== NULL )
 		{

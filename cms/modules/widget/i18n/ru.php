@@ -24,6 +24,7 @@ return array(
 	'Add widget to page' => 'Добавить виджет на страницу',
 	'' => '',
 	'Match All Pages within Given Deepness' => 'Выводить все подразделы в пределах заданной глубины',
+	'Include hidden pages' => 'Показывать скрытые страницы',
 	'Exclude pages' => 'Исключить страницы',
 	
 	'Next page (URI)' => 'Следующая страница (URI)',

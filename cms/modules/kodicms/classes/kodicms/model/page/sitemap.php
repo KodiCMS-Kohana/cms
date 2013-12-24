@@ -17,16 +17,25 @@ class KodiCMS_Model_Page_Sitemap {
 	 * 
 	 * @return Model_Page_Sitemap
 	 */
-	public static function get()
+	public static function get( $include_hidden = FALSE)
 	{
 		if(Model_Page_Sitemap::$_sitemap === NULL)
 		{
-			$res_pages = Model_Page::findAll(array(
+			$clause = array(
 				'order_by' => array(
 					array('parent_id', 'asc'),
 					array('position', 'asc')
 				)
-			));
+			);
+			
+			if((bool) $include_hidden === TRUE)
+			{
+				$clause['where'] = array(
+					array('status_id', 'in', array(Model_Page::STATUS_REVIEWED, Model_Page::STATUS_PUBLISHED))
+				);
+			}
+			
+			$res_pages = Model_Page::findAll($clause);
 			
 			$current_page = Context::instance()->get_page();
 			if($current_page instanceof Model_Page_Front)
