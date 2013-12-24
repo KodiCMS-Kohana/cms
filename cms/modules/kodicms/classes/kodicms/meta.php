@@ -14,7 +14,7 @@ class KodiCMS_Meta {
 	 */
 	public static function factory( Model_Page_Front $page )
 	{
-		return new self($page);
+		return new Meta($page);
 	}
 	
 	/**
@@ -43,11 +43,16 @@ class KodiCMS_Meta {
 		$this->_page = $page;
 
 		$this
-			->group('title', '<title>' . $this->_page->meta_title() . '</title>')
-			->group('keywords', '<meta name="keywords" content="' . $this->_page->meta_keywords() . '" />')
-			->group('description', '<meta name="description" content="' . $this->_page->meta_description() . '" />')
-			->group('content-type', '<meta http-equiv="content-type" content="' . $this->_page->mime() . '; charset=utf-8" />')
-			->group('robots', '<meta name="robots" content="' . $this->_page->robots . '" />');
+			->group('title', '<title>:title</title>', array(':title'
+				=> HTML::chars($this->_page->meta_title())))
+			->group('keywords', '<meta name="keywords" content=":content" />', array(':content' 
+				=> HTML::chars($this->_page->meta_keywords())))
+			->group('description', '<meta name="description" content=":content" />', array(':content' 
+				=> HTML::chars($this->_page->meta_description())))
+			->group('content-type', '<meta http-equiv="content-type" content=":content; charset=utf-8" />', array(':content' 
+				=> HTML::chars($this->_page->mime())))
+			->group('robots', '<meta name="robots" content=":content" />', array(':content' 
+				=> HTML::chars($this->_page->robots)));
 	}
 	
 	/**
@@ -57,7 +62,8 @@ class KodiCMS_Meta {
 	 */
 	public function title( $title )
 	{
-		return $this->group('title', '<title>' . $title . '</title>');
+		return $this->group('title', '<title>:title</title>', array(':title'
+				=> HTML::chars($title)));
 	}
 
 	/**
@@ -95,17 +101,16 @@ class KodiCMS_Meta {
 	}
 	
 	/**
-	 * Group wrapper
-	 *
-	 * @param   string   Group name
-	 * @param   string   Asset name
-	 * @param   string   Asset content
-	 * @param   mixed    Dependencies
-	 * @return  KodiCMS_Meta
+	 * 
+	 * @param string $handle
+	 * @param string $content
+	 * @param array $params
+	 * @param string $deps
+	 * @return \KodiCMS_Meta
 	 */
-	public function group($handle = NULL, $content = NULL, $deps = NULL)
+	public function group($handle = NULL, $content = NULL, $params = array(), $deps = NULL)
 	{
-		Assets::group('head', $handle, $content, $deps);
+		Assets::group('head', $handle, strtr($content, $params), $deps);
 		return $this;
 	}
 
