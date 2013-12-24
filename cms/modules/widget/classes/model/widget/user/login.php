@@ -130,7 +130,7 @@ class Model_Widget_User_Login extends Model_Widget_Decorator {
 		}
 		else
 		{
-			$json['message'] = $data->errors( 'validation' );
+			$json['message'] = $validation->errors( 'validation' );
 		}
 		
 		Request::current()->headers( 'Content-type', 'application/json' );		
