@@ -2,6 +2,8 @@
 
 class Controller_Messages extends Controller_System_Backend {
 	
+	public $allowed_actions = array('index', 'add', 'view');
+	
 	public function before()
 	{
 		parent::before();
