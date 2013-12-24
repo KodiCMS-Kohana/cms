@@ -54,7 +54,27 @@ class Model_Email_Type extends ORM
 	{
 		return unserialize($this->data);
 	}
+	
+	/**
+	 * 
+	 * @return array
+	 */
+	public function default_options()
+	{
+		return array(
+			'default_email' => Config::get('email', 'default'),
+			'site_title' => Config::get('site', 'title'),
+			'site_description' => Config::get('site', 'description'),
+			'base_url' => URL::base(TRUE),
+			'current_time' => date('H:i:s'),
+			'current_date' => Date::format(date('Y-m-d')),
+		);
+	}
 
+	/**
+	 * 
+	 * @return array
+	 */
 	public function select_array()
 	{
 		$data = $this->find_all();
@@ -69,27 +89,23 @@ class Model_Email_Type extends ORM
 		return $select_types;
 	}
 
+	/**
+	 * 
+	 * @param array $options
+	 * @return boolean
+	 */
 	public function send( array $options = NULL )
 	{
 		if ( ! $this->_loaded)
 			return FALSE;
-		
-		$default_options = array(
-			'default_email' => Config::get('email', 'default'),
-			'site_title' => Config::get('site', 'title'),
-			'site_description' => Config::get('site', 'description'),
-			'base_url' => URL::base(TRUE),
-			'current_time' => date('H:i:s'),
-			'current_date' => Date::format(date('Y-m-d')),
-		);
 
 		if(empty($options))
 		{
-			$options = $default_options;
+			$options = $this->default_options();
 		}
 		else
 		{
-			$options = Arr::merge($default_options, $options);
+			$options = Arr::merge($this->default_options(), $options);
 		}
 		
 		$_options = array();
@@ -112,6 +128,50 @@ class Model_Email_Type extends ORM
 		return TRUE;
 	}
 	
+	/**
+	 * 
+	 * @param array $options
+	 * @return boolean
+	 */
+	public function add_to_queue( array $options = NULL )
+	{
+		if ( ! $this->_loaded)
+			return FALSE;
+		
+		if(empty($options))
+		{
+			$options = $this->default_options();
+		}
+		else
+		{
+			$options = Arr::merge($this->default_options(), $options);
+		}
+		
+		$_options = array();
+		foreach ($options as $key => $value)
+		{
+			$_options['{'.$key.'}'] = $value;
+		}
+		
+		unset($options);
+		
+		$messages = $this->templates
+			->where('status', '=', Model_Email_Template::ACTIVE)
+			->find_all();
+		
+		foreach ($messages as $message)
+		{
+			$message->add_to_queue($_options);
+		}
+		
+		return TRUE;
+	}
+
+	/**
+	 * 
+	 * @param array $values
+	 * @return array
+	 */
 	public static function parse_data($values)
 	{
 		if( ! empty($values))

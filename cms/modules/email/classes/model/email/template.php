@@ -35,6 +35,10 @@ class Model_Email_Template extends ORM
 		'status' => Model_Email_Template::ACTIVE
 	);
 
+	/**
+	 * 
+	 * @return array
+	 */
 	public function rules()
 	{
 		return array(
@@ -60,6 +64,10 @@ class Model_Email_Template extends ORM
 		);
 	}
 	
+	/**
+	 * 
+	 * @return array
+	 */
 	public function labels()
 	{
 		return array(
@@ -76,6 +84,12 @@ class Model_Email_Template extends ORM
 		);
 	}
 	
+	/**
+	 * 
+	 * @param array $options
+	 * @return bool
+	 * @throws Kohana_Exception
+	 */
 	public function send( array $options = NULL )
 	{
 		if ( ! $this->_loaded)
@@ -105,8 +119,29 @@ class Model_Email_Template extends ORM
 		{
 			$email->reply_to($this->reply_to);
 		}
-		
 
 		return (bool) $email->send();
+	}
+	
+	/**
+	 * 
+	 * @param array $options
+	 * @throws Kohana_Exception
+	 */
+	public function add_to_queue( array $options = NULL )
+	{
+		if ( ! $this->_loaded)
+			throw new Kohana_Exception('Cannot send message because it is not loaded.');
+		
+		
+		
+		foreach($this->_object as $field => $value)
+		{
+			$this->_object[$field] = str_replace(array_keys($options), array_values($options), $value);
+		}
+		
+		Email_Queue::add_to_queue($this->email_to, array(
+			$this->email_from, Config::get('site', 'title')
+		), $this->subject, $this->message);
 	}
 }
