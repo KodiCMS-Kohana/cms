@@ -109,9 +109,39 @@ class Model_Widget_User_Login extends Model_Widget_Decorator {
 		// Get the remember login option
 		$remember = isset( $data[$this->get( 'remember_field' )] ) AND $this->get( 'remember' ) === TRUE;
 		
-		if ( $data->check() )
-		{	
-			if ( AuthUser::login( $login_fieldname, $data[$this->get( 'login_field' )], $data[$this->get( 'password_field' )], $remember ) )
+		return Request::current()->is_ajax() ? $this->_ajax_login($data, $login_fieldname, $remember) : $this->_login($data, $login_fieldname, $remember);
+	}
+	
+	protected function _ajax_login(Validation $validation, $login_fieldname, $remember = FALSE)
+	{
+		$json = array('status' => FALSE);
+		
+		if ( $validation->check() )
+		{
+			if ( AuthUser::login( $login_fieldname, $validation[$this->get( 'login_field' )], $validation[$this->get( 'password_field' )], $remember ) )
+			{
+				$json['status'] = TRUE;
+				$json['redirect'] = $this->get_next_url();
+			}
+			else
+			{
+				$json['message'] = __('Login failed. Please check your login data and try again.');
+			}			
+		}
+		else
+		{
+			$json['message'] = $data->errors( 'validation' );
+		}
+		
+		Request::current()->headers( 'Content-type', 'application/json' );		
+		$this->_ctx->response()->body(json_encode($json));
+	}
+
+	protected function _login(Validation $validation, $remember)
+	{
+		if ( $validation->check() )
+		{
+			if ( AuthUser::login( $login_fieldname, $validation[$this->get( 'login_field' )], $validation[$this->get( 'password_field' )], $remember ) )
 			{
 				HTTP::redirect($this->get_next_url());
 			}
@@ -120,14 +150,11 @@ class Model_Widget_User_Login extends Model_Widget_Decorator {
 				Messages::errors( __('Login failed. Please check your login data and try again.') );
 			}
 		}
-		else
-		{
-			Messages::errors( $data->errors( 'validation' ) );
-		}
+		
 
 		HTTP::redirect( Request::current()->referrer() );
 	}
-	
+
 	public function get_next_url()
 	{
 		$next_url = $this->get('next_url', Request::current()->referrer());
