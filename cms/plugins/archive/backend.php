@@ -24,27 +24,30 @@ if(empty($behaviors))
 	return;
 }
 
-$pages = DB::select()
-	->from(Model_Page::tableName())
-	->where('behavior_id', 'in', $behaviors)
-	->cache_key( 'archive_section' )
-	->cached()
-	->as_object()
-	->execute();
-
-$root_section = Model_Navigation::get_section('Archive', Model_Navigation::get_section('Content'));
-$root_section->icon = 'archive';
-
-foreach ($pages as $page) 
+if(ACL::check('page.index'))
 {
-	$root_section
-			->add_page(new Model_Navigation_Page(array(
-				'name' => $page->title, 
-				'url' => Route::url('archive', array(
-					'controller' => 'archive', 'id' => $page->id
-				)),
-				'permissions' => 'page.index',
-			)), 999);
+	$pages = DB::select()
+		->from(Model_Page::tableName())
+		->where('behavior_id', 'in', $behaviors)
+		->cache_key( 'archive_section' )
+		->cached()
+		->as_object()
+		->execute();
+
+	$root_section = Model_Navigation::get_section('Archive', Model_Navigation::get_section('Content'));
+	$root_section->icon = 'archive';
+
+	foreach ($pages as $page) 
+	{
+		$root_section
+				->add_page(new Model_Navigation_Page(array(
+					'name' => $page->title, 
+					'url' => Route::url('archive', array(
+						'controller' => 'archive', 'id' => $page->id
+					)),
+					'permissions' => 'page.index',
+				)), 999);
+	}
 }
 
 Observer::observe(array('page_delete', 'page_edit_after_save'), function() {
