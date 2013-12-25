@@ -275,16 +275,7 @@ class Controller_Install extends Controller_System_Frontend
 	 * @throws Installer_Exception
 	 */
 	protected function _import_shema($post)
-	{
-		$schema_file = INSTALL_DATA . 'schema.sql';
-		
-		if ( !file_exists( $schema_file ) )
-		{
-			throw new Installer_Exception( 'Database schema file :file not found!', array(
-				':file' => $schema_file
-			) );
-		}
-		
+	{		
 		// Merge modules schema.sql
 		$schema_content = $this->_merge_module_files('schema.sql');
 		
@@ -304,15 +295,6 @@ class Controller_Install extends Controller_System_Frontend
 	 */
 	protected function _import_dump($post)
 	{
-		$dump_file = INSTALL_DATA . 'dump.sql';
-
-		if ( !file_exists( $dump_file ) )
-		{
-			throw new Installer_Exception( 'Database dump file :file not found!', array(
-				':file' => $dump_file
-			) );
-		}
-		
 		// Merge modules dump.sql
 		$dump_content = $this->_merge_module_files('dump.sql');
 		
