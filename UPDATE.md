@@ -141,3 +141,6 @@ ALTER TABLE `TABLE_PREFIX_roles_permissions` ADD CONSTRAINT `roles_permissions_i
 
 	ALTER TABLE `__TABLE_PREFIX__email_templates`
 	  ADD CONSTRAINT `email_templates_ibfk_1` FOREIGN KEY (`email_type`) REFERENCES `__TABLE_PREFIX__email_types` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+### 9.4.13
+	ALTER TABLE  `page_widgets` ADD  `position` INT( 4 ) NOT NULL DEFAULT  '500';

@@ -4,16 +4,18 @@
 <div class="widget">
 	<?php echo Form::open(Request::current()->uri()); ?>
 	<div class="widget-content widget-no-border-radius">
+		<h3><?php echo $widget->name; ?></h3>
+		<hr />
 		<table class="table table-striped">
 			<colgroup>
 				<col width="130px" />
-				<col width="50px" />
+				<col width="100px" />
 				<col />
 			</colgroup>
 			<thead>
 				<tr>
 					<th><?php echo __('Layout block'); ?></th>
-					<th></th>
+					<th><?php echo __('Widget weight'); ?></th>
 					<th><?php echo __('Page'); ?></th>
 				</tr>
 			</thead>
@@ -49,21 +51,36 @@ function recurse_pages( $pages, $spaces = 0, $blocks = array(), $page_widgets = 
 				: $default_blocks;
 		
 		// Исключаем из списка блоки, занятые другими виджетами
-		if(!empty($pages_widgets[$page['id']]) AND is_array($current_page_blocks))
-		{
-			$current_page_blocks = array_diff($current_page_blocks, $pages_widgets[$page['id']]);
-		}
+//		if(!empty($pages_widgets[$page['id']]) AND is_array($current_page_blocks))
+//		{
+//			$current_page_blocks = array_diff($current_page_blocks, $pages_widgets[$page['id']]);
+//		}
 
 		// Блок
-		$current_block = isset($page_widgets[$page['id']]) 
-				? $page_widgets[$page['id']] 
-				: NULL;
+		$current_block = Arr::path($page_widgets, $page['id'].'.0');
+		
+		$current_position = Arr::path($page_widgets, $page['id'].'.1');
 		
 		$data .= '<tr data-id="'.$page['id'].'">';
 		$data .= '<td>';
-		$data .= Form::select('blocks[' . $page['id'] . ']', $current_page_blocks, $current_block, array('class' => 'blocks') );
-		$data .= '</td><td></td>';
-		$data .= '<th>' . str_repeat('- ', $spaces) . $page['title'] . '</th>';
+		$data .= Form::select('blocks[' . $page['id'] . '][name]', $current_page_blocks, $current_block, array('class' => 'blocks') );
+		$data .= '</td><td>';
+		$data .= Form::input('blocks[' . $page['id'] . '][position]', (int) $current_position, array('maxlength' => 4, 'size' => 4, 'class' => 'input-mini text-right') );
+		$data .= '</td>';
+		
+		if ( Acl::check( 'page.edit'))
+		{
+			$data .= '<th>' . str_repeat("-&nbsp;", $spaces) . HTML::anchor(Route::url('backend', array(
+				'controller' => 'page',
+				'action' => 'edit',
+				'id' => $page['id']
+			)), $page['title']) . '</th>';
+		}
+		else
+		{
+			$data .= '<th>' . str_repeat("-&nbsp;", $spaces) . $page['title'] . '</th>';
+		}
+		
 		$data .= '</tr>';
 		
 		if(!empty($page['childs']))

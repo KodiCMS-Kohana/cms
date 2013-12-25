@@ -88,13 +88,14 @@ class Widget_Manager {
 	 */
 	public static function get_widgets_by_page( $page_id )
 	{
-		$res = DB::select('page_widgets.block')
+		$res = DB::select('page_widgets.block', 'page_widgets.position')
 			->select('widgets.*')
 			->from('page_widgets')
 			->join('widgets')
 				->on('widgets.id', '=', 'page_widgets.widget_id')
 			->where('page_id', '=', (int) $page_id)
-			->order_by('widgets.name', 'ASC')
+			->order_by('page_widgets.block', 'ASC')
+			->order_by('page_widgets.position', 'ASC')
 			->execute()
 			->as_array('id');
 		
@@ -105,6 +106,7 @@ class Widget_Manager {
 			$widgets[$id]->id = $widget['id'];
 			$widgets[$id]->template = $widget['template'];
 			$widgets[$id]->block = $widget['block'];
+			$widgets[$id]->position = (int) $widget['position'];
 		}
 		
 		return $widgets;
@@ -118,23 +120,24 @@ class Widget_Manager {
 	 */
 	public static function copy( $from_page_id, $to_page_id ) 
 	{
-		$widgets = DB::select('widget_id', 'block')
+		$widgets = DB::select('widget_id', 'block', 'position')
 			->from('page_widgets')
 			->where('page_id', '=', (int) $from_page_id)
 			->execute()
-			->as_array('widget_id', 'block');
+			->as_array('widget_id');
 		
 		if(count($widgets) > 0)
 		{
 			$insert = DB::insert('page_widgets')
-				->columns(array('page_id', 'widget_id', 'block'));
+				->columns(array('page_id', 'widget_id', 'block', 'position'));
 			
-			foreach($widgets as $widget_id => $block)
+			foreach($widgets as $widget_id => $data)
 			{
 				$insert->values(array(
 					'page_id' => (int) $to_page_id,
 					'widget_id' => $widget_id,
-					'block' => $block
+					'block' => $data['block'],
+					'position' => (int) $data['position']
 				));
 			}
 			
@@ -245,7 +248,7 @@ class Widget_Manager {
 		if( ! empty($data) )
 		{
 			$insert = DB::insert('page_widgets')
-				->columns(array('page_id', 'widget_id', 'block'));
+				->columns(array('page_id', 'widget_id', 'block', 'position'));
 
 			$i = 0;
 			foreach($data as $page_id => $block)
@@ -253,12 +256,31 @@ class Widget_Manager {
 				if(empty($block)) continue;
 
 				$insert->values(array(
-					$page_id, (int) $widget_id, $block
+					$page_id, (int) $widget_id, $block['name'], (int) $block['position']
 				));
 				$i++;
 			}
 			
 			if( $i > 0 ) $insert->execute();
+		}
+	}
+	
+	public static function update_location_by_page($page_id, $widget_id, array $data)
+	{
+		if(!empty($data['block']))
+		{
+			DB::update('page_widgets')
+				->where('widget_id', '=',$widget_id)
+				->where('page_id', '=', $page_id)
+				->set( array('block' => $data['block'], 'position' => (int) $data['position']) )
+				->execute();
+		}
+		else 
+		{
+			DB::delete('page_widgets')
+				->where('widget_id', '=',$widget_id)
+				->where('page_id', '=', $page_id)
+				->execute();
 		}
 	}
 	
@@ -307,7 +329,13 @@ class Widget_Manager {
 			return FALSE;
 		}
 		
-		Widget_Manager::set_location($id, Arr::get($widget_array, 'blocks', array()));
+		$blocks = array();
+		foreach (Arr::get($widget_array, 'blocks', array()) as $page_id => $block_name)
+		{
+			$blocks[$page_id] = array('name' => $block_name, 'position' => 500);
+		}
+		
+		Widget_Manager::set_location($id, $blocks);
 		
 		return $id;
 	}

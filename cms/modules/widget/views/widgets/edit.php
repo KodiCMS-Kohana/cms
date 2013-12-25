@@ -3,7 +3,7 @@
 	'class' => Bootstrap_Form::HORIZONTAL
 )); ?>
 	<?php echo Form::hidden('id', $widget->id); ?>
-	<div class="widget-header spoiler-toggle" data-spoiler=".general-spoiler">
+	<div class="widget-header spoiler-toggle" data-spoiler=".general-spoiler" data-hash="description">
 		<h4><?php echo __('Widget Information'); ?></h4>
 	</div>
 	<div class="widget-content spoiler general-spoiler">

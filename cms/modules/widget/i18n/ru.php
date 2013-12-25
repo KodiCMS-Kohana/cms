@@ -9,6 +9,7 @@ return array(
 	'Widget Information' => 'Основная информация',
 	'Widget template' => 'Шаблон',
 	'Widget cache' => 'Кеширование',
+	'Widget weight' => 'Позиция',
 	'Cache lifetime' => 'Время кеширования',
 	'Cache enabled' => 'Включить кеширование',
 	'Cache tags' => 'Теги кеширования',

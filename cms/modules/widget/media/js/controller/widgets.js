@@ -78,18 +78,16 @@ cms.init.add('page_edit', function() {
 	
 	$('body').on('click', '.popup-widget-item', function() {
 		var widget_id = $(this).data('id');
-		$.get('/ajax-widget-add', {
+		
+		Api.put('/api-widget', {
 			widget_id: widget_id,
 			page_id: PAGE_ID
 		}, function(response) {
 			window.location = '#widgets';
-			
 			$.fancybox.close();
-			
-			$('#widget-list tbody').append(response.widget);
-			
+			$('#widget-list tbody').append(response.response);
 			reload_blocks();
-		}, 'json');
+		});
 	})
 	
 	function reload_blocks() {
@@ -100,7 +98,7 @@ cms.init.add('page_edit', function() {
 			
 			if(!cb || cb == 0 || cb == 'PRE') return;
 
-			FILLED_BLOCKS[cb] = LAYOUT_BLOCKS[cb];
+			//FILLED_BLOCKS[cb] = LAYOUT_BLOCKS[cb];
 		});
 		
 		

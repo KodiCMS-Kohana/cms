@@ -80,25 +80,10 @@ Observer::observe('page_add_after_save', function($page) {
 Observer::observe('page_edit_after_save', function($page) {
 	$post_data = Request::current()->post('widget');
 	
-	if( is_array($post_data) )
+	if( ! is_array($post_data) ) return;
+
+	foreach($post_data as $widget_id => $block)
 	{
-		foreach($post_data as $widget_id => $block)
-		{
-			if(!empty($block['block']))
-			{
-				DB::update('page_widgets')
-					->where('widget_id', '=',$widget_id)
-					->where('page_id', '=', $page->id)
-					->set( array('block' => $block) )
-					->execute();
-			}
-			else 
-			{
-				DB::delete('page_widgets')
-					->where('widget_id', '=',$widget_id)
-					->where('page_id', '=', $page->id)
-					->execute();
-			}
-		}
+		Widget_Manager::update_location_by_page($page->id, $widget_id, $block);
 	}
 });

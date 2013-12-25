@@ -81,6 +81,12 @@ abstract class Model_Widget_Decorator {
 	
 	/**
 	 *
+	 * @var integer
+	 */
+	public $position = 500;
+	
+	/**
+	 *
 	 * @var boolean 
 	 */
 	public $crumbs = FALSE;

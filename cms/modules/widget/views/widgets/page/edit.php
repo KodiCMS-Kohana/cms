@@ -16,12 +16,13 @@
 		<?php endforeach; ?>
 	</select>
 	<?php else: ?>
-	<a class="btn fancybox.ajax popup" href="/ajax-widget-list/<?php echo $page->id; ?>" id="addWidgetToPage"><i class="icon-plus"></i> <?php echo __( 'Add widget to page' ); ?></a>
+	<a class="btn fancybox.ajax popup" href="/api-widget.list/<?php echo $page->id; ?>" id="addWidgetToPage"><i class="icon-plus"></i> <?php echo __( 'Add widget to page' ); ?></a>
 	<br /><br />
 	<table class="table table-hover" id="widget-list">
 		<colgroup>
 			<col />
-			<col width="250px" />
+			<col width="100px" />
+			<col width="280px" />
 		</colgroup>
 		<tbody>
 		<?php foreach($widgets as $widget): ?>

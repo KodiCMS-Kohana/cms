@@ -73,9 +73,9 @@ class Controller_Widgets extends Controller_System_Backend {
 		foreach ($res_page_widgets as $w)
 		{
 			if($w['widget_id'] == $widget->id)
-				$page_widgets[$w['page_id']] = $w['block'];
+				$page_widgets[$w['page_id']] = array($w['block'], $w['position']);
 			else
-				$pages_widgets[$w['page_id']][$w['block']] = $w['block'];
+				$pages_widgets[$w['page_id']][$w['block']] = array($w['block'], $w['position']);
 		}
 
 		$pages = Model_Page_Sitemap::get()->as_array();

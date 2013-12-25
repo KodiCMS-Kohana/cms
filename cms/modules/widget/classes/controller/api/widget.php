@@ -2,12 +2,12 @@
 
 /**
  * @package		KodiCMS/Widgets
- * @category	Controller
+ * @category	API
  * @author		ButscHSter
  */
-class Controller_Ajax_Widget extends Controller_Ajax_JSON {
+class Controller_API_Widget extends Controller_System_API {
 
-	public function action_list()
+	public function get_list()
 	{
 		$page_widgets = DB::select('widget_id')
 			->from('page_widgets')
@@ -33,10 +33,10 @@ class Controller_Ajax_Widget extends Controller_Ajax_JSON {
 		));
 	}
 	
-	public function action_add()
+	public function rest_put()
 	{
-		$widget_id = (int) $this->request->query('widget_id');
-		$page_id = (int) $this->request->query('page_id');
+		$widget_id = (int) $this->param('widget_id', NULL, TRUE);
+		$page_id = (int) $this->param('page_id', NULL, TRUE);
 		
 		$data = array(
 			'page_id' => $page_id, 
@@ -50,12 +50,11 @@ class Controller_Ajax_Widget extends Controller_Ajax_JSON {
 		
 		if($insert)
 		{
-			$this->json['status'] = TRUE;
-			$this->json['message'] = __('Widget added to page');
-			$this->json['widget'] = (string) View::factory( 'widgets/ajax/row', array(
-				'widget' => ORM::factory('widget')->where( 'id', '=', $widget_id )->find()
-			));
+			$this->response((string) View::factory( 'widgets/ajax/row', array(
+				'widget' => Widget_Manager::load($widget_id)
+			)));
+			
+			$this->message(__('Widget added to page'));
 		}
-		
 	}
 }
