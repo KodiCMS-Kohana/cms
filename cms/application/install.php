@@ -45,8 +45,7 @@ Kohana::modules( array(
 /**
  * Проверка на существование модуля `installer`
  */
-$modules = Kohana::modules();
-if( ! isset($modules['installer']) OR ! is_dir( MODPATH . 'installer' ))
+if( array_key_exists('installer', Kohana::modules()) === FALSE OR ! is_dir( MODPATH . 'installer' ))
 {
 	throw HTTP_Exception::factory(404, __('System not installed. Installer not found.'));
 }
