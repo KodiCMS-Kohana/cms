@@ -30,7 +30,9 @@ CREATE TABLE IF NOT EXISTS `__TABLE_PREFIX__pages` (
   KEY `created_by_id` (`created_by_id`),
   KEY `updated_by_id` (`updated_by_id`),
   KEY `slug` (`slug`),
-  KEY `status_id` (`status_id`)
+  KEY `status_id` (`status_id`),
+  CONSTRAINT `pages_ibfk_1` FOREIGN KEY (`created_by_id`) REFERENCES `__TABLE_PREFIX__users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `pages_ibfk_2` FOREIGN KEY (`updated_by_id`) REFERENCES `__TABLE_PREFIX__users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
 
 CREATE TABLE IF NOT EXISTS `__TABLE_PREFIX__tags` (
@@ -52,14 +54,17 @@ CREATE TABLE IF NOT EXISTS `__TABLE_PREFIX__page_parts` (
   `is_expanded` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `page_id` (`page_id`),
-  KEY `name` (`name`)
+  KEY `name` (`name`),
+  CONSTRAINT `page_parts_ibfk_1` FOREIGN KEY (`page_id`) REFERENCES `__TABLE_PREFIX__pages` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
 
 CREATE TABLE IF NOT EXISTS `__TABLE_PREFIX__page_tags` (
   `page_id` int(11) unsigned NOT NULL,
   `tag_id` int(11) unsigned NOT NULL,
   UNIQUE KEY `page_id` (`page_id`,`tag_id`),
-  KEY `tag_id` (`tag_id`)
+  KEY `tag_id` (`tag_id`),
+  CONSTRAINT `page_tags_ibfk_1` FOREIGN KEY (`page_id`) REFERENCES `__TABLE_PREFIX__pages` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `page_tags_ibfk_2` FOREIGN KEY (`tag_id`) REFERENCES `__TABLE_PREFIX__tags` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `__TABLE_PREFIX__page_fields` (
@@ -69,19 +74,6 @@ CREATE TABLE IF NOT EXISTS `__TABLE_PREFIX__page_fields` (
   `key` varchar(20) NOT NULL,
   `value` text NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `page_id` (`page_id`,`key`)
+  UNIQUE KEY `page_id` (`page_id`,`key`),
+  CONSTRAINT `page_fields_ibfk_1` FOREIGN KEY (`page_id`) REFERENCES `__TABLE_PREFIX__pages` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
-
-ALTER TABLE `__TABLE_PREFIX__pages`
-	ADD FOREIGN KEY ( `created_by_id` ) REFERENCES `__TABLE_PREFIX__users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-	ADD FOREIGN KEY ( `updated_by_id` ) REFERENCES `__TABLE_PREFIX__users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
-
-ALTER TABLE `__TABLE_PREFIX__page_parts`
-  ADD CONSTRAINT `page_parts_ibfk_1` FOREIGN KEY (`page_id`) REFERENCES `__TABLE_PREFIX__pages` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
-ALTER TABLE `__TABLE_PREFIX__page_tags`
-  ADD CONSTRAINT `page_tags_ibfk_1` FOREIGN KEY (`page_id`) REFERENCES `__TABLE_PREFIX__pages` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `page_tags_ibfk_2` FOREIGN KEY (`tag_id`) REFERENCES `__TABLE_PREFIX__tags` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
-ALTER TABLE `__TABLE_PREFIX__page_fields`
-  ADD CONSTRAINT `page_fields_ibfk_1` FOREIGN KEY (`page_id`) REFERENCES `__TABLE_PREFIX__pages` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;

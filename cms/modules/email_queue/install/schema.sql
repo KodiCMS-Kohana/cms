@@ -19,9 +19,6 @@ CREATE TABLE IF NOT EXISTS `__TABLE_PREFIX__email_queue_bodies` (
   `queue_id` int(10) unsigned NOT NULL,
   `body` text NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `queue_id` (`queue_id`)
+  KEY `queue_id` (`queue_id`),
+  CONSTRAINT `email_queue_bodies_ibfk_1` FOREIGN KEY (`queue_id`) REFERENCES `__TABLE_PREFIX__email_queues` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
-
-
-ALTER TABLE `__TABLE_PREFIX__email_queue_bodies`
-  ADD CONSTRAINT `email_queue_bodies_ibfk_1` FOREIGN KEY (`queue_id`) REFERENCES `__TABLE_PREFIX__email_queues` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;

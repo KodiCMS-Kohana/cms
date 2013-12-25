@@ -12,7 +12,8 @@ CREATE TABLE IF NOT EXISTS `__TABLE_PREFIX__email_templates` (
   `reply_to` varchar(255) DEFAULT NULL,
   `cc` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `email_template_type` (`email_type`)
+  KEY `email_template_type` (`email_type`),
+  CONSTRAINT `email_templates_ibfk_1` FOREIGN KEY (`email_type`) REFERENCES `__TABLE_PREFIX__email_types` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `__TABLE_PREFIX__email_types` (
@@ -23,6 +24,3 @@ CREATE TABLE IF NOT EXISTS `__TABLE_PREFIX__email_types` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `email_type_Code` (`code`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
-ALTER TABLE `__TABLE_PREFIX__email_templates`
-  ADD CONSTRAINT `email_templates_ibfk_1` FOREIGN KEY (`email_type`) REFERENCES `__TABLE_PREFIX__email_types` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;

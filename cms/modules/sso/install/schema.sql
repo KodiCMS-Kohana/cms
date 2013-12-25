@@ -10,8 +10,6 @@ CREATE TABLE IF NOT EXISTS `__TABLE_PREFIX__user_social` (
   `response` text,
   PRIMARY KEY (`id`),
   UNIQUE KEY `service_key` (`service_id`,`service_type`),
-  KEY `user_id` (`user_id`)
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `user_social_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `__TABLE_PREFIX__users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
-
-ALTER TABLE `__TABLE_PREFIX__user_social`
-  ADD CONSTRAINT `user_social_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `__TABLE_PREFIX__users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
