@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-define('INSTALL_DATA', MODPATH . 'installer' . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR);
+define('INSTALL_DATA', MODPATH . 'installer' . DIRECTORY_SEPARATOR . 'install' . DIRECTORY_SEPARATOR);
 
 try 
 {

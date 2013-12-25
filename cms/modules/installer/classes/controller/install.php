@@ -270,7 +270,7 @@ class Controller_Install extends Controller_System_Frontend
 	}
 
 	/**
-	 * Импорт схемы БД из файла `data/schema.sql`
+	 * Импорт схемы БД из файла `schema.sql`
 	 * @param array $post
 	 * @throws Installer_Exception
 	 */
@@ -284,9 +284,10 @@ class Controller_Install extends Controller_System_Frontend
 				':file' => $schema_file
 			) );
 		}
-
-		// Create tables
-		$schema_content = file_get_contents( $schema_file );
+		
+		// Merge modules schema.sql
+		$schema_content = $this->_merge_module_files('schema.sql');
+		
 		$schema_content = str_replace( '__TABLE_PREFIX__', $post['db_table_prefix'], $schema_content );
 
 		if ( !empty( $schema_content ) )
@@ -296,7 +297,7 @@ class Controller_Install extends Controller_System_Frontend
 	}
 	
 	/**
-	 * Импорт данных из файла `data/dump.sql`
+	 * Импорт данных из файла `dump.sql`
 	 * 
 	 * @param array $post
 	 * @throws Installer_Exception
@@ -311,9 +312,9 @@ class Controller_Install extends Controller_System_Frontend
 				':file' => $dump_file
 			) );
 		}
-
-		// Insert SQL dump
-		$dump_content = file_get_contents( $dump_file );
+		
+		// Merge modules dump.sql
+		$dump_content = $this->_merge_module_files('dump.sql');
 		
 		$replace = array(
 			'__EMAIL__'				=> Arr::get($post, 'email'),
@@ -367,7 +368,7 @@ class Controller_Install extends Controller_System_Frontend
 	 */
 	protected function _install_plugins()
 	{
-		Kohana::modules(Kohana::modules() + array('plugins'		=> MODPATH . 'plugins'));
+		Kohana::modules(Kohana::modules() + array('plugins'	=> MODPATH . 'plugins'));
 
 		$default_plugins = Kohana::$config->load('installer')->get('default_plugins', array());
 		
@@ -462,6 +463,9 @@ class Controller_Install extends Controller_System_Frontend
 
 		try
 		{
+			DB::query(NULL, 'SET FOREIGN_KEY_CHECKS = 0')
+				->execute($this->_db_instance);
+			
 			foreach($data as $sql)
 			{
 				if(empty($sql))
@@ -472,6 +476,9 @@ class Controller_Install extends Controller_System_Frontend
 				DB::query(Database::INSERT, $sql)
 					->execute($this->_db_instance);
 			}
+			
+			DB::query(NULL, 'SET FOREIGN_KEY_CHECKS = 1')
+				->execute($this->_db_instance);
 		} 
 		catch (Database_Exception $exc)
 		{
@@ -481,6 +488,7 @@ class Controller_Install extends Controller_System_Frontend
 					$this->_validation->error( 'db_name' , 'database_not_empty' );
 					break;
 			}
+
 			throw new Validation_Exception($this->_validation, $exc->getMessage(), NULL, $exc->getCode());
 		}
 	}
@@ -510,5 +518,34 @@ class Controller_Install extends Controller_System_Frontend
 		{
 			unlink(CFGFATH);
 		}
+		
+		DB::query(NULL, 'SET FOREIGN_KEY_CHECKS = 1')
+			->execute($this->_db_instance);
+	}
+	
+	/**
+	 * Сбор текста из файла модулей в переменную
+	 * 
+	 * @param string $filename
+	 * @param string $content
+	 * @return string
+	 */
+	protected function _merge_module_files($filename, $content = '')
+	{
+		// Create a new directory iterator
+		$path = new DirectoryIterator(MODPATH);
+
+		foreach ($path as $dir)
+		{
+			if($dir->isDot()) continue;
+			$file_name = MODPATH . $dir->getBasename() . DIRECTORY_SEPARATOR . 'install' . DIRECTORY_SEPARATOR . $filename;
+			if(file_exists($file_name))
+			{
+				$content .= "\n";
+				$content .= file_get_contents( $file_name );
+			}
+		}
+		
+		return $content;
 	}
 }
