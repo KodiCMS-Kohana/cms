@@ -71,7 +71,7 @@ class KodiCMS_Controller_API_Pages extends Controller_System_Api {
 		{
 			$page_status = array(
 				'd' => Model_Page::STATUS_DRAFT,
-				'r' => Model_Page::STATUS_REVIEWED,
+				'pp' => Model_Page::STATUS_PASSWORD_PROTECTED,
 				'p' => Model_Page::STATUS_PUBLISHED,
 				'h' => Model_Page::STATUS_HIDDEN
 			);

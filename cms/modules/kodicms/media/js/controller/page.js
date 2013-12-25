@@ -170,3 +170,23 @@ cms.init.add('page_add', function () {
 			.val($(this).val());
 	});
 });
+
+cms.init.add(['page_add', 'page_edit'], function () {
+	$('body').on('change', 'select[name="page[status_id]"]', function () {
+		show_password_field($(this).val());
+	});
+	
+	show_password_field($('select[name="page[status_id]"]').val());
+	
+	function show_password_field(val) {
+		var select = $('select[name="page[status_id]"]');
+		
+		if(val == 200){
+			select.parent().addClass('well well-small').find('.password-container').removeClass('hidden');
+		} else {
+			select.parent().removeClass('well well-small')
+				.find('.password-container').addClass('hidden')
+				.find('input').val('');
+		}
+	}
+});

@@ -41,10 +41,17 @@
 	</div>
 
 	<?php if( $page->id != 1 ): ?>
+	<div class="page-statuses">
 	<label><?php echo __('Status'); ?></label>
 	<?php echo Form::select('page[status_id]', Model_Page::statuses(), $page->status_id, array(
 		'class' => 'span12'
 	)); ?>
+		<div class="hidden password-container">
+			<br />
+			<label><?php echo __('Page password'); ?></label>
+			<?php echo Form::input('page[password]', $page->password, array('class' => 'span12')); ?>
+		</div>
+	</div>
 	<?php endif; ?>
 
 	<?php if( $page->id != 1 ): ?>
@@ -60,10 +67,13 @@
 	<?php endif; ?>
 
 	<?php if ( ACL::check( 'page.permissions' ) ): ?>
-	<label><?php echo __('Users roles that can edit page'); ?></label>
-	<?php echo Form::select('page_permissions[]', $permissions, array_keys($page_permissions), array(
-		'class' => 'span12'
-	)); ?>
+	<br />
+	<div class="well well-small">
+		<label><?php echo __('Users roles that can edit page'); ?></label>
+		<?php echo Form::select('page_permissions[]', $permissions, array_keys($page_permissions), array(
+			'class' => 'span12'
+		)); ?>
+	</div>
 	<?php endif; ?>
 </div>
 

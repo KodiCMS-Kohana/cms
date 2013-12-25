@@ -5,6 +5,7 @@ return array(
 		'page_menu' => __('Menu'),
 		'page_pages' => __('Pages with parts'),
 		'page_breadcrumbs' => __('Breadcrumbs'),
+		'page_password' => __('Page password form'),
 	),
 	__('User') => array(
 		'user_login' => __('Authentication'),

@@ -25,6 +25,7 @@ CREATE TABLE IF NOT EXISTS `__TABLE_PREFIX__pages` (
   `updated_by_id` int(11) unsigned DEFAULT NULL,
   `position` mediumint(6) unsigned DEFAULT NULL,
   `needs_login` tinyint(1) NOT NULL DEFAULT '2',
+  `password` VARCHAR(50) NOT NULL DEFAULT  '',
   PRIMARY KEY (`id`),
   KEY `parent_id` (`parent_id`),
   KEY `created_by_id` (`created_by_id`),

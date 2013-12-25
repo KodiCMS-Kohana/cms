@@ -31,7 +31,7 @@ class KodiCMS_Model_Page_Sitemap {
 			if((bool) $include_hidden === FALSE)
 			{
 				$clause['where'] = array(
-					array('status_id', 'in', array(Model_Page::STATUS_REVIEWED, Model_Page::STATUS_PUBLISHED))
+					array('status_id', 'in', array(Model_Page::STATUS_PASSWORD_PROTECTED, Model_Page::STATUS_PUBLISHED))
 				);
 			}
 			

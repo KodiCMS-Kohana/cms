@@ -357,6 +357,15 @@ class KodiCMS_Model_Page_Front {
 	{
 		return (strpos(Request::current()->url(), $this->url) === 1);
 	}
+	
+	/**
+	 * @return boolean
+	 */
+	public function is_password_protected()
+	{
+		$page_has_access = Session::instance()->get('page_access', array());
+		return (! empty($this->password) AND ! array_key_exists($this->id, $page_has_access));
+	}
 
 	/**
 	 * 
@@ -1130,7 +1139,7 @@ class KodiCMS_Model_Page_Front {
 	 */
 	final protected static function _get_statuses($include_hidden = FALSE)
 	{
-		$statuses = array(Model_Page::STATUS_REVIEWED, Model_Page::STATUS_PUBLISHED);
+		$statuses = array(Model_Page::STATUS_PASSWORD_PROTECTED, Model_Page::STATUS_PUBLISHED);
 		
 		if($include_hidden)
 		{
