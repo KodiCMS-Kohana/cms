@@ -7,8 +7,6 @@
  */
 class Controller_Widgets extends Controller_System_Backend {
 
-	public $auth_required = array( 'administrator', 'developer' );
-
 	public function before()
 	{
 		parent::before();
