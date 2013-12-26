@@ -1,7 +1,5 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
 return array(
-	'types' => array(
-		'comments' => __('Comments')
-	)
+	'types' => array()
 );

@@ -4,7 +4,7 @@
  * @package		KodiCMS
  * @category	Datasource
  */
-class Datasource_Section {
+abstract class Datasource_Section {
 	
 	/**
 	 * 
@@ -15,9 +15,10 @@ class Datasource_Section {
 	{
 		$class = 'Datasource_Section_' . ucfirst($type);
 		
-		if(!class_exists($class))
+		if( ! class_exists($class))
 		{
-			$class = 'Datasource_Section';
+			throw new DataSource_Exception('Class :class_name not exists', 
+					array(':class_name' => $class));
 		}
 		
 		return new $class($type);
@@ -27,13 +28,13 @@ class Datasource_Section {
 	 *
 	 * @var integer
 	 */
-	public $ds_id = NULL;
+	protected $_id;
 	
 	/**
 	 *
 	 * @var string
 	 */
-	public $ds_type;
+	protected $_type;
 	
 	/**
 	 *
@@ -51,37 +52,31 @@ class Datasource_Section {
 	 *
 	 * @var integer
 	 */
-	public $docs = 0;
+	protected $_docs = 0;
 	
 	/**
 	 *
 	 * @var integer
 	 */
-	public $size = 0;
+	protected $_size = 0;
 	
 	/**
 	 *
 	 * @var string
 	 */
-	public $ds_table;
+	protected $_ds_table;
 	
 	/**
 	 *
 	 * @var boolean
 	 */
-	public $is_indexable = FALSE;
-	
-	/**
-	 *
-	 * @var boolean
-	 */
-	public $is_internal = FALSE;
+	protected $_is_indexable = FALSE;
 	
 	/**
 	 *
 	 * @var integer
 	 */
-	public $lock;
+	protected $_lock;
 	
 	/**
 	 * 
@@ -89,145 +84,43 @@ class Datasource_Section {
 	 */
 	public function __construct( $type ) 
 	{
-		$this->ds_type = $type;
-	}
-
-	/**
-	 * 
-	 * @param string $name
-	 * @param string $description
-	 * @param integer $internal
-	 *
-	 * @return integer DataSource ID
-	 */
-	public function create($name, $description, $internal = FALSE) 
-	{
-		$this->name = $name;
-		$this->description = $description;
-
-		$data = array(
-			'ds_type' => $this->ds_type,
-			'indexed' => (bool) $this->is_indexable,
-			'description' => $this->description,
-			'name' => $this->name,
-			'created_on' => date('Y-m-d H:i:s'),
-			'code' => serialize($this),
-			'internal' => (bool) $internal
-		);
-		
-		$query = DB::insert('datasources')
-			->columns(array_keys($data))
-			->values(array_values($data))
-			->execute();
-
-		$this->ds_id = $query[0];
-		
-		return $this->ds_id;
+		$this->_type = $type;
 	}
 	
 	/**
 	 * 
-	 * @param integer $id
-	 * @return null|Datasource_Section
+	 * @return string
 	 */
-	public static function load($id) 
+	public function type()
 	{
-		$result = NULL;
-		
-		if($id === NULL)
-		{
-			return FALSE;
-		}
-		
-		$query = DB::select('docs', 'indexed', 'locks', 'code', 'internal')
-			->from('datasources')
-			->where('ds_id', '=', (int) $id)
-			->execute()
-			->current();
+		return $this->_type;
+	}
 	
-		if(!$query)
-		{
-			return FALSE;
-		}
-
-		$result = unserialize($query['code']);
-
-		$result->ds_id = $id;
-		$result->lock = (int) $query['locks'];
-		$result->is_internal = $query['internal'] != 0;
-		$result->is_indexable = $query['indexed'] != 0;
-		$result->docs = (int) $query['docs'];
-
-		return $result;
+	/**
+	 * 
+	 * @return integer
+	 */
+	public function id()
+	{
+		return $this->_id;
+	}
+	
+	/**
+	 * 
+	 * @return integer
+	 */
+	public function lock()
+	{
+		return $this->_lock;
 	}
 	
 	/**
 	 * 
 	 * @return boolean
 	 */
-	public function save() 
+	public function loaded()
 	{
-		if($this->ds_id === NULL)
-		{
-			return FALSE;
-		}
-		
-		$data = array(
-			'indexed' => $this->is_indexable,
-			'name' => $this->name,
-			'description' => $this->description,
-			'updated_on' => date('Y-m-d H:i:s'),
-			'code' => serialize( $this )
-		);
-		
-		DB::update('datasources')
-			->set($data)
-			->where( 'ds_id', '=', $this->ds_id )
-			->execute();
-
-		$this->update_size();
-		
-		return TRUE;
-	}	
-	
-	/**
-	 * 
-	 * @return \Datasource_Section
-	 */
-	public function remove() 
-	{
-		$query = DB::select('id')
-			->from(array('datasources', 'ds'), array($this->ds_table, 'd'))
-			->where('ds.ds_id', '=', $this->ds_id)
-			->execute();
-		
-		$ids = array();
-		foreach ($query as $row) 
-		{
-			$ids[] = $row['id'];
-		}
-		
-		$this->empty_section();
-		
-		DB::delete('datasources')
-			->where('ds_id', '=', $this->ds_id)
-			->execute();
-
-		$this->ds_id = NULL;
-		
-		return $this;
-	}
-	
-	/**
-	 * @return \Datasource_Section
-	 */
-	public function empty_section()
-	{
-		DB::delete($this->ds_table)
-			->where('ds_id', '=', $this->ds_id)
-			->execute();
-		
-		return $this;
+		return $this->_id !== NULL;
 	}
 
 	/**
@@ -247,41 +140,144 @@ class Datasource_Section {
 			)
 		);
 	}
+
+	/**
+	 * 
+	 * @param string $name
+	 * @param string $description
+	 *
+	 * @return integer DataSource ID
+	 */
+	public function create( array $values ) 
+	{
+		$this->valid($values);
+
+		$this->name = Arr::get($values, 'name');
+		$this->description = Arr::get($values, 'description');
+		$this->_is_indexable = (bool) Arr::get($values, 'is_indexable');
+		
+		$data = array(
+			'type' => $this->_type,
+			'indexed' => (bool) $this->_is_indexable,
+			'description' => $this->description,
+			'name' => $this->name,
+			'created_on' => date('Y-m-d H:i:s'),
+			'code' => serialize($this)
+		);
+		
+		$query = DB::insert('datasources')
+			->columns(array_keys($data))
+			->values(array_values($data))
+			->execute();
+
+		$this->_id = $query[0];
+		
+		return $this->_id;
+	}
+	
+	/**
+	 * 
+	 * @param integer $id
+	 * @return null|Datasource_Section
+	 */
+	public static function load( $id ) 
+	{
+		if($id === NULL)
+		{
+			return NULL;
+		}
+		
+		$query = DB::select('docs', 'indexed', 'locks', 'code')
+			->from('datasources')
+			->where('id', '=', (int) $id)
+			->execute()
+			->current();
+	
+		if( $query === NULL )
+		{
+			return NULL;
+		}
+
+		$result = unserialize($query['code']);
+
+		$result->_id = $id;
+		$result->_lock = (int) $query['locks'];
+		$result->_docs = (int) $query['docs'];
+		$result->_is_indexable = (bool) $query['indexed'];
+
+		return $result;
+	}
+	
+	/**
+	 * 
+	 * @return boolean
+	 */
+	public function save() 
+	{
+		if( ! $this->loaded())
+		{
+			return FALSE;
+		}
+		
+		$data = array(
+			'indexed' => $this->_is_indexable,
+			'name' => $this->name,
+			'description' => $this->description,
+			'updated_on' => date('Y-m-d H:i:s'),
+			'code' => serialize( $this )
+		);
+		
+		DB::update('datasources')
+			->set($data)
+			->where( 'id', '=', $this->_id )
+			->execute();
+
+		$this->_update_size();
+		
+		return TRUE;
+	}	
+	
+	/**
+	 * 
+	 * @return \Datasource_Section
+	 */
+	public function remove() 
+	{
+		$this->remove_documents();
+		
+		DB::delete('datasources')
+			->where('id', '=', $this->_id)
+			->execute();
+
+		$this->_id = NULL;
+		
+		return $this;
+	}
+	
+	/**
+	 * @return \Datasource_Section
+	 */
+	public function remove_documents()
+	{
+		DB::delete($this->_ds_table)
+			->where('ds_id', '=', $this->_id)
+			->execute();
+		
+		return $this;
+	}
 	
 	/**
 	 * 
 	 * @param integer $doc_id
-	 * @return Datasource_Section
+	 * @return DataSource_Document
 	 */
-	public function get_document($doc_id) 
-	{
-		$record = $this->get_record($doc_id);
-		$result = $this->wrap_document($record);
-		
-		return $result;
-	}
-	
-	/**
-	 * 
-	 * @param array $record
-	 * @return Datasource_Section
-	 */
-	public function wrap_document($record) 
-	{
-		$result = $this->get_empty_document();
-		$result->read_values($record);
-		
-		return $result;
-	}
+	abstract public function get_document($doc_id);
 	
 	/**
 	 * 
 	 * @return \DataSource_Document
 	 */
-	public function get_empty_document() 
-	{
-		return new DataSource_Document();
-	}
+	abstract public function get_empty_document();
 	
 	/**
 	 * 
@@ -293,10 +289,10 @@ class Datasource_Section {
 			->set(array(
 				'locks' => DB::expr('locks + 1')
 			))
-			->where('ds_id', '=', $this->ds_id)
+			->where('id', '=', $this->_id)
 			->execute();
 
-		$this->lock++;
+		$this->_lock++;
 		
 		return $this;
 	}
@@ -311,10 +307,10 @@ class Datasource_Section {
 			->set(array(
 				'locks' => DB::expr('locks - 1')
 			))
-			->where('ds_id', '=', $this->ds_id)
+			->where('id', '=', $this->_id)
 			->execute();
 
-		$this->lock--;
+		$this->_lock--;
 		
 		return $this;
 	}
@@ -324,7 +320,7 @@ class Datasource_Section {
 	 * @param array $ids
 	 * @return \Datasource_Section
 	 */
-	public function publish($ids) 
+	public function publish(array $ids) 
 	{
 		return $this->_publish($ids, TRUE);
 	}
@@ -334,7 +330,7 @@ class Datasource_Section {
 	 * @param array $ids
 	 * @return \Datasource_Section
 	 */
-	public function unpublish($ids) 
+	public function unpublish(array $ids) 
 	{
 		return $this->_publish($ids, FALSE);
 	}
@@ -345,18 +341,18 @@ class Datasource_Section {
 	 * @param boolean $value
 	 * @return \Datasource_Section
 	 */
-	protected function _publish($ids, $value) 
+	protected function _publish(array $ids, $value) 
 	{
-		DB::update($this->ds_table)
+		DB::update($this->_ds_table)
 			->set(array(
-				'published' => $value,
+				'published' => (bool) $value,
 				'updated_on' => date('Y-m-d H:i:s'),
 			))
 			->where('id', 'in', $ids)
-			->where('ds_id', '=', $this->ds_id)
+			->where('ds_id', '=', $this->_id)
 			->execute();
 
-		if($value == 1)
+		if($value === TRUE)
 		{
 			$this->add_to_index($ids);
 		}
@@ -374,36 +370,9 @@ class Datasource_Section {
 	 */
 	public function is_full() 
 	{
-		if( ! $this->size) return FALSE;
+		if( ! $this->_size) return FALSE;
 
-		return $this->size <= $this->docs;
-	}
-	
-	/**
-	 * 
-	 * @param string $html
-	 * @param integer $size
-	 * @return string
-	 */
-	public function create_intro($html, $size = 200) 
-	{
-		$text = strip_tags($html);
-		preg_match('/^.{'.($size - 1).'}[^\s\.,:]*/ums', $text, $intro);
-		
-		return isset($intro[0]) ? $intro[0] : $txt;
-	}
-	
-	/**
-	 * 
-	 * @return array
-	 */
-	public function get_real_ids() 
-	{
-		return DB::select('real_id')
-			->from($this->ds_table)
-			->where('ds_id', '=', $this->ds_id)
-			->execute()
-			->as_array(NULL, 'real_id');
+		return $this->_size <= $this->_docs;
 	}
 
 	/**
@@ -413,7 +382,9 @@ class Datasource_Section {
 	 */
 	public function set_size($size) 
 	{
-		$this->size = $size == 0 || $this->docs <= $size ? $size : $this->size;
+		$size = (int) $size;
+
+		$this->_size = $size == 0 OR $this->_docs <= $size ? $size : $this->_size;
 		
 		return $this;
 	}
@@ -424,15 +395,15 @@ class Datasource_Section {
 	 */
 	public function update_size() 
 	{
-		if($this->ds_table) 
+		if($this->_ds_table) 
 		{
 			DB::update('datasources')
 				->set(array(
 					'docs' => DB::select(DB::expr('COUNT("*")'))
-						->from($this->ds_table)
-						->where('ds_id', '=', $this->ds_id)
+						->from($this->_ds_table)
+						->where('ds_id', '=', $this->_id)
 				))
-				->where('ds_id', '=', $this->ds_id)
+				->where('id', '=', $this->_id)
 				->execute();
 		}
 		
@@ -444,37 +415,47 @@ class Datasource_Section {
 	 * @param boolean $newState
 	 * @return \Datasource_Section
 	 */
-	public function set_indexable($newState) 
+	public function set_indexable($state) 
 	{
-		if(!$this->ds_id)
+		$state = (bool) $state;
+
+		if( ! $this->loaded() )
 		{
-			$this->is_indexable = $newState;
+			$this->_is_indexable = $state;
 			
 			return $this;
 		}
 
-		if($newState == $this->is_indexable)
+		if($state == $this->_is_indexable)
 		{
 			return $this;
 		}
 
-		if($newState) 
+		if($state) 
 		{
-			$this->is_indexable = $newState;
+			$this->_is_indexable = $state;
 			$this->add_to_index();
 		} 
 		else 
 		{
 			$this->remove_from_index();
-			$this->is_indexable = $newState;
+			$this->_is_indexable = $state;
 		}
 		
 		return $this;
 	}
 	
-	public function add_to_index($ids = NULL, $header = NULL, $content = NULL, $intro = NULL) 
+	/**
+	 * 
+	 * @param array $ids
+	 * @param string $header
+	 * @param string $content
+	 * @param string $intro
+	 * @return \Datasource_Section
+	 */
+	public function add_to_index(array $ids = NULL, $header = NULL, $content = NULL, $intro = NULL) 
 	{
-		if(!$this->is_indexable)
+		if( ! $this->_is_indexable)
 		{
 			return $this;
 		}
@@ -482,9 +463,17 @@ class Datasource_Section {
 		// TODO Add to index
 	}
 	
-	public function update_index($id, $header = NULL, $content = NULL, $intro = NULL) 
+	/**
+	 * 
+	 * @param array $id
+	 * @param string $header
+	 * @param string $content
+	 * @param string $intro
+	 * @return \Datasource_Section
+	 */
+	public function update_index(array $id, $header = NULL, $content = NULL, $intro = NULL) 
 	{
-		if(!$this->is_indexable)
+		if( ! $this->_is_indexable)
 		{
 			return $this;
 		}
@@ -492,9 +481,14 @@ class Datasource_Section {
 		// TODO Update index
 	}
 	
-	public function remove_from_index($ids = NULL) 
+	/**
+	 * 
+	 * @param array $ids
+	 * @return \Datasource_Section
+	 */
+	public function remove_from_index( array $ids = NULL) 
 	{
-		if(!$this->is_indexable)
+		if( ! $this->_is_indexable)
 		{
 			return $this;
 		}
@@ -504,31 +498,24 @@ class Datasource_Section {
 	
 	public function get_indexable_docs($id = NULL) 
 	{
-		$result = array();
-
-		$query = DB::select('id', 'header', 'content', 'intro')
-			->from($this->ds_table)
+		$result = DB::select('id', 'header', 'content', 'intro')
+			->from($this->_ds_table)
 			->where('published', '=', 1)
-			->where('ds_id', '=', $this->ds_id);
+			->where('ds_id', '=', $this->_id);
 		
 		if($id !== NULL)
 		{
 			if(is_array($id))
 			{
-				$query->where('id', 'in', $id);
+				$result->where('id', 'in', $id);
 			}
 			else
 			{
-				$query->where('id', '=', $id);
+				$result->where('id', '=', $id);
 			}
 		}
-		
-		foreach ($query as $row)
-		{
-			$result[] = $row;
-		}
 
-		return $result;
+		return $result->execute()->as_array('id');
 	}
 	
 	/**
@@ -536,12 +523,12 @@ class Datasource_Section {
 	 * @param array $ids
 	 * @return array
 	 */
-	public function filter_docs($ids) 
+	public function filter_docs( array $ids) 
 	{
 		return DB::select('id')
-			->from($this->ds_table)
+			->from($this->_ds_table)
 			->where('id', 'in', $ids)
-			->where('ds_id', '=', $this->ds_id)
+			->where('ds_id', '=', $this->_id)
 			->execute()
 			->as_array(NULL, 'id');
 	}
@@ -551,22 +538,33 @@ class Datasource_Section {
 	 * @param integer $ds_id
 	 * @return array
 	 */
-	public function get_headline( array $ids = NULL, $search_word = NULL )
-	{
-		return array();
-	}
+	abstract public function get_headline( array $ids = NULL, $search_word = NULL );
 	
 	public function __sleep()
 	{
 		$vars = get_object_vars($this);
-		unset($vars['docs'], $vars['is_indexable']);
+		unset($vars['_docs'], $vars['_is_indexable']);
 
 		return array_keys($vars);
 	}
 	
 	public function __wakeup()
 	{
-		$this->docs = 0;
-		$this->is_indexable = FALSE;
+		$this->_docs = 0;
+		$this->_is_indexable = FALSE;
+	}
+	
+	public function valid(array $array)
+	{
+		$array = Validation::factory($array)
+			->rules('name', array(
+				array('not_empty')
+			))
+			->label('name', __('Header') );
+		
+		if( ! $array->check())
+		{
+			throw new Validation_Exception($array);
+		}
 	}
 }

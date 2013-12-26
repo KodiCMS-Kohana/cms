@@ -9,12 +9,12 @@ class Controller_Datasources_Section extends Controller_System_Datasource
 			$ds_id = (int) $this->request->param('id');
 			$this->_get_ds($ds_id);
 
-			if(Acl::check($this->_ds->ds_type.$ds_id.'.section.edit'))
+			if(Acl::check($this->_ds->type().$ds_id.'.section.edit'))
 			{
 				$this->allowed_actions[] = 'edit';
 			}
 			
-			if(Acl::check($this->_ds->ds_type.$ds_id.'.section.remove'))
+			if(Acl::check($this->_ds->type().$ds_id.'.section.remove'))
 			{
 				$this->allowed_actions[] = 'remove';
 			}
@@ -56,27 +56,13 @@ class Controller_Datasources_Section extends Controller_System_Datasource
 	{
 		$section = Datasource_Section::factory($type);
 		
-		$array = Validation::factory($this->request->post())
-			->rules('ds_key', array(
-				array('not_empty')
-			))
-			->rules('ds_name', array(
-				array('not_empty')
-			))
-			->label( 'ds_name', __('Header') )
-			->label( 'ds_key', __('Key') );
-		
-		if( ! $array->check())
+		try
 		{
-			Flash::set('post_data', $this->request->post());
-			Messages::errors($array->errors('validation'));
-			$this->go_back();
+			$ds_id = $section->create($this->request->post());
 		}
-		
-		$ds_id = $section->create($array['ds_key'], $array['ds_name'], $array['ds_description']);
-
-		if($ds_id === NULL)
+		catch (Validation_Exception $e)
 		{
+			Messages::errors($e->errors('validation'));
 			$this->go_back();
 		}
 
@@ -99,7 +85,7 @@ class Controller_Datasources_Section extends Controller_System_Datasource
 			->add($this->_ds->name, Route::url('datasources', array(
 				'controller' => 'data',
 				'directory' => 'datasources',
-			)) . URL::query(array('ds_id' => $this->_ds->ds_id), FALSE))
+			)) . URL::query(array('ds_id' => $this->_ds->id()), FALSE))
 			->add(__('Edit ' . $this->_ds->name));
 		
 		$this->template->content = View::factory('datasource/section/edit', array(
@@ -113,23 +99,21 @@ class Controller_Datasources_Section extends Controller_System_Datasource
 	 */
 	private function _edit($ds)
 	{
-		$array = Validation::factory($this->request->post())
-			->rules('ds_name', array(
-				array('not_empty')
-			))
-			->label( 'ds_name', __('Header') );
+		$array = $this->request->post();
 		
-		if(!$array->check())
+		try
 		{
-			Messages::errors($array->errors('validation'));
+			$ds->valid($array);
+			$ds->name = Arr::get($array, 'name');
+			$ds->description = Arr::get($array, 'description');
+
+			$ds->save();
+		}
+		catch (Validation_Exception $e)
+		{
+			Messages::errors($e->errors('validation'));
 			$this->go_back();
 		}
-		
-		$ds->name = $this->request->post('ds_name');
-		$ds->description = $this->request->post('ds_description');
-		$ds->doc_order = Arr::get($this->request->post(), 'doc_order', array());
-
-		$ds->save();
 
 		// save and quit or save and continue editing?
 		if ( $this->request->post('commit') !== NULL )
@@ -137,7 +121,7 @@ class Controller_Datasources_Section extends Controller_System_Datasource
 			$this->go( Route::url('datasources', array(
 				'directory' => 'datasources',
 				'controller' => 'data'
-			)) .  URL::query(array('ds_id' => $ds->ds_id), FALSE));
+			)) .  URL::query(array('ds_id' => $ds->id()), FALSE));
 		}
 		else
 		{

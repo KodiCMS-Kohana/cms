@@ -1,34 +1,32 @@
 <script>
-	var DS_ID = '<?php echo $ds->ds_id; ?>';
+	var DS_ID = '<?php echo $ds->id(); ?>';
 </script>
 
 <div class="widget">
 <?php echo Form::open(Request::current()->uri(), array(
 	'class' => 'form-horizontal'
 )); ?>
-	<?php echo Form::hidden('ds_id', $ds->ds_id); ?>
+	<?php echo Form::hidden('ds_id', $ds->id()); ?>
 
 	<div class="widget-header">
 		<h4><?php echo __('Datasource Information'); ?></h4>
 	</div>
 	<div class="widget-content">
 		<div class="control-group">
-			<label class="control-label" for="ds_name"><?php echo __('Datasource Header'); ?></label>
+			<label class="control-label" for="name"><?php echo __('Datasource Header'); ?></label>
 			<div class="controls">
-				<?php
-				echo Form::input( 'ds_name', $ds->name, array(
-					'class' => 'input-xlarge', 'id' => 'ds_name'
-				) );
-				?>
+				<?php echo Form::input( 'name', $ds->name, array(
+					'class' => 'input-xlarge', 'id' => 'name'
+				) ); ?>
 			</div>
 		</div>
 
 		<div class="control-group">
-			<label class="control-label" for="ds_description"><?php echo __('Datasource Description'); ?></label>
+			<label class="control-label" for="description"><?php echo __('Datasource Description'); ?></label>
 			<div class="controls">
 				<?php
-				echo Form::textarea( 'ds_description', $ds->description, array(
-					'class' => 'input-xlarge', 'id' => 'ds_description'
+				echo Form::textarea( 'description', $ds->description, array(
+					'class' => 'input-xlarge', 'id' => 'description'
 				) );
 				?>
 			</div>
@@ -39,7 +37,7 @@
 	<?php
 	try
 	{
-		echo View::factory('datasource/'.$ds->ds_type.'/edit', array(
+		echo View::factory('datasource/'.$ds->type().'/edit', array(
 			'data' => data, 'ds' => $ds
 		));
 	}

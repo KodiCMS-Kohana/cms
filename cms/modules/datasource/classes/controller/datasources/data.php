@@ -3,6 +3,7 @@
 class Controller_Datasources_Data extends Controller_System_Datasource
 {
 	public $template = 'datasource/template';
+
 	public function action_index()
 	{
 		$cur_ds_id = (int) Arr::get($_GET, 'ds_id', Cookie::get('ds_id'));
@@ -10,7 +11,7 @@ class Controller_Datasources_Data extends Controller_System_Datasource
 
 		$cur_ds_id = Datasource_Data_Manager::exists($cur_ds_id) 
 				? $cur_ds_id
-				: Datasource_Data_Manager::$first;
+				: Datasource_Data_Manager::$first_section;
 		
 		$ds = Datasource_Data_Manager::load($cur_ds_id);
 		
@@ -25,13 +26,13 @@ class Controller_Datasources_Data extends Controller_System_Datasource
 				->add($ds->name);
 
 			Cookie::set('ds_id', $cur_ds_id);
-			$this->template->content->headline = View::factory('datasource/' . $ds->ds_type . '/headline', array(
+			$this->template->content->headline = View::factory('datasource/' . $ds->type() . '/headline', array(
 				'fields' => $ds->fields(),
 				'data' => $ds->get_headline()
 			));
 			
 			$this->template->set_global(array(
-				'ds_type' => $ds->ds_type,
+				'ds_type' => $ds->type(),
 				'ds_id' => $cur_ds_id
 			));
 		}

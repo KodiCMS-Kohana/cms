@@ -7,24 +7,20 @@
 	</div>
 	<div class="widget-content">
 		<div class="control-group">
-			<label class="control-label title" for="ds_name"><?php echo __('Datasource Header'); ?></label>
+			<label class="control-label title" for="name"><?php echo __('Datasource Header'); ?></label>
 			<div class="controls">
-				<?php
-				echo Form::input( 'ds_name', Arr::get($data, 'ds_name'), array(
-					'class' => 'input-xlarge input-title slug-generator span12', 'id' => 'ds_name', 'data-separator' => '_'
-				) );
-				?>
+				<?php echo Form::input( 'name', Arr::get($data, 'name'), array(
+					'class' => 'input-xlarge input-title span12', 'id' => 'name'
+				) ); ?>
 			</div>
 		</div>
 
 		<div class="control-group">
-			<label class="control-label" for="ds_description"><?php echo __('Datasource Description'); ?></label>
+			<label class="control-label" for="description"><?php echo __('Datasource Description'); ?></label>
 			<div class="controls">
-				<?php
-				echo Form::textarea( 'ds_description', Arr::get($data, 'ds_description'), array(
-					'class' => 'input-xlarge', 'id' => 'ds_description', 'rows' => 3
-				) );
-				?>
+				<?php echo Form::textarea( 'description', Arr::get($data, 'description'), array(
+					'class' => 'input-xlarge', 'id' => 'description', 'rows' => 3
+				) ); ?>
 			</div>
 		</div>
 	</div>

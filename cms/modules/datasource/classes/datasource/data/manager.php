@@ -10,7 +10,7 @@ class Datasource_Data_Manager {
 	 *
 	 * @var integer
 	 */
-	public static $first = NULL;
+	public static $first_section = NULL;
 	
 	/**
 	 * 
@@ -29,18 +29,21 @@ class Datasource_Data_Manager {
 	{
 		$result = array();
 		
-		$query = DB::select(array('ds.ds_id', 'id'), array('ds_type', 'type'), 'name', 'description')
+		$query = DB::select('id', 'type', 'name', 'description')
 			->from(array('datasources', 'ds'))
-			->order_by('ds_type')
+			->order_by('type')
 			->order_by('name')
 			->execute()
 			->as_array('id');
 
 		foreach ( $query as $r )
 		{
-			if( ! self::$first ) self::$first = $r['id'];
+			if( self::$first_section === NULL ) self::$first_section = $r['id'];
 
-			$result[$r['type']][$r['id']] = array('name' => $r['name'], 'description' => $r['description']);
+			$result[$r['type']][$r['id']] = array(
+				'name' => $r['name'], 
+				'description' => $r['description']
+			);
 		}
 		
 		return $result;
@@ -53,18 +56,16 @@ class Datasource_Data_Manager {
 	 */
 	public static function get_all($type = NULL) 
 	{
-		$sections = DB::select(array('ds.ds_id', 'id'), 'name', 'description')
-			->select('parent', 'ds_type', 'internal')
+		$sections = DB::select('id', 'name', 'type', 'description')
 			->from(array('datasources', 'ds'))
-			->where('internal', '=', 0)
 			->order_by('name');
 		
 		if($type !== NULL)
 		{
-			$sections->where('ds.ds_type', is_array($type) ? 'IN' : '=', $type);
+			$sections->where('ds.type', is_array($type) ? 'IN' : '=', $type);
 		}
 
-		 return $sections
+		return $sections
 			->execute()
 			->as_array('id');
 	}
@@ -77,12 +78,12 @@ class Datasource_Data_Manager {
 	 */
 	public static function exists($ds_id) 
 	{
-		return (bool) DB::select('ds_id')
+		return (bool) DB::select('id')
 			->from('datasources')
-			->where('ds_id', '=', (int) $ds_id)
+			->where('id', '=', (int) $ds_id)
 			->limit(1)
 			->execute()
-			->get('ds_id');
+			->get('id');
 	}
 	
 	/**
@@ -92,15 +93,14 @@ class Datasource_Data_Manager {
 	 */
 	public static function get_info($ds_id) 
 	{
-		return DB::select(array('ds.ds_id', 'id'), array('ds_type', 'type'), 'name', 'description')
-			->select('internal')
+		return DB::select('id', 'type', 'name', 'description')
 			->from(array('datasources', 'ds'))
-			->where('ds.ds_id', '=', (int) $ds_id)
+			->where('ds.id', '=', (int) $ds_id)
 			->limit(1)
 			->execute()
 			->current();
 	}
-	
+
 	/**
 	 * @param indeger $ds_id Datasource ID
 	 * @return Datasource_Section|DataSource_Data_Hybrid_Section
@@ -141,10 +141,8 @@ class Datasource_Data_Manager {
 	 */
 	public static function get_all_indexed() 
 	{
-		return DB::select(array('ds_id', 'id'), array('ds_type', 'type'))
-			->select('name', 'description')
+		return DB::select('id', 'type', 'name', 'description')
 			->from('datasources')
-			->where('internal', '=', 0)
 			->where('indexed', '!=', 0)
 			->order_by('name')
 			->execute()
