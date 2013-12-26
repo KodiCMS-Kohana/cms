@@ -76,7 +76,7 @@ class Controller_Widgets extends Controller_System_Backend {
 				$pages_widgets[$w['page_id']][$w['block']] = array($w['block'], $w['position']);
 		}
 
-		$pages = Model_Page_Sitemap::get()->as_array();
+		$pages = Model_Page_Sitemap::get( TRUE )->as_array();
 		
 		$res_blocks = ORM::factory('layout_block')->find_all();
 		

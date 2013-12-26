@@ -43,7 +43,7 @@ class KodiCMS_Controller_Page extends Controller_System_Backend {
 			->add($this->template->title);
 		
 		echo View::factory( 'page/sort', array(
-			'pages' => Model_Page_Sitemap::get()->as_array()
+			'pages' => Model_Page_Sitemap::get( TRUE )->as_array()
 		) );
 	}
 
