@@ -41,7 +41,7 @@ abstract class Kohana_SSO_Driver_OAuth extends SSO_Driver {
 
 	public function init()
 	{
-		$this->_consumer = OAuth_Consumer::factory(Kohana::$config->load('oauth.'.$this->_provider));
+		$this->_consumer = OAuth_Consumer::factory(Kohana::$config->load('oauth.accounts.'.$this->_provider));
 		$this->_provider = OAuth_Provider::factory($this->_provider);
 		if ($token = Cookie::get($this->_token_key))
 		{

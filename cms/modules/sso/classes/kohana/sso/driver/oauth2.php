@@ -56,7 +56,7 @@ abstract class Kohana_SSO_Driver_OAuth2 extends SSO_Driver {
 	public function init()
 	{
 		$this->_oauth = new OAuth2;
-		$this->_consumer = new OAuth2_Client(Kohana::$config->load('oauth.'.$this->_provider));
+		$this->_consumer = new OAuth2_Client(Kohana::$config->load('oauth.accounts.'.$this->_provider));
 		$this->_provider = $this->_oauth->provider($this->_provider);
 		if ($token = Cookie::get($this->_token_key))
 		{
