@@ -208,7 +208,13 @@ class Plugin_Decorator extends Plugin {
 		Kohana::modules( Kohana::modules() + array('plugin_' . $this->id() => PLUGPATH . $this->id()) );
 
 		$this->_clear_cache();
-
+		
+		$schema_file = $this->path() . 'install' . DIRECTORY_SEPARATOR . 'schema.sql';
+		if( file_exists( $schema_file ))
+		{
+			Database_Helper::insert_sql(file_get_contents($schema_file));
+		}
+		
 		$install_file = $this->path() . 'install' . EXT;
 
 		if( file_exists( $install_file ))
@@ -230,6 +236,12 @@ class Plugin_Decorator extends Plugin {
 			->execute();
 		
 		Plugins::uninstall( $this );
+		
+		$drop_file = $this->path() . 'install' . DIRECTORY_SEPARATOR . 'drop.sql';
+		if( file_exists( $drop_file ))
+		{
+			Database_Helper::insert_sql(file_get_contents($drop_file));
+		}
 
 		$uninstall_file = $this->path() . 'uninstall' . EXT;
 		if($run_script === TRUE AND file_exists( $uninstall_file ))

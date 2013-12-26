@@ -1,0 +1,1 @@
+DROP TABLE `__TABLE_PREFIX__part_revision`
