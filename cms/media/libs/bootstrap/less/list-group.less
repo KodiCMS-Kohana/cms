@@ -39,12 +39,7 @@
 	> .badge + .badge {
 		margin-right: 5px;
 	}
-}
-
-// Linked list items
-a.list-group-item {
-	// color: @list-group-link-color;
-  
+	
 	.list-group-chevron {
 		float: right;
 		margin-top: 4px;
@@ -54,18 +49,9 @@ a.list-group-item {
 	.list-group-item-heading {
 		color: @list-group-link-heading-color;
 	}
-
-  // Hover state
-	&:hover,
-	&:focus {
-		text-decoration: none;
-		background-color: @list-group-hover-bg;
-	}
-
-  // Active class on item itself, not parent
-	&.active,
-	&.active:hover,
-	&.active:focus {
+	
+	// Active class on item itself, not parent
+	&.active {
 		z-index: 2; // Place active items above their siblings for proper border styling
 		color: @list-group-active-color;
 		background-color: @list-group-active-bg;
@@ -80,6 +66,26 @@ a.list-group-item {
 		}
 	}
 }
+// Linked list items
+a.list-group-item {
+
+	// Hover state
+	&:hover,
+	&:focus {
+		text-decoration: none;
+		background-color: @list-group-hover-bg;
+	}
+
+	// Active class on item itself, not parent
+	&.active:hover,
+	&.active:focus {
+		z-index: 2; // Place active items above their siblings for proper border styling
+		color: @list-group-active-color;
+		background-color: @list-group-active-bg;
+		border-color: @list-group-active-border;
+	}
+}
+
 
 // Custom content options
 // -------------------------
