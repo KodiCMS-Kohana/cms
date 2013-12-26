@@ -96,6 +96,9 @@ class Widget_Manager {
 			->where('page_id', '=', (int) $page_id)
 			->order_by('page_widgets.block', 'ASC')
 			->order_by('page_widgets.position', 'ASC')
+			->cache_tags(array('layout_blocks'))
+			->cache_key('layout_blocks_' . (int) $page_id)
+			->cached(Date::DAY)
 			->execute()
 			->as_array('id');
 		
