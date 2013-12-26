@@ -305,7 +305,7 @@ class Plugin_Decorator extends Plugin {
 		{
 			if(Kohana::$profiling === TRUE)
 			{
-				$benchmark = Profiler::start('Fronend plugins', $this->title());
+				$benchmark = Profiler::start('Frontend plugins', $this->title());
 			}
 		
 			include $this->path() . 'frontend' . EXT;
