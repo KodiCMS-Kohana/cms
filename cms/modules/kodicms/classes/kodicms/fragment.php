@@ -8,6 +8,17 @@
 class KodiCMS_Fragment extends Kohana_Fragment {
 	
 	/**
+	 * 
+	 * @param string $name
+	 * @param string $i18n
+	 * @return string
+	 */
+	public static function is_cached($name, $i18n = NULL)
+	{
+		return Cache::instance()->get(self::_cache_key($name, $i18n)) !== NULL;
+	}
+
+	/**
 	 * Load a fragment from cache and display it. Multiple fragments can
 	 * be nested with different life times.
 	 *
