@@ -78,6 +78,7 @@ class KodiCMS_Controller_Front extends Controller_System_Controller
 		}
 		
 		Observer::notify('frontpage_found', $page);
+		View_Front::bind_global('page', $page);
 		
 		$this->_ctx->build_crumbs();
 		

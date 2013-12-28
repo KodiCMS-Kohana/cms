@@ -101,19 +101,7 @@ class KodiCMS_Model_Page_Front {
 	 *
 	 * @var array 
 	 */
-	protected $_parts = NULL;
-	
-	/**
-	 *
-	 * @var array 
-	 */
 	protected $_fields = NULL;
-	
-	/**
-	 *
-	 * @var array 
-	 */
-	protected $_parts_data = array();
 
 	/**
 	 *
@@ -515,100 +503,6 @@ class KodiCMS_Model_Page_Front {
 		}
 
 		return FALSE;
-	}
-
-	/**
-	 * 
-	 * @param string $part
-	 * @param boolean $inherit
-	 * @return boolean
-	 */
-	public function has_content($part, $inherit = FALSE)
-	{
-		if($this->_parts === NULL)
-		{
-			$this->_parts = $this->_load_parts();
-		}
-		
-		if(isset($this->_parts[$part]))
-		{
-			return TRUE;
-		}
-		else if($inherit !== FALSE 
-				AND $this->parent() instanceof Model_Page_Front )
-		{
-			return $this->parent()->has_content($part, TRUE);
-		}
-
-		return FALSE;
-	}
-
-	/**
-	 * 
-	 * @param string $part
-	 * @param boolean $inherit
-	 * @param integer $cache_lifetime
-	 * @return null
-	 */
-	public function content($part = 'body', $inherit = FALSE, $cache_lifetime = NULL, array $tags = array())
-	{		
-		if ($this->has_content( $part ))
-		{
-			$view = $this->get_part($part);
-			
-			$cache_lifetime = Arr::path($this->_parts_data, $part . '.cache_lifetime', $cache_lifetime);
-			$tags = Arr::path($this->_parts_data, $part . '.tags', $tags);
-			
-			$tags[] = 'page_parts';
-			
-			if( $cache_lifetime !== NULL 
-				AND ! Fragment::load( $this->id . $part . Request::current()->uri(), (int) $cache_lifetime ))
-			{
-				echo $view;				
-
-				Fragment::save_with_tags((int) $cache_lifetime, $tags);
-			}
-			else if($cache_lifetime === NULL)
-			{
-				echo $view;
-			}
-			
-		}
-		else if ($inherit !== FALSE
-				AND $this->parent() instanceof Model_Page_Front )
-		{
-			$this->parent()->content($part, TRUE, $cache_lifetime);
-		}
-	}
-	
-	/**
-	 * 
-	 * @param string $part
-	 * @return View
-	 */
-	public function get_part( $part )
-	{
-		$html = NULL;
-
-		if( $this->_parts[$part] instanceof Model_Page_Part )
-		{
-			$html = View_Front::factory()
-				->set('page', $this)
-				->render_html($this->_parts[$part]->content_html);
-		}
-		else if( $this->_parts[$part] instanceof Kohana_View )
-		{
-			$html = $this->_parts[$part]->render();
-		}
-
-		$view = View::factory('system/blocks/part', array(
-			'page' => $this,
-			'part' => $part,
-			'html' => $html,
-			'block' => $part
-		));
-		
-		return $view;
 	}
 
 	/**
@@ -1093,39 +987,6 @@ class KodiCMS_Model_Page_Front {
 		}
 
 		return $this->needs_login;
-	}
-	
-	/**
-	 * 
-	 * @param string $part
-	 * @param Model_Page_Part $data
-	 * @return \Model_Page_Front
-	 */
-	public function set_part($part, $data, $cache_lifetime = NULL, array $tags = array())
-	{
-		$this->_parts[$part] = $data;
-		$this->_parts_data[$part] = array(
-			'cache_lifetime' => $cache_lifetime,
-			'tags' => $tags
-		);
-		
-		return $this;
-	}
-
-	/**
-	 * TODO вынести в класс Model_Page_Part
-	 * @return array
-	 */
-	final private function _load_parts()
-	{
-		return DB::select('name', 'content', 'content_html')
-			->from(Model_Page_Part::tableName())
-			->where('page_id', '=', $this->id)
-			->cache_tags( array('page_parts') )
-			->as_object('Model_Page_Part')
-			->cached((int)Config::get('cache', 'page_parts'))
-			->execute()
-			->as_array('name');	
 	}
 
 	/**

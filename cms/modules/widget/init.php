@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
-Observer::observe( 'template_before_render',  function($request) {
+Observer::observe('template_before_render',  function($request) {
 	
 	if(in_array( $request->controller(), array('Page', 'Widgets') ))
 	{
@@ -8,23 +8,13 @@ Observer::observe( 'template_before_render',  function($request) {
 	}
 });
 
-
 Observer::observe( 'frontpage_found',  function($page) {
-	$layout = $page->get_layout_object();
 	$widgets = Widget_Manager::get_widgets_by_page($page->id);
-	
-	foreach($layout->blocks() as $block)
-	{
-		if( ! $page->has_content($block))
-		{
-			continue;
-		}
 
-		$widgets[] = $page->get_part($block);
-	}
+	Context::instance()
+		->register_widgets($widgets)
+		->init_widgets();
 	
-	Context::instance()->register_widgets($widgets);
-
 	/**
 	 * Запуск метода в виджетах текущей страницы 
 	 * Model_Widget_Decorator::on_page_load

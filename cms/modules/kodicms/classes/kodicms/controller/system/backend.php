@@ -87,6 +87,8 @@ class KodiCMS_Controller_System_Backend extends Controller_System_Template
 			{
 				Assets::js('controller', ADMIN_RESOURCES . 'js/controller/' . $file . '.js', 'global');
 			}
+			
+			Observer::notify('controller_before_' . $this->get_path());
 		}
 	}
 }

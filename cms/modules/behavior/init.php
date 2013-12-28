@@ -22,7 +22,10 @@ Observer::observe( array('page_add_after_save', 'page_edit_after_save'), functio
 	}
 });
 
-// Init behavior
 Observer::observe('modules::afer_load', function() {
 	Behavior::init();
+});
+
+Observer::observe(array('controller_before_page_edit', 'controller_before_page_add'), function() {
+	Assets::js('controller.behavior', ADMIN_RESOURCES . 'js/controller/behavior.js', 'global');
 });

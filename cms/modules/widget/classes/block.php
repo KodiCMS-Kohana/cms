@@ -58,6 +58,10 @@ class Block {
 							->bind('ctx', $ctx)
 							->render($params);
 					}
+					else if( $block instanceof Model_Widget_Part ) 
+					{
+						echo $block;
+					}
 				}
 			}
 			else
@@ -75,6 +79,10 @@ class Block {
 					echo $blocks
 						->bind('ctx', $ctx)
 						->render($params);
+				}
+				else if( $blocks instanceof Model_Widget_Part ) 
+				{
+					echo $blocks;
 				}
 			}
 		}	

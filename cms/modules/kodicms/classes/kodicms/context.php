@@ -324,9 +324,15 @@ class KodiCMS_Context {
 	 * @param array $widgets
 	 * @return \Context
 	 */
-	public function register_widgets( array & $widgets )
+	public function register_widgets( array $widgets )
 	{
-		$this->_widgets =& $widgets;
+		$this->_widgets += $widgets;
+		return $this;
+	}
+	
+	
+	public function init_widgets()
+	{
 		$this->_sort_widgets();
 		
 		foreach( $this->_widget_ids as $id ) 
@@ -343,10 +349,8 @@ class KodiCMS_Context {
 				}
 			}
 		}
-
-		return $this;
 	}
-	
+
 	/**
 	 * 
 	 * @param Model_Widget_Decorator | View $widget

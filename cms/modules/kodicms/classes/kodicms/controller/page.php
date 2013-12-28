@@ -17,8 +17,6 @@ class KodiCMS_Controller_Page extends Controller_System_Backend {
 
 		$this->breadcrumbs
 			->add(__('Pages'), Route::url('backend', array('controller' => 'page')));
-
-		Assets::js('controller.behavior', ADMIN_RESOURCES . 'js/controller/behavior.js', 'global');
 	}
 
 	public function action_index()
@@ -35,7 +33,6 @@ class KodiCMS_Controller_Page extends Controller_System_Backend {
 	
 	public function action_sort()
 	{
-		
 		$this->template->title = __('Sort pages');
 		$this->auto_render = FALSE;
 
@@ -49,7 +46,6 @@ class KodiCMS_Controller_Page extends Controller_System_Backend {
 
 	public function action_add( )
 	{
-		Assets::js('controller.parts', ADMIN_RESOURCES . 'js/controller/parts.js', 'global');
 		Assets::js('controller.page_fields', ADMIN_RESOURCES . 'js/controller/page_fields.js', 'global');
 		
 		$parent_id = (int) $this->request->param('id', 1);
@@ -159,7 +155,6 @@ class KodiCMS_Controller_Page extends Controller_System_Backend {
 
 	public function action_edit( )
 	{
-		Assets::js('controller.parts', ADMIN_RESOURCES . 'js/controller/parts.js', 'global');
 		Assets::js('controller.page_fields', ADMIN_RESOURCES . 'js/controller/page_fields.js', 'global');
 
 		$page_id = $this->request->param('id');

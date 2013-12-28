@@ -68,18 +68,13 @@ return array(
 	
 	/*********************** Page *********************************/
 	'Add page' => 'Добавить страницу',
-	'Add page part' => 'Добавить часть страницы',
-	'Content of page part :part_name is protected from changes.' 
-		=> 'Контент части страницы :part_name защищен от изменений.',
 	'Author' => 'Автор',
 	'Content' => 'Контент',
 	'Edit page' => 'Редактировать страницу',
 	'Find page' => 'Найти страницу',
-	'Is protected' => 'Защищена',
 	'Keywords' => 'Ключевые слова',
 	'Last updated by :anchor on :date' 
 		=> 'Последнее обновление :anchor, :date',
-	'Filter' => 'Фильтр',
 	'Add child page' => 'Добавить страницу-потомка',
 	'Draft' => 'Черновик',
 	'Latest' => 'Последнее',
@@ -93,12 +88,9 @@ return array(
 	'Page meta information' => 'Мета-информация о странице',
 	'Page not found!' => 'Страница не найдена!',
 	'Page options' => 'Опции страницы',
-	'Page part options' => 'Опции части страницы',
 	'Page title' => 'Заголовок',
 	'Pages' => 'Страницы',
 	'Published' => 'Опубликована',
-	'Remove part :part_name' => 'Удалить часть :part_name',
-	'Remove part :part_name?' => 'Удалить часть :part_name?',
 	'Reorder' => 'Сортировать',
 	'Password protected' => 'Защищена паролем',
 	'Page password' => 'Пароль',
@@ -110,8 +102,6 @@ return array(
 	'View page' => 'Просмотреть страницу',
 	'You do not have permission to access the requested page!' 
 		=> 'У вас нет прав для доступа к запрашиваемой страние!',
-	'Double click to edit part name.' 
-		=> 'Для редактирования заголовка кликнете по нему два раза',
 	'Current layput: :name' => 'Текущий шаблон :name',
 	'Show field select' => 'Выбрать из списка',
 	'Hide field select' => 'Скрыть список полей',
