@@ -57,13 +57,16 @@ class Model_Navigation_Section extends Model_Navigation_Abstract implements Coun
 	{
 		foreach ($pages as $page)
 		{
-			if(!empty($page['children']))
+			if(isset($page['children']))
 			{
 				$section = Model_Navigation::get_section($page['name'], $this);
 				if(isset($page['icon']))
 					$section->icon = $page['icon'];
 
-				$section->add_pages($page['children']);
+				if(count($page['children']) > 0)
+				{
+					$section->add_pages($page['children']);
+				}
 			}
 			else
 			{
