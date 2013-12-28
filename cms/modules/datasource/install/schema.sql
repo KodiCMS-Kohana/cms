@@ -9,8 +9,7 @@ CREATE TABLE IF NOT EXISTS `__TABLE_PREFIX__datasources` (
   `updated_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `locks` int(3) unsigned NOT NULL DEFAULT '0',
   `code` text,
-  PRIMARY KEY (`ds_id`),
-  KEY `intl` (`internal`),
-  KEY `ds_type` (`ds_type`,`internal`),
+  PRIMARY KEY (`id`),
+  KEY `type` (`type`),
   KEY `docs` (`docs`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
