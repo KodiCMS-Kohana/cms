@@ -107,7 +107,7 @@ class Part
 	final private static function _load_parts($page_id)
 	{
 		return DB::select('name', 'content', 'content_html')
-			->from(self::tableName())
+			->from(Model_Page_Part::tableName())
 			->where('page_id', '=', $page_id)
 			->cache_tags( array('page_parts') )
 			->as_object('Model_Page_Part')
