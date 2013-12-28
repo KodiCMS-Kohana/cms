@@ -77,7 +77,7 @@ class KodiCMS_Model_Page_Front {
 	 *
 	 * @var Model_Front_Page 
 	 */
-	public $parent = NULL;
+	protected $_parent = NULL;
 	
 	/**
 	 *
@@ -159,16 +159,18 @@ class KodiCMS_Model_Page_Front {
 	public function __construct($object, $parent)
 	{
 		if($parent instanceof Model_Page_Front)
-			$this->parent = $parent;
+		{
+			$this->_parent = $parent;
+		}
 
 		foreach ($object as $key => $value) 
 		{
 			$this->$key = $value;
 		}
 
-		if ($this->parent instanceof Model_Page_Front)
+		if ($this->parent() instanceof Model_Page_Front)
 		{
-			$this->setUrl();
+			$this->_set_url();
 		}
 
 		$this->level = $this->level();
@@ -178,9 +180,10 @@ class KodiCMS_Model_Page_Front {
 	 * 
 	 * @return \Model_Page_Front
 	 */
-	protected function setUrl()
+	protected function _set_url()
 	{
-		$this->url = trim($this->parent->url .'/'. $this->slug, '/');
+		$this->url = trim($this->parent()->url .'/'. $this->slug, '/');
+		
 		return $this;
 	}
 
@@ -232,16 +235,18 @@ class KodiCMS_Model_Page_Front {
 						$parts[] = $this->title();
 					break;
 					case '..': // Parent page
-						$parent = $this->parent();
-						if($parent instanceof Model_Page_Front)
+						if($this->parent() instanceof Model_Page_Front)
+						{
 							$parts[] = $this->parent()->meta_title();
+						}
 					break;
 					default: // Level
 						if($f >= 0 AND $this->level() != $f)
 						{
-							$parent = $this->parent($f);
-							if($parent instanceof Model_Page_Front)
+							if($this->parent($f) instanceof Model_Page_Front)
+							{
 								$parts[] = $this->parent()->meta_title();
+							}
 						}
 					break;
 					
@@ -437,10 +442,10 @@ class KodiCMS_Model_Page_Front {
 	{
 		$crumbs = Breadcrumbs::factory();
 
-		if ( $this->parent instanceof Model_Page_Front 
+		if ( $this->parent() instanceof Model_Page_Front 
 				AND $this->level > $level)
 		{
-			$this->parent->_recurse_breadcrumbs($level, $crumbs);
+			$this->parent()->_recurse_breadcrumbs($level, $crumbs);
 		}
 
 		$crumbs->add($this->breadcrumb(), $this->url, TRUE, NULL, array(
@@ -452,10 +457,10 @@ class KodiCMS_Model_Page_Front {
 
 	private function _recurse_breadcrumbs($level, &$crumbs)
 	{
-		if ($this->parent instanceof Model_Page_Front 
+		if ($this->parent() instanceof Model_Page_Front 
 				AND $this->level > $level)
 		{
-			$this->parent->_recurse_breadcrumbs($level, $crumbs);
+			$this->parent()->_recurse_breadcrumbs($level, $crumbs);
 		}
 		
 		$crumbs->add($this->breadcrumb(), $this->url, FALSE, NULL, array(
@@ -478,9 +483,9 @@ class KodiCMS_Model_Page_Front {
 			
 		}
 		else if ($inherit !== FALSE
-				AND $this->parent instanceof Model_Page_Front )
+				AND $this->parent() instanceof Model_Page_Front )
 		{
-			return $this->parent->field($key, $default, $inherit);
+			return $this->parent()->field($key, $default, $inherit);
 		}
 		
 		return $default;
@@ -504,9 +509,9 @@ class KodiCMS_Model_Page_Front {
 			return TRUE;
 		}
 		else if($inherit !== FALSE 
-				AND $this->parent instanceof Model_Page_Front )
+				AND $this->parent() instanceof Model_Page_Front )
 		{
-			return $this->parent->has_field($key, $inherit);
+			return $this->parent()->has_field($key, $inherit);
 		}
 
 		return FALSE;
@@ -530,9 +535,9 @@ class KodiCMS_Model_Page_Front {
 			return TRUE;
 		}
 		else if($inherit !== FALSE 
-				AND $this->parent instanceof Model_Page_Front )
+				AND $this->parent() instanceof Model_Page_Front )
 		{
-			return $this->parent->has_content($part, TRUE);
+			return $this->parent()->has_content($part, TRUE);
 		}
 
 		return FALSE;
@@ -570,9 +575,9 @@ class KodiCMS_Model_Page_Front {
 			
 		}
 		else if ($inherit !== FALSE
-				AND $this->parent instanceof Model_Page_Front )
+				AND $this->parent() instanceof Model_Page_Front )
 		{
-			$this->parent->content($part, TRUE, $cache_lifetime);
+			$this->parent()->content($part, TRUE, $cache_lifetime);
 		}
 	}
 	
@@ -612,9 +617,9 @@ class KodiCMS_Model_Page_Front {
 	 */
 	public function previous()
 	{
-		if( $this->parent instanceof Model_Page_Front )
+		if( $this->parent() instanceof Model_Page_Front )
 		{
-			$pages = $this->parent->children(array(
+			$pages = $this->parent()->children(array(
 				'where' => array(array('page.id', '<', $this->id)),
 				'order_by' => array(array('page.created_on', 'desc')),
 				'limit' => 1
@@ -632,9 +637,9 @@ class KodiCMS_Model_Page_Front {
 	 */
 	public function next()
 	{
-		if( $this->parent instanceof Model_Page_Front )
+		if( $this->parent() instanceof Model_Page_Front )
 		{
-			$pages = $this->parent->children(array(
+			$pages = $this->parent()->children(array(
 				'where' => array(array('page.id', '<', $this->id)),
 				'order_by' => array(array('page.created_on', 'asc')),
 				'limit' => 1
@@ -992,7 +997,7 @@ class KodiCMS_Model_Page_Front {
 	{
 		if ($level === NULL)
 		{
-			return $this->parent;
+			return $this->_parent;
 		}
 
 		if ($level > $this->level)
@@ -1003,9 +1008,9 @@ class KodiCMS_Model_Page_Front {
 		{
 			return $this;
 		}
-		else if($this->parent instanceof Model_Page_Front)
+		else if($this->parent() instanceof Model_Page_Front)
 		{
-			return $this->parent->parent($level);
+			return $this->parent()->parent($level);
 		}
 
 		return NULL;
@@ -1066,9 +1071,9 @@ class KodiCMS_Model_Page_Front {
 		{
 			return $this->layout_file;
 		}
-		else if( $this->parent instanceof Model_Page_Front )
+		else if( $this->parent() instanceof Model_Page_Front )
 		{
-			return $this->parent->layout();
+			return $this->parent()->layout();
 		}
 
 		return NULL;
@@ -1082,9 +1087,9 @@ class KodiCMS_Model_Page_Front {
 	public function needs_login()
 	{
 		if ($this->needs_login == Model_Page::LOGIN_INHERIT 
-				AND $this->parent instanceof Model_Page_Front)
+				AND $this->parent() instanceof Model_Page_Front)
 		{
-			return $this->parent->needs_login();
+			return $this->parent()->needs_login();
 		}
 
 		return $this->needs_login;
