@@ -232,18 +232,8 @@ class KodiCMS_Model_Page extends Record
 
 	/**
 	 * 
-	 * @return array
+	 * @return string
 	 */
-	public function get_tags()
-	{
-		return Model_Page_Tag::find_by_page( $this->id );
-	}
-
-	public function save_tags($tags)
-	{
-		return Model_Page_Tag::save_by_page( $this->id, $tags );
-	}
-
 	public function layout()
 	{
 		if( empty($this->layout_file) AND ! empty($this->parent_id) )

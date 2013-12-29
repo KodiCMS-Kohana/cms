@@ -71,7 +71,6 @@ class KodiCMS_Controller_Page extends Controller_System_Backend {
 			'parent_id' => $parent_id,
 			'page' => $page,
 			'pages' => Model_Page_Sitemap::get()->exclude(array($page->id))->flatten(),
-			'tags' => Flash::get('page_tag', array()),
 			'filters' => WYSIWYG::findAll(),
 			'behaviors' => Behavior::findAll(),
 			'layouts' => Model_File_Layout::find_all(),
@@ -83,10 +82,8 @@ class KodiCMS_Controller_Page extends Controller_System_Backend {
 	private function _add( $parent_id )
 	{
 		$data = $this->request->post('page');
-		$tags = Arr::get($data, 'tags', array());
 
 		Flash::set( 'post_data', (object) $data );
-		Flash::set( 'page_tag', $tags );
 
 		if ( Config::get('site', 'allow_html_title' ) == 'off' )
 		{
@@ -95,7 +92,7 @@ class KodiCMS_Controller_Page extends Controller_System_Backend {
 
 		$data['status_id'] = Config::get('site', 'default_status_id' );
 
-		$page = new Model_Page( $data, array('tags') );
+		$page = new Model_Page( $data );
 		$page->parent_id = $parent_id;
 		
 		Observer::notify( 'page_add_before_save', $page );
@@ -103,9 +100,6 @@ class KodiCMS_Controller_Page extends Controller_System_Backend {
 		// save page data
 		if ( $page->save() )
 		{
-			// save tags
-			$page->save_tags( $tags );
-
 			if ( ACL::check( 'page.permissions' ) )
 			{
 				// save permissions
@@ -135,7 +129,7 @@ class KodiCMS_Controller_Page extends Controller_System_Backend {
 			));
 		}
 		
-		Session::instance()->delete('post_data', 'post_parts_data', 'page_tag');
+		Session::instance()->delete('post_data', 'post_parts_data');
 
 		// save and quit or save and continue editing ?
 		if ( $this->request->post('commit') !== NULL )
@@ -185,7 +179,6 @@ class KodiCMS_Controller_Page extends Controller_System_Backend {
 			'action' => 'edit',
 			'page' => $page,
 			'pages' => Model_Page_Sitemap::get()->exclude(array($page->id))->flatten(),
-			'tags' => Flash::get('page_tag', $page->get_tags()),
 			'filters' => WYSIWYG::findAll(),
 			'behaviors' => Behavior::findAll(),
 			'layouts' => Model_File_Layout::find_all(),
@@ -205,29 +198,12 @@ class KodiCMS_Controller_Page extends Controller_System_Backend {
 
 		$page = Record::findByIdFrom( 'Model_Page', $page_id );
 
-		$page->setFromData( $data, array( 'tags' ) );
+		$page->setFromData( $data );
 
 		Observer::notify( 'page_edit_before_save', $page );
 
 		if ( $page->save() )
 		{
-			// save parts
-			foreach (Arr::get($this->request->post(), 'part_content', array()) as $id => $content)
-			{
-				$part = Record::findByIdFrom('Model_Page_Part', (int) $id);
-				
-				if($content == $part->content) continue;
-
-				Observer::notify( 'part_before_save', $part );
-		
-				$part
-					->setFromData(array('content' => $content))
-					->save();
-			}
-
-			// save tags
-			$page->save_tags(Arr::get($data, 'tags', array()) );
-
 			if ( ACL::check( 'page.permissions' ) )
 			{
 				// save permissions

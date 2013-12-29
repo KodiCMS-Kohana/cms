@@ -49,6 +49,7 @@ Kohana::modules( array(
 	'scheduler'		=> MODPATH . 'scheduler',
 	'snippet'		=> MODPATH . 'snippet',
 	'parts'			=> MODPATH . 'parts',
+	'tags'			=> MODPATH . 'tags',		// Tags
 	'widget'		=> MODPATH . 'widget',
 	'reflinks'		=> MODPATH . 'reflinks',
 	'elfinder'		=> MODPATH . 'elfinder',

@@ -2,7 +2,6 @@
 return array
 (
 	'front_page' => Date::DAY,
-	'tags' => Date::DAY,
 	
 	'file'    => array(
 		'driver'             => 'file',

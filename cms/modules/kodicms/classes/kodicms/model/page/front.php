@@ -95,12 +95,6 @@ class KodiCMS_Model_Page_Front {
 	 *
 	 * @var array 
 	 */
-	protected $_tags = NULL;
-
-	/**
-	 *
-	 * @var array 
-	 */
 	private static $pages_cache = array();
 	
 	/**
@@ -321,21 +315,6 @@ class KodiCMS_Model_Page_Front {
 
 		return $this->level;
 	}
-
-	/**
-	 * 
-	 * @return array
-	 */
-	public function tags()
-	{
-		if ( $this->_tags === NULL )
-		{
-			$this->_tags = $this->_load_tags();
-		}
-
-		return $this->_tags;
-	}
-
 	/**
 	 * 
 	 * @return boolean
@@ -437,6 +416,11 @@ class KodiCMS_Model_Page_Front {
 		return $crumbs;
 	}
 
+	/**
+	 * 
+	 * @param integer $level
+	 * @param Breadcrumbs $crumbs
+	 */
 	private function _recurse_breadcrumbs($level, &$crumbs)
 	{
 		if ($this->parent() instanceof Model_Page_Front 
@@ -525,7 +509,7 @@ class KodiCMS_Model_Page_Front {
 			$sql->where('published_on', '<=', DB::expr('NOW()'));
 		}
 		
-		$sql = $this->filter_by_tags($sql);
+		$this->custom_filter($sql);
 
 		$sql = Record::_conditions($sql, $clause);
 
@@ -579,7 +563,7 @@ class KodiCMS_Model_Page_Front {
 			$sql->where('published_on', '<=', DB::expr('NOW()'));
 		}
 		
-		$sql = $this->filter_by_tags($sql);
+		$this->custom_filter($sql);
 
 		// Prepare SQL
 		$sql = Record::_conditions($sql, $clause);
@@ -591,19 +575,14 @@ class KodiCMS_Model_Page_Front {
 			->get('total');
 	}
 	
-	public function filter_by_tags($sql)
+	/**
+	 * 
+	 * @param Database_Query $sql
+	 * @return void
+	 */
+	public function custom_filter( Database_Query & $sql )
 	{
-		$tags = Context::instance()->get('tag');
-		
-		if(empty($tags)) return $sql;
-		$tags = explode(',', $tags);
-
-		return $sql->join(array(Model_Page_Tag::TABLE_NAME, 'pts'), 'inner')
-			->distinct(TRUE)
-			->on('pts.page_id', '=', 'page.id')
-			->join(array(Model_Tag::TABLE_NAME, 'ts'))
-			->on('pts.tag_id', '=', 'ts.id')
-			->where('ts.name', 'in', $tags);
+		Observer::notify('frontpage_custom_filter', $sql, $this);
 	}
 
 	/**
@@ -671,7 +650,7 @@ class KodiCMS_Model_Page_Front {
 	/**
 	 * 
 	 * @param string $slug
-	 * @param integer $parent
+	 * @param Model_Page_Front $parent
 	 * @return boolean|\Model_Page_Front
 	 */
 	public static function findBySlug( $slug, $parent )
