@@ -128,8 +128,6 @@ class KodiCMS_Model_Page extends Record
 		{
 			$cache = Cache::instance();
 			$cache->delete_tag('pages');
-			$cache->delete_tag('page_parts');
-			$cache->delete_tag('page_tags');
 		}
 
 		return $this->afterInsert();
@@ -144,8 +142,6 @@ class KodiCMS_Model_Page extends Record
 		{
 			$cache = Cache::instance();
 			$cache->delete_tag('pages');
-			$cache->delete_tag('page_parts');
-			$cache->delete_tag('page_tags');
 		}
 
 		return TRUE;
