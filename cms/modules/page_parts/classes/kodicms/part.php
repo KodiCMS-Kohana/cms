@@ -5,7 +5,7 @@
  * @category	Helper
  * @author		ButscHSter
  */
-class Part
+class KodiCMS_Part
 {	
 	/**
 	 *
@@ -20,7 +20,7 @@ class Part
 	 * @param boolean $inherit
 	 * @return boolean
 	 */
-	public static function has_content( Model_Page_Front $page, $part, $inherit = FALSE)
+	public static function exists( Model_Page_Front $page, $part, $inherit = FALSE)
 	{
 		if(self::$_parts === NULL)
 		{
@@ -34,7 +34,7 @@ class Part
 		else if($inherit !== FALSE 
 				AND $page->parent() instanceof Model_Page_Front )
 		{
-			return self::has_content( $this->parent(), $part, TRUE);
+			return self::exists( $this->parent(), $part, TRUE);
 		}
 
 		return FALSE;
@@ -50,7 +50,7 @@ class Part
 	 */
 	public static function content( Model_Page_Front $page, $part = 'body', $inherit = FALSE, $cache_lifetime = NULL, array $tags = array())
 	{		
-		if (self::has_content( $page, $part ))
+		if (self::exists( $page, $part ))
 		{
 			$view = self::get( $page->id(), $part);
 			
