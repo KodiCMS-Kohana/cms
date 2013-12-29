@@ -53,7 +53,7 @@ class KodiCMS_Controller_API_Page_Field extends Controller_System_Api {
 		try {
 			$field->create();
 			
-			$view = View::factory('page_fields/page/field', array(
+			$view = View::factory('page/fields/field', array(
 				'field' => $field
 			));
 			

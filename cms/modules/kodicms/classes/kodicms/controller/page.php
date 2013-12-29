@@ -46,8 +46,6 @@ class KodiCMS_Controller_Page extends Controller_System_Backend {
 
 	public function action_add( )
 	{
-		Assets::js('controller.page_fields', ADMIN_RESOURCES . 'js/controller/page_fields.js', 'global');
-		
 		$parent_id = (int) $this->request->param('id', 1);
 
 		// check if trying to save
@@ -155,8 +153,6 @@ class KodiCMS_Controller_Page extends Controller_System_Backend {
 
 	public function action_edit( )
 	{
-		Assets::js('controller.page_fields', ADMIN_RESOURCES . 'js/controller/page_fields.js', 'global');
-
 		$page_id = $this->request->param('id');
 
 		$page = Model_Page::findById( $page_id );

@@ -20,14 +20,14 @@
 			)); ?>
 		</div>
 		
-		<?php echo View::factory('page_fields/page/field', array(
+		<?php echo View::factory('page/fields/field', array(
 			'field' => ORM::factory( 'page_field')
 		)); ?>
 		<hr />
 		<button id="select-page-field" class="btn"><?php echo __('Show field select'); ?></button>
 	</div>
 	<?php foreach($fields as $field): ?>
-	<?php echo View::factory('page_fields/page/field', array(
+	<?php echo View::factory('page/fields/field', array(
 		'field' => $field
 	)); ?>
 	<?php endforeach; ?>
