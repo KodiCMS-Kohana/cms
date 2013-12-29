@@ -407,7 +407,7 @@ class KodiCMS_Record
     public static function deleteWhere($class_name, array $clause, $values = array())
     {
 		$sql = DB::delete()
-			->from(static::tableName($class_name));
+			->table(static::tableName($class_name));
 
 		$sql = static::_conditions($sql, $clause);
 
