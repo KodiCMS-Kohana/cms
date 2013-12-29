@@ -25,3 +25,19 @@ Observer::observe( 'frontpage_found',  function($page) {
 Observer::observe(array('controller_before_page_edit', 'controller_before_page_add'), function() {
 	Assets::js('controller.parts', ADMIN_RESOURCES . 'js/controller/parts.js', 'global');
 });
+
+Observer::observe('page_edit_after_save', function($page) {
+	$parts = Arr::get(Request::initial()->post(), 'part_content', array());
+	
+	foreach ($parts as $id => $content)
+	{
+		$part = Record::findByIdFrom('Model_Page_Part', (int) $id);
+
+		if($content == $part->content) continue;
+
+		$part
+			->setFromData(array('content' => $content))
+			->save();
+	}
+});
+			
