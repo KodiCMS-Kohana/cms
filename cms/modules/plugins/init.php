@@ -19,3 +19,7 @@ Route::set( 'plugins', ADMIN_DIR_NAME.'/plugins(/<action>(/<id>))', array(
 		'controller' => 'plugins',
 		'action' => 'index',
 	) );
+
+Observer::observe( 'layout_backend_head_before', function() {
+	echo View::factory('plugins/js');
+});

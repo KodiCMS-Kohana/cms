@@ -7,7 +7,7 @@
  */
 class Controller_Install extends Controller_System_Frontend 
 {
-	public $template = 'layouts/frontend';
+	public $template = 'system/frontend';
 	
 	/**
 	 *

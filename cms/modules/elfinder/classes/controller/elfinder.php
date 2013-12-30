@@ -7,7 +7,7 @@
  */
 class Controller_Elfinder extends Controller_System_Template {
 	
-	public $template = 'layouts/frontend';
+	public $template = 'system/frontend';
 	
 	public function before()
 	{

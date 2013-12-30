@@ -20,9 +20,6 @@ class KodiCMS_Controller_System_Frontend extends Controller_System_Template
 			
 			Assets::js('bootstrap', ADMIN_RESOURCES . 'libs/bootstrap/js/bootstrap.min.js', 'jquery');
 			
-			Assets::css('fancybox', ADMIN_RESOURCES . 'libs/fancybox/jquery.fancybox.css', 'jquery');
-			Assets::js('fancybox', ADMIN_RESOURCES . 'libs/fancybox/jquery.fancybox.pack.js', 'jquery');
-			
 			Assets::css('jgrowl', ADMIN_RESOURCES . 'libs/jgrowl/jquery.jgrowl.css', 'jquery');
 			Assets::js('jgrowl', ADMIN_RESOURCES . 'libs/jgrowl/jquery.jgrowl_minimized.js', 'jquery');
 			

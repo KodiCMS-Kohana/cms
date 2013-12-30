@@ -7,11 +7,11 @@
  */
 class KodiCMS_Controller_System_Error extends Controller_System_Frontend {
 	
-	public $template = 'layouts/frontend';
+	public $template = 'system/frontend';
 	
 	public function action_index()
 	{
-		$this->template->content = View::factory( 'system/404' );
+		$this->template->content = View::factory( 'system/error/404' );
 
 		$uri = URL::site( rawurldecode( Request::initial()->uri() ) );
 		$this->template->content->message = __( 'Critical error' );

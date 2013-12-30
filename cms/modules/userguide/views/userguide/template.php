@@ -7,19 +7,18 @@
 		<link href="<?php echo ADMIN_RESOURCES; ?>favicon.ico" rel="favourites icon" />
 
 		<script type="text/javascript">
-		<?php echo View::factory('layouts/blocks/jsvars'); ?>
+		<?php echo View::factory('system/blocks/jsvars'); ?>
 		<?php echo $messages; ?>
 		</script>
 
+		<?php Observer::notify( 'layout_backend_head_before' ); ?>
 		<?php echo Assets::css(); ?>
 		<?php echo Assets::js(); ?>
-
-		<?php Observer::notify( 'layout_backend_head' ); ?>
+		<?php Observer::notify( 'layout_backend_head_after' ); ?>
 	</head>
 	<body id="body_<?php echo $page_body_id; ?>">
-
 		<div id="content-wrapper">
-			<?php echo View::factory('layouts/blocks/navigation'); ?>
+			<?php echo View::factory('system/blocks/navigation'); ?>
 			<?php echo $breadcrumbs; ?>
 			<div class="container-fluid">
 				
@@ -46,7 +45,7 @@
 			<div class="clearfix"></div>
 		</div>
 		
-		<?php echo View::factory('layouts/blocks/footer'); ?>
+		<?php echo View::factory('system/blocks/footer'); ?>
 
 		<?php if ( Config::get('site', 'profiling' ) == Config::YES ): ?>
 		<hr />

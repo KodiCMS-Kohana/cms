@@ -8,13 +8,14 @@
 		<link href="<?php echo ADMIN_RESOURCES; ?>favicon.ico" rel="favourites icon" />
 		
 		<script type="text/javascript">
-		<?php echo View::factory('layouts/blocks/jsvars'); ?>
+		<?php echo View::factory('system/blocks/jsvars'); ?>
 		<?php echo $messages; ?>
 		</script>
 
+		<?php Observer::notify( 'layout_frontend_head_before' ); ?>
 		<?php echo Assets::css(); ?>
 		<?php echo Assets::js(); ?>
-
+		<?php Observer::notify( 'layout_frontend_head_after' ); ?>
 	</head>
 	<body id="body_frontend">
 		<div id="content-wrapper">
@@ -24,12 +25,9 @@
 				</section>
 			</div>
 		</div>
-
 		<?php if ( Config::get('site', 'profiling' ) == Config::YES ): ?>
 		<hr />
 		<?php echo View::factory( 'profiler/stats' ) ?>
 		<?php endif; ?>
 	</body>
-	
-	
 </html>

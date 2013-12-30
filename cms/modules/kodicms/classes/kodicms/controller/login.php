@@ -7,7 +7,7 @@
  */
 class KodiCMS_Controller_Login extends Controller_System_Frontend {
 
-	public $template = 'layouts/frontend';
+	public $template = 'system/frontend';
 
 	public function before()
 	{

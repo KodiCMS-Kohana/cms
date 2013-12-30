@@ -10,7 +10,7 @@ class KodiCMS_Controller_System_Template extends Controller_System_Security
 	/**
 	 * @var  View  page template
 	 */
-	public $template = 'layouts/backend';
+	public $template = 'system/backend';
 
 	/**
 	 *
@@ -56,7 +56,7 @@ class KodiCMS_Controller_System_Template extends Controller_System_Security
 			if ( $this->request->is_ajax() === TRUE )
 			{
 				// Load the template
-				$this->template = View::factory( 'layouts/ajax' );
+				$this->template = View::factory( 'system/ajax' );
 			}
 			else
 			{
@@ -110,7 +110,7 @@ class KodiCMS_Controller_System_Template extends Controller_System_Security
 			}
 			else
 			{
-				$this->template->messages = View::factory('layouts/blocks/messages', array(
+				$this->template->messages = View::factory('system/blocks/messages', array(
 					'messages' => Messages::get() 
 				));
 			}

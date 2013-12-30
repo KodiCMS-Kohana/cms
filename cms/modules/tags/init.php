@@ -13,6 +13,12 @@ Observer::observe( 'view_page_edit_meta', function($page) {
 	));
 });
 
+Observer::observe( 'layout_backend_head_before', function() {
+	echo View::factory('tags/js', array(
+		'separator' => Model_Tag::SEPARATOR
+	));
+});
+
 // При выводе списка стран запускается метод custom_filter и передача в него 
 // Database_query_builder, в этом обсервере можно дополнять этот запрос
 Observer::observe( 'frontpage_custom_filter', function($sql, $page) {

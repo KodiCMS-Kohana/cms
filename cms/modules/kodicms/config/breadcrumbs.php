@@ -2,7 +2,7 @@
 
 return array(
 	'default' => array(
-		'view' => 'layouts/blocks/breadcrumbs',
+		'view' => 'system/blocks/breadcrumbs',
 		'urls' => TRUE,
 		'active_class' => 'active'
 	)
