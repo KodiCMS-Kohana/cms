@@ -350,6 +350,8 @@ class Controller_Install extends Controller_System_Frontend
 	 */
 	protected function _install_plugins()
 	{
+		if( ! is_dir(MODPATH . 'plugins') ) return;
+
 		Kohana::modules(Kohana::modules() + array('plugins'	=> MODPATH . 'plugins'));
 
 		$default_plugins = Kohana::$config->load('installer')->get('default_plugins', array());
@@ -399,7 +401,7 @@ class Controller_Install extends Controller_System_Frontend
 	{
 		$tpl_file = INSTALL_DATA . 'config.tpl';
 		
-		if ( !file_exists( $tpl_file ) )
+		if ( ! file_exists( $tpl_file ) )
 		{
 			throw new Installer_Exception( 'Config template file :file not found!', array(
 				':file' => $tpl_file
@@ -427,7 +429,7 @@ class Controller_Install extends Controller_System_Frontend
 			array_keys( $repl ), array_values( $repl ), $tpl_content
 		);
 
-		if ( !file_put_contents( CFGFATH, $tpl_content ) !== FALSE )
+		if ( ! file_put_contents( CFGFATH, $tpl_content ) !== FALSE )
 		{
 			throw new Installer_Exception( 'Can\'t write config.php file!' );
 		}

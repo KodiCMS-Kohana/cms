@@ -100,7 +100,22 @@ if ( ! defined('KOHANA_START_MEMORY'))
 	define('KOHANA_START_MEMORY', memory_get_usage());
 }
 
-define('IS_INSTALLED', file_exists(CFGFATH));
+// Check is installed CMS
+$is_installed = FALSE;
+if(file_exists(CFGFATH))
+{
+	$is_installed = TRUE;
+	include CFGFATH;
+	
+	if(
+		! defined('ADMIN_DIR_NAME')
+	)
+	{
+		$is_installed = FALSE;
+	}
+}
+
+define('IS_INSTALLED', $is_installed);
 
 // Bootstrap the application
 require APPPATH.'bootstrap'.EXT;
@@ -109,13 +124,16 @@ $uri = TRUE;
 
 if ( IS_INSTALLED )
 {
-	include CFGFATH;
 	include APPPATH.'init'.EXT;
+}
+else if( is_dir( MODPATH . 'installer' ) )
+{
+	// Load the installation check
+	include  MODPATH . 'installer' . DIRECTORY_SEPARATOR . 'bootstrap'.EXT;
 }
 else
 {
-	// Load the installation check
-	include APPPATH.'install'.EXT;
+	die('Please use module Installer to install KodiCMS.');
 }
 
 if (PHP_SAPI == 'cli') // Try and load minion
