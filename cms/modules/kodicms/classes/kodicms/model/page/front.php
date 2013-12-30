@@ -914,15 +914,6 @@ class KodiCMS_Model_Page_Front {
 	}
 
 	/**
-	 * @return array
-	 */
-	final private function _load_tags()
-	{
-		return Model_Page_Tag::find_by_page($this->id);
-	}
-
-
-	/**
 	 * 
 	 * @param boolean $include_hidden
 	 * @return array
