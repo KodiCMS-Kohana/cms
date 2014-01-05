@@ -10,7 +10,7 @@ class URL extends Kohana_URL {
 	 */
 	public static function check_suffix($uri, $suffix = NULL)
 	{
-		if($suffix === NULL)
+		if($suffix === NULL AND defined('URL_SUFFIX') AND strlen(URL_SUFFIX) > 0)
 		{
 			$suffix = URL_SUFFIX;
 		}
