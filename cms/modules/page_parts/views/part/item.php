@@ -70,12 +70,7 @@
 		</div>
 		<% } else { %>
 		<div class="widget-content widget-no-border-radius widget-nopad part-textarea" <% if ( is_expanded == 0 ) { %>style="display:none;"<% } %>>
-			<textarea id="pageEditPartContent-<%= name %>" name="part_content[<%= id %>]"><%= content.replace(/&/g, "&amp;")
-				.replace(/</g, "&lt;")
-				.replace(/>/g, "&gt;")
-				.replace(/"/g, "&quot;")
-				.replace(/'/g, "&#039;") %>
-			</textarea>
+			<textarea id="pageEditPartContent-<%= name %>" name="part_content[<%= id %>]"><%= content.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;") %></textarea>
 		</div>
 		<% } %>
 	</div>
