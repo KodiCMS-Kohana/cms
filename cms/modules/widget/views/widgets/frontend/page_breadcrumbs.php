@@ -2,13 +2,13 @@
 <h3><?php echo $header; ?></h3>
 <?php endif; ?>
 
-<?php if(!empty($pages)): ?>
+<?php if(!empty($crumbs)): ?>
 <ul class="breadcrumb">
-	<?php foreach($pages as $page): ?>
-	<?php if(end($pages) === $page): ?>
-	<li class="active"><?php echo $page['title']; ?></li>
+	<?php foreach($crumbs as $page): ?>
+	<?php if($crumbs->is_last()): ?>
+	<li class="active"><?php echo $page->name; ?></li>
 	<?php else: ?>
-	<li><?php echo HTML::anchor($page['uri'], $page['title']); ?></li>
+	<li><?php echo $page->link(); ?></li>
 	<?php endif; ?>
 	<?php endforeach; ?>
 </ul>

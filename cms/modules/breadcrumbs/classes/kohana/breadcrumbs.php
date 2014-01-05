@@ -5,19 +5,19 @@
  * @author		ButscHSter
  */
 abstract class Kohana_Breadcrumbs implements Countable, Iterator {
-	
+
 	/**
 	 *
 	 * @var array 
 	 */
 	protected $options = array();
-	
+
 	/**
 	 *
 	 * @var array
 	 */
 	protected $_items = array();
-	
+
 	/**
 	 * 
 	 * @param array $options
@@ -27,7 +27,7 @@ abstract class Kohana_Breadcrumbs implements Countable, Iterator {
 	{
 		return new Breadcrumbs($options);
 	}
-	
+
 	/**
 	 * 
 	 * @param array $options
@@ -37,7 +37,7 @@ abstract class Kohana_Breadcrumbs implements Countable, Iterator {
 		$local_options = Kohana::$config->load('breadcrumbs')->get('default');
 		$this->options = Arr::merge($local_options, $options);
 	}
-	
+
 	/**
 	 * 
 	 * @param string $name
@@ -48,10 +48,10 @@ abstract class Kohana_Breadcrumbs implements Countable, Iterator {
 	public function add($name, $url = FALSE, $is_active = FALSE, $position = NULL, array $data = array())
 	{
 		$item = new Breadcrumbs_Item($name, $url, $is_active, $data);
-		
+
 		$position = $this->_get_next_positon($position);
 		$this->_items[$position] = $item;
-		
+
 		return $this;
 	}
 
@@ -69,30 +69,30 @@ abstract class Kohana_Breadcrumbs implements Countable, Iterator {
 		{
 			return FALSE;
 		}
-		
+
 		$item->url = $url;
 
 		if($is_active === TRUE)
 		{
 			$item->active = TRUE;
 		}
-		
+
 		if( !empty($data))
 		{
 			$item->set($data);
 		}
-		
+
 		if($position !== NULL)
 		{
 			$position = $this->_get_next_positon($position);
 			$this->_items[$position] = $item;
-			
+
 			$this->delete($item->name);
 		}
-		
+
 		return $this;
 	}
-	
+
 	/**
 	 * 
 	 * @param string $name
@@ -102,7 +102,7 @@ abstract class Kohana_Breadcrumbs implements Countable, Iterator {
 	{
 		return $this->delete_by('name', $name);
 	}
-	
+
 	/**
 	 * 
 	 * @param string $key
@@ -112,7 +112,7 @@ abstract class Kohana_Breadcrumbs implements Countable, Iterator {
 	public function delete_by( $key, $value )
 	{
 		$position = $this->find_by( $key, $value );
-		
+
 		if($position === NULL)
 		{
 			return FALSE;
@@ -141,7 +141,7 @@ abstract class Kohana_Breadcrumbs implements Countable, Iterator {
 				$position++;
 			}
 		}
-		
+
 		return $position;
 	}
 
@@ -167,10 +167,10 @@ abstract class Kohana_Breadcrumbs implements Countable, Iterator {
 				return $pos;
 			}
 		}
-		
+
 		return NULL;
 	}
-	
+
 	/**
 	 * 
 	 * @param string $key
@@ -179,13 +179,34 @@ abstract class Kohana_Breadcrumbs implements Countable, Iterator {
 	public function get_by($key, $value)
 	{
 		$position = $this->find_by($key, $value);
-		
+
 		if($position === NULL)
 		{
 			return NULL;
 		}
-		
+
 		return $this->_items[$position];
+	}
+	
+	
+	/**
+	 * 
+	 * @return boolean
+	 */
+	public function is_last()
+	{
+		$items = $this->_items;
+		return $this->current() === end($items);
+	}
+	
+	/**
+	 * 
+	 * @return boolean
+	 */
+	public function is_first()
+	{
+		$items = $this->_items;
+		return $this->current() === reset($items);
 	}
 
 	/**
@@ -196,38 +217,53 @@ abstract class Kohana_Breadcrumbs implements Countable, Iterator {
 	{
 		return count($this->_items);
 	}
-	
-	
-    public function rewind()
-    {
-        reset($this->_items);
-    }
+
+
+	public function rewind()
+	{
+		reset($this->_items);
+	}
 
 	public function current()
-    {
-        $item = current($this->_items);
-        return $item;
-    }
-	
+	{
+		$item = current($this->_items);
+		return $item;
+	}
+
+	/**
+	 * 
+	 * @return integer
+	 */
 	public function key() 
-    {
-        $item = key($this->_items);
-        return $item;
-    }
-	
+	{
+		$item = key($this->_items);
+		return $item;
+	}
+
+	/**
+	 * 
+	 * @return Breadcrumbs_Item
+	 */
 	public function next() 
-    {
-        $item = next($this->_items);
-        return $item;
-    }
-	
+	{
+		$item = next($this->_items);
+		return $item;
+	}
+
+	/**
+	 * 
+	 * @return boolean
+	 */
 	public function valid()
-    {
-        $key = key($this->_items);
-        $item = ($key !== NULL AND $key !== FALSE);
-        return $item;
-    }
-	
+	{
+		$key = key($this->_items);
+		return ($key !== NULL AND $key !== FALSE);
+	}
+
+	/**
+	 * 
+	 * @return View
+	 */
 	public function render()
 	{
 		return View::factory($this->options['view'], array(
