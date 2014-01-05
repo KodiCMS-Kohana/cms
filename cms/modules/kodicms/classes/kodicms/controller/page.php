@@ -70,7 +70,7 @@ class KodiCMS_Controller_Page extends Controller_System_Backend {
 			'action' => 'add',
 			'parent_id' => $parent_id,
 			'page' => $page,
-			'pages' => Model_Page_Sitemap::get()->exclude(array($page->id))->flatten(),
+			'pages' => Model_Page_Sitemap::get(TRUE)->exclude(array($page->id))->flatten(),
 			'filters' => WYSIWYG::findAll(),
 			'behaviors' => Behavior::findAll(),
 			'layouts' => Model_File_Layout::find_all(),
@@ -178,7 +178,7 @@ class KodiCMS_Controller_Page extends Controller_System_Backend {
 		$this->template->content = View::factory( 'page/edit', array(
 			'action' => 'edit',
 			'page' => $page,
-			'pages' => Model_Page_Sitemap::get()->exclude(array($page->id))->flatten(),
+			'pages' => Model_Page_Sitemap::get(TRUE)->exclude(array($page->id))->flatten(),
 			'filters' => WYSIWYG::findAll(),
 			'behaviors' => Behavior::findAll(),
 			'layouts' => Model_File_Layout::find_all(),
