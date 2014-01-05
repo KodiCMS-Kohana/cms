@@ -77,3 +77,9 @@ Observer::observe('page_edit_after_save', function($page) {
 		Widget_Manager::update_location_by_page($page->id, $widget_id, $block);
 	}
 });
+
+Observer::observe(array(
+	'widget_after_delete', 'widget_after_add', 'widget_after_edit'
+), function($page) {
+	Cache::instance()->delete_tag('layout_blocks');
+});

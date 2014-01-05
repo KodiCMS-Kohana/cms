@@ -137,6 +137,8 @@ class Controller_Widgets extends Controller_System_Backend {
 			$widget->description = Arr::get($data, 'description');
 	
 			$id = Widget_Manager::create($widget);
+			
+			Observer::notify( 'widget_after_add', $id );
 		}
 		catch (Validation_Exception $e)
 		{
@@ -214,6 +216,8 @@ class Controller_Widgets extends Controller_System_Backend {
 			}
 			
 			Widget_Manager::update($widget);
+			
+			Observer::notify( 'widget_after_edit', $widget->id );
 		}
 		catch (Validation_Exception $e)
 		{
@@ -242,6 +246,8 @@ class Controller_Widgets extends Controller_System_Backend {
 		$id = $this->request->param('id');
 		
 		Widget_Manager::remove(array($id));
+		
+		Observer::notify( 'widget_after_delete', $id );
 		$this->go_back();
 	}
 	
