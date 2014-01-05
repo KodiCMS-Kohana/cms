@@ -4,7 +4,7 @@ Observer::observe('view_page_edit_plugins', function($page) {
 	echo View::factory('page/fields/edit', array(
 		'page' => $page,
 		'fields' => ORM::factory( 'page_field')->get_by_page_id($page->id),
-		'pages' => Model_Page_Sitemap::get()->exclude(array($page->id))->flatten(),
+		'pages' => Model_Page_Sitemap::get(TRUE)->exclude(array($page->id))->flatten(),
 	));
 });
 

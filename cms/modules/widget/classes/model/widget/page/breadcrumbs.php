@@ -14,7 +14,7 @@ class Model_Widget_Page_Breadcrumbs extends Model_Widget_Decorator {
 	public function backend_data()
 	{
 		return array(
-			'pages' => Model_Page_Sitemap::get()->flatten(),
+			'pages' => Model_Page_Sitemap::get(TRUE)->flatten(),
 		);
 	}
 	

@@ -13,7 +13,7 @@ class Model_Widget_Page_Menu extends Model_Widget_Decorator {
 
 	public function backend_data()
 	{
-		$pages = Model_Page_Sitemap::get();
+		$pages = Model_Page_Sitemap::get(TRUE);
 		
 		$select = array('-');
 		foreach($pages->flatten() as $page)

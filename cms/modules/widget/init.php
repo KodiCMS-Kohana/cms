@@ -52,7 +52,7 @@ Observer::observe('view_page_edit_plugins', function($page) {
 	
 	echo View::factory('widgets/page/edit', array(
 		'page' => $page,
-		'pages' => Model_Page_Sitemap::get()->exclude(array($page->id))->flatten(),
+		'pages' => Model_Page_Sitemap::get(TRUE)->exclude(array($page->id))->flatten(),
 		'widgets' => Widget_Manager::get_widgets_by_page( $page->id ),
 		'blocks' => $blocks
 	));
