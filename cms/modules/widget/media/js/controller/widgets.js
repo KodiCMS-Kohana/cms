@@ -138,14 +138,12 @@ cms.init.add('widgets_location', function() {
 		var position = cont.find('input.widget-position').val();
 		var id = cont.data('id');
 		
-		console.log(block_name, position);
-		
 		$('.table tbody tr[data-parent-id="'+id+'"]').each(function() {
 			if(val = $(this).find('option[value*="'+block_name+'"]').val()) {
 				$(this).find('select').select2("val", val);
 			}
 		
-			$(this).find('input').val(position);
+			$(this).find('input.widget-position').val(position);
 		});
 		return false;
 	});
