@@ -25,13 +25,6 @@
 		</div>
 	</div>
 	
-	<?php
-	try
-	{
-		echo View::factory('datasource/'.$type.'/create', array('data' => data));
-	}
-	catch(Exception $e) {} ?>
-	
 	<div class="widget-footer form-actions">
 		<?php echo UI::button( __('Create section'), array(
 			'icon' => UI::icon( 'plus'), 'class' => 'btn btn-large'

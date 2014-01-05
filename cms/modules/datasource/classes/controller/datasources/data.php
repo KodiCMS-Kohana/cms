@@ -13,7 +13,7 @@ class Controller_Datasources_Data extends Controller_System_Datasource
 				? $cur_ds_id
 				: Datasource_Data_Manager::$first_section;
 		
-		$ds = Datasource_Data_Manager::load($cur_ds_id);
+		$ds = $this->section($cur_ds_id);
 		
 		$this->template->content = View::factory('datasource/data/index');
 		$this->template->menu = View::factory('datasource/data/menu', array(
@@ -42,7 +42,6 @@ class Controller_Datasources_Data extends Controller_System_Datasource
 				'ds_type' => NULL,
 				'ds_id' => $cur_ds_id
 			));
-			
 			
 			$this->template->content = NULL;
 		}

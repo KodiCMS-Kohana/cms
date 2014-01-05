@@ -10,7 +10,7 @@ class Controller_System_Datasource extends Controller_System_Backend
 	 *
 	 * @var DataSource_Section 
 	 */
-	protected $_ds = NULL;
+	protected $_section = NULL;
 
 	public function before()
 	{
@@ -32,20 +32,23 @@ class Controller_System_Datasource extends Controller_System_Backend
 	 * @return DataSource_Section
 	 * @throws HTTP_Exception_404
 	 */
-	protected function _get_ds($id)
+	public function section( $id = NULL )
 	{
-		if(!empty($this->_ds)) return $this->_ds;
+		if( $this->_section instanceof DataSource_Section) return $this->_section;
 		
-		$id = (int) $id;
+		if($id === NULL)
+		{
+			throw new DataSource_Exception('Datasource section not loaded');
+		}
+	
+		$this->_section = Datasource_Data_Manager::load((int) $id);
 		
-		$this->_ds = Datasource_Data_Manager::load($id);
-		
-		if(empty($this->_ds))
+		if(empty($this->_section))
 		{
 			throw new HTTP_Exception_404('Datasource ID :id not found', 
 					array(':id' => $id));
 		}
 		
-		return $this->_ds;
+		return $this->_section;
 	}
 }

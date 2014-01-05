@@ -20,7 +20,6 @@
 				) ); ?>
 			</div>
 		</div>
-
 		<div class="control-group">
 			<label class="control-label" for="description"><?php echo __('Datasource Description'); ?></label>
 			<div class="controls">
@@ -31,17 +30,7 @@
 				?>
 			</div>
 		</div>
-		
 	</div>
-	
-	<?php
-	try
-	{
-		echo View::factory('datasource/'.$ds->type().'/edit', array(
-			'data' => data, 'ds' => $ds
-		));
-	}
-	catch(Exception $e) {} ?>
 	
 	<div class="form-actions widget-footer">
 		<?php echo UI::actions(NULL, Route::url('datasources', array(

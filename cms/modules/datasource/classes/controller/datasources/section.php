@@ -7,14 +7,14 @@ class Controller_Datasources_Section extends Controller_System_Datasource
 		if($this->request->action() != 'create')
 		{
 			$ds_id = (int) $this->request->param('id');
-			$this->_get_ds($ds_id);
+			$this->section($ds_id);
 
-			if(Acl::check($this->_ds->type().$ds_id.'.section.edit'))
+			if(Acl::check($this->section()->type().$ds_id.'.section.edit'))
 			{
 				$this->allowed_actions[] = 'edit';
 			}
 			
-			if(Acl::check($this->_ds->type().$ds_id.'.section.remove'))
+			if(Acl::check($this->section()->type().$ds_id.'.section.remove'))
 			{
 				$this->allowed_actions[] = 'remove';
 			}
@@ -42,10 +42,20 @@ class Controller_Datasources_Section extends Controller_System_Datasource
 		$this->breadcrumbs
 				->add(__('Add section :type', array(':type' => Arr::get($types, $type))));
 		
-		$this->template->content = View::factory('datasource/section/create', array(
-			'type' => $type,
-			'data' => Flash::get('post_data')
-		));
+		try
+		{
+			$this->template->content = View::factory('datasource/'.$type.'/section/create', array(
+				'type' => $type,
+				'data' => Flash::get('post_data')
+			));
+		} 
+		catch (Exception $exc)
+		{
+			$this->template->content = View::factory('datasource/section/create', array(
+				'type' => $type,
+				'data' => Flash::get('post_data')
+			));
+		}
 	}
 	
 	/**
@@ -78,19 +88,28 @@ class Controller_Datasources_Section extends Controller_System_Datasource
 	{
 		if($this->request->method() === Request::POST)
 		{
-			return $this->_edit($this->_ds);
+			return $this->_edit($this->section());
 		}
 		
 		$this->breadcrumbs
-			->add($this->_ds->name, Route::url('datasources', array(
+			->add($this->section()->name, Route::url('datasources', array(
 				'controller' => 'data',
 				'directory' => 'datasources',
-			)) . URL::query(array('ds_id' => $this->_ds->id()), FALSE))
-			->add(__('Edit ' . $this->_ds->name));
+			)) . URL::query(array('ds_id' => $this->section()->id()), FALSE))
+			->add(__('Edit ' . $this->section()->name));
 		
-		$this->template->content = View::factory('datasource/section/edit', array(
-			'ds' => $this->_ds
-		));
+		try
+		{
+			$this->template->content = View::factory('datasource/'.$this->section()->type().'/section/edit', array(
+				'ds' => $this->section()
+			));
+		} 
+		catch (Exception $exc)
+		{
+			$this->template->content = View::factory('datasource/section/edit', array(
+				'ds' => $this->section()
+			));
+		}
 	}
 	
 	/**
@@ -131,7 +150,7 @@ class Controller_Datasources_Section extends Controller_System_Datasource
 	
 	public function action_remove()
 	{
-		$this->_ds->remove();
+		$this->section()->remove();
 		$this->go_back();
 	}
 }

@@ -232,7 +232,7 @@ abstract class Datasource_Section {
 			->where( 'id', '=', $this->_id )
 			->execute();
 
-		$this->_update_size();
+		$this->update_size();
 		
 		return TRUE;
 	}	

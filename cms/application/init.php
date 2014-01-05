@@ -60,6 +60,7 @@ Kohana::modules( array(
 	'breadcrumbs'	=> MODPATH . 'breadcrumbs',
 	'behavior'		=> MODPATH . 'behavior',
 	'plugins'		=> MODPATH . 'plugins',
+	'datasource'	=> MODPATH . 'datasource',
 ) );
 
 Kohana::$config->attach(new Config_Database);
