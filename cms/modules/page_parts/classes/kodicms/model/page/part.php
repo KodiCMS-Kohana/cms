@@ -96,6 +96,7 @@ class KodiCMS_Model_Page_Part extends Record
 		if( self::$_parts[$page_id][$part] instanceof Model_Page_Part )
 		{
 			$html = View_Front::factory()
+				->bind('page', $page)
 				->render_html(self::$_parts[$page_id][$part]->content_html);
 		}
 		else if( self::$_parts[$page_id][$part] instanceof Kohana_View )
