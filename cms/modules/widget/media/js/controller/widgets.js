@@ -130,4 +130,23 @@ cms.init.add('widgets_location', function() {
 
 		return false;
 	});
+	
+	$('.set_to_inner_pages').on('click', function() {
+		var cont = $(this).parent().parent();
+
+		var block_name = cont.find('select').val();
+		var position = cont.find('input.widget-position').val();
+		var id = cont.data('id');
+		
+		console.log(block_name, position);
+		
+		$('.table tbody tr[data-parent-id="'+id+'"]').each(function() {
+			if(val = $(this).find('option[value*="'+block_name+'"]').val()) {
+				$(this).find('select').select2("val", val);
+			}
+		
+			$(this).find('input').val(position);
+		});
+		return false;
+	});
 });

@@ -8,7 +8,7 @@
 		<hr />
 		<table class="table table-striped">
 			<colgroup>
-				<col width="130px" />
+				<col width="300px" />
 				<col width="100px" />
 				<col />
 			</colgroup>
@@ -61,11 +61,15 @@ function recurse_pages( $pages, $spaces = 0, $blocks = array(), $page_widgets = 
 		
 		$current_position = Arr::path($page_widgets, $page['id'].'.1');
 		
-		$data .= '<tr data-id="'.$page['id'].'">';
+		$data .= '<tr data-id="'.$page['id'].'" data-parent-id="'.$page['parent_id'].'">';
 		$data .= '<td>';
 		$data .= Form::select('blocks[' . $page['id'] . '][name]', $current_page_blocks, $current_block, array('class' => 'blocks') );
+		if(!empty($page['childs']))
+		{
+			$data .= "&nbsp;" . Form::button(NULL, UI::icon('magnet'), array('class' => 'set_to_inner_pages btn btn-mini') );
+		}
 		$data .= '</td><td>';
-		$data .= Form::input('blocks[' . $page['id'] . '][position]', (int) $current_position, array('maxlength' => 4, 'size' => 4, 'class' => 'input-mini text-right') );
+		$data .= Form::input('blocks[' . $page['id'] . '][position]', (int) $current_position, array('maxlength' => 4, 'size' => 4, 'class' => 'input-mini text-right widget-position') );
 		$data .= '</td>';
 		
 		if ( Acl::check( 'page.edit'))
