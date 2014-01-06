@@ -28,7 +28,7 @@ class Controller_API_Behavior extends Controller_System_Api {
 		{
 			$behavior = new Behavior_Settings($page);
 			
-			$this->response( $behavior->render() );
+			$this->response( (string) $behavior->render() );
 
 		} catch (Kohana_Exception $e) {}
 	}
