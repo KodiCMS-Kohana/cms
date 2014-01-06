@@ -226,10 +226,13 @@ abstract class Datasource_Section {
 			return FALSE;
 		}
 		
-		$this->valid($values);
-	
-		$this->name = Arr::get($values, 'name');
-		$this->description = Arr::get($values, 'description');
+		if(is_array($values))
+		{
+			$this->valid($values);
+
+			$this->name = Arr::get($values, 'name');
+			$this->description = Arr::get($values, 'description');
+		}
 		
 		$data = array(
 			'indexed' => $this->_is_indexable,
