@@ -83,7 +83,7 @@ function change_email_driver(driver) {
 			<div class="control-group">
 				<label class="control-label" for="settingPassword"><?php echo __( 'STMP Password' ); ?></label>
 				<div class="controls">
-					<?php echo Form::password('setting[email][options][username]', Arr::path($settings, 'options.password'), array(
+					<?php echo Form::password('setting[email][options][password]', Arr::path($settings, 'options.password'), array(
 						'id' => 'settingPassword'
 					) ); ?>
 				</div>
