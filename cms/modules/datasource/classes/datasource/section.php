@@ -172,6 +172,12 @@ abstract class Datasource_Section {
 
 		$this->_id = $query[0];
 		
+		if(empty($this->_id))
+		{
+			throw new DataSource_Exception('Datasource section :name not created', 
+					array(':name' => $this->name));
+		}
+		
 		return $this->_id;
 	}
 	
@@ -210,14 +216,20 @@ abstract class Datasource_Section {
 	
 	/**
 	 * 
+	 * @param array $values
 	 * @return boolean
 	 */
-	public function save() 
+	public function save( array $values = NULL) 
 	{
 		if( ! $this->loaded())
 		{
 			return FALSE;
 		}
+		
+		$this->valid($values);
+	
+		$this->name = Arr::get($values, 'name');
+		$this->description = Arr::get($values, 'description');
 		
 		$data = array(
 			'indexed' => $this->_is_indexable,
@@ -235,7 +247,7 @@ abstract class Datasource_Section {
 		$this->update_size();
 		
 		return TRUE;
-	}	
+	}
 	
 	/**
 	 * 
@@ -471,7 +483,7 @@ abstract class Datasource_Section {
 	 * @param string $intro
 	 * @return \Datasource_Section
 	 */
-	public function update_index(array $id, $header = NULL, $content = NULL, $intro = NULL) 
+	public function update_index(array $ids, $header = NULL, $content = NULL, $intro = NULL) 
 	{
 		if( ! $this->_is_indexable)
 		{

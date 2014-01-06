@@ -38,9 +38,11 @@ class Controller_Datasources_Section extends Controller_System_Datasource
 		{
 			return $this->_create($type);
 		}
+		
+		$this->template->title = __('Add section :type', array(':type' => Arr::get($types, $type)));
 
 		$this->breadcrumbs
-				->add(__('Add section :type', array(':type' => Arr::get($types, $type))));
+				->add($this->template->title);
 		
 		try
 		{
@@ -91,12 +93,14 @@ class Controller_Datasources_Section extends Controller_System_Datasource
 			return $this->_edit($this->section());
 		}
 		
+		$this->template->title = __('Edit ' . $this->section()->name);
+		
 		$this->breadcrumbs
 			->add($this->section()->name, Route::url('datasources', array(
 				'controller' => 'data',
 				'directory' => 'datasources',
 			)) . URL::query(array('ds_id' => $this->section()->id()), FALSE))
-			->add(__('Edit ' . $this->section()->name));
+			->add($this->template->title);
 		
 		try
 		{
@@ -118,15 +122,9 @@ class Controller_Datasources_Section extends Controller_System_Datasource
 	 */
 	private function _edit($ds)
 	{
-		$array = $this->request->post();
-		
 		try
 		{
-			$ds->valid($array);
-			$ds->name = Arr::get($array, 'name');
-			$ds->description = Arr::get($array, 'description');
-
-			$ds->save();
+			$ds->save($this->request->post());
 		}
 		catch (Validation_Exception $e)
 		{

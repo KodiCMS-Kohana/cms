@@ -22,8 +22,10 @@ class Controller_Datasources_Data extends Controller_System_Datasource
 		
 		if($ds) 
 		{
+			$this->template->title = $ds->name;
+
 			$this->breadcrumbs
-				->add($ds->name);
+				->add($this->template->title);
 
 			Cookie::set('ds_id', $cur_ds_id);
 			$this->template->content->headline = View::factory('datasource/' . $ds->type() . '/headline', array(
