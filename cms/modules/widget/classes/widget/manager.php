@@ -265,6 +265,8 @@ class Widget_Manager {
 			}
 			
 			if( $i > 0 ) $insert->execute();
+			
+			Observer::notify( 'widget_set_location' );
 		}
 	}
 	
@@ -285,6 +287,8 @@ class Widget_Manager {
 				->where('page_id', '=', $page_id)
 				->execute();
 		}
+		
+		Observer::notify( 'widget_set_location' );
 	}
 	
 	/**

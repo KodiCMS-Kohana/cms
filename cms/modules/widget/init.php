@@ -79,7 +79,7 @@ Observer::observe('page_edit_after_save', function($page) {
 });
 
 Observer::observe(array(
-	'widget_after_delete', 'widget_after_add', 'widget_after_edit'
+	'widget_after_delete', 'widget_set_location'
 ), function($page) {
 	Cache::instance()->delete_tag('layout_blocks');
 });
