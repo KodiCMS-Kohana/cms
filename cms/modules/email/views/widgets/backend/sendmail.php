@@ -55,6 +55,10 @@
 		$('#fields_container').on('click', '.remove_field', function() {
 			$(this).parents('.field').remove();
 		});
+		
+		$('#fields').on('click', '.valid-types-label', function() {
+			$(this).parent().find('input').val($(this).data('type'));
+		});
 	})
 </script>
 <div class="widget-content widget-no-border-radius" id="fields">
@@ -104,6 +108,22 @@
 						<td><h5><?php echo __('Validator'); ?></h5></td>
 						<td colspan="3">
 							<?php echo Form::input('field[validator][]'); ?>
+							<br /><br />
+							<span class="label valid-types-label" data-type="not_empty"><?php echo __('Not empty'); ?></span>
+							<span class="label valid-types-label" data-type="url"><?php echo __('URL'); ?></span>
+							<span class="label valid-types-label" data-type="phone"><?php echo __('Phone number'); ?></span>
+							<span class="label valid-types-label" data-type="email"><?php echo __('Email'); ?></span>
+							<span class="label valid-types-label" data-type="email_domain"><?php echo __('Email domain'); ?></span>
+							<span class="label valid-types-label" data-type="ip"><?php echo __('IP'); ?></span>
+							<span class="label valid-types-label" data-type="credit_card"><?php echo __('Credit card'); ?></span>
+							<span class="label valid-types-label" data-type="date"><?php echo __('Date'); ?></span>
+							<span class="label valid-types-label" data-type="alpha"><?php echo __('Alpha'); ?></span>
+							<span class="label valid-types-label" data-type="alpha_dash"><?php echo __('Alpha and hyphens'); ?></span>
+							<span class="label valid-types-label" data-type="alpha_numeric"><?php echo __('Alpha and numbers'); ?></span>
+							<span class="label valid-types-label" data-type="digit"><?php echo __('Integer digit'); ?></span>
+							<span class="label valid-types-label" data-type="decimal"><?php echo __('Decimal'); ?></span>
+							<span class="label valid-types-label" data-type="numeric"><?php echo __('Numeric'); ?></span>
+							<span class="label valid-types-label" data-type="color"><?php echo __('Color'); ?></span>
 						</td>
 					</tr>
 					<tr><td colspan="4"><hr /></td></tr>
