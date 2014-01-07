@@ -2,8 +2,6 @@
 
 return array(
 	'Widgets' => 'Виджеты',
-	
-	
 	'Widget Header' => 'Название',
 	'Widget Description' => 'Описание',
 	'Widget Information' => 'Основная информация',
@@ -23,10 +21,11 @@ return array(
 	'General Information' => 'Основная информация',
 	'Widget data' => 'Параметры',
 	'Add widget to page' => 'Добавить виджет на страницу',
-	'' => '',
+	'Widget name' => 'Название',
 	'Match All Pages within Given Deepness' => 'Выводить все подразделы в пределах заданной глубины',
 	'Include hidden pages' => 'Показывать скрытые страницы',
 	'Exclude pages' => 'Исключить страницы',
+	'Select to child pages' => 'Установить для дочерних страниц',
 	
 	'Next page (URI)' => 'Следующая страница (URI)',
 	'Next page by default (URI)' => 'Следующая страница по умолчанию (URI)',

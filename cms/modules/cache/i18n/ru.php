@@ -12,5 +12,6 @@ return array(
 	'SQLite cache' => 'SQLite кеш',
 	'Cache status' => 'Статус кеша',
 	'APC cache' => 'APC кеш',
-	'The cache driver can change in the config file (:path)' => 'Драйвер кеширования можно изменить через конфиг файл (:path)'
+	'The cache driver can change in the config file (:path)' => 'Драйвер кеширования можно изменить через конфиг файл (:path)',
+	'View cache settings' => 'Видеть настройки кеша'
 );

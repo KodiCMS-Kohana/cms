@@ -20,5 +20,6 @@ return array(
 	'Enable registration' => 'Включить регистрацию через соц. сети',
 	'Social providers' => 'Список доступных провайдеров',
 	'Social registration' => 'Регистрация через соц. сети',
-	'Social auth' => 'Авторизация через соц. сети'
+	'Social auth' => 'Авторизация через соц. сети',
+	'Social accounts' => 'Социальные сети'
 );

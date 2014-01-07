@@ -65,6 +65,7 @@ return array(
 	'Rebuild blocks' => 'Обновить список блоков',
 	'Layout blocks succefully update!' => 'Список блоков успешно обновлен!',
 	'Read only' => 'Только чтение',
+	'Size' => 'Размер',
 	
 	/*********************** Page *********************************/
 	'Add page' => 'Добавить страницу',
@@ -142,7 +143,11 @@ return array(
 	'Site settings' => 'Настройки сайта',
 	'Page settings' => 'Настройки страницы',
 	'Check page date' => 'Проверять дату создания страницы',
-	'For detailed profiling use Kohana::$enviroment = Kohana::DEVELOPMENT or SetEnv KOHANA_ENV DEVELOPMENT in .htaccess' => 'Для детального профилирования используйте Kohana::$enviroment = Kohana::DEVELOPMENT или SetEnv KOHANA_ENV DEVELOPMENT в файле .htaccess',
+	'For detailed profiling use Kohana::$enviroment = Kohana::DEVELOPMENT or SetEnv KOHANA_ENV DEVELOPMENT in .htaccess' 
+		=> 'Для детального профилирования используйте Kohana::$enviroment = Kohana::DEVELOPMENT или SetEnv KOHANA_ENV DEVELOPMENT в файле .htaccess',
+	'Revision templates' => 'Ревизия шаблонов',
+	'After save layouts or snippets create revision copy in logs directory'
+		=> 'После сохранения сниппетов или шаблонов создавать делать ревизию в директории logs',
 	
 	/*********************** Autorization *******************/
 	'Username' => 'Логин',
@@ -242,6 +247,7 @@ return array(
 	'Manage api' => 'Управлять API сайта',
 	'Manage social accounts' => 'Управлять аккаунтами соц. сетей',
 	'View settings' => 'Видеть раздел',
+	'View system information' => 'Видеть информацию о системе',
     
     //============Dropzone============//
     'Drop files here to upload' => 'Перетащите сюда файлы для загрузки на сервер',
