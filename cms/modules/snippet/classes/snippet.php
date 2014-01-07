@@ -19,7 +19,6 @@ class Snippet {
 	public static function render($snippet_name, $vars = NULL, $cache_lifetime = NULL, $cache_by_uri = FALSE, array $tags = array(), $i18n = NULL)
 	{
 		$view = Snippet::get($snippet_name, $vars);
-		$snippet = new Model_File_Snippet($snippet_name);
 		
 		if( $view === NULL )
 		{
@@ -62,7 +61,14 @@ class Snippet {
 		
 		if( ! $snippet->is_exists() )
 		{
-			return NULL;
+			if(($found_file = $snippet->find_file()) !== FALSE)
+			{
+				$snippet = new Model_File_Snippet( $found_file );
+			}
+			else
+			{
+				return NULL;
+			}
 		}
 		
 		$view = View_Front::factory($snippet->get_file(), $vars);

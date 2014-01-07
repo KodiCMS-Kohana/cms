@@ -245,7 +245,8 @@ abstract class Model_Widget_Decorator {
 		}
 		else
 		{
-			$this->template = SNIPPETS_SYSPATH . $this->template . EXT;
+			$snippet = new Model_File_Snippet($this->template);
+			$this->template = $snippet->find_file();
 		}
 		
 		return $this->template;
