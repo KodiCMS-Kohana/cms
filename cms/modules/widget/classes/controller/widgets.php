@@ -185,7 +185,7 @@ class Controller_Widgets extends Controller_System_Backend {
 		}
 		
 		$templates = array(
-			__('None')
+			__('------ none ------')
 		);
 		$snippets = Model_File_Snippet::find_all();
 		

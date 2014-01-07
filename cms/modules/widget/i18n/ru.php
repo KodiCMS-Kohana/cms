@@ -26,6 +26,7 @@ return array(
 	'Include hidden pages' => 'Показывать скрытые страницы',
 	'Exclude pages' => 'Исключить страницы',
 	'Select to child pages' => 'Установить для дочерних страниц',
+	'------ none ------' => '----- не указан -----',
 	
 	'Next page (URI)' => 'Следующая страница (URI)',
 	'Next page by default (URI)' => 'Следующая страница по умолчанию (URI)',
