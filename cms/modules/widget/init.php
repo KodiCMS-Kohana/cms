@@ -80,6 +80,6 @@ Observer::observe('page_edit_after_save', function($page) {
 
 Observer::observe(array(
 	'widget_after_delete', 'widget_set_location'
-), function($page) {
+), function() {
 	Cache::instance()->delete_tag('layout_blocks');
 });
