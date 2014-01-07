@@ -4,7 +4,10 @@
 <div class="widget">
 	<?php echo Form::open(Request::current()->uri()); ?>
 	<div class="widget-content widget-no-border-radius">
-		<h3><?php echo $widget->name; ?></h3>
+		<h3>&larr; <?php echo HTML::anchor(Route::url('backend', array(
+				'controller' => 'widgets', 
+				'action' => 'edit',
+				'id' => $widget->id)), $widget->name); ?></h3>
 		<hr />
 		<table class="table table-striped">
 			<colgroup>
@@ -66,7 +69,10 @@ function recurse_pages( $pages, $spaces = 0, $blocks = array(), $page_widgets = 
 		$data .= Form::select('blocks[' . $page['id'] . '][name]', $current_page_blocks, $current_block, array('class' => 'blocks') );
 		if(!empty($page['childs']))
 		{
-			$data .= "&nbsp;" . Form::button(NULL, UI::icon('magnet'), array('class' => 'set_to_inner_pages btn btn-mini') );
+			$data .= "&nbsp;" . Form::button(NULL, UI::icon('level-down'), array(
+				'class' => 'set_to_inner_pages btn btn-mini',
+				'title' => __('Select to child pages')
+			) );
 		}
 		$data .= '</td><td>';
 		$data .= Form::input('blocks[' . $page['id'] . '][position]', (int) $current_position, array('maxlength' => 4, 'size' => 4, 'class' => 'input-mini text-right widget-position') );
