@@ -10,3 +10,5 @@ nbproject/*
 /.idea/
 /public/.tmb/
 cms/media/js/i18n
+/snippets/*
+/layouts/*

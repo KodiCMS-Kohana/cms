@@ -54,7 +54,8 @@ class Controller_Install extends Controller_System_Frontend
 			'password_generate' => TRUE,
 			'timezone' => date_default_timezone_get(),
 			'cache_type' => 'sqlite',
-			'locale' => I18n::detect_lang()
+			'locale' => I18n::detect_lang(),
+			'insert_test_data' => FALSE
 		);
 
 		$this->template->content = View::factory('install/index', array(
@@ -113,7 +114,7 @@ class Controller_Install extends Controller_System_Frontend
 			
 			$this->_import_shema($post);
 			$this->_import_dump($post);
-			$this->_install_plugins();
+			$this->_install_plugins($post);
 			$this->_install_modules($post);
 			$this->_create_site_config($post);
 			$this->_create_config_file($post);
@@ -348,7 +349,7 @@ class Controller_Install extends Controller_System_Frontend
 	 * 
 	 * Список плагинов по умолчанию указывается в конфиг файле `installer`
 	 */
-	protected function _install_plugins()
+	protected function _install_plugins($post)
 	{
 		if( ! is_dir(MODPATH . 'plugins') ) return;
 
@@ -357,10 +358,20 @@ class Controller_Install extends Controller_System_Frontend
 		$default_plugins = Kohana::$config->load('installer')->get('default_plugins', array());
 		
 		Plugins::find_all();
+		
+		if(!empty($post['insert_test_data']))
+		{
+			$default_plugins[] = 'test';
+		}
+
 		foreach ($default_plugins as $name)
 		{
 			$plugin = Plugins::get_registered( $name );
-			$plugin->install();
+			
+			if($plugin instanceof Plugin_Decorator)
+			{
+				$plugin->install();
+			}
 		}
 	}
 	

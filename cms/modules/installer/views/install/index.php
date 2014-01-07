@@ -169,6 +169,18 @@
 					->selected(Arr::get( $data, 'timezone' ))
 					->label(__('Timezone'))
 				)); ?>
+				
+				<hr />
+				
+				<div class="control-group">
+					<div class="controls">
+						<label id="insert-test-data" class="checkbox btn btn-success">
+							<?php echo Form::checkbox( 'install[insert_test_data]', 1, (bool) Arr::get( $data,'insert_test_data'));?> <?php echo __('Insert test data'); ?>
+						</label>
+					</div>
+				</div>
+				
+				
 			</div>
 		</div>
 	</div>

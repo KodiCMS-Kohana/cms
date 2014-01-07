@@ -1,33 +1,3 @@
-INSERT INTO `__TABLE_PREFIX__page_roles` (`page_id`, `role_id`) VALUES
-(1, 2),
-(2, 2),
-(3, 2),
-(3, 3),
-(3, 4),
-(4, 2),
-(4, 3),
-(4, 4),
-(5, 2),
-(5, 3),
-(5, 4),
-(6, 2),
-(6, 3),
-(6, 4),
-(7, 2),
-(7, 3),
-(7, 4),
-(8, 2),
-(8, 3),
-(8, 4),
-(11, 1),
-(11, 2),
-(11, 3),
-(11, 4),
-(12, 1),
-(12, 2),
-(12, 3),
-(12, 4);
-
 INSERT INTO `__TABLE_PREFIX__roles` (`id`, `name`, `description`) VALUES
 (1, 'login', 'Login privileges, granted after account confirmation'),
 (2, 'administrator', 'Administrative user, has access to everything.'),
@@ -43,3 +13,7 @@ INSERT INTO `__TABLE_PREFIX__users` (`id`, `email`, `username`, `password`, `log
 
 INSERT INTO `__TABLE_PREFIX__user_profiles` (`id`, `name`, `user_id`, `locale`, `created_on`) VALUES
 (1, 'Administrator', 1, '__LANG__', '__DATE__');
+
+INSERT INTO `__TABLE_PREFIX__page_roles` (`page_id`, `role_id`) VALUES
+(1, 2),
+(2, 2);
