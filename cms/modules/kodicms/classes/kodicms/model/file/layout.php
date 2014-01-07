@@ -7,17 +7,13 @@
  */
 class KodiCMS_Model_File_Layout extends Model_File {
 	
+	protected $_folder = 'layouts';
+	
 	/**
 	 *
 	 * @var array 
 	 */
 	protected $_blocks = NULL;
-
-	public function __construct( $name = '' )
-	{
-		$this->_path = LAYOUTS_SYSPATH;
-		parent::__construct( $name );
-	}
 	
 	public function blocks()
 	{

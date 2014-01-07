@@ -47,7 +47,7 @@
 						<?php echo Text::bytes( $snippet->size()); ?>
 					</td>
 					<td class="direction">
-						<?php echo UI::label('/snippets/' . $snippet->name . EXT); ?>
+						<?php echo UI::label($snippet->get_relative_path() . EXT); ?>
 					</td>
 					<td class="actions">
 						<?php if( ACL::check( 'snippet.delete')): ?>

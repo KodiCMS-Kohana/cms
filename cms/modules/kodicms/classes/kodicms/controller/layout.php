@@ -83,23 +83,16 @@ class KodiCMS_Controller_Layout extends Controller_System_Backend {
 		}
 		catch(Validation_Exception $e)
 		{
+			Messages::errors( $e->errors('validation') );
 			$this->go_back();
 		}
 
-		if ( ! $status )
-		{
-			Messages::errors( __( 'Something went wrong!' ) );
-			$this->go(array('action' => 'add'));
-		}
-		else
-		{
-			Kohana::$log->add(Log::INFO, 'Layout :name has been added by :user!', array(
-				':name' => $layout->name
-			))->write();
-			
-			Messages::success( __( 'Layout has been saved!' ) );
-			Observer::notify( 'layout_after_add', array( $layout ) );
-		}
+		Kohana::$log->add(Log::INFO, 'Layout :name has been added by :user!', array(
+			':name' => $layout->name
+		))->write();
+
+		Messages::success( __( 'Layout has been saved!' ) );
+		Observer::notify( 'layout_after_add', array( $layout ) );
 		
 		Session::instance()->delete('post_data');
 
@@ -121,8 +114,15 @@ class KodiCMS_Controller_Layout extends Controller_System_Backend {
 
 		if ( ! $layout->is_exists() )
 		{
-			Messages::errors(__( 'Layout not found!' ) );
-			$this->go();
+			if(($found_file = $layout->find_file()) !== FALSE)
+			{
+				$layout = new Model_File_Snippet( $found_file );
+			}
+			else
+			{
+				Messages::errors(__( 'Layout not found!' ) );
+				$this->go();
+			}
 		}
 		
 		$this->breadcrumbs
@@ -151,24 +151,17 @@ class KodiCMS_Controller_Layout extends Controller_System_Backend {
 		}
 		catch(Validation_Exception $e)
 		{
+			Messages::errors( $e->errors('validation') );
 			$this->go_back();
 		}
 
-		if ( !$status )
-		{
-			Messages::errors( __( 'Something went wrong!' ) );
-			$this->go_back();
-		}
-		else
-		{
-			Kohana::$log->add(Log::INFO, 'Layout :name has been edited by :user', array(
-				':name' => $layout->name
-			))->write();
-			
+		Kohana::$log->add(Log::INFO, 'Layout :name has been edited by :user', array(
+			':name' => $layout->name
+		))->write();
 
-			Messages::success( __( 'Layout has been saved!' ) );
-			Observer::notify( 'layout_after_edit', array( $layout ) );
-		}
+
+		Messages::success( __( 'Layout has been saved!' ) );
+		Observer::notify( 'layout_after_edit', array( $layout ) );
 
 		// save and quit or save and continue editing?
 		if ( $this->request->post('commit') !== NULL )

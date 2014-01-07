@@ -48,39 +48,41 @@
 			</div>
 			
 			<div class="control-group">
-				<label class="control-label" for="settingSection"><?php echo __( 'Default backend section' ); ?></label>
+				<label class="control-label"><?php echo __( 'Default backend section' ); ?></label>
 				<div class="controls">
-					<?php echo Form::select('setting[site][default_tab]', $site_pages, Config::get('site', 'default_tab'), array('id' => 'settingSection')); ?>
+					<?php echo Form::select('setting[site][default_tab]', $site_pages, Config::get('site', 'default_tab')); ?>
 					<p class="help-block"><?php echo __( 'This allows you to specify which section you will see by default after login.' ); ?></p>
 				</div>
 			</div>
 			<h3><?php echo __( 'Debug' ); ?></h3>
 			<hr />
 			<div class="control-group">
-				<label class="control-label" for="settingProfiling"><?php echo __( 'Profiling' ); ?></label>
+				<label class="control-label"><?php echo __( 'Profiling' ); ?></label>
 				<div class="controls">
-					<?php echo Form::select( 'setting[site][profiling]', Form::choises(), Config::get('site', 'profiling' ), array(
-						'id' => 'settingProfiling'
-					) ); ?>
+					<?php echo Form::select( 'setting[site][profiling]', Form::choises(), Config::get('site', 'profiling' )); ?>
 					<p class="help-block"><?php echo __('For detailed profiling use Kohana::$enviroment = Kohana::DEVELOPMENT or SetEnv KOHANA_ENV DEVELOPMENT in .htaccess'); ?></p>
 				</div>
 			</div>
 			<div class="control-group">
-				<label class="control-label" for="settingDebugMode"><?php echo __( 'Debug mode' ); ?></label>
+				<label class="control-label"><?php echo __( 'Debug mode' ); ?></label>
 				<div class="controls">
-					<?php echo Form::select( 'setting[site][debug]', Form::choises(), Config::get('site', 'debug' ), array(
-						'id' => 'settingDebugMode'
-					) ); ?>
+					<?php echo Form::select( 'setting[site][debug]', Form::choises(), Config::get('site', 'debug' )); ?>
+				</div>
+			</div>
+			<hr />
+			<div class="control-group">
+				<label class="control-label"><?php echo __( 'Revision templates' ); ?></label>
+				<div class="controls">
+					<?php echo Form::select( 'setting[site][templates_revision]', Form::choises(), Config::get('site', 'templates_revision' )); ?>
+					<p class="help-block"><?php echo __( 'After save layouts or snippets create revision copy in logs directory' ); ?></p>
 				</div>
 			</div>
 			<h3><?php echo __( 'Design' ); ?></h3>
 			<hr />
 			<div class="control-group">
-				<label class="control-label" for="settingBreadcrumbs"><?php echo __( 'Show breadcrumbs' ); ?></label>
+				<label class="control-label"><?php echo __( 'Show breadcrumbs' ); ?></label>
 				<div class="controls">
-					<?php echo Form::select( 'setting[site][breadcrumbs]', Form::choises(), Config::get('site', 'breadcrumbs', Config::NO ), array(
-						'id' => 'settingBreadcrumbs'
-					) ); ?>
+					<?php echo Form::select( 'setting[site][breadcrumbs]', Form::choises(), Config::get('site', 'breadcrumbs', Config::NO )); ?>
 				</div>
 			</div>
 		</div>
@@ -91,15 +93,13 @@
 			<div class="control-group">
 				<label class="control-label"><?php echo __( 'Default page status' ); ?> </label>
 				<div class="controls">
-					<?php echo Form::select( 'setting[site][default_status_id]', $default_status_id, Config::get('site', 'default_status_id' ), array(
-						'id' => 'settingPageStatus'
-					) ); ?>
+					<?php echo Form::select( 'setting[site][default_status_id]', $default_status_id, Config::get('site', 'default_status_id' )); ?>
 					<p class="help-block"><?php echo __( 'This status will be autoselected when page creating.' ); ?></p>
 				</div>
 			</div>
 
 			<div class="control-group">
-				<label class="control-label" for="settingPageFilter"><?php echo __( 'Default filter' ); ?></label>
+				<label class="control-label"><?php echo __( 'Default filter' ); ?></label>
 				<div class="controls">
 					<?php echo Form::select('setting[site][default_filter_id]', $filters, Config::get('site', 'default_filter_id' )); ?>
 					<p class="help-block"><?php echo __( 'Only for filter in pages, <i>not</i> in snippets.' ); ?></p>
@@ -107,20 +107,16 @@
 			</div>
 			<hr />
 			<div class="control-group">
-				<label class="control-label" for="settingFindSimilar"><?php echo __( 'Find similar pages' ); ?></label>
+				<label class="control-label"><?php echo __( 'Find similar pages' ); ?></label>
 				<div class="controls">
-					<?php echo Form::select( 'setting[site][find_similar]', Form::choises(), Config::get('site', 'find_similar' ), array(
-						'id' => 'settingFindSimilar'
-					) ); ?>
+					<?php echo Form::select( 'setting[site][find_similar]', Form::choises(), Config::get('site', 'find_similar' )); ?>
 					<p class="help-block"><?php echo __( 'If requested page url is incorrect, then find similar page.' ); ?></p>
 				</div>
 			</div>
 			<div class="control-group">
-				<label class="control-label" for="settingCheckPageDate"><?php echo __( 'Check page date' ); ?></label>
+				<label class="control-label"><?php echo __( 'Check page date' ); ?></label>
 				<div class="controls">
-					<?php echo Form::select( 'setting[page][check_date]', Form::choises(), Config::get('site', 'check_page_date', Config::NO ), array(
-						'id' => 'settingCheckPageDate'
-					) );?>
+					<?php echo Form::select( 'setting[page][check_date]', Form::choises(), Config::get('site', 'check_page_date', Config::NO ));?>
 				</div>
 			</div>
 		</div>

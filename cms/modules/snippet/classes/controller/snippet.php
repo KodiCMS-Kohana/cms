@@ -68,23 +68,16 @@ class Controller_Snippet extends Controller_System_Backend {
 		}
 		catch(Validation_Exception $e)
 		{
+			Messages::errors( $e->errors('validation') );
 			$this->go_back();
 		}
 
-		if ( !$status )
-		{
-			Messages::errors( __( 'Snippet has not been saved. Name must be unique!' ) );
-			$this->go( 'snippet/add' );
-		}
-		else
-		{
-			Kohana::$log->add(Log::INFO, 'Snippet :name has been added by :user', array(
-				':name' => $snippet->name
-			))->write();
-			
-			Messages::success( __( 'Snippet has been saved!' ) );
-			Observer::notify( 'snippet_after_add', array( $snippet ) );
-		}
+		Kohana::$log->add(Log::INFO, 'Snippet :name has been added by :user', array(
+			':name' => $snippet->name
+		))->write();
+
+		Messages::success( __( 'Snippet has been saved!' ) );
+		Observer::notify( 'snippet_after_add', array( $snippet ) );
 		
 		Session::instance()->delete('post_data');
 
@@ -104,10 +97,17 @@ class Controller_Snippet extends Controller_System_Backend {
 		$snippet_name = $this->request->param('id');
 		$snippet = new Model_File_Snippet( $snippet_name );
 
-		if ( !$snippet->is_exists() )
+		if ( ! $snippet->is_exists() )
 		{
-			Messages::errors( __( 'Snippet not found!' ) );
-			$this->go();
+			if(($found_file = $snippet->find_file()) !== FALSE)
+			{
+				$snippet = new Model_File_Snippet( $found_file );
+			}
+			else
+			{
+				Messages::errors( __( 'Snippet not found!' ) );
+				$this->go();
+			}
 		}
 
 		$this->template->title = __('Edit snippet');
@@ -141,23 +141,16 @@ class Controller_Snippet extends Controller_System_Backend {
 		}
 		catch(Validation_Exception $e)
 		{
+			Messages::errors( $e->errors('validation') );
 			$this->go_back();
 		}
 
-		if ( !$status )
-		{
-			Messages::errors( __( 'Snippet has not been saved. Name must be unique!' ) );
-			$this->go(array('action' => 'edit', 'id' => $snippet->name));
-		}
-		else
-		{
-			Kohana::$log->add(Log::INFO, 'Snippet :name has been changed by :user', array(
-				':name' => $snippet->name
-			))->write();
-			
-			Messages::success( __( 'Snippet has been saved!' ) );
-			Observer::notify( 'snippet_after_edit', array( $snippet ) );
-		}
+		Kohana::$log->add(Log::INFO, 'Snippet :name has been changed by :user', array(
+			':name' => $snippet->name
+		))->write();
+
+		Messages::success( __( 'Snippet has been saved!' ) );
+		Observer::notify( 'snippet_after_edit', array( $snippet ) );
 
 		// save and quit or save and continue editing?
 		if ( $this->request->post('commit') !== NULL )
@@ -201,7 +194,4 @@ class Controller_Snippet extends Controller_System_Backend {
 
 		$this->go();
 	}
-
 }
-
-// end SnippetController class

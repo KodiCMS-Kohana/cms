@@ -849,9 +849,16 @@ class KodiCMS_Model_Page_Front {
 		
 		if( ! $this->_layout_object->is_exists())
 		{
-			throw new  Kohana_Exception('Layout file :file not found!', array(
-				':file' => $layout_name
-			));
+			if(($found_file = $this->_layout_object->find_file()) !== FALSE)
+			{
+				$this->_layout_object = new Model_File_Layout( $found_file );
+			}
+			else
+			{
+				throw new  Kohana_Exception('Layout file :file not found!', array(
+					':file' => $layout_name
+				));
+			}
 		}
 		
 		return $this->_layout_object;

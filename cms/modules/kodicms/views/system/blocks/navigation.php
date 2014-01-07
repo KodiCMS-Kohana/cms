@@ -13,8 +13,6 @@ if($navigation !== NULL)
 		
 		foreach ( $navigation->sections() as $section )
 		{
-			if(count($section) == 0) continue;
-
 			$dropdown = Bootstrap_Navbar_Dropdown::factory(array(
 				'title' => $section->name(),
 			));
@@ -89,7 +87,7 @@ if($navigation !== NULL)
 
 	foreach ( $navigation->sections() as $section )
 	{
-		if( ! $section->is_active() OR count($section) == 0) continue;
+		if( ! $section->is_active() ) continue;
 
 		$navbar = Bootstrap_Navbar::factory()
 			->static_top()

@@ -58,7 +58,7 @@
 						<?php echo Text::bytes( $layout->size()); ?>
 					</td>
 					<td class="direction">
-						<?php echo UI::label('/layouts/' . $layout->name . EXT); ?>
+						<?php echo UI::label($layout->get_relative_path() . EXT); ?>
 					</td>
 					<td class="actions">
 						<?php if( ACL::check( 'layout.delete')): ?>
