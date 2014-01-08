@@ -12,3 +12,5 @@ nbproject/*
 cms/media/js/i18n
 /snippets/*
 /layouts/*
+!/layouts/index.html
+!/snippets/index.html
