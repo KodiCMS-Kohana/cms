@@ -16,7 +16,7 @@
 		<?php endforeach; ?>
 	</select>
 	<?php else: ?>
-	<a class="btn fancybox.ajax popup" href="/api-widget.list/<?php echo $page->id; ?>" id="addWidgetToPage"><i class="icon-plus"></i> <?php echo __( 'Add widget to page' ); ?></a>
+	<a class="btn btn-success fancybox.ajax popup" href="/api-widget.list/<?php echo $page->id; ?>" id="addWidgetToPage"><i class="icon-plus"></i> <?php echo __( 'Add widget to page' ); ?></a>
 	<br /><br />
 	<table class="table table-hover" id="widget-list">
 		<colgroup>

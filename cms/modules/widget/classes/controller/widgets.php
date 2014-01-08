@@ -82,7 +82,7 @@ class Controller_Widgets extends Controller_System_Backend {
 		
 		$blocks = array();
 		
-		$default_blocks = array('----', 'PRE' => __('Before page render'), 'POST' => __('After page render'));
+		$default_blocks = array(-1 => '----', 'PRE' => __('Before page render'), 'POST' => __('After page render'));
 		foreach ($res_blocks as $block)
 		{
 			if(empty($blocks[$block->layout_name])) 

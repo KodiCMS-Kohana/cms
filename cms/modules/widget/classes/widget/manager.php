@@ -272,19 +272,20 @@ class Widget_Manager {
 	
 	public static function update_location_by_page($page_id, $widget_id, array $data)
 	{
-		if(!empty($data['block']))
+		
+		if( $data['block'] < 0 ) 
+		{
+			DB::delete('page_widgets')
+				->where('widget_id', '=',$widget_id)
+				->where('page_id', '=', $page_id)
+				->execute();
+		}
+		else
 		{
 			DB::update('page_widgets')
 				->where('widget_id', '=',$widget_id)
 				->where('page_id', '=', $page_id)
 				->set( array('block' => $data['block'], 'position' => (int) $data['position']) )
-				->execute();
-		}
-		else 
-		{
-			DB::delete('page_widgets')
-				->where('widget_id', '=',$widget_id)
-				->where('page_id', '=', $page_id)
 				->execute();
 		}
 		
