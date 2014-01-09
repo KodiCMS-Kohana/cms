@@ -321,6 +321,8 @@ class KodiCMS_Model_Page_Front {
 	 */
 	public function is_active()
 	{
+		if(empty($this->url)) return FALSE;
+
 		return (strpos(Request::current()->url(), $this->url) === 1);
 	}
 	
