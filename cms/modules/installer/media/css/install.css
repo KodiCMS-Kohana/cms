@@ -8,16 +8,15 @@
 
 #empty_database {
 	margin-top: 5px;
+}
+	
+.btn-checkbox {
 	padding-left: 25px;
 }
 
-	#empty_database input {
+	.btn-checkbox input {
 		margin-top: 3px;
 	}
-	
-#insert-test-data {
-	padding-left: 25px;
-}
 
 .wizard,
 .tabcontrol {

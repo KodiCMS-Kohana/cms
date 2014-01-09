@@ -1,15 +1,27 @@
+// Auto generated i18n lang file for lang ru-ru
+cms.addTranslation({
+	'Finish': 'Установить',
+	'Next': 'Далее',
+	'Previous': 'Назад',
+	'Loading ...': 'Загрузка ...'
+});
+
 $(function() {
+	$('#wizard').on('change', '#current-lang', function() {
+		window.location = '/install/index?lang=' + $(this).val();
+	})
+	
 	var password_generator_status = function() {
-		var checkbox = $('#installPasswordGenerateField');
+		var checkbox = $('#generate-password-checkbox');
 
 		if(checkbox.is(':checked')){
-			$('#password_form').hide();
+			$('#password-form').hide();
 		} else {
-			$('#password_form').show();
+			$('#password-form').show();
 		}
 	}
 	
-	$('#wizard').on('change', '#installPasswordGenerateField', password_generator_status);
+	$('#wizard').on('change', '#generate-password-checkbox', password_generator_status);
 	password_generator_status();
 	
 	function show_error($error) {

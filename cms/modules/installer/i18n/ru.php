@@ -26,7 +26,7 @@ return array(
 	'Administrator username' => 'Имя пользователя администратора',
 	
 	'Administrator email' => 'E-mail адрес',
-	'Administrator password generate' => 'Сгенерировать пароль автоматически',
+	'Generate password' => 'Сгенерировать пароль автоматически',
 	'Admin dir name' => 'Точка входа в административный интерфейс',
 	'URL suffix' => 'Окончание URL адреса',
 	'Add a suffix to simulate static html files.'
@@ -34,6 +34,10 @@ return array(
 	'Timezone' => 'Временная зона',
 	'Cache system' => 'Кеширование',
 	'Cache type' => 'Тип кеширования',
+	'Install demo data' => 'Установить демо контент',
+	'Demo site' => 'Демо сайт',
+	'Language' => 'Язык',
+	'Current language' => 'Текущий язык',
 
 	/********************* Environment *******************/
 	'Environment Tests' => 'Проверка окружения',
@@ -83,4 +87,6 @@ return array(
 		=> 'Директория :dir расположения конфиг файла должна быть доступна для записи',
 	'Can\'t write config.php file!'
 		=> 'Невозможно записать данные в файл config.php!',
+	'Below you should enter your database connection details. If you’re not sure about these, contact your host.'
+		=> 'Ниже вы должны ввести данные подключения к вашей БД. Если вы их не знаете, обратитесь к вашему хостеру.'
 );

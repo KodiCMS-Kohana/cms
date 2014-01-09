@@ -51,10 +51,10 @@ class Controller_Install extends Controller_System_Frontend
 			'email' => 'admin@yoursite.com',
 			'admin_dir_name' => 'backend',
 			'url_suffix' => '.html',
-			'password_generate' => TRUE,
+			'password_generate' => FALSE,
 			'timezone' => date_default_timezone_get(),
 			'cache_type' => 'sqlite',
-			'locale' => I18n::detect_lang(),
+			'locale' => I18n::lang(),
 			'insert_test_data' => FALSE
 		);
 

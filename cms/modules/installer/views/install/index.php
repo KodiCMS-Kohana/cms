@@ -3,13 +3,27 @@
 	'class' => Bootstrap_Form::HORIZONTAL
 )); ?>
 <div id="wizard">
+	<h1><?php echo __( 'Language' ); ?></h1>
+	<div>
+		<div class="widget">
+			<div class="widget-content">
+				<?php echo Bootstrap_Form_Element_Control_Group::factory(array(
+					'element' => Bootstrap_Form_Element_Select::factory(array(
+						'name' => 'locale', 'options' => I18n::available_langs()
+					))
+					->attributes('id', 'current-lang')
+					->selected(Arr::get($_GET, 'lang', I18n::lang()))
+					->label(__('Current language'))
+				)); ?>
+			</div>
+		</div>
+	</div>
 	<h1><?php echo __( 'Environment Tests' ); ?></h1>
 	<div>
 		<div class="widget">
 			<?php echo $env_test; ?>
 		</div>
 	</div>
-	
     <h1><?php echo __( 'Database information' ); ?></h1>
     <div>
 		<div class="widget">
@@ -53,16 +67,17 @@
 					</div>
 				</div>
 
-				<div class="control-group">
+				<div class="control-group well well-small">
 					<label class="control-label" for="installDBNameField"><?php echo __( 'Database name' ); ?></label>
 					<div class="controls">
 						<?php echo Form::input( 'install[db_name]', Arr::get( $data, 'db_name' ), array(
 							'class' => 'input-xlarge', 'id' => 'installDBNameField'
 						) ); ?> <?php echo UI::label( __( 'Required' ) ); ?>
-						<br />
-						<label id="empty_database" class="checkbox btn btn-mini btn-danger"><?php echo Form::checkbox( 'install[empty_database]', 1, (bool) Arr::get( $data,'empty_database'));?> <?php echo __('Empty database'); ?></label>
-						
 						<p class="help-block"><?php echo __( 'You have to create a database manually and enter its name here.' ); ?></p>
+						
+						<hr />
+						<label id="empty_database" class="checkbox btn btn-mini btn-danger btn-checkbox"><?php echo Form::checkbox( 'install[empty_database]', 1, (bool) Arr::get( $data,'empty_database'));?> <?php echo __('Empty database'); ?></label>
+						
 					</div>
 				</div>
 
@@ -101,19 +116,10 @@
 						) ); ?> <?php echo UI::label( __( 'Required' ) ); ?>
 					</div>
 				</div>
-
-				<div class="control-group">
-					<label class="control-label" for="installPasswordGenerateField"><?php echo __( 'Administrator password generate' ); ?></label>
+				<div class="control-group well well-small">
+					<label class="control-label" for="userEditPasswordField"><?php echo __('Password'); ?></label>
 					<div class="controls">
-						<?php echo Form::checkbox( 'install[password_generate]', 1, (bool) Arr::get( $data,'password_generate'), array(
-							'id' => 'installPasswordGenerateField'
-						) ); ?>
-					</div>
-				</div>
-				<div id="password_form" class="well well-small">
-					<div class="control-group">
-						<label class="control-label" for="userEditPasswordField"><?php echo __('Password'); ?></label>
-						<div class="controls">
+						<div id="password-form">
 							<?php echo Form::password('install[password_field]', Arr::get( $data,'password_field'), array(
 								'class' => 'input-medium', 'id' => 'userEditPasswordField'
 							)); ?>
@@ -125,7 +131,13 @@
 							<p class="help-block"><?php echo __('At least :num characters. Must be unique.', array(
 								':num' => Kohana::$config->load('auth')->get( 'password_length', 5 )
 							)); ?>
+							<hr />
 						</div>
+						<label class="checkbox btn btn-success btn-checkbox">
+							<?php echo Form::checkbox( 'install[password_generate]', 1, (bool) Arr::get( $data,'password_generate'), array(
+								'id' => 'generate-password-checkbox'
+							)); ?> <?php echo __( 'Generate password' ); ?>
+						</label>
 					</div>
 				</div>
 				<div class="control-group">
@@ -173,14 +185,13 @@
 				<hr />
 				
 				<div class="control-group">
+					<label class="control-label"><?php echo __( 'Demo site' ); ?></label>
 					<div class="controls">
-						<label id="insert-test-data" class="checkbox btn btn-success">
-							<?php echo Form::checkbox( 'install[insert_test_data]', 1, (bool) Arr::get( $data,'insert_test_data'));?> <?php echo __('Insert test data'); ?>
+						<label id="insert-test-data" class="checkbox btn btn-success btn-checkbox">
+							<?php echo Form::checkbox( 'install[insert_test_data]', 1, (bool) Arr::get( $data,'insert_test_data'));?> <?php echo __('Install demo site'); ?>
 						</label>
 					</div>
 				</div>
-				
-				
 			</div>
 		</div>
 	</div>
