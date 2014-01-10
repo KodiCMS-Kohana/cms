@@ -33,15 +33,48 @@ Observer::observe(array('controller_before_page_edit', 'controller_before_page_a
 Observer::observe('page_edit_after_save', function($page) {
 	$parts = Arr::get(Request::initial()->post(), 'part_content', array());
 	
+	$indexable_content = '';
+	
 	foreach ($parts as $id => $content)
 	{
 		$part = Record::findByIdFrom('Model_Page_Part', (int) $id);
+		
+		if( (bool) $part->is_indexable)
+		{
+			$indexable_content .= ' ' . $part->content;
+		}
 
 		if($content == $part->content) continue;
 
 		$part
 			->setFromData(array('content' => $content))
 			->save();
+	}
+	
+	Search::add_to_index('pages', $page->id, $page->title, $indexable_content);
+});
+
+Observer::observe('update_search_index', function($page) {
+	
+	$pages = Model_Page::findAll();
+	
+	foreach($pages as $page)
+	{
+		$indexable_content = '';
+		
+		$parts = Model_Page_Part::findAllFrom('Model_Page_Part', array(
+			'where' => array(
+				array('page_id', '=', $page->id),
+				array('is_indexable', '=', 1)
+			)
+		));
+		
+		foreach ($parts as $part)
+		{
+			$indexable_content .= ' ' . $part->content;
+		}
+		
+		Search::add_to_index('pages', $page->id, $page->title, $indexable_content);
 	}
 });
 

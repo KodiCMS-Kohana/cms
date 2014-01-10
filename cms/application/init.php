@@ -61,6 +61,7 @@ Kohana::modules( array(
 	'behavior'		=> MODPATH . 'behavior',
 	'plugins'		=> MODPATH . 'plugins',
 	'datasource'	=> MODPATH . 'datasource',
+	'search'		=> MODPATH . 'search',
 ) );
 
 Kohana::$config->attach(new Config_Database);
