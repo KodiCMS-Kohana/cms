@@ -164,6 +164,7 @@ if(class_exists('Widget_Manager'))
 				'cache_lifetime' => 3600,
 				'cache_tags' => 'pages,page_parts,page_tags',
 				'page_id' => 8,
+				'list_size' => 1
 			),
 			'blocks' => array (
 				1 => 'body'
