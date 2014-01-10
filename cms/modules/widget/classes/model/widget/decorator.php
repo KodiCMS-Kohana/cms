@@ -246,7 +246,16 @@ abstract class Model_Widget_Decorator {
 		else
 		{
 			$snippet = new Model_File_Snippet($this->template);
-			$this->template = $snippet->find_file();
+			
+			if( $snippet->is_exists() )
+			{
+				$this->template = $snippet->get_file();
+			}
+			else if(($this->template = $snippet->find_file()) === FALSE)
+			{
+				$this->template = $this->default_template();
+			}
+			
 		}
 		
 		return $this->template;
