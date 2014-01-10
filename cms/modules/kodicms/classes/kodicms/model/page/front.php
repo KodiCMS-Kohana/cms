@@ -655,7 +655,7 @@ class KodiCMS_Model_Page_Front {
 	 * @param Model_Page_Front $parent
 	 * @return boolean|\Model_Page_Front
 	 */
-	public static function findBySlug( $slug, $parent )
+	public static function findBySlug( $slug, $parent, $include_hidden = TRUE )
 	{
 		$page_cache_id = self::_get_cache_id( $slug, $parent );
 
@@ -678,7 +678,7 @@ class KodiCMS_Model_Page_Front {
 				->on('updator.id', '=', 'page.updated_by_id')
 			->where('slug', '=', $slug)
 			->where('parent_id', '=', $parent_id)
-			->where('status_id', 'in', self::_get_statuses(TRUE))
+			->where('status_id', 'in', self::_get_statuses($include_hidden))
 			->limit(1)
 			->cache_tags( array('pages') )
 			->cached((int)Config::get('cache', 'front_page'))
@@ -715,7 +715,7 @@ class KodiCMS_Model_Page_Front {
 	 * @param string $uri
 	 * @return \Model_Page_Front
 	 */
-	public static function find( $uri )
+	public static function find( $uri, $include_hidden = TRUE )
 	{
 		$uri = trim($uri, '/');
 
@@ -732,7 +732,7 @@ class KodiCMS_Model_Page_Front {
 		{
 			$url = ltrim($url . '/' . $page_slug, '/');
 
-			if( $page = self::findBySlug($page_slug, $parent) )
+			if( $page = self::findBySlug($page_slug, $parent, $include_hidden) )
 			{
 				// check for behavior
 				if( !empty( $page->behavior_id ) )
@@ -755,7 +755,7 @@ class KodiCMS_Model_Page_Front {
 	 * @param integer $id
 	 * @return \Model_Page_Front|boolean
 	 */
-	public static function findById( $id )
+	public static function findById( $id, $include_hidden = TRUE )
 	{
 		$page_class = get_called_class();
 
@@ -769,7 +769,7 @@ class KodiCMS_Model_Page_Front {
 				->on('updator.id', '=', 'page.updated_by_id')
 			->where('page.id', '=', $id)
 			->where('published_on', '<=', DB::expr('NOW()'))
-			->where('status_id', 'in', self::_get_statuses(TRUE))
+			->where('status_id', 'in', self::_get_statuses($include_hidden))
 			->limit(1)
 			->cache_tags( array('pages') )
 			->cached((int)Config::get('cache', 'front_page'))
