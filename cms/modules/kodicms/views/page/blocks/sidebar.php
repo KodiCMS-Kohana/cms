@@ -21,7 +21,12 @@
 		<?php endif; ?>
 	</label>
 	<select name="page[layout_file]" class="span12">
+		<?php if( $page->id != 1 ): ?>
 		<option value="0">&ndash; <?php echo __('inherit ( :layout )', array(':layout' => $page->layout())); ?> &ndash;</option>
+		<?php else: ?>
+		<option value="0"><?php echo __('--- Not set ---'); ?></option>
+		<?php endif; ?>
+			
 		<?php foreach ($layouts as $layout): ?>
 		<option value="<?php echo($layout->name); ?>" <?php echo($layout->name == $page->layout_file ? ' selected="selected"': ''); ?> ><?php echo $layout->name; ?></option>
 		<?php endforeach; ?>
@@ -31,7 +36,7 @@
 	<div class="well well-small">
 		<label><?php echo __('Type'); ?></label>
 		<select name="page[behavior_id]" class="span12">
-			<option value="0"<?php if ($page->behavior_id == '') echo ' selected="selected"'; ?>>&ndash; <?php echo __('none'); ?> &ndash;</option>
+			<option value="0"<?php if ($page->behavior_id == '') echo ' selected="selected"'; ?>><?php echo __('--- Not set ---'); ?></option>
 			<?php foreach ($behaviors as $behavior): ?>
 			<option value="<?php echo $behavior; ?>"<?php if ($page->behavior_id == $behavior) echo ' selected="selected"'; ?>><?php echo Inflector::humanize($behavior); ?></option>
 			<?php endforeach; ?>
