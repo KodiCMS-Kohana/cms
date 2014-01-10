@@ -13,12 +13,14 @@ class Model_Widget_Page_Search extends Model_Widget_Decorator_Pagination {
 
 	public function fetch_data()
 	{
+		$keyword = $this->_ctx->get($this->search_key);
+
 		$return = array(
 			'total_found' => 0,
-			'pages' => array()
+			'pages' => array(),
+			'keyword', HTML::chars($keyword)
 		);
 
-		$keyword = $this->_ctx->get($this->search_key);
 		if(empty($keyword)) return $return;
 		
 		$ids = Search::by_keyword($keyword, FALSE, 'pages', $this->list_size, $this->list_offset);

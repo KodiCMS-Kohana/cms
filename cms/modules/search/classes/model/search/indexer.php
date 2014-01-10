@@ -29,7 +29,7 @@ class Model_Search_Indexer {
 	{
 		$id = (int) $id;
 
-		list($title, $content) = $this->_prepare_data( $title, $content );
+		list($header, $content) = $this->_prepare_data( $title, $content );
 
 		$result = DB::select( 'id' )
 				->from( 'search_index' )
@@ -41,10 +41,10 @@ class Model_Search_Indexer {
 
 		if ( !$result )
 		{
-			return DB::insert( 'search_index' )
-				->columns( array( 'module', 'id', 'title', 'content', 'created_on', 'params' ) )
+			return (bool) DB::insert( 'search_index' )
+				->columns( array( 'module', 'id', 'title', 'header', 'content', 'created_on', 'params' ) )
 				->values( array(
-					$module, $id, $title, $content, date( 'Y-m-d H:i:s' ), serialize($params)
+					$module, $id, $title, $header, $content, date( 'Y-m-d H:i:s' ), serialize($params)
 				) )
 				->execute();
 		}
@@ -60,11 +60,12 @@ class Model_Search_Indexer {
 	{
 		$id = (int) $id;
 
-		list($title, $content) = $this->_prepare_data( $title, $content );
+		list($header, $content) = $this->_prepare_data( $title, $content );
 
-		return DB::update( 'search_index' )
+		return (bool) DB::update( 'search_index' )
 			->set( array(
 				'title' => $title,
+				'header' => $header,
 				'content' => $content,
 				'updated_on' => date( 'Y-m-d H:i:s' ),
 				'params' => serialize($params)
@@ -97,7 +98,7 @@ class Model_Search_Indexer {
 			$query->where( 'id', '=', $id );
 		}
 
-		return $query->execute();
+		return (bool) $query->execute();
 	}
 
 	protected function _get_stemmed_text( $text )
