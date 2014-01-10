@@ -5,8 +5,8 @@
   	</a>
     <div class="media-body">
         <h3 class="media-heading"><?php echo $page->link(); ?></h3>
-        <?php echo $page->content(); ?>
-        <?php if ($page->has_content('extended')) echo $page->link('Continue Reading…'); ?>
+        <?php echo Part::content($page); ?>
+        <?php if (Part::exists($page, 'extended')) echo $page->link('Continue Reading…'); ?>
         <p class="info">Posted by <?php echo $page->author(); ?> on <?php echo $page->date(); ?></p>
     </div>
 </div>

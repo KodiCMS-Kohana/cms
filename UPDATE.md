@@ -147,3 +147,10 @@ ALTER TABLE `TABLE_PREFIX_roles_permissions` ADD CONSTRAINT `roles_permissions_i
 	* ALTER TABLE  `page_widgets` ADD  `position` INT( 4 ) NOT NULL DEFAULT  '500';
 
 	* ALTER TABLE  `pages` ADD  `password` VARCHAR( 50 ) NOT NULL DEFAULT  '';
+
+### 9.15.46
+
+	* $page->content(..) -> Part::content($page, ...)
+	* $page->has_content(...) -> Part::exists($page, ...)
+	* $page->field(...) -> Page_Field::get($page, ...)
+	* $page->has_field($page, ...) -> Page_Field::exists($page, ...)
