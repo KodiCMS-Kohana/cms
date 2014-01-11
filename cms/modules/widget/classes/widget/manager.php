@@ -256,11 +256,12 @@ class Widget_Manager {
 			$i = 0;
 			foreach($data as $page_id => $block)
 			{
-				if(empty($block['name'])) continue;
+				if($data['block'] == -1) continue;
 
 				$insert->values(array(
 					$page_id, (int) $widget_id, $block['name'], (int) $block['position']
 				));
+
 				$i++;
 			}
 			
