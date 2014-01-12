@@ -57,7 +57,9 @@
 		});
 		
 		$('#fields').on('click', '.valid-types-label', function() {
-			$(this).parent().find('input').val($(this).data('type'));
+			var $input = $(this).parent().find('input');
+			var $val = $input.val().length > 0 ? $input.val() + ', ' : $input.val();
+			$input.val($val + $(this).data('type'));
 		});
 	})
 </script>
@@ -96,12 +98,21 @@
 							<?php echo Form::select('field[type][]', $widget->value_types()); ?>
 						</td>
 					</tr>
+					
+					<tr>
+						<td><h5><?php echo __('Field name'); ?></h5></td>
+						<td colspan="3">
+							<?php echo Form::input('field[name][]', NULL, array(
+								'class' => Bootstrap_Form_Element_Input::MEDIUM
+							)); ?>
+						</td>
+					</tr>
 
 					<tr><td colspan="4"><hr /></td></tr>
 
 					<tr>
 						<td></td>
-						<td nowrap><?php echo __('Validation (PCRE)'); ?></td>
+						<td nowrap><?php echo __('Validation'); ?></td>
 						<td colspan="2"></td>
 					</tr>
 					<tr>

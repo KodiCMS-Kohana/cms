@@ -106,6 +106,7 @@ return array(
 	'Hide field select' => 'Скрыть список полей',
 	'inherit ( :layout )' => 'Наследовать ( :layout )',
 	'Metadata' => 'Метаданные',
+	'--- Not set ---' => '--- Не указан ---',
 
 	/*********************** Settings *******************/
 	'General settings' => 'Главные настройки',

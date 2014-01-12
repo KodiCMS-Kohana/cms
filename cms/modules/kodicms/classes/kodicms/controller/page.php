@@ -90,7 +90,10 @@ class KodiCMS_Controller_Page extends Controller_System_Backend {
 			$data['title'] = Kses::filter( trim( $data['title'] ), array( ) );
 		}
 
-		$data['status_id'] = Config::get('site', 'default_status_id' );
+		if( empty($data['status_id']) )
+		{
+			$data['status_id'] = Config::get('site', 'default_status_id' );
+		}
 
 		$page = new Model_Page( $data );
 		$page->parent_id = $parent_id;

@@ -217,12 +217,15 @@ class KodiCMS_Model_Page_Front {
 						}
 					break;
 					default: // Level
-						if($f >= 0 AND $this->level() != $f)
+						if(
+								Valid::digit($f) 
+							AND 
+								$this->level() != $f 
+							AND 
+								$this->parent($f) instanceof Model_Page_Front
+						)
 						{
-							if($this->parent($f) instanceof Model_Page_Front)
-							{
-								$parts[] = $this->parent()->meta_title();
-							}
+							$parts[] = $this->parent($f)->meta_title();
 						}
 					break;
 					
