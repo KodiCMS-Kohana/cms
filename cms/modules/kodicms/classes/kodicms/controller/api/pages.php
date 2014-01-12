@@ -54,6 +54,11 @@ class KodiCMS_Controller_API_Pages extends Controller_System_Api {
 			$insert = $insert . ' ON DUPLICATE KEY UPDATE parent_id = VALUES(parent_id), position = VALUES(position)';
 		
 			DB::query(Database::INSERT, $insert)->execute();
+			
+			if(Kohana::$caching === TRUE)
+			{
+				Cache::instance()->delete_tag('pages');
+			}
 		}
 	}
 	
