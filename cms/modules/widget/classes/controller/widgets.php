@@ -193,11 +193,18 @@ class Controller_Widgets extends Controller_System_Backend {
 		{
 			$templates[$snippet->name] = $snippet->name;
 		}
+		
+		$roles = array();
+		foreach (Model_Permission::get_all() as $role)
+		{
+			$roles[$role] = $role;
+		}
 
 		$this->template->content = View::factory( 'widgets/edit', array(
 			'widget' => $widget,
 			'templates' => $templates,
-			'content' =>  $widget->fetch_backend_content()
+			'content' =>  $widget->fetch_backend_content(),
+			'roles' => $roles,
 		) );
 	}
 	
@@ -207,13 +214,20 @@ class Controller_Widgets extends Controller_System_Backend {
 		
 		try 
 		{
-			$widget
-				->set_values( $data );
+			if ( ! ACL::check( 'widget.roles' ) AND ! empty($data['roles']))
+			{
+				$data['roles'] = array();
+			}
 			
 			if( ACL::check( 'widgets.cache'))
 			{
 				$widget->set_cache_settings( $data );
 			}
+			
+			unset($data['caching'], $data['cache_lifetime'], $data['cache_tags']);
+
+			$widget
+				->set_values( $data );
 			
 			Widget_Manager::update($widget);
 			

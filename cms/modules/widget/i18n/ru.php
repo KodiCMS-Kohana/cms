@@ -27,6 +27,7 @@ return array(
 	'Exclude pages' => 'Исключить страницы',
 	'Select to child pages' => 'Установить для дочерних страниц',
 	'------ none ------' => '----- не указан -----',
+	'Page password form' => 'Форма ввода пароля для закрытой страницы',
 	
 	'Next page (URI)' => 'Следующая страница (URI)',
 	'Next page by default (URI)' => 'Следующая страница по умолчанию (URI)',
@@ -81,10 +82,13 @@ return array(
 	'Count tags 9-0' => 'Количеству 9-0',
 	'List settings' => 'Настройки списка',
 	'Default template' => 'Шаблон по умолчанию',
+	
+	'Widget permissions' => 'Права на видимость',
 	//============Permissions============//
 	'View widgets' => 'Видеть раздел',
 	'Edit widget' => 'Редактировать виджет',
 	'Set widget location' => 'Устанавливать расположение виджета',
 	'Manage widget cache' => 'Управлять кешем виджета',
 	'Delete widget' => 'Удалять виджет',
+	
 );
