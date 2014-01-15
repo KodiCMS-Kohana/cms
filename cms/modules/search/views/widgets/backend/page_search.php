@@ -4,7 +4,7 @@
 			'element' => Bootstrap_Form_Element_Input::factory(array(
 				'name' => 'search_key', 'value' => $widget->search_key
 			))
-			->label(__('Search key'))
+			->label(__('Search key ($_GET)'))
 		));
 	?>
 </div>
