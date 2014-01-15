@@ -232,11 +232,19 @@ class DataSource_Hybrid_Field_File extends DataSource_Hybrid_Field {
 		}
 		else if( is_string($new_file) AND Valid::url($new_file) )
 		{
-			list($status, $filename) = Upload::from_url( $new_file, $this->types, $this->folder() );
+			list($status, $filename) = Upload::from_url( $new_file, $this->types, $this->folder());
 
 			if($status)
 			{
-				$filepath = $this->folder() . DIRECTORY_SEPARATOR . $filename;
+				if(rename(TMPPATH . $filename, $this->folder() . $filename))
+				{
+					$filepath = $this->folder() . $filename;
+				}
+				else
+				{
+					unlink(TMPPATH . $filename);
+					return FALSE;
+				}
 			}
 		}
 

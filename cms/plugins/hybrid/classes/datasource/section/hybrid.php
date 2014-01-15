@@ -75,6 +75,8 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 		
 		$dsf = new DataSource_Hybrid_Factory();
 		$dsf->create($values['key'], $this);
+		
+		return $id;
 	}
 	
 	public function valid(array $array)
@@ -160,13 +162,12 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 			->as_array(NULL, 'id');
 		
 		$this->remove_own_documents($ids);
-	
-		DB::delete('datasources')
-			->where('ds_id', '=', $this->id())
-			->execute();
 
 		$record = $this->get_record();
 		$record->destroy();
+		
+		$dsf = new DataSource_Hybrid_Factory();
+		$dsf->remove($this->id());
 		
 		return $this;
 	}
@@ -195,7 +196,7 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 		if($success) 
 		{
 			$this->update_size();
-			$this->add_to_index($id);
+			$this->add_to_index(array($id));
 		} 
 		else 
 		{
@@ -237,16 +238,16 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 		{
 			if($doc->published)
 			{
-				$this->add_to_index($old->id);
+				$this->add_to_index(array($old->id));
 			}
 			else
 			{
-				$this->remove_from_index($old->id);
+				$this->remove_from_index(array($old->id));
 			}
 		} 
 		elseif($old->published)
 		{
-			$this->update_index($old->id);
+			$this->update_index(array($old->id));
 		}
 		
 		$this->clear_cache();
@@ -336,7 +337,7 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 	public function create_empty_document($header) 
 	{
 		$data = array(
-			'ds_id' => $this->ds_id,
+			'ds_id' => $this->id(),
 			'header' => $header,
 			'created_on' => date('Y-m-d H:i:s'),
 		);

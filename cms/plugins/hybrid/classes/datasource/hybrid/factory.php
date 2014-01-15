@@ -60,17 +60,18 @@ class DataSource_Hybrid_Factory {
 			return FALSE;
 		}
 
-		foreach($ids as $id) 
+		foreach($ids as $_id) 
 		{
-			$ds = Datasource_Data_Manager::load($id);
+			if($_id != $id)
+			{
+				$ds = Datasource_Data_Manager::load($_id);
+				if(!$ds) continue;
+				$ds->remove();
+			}
 			
-			if(!$ds) continue;
-				
-			$ds->remove();
-			
-			
-			self::remove_table($id);
-			self::remove_folder($id);
+
+			self::remove_table($_id);
+			self::remove_folder($_id);
 		}
 		
 		return (bool) DB::delete(self::TABLE)
@@ -156,7 +157,7 @@ class DataSource_Hybrid_Factory {
 			$res = DB::select('dsh.id', 'dsh.ds_id')
 				->from(array('dshybrid', 'dsh'))
 				->join(array('datasources', 'dss'), 'left')
-					->on('dsh.ds_id', '=', 'dss.ds_id')
+					->on('dsh.ds_id', '=', 'dss.id')
 				->where('dsh.id', 'in', $ids)
 				->execute();
 			
