@@ -187,67 +187,7 @@ class KodiCMS_Model_Page_Front {
 	 */
 	public function meta_title() 
 	{
-		$title = strtr($this->meta_title, array('\'' => '\\\'', '\\' => '\\\\'));
-		$fields = array();
-		
-		$found = preg_match_all(
-			'/(?<!\{)\{('.
-				'((\$|\:)[A-Za-z0-9_\-\.\/]+)'. // {$abc}, {:abc}
-				'|(\-?[0-9]+(\|[^\'\}]*)?)'. // {1}, {-1| &gt; }
-				'|[\.]+'.
-			')\}(?!\})/u', $title, $fields);
-
-		if($found) 
-		{
-			$fields = array_unique($fields[1]);
-			$parts = array();
-			foreach($fields as $i => $f) 
-			{
-				$patterns[] = '/(?<!\\{)\\{'.preg_quote($f, '/').'\\}(?!\\})/u';
-				$param = NULL;
-				switch($f) 
-				{
-					case '.': // Current page
-						$parts[] = $this->title();
-					break;
-					case '..': // Parent page
-						if($this->parent() instanceof Model_Page_Front)
-						{
-							$parts[] = $this->parent()->meta_title();
-						}
-					break;
-					default: // Level
-						if(
-								Valid::digit($f) 
-							AND 
-								$this->level() != $f 
-							AND 
-								$this->parent($f) instanceof Model_Page_Front
-						)
-						{
-							$parts[] = $this->parent($f)->meta_title();
-						}
-					break;
-					
-				}
-				
-				switch($f{0}) 
-				{
-					case '$':
-						$param = substr($f, 1);
-					break;
-				}
-				
-				if($param !== NULL)
-				{
-					$parts[] = Config::get('site', $param);
-				}
-			}
-			
-			$title = preg_replace($patterns, $parts, $title);
-		}
-		
-		return $title; 
+		return $this->_parse_meta('meta_title');
 	}
 	
 	/**
@@ -277,7 +217,8 @@ class KodiCMS_Model_Page_Front {
 	 */
 	public function meta_keywords($default = NULL) 
 	{
-		return !empty($this->meta_keywords) ? $this->meta_keywords : $default; 
+		$meta_keywords = $this->_parse_meta('meta_keywords');
+		return !empty($meta_keywords) ? $meta_keywords : $default; 
 	}
 
 	/**
@@ -286,8 +227,9 @@ class KodiCMS_Model_Page_Front {
 	 * @return string
 	 */
 	public function meta_description($default = NULL) 
-	{ 
-		return ! empty($this->meta_description) ? $this->meta_description : $default; 
+	{
+		$meta_description = $this->_parse_meta('meta_description');
+		return ! empty($meta_description) ? $meta_description : $default; 
 	}
 
 	/**
@@ -923,6 +865,90 @@ class KodiCMS_Model_Page_Front {
 		}
 
 		return $this->needs_login;
+	}
+	
+	/**
+	 * 
+	 * @param string $key
+	 * @return string
+	 */
+	protected function _parse_meta( $key )
+	{
+		$string = strtr($this->{$key}, array('\'' => '\\\'', '\\' => '\\\\'));
+
+		$fields = array();
+		
+		$found = preg_match_all(
+			'/(?<!\{)\{('.
+				'((\$|\:)[A-Za-z0-9_\-\.\/]+)'. // {$abc}, {:abc}
+				'|(\-?[0-9]+(\|[^\'\}]*)?)'. // {1}, {-1| &gt; }
+				'|[\.]+'.
+			')\}(?!\})/u', $string, $fields);
+
+		if($found) 
+		{
+			$fields = array_unique($fields[1]);
+
+			$parts = array();
+	
+			foreach($fields as $i => $field) 
+			{
+				$patterns[] = '/(?<!\\{)\\{'.preg_quote($field, '/').'\\}(?!\\})/u';
+				switch($field) 
+				{
+					case '.': // Current page
+						if($key == 'meta_title')
+						{
+							$parts[] = $this->title();
+						}
+					break;
+					case '..': // Parent page
+						if($this->parent() instanceof Model_Page_Front)
+						{
+							$parts[] = $this->parent()->{$key}();
+						}
+					break;
+					default: // Level
+						if(
+								Valid::digit($f) 
+							AND 
+								$this->level() != $field 
+							AND 
+								$this->parent($field) instanceof Model_Page_Front
+						)
+						{
+							$parts[] = $this->parent($field)->{$key}();
+						}
+					break;
+				}
+				
+				$param = NULL;
+
+				switch($field{0}) 
+				{
+					case '$':
+						$param = substr($field, 1);
+					break;
+				}
+
+				if($param !== NULL)
+				{
+					if( strpos( $param, 'site.') !== FALSE )
+					{
+						
+						$parts[] = Config::get('site', substr($param, 5));
+					}
+					else if(method_exists($this, $param))
+					{
+						$parts[] = $this->{$param}();
+					}
+				}
+			}
+			
+			$string = preg_replace($patterns, $parts, $string);
+		}
+		
+		return $string;
 	}
 
 	/**
