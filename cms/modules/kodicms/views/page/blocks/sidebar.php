@@ -35,13 +35,7 @@
 	<br />
 	<div class="well well-small">
 		<label><?php echo __('Type'); ?></label>
-		<select name="page[behavior_id]" class="span12">
-			<option value="0"<?php if ($page->behavior_id == '') echo ' selected="selected"'; ?>><?php echo __('--- Not set ---'); ?></option>
-			<?php foreach ($behaviors as $behavior): ?>
-			<option value="<?php echo $behavior; ?>"<?php if ($page->behavior_id == $behavior) echo ' selected="selected"'; ?>><?php echo Inflector::humanize($behavior); ?></option>
-			<?php endforeach; ?>
-		</select>
-		
+		<?php echo Behavior::dropdown_select('page[behavior_id]', $page->behavior_id, array('class' => 'span12')); ?>		
 		<div id="behavor_options"></div>
 	</div>
 
