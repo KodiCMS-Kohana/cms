@@ -1,8 +1,7 @@
 cms.init.add('page_index', function () {
 	// Read coockie of expanded pages
 	var matches = document.cookie.match(/expanded_rows=(.+?);/);
-	var expanded_pages = matches ? matches[1].split(',') : [];
-
+	var expanded_pages = matches ? decodeURIComponent(matches[1]).split(',') : [];
 	var arr = [];
 
 	for (var i = 0; i < expanded_pages.length; i++) {
@@ -11,12 +10,10 @@ cms.init.add('page_index', function () {
 	}
 
 	expanded_pages = arr;
-
-
 	var expandedPagesAdd = function (page_id) {
 		expanded_pages.push(page_id);
 
-		document.cookie = "expanded_rows=" + jQuery.unique(expanded_pages).join(',');
+		document.cookie = ['expanded_rows', '=', encodeURIComponent(jQuery.unique(expanded_pages).join(',')), '; path=', window.location.pathname].join('');
 	};
 
 	var expandedPagesRemove = function (page_id) {
@@ -24,9 +21,8 @@ cms.init.add('page_index', function () {
 			return value != page_id;
 		});
 
-		document.cookie = "expanded_rows=" + jQuery.unique(expanded_pages).join(',');
+		document.cookie = ['expanded_rows', '=', encodeURIComponent(jQuery.unique(expanded_pages).join(',')), '; path=', window.location.pathname].join('');
 	}
-
 
 	$('#pageMapItems').on('click', '.item-expander', function () {
 		var li = $(this).parent().parent().parent().parent();
