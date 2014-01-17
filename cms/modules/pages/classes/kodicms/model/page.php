@@ -126,17 +126,12 @@ class KodiCMS_Model_Page extends ORM
 
 	public function rules() 
 	{
-		return array(
+		$rules = array(
 			'title' => array(
 				array('not_empty'),
 				array('max_length', array(':value', 255))
 			),
 			'slug' => array(
-				array('not_empty'),
-				array('max_length', array(':value', 100))
-			),
-			'slug' => array(
-				array('not_empty'),
 				array('max_length', array(':value', 100))
 			),
 			'status_id' => array(
@@ -146,6 +141,13 @@ class KodiCMS_Model_Page extends ORM
 				array('array_key_exists', array(':value', self::logins()))
 			),
 		);
+		
+		if($this->id > 1)
+		{
+			$rules['slug'][] = array('not_empty');
+		}
+
+		return $rules;
 	}
 
 	public function filters()
