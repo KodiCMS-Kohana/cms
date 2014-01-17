@@ -443,7 +443,7 @@ class KodiCMS_Model_Page_Front {
 		$sql = DB::select('page.*')
 			->select(array('author.username', 'author'), array('author.id', 'author_id'))
 			->select(array('updator.username', 'updator'), array('updator.id', 'updator_id'))
-			->from(array(Model_Page::tableName(), 'page'))
+			->from(array('pages', 'page'))
 			->join(array('users', 'author'), 'left')
 				->on('author.id', '=', 'page.created_by_id')
 			->join(array('users', 'updator'), 'left')
@@ -501,7 +501,7 @@ class KodiCMS_Model_Page_Front {
 		}
 
 		$sql = DB::select(array(DB::expr('COUNT(*)'), 'total'))
-			->from(array(Model_Page::tableName(), 'page'))
+			->from(array('pages', 'page'))
 			->where('parent_id', '=', $this->id)
 			->where('status_id', 'in', self::_get_statuses($include_hidden));
 		
@@ -550,7 +550,7 @@ class KodiCMS_Model_Page_Front {
 		$statuses = $config->get('find_in_statuses', array());
 
 		$slugs = DB::select('id', 'slug')
-			->from(Model_Page::tableName())
+			->from('pages')
 			->where('status_id', 'in', $statuses);
 		
 		if(Config::get('page', 'check_date') == Config::YES)
@@ -616,7 +616,7 @@ class KodiCMS_Model_Page_Front {
 		$page = DB::select('page.*')
 			->select(array('author.username', 'author'))
 			->select(array('updator.username', 'updator'))
-			->from(array(Model_Page::tableName(), 'page'))
+			->from(array('pages', 'page'))
 			->join(array('users', 'author'), 'left')
 				->on('author.id', '=', 'page.created_by_id')
 			->join(array('users', 'updator'), 'left')
@@ -707,7 +707,7 @@ class KodiCMS_Model_Page_Front {
 		$page = DB::select('page.*')
 			->select(array('author.username', 'author'))
 			->select(array('updator.username', 'updator'))
-			->from(array(Model_Page::tableName(), 'page'))
+			->from(array('pages', 'page'))
 			->join(array('users', 'author'), 'left')
 				->on('author.id', '=', 'page.created_by_id')
 			->join(array('users', 'updator'), 'left')

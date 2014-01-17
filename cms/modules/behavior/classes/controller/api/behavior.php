@@ -9,14 +9,12 @@ class Controller_API_Behavior extends Controller_System_Api {
 
 	public function get_settings()
 	{
-		$id = $this->param('id', NULL );
+		$id = $this->param('id', NULL, TRUE );
 		$page_id = $this->param('page_id', NULL, TRUE);
 		
-		if( ! $id ) return;
+		$page = ORM::factory('page', (int) $page_id);
 		
-		$page = Model_Page::findById( (int) $page_id);
-		
-		if ( ! $page )
+		if ( ! $page->loaded() )
 		{
 			throw new HTTP_Exception_404('Page :id not found!', array(
 				':id' => $page_id));

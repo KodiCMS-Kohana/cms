@@ -5,7 +5,7 @@ class HTTP_Exception_404 extends Kohana_HTTP_Exception_404
 	public function get_response()
 	{
 		$page = DB::select()
-			->from(Model_Page::TABLE_NAME)
+			->from('pages')
 			->where('behavior_id', '=', 'page_not_found')
 			->limit(1)
 			->as_object()
