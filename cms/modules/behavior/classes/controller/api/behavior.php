@@ -9,8 +9,10 @@ class Controller_API_Behavior extends Controller_System_Api {
 
 	public function get_settings()
 	{
-		$id = $this->param('id', NULL, TRUE );
+		$id = $this->param('id', NULL );
 		$page_id = $this->param('page_id', NULL, TRUE);
+		
+		if(empty($id)) return;
 		
 		$page = ORM::factory('page', (int) $page_id);
 		
