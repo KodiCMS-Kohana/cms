@@ -204,8 +204,21 @@ $(function() {
 			e.preventDefault();
 
 			this.model = new cms.models.part();
+
 			if(this.collection.length == 0)
 				this.model.set('name', 'body');
+			
+			var i = 0;
+			this.collection.each(function(part) {
+				if(part.get('name') == this.model.get('name')) {
+					do {
+						i++;
+						this.model.set('name', 'part' + i);
+					} while (this.model.get('name') == part.get('name'));
+				}
+				
+			}, this);
+			
 
 			this.model.save();
 			
