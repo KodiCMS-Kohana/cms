@@ -58,21 +58,26 @@ class Model_Widget_Page_Pages extends Model_Widget_Decorator_Pagination {
 	{
 		$page = $this->get_current_page();
 		
-		$clause = array(
-			'order_by' => array(array('page.created_on', 'desc'))
-		);
-		
-		if($this->list_offset > 0)
-		{
-			$clause['offset'] = $this->list_offset;
-		}
-		
-		if($this->list_size > 0)
-		{
-			$clause['limit'] = $this->list_size;
-		}
+		$pages = array();
 
-		$pages = $page->children($clause);
+		if($page instanceof Model_Page_Front)
+		{
+			$clause = array(
+				'order_by' => array(array('page.created_on', 'desc'))
+			);
+
+			if($this->list_offset > 0)
+			{
+				$clause['offset'] = $this->list_offset;
+			}
+
+			if($this->list_size > 0)
+			{
+				$clause['limit'] = $this->list_size;
+			}
+
+			$pages = $page->children($clause);
+		}
 
 		return array(
 			'pages' => $pages
