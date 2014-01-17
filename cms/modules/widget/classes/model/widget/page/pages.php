@@ -15,7 +15,9 @@ class Model_Widget_Page_Pages extends Model_Widget_Decorator_Pagination {
 		
 		if( ! ($page instanceof Model_Page_Front) )
 		{
-			$this->_ctx->throw_404();
+			$this->_ctx->throw_404(__('Selected page in widget :widget_name not found', array(
+				':widget_name' => $this->name
+			)));
 		}
 	}
 	
