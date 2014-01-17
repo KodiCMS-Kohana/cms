@@ -30,7 +30,7 @@ return array(
 	'Password protected' => 'Защищена паролем',
 	'Page password' => 'Пароль',
 	'Status' => 'Статус',
-	'Type' => 'Тип',
+	'Page type' => 'Тип',
 	'Parent page' => 'Родительская страница',
 	'Users roles that can edit page' => 'Страница доступна для ролей',
 	'View page' => 'Просмотреть страницу',

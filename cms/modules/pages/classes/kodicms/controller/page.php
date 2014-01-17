@@ -58,7 +58,7 @@ class KodiCMS_Controller_Page extends Controller_System_Backend {
 			'action' => 'add',
 			'parent_id' => $parent_id,
 			'page' => $page,
-			'permissions' => Model_Permission::get_all(),
+			'permissions' => ORM::factory('role')->find_all()->as_array('id', 'name'),
 			'page_permissions' => $page->get_permissions()
 		) );
 	}
@@ -140,7 +140,7 @@ class KodiCMS_Controller_Page extends Controller_System_Backend {
 		$this->template->content = View::factory( 'page/edit', array(
 			'action' => 'edit',
 			'page' => $page,
-			'permissions' => Model_Permission::get_all(),
+			'permissions' => ORM::factory('role')->find_all()->as_array('id', 'name'),
 			'page_permissions' => $page->get_permissions()
 		) );
 	}

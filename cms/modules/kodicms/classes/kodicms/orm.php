@@ -19,6 +19,23 @@ class KodiCMS_ORM extends Kohana_ORM {
 	
 	/**
 	 * 
+	 * @param array $config
+	 * @return Pagination
+	 */
+	public function add_pager(array $config = NULL)
+	{
+		$config['total_items'] = $this->reset(FALSE)->count_all();
+		$pager = Pagination::factory($config);
+		
+		$this
+			->limit($pager->items_per_page)
+			->offset($pager->offset);
+		
+		return $pager;
+	}
+
+		/**
+	 * 
 	 * @param string $field
 	 * @param array $attributes
 	 * @return string
@@ -105,6 +122,10 @@ class KodiCMS_ORM extends Kohana_ORM {
 				break;
 			case 'select':
 				$input = Form::select($field_name, $choises, $value, $attributes);
+				break;
+			case 'checkbox':
+				$default = Arr::get($field_data, 'value', 1);
+				$input = Form::checkbox($field_name, $default, $default == $value, $attributes);
 				break;
 		}
 		

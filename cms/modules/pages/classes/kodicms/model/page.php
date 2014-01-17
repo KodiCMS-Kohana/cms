@@ -152,7 +152,8 @@ class KodiCMS_Model_Page extends ORM
 	{
 		return array(
 			'slug' => array(
-				array('URL::title')
+				array('URL::title'),
+				array('strtolower')
 			),
 			'parent_id' => array(
 				array('intval')

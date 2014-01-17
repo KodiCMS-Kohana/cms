@@ -7,32 +7,6 @@
  */
 class KodiCMS_Model_User extends Model_Auth_User {
 	
-	/**
-	 * Password validation for plain passwords.
-	 *
-	 * @param array $values
-	 * @return Validation
-	 */
-	public static function get_password_validation($values)
-	{
-		return Validation::factory($values)
-			->rule('password', 'min_length', array(':value', Config::get('auth', 'password_length')))
-			->rule('password_confirm', 'matches', array(':validation', ':field', 'password'));
-	}
-	
-	public static function locale()
-	{
-		$user = Auth::instance()->get_user();
-		
-		if($user instanceof Model_User)
-		{
-			return $user->profile->get('locale');
-		}
-		
-		return Config::get('site', 'default_locale');
-	}
-
-
 	protected $_reload_on_wakeup = FALSE;
 	
 	protected $_roles = NULL;
@@ -46,6 +20,16 @@ class KodiCMS_Model_User extends Model_Auth_User {
 	protected $_has_one = array(
 		'profile' => array('model' => 'user_profile'),
     );
+	
+	public function labels()
+	{
+		return array(
+			'username'         => __('Username'),
+			'email'            => __('E-mail'),
+			'password'         => __('Password'),
+			'password_confirm' => __('Confirm Password')
+		);
+	}
 	
 	public function with_roles()
 	{
@@ -183,5 +167,58 @@ class KodiCMS_Model_User extends Model_Auth_User {
 		return $this->update_user( array(
 			'password' => $email, 'password_confirm' => $email
 		));
+	}
+	
+	/**
+	 * Password validation for plain passwords.
+	 *
+	 * @param array $values
+	 * @return Validation
+	 */
+	public static function get_password_validation($values)
+	{
+		return Validation::factory($values)
+			->rule('password', 'min_length', array(':value', Config::get('auth', 'password_length')))
+			->rule('password_confirm', 'matches', array(':validation', ':field', 'password'));
+	}
+	
+	public static function locale()
+	{
+		$user = Auth::instance()->get_user();
+		
+		if($user instanceof Model_User)
+		{
+			return $user->profile->get('locale');
+		}
+		
+		return Config::get('site', 'default_locale');
+	}
+	
+	public function after_create()
+	{	
+		Kohana::$log->add(Log::INFO, 'User :new_user has been added by :user', array(
+			':new_user' => HTML::anchor(Route::url('backend', array(
+				'controller' => 'users',
+				'action' => 'profile',
+				'id' => $this->id
+			)), $this->username),
+		))->write();
+
+		Observer::notify( 'user_after_add', $this );
+	}
+	
+	public function after_update()
+	{
+	}
+	
+	public function before_delete()
+	{
+		
+		return TRUE;
+	}
+	
+	public function after_delete($id)
+	{
+		
 	}
 }
