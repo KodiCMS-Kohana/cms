@@ -491,7 +491,7 @@ abstract class Model_Widget_Decorator {
 		AND
 			$this->caching === TRUE
 		AND 
-			! Fragment::load($this->get_cache_id(), $this->cache_lifetime)
+			! Fragment::load($this->get_cache_id(), $this->cache_lifetime, TRUE)
 		)
 		{
 			echo $this->_fetch_render($params);
