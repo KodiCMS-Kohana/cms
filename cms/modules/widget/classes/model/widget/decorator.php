@@ -413,7 +413,7 @@ abstract class Model_Widget_Decorator {
 	/**
 	 * @param array $data
 	 */
-	public function set_values(array $data, array $expected = NULL)
+	public function set_values(array $data)
 	{
 		if(empty($data['roles']))
 		{
