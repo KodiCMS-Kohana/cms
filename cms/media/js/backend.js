@@ -1,42 +1,5 @@
-function strtr (str, from, to) {
-	if (typeof from === 'object') {
-		var cmpStr = '';
-		for (var j=0; j < str.length; j++){
-			cmpStr += '0';
-		}
-		var offset = 0;
-		var find = -1;
-		var addStr = '';
-		for (fr in from) {
-			offset = 0;
-			while ((find = str.indexOf(fr, offset)) != -1){
-				if (parseInt(cmpStr.substr(find, fr.length)) != 0){
-					offset = find + 1;
-					continue;
-				}
-				for (var k =0 ; k < from[fr].length; k++){
-					addStr += '1';
-				}
-				cmpStr = cmpStr.substr(0, find) + addStr + cmpStr.substr(find + fr.length, cmpStr.length - (find + fr.length));
-				str = str.substr(0, find) + from[fr] + str.substr(find + fr.length, str.length - (find + fr.length));
-				offset = find + from[fr].length + 1;
-				addStr = '';
-			}
-		}
-		return str;
-	}
-
-	for(var i = 0; i < from.length; i++) {
-		str = str.replace(new RegExp(from.charAt(i),'g'), to.charAt(i));
-	}
-
-	return str;
-}
-
-
 // Skip errors when no access to console
 var console = console || {log:function () {}};
-
 
 // Main object
 var cms = {
@@ -242,15 +205,6 @@ cms.addTranslation = function (obj) {
     for (var i in obj) {
         cms.translations[i] = obj[i];
     }
-};
-
-var __ = function (str, values) {
-    if (cms.translations[str] !== undefined)
-	{
-		var str = cms.translations[str];
-	}
-
-    return values == undefined ? str : strtr(str, values);
 };
 
 cms.navigation = {
@@ -528,6 +482,11 @@ cms.ui.add('btn-confirm', function() {
     });
 
 	$('body').on('keyup', '.slug', function () {
+		var c = String.fromCharCode(event.keyCode);
+		var isWordcharacter = c.match(/\w/);
+		
+		if( ! isWordcharacter && event.keyCode != '32') return;
+		
 		$separator = '-';
 		if($(this).data('separator')) {
 			$separator = $(this).data('separator');
@@ -736,32 +695,6 @@ var Api = {
 	}
 }
 
-function updateQueryStringParameter(uri, key, value) {
-	var re = new RegExp("([?|&])" + key + "=.*?(&|$)", "i");
-	separator = uri.indexOf('?') !== -1 ? "&" : "?";
-	if (uri.match(re)) {
-		return uri.replace(re, '$1' + key + "=" + value + '$2');
-	}
-	else {
-		return uri + separator + key + "=" + value;
-	}
-}
-
-function parse_messages($messages, $type) {
-	for(text in $messages) {
-		if(text == '_external') {
-			parse_messages($messages[text], $type);
-			continue;
-		}
-		
-		if($type == 'error'){
-			cms.error_field(text, $messages[text]);
-		}
-
-		cms.message($messages[text], $type);
-	}
-}
-
 // Run
 jQuery(document).ready(function() {
     // messages
@@ -775,41 +708,40 @@ jQuery(document).ready(function() {
 	parse_messages(MESSAGE_SUCCESS);
 });
 
-// Checkbox status
-$.fn.check = function () {
-    return this.each(function () {
-        this.checked = true;
-    });
-};
-
-$.fn.uncheck = function () {
-    return this.each(function () {
-        this.checked = false;
-    });
-};
-
-$.fn.checked = function () {
-    return this.attr('checked');
-};
-
-$.fn.tabs = function () {
-    return $('li a', this).on('click', function() {
-		$(this)
-			.parent()
-			.addClass('active')
-			.siblings()
-			.removeClass('active');
-
-		$('div.tab-pane').removeClass('active');
-		$($(this).attr('href')).addClass('active');
-		
-		return false;
-	});
-};
-
-
-
 (function($) {
+
+	// Checkbox status
+	$.fn.check = function () {
+		return this.each(function () {
+			this.checked = true;
+		});
+	};
+
+	$.fn.uncheck = function () {
+		return this.each(function () {
+			this.checked = false;
+		});
+	};
+
+	$.fn.checked = function () {
+		return this.attr('checked');
+	};
+
+	$.fn.tabs = function () {
+		return $('li a', this).on('click', function() {
+			$(this)
+				.parent()
+				.addClass('active')
+				.siblings()
+				.removeClass('active');
+
+			$('div.tab-pane').removeClass('active');
+			$($(this).attr('href')).addClass('active');
+
+			return false;
+		});
+	};
+
 	$.fn.serializeObject = function()
 	{
 		var o = {};
@@ -838,6 +770,7 @@ $.fn.tabs = function () {
         }
         return b;
     })(window.location.search.substr(1).split('&'))
+
 })(jQuery);
 
 /*Browser detection patch*/
@@ -846,3 +779,73 @@ jQuery.browser.mozilla = /mozilla/.test(navigator.userAgent.toLowerCase()) && !/
 jQuery.browser.webkit = /webkit/.test(navigator.userAgent.toLowerCase());
 jQuery.browser.opera = /opera/.test(navigator.userAgent.toLowerCase());
 jQuery.browser.msie = /msie/.test(navigator.userAgent.toLowerCase());
+
+function updateQueryStringParameter(uri, key, value) {
+	var re = new RegExp("([?|&])" + key + "=.*?(&|$)", "i");
+	separator = uri.indexOf('?') !== -1 ? "&" : "?";
+	if (uri.match(re)) {
+		return uri.replace(re, '$1' + key + "=" + value + '$2');
+	}
+	else {
+		return uri + separator + key + "=" + value;
+	}
+}
+
+function parse_messages($messages, $type) {
+	for(text in $messages) {
+		if(text == '_external') {
+			parse_messages($messages[text], $type);
+			continue;
+		}
+		
+		if($type == 'error'){
+			cms.error_field(text, $messages[text]);
+		}
+
+		cms.message($messages[text], $type);
+	}
+}
+
+function strtr (str, from, to) {
+	if (typeof from === 'object') {
+		var cmpStr = '';
+		for (var j=0; j < str.length; j++){
+			cmpStr += '0';
+		}
+		var offset = 0;
+		var find = -1;
+		var addStr = '';
+		for (fr in from) {
+			offset = 0;
+			while ((find = str.indexOf(fr, offset)) != -1){
+				if (parseInt(cmpStr.substr(find, fr.length)) != 0){
+					offset = find + 1;
+					continue;
+				}
+				for (var k =0 ; k < from[fr].length; k++){
+					addStr += '1';
+				}
+				cmpStr = cmpStr.substr(0, find) + addStr + cmpStr.substr(find + fr.length, cmpStr.length - (find + fr.length));
+				str = str.substr(0, find) + from[fr] + str.substr(find + fr.length, str.length - (find + fr.length));
+				offset = find + from[fr].length + 1;
+				addStr = '';
+			}
+		}
+		return str;
+	}
+
+	for(var i = 0; i < from.length; i++) {
+		str = str.replace(new RegExp(from.charAt(i),'g'), to.charAt(i));
+	}
+
+	return str;
+}
+
+var __ = function (str, values) {
+    if (cms.translations[str] !== undefined)
+	{
+		var str = cms.translations[str];
+	}
+
+    return values == undefined ? str : strtr(str, values);
+};
