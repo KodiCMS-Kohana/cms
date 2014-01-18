@@ -11,7 +11,7 @@
 			<div class="controls">
 				<?php
 				echo Form::input( 'name', NULL, array(
-					'class' => 'input-xlarge input-title slug-generator span12', 'id' => 'ds_name', 'data-separator' => '_'
+					'class' => 'input-block-level input-title slug-generator', 'id' => 'ds_name', 'data-separator' => '_'
 				) );
 				?>
 			</div>

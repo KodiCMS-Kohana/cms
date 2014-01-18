@@ -120,7 +120,7 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 				'directory' => 'datasources',
 			)) . URL::query(array('ds_id' => $ds->id()), FALSE))
 			->add(__('Edit hybrid'), Route::url('datasources', array(
-				'directory' => 'hybrid',
+				'directory' => 'datasources',
 				'controller' => 'section',
 				'action' => 'edit',
 				'id' => $ds->id()

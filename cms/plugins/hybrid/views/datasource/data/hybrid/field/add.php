@@ -18,7 +18,7 @@
 			<label class="control-label title" for="header"><?php echo __('Field header'); ?></label>
 			<div class="controls">
 				<?php echo Form::input( 'header', Arr::get($post_data, 'header'), array(
-					'class' => 'input-xlarge slug-generator input-title span12', 'id' => 'header', 'data-separator' => '_'
+					'class' => 'slug-generator input-title input-block-level', 'id' => 'header', 'data-separator' => '_'
 				) ); ?>
 			</div>
 		</div>

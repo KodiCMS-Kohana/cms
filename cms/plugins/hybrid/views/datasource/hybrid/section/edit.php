@@ -8,10 +8,21 @@
 )); ?>
 	<?php echo Form::hidden('ds_id', $ds->id()); ?>
 
-	<div class="widget-header">
+	<div class="widget-header spoiler-toggle" data-spoiler=".general-spoiler">
 		<h4><?php echo __('Datasource Information'); ?></h4>
 	</div>
-	<div class="widget-content">
+	<div class="widget-content spoiler general-spoiler">
+		<div class="control-group">
+			<label class="control-label title" for="ds_name"><?php echo __('Datasource Header'); ?></label>
+			<div class="controls">
+				<?php
+				echo Form::input( 'name', $ds->name, array(
+					'class' => 'input-title input-block-level', 'id' => 'ds_name'
+				) );
+				?>
+			</div>
+		</div>
+		
 		<div class="control-group">
 			<label class="control-label" for="ds_key"><?php echo __('Datasource Key'); ?></label>
 			<div class="controls">
@@ -24,22 +35,11 @@
 		</div>
 
 		<div class="control-group">
-			<label class="control-label" for="ds_name"><?php echo __('Datasource Header'); ?></label>
-			<div class="controls">
-				<?php
-				echo Form::input( 'name', $ds->name, array(
-					'class' => 'input-xlarge', 'id' => 'ds_name'
-				) );
-				?>
-			</div>
-		</div>
-
-		<div class="control-group">
 			<label class="control-label" for="ds_description"><?php echo __('Datasource Description'); ?></label>
 			<div class="controls">
 				<?php
 				echo Form::textarea( 'description', $ds->description, array(
-					'class' => 'input-xlarge', 'id' => 'ds_description'
+					'class' => 'input-block-level', 'id' => 'ds_description', 'rows' => 4
 				) );
 				?>
 			</div>
