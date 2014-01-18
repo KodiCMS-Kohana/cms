@@ -93,7 +93,7 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 		if ( $this->request->post('commit') !== NULL )
 		{
 			$this->go( Route::url('datasources', array(
-				'directory' => 'hybrid',
+				'directory' => 'datasources',
 				'controller' => 'section',
 				'action' => 'edit',
 				'id' => $field->ds_id

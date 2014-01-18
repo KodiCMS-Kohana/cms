@@ -125,7 +125,7 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 			unset($this->fields['type']);
 		}
 		
-		$fields = DataSource_Hybrid_Field_Factory::get_related_fields($this->ds_id);
+		$fields = DataSource_Hybrid_Field_Factory::get_related_fields($this->id());
 		
 		foreach($fields as $key => $field)
 		{

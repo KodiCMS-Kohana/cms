@@ -79,7 +79,7 @@ class DataSource_Hybrid_Document {
 	 * @param array $arr
 	 * @return \DataSource_Hybrid_Document
 	 */
-	public function read_values($array = NULL) 
+	public function read_values(array $array = NULL) 
 	{
 		if($array === NULL)
 		{
@@ -105,7 +105,7 @@ class DataSource_Hybrid_Document {
 	
 	/**
 	 * 
-	 * @param array $arr
+	 * @param array $array
 	 * @return \DataSource_Hybrid_Document
 	 */
 	public function read_files($array) 

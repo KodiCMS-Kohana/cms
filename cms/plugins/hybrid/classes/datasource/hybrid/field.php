@@ -187,7 +187,7 @@ class DataSource_Hybrid_Field {
 	 * @param array $data
 	 * @return \DataSource_Hybrid_Field
 	 */
-	public function set( array $data)
+	public function set( array $data )
 	{
 		if(!isset($data['isreq']))
 		{
@@ -198,10 +198,19 @@ class DataSource_Hybrid_Field {
 		{
 			$data['in_headline'] = FALSE;
 		}
+		
 
 		foreach ( $data as $key => $value )
 		{
-			$this->{$key} = $value;
+			$method = "set_{$key}";
+			if(method_exists($this, $method))
+			{
+				$this->$method($value);
+			}
+			else
+			{
+				$this->{$key} = $value;
+			}
 		}
 
 		$this->validate();
@@ -250,6 +259,7 @@ class DataSource_Hybrid_Field {
 	/**
 	 * 
 	 * @param array $data
+	 * @param DataSource_Hybrid_Document $doc
 	 * @return \DataSource_Hybrid_Field
 	 */
 	public function set_value(array $data, $doc)
