@@ -13,12 +13,12 @@ Observer::observe( 'frontpage_found',  function($page) {
 
 	foreach($layout->blocks() as $block)
 	{
-		if( ! Model_Page_Part::has_content($page, $block))
+		if( ! Part::exists($page, $block))
 		{
 			continue;
 		}
 
-		$widgets[] = new Model_Widget_Part($block, Model_Page_Part::get($page, $block));
+		$widgets[] = new Model_Widget_Part($block, Part::content($page, $block));
 	}
 	
 	Context::instance()->register_widgets($widgets);

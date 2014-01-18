@@ -48,6 +48,7 @@ Kohana::modules( array(
 	'userguide'		=> MODPATH . 'userguide',	// User guide and API documentation,
 	'scheduler'		=> MODPATH . 'scheduler',
 	'snippet'		=> MODPATH . 'snippet',
+	'pages'			=> MODPATH . 'pages',		// Pages
 	'page_parts'	=> MODPATH . 'page_parts',	// Page parts
 	'tags'			=> MODPATH . 'tags',		// Tags
 	'widget'		=> MODPATH . 'widget',

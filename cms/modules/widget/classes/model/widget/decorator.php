@@ -108,6 +108,12 @@ abstract class Model_Widget_Decorator {
 	 * @var array 
 	 */
 	public $cache_tags = array();
+	
+	/**
+	 *
+	 * @var array 
+	 */
+	public $roles = array();
 
 
 	/**
@@ -409,6 +415,11 @@ abstract class Model_Widget_Decorator {
 	 */
 	public function set_values(array $data)
 	{
+		if(empty($data['roles']))
+		{
+			$data['roles'] = array();
+		}
+
 		foreach($data as $key => $value)
 		{
 			if( method_exists( $this, 'set_' . $key ))
@@ -423,7 +434,7 @@ abstract class Model_Widget_Decorator {
 		
 		return $this;
 	}
-	
+
 	/**
 	 * 
 	 * @param array $params
@@ -439,6 +450,23 @@ abstract class Model_Widget_Decorator {
 	 */
 	public function render($params = array())
 	{
+		// Проверка правк на видимость виджета
+		if( ! empty($this->roles))
+		{
+			$auth = Auth::instance();
+			if( $auth->logged_in() )
+			{
+				if( ! $auth->get_user()->has_role($this->roles, FALSE) )
+				{
+					return;
+				}
+			}
+			else
+			{
+				return;
+			}
+		}
+		
 		if(Kohana::$profiling === TRUE)
 		{
 			$benchmark = Profiler::start('Widget render', $this->name);
@@ -463,7 +491,7 @@ abstract class Model_Widget_Decorator {
 		AND
 			$this->caching === TRUE
 		AND 
-			! Fragment::load($this->get_cache_id(), $this->cache_lifetime)
+			! Fragment::load($this->get_cache_id(), $this->cache_lifetime, TRUE)
 		)
 		{
 			echo $this->_fetch_render($params);

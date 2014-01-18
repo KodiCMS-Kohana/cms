@@ -46,7 +46,7 @@ Observer::observe( 'frontpage_after_render',  function() {
 
 Observer::observe('view_page_edit_plugins', function($page) {
 
-	$blocks = array(-1 => __('-- Remove from page --'), 0 => __('-- Hide --'), 'PRE' => __('Before page render'));
+	$blocks = array(-1 => __('--- Remove from page ---'), 0 => __('--- Hide ---'), 'PRE' => __('Before page render'));
 	$blocks += ORM::factory( 'layout_block')->find_by_layout($page->layout());
 	$blocks += array('POST' => __('After page render'));
 	

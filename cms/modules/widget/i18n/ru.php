@@ -26,7 +26,9 @@ return array(
 	'Include hidden pages' => 'Показывать скрытые страницы',
 	'Exclude pages' => 'Исключить страницы',
 	'Select to child pages' => 'Установить для дочерних страниц',
-	'------ none ------' => '----- не указан -----',
+	'--- none ---' => '--- не указан ---',
+	'--- Do not copy ---' => '--- Не копировать ---',
+	'Page password form' => 'Форма ввода пароля для закрытой страницы',
 	
 	'Next page (URI)' => 'Следующая страница (URI)',
 	'Next page by default (URI)' => 'Следующая страница по умолчанию (URI)',
@@ -64,8 +66,8 @@ return array(
 	
 	'Copy widgets from' => 'Скопировать виджеты у страницы',
 	'Cache time' => 'Время кеширования',
-	'-- Remove from page --' => '-- Убрать со страницы --',
-	'-- Hide --' => '- -Скрыть --',
+	'--- Remove from page ---' => '--- Убрать со страницы ---',
+	'--- Hide ---' => '--- Скрыть ---',
 	'Pagination' => 'Постраничная навигация',
 	'Widget' => 'Виджет',
 	'Query key (GET)' => 'GET параметр текущей страницы',
@@ -81,10 +83,13 @@ return array(
 	'Count tags 9-0' => 'Количеству 9-0',
 	'List settings' => 'Настройки списка',
 	'Default template' => 'Шаблон по умолчанию',
+	
+	'Widget permissions' => 'Права на видимость',
 	//============Permissions============//
 	'View widgets' => 'Видеть раздел',
 	'Edit widget' => 'Редактировать виджет',
 	'Set widget location' => 'Устанавливать расположение виджета',
 	'Manage widget cache' => 'Управлять кешем виджета',
 	'Delete widget' => 'Удалять виджет',
+	
 );

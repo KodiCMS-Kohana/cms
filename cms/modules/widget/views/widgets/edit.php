@@ -91,8 +91,7 @@
 					->checked($widget->caching)
 					->label(__('Cache enabled'))
 				));
-		?>
-		
+		?>		
 		<div id="cache_lifetime_group" class="control-group">
 			<label id="bootstrap_form_element_label_QuXTwt2D" class="control-label" for="cache_lifetime">Время кеширования</label>
 			<div class="controls">
@@ -119,6 +118,18 @@
 		<?php endif; ?>
 	</div>
 	<?php endif; ?>
+
+	<?php if ( ACL::check( 'widget.roles' ) ): ?>
+	<div class="widget-header spoiler-toggle" data-spoiler=".roles-spoiler" data-hash="roles">
+		<h4><?php echo __('Widget permissions'); ?></h4>
+	</div>
+	<div class="widget-content spoiler roles-spoiler">
+		<?php echo Form::select('roles[]', $roles, $widget->roles, array(
+			'class' => 'span12'
+		)); ?>
+	</div>
+	<?php endif; ?>
+
 	<div class="widget-header">
 		<h4><?php echo __('Widget parameters'); ?></h4>
 	</div>

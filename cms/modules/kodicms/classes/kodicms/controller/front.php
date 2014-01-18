@@ -86,8 +86,10 @@ class KodiCMS_Controller_Front extends Controller_System_Controller
 		// Страницу 404 могут выкидывать также Виджеты
 		if( Request::current()->is_initial() AND $this->response->status() == 404)
 		{
+			$message = $this->_ctx->get('throw_message');
+			
 			$this->_ctx = NULL;
-			Model_Page_Front::not_found();
+			Model_Page_Front::not_found($message);
 		}
 
 		$html = (string) $page->render_layout();

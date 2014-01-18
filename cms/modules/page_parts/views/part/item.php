@@ -29,9 +29,9 @@
 		<?php if( ACL::check('page.parts')): ?>
 			<div class="row-fluid">
 				<div class="span4 item-filter-cont form-inline">
-					<label class=""><?php echo __( 'Filter' ); ?></label>
+					<label><?php echo __( 'WYSIWYG' ); ?></label>
 					<select class="item-filter" name="part_filter">
-						<option value="">&ndash; <?php echo __( 'none' ); ?> &ndash;</option>
+						<option value="">&ndash; <?php echo __( '--- none ----' ); ?> &ndash;</option>
 						<?php foreach ( WYSIWYG::findAll() as $filter ): ?> 
 							<option value="<?php echo $filter; ?>" <% if (filter_id == "<?php echo $filter; ?>") { print('selected="selected"')} %> ><?php echo Inflector::humanize( $filter ); ?></option>
 						<?php endforeach; ?> 
@@ -43,10 +43,10 @@
 				<div class="span4 text-right">
 					<% if ( is_developer == 1 ) { %>
 					<label class="checkbox inline">
-							<input type="checkbox" name="is_protected" class="is_protected" <% if (is_protected == <?php echo Model_Page_Part::PART_PROTECTED; ?>) { print('checked="checked"')} %>> <?php echo __( 'Is protected' ); ?>
+						<input type="checkbox" name="is_protected" class="is_protected" <% if (is_protected == <?php echo Model_Page_Part::PART_PROTECTED; ?>) { print('checked="checked"')} %>> <?php echo __( 'Is protected' ); ?>
 					</label>
 					<label class="checkbox inline">
-							<input type="checkbox" name="is_indexable" class="is_indexable" <% if (is_indexable == 1) { print('checked="checked"')} %>> <?php echo __( 'Is indexable' ); ?>
+						<input type="checkbox" name="is_indexable" class="is_indexable" <% if (is_indexable == 1) { print('checked="checked"')} %>> <?php echo __( 'Is indexable' ); ?>
 					</label>
 					<% } %>
 					<?php echo UI::button(__( 'Remove part :part_name', array( ':part_name' => '<%= name %>' ) ), array(
@@ -57,7 +57,7 @@
 			</div>
 			<?php else: ?>
 			<select class="item-filter" name="part_filter">
-				<option value="">&ndash; <?php echo __( 'none' ); ?> &ndash;</option>
+				<option value="">&ndash; <?php echo __( '--- none ----' ); ?> &ndash;</option>
 				<?php foreach ( WYSIWYG::findAll() as $filter ): ?> 
 					<option value="<?php echo $filter; ?>" <% if (filter_id == "<?php echo $filter; ?>") { print('selected="selected"')} %> ><?php echo Inflector::humanize( $filter ); ?></option>
 				<?php endforeach; ?> 
