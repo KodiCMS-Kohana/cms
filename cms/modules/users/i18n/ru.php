@@ -20,6 +20,7 @@ return array(
 	'Password' => 'Пароль',
 	'Password:' => 'Пароль:',
 	'Roles' => 'Роли',
+	'Add role' => 'Добавить роль',
 	'User has been deleted!' => 'Пользователь удален!',
 	'User has been saved!' => 'Пользователь сохранен!',
 	'User not found!' => 'Пользователь не найден!',

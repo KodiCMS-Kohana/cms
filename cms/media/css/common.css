@@ -7526,8 +7526,8 @@ body {
   min-width: 860px;
 }
 #content {
-  margin-top: 15px;
-  margin-bottom: 70px;
+  padding-top: 15px;
+  padding-bottom: 70px;
 }
 .iframe .container-fluid,
 .iframe #content {

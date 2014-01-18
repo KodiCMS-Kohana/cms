@@ -38,7 +38,6 @@ cms.init.add(['datasources_data_index'], function () {
 			return;
 
 		Api.post('/datasource/hybrid-document.' + action, data, function(response) {
-			console.log(response);
 			window.location = '';
 		})
 	})

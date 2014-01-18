@@ -255,8 +255,10 @@ class KodiCMS_Context {
 	 * 
 	 * @return \Context
 	 */
-	public function throw_404()
+	public function throw_404( $message = NULL)
 	{
+		$this->set('throw_message', $message);
+
 		$this->response()->status(404);
 		return $this;
 	}
