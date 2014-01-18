@@ -11,8 +11,17 @@ Route::set( 'datasources', ADMIN_DIR_NAME.'/<directory>(/<controller>(/<action>(
 
 Observer::observe('modules::afer_load', function() {
 
+	$types = Datasource_Data_Manager::types();
+	
+	if(empty($types))
+	{
+		return;
+	}
+	
 	$ds_section = Model_Navigation::get_section('Datasources');
-	foreach (Datasource_Data_Manager::get_tree() as $type => $sections)
+	$sections_list = Datasource_Data_Manager::get_tree(array_keys($types));
+
+	foreach($sections_list as $type => $sections)
 	{
 		foreach ($sections as $id => $section)
 		{
@@ -27,8 +36,7 @@ Observer::observe('modules::afer_load', function() {
 				)), 999);
 		}
 	}
-	
-	$types = Datasource_Data_Manager::types();
+
 	$section = Model_Navigation::get_section('Create', $ds_section);
 
 	foreach ($types as $id => $type)
