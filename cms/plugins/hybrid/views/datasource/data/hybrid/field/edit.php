@@ -1,5 +1,5 @@
 <script>
-	var DS_ID = '<?php echo $ds->ds_id; ?>';
+	var DS_ID = '<?php echo $ds->id(); ?>';
 </script>
 <div class="widget">
 <?php echo Form::open(Request::current()->uri(), array(
@@ -52,7 +52,7 @@
 			'controller' => 'section',
 			'directory' => 'hybrid',
 			'action' => 'edit',
-			'id' => $ds->ds_id
+			'id' => $ds->id()
 		))); ?>
 	</div>
 <?php echo Form::close(); ?>

@@ -20,7 +20,7 @@ class DataSource_Hybrid_Field_Factory {
 		$field->set_ds($record->ds_id);
 		$field->get_type();
 
-		if( self::field_exists($field->name, $record->ds_id) )
+		if( ! self::field_not_exists($field->name, $record->ds_id) )
 		{
 			return FALSE;
 		}
@@ -277,20 +277,15 @@ class DataSource_Hybrid_Field_Factory {
 	 * @param integer $ds_id
 	 * @return boolean
 	 */
-	public static function field_exists($key, $ds_id)
+	public static function field_not_exists($key, $ds_id)
 	{
-		return (bool) DB::select('id')
-			->from('dshfields', array('hybriddatasources', 't1'), array('hybriddatasources', 't2'))
-			->where('t1.ds_id', '=', $ds_id)
-			->where(DB::expr('INSTR(:f1, :f2)', array(
-				':f1' => DB::expr(Database::instance()->quote_column('t2.ds_key')), 
-				':f2' => DB::expr(Database::instance()->quote_column('t1.ds_key'))
-			)), '=', 1)
-			->where('dshfields.ds_id', '=', 't2.ds_id')
-			->where('dshfields.name', '=', $key)
+		return DB::select('id')
+			->from('dshfields')
+			->where('ds_id', '=', (int) $ds_id)
+			->where('name', '=', $key)
 			->limit(1)
 			->execute()
-			->get('id');
+			->get('id') === NULL;
 	}
 
 	/**

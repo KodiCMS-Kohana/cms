@@ -147,7 +147,13 @@ class DataSource_Hybrid_Field {
 		);
 	}
 	
-	public function validate($data = NULL)
+	/**
+	 * 
+	 * @param array $data
+	 * @return boolean
+	 * @throws Validation_Exception
+	 */
+	public function validate(array $data = NULL)
 	{
 		if($data === NULL)
 		{
@@ -155,11 +161,17 @@ class DataSource_Hybrid_Field {
 		}
 
 		$array = Validation::factory($data);
+		
 		$rules = $this->rules();
 		
 		foreach ( $rules as $field => $r )
 		{
 			$array->rules($field, $r);
+		}
+		
+		if($this->id === NULL)
+		{
+			$array->rule('name', 'DataSource_Hybrid_Field_Factory::field_not_exists', array(DataSource_Hybrid_Field_Factory::get_full_key($this->name), $this->ds_id));
 		}
 		
 		if(!$array->check())
@@ -177,11 +189,6 @@ class DataSource_Hybrid_Field {
 	 */
 	public function set( array $data)
 	{
-		if($this->id === NULL)
-		{
-			$valid = $this->validate($data);
-		}
-		
 		if(!isset($data['isreq']))
 		{
 			$data['isreq'] = FALSE;
@@ -195,8 +202,9 @@ class DataSource_Hybrid_Field {
 		foreach ( $data as $key => $value )
 		{
 			$this->{$key} = $value;
-		
 		}
+
+		$this->validate();
 
 		return $this;
 	}

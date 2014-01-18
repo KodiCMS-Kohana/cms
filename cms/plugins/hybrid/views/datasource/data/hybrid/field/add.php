@@ -1,5 +1,5 @@
 <script>
-	var DS_ID = '<?php echo $ds->ds_id; ?>';
+	var DS_ID = '<?php echo $ds->id(); ?>';
 </script>
 
 <div class="widget">
@@ -7,7 +7,7 @@
 	'class' => 'form-horizontal'
 )); ?>
 
-	<?php echo Form::hidden('ds_id', $ds->ds_id); ?>
+	<?php echo Form::hidden('ds_id', $ds->id()); ?>
 	
 	<div class="widget-header">
 		<h3><?php echo __( 'Add field' ); ?></h3>

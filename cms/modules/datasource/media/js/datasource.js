@@ -43,7 +43,7 @@ cms.init.add(['datasources_data_index'], function () {
 	})
 });
 
-cms.init.add('hybrid_section_edit', function() {
+cms.init.add('datasources_section_edit', function() {
 	
 	var $fields = $('#section-fields input'),
 		$checked_fields = $fields.filter(':checked');

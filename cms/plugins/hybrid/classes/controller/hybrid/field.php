@@ -153,24 +153,19 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 			$this->go_back();
 		}
 		
-		if(!$field_id)
+		if( ! $field_id)
 		{
-			$this->go( Route::url('datasources', array(
-				'directory' => 'hybrid',
-				'controller' => 'section',
-				'action' => 'edit',
-				'id' => $ds->id()
-			)));
+			$this->go_back();
 		}
 		
 		Session::instance()->delete('post_data');
 		
 		$this->go( Route::url('datasources', array(
-				'directory' => 'hybrid',
-				'controller' => 'field',
-				'action' => 'edit',
-				'id' => $field_id
-			)));
+			'directory' => 'hybrid',
+			'controller' => 'field',
+			'action' => 'edit',
+			'id' => $field_id
+		)));
 		
 	}
 	
