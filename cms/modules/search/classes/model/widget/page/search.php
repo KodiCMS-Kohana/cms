@@ -10,15 +10,20 @@ class Model_Widget_Page_Search extends Model_Widget_Decorator_Pagination {
 	public $cache_tags = array('pages');
 	
 	protected $_total = 0;
+	
+	public function keyword()
+	{
+		return HTML::chars($this->_ctx->get($this->search_key));
+	}
 
 	public function fetch_data()
 	{
-		$keyword = $this->_ctx->get($this->search_key);
+		$keyword = $this->keyword();
 
 		$return = array(
 			'total_found' => 0,
 			'pages' => array(),
-			'keyword', HTML::chars($keyword)
+			'keyword', $keyword
 		);
 
 		if(empty($keyword)) return $return;
@@ -30,10 +35,13 @@ class Model_Widget_Page_Search extends Model_Widget_Decorator_Pagination {
 		$pages = array();
 		foreach ($ids['pages'] as $id)
 		{
-			if(($page = Model_Page_Front::findById($id)) !== FALSE )
+			if(($page = Model_Page_Front::findById($id)) === FALSE )
 			{
-				$pages[$id] = $page;
+				$this->_total--;
+				continue;
 			}
+			
+			$pages[$id] = $page;
 		}
 		
 		$return['total_found'] = $this->_total;
@@ -52,5 +60,10 @@ class Model_Widget_Page_Search extends Model_Widget_Decorator_Pagination {
 		$this->_total = Search::count_by_keyword($keyword, FALSE, 'pages');
 		
 		return $this->_total;
+	}
+	
+	public function get_cache_id()
+	{
+		return 'Widget::' . $this->type . '::' . $this->id . '::' . $this->keyword();
 	}
 }
