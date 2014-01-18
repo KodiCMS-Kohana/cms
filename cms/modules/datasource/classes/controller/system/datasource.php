@@ -38,7 +38,8 @@ class Controller_System_Datasource extends Controller_System_Backend
 		
 		if($id === NULL)
 		{
-			throw new DataSource_Exception('Datasource section not loaded');
+//			throw new DataSource_Exception('Datasource section not loaded');
+			$this->go_home();
 		}
 	
 		$this->_section = Datasource_Data_Manager::load((int) $id);

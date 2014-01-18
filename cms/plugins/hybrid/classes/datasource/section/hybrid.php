@@ -109,10 +109,10 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 	public function fields( )
 	{
 		$this->fields = array(
-//			'id' => array(
-//				'name' => 'ID',
-//				'width' => 50
-//			),
+			'id' => array(
+				'name' => 'ID',
+				'width' => 50
+			),
 			'header' => array(
 				'name' => 'Header',
 				'width' => NULL,
@@ -169,7 +169,7 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 		$dsf = new DataSource_Hybrid_Factory();
 		$dsf->remove($this->id());
 		
-		return $this;
+		return parent::remove();
 	}
 	
 	/**

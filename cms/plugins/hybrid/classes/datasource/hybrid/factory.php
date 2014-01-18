@@ -53,29 +53,11 @@ class DataSource_Hybrid_Factory {
 	 */
 	public function remove($id) 
 	{
-		$ids = $this->get_children($id);
-
-		if(!sizeof($ids))
-		{
-			return FALSE;
-		}
-
-		foreach($ids as $_id) 
-		{
-			if($_id != $id)
-			{
-				$ds = Datasource_Data_Manager::load($_id);
-				if(!$ds) continue;
-				$ds->remove();
-			}
-			
-
-			self::remove_table($_id);
-			self::remove_folder($_id);
-		}
+		self::remove_table($id);
+		self::remove_folder($id);
 		
 		return (bool) DB::delete(self::TABLE)
-			->where('ds_id', 'in', $ids)
+			->where('ds_id', '=', $id)
 			->execute();
 	}
 	
@@ -358,25 +340,6 @@ class DataSource_Hybrid_Factory {
 				}
 			}
 		}
-	}
-	
-	/**
-	 * 
-	 * @param integer $ds_id
-	 * @return array
-	 */
-	public static function get_children($ds_id) 
-	{
-		return DB::select(array('t2.ds_id', 'id'))
-			->from(array(self::TABLE, 't1'), array(self::TABLE, 't2'))
-			->where('t1.ds_id', '=', (int) $ds_id)
-			->where(DB::expr('INSTR(:f1, :f2)', array(
-				':f1' => DB::expr(Database::instance()->quote_column('t2.ds_key')), 
-				':f2' => DB::expr(Database::instance()->quote_column('t1.ds_key'))
-			)), '=', 1)
-			->order_by('t2.ds_key', 'desc')
-			->execute()
-			->as_array(NULL, 'id');
 	}
 	
 	/**
