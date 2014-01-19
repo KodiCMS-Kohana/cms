@@ -5,10 +5,10 @@
 <?php echo Form::open(Request::current()->uri(), array(
 	'class' => 'form-horizontal'
 )); ?>
-	<div class="widget-header">
+	<div class="widget-header spoiler-toggle" data-spoiler=".general-spoiler">
 		<h3><?php echo __( 'Edit field' ); ?></h3>
 	</div>
-	<div class="widget-content widget-no-border-radius" id="filed-type">
+	<div class="widget-content widget-no-border-radius spoiler general-spoiler" id="filed-type">
 		<div class="control-group">
 			<label class="control-label" for="name"><?php echo __('Field key'); ?></label>
 			<div class="controls">
@@ -27,14 +27,15 @@
 		</div>
 	</div>
 
-		<?php
-		try
-		{
-			echo View::factory('datasource/data/hybrid/field/edit/' . $type, array(
-				'field' => $field, 'post_data' => $post_data, 'sections' => $sections
-			));
-		}
-		catch(Exception $e) {} ?>
+	<?php
+	try
+	{
+		echo View::factory('datasource/data/hybrid/field/edit/' . $type, array(
+			'field' => $field, 'post_data' => $post_data, 'sections' => $sections
+		));
+	}
+	catch(Exception $e) {} ?>
+
 	<div class="widget-content widget-no-border-radius">
 		<div class="control-group">
 			<label class="control-label" for="isreq"><?php echo __('Required'); ?></label>
@@ -50,7 +51,7 @@
 	<div class="widget-footer form-actions">
 		<?php echo UI::actions(NULL, Route::url('datasources', array(
 			'controller' => 'section',
-			'directory' => 'hybrid',
+			'directory' => 'datasources',
 			'action' => 'edit',
 			'id' => $ds->id()
 		))); ?>

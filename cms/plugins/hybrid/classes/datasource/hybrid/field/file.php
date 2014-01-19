@@ -6,6 +6,10 @@
 
 class DataSource_Hybrid_Field_File extends DataSource_Hybrid_Field {
 	
+	/**
+	 *
+	 * @var array 
+	 */
 	protected $_props = array(
 		'width' => 100,
 		'height' => 100, 
@@ -22,7 +26,10 @@ class DataSource_Hybrid_Field_File extends DataSource_Hybrid_Field {
 	 */
 	public $folder = NULL;
 
-
+	/**
+	 * 
+	 * @param array $data
+	 */
 	public function __construct( array $data )
 	{
 		$this->max_size = Num::bytes('1MiB');
@@ -33,6 +40,16 @@ class DataSource_Hybrid_Field_File extends DataSource_Hybrid_Field {
 		$this->type = self::TYPE_FILE;
 	}
 	
+	public function linked_fields()
+	{
+		return (array) $this->linked_fields;
+	}
+
+	/**
+	 * 
+	 * @param array $data
+	 * @return DataSource_Hybrid_Field
+	 */
 	public function set( array $data )
 	{
 		if(!isset($data['crop']))
@@ -43,21 +60,42 @@ class DataSource_Hybrid_Field_File extends DataSource_Hybrid_Field {
 		return parent::set( $data );
 	}
 	
+	/**
+	 * 
+	 * @param integer $width
+	 */
 	public function set_width( $width )
 	{
 		$this->width = (int) $width;
 	}
 	
+	/**
+	 * 
+	 * @param integer $height
+	 */
 	public function set_height( $height )
 	{
 		$this->height = (int) $height;
 	}
 	
+	/**
+	 * 
+	 * @param integer $quality
+	 */
 	public function set_quality( $quality )
 	{
 		$this->quality = (int) $quality;
 	}
 	
+	public function set_linked_fields( $linked_fields )
+	{
+		$this->linked_fields = (array) $linked_fields;
+	}
+	
+	/**
+	 * 
+	 * @return boolean
+	 */
 	public function create() 
 	{
 		if(parent::create())
@@ -74,12 +112,20 @@ class DataSource_Hybrid_Field_File extends DataSource_Hybrid_Field {
 		return FALSE;
 	}
 	
+	/**
+	 * 
+	 * @return boolean
+	 */
 	public function remove() 
 	{
 		$this->remove_folder();
 		return parent::remove();
 	}
 	
+	/**
+	 * 
+	 * @param integer $ds_id
+	 */
 	public function set_ds($ds_id) 
 	{
 		parent::set_ds($ds_id);
@@ -89,12 +135,21 @@ class DataSource_Hybrid_Field_File extends DataSource_Hybrid_Field {
 			$this->folder = 'hybrid' . DIRECTORY_SEPARATOR . $this->ds_id . DIRECTORY_SEPARATOR . substr($this->name, 2) . DIRECTORY_SEPARATOR;
 		}
 	}
-	
+
+	/**
+	 * 
+	 * @return string
+	 */
 	public function get_type()
 	{
 		return 'VARCHAR(64)';
 	}
 	
+	/**
+	 * 
+	 * @param array $types
+	 * @return \DataSource_Hybrid_Field_File
+	 */
 	public function set_types($types) 
 	{
 		$this->types = array();
@@ -103,21 +158,26 @@ class DataSource_Hybrid_Field_File extends DataSource_Hybrid_Field {
 		{
 			$types = explode(',', $types);
 		}
-		
-		foreach($types as $type)
+
+		foreach($types as $i => $type)
 		{
 			$type = trim($type);
-			if( ! $type OR ! preg_match('~^[A-Za-z0-9_\\-]+$~', $type)) continue;
-			
-			if($this->check_disallowed($type))
+			if( empty($type) OR ! preg_match('~^[A-Za-z0-9_\\-]+$~', $type) OR ! $this->check_disallowed($type))
 			{
-				$this->types[] = $type;
+				unset($types[$i]);
 			}
 		}
+		
+		$this->types = $types;
 		
 		return $this;
 	}
 	
+	/**
+	 * 
+	 * @param string $file_type
+	 * @return boolean
+	 */
 	protected function check_disallowed($file_type)
 	{
 		$disallowed = explode(',', '/^php/,/^phtm/,py,pl,/^asp/,htaccess,cgi,_wc,/^shtm/,/^jsp/');
@@ -140,7 +200,11 @@ class DataSource_Hybrid_Field_File extends DataSource_Hybrid_Field {
 		return TRUE;
 	}
 	
-	function create_folder() 
+	/**
+	 * 
+	 * @return boolean
+	 */
+	public function create_folder() 
 	{
 		if( ! empty($this->folder) AND $this->ds_id AND !file_exists(PUBLICPATH . $this->folder) ) 
 		{
@@ -153,7 +217,11 @@ class DataSource_Hybrid_Field_File extends DataSource_Hybrid_Field {
 		return FALSE;
 	}
 	
-	function remove_folder() {
+	/**
+	 * 
+	 * @return boolean
+	 */
+	public function remove_folder() {
 		
 		$folder = $this->folder;
 		if( ! empty($this->folder) AND is_dir(PUBLICPATH . $this->folder)) 
@@ -165,6 +233,11 @@ class DataSource_Hybrid_Field_File extends DataSource_Hybrid_Field {
 		return !is_dir(PUBLICPATH . $this->folder);
 	}
 	
+	/**
+	 * 
+	 * @param string $path
+	 * @return boolean
+	 */
 	public function is_image( $path )
 	{
 		if(!file_exists( $path ) OR is_dir( $path )) return FALSE;
@@ -180,6 +253,11 @@ class DataSource_Hybrid_Field_File extends DataSource_Hybrid_Field {
 		return FALSE;
 	}
 	
+	/**
+	 * 
+	 * @param array $data
+	 * @return DataSource_Hybrid_Field
+	 */
 	public function set_value(array $data, $doc)
 	{
 		$file = Arr::get($data, $this->name, array());
@@ -195,11 +273,21 @@ class DataSource_Hybrid_Field_File extends DataSource_Hybrid_Field {
 		return parent::set_value($data, $doc);
 	}
 
+	/**
+	 * 
+	 * @param DataSource_Hybrid_Document $doc
+	 */
 	public function onCreateDocument($doc) 
 	{
 		$this->onUpdateDocument($doc, $doc);
 	}
 	
+	/**
+	 * 
+	 * @param DataSource_Hybrid_Document $old
+	 * @param DataSource_Hybrid_Document $new
+	 * @return boolean
+	 */
 	public function onUpdateDocument($old, $new)
 	{
 		$new_file = $new->fields[$this->name];
@@ -227,6 +315,8 @@ class DataSource_Hybrid_Field_File extends DataSource_Hybrid_Field {
 		{
 			$ext = strtolower( pathinfo( $new_file['name'], PATHINFO_EXTENSION ) );
 			$filename = uniqid() . '.' . $ext;
+			
+			
 
 			$filepath = Upload::save($new->fields[$this->name], $filename, $this->folder());
 		}
@@ -247,13 +337,40 @@ class DataSource_Hybrid_Field_File extends DataSource_Hybrid_Field {
 				}
 			}
 		}
+		else if( is_string($new_file) AND strpos(PUBLICPATH, $new_file) !== FALSE )
+		{
+			$filename = strtolower( pathinfo( $new_file, PATHINFO_BASENAME ) );
+			if(copy($new_file, $this->folder() . $filename))
+			{
+				$filepath = $this->folder() . $filename;
+			}
+			else
+			{
+				return FALSE;
+			}
+		}
 
 		if( empty($filepath) ) 
 		{
 			$this->set_old_value($old, $new);
 			return FALSE;
 		}
-		
+//		
+//		$related_fields = $this->linked_fields();
+//		
+//		if(!empty($related_fields))
+//		{
+//			foreach($related_fields as $id)
+//			{
+//				$related_field = DataSource_Hybrid_Field_Factory::get_field($id);
+//				if($related_field === NULL) continue;
+//				$new->fields[$related_field->name] = $filepath;
+//				$new->read_values($new->fields);
+//				$related_field->onUpdateDocument($old, $new);
+//			}
+//			
+//		}
+
 		$this->onRemoveDocument($old);
 		
 		if($this->is_image( $filepath ))
@@ -278,6 +395,10 @@ class DataSource_Hybrid_Field_File extends DataSource_Hybrid_Field {
 		return TRUE;
 	}
 	
+	/**
+	 * 
+	 * @param DataSource_Hybrid_Document $doc
+	 */
 	public function onRemoveDocument($doc) 
 	{
 		if(!empty($doc->fields[$this->name])) 
@@ -287,6 +408,12 @@ class DataSource_Hybrid_Field_File extends DataSource_Hybrid_Field {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param Validation $validation
+	 * @param DataSource_Hybrid_Document $doc
+	 * @return Validation
+	 */
 	public function document_validation_rules( Validation $validation, DataSource_Hybrid_Document $doc )
 	{
 		$image_url = NULL;
@@ -338,11 +465,33 @@ class DataSource_Hybrid_Field_File extends DataSource_Hybrid_Field {
 				->label($this->name, $this->header);
 	}
 	
+	/**
+	 * 
+	 * @return string
+	 */
 	public function folder()
 	{
 		return PUBLICPATH . $this->folder;
 	}
 	
+	/**
+	 * 
+	 * @return array
+	 */
+	public function get_similar_fields()
+	{
+		$fields = DataSource_Hybrid_Field_Factory::get_related_fields($this->ds_id);
+		unset($fields[$this->id]);
+		
+		$options = array(__('--- none ---'));
+		foreach ($fields as $field)
+		{
+			$options[$field->id] = $field->name;
+		}
+		
+		return $options;
+	}
+
 	/**
 	 * @param Model_Widget_Hybrid
 	 * @param array $field

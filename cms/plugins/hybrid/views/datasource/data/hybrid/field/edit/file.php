@@ -5,12 +5,14 @@ foreach($config as $ext => $mime)
 {
 	$mimes[$ext] = $ext;
 }
+
+$field->get_similar_fields();
 ?>
 <div class="widget-content widget-no-border-radius">
 	<div class="control-group">
 		<label class="control-label"><?php echo __( 'Allowed file types' ); ?></label>
 		<div class="controls">
-			<?php echo Form::select( 'types[]', $mimes, (array) $field->types, array('class' => 'span12', 'id' => 'allowed_types')); ?>
+			<?php echo Form::select( 'types[]', $mimes, (array) $field->types, array('class' => 'input-block-level', 'id' => 'allowed_types')); ?>
 			<span class="label file-types-label" data-types="bmp,gif,jpg,png,tif"><?php echo __('Image types'); ?></span>
 			<span class="label file-types-label" data-types="doc,docx,xls,txt,pdf"><?php echo __('Document types'); ?></span>
 			<span class="label file-types-label" data-types="rar,zip,tar,gz,7z"><?php echo __('Archive types'); ?></span>
@@ -78,9 +80,19 @@ foreach($config as $ext => $mime)
 				Image::HEIGHT => __('Height'),
 				Image::INVERSE => __('Inverse'),
 				Image::WIDTH => __('Width'),
-			), $field->master, array('class' => 'span12')); ?>
+			), $field->master, array('class' => 'input-block-level')); ?>
 		</div>
-		
-		
+	</div>
+</div>
+
+<div class="widget-header">
+	<h3><?php echo __('Linked fields'); ?></h3>
+</div>
+<div class="widget-content widget-no-border-radius">
+	<div class="control-group">
+		<label class="control-label" for="linked_fields"><?php echo __('Linked fields'); ?></label>
+		<div class="controls">
+			<?php echo Form::select( 'linked_fields[]', $field->get_similar_fields(), (array) $field->linked_fields(), array('class' => 'input-block-level')); ?>
+		</div>
 	</div>
 </div>
