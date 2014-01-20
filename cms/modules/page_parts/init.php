@@ -18,7 +18,7 @@ Observer::observe( 'frontpage_found',  function($page) {
 			continue;
 		}
 
-		$widgets[] = new Model_Widget_Part($block, Part::content($page, $block));
+		$widgets[] = new Model_Widget_Part($block, Part::get($page, $block));
 	}
 	
 	Context::instance()->register_widgets($widgets);
