@@ -63,9 +63,9 @@ Observer::observe('page_edit_after_save', function($page) {
 	}
 });
 
-Observer::observe('update_search_index', function($page) {
+Observer::observe('update_search_index', function() {
 	
-	$pages = Model_Page::findAll();
+	$pages = ORM::factory('page')->find_all();
 	
 	foreach($pages as $page)
 	{
