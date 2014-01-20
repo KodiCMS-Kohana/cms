@@ -96,7 +96,7 @@ var cms = {
 			windowCont = $(window);
 
 		var contentContHeight = windowCont.outerHeight() - headerCont.outerHeight(),
-			contentContPadding = contentCont.outerHeight(!$('body').hasClass('iframe')) - contentCont.innerHeight() + 85;
+			contentContPadding = contentCont.outerHeight(!$('body').hasClass('iframe')) - contentCont.innerHeight() + ($('body').hasClass('iframe')) ? 0 : 85;
 
 		this.content_height = contentContHeight - contentContPadding;
 
