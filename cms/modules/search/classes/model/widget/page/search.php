@@ -15,6 +15,11 @@ class Model_Widget_Page_Search extends Model_Widget_Decorator_Pagination {
 	{
 		return HTML::chars($this->_ctx->get($this->search_key));
 	}
+	
+	public function on_page_load()
+	{
+		$this->count_total();
+	}
 
 	public function fetch_data()
 	{
@@ -30,7 +35,7 @@ class Model_Widget_Page_Search extends Model_Widget_Decorator_Pagination {
 		
 		$ids = Search::by_keyword($keyword, FALSE, 'pages', $this->list_size, $this->list_offset);
 
-		if(empty($ids['pages'])) return array('pages' => array());
+		if(empty($ids['pages'])) return $return;
 		
 		$pages = array();
 		foreach ($ids['pages'] as $id)
