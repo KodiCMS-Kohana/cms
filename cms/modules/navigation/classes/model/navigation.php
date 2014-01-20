@@ -9,7 +9,7 @@ class Model_Navigation {
 
 	/**
 	 *
-	 * @var array
+	 * @var Model_Navigation_Section
 	 */
 	protected static $_root_section = NULL;
 	
