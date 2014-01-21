@@ -10,5 +10,5 @@ CREATE TABLE IF NOT EXISTS `__TABLE_PREFIX__page_parts` (
   PRIMARY KEY (`id`),
   KEY `page_id` (`page_id`),
   KEY `name` (`name`),
-  CONSTRAINT `page_parts_ibfk_1` FOREIGN KEY (`page_id`) REFERENCES `__TABLE_PREFIX__pages` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `__TABLE_PREFIX__page_parts_ibfk_1` FOREIGN KEY (`page_id`) REFERENCES `__TABLE_PREFIX__pages` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
