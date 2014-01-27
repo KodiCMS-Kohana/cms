@@ -33,6 +33,12 @@ abstract class Kohana_Model_MPTT extends ORM
 	 * @var string scope column name.
 	 **/
 	public $scope_column = 'scope';
+	
+	/**
+	 * @access public
+	 * @var string parent column name.
+	 **/
+	public $parent_column = 'pid';
 
 
 	/**
@@ -58,6 +64,34 @@ abstract class Kohana_Model_MPTT extends ORM
 	public $path_separator = '/';
 
 	/**
+	* Returns a full hierarchical tree, with or without scope checking.
+	* 
+	* @param   boolean  $scope  only retrieve nodes with specified scope [Optional]
+	* @return  object
+	*/
+	public function full_tree($scope = NULL)
+	{
+		 $result = Model_MPTT::factory($this->_object_name);
+
+		 if ( $scope !== NULL )
+		 {
+			 $result->where($this->scope_column, '=', $scope);
+		 }
+		 else
+		 {
+			 $result->order_by($this->scope_column, 'ASC')->order_by($this->left_column, 'ASC');
+		 }
+
+		 return $result->find_all();
+	}
+
+	public function html_select()
+	{
+		
+	}
+
+
+	/**
 	 * New scope
 	 * This also double as a new_root method allowing
 	 * us to store multiple trees in the same table.
@@ -65,8 +99,18 @@ abstract class Kohana_Model_MPTT extends ORM
 	 * @param integer $scope New scope to create.
 	 * @return boolean
 	 **/
-	public function new_scope($scope, array $additional_fields = array())
+	public function new_scope($scope = NULL, array $additional_fields = array())
 	{
+		if($scope === NULL)
+		{
+			$last_scope = (int) DB::select(array(DB::expr('MAX('.$this->scope_column.')'), 'max'))
+				->from($this->_table_name)
+				->execute()
+				->get('max');
+
+			$scope = $last_scope + 1;
+		}
+
 		// Make sure the specified scope doesn't already exist.
 		$search = Model_MPTT::factory($this->_object_name)->where($this->scope_column, '=', $scope)->find_all();
 
@@ -77,6 +121,7 @@ abstract class Kohana_Model_MPTT extends ORM
 		$this->{$this->left_column} = 1;
 		$this->{$this->right_column} = 2;
 		$this->{$this->level_column} = 0;
+		$this->{$this->parent_column} = 0;
 		$this->{$this->scope_column} = $scope;
 
 		// Other fields may be required.
@@ -100,12 +145,16 @@ abstract class Kohana_Model_MPTT extends ORM
 	 */
 	protected function lock()
 	{
-		$lock = $this->_db->query(Database::SELECT, 'SELECT GET_LOCK("' . Kohana::$environment . '-' . $this->_table_name . '", 30) AS l', TRUE);
+		$lock = $this->_db->query(Database::SELECT, 'SELECT GET_LOCK("' . Kohana::$environment . '-' . $this->_table_name . '", 30) AS l', TRUE)->get('l');
 
-		if ($lock['l']->l == 0)
+		if ($lock == 0)
+		{
 			return $this->lock(); // Unable to obtain lock, retry.
-		else if ($lock['l']->l == 1)
+		}
+		else if ($lock == 1)
+		{
 			return $this; // Success
+		}
 		else
 			throw new Exception('Unable to obtain MPTT lock'); // Unknown Error handle this.. better
 	}
@@ -203,7 +252,7 @@ abstract class Kohana_Model_MPTT extends ORM
 	 */
 	public function is_root()
 	{
-		return ($this->{$this->left_column} === 1);
+		return ((int) $this->{$this->left_column} === 1);
 	}
 
 	/**
@@ -409,6 +458,7 @@ abstract class Kohana_Model_MPTT extends ORM
 		$this->{$this->right_column} = $this->{$this->left_column} + 1;
 		$this->{$this->level_column} = $target->{$this->level_column} + $level_offset;
 		$this->{$this->scope_column} = $target->{$this->scope_column};
+		$this->{$this->parent_column} = $target->{$this->_primary_key};
 
 		$this->create_space($this->{$this->left_column});
 
@@ -506,6 +556,7 @@ abstract class Kohana_Model_MPTT extends ORM
 			->where($this->right_column, '<=', $this->{$this->right_column})
 			->where($this->scope_column, '=', $this->{$this->scope_column})
 			->execute($this->_db);
+
 		if ($result > 0)
 		{
 			$this->delete_space($this->{$this->left_column}, $this->get_size());
@@ -513,47 +564,6 @@ abstract class Kohana_Model_MPTT extends ORM
 
 		$this->unlock();
 	}
-
-	/**
-	 * Overloads the select_list method to
-	 * support indenting.
-	 *
-	 * @param string $key first table column.
-	 * @param string $val second table column.
-	 * @param string $indent character used for indenting.
-	 * @return array
-	 */
-	public function select_list($key = NULL, $val = NULL, $indent = NULL)
-	{
-		if (is_string($indent))
-		{
-			if ($key === NULL)
-			{
-				// Use the default key
-				$key = $this->_primary_key;
-			}
-
-			if ($val === NULL)
-			{
-				// Use the default value
-				$val = $this->_primary_val;
-			}
-
-			$result = $this->load_result(TRUE);
-
-			$array = array();
-			foreach ($result as $row)
-			{
-				$array[$row->$key] = str_repeat($indent, $row->{$this->level_column}).$row->$val;
-			}
-
-			return $array;
-		}
-
-		return parent::select_list($key, $val);
-	}
-
-
 
 	/**
 	 * Move to First Child
@@ -645,6 +655,8 @@ abstract class Kohana_Model_MPTT extends ORM
 			$this->unlock();
 			return FALSE;
 		}
+		
+		$parent_id = $level_offset > 0 ? $target->{$this->_primary_key} : $target->{$this->parent_column};
 
 		$left_offset = ($left_column === TRUE ? $target->{$this->left_column} : $target->{$this->right_column}) + $left_offset;
 		$level_offset = $target->{$this->level_column} - $this->{$this->level_column} + $level_offset;
@@ -659,11 +671,22 @@ abstract class Kohana_Model_MPTT extends ORM
 
 		$offset = ($left_offset - $this->{$this->left_column});
 
-		// Update the values.
-		$this->_db->query(Database::UPDATE, 'UPDATE '.$this->_table_name.' SET `'.$this->left_column.'` = `'.$this->left_column.'` + '.$offset.', `'.$this->right_column.'` = `'.$this->right_column.'` + '.$offset.'
-		, `'.$this->level_column.'` = `'.$this->level_column.'` + '.$level_offset.'
-		, `'.$this->scope_column.'` = '.$target->{$this->scope_column}.'
-		WHERE `'.$this->left_column.'` >= '.$this->{$this->left_column}.' AND `'.$this->right_column.'` <= '.$this->{$this->right_column}.' AND `'.$this->scope_column.'` = '.$this->{$this->scope_column}, FALSE);
+		$update = DB::update($this->_table_name)
+			->set(array(
+				$this->left_column => DB::expr($this->left_column . ' + ' . $offset), 
+				$this->right_column => DB::expr($this->right_column . ' + ' . $offset), 
+				$this->level_column => DB::expr($this->level_column.' + '.$level_offset),
+				$this->scope_column => DB::expr($target->{$this->scope_column}),
+				$this->parent_column => $parent_id
+			))
+			->where($this->left_column, '>=', $this->{$this->left_column})
+			->where($this->right_column, '<=', $this->{$this->right_column})
+			->where($this->scope_column, '=', $this->{$this->scope_column});
+			
+		echo $update;
+			
+			
+		$update->execute();
 
 		$this->delete_space($this->{$this->left_column}, $size);
 
