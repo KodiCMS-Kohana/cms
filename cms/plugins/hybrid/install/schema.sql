@@ -36,6 +36,5 @@ CREATE TABLE IF NOT EXISTS `__TABLE_PREFIX__hybriddatasources` (
   `parent` int(11) unsigned NOT NULL DEFAULT '0',
   `ds_key` varchar(128) NOT NULL DEFAULT '',
   `path` varchar(255) NOT NULL DEFAULT '',
-  PRIMARY KEY (`ds_id`),
-  UNIQUE KEY `ds_key` (`ds_key`)
+  PRIMARY KEY (`ds_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;

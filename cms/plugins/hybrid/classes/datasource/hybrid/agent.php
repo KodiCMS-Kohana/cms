@@ -481,26 +481,25 @@ class DataSource_Hybrid_Agent {
 		}
 		
 		$ds_key = NULL;
-		if(!Valid::numeric( $ds_id ))
+		if( ! Valid::numeric( $ds_id ))
 		{
 			$ds_key = $ds_id;
 		}
 		
 		$query = DB::select('hds.ds_id', 'hds.ds_key', 'hds.path', 'ds.name')
 			->from(array('hybriddatasources', 'hds'), array('datasources', 'ds'))
-			->where(DB::expr( 'INSTR(hds.ds_key, :ds_key_field)'), '=', 1)
+//			->where(DB::expr( 'INSTR(hds.ds_key, :ds_key_field)'), '=', 1)
 			->where('hds.ds_id', '=', DB::expr(Database::instance()->quote_column('ds.id')))
-			->order_by( 'hds.ds_key', 'asc')
-			->param( ':ds_key_field', DB::expr($ds_key != NULL 
-					? $ds_key 
-					: Database::instance()->quote_column('hds0.ds_key')));
+			->order_by( 'hds.ds_key', 'asc');
+//			->param( ':ds_key_field', DB::expr($ds_key != NULL 
+//					? $ds_key 
+//					: Database::instance()->quote_column('hds0.ds_key')));
 		
-		if($ds_key === NULL)
-		{
-			$query
-				->from(array('hybriddatasources', 'hds0'))
-				->where('hds0.ds_id', '=', $ds_id);
-		}
+//		if($ds_key === NULL)
+//		{
+			$query->from(array('hybriddatasources', 'hds0'))
+				->where('hds.ds_id', '=', $ds_id);
+//		}
 		
 		$result = $query->execute();
 		

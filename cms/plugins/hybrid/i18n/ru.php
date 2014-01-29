@@ -15,6 +15,7 @@ return array(
 	'Primitive' => 'Примитивное',
 	'File' => 'Файл',
 	'Document' => 'Документ',
+	'New document' => 'Новый документ',
 	'Array of documents' => 'Список документов',
 	'Default value' => 'Значение по умолчанию',
 	'Field length' => 'Длина поля',
