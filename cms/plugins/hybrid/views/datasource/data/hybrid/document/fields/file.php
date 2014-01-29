@@ -59,11 +59,11 @@
 		
 		$('.remove-file-checkbox', cont).on('change', function() {
 			if($(this).is(':checked')) {
-				$('input', '.upload-new-cont').attr('disabled', 'disabled');
+				$('.upload-new-cont input', cont).attr('disabled', 'disabled');
 				$('.spoiler-toggle,hr', cont).hide();
 			} else {
 				$('.spoiler-toggle,hr', cont).show();
-				$('input', '.upload-new-cont').removeAttr('disabled');
+				$('.upload-new-cont input', cont).removeAttr('disabled');
 			}
 		})
 	})
