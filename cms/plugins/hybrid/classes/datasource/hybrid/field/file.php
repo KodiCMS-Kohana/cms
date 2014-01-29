@@ -279,7 +279,7 @@ class DataSource_Hybrid_Field_File extends DataSource_Hybrid_Field {
 	 */
 	public function onCreateDocument($doc) 
 	{
-		$this->onUpdateDocument($doc, $doc);
+		$this->onUpdateDocument(NULL, $doc);
 	}
 	
 	/**
@@ -304,20 +304,17 @@ class DataSource_Hybrid_Field_File extends DataSource_Hybrid_Field {
 			$new->fields[$this->name] = '';
 			return FALSE;
 		}
-		elseif($new_file == $old->fields[$this->name])
+		elseif($old !== NULL AND $new_file == $old->fields[$this->name])
 		{
 			return FALSE;
 		}
 
 		$filepath = NULL;
 
-		if(is_array($new_file) AND Valid::not_empty( $new_file ))
+		if(is_array($new_file) AND Upload::not_empty( $new_file ))
 		{
 			$ext = strtolower( pathinfo( $new_file['name'], PATHINFO_EXTENSION ) );
 			$filename = uniqid() . '.' . $ext;
-			
-			
-
 			$filepath = Upload::save($new->fields[$this->name], $filename, $this->folder());
 		}
 		else if( is_string($new_file) AND Valid::url($new_file) )
@@ -337,39 +334,12 @@ class DataSource_Hybrid_Field_File extends DataSource_Hybrid_Field {
 				}
 			}
 		}
-		else if( is_string($new_file) AND strpos(PUBLICPATH, $new_file) !== FALSE )
-		{
-			$filename = strtolower( pathinfo( $new_file, PATHINFO_BASENAME ) );
-			if(copy($new_file, $this->folder() . $filename))
-			{
-				$filepath = $this->folder() . $filename;
-			}
-			else
-			{
-				return FALSE;
-			}
-		}
 
 		if( empty($filepath) ) 
 		{
 			$this->set_old_value($old, $new);
 			return FALSE;
 		}
-//		
-//		$related_fields = $this->linked_fields();
-//		
-//		if(!empty($related_fields))
-//		{
-//			foreach($related_fields as $id)
-//			{
-//				$related_field = DataSource_Hybrid_Field_Factory::get_field($id);
-//				if($related_field === NULL) continue;
-//				$new->fields[$related_field->name] = $filepath;
-//				$new->read_values($new->fields);
-//				$related_field->onUpdateDocument($old, $new);
-//			}
-//			
-//		}
 
 		$this->onRemoveDocument($old);
 		
@@ -401,7 +371,7 @@ class DataSource_Hybrid_Field_File extends DataSource_Hybrid_Field {
 	 */
 	public function onRemoveDocument($doc) 
 	{
-		if(!empty($doc->fields[$this->name])) 
+		if( $doc !== NULL AND !empty($doc->fields[$this->name])) 
 		{
 			@unlink(PUBLICPATH . $doc->fields[$this->name]);
 			$doc->fields[$this->name] = '';
@@ -429,11 +399,21 @@ class DataSource_Hybrid_Field_File extends DataSource_Hybrid_Field {
 			$image_url = $validation->offsetGet($this->name . '_url');
 		}
 		
-		if($this->isreq === TRUE AND !empty($image))
+		if($this->isreq === TRUE AND ! empty($image))
 		{
-			$validation->rules( $this->name, array(
-				array('Upload::not_empty')
-			) );
+			if(is_array($image))
+			{
+				$validation->rules( $this->name, array(
+					array('Upload::not_empty')
+				) );
+			}
+			else
+			{
+				$validation->rules( $this->name, array(
+					array('Valid::not_empty')
+				) );
+			}
+			
 		}
 		elseif($this->isreq === TRUE AND !empty($image_url))
 		{
@@ -472,24 +452,6 @@ class DataSource_Hybrid_Field_File extends DataSource_Hybrid_Field {
 	public function folder()
 	{
 		return PUBLICPATH . $this->folder;
-	}
-	
-	/**
-	 * 
-	 * @return array
-	 */
-	public function get_similar_fields()
-	{
-		$fields = DataSource_Hybrid_Field_Factory::get_related_fields($this->ds_id);
-		unset($fields[$this->id]);
-		
-		$options = array(__('--- none ---'));
-		foreach ($fields as $field)
-		{
-			$options[$field->id] = $field->name;
-		}
-		
-		return $options;
 	}
 
 	/**
