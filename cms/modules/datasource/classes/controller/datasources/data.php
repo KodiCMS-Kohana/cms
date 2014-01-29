@@ -28,9 +28,10 @@ class Controller_Datasources_Data extends Controller_System_Datasource
 				->add($this->template->title);
 
 			Cookie::set('ds_id', $cur_ds_id);
+			
 			$this->template->content->headline = View::factory('datasource/' . $ds->type() . '/headline', array(
 				'fields' => $ds->fields(),
-				'data' => $ds->get_headline(array($cur_ds_id))
+				'data' => $ds->get_headline()
 			));
 			
 			$this->template->set_global(array(
