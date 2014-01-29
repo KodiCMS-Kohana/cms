@@ -27,7 +27,7 @@ class DataSource_Hybrid_Field_Primitive extends DataSource_Hybrid_Field {
 		'allowed_tags' => '<b><i><u><p><ul><li><ol>',
 		'regexp' => NULL,
 		'isreq' => FALSE,
-		'select_array' => array()
+		'select' => array()
 	);
 	
 	public static function types()
@@ -173,6 +173,8 @@ class DataSource_Hybrid_Field_Primitive extends DataSource_Hybrid_Field {
 			case self::PRIMITIVE_TYPE_SELECT:
 					if( in_array($new->fields[$this->name], (array) $this->select))
 						$new->fields[$this->name] = $this->select[$new->fields[$this->name]];
+					else if($new->fields[$this->name] == 0)
+						$new->fields[$this->name] = '';
 					else
 						$new->fields[$this->name] = $old->fields[$this->name];
 				break;
@@ -226,7 +228,7 @@ class DataSource_Hybrid_Field_Primitive extends DataSource_Hybrid_Field {
 				}
 				break;
 			case self::PRIMITIVE_TYPE_SELECT:
-				$validation->rule($this->name, 'in_array', array(':value', $this->select));
+				$validation->rule($this->name, 'in_array', array(':value', array(0) + $this->select));
 				break;
 		}
 		
