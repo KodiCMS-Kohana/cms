@@ -113,10 +113,9 @@ class DataSource_Hybrid_Field_Primitive extends DataSource_Hybrid_Field {
 						break;
 
 					case self::PRIMITIVE_TYPE_FLOAT:
-						$value = (int) $value;
+						$value = (float) $value;
 						break;
 				}
-				$value = (float) $value;
 				break;
 		}
 		
