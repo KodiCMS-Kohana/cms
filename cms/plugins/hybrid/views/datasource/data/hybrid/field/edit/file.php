@@ -82,3 +82,15 @@ foreach($config as $ext => $mime)
 		</div>
 	</div>
 </div>
+
+<div class="widget-header">
+	<h3><?php echo __('Linked fields'); ?></h3>
+</div>
+<div class="widget-content widget-no-border-radius">
+	<div class="control-group">
+		<label class="control-label" for="linked_fields"><?php echo __('Linked fields'); ?></label>
+		<div class="controls">
+			<?php echo Form::select( 'linked_fields[]', $field->get_similar_fields(), (array) $field->linked_fields(), array('class' => 'input-block-level')); ?>
+		</div>
+	</div>
+</div>

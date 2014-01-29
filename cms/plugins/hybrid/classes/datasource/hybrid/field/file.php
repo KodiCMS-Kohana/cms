@@ -39,11 +39,6 @@ class DataSource_Hybrid_Field_File extends DataSource_Hybrid_Field {
 		$this->family = self::TYPE_FILE;
 		$this->type = self::TYPE_FILE;
 	}
-	
-	public function linked_fields()
-	{
-		return (array) $this->linked_fields;
-	}
 
 	/**
 	 * 
@@ -55,6 +50,11 @@ class DataSource_Hybrid_Field_File extends DataSource_Hybrid_Field {
 		if(!isset($data['crop']))
 		{
 			$data['crop'] = FALSE;
+		}
+		
+		if(empty($data['linked_fields']))
+		{
+			$data['linked_fields'] = array();
 		}
 		
 		return parent::set( $data );
@@ -87,9 +87,22 @@ class DataSource_Hybrid_Field_File extends DataSource_Hybrid_Field {
 		$this->quality = (int) $quality;
 	}
 	
+	/**
+	 * 
+	 * @param array $linked_fields
+	 */
 	public function set_linked_fields( $linked_fields )
 	{
 		$this->linked_fields = (array) $linked_fields;
+	}	
+	
+	/**
+	 * 
+	 * @return array
+	 */
+	public function linked_fields()
+	{
+		return (array) $this->linked_fields;
 	}
 	
 	/**
@@ -261,9 +274,27 @@ class DataSource_Hybrid_Field_File extends DataSource_Hybrid_Field {
 	public function set_value(array $data, $doc)
 	{
 		$file = Arr::get($data, $this->name, array());
+		
+		
 		if(is_array($file) AND Upload::valid($file) AND Upload::not_empty($file))
 		{
+			$data[$this->name] = $this->_move_file($file);
 			
+			
+			
+			$related_fields = $this->linked_fields();
+			
+
+			if( ! empty($related_fields) )
+			{
+				foreach($related_fields as $id)
+				{
+					$related_field = DataSource_Hybrid_Field_Factory::get_field($id);
+					if($related_field === NULL) continue;
+					
+					$doc->fields[$related_field->name] = $related_field->copy_file($data[$this->name]);
+				}
+			}
 		}
 		else if(Valid::url( Arr::get($data, $this->name . '_url') )  )
 		{
@@ -271,6 +302,25 @@ class DataSource_Hybrid_Field_File extends DataSource_Hybrid_Field {
 		}
 		
 		return parent::set_value($data, $doc);
+	}
+	
+	protected function _move_file($file)
+	{
+		$ext = strtolower( pathinfo( $file['name'], PATHINFO_EXTENSION ) );
+		$filename = uniqid() . '.' . $ext;
+		$filepath = Upload::save($file, $filename, $this->folder());
+		
+		return $filepath;
+	}
+	
+	public function copy_file($filepath)
+	{
+		$ext = strtolower( pathinfo( $filepath, PATHINFO_EXTENSION ) );
+		$filename = uniqid() . '.' . $ext;
+		$new_filepath = $this->folder() . $filename;
+		copy($filepath, $new_filepath);
+		
+		return $new_filepath;
 	}
 
 	/**
@@ -310,14 +360,13 @@ class DataSource_Hybrid_Field_File extends DataSource_Hybrid_Field {
 		}
 
 		$filepath = NULL;
-
-		if(is_array($new_file) AND Upload::not_empty( $new_file ))
+		
+		if( ! empty($new_file) AND strpos($new_file, $this->folder()) !== FALSE)
 		{
-			$ext = strtolower( pathinfo( $new_file['name'], PATHINFO_EXTENSION ) );
-			$filename = uniqid() . '.' . $ext;
-			$filepath = Upload::save($new->fields[$this->name], $filename, $this->folder());
+			$filepath = $new_file;
+			$filename = pathinfo($filepath, PATHINFO_BASENAME);
 		}
-		else if( is_string($new_file) AND Valid::url($new_file) )
+		if( is_string($new_file) AND Valid::url($new_file) )
 		{
 			list($status, $filename) = Upload::from_url( $new_file, $this->types, $this->folder());
 
@@ -361,7 +410,7 @@ class DataSource_Hybrid_Field_File extends DataSource_Hybrid_Field {
 		}
 		
 		$new->fields[$this->name] = $this->folder . $filename;
-		
+
 		return TRUE;
 	}
 	
@@ -466,5 +515,18 @@ class DataSource_Hybrid_Field_File extends DataSource_Hybrid_Field {
 		return ! empty($row[$fid]) 
 			? str_replace(array('/', '\\'), '/', $row[$fid])
 			: NULL;
+	}
+	
+	public function get_similar_fields()
+	{
+		$fields = DataSource_Hybrid_Field_Factory::get_related_fields($this->ds_id, self::TYPE_FILE);
+		unset($fields[$this->id]);
+
+		foreach ($fields as $field)
+		{
+			$options[$field->id] = $field->name;
+		}
+
+		return $options;
 	}
 }

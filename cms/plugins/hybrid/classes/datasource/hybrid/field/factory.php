@@ -158,7 +158,7 @@ class DataSource_Hybrid_Field_Factory {
 	 * @param integer $ds_id
 	 * @return array
 	 */
-	public static function get_related_fields($ds_id) 
+	public static function get_related_fields($ds_id, $type = NULL) 
 	{
 		static $f;
 
@@ -188,8 +188,18 @@ class DataSource_Hybrid_Field_Factory {
 				DB::expr(Database::instance()->quote_column('dsf.ds_id')))))
 			->order_by('dsh.ds_key')
 			->order_by('dsf.family')
-			->order_by('dsf.name')
-			->execute();
+			->order_by('dsf.name');
+		
+		if(is_string($type))
+		{
+			$query->where('dsf.type', '=', $type);
+		}
+		else if(is_array($type))
+		{
+			$query->where('dsf.type', 'in', $type);
+		}
+		
+		$query = $query->execute();
 
 		if($query)
 		{
