@@ -449,7 +449,7 @@ class KodiCMS_Model_Page_Front {
 			->join(array('users', 'updator'), 'left')
 				->on('updator.id', '=', 'page.updated_by_id')
 			->where('parent_id', '=', $this->id)
-			->where('status_id', 'in', self::_get_statuses($include_hidden));
+			->where('status_id', 'in', self::get_statuses($include_hidden));
 		
 		if(Config::get('page', 'check_date') == Config::YES)
 		{
@@ -503,7 +503,7 @@ class KodiCMS_Model_Page_Front {
 		$sql = DB::select(array(DB::expr('COUNT(*)'), 'total'))
 			->from(array('pages', 'page'))
 			->where('parent_id', '=', $this->id)
-			->where('status_id', 'in', self::_get_statuses($include_hidden));
+			->where('status_id', 'in', self::get_statuses($include_hidden));
 		
 		if(Config::get('page', 'check_date') == Config::YES)
 		{
@@ -623,7 +623,7 @@ class KodiCMS_Model_Page_Front {
 				->on('updator.id', '=', 'page.updated_by_id')
 			->where('slug', '=', $slug)
 			->where('parent_id', '=', $parent_id)
-			->where('status_id', 'in', self::_get_statuses($include_hidden))
+			->where('status_id', 'in', self::get_statuses($include_hidden))
 			->limit(1)
 			->cache_tags( array('pages') )
 			->cached((int)Config::get('cache', 'front_page'))
@@ -714,7 +714,7 @@ class KodiCMS_Model_Page_Front {
 				->on('updator.id', '=', 'page.updated_by_id')
 			->where('page.id', '=', $id)
 			->where('published_on', '<=', DB::expr('NOW()'))
-			->where('status_id', 'in', self::_get_statuses($include_hidden))
+			->where('status_id', 'in', self::get_statuses($include_hidden))
 			->limit(1)
 			->cache_tags( array('pages') )
 			->cached((int)Config::get('cache', 'front_page'))
@@ -956,7 +956,7 @@ class KodiCMS_Model_Page_Front {
 	 * @param boolean $include_hidden
 	 * @return array
 	 */
-	final protected static function _get_statuses($include_hidden = FALSE)
+	public static function get_statuses($include_hidden = FALSE)
 	{
 		$statuses = array(Model_Page::STATUS_PASSWORD_PROTECTED, Model_Page::STATUS_PUBLISHED);
 		

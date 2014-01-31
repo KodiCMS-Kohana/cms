@@ -5,6 +5,13 @@ cms.init.add('system_settings', function () {
 		});
 		return false;
 	});
+	
+	$('.widget').on('click', '#update-search-index', function() {
+		Api.get('search.update_index', {}, function() {
+
+		});
+		return false;
+	});
 });
 
 cms.init.add('system_information', function () {
