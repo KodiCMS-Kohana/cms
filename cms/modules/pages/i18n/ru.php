@@ -29,7 +29,8 @@ return array(
 	'Reorder' => 'Сортировать',
 	'Password protected' => 'Защищена паролем',
 	'Page password' => 'Пароль',
-	'Status' => 'Статус',
+	'Page status' => 'Статус',
+	'Page permissions' => 'Права на доступ',
 	'Page type' => 'Тип',
 	'Parent page' => 'Родительская страница',
 	'Users roles that can edit page' => 'Страница доступна для ролей',
@@ -39,7 +40,7 @@ return array(
 	'Current layput: :name' => 'Текущий шаблон :name',
 	'Show field select' => 'Выбрать из списка',
 	'Hide field select' => 'Скрыть список полей',
-	'inherit ( :layout )' => 'Наследовать ( :layout )',
+	'--- inherit ( :layout ) ---' => 'Наследовать ( :layout )',
 	'Metadata' => 'Метаданные',
 	'--- Not set ---' => '--- Не указан ---',
 );

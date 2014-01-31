@@ -120,7 +120,8 @@ class KodiCMS_Model_Page extends ORM
 			'status_id'			=> __('Page status'),
 			'password'			=> __('Page password'),
 			'published_on'		=> __('Published date'),
-			'needs_login'		=> __('Needs login')
+			'needs_login'		=> __('Needs login'),
+			'page_permissions'	=> __('Page permissions')
 		);
 	}
 
@@ -514,7 +515,13 @@ class KodiCMS_Model_Page extends ORM
 	 */
 	protected function _get_sitemap()
 	{
-		return Model_Page_Sitemap::get(TRUE)->select_choises();
+		$sitemap = Model_Page_Sitemap::get(TRUE);
+		if($this->loaded())
+		{
+			$sitemap->exclude(array($this->id));
+		}
+
+		return $sitemap->select_choises();
 	}
 	
 	/**
