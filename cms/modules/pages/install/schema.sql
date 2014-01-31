@@ -25,6 +25,6 @@ CREATE TABLE IF NOT EXISTS `__TABLE_PREFIX__pages` (
   KEY `updated_by_id` (`updated_by_id`),
   KEY `slug` (`slug`),
   KEY `status_id` (`status_id`),
-  CONSTRAINT `pages_ibfk_1` FOREIGN KEY (`created_by_id`) REFERENCES `__TABLE_PREFIX__users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `pages_ibfk_2` FOREIGN KEY (`updated_by_id`) REFERENCES `__TABLE_PREFIX__users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+  CONSTRAINT `__TABLE_PREFIX__pages_ibfk_1` FOREIGN KEY (`created_by_id`) REFERENCES `__TABLE_PREFIX__users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `__TABLE_PREFIX__pages_ibfk_2` FOREIGN KEY (`updated_by_id`) REFERENCES `__TABLE_PREFIX__users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
