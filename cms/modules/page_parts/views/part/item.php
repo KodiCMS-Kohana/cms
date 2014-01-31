@@ -43,7 +43,10 @@
 				<div class="span4 text-right">
 					<% if ( is_developer == 1 ) { %>
 					<label class="checkbox inline">
-							<input type="checkbox" name="is_protected" class="is_protected" <% if (is_protected == <?php echo Model_Page_Part::PART_PROTECTED; ?>) { print('checked="checked"')} %>> <?php echo __( 'Is protected' ); ?>
+						<input type="checkbox" name="is_protected" class="is_protected" <% if (is_protected == <?php echo Model_Page_Part::PART_PROTECTED; ?>) { print('checked="checked"')} %>> <?php echo __( 'Is protected' ); ?>
+					</label>
+					<label class="checkbox inline">
+						<input type="checkbox" name="is_indexable" class="is_indexable" <% if (is_indexable == 1) { print('checked="checked"')} %>> <?php echo __( 'Is indexable' ); ?>
 					</label>
 					<% } %>
 					<?php echo UI::button(__( 'Remove part :part_name', array( ':part_name' => '<%= name %>' ) ), array(

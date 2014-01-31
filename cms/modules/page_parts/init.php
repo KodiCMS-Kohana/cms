@@ -51,12 +51,21 @@ Observer::observe('page_edit_after_save', function($page) {
 			->save();
 	}
 	
-	Search::add_to_index('pages', $page->id, $page->title, $indexable_content);
+	if(in_array($page->status_id, Model_Page_Front::get_statuses()))
+	{
+		Search::add_to_index('pages', $page->id, $page->title, $indexable_content, array(
+			'uri' => $page->get_uri()
+		));
+	}
+	else
+	{
+		Search::remove_from_index('pages', $page->id);
+	}
 });
 
-Observer::observe('update_search_index', function($page) {
+Observer::observe('update_search_index', function() {
 	
-	$pages = Model_Page::findAll();
+	$pages = ORM::factory('page')->find_all();
 	
 	foreach($pages as $page)
 	{
