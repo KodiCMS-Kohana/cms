@@ -148,6 +148,44 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 		
 		return $this->fields;
 	}
+	
+	public function save(array $values = NULL)
+	{
+		if( ! $this->loaded())
+		{
+			return FALSE;
+		}
+		
+		if(is_array($values))
+		{
+			$this->doc_order = Arr::get($values, 'doc_order', array());
+		}
+
+		$status = parent::save($values);
+		
+		if(is_array($values))
+		{
+			$headline_fields = Arr::get($values, 'in_headline', array());
+
+			$fields = $this->get_record()->fields;
+
+			foreach($fields as $f)
+			{
+				$value = Arr::get($headline_fields, $f->id, 0);
+
+				$field = DataSource_Hybrid_Field_Factory::get_field($f->id);
+				$old_field = clone($field);
+
+				$field->set(array(
+					'in_headline' => $value
+				));
+
+				DataSource_Hybrid_Field_Factory::update_field($old_field, $field);
+			}
+		}
+		
+		return $status;
+	}
 
 	/**
 	 * 
