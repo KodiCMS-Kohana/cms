@@ -147,9 +147,13 @@ class KodiCMS_Model_Page_Sitemap {
 	 */
 	public function children()
 	{
-		if(!empty($this->_pages[0]['childs']))
+		if( ! empty($this->_pages[0]['childs']))
 		{
 			$this->_pages = $this->_pages[0]['childs'];
+		}
+		else
+		{
+			$this->_pages = array();
 		}
 		
 		return $this;
