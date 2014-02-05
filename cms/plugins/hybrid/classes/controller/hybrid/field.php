@@ -39,6 +39,17 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 		parent::before();
 	}
 	
+	public function action_template()
+	{
+		$ds_id = (int) $this->request->param('id');
+		$ds = $this->section($ds_id);
+		
+		$this->template->content = View::factory('datasource/data/hybrid/field/template', array(
+			'ds' => $ds,
+			'fields' => $ds->get_record()->fields
+		));
+	}
+
 	public function action_edit()
 	{
 		$ds = $this->section($this->field->ds_id);

@@ -38,6 +38,12 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 	
 	/**
 	 *
+	 * @var string 
+	 */
+	public $index_document_template = '';
+	
+	/**
+	 *
 	 * @var boolean
 	 */
 	public $doc_order = array(
@@ -742,5 +748,58 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 		$this->indexed_doc_query = NULL;
 		
 		parent::__wakeup();
+	}
+	
+	
+	
+	/**
+	 * 
+	 * @param array $ids
+	 * @param string $header
+	 * @param string $content
+	 * @param string $intro
+	 * @return \Datasource_Section
+	 */
+	public function add_to_index(array $ids = NULL, $header = NULL, $content = NULL, $intro = NULL) 
+	{
+		if( ! $this->_is_indexable)
+		{
+			return $this;
+		}
+
+		// TODO Add to index
+	}
+	
+	/**
+	 * 
+	 * @param array $id
+	 * @param string $header
+	 * @param string $content
+	 * @param string $intro
+	 * @return \Datasource_Section
+	 */
+	public function update_index(array $ids, $header = NULL, $content = NULL, $intro = NULL) 
+	{
+		if( ! $this->_is_indexable)
+		{
+			return $this;
+		}
+
+		// TODO Update index
+	}
+	
+	/**
+	 * 
+	 * @param array $ids
+	 * @return \Datasource_Section
+	 */
+	public function remove_from_index( array $ids = NULL) 
+	{
+		if( ! $this->_is_indexable)
+		{
+			return $this;
+		}
+		
+		// TODO Remove index
 	}
 }

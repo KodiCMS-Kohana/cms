@@ -50,11 +50,34 @@
 	<?php echo View::factory('datasource/data/hybrid/blocks/fields', array(
 		'record' => $ds->get_record(), 'ds' => $ds
 	)); ?>
+	<div class="widget-header spoiler-toggle" data-spoiler=".indexer-spoiler">
+		<h4><?php echo __('Search indexation'); ?></h4>
+	</div>
+	<div class="widget-content spoiler indexer-spoiler">
+		<div class="control-group">
+			<div class="controls">
+				<label class="checkbox"><?php echo Form::checkbox( 'is_indexable', $ds->is_indexable() ); ?> <?php echo __('Is indexable'); ?></label>
+			</div>
+		</div>
+		
+		<div class="control-group">
+			<label class="control-label" for="ds_index_document"><?php echo __('Index document template'); ?></label>
+			<div class="controls">
+				<?php
+				echo Form::textarea( 'index_document_template', $ds->index_document_template, array(
+					'class' => 'input-block-level', 'id' => 'ds_index_document', 'rows' => 2
+				) );
+				?>
+			</div>
+		</div>
+	</div>
 	<div class="form-actions widget-footer">
 		<?php echo UI::actions(NULL, Route::url('datasources', array(
 			'controller' => 'data',
 			'directory' => 'datasources'
 		))); ?>
 	</div>
+	
+	
 <?php echo Form::close(); ?>
 </div>
