@@ -75,5 +75,6 @@ return array(
 		=> 'Каждое новое значение пишите в новой строке',
 	'Field options' => 'Значения поля',
 	'Field validation' => 'Валидация поля',
-	'Regular expression or Valid class method :link' => 'Регулярное выражение или метод класса Valid :link'
+	'Regular expression or Valid class method :link' => 'Регулярное выражение или метод класса Valid :link',
+	'Hybrid docs' => 'Гибридные документы'
 );

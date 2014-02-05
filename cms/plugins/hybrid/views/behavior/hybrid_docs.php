@@ -1,9 +1,9 @@
 <br />
-<label><?php echo __('Item page'); ?></label>
+<label><?php echo __('Document page'); ?></label>
 <?php
 
 $pages = Model_Page_Sitemap::get(TRUE)->find($page->id)->children();
-$select = array('-');
+$select = array(__('--- none ---'));
 foreach($pages->flatten() as $page)
 {
 	$uri = !empty($page['uri']) ? $page['uri'] : '/';
