@@ -130,7 +130,7 @@ class Behavior
 				
 		foreach ( self::findAll() as $behavior )
 		{
-			$options[$behavior] = Inflector::humanize( $behavior );
+			$options[$behavior] = __(ucfirst(Inflector::humanize( $behavior )));
 		}
 		
 		return $options;

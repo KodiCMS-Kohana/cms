@@ -92,4 +92,5 @@ return array(
 	'Manage widget cache' => 'Управлять кешем виджета',
 	'Delete widget' => 'Удалять виджет',
 	
+	'Document page' => 'Страница документа',
 );
