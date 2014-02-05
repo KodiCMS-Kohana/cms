@@ -31,7 +31,7 @@
 						echo HTML::anchor( $child->get_url(), $child->title );
 					?>
 					<?php endif; ?>				
-					<?php if( !empty($child->behavior_id) ): ?> <?php echo UI::label(Inflector::humanize($child->behavior_id), 'default'); ?><?php endif; ?>
+					<?php if( !empty($child->behavior_id) ): ?> <?php echo UI::label(__(ucfirst(Inflector::humanize( $child->behavior_id ))), 'default'); ?><?php endif; ?>
 					
 					<?php echo $child->get_public_anchor(); ?>
 				</div>
