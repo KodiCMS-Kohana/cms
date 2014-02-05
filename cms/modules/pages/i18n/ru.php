@@ -28,6 +28,7 @@ return array(
 	'Published' => 'Опубликована',
 	'Reorder' => 'Сортировать',
 	'Password protected' => 'Защищена паролем',
+	'Protected page' => 'Страница ввода пароля',
 	'Page password' => 'Пароль',
 	'Page status' => 'Статус',
 	'Page permissions' => 'Права на доступ',
