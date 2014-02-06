@@ -427,6 +427,15 @@ abstract class Datasource_Section {
 	
 	/**
 	 * 
+	 * @return boolean
+	 */
+	public function is_indexable()
+	{
+		return (bool) $this->_is_indexable;
+	}
+
+		/**
+	 * 
 	 * @param boolean $newState
 	 * @return \Datasource_Section
 	 */
@@ -441,7 +450,7 @@ abstract class Datasource_Section {
 			return $this;
 		}
 
-		if($state == $this->_is_indexable)
+		if($state == $this->is_indexable())
 		{
 			return $this;
 		}
@@ -470,7 +479,7 @@ abstract class Datasource_Section {
 	 */
 	public function add_to_index(array $ids = NULL, $header = NULL, $content = NULL, $intro = NULL) 
 	{
-		if( ! $this->_is_indexable)
+		if( ! $this->is_indexable())
 		{
 			return $this;
 		}
@@ -488,7 +497,7 @@ abstract class Datasource_Section {
 	 */
 	public function update_index(array $ids, $header = NULL, $content = NULL, $intro = NULL) 
 	{
-		if( ! $this->_is_indexable)
+		if( ! $this->is_indexable())
 		{
 			return $this;
 		}
@@ -503,7 +512,7 @@ abstract class Datasource_Section {
 	 */
 	public function remove_from_index( array $ids = NULL) 
 	{
-		if( ! $this->_is_indexable)
+		if( ! $this->is_indexable())
 		{
 			return $this;
 		}
