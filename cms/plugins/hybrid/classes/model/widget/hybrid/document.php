@@ -253,7 +253,7 @@ class Model_Widget_Hybrid_Document extends Model_Widget_Hybrid {
 
 	public function get_doc_id()
 	{
-		if(Valid::decimal($this->_id))
+		if(Valid::numeric($this->_id))
 		{
 			return $this->_id;
 		}
