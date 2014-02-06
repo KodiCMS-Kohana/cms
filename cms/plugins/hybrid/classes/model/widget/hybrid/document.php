@@ -37,6 +37,12 @@ class Model_Widget_Hybrid_Document extends Model_Widget_Hybrid {
 	 * @var array
 	 */
 	public $document = array();
+	
+	/**
+	 *
+	 * @var integer 
+	 */
+	protected $_id = NULL;
 
 	/**
 	 * 
@@ -147,6 +153,11 @@ class Model_Widget_Hybrid_Document extends Model_Widget_Hybrid {
 		);
 	}
 	
+	/**
+	 * 
+	 * @param integer $id
+	 * @return array
+	 */
 	public function get_document($id = NULL)
 	{
 		$result = array();
@@ -154,6 +165,11 @@ class Model_Widget_Hybrid_Document extends Model_Widget_Hybrid {
 		if($id === NULL)
 		{
 			$id = $this->get_doc_id();
+		}
+		
+		if(empty($id)) 
+		{
+			return $result;
 		}
 		
 		if(isset($this->document[$id]))
@@ -226,8 +242,22 @@ class Model_Widget_Hybrid_Document extends Model_Widget_Hybrid {
 		return $result;
 	}
 	
+	/**
+	 * 
+	 * @param integer $id
+	 */
+	public function set_doc_id($id)
+	{
+		$this->_id = (int) $id;
+	}
+
 	public function get_doc_id()
 	{
+		if(Valid::decimal($this->_id))
+		{
+			return $this->_id;
+		}
+
 		return $this->_ctx->get('slug');
 	}
 	
