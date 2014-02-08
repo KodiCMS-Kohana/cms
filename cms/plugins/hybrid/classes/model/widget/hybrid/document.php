@@ -296,4 +296,12 @@ class Model_Widget_Hybrid_Document extends Model_Widget_Hybrid {
 		
 		return $content;
 	}
+	
+	public function __sleep()
+	{
+		$vars = get_object_vars($this);
+		unset($vars['_id'], $vars['document'], $vars['_ctx']);
+
+		return array_keys($vars);
+	}
 }

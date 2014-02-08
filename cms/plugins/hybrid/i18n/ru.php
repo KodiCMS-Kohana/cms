@@ -46,7 +46,7 @@ return array(
 	':action field' => ':action поле',
 	'Document page (URI)' => 'Страница документа (URI)',
 	'Document id (Ctx)' => 'Идентификатор документа(Ctx)',
-	'Identificator field' => 'Поле идентификатор документа',
+	'Document ID field' => 'Поле идентификатор',
 	'Generate error 404 when page has no content' 
 		=> 'Генерировать ошибку, если нет документов',
 	'Show only published documents' => 
