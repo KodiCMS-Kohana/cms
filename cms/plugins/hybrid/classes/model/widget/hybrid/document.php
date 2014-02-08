@@ -13,12 +13,6 @@ class Model_Widget_Hybrid_Document extends Model_Widget_Hybrid {
 	 * @var array 
 	 */
 	public $doc_fetched_widgets = array();
-
-	/**
-	 *
-	 * @var string 
-	 */
-	public $docs_uri = NULL;
 	
 	/**
 	 *
@@ -43,6 +37,12 @@ class Model_Widget_Hybrid_Document extends Model_Widget_Hybrid {
 	 * @var integer 
 	 */
 	protected $_id = NULL;
+	
+	/**
+	 *
+	 * @var string 
+	 */
+	public $doc_id_ctx = 'item';
 
 	/**
 	 * 
@@ -55,7 +55,10 @@ class Model_Widget_Hybrid_Document extends Model_Widget_Hybrid {
 		parent::set_values($data);
 		
 		$this->docs_uri = Arr::get($data, 'docs_uri', $this->docs_uri);
-		$this->doc_id = Arr::get($data, 'doc_id', $this->doc_id);
+		$this->doc_id_field = Arr::get($data, 'doc_id_field', $this->doc_id_field);
+
+		$doc_id_ctx = Arr::get($data, 'doc_id_ctx');
+		$this->doc_id_ctx = empty($doc_id_ctx) ? $this->doc_id_ctx : $doc_id_ctx;
 		
 		$this->throw_404 = (bool) Arr::get($data, 'throw_404');
 		$this->crumbs = (bool) Arr::get($data, 'crumbs');
@@ -127,7 +130,8 @@ class Model_Widget_Hybrid_Document extends Model_Widget_Hybrid {
 		$doc = $this->get_document();
 		
 		$page = $this->_ctx->get_page();
-		$page->title = $page->meta_title = $doc['header'];
+
+		$page->title = $doc['header'];
 	}
 	
 	public function change_crumbs( Breadcrumbs &$crumbs )
@@ -137,6 +141,7 @@ class Model_Widget_Hybrid_Document extends Model_Widget_Hybrid {
 		$doc = $this->get_document();
 		
 		$crumb = $crumbs->get_by('url', URL::site($page->url));
+		
 		if($crumb !== NULL)
 		{
 			$crumb->name = $doc['header'];
@@ -180,9 +185,9 @@ class Model_Widget_Hybrid_Document extends Model_Widget_Hybrid {
 		$agent = $this->get_agent();
 		$query = $agent->get_query_props($this->doc_fields, $this->doc_fetched_widgets);
 		
-		if(isset($agent->ds_fields[$this->doc_id]))
+		if(isset($agent->ds_fields[$this->doc_id_field]))
 		{
-			$id_field = DataSource_Hybrid_Field::PREFFIX.$agent->ds_fields[$this->doc_id]['name'];
+			$id_field = DataSource_Hybrid_Field::PREFFIX.$agent->ds_fields[$this->doc_id_field]['name'];
 		}
 		else
 		{
@@ -258,7 +263,7 @@ class Model_Widget_Hybrid_Document extends Model_Widget_Hybrid {
 			return $this->_id;
 		}
 
-		return $this->_ctx->get('slug');
+		return $this->_ctx->get($this->doc_id_ctx);
 	}
 	
 	public function get_cache_id()

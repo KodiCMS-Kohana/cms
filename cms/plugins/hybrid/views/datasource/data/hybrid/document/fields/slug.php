@@ -13,7 +13,7 @@
 				<script>
 					$(function() {
 						$('button[name="copy_from_header"]').on('click', function() {
-							$(this).prev().val($('input[name="header"]').val()).keyup()
+							$(this).prev().val(cms.convertSlug($('input[name="header"]').val(), '<?php echo $field->separator; ?>')).keyup();
 							return false;
 						});
 					})

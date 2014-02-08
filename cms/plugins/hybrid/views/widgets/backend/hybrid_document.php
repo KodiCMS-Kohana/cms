@@ -18,13 +18,11 @@
 	</div>
 
 	<div class="control-group">
-		<label class="control-label" for="docs_uri"><?php echo __('Documents (URI)'); ?></label>
+		<label class="control-label" for="doc_id_ctx"><?php echo __('Document id (Ctx)'); ?></label>
 		<div class="controls">
-			<?php
-			echo Form::input( 'docs_uri', $widget->docs_uri, array(
-				'class' => 'input-xlarge', 'id' => 'docs_uri'
-			) );
-			?>
+			<?php echo Form::input( 'doc_id_ctx', $widget->doc_id_ctx, array(
+				'class' => 'input-small', 'id' => 'doc_id_ctx'
+			) ); ?>
 		</div>
 	</div>
 
@@ -36,7 +34,7 @@
 	
 	<div class="control-group">
 		<div class="controls">
-			<label class="checkbox"><?php echo Form::checkbox('crumbs', 1, $widget->crumbs); ?> <?php echo __('Change Bread Crumbs'); ?></label>
+			<label class="checkbox"><?php echo Form::checkbox('crumbs', 1, $widget->crumbs); ?> <?php echo __('Change bread crumbs'); ?></label>
 		</div>
 	</div>
 </div>

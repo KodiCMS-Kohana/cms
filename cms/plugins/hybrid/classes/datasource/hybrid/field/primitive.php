@@ -27,7 +27,8 @@ class DataSource_Hybrid_Field_Primitive extends DataSource_Hybrid_Field {
 		'allowed_tags' => '<b><i><u><p><ul><li><ol>',
 		'regexp' => NULL,
 		'isreq' => FALSE,
-		'select' => array()
+		'select' => array(),
+		'separator' => '-'
 	);
 	
 	public static function types()

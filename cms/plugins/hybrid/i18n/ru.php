@@ -45,6 +45,7 @@ return array(
 	':action document' => ':action документ',
 	':action field' => ':action поле',
 	'Document page (URI)' => 'Страница документа (URI)',
+	'Document id (Ctx)' => 'Идентификатор документа(Ctx)',
 	'Identificator field' => 'Поле идентификатор документа',
 	'Generate error 404 when page has no content' 
 		=> 'Генерировать ошибку, если нет документов',
@@ -59,6 +60,7 @@ return array(
 	'Set current user' => 'Установить текущего пользователя',
 	'Allowed types :types' => 'Разрешенные форматы :types',
 	'Allow HTML tags' => 'Разрешить HTML теги',
+	'Filter HTML tags' => 'Фильтровать HTML теги',
 	'Create hybrid section' => 'Создать гибридный раздел',
 	'Slug separator' => 'Разделитель',
 	'Slug from header' => 'Брать значение из Заголовка',
@@ -77,5 +79,6 @@ return array(
 	'Field options' => 'Значения поля',
 	'Field validation' => 'Валидация поля',
 	'Regular expression or Valid class method :link' => 'Регулярное выражение или метод класса Valid :link',
-	'Hybrid docs' => 'Гибридные документы'
+	'Hybrid docs' => 'Гибридные документы',
+	'Change bread crumbs' => 'Изменять хлебные крошки'
 );

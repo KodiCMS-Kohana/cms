@@ -6,7 +6,7 @@ class Behavior_HybridDocs extends Behavior_Abstract
 	public function routes()
 	{
 		return array(
-			'/<slug>' => array(
+			'/<item>' => array(
 				'method' => 'execute'
 			)
 		);
@@ -14,7 +14,8 @@ class Behavior_HybridDocs extends Behavior_Abstract
 
 	public function execute()
 	{
-		if(!$this->router()->param('slug')) return;
+		if(!$this->router()->param('item')) return;
+
 		$this->_page = Model_Page_Front::findById($this->settings()->item_page_id);
 	}
 }

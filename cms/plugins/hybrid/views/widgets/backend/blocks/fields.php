@@ -41,7 +41,7 @@
 					<?php echo substr($field->name, 2); ?>
 				</td>
 				<td>
-					<?php echo HTML::anchor('hybrid/field/edit/' . $field->id, $field->header, array('target' => 'blank') ); ?>
+					<?php echo HTML::anchor('/backend/hybrid/field/edit/' . $field->id, $field->header, array('target' => '_blank', 'class' => 'popup fancybox.iframe') ); ?>
 				</td>
 				<td>
 					<?php
