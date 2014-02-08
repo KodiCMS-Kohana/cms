@@ -41,7 +41,12 @@ class Behavior_Documents extends Behavior_Abstract
 			return FALSE;
 		}
 		
-		return $this->execute();
+		if(($page = Model_Page_Front::findBySlug($this->router()->param('slug'), $this->page())) === FALSE )
+		{
+            return $this->execute();
+		}
+		
+		$this->_page = $page;
 	}
 
 	public function execute()
