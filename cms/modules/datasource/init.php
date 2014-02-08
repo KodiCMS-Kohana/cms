@@ -37,7 +37,7 @@ Observer::observe('modules::afer_load', function() {
 		}
 	}
 
-	$section = Model_Navigation::get_section('Create', $ds_section);
+	$section = Model_Navigation::get_section(__('Create section'), $ds_section);
 
 	foreach ($types as $id => $type)
 	{
