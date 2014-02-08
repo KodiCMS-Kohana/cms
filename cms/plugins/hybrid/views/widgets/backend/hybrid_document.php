@@ -7,10 +7,10 @@
 </div>
 <div class="widget-content">
 	<div class="control-group">
-		<label class="control-label" for="doc_id"><?php echo __('Document ID field'); ?></label>
+		<label class="control-label" for="doc_id_field"><?php echo __('Document ID field'); ?></label>
 		<div class="controls">
 			<?php
-			echo Form::select('doc_id', $widget->get_doc_ids(), $widget->doc_id, array(
+			echo Form::select('doc_id_field', $widget->get_doc_ids(), $widget->doc_id_field, array(
 				'class' => 'input-xlarge'
 			));
 			?>
