@@ -8,6 +8,7 @@ return array(
 	'Hybrid Headline' => 'Список гибридных документов',
 	'Hybrid document' => 'Гибридный документ',
 	'Add field' => 'Новое поле',
+	'Field key' => 'Ключ',
 	'Edit field' => 'Редактирование поля',
 	'Field header' => 'Название',
 	'Field type' => 'Тип поля',

@@ -57,7 +57,7 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 	public $record = NULL;
 	public $read_sql = NULL;
 	public $indexed_doc;
-	public $doc_intro;
+	public $intro_field = NULL;
 	public $indexed_doc_query;
 	
 	public $all_doc = TRUE;
@@ -106,6 +106,25 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 		{
 			throw new Validation_Exception($array);
 		}
+	}
+	
+	/**
+	 * 
+	 * @return array
+	 */
+	public function record_fields_array( )
+	{
+		$record = $this->get_record();
+		
+		$fields = array();
+		if(empty($record->fields)) return $fields;
+
+		foreach($record->fields as $field)
+		{
+			$fields[$field->name] = $field->header;
+		}
+		
+		return $fields;
 	}
 	
 	/**
@@ -166,6 +185,8 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 		{
 			$this->doc_order = Arr::get($values, 'doc_order', array());
 		}
+		
+		$this->intro_field = empty($values['intro_field']) ? NULL : Arr::get($values, 'intro_field');
 
 		$status = parent::save($values);
 		
@@ -363,7 +384,7 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 	/**
 	 * @return DataSource_Hybrid_Record
 	 */
-	public function get_record($id = NULL, $alias = false) 
+	public function get_record() 
 	{
 		if($this->record === NULL)
 		{

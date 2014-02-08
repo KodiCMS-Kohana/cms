@@ -15,33 +15,27 @@
 		<div class="control-group">
 			<label class="control-label title" for="ds_name"><?php echo __('Datasource Header'); ?></label>
 			<div class="controls">
-				<?php
-				echo Form::input( 'name', $ds->name, array(
+				<?php echo Form::input( 'name', $ds->name, array(
 					'class' => 'input-title input-block-level', 'id' => 'ds_name'
-				) );
-				?>
+				) ); ?>
 			</div>
 		</div>
 		
 		<div class="control-group">
 			<label class="control-label" for="ds_key"><?php echo __('Datasource Key'); ?></label>
 			<div class="controls">
-				<?php
-				echo Form::input( 'key', $ds->key, array(
+				<?php echo Form::input( 'key', $ds->key, array(
 					'class' => 'input-xlarge', 'id' => 'ds_key', 'disabled'
-				) );
-				?>
+				) ); ?>
 			</div>
 		</div>
 
 		<div class="control-group">
 			<label class="control-label" for="ds_description"><?php echo __('Datasource Description'); ?></label>
 			<div class="controls">
-				<?php
-				echo Form::textarea( 'description', $ds->description, array(
+				<?php echo Form::textarea( 'description', $ds->description, array(
 					'class' => 'input-block-level', 'id' => 'ds_description', 'rows' => 4
-				) );
-				?>
+				) ); ?>
 			</div>
 		</div>
 		
@@ -61,13 +55,9 @@
 		</div>
 		
 		<div class="control-group">
-			<label class="control-label" for="ds_index_document"><?php echo __('Index document template'); ?></label>
+			<label class="control-label" for="intro_field"><?php echo __('Index document intro'); ?></label>
 			<div class="controls">
-				<?php
-				echo Form::textarea( 'index_document_template', $ds->index_document_template, array(
-					'class' => 'input-block-level', 'id' => 'ds_index_document', 'rows' => 2
-				) );
-				?>
+				<?php echo Form::select('intro_field',  array(__('--- none ---')) + $ds->record_fields_array()); ?>
 			</div>
 		</div>
 	</div>
