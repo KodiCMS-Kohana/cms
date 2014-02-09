@@ -38,9 +38,15 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 	
 	/**
 	 *
-	 * @var string 
+	 * @var array 
 	 */
-	public $index_document_template = '';
+	public $search_index_fields = array();
+	
+	/**
+	 *
+	 * @var integer 
+	 */
+	public $search_intro_field = NULL;
 	
 	/**
 	 *
@@ -55,10 +61,8 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 	 * @var DataSource_Hybrid_Record
 	 */
 	public $record = NULL;
+	
 	public $read_sql = NULL;
-	public $indexed_doc;
-	public $intro_field = NULL;
-	public $indexed_doc_query;
 	
 	public $all_doc = TRUE;
 	public $auto_cast = TRUE;
@@ -121,7 +125,7 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 
 		foreach($record->fields as $field)
 		{
-			$fields[$field->name] = $field->header;
+			$fields[$field->id] = $field->header;
 		}
 		
 		return $fields;
@@ -186,7 +190,11 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 			$this->doc_order = Arr::get($values, 'doc_order', array());
 		}
 		
-		$this->intro_field = empty($values['intro_field']) ? NULL : Arr::get($values, 'intro_field');
+		$this->search_intro_field = empty($values['search_intro_field']) ? NULL : Arr::get($values, 'search_intro_field');
+		unset($values['search_intro_field']);
+		
+		$this->search_index_fields = (array) Arr::get($values, 'search_index_fields', array());
+		unset($values['search_index_fields']);
 
 		$status = parent::save($values);
 		
@@ -367,6 +375,52 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 		}
 
 		return $doc;
+	}
+	
+	public function get_indexable_docs($id = NULL) 
+	{
+		$result = array();
+		$fields = $this->search_index_fields;
+		
+		if(!empty($this->search_intro_field))
+		{
+			$fields[] = $this->search_intro_field;
+		}
+
+		$agent = DataSource_Hybrid_Agent::instance($this->id(), $this->id());
+		
+		$query = $agent->get_query_props($this->search_index_fields);
+		
+		if(is_array($id) AND !empty($id))
+		{
+			$query->where('d.id', 'in', $id);
+		}
+		else if(!empty($id))
+		{
+			$query->where('d.id', '=', (int) $id);
+		}
+		
+		foreach ($query->execute() as $row)
+		{
+			$doc_id = $row['id'];
+			$result[$doc_id] = array(
+				'id' => $row['id'],
+				'intro' => Arr::get($row, $this->search_intro_field),
+				'header' => $row['header']
+			);
+			
+			
+			unset($row['id'], $row['ds_id'], $row['published'], $row['header']);
+			$content = '';
+			foreach ($row as $key => $value)
+			{
+				$content .= ' ' . (string)$value;
+			}
+			
+			$result[$doc_id]['content'] = $content;
+		}
+	
+		return $result;
 	}
 	
 	/**
@@ -769,58 +823,5 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 		$this->indexed_doc_query = NULL;
 		
 		parent::__wakeup();
-	}
-	
-	
-	
-	/**
-	 * 
-	 * @param array $ids
-	 * @param string $header
-	 * @param string $content
-	 * @param string $intro
-	 * @return \Datasource_Section
-	 */
-	public function add_to_index(array $ids = NULL, $header = NULL, $content = NULL, $intro = NULL) 
-	{
-		if( ! $this->_is_indexable)
-		{
-			return $this;
-		}
-
-		// TODO Add to index
-	}
-	
-	/**
-	 * 
-	 * @param array $id
-	 * @param string $header
-	 * @param string $content
-	 * @param string $intro
-	 * @return \Datasource_Section
-	 */
-	public function update_index(array $ids, $header = NULL, $content = NULL, $intro = NULL) 
-	{
-		if( ! $this->_is_indexable)
-		{
-			return $this;
-		}
-
-		// TODO Update index
-	}
-	
-	/**
-	 * 
-	 * @param array $ids
-	 * @return \Datasource_Section
-	 */
-	public function remove_from_index( array $ids = NULL) 
-	{
-		if( ! $this->_is_indexable)
-		{
-			return $this;
-		}
-		
-		// TODO Remove index
 	}
 }

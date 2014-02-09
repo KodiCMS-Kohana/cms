@@ -50,14 +50,23 @@
 	<div class="widget-content spoiler indexer-spoiler">
 		<div class="control-group">
 			<div class="controls">
-				<label class="checkbox"><?php echo Form::checkbox( 'is_indexable', $ds->is_indexable() ); ?> <?php echo __('Is indexable'); ?></label>
+				<label class="checkbox"><?php echo Form::checkbox( 'is_indexable', 1, $ds->is_indexable() ); ?> <?php echo __('Is indexable'); ?></label>
 			</div>
 		</div>
 		
 		<div class="control-group">
-			<label class="control-label" for="intro_field"><?php echo __('Index document intro'); ?></label>
+			<label class="control-label" for="search_intro_field"><?php echo __('Index document intro'); ?></label>
 			<div class="controls">
-				<?php echo Form::select('intro_field',  array(__('--- none ---')) + $ds->record_fields_array()); ?>
+				<?php echo Form::select('search_intro_field',  array(__('--- none ---')) + $ds->record_fields_array(), $ds->search_intro_field); ?>
+			</div>
+		</div>
+		
+		<div class="control-group">
+			<label class="control-label" for="search_index_fields"><?php echo __('Index document fields'); ?></label>
+			<div class="controls">
+				<?php echo Form::select('search_index_fields[]',  array(__('--- none ---')) + $ds->record_fields_array(), (array) $ds->search_index_fields, array(
+					'class' => 'input-block-level'
+				)); ?>
 			</div>
 		</div>
 	</div>
@@ -67,7 +76,5 @@
 			'directory' => 'datasources'
 		))); ?>
 	</div>
-	
-	
 <?php echo Form::close(); ?>
 </div>
