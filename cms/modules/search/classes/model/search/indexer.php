@@ -25,7 +25,7 @@ class Model_Search_Indexer {
 		return array( $title, $content );
 	}
 
-	public function add( $module, $id, $title, $content = '', $params = array() )
+	public function add( $module, $id, $title, $content = '', $annotation = '', $params = array() )
 	{
 		$id = (int) $id;
 
@@ -42,21 +42,21 @@ class Model_Search_Indexer {
 		if ( !$result )
 		{
 			return (bool) DB::insert( 'search_index' )
-				->columns( array( 'module', 'id', 'title', 'header', 'content', 'created_on', 'params' ) )
+				->columns( array( 'module', 'id', 'title', 'header', 'content', 'annotation', 'created_on', 'params' ) )
 				->values( array(
-					$module, $id, $title, $header, $content, date( 'Y-m-d H:i:s' ), serialize($params)
+					$module, $id, $title, $header, $content, $annotation, date( 'Y-m-d H:i:s' ), serialize($params)
 				) )
 				->execute();
 		}
 		else
 		{
-			return $this->update($module, $id, $title, $content, $params);
+			return $this->update($module, $id, $title, $content, $annotation, $params);
 		}
 
 		return FALSE;
 	}
 
-	public function update( $module, $id, $title, $content = "", $params = array() )
+	public function update( $module, $id, $title, $content = '', $annotation = '', $params = array() )
 	{
 		$id = (int) $id;
 
@@ -67,6 +67,7 @@ class Model_Search_Indexer {
 				'title' => $title,
 				'header' => $header,
 				'content' => $content,
+				'annotation' => $annotation,
 				'updated_on' => date( 'Y-m-d H:i:s' ),
 				'params' => serialize($params)
 			) )
@@ -77,11 +78,6 @@ class Model_Search_Indexer {
 
 	public function remove( $module, $id = NULL )
 	{
-		if ( !Valid::numeric( $id ) )
-		{
-			return FALSE;
-		}
-
 		$query = DB::delete( 'search_index' )
 			->where( 'module', '=', $module );
 

@@ -194,10 +194,10 @@ class Search {
 	 * @param array $params
 	 * @return bool
 	 */
-	public static function add_to_index( $module, $id, $title, $content = '', $params = array() ) 
+	public static function add_to_index( $module, $id, $title, $content = '', $annotation, $params = array() ) 
 	{
 		$indexer = new Model_Search_Indexer;
-		return $indexer->add($module, $id, $title, $content, $params);
+		return $indexer->add($module, $id, $title, $content, $annotation, $params);
 	}
 	
 	/**
