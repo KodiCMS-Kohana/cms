@@ -54,3 +54,17 @@ Observer::observe('modules::afer_load', function() {
 		)));
 	}
 });
+
+Observer::observe('update_search_index', function() {
+	
+	$ds_ids = Datasource_Data_Manager::get_all();
+	
+	foreach ($ds_ids as $ds_id => $data)
+	{
+		$ds = Datasource_Data_Manager::load($ds_id);
+		
+		if(! $ds->loaded()) continue;
+		
+		$ds->update_index();
+	}
+});

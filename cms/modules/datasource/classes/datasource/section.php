@@ -488,7 +488,7 @@ abstract class Datasource_Section {
 		{
 			Search::add_to_index($this->_ds_table . $this->id(), $ids[0], $header, $content, $intro);
 		}
-		else if(!empty($ids))
+		else
 		{
 			$docs = $this->get_indexable_docs($ids);
 			
@@ -507,7 +507,7 @@ abstract class Datasource_Section {
 	 * @param string $intro
 	 * @return \Datasource_Section
 	 */
-	public function update_index(array $ids, $header = NULL, $content = NULL, $intro = NULL) 
+	public function update_index(array $ids = array(), $header = NULL, $content = NULL, $intro = NULL) 
 	{
 		if( ! $this->is_indexable())
 		{
