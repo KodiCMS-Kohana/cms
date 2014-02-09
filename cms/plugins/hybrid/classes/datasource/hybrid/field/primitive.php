@@ -190,9 +190,9 @@ class DataSource_Hybrid_Field_Primitive extends DataSource_Hybrid_Field {
 			case self::PRIMITIVE_TYPE_DATETIME:
 				$doc->fields[$this->name] = $this->format_date($doc->fields[$this->name]);
 				break;
-			case self::PRIMITIVE_TYPE_EMAIL:
-				$doc->fields[$this->name] = HTML::mailto($doc->fields[$this->name]);
-				break;
+//			case self::PRIMITIVE_TYPE_EMAIL:
+//				$doc->fields[$this->name] = HTML::mailto($doc->fields[$this->name]);
+//				break;
 		}
 	}
 	
