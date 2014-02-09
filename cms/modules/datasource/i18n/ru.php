@@ -18,5 +18,6 @@ return array(
 	'Datasource Header' => 'Название',
 	'Datasource Description' => 'Описание',
 	'Datasource Fields' => 'Поля раздела',
-	'Search indexation' => 'Поисковая индексация'
+	'Search indexation' => 'Поисковая индексация',
+	'Datasource has been saved!' => 'Раздел сохранен!'
 );

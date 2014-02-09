@@ -77,6 +77,8 @@ class Controller_Datasources_Section extends Controller_System_Datasource
 			Messages::errors($e->errors('validation'));
 			$this->go_back();
 		}
+		
+		Messages::success( __( 'Datasource has been saved!' ) );
 
 		$this->go( Route::url('datasources', array(
 			'directory' => 'datasources',
@@ -131,6 +133,8 @@ class Controller_Datasources_Section extends Controller_System_Datasource
 			Messages::errors($e->errors('validation'));
 			$this->go_back();
 		}
+		
+		Messages::success( __( 'Datasource has been saved!' ) );
 
 		// save and quit or save and continue editing?
 		if ( $this->request->post('commit') !== NULL )

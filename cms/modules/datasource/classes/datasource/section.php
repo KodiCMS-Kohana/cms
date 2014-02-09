@@ -477,14 +477,26 @@ abstract class Datasource_Section {
 	 * @param string $intro
 	 * @return \Datasource_Section
 	 */
-	public function add_to_index(array $ids = NULL, $header = NULL, $content = NULL, $intro = NULL) 
+	public function add_to_index(array $ids = array(), $header = NULL, $content = NULL, $intro = NULL) 
 	{
 		if( ! $this->is_indexable())
 		{
 			return $this;
 		}
 
-		// TODO Add to index
+		if(count($ids) == 1 AND $header !== NULL)
+		{
+			Search::add_to_index($this->_ds_table . $this->id(), $ids[0], $header, $content, $intro);
+		}
+		else if(!empty($ids))
+		{
+			$docs = $this->get_indexable_docs($ids);
+			
+			foreach($docs as $doc)
+			{
+				Search::add_to_index($this->_ds_table . $this->id(), $doc['id'], $doc['header'], $doc['content'], $doc['intro']);
+			}
+		}
 	}
 	
 	/**
@@ -502,7 +514,7 @@ abstract class Datasource_Section {
 			return $this;
 		}
 
-		// TODO Update index
+		return $this->add_to_index($ids, $header, $content, $intro);
 	}
 	
 	/**
@@ -517,7 +529,7 @@ abstract class Datasource_Section {
 			return $this;
 		}
 		
-		// TODO Remove index
+		Search::remove_from_index($this->_ds_table . $this->id(), $ids);
 	}
 	
 	public function get_indexable_docs($id = NULL) 
@@ -539,7 +551,9 @@ abstract class Datasource_Section {
 			}
 		}
 
-		return $result->execute()->as_array('id');
+		return $result
+			->execute()
+			->as_array('id');
 	}
 	
 	/**
