@@ -2,5 +2,7 @@
 
 return array(
 	'Page search' => 'Поиск по страницам',
-	'Search key ($_GET)' => 'Ключ ($_GET)'
+	'Search key ($_GET)' => 'Ключ ($_GET)',
+	'Search settings' => 'Настройки поиска',
+	'Update search index' => 'Обновить поисковый индекс'
 );
