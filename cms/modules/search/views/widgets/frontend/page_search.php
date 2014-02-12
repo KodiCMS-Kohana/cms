@@ -4,7 +4,7 @@
 	
 <h3><?php echo __('Total pages found :total', array(':total' => $total_found)); ?></h3>
 
-<?php foreach ($pages as $page): ?>
+<?php foreach ($results as $page): ?>
 <div class="media">
     <a class="pull-left" href="<?php echo $page->url(); ?>">
         <img class="media-object" data-src="holder.js/64x64">

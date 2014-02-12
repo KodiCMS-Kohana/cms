@@ -27,8 +27,8 @@ class Model_Widget_Page_Search extends Model_Widget_Decorator_Pagination {
 
 		$return = array(
 			'total_found' => 0,
-			'pages' => array(),
-			'keyword', $keyword
+			'results' => array(),
+			'keyword' => $keyword
 		);
 
 		if(empty($keyword)) return $return;
@@ -38,19 +38,19 @@ class Model_Widget_Page_Search extends Model_Widget_Decorator_Pagination {
 		if(empty($ids['pages'])) return $return;
 		
 		$pages = array();
-		foreach ($ids['pages'] as $id)
+		foreach ($ids['pages'] as $item)
 		{
-			if(($page = Model_Page_Front::findById($id)) === FALSE )
+			if(($page = Model_Page_Front::findById($item['id'])) === FALSE )
 			{
 				$this->_total--;
 				continue;
 			}
 			
-			$pages[$id] = $page;
+			$pages[$item['id']] = $page;
 		}
 		
 		$return['total_found'] = $this->_total;
-		$return['pages'] = $pages;
+		$return['results'] = $pages;
 
 		return $return;
 	}
