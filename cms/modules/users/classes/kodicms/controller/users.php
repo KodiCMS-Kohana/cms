@@ -64,6 +64,7 @@ class KodiCMS_Controller_Users extends Controller_System_Backend {
 	private function _add(ORM $user)
 	{
 		$data = $this->request->post('user');
+		$profile = $this->request->post('profile');
 		$permissions = $this->request->post('user_permission');
 		$this->auto_render = FALSE;
 		
@@ -79,10 +80,10 @@ class KodiCMS_Controller_Users extends Controller_System_Backend {
 			$user = $user->values($data)->create();
 			$user->update_related_ids('roles', explode(',', $permissions));
 
-			$data['user_id'] = $user->id;
+			$profile['user_id'] = $user->id;
 			
 			$user->profile
-				->values($data)
+				->values($profile)
 				->create();
 
 			Messages::success(__( 'User has been added!' ) );
@@ -209,17 +210,8 @@ class KodiCMS_Controller_Users extends Controller_System_Backend {
 					$permissions = $this->request->post('user_permission');
 					$user->update_related_ids('roles', explode(',', $permissions));
 				}
-				
-				Kohana::$log->add(Log::INFO, 'User :new_user has been updated by :user', array(
-					':new_user' => HTML::anchor(Route::url('backend', array(
-						'controller' => 'users',
-						'action' => 'profile',
-						'id' => $user->id
-					)), $user->username),
-				))->write();
 
 				Messages::success( __( 'User has been saved!' ) );
-				Observer::notify( 'user_after_edit', $user );
 			}
 		}
 		catch (ORM_Validation_Exception $e)
@@ -247,16 +239,6 @@ class KodiCMS_Controller_Users extends Controller_System_Backend {
 		$this->auto_render = FALSE;
 		$id = $this->request->param('id');
 
-		// security (dont delete the first admin)
-		if ( $id <= 1 )
-		{
-			Kohana::$log->add(Log::INFO, ':user trying to delete administrator', array(
-				':user_id' => $id,
-			))->write();
-			
-			throw new Kohana_Exception( 'Action disabled!' );
-		}
-
 		// find the user to delete
 		$user = ORM::factory('user', $id);
 
@@ -268,12 +250,7 @@ class KodiCMS_Controller_Users extends Controller_System_Backend {
 
 		if ( $user->delete() )
 		{
-			Kohana::$log->add(Log::INFO, 'User with id :user_id has been deleted by :user', array(
-				':user_id' => $id,
-			))->write();
-			
 			Messages::success( __( 'User has been deleted!' ) );
-			Observer::notify( 'user_after_delete', $id );
 		}
 		else
 		{
