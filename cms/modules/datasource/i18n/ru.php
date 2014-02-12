@@ -19,5 +19,7 @@ return array(
 	'Datasource Description' => 'Описание',
 	'Datasource Fields' => 'Поля раздела',
 	'Search indexation' => 'Поисковая индексация',
-	'Datasource has been saved!' => 'Раздел сохранен!'
+	'Datasource has been saved!' => 'Раздел сохранен!',
+	'Search in sources' => 'Искать в разделах',
+	'Datasources' => 'Разделы'
 );
