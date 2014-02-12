@@ -54,16 +54,17 @@ class Search {
 			$benchmark = Profiler::start('Search', __FUNCTION__);
 		}
 		
-		$query = self::_get_query( $keyword, $only_title, $modules, $limit, $offset )
-			->select('id', 'module');
+		$query = self::_get_query( $keyword, $only_title, $modules, $limit, $offset );
 		
-		$result = $query->as_object()->execute();
+		$result = $query
+			->select('id', 'module', 'title', 'annotation', 'params')
+			->execute();
 		
 		$ids = array();
 
 		foreach($result as $row)
 		{
-			$ids[$row->module][] = $row->id;
+			$ids[$row['module']][] = $row;
 		}
 
 		if (isset($benchmark)) 
