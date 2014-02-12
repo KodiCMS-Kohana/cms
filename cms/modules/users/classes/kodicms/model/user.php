@@ -194,6 +194,13 @@ class KodiCMS_Model_User extends Model_Auth_User {
 		return Config::get('site', 'default_locale');
 	}
 	
+	public function before_create()
+	{
+		Observer::notify( 'user_before_add', $this );
+		
+		return parent::before_create();
+	}
+	
 	public function after_create()
 	{	
 		Kohana::$log->add(Log::INFO, 'User :new_user has been added by :user', array(
@@ -205,20 +212,54 @@ class KodiCMS_Model_User extends Model_Auth_User {
 		))->write();
 
 		Observer::notify( 'user_after_add', $this );
+		
+		return parent::after_create();
+	}
+	
+	public function before_update()
+	{
+		Observer::notify( 'user_before_update', $this );
+		
+		return parent::before_update();
 	}
 	
 	public function after_update()
 	{
+
+		Kohana::$log->add(Log::INFO, 'User :new_user has been updated by :user', array(
+			':new_user' => HTML::anchor(Route::url('backend', array(
+				'controller' => 'users',
+				'action' => 'profile',
+				'id' => $this->id
+			)), $this->username),
+		))->write();
+				
+		Observer::notify( 'user_after_update', $this );
+		
+		return parent::after_update();
 	}
 	
 	public function before_delete()
 	{
+		// security (dont delete the first admin)
+		if ( $this->id == 1 )
+		{
+			Kohana::$log->add(Log::INFO, ':user trying to delete administrator', array(
+				':user_id' => $this->id,
+			))->write();
+			
+			return FALSE;
+		}
 		
-		return TRUE;
+		Observer::notify( 'user_before_delete', $this );
+		
+		return parent::before_delete();
 	}
 	
 	public function after_delete($id)
 	{
-		
+		Kohana::$log->add(Log::INFO, 'User with id :user_id has been deleted by :user', array(
+			':user_id' => $id,
+		))->write();
 	}
 }
