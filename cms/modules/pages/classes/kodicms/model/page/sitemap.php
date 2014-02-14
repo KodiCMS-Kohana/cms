@@ -43,9 +43,11 @@ class KodiCMS_Model_Page_Sitemap {
 			foreach ($res_pages as $page)
 			{
 				$_pages[$page->id] = $page->as_array();
-				$_pages[$page->id]['uri'] = '/' . $page->get_uri();
+				$_pages[$page->id]['uri'] = ''; //'/' . $page->get_uri();
+				$_pages[$page->id]['url'] = '';
+				$_pages[$page->id]['slug'] = $page->slug;
 				$_pages[$page->id]['level'] = 0;
-				$_pages[$page->id]['is_active'] = URL::match($_pages[$page->id]['uri']);
+				$_pages[$page->id]['is_active'] = TRUE;//URL::match($_pages[$page->id]['uri']);
 			}
 
 			$pages = array();
@@ -61,8 +63,11 @@ class KodiCMS_Model_Page_Sitemap {
 					foreach ($pages[$page['id']] as & $_page)
 					{
 						$_page['level'] = $page['level'] + 1;
-						
 						$_page['parent'] = $page;
+						
+						$_page['uri'] = $page['uri'] . '/' . $_page['slug'];
+						$_page['url'] = URL::frontend($_page['uri']);
+						$_page['is_active'] = URL::match($_page['uri']);
 
 						if(empty($_page['layout_file']))
 						{
