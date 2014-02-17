@@ -30,8 +30,9 @@ return array(
 	'Base url (format: :format)' => 'Адрес сайта (Формат: :format)',
 	'Current date (format: :format)' => 'Текущая дата (Формат: :format)',
 	'Current time (format: :format)' => 'Текущее время (Формат: :format)',
-	'Email template not found!' => 'Почтовый шаблон не найден',
-	'Email template has been saved!' => 'Почтовый шаблон сохранен',
+	'Email template not found!' => 'Почтовый шаблон не найден!',
+	'Email template has been saved!' => 'Почтовый шаблон сохранен!',
+	'Email template has been deleted!' => 'Почтовый шаблон удален!',
 	
 	/*********************** Email types *********************************/
 	'Email types' => 'Типы почтовых событий',
@@ -42,7 +43,8 @@ return array(
 	'Linked email templates' => 'Связанные почтовые шаблоны',
 	'Add linked template' => 'Добавить новый шаблон',
 	'Add email type' => 'Новое событие',
-	'Email type has been saved!' => 'Почтовое событие сохранено',
-	'Email type not found!' => 'Почтовое событие не найдено',
+	'Email type has been saved!' => 'Почтовое событие сохранено!',
+	'Email type not found!' => 'Почтовое событие не найдено!',
 	'Edit email type' => 'Редактирование события',
+	'Email type has been deleted!' => 'Почтовое событие удалено!',
 );
