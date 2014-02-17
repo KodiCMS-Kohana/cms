@@ -66,6 +66,7 @@ return array(
 	'Layout blocks succefully update!' => 'Список блоков успешно обновлен!',
 	'Read only' => 'Только чтение',
 	'Size' => 'Размер',
+	'Rebuild block list' => 'Обновлять список блоков',
 
 	/*********************** Settings *******************/
 	'General settings' => 'Главные настройки',
@@ -204,10 +205,10 @@ return array(
 	'Delete pages' => 'Удалять страницы',
 	'Active' => 'Активен',
 	'Inactive' => 'Неактивен',
-	'Manage api' => 'Управлять API сайта',
 	'Manage social accounts' => 'Управлять аккаунтами соц. сетей',
-	'View settings' => 'Видеть раздел',
+	'View settings' => 'Видеть раздел настроек',
 	'View system information' => 'Видеть информацию о системе',
+	'View PHP info' => 'Видеть вкладку PHP info',
     
     //============Dropzone============//
     'Drop files here to upload' => 'Перетащите сюда файлы для загрузки на сервер',

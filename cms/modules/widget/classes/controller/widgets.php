@@ -7,6 +7,8 @@
  */
 class Controller_Widgets extends Controller_System_Backend {
 
+	public $allowed_actions = array('template');
+
 	public function before()
 	{
 		parent::before();
@@ -223,8 +225,6 @@ class Controller_Widgets extends Controller_System_Backend {
 			{
 				$widget->set_cache_settings( $data );
 			}
-			
-			unset($data['caching'], $data['cache_lifetime'], $data['cache_tags']);
 
 			$widget
 				->set_values( $data );

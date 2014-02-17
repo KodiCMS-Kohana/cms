@@ -233,7 +233,11 @@ class Widget_Manager {
 
 		$widget = unserialize( $result['code'] );
 		$widget->id = $result['id'];
-
+		$widget->name = $result['name'];
+		$widget->description = $result['description'];
+		$widget->type = $result['type'];
+		$widget->template = $result['template'];
+		
 		return $widget;
 	}
 	
