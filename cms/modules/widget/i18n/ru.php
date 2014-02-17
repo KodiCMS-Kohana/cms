@@ -61,7 +61,7 @@ return array(
 	'Field source key' => 'Ключ',
 	'Field value type' => 'Типа поля',
 	'Validator' => 'Валидация',
-	'Field error message' => 'Текст ошишки',
+	'Field error message' => 'Текст ошибки',
 	'Field error' => 'Ошибки',
 	
 	'Copy widgets from' => 'Скопировать виджеты у страницы',
