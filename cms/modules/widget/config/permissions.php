@@ -28,7 +28,7 @@ return array(
 		),
 		array(
 			'action' => 'roles',
-			'description' => 'Manage permissions'
+			'description' => 'Manage widget permissions'
 		),
 	),
 );

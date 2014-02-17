@@ -90,6 +90,12 @@ abstract class Model_Widget_Decorator {
 	 * @var boolean 
 	 */
 	public $crumbs = FALSE;
+	
+	/**
+	 *
+	 * @var boolean 
+	 */
+	public $use_caching = TRUE;
 
 	/**
 	 *
@@ -415,6 +421,8 @@ abstract class Model_Widget_Decorator {
 	 */
 	public function set_values(array $data)
 	{
+		unset($data['caching'], $data['cache_lifetime'], $data['cache_tags']);
+
 		if(empty($data['roles']))
 		{
 			$data['roles'] = array();
@@ -531,7 +539,21 @@ abstract class Model_Widget_Decorator {
 	{
 		$vars = get_object_vars($this);
 
-		unset($vars['_ctx']);
+		unset(
+			$vars['_ctx'], 
+			$vars['type'], 
+			$vars['id'], 
+			$vars['template'],
+			$vars['name'], 
+			$vars['description'],
+			$vars['backend_template'],
+			$vars['frontend_template'],
+			$vars['use_template'],
+			$vars['block'],
+			$vars['position'],
+			$vars['template_params']
+		);
+
 		return array_keys($vars);
 	}
 

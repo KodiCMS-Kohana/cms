@@ -91,6 +91,6 @@ return array(
 	'Set widget location' => 'Устанавливать расположение виджета',
 	'Manage widget cache' => 'Управлять кешем виджета',
 	'Delete widget' => 'Удалять виджет',
-	
+	'Manage widget permissions' => 'Управлять настройками видимости',
 	'Document page' => 'Страница документа',
 );
