@@ -9,6 +9,7 @@ nbproject/*
 !/cms/logs/*.html
 /.idea/
 /public/.tmb/
+!/public/*.html
 cms/media/js/i18n
 /snippets/*
 /layouts/*
