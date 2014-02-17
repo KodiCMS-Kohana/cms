@@ -7901,6 +7901,9 @@ footer a {
 #pageEditOptions label:first-child {
   margin-top: 0;
 }
+#pageEditOptions .select2-container {
+  min-width: 0;
+}
 #login-form {
   width: 480px;
   border-width: 0;
