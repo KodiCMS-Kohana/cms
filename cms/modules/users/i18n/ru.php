@@ -54,5 +54,6 @@ return array(
 	'Delete roles' => 'Удалять роли',
 	'Section' => 'Раздел',
 	'Section permissions' => 'Доступ к разделам',
-	'Notifications' => 'Уведомления'
+	'Notifications' => 'Уведомления',
+	'View user permissions' => 'Видеть права пользователя'
 );

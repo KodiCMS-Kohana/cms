@@ -33,6 +33,10 @@ return array(
 	'Email template not found!' => 'Почтовый шаблон не найден!',
 	'Email template has been saved!' => 'Почтовый шаблон сохранен!',
 	'Email template has been deleted!' => 'Почтовый шаблон удален!',
+	'View Email Templates' => 'Видеть почтовые шаблоны',
+	'Add Email Templates' => 'Создавать почтовые шаблоны',
+	'Edit Email Templates' => 'Редактировать почтовые шаблоны',
+	'Delete Email Templates' => 'Удалять почтовые шаблоны',
 	
 	/*********************** Email types *********************************/
 	'Email types' => 'Типы почтовых событий',
@@ -47,4 +51,8 @@ return array(
 	'Email type not found!' => 'Почтовое событие не найдено!',
 	'Edit email type' => 'Редактирование события',
 	'Email type has been deleted!' => 'Почтовое событие удалено!',
+	'View Email Types' => 'Видеть почтовые события',
+	'Add Email Types' => 'Создавать почтовые события',
+	'Edit Email Types' => 'Редактировать почтовые события',
+	'Delete Email Types' => 'Удалять почтовые события',
 );
