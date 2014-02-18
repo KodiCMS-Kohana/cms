@@ -4,5 +4,6 @@ return array(
 	__('Datasource') => array(
 		'hybrid_document' => __('Hybrid document'),
 		'hybrid_headline' => __('Hybrid Headline'),
+		'hybrid_creator' => __('Hybrid Document Creator'),
 	)
 );

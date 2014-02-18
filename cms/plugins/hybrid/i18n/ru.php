@@ -82,5 +82,11 @@ return array(
 	'Hybrid docs' => 'Гибридные документы',
 	'Change bread crumbs' => 'Изменять хлебные крошки',
 	'Index document intro' => 'Интро документа',
-	'Index document fields' => 'Индексируемые поля'
+	'Index document fields' => 'Индексируемые поля',
+	'Hybrid section' => 'Раздел ГД данных',
+	'Properties' => 'Опции',
+	'Set document published' => 'Опубликовать документ после создания',
+	'Hybrid data source' => 'Источник данных ГД',
+	'Hybrid data source prefix' => 'Префикс массива',
+	'Redirect url on success' => 'Редирект при успешном создании (URI)'
 );
