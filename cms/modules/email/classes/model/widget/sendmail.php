@@ -105,8 +105,6 @@ class Model_Widget_SendMail extends Model_Widget_Decorator {
 	public function on_page_load() 
 	{
 		$this->_errors = array();
-		
-		$this->_fetch_template();
 
 		$this->_fetch_fields();
 		
@@ -116,9 +114,6 @@ class Model_Widget_SendMail extends Model_Widget_Decorator {
 			
 			if( !empty($this->_errors))
 			{
-				Flash::set('form_errors', $this->_errors);
-				Flash::set('form_values', $this->_values);
-				
 				$json['errors'] = $this->_errors;
 				$json['values'] = $this->_values;
 			} 
