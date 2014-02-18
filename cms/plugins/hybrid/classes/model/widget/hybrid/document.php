@@ -83,23 +83,6 @@ class Model_Widget_Hybrid_Document extends Model_Widget_Hybrid {
 		return $this;
 	}
 	
-	/**
-	 * 
-	 * @return array
-	 */
-	public function options()
-	{
-		$datasources = Datasource_Data_Manager::get_all('hybrid');
-		
-		$options = array();
-		foreach ($datasources as $value)
-		{
-			$options[$value['id']] = $value['name'];
-		}
-		
-		return $options;
-	}
-	
 	public function get_doc_ids()
 	{
 		$data = array('ID');

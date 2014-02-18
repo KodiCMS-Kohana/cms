@@ -1,6 +1,23 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
 abstract class Model_Widget_Hybrid extends Model_Widget_Decorator_Pagination {
+
+	/**
+	 * 
+	 * @return array
+	 */
+	public function options()
+	{
+		$datasources = Datasource_Data_Manager::get_all('hybrid');
+		
+		$options = array();
+		foreach ($datasources as $value)
+		{
+			$options[$value['id']] = $value['name'];
+		}
+
+		return $options;
+	}
 	
 	/**
 	 * @param array array

@@ -118,23 +118,6 @@ class Model_Widget_Hybrid_Headline extends Model_Widget_Hybrid {
 		
 		return $data;
 	}
-
-	/**
-	 * 
-	 * @return array
-	 */
-	public function options()
-	{
-		$datasources = Datasource_Data_Manager::get_all('hybrid');
-		
-		$options = array();
-		foreach ($datasources as $value)
-		{
-			$options[$value['id']] = $value['name'];
-		}
-
-		return $options;
-	}
 	
 	public function count_total()
 	{
