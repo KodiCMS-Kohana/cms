@@ -29,6 +29,11 @@ cms.init.add('widgets_edit', function() {
 		var $cache_lifetime = $('#cache_lifetime');
 		
 		$cache_lifetime.prop('disabled', !$caching_input.prop('checked'));
+		
+		if($caching_input.prop('checked'))
+			$('#cache_settings_container').show();
+		else
+			$('#cache_settings_container').hide();
 	}
 	
 	$('#caching').on('change', cache_enabled).change();

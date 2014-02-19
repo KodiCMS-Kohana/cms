@@ -7,8 +7,6 @@
  */
 class KodiCMS_Controller_Layout extends Controller_System_Backend {
 	
-	public $allowed_actions = array('rebuild');
-	
 	public function before()
 	{
 		if($this->request->action() == 'edit' AND ACL::check( 'layout.view' ))

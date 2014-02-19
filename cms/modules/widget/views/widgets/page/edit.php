@@ -1,5 +1,4 @@
 <?php if( ACL::check( 'widgets.index')): ?>
-
 <script>
 	var LAYOUT_BLOCKS = <?php echo json_encode( $blocks ); ?>;
 </script>
@@ -17,8 +16,11 @@
 		<?php endforeach; ?>
 	</select>
 	<?php else: ?>
+	
+	<?php if( ACL::check( 'widgets.location')): ?>
 	<a class="btn btn-success fancybox.ajax popup" href="/api-widget.list/<?php echo $page->id; ?>" id="addWidgetToPage"><i class="icon-plus"></i> <?php echo __( 'Add widget to page' ); ?></a>
 	<br /><br />
+	<?php endif; ?>
 	<table class="table table-hover" id="widget-list">
 		<colgroup>
 			<col />

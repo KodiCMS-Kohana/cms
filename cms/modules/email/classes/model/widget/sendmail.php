@@ -20,6 +20,7 @@ class Model_Widget_SendMail extends Model_Widget_Decorator {
 	protected $_values = array();
 	
 	public $use_template = FALSE;
+	public $use_caching = FALSE;
 
 	public $fields = array();
 	
@@ -109,24 +110,47 @@ class Model_Widget_SendMail extends Model_Widget_Decorator {
 
 		$this->_fetch_fields();
 		
-		if( !empty($this->_errors))
+		if(Request::current()->is_ajax())
 		{
-			Flash::set('form_errors', $this->_errors);
-			Flash::set('form_values', $this->_values);
+			$json = array('status' => FALSE);
 			
-			$query = URL::query(array('status' => 'error'), FALSE);
-		} 
-		else if( $this->send_message() )
-		{
-			$query = URL::query(array('status' => 'ok'), FALSE);
+			if( !empty($this->_errors))
+			{
+				Flash::set('form_errors', $this->_errors);
+				Flash::set('form_values', $this->_values);
+				
+				$json['errors'] = $this->_errors;
+				$json['values'] = $this->_values;
+			} 
+			else if( $this->send_message() )
+			{
+				$json = array('status' => TRUE);
+			}
+			
+			Request::current()->headers( 'Content-type', 'application/json' );		
+			$this->_ctx->response()->body(json_encode($json));
 		}
 		else
 		{
-			$query = URL::query(array('status' => 'error'), FALSE);
+			if( !empty($this->_errors))
+			{
+				Flash::set('form_errors', $this->_errors);
+				Flash::set('form_values', $this->_values);
+
+				$query = URL::query(array('status' => 'error'), FALSE);
+			} 
+			else if( $this->send_message() )
+			{
+				$query = URL::query(array('status' => 'ok'), FALSE);
+			}
+			else
+			{
+				$query = URL::query(array('status' => 'error'), FALSE);
+			}
+
+			$referrer = Request::current()->referrer();
+			HTTP::redirect( preg_replace('/\?.*/', '', $referrer) . $query, 302);
 		}
-		
-		$referrer = Request::current()->referrer();
-		HTTP::redirect( preg_replace('/\?.*/', '', $referrer) . $query, 302);
 	}
 
 	public function send_message()
@@ -193,7 +217,6 @@ class Model_Widget_SendMail extends Model_Widget_Decorator {
 
 	protected function _get_field_value( $field ) 
 	{
-		
 		$key = $field['id'];
 		$value = NULL;
 
