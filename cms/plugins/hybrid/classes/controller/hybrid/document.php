@@ -33,7 +33,7 @@ class Controller_Hybrid_Document extends Controller_System_Datasource
 	}
 
 	public function action_view()
-	{
+	{	
 		$id = (int) $this->request->query('id');
 		$action = $this->request->action();
 
@@ -56,6 +56,8 @@ class Controller_Hybrid_Document extends Controller_System_Datasource
 		{
 			return $this->_save($this->section(), $doc);
 		}
+		
+		WYSIWYG::load_filters();
 		
 		$post_data = Session::instance()->get_once('post_data');
 		$doc->read_values($post_data)->fetch_values();
