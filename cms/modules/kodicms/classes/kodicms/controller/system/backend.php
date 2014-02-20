@@ -33,7 +33,6 @@ class KodiCMS_Controller_System_Backend extends Controller_System_Template
 				'page' => $this->page
 			));
 			
-			
 			if( $this->request->is_iframe() )
 			{
 				$navigation = NULL;
@@ -52,12 +51,6 @@ class KodiCMS_Controller_System_Backend extends Controller_System_Template
 			$this->template->bind_global('navigation', $navigation);
 			
 			Assets::js('jquery', ADMIN_RESOURCES . 'libs/jquery.min.js');
-			
-			Assets::css('jquery-ui', ADMIN_RESOURCES . 'libs/jquery-ui/css/flick/jquery-ui-1.10.2.custom.css', 'jquery');
-			Assets::js('jquery-ui', ADMIN_RESOURCES . 'libs/jquery-ui/js/jquery-ui.custom.min.js', 'jquery');
-			
-			Assets::js('underscore', ADMIN_RESOURCES . 'libs/underscore-min.js', 'jquery-ui');
-			Assets::js('backbone', ADMIN_RESOURCES . 'libs/backbone-min.js', 'underscore');
 			
 			Assets::css('dropzone', ADMIN_RESOURCES . 'libs/dropzone/css/basic.css', 'jquery');
 			Assets::js('dropzone', ADMIN_RESOURCES . 'libs/dropzone/dropzone.min.js', 'jquery');
@@ -95,10 +88,9 @@ class KodiCMS_Controller_System_Backend extends Controller_System_Template
 		}
 	}
 	
-	public function after()
-	{
+//	public function after()
+//	{
 //		Assets::minify();
-		parent::after();
-		
-	}
+//		parent::after();
+//	}
 }

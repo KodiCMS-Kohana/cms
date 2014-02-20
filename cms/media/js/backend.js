@@ -7,7 +7,6 @@ var cms = {
 	views: {},
 	collections: {},
 	routes: {},
-	event: _.extend({}, Backbone.Events),
 	
 	// Error
 	error: function (msg, e) {
@@ -37,9 +36,12 @@ var cms = {
 	},
 	// Convert slug
 	convert_dict: {
-		'ą':'a', 'ä':'a', 'č':'c', 'ę':'e', 'ė':'e', 'i':'i', 'į':'i', 'š':'s', 'ū':'u', 'ų':'u', 'ü':'u', 'ž':'z', 'ö':'o'
+		'ą':'a', 'ä':'a', 'č':'c', 'ę':'e', 'ė':'e', 'i':'i', 'į':'i', 'š':'s', 'ū':'u', 'ų':'u', 'ü':'u', 'ž':'z', 'ö':'o',
+		// Russian + Ukrainian (Suurce: http://transliteration.ru/iso_for_url/)
+		'а':'a','б':'b','в':'v','г':'g','д':'d','е':'e','ё':'yo','ж':'zh','з':'z','и':'i','й':'j','к':'k','л':'l','м':'m','н':'n','о':'o','п':'p','р':'r','с':'s','т':'t','у':'u','ф':'f','х':'h','ц':'c','ч':'ch','ш':'sh','щ':'shh','ы':'y','э':'e','ю':'yu','я':'ya','ь':'','ъ':'','і':'i','ї':'yi','А':'A','Б':'B','В':'V','Г':'G','Д':'D','Е':'E','Ё':'YO','Ж':'ZH','З':'Z','И':'I','Й':'J','К':'K','Л':'L','М':'M','Н':'N','О':'O','П':'P','Р':'R','С':'S','Т':'T','У':'U','Ф':'F','Х':'H','Ц':'C','Ч':'CH','Ш':'SH','Щ':'SHH','Ы':'Y','Э':'E','Ю':'YU','Я':'YA','І':'I','Ї':'YI','Є':'E','Ь':'','Ъ':'',
+		// Lithuanian
+		'Ą':'A','Č':'C','Ę':'E','Ė':'E','Į':'I','Š':'S','Ū':'U','Ų':'U','Ž':'Z','ą':'a','č':'c','ę':'e','ė':'e','i':'i','į':'i','š':'s','ū':'u','ų':'u','ž':'z'
 	},
-	
 	convertSlug: function (str, separator) {
 		if(!separator) var separator = '-';
 		return str
@@ -197,6 +199,21 @@ var cms = {
 				return filter[3](this.editors[textarea_id], command, textarea_id, data);
 			
 			return false;
+		}
+	},
+	filemanager: {
+		open: function(object, type) {
+
+			return $.fancybox.open({
+				href : BASE_URL + '/elfinder/',
+				type: 'iframe'
+			}, {
+				autoSize: false,
+				width: 1000,
+				afterLoad: function() {
+					this.content[0].contentWindow.elfinderInit(object, type)
+				}
+			});
 		}
 	}
 };
@@ -592,6 +609,25 @@ cms.ui.add('btn-confirm', function() {
 
 		return false;
 	})
+}).add('filemanager', function() {
+	var input = $('input.input-filemanager:not(.init)')
+		.addClass('init')
+	
+	$('<button class="btn" type="button"><i class="icon-folder-open"></i></button>')
+		.insertAfter(input)
+		.on('click', function() {
+			cms.filemanager.open($(this).prev());
+		});
+		
+	$('body').on('click', '.btn-filemanager', function() {
+		var el = $(this).data('el');
+		var type = $(this).data('type');
+
+		if(!el) return false;
+		
+		cms.filemanager.open(el, type);
+		return false;
+	});
 });
 
 var Api = {
