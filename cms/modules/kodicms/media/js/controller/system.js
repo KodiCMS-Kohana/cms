@@ -12,6 +12,11 @@ cms.init.add('system_settings', function () {
 		});
 		return false;
 	});
+	
+	$('.widget').on('click', '#clear-logs', function() {
+		Api.post('log.clear_old', {}, function() {});
+		return false;
+	});
 });
 
 cms.init.add('system_information', function () {

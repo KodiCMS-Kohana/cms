@@ -8,6 +8,11 @@ Observer::observe('view_user_profile_information', function($user_id) {
 	));
 });
 
+Observer::observe('view_setting_plugins', function() {
+	echo View::factory('logs/settings_page');
+});
+
+
 //Observer::observe('scheduler_callbacks', function() {
 //	scheduler::add(function($from, $to) {
 //		$from = date('Y-m-d', $from);

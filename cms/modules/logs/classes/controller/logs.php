@@ -41,9 +41,9 @@ class Controller_Logs extends Controller_System_Backend {
 			)),
 			new Sidebar_Fields_Select(array(
 				'name' => 'level[]',
-				'label' => 'Log level',
+				'label' => __('Log level'),
 				'options' => Log::levels(),
-				'selected' => (array)$this->request->query('level')
+				'selected' => (array) $this->request->query('level')
 			))
 		));
 		
