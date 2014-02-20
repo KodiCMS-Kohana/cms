@@ -11,7 +11,7 @@
 		<div class="container-fluid">
 			<div class="row-fluid">
 				<div id="pageEdit" class="box span12">
-					<div class="widget widget-no-border-radius">
+					<div class="widget ">
 						<div class="widget-title">
 
 							<div class="control-group">
@@ -25,7 +25,7 @@
 							</div>
 						</div>
 						
-						<div class="widget-content-bg widget-no-border-radius">
+						<div class="widget-content-bg ">
 							<div class="control-group">
 								<?php echo $category->label('path_part', array('class' => 'control-label')); ?>
 								<div class="controls">

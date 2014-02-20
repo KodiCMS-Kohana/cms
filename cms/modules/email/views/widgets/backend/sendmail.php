@@ -63,7 +63,7 @@
 		});
 	})
 </script>
-<div class="widget-content widget-no-border-radius" id="fields">
+<div class="widget-content " id="fields">
 	<div id="sample_field" class="hide">
 		<div class="well field">
 			<h4 class="field-title"></h4>
