@@ -73,6 +73,9 @@ class KodiCMS_Controller_System_Backend extends Controller_System_Template
 			Assets::css('select2', ADMIN_RESOURCES . 'libs/select2/select2.css', 'jquery');
 			Assets::js('select2', ADMIN_RESOURCES . 'libs/select2/select2.min.js', 'jquery');
 			
+			Assets::css('datepicker', ADMIN_RESOURCES . 'libs/datepicker/jquery.datetimepicker.css', 'jquery');
+			Assets::js('datepicker', ADMIN_RESOURCES . 'libs/datepicker/jquery.datetimepicker.js', 'jquery');
+			
 			Assets::css('global', ADMIN_RESOURCES . 'css/common.css');
 			Assets::js('global', ADMIN_RESOURCES . 'js/backend.js', 'backbone');
 

@@ -21,11 +21,19 @@ class Controller_API_Log extends Controller_System_Api {
 			$limit == 100;
 		}
 		
-		if(!empty($uids))
+		if( ! empty($uids))
+		{
 			$uids = explode(',', $uids);
+		}
 		
-		if(!empty($level))
+		if( ! empty($level))
+		{
 			$level = explode(',', $level);
+		}
+		else
+		{
+			$level = array(Log::INFO);
+		}
 
 		$list = DB::select('logs.id', 'logs.created_on', 'logs.level', 'logs.message', 'logs.user_id')
 			->select('users.email', 'users.username')

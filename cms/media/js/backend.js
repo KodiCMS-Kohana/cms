@@ -446,16 +446,18 @@ cms.ui.add('btn-confirm', function() {
 		.find('h3, h4')
 		.append(' <i class="spoiler-toggle-icon '+icon_close+'"></i>');
 }).add('datepicker', function() {
-	// Datepicker
-    $('.datepicker').datepicker({
-        // options
-        dateFormat:'yy-mm-dd',
-
-        // events
-        onSelect:function (dateText, inst) {
-            inst.input.val(dateText + ' 00:00:00');
-        }
-    });
+	$('.datetimepicker').datetimepicker({
+		format:'Y-m-d H:i:00',
+		lang: LOCALE,
+		dayOfWeekStart:1
+	});
+	
+	$('.datepicker').datetimepicker({
+		timepicker: false,
+		format: 'Y-m-d',
+		lang: LOCALE,
+		dayOfWeekStart:1
+	});
 }).add('slug', function() {
 	// Slug & metadata
     var slugs = {};

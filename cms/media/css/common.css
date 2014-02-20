@@ -5796,6 +5796,9 @@ a .icon-flip-vertical:before {
   position: relative;
   width: auto;
 }
+.widget.widget-sidebar .select2-container {
+  min-width: 0;
+}
 .widget .widget-title,
 .widget .widget-header {
   border: 1px solid #D5D5D5;
