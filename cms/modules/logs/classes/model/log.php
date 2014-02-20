@@ -47,15 +47,21 @@ class Model_Log extends ORM {
 			$this->where('level', 'in', $levels);
 		}
 		
-		$created_on = $request->query('created_on');
-		
-		if(is_array($created_on))
+		$date_range = $request->query('created_on');
+		if(empty($date_range))
 		{
-			$this->where(DB::expr('DATE(created_on)'), 'between', $created_on);
+			$this->request->query('created_on', array(
+				date('Y-m-d', strtotime("-1 month")), date('Y-m-d')
+			));
 		}
-		else if(Valid::date($created_on))
+		
+		if(is_array($date_range))
 		{
-			$this->where(DB::expr('DATE(created_on)'), '=', $created_on);
+			$this->where(DB::expr('DATE(created_on)'), 'between', $date_range);
+		}
+		else if(Valid::date($date_range))
+		{
+			$this->where(DB::expr('DATE(created_on)'), '=', $date_range);
 		}
 		
 		return $this;

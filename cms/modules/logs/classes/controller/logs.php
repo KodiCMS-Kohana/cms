@@ -17,14 +17,6 @@ class Controller_Logs extends Controller_System_Backend {
 	
 	public function action_index()
 	{
-		$date_range = $this->request->query('created_on');
-		if(empty($date_range))
-		{
-			$this->request->query('created_on', array(
-				date('Y-m-d', strtotime("-1 month")), date('Y-m-d')
-			));
-		}
-
 		$logs = ORM::factory('log')->filter();
 
 		$pager = Pagination::factory(array(
@@ -49,9 +41,9 @@ class Controller_Logs extends Controller_System_Backend {
 			)),
 			new Sidebar_Fields_Select(array(
 				'name' => 'level[]',
-				'label' => 'Log level',
+				'label' => __('Log level'),
 				'options' => Log::levels(),
-				'selected' => (array)$this->request->query('level')
+				'selected' => (array) $this->request->query('level')
 			))
 		));
 		
