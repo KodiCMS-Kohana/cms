@@ -7,6 +7,16 @@
  */
 class Controller_API_Log extends Controller_System_Api {
 	
+	public function post_clear_old()
+	{
+		$delete = DB::delete('logs')
+			->where(DB::expr('DATE(created_on)'), '<', DB::expr('CURDATE() - INTERVAL 1 MONTH'))
+			->execute();
+		
+		$this->response((bool) $delete);
+		$this->message(__('Old logs has been deleted'));
+	}
+
 	public function get_get()
 	{		
 		$uids = $this->param('uids');

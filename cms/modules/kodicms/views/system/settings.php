@@ -69,12 +69,6 @@
 					<?php echo Form::select( 'setting[site][debug]', Form::choises(), Config::get('site', 'debug' )); ?>
 				</div>
 			</div>
-			<div class="control-group">
-				<label class="control-label"><?php echo __( 'Logs level' ); ?></label>
-				<div class="controls">
-					<?php echo Form::select( 'setting[site][log_level]', Log::levels(), (int) Config::get('site', 'log_level' )); ?>
-				</div>
-			</div>
 			<hr />
 			<div class="control-group">
 				<label class="control-label"><?php echo __( 'Revision templates' ); ?></label>
