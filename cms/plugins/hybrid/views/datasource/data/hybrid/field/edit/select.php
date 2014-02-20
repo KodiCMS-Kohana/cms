@@ -1,4 +1,4 @@
-<div class="widget-content widget-no-border-radius">
+<div class="widget-content ">
 	<div class="control-group">
 		<label class="control-label" for="length"><?php echo __('Field options'); ?></label>
 		<div class="controls">

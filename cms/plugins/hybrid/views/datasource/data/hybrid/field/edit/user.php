@@ -1,4 +1,4 @@
-<div class="widget-content widget-no-border-radius">
+<div class="widget-content ">
 	<div class="control-group">
 		<label class="control-label" for="only_current"><?php echo __('Set current user'); ?></label>
 		<div class="controls">

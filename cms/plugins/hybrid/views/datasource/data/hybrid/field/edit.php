@@ -8,7 +8,7 @@
 	<div class="widget-header spoiler-toggle" data-spoiler=".general-spoiler">
 		<h3><?php echo __( 'Edit field' ); ?></h3>
 	</div>
-	<div class="widget-content widget-no-border-radius spoiler general-spoiler" id="filed-type">
+	<div class="widget-content  spoiler general-spoiler" id="filed-type">
 		<div class="control-group">
 			<label class="control-label" for="name"><?php echo __('Field key'); ?></label>
 			<div class="controls">
@@ -36,7 +36,7 @@
 	}
 	catch(Exception $e) {} ?>
 
-	<div class="widget-content widget-no-border-radius">
+	<div class="widget-content ">
 		<div class="control-group">
 			<label class="control-label" for="isreq"><?php echo __('Required'); ?></label>
 			<div class="controls">
