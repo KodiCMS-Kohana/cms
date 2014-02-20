@@ -1,12 +1,17 @@
 /* ===================================================
 	Widget
  ===================================================*/
-@WidgetBorderRadius:       5px;
 .widget {
     clear: both;
     margin-bottom: 2em;
     position: relative;
     width: auto;
+	
+	&.widget-sidebar {
+		.select2-container {
+			min-width: 0;
+		}
+	}
 
 	.widget-title, .widget-header {
 		border: 1px solid #D5D5D5;
