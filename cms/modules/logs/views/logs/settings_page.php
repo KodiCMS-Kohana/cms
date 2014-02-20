@@ -1,5 +1,5 @@
 <div class="widget-header spoiler-toggle" data-spoiler=".logs-spoiler" data-icon="time">
-	<h3><?php echo __('Logs'); ?></h3>
+	<h3><?php echo __('Log settings'); ?></h3>
 </div>
 <div class="widget-content spoiler logs-spoiler">
 	<div class="well">

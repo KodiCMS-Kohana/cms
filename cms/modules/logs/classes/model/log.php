@@ -50,7 +50,7 @@ class Model_Log extends ORM {
 		$date_range = $request->query('created_on');
 		if(empty($date_range))
 		{
-			$this->request->query('created_on', array(
+			$request->query('created_on', array(
 				date('Y-m-d', strtotime("-1 month")), date('Y-m-d')
 			));
 		}
