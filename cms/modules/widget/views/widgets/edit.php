@@ -148,7 +148,7 @@
 	<?php echo $content; ?>
 
 	<?php if( ACL::check('widgets.location') ): ?>
-	<div class="widget-content widget-no-border-radius">
+	<div class="widget-content ">
 		<?php echo Bootstrap_Element_Button::factory(array(
 			'href' => Route::url('backend', array(
 					'controller' => 'widgets', 

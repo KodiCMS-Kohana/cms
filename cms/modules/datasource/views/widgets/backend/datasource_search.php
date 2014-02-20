@@ -1,4 +1,4 @@
-<div class="widget-content widget-no-border-radius">
+<div class="widget-content ">
 	<?php
 		echo Bootstrap_Form_Element_Control_Group::factory(array(
 			'element' => Bootstrap_Form_Element_Input::factory(array(
@@ -12,7 +12,7 @@
 <div class="widget-header">
 	<h4><?php echo __('Search in sources'); ?></h4>
 </div>
-<div class="widget-content widget-no-border-radius">
+<div class="widget-content ">
 	<?php
 		echo Bootstrap_Form_Element_Control_Group::factory(array(
 			'element' => Bootstrap_Form_Element_Select::factory(array(
@@ -24,7 +24,7 @@
 		));
 	?>
 </div>
-<div class="widget-content widget-no-border-radius">
+<div class="widget-content ">
 	<?php foreach ($widget->sources() as $id => $header): if(!in_array($id, $widget->sources)) continue; ?>
 	<?php
 		echo Bootstrap_Form_Element_Control_Group::factory(array(
