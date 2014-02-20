@@ -5867,6 +5867,7 @@ a .icon-flip-vertical:before {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fffafafa', endColorstr='#ffe9e9e9', GradientType=0);
   border-color: #E9E9E9 #E9E9E9 #c3c3c3;
   border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
+  text-shadow: none;
 }
 .widget .widget-header h3,
 .widget .widget-header h4 {
@@ -5878,7 +5879,6 @@ a .icon-flip-vertical:before {
   line-height: 18px;
   margin: 0 3em 0 0;
   position: relative;
-  text-shadow: 1px 1px 2px rgba(255,255,255,0.5);
   top: 2px;
 }
 .widget .widget-header h4 {
@@ -5906,27 +5906,18 @@ a .icon-flip-vertical:before {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff444444', endColorstr='#ff222222', GradientType=0);
   border-color: #222 #222 #000000;
   border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
+  text-shadow: none;
 }
 .widget .widget-header.widget-inverse h3,
 .widget .widget-header.widget-inverse h4 {
   color: #fff;
-  text-shadow: 0 0 1px #eee;
 }
 .widget .widget-tabs {
-  border: 1px solid #f5f5f5;
-  border-top-width: 0;
-  background-color: #f9f9f9;
-  -webkit-box-shadow: 0 1px 0 #ccc;
-  -moz-box-shadow: 0 1px 0 #ccc;
-  box-shadow: 0 1px 0 #ccc;
   padding: 10px 10px 0 10px;
   border: 1px solid #D5D5D5;
   border-top-color: #fff;
   border-bottom-width: 0;
   margin-bottom: -1px;
-}
-.widget .widget-tabs .nav {
-  margin-bottom: 0;
 }
 .widget .widget-content {
   background: none repeat scroll 0 0 #FFFFFF;
