@@ -49,6 +49,8 @@ class KodiCMS_Controller_Layout extends Controller_System_Backend {
 			return $this->_add();
 		}
 		
+		Assets::package('ace');
+		
 		$this->template->title = __('Add layout');
 		$this->breadcrumbs
 			->add($this->template->title);
@@ -131,6 +133,8 @@ class KodiCMS_Controller_Layout extends Controller_System_Backend {
 		{
 			return $this->_edit( $layout );
 		}
+		
+		Assets::package('ace');
 
 		$this->template->content = View::factory( 'layout/edit', array(
 			'action' => 'edit',

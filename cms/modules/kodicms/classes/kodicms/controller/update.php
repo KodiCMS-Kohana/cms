@@ -12,6 +12,8 @@ class KodiCMS_Controller_Update extends Controller_System_Backend {
 	
 	public function action_index() 
 	{
+		Assets::package('ace');
+		
 		$this->template->title = __('Update');
 		
 		$db_sql = Database_Helper::schema();

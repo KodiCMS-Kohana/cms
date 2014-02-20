@@ -112,6 +112,9 @@ class KodiCMS_Controller_Page extends Controller_System_Backend {
 
 	public function action_edit( )
 	{
+		WYSIWYG::load_filters();
+		Assets::package('backbone');
+
 		$page_id = (int) $this->request->param('id');
 
 		$page = ORM::factory('page', $page_id);
