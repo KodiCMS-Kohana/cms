@@ -1,11 +1,38 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
- Observer::observe('modules::afer_load', function() {
-	if( Config::get('job', 'agent', Model_Job::AGENT_SYSTEM) === Model_Job::AGENT_CRON) return;
-	
+Observer::observe('system::init', function() {
+	if (Config::get('job', 'agent', Model_Job::AGENT_SYSTEM) === Model_Job::AGENT_CRON)
+		return;
+
 	ORM::factory('job')->run_all();
- });
- 
- Observer::observe('view_setting_plugins', function() {
+});
+
+Observer::observe('view_setting_plugins', function() {
 	echo View::factory('scheduler/settings_page');
+});
+
+Observer::observe('scheduler_callbacks', function() {
+	scheduler::add(function($from, $to) {
+		$from = date('Y-m-d', $from);
+		$to = date('Y-m-d', $to);
+
+		$jobs = ORM::factory('job')
+				->where(DB::expr('DATE(date_next_run)'), 'between', array($from, $to))
+				->find_all();
+
+		$data = array();
+		foreach ($jobs as $job)
+		{
+			$data[] = array(
+				'title' => $job->name,
+				'start' => strtotime($job->date_next_run),
+				'url' => Route::url('backend', array(
+					'controller' => 'scheduler', 'action' => 'edit',
+					'id' => $job->id
+				)),
+				'allDay' => FALSE
+			);
+		}
+		return $data;
+	});
 });

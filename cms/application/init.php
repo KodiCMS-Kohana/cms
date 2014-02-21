@@ -119,3 +119,5 @@ Route::set( 'default', '(<page>)(<suffix>)' , array(
 		'action' => 'index',
 		'suffix' => URL_SUFFIX
 	) );
+
+Observer::notify('system::init');
