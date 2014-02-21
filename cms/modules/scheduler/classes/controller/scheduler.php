@@ -254,7 +254,7 @@ class Controller_Scheduler extends Controller_System_Backend {
 		}
 		
 		$job->run();
-		Messages::errors( __('Job run success!') );
+		Messages::success( __('Job run success!') );
 		$this->go_back();
 	}
 }
