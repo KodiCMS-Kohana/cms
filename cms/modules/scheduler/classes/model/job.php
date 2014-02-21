@@ -10,6 +10,12 @@ class Model_Job extends ORM {
 	const AGENT_SYSTEM = 0;
 	const AGENT_CRON = 1;
 	
+	const MAX_ATEMTPS = 5;
+	
+	/**
+	 * 
+	 * @return array
+	 */
 	public static function agents()
 	{
 		return array(
@@ -106,6 +112,8 @@ class Model_Job extends ORM {
 		{
 			$this->date_next_run = date('Y-m-d H:i:s', time() + $this->interval);
 		}
+		
+		return $this;
 	}
 
 	public function complete()
@@ -130,16 +138,28 @@ class Model_Job extends ORM {
 		))->save();
 	}
 	
+	/**
+	 * 
+	 * @return string
+	 */
 	public function status()
 	{
 		return Arr::get(Model_Job::statuses(), $this->status, 1);
 	}
 	
+	/**
+	 * 
+	 * @return string
+	 */
 	public function date_start()
 	{
 		return empty($this->date_start) ? date('Y-m-d H:i:s') : $this->date_start;
 	}
 	
+	/**
+	 * 
+	 * @return string
+	 */
 	public function date_end()
 	{
 		return empty($this->date_end) ? date('Y-m-d H:i:s', strtotime(' +10 years')) : $this->date_end;
@@ -163,27 +183,23 @@ class Model_Job extends ORM {
 	public function run_all()
 	{
 		$jobs = $this
-			->where('attempts', '<=', 5)
+			->where('attempts', '<=', Model_Job::MAX_ATEMTPS)
 			->where(DB::expr('NOW()'), 'between', DB::expr('date_start AND date_end'))
 			->where('date_next_run', '<', DB::expr('NOW()'))
 			->find_all();
 		
-		
 		foreach ($jobs as $job)
 		{
-			try
-			{
-				$job->run();
-			} 
-			catch (ORM_Validation_Exception $ex) 
-			{
-				echo debug::vars($ex->errors('validation'));
-			}
+			$job->run();
 		}
 		
 		return $this;
 	}
 	
+	/**
+	 * 
+	 * @return Model_Job_log
+	 */
 	public function run()
 	{
 		return $this->logs->run($this);
