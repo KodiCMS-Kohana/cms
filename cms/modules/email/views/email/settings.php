@@ -1,12 +1,30 @@
 <script>
 $(function() {
-	var driver = $('#email_driver');
-
-	$('.widget').on('change', '#email_driver', function() {
-		change_email_driver($(this).val());
-	});
-	change_email_driver(driver.val());
+	$('.widget')
+		.on('change', '#email_driver', function() {
+			change_email_driver($(this).val());
+		})
+		.on('change', '#settingEncryption', function() {
+			var $encryption = $(this).val();
+			change_email_port($encryption);
+		});
+	
+	change_email_driver($('#email_driver').val());
+	change_email_port($('#settingEncryption').val());
 });
+
+function change_email_port($encryption) {
+	var $port = $('#settingPort');
+	switch($encryption){
+		case 'ssl':
+		case 'tls':
+			$port.val(465);
+			break;
+		default: 
+			$port.val(25);
+			break;
+	}
+}
 
 function change_email_driver(driver) {
     $('fieldset').attr('disabled', 'disabled').hide();
@@ -92,7 +110,11 @@ function change_email_driver(driver) {
 			<div class="control-group">
 				<label class="control-label" for="settingEncryption"><?php echo __( 'SMTP Encryption' ); ?></label>
 				<div class="controls">
-					<?php echo Form::select( 'setting[email][options][encryption]', array(NULL => 'Disable', 'ssl' => 'SSL', 'tls' => 'TLS'), Arr::path($settings, 'options.encryption'), array(
+					<?php echo Form::select('setting[email][options][encryption]', array(
+						NULL => 'Disable', 
+						'ssl' => 'SSL', 
+						'tls' => 'TLS'
+					), Arr::path($settings, 'options.encryption'), array(
 						'id' => 'settingEncryption'
 					) ); ?>
 				</div>
