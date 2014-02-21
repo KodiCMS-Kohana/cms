@@ -40,6 +40,9 @@ return array(
 	'Add Email Templates' => 'Создавать почтовые шаблоны',
 	'Edit Email Templates' => 'Редактировать почтовые шаблоны',
 	'Delete Email Templates' => 'Удалять почтовые шаблоны',
+	'Use queue' => 'Постановка в очередь',
+	'Email send type' => 'Метод отправки сообщения',
+	'Direct sending' => 'Прямая отправка',
 	
 	/*********************** Email types *********************************/
 	'Email types' => 'Типы почтовых событий',
