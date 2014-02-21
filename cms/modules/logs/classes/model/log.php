@@ -113,4 +113,11 @@ class Model_Log extends ORM {
 		
 		return empty($ip) ? NULL : UI::label($ip, 'default');
 	}
+	
+	public function clean_old()
+	{
+		return DB::delete($this->table_name())
+			->where(DB::expr('DATE(created_on)'), '<', array(DB::expr('CURDATE() - INTERVAL 60 DAY')))
+			->execute($this->_db);
+	}
 }

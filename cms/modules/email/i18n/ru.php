@@ -13,6 +13,9 @@ return array(
 	'STMP Password' => 'Пароль',
 	'SMTP Encryption' => 'Шифрование',
 	'Change email settings' => 'Изменение настроек почты',
+	'For example: :path' => 'Например: :path',
+	'Where the sendmail program can be found, usually :path1 or :path2. :link' 
+		=> 'Путь до программы sendmail, обычно :path1 или :path2. :link',
 	
 	/*********************** Email templates *********************************/
 	'Email templates' => 'Почтовые шаблоны',
@@ -37,6 +40,9 @@ return array(
 	'Add Email Templates' => 'Создавать почтовые шаблоны',
 	'Edit Email Templates' => 'Редактировать почтовые шаблоны',
 	'Delete Email Templates' => 'Удалять почтовые шаблоны',
+	'Use queue' => 'Постановка в очередь',
+	'Email send type' => 'Метод отправки сообщения',
+	'Direct sending' => 'Прямая отправка',
 	
 	/*********************** Email types *********************************/
 	'Email types' => 'Типы почтовых событий',
