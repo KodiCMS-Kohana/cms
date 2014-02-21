@@ -61,10 +61,15 @@ function change_email_driver(driver) {
 					<?php 
 					$path = is_array(Arr::get($settings, 'options')) ? NULL : Arr::get($settings, 'options');
 					echo Form::input('setting[email][options]', $path, array(
-						'id' => 'settingPath', 'class' => Bootstrap_Form_Element_Input::XXLARGE
+						'id' => 'settingPath', 'class' => Bootstrap_Form_Element_Input::XXLARGE,
+						'placeholder' => __('For example: :path', array(':path' => '/usr/sbin/sendmail'))
 					) ); ?>
 
-					<p class="help-block"><?php echo __( 'executable path, with -bs or equivalent attached' ); ?></p>
+					<p class="help-block"><?php echo __('Where the sendmail program can be found, usually :path1 or :path2. :link', array(
+						':path1' => '/usr/sbin/sendmail',
+						':path2' => '/usr/lib/sendmail',
+						':link' => HTML::anchor('http://www.php.net/manual/en/mail.configuration.php', 'www.php.net', array('target' => 'blank'))
+					)); ?></p>
 				</div>
 			</div>
 		</fieldset>

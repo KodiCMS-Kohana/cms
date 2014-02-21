@@ -13,6 +13,9 @@ return array(
 	'STMP Password' => 'Пароль',
 	'SMTP Encryption' => 'Шифрование',
 	'Change email settings' => 'Изменение настроек почты',
+	'For example: :path' => 'Например: :path',
+	'Where the sendmail program can be found, usually :path1 or :path2. :link' 
+		=> 'Путь до программы sendmail, обычно :path1 или :path2. :link',
 	
 	/*********************** Email templates *********************************/
 	'Email templates' => 'Почтовые шаблоны',
