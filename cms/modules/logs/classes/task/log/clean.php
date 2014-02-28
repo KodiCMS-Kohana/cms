@@ -12,6 +12,6 @@ class Task_Log_Clean extends Minion_Task
 
 	protected function _execute(array $params)
 	{
-		ORM::factory('job')->run_all();
+		ORM::factory('log')->clean_old();
 	}
 }

@@ -117,7 +117,7 @@ class Model_Log extends ORM {
 	public function clean_old()
 	{
 		return DB::delete($this->table_name())
-			->where(DB::expr('DATE(created_on)'), '<', array(DB::expr('CURDATE() - INTERVAL 60 DAY')))
+			->where(DB::expr('DATE(created_on)'), '<', DB::expr('CURDATE() - INTERVAL 1 MONTH'))
 			->execute($this->_db);
 	}
 }
