@@ -172,7 +172,7 @@ class Controller_Scheduler extends Controller_System_Backend {
 			if ( $job->update() )
 			{
 				Kohana::$log->add(Log::INFO, 'Job :job has been updated by :user', array(
-					':template' => HTML::anchor(Route::url('backend', array(
+					':job' => HTML::anchor(Route::url('backend', array(
 						'controller' => 'scheduler',
 						'action' => 'edit',
 						'id' => $job->id
