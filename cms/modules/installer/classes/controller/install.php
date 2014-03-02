@@ -330,6 +330,7 @@ class Controller_Install extends Controller_System_Frontend
 		
 		$config_values['site']['title'] = Arr::get($post, 'site_name');
 		$config_values['site']['default_locale'] = Arr::get($post, 'locale');
+		$config_values['email']['default'] = Arr::get($post, 'email');
 
 		$insert = DB::insert('config', array('group_name', 'config_key', 'config_value'));
 		foreach ($config_values as $group => $data)
