@@ -16,9 +16,13 @@ class Model_Job_log extends ORM {
 		'job' => array('model' => 'job')
 	);
 	
+	/**
+	 * 
+	 * @return atring
+	 */
 	public function status()
 	{
-		return Arr::get(Model_Job::statuses(), $this->status, 1);
+		return Arr::get(Model_Job::statuses(), $this->status, Model_Job::STATUS_NEW);
 	}
 
 	/**
@@ -37,22 +41,39 @@ class Model_Job_log extends ORM {
 		return $this->save();
 	}
 	
+	/**
+	 * 
+	 * @return \Model_Job_log
+	 */
 	public function complete()
 	{
 		$this->status = Model_Job::STATUS_COMPLETE;
 		$this->save();
 		
 		$this->job->complete();
+		
+		return $this;
 	}
 	
+	/**
+	 * 
+	 * @return \Model_Job_log
+	 */
 	public function failed()
 	{
 		$this->status = Model_Job::STATUS_FAILED;
 		$this->save();
 		
 		$this->job->failed();
+		
+		return $this;
 	}
 	
+	/**
+	 * 
+	 * @param Model_Job $job
+	 * @return void
+	 */
 	public function run( Model_Job $job )
 	{
 		if(Kohana::$profiling === TRUE)

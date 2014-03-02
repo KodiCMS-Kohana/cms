@@ -13,15 +13,8 @@ class Controller_Elfinder extends Controller_System_Template {
 	{
 		parent::before();
 		
-		Assets::js('jquery', ADMIN_RESOURCES . 'libs/jquery-2.0.3.min.js');
-		
-		Assets::css('jquery-ui', ADMIN_RESOURCES . 'libs/jquery-ui/css/flick/jquery-ui-1.10.2.custom.css', 'jquery');
-		Assets::js('jquery-ui', ADMIN_RESOURCES . 'libs/jquery-ui/js/jquery-ui-1.10.2.custom.min.js', 'jquery');
-		
-		Assets::js('underscore', ADMIN_RESOURCES . 'libs/underscore-min.js', 'jquery');
-		Assets::js('backbone', ADMIN_RESOURCES . 'libs/backbone-min.js', 'underscore');
-		
-		Assets::package(array('elfinder', 'jquery-ui'));
+		Assets::js('jquery', ADMIN_RESOURCES . 'libs/jquery.min.js');
+		Assets::package(array('elfinder', 'jquery-ui', 'backbone'));
 
 		Assets::js('global', ADMIN_RESOURCES . 'js/backend.js', 'backbone');
 	}
