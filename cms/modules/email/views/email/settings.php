@@ -80,7 +80,7 @@ function change_email_driver(driver) {
 				<label class="control-label" for="settingHost"><?php echo __( 'STMP Host' ); ?></label>
 				<div class="controls">
 					<?php echo Form::input('setting[email][options][hostname]', Arr::path($settings, 'options.hostname'), array(
-						'id' => 'settingHost', 'class' => Bootstrap_Form_Element_Input::XXLARGE
+						'id' => 'settingHost', 'class' => Bootstrap_Form_Element_Input::LARGE
 					) ); ?>
 				</div>
 			</div>
