@@ -277,6 +277,8 @@ class Controller_Widgets extends Controller_System_Backend {
 			$this->go_back();
 		}
 		
+		Assets::package('ace');
+		
 		$template = $widget->default_template();
 		
 		$data = file_get_contents( $template );
