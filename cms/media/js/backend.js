@@ -527,14 +527,15 @@ cms.ui.add('btn-confirm', function() {
 			var response = $.parseJSON(r);
 			var self = this;
 			if(response.code != 200) {
-				$(file.previewElement).fadeOut(500, function() {
-					self.removeFile(file);
-				})
 				cms.message(response.message, 'error');
 				
-			} else {
+			} else if(response.message) {
 				cms.message(response.message);
 			}
+			
+			$(file.previewElement).fadeOut(500, function() {
+				self.removeFile(file);
+			})
 		},
 		error: function(file, message) {
 			cms.message(message, 'error');
