@@ -527,14 +527,15 @@ cms.ui.add('btn-confirm', function() {
 			var response = $.parseJSON(r);
 			var self = this;
 			if(response.code != 200) {
-				$(file.previewElement).fadeOut(500, function() {
-					self.removeFile(file);
-				})
 				cms.message(response.message, 'error');
 				
-			} else {
+			} else if(response.message) {
 				cms.message(response.message);
 			}
+			
+			$(file.previewElement).fadeOut(500, function() {
+				self.removeFile(file);
+			})
 		},
 		error: function(file, message) {
 			cms.message(message, 'error');
@@ -597,6 +598,45 @@ cms.ui.add('btn-confirm', function() {
 	})
 }).add('select2', function() {
 	$('select').not('.no-script').select2();
+	$('.tags').select2({
+		tags: [],
+		minimumInputLength: 0,
+		tokenSeparators: [TAG_SEPARATOR],
+		createSearchChoice: function(term, data) {
+			if ($(data).filter(function() {
+				return this.text.localeCompare(term) === 0;
+			}).length === 0) {
+				return {
+					id: term,
+					text: term
+				};
+			}
+		},
+		multiple: true,
+		ajax: {
+			url: '/api-tags',
+			dataType: "json",
+			data: function(term, page) {
+				return {term: term};
+			},
+			results: function(data, page) {
+				if(!data.response) return {results: []};
+				return {results: data.response};
+			}
+		},
+		initSelection: function(element, callback) {
+			var data = [];
+			
+			var tags = element.val().split(",");
+			for(i in tags) {
+				data.push({
+					id: tags[i],
+					text: tags[i]
+				});
+			};
+			callback(data);
+		}
+	});
 }).add('ajax_form', function() {
 	$('body').on('submit', 'form.form-ajax', function() {
 		var $self = $(this);
