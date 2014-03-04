@@ -107,6 +107,8 @@ class Widget_Manager {
 		{
 			$widgets[$id] = unserialize($widget['code']);
 			$widgets[$id]->id = $widget['id'];
+			$widgets[$id]->name = $widget['name'];
+			$widgets[$id]->description = $widget['description'];
 			$widgets[$id]->template = $widget['template'];
 			$widgets[$id]->block = $widget['block'];
 			$widgets[$id]->position = (int) $widget['position'];

@@ -175,7 +175,27 @@ class KodiCMS_Model_Page extends ORM
 			),
 			'needs_login' => array(
 				array('intval')
-			)
+			),
+			'title' => array(
+				array('trim'),
+				array('strip_tags')
+			),
+			'meta_title' => array(
+				array('trim'),
+				array('strip_tags')
+			),
+			'breadcrumb' => array(
+				array('trim'),
+				array('strip_tags')
+			),
+			'meta_keywords' => array(
+				array('trim'),
+				array('strip_tags')
+			),
+			'meta_description' => array(
+				array('trim'),
+				array('strip_tags')
+			),
 		);		
 	}
 	
@@ -240,12 +260,6 @@ class KodiCMS_Model_Page extends ORM
 		if ($this->status_id == Model_Page::STATUS_PUBLISHED)
 		{
 			$this->published_on = date('Y-m-d H:i:s');
-		}
-		
-		// Если запрещены теги в Заголовке, удаляем их
-		if ( Config::get('site', 'allow_html_title' ) == 'off' )
-		{
-			$this->title = strip_tags( trim( $this->title ) );
 		}
 
 		if ($this->position == 0)
