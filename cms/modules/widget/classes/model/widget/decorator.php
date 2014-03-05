@@ -494,9 +494,12 @@ abstract class Model_Widget_Decorator {
 			echo "<!--{Widget: {$this->name}}-->";
 		}
 		
+		if(Kohana::$caching === FALSE)
+		{
+			$this->caching = FALSE;
+		}
+		
 		if(
-			Kohana::$caching === TRUE
-		AND
 			$this->caching === TRUE
 		AND 
 			! Fragment::load($this->get_cache_id(), $this->cache_lifetime, TRUE)
