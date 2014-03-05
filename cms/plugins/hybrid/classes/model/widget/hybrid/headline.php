@@ -130,6 +130,8 @@ class Model_Widget_Hybrid_Headline extends Model_Widget_Hybrid {
 	 */
 	public function fetch_data()
 	{
+		if( ! $this->ds_id ) return array();
+		
 		$this->get_documents();
 		
 		if(empty($this->docs) AND $this->throw_404)

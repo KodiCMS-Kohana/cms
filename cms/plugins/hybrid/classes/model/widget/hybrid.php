@@ -10,7 +10,7 @@ abstract class Model_Widget_Hybrid extends Model_Widget_Decorator_Pagination {
 	{
 		$datasources = Datasource_Data_Manager::get_all('hybrid');
 		
-		$options = array();
+		$options = array(__('--- Not set ---'));
 		foreach ($datasources as $value)
 		{
 			$options[$value['id']] = $value['name'];

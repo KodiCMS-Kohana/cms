@@ -82,5 +82,7 @@ return array(
 	'Hybrid docs' => 'Гибридные документы',
 	'Change bread crumbs' => 'Изменять хлебные крошки',
 	'Index document intro' => 'Интро документа',
-	'Index document fields' => 'Индексируемые поля'
+	'Index document fields' => 'Индексируемые поля',
+	'Hybrid section' => 'Раздел данных',
+	'You need select hybrid section' => 'Необходимо выбрать раздел данных'
 );
