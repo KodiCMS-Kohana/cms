@@ -84,5 +84,6 @@ return array(
 	'Index document intro' => 'Интро документа',
 	'Index document fields' => 'Индексируемые поля',
 	'Hybrid section' => 'Раздел данных',
-	'You need select hybrid section' => 'Необходимо выбрать раздел данных'
+	'You need select hybrid section' => 'Необходимо выбрать раздел данных',
+	'Hybrid tags' => 'Теги ГД'
 );

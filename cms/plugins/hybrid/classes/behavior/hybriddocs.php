@@ -6,6 +6,9 @@ class Behavior_HybridDocs extends Behavior_Abstract
 	public function routes()
 	{
 		return array(
+			'/tag/<tag>' => array(
+				'method' => 'execute'
+			),
 			'/<item>' => array(
 				'method' => 'execute'
 			)
