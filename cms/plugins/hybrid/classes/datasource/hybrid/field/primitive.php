@@ -95,6 +95,19 @@ class DataSource_Hybrid_Field_Primitive extends DataSource_Hybrid_Field {
 		return parent::set( $data );
 	}
 	
+	public function set_id($id)
+	{
+		if(in_array($id, array('id', 'header', 'created_on')))
+		{
+			$this->id = $id;
+			return $this;
+		}
+
+		return parent::set_id($id);
+	}
+
+	
+
 	public function __set($key, $value)
 	{
 		switch ($key)
