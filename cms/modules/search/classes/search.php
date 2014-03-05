@@ -128,7 +128,7 @@ class Search {
 	 * @param boolean $fulltextsearch
 	 * @return Database_Query
 	 */
-	protected static function _get_query( $keyword, $only_title = FALSE, $modules = NULL, $limit = 50, $offset = 0, $fulltextsearch = TRUE )
+	protected static function _get_query( $keyword, $only_title = FALSE, $modules = NULL, $limit = 50, $offset = 0 )
 	{
 		$keyword = self::stem_query($keyword);
 
@@ -151,7 +151,7 @@ class Search {
 			$query->where('module', '=', $modules);
 		}
 		
-		if($fulltextsearch === TRUE)
+		if(Config::get('search', 'full_text_search') === TRUE)
 		{
 			$query->where(DB::expr('MATCH(`header`, `content`)'), 'AGAINST', DB::expr("('".self::match_against_query($keyword)."' IN BOOLEAN MODE)"));
 		}
