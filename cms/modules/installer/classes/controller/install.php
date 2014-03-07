@@ -80,8 +80,6 @@ class Controller_Install extends Controller_System_Frontend
 		{
 			throw new Installer_Exception( 'No install data!' );
 		}
-
-		$post['db_driver'] = DB_TYPE;
 		
 		if(isset($post['password_generate']))
 		{
@@ -177,18 +175,33 @@ class Controller_Install extends Controller_System_Frontend
 	 */
 	protected function _connect_to_db(array $post)
 	{
-		$server = $post['db_server'] . ':' . $post['db_port'];
-		
 		$config = Kohana::$config->load('database');
+		
+		
+		switch ($post['db_driver'])
+		{
+			case 'mysql':
+				$connection = array(
+					'hostname' => $post['db_server'] . ':' . $post['db_port'],
+					'database' => $post['db_name'],
+					'username' => $post['db_user'],
+					'password' => $post['db_password'],
+					'persistent' => FALSE,
+				);
+				break;
+			case 'pdo':
+				$connection = array(
+					'dsn'        => 'mysql:host='.$post['db_server'].';port='.$post['db_port'].';dbname='.$post['db_name'],
+					'username'   => $post['db_user'],
+					'password'   => $post['db_password'],
+					'persistent' => FALSE,
+				);
+				break;
+		}
+				
 		$config->set('install', array(
 			'type' => $post['db_driver'],
-			'connection' => array(
-				'hostname' => $server,
-				'database' => $post['db_name'],
-				'username' => $post['db_user'],
-				'password' => $post['db_password'],
-				'persistent' => FALSE,
-			),
+			'connection' => $connection,
 			'table_prefix' => $post['db_table_prefix'],
 			'charset' => 'utf8',
 			'caching' => FALSE,

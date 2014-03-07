@@ -41,6 +41,8 @@ class Log_Database extends Log_Writer {
 	{
 		$user = Auth::instance()->get_user(ORM::factory('user'));
 		$request = Request::initial();
+		
+		if($user === NULL) return;
 
 		$logs_level = (int) Config::get('site', 'log_level' );
 
