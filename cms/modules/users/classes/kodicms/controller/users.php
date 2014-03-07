@@ -173,6 +173,7 @@ class KodiCMS_Controller_Users extends Controller_System_Backend {
 	private function _edit( $user )
 	{
 		$data = $this->request->post('user');
+		$profile = $this->request->post('profile');
 		$this->auto_render = FALSE;
 
 		if( ACL::check('users.change_password') OR $user->id == AuthUser::getId() )
@@ -188,9 +189,9 @@ class KodiCMS_Controller_Users extends Controller_System_Backend {
 		}
 		
 
-		if( empty($data['notice'] ))
+		if( empty($profile['notice'] ))
 		{
-			$data['notice'] = 0;
+			$profile['notice'] = 0;
 		}
 
 		try
@@ -201,7 +202,7 @@ class KodiCMS_Controller_Users extends Controller_System_Backend {
 			{
 				$data['user_id'] = $user->id;
 				$user->profile
-					->values($data)
+					->values($profile)
 					->save();
 
 				if ( Acl::check('users.change_roles') AND $user->id > 1 )
