@@ -27,7 +27,6 @@ class Widget_Manager {
 		if( ! class_exists($class) ) return NULL;
 	
 		$widget = new $class;
-		$widget->type = $type;
 
 		return $widget;
 	}
