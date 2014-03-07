@@ -53,12 +53,11 @@ class Search {
 		{
 			$benchmark = Profiler::start('Search', __FUNCTION__);
 		}
-		
-		$query = self::_get_query( $keyword, $only_title, $modules, $limit, $offset );
-		
-		$result = $query
-			->select('id', 'module', 'title', 'annotation', 'params')
-			->execute();
+
+		$query = DB::select('id', 'module', 'title', 'annotation', 'params')
+			->from('search_index');
+
+		$result = self::_get_query( $query, $keyword, $only_title, $modules, $limit, $offset )->execute();
 		
 		$ids = array();
 
@@ -84,10 +83,10 @@ class Search {
 	 */
 	public static function count_by_keyword( $keyword, $only_title = FALSE, $modules = NULL )
 	{
-		$query = self::_get_query( $keyword, $only_title, $modules, NULL )
-			->select(array(DB::expr('COUNT(*)'), 'total'));
+		$query = DB::select(array(DB::expr('COUNT(*)'), 'total'))
+			->from('search_index');
 		
-		return $query
+		return self::_get_query( $query, $keyword, $only_title, $modules, NULL )
 			->execute()
 			->get('total');
 	}
@@ -117,6 +116,20 @@ class Search {
 			
 		return $result;
 	}
+	
+	/**
+	 * 
+	 * @param Database_Query $query
+	 * @param string $keyword
+	 * @param string $module
+	 * @param bool $only_title
+	 */
+	public static function get_module_query_( Database_Query $query, $keyword, $module, $only_title = FALSE )
+	{
+		return self::_get_query($query, $keyword, $only_title, $module, NULL)
+			->join('search_index', 'left')
+				->on('search_index.id', '=', 'd.id');
+	}
 
 	/**
 	 * 
@@ -128,12 +141,9 @@ class Search {
 	 * @param boolean $fulltextsearch
 	 * @return Database_Query
 	 */
-	protected static function _get_query( $keyword, $only_title = FALSE, $modules = NULL, $limit = 50, $offset = 0 )
+	protected static function _get_query(Database_Query $query, $keyword, $only_title = FALSE, $modules = NULL, $limit = 50, $offset = 0 )
 	{
 		$keyword = self::stem_query($keyword);
-
-		$query = DB::select()
-			->from('search_index');
 		
 		if($limit !== NULL)
 		{
@@ -144,16 +154,16 @@ class Search {
 		
 		if(is_array($modules))
 		{
-			$query->where('module', 'in', $modules);
+			$query->where('search_index.module', 'in', $modules);
 		}
 		elseif ($modules !== NULL) 
 		{
-			$query->where('module', '=', $modules);
+			$query->where('search_index.module', '=', $modules);
 		}
 		
 		if(Config::get('search', 'full_text_search') === TRUE)
 		{
-			$query->where(DB::expr('MATCH(`header`, `content`)'), 'AGAINST', DB::expr("('".self::match_against_query($keyword)."' IN BOOLEAN MODE)"));
+			$query->where(DB::expr('MATCH(`search_index`.`header`, `search_index`.`content`)'), 'AGAINST', DB::expr("('".self::match_against_query($keyword)."' IN BOOLEAN MODE)"));
 		}
 		else
 		{
@@ -165,7 +175,7 @@ class Search {
 				foreach ($words as $word )
 				{
 					if(!empty($word))
-						$query->where('header', 'like', '%'.$word.'%');
+						$query->where('search_index.header', 'like', '%'.$word.'%');
 				}
 
 				$query->where_close();
@@ -176,7 +186,7 @@ class Search {
 					foreach ($words as $word )
 					{
 						if(!empty($word))
-							$query->where('content', 'like', '%'.$word.'%');
+							$query->where('search_index.content', 'like', '%'.$word.'%');
 					}
 					$query->where_close();
 				}
