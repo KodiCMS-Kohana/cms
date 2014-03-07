@@ -232,6 +232,8 @@ abstract class Datasource_Section {
 
 			$this->name = Arr::get($values, 'name');
 			$this->description = Arr::get($values, 'description');
+		
+			$this->set_indexable(Arr::get($values, 'is_indexable', FALSE));
 		}
 		
 		$data = array(
