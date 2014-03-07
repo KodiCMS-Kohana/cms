@@ -266,7 +266,7 @@ class Model_Widget_Hybrid_Headline extends Model_Widget_Hybrid {
 	 */
 	protected function _search_by_keyword( Database_Query $query )
 	{
-//		if(empty($this->search_key)) return $query;
+		if($this->search_key === NULL OR trim($this->search_key) == '') return $query;
 
 		$keyword = $this->_ctx->get($this->search_key);
 		
