@@ -148,7 +148,9 @@ class Model_Widget_Hybrid_Headline extends Model_Widget_Hybrid {
 	public function get_total_documents()
 	{
 		$agent = $this->get_agent();
+
 		$query = $agent->get_query_props(array(), array(), array(), $this->doc_filter);
+		$query = $this->_search_by_keyword($query);
 		
 		if(is_array($this->ids) AND count($this->ids) > 0)
 		{
@@ -257,6 +259,21 @@ class Model_Widget_Hybrid_Headline extends Model_Widget_Hybrid {
 	{
 		return explode(',', $this->doc_id);
 	}
+	
+	/**
+	 * 
+	 * @param Database_Query $query
+	 */
+	protected function _search_by_keyword( Database_Query $query )
+	{
+//		if(empty($this->search_key)) return $query;
+
+		$keyword = $this->_ctx->get($this->search_key);
+		
+		if( empty($keyword) )return $query;
+		
+		return Search::get_module_query_($query, $keyword, 'ds_' . $this->ds_id);
+	}
 
 	/**
 	 * 
@@ -266,6 +283,8 @@ class Model_Widget_Hybrid_Headline extends Model_Widget_Hybrid {
 	{
 		$agent = $this->get_agent();
 		$query = $agent->get_query_props($this->doc_fields, $this->doc_fetched_widgets, $this->doc_order, $this->doc_filter);
+		
+		$query = $this->_search_by_keyword($query);
 		
 		if(is_array($this->ids) AND count($this->ids) > 0)
 		{
