@@ -18,6 +18,8 @@ class Controller_Logs extends Controller_System_Backend {
 	public function action_index()
 	{
 		$logs = ORM::factory('log')->filter();
+		
+		Assets::css('logs', 'cms/media/css/controller/logs.css');
 
 		$pager = Pagination::factory(array(
 			'total_items' => $logs->reset(FALSE)->count_all(),
