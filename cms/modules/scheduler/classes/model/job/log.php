@@ -99,7 +99,7 @@ class Model_Job_log extends ORM {
 			}
 			elseif (class_exists($minion_task))
 			{
-				Minion_Task::factory(array($job));
+				Minion_Task::factory(array($job))->execute();
 				$passed = TRUE;
 			}
 			elseif (strpos($job, '::') === FALSE)
