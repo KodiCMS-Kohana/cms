@@ -1,17 +1,14 @@
 .elfinder {}
 
-.elfinder-toolbar {
-	background-color: #f3f3f3;
-	background-image: -moz-linear-gradient(top,#FAFAFA,#E9E9E9);
-	background-image: -webkit-gradient(linear,0 0,0 100%,from(#FAFAFA),to(#E9E9E9));
-	background-image: -webkit-linear-gradient(top,#FAFAFA,#E9E9E9);
-	background-image: -o-linear-gradient(top,#FAFAFA,#E9E9E9);
-	background-image: linear-gradient(to bottom,#FAFAFA,#E9E9E9);
-	background-repeat: repeat-x;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fffafafa', endColorstr='#ffe9e9e9', GradientType=0);
+.elfinder .elfinder-toolbar {
+	background-color: #f3f3f3 !important;
 	
 	border-width: 0;
 	border-bottom: 1px solid #ccc;
+}
+
+.elfinder .ui-dialog-titlebar {
+	background-color: #f3f3f3 !important;
 }
 
 .elfinder-statusbar {
@@ -26,9 +23,6 @@
 .outline .elfinder {
 	margin: 4px;
 	border: 1px solid #CCCCCC;
-	-webkit-box-shadow: 0 2px 2px -1px rgba(0,0,0,0.1);
-	-moz-box-shadow: 0 2px 2px -1px rgba(0,0,0,0.1);
-	box-shadow: 0 2px 2px -1px rgba(0,0,0,0.1);
 }
 
 .elfinder .ui-dialog input {
@@ -49,7 +43,7 @@
 }
 .elfinder .elfinder-navbar {
 	background: whitesmoke;
-	background-image: none;
+	background-image: none !important;
 	border-left-width: 0;
 	border-top-width: 0;
 }
@@ -63,6 +57,10 @@
 
 .elfinder-button-search .ui-icon {
 	margin: -7px 8px 0;
+}
+
+.elfinder .ui-dialog.elfinder-dialog-confirm .ui-dialog-content {
+	padding: 1em 1em 1em 5.5em;
 }
 
 
