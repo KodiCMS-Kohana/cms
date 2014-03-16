@@ -58,7 +58,7 @@ cms.plugins.ace.switchOn_handler = function( textarea_id, params )
 		editor.setReadOnly(true);
 	} else {
 		editor.commands.addCommand({
-			name: 'Save',
+//			name: 'Save',
 			bindKey: {win: 'Ctrl-S',  mac: 'Command-S'},
 			exec: function(editor) {
 				$('button[name="continue"]').click();
@@ -85,7 +85,10 @@ cms.plugins.ace.switchOff_handler = function( editor, textarea_id )
 
 cms.plugins.ace.exec_handler = function( editor, command, textarea_id, data )
 {
-	
+	if(typeof data == 'object') {
+		data = data.url;
+	}
+
 	switch(command) {
 		case 'insert':
 			editor.insert(data);
@@ -106,7 +109,6 @@ cms.plugins.ace.exec_handler = function( editor, command, textarea_id, data )
 	When DOM init
 */
 jQuery(function(){
-
 	cms.filters
 		.add( 'ace', cms.plugins.ace.switchOn_handler, cms.plugins.ace.switchOff_handler, cms.plugins.ace.exec_handler );
 
