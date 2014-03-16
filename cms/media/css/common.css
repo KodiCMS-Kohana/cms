@@ -6098,6 +6098,9 @@ h6 {
   font-size: 15px;
   font-weight: normal;
 }
+.tabbable .nav li .tab-error {
+  color: red;
+}
 .tabbable .nav li.active {
   font-weight: bold;
 }

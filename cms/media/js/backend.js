@@ -23,16 +23,25 @@ var cms = {
 		name = name.indexOf('.') !== -1 ? '['+name.replace(/\./g, '][') + ']' : name;
 		var gpoups = $('.control-group:not(.error)');
 		
-		return input = $(':input[name*="' + name + '"]', gpoups)
+		input = $(':input[name*="' + name + '"]', gpoups)
 			.after('<span class="help-inline error-message">' + message + '</span>')
 			.parentsUntil( '.control-group' )
 			.parent()
 			.addClass('error');
+	
+		var $tab_pane = input.parentsUntil('tab-pane');
+		if($tab_pane.length) {
+			$tab_id = $tab_pane.attr('id');
+			$tab_pane.parent().parent().find('.nav-tabs li a[href="#'+$tab_id+'"]').addClass('tab-error')
+		}
 	},
 	clear_error: function() {
 		$('.control-group')
 			.removeClass('error')
-			.find('.error-message').remove();
+			.find('.error-message')
+			.remove();
+	
+		$('.nav-tabs li a').removeClass('tab-error')
 	},
 	// Convert slug
 	convert_dict: {
