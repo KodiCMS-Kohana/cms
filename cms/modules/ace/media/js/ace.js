@@ -85,10 +85,6 @@ cms.plugins.ace.switchOff_handler = function( editor, textarea_id )
 
 cms.plugins.ace.exec_handler = function( editor, command, textarea_id, data )
 {
-	if(typeof data == 'object') {
-		data = data.url;
-	}
-
 	switch(command) {
 		case 'insert':
 			editor.insert(data);
