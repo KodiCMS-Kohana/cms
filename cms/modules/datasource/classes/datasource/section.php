@@ -232,6 +232,8 @@ abstract class Datasource_Section {
 
 			$this->name = Arr::get($values, 'name');
 			$this->description = Arr::get($values, 'description');
+		
+			$this->set_indexable(Arr::get($values, 'is_indexable', FALSE));
 		}
 		
 		$data = array(
@@ -486,7 +488,7 @@ abstract class Datasource_Section {
 
 		if(count($ids) == 1 AND $header !== NULL)
 		{
-			Search::add_to_index($this->_ds_table . $this->id(), $ids[0], $header, $content, $intro);
+			Search::instance()->add_to_index('ds_' . $this->id(), $ids[0], $header, $content, $intro);
 		}
 		else
 		{
@@ -494,7 +496,7 @@ abstract class Datasource_Section {
 			
 			foreach($docs as $doc)
 			{
-				Search::add_to_index($this->_ds_table . $this->id(), $doc['id'], $doc['header'], $doc['content'], $doc['intro']);
+				Search::instance()->add_to_index('ds_' . $this->id(), $doc['id'], $doc['header'], $doc['content'], $doc['intro']);
 			}
 		}
 	}
@@ -529,7 +531,7 @@ abstract class Datasource_Section {
 			return $this;
 		}
 		
-		Search::remove_from_index($this->_ds_table . $this->id(), $ids);
+		Search::instance()->remove_from_index('ds_' . $this->id(), $ids);
 	}
 	
 	public function get_indexable_docs($id = NULL) 
