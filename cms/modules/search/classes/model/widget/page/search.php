@@ -33,7 +33,7 @@ class Model_Widget_Page_Search extends Model_Widget_Decorator_Pagination {
 
 		if(empty($keyword)) return $return;
 		
-		$ids = Search::by_keyword($keyword, FALSE, 'pages', $this->list_size, $this->list_offset);
+		$ids = Search::instance()->find_by_keyword($keyword, FALSE, 'pages', $this->list_size, $this->list_offset);
 
 		if(empty($ids['pages'])) return $return;
 		
@@ -62,7 +62,7 @@ class Model_Widget_Page_Search extends Model_Widget_Decorator_Pagination {
 	public function count_total()
 	{
 		$keyword = $this->_ctx->get($this->search_key);
-		$this->_total = Search::count_by_keyword($keyword, FALSE, 'pages');
+		$this->_total = Search::instance()->count_by_keyword($keyword, FALSE, 'pages');
 		
 		return $this->_total;
 	}

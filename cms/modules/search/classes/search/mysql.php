@@ -1,3 +1,3 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct access allowed.' );
 
-abstract class Search extends KodiCMS_Search {}
+class Search_MySQL extends KodiCMS_Search_MySQL {}
