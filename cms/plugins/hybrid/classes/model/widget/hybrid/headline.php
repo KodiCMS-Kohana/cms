@@ -272,7 +272,7 @@ class Model_Widget_Hybrid_Headline extends Model_Widget_Hybrid {
 		
 		if( empty($keyword) )return $query;
 		
-		return Search::get_module_query_($query, $keyword, 'ds_' . $this->ds_id);
+		return Search::instance()->get_module_query($query, $keyword, 'ds_' . $this->ds_id);
 	}
 
 	/**
