@@ -108,7 +108,7 @@ class Model_Widget_Datasource_Search extends Model_Widget_Decorator_Pagination {
 
 		$modules = $this->modules();
 
-		$ids = Search::by_keyword($keyword, FALSE, $modules, $this->list_size, $this->list_offset);
+		$ids = Search::instance()->find_by_keyword($keyword, FALSE, $modules, $this->list_size, $this->list_offset);
 
 		if(empty($ids))
 		{
@@ -142,7 +142,7 @@ class Model_Widget_Datasource_Search extends Model_Widget_Decorator_Pagination {
 	public function count_total()
 	{
 		$keyword = $this->keyword();
-		$this->_total = Search::count_by_keyword($keyword, FALSE, $this->modules());
+		$this->_total = Search::instance()->count_by_keyword($keyword, FALSE, $this->modules());
 
 		return $this->_total;
 	}
