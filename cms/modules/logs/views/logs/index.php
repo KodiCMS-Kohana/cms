@@ -5,34 +5,30 @@
 
 			</div>
 			<div class="widget-content">
-				<table class="table table-striped table-hover">
+				<table id="logs-table" class="table table-hover">
 					<colgroup>
 						<col width="150px" />
 						<col width="100px" />
 						<col />
-						<col width="200px" />
 						<col width="150px" />
 					</colgroup>
 					<thead>
 						<tr>
-							<th><?php echo __('Сreated on'); ?></th>
-							<th><?php echo __('Log level'); ?></th>
-							<th><?php echo __('Log message'); ?></th>
-							<th><?php echo __('Log url'); ?></th>
-							<th><?php echo __('User'); ?></th>
+							<th class="log-date"><?php echo __('Сreated on'); ?></th>
+							<th class="log-level"><?php echo __('Log level'); ?></th>
+							<th class="log-url"><?php echo __('Log url'); ?></th>
+							<th class="log-user"><?php echo __('User'); ?></th>
 						</tr>
 					</thead>
 					<tbody>
 						<?php foreach ($logs as $log): ?>
-						<tr class="item">
+						<?php $class = Text::alternate('even', 'odd'); ?>
+						<tr class="item <?php echo $class; ?>">
 							<td class="log-date">
 								<?php echo Date::format($log->created_on, 'j F y H:i'); ?>
 							</td>
 							<td class="log-level">
 								<?php echo UI::label($log->level()); ?>
-							</td>
-							<td class="log-message">
-								<?php echo $log->message; ?>
 							</td>
 							<td class="log-url">
 								<?php echo $log->url(); ?>
@@ -40,6 +36,9 @@
 							<td class="log-user">
 								<?php echo $log->user(); ?> <?php echo $log->ip(); ?>
 							</td>
+						</tr>
+						<tr class="item-message <?php echo $class; ?>">
+							<td class="log-message" colspan="4"><?php echo $log->message; ?></td>
 						</tr>
 						<?php endforeach; ?>
 					</tbody>

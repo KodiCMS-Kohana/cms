@@ -56,10 +56,10 @@ class Log_Database extends Log_Writer {
 					'action' => 'profile',
 					'id' => $user->id
 				)), '@' . $user->username),
-				':controller' => $request->controller()
+				':controller' => $request !== NULL ? $request->controller() : 'none'
 			);
 
-			$message['additional'][':url'] = $request->url();
+			$message['additional'][':url'] = $request !== NULL ? $request->url() : 'none';
 			$message['additional'][':ip'] = Request::$client_ip;
 			
 			$message['body'] = strtr($message['body'], $values);
