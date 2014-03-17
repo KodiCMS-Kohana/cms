@@ -328,9 +328,9 @@ class KodiCMS_Context {
 	 */
 	public function register_widgets( array $widgets )
 	{
-		foreach ($widgets as $widget)
+		foreach ($widgets as $id => $widget)
 		{
-			$this->_widgets[] = $widget;
+			$this->_widgets[$id] = $widget;
 		}
 		
 		return $this;
