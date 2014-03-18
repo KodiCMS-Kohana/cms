@@ -199,7 +199,7 @@ abstract class Datasource_Section {
 			->execute()
 			->current();
 	
-		if( $query === NULL )
+		if( empty($query) )
 		{
 			return NULL;
 		}
