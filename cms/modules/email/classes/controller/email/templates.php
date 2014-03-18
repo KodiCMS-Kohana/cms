@@ -50,6 +50,8 @@ class Controller_Email_Templates extends Controller_System_Backend {
 			return $this->_add($template);
 		}
 		
+		WYSIWYG::load_filters();
+		
 		$this->template->title = __('Add email template');
 		$this->breadcrumbs
 			->add($this->template->title);
@@ -133,6 +135,8 @@ class Controller_Email_Templates extends Controller_System_Backend {
 		{
 			return $this->_edit( $template );
 		}
+		
+		WYSIWYG::load_filters();
 
 		$this->template->title = __('Edit email template');
 		$this->breadcrumbs

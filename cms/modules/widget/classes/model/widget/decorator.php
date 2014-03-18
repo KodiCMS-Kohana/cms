@@ -140,6 +140,11 @@ abstract class Model_Widget_Decorator {
 	 * @var array 
 	 */
 	protected $_data = array();
+	
+	public function __construct()
+	{
+		$this->_set_type();
+	}
 
 	/**
 	 * 
@@ -253,7 +258,6 @@ abstract class Model_Widget_Decorator {
 		if( empty($this->template) ) 
 		{
 			$this->template = $this->default_template();
-			
 		}
 		else
 		{
@@ -267,7 +271,6 @@ abstract class Model_Widget_Decorator {
 			{
 				$this->template = $this->default_template();
 			}
-			
 		}
 		
 		return $this->template;
@@ -494,9 +497,12 @@ abstract class Model_Widget_Decorator {
 			echo "<!--{Widget: {$this->name}}-->";
 		}
 		
+		if(Kohana::$caching === FALSE)
+		{
+			$this->caching = FALSE;
+		}
+		
 		if(
-			Kohana::$caching === TRUE
-		AND
 			$this->caching === TRUE
 		AND 
 			! Fragment::load($this->get_cache_id(), $this->cache_lifetime, TRUE)
@@ -533,16 +539,26 @@ abstract class Model_Widget_Decorator {
 	public function __wakeup()
 	{
 		$this->_ctx = Context::instance();
+		
+		$this->_set_type();
 	}
 	
+	protected function _set_type()
+	{
+		$class_name = get_called_class();
+		$this->type = strtolower(substr($class_name, 13));
+		
+		return $this;
+	}
+
 	public function __sleep()
 	{
 		$vars = get_object_vars($this);
 
 		unset(
-			$vars['_ctx'], 
-			$vars['type'], 
-			$vars['id'], 
+			$vars['_ctx'],
+			$vars['id'],
+			$vars['type'],
 			$vars['template'],
 			$vars['name'], 
 			$vars['description'],

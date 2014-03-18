@@ -33,6 +33,9 @@ class KodiCMS_Controller_Page extends Controller_System_Backend {
 
 	public function action_add( )
 	{
+		WYSIWYG::load_filters();
+		Assets::package('backbone');
+
 		$parent_id = (int) $this->request->param('id', 1);
 		
 		$values = Flash::get('page::add::data', array());
@@ -112,6 +115,9 @@ class KodiCMS_Controller_Page extends Controller_System_Backend {
 
 	public function action_edit( )
 	{
+		WYSIWYG::load_filters();
+		Assets::package('backbone');
+
 		$page_id = (int) $this->request->param('id');
 
 		$page = ORM::factory('page', $page_id);

@@ -64,7 +64,7 @@
 								'id' => $tpl->id
 							)), 
 							'icon' => UI::icon('remove'),
-							'class' => 'btn btn-mini btn-confirm'
+							'class' => 'btn btn-mini btn-danger btn-confirm'
 						)); ?>
 						<?php endif; ?>
 					</td>

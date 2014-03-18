@@ -410,7 +410,7 @@ class KodiCMS_Model_Page_Front {
 		if( $this->parent() instanceof Model_Page_Front )
 		{
 			$pages = $this->parent()->children(array(
-				'where' => array(array('page.id', '<', $this->id)),
+				'where' => array(array('page.id', '>', $this->id)),
 				'order_by' => array(array('page.created_on', 'asc')),
 				'limit' => 1
 			));
@@ -910,7 +910,7 @@ class KodiCMS_Model_Page_Front {
 					break;
 					default: // Level
 						if(
-								Valid::digit($f) 
+								Valid::numeric($field) 
 							AND 
 								$this->level() != $field 
 							AND 

@@ -21,5 +21,6 @@ return array(
 	'Search indexation' => 'Поисковая индексация',
 	'Datasource has been saved!' => 'Раздел сохранен!',
 	'Search in sources' => 'Искать в разделах',
-	'Datasources' => 'Разделы'
+	'Datasources' => 'Разделы',
+	'Datasource search' => 'Поиск по разделам'
 );

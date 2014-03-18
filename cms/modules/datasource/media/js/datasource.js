@@ -77,11 +77,6 @@ cms.init.add('datasources_section_edit', function() {
 
 cms.init.add(['hybrid_document_view', 'hybrid_document_create'], function () {
 	$('ul.nav-tabs').tabs();
-	
-	$('.input-date').datepicker({
-        // options
-        dateFormat:'yy-mm-dd'
-    });
 });
 
 cms.init.add(['hybrid_field_add'], function () {

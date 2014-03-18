@@ -410,7 +410,14 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 			);
 			
 			
-			unset($row['id'], $row['ds_id'], $row['published'], $row['header']);
+			unset(
+					$row['id'], 
+					$row['ds_id'], 
+					$row['published'], 
+					$row['created_on'],
+					$row['updated_on'], 
+					$row['header']
+			);
 			$content = '';
 			foreach ($row as $key => $value)
 			{

@@ -64,6 +64,7 @@ Kohana::modules( array(
 	'plugins'		=> MODPATH . 'plugins',
 	'datasource'	=> MODPATH . 'datasource',
 	'search'		=> MODPATH . 'search',
+	'sidebar'		=> MODPATH . 'sidebar',
 ) );
 
 Kohana::$config->attach(new Config_Database);
@@ -118,3 +119,5 @@ Route::set( 'default', '(<page>)(<suffix>)' , array(
 		'action' => 'index',
 		'suffix' => URL_SUFFIX
 	) );
+
+Observer::notify('system::init');

@@ -46,6 +46,7 @@ return array(
 	':action field' => ':action поле',
 	'Document page (URI)' => 'Страница документа (URI)',
 	'Document id (Ctx)' => 'Идентификатор документа(Ctx)',
+	'Search key (Ctx)' => 'Ключ для поиска (Ctx)',
 	'Document ID field' => 'Поле идентификатор',
 	'Generate error 404 when page has no content' 
 		=> 'Генерировать ошибку, если нет документов',
@@ -88,5 +89,8 @@ return array(
 	'Set document published' => 'Опубликовать документ после создания',
 	'Hybrid data source' => 'Источник данных ГД',
 	'Hybrid data source prefix' => 'Префикс массива',
-	'Redirect url on success' => 'Редирект при успешном создании (URI)'
+	'Redirect url on success' => 'Редирект при успешном создании (URI)',
+	'Hybrid section' => 'Раздел данных',
+	'You need select hybrid section' => 'Необходимо выбрать раздел данных',
+	'Hybrid tags' => 'Теги ГД'
 );

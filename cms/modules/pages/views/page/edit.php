@@ -21,7 +21,7 @@
 		<div class="container-fluid">
 			<div class="row-fluid">
 				<div id="pageEdit" class="box span9">
-					<div class="widget widget-no-border-radius">
+					<div class="widget ">
 						<div id="pageEditMeta" class="widget-title">
 							<?php echo View::factory('page/blocks/meta', array(
 								'page' => $page,
@@ -33,7 +33,7 @@
 						<?php Observer::notify('view_page_edit_plugins', $page); ?>
 						
 						<?php if($action != 'add'): ?>
-						<div class="widget-content widget-no-border-radius">
+						<div class="widget-content ">
 							<?php if( $page->loaded()): ?>
 							
 								<?php if (isset($page->updated_on)): ?>

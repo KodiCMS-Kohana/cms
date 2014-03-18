@@ -61,7 +61,7 @@
 	<?php echo $page->label('published_on'); ?>
 	<?php echo $page->field('published_on', array(
 		'prefix' => 'page',
-		'class' => 'span12 datepicker'
+		'class' => 'span12 datetimepicker'
 	)); ?>
 	<?php endif; ?>
 

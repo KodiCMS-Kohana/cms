@@ -134,6 +134,9 @@ class Model_Widget_Hybrid_Document extends Model_Widget_Hybrid {
 	public function fetch_data()
 	{
 		$result = array();
+		
+		if(!$this->ds_id) return $result;
+		
 		$result = $this->get_document();
 		
 		return array(

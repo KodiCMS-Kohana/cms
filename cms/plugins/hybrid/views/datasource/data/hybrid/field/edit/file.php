@@ -6,7 +6,7 @@ foreach($config as $ext => $mime)
 	$mimes[$ext] = $ext;
 }
 ?>
-<div class="widget-content widget-no-border-radius">
+<div class="widget-content ">
 	<div class="control-group">
 		<label class="control-label"><?php echo __( 'Allowed file types' ); ?></label>
 		<div class="controls">
@@ -47,7 +47,7 @@ foreach($config as $ext => $mime)
 <div class="widget-header">
 	<h3><?php echo __('Image settings'); ?></h3>
 </div>
-<div class="widget-content widget-no-border-radius">
+<div class="widget-content ">
 	<div class="control-group">
 		<label class="control-label"><?php echo __( 'Image size' ); ?></label>
 		<div class="controls">
@@ -86,7 +86,7 @@ foreach($config as $ext => $mime)
 <div class="widget-header">
 	<h3><?php echo __('Linked fields'); ?></h3>
 </div>
-<div class="widget-content widget-no-border-radius">
+<div class="widget-content ">
 	<div class="control-group">
 		<label class="control-label" for="linked_fields"><?php echo __('Linked fields'); ?></label>
 		<div class="controls">

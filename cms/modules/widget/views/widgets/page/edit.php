@@ -2,11 +2,11 @@
 <script>
 	var LAYOUT_BLOCKS = <?php echo json_encode( $blocks ); ?>;
 </script>
-<div class="widget-header widget-no-border-radius spoiler-toggle" data-spoiler=".spoiler-widgets" data-hash="widgets">
+<div class="widget-header  spoiler-toggle" data-spoiler=".spoiler-widgets" data-hash="widgets">
 	<h4><?php echo __('Widgets'); ?></h4>
 </div>
 
-<div class="widget-content widget-no-border-radius spoiler spoiler-widgets">
+<div class="widget-content  spoiler spoiler-widgets">
 	<?php if(empty($page->id)): ?>
 	<h4><?php echo __('Copy widgets from'); ?></h4>
 	<select name="widgets[from_page_id]" class="span12">

@@ -36,10 +36,9 @@ $(function() {
 	</div>
 		
 	<?php if(!empty($record->struct[DataSource_Hybrid_Field::TYPE_FILE] )): ?>
-	<div class="widget-header widget-no-border-radius">
+	<div class="widget-header ">
 		<h4>
-			<small><?php echo __('Section'); ?> </small>
-			<?php echo DataSource_Hybrid_Field::TYPE_FILE; ?>
+			<small><?php echo __('Section'); ?> <?php echo DataSource_Hybrid_Field::TYPE_FILE; ?></small>
 		</h4>
 	</div>
 	<div id="file_fields" class="widget-content">
@@ -55,10 +54,9 @@ $(function() {
 	<?php endif ;?>
 
 	<?php if(!empty($record->struct[DataSource_Hybrid_Field::TYPE_PRIMITIVE] )): ?>
-	<div class="widget-header widget-no-border-radius">
+	<div class="widget-header ">
 		<h4>
-			<small><?php echo __('Section'); ?> </small>
-			<?php echo DataSource_Hybrid_Field::TYPE_PRIMITIVE; ?>
+			<small><?php echo __('Section'); ?> <?php echo DataSource_Hybrid_Field::TYPE_PRIMITIVE; ?></small>
 		</h4>
 	</div>
 	<div id="primitive_fields" class="widget-content">
@@ -80,7 +78,7 @@ $(function() {
 
 	<?php $html_fields = Arr::path($record->struct, 'primitive.html');
 	if(!empty($html_fields)): ?>
-	<div class="widget-header widget-no-border-radius">
+	<div class="widget-tabs">
 		<ul class="nav nav-tabs">
 			<?php foreach($html_fields as $i => $key): ?>
 				<li class="<?php echo $i == 0 ? 'active' : ''; ?>">
@@ -88,6 +86,7 @@ $(function() {
 				</li>
 			<?php endforeach; ?>
 		</ul>
+		<div class="clearfix"></div>
 	</div>
 	<div id="html_fields" class="widget-content widget-nopad" style="height: 244px">
 		<div class="tabs-content">
@@ -103,10 +102,9 @@ $(function() {
 	<?php endif ;?>
 
 	<?php if(!empty($record->struct[DataSource_Hybrid_Field::TYPE_DOCUMENT])): ?>
-	<div class="widget-header widget-no-border-radius">
+	<div class="widget-header ">
 		<h4>
-			<small><?php echo __('Section'); ?> </small>
-			<?php echo __('Documents') ?>
+			<small><?php echo __('Section'); ?> <?php echo __('Documents') ?></small>
 		</h4>
 	</div>
 	<div id="document_fields" class="widget-content">
@@ -120,10 +118,9 @@ $(function() {
 	</div>
 	<?php endif ;?>
 	<?php if(!empty($record->struct[DataSource_Hybrid_Field::TYPE_ARRAY])): ?>
-	<div class="widget-header widget-no-border-radius">
+	<div class="widget-header ">
 		<h4>
-			<small><?php echo __('Section'); ?> </small>
-			<?php echo __('Arrays of documents') ?>
+			<small><?php echo __('Section'); ?> <?php echo __('Arrays of documents') ?></small>
 		</h4>
 	</div>
 	<div id="array_fields" class="widget-content">
@@ -150,10 +147,9 @@ $(function() {
 	<?php endif ;?>
 		
 	<?php if(!empty($record->struct[DataSource_Hybrid_Field::TYPE_USER] )): ?>
-	<div class="widget-header widget-no-border-radius">
+	<div class="widget-header ">
 		<h4>
-			<small><?php echo __('Section'); ?> </small>
-			<?php echo DataSource_Hybrid_Field::TYPE_USER; ?>
+			<small><?php echo __('Section'); ?> <?php echo DataSource_Hybrid_Field::TYPE_USER; ?></small>
 		</h4>
 	</div>
 	<div id="user_fields" class="widget-content">
@@ -170,10 +166,9 @@ $(function() {
 	<?php endif ;?>
 		
 	<?php if(!empty($record->struct[DataSource_Hybrid_Field::TYPE_TAGS] )): ?>
-	<div class="widget-header widget-no-border-radius">
+	<div class="widget-header ">
 		<h4>
-			<small><?php echo __('Section'); ?> </small>
-			<?php echo DataSource_Hybrid_Field::TYPE_TAGS; ?>
+			<small><?php echo __('Section'); ?> <?php echo DataSource_Hybrid_Field::TYPE_TAGS; ?></small>
 		</h4>
 	</div>
 	<div id="tags_fields" class="widget-content">
