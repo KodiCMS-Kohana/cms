@@ -50,6 +50,12 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 	
 	/**
 	 *
+	 * @var string 
+	 */
+	public $template = NULL;
+	
+	/**
+	 *
 	 * @var boolean
 	 */
 	public $doc_order = array(
@@ -62,20 +68,22 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 	 */
 	public $record = NULL;
 	
+	/**
+	 *
+	 * @var string 
+	 */
 	public $read_sql = NULL;
 	
-	public $all_doc = TRUE;
-	public $auto_cast = TRUE;
-	
+	/**
+	 *
+	 * @var array
+	 */
 	public $fields = NULL;
 
 	public function __construct($key = NULL, $parent = NULL)
 	{
 		$this->key = $key;
 		$this->parent = $parent;
-		
-		$this->all_doc = Cookie::get('all_doc', 'enabled') != 'disabled';
-		$this->auto_cast = Cookie::get('auto_cast', 'enabled') != 'disabled';
 		$this->page_size = Cookie::get('page_size', 30);
 	}
 	
@@ -121,9 +129,8 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 		$record = $this->get_record();
 		
 		$fields = array();
-		if(empty($record->fields)) return $fields;
 
-		foreach($record->fields as $field)
+		foreach($record->fields() as $field)
 		{
 			$fields[$field->id] = $field->header;
 		}
@@ -149,11 +156,6 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 			),
 		);
 		
-		if(!$this->all_doc)
-		{
-			unset($this->fields['type']);
-		}
-		
 		$fields = DataSource_Hybrid_Field_Factory::get_related_fields($this->id());
 		
 		foreach($fields as $key => $field)
@@ -169,12 +171,7 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 			'name' => 'Date of creation',
 			'width' => 150
 		);
-		
-//		$this->fields['type'] = array(
-//			'name' => 'Section',
-//			'width' => 150
-//		);
-		
+
 		return $this->fields;
 	}
 	
@@ -185,12 +182,11 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 			return FALSE;
 		}
 		
-		if(is_array($values))
-		{
-			$this->doc_order = Arr::get($values, 'doc_order', array());
-		}
+		$this->doc_order = Arr::get($values, 'doc_order', array());
 		
-		$this->search_intro_field = empty($values['search_intro_field']) ? NULL : Arr::get($values, 'search_intro_field');
+		$this->template = empty($values['template']) ? NULL : $values['template'];
+		
+		$this->search_intro_field = empty($values['search_intro_field']) ? NULL : $values['search_intro_field'];
 		unset($values['search_intro_field']);
 		
 		$this->search_index_fields = (array) Arr::get($values, 'search_index_fields', array());
@@ -601,11 +597,18 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 		
 		if( ! empty($search_word) ) 
 		{
-			$query
-				->where_open()
-				->where('d.id', 'like', '%'.$search_word.'%')
-				->or_where('d.header', 'like', '%'.$search_word.'%')
-				->where_close();
+			if($this->is_indexable())
+			{
+				$query = Search::instance()->get_module_query($query, $search_word, 'ds_' . $this->id());
+			}
+			else
+			{
+				$query
+					->where_open()
+					->where('d.id', 'like', '%'.$search_word.'%')
+					->or_where('d.header', 'like', '%'.$search_word.'%')
+					->where_close();
+			}
 		}
 		
 		$result = array(0, array());
@@ -739,6 +742,28 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 		}
 
 		return $result;
+	}
+	
+	/**
+	 * 
+	 * @return string
+	 */
+	public function template()
+	{
+		$snippet = new Model_File_Snippet($this->template);
+		
+		$template = NULL;
+
+		if( $snippet->is_exists() )
+		{
+			$template = $snippet->get_file();
+		}
+		else if(($template = $snippet->find_file()) === FALSE)
+		{
+			$template = NULL;
+		}
+		
+		return $template;
 	}
 	
 	public function clear_cache( )

@@ -90,5 +90,6 @@ return array(
 	'Field position' => 'Позиция',
 	'Field value must be unique' => 'Значение должно быть уникальным',
 	'Show profile' => 'Посмотреть профиль',
-	'Type first 1 chars to find documents' => 'Напечатайте первую букву для поиска'
+	'Type first 1 chars to find documents' => 'Напечатайте первую букву для поиска',
+	'Document template' => 'Шаблон документа'
 );

@@ -8,7 +8,6 @@ $(function() {
 
 <div class="outline">
 	<div class="widget outline_inner">
-	
 	<?php if(Acl::check('hybrid'.$ds->id().'.document.edit')): ?>
 	<?php echo Form::open(Request::current()->url() . URL::query(array('id' => $doc->id)), array(
 		'class' => 'form-horizontal', 'enctype' => 'multipart/form-data'
@@ -35,15 +34,18 @@ $(function() {
 		</div>		
 	</div>
 		
+	<?php if($ds->template() !== NULL): ?>
+	<?php echo View_Front::factory($ds->template(), array(
+		'fields' => $fields,
+		'doc' => $doc,
+	)); ?>
+	<?php else: ?>
 	<br />
-		
+
 	<?php foreach ($record->fields() as $key => $field): ?>
-		<?php echo View::factory('datasource/data/hybrid/document/fields/' . $field->type, array(
-			'value' => $doc->fields[$key], 
-			'field' => $field,
-			'doc' => $doc
-		)); ?>
+	<?php echo $field->backend_template($doc); ?>
 	<?php endforeach; ?>
+	<?php endif; ?>
 
 		
 	<?php if(Acl::check('hybrid'.$ds->id().'.document.edit')): ?>

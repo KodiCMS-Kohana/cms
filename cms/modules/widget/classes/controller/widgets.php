@@ -186,16 +186,6 @@ class Controller_Widgets extends Controller_System_Backend {
 			return $this->_edit( $widget );
 		}
 		
-		$templates = array(
-			__('------ none ------')
-		);
-		$snippets = Model_File_Snippet::find_all();
-		
-		foreach ($snippets as $snippet)
-		{
-			$templates[$snippet->name] = $snippet->name;
-		}
-		
 		$roles = array();
 		foreach (Model_Permission::get_all() as $role)
 		{
@@ -204,7 +194,7 @@ class Controller_Widgets extends Controller_System_Backend {
 
 		$this->template->content = View::factory( 'widgets/edit', array(
 			'widget' => $widget,
-			'templates' => $templates,
+			'templates' => Model_File_Snippet::html_select(),
 			'content' =>  $widget->fetch_backend_content(),
 			'roles' => $roles,
 		) );

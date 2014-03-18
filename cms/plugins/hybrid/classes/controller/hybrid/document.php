@@ -79,8 +79,9 @@ class Controller_Hybrid_Document extends Controller_System_Datasource
 			$this->breadcrumbs->add($doc->header);
 		}
 		
-		$this->template->content = View::factory('datasource/data/hybrid/document/edit', array(
+		$this->template->content = View::factory('datasource/data/hybrid/document/edit')->set( array(
 			'record' => $this->section()->get_record(),
+			'fields' => $this->section()->get_record()->fields(),
 			'ds' => $this->section(),
 			'doc' => $doc,
 			'action' => $this->request->action()

@@ -484,7 +484,26 @@ abstract class DataSource_Hybrid_Field {
 		return $value;
 	}
 	
-	
+	/**
+	 * 
+	 * @param string $template
+	 * @param DataSource_Hybrid_Document $doc
+	 * @return type
+	 */
+	public function backend_template( DataSource_Hybrid_Document $doc, $template = NULL )
+	{
+		if($template === NULL)
+		{
+			$template = 'datasource/data/hybrid/document/fields/' . $this->type;
+		}
+		
+		return View::factory($template, array(
+			'value' => $doc->fields[$this->name], 
+			'field' => $this,
+			'doc' => $doc
+		));
+	}
+
 	/**************************************************************************
 	 * EVENTS
 	 **************************************************************************/	

@@ -202,6 +202,22 @@ class KodiCMS_Model_File {
 		return $files;
     }
 	
+	public static function html_select()
+	{
+		$templates = array(
+			__('------ none ------')
+		);
+		
+		$snippets = Model_File_Snippet::find_all();
+		
+		foreach ($snippets as $snippet)
+		{
+			$templates[$snippet->name] = $snippet->name;
+		}
+		
+		return $templates;
+	}
+
 	/**
 	 * 
 	 * @return string

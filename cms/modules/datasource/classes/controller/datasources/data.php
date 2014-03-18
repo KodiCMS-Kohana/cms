@@ -29,9 +29,16 @@ class Controller_Datasources_Data extends Controller_System_Datasource
 
 			Cookie::set('ds_id', $cur_ds_id);
 			
+			$keyword = $this->request->query('keyword');
+			
 			$this->template->content->headline = View::factory('datasource/' . $ds->type() . '/headline', array(
 				'fields' => $ds->fields(),
-				'data' => $ds->get_headline()
+				'data' => $ds->get_headline(NULL, $keyword)
+			));
+			
+			$this->template->content->toolbar = View::factory('datasource/' . $ds->type() . '/toolbar', array(
+				'fields' => $ds->fields(),
+				'keyword' => $keyword
 			));
 			
 			$this->template->set_global(array(
