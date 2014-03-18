@@ -8,7 +8,8 @@ nbproject/*
 !/cms/cache/tags/*.html
 !/cms/logs/*.html
 /.idea/
-/public/.tmb/
+/public/*
+!/public/*.html
 cms/media/js/i18n
 /snippets/*
 /layouts/*

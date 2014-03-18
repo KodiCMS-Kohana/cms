@@ -311,7 +311,7 @@ class KodiCMS_Model_File {
 		
 		$this->_changed = array();
 		
-		return (bool) file_put_contents($this->_file, $this->_content);
+		return file_put_contents($this->_file, $this->_content) !== FALSE;
 	}
 	
 	protected function _add_revision_of_file()

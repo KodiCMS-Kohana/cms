@@ -11,11 +11,16 @@ return array(
 	'Unpublished' => 'Не опубликован',
 	'Section' => 'Раздел',
 	'Total doucments: :num' => 'Всего документов: :num',
-	'Create section' => 'Создать',
+	'Create section' => 'Создать раздел',
 	'Edit' => 'Редактировать',
 	'Datasource Information' => 'Информация о разделе',
 	'Datasource Key' => 'Ключ',
 	'Datasource Header' => 'Название',
 	'Datasource Description' => 'Описание',
-	'Datasource Fields' => 'Поля раздела'
+	'Datasource Fields' => 'Поля раздела',
+	'Search indexation' => 'Поисковая индексация',
+	'Datasource has been saved!' => 'Раздел сохранен!',
+	'Search in sources' => 'Искать в разделах',
+	'Datasources' => 'Разделы',
+	'Datasource search' => 'Поиск по разделам'
 );

@@ -1,4 +1,4 @@
-<div id="error-container" class="hero-unit curled">
+<div id="error-container" class="hero-unit">
 	<h1><?php echo __('Oooops'); ?></h1>
 
 	<div class="error-code">
