@@ -366,7 +366,7 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 
 			if($result)
 			{
-				$doc->read_values($result);
+				$doc->load_from_db($result);
 			}
 		}
 

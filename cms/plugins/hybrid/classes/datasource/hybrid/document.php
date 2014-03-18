@@ -76,16 +76,31 @@ class DataSource_Hybrid_Document {
 	
 	/**
 	 * 
+	 * @param array $values
+	 * @return \DataSource_Hybrid_Document
+	 */
+	public function load_from_db( array $values = NULL)
+	{
+		$this->id = (int) Arr::get($values, 'id');
+		$this->ds_id = (int) Arr::get($values, 'ds_id');
+		$this->published = (bool) Arr::get($values, 'published');
+		$this->header = Arr::get($values, 'header');
+
+		foreach($this->record->fields() as $field)
+		{			
+			$this->fields[$field->name] = Arr::get($values, $field->name);
+		}
+		
+		return $this;
+	}
+
+	/**
+	 * 
 	 * @param array $arr
 	 * @return \DataSource_Hybrid_Document
 	 */
 	public function read_values(array $array = NULL) 
 	{
-		if($array === NULL)
-		{
-			return $this;
-		}
-		
 		if( ! $this->loaded() )
 		{
 			$this->id = (int) Arr::get($array, 'id');
@@ -124,7 +139,7 @@ class DataSource_Hybrid_Document {
 				$field->set_value($array, $this);
 			}
 		}
-		
+	
 		return $this;
 	}
 	

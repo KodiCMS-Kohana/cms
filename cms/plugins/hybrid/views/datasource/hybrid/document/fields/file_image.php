@@ -34,13 +34,13 @@
 					<?php echo Form::file( $field->name, array(
 						'id' => $field->name
 					) ); ?>
-					<?php if(!empty($field->types)): ?>
+					
 					<span class="help-block">
-						<?php echo __('Allowed types :types', array(
-						':types' => is_array($field->types) ? implode(', ', $field->types) : ''
+						<?php echo __('Max file size: :size', array(
+						':size' => Text::bytes($field->max_size)
 						)); ?>
 					</span>
-					<?php endif; ?>
+					
 				</div>
 				<div class="span7 input-append">
 					<?php echo Form::input( $field->name . '_url', NULL, array(

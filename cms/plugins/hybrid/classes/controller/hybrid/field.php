@@ -83,7 +83,7 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 	
 	private function _edit($field)
 	{
-		try 
+		try
 		{
 			$old_field = clone($field);
 			$field->set($this->request->post());

@@ -180,12 +180,9 @@ class DataSource_Hybrid_Field_Factory {
 		
 		$query = $query->execute();
 
-		if($query)
+		foreach ($query as $row)
 		{
-			foreach ($query as $row)
-			{
-				$result[] = self::_get_field_from_array($row);
-			}
+			$result[$row['id']] = self::_get_field_from_array($row);
 		}
 		
 		$f[$ds_id] = $result;

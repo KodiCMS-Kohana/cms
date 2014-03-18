@@ -197,8 +197,7 @@ abstract class DataSource_Hybrid_Field {
 	public function set( array $data )
 	{
 		$data['isreq'] = ! empty($data['isreq']) ? TRUE : FALSE;
-		$data['in_headline'] = ! empty($data['in_headline']) ? TRUE : FALSE;
-		
+		$data['in_headline'] = ! empty($data['in_headline']) ? TRUE : FALSE;		
 
 		foreach ( $data as $key => $value )
 		{
@@ -262,9 +261,9 @@ abstract class DataSource_Hybrid_Field {
 	 * @param DataSource_Hybrid_Document $doc
 	 * @return \DataSource_Hybrid_Field
 	 */
-	public function set_value(array $data, $doc)
+	public function set_value(array $data, DataSource_Hybrid_Document $document)
 	{
-		$doc->fields[$this->name] = Arr::get($data, $this->name);
+		$document->fields[$this->name] = Arr::get($data, $this->name);
 		return $this;
 	}
 	

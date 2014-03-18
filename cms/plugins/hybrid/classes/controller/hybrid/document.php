@@ -62,7 +62,11 @@ class Controller_Hybrid_Document extends Controller_System_Datasource
 		WYSIWYG::load_filters();
 		
 		$post_data = Session::instance()->get_once('post_data');
-		$doc->read_values($post_data)->fetch_values();
+		if(!empty($post_data))
+		{
+			$doc->read_values($post_data);
+		}
+		$doc->fetch_values();
 
 		$this->breadcrumbs
 			->add($this->section()->name, Route::url('datasources', array(

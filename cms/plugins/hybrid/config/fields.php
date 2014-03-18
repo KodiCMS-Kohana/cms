@@ -31,5 +31,6 @@ return array(
 	
 	'File' => array(
 		'file_file' => 'File',
+		'file_image' => 'Image',
 	)
 );
