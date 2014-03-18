@@ -20,24 +20,6 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 	
 	/**
 	 *
-	 * @var string
-	 */
-	public $key;
-	
-	/**
-	 *
-	 * @var integer
-	 */
-	public $parent = 0;
-	
-	/**
-	 *
-	 * @var string
-	 */
-	public $path = NULL;
-	
-	/**
-	 *
 	 * @var array 
 	 */
 	public $search_index_fields = array();
@@ -59,7 +41,9 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 	 * @var boolean
 	 */
 	public $doc_order = array(
-		array('created_on' => 'desc')
+		array(
+			'created_on' => 'desc'
+		)
 	);
 
 	/**
@@ -80,10 +64,13 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 	 */
 	public $fields = NULL;
 
-	public function __construct($key = NULL, $parent = NULL)
+	/**
+	 * 
+	 * @param string $key
+	 * @param type $parent
+	 */
+	public function __construct()
 	{
-		$this->key = $key;
-		$this->parent = $parent;
 		$this->page_size = Cookie::get('page_size', 30);
 	}
 	
@@ -92,7 +79,7 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 		$id = parent::create($values);
 		
 		$dsf = new DataSource_Hybrid_Factory();
-		$dsf->create($values['key'], $this);
+		$dsf->create($this);
 		
 		return $id;
 	}
@@ -104,16 +91,7 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 				array('not_empty')
 			))
 			->label('name', __('Header') );
-		
-		if( empty($this->_id) )
-		{
-			$array->rules('key', array(
-					array('not_empty'),
-					array('DataSource_Hybrid_Factory::exists')
-			))
-			->label( 'key', __('Key') );
-		}
-		
+
 		if( ! $array->check())
 		{
 			throw new Validation_Exception($array);
@@ -340,23 +318,17 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 			if(!$this->read_sql) 
 			{
 				$record = $this->get_record();
-				$parents = $this->get_parents();
 				
 				$query = DB::select(array('dshybrid.id', 'id'))
 					->select('ds_id', 'published', 'header')
+					->select_array( array_keys( $record->fields() ))
 					->from('dshybrid')
 					->where('dshybrid.id', '=', $id)
+					->from("dshybrid_" . $this->id())
+					->where("dshybrid_" . $this->id() . ".id", '=', DB::expr('`dshybrid`.`id`'))
 					->limit(1);
 
-				$query->select_array( array_keys( $record->fields() ));
 
-				foreach($parents as $parent) 
-				{
-					$query
-						->from("dshybrid_$parent")
-						->where("dshybrid_$parent.id", '=', DB::expr('`dshybrid`.`id`'));
-				}
-				
 				$this->read_sql = (string) $query;
 			}
 			
@@ -470,20 +442,9 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 
 		$id = $query[0];
 
-		$parents = $this->get_parents();
-
 		$success = TRUE;
 
-		foreach($parents as $parent) 
-		{
-			$query = DB::insert("dshybrid_$parent")
-				->columns(array('id'))
-				->values(array($id))
-				->execute();
-			$success = $success AND ($query[1] > 0);
-		}
-
-		if($success AND $id)
+		if( $id )
 		{
 			return $id;
 		}
@@ -509,15 +470,6 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 			->where('id', 'in', $ids)
 			->execute();
 
-		$parents = $this->get_parents();
-
-		foreach($parents as $parent)
-		{
-			DB::delete("dshybrid_$parent")
-				->where('id', 'in', $ids)
-				->execute();
-		}
-
 		$this->remove_from_index($ids);
 		
 		$this->clear_cache();
@@ -536,18 +488,6 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 		$dsf->remove_documents($ids);
 		
 		return $this;
-	}
-	
-	/**
-	 * 
-	 * @return array
-	 */
-	public function get_parents()
-	{
-		$parents = explode(',', $this->path);
-		unset($parents[0]);
-		
-		return $parents;
 	}
 	
 	/**

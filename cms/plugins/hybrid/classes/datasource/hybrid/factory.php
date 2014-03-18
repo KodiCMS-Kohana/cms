@@ -5,9 +5,7 @@
  */
 
 class DataSource_Hybrid_Factory {
-	
-	const TABLE = 'hybriddatasources';
-	const SEPARATOR = '.';
+
 	const PREFIX = 'dshybrid_';
 	
 	/**
@@ -22,17 +20,13 @@ class DataSource_Hybrid_Factory {
 	 * @param integer $parent
 	 * @return null|\DataSource_Hybrid_Section
 	 */
-	public function create($key, DataSource_Section_Hybrid $ds, $parent = 0) 
+	public function create(DataSource_Section_Hybrid $ds) 
 	{
-		$parent = (int) $parent;
-
-		$key = self::get_full_key($key, $parent);
 
 		if(self::create_table($ds->id())) 
 		{
 			if(self::create_folder($ds->id())) 
 			{
-				self::update_struct($ds);
 				$ds->save();
 
 				return $ds;
@@ -55,10 +49,6 @@ class DataSource_Hybrid_Factory {
 	{
 		self::remove_table($id);
 		self::remove_folder($id);
-		
-		return (bool) DB::delete(self::TABLE)
-			->where('ds_id', '=', $id)
-			->execute();
 	}
 	
 	/**
@@ -187,203 +177,7 @@ class DataSource_Hybrid_Factory {
 		
 		return $this;
 	}
-	
-	/**
-	 * 
-	 * @param array $ids
-	 * @param integer $fromId
-	 * @param integer $toId
-	 */
-	public function cast_documents($ids, $fromId, $toId) 
-	{
-		if(sizeof($ids) > 0) 
-		{
 
-			$from = Datasource_Data_Manager::load($fromId);
-			$to = Datasource_Data_Manager::load($toId);
-
-			$res = DB::select('id')
-				->from('dshybrid')
-				->where('ds_id', '=', $from->id())
-				->where('id', 'in', $ids)
-				->execute();
-			
-			if(count($res) > 0) 
-			{
-				$add = $remove = array();
-				$fromRec = $from->get_record(); 
-				$toRec = $to->get_record();
-				
-				$path1 = explode(',', $from->path); 
-				$path2 = explode(',', $to->path);
-
-				$removeDs = array_diff($path1, $path2);
-				$addDs = array_diff($path2, $path1);
-				$commonDs = (int) max(array_intersect($path1, $path2));
-
-				foreach($fromRec->fields as $key => $field)
-				{
-					if(!(isset($toRec->fields[$key]) AND $toRec->fields[$key]->ds_id == $field->ds_id))
-					{
-						$remove[] = $fromRec->fields[$key];
-					}
-				}
-
-				foreach($toRec->fields as $key => $field)
-				{
-					if(!(isset($fromRec->fields[$key]) && $fromRec->fields[$key]->ds_id == $field->ds_id))
-					{
-						$add[] = $toRec->fields[$key];
-					}
-				}
-
-				$lr = sizeof($remove); 
-				$la = sizeof($add);
-				$ids = array();
-
-				foreach ($res as $row)
-				{
-					$doc = $from->get_document($row['id']);
-					for($r = 0; $r < $lr; $r++)
-					{
-						$remove[$r]->onRemoveDocument($doc);
-					}
-					
-					$ids[] = $doc->id;
-				}
-
-				if(sizeof($ids)) 
-				{
-					$failed = array();
-
-					if(sizeof($removeDs)) 
-					{
-						foreach($removeDs as $dsId)
-						{
-							DB::delete('dshybrid_'. (int) $dsId)
-								->where('id', 'in', $ids)
-								->execute();
-						}
-					}
-
-					foreach($ids as $k => $id) 
-					{
-						$success = TRUE;
-						foreach($addDs as $dsId) 
-						{
-							$query = DB::insert('dshybrid_'. (int) $dsId)
-								->columns(array('id'))
-								->values(array($id))
-								->execute();
-
-							$success = $success && ($query[1] > 0);
-						}
-						
-						if(!$success) 
-						{
-							foreach($addDs as $dsId)
-							{
-								DB::delete('dshybrid_'. (int) $dsId)
-									->where('id', '=', $id)
-									->execute();
-							}
-
-							$failed[] = $id;
-							unset($ids[$k]);
-						}
-					}
-
-					if(sizeof($failed)) 
-					{
-						if($commonDs > 0)
-						{
-							DB::update('dshybrid')
-								->set(array(
-									'ds_id' => $commonDs
-								))
-								->where('id', 'in', $failed)
-								->execute();
-						}
-						else
-						{
-							DB::delete('dshybrid')
-									->where('id', 'in', $failed)
-									->execute();
-						}
-					}
-
-					if(sizeof($ids))
-					{
-						foreach($ids as $id) 
-						{
-							$doc = $to->get_document($id);
-							for($a = 0; $a < $la; $a++)
-							{
-								$add[$a]->onCreateDocument($doc);
-							}
-
-							$query = $toRec->get_sql($doc);
-							foreach($query as $q)
-							{
-								$db->query($q);
-							}
-						}
-
-						DB::update('dshybrid')
-							->set(array('ds_id' => $to->id()))
-							->where('id', 'in', $ids)
-							->execute();
-			
-						$from->update_size();
-						$to->update_size();
-					}
-				}
-			}
-		}
-	}
-	
-	/**
-	 * 
-	 * @param string $key
-	 * @param integer $parent
-	 * @return string
-	 */
-	public static function get_full_key($key, $parent)
-	{
-		$key = self::validate_key($key);
-		if(!$parent)
-		{
-			return $key;
-		}
-
-		$fullkey = DB::select('ds_key', 'path')
-			->from(self::TABLE)
-			->where('ds_id', '=', $parent)
-			->execute()
-			->get('ds_key');
-		
-		if($fullkey)
-		{
-			$fullkey .= self::SEPARATOR . $key;
-		}
-		
-		return $fullkey;
-	}
-	
-	/**
-	 * 
-	 * @param string $key
-	 * @return boolean
-	 */
-	public static function exists($key) 
-	{
-		return ! (bool) DB::select('ds_id')
-			->from(self::TABLE)
-			->where('ds_key', '=', $key)
-			->execute()
-			->get('ds_id');
-	}
-	
 	/**
 	 * 
 	 * @param integer $id
@@ -415,41 +209,6 @@ class DataSource_Hybrid_Factory {
 			->execute();
 		
 		return TRUE;
-	}
-	
-	/**
-	 * 
-	 * @param Datasource_Section $ds
-	 * @return array
-	 */
-	public static function update_struct($ds) 
-	{
-		if($ds->parent) 
-		{
-			$path = DB::select('path')
-				->from(self::TABLE)
-				->where('ds_id', '=', $ds->parent)
-				->execute()
-				->get('path');
-
-			$ds->path = $path . ',' . $ds->id();
-		}
-		else
-		{
-			$ds->path = '0,' . $ds->id();
-		}
-		
-		$data = array(
-			'ds_id' => $ds->id(), 
-			'parent' => (int) $ds->parent, 
-			'ds_key' => $ds->key, 
-			'path' => $ds->path
-		);
-		
-		return DB::insert(self::TABLE)
-			->columns(array_keys($data))
-			->values(array_values($data))
-			->execute();
 	}
 	
 	/**
@@ -506,22 +265,5 @@ class DataSource_Hybrid_Factory {
 		}
 
 		return !is_dir($dir);
-	}
-	
-	/**
-	 * 
-	 * @param string $key
-	 * @return string
-	 */
-	public static function validate_key($key) 
-	{
-		$key = preg_replace('/[^A-Za-z0-9]+/', '', $key);
-		$key = strtolower($key);
-		if(strlen($key) > 16)
-		{
-			$key = substr($key, 0, 16);
-		}
-
-		return $key;
 	}
 }

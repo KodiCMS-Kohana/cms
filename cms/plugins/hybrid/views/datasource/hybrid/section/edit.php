@@ -20,15 +20,6 @@
 				) ); ?>
 			</div>
 		</div>
-		
-		<div class="control-group">
-			<label class="control-label" for="ds_key"><?php echo __('Datasource Key'); ?></label>
-			<div class="controls">
-				<?php echo Form::input( 'key', $ds->key, array(
-					'class' => 'input-xlarge', 'id' => 'ds_key', 'disabled'
-				) ); ?>
-			</div>
-		</div>
 
 		<div class="control-group">
 			<label class="control-label" for="ds_description"><?php echo __('Datasource Description'); ?></label>

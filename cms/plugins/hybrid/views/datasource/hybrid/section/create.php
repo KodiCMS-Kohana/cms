@@ -16,17 +16,6 @@
 				?>
 			</div>
 		</div>
-		
-		<div class="control-group">
-			<label class="control-label" for="ds_key"><?php echo __('Datasource Key'); ?></label>
-			<div class="controls">
-				<?php
-				echo Form::input( 'key', NULL, array(
-					'class' => 'input-xlarge slug', 'id' => 'ds_key'
-				) );
-				?>
-			</div>
-		</div>
 
 		<div class="control-group">
 			<label class="control-label" for="ds_description"><?php echo __('Datasource Description'); ?></label>

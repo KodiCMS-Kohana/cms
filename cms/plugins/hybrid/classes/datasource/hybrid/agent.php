@@ -28,18 +28,6 @@ class DataSource_Hybrid_Agent {
 	 *
 	 * @var string
 	 */
-	public $ds_key;
-	
-	/**
-	 *
-	 * @var string
-	 */
-	public $ds_path;
-	
-	/**
-	 *
-	 * @var string
-	 */
 	public $ds_name;
 	
 	/**
@@ -60,12 +48,10 @@ class DataSource_Hybrid_Agent {
 	 */
 	public $sys_fields = NULL;
 	
-	public function __construct($dsId, $dsKey, $dsPath, $dsName) 
+	public function __construct($ds_id, $ds_name) 
 	{
-		$this->ds_id = $dsId;
-		$this->ds_key = $dsKey;
-		$this->ds_path = $dsPath;
-		$this->ds_name = $dsName;
+		$this->ds_id = $ds_id;
+		$this->ds_name = $ds_name;
 	}
 
 	/**
@@ -81,10 +67,9 @@ class DataSource_Hybrid_Agent {
 		
 		$this->ds_fields = $this->ds_field_names = array();
 		
-		$query = DB::select('dsf.id', 'dsf.ds_id', 'dsf.name', 'dsf.family', 'dsf.type', 'dsf.header', 'dsf.from_ds')
-			->from(array('hybriddatasources', 'hds'), array('dshfields', 'dsf') )
-			->where('hds.ds_id', '=', $this->ds_id)
-			->where( DB::expr( 'FIND_IN_SET(dsf.ds_id, hds.path)'), '>', 0 )
+		$query = DB::select('id', 'ds_id', 'name', 'family', 'type', 'header', 'from_ds')
+			->from('dshfields')
+			->where('ds_id', '=', $this->ds_id)
 			->execute();
 		
 		foreach ($query as $row)
@@ -102,11 +87,10 @@ class DataSource_Hybrid_Agent {
 			
 			if($row['family'] === DataSource_Hybrid_Field::FAMILY_SOURCE)
 			{
-				$this->ds_fields[$id]['type'] = $row['type'];
 				$this->ds_fields[$id]['from_ds'] = $row['from_ds'];
 			}
 			
-			$this->ds_field_names[$name] = $id;
+			$this->ds_field_names[$id] = $name;
 		}
 		
 		return $this->ds_fields;
@@ -461,6 +445,10 @@ class DataSource_Hybrid_Agent {
 		}
 	}
 
+	/**
+	 *
+	 * @var array 
+	 */
 	protected static $_instance = array();
 
 	/**
@@ -470,90 +458,32 @@ class DataSource_Hybrid_Agent {
 	 * @param boolean $only_sub
 	 * @return DataSource_Hybrid_Agent
 	 */
-	public static function instance($ds_id, $type = NULL, $only_sub = FALSE)
+	public static function instance($ds_id, $type = NULL)
 	{
 		if(isset(self::$_instance[$ds_id]))
 		{
 			return self::$_instance[$ds_id];
 		}
 		
-		$ds_key = NULL;
-		if( ! Valid::numeric( $ds_id ))
-		{
-			$ds_key = $ds_id;
-		}
-		
-		$query = DB::select('hds.ds_id', 'hds.ds_key', 'hds.path', 'ds.name')
-			->from(array('hybriddatasources', 'hds'), array('datasources', 'ds'))
-//			->where(DB::expr( 'INSTR(hds.ds_key, :ds_key_field)'), '=', 1)
-			->where('hds.ds_id', '=', DB::expr(Database::instance()->quote_column('ds.id')))
-			->order_by( 'hds.ds_key', 'asc');
-//			->param( ':ds_key_field', DB::expr($ds_key != NULL 
-//					? $ds_key 
-//					: Database::instance()->quote_column('hds0.ds_key')));
-		
-//		if($ds_key === NULL)
-//		{
-			$query->from(array('hybriddatasources', 'hds0'))
-				->where('hds.ds_id', '=', $ds_id);
-//		}
-		
-		$result = $query->execute();
+		$result = DB::select('id', 'name')
+			->from('datasources')
+			->where('type', '=', 'hybrid')
+			->where('id', '=', (int) $ds_id)
+			->execute();
 		
 		if($result->count() > 0)
 		{
 			$current = $result->current();
-			$ds_id = $current['ds_id'];
-			$ds_key = $current['ds_key'];
+			$ds_id = $current['id'];
 			$ds_name = $current['name'];
 			
-			$path = array_flip(explode(',', substr($current['path'], 2))); 
-			$pos = 0;
-			
-			foreach($path as $id => $v) 
-			{
-				$pos = strpos($ds_key, '.', $pos + 1);
-				$path[$id] = $pos > 0 ? substr($ds_key, 0, $pos) : $ds_key;
-			}
-			
-			foreach($result as $row)
-			{
-				$path[$row['ds_id']] = $row['ds_key'];
-			}
-			
-			self::$_instance[$ds_id] = new DataSource_Hybrid_Agent($ds_id, $ds_key, $path, $ds_name);
-			self::$_instance[$ds_key] = self::$_instance[$ds_id];
+			self::$_instance[$ds_id] = new DataSource_Hybrid_Agent($ds_id, $ds_name);
 		}
 		else
 		{
 			self::$_instance[$ds_id] = NULL;
 		}
 		
-//		if(
-//			$type !== NULL 
-//		AND 
-//			self::$_instance[$ds_id] instanceof DataSource_Hybrid_Agent 
-//		AND 
-//			(($type != $ds_id)
-//				? (
-//						!isset(self::$_instance[$ds_id]->ds_path[$type]) 
-//					OR 
-//						strlen(self::$_instance[$ds_id]->ds_path[$type]) > strlen(self::$_instance[$ds_id]->ds_key)
-//				  )
-//				: $only_sub
-//			)
-//		) 
-//		{
-//			return NULL;
-//		} 
-//		else
-//		{
-//			return self::$_instance[$ds_id];
-//		}
-		
-		if(self::$_instance[$ds_id] instanceof DataSource_Hybrid_Agent)
-		{
-			return self::$_instance[$ds_id];
-		}
+		return self::$_instance[$ds_id];
 	}
 }

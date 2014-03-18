@@ -31,11 +31,3 @@ CREATE TABLE IF NOT EXISTS `__TABLE_PREFIX__dshybrid` (
   PRIMARY KEY (`id`),
   KEY `ds_id` (`ds_id`,`published`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `__TABLE_PREFIX__hybriddatasources` (
-  `ds_id` int(11) unsigned NOT NULL DEFAULT '0',
-  `parent` int(11) unsigned NOT NULL DEFAULT '0',
-  `ds_key` varchar(128) NOT NULL DEFAULT '',
-  `path` varchar(255) NOT NULL DEFAULT '',
-  PRIMARY KEY (`ds_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
