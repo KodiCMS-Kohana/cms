@@ -44,7 +44,7 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 		$ds_id = (int) $this->request->param('id');
 		$ds = $this->section($ds_id);
 		
-		$this->template->content = View::factory('datasource/data/hybrid/field/template', array(
+		$this->template->content = View::factory('datasource/hybrid/field/template', array(
 			'ds' => $ds,
 			'fields' => $ds->get_record()->fields
 		));
@@ -64,7 +64,7 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 				'controller' => 'data',
 				'directory' => 'datasources',
 			)) . URL::query(array('ds_id' => $ds->id()), FALSE))
-			->add(__('Edit hybrid'), Route::url('datasources', array(
+			->add(__('Edit section :name', array(':name' => $ds->name)), Route::url('datasources', array(
 				'directory' => 'datasources',
 				'controller' => 'section',
 				'action' => 'edit',
@@ -72,7 +72,7 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 			)))
 			->add($this->field->header);
 
-		$this->template->content = View::factory('datasource/data/hybrid/field/edit', array(
+		$this->template->content = View::factory('datasource/hybrid/field/edit', array(
 			'ds' => $ds,
 			'field' => $this->field,
 			'type' => $this->field->type,
@@ -126,7 +126,7 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 				'controller' => 'data',
 				'directory' => 'datasources',
 			)) . URL::query(array('ds_id' => $ds->id()), FALSE))
-			->add(__('Edit hybrid'), Route::url('datasources', array(
+			->add(__('Edit section :name', array(':name' => $ds->name)), Route::url('datasources', array(
 				'directory' => 'datasources',
 				'controller' => 'section',
 				'action' => 'edit',
@@ -134,7 +134,7 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 			)))
 			->add(__('Add field'));
 		
-		$this->template->content = View::factory('datasource/data/hybrid/field/add', array(
+		$this->template->content = View::factory('datasource/hybrid/field/add', array(
 			'ds' => $ds,
 			'sections' => $this->_get_sections(),
 			'post_data' => Session::instance()->get_once('post_data', array())

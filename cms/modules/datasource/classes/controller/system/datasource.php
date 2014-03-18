@@ -18,12 +18,6 @@ class Controller_System_Datasource extends Controller_System_Backend
 
 		Assets::js('datasource', ADMIN_RESOURCES . 'js/datasource.js', 'global');
 		Assets::css('datasource', ADMIN_RESOURCES . 'css/datasource.css', 'global');
-		
-		$this->breadcrumbs
-			->add(__('Datasources'), Route::url('datasources', array(
-				'directory' => 'datasources',
-				'controller' => 'data'
-			)));
 	}
 	
 	/**

@@ -494,7 +494,7 @@ abstract class DataSource_Hybrid_Field {
 	{
 		if($template === NULL)
 		{
-			$template = 'datasource/data/hybrid/document/fields/' . $this->type;
+			$template = 'datasource/hybrid/document/fields/' . $this->type;
 		}
 		
 		return View::factory($template, array(

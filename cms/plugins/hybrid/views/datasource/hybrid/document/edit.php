@@ -27,7 +27,7 @@ $(function() {
 			</div>
 			
 			<div class="controls">
-				<?php echo View::factory('datasource/data/hybrid/document/fields/published', array(
+				<?php echo View::factory('datasource/hybrid/document/fields/published', array(
 					'doc' => $doc
 				)); ?>
 			</div>	
@@ -39,10 +39,10 @@ $(function() {
 		'fields' => $fields,
 		'doc' => $doc,
 	)); ?>
-	<?php else: ?>
+	<?php elseif(!empty($fields)): ?>
 	<br />
 
-	<?php foreach ($record->fields() as $key => $field): ?>
+	<?php foreach ($fields as $key => $field): ?>
 	<?php echo $field->backend_template($doc); ?>
 	<?php endforeach; ?>
 	<?php endif; ?>

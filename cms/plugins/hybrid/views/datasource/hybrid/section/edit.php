@@ -41,7 +41,7 @@
 		
 	</div>
 	
-	<?php echo View::factory('datasource/data/hybrid/blocks/fields', array(
+	<?php echo View::factory('datasource/hybrid/blocks/fields', array(
 		'record' => $ds->get_record(), 'ds' => $ds
 	)); ?>
 	

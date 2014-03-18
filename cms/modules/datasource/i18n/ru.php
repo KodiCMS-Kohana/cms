@@ -22,5 +22,7 @@ return array(
 	'Datasource has been saved!' => 'Раздел сохранен!',
 	'Search in sources' => 'Искать в разделах',
 	'Datasources' => 'Разделы',
-	'Datasource search' => 'Поиск по разделам'
+	'Datasource search' => 'Поиск по разделам',
+	'Add section :type' => 'Создание раздела :type',
+	'Edit section :name' => 'Редактирование раздела :name'
 );

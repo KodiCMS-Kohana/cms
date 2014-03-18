@@ -30,7 +30,7 @@
 	<?php
 	try
 	{
-		echo View::factory('datasource/data/hybrid/field/edit/' . $type, array(
+		echo View::factory('datasource/hybrid/field/edit/' . $type, array(
 			'field' => $field, 'post_data' => $post_data, 'sections' => $sections
 		));
 	}

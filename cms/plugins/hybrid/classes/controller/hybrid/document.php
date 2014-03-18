@@ -72,15 +72,16 @@ class Controller_Hybrid_Document extends Controller_System_Datasource
 		
 		if($action == 'create')
 		{
-			$this->breadcrumbs->add(__('New document'));
+			$this->template->title = __('New document');
 		}
 		else
 		{
-			$this->breadcrumbs->add($doc->header);
+			$this->template->title = $doc->header;
 		}
 		
-		$this->template->content = View::factory('datasource/data/hybrid/document/edit')->set( array(
-			'record' => $this->section()->get_record(),
+		$this->breadcrumbs->add($this->template->title);
+		
+		$this->template->content = View::factory('datasource/hybrid/document/edit')->set( array(
 			'fields' => $this->section()->get_record()->fields(),
 			'ds' => $this->section(),
 			'doc' => $doc,

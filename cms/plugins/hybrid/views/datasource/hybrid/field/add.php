@@ -48,7 +48,7 @@
 					foreach ($title as $type => $title)
 					{
 						try {
-							echo View::factory('datasource/data/hybrid/field/add/' . $type, array(
+							echo View::factory('datasource/hybrid/field/add/' . $type, array(
 								'sections' => $sections, 'post_data' => $post_data, 'title' => $title
 							));
 						} catch (Exception $exc) {}
@@ -57,7 +57,7 @@
 				else
 				{
 					try {
-						echo View::factory('datasource/data/hybrid/field/add/' . $type, array(
+						echo View::factory('datasource/hybrid/field/add/' . $type, array(
 							'sections' => $sections, 'post_data' => $post_data, 'title' => $title
 						));
 					} catch (Exception $exc) {}
