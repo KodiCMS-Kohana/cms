@@ -64,7 +64,7 @@
 		<div class="control-group">
 			<label class="control-label" for="search_index_fields"><?php echo __('Index document fields'); ?></label>
 			<div class="controls">
-				<?php echo Form::select('search_index_fields[]',  array(__('--- none ---')) + $ds->record_fields_array(), (array) $ds->search_index_fields, array(
+				<?php echo Form::select('search_index_fields[]', $ds->record_fields_array(), (array) $ds->search_index_fields, array(
 					'class' => 'input-block-level'
 				)); ?>
 			</div>

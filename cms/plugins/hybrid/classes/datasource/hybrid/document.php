@@ -61,7 +61,7 @@ class DataSource_Hybrid_Document {
 			'header' => $this->header
 		);
 	
-		$this->field_names = array_keys($this->record->fields);
+		$this->field_names = array_keys($this->record->fields());
 		$this->reset(); 
 	}
 	
@@ -95,7 +95,7 @@ class DataSource_Hybrid_Document {
 		$this->published = Arr::get($array, 'published', FALSE) ? TRUE : FALSE;
 		$this->header = Arr::get($array, 'header');
 
-		foreach($this->record->fields as $key => $field)
+		foreach($this->record->fields() as $field)
 		{
 			$field->set_value($array, $this);
 		}
@@ -110,9 +110,16 @@ class DataSource_Hybrid_Document {
 	 */
 	public function read_files($array) 
 	{
-		foreach($this->record->fields as $key => $field)
+		foreach($this->record->fields() as $key => $field)
 		{
-			if(isset($array[$key]) AND $field->family == DataSource_Hybrid_Field::TYPE_FILE AND Upload::valid( $array[$key] ) AND Upload::not_empty($array[$key]))
+			if(
+				isset($array[$key]) 
+			AND
+				$field->family == DataSource_Hybrid_Field::FAMILY_FILE 
+			AND 
+				Upload::valid( $array[$key] ) 
+			AND 
+				Upload::not_empty($array[$key]))
 			{
 				$field->set_value($array, $this);
 			}
@@ -127,9 +134,9 @@ class DataSource_Hybrid_Document {
 	 */
 	public function fetch_values() 
 	{
-		foreach ( $this->field_names as $key )
+		foreach ( $this->record->fields() as $field )
 		{
-			$this->record->fields[$key]->fetch_value($this);
+			$field->fetch_value($this);
 		}
 		
 		return $this;
@@ -141,11 +148,11 @@ class DataSource_Hybrid_Document {
 	 */
 	public function convert_to_plain() 
 	{
-		for($i = 0, $l = sizeof($this->field_names); $i < $l; $i++)
+		foreach ( $this->record->fields() as $field )
 		{
-			$this->record->fields[$this->field_names[$i]]->convert_to_plain($this);
+			$field->convert_to_plain($this);
 		}
-		
+
 		return $this;
 	}
 	
@@ -178,7 +185,7 @@ class DataSource_Hybrid_Document {
 			->label( 'id', __('ID') )
 			->label('header', __('Header'));
 
-		foreach ($this->record->fields as $name => $field)
+		foreach ($this->record->fields() as $name => $field)
 		{
 			$field->document_validation_rules($array, $this);
 		}

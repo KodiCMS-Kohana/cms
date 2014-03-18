@@ -6,6 +6,8 @@
 
 class DataSource_Hybrid_Field_Utils {
 	
+	protected static $_cached_headers = array();
+
 	public static function create_internal_ds($name, $type, $orig_id = NULL)
 	{
 		$ds = NULL;
@@ -37,17 +39,21 @@ class DataSource_Hybrid_Field_Utils {
 		return Datasource_Data_Manager::load($ds_id);
 	}
 	
+	/**
+	 * 
+	 * @param string $type
+	 * @param integer $ds_id
+	 * @param integer $id
+	 * @return type
+	 */
 	public static function get_document_header($type, $ds_id, $id) 
-	{		
-		$header = '';
-
-		$result = self::_query_document_headers($type, $ds_id, array($id));
-		if($result)
+	{
+		if(isset(self::$_cached_headers[$ds_id][$id]))
 		{
-			$header = $result['header'];
+			return self::$_cached_headers[$ds_id][$id];
 		}
 
-		return $header;
+		return self::_query_document_headers($type, $ds_id, array($id))->get('header');
 	}
 	
 	public static function get_document_headers($type, $ds_id, array $ids) 
@@ -56,25 +62,24 @@ class DataSource_Hybrid_Field_Utils {
 
 		if(!empty($ids)) 
 		{
-			$results = self::_query_document_headers($type, $ds_id, $ids);
+			$result = self::_query_document_headers($type, $ds_id, $ids)->as_array('id', 'header');
 
-			foreach ($results as $r)
+			foreach ($result as $id => $header )
 			{
-				$result[$r['id']] = $r['header'];
+				self::$_cached_headers[$ds_id][$id] = $header;
 			}
 		}
+
 		return $result;
 	}
 	
 	protected static function _query_document_headers($type, $ds_id, array $ids) 
 	{
-		$query = DB::select('dshybrid.id', 'dshybrid.header')
+		return DB::select('dshybrid.id', 'dshybrid.header')
 			->from(array('ds' . $type . '_' . $ds_id, 'ds'))
 			->join('dshybrid', 'left')
 				->on('dshybrid.id', '=', 'ds.id')
 			->where('ds.id', 'in', $ids)
 			->execute();
-
-		return $query;
 	}
 }

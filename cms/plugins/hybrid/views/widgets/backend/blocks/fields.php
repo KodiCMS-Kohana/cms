@@ -46,18 +46,17 @@
 				<td>
 					<?php
 						$widgets = array();
-						switch( $field->family )
+						if($field instanceof DataSource_Hybrid_Field_Source_OneToMany)
 						{
-							case DataSource_Hybrid_Field::TYPE_ARRAY:
-								$widgets = $widget->get_related_widgets(array('hybrid_headline'));
-								break;
-
-							case DataSource_Hybrid_Field::TYPE_DOCUMENT:
-								$widgets = $widget->get_related_widgets(array('hybrid_document'));
-								break;
+							$widgets = $widget->get_related_widgets(array('hybrid_headline'));
+						}
+						else if($field instanceof DataSource_Hybrid_Field_Source_OneToOne)
+						{
+							$widgets = $widget->get_related_widgets(array('hybrid_document'));
 						}
 
-						if(isset($widgets[$widget->id])) unset($widgets[$widget->id]);
+//						if(isset($widgets[$widget->id])) unset($widgets[$widget->id]);
+						
 						if( ! empty($widgets) )
 						{
 							$widgets[0] = '---------';

@@ -214,22 +214,11 @@ class Model_Widget_Hybrid_Headline extends Model_Widget_Hybrid {
 				$related_widget = NULL;
 				
 				$field_class = 'DataSource_Hybrid_Field_' . $field['type'];
-				$field_class_method = 'set_doc_field';
+				$field_class_method = 'fetch_widget_field';
 				if( class_exists($field_class) AND method_exists( $field_class, $field_class_method ))
 				{
-					$doc[$field['name']] = call_user_func_array($field_class.'::'.$field_class_method, array( $this, $field, $row, $fid, $recurse));
+					$doc[$field['name']] = call_user_func_array($field_class.'::'.$field_class_method, array( $this, $field, $row, $fid, $recurse - 1));
 					continue;
-				}
-						
-				switch($field['type']) {
-					case DataSource_Hybrid_Field::TYPE_DATASOURCE:
-						array(
-							'id' => $row[$fid]
-						);
-						break;
-					default:
-						$doc[$field['name']] = $row[$fid];
-						
 				}
 			}
 			

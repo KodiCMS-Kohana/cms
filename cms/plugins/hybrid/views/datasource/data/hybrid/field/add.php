@@ -33,18 +33,36 @@
 		<div class="control-group">
 			<label class="control-label" for="field-type-select"><?php echo __('Field type'); ?></label>
 			<div class="controls">
-				<?php echo Form::select( 'family', DataSource_Hybrid_Field::types(), Arr::get($post_data, 'family'), array(
+				<?php echo Form::select( 'type', DataSource_Hybrid_Field::types(), Arr::get($post_data, 'type'), array(
 					'id' => 'field-type-select'
 				)); ?>
 			</div>
 		</div>
 		
+		
 		<div id="field-options">
-			<?php foreach (DataSource_Hybrid_Field::types() as $type => $title): ?>
-			<?php echo View::factory('datasource/data/hybrid/field/add/' . $type, array(
-				'sections' => $sections, 'post_data' => $post_data, 'title' => $title
-			)); ?>
-			<?php endforeach; ?>
+			<?php foreach (DataSource_Hybrid_Field::types() as $type => $title) 
+			{
+				if(is_array($title))
+				{
+					foreach ($title as $type => $title)
+					{
+						try {
+							echo View::factory('datasource/data/hybrid/field/add/' . $type, array(
+								'sections' => $sections, 'post_data' => $post_data, 'title' => $title
+							));
+						} catch (Exception $exc) {}
+					}
+				}
+				else
+				{
+					try {
+						echo View::factory('datasource/data/hybrid/field/add/' . $type, array(
+							'sections' => $sections, 'post_data' => $post_data, 'title' => $title
+						));
+					} catch (Exception $exc) {}
+				}
+			} ?>
 		</div>
 		
 		<hr />
@@ -57,6 +75,16 @@
 						'id' => 'isreq'
 					)); ?>
 				</div>
+			</div>
+		</div>
+		
+		<div class="control-group">
+			<label class="control-label" for="position"><?php echo __('Field position'); ?></label>
+			<div class="controls">
+				<?php echo Form::input( 'position', Arr::get($post_data, 'position', 500), array(
+					'id' => 'position',
+					'class' => 'input-mini'
+				)); ?>
 			</div>
 		</div>
 	</div>

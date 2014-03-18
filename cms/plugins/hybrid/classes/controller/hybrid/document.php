@@ -33,7 +33,9 @@ class Controller_Hybrid_Document extends Controller_System_Datasource
 	}
 
 	public function action_view()
-	{	
+	{
+		Assets::package('backbone');
+	
 		$id = (int) $this->request->query('id');
 		$action = $this->request->action();
 

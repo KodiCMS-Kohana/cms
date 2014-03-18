@@ -34,7 +34,8 @@
 			'field' => $field, 'post_data' => $post_data, 'sections' => $sections
 		));
 	}
-	catch(Exception $e) {} ?>
+	catch(Exception $e) {} 
+	?>
 
 	<div class="widget-content ">
 		<div class="control-group">
@@ -45,6 +46,16 @@
 						'id' => 'isreq'
 					)); ?>
 				</div>
+			</div>
+		</div>
+		
+		<div class="control-group">
+			<label class="control-label" for="position"><?php echo __('Field position'); ?></label>
+			<div class="controls">
+				<?php echo Form::input( 'position', $field->position, array(
+					'id' => 'position',
+					'class' => 'input-mini'
+				)); ?>
 			</div>
 		</div>
 	</div>

@@ -22,13 +22,7 @@ class DataSource_Hybrid_Record {
 	 *
 	 * @var array
 	 */
-	public $fields = array();
-	
-	/**
-	 *
-	 * @var array 
-	 */
-	public $struct;
+	protected $_fields = NULL;
 	
 	/**
 	 * 
@@ -48,35 +42,42 @@ class DataSource_Hybrid_Record {
 	 */
 	public function load() 
 	{
-		$this->fields = array();
-		$this->struct['primitive'] = 
-			$this->struct['document'] = 
-			$this->struct['array'] = 
-			$this->struct['datasource'] = array(); 
+		$this->_fields = array();
 		
 		$ids = DB::select('id')
-			->from('dshfields', 'hybriddatasources')
-			->where('hybriddatasources.ds_id', '=', $this->ds_id)
-			->where(DB::expr('FIND_IN_SET(:f1, :f2)', array(
-				':f1' => DB::expr(Database::instance()->quote_column('dshfields.ds_id')), 
-				':f2' => DB::expr(Database::instance()->quote_column('hybriddatasources.path'))
-			)), '>', 0)
+			->from('dshfields')
+			->where('ds_id', '=', $this->ds_id)
+			->order_by('position', 'asc')
 			->execute()
 			->as_array(NULL, 'id');
 		
 		if( count( $ids ) > 0)
 		{
 			$fields = DataSource_Hybrid_Field_Factory::get_fields($ids);
-			for($i = 0; $i < sizeof($fields); $i++) 
+			
+			foreach ($fields as $field)
 			{
-				$this->fields[$fields[$i]->name] = $fields[$i];
-				$this->struct[$fields[$i]->family][$fields[$i]->type][] = $fields[$i]->name;
+				$this->_fields[$field->name] = $field;
 			}
 		}
 		
 		return $this;
 	}
 	
+	/**
+	 * 
+	 * @return array
+	 */
+	public function fields()
+	{
+		if($this->_fields === NULL)
+		{
+			$this->load();
+		}
+
+		return $this->_fields;
+	}
+
 	/**
 	 * 
 	 * @return \DataSource_Hybrid_Record
@@ -95,7 +96,7 @@ class DataSource_Hybrid_Record {
 	 */
 	public function initialize_document($doc) 
 	{
-		foreach($this->fields as $field)
+		foreach($this->fields() as $field)
 		{
 			$field->onCreateDocument($doc);
 		}
@@ -112,7 +113,7 @@ class DataSource_Hybrid_Record {
 	 */
 	public function document_changed($old, $new) 
 	{
-		foreach($this->fields as $field)
+		foreach($this->fields() as $field)
 		{
 			$field->onUpdateDocument($old, $new);
 		}
@@ -132,7 +133,7 @@ class DataSource_Hybrid_Record {
 			return FALSE;
 		}
 		
-		foreach($this->fields as $field)
+		foreach($this->fields() as $field)
 		{
 			$field->onRemoveDocument($doc);
 		}
@@ -149,7 +150,7 @@ class DataSource_Hybrid_Record {
 	{
 		$queries = array();
 
-		foreach($this->fields as $field)
+		foreach($this->fields() as $field)
 		{
 			if($part = $field->get_sql($doc))
 			{

@@ -486,6 +486,14 @@ cms.ui.add('btn-confirm', function() {
 		lang: LOCALE,
 		dayOfWeekStart:1
 	});
+	
+	$('.timepicker').datetimepicker({
+		timepicker: true,
+		datepicker: false,
+		format: 'H:i:s',
+		lang: LOCALE,
+		dayOfWeekStart:1
+	});
 }).add('slug', function() {
 	// Slug & metadata
     var slugs = {};

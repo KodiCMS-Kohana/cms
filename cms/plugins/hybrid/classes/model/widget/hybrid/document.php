@@ -90,15 +90,7 @@ class Model_Widget_Hybrid_Document extends Model_Widget_Hybrid {
 		$fields = DataSource_Hybrid_Field_Factory::get_related_fields($this->ds_id);
 		foreach ($fields as $field)
 		{
-			if($field->family != DataSource_Hybrid_Field::TYPE_PRIMITIVE)				continue;
-			
-			if(
-				$field->type == DataSource_Hybrid_Field_Primitive::PRIMITIVE_TYPE_STRING
-			||
-				$field->type == DataSource_Hybrid_Field_Primitive::PRIMITIVE_TYPE_INTEGER
-			||
-				$field->type == DataSource_Hybrid_Field_Primitive::PRIMITIVE_TYPE_SLUG
-			)
+			if($field->use_as_document_id())
 			{
 				$data[$field->id] = $field->header;
 			}
@@ -149,7 +141,7 @@ class Model_Widget_Hybrid_Document extends Model_Widget_Hybrid {
 	 * @param integer $id
 	 * @return array
 	 */
-	public function get_document($id = NULL)
+	public function get_document($id = NULL, $recurse = 3)
 	{
 		$result = array();
 		
@@ -173,7 +165,7 @@ class Model_Widget_Hybrid_Document extends Model_Widget_Hybrid {
 		
 		if(isset($agent->ds_fields[$this->doc_id_field]))
 		{
-			$id_field = DataSource_Hybrid_Field::PREFFIX.$agent->ds_fields[$this->doc_id_field]['name'];
+			$id_field = DataSource_Hybrid_Field::PREFFIX . $agent->ds_fields[$this->doc_id_field]['name'];
 		}
 		else
 		{
@@ -190,7 +182,9 @@ class Model_Widget_Hybrid_Document extends Model_Widget_Hybrid {
 		if(empty($result) )
 		{	
 			if($this->throw_404)
+			{
 				$this->_ctx->throw_404();
+			}
 			
 			return $result;
 		}
@@ -203,26 +197,13 @@ class Model_Widget_Hybrid_Document extends Model_Widget_Hybrid {
 			$related_widget = NULL;
 				
 			$field_class = 'DataSource_Hybrid_Field_' . $field['type'];
-			$field_class_method = 'set_doc_field';
+			$field_class_method = 'fetch_widget_field';
+
 			if( class_exists($field_class) AND method_exists( $field_class, $field_class_method ))
 			{
-				$result[$field['name']] = call_user_func_array($field_class.'::'.$field_class_method, array( $this, $field, $result, $key, 3));
-				
 				$result['_' . $field['name']] = $result[$key];
-
-				unset($result[$key]);
+				$result[$field['name']] = call_user_func_array($field_class.'::'.$field_class_method, array( $this, $field, $result, $key, $recurse));
 				continue;
-			}
-
-			switch($field['type']) {
-				case DataSource_Hybrid_Field::TYPE_DATASOURCE:
-					array(
-						'id' => $row[$fid]
-					);
-					break;
-				default:
-					$result[$field['name']] = $row[$fid];
-
 			}
 			
 			unset($result[$key]);

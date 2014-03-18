@@ -7,6 +7,7 @@
 			<?php if(Acl::check($ds->type().$ds->id().'.field.remove')): ?>
 			<col width="30px" />
 			<?php endif; ?>
+			<col width="50px" />
 			<col width="100px" />
 			<col width="200px" />
 			<col width="100px" />
@@ -17,6 +18,7 @@
 				<?php if(Acl::check($ds->type().$ds->id().'.field.remove')): ?>
 				<th></th>
 				<?php endif; ?>
+				<th><?php echo __('Field position'); ?></th>
 				<th><?php echo __('Field key'); ?></th>
 				<th><?php echo __('Field header'); ?></th>
 				<th><?php echo __('Field type'); ?></th>
@@ -32,6 +34,7 @@
 					)); ?>
 				</td>
 				<?php endif; ?>
+				<td class="position">0</td>
 				<td class="sys">ID</td>
 				<td>ID</td>
 				<td><?php echo UI::label('integer'); ?></td>
@@ -45,13 +48,14 @@
 					)); ?>
 				</td>
 				<?php endif; ?>
+				<td class="position">0</td>
 				<td class="sys">header</td>
 				<td><?php echo __('Header'); ?></td>
 				<td><?php echo UI::label('string'); ?></td>
 				<td><?php echo Form::checkbox('', 1, TRUE, array('disabled' => 'disabled')); ?></td>
 			</tr>
 
-			<?php foreach($record->fields as $f): ?>
+			<?php foreach($record->fields() as $f): ?>
 			<tr id="field-<?php echo $f->name; ?>">
 				<?php if(Acl::check($ds->type().$ds->id().'.field.remove')): ?>
 				<td class="f">
@@ -62,6 +66,7 @@
 
 				</td>
 				<?php endif; ?>
+				<td class="position"><?php echo $f->position; ?></td>
 				<td class="sys">
 					<label for="<?php echo $f->name; ?>">
 						<?php echo substr($f->name, 2); ?>

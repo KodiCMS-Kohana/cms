@@ -54,13 +54,11 @@ class DataSource_Hybrid_Field_Factory {
 
 		switch ($old->family) 
 		{
-			case DataSource_Hybrid_Field::TYPE_PRIMITIVE:
+			case DataSource_Hybrid_Field::FAMILY_PRIMITIVE:
 				self::alter_table_update_field($old, $new);
-			break;
+				break;
 		}
 
-		
-		
 		return $new;
 	}
 	
@@ -80,19 +78,20 @@ class DataSource_Hybrid_Field_Factory {
 		{
 			$keys = array($keys);
 		}
+		
+		$fields = $record->fields();
 
 		foreach($keys as $key)
 		{
 			if(
-				isset($record->fields[$key]) 
+				isset($fields[$key]) 
 			AND
-				$record->fields[$key]->ds_id == $record->ds_id
+				$fields[$key]->ds_id == $record->ds_id
 			) 
 			{
-				$record->fields[$key]->remove();
+				$fields[$key]->remove();
 				
-				self::alter_table_drop_field($record->fields[$key]);
-				unset($record->fields[$key]);
+				self::alter_table_drop_field($fields[$key]);
 			}
 		}
 	}
@@ -121,25 +120,19 @@ class DataSource_Hybrid_Field_Factory {
 	 * @param array $ids
 	 * @return array
 	 */
-	public static function get_fields($ids) 
+	public static function get_fields( array $ids = NULL ) 
 	{
 		$result = array();
 		
-		if(empty($ids))
+		if( empty($ids) )
 		{
 			return $result;
 		}
 		
-		$query = DB::select('dshfields.*')
-			->from('dshfields', 'hybriddatasources')
+		$query = DB::select()
+			->from('dshfields')
 			->where('id', 'in', $ids)
-			->where('dshfields.ds_id', '=', DB::expr(':f', array(
-				':f' => DB::expr(Database::instance()->quote_column('hybriddatasources.ds_id'))
-			)))
-			->order_by('hybriddatasources.ds_key')
-			->order_by('dshfields.family', 'desc')
-			->order_by('dshfields.type')
-			->order_by('dshfields.header')
+			->order_by('position', 'asc')
 			->execute();
 
 		if($query)
@@ -164,39 +157,25 @@ class DataSource_Hybrid_Field_Factory {
 
 		$ds_id = (int) $ds_id;
 		
-		if(isset($f[$ds_id])) return $f[$ds_id];
+		if(isset($f[$ds_id]))
+		{
+			return $f[$ds_id];
+		}
 		
 		$result = array();
 
-		$query = DB::select('dsf.*')
-			->from(array('hybriddatasources', 'dsh0'))
-			->from(array('hybriddatasources', 'dsh'))
-			->from(array('dshfields', 'dsf'))
-			->where('dsh0.ds_id', '=', $ds_id)
-			->where_open()
-				->where(DB::expr('FIND_IN_SET(:f1, :f2)', array(
-					':f1' => DB::expr(Database::instance()->quote_column('dsh.ds_id')), 
-					':f2' => DB::expr(Database::instance()->quote_column('dsh0.path'))
-				)), '>', 0)
-				->or_where(DB::expr('INSTR(:f1, :f2)', array(
-					':f1' => 'dsh.ds_key', ':f2' => DB::expr('CONCAT(:f1, ".")', array(
-						':f1' => DB::expr(Database::instance()->quote_column('dsh0.ds_key'))
-					))
-				)), '=', 1)
-			->where_close()
-			->where('dsh.ds_id', '=', DB::expr(':f', array(':f' => 
-				DB::expr(Database::instance()->quote_column('dsf.ds_id')))))
-			->order_by('dsh.ds_key')
-			->order_by('dsf.family')
-			->order_by('dsf.name');
+		$query = DB::select()
+			->from('dshfields')
+			->where('ds_id', '=', $ds_id)
+			->order_by('position');
 		
 		if(is_string($type))
 		{
-			$query->where('dsf.type', '=', $type);
+			$query->where('type', '=', $type);
 		}
 		else if(is_array($type))
 		{
-			$query->where('dsf.type', 'in', $type);
+			$query->where('type', 'in', $type);
 		}
 		
 		$query = $query->execute();
@@ -229,7 +208,7 @@ class DataSource_Hybrid_Field_Factory {
 			return $result;
 		}
 			
-		$class_name = 'DataSource_Hybrid_Field_' . $r['family'];
+		$class_name = 'DataSource_Hybrid_Field_' . $r['type'];
 		
 		if( ! class_exists( $class_name ))
 		{
@@ -249,7 +228,7 @@ class DataSource_Hybrid_Field_Factory {
 		}
 
 
-		$result = DataSource_Hybrid_Field::factory($r['family'], $r);
+		$result = DataSource_Hybrid_Field::factory($r['type'], $r);
 
 		$result->set_id( $r['id'] );
 		$result->set_ds( $r['ds_id'] );

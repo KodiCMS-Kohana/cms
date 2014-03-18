@@ -86,5 +86,9 @@ return array(
 	'Index document fields' => 'Индексируемые поля',
 	'Hybrid section' => 'Раздел данных',
 	'You need select hybrid section' => 'Необходимо выбрать раздел данных',
-	'Hybrid tags' => 'Теги ГД'
+	'Hybrid tags' => 'Теги ГД',
+	'Field position' => 'Позиция',
+	'Field value must be unique' => 'Значение должно быть уникальным',
+	'Show profile' => 'Посмотреть профиль',
+	'Type first 1 chars to find documents' => 'Напечатайте первую букву для поиска'
 );

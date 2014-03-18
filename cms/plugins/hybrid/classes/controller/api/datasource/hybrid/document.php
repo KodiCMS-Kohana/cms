@@ -58,7 +58,7 @@ class Controller_Api_Datasource_Hybrid_Document extends Controller_System_API
 		$ds_id = (int) $this->param('doc_ds', NULL, TRUE);
 
 		$ds = Datasource_Data_Manager::load($ds_id);
-		$documents = $ds->get_headline( $ds_id, $ids, $query );
+		$documents = $ds->get_headline( $ids, $query );
 		
 		$response = array();
 		foreach($documents[1] as $id => $data)

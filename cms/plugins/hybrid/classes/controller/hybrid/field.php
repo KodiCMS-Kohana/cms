@@ -1,4 +1,4 @@
-<?php defined( 'SYSPATH' ) or die( 'No direct access allowed.' );
+<?php // defined( 'SYSPATH' ) or die( 'No direct access allowed.' );
 
 class Controller_Hybrid_Field extends Controller_System_Datasource
 {
@@ -72,14 +72,10 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 			)))
 			->add($this->field->header);
 
-		$type = $this->field->family == DataSource_Hybrid_Field::TYPE_PRIMITIVE 
-				? $this->field->type 
-				: $this->field->family;
-		
 		$this->template->content = View::factory('datasource/data/hybrid/field/edit', array(
 			'ds' => $ds,
 			'field' => $this->field,
-			'type' => $type,
+			'type' => $this->field->type,
 			'sections' => $this->_get_sections(),
 			'post_data' => Session::instance()->get_once('post_data', array())
 		));
@@ -151,10 +147,11 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 		{
 			$data = $this->request->post();
 			
-			$family = $data['family'];
-			unset($data['family']);
+			$type = $data['type'];
+			unset($data['type']);
 			
-			$field = DataSource_Hybrid_Field::factory($family, $data);
+			$field = DataSource_Hybrid_Field::factory($type, $data);
+	
 			$field_id = DataSource_Hybrid_Field_Factory::create_field($ds->get_record(), $field);
 		}
 		catch (Validation_Exception $e)

@@ -202,7 +202,7 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 		{
 			$headline_fields = Arr::get($values, 'in_headline', array());
 
-			$fields = $this->get_record()->fields;
+			$fields = $this->get_record()->fields();
 
 			foreach($fields as $f)
 			{
@@ -352,7 +352,7 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 					->where('dshybrid.id', '=', $id)
 					->limit(1);
 
-				$query->select_array(  array_keys( $record->fields ));
+				$query->select_array( array_keys( $record->fields() ));
 
 				foreach($parents as $parent) 
 				{
@@ -408,7 +408,6 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 				'intro' => Arr::get($row, $this->search_intro_field),
 				'header' => $row['header']
 			);
-			
 			
 			unset(
 					$row['id'], 
@@ -628,80 +627,12 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 				
 				foreach($ds_fields as $field)
 				{
-					$_field = &$hl[$row['id']][$field->name];
+					$_field = & $hl[$row['id']][$field->name];
+					
 					if(isset($row[$field->id]))
 					{
-						switch ($field->family)
-						{
-							case DataSource_Hybrid_Field::TYPE_FILE:
-								if($field->is_image(PUBLICPATH . $row[$field->id]))
-								{
-									$_field = HTML::anchor(PUBLIC_URL . $row[$field->id], __('File'), array('class' => 'popup fancybox'));
-								}
-								else if(!empty($row[$field->id]))
-								{
-									$_field = HTML::anchor(PUBLIC_URL . $row[$field->id], __('File'), array('target' => 'blank'));
-								}
-								else
-								{
-									$_field = $row[$field->id];
-								}
-								break;
-							case DataSource_Hybrid_Field::TYPE_PRIMITIVE:
-								switch ($field->type)
-								{
-									case DataSource_Hybrid_Field_Primitive::PRIMITIVE_TYPE_BOOLEAN:
-										$_field = $row[$field->id] == 1 ? __('TRUE') : __('FALSE');
-										break;
-									case DataSource_Hybrid_Field_Primitive::PRIMITIVE_TYPE_TEXT:
-									case DataSource_Hybrid_Field_Primitive::PRIMITIVE_TYPE_HTML:
-										$_field = substr(strip_tags($row[$field->id]), 0, 500) . ' ...';
-										break;
-									default:
-										$_field = $row[$field->id];
-								}
-								break;
-							case DataSource_Hybrid_Field::TYPE_TAGS:
-								$tags = explode(',', $row[$field->id]);
-								foreach($tags as $i => $tag)
-								{
-									$tags[$i] = UI::label($tag);
-								}
-	
-								$hl[$row['id']][$field->name] = implode(' ', $tags);
-								break;
-							case DataSource_Hybrid_Field::TYPE_ARRAY:
-								if(!empty($row[$field->id]))
-								{
-									$docs = explode(',', $row[$field->id]);
-									foreach($docs as $i => $id)
-									{
-										$docs[$i] = HTML::anchor(Route::url('datasources', array(
-											'controller' => 'document',
-											'directory' => 'hybrid',
-											'action' => 'view'
-										)) . URL::query(array(
-											'ds_id' => $ds_id, 'id' => $id
-										)), $id, array('target' => 'blank'));
-									}
-									$_field = implode(', ', $docs);
-								}
-								else
-								{
-									$hl[$row['id']][$field->name] = $row[$field->id];
-								}
-								break;
-							default:
-								$_field = $row[$field->id];
-						}
-						
+						$_field = $field->fetch_headline_value($row[$field->id]);
 					}
-				}
-
-				if($this->auto_cast AND $this->all_doc) 
-				{
-					$hl[$row['id']]['ds_id'] = $row['ds_id'];
-					$hl[$row['id']]['type'] = $row['name'];
 				}
 			}
 			

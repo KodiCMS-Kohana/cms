@@ -44,6 +44,8 @@
 				<?php else: ?>
 				<td class="row-<?php echo $key; ?>"><?php echo $row[$key]; ?></td>
 				<?php endif; ?>
+			<?php else: ?>
+				<td class="row-<?php echo $key; ?>"></td>
 			<?php endif; ?>
 			<?php endforeach; ?>
 		</tr>

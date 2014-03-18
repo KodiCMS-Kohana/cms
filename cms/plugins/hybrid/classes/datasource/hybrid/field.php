@@ -4,17 +4,12 @@
  * @package    Kodi/Datasource
  */
 
-class DataSource_Hybrid_Field {
+abstract class DataSource_Hybrid_Field {
 	
-	const TYPE_PRIMITIVE = 'primitive';
-	const TYPE_FILE = 'file';
-	const TYPE_DATASOURCE = 'datasource';
-	const TYPE_ARRAY = 'array';
-	const TYPE_HYBRID = 'hybrid';
-	const TYPE_DOCUMENT = 'document';
-	const TYPE_USER = 'user';
-	const TYPE_TAGS = 'tags';
-	
+	const FAMILY_PRIMITIVE = 'primitive';
+	const FAMILY_FILE = 'file';
+	const FAMILY_SOURCE = 'source';
+
 	const PREFFIX = 'f_';
 	
 	/**
@@ -70,6 +65,13 @@ class DataSource_Hybrid_Field {
 	 * @var string
 	 */
 	public $header;
+	
+	/**
+	 *
+	 * @var integer
+	 */
+	public $position;
+
 
 	/**
 	 *
@@ -78,37 +80,42 @@ class DataSource_Hybrid_Field {
 	protected $_props = array();
 	
 	/**
+	 *
+	 * @var boolean 
+	 */
+	protected $_use_as_document_id = FALSE;
+	
+	/**
+	 *
+	 * @var boolean 
+	 */
+	protected $_is_sortable = FALSE;
+
+
+	/**
 	 * 
 	 * @return array
 	 */
 	public static function types()
 	{
-		return array(
-			self::TYPE_PRIMITIVE => __('Primitive'),
-			self::TYPE_TAGS => __('Tags'),
-			self::TYPE_FILE => __('File'),
-			self::TYPE_DOCUMENT => __('Document'),
-			self::TYPE_ARRAY => __('Array of documents'),
-			self::TYPE_USER => __('User'),
-//			self::TYPE_DATASOURCE => __('Datasource')
-		);
+		return Config::get('fields')->as_array();
 	}
 
 	/**
 	 * 
-	 * @param type $family
+	 * @param type $type
 	 * @param array $data
 	 * @return \DataSource_Hybrid_Field
 	 * @throws Kohana_Exception
 	 */
-	public static function factory($family, array $data)
+	public static function factory($type, array $data)
 	{
-		$class_name = 'DataSource_Hybrid_Field_' . $family;
+		$class_name = 'DataSource_Hybrid_Field_' . $type;
 		
 		if(!class_exists( $class_name ))
 		{
 			throw new Kohana_Exception('Class for field - :type not found', array(
-				':type' => $family));
+				':type' => $type));
 		}
 		
 		return new $class_name($data);
@@ -122,7 +129,7 @@ class DataSource_Hybrid_Field {
 	{
 		$this->set($data);
 		
-		$this->type = strtolower($this->type);
+		$this->type = strtolower(substr(get_called_class(), 24));
 		$this->from_ds = (int) $this->from_ds;
 	}
 	
@@ -139,11 +146,11 @@ class DataSource_Hybrid_Field {
 			'header' => array(
 				array('not_empty')
 			),
-			'family' => array(
-				array('in_array', array(
-					':value', array_keys(DataSource_Hybrid_Field::types())
-				))
-			)
+//			'type' => array(
+//				array('in_array', array(
+//					':value', array_keys(DataSource_Hybrid_Field::types())
+//				))
+//			)
 		);
 	}
 	
@@ -189,15 +196,8 @@ class DataSource_Hybrid_Field {
 	 */
 	public function set( array $data )
 	{
-		if(!isset($data['isreq']))
-		{
-			$data['isreq'] = FALSE;
-		}
-		
-		if(!isset($data['in_headline']))
-		{
-			$data['in_headline'] = FALSE;
-		}
+		$data['isreq'] = ! empty($data['isreq']) ? TRUE : FALSE;
+		$data['in_headline'] = ! empty($data['in_headline']) ? TRUE : FALSE;
 		
 
 		foreach ( $data as $key => $value )
@@ -234,7 +234,7 @@ class DataSource_Hybrid_Field {
 		
 		$this->_props[$key] = $value;
 	}
-	
+
 	/**
 	 * 
 	 * @param type $key
@@ -305,6 +305,23 @@ class DataSource_Hybrid_Field {
 	
 	/**
 	 * 
+	 * @param integer $position
+	 * @return \DataSource_Hybrid_Field
+	 */
+	public function set_position( $position ) 
+	{
+		$this->position = (int) $position;
+		
+		if($this->position < 0)
+		{
+			$this->position = 0;
+		}
+
+		return $this;
+	}
+	
+	/**
+	 * 
 	 * @return integer
 	 */
 	public function create() 
@@ -319,7 +336,8 @@ class DataSource_Hybrid_Field {
 				'type', 
 				'header',
 				'from_ds',
-				'props'
+				'props',
+				'position'
 			))
 			->values(array(
 				$this->ds_id, 
@@ -328,7 +346,8 @@ class DataSource_Hybrid_Field {
 				$this->type, 
 				$this->header,
 				$this->from_ds,
-				serialize($this->_props)
+				serialize($this->_props),
+				$this->position,
 			))
 			->execute();
 
@@ -349,7 +368,8 @@ class DataSource_Hybrid_Field {
 			->set(array(
 				'header' => $this->header,
 				'name' => $this->name,
-				'props' => serialize( $this->_props )
+				'props' => serialize( $this->_props ),
+				'position' => $this->position
 			))
 			->where('id', '=', $this->id)
 			->execute();
@@ -391,11 +411,24 @@ class DataSource_Hybrid_Field {
 		return array($this->name, $doc->fields[$this->name]);
 	}
 	
-	public function get_type()
+	/**
+	 * 
+	 * @return boolean
+	 */
+	public function use_as_document_id()
 	{
-		return NULL;
+		return (bool) $this->_use_as_document_id;
 	}
 	
+	/**
+	 * 
+	 * @return boolean
+	 */
+	public function is_sortable()
+	{
+		return (bool) $this->_is_sortable;
+	}
+
 	/**
 	 * 
 	 * @param Validation $validation
@@ -412,17 +445,49 @@ class DataSource_Hybrid_Field {
 		return $validation
 				->label($this->name, $this->header);
 	}
-	
-	public function fetch_value($doc) 
+
+	/**
+	 * 
+	 * @param Database_Query $query
+	 * @return \Database_Query
+	 */
+	public function get_query_props(Database_Query $query)
 	{
-		FALSE ? $doc : NULL ;
+		return $query;
 	}
 	
+	/**
+	 * 
+	 * @param DataSource_Hybrid_Document $doc
+	 */
 	public function convert_to_plain($doc) 
 	{
 		FALSE ? $doc : NULL ;
 	}
 	
+	/**
+	 * 
+	 * @param DataSource_Hybrid_Document $doc
+	 */
+	public function fetch_value( $doc ) 
+	{
+		FALSE ? $doc : NULL ;
+	}
+	
+	/**
+	 * 
+	 * @param string $value
+	 * @return string
+	 */
+	public function fetch_headline_value( $value )
+	{
+		return $value;
+	}
+	
+	
+	/**************************************************************************
+	 * EVENTS
+	 **************************************************************************/	
 	/**
 	 * 
 	 * @param DataSource_Hybrid_Document $doc
@@ -453,4 +518,9 @@ class DataSource_Hybrid_Field {
 	{
 		FALSE ? $doc : NULL ;
 	}
+	
+	/**
+	 * return string
+	 */
+	abstract public function get_type();
 }

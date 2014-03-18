@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS `__TABLE_PREFIX__dshfields` (
   `header` varchar(255) NOT NULL DEFAULT '',
   `from_ds` int(11) unsigned DEFAULT '0',
   `props` text NOT NULL,
+  `position` int(4) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `ds_id` (`ds_id`),
   KEY `family` (`family`)
