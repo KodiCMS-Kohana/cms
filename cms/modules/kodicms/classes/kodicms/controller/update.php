@@ -26,4 +26,46 @@ class KodiCMS_Controller_Update extends Controller_System_Backend {
 			'actions' => $diff,
 		) );
 	}
+	
+	public function action_patch()
+	{
+		if($this->request->method() === Request::POST)
+		{
+			return $this->_apply_patch();
+		}
+
+		$patches_list = Kohana::list_files('patches', array(DOCROOT));
+		
+		$patches = array();
+		foreach ($patches_list as $path)
+		{
+			$patches[$path] = pathinfo($path, PATHINFO_FILENAME);
+		}
+		
+		$this->template->content = View::factory( 'update/patches', array(
+			'patches' => $patches,
+		) );
+	}
+	
+	private function _apply_patch()
+	{
+		$patch = $this->request->post('patch');
+		
+		if(file_exists($patch))
+		{
+			try
+			{
+				include $patch;
+			} 
+			catch (Kohana_Exception $ex) 
+			{
+				Messages::errors($ex->getMessage());
+				$this->go_back();
+			}
+			
+			@unlink($patch);
+		}
+		
+		$this->go_back();
+	}
 }
