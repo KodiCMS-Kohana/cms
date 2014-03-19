@@ -25,7 +25,8 @@ class Model_Widget_SendMail extends Model_Widget_Decorator {
 	public $fields = array();
 	
 	protected $_data = array(
-		'allowed_tags' => '<b><i><u><p>'
+		'allowed_tags' => '<b><i><u><p>',
+		'next_url' => NULL
 	);
 
 	public function src_types()
@@ -54,6 +55,11 @@ class Model_Widget_SendMail extends Model_Widget_Decorator {
 
 	public function set_values(array $data)
 	{
+		if( ! Valid::url($data['next_url']))
+		{
+			$data['next_url'] = NULL;
+		}
+
 		$data['fields'] = array();
 		if(!empty($data['field']) AND is_array( $data['field'] ))
 		{
@@ -110,6 +116,8 @@ class Model_Widget_SendMail extends Model_Widget_Decorator {
 
 		$this->_fetch_fields();
 		
+		$next_url = $this->next_url;
+		
 		if(Request::current()->is_ajax())
 		{
 			$json = array('status' => FALSE);
@@ -132,24 +140,33 @@ class Model_Widget_SendMail extends Model_Widget_Decorator {
 		}
 		else
 		{
+			$referrer = Request::current()->referrer();
+	
 			if( !empty($this->_errors))
 			{
 				Flash::set('form_errors', $this->_errors);
 				Flash::set('form_values', $this->_values);
 
 				$query = URL::query(array('status' => 'error'), FALSE);
+				$next_url = $referrer;
 			} 
 			else if( $this->send_message() )
 			{
 				$query = URL::query(array('status' => 'ok'), FALSE);
+				
+				if(empty($next_url))
+				{
+					$next_url = $referrer;
+				}
 			}
 			else
 			{
 				$query = URL::query(array('status' => 'error'), FALSE);
+				$next_url = $referrer;
 			}
 
-			$referrer = Request::current()->referrer();
-			HTTP::redirect( preg_replace('/\?.*/', '', $referrer) . $query, 302);
+			
+			HTTP::redirect( preg_replace('/\?.*/', '', $next_url) . $query, 302);
 		}
 	}
 

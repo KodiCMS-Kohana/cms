@@ -2,11 +2,23 @@
 	<?php
 		echo Bootstrap_Form_Element_Control_Group::factory(array(
 			'element' => Bootstrap_Form_Element_Textarea::factory(array(
-				'name' => 'allowed_tags', 'body' => $widget->get('allowed_tags')
+				'name' => 'allowed_tags', 'body' => $widget->get('allowed_tags'),
 			))
+			->attributes('rows', 2)
 			->label(__('Allowed tags'))
 		));
 	?>
+	
+	<hr />
+	
+	<div class="control-group">
+		<label class="control-label" for="next_url"><?php echo __('Next page after success send (URL)'); ?></label>
+		<div class="controls">
+			<?php echo Form::input( 'next_url', $widget->next_url, array(
+				'class' => 'input-xxlarge'
+			)); ?>
+		</div>
+	</div>
 </div>
 
 <div class="widget-header">
