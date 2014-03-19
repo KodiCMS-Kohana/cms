@@ -16,6 +16,7 @@ return array(
 	'For example: :path' => 'Например: :path',
 	'Where the sendmail program can be found, usually :path1 or :path2. :link' 
 		=> 'Путь до программы sendmail, обычно :path1 или :path2. :link',
+	'Next page after success send (URL)' => 'Следующая страница при успешной отправке (URL)',
 	
 	/*********************** Email templates *********************************/
 	'Email templates' => 'Почтовые шаблоны',
