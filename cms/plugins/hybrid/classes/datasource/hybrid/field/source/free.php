@@ -1,0 +1,76 @@
+<?php defined('SYSPATH') or die('No direct access allowed.');
+
+class DataSource_Hybrid_Field_Source_Free extends DataSource_Hybrid_Field_Source_OneToOne {
+
+	protected $_props = array(
+		'isreq' => TRUE,
+		'inject_key' => 'ids'
+	);
+	
+	public function __construct( array $data )
+	{
+		parent::__construct( $data );
+		$this->family = DataSource_Hybrid_Field::FAMILY_SOURCE;
+	}
+	
+	public function set_inject_key($key)
+	{
+		if(empty($key))
+		{
+			$this->inject_key = 'ids';
+			return;
+		}
+		
+		$this->inject_key = URL::title($key, '_');
+	}
+
+	public function convert_to_plain($doc) 
+	{
+		if(is_array($doc->fields[$this->name]))
+		{
+			$doc->fields[$this->name] = implode(', ', $doc->fields[$this->name]);
+		}
+	}
+	
+	public function is_valid($value) 
+	{
+		return strlen($value) == strspn($value, '0123456789,');
+	}
+	
+	public function document_validation_rules( Validation $validation, DataSource_Hybrid_Document $doc )
+	{
+		return $validation
+				->rule($this->name, array($this, 'is_valid'));
+	}
+	
+	public function get_type()
+	{
+		return 'VARCHAR(255)';
+	}
+	
+	/**
+	 * @param Model_Widget_Hybrid
+	 * @param array $field
+	 * @param array $row
+	 * @param string $fid
+	 * @return mixed
+	 */
+	public static function fetch_widget_field( $widget, $field, $row, $fid, $recurse )
+	{
+		$related_widget = NULL;
+		
+		Context::instance()->set($field->inject_key, explode(',', $row[$fid]));
+
+		if($recurse > 0 AND isset($widget->doc_fetched_widgets[$fid]))
+		{
+			if(!empty($row[$fid]))
+			{
+				$related_widget = self::_fetch_related_widget($widget, $row, $fid, $recurse, $field->inject_key, TRUE);
+			}
+		}
+
+		return !empty($related_widget) 
+			? $related_widget 
+			: (!empty($row[$fid]) ? explode(',', $row[$fid]) : array());
+	}
+}

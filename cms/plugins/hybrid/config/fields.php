@@ -27,6 +27,7 @@ return array(
 		'source_array' => 'Array of documents',
 		'source_tags' => 'Tags',
 		'source_user' => 'User',
+		'source_free' => 'Free',
 	),
 	
 	'File' => array(

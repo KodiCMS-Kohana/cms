@@ -48,11 +48,16 @@ class Widget_Manager {
 				->from( array( 'widgets', 'w' ) )
 				->join( array( 'page_widgets', 'pw' ), 'left' )
 				->on( 'w.id', '=', 'pw.widget_id' )
-				->where( 'w.type', 'in', $type )
 				->group_by( 'w.id' )
 				->group_by( 'w.name' )
-				->order_by( 'w.name' )
-				->execute();
+				->order_by( 'w.name' );
+		
+		if(!empty($type))
+		{
+			$res->where( 'w.type', 'in', $type );
+		}
+		
+		$res = $res->execute();
 
 		foreach( $res as $row )
 		{

@@ -25,7 +25,7 @@ abstract class Model_Widget_Hybrid extends Model_Widget_Decorator_Pagination {
 	 */
 	public function get_related_widgets( array $types )
 	{
-		$db_widgets = Widget_Manager::get_widgets($types);
+		$db_widgets = Widget_Manager::get_widgets( $types );
 		$widgets = array();
 		foreach ($db_widgets as $id => $obj)
 		{

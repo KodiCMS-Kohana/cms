@@ -46,7 +46,11 @@
 				<td>
 					<?php
 						$widgets = array();
-						if($field instanceof DataSource_Hybrid_Field_Source_OneToMany)
+						if($field instanceof DataSource_Hybrid_Field_Source_Free)
+						{
+							$widgets = $widget->get_related_widgets(array());
+						}
+						else if($field instanceof DataSource_Hybrid_Field_Source_OneToMany)
 						{
 							$widgets = $widget->get_related_widgets(array('hybrid_headline'));
 						}

@@ -11,7 +11,7 @@ abstract class DataSource_Hybrid_Field_Source_OneToOne extends DataSource_Hybrid
 	 * @param integer $recurse
 	 * @return array
 	 */
-	protected static function _fetch_related_widget( $widget, $row, $fid, $recurse)
+	protected static function _fetch_related_widget( $widget, $row, $fid, $recurse, $key = 'ids', $fetch = FALSE)
 	{
 		$widget_id = Arr::get($widget->doc_fetched_widgets, $fid);
 		
@@ -25,8 +25,16 @@ abstract class DataSource_Hybrid_Field_Source_OneToOne extends DataSource_Hybrid
 		}
 		
 		if($widget === NULL) return array();
-		$doc = $widget->get_document( $row[$fid], $recurse - 1 );
+
+		$widget->{$key} = $row[$fid];
 		
-		return $doc;
+		if($fetch === FALSE)
+		{
+			return $widget->get_document( $row[$fid], $recurse - 1 );
+		}
+		else
+		{
+			return $widget->fetch_data();
+		}
 	}
 }
