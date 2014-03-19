@@ -446,6 +446,11 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 
 		if( $id )
 		{
+			$query = DB::insert("dshybrid_" . $this->id())
+				->columns(array('id'))
+				->values(array($id))
+				->execute();
+			
 			return $id;
 		}
 		
@@ -467,6 +472,10 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 		}
 
 		DB::delete("dshybrid")
+			->where('id', 'in', $ids)
+			->execute();
+		
+		DB::delete("dshybrid_" . $this->id())
 			->where('id', 'in', $ids)
 			->execute();
 
