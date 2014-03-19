@@ -165,7 +165,7 @@ class Model_Widget_Hybrid_Document extends Model_Widget_Hybrid {
 		
 		if(isset($agent->ds_fields[$this->doc_id_field]))
 		{
-			$id_field = DataSource_Hybrid_Field::PREFFIX . $agent->ds_fields[$this->doc_id_field]->name;
+			$id_field = $agent->ds_fields[$this->doc_id_field]->name;
 		}
 		else
 		{
