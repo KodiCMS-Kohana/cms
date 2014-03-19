@@ -167,14 +167,14 @@ abstract class Datasource_Section_Headline {
 
 		if($this->_section->is_indexable())
 		{
-			$query = Search::instance()->get_module_query($query, $search_word, 'ds_' . $this->_section->id());
+			$query = Search::instance()->get_module_query($query, $keyword, 'ds_' . $this->_section->id());
 		}
 		else
 		{
 			$query
 				->where_open()
-				->where('d.id', 'like', '%'.$search_word.'%')
-				->or_where('d.header', 'like', '%'.$search_word.'%')
+				->where('d.id', 'like', '%'.$keyword.'%')
+				->or_where('d.header', 'like', '%'.$keyword.'%')
 				->where_close();
 		}
 		
