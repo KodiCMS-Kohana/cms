@@ -11,14 +11,21 @@ class Behavior_HybridDocs extends Behavior_Abstract
 			),
 			'/<item>' => array(
 				'method' => 'execute'
-			)
+			),
 		);
 	}
 
 	public function execute()
 	{
-		if(!$this->router()->param('item')) return;
+		$slug = $this->router()->param('item');
+		if( empty($slug) ) return;
 
-		$this->_page = Model_Page_Front::findById($this->settings()->item_page_id);
+		if(!empty($this->settings()->item_page_id))
+			$this->_page = Model_Page_Front::findById($this->settings()->item_page_id);
+		
+		if(($this->_page = Model_Page_Front::findBySlug($slug, $this->page())) === FALSE )
+		{
+            Model_Page_Front::not_found();
+		}
 	}
 }
