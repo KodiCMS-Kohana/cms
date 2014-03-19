@@ -20,8 +20,12 @@ class Behavior_HybridDocs extends Behavior_Abstract
 		$slug = $this->router()->param('item');
 		if( empty($slug) ) return;
 
-		if(!empty($this->settings()->item_page_id))
+		$item_page_id = $this->settings()->item_page_id;
+		if(!empty($item_page_id))
+		{
 			$this->_page = Model_Page_Front::findById($this->settings()->item_page_id);
+			return;
+		}
 		
 		if(($this->_page = Model_Page_Front::findBySlug($slug, $this->page())) === FALSE )
 		{
