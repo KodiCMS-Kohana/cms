@@ -244,9 +244,9 @@ class DataSource_Hybrid_Field_Factory {
 		$key = URL::title($key, '_');
 		$key = strtolower($key);
 		
-		if(strlen($key) > 16)
+		if(strlen($key) > 32)
 		{
-			$key = substr($key, 0, 16);
+			$key = substr($key, 0, 32);
 		}
 		
 		if(empty($key))
