@@ -7,6 +7,8 @@ class DataSource_Hybrid_Field_Source_Free extends DataSource_Hybrid_Field_Source
 		'inject_key' => 'ids'
 	);
 	
+	protected $_widget_types = array();
+	
 	public function __construct( array $data )
 	{
 		parent::__construct( $data );
@@ -71,6 +73,6 @@ class DataSource_Hybrid_Field_Source_Free extends DataSource_Hybrid_Field_Source
 
 		return !empty($related_widget) 
 			? $related_widget 
-			: (!empty($row[$fid]) ? explode(',', $row[$fid]) : array());
+			: $row[$fid];
 	}
 }

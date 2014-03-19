@@ -96,6 +96,12 @@ abstract class DataSource_Hybrid_Field {
 	 * @var boolean 
 	 */
 	protected $_is_sortable = FALSE;
+	
+	/**
+	 *
+	 * @var array 
+	 */
+	protected $_widget_types = NULL;
 
 
 	/**
@@ -262,6 +268,15 @@ abstract class DataSource_Hybrid_Field {
 		unset($this->_props[$key]);
 	}
 	
+	/**
+	 * 
+	 * @return array
+	 */
+	public function widget_types()
+	{
+		return $this->_widget_types;
+	}
+
 	/**
 	 * 
 	 * @param array $data

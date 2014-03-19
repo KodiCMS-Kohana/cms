@@ -4,6 +4,8 @@ abstract class DataSource_Hybrid_Field_Source_OneToOne extends DataSource_Hybrid
 	
 	public $from_ds = NULL;
 	
+	protected $_widget_types = array('hybrid_document');
+
 	/**
 	 * 
 	 * @param array $row

@@ -3,6 +3,8 @@
 abstract class DataSource_Hybrid_Field_Source_OneToMany extends DataSource_Hybrid_Field {
 	
 	public $from_ds = NULL;
+	
+	protected $_widget_types = array('hybrid_headline');
 
 	/**
 	 * 

@@ -45,33 +45,25 @@
 				</td>
 				<td>
 					<?php
-						$widgets = array();
-						if($field instanceof DataSource_Hybrid_Field_Source_Free)
+						$types = $field->widget_types();
+						if($types !== NULL)
 						{
-							$widgets = $widget->get_related_widgets(array());
-						}
-						else if($field instanceof DataSource_Hybrid_Field_Source_OneToMany)
-						{
-							$widgets = $widget->get_related_widgets(array('hybrid_headline'));
-						}
-						else if($field instanceof DataSource_Hybrid_Field_Source_OneToOne)
-						{
-							$widgets = $widget->get_related_widgets(array('hybrid_document'));
-						}
+							$widgets = $widget->get_related_widgets($field->widget_types());
 
-//						if(isset($widgets[$widget->id])) unset($widgets[$widget->id]);
-						
-						if( ! empty($widgets) )
-						{
-							$widgets[0] = '---------';
+							if(isset($widgets[$widget->id])) unset($widgets[$widget->id]);
 
-							$selected = NULL;
-							if(isset($widget->doc_fetched_widgets[$field->id]))
+							if( ! empty($widgets) )
 							{
-								$selected = $widget->doc_fetched_widgets[$field->id];
-							}
+								$widgets = array(__('--- Not set ---')) + $widgets;
 
-							echo Form::select('field['.$field->id.'][fetcher]', $widgets, $selected); 
+								$selected = NULL;
+								if(isset($widget->doc_fetched_widgets[$field->id]))
+								{
+									$selected = $widget->doc_fetched_widgets[$field->id];
+								}
+
+								echo Form::select('field['.$field->id.'][fetcher]', $widgets, $selected); 
+							}
 						}
 					?>
 				</td>
