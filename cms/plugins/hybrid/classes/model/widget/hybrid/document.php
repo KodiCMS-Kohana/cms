@@ -196,13 +196,13 @@ class Model_Widget_Hybrid_Document extends Model_Widget_Hybrid {
 			$field = & $agent->ds_fields[$key];
 			$related_widget = NULL;
 				
-			$field_class = 'DataSource_Hybrid_Field_' . $field['type'];
+			$field_class = 'DataSource_Hybrid_Field_' . $field->type;
 			$field_class_method = 'fetch_widget_field';
 
 			if( class_exists($field_class) AND method_exists( $field_class, $field_class_method ))
 			{
-				$result['_' . $field['name']] = $result[$key];
-				$result[$field['name']] = call_user_func_array($field_class.'::'.$field_class_method, array( $this, $field, $result, $key, $recurse));
+				$result['_' . $field->key] = $result[$key];
+				$result[$field->key] = call_user_func_array($field_class.'::'.$field_class_method, array( $this, $field, $result, $key, $recurse));
 				continue;
 			}
 			

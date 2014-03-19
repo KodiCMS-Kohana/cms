@@ -122,7 +122,7 @@ class Datasource_Section_Hybrid_Headline extends Datasource_Section_Headline {
 		$query = $this
 			->_section
 			->agent()
-			->get_query_props(array(), array(), array(), $this->_sorting);
+			->get_query_props(array(), array(),  $this->_sorting);
 
 		$query = $this->search_by_keyword($query);
 		

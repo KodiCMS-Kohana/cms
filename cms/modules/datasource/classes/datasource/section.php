@@ -74,12 +74,6 @@ abstract class Datasource_Section {
 	
 	/**
 	 *
-	 * @var integer
-	 */
-	protected $_lock;
-	
-	/**
-	 *
 	 * @var type Datasource_Section_Headline
 	 */
 	protected $_headline = NULL;
@@ -112,15 +106,6 @@ abstract class Datasource_Section {
 	public function id()
 	{
 		return $this->_id;
-	}
-	
-	/**
-	 * 
-	 * @return integer
-	 */
-	public function lock()
-	{
-		return $this->_lock;
 	}
 	
 	/**
@@ -193,7 +178,7 @@ abstract class Datasource_Section {
 			return NULL;
 		}
 		
-		$query = DB::select('docs', 'indexed', 'locks', 'code')
+		$query = DB::select('docs', 'indexed', 'code')
 			->from('datasources')
 			->where('id', '=', (int) $id)
 			->execute()
@@ -207,7 +192,6 @@ abstract class Datasource_Section {
 		$result = unserialize($query['code']);
 
 		$result->_id = $id;
-		$result->_lock = (int) $query['locks'];
 		$result->_docs = (int) $query['docs'];
 		$result->_is_indexable = (bool) $query['indexed'];
 
@@ -298,42 +282,6 @@ abstract class Datasource_Section {
 	
 	/**
 	 * 
-	 * @return \Datasource_Section
-	 */
-	public function increase_lock() 
-	{
-		DB::update('datasources')
-			->set(array(
-				'locks' => DB::expr('locks + 1')
-			))
-			->where('id', '=', $this->_id)
-			->execute();
-
-		$this->_lock++;
-		
-		return $this;
-	}
-
-	/**
-	 * 
-	 * @return \Datasource_Section
-	 */
-	public function decrease_lock()	
-	{
-		DB::update('datasources')
-			->set(array(
-				'locks' => DB::expr('locks - 1')
-			))
-			->where('id', '=', $this->_id)
-			->execute();
-
-		$this->_lock--;
-		
-		return $this;
-	}
-	
-	/**
-	 * 
 	 * @param array $ids
 	 * @return \Datasource_Section
 	 */
@@ -383,31 +331,6 @@ abstract class Datasource_Section {
 	
 	/**
 	 * 
-	 * @return boolean
-	 */
-	public function is_full() 
-	{
-		if( ! $this->_size) return FALSE;
-
-		return $this->_size <= $this->_docs;
-	}
-
-	/**
-	 * 
-	 * @param integer $size
-	 * @return \Datasource_Section
-	 */
-	public function set_size($size) 
-	{
-		$size = (int) $size;
-
-		$this->_size = $size == 0 OR $this->_docs <= $size ? $size : $this->_size;
-		
-		return $this;
-	}
-	
-	/**
-	 * 
 	 * @return \Datasource_Section
 	 */
 	public function update_size() 
@@ -427,6 +350,64 @@ abstract class Datasource_Section {
 		return $this;
 	}
 	
+	/**
+	 * 
+	 * @param array $array
+	 * @throws Validation_Exception
+	 */
+	public function valid(array $array)
+	{
+		$array = Validation::factory($array)
+			->rules('name', array(
+				array('not_empty')
+			))
+			->label('name', __('Header') );
+		
+		if( ! $array->check())
+		{
+			throw new Validation_Exception($array);
+		}
+	}
+	
+	public function __sleep()
+	{
+		return array_keys($this->_serialize());
+	}
+	
+	protected function _serialize()
+	{
+		$vars = get_object_vars($this);
+		unset($vars['_docs'], $vars['_is_indexable'], $vars['_headline']);
+		
+		return $vars;
+	}
+
+	public function __wakeup()
+	{
+		$this->_initialize();
+	}
+	
+	protected function _initialize()
+	{
+		$this->_docs = 0;
+		$this->_is_indexable = FALSE;
+
+		$headline_class = 'Datasource_Section_' . ucfirst($this->type()) . '_Headline';
+		if(!class_exists($headline_class))
+		{
+			throw new Kohana_Exception('Headline class :class not found', array(
+				':class' => $headline_class
+			));
+		}
+
+		$this->_headline = new $headline_class($this);
+	}
+	
+	
+	/**************************************************************************
+	 * Search indexation
+	 **************************************************************************/
+
 	/**
 	 * 
 	 * @return boolean
@@ -534,6 +515,11 @@ abstract class Datasource_Section {
 		Search::instance()->remove_from_index('ds_' . $this->id(), $ids);
 	}
 	
+	/**
+	 * 
+	 * @param integer|array $id
+	 * @return array
+	 */
 	public function get_indexable_docs($id = NULL) 
 	{
 		$result = DB::select('id', 'header', 'content', 'intro')
@@ -556,68 +542,5 @@ abstract class Datasource_Section {
 		return $result
 			->execute()
 			->as_array('id');
-	}
-	
-	/**
-	 * 
-	 * @param array $ids
-	 * @return array
-	 */
-	public function filter_docs( array $ids) 
-	{
-		return DB::select('id')
-			->from($this->_ds_table)
-			->where('id', 'in', $ids)
-			->where('ds_id', '=', $this->_id)
-			->execute()
-			->as_array(NULL, 'id');
-	}	
-	
-	public function valid(array $array)
-	{
-		$array = Validation::factory($array)
-			->rules('name', array(
-				array('not_empty')
-			))
-			->label('name', __('Header') );
-		
-		if( ! $array->check())
-		{
-			throw new Validation_Exception($array);
-		}
-	}
-	
-	public function __sleep()
-	{
-		return array_keys($this->_serialize());
-	}
-	
-	protected function _serialize()
-	{
-		$vars = get_object_vars($this);
-		unset($vars['_docs'], $vars['_is_indexable']);
-		
-		return $vars;
-	}
-
-	public function __wakeup()
-	{
-		$this->_initialize();
-	}
-	
-	protected function _initialize()
-	{
-		$this->_docs = 0;
-		$this->_is_indexable = FALSE;
-
-		$headline_class = 'Datasource_Section_' . ucfirst($this->type()) . '_Headline';
-		if(!class_exists($headline_class))
-		{
-			throw new Kohana_Exception('Headline class :class not found', array(
-				':class' => $headline_class
-			));
-		}
-
-		$this->_headline = new $headline_class($this);
 	}
 }

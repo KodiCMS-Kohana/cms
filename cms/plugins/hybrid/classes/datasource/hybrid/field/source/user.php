@@ -67,7 +67,6 @@ class DataSource_Hybrid_Field_Source_User extends DataSource_Hybrid_Field {
 
 	public static function fetch_widget_field( $widget, $field, $row, $fid )
 	{
-		return NULL;
 		return !empty($row[$fid]) 
 			? array(
 				'username' => $row[$fid],
@@ -79,9 +78,16 @@ class DataSource_Hybrid_Field_Source_User extends DataSource_Hybrid_Field {
 			);
 	}
 	
-	
 	public function get_type()
 	{
 		return 'TINYINT(4)';
+	}
+	
+	public function get_query_props(\Database_Query $query)
+	{
+		return $query->join('users', 'left')
+			->on(DataSource_Hybrid_Field::PREFFIX . $this->key, '=', 'users' . '.id')
+			->select(array('users.username', $this->id))
+			->select(array('users.id', 'user_id'));
 	}
 }

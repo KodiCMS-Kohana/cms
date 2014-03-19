@@ -22,9 +22,7 @@ class DataSource_Hybrid_Field_Source_Array extends DataSource_Hybrid_Field_Sourc
 			return FALSE;
 		}
 		
-		$ds = DataSource_Hybrid_Field_Utils::load_ds($this->from_ds);
-		$ds->increase_lock();
-		
+		$ds = DataSource_Hybrid_Field_Utils::load_ds($this->from_ds);		
 		$this->update();
 		
 		return $this->id;
@@ -33,8 +31,6 @@ class DataSource_Hybrid_Field_Source_Array extends DataSource_Hybrid_Field_Sourc
 	public function remove() 
 	{
 		$ds = DataSource_Hybrid_Field_Utils::load_ds($this->from_ds);
-		$ds->decrease_lock();
-
 		parent::remove();
 	}
 	

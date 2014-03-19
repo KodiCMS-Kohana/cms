@@ -29,9 +29,7 @@ class DataSource_Hybrid_Field_Source_Document extends DataSource_Hybrid_Field_So
 			return FALSE;
 		}
 
-		$ds = DataSource_Hybrid_Field_Utils::load_ds($this->from_ds);
-		$ds->increase_lock();
-		
+		$ds = DataSource_Hybrid_Field_Utils::load_ds($this->from_ds);		
 		$this->update();
 		
 		return $this->id;
@@ -144,5 +142,13 @@ class DataSource_Hybrid_Field_Source_Document extends DataSource_Hybrid_Field_So
 		}
 		
 		return parent::fetch_headline_value($value);
+	}
+	
+	public function get_query_props(\Database_Query $query)
+	{
+		return $query->join(array('ds' . $this->source, 'dss' . $this->id), 'left')
+			->on(DataSource_Hybrid_Field::PREFFIX . $this->key, '=', 'dss' . $this->id . '.id')
+			->on('dss' . $this->id . '.published', '=', DB::expr( 1 ))
+			->select(array('dss'.$this->id.'.header', $this->id . 'header'));
 	}
 }

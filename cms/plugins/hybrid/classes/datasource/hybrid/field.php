@@ -71,6 +71,12 @@ abstract class DataSource_Hybrid_Field {
 	 * @var integer
 	 */
 	public $position;
+	
+	/**
+	 *
+	 * @var string 
+	 */
+	public $key = NULL;
 
 
 	/**
@@ -131,6 +137,7 @@ abstract class DataSource_Hybrid_Field {
 		
 		$this->type = strtolower(substr(get_called_class(), 24));
 		$this->from_ds = (int) $this->from_ds;
+		$this->key = str_replace( DataSource_Hybrid_Field::PREFFIX, '', $this->name);
 	}
 	
 	/**
@@ -455,6 +462,28 @@ abstract class DataSource_Hybrid_Field {
 		return $query;
 	}
 	
+	/**
+	 * 
+	 * @param Database_Query $query
+	 * @param string $condition
+	 * @param string $value
+	 * @return type
+	 */
+	public function filter_condition(Database_Query $query, $condition, $value)
+	{
+		return $query->where($this->name, $condition, $value);
+	}
+	
+	/**
+	 * 
+	 * @param Database_Query $query
+	 * @param dtring $dir
+	 */
+	public function sorting_condition(Database_Query $query, $dir)
+	{
+		return $query->order_by($this->name, $dir);
+	}
+
 	/**
 	 * 
 	 * @param DataSource_Hybrid_Document $doc

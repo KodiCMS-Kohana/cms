@@ -213,11 +213,11 @@ class Model_Widget_Hybrid_Headline extends Model_Widget_Hybrid {
 			{
 				$related_widget = NULL;
 				
-				$field_class = 'DataSource_Hybrid_Field_' . $field['type'];
+				$field_class = 'DataSource_Hybrid_Field_' . $field->type;
 				$field_class_method = 'fetch_widget_field';
 				if( class_exists($field_class) AND method_exists( $field_class, $field_class_method ))
 				{
-					$doc[$field['name']] = call_user_func_array($field_class.'::'.$field_class_method, array( $this, $field, $row, $fid, $recurse - 1));
+					$doc[$field->key] = call_user_func_array($field_class.'::'.$field_class_method, array( $this, $field, $row, $fid, $recurse - 1));
 					continue;
 				}
 			}
@@ -271,6 +271,7 @@ class Model_Widget_Hybrid_Headline extends Model_Widget_Hybrid {
 	protected function _get_query()
 	{
 		$agent = $this->get_agent();
+
 		$query = $agent->get_query_props($this->doc_fields, $this->doc_fetched_widgets, $this->doc_order, $this->doc_filter);
 		
 		$query = $this->_search_by_keyword($query);

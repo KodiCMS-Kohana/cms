@@ -35,16 +35,12 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 	 * @var string 
 	 */
 	public $template = NULL;
-	
+
 	/**
 	 *
-	 * @var boolean
+	 * @var string 
 	 */
-	public $doc_order = array(
-		array(
-			'created_on' => 'desc'
-		)
-	);
+	public $read_sql = NULL;
 
 	/**
 	 *
@@ -57,27 +53,31 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 	 * @var DataSource_Hybrid_Agent 
 	 */
 	protected $_agent = NULL;
-
-	/**
-	 *
-	 * @var string 
-	 */
-	public $read_sql = NULL;
 	
 	/**
-	 *
-	 * @var array
+	 * @return DataSource_Hybrid_Record
 	 */
-	public $fields = NULL;
-
-	/**
-	 * 
-	 * @param string $key
-	 * @param type $parent
-	 */
-	public function __construct()
+	public function record() 
 	{
-		$this->page_size = Cookie::get('page_size', 30);
+		if($this->_record === NULL)
+		{
+			$this->_record = new DataSource_Hybrid_Record($this);
+		}
+
+		return $this->_record;
+	}
+	
+	/**
+	 * @return DataSource_Hybrid_Agent
+	 */
+	public function agent() 
+	{
+		if($this->_agent === NULL)
+		{
+			$this->_agent = DataSource_Hybrid_Agent::instance($this->id());
+		}
+
+		return $this->_agent;
 	}
 	
 	public function create( array $values )
@@ -370,32 +370,6 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 		$doc = new DataSource_Hybrid_Document($this->record());
 		
 		return $doc;
-	}
-	
-	/**
-	 * @return DataSource_Hybrid_Record
-	 */
-	public function record() 
-	{
-		if($this->_record === NULL)
-		{
-			$this->_record = new DataSource_Hybrid_Record($this);
-		}
-
-		return $this->_record;
-	}
-	
-	/**
-	 * @return DataSource_Hybrid_Agent
-	 */
-	public function agent() 
-	{
-		if($this->_agent === NULL)
-		{
-			$this->_agent = DataSource_Hybrid_Agent::instance($this->id());
-		}
-
-		return $this->_agent;
 	}
 	
 	/**

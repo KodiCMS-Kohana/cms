@@ -139,7 +139,7 @@ class DataSource_Hybrid_Field_Factory {
 		{
 			foreach ($query as $row)
 			{
-				$result[] = self::_get_field_from_array($row);
+				$result[] = self::get_field_from_array($row);
 			}
 		}
 
@@ -182,7 +182,7 @@ class DataSource_Hybrid_Field_Factory {
 
 		foreach ($query as $id => $row)
 		{
-			$fields[$id] = self::_get_field_from_array($row);
+			$fields[$id] = self::get_field_from_array($row);
 		}
 		
 		$f[$ds_id] = $fields;
@@ -192,20 +192,20 @@ class DataSource_Hybrid_Field_Factory {
 	
 	/**
 	 * 
-	 * @param array $r
+	 * @param array $array
 	 * @return null|\DataSource_Hybrid_Field
 	 * @throws Kohana_Exception
 	 */
-	protected static function _get_field_from_array($r) 
+	public static function get_field_from_array( array $array = NULL) 
 	{
 		$result = NULL;
 
-		if(empty($r))
+		if( empty($array) )
 		{
 			return $result;
 		}
 			
-		$class_name = 'DataSource_Hybrid_Field_' . $r['type'];
+		$class_name = 'DataSource_Hybrid_Field_' . $array['type'];
 		
 		if( ! class_exists( $class_name ))
 		{
@@ -213,22 +213,22 @@ class DataSource_Hybrid_Field_Factory {
 				':class_name' => $class_name));
 		}
 		
-		if(isset($r['props']))
+		if(isset($array['props']))
 		{
-			$props = unserialize($r['props']);
-			unset($r['props']);
+			$props = unserialize($array['props']);
+			unset($array['props']);
 			
 			if( is_array( $props))
 			{
-				$r = array_merge($r, $props);
+				$array = array_merge($array, $props);
 			}
 		}
 
 
-		$result = DataSource_Hybrid_Field::factory($r['type'], $r);
+		$result = DataSource_Hybrid_Field::factory($array['type'], $array);
 
-		$result->set_id( $r['id'] );
-		$result->set_ds( $r['ds_id'] );
+		$result->set_id( Arr::get($array, 'id') );
+		$result->set_ds( Arr::get($array, 'ds_id') );
 
 		return $result;
 	}

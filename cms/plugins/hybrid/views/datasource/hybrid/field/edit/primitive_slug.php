@@ -1,5 +1,4 @@
 <div class="widget-content ">
-
 	<div class="control-group">
 		<label class="control-label" for="from_header"><?php echo __('Slug from header'); ?></label>
 		<div class="controls">

@@ -16,7 +16,9 @@ abstract class Datasource_Section_Headline {
 	 *
 	 * @var array 
 	 */
-	protected $_sorting = array();
+	protected $_sorting = array(
+		array('created_on' => 'desc')
+	);
 	
 	/**
 	 *

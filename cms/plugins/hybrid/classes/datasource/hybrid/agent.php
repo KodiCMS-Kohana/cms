@@ -67,30 +67,11 @@ class DataSource_Hybrid_Agent {
 		
 		$this->ds_fields = $this->ds_field_names = array();
 		
-		$query = DB::select('id', 'ds_id', 'name', 'family', 'type', 'header', 'from_ds')
-			->from('dshfields')
-			->where('ds_id', '=', $this->ds_id)
-			->execute();
+		$this->ds_fields = DataSource_Hybrid_Field_Factory::get_related_fields( $this->ds_id );
 		
-		foreach ($query as $row)
+		foreach ($this->ds_fields as $id => $field)
 		{
-			$name = str_replace( DataSource_Hybrid_Field::PREFFIX, '', $row['name']);
-			$id = $row['id'];
-
-			$this->ds_fields[$id] = array(
-				'ds_id' => $row['ds_id'],
-				'family' => $row['family'], 
-				'name' => $name,
-				'type' => $row['type'],
-				'header' => $row['header']
-			);
-			
-			if($row['family'] === DataSource_Hybrid_Field::FAMILY_SOURCE)
-			{
-				$this->ds_fields[$id]['from_ds'] = $row['from_ds'];
-			}
-			
-			$this->ds_field_names[$id] = $name;
+			$this->ds_field_names[$id] = $field->key;
 		}
 		
 		return $this->ds_fields;
@@ -105,24 +86,27 @@ class DataSource_Hybrid_Agent {
 		if($this->sys_fields === NULL)
 		{
 			$this->sys_fields = array(
-				'id' => array(
+				'id' => DataSource_Hybrid_Field_Factory::get_field_from_array(array(
 					'ds_id' => $this->ds_id, 
 					'type' => 'primitive_integer', 
 					'name' => 'ds.id', 
-					'sys' => TRUE
-				),
-				'header' => array(
+					'header' => 'ID',
+					'system' => TRUE
+				)),
+				'header' => DataSource_Hybrid_Field_Factory::get_field_from_array(array(
 					'ds_id' => $this->ds_id, 
 					'type' => 'primitive_string', 
 					'name' => 'd.header', 
-					'sys' => TRUE
-				),
-				'created_on' => array(
+					'header' => __('Header'),
+					'system' => TRUE
+				)),
+				'created_on' => DataSource_Hybrid_Field_Factory::get_field_from_array(array(
 					'ds_id' => $this->ds_id, 
 					'type' => 'primitive_datetime', 
-					'name' => 'd.created_on', 
-					'sys' => TRUE
-				)
+					'name' => 'd.created_on',
+					'header' => __('Date created'),
+					'system' => TRUE
+				))
 			);
 		}
 
@@ -150,7 +134,7 @@ class DataSource_Hybrid_Agent {
 	 * @param array $filter
 	 * @return Database_Query_Builder_Select
 	 */
-	public function get_query_props($fields, $fetched_objects = array(), $order = array(), $filter = array())
+	public function get_query_props(array $fields, array $fetched_objects = NULL, array $order = NULL, array $filter = NULL)
 	{
 		$result = DB::select('d.id', 'd.ds_id', 'd.header', 'd.published', 'd.created_on')
 			->from(array('dshybrid_' . $this->ds_id,  'ds'))
@@ -161,55 +145,34 @@ class DataSource_Hybrid_Agent {
 		$sys_fields = $this->get_system_fields();
 		
 		$t = array($this->ds_id => TRUE);
-
-		for($i = 0, $l = count($fields); $i < $l; $i++) 
+		
+		foreach ($fields as $i => $fid)
 		{
-			$fid = $fields[$i];
-			
 			if(!isset($ds_fields[$fid])) continue;
-			
 			$field = $ds_fields[$fid];
 			
-			if(!isset($t[$field['ds_id']])) 
+			if( !($field instanceof DataSource_Hybrid_Field) ) continue;
+			
+			if(!isset($t[$field->ds_id])) 
 			{
-				$result->join(array('dshybrid_'.$field['ds_id'], 'd' . $i))
+				$result->join(array('dshybrid_'.$field[$field->ds_id], 'd' . $i))
 					->on('d' . $i, '=', ds.id);
 	
-				$t[$field['ds_id']] = TRUE;
+				$t[$field[$field->ds_id]] = TRUE;
 			}
 
-			$result->select(array(DataSource_Hybrid_Field::PREFFIX . $field['name'], $fid));
+			$result->select(array(DataSource_Hybrid_Field::PREFFIX . $field->key, $fid));
 			
-//			if($field['type'] == DataSource_Hybrid_Field::TYPE_DATASOURCE) 
-//			{
-//				
-//	
-//				$dss[$fid] = TRUE;
-//			}
-//			// TODO протестировать
-//			elseif($field['type'] == DataSource_Hybrid_Field::TYPE_DOCUMENT AND isset($fetched_objects[$fid])) 
-//			{
-//				$result->join(array('ds' . $field['ds_type'], 'dss' . $fid), 'left')
-//					->on(DataSource_Hybrid_Field::PREFFIX . $field['name'], '=', 'dss' . $fid . '.id')
-//					->on('dss' . $fid . '.published', '=', DB::expr( 1 ))
-//					->select(array('dss'.$fid.'.header', $fid . 'header'));
-//				
-//				$dds[$fid] = TRUE;
-//			}
-//			elseif($field['type'] == DataSource_Hybrid_Field::TYPE_USER) 
-//			{
-//				$result->join('users', 'left')
-//					->on(DataSource_Hybrid_Field::PREFFIX . $field['name'], '=', 'users' . '.id')
-//					->select(array('users.username', $fid))
-//					->select(array('users.id', 'user_id'));
-//			}
+			$result = $field->get_query_props($result);
 
 			unset($field);
 		}
 		
+		if(!empty($order))
+			$this->_fetch_orders($order, $t, $result);
 		
-		$this->_fetch_orders($order, $t, $result);
-		$this->_fetch_filters($filter, $t, $result);
+		if(!empty($filter))
+			$this->_fetch_filters($filter, $t, $result);
 
 		return $result;
 	}
@@ -219,6 +182,7 @@ class DataSource_Hybrid_Agent {
 		$j = 0;
 		$ds_fields = $this->get_fields();
 		$sys_fields = $this->get_system_fields();
+		
 		foreach ($orders as $pos => $data)
 		{
 			$field = NULL;
@@ -229,53 +193,22 @@ class DataSource_Hybrid_Agent {
 			{
 				$field = $ds_fields[$fid];
 			}
-			else if (isset($sys_fields[$fid]))
+			else if(isset($sys_fields[$fid]))
 			{
 				$field = $sys_fields[$fid];
 			}
 
-			if( $field === NULL ) continue;
+			if( !($field instanceof DataSource_Hybrid_Field) ) continue;
 
-			if(!isset($t[$field['ds_id']])) 
+			if(!isset($t[$field->ds_id])) 
 			{
-				$result->join(array('dshybrid_'. $field['ds_id'], 'dorder' . $j))
+				$result->join(array('dshybrid_'. $field->ds_id, 'dorder' . $j))
 					->on('dorder' . $j . '.id', '=', 'ds.id');
 
-				$t[$field['ds_id']] = TRUE;
+				$t[$field->ds_id] = TRUE;
 			}
 
-//			if($field['type'] == DataSource_Hybrid_Field::TYPE_DATASOURCE) 
-//			{
-//				if(!isset($dss[$fId]))
-//				{
-//					$result
-//						->join(array('datasources', 'dss' . $fid), 'left')
-//						->on(DataSource_Hybrid_Field::PREFFIX . $field['name'], '=', 'dss' . $fid . '.ds_id');
-//				}
-//
-//				$result->order_by('dss' . $fid . '.docs', $dir);
-//			} 
-//			elseif($field['type'] == DataSource_Hybrid_Field::TYPE_DOCUMENT) 
-//			{
-//				if(!isset($dds[$fid])) 
-//				{
-//					$result
-//						->select(array('dss' . $fid . '.header',  $fid . 'header'))
-//						->join(array('ds' . $field['ds_type'], 'dss' . $fid), 'left')
-//						->on(DataSource_Hybrid_Field::PREFFIX . $field['name'], '=', 'dss' . $fid . '.id')
-//						->on('dss' . $fid . '.published', '=', DB::expr( 1 ))
-//						->order_by('dss' . $fid . '.header', $dir);
-//				} 
-//				else
-//				{
-//					$result->order_by($fid . 'header', $dir);
-//				}
-//			}
-//			else
-//			{
-				$field_name = isset($field['sys']) ? '': DataSource_Hybrid_Field::PREFFIX;
-				$result->order_by($field_name . $field['name'], $dir);
-//			}
+			$result = $field->sorting_condition($result, $dir);
 
 			unset($field);
 
@@ -287,7 +220,7 @@ class DataSource_Hybrid_Agent {
 	{
 		if(empty($filters)) return;
 
-		$field_names = $this->get_field_names();
+		$field_names = array_flip($this->get_field_names());
 		$ds_fields = $this->get_fields();
 		$sys_fields = $this->get_system_fields();
 
@@ -328,19 +261,15 @@ class DataSource_Hybrid_Agent {
 			else
 				$field = NULL;
 
-			if(!is_array( $field )) continue;
+			if( !($field instanceof DataSource_Hybrid_Field) ) continue;
 			
-			if( !isset( $t[$field['ds_id']] ) ) 
+			if( !isset( $t[$field->ds_id] ) ) 
 			{
-				$result->join('dshybrid_' . $field['ds_id'], 'dfilter' . $pos)
+				$result->join('dshybrid_' . $field->ds_id, 'dfilter' . $pos)
 					->on('dfilter' . $pos . '.id', '=', 'ds.id');
 				
-				$t[$field['ds_id']] = TRUE;
+				$t[$field->ds_id] = TRUE;
 			}
-	
-			$field_name = isset($sys_fields[$field_id]) 
-					? $field['name']
-					: DataSource_Hybrid_Field::PREFFIX . $field['name'];
 	
 			$in = FALSE;
 			switch($condition) 
@@ -420,27 +349,14 @@ class DataSource_Hybrid_Agent {
 			$fid = NULL;
 			foreach($ds_fields as $id => $f) 
 			{
-				if($f['name'] == $field['name']) 
+				if($f->key == $field->key) 
 				{
-					$type = $f['type'];
+					$type = $f->type;
 					$fid = $id;
 				}
 			}
-	
-//			switch($type) 
-//			{
-//				case DataSource_Hybrid_Field::TYPE_TAGS:
-//					$result
-//						->join(array(DataSource_Hybrid_Field_Tags::TABLE_NAME, $fid.'_f_ht'), 'inner')
-//						->on($fid.'_f_ht.field_id', '=', DB::expr( $fid ))
-//						->on($fid.'_f_ht.doc_id', '=', 'd.id')
-//						->join(array(Model_Tag::TABLE_NAME, $fid.'_f_tags'), 'inner')
-//						->on($fid.'_f_tags.id', '=', $fid.'_f_ht.tag_id')
-//						->where($fid.'_f_tags.name', $condition, $value);
-//					break;
-//				default:
-					$result->where($field_name, $condition, $value);
-//			}
+			
+			$result = $field->filter_condition($result, $condition, $value);
 			
 		}
 	}
