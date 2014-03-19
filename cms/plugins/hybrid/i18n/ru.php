@@ -92,5 +92,7 @@ return array(
 	'Field value must be unique' => 'Значение должно быть уникальным',
 	'Show profile' => 'Посмотреть профиль',
 	'Type first 1 chars to find documents' => 'Напечатайте первую букву для поиска',
-	'Document template' => 'Шаблон документа'
+	'Document template' => 'Шаблон документа',
+	'Identificator field' => 'Поле идентификатора',
+	'Multiple fields specify separated by commas' => 'Несколько полей указывать через запятую'
 );

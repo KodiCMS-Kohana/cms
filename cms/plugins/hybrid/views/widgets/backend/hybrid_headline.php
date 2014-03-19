@@ -25,9 +25,12 @@
 	<div class="control-group">
 		<label class="control-label" for="doc_id"><?php echo __('Identificator field'); ?></label>
 		<div class="controls">
-			<?php echo Form::textarea( 'doc_id', $widget->doc_id, array(
-				'class' => 'input-xlarge', 'id' => 'doc_id', 'rows' => 4
+			<?php echo Form::input( 'doc_id', $widget->doc_id, array(
+				'class' => 'input-xlarge', 'id' => 'doc_id'
 			) ); ?>
+			<span class="help-block">
+				<?php echo __('Multiple fields specify separated by commas'); ?>
+			</span>
 		</div>
 	</div>
 
