@@ -161,20 +161,6 @@ class DataSource_Hybrid_Document {
 	 * 
 	 * @return \DataSource_Hybrid_Document
 	 */
-	public function convert_to_plain() 
-	{
-		foreach ( $this->record->fields() as $field )
-		{
-			$field->convert_to_plain($this);
-		}
-
-		return $this;
-	}
-	
-	/**
-	 * 
-	 * @return \DataSource_Hybrid_Document
-	 */
 	public function reset() 
 	{
 		for($i = 0, $l = sizeof($this->field_names); $i < $l; $i++)

@@ -33,14 +33,6 @@ class DataSource_Hybrid_Field_Source_Tags extends DataSource_Hybrid_Field {
 		$this->update_tags($tags, array(), $doc->id);
 	}
 	
-	public function convert_to_plain($doc) 
-	{
-		if(is_array($doc->fields[$this->name]))
-		{
-			$doc->fields[$this->name] = implode(', ', $doc->fields[$this->name]);
-		}
-	}
-	
 	public function get_type()
 	{
 		return 'TEXT NOT NULL';

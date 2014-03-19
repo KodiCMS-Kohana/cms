@@ -25,14 +25,6 @@ class DataSource_Hybrid_Field_Source_Free extends DataSource_Hybrid_Field_Source
 		
 		$this->inject_key = URL::title($key, '_');
 	}
-
-	public function convert_to_plain($doc) 
-	{
-		if(is_array($doc->fields[$this->name]))
-		{
-			$doc->fields[$this->name] = implode(', ', $doc->fields[$this->name]);
-		}
-	}
 	
 	public function is_valid($value) 
 	{

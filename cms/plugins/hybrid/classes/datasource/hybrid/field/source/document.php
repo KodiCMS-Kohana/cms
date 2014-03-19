@@ -90,11 +90,6 @@ class DataSource_Hybrid_Field_Source_Document extends DataSource_Hybrid_Field_So
 		);
 	}
 	
-	public function convert_to_plain($doc) 
-	{
-		$doc->fields[$this->name] = Arr::path($doc->fields, $this->name . '.header');
-	}
-	
 	public function get_type()
 	{
 		return 'INT(11) UNSIGNED';

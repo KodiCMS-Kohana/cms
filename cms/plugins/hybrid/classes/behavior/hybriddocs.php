@@ -9,6 +9,9 @@ class Behavior_HybridDocs extends Behavior_Abstract
 			'/tag/<tag>' => array(
 				'method' => 'execute'
 			),
+			'/category/<category_id>' => array(
+				'method' => 'execute'
+			),
 			'/<item>' => array(
 				'method' => 'execute'
 			),

@@ -498,15 +498,6 @@ abstract class DataSource_Hybrid_Field {
 	{
 		return $query->order_by($this->name, $dir);
 	}
-
-	/**
-	 * 
-	 * @param DataSource_Hybrid_Document $doc
-	 */
-	public function convert_to_plain($doc) 
-	{
-		FALSE ? $doc : NULL ;
-	}
 	
 	/**
 	 * 

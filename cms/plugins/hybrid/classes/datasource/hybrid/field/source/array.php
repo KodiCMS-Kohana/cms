@@ -66,14 +66,6 @@ class DataSource_Hybrid_Field_Source_Array extends DataSource_Hybrid_Field_Sourc
 		$doc->fields[$this->name] = DataSource_Hybrid_Field_Utils::get_document_headers($this->source, $this->from_ds, $ids);
 	}
 	
-	public function convert_to_plain($doc) 
-	{
-		if(is_array($doc->fields[$this->name]))
-		{
-			$doc->fields[$this->name] = implode(', ', $doc->fields[$this->name]);
-		}
-	}
-	
 	public function is_valid($value) 
 	{
 		return strlen($value) == strspn($value, '0123456789,');

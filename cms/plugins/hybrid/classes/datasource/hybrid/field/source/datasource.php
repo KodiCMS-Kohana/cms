@@ -52,11 +52,6 @@ class DataSource_Hybrid_Field_Source_Datasource extends DataSource_Hybrid_Field 
 		parent::remove();
 	}
 	
-	public function convert_to_plain($doc) 
-	{
-		$doc->fields[$this->name] = NULL;
-	}
-	
 	public function get_type()
 	{
 		return 'INT(11) UNSIGNED';
