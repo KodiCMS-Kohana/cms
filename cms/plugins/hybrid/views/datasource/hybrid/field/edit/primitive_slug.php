@@ -22,7 +22,7 @@
 			<?php echo Form::input('separator', $field->separator, array(
 				'id' => 'separator',
 				'maxlength' => 1,
-				'class' => 'input-small'
+				'class' => 'input-mini'
 			) ); ?>
 		</div>
 	</div>
