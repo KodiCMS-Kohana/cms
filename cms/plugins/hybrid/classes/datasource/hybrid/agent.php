@@ -454,11 +454,10 @@ class DataSource_Hybrid_Agent {
 	/**
 	 * 
 	 * @param string|integer $ds_id
-	 * @param string $type
 	 * @param boolean $only_sub
 	 * @return DataSource_Hybrid_Agent
 	 */
-	public static function instance($ds_id, $type = NULL)
+	public static function instance($ds_id)
 	{
 		if(isset(self::$_instance[$ds_id]))
 		{

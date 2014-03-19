@@ -33,7 +33,7 @@
 	</div>
 	
 	<?php echo View::factory('datasource/hybrid/blocks/fields', array(
-		'record' => $ds->get_record(), 'ds' => $ds
+		'record' => $ds->record(), 'ds' => $ds
 	)); ?>
 	
 	<div class="widget-header spoiler-toggle" data-spoiler=".template-spoiler">

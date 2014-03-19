@@ -162,7 +162,7 @@ class DataSource_Hybrid_Field_Factory {
 			return $f[$ds_id];
 		}
 		
-		$result = array();
+		$fields = array();
 
 		$query = DB::select()
 			->from('dshfields')
@@ -178,16 +178,16 @@ class DataSource_Hybrid_Field_Factory {
 			$query->where('type', 'in', $type);
 		}
 		
-		$query = $query->execute();
+		$query = $query->execute()->as_array('id');
 
-		foreach ($query as $row)
+		foreach ($query as $id => $row)
 		{
-			$result[$row['id']] = self::_get_field_from_array($row);
+			$fields[$id] = self::_get_field_from_array($row);
 		}
 		
-		$f[$ds_id] = $result;
+		$f[$ds_id] = $fields;
 
-		return $result;
+		return $fields;
 	}
 	
 	/**

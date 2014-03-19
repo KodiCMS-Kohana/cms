@@ -44,21 +44,10 @@ class DataSource_Hybrid_Record {
 	{
 		$this->_fields = array();
 		
-		$ids = DB::select('id')
-			->from('dshfields')
-			->where('ds_id', '=', $this->ds_id)
-			->order_by('position', 'asc')
-			->execute()
-			->as_array(NULL, 'id');
-		
-		if( count( $ids ) > 0)
+		$fields = DataSource_Hybrid_Field_Factory::get_related_fields($this->ds_id);
+		foreach ($fields as $field)
 		{
-			$fields = DataSource_Hybrid_Field_Factory::get_fields($ids);
-			
-			foreach ($fields as $field)
-			{
-				$this->_fields[$field->name] = $field;
-			}
+			$this->_fields[$field->name] = $field;
 		}
 		
 		return $this;

@@ -9,7 +9,7 @@ class Controller_Api_Datasource_Hybrid_Field extends Controller_System_API
 		$fields = $this->request->post('field');
 		
 		$ds = Datasource_Data_Manager::load($ds_id);
-		DataSource_Hybrid_Field_Factory::remove_fields($ds->get_record(), $fields);
+		DataSource_Hybrid_Field_Factory::remove_fields($ds->record(), $fields);
 		
 		$this->response($fields);
 	}

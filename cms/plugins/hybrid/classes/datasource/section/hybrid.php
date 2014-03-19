@@ -50,8 +50,14 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 	 *
 	 * @var DataSource_Hybrid_Record
 	 */
-	public $record = NULL;
+	protected $_record = NULL;
 	
+	/**
+	 *
+	 * @var DataSource_Hybrid_Agent 
+	 */
+	protected $_agent = NULL;
+
 	/**
 	 *
 	 * @var string 
@@ -104,7 +110,7 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 	 */
 	public function record_fields_array( )
 	{
-		$record = $this->get_record();
+		$record = $this->record();
 		
 		$fields = array();
 
@@ -114,43 +120,6 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 		}
 		
 		return $fields;
-	}
-	
-	/**
-	 * 
-	 * @return array
-	 */
-	public function fields( )
-	{
-		$this->fields = array(
-			'id' => array(
-				'name' => 'ID',
-				'width' => 50
-			),
-			'header' => array(
-				'name' => 'Header',
-				'width' => NULL,
-				'type' => 'link'
-			),
-		);
-		
-		$fields = DataSource_Hybrid_Field_Factory::get_related_fields($this->id());
-		
-		foreach($fields as $key => $field)
-		{
-			if(!$field->in_headline) continue;
-
-			$this->fields[$field->name] = array(
-				'name' =>  $field->header
-			);
-		}
-		
-		$this->fields['date'] = array(
-			'name' => 'Date of creation',
-			'width' => 150
-		);
-
-		return $this->fields;
 	}
 	
 	public function save(array $values = NULL)
@@ -175,19 +144,14 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 		if(is_array($values))
 		{
 			$headline_fields = Arr::get($values, 'in_headline', array());
-
-			$fields = $this->get_record()->fields();
-
-			foreach($fields as $f)
+			foreach($this->record()->fields() as $f)
 			{
 				$value = Arr::get($headline_fields, $f->id, 0);
 
 				$field = DataSource_Hybrid_Field_Factory::get_field($f->id);
 				$old_field = clone($field);
 
-				$field->set(array(
-					'in_headline' => $value
-				));
+				$field->set(array('in_headline' => $value));
 
 				DataSource_Hybrid_Field_Factory::update_field($old_field, $field);
 			}
@@ -210,7 +174,7 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 		
 		$this->remove_own_documents($ids);
 
-		$record = $this->get_record();
+		$record = $this->record();
 		$record->destroy();
 		
 		$dsf = new DataSource_Hybrid_Factory();
@@ -229,7 +193,7 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 		$id = $this->create_empty_document($doc->header);
 		$doc->id = $id;
 
-		$record = $this->get_record();
+		$record = $this->record();
 		$record->initialize_document($doc);
 		$query = $record->get_sql($doc);
 
@@ -271,7 +235,7 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 			return FALSE;
 		}
 
-		$record = $this->get_record();
+		$record = $this->record();
 		$record->document_changed($old, $doc);
 		$query = $record->get_sql($doc, TRUE);
 
@@ -313,11 +277,11 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 
 		if($id > 0) 
 		{
-			$doc = new DataSource_Hybrid_Document($this->get_record());
+			$doc = new DataSource_Hybrid_Document($this->record());
 			
 			if(!$this->read_sql) 
 			{
-				$record = $this->get_record();
+				$record = $this->record();
 				
 				$query = DB::select(array('dshybrid.id', 'id'))
 					->select('ds_id', 'published', 'header')
@@ -403,8 +367,7 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 	 */
 	public function get_empty_document() 
 	{
-		$record = $this->get_record();
-		$doc = new DataSource_Hybrid_Document($record);
+		$doc = new DataSource_Hybrid_Document($this->record());
 		
 		return $doc;
 	}
@@ -412,14 +375,27 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 	/**
 	 * @return DataSource_Hybrid_Record
 	 */
-	public function get_record() 
+	public function record() 
 	{
-		if($this->record === NULL)
+		if($this->_record === NULL)
 		{
-			$this->record = new DataSource_Hybrid_Record($this);
+			$this->_record = new DataSource_Hybrid_Record($this);
 		}
 
-		return $this->record;
+		return $this->_record;
+	}
+	
+	/**
+	 * @return DataSource_Hybrid_Agent
+	 */
+	public function agent() 
+	{
+		if($this->_agent === NULL)
+		{
+			$this->_agent = DataSource_Hybrid_Agent::instance($this->id());
+		}
+
+		return $this->_agent;
 	}
 	
 	/**
@@ -506,92 +482,10 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 	 */
 	public function remove_own_documents($ids) 
 	{
-		$record = $this->get_record();
 		$this->remove_empty_documents($ids);
 		$this->update_size();
 		
 		return $this;
-	}
-
-	/**
-	 * 
-	 * @param integer $ds_id
-	 * @return array
-	 */
-	public function get_headline( array $ids = NULL, $search_word = NULL )
-	{
-		$agent = DataSource_Hybrid_Agent::instance($this->id(), $this->type(), FALSE);
-		
-		$fields = array();
-		$ds_fields = DataSource_Hybrid_Field_Factory::get_related_fields($this->id());
-
-		foreach($ds_fields as $key => $field)
-		{
-			if( array_key_exists( $field->name, $this->fields() ))
-				$fields[] = $field->id;
-		}
-		
-		$query = $agent
-			->get_query_props($fields, array(), (array) $this->doc_order)
-			->select(array('d.created_on', 'date'));
-		
-		$query->join(array('datasources', 'dss'))
-				->on('d.ds_id', '=', 'dss.id')
-				->select('dss.name');
-		
-		if( ! empty($ids) ) 
-		{
-			$query->where('d.id', 'in', $ids);
-		}
-		
-		if( ! empty($search_word) ) 
-		{
-			if($this->is_indexable())
-			{
-				$query = Search::instance()->get_module_query($query, $search_word, 'ds_' . $this->id());
-			}
-			else
-			{
-				$query
-					->where_open()
-					->where('d.id', 'like', '%'.$search_word.'%')
-					->or_where('d.header', 'like', '%'.$search_word.'%')
-					->where_close();
-			}
-		}
-		
-		$result = array(0, array());
-
-		$query = $query->execute();
-
-		if($query->count() > 0)
-		{
-			$result[0] = $query->count();
-			
-			foreach ( $query as $row )
-			{
-				$hl[$row['id']] = array(
-					'id' => $row['id'],
-					'published' => (bool) $row['published'],
-					'header' => $row['header'],
-					'date' => Date::format($row['date'])
-				);
-				
-				foreach($ds_fields as $field)
-				{
-					$_field = & $hl[$row['id']][$field->name];
-					
-					if(isset($row[$field->id]))
-					{
-						$_field = $field->fetch_headline_value($row[$field->id]);
-					}
-				}
-			}
-			
-			$result[1] = $hl;
-		}
-		
-		return $result;
 	}
 	
 	/**
@@ -720,20 +614,27 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 		Datasource_Data_Manager::clear_cache( $this->id(), DataSource_Hybrid_Factory::$widget_types);
 	}
 
-	public function __sleep()
+	protected function _serialize()
 	{
-		$vars = array_keys(get_object_vars($this));
-		unset($vars['_docs'], $vars['_is_indexable'], $vars['record'], $vars['read_sql'], $vars['indexed_doc_query']);
+		$vars = parent::_serialize();
 
+		unset(
+			$vars['_agent'], 
+			$vars['_record'], 
+			$vars['read_sql'], 
+			$vars['indexed_doc_query']
+		);
+		
 		return $vars;
 	}
 	
-	public function __wakeup()
+	protected function _initialize()
 	{
-		$this->record = NULL;
+		parent::_initialize();
+		
+		$this->_record = NULL;
+		$this->_agent = NULL;
 		$this->read_sql = NULL;
 		$this->indexed_doc_query = NULL;
-		
-		parent::__wakeup();
 	}
 }

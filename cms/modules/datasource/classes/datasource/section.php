@@ -79,12 +79,21 @@ abstract class Datasource_Section {
 	protected $_lock;
 	
 	/**
+	 *
+	 * @var type Datasource_Section_Headline
+	 */
+	protected $_headline = NULL;
+
+
+	/**
 	 * 
 	 * @param string $type
 	 */
 	public function __construct( $type ) 
 	{
 		$this->_type = $type;
+		
+		$this->_initialize();
 	}
 	
 	/**
@@ -122,23 +131,14 @@ abstract class Datasource_Section {
 	{
 		return $this->_id !== NULL;
 	}
-
+	
 	/**
-	 * @return array Fields
+	 * 
+	 * @return Datasource_Section_Headline
 	 */
-	public function fields()
+	public function headline()
 	{
-		return array(
-			'id' => array(
-				'name' => 'ID',
-				'width' => 50
-			),
-			'header' => array(
-				'name' => 'Header',
-				'width' => NULL,
-				'type' => 'link'
-			)
-		);
+		return $this->_headline;
 	}
 
 	/**
@@ -571,28 +571,7 @@ abstract class Datasource_Section {
 			->where('ds_id', '=', $this->_id)
 			->execute()
 			->as_array(NULL, 'id');
-	}
-	
-	/**
-	 * 
-	 * @param integer $ds_id
-	 * @return array
-	 */
-	abstract public function get_headline( array $ids = NULL, $search_word = NULL );
-	
-	public function __sleep()
-	{
-		$vars = get_object_vars($this);
-		unset($vars['_docs'], $vars['_is_indexable']);
-
-		return array_keys($vars);
-	}
-	
-	public function __wakeup()
-	{
-		$this->_docs = 0;
-		$this->_is_indexable = FALSE;
-	}
+	}	
 	
 	public function valid(array $array)
 	{
@@ -606,5 +585,39 @@ abstract class Datasource_Section {
 		{
 			throw new Validation_Exception($array);
 		}
+	}
+	
+	public function __sleep()
+	{
+		return array_keys($this->_serialize());
+	}
+	
+	protected function _serialize()
+	{
+		$vars = get_object_vars($this);
+		unset($vars['_docs'], $vars['_is_indexable']);
+		
+		return $vars;
+	}
+
+	public function __wakeup()
+	{
+		$this->_initialize();
+	}
+	
+	protected function _initialize()
+	{
+		$this->_docs = 0;
+		$this->_is_indexable = FALSE;
+
+		$headline_class = 'Datasource_Section_' . ucfirst($this->type()) . '_Headline';
+		if(!class_exists($headline_class))
+		{
+			throw new Kohana_Exception('Headline class :class not found', array(
+				':class' => $headline_class
+			));
+		}
+
+		$this->_headline = new $headline_class($this);
 	}
 }

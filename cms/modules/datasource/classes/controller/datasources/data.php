@@ -6,7 +6,7 @@ class Controller_Datasources_Data extends Controller_System_Datasource
 
 	public function action_index()
 	{
-		$cur_ds_id = (int) Arr::get($_GET, 'ds_id', Cookie::get('ds_id'));
+		$cur_ds_id = (int) Arr::get($this->request->query(), 'ds_id', Cookie::get('ds_id'));
 		$tree = Datasource_Data_Manager::get_tree();
 
 		$cur_ds_id = Datasource_Data_Manager::exists($cur_ds_id) 
@@ -26,18 +26,23 @@ class Controller_Datasources_Data extends Controller_System_Datasource
 
 			$this->breadcrumbs
 				->add($this->template->title);
-
+			
+			$limit = (int) Arr::get($this->request->query(), 'limit', Cookie::get('limit'));
+			
+			
 			Cookie::set('ds_id', $cur_ds_id);
 			
 			$keyword = $this->request->query('keyword');
 			
-			$this->template->content->headline = View::factory('datasource/' . $ds->type() . '/headline', array(
-				'fields' => $ds->fields(),
-				'data' => $ds->get_headline(NULL, $keyword)
-			));
+			if(!empty($limit))
+			{
+				Cookie::set('limit', $limit);
+				$this->section()->headline()->limit($limit);
+			}
+	
+			$this->template->content->headline = $this->section()->headline()->render();
 			
 			$this->template->content->toolbar = View::factory('datasource/' . $ds->type() . '/toolbar', array(
-				'fields' => $ds->fields(),
 				'keyword' => $keyword
 			));
 			
