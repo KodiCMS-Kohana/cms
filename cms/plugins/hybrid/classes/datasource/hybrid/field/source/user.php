@@ -21,10 +21,7 @@ class DataSource_Hybrid_Field_Source_User extends DataSource_Hybrid_Field {
 	
 	public function set( array $data )
 	{
-		if(!isset($data['only_current']))
-		{
-			$data['only_current'] = FALSE;
-		}
+		$data['only_current'] = !empty($data['only_current']) ? TRUE : FALSE;
 		
 		return parent::set( $data );
 	}
