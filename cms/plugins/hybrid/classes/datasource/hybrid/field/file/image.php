@@ -16,7 +16,8 @@ class DataSource_Hybrid_Field_File_Image extends DataSource_Hybrid_Field_File_Fi
 		'crop' => FALSE,
 		'master' => Image::AUTO,
 		'quality' => 95,
-		'types' => 'bmp,gif,jpg,png,tif'
+		'types' => 'bmp,gif,jpg,png,tif',
+		'max_size' => 1048576
 	);
 
 	/**
@@ -40,7 +41,7 @@ class DataSource_Hybrid_Field_File_Image extends DataSource_Hybrid_Field_File_Fi
 	 * 
 	 * @return \DataSource_Hybrid_Field_File
 	 */
-	public function set_types()
+	public function set_types($types)
 	{
 		$types = 'bmp,gif,jpg,png,tif';
 		parent::set_types($types);
@@ -282,6 +283,7 @@ class DataSource_Hybrid_Field_File_Image extends DataSource_Hybrid_Field_File_Fi
 		$fields = DataSource_Hybrid_Field_Factory::get_related_fields($this->ds_id, 'file_image');
 
 		unset($fields[$this->id]);
+		$options = array();
 
 		foreach ($fields as $field)
 		{
