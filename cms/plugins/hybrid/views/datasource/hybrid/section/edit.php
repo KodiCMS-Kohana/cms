@@ -36,48 +36,11 @@
 		'record' => $ds->record(), 'ds' => $ds
 	)); ?>
 	
-	<div class="widget-header spoiler-toggle" data-spoiler=".template-spoiler">
-		<h4><?php echo __('Document template'); ?></h4>
-	</div>
-	<div class="widget-content spoiler template-spoiler">
-		<div class="control-group">
-			<div class="controls">
+	<?php echo View::factory('snippet/block', array(
+		'header' => __('Document template'),
+		'template' => $ds->template,
+	)); ?>
 
-				<?php
-				echo Form::select( 'template', Model_File_Snippet::html_select(), $ds->template, array(
-					'class' => 'input-medium', 'id' => 'WidgetTemplate'
-				) );
-				?>
-				
-				<div class="btn-group">
-				<?php if( ACL::check('snippet.edit')): ?>
-				<?php 
-				$hidden = empty($ds->template) ? 'hidden' : '';
-				echo UI::button(__('Edit snippet'), array(
-						'href' => Route::url('backend', array(
-							'controller' => 'snippet', 
-							'action' => 'edit',
-							'id' => $ds->template
-						)), 'icon' => UI::icon('edit'),
-						'class' => 'popup fancybox.iframe btn btn-primary '.$hidden, 'id' => 'WidgetTemplateButton'
-					)); 
-				?>
-				<?php endif; ?>
-
-				<?php if( ACL::check('snippet.add')): ?>
-				<?php echo UI::button(__('Add snippet'), array(
-					'href' => Route::url('backend', array(
-						'controller' => 'snippet', 
-						'action' => 'add'
-					)),
-					'icon' => UI::icon('plus'),
-					'class' => 'popup fancybox.iframe btn btn-success'
-				)); ?>
-				<?php endif; ?>
-				</div>
-			</div>
-		</div>
-	</div>
 	<div class="widget-header spoiler-toggle" data-spoiler=".indexer-spoiler">
 		<h4><?php echo __('Search indexation'); ?></h4>
 	</div>
