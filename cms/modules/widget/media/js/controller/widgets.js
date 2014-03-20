@@ -1,28 +1,4 @@
 cms.init.add('widgets_edit', function() {
-	$('#WidgetTemplate').change(function() {
-		var $option = $('option:selected', this);
-		if($option.val() == 0)
-			$('#WidgetTemplateButton').hide();
-		else
-			$('#WidgetTemplateButton')
-				.show()
-				.css({
-					display: 'inline-block'
-				})
-				.attr('href', BASE_URL + '/snippet/edit/' + $option.val())
-	});
-
-	$('body').on('post:api-snippet', update_snippets_list);
-	$('body').on('put:api-snippet', update_snippets_list);
-	
-	function update_snippets_list(e, response) {
-		var select = $('#WidgetTemplate');
-
-		select
-			.append($('<option>', {value: response.name, text: response.name}))
-			.select2('val', response.name)
-			.change();
-	}
 	
 	var cache_enabled = function() {
 		var $caching_input = $('#caching');
@@ -51,20 +27,6 @@ cms.init.add('widgets_edit', function() {
 					$(this).addClass('label-success');
 			});
 	};
-}).add('widgets_template', function() {
-	function calculateEditorHeight() {
-		var conentH = cms.content_height;
-		var h = $('.widget-title').outerHeight(true) + $('.widget-header').outerHeight(true) + $('.form-actions').outerHeight(true) + 10;
-		return conentH - h;
-	}
-
-	$('#highlight_content').on('filter:switch:on', function(e, editor) {
-		cms.filters.exec('highlight_content', 'changeHeight', calculateEditorHeight());
-	});
-
-	$(window).resize(function() {
-		$('#highlight_content').trigger('filter:switch:on')
-	});
 })
 
 cms.init.add('page_edit', function() {

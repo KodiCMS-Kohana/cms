@@ -22,63 +22,20 @@
 			->label(__('Widget Description'))
 		)); ?>
 	</div>
+
 	<?php if($widget->use_template): ?>
-	<div class="widget-header">
-		<h4><?php echo __('Widget template'); ?></h4>
-	</div>
-	<div class="widget-content">
-		<div class="control-group">
-			<label class="control-label"><?php echo __('Snippet'); ?></label>
-			<div class="controls">
-
-				<?php
-				echo Form::select( 'template', $templates, $widget->template, array(
-					'class' => 'input-medium', 'id' => 'WidgetTemplate'
-				) );
-				?>
-				
-				<div class="btn-group">
-				<?php if( ACL::check('snippet.edit')): ?>
-				<?php 
-				$hidden = empty($widget->template) ? 'hidden' : '';
-				echo UI::button(__('Edit snippet'), array(
-						'href' => Route::url('backend', array(
-							'controller' => 'snippet', 
-							'action' => 'edit',
-							'id' => $widget->template
-						)), 'icon' => UI::icon('edit'),
-						'class' => 'popup fancybox.iframe btn btn-primary '.$hidden, 'id' => 'WidgetTemplateButton'
-					)); 
-				?>
-				<?php endif; ?>
-
-				<?php if( ACL::check('snippet.add')): ?>
-				<?php echo UI::button(__('Add snippet'), array(
-					'href' => Route::url('backend', array(
-						'controller' => 'snippet', 
-						'action' => 'add'
-					)),
-					'icon' => UI::icon('plus'),
-					'class' => 'popup fancybox.iframe btn btn-success'
-				)); ?>
-				<?php endif; ?>
-				
-				<?php if($widget->default_template()): ?>
-				<?php 
-				echo UI::button(__('Default template'), array(
-						'href' => Route::url('backend', array(
-							'controller' => 'widgets', 
-							'action' => 'template',
-							'id' => $widget->id
-						)), 'icon' => UI::icon('desktop'),
-						'class' => 'popup fancybox.iframe btn'
-					)); 
-				?>
-				<?php endif; ?>
-				</div>
-			</div>
-		</div>
-	</div>
+	<?php echo View::factory('snippet/block', array(
+		'header' => __('Widget template'),
+		'template' => $widget->template,
+		'default' => $widget->default_template() ? UI::button(__('Default template'), array(
+			'href' => Route::url('backend', array(
+				'controller' => 'widgets', 
+				'action' => 'template',
+				'id' => $widget->id
+			)), 'icon' => UI::icon('desktop'),
+			'class' => 'popup fancybox.iframe btn'
+		)) : NULL
+	)); ?>
 	<?php endif; ?>
 
 	<?php if($widget->use_caching AND ACL::check('widgets.cache')): ?>
