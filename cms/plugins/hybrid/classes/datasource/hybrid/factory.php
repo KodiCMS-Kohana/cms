@@ -1,28 +1,33 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
 /**
- * @package    Kodi/Datasource
+ * @package Datasource
+ * @category Hybrid
  */
-
 class DataSource_Hybrid_Factory {
 
+	/**
+	 * Преффикс таблиц разделов
+	 */
 	const PREFIX = 'dshybrid_';
 	
 	/**
+	 * Типы виджетов для которых очищать кеш при обновлении данных в документах
+	 * 
 	 * @var array
 	 */
 	public static $widget_types = array('hybrid_headline', 'hybrid_document');
 
 	/**
+	 * Создание таблицы раздела и директории
 	 * 
 	 * @param string $key
 	 * @param DataSource_Section_Hybrid
 	 * @param integer $parent
 	 * @return null|\DataSource_Hybrid_Section
 	 */
-	public function create(DataSource_Section_Hybrid $ds) 
+	public static function create( DataSource_Section_Hybrid $ds ) 
 	{
-
 		if(self::create_table($ds->id())) 
 		{
 			if(self::create_folder($ds->id())) 
@@ -41,22 +46,30 @@ class DataSource_Hybrid_Factory {
 	}
 	
 	/**
+	 * Удалении таблицы раздела и директории
 	 * 
 	 * @param integer $id
 	 * @return boolean
 	 */
-	public function remove($id) 
+	public static function remove($id) 
 	{
 		self::remove_table($id);
 		self::remove_folder($id);
 	}
 	
 	/**
+	 * Удаление документов по ID.
+	 * Поиск документов будет происходить во всех разделах
 	 * 
-	 * @param array $doc_ids
+	 * Если идентификаторы переданы в виде строки будет применена функция
+	 * explode с разделителем ","
+	 * 
+	 * Обычно данный метод используется для удаления связанных документов
+	 * 
+	 * @param array|string $doc_ids array(1,2,..) OR "1,2,3,.."
 	 * @return null|boolean
 	 */
-	public function remove_documents($doc_ids) 
+	public static function remove_documents( $doc_ids = NULL ) 
 	{
 		if( !is_array( $doc_ids ) AND strpos(',', $doc_ids ) !== FALSE)
 		{
@@ -67,7 +80,7 @@ class DataSource_Hybrid_Factory {
 			$doc_ids = array($doc_ids);
 		}
 		
-		if(empty($doc_ids))
+		if( empty($doc_ids) )
 		{
 			return NULL;
 		}
@@ -78,107 +91,111 @@ class DataSource_Hybrid_Factory {
 			->order_by('ds_id', 'desc')
 			->execute();
 		
-		$type = array();
+		$documents = array();
 		
 		foreach ($query as $row)
 		{
-			$type[$row['ds_id']][] = $row['id'];
+			$documents[$row['ds_id']][] = $row['id'];
 		}
 		
-		foreach ($type as $id => $docs)
+		foreach ($documents as $ds_id => $ids)
 		{
-			$ds = Datasource_Data_Manager::load($id);
-			$ds->remove_own_documents($docs);
+			$ds = Datasource_Data_Manager::load( $ds_id );
+			$ds->remove_documents( $ids );
+			Datasource_Data_Manager::clear_cache( $ds_id, self::$widget_types);
 		}
 		
-		unset($ds, $type);
+		unset($ds, $documents, $query);
 		
 		return TRUE;
 	}
 	
 	/**
+	 * Опубликовать документы раздела по ID
 	 * 
 	 * @param array $ids
 	 * @return \DataSource_Hybrid_Factory
 	 */
-	public function publish_documents($ids) 
+	public function publish_documents( array $ids) 
 	{
-		return $this->set_published($ids, 1);
+		return $this->set_published($ids, TRUE);
 	}
 
 	/**
+	 * Снять с публикации документы раздела по ID
 	 * 
 	 * @param array $ids
 	 * @return \DataSource_Hybrid_Factory
 	 */
-	public function unpublish_documents($ids) 
+	public function unpublish_documents( array $ids) 
 	{
-		return $this->set_published($ids, 0);
+		return $this->set_published($ids, FALSE);
 	}
 	
 	/**
+	 * Опубликовать или снять с публикации документы раздела по ID
 	 * 
 	 * @param array $ids
 	 * @param boolean $value
 	 * @return \DataSource_Hybrid_Factory
 	 */
-	public function set_published($ids, $value) 
+	public function set_published( array $ids, $value) 
 	{
-		if( !empty($ids) ) 
+		if( empty($ids) ) return $this;
+
+		$res = DB::select('dsh.id', 'dsh.ds_id')
+			->from(array('dshybrid', 'dsh'))
+			->join(array('datasources', 'dss'), 'left')
+				->on('dsh.ds_id', '=', 'dss.id')
+			->where('dsh.id', 'in', $ids)
+			->execute();
+
+		$docs = array();
+		foreach ($res as $row)
 		{
-			$res = DB::select('dsh.id', 'dsh.ds_id')
-				->from(array('dshybrid', 'dsh'))
-				->join(array('datasources', 'dss'), 'left')
-					->on('dsh.ds_id', '=', 'dss.id')
-				->where('dsh.id', 'in', $ids)
-				->execute();
-			
-			$docs = array();
-			foreach ($res as $row)
-			{
-				$docs[$row['ds_id']][] = $row['id'];
-			}
+			$docs[$row['ds_id']][] = $row['id'];
+		}
 
-			if( !empty($docs) ) 
-			{
-				$ds_ids = array_keys($docs);
+		if( !empty($docs) ) 
+		{
+			$ds_ids = array_keys($docs);
 
-				foreach($ds_ids as $ds_id) 
+			foreach($ds_ids as $ds_id) 
+			{
+				$ds = Datasource_Data_Manager::load($ds_id);
+				$ids = $docs[$ds_id];
+
+				if($value === TRUE)
 				{
-					$ds = Datasource_Data_Manager::load($ds_id);
-					$ids = $docs[$ds_id];
-					
-					if($value)
-					{
-						$ds->add_to_index($ids);
-					}
-					else
-					{
-						$ds->remove_from_index($ids);
-					}
-					
-					DB::update('dshybrid')
-						->set(array(
-							'published' => $value,
-							'updated_on' => date('Y-m-d H:i:s')
-						))
-						->where('ds_id', '=', $ds_id)
-						->where('id', 'in', $ids)
-						->execute();
-
-					unset($ds, $ids);
-					
-					Datasource_Data_Manager::clear_cache( $ds_id, self::$widget_types);
+					$ds->add_to_index($ids);
 				}
+				else
+				{
+					$ds->remove_from_index($ids);
+				}
+
+				DB::update('dshybrid')
+					->set(array(
+						'published' => (int) $value,
+						'updated_on' => date('Y-m-d H:i:s')
+					))
+					->where('ds_id', '=', $ds_id)
+					->where('id', 'in', $ids)
+					->execute();
+
+				unset($ds, $ids, $docs);
+
+				Datasource_Data_Manager::clear_cache( $ds_id, self::$widget_types);
 			}
-			
-			
 		}
 		
 		return $this;
 	}
 
 	/**
+	 * Создание таблицы раздела
+	 * 
+	 * @see DataSource_Hybrid_Factory::create()
 	 * 
 	 * @param integer $id
 	 * @return boolean
@@ -198,20 +215,9 @@ class DataSource_Hybrid_Factory {
 	}
 	
 	/**
+	 * Создание директории для файлов раздела
 	 * 
-	 * @param integer $id
-	 * @return boolean
-	 */
-	public static function remove_table($id) 
-	{
-		DB::query(NULL, 'DROP TABLE `:name`')
-			->param(':name', DB::expr( self::PREFIX . $id))
-			->execute();
-		
-		return TRUE;
-	}
-	
-	/**
+	 * @see DataSource_Hybrid_Factory::create()
 	 * 
 	 * @param integer $folder
 	 * @return boolean
@@ -237,6 +243,26 @@ class DataSource_Hybrid_Factory {
 	}
 	
 	/**
+	 * Удаление таблицы раздела
+	 * 
+	 * @see DataSource_Hybrid_Factory::remove()
+	 * 
+	 * @param integer $id
+	 * @return boolean
+	 */
+	public static function remove_table($id) 
+	{
+		DB::query(NULL, 'DROP TABLE `:name`')
+			->param(':name', DB::expr( self::PREFIX . $id))
+			->execute();
+		
+		return TRUE;
+	}
+	
+	/**
+	 * Удаление директории для файлов раздела
+	 * 
+	 * @see DataSource_Hybrid_Factory::remove()
 	 * 
 	 * @param integer $folder
 	 * @return boolean

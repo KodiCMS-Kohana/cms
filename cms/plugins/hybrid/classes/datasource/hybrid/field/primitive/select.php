@@ -3,35 +3,87 @@
 class DataSource_Hybrid_Field_Primitive_Select extends DataSource_Hybrid_Field_Primitive {
 	
 	protected $_props = array(
-		'default' => NULL,
-		'options' => array()
+		'options' => array(),
+		'custom_option' => FALSE,
+		'empty_value' => TRUE,
 	);
 	
-	public function set_options($value)
+	public function set( array $data )
 	{
-		if( !is_array($value) )
+		$data['custom_option'] = !empty($data['custom_option']) ? TRUE : FALSE;
+		$data['empty_value'] = !empty($data['empty_value']) ? TRUE : FALSE;	
+		
+		return parent::set( $data );
+	}
+	
+	public function set_options( $options )
+	{
+		if( !is_array( $options ) )
 		{
-			$value = preg_split('/\\r\\n|\\r|\\n/', $value);
-			$value = array_unique(array_filter($value));
-			$value = array_combine($value, $value);
+			$options = preg_split('/\\r\\n|\\r|\\n/', $options);
 		}
 		
-		$this->options = $value;
+		$options = array_unique(array_filter($options));
+		$options = array_combine($options, $options);
+		
+		$this->options = (array) $options;
+	}
+	
+	public function get_options()
+	{
+		if($this->empty_value === TRUE)
+		{
+			$this->options = array('--- Not set ---') + $this->options;
+		}
+		
+		return $this->options;
+	}
+	
+	/**
+	 * 
+	 * @param array $data
+	 * @return DataSource_Hybrid_Field
+	 */
+	public function set_document_value(array $data, DataSource_Hybrid_Document $document)
+	{
+		if($this->custom_option === TRUE AND isset($data[$this->name . '_custom']) AND !empty($data[$this->name . '_custom']))
+		{
+			$options = $this->options;
+			$options[] = $data[$this->name . '_custom'];
+			$this->set_options($options);
+			$this->update();
+		}
+		
+		return parent::set_document_value($data, $document);
 	}
 
-	public function onUpdateDocument($old, $new) 
+	public function onUpdateDocument(DataSource_Hybrid_Document $old = NULL, DataSource_Hybrid_Document $new) 
 	{
-		if( in_array($new->fields[$this->name], (array) $this->options ))
-			$new->fields[$this->name] = $this->options[$new->fields[$this->name]];
-		else if($new->fields[$this->name] == 0)
-			$new->fields[$this->name] = '';
+		if( in_array($new->get($this->name), $this->options ) OR $this->custom_option === TRUE)
+		{
+			$new->set($this->name, $this->options[$new->get($this->name)]);
+		}
+		else if($new->get($this->name) == 0 AND $this->empty_value === TRUE)
+		{
+			$new->set($this->name, '');
+		}
 		else
-			$new->fields[$this->name] = $old->fields[$this->name];
+		{
+			$new->set($this->name, $old->get($this->name));
+		}
 	}
 	
 	public function document_validation_rules( Validation $validation, DataSource_Hybrid_Document $doc )
 	{
-		$validation->rule($this->name, 'in_array', array(':value', array(0) + $this->options));
+		if($this->custom_option === FALSE)
+		{
+			if($this->empty_value === TRUE)
+			{
+				$this->options = array(0) + $this->options;
+			}
+
+			$validation->rule($this->name, 'in_array', array(':value', $this->options));
+		}
 			
 		return parent::document_validation_rules($validation, $doc);
 	}

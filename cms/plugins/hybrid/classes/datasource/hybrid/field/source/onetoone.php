@@ -39,4 +39,11 @@ abstract class DataSource_Hybrid_Field_Source_OneToOne extends DataSource_Hybrid
 			return $widget->fetch_data();
 		}
 	}
+	
+	public function document_validation_rules( Validation $validation, DataSource_Hybrid_Document $doc )
+	{
+		$validation->rule($this->name, 'numeric');
+		
+		return parent::document_validation_rules($validation, $doc);
+	}
 }

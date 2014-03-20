@@ -1,4 +1,4 @@
-<?php $fields = DataSource_Hybrid_Field_Factory::get_related_fields($widget->ds_id); ?>
+<?php $fields = DataSource_Hybrid_Field_Factory::get_section_fields($widget->ds_id); ?>
 <div class="widget-header">
 	<h4><?php echo __('Fetched document fields'); ?></h4>
 </div>

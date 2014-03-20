@@ -6,14 +6,16 @@ class DataSource_Hybrid_Field_Primitive_Boolean extends DataSource_Hybrid_Field_
 		'default' => FALSE
 	);
 	
+	protected $_is_required = FALSE;
+	
 	public function set_default($value)
 	{
 		$this->default = (bool) $value; 
 	}
 	
-	public function onUpdateDocument($old, $new) 
+	public function onUpdateDocument(DataSource_Hybrid_Document $old = NULL, DataSource_Hybrid_Document $new) 
 	{
-		$new->fields[$this->name] = $new->fields[$this->name] ? 1 : 0;
+		$new->set($this->name, $new->get($this->name) ? 1 : 0);
 	}
 	
 	public function get_type() 

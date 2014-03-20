@@ -1,9 +1,9 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
 /**
- * @package    Kodi/Datasource
+ * @package Datasource
+ * @category Hybrid
  */
-
 abstract class DataSource_Hybrid_Field {
 	
 	const FAMILY_PRIMITIVE = 'primitive';
@@ -13,98 +13,116 @@ abstract class DataSource_Hybrid_Field {
 	const PREFFIX = 'f_';
 	
 	/**
+	 * Название таблицы раздела, в котором находится поле
 	 *
 	 * @var string
 	 */
 	public $ds_table = NULL;
 	
 	/**
-	 *
+	 * Таблица в которую сохраняются поля
+	 * 
 	 * @var string
 	 */
 	public $table = 'dshfields';
 	
 	/**
+	 * Идентификатор поля
 	 *
 	 * @var integer
 	 */
 	public $id = NULL;
 	
 	/**
+	 * Идентификатор раздела
 	 *
 	 * @var integer
 	 */
 	public $ds_id = NULL;
 	
 	/**
+	 * Идентификатор раздела на который ссылается поле SOURCE
 	 *
 	 * @var integer
 	 */
 	public $from_ds = NULL;
 	
 	/**
+	 * 
 	 *
 	 * @var string
 	 */
 	public $family;
 	
 	/**
+	 * Тип поля
 	 *
 	 * @var string
 	 */
 	public $type;
 	
 	/**
+	 * Ключ поля с преффиксом
 	 *
 	 * @var string
 	 */
 	public $name;
+	
+	/**
+	 * Ключ поля без преффикса
+	 *
+	 * @var string 
+	 */
+	public $key = NULL;
 
 	/**
+	 * Название поля
 	 *
 	 * @var string
 	 */
 	public $header;
 	
 	/**
+	 * Позиция поля
 	 *
 	 * @var integer
 	 */
 	public $position;
-	
-	/**
-	 *
-	 * @var string 
-	 */
-	public $key = NULL;
-
 
 	/**
+	 * Дополнительные параметры поля (Сериализуются)
 	 *
 	 * @var array
 	 */
 	protected $_props = array();
 	
 	/**
-	 *
+	 * @see use_as_document_id()
 	 * @var boolean 
 	 */
 	protected $_use_as_document_id = FALSE;
 	
 	/**
-	 *
+	 * @see is_sortable()
 	 * @var boolean 
 	 */
 	protected $_is_sortable = FALSE;
 	
 	/**
-	 *
+	 * @see widget_types()
 	 * @var array 
 	 */
 	protected $_widget_types = NULL;
-
+	
+	/**
+	 * @see is_required()
+	 * @var boolean 
+	 */
+	protected $_is_required = TRUE;
 
 	/**
+	 * Список всех полех, которые есть в системе.
+	 * Используется для выбора поля при создании.
 	 * 
 	 * @return array
 	 */
@@ -114,6 +132,8 @@ abstract class DataSource_Hybrid_Field {
 	}
 
 	/**
+	 * Фабрика создания поля. 
+	 * Используется при создании нового поля и загрузке созданного поля из БД
 	 * 
 	 * @param type $type
 	 * @param array $data
@@ -148,6 +168,9 @@ abstract class DataSource_Hybrid_Field {
 	
 	/**
 	 * 
+	 * Правила валидации поля при его создании и редактировании.
+	 * Используется класс Validation
+	 * 
 	 * @return array
 	 */
 	public function rules()
@@ -158,16 +181,12 @@ abstract class DataSource_Hybrid_Field {
 			),
 			'header' => array(
 				array('not_empty')
-			),
-//			'type' => array(
-//				array('in_array', array(
-//					':value', array_keys(DataSource_Hybrid_Field::types())
-//				))
-//			)
+			)
 		);
 	}
 	
 	/**
+	 * Валидация создаваемого поля.
 	 * 
 	 * @param array $data
 	 * @return boolean
@@ -194,7 +213,7 @@ abstract class DataSource_Hybrid_Field {
 			$array->rule('name', 'DataSource_Hybrid_Field_Factory::field_not_exists', array(DataSource_Hybrid_Field_Factory::get_full_key($this->name), $this->ds_id));
 		}
 		
-		if(!$array->check())
+		if( ! $array->check() )
 		{
 			throw new Validation_Exception($array);
 		}
@@ -203,6 +222,15 @@ abstract class DataSource_Hybrid_Field {
 	}
 	
 	/**
+	 * Сеттер. Используется при создании и обновлении параметров поля.
+	 * 
+	 * Принцип работы:
+	 *  
+	 *   * Передается массив с данными
+	 *   * Данные прогоняются по циклу, если для передаваемого поля есть метод
+	 *     set_{$field}, то происходит его вызов и передача в него значения,
+	 *     если нет, то $this->{$field} = $value
+	 *   * Валидация данных
 	 * 
 	 * @param array $data
 	 * @return \DataSource_Hybrid_Field
@@ -232,6 +260,8 @@ abstract class DataSource_Hybrid_Field {
 
 	/**
 	 * 
+	 * Сеттер. Сохраняет все значения в параметр $this->_props
+	 * 
 	 * @param type $key
 	 * @param type $value
 	 */
@@ -248,6 +278,7 @@ abstract class DataSource_Hybrid_Field {
 	}
 
 	/**
+	 * Геттер. Получает значения из параметра $this->_props
 	 * 
 	 * @param type $key
 	 * @return string|NULL
@@ -258,19 +289,34 @@ abstract class DataSource_Hybrid_Field {
 		return Arr::get($this->_props, $key);
 	}
 	
+	/**
+	 * Проверка ключа на существование в параметре $this->_props
+	 * 
+	 * @param string $key
+	 * @return mixed
+	 */
 	public function __isset( $key )
 	{
 		return isset($this->_props[$key]);
 	}
 	
+	/**
+	 * Удаление значения из параметра $this->_props
+	 * 
+	 * @param string $key
+	 */
 	public function __unset( $key )
 	{
 		unset($this->_props[$key]);
 	}
 	
 	/**
+	 * Указывается массив типов Виджетов, ккоторые могут загружаться с данным
+	 * полем.
+	 * Используется в видеже "Гибридный документ" и "Список Гибридных документов"
+	 * в списке полей для текущего поля.
 	 * 
-	 * @return array
+	 * @return array|NULL
 	 */
 	public function widget_types()
 	{
@@ -278,28 +324,37 @@ abstract class DataSource_Hybrid_Field {
 	}
 
 	/**
+	 * В момент присвоения полям документа значений происходит обход массива
+	 * полей документа и в каждом поле вызов этого метода. Т.е. присвоение значений
+	 * происходит в этом методе.
+	 * 
+	 * @see DataSource_Hybrid_Document::read_values()
+	 * @see DataSource_Hybrid_Document::read_files()
 	 * 
 	 * @param array $data
 	 * @param DataSource_Hybrid_Document $doc
 	 * @return \DataSource_Hybrid_Field
 	 */
-	public function set_value(array $data, DataSource_Hybrid_Document $document)
+	public function set_document_value(array $data, DataSource_Hybrid_Document $document)
 	{
-		$document->fields[$this->name] = Arr::get($data, $this->name);
+		$document->set($this->name, Arr::get($data, $this->name));
+
 		return $this;
 	}
 	
 	/**
+	 * Метод используется для присвоения старого значения для поля документа
 	 * 
-	 * @param DataSource_Hybrid_Document $old
-	 * @param DataSource_Hybrid_Document $new
+	 * @param DataSource_Hybrid_Document $document
 	 */
-	public function set_old_value($old, $new)
+	public function set_old_value( $document )
 	{
-		$new->fields[$this->name] = is_string($old->fields[$this->name]) ? $old->fields[$this->name] : '';
+		$document->set($this->name, $document->get_old_value($this->name));
+		return $this;
 	}
 
 	/**
+	 * Указание ID раздела в котором находится поле.
 	 * 
 	 * @param integer $ds_id
 	 * @return \DataSource_Hybrid_Field
@@ -313,6 +368,7 @@ abstract class DataSource_Hybrid_Field {
 	}
 	
 	/**
+	 * Присвоение Идентификатора полю
 	 * 
 	 * @param integer $id
 	 * @return \DataSource_Hybrid_Field
@@ -325,6 +381,7 @@ abstract class DataSource_Hybrid_Field {
 	}
 	
 	/**
+	 * Указание позиции поля
 	 * 
 	 * @param integer $position
 	 * @return \DataSource_Hybrid_Field
@@ -342,8 +399,11 @@ abstract class DataSource_Hybrid_Field {
 	}
 	
 	/**
+	 * Создание поля в БД.
 	 * 
-	 * @return integer
+	 * @see DataSource_Hybrid_Field_Factory::create_field()
+	 * 
+	 * @return integer Идентификатор поля
 	 */
 	public function create() 
 	{
@@ -378,8 +438,18 @@ abstract class DataSource_Hybrid_Field {
 	}
 	
 	/**
+	 * Обновление данных поля в БД
 	 * 
-	 * @return array
+	 * Данные которые можно обновить:
+	 * 
+	 * * Название {@see header}
+	 * * Ключ {@see name}
+	 * * Параметры {@see _props}
+	 * * Позиция {@see position}
+	 * 
+	 * @see DataSource_Hybrid_Field_Factory::update_field()
+	 * 
+	 * @return array DB::update
 	 */
 	public function update() 
 	{
@@ -397,6 +467,9 @@ abstract class DataSource_Hybrid_Field {
 	}
 	
 	/**
+	 * Удаление поля из БД
+	 * 
+	 * @see DataSource_Hybrid_Field_Factory::remove_fields()
 	 * 
 	 * @return boolean
 	 */
@@ -412,6 +485,7 @@ abstract class DataSource_Hybrid_Field {
 	}
 	
 	/**
+	 * Преобразование данных поля в массив
 	 * 
 	 * @return array
 	 */
@@ -424,15 +498,20 @@ abstract class DataSource_Hybrid_Field {
 	}
 
 	/**
+	 * Используется для получения значения поля из документа и сохранения в БД
+	 * @see DataSource_Hybrid_Record::get_sql()
 	 * 
-	 * @return null|array
+	 * @param DataSource_Hybrid_Document $document
+	 * @return array array([field name] => [document value])
 	 */
-	public function get_sql($doc)
+	final public function get_sql( DataSource_Hybrid_Document $document )
 	{
-		return array($this->name, $doc->fields[$this->name]);
+		return array($this->name, $document->get($this->name));
 	}
 	
 	/**
+	 * Поле может использоваться в качестве Идентификатора документа
+	 * Используется в виджете "Гибридный документ"
 	 * 
 	 * @return boolean
 	 */
@@ -442,6 +521,7 @@ abstract class DataSource_Hybrid_Field {
 	}
 	
 	/**
+	 * Поле может использоваться в сортировке списка документов
 	 * 
 	 * @return boolean
 	 */
@@ -449,8 +529,23 @@ abstract class DataSource_Hybrid_Field {
 	{
 		return (bool) $this->_is_sortable;
 	}
+	
+	/**
+	 * Поле может быть обязательным
+	 * 
+	 * @return boolean
+	 */
+	public function is_required()
+	{
+		return (bool) $this->_is_required;
+	}
 
 	/**
+	 * Правила валидации значения поля документа.
+	 * При сохранении документа происходит валидация значений его полей. 
+	 * Каждое поле прогоняется в цикле и происходит вызов этого метода.
+	 * 
+	 * @see DataSource_Hybrid_Document::validate()
 	 * 
 	 * @param Validation $validation
 	 * @param DataSource_Hybrid_Document
@@ -458,7 +553,7 @@ abstract class DataSource_Hybrid_Field {
 	 */
 	public function document_validation_rules( Validation $validation, DataSource_Hybrid_Document $doc )
 	{
-		if($this->isreq === TRUE)
+		if($this->isreq === TRUE AND $this->is_required())
 		{
 			$validation->rule($this->name, 'not_empty');
 		}
@@ -468,6 +563,10 @@ abstract class DataSource_Hybrid_Field {
 	}
 
 	/**
+	 * Метод позволяет дополнить запрос к БД в момент генерации данных спсика документов 
+	 * или отдельного документа в виджете "Список ГД документов" и "Гибридный документ"
+	 * 
+	 * @see DataSource_Hybrid_Agent::get_query_props()
 	 * 
 	 * @param Database_Query $query
 	 * @return \Database_Query
@@ -478,6 +577,23 @@ abstract class DataSource_Hybrid_Field {
 	}
 	
 	/**
+	 * Сортировка списка по текущему полю.
+	 * 
+	 * @see DataSource_Hybrid_Agent::_fetch_orders()
+	 * 
+	 * @param Database_Query $query
+	 * @param string $dir (ASC|DESC)
+	 */
+	public function sorting_condition(Database_Query $query, $dir)
+	{
+		return $query->order_by($this->name, $dir);
+	}	
+	
+	/**
+	 * Условие фильтрации текущего поля, если оно используется в фильтре виджета
+	 * "Список ГД документов"
+	 * 
+	 * @see DataSource_Hybrid_Agent::_fetch_filters()
 	 * 
 	 * @param Database_Query $query
 	 * @param string $condition
@@ -490,25 +606,27 @@ abstract class DataSource_Hybrid_Field {
 	}
 	
 	/**
+	 * Метод используется в момент вывода данных документа в форме редактирования.
+	 * Применяется в том случае, если в момент вывода данных они должны быть приведены
+	 * к определенному формату
 	 * 
-	 * @param Database_Query $query
-	 * @param dtring $dir
+	 * @see DataSource_Hybrid_Document::convert_values()
+	 * 
+	 * @param string $value
+	 * @return mixed $value
 	 */
-	public function sorting_condition(Database_Query $query, $dir)
+	public function convert_value( $value )
 	{
-		return $query->order_by($this->name, $dir);
+		return $value;
 	}
 	
 	/**
+	 * Преобразование значения поля списка документов выводимых в Админ панели.
 	 * 
-	 * @param DataSource_Hybrid_Document $doc
-	 */
-	public function fetch_value( $doc ) 
-	{
-		FALSE ? $doc : NULL ;
-	}
-	
-	/**
+	 * Например, если у нас поле содержит ID связанного документа и мы ходим вывести его заголовок,
+	 * то в этом методе мы по ID получаем заголовок и возвращаем его.
+	 * 
+	 * @see Datasource_Section_Hybrid_Headline::get()
 	 * 
 	 * @param string $value
 	 * @return string
@@ -519,12 +637,13 @@ abstract class DataSource_Hybrid_Field {
 	}
 	
 	/**
+	 * Шаблон поля, используемый при редактрировании документа.
 	 * 
 	 * @param string $template
-	 * @param DataSource_Hybrid_Document $doc
-	 * @return type
+	 * @param DataSource_Hybrid_Document $document
+	 * @return View
 	 */
-	public function backend_template( DataSource_Hybrid_Document $doc, $template = NULL )
+	public function backend_template( DataSource_Hybrid_Document $document, $template = NULL )
 	{
 		if($template === NULL)
 		{
@@ -532,47 +651,63 @@ abstract class DataSource_Hybrid_Field {
 		}
 		
 		return View::factory($template, array(
-			'value' => $doc->fields[$this->name], 
+			'value' => $document->get($this->name), 
 			'field' => $this,
-			'doc' => $doc
+			'doc' => $document
 		));
 	}
 
 	/**************************************************************************
 	 * EVENTS
-	 **************************************************************************/	
+	 **************************************************************************/
 	/**
+	 * Событие вызываемое в момент присвоения значения полю
 	 * 
+	 * @param mixed $value
 	 * @param DataSource_Hybrid_Document $doc
+	 * @return string
 	 */
-	public function onCreateDocument($doc) 
+	public function onSetValue( $value, DataSource_Hybrid_Document $doc)
 	{
-		if(!isset($doc->fields[$this->name]))
+		if( ! $doc->loaded() AND $this->default !== NULL )
 		{
-			$doc->fields[$this->name] = '';
+			return $this->default;
 		}
+		
+		return $value;
 	}
 	
 	/**
+	 * Событие вызываемое в момент создания документа, до сохранения данных в БД
+	 * 
+	 * @see DataSource_Hybrid_Record::initialize_document()
+	 * 
+	 * @param DataSource_Hybrid_Document $doc
+	 */
+	public function onCreateDocument(DataSource_Hybrid_Document $doc) 
+	{
+		$doc->set($this->name, $this->default);
+	}
+	
+	/**
+	 * Событие вызываемое в момент обновления документа, до сохранения данных в БД
+	 * 
+	 * @see DataSource_Hybrid_Record::document_changed()
 	 * 
 	 * @param DataSource_Hybrid_Document $old
 	 * @param DataSource_Hybrid_Document $new
 	 */
-	public function onUpdateDocument($old, $new) 
-	{
-		FALSE ? $old OR $new : NULL ;
-	}
+	public function onUpdateDocument(DataSource_Hybrid_Document $old = NULL, DataSource_Hybrid_Document $new) {}
 	
 	/**
+	 * Событие вызываемое в момент удаления документа
 	 * 
 	 * @param DataSource_Hybrid_Document $doc
 	 */
-	public function onRemoveDocument($doc) 
-	{
-		FALSE ? $doc : NULL ;
-	}
+	public function onRemoveDocument( DataSource_Hybrid_Document $doc) {}
 	
 	/**
+	 * Тип поля в БД
 	 * return string
 	 */
 	abstract public function get_type();

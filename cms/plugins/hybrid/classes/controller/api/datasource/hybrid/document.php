@@ -45,7 +45,7 @@ class Controller_Api_Datasource_Hybrid_Document extends Controller_System_API
 		}
 		
 		$dsf = new DataSource_Hybrid_Factory;
-		$dsf->remove_documents($doc_ids);
+		$dsf->remove_documents( $doc_ids );
 		
 		$this->json['documents'] = $doc_ids;
 	}

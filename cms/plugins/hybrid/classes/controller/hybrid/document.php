@@ -66,7 +66,9 @@ class Controller_Hybrid_Document extends Controller_System_Datasource
 		{
 			$doc->read_values($post_data);
 		}
-		$doc->fetch_values();
+
+		$doc->convert_values();
+		
 
 		$this->breadcrumbs
 			->add($this->section()->name, Route::url('datasources', array(
@@ -74,7 +76,7 @@ class Controller_Hybrid_Document extends Controller_System_Datasource
 				'controller' => 'data'
 			)) . URL::query(array('ds_id' => $this->section()->id()), FALSE));
 		
-		if($action == 'create')
+		if( ! $doc->loaded() )
 		{
 			$this->template->title = __('New document');
 		}
@@ -97,16 +99,20 @@ class Controller_Hybrid_Document extends Controller_System_Datasource
 	{
 		Session::instance()->set('post_data', $this->request->post());
 
-		if(($errors = $doc->validate($this->request->post() + $_FILES)) !== TRUE)
+		try
 		{
-			Messages::errors($errors);
+			$doc
+				->read_values($this->request->post())
+				->read_files($_FILES)
+				->validate($this->request->post() + $_FILES);
+		} 
+		catch (Validation_Exception $e)
+		{
+			Messages::errors($e->errors('validation'));
 			$this->go_back();
 		}
 
-		$doc->read_values($this->request->post());
-		$doc->read_files($_FILES);
-		
-		if( !empty($doc->id) )
+		if( $doc->loaded() )
 		{
 			$ds->update_document($doc);
 		}

@@ -1,9 +1,5 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
-/**
- * @package    Kodi/Datasource
- */
-
 class DataSource_Hybrid_Field_Source_User extends DataSource_Hybrid_Field {
 	
 	protected $_props = array(
@@ -26,21 +22,21 @@ class DataSource_Hybrid_Field_Source_User extends DataSource_Hybrid_Field {
 		return parent::set( $data );
 	}
 	
-	public function onCreateDocument($doc) 
+	public function onCreateDocument(DataSource_Hybrid_Document $doc) 
 	{
-		$doc->fields[$this->name] = AuthUser::getId();
+		$doc->set($this->name, AuthUser::getId());
 	}
 	
-	public function onUpdateDocument($old, $new)
+	public function onUpdateDocument(DataSource_Hybrid_Document $old = NULL, DataSource_Hybrid_Document $new)
 	{
 		if($this->only_current === TRUE)
 		{
-			$new->fields[$this->name] = AuthUser::getId();
+			$new->set($this->name, AuthUser::getId());
 		}
 		
-		if( ! $this->is_exists( $new->fields[$this->name] ))
+		if( ! $this->is_exists( $new->get($this->name) ))
 		{
-			$new->fields[$this->name] = $old->fields[$this->name];
+			$new->set($this->name, $old->get($this->name));
 		}
 	}
 	

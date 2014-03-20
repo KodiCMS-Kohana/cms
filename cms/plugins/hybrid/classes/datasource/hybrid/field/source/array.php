@@ -17,12 +17,12 @@ class DataSource_Hybrid_Field_Source_Array extends DataSource_Hybrid_Field_Sourc
 	{
 		parent::create();
 		
-		if( ! $this->id)
+		if( ! $this->id )
 		{
 			return FALSE;
 		}
 		
-		$ds = DataSource_Hybrid_Field_Utils::load_ds($this->from_ds);		
+		$ds = Datasource_Data_Manager::load($this->from_ds);		
 		$this->update();
 		
 		return $this->id;
@@ -30,52 +30,40 @@ class DataSource_Hybrid_Field_Source_Array extends DataSource_Hybrid_Field_Sourc
 	
 	public function remove() 
 	{
-		$ds = DataSource_Hybrid_Field_Utils::load_ds($this->from_ds);
+		$ds = Datasource_Data_Manager::load($this->from_ds);
 		parent::remove();
 	}
 	
-	public function onUpdateDocument($old, $new) 
+	public function onUpdateDocument(DataSource_Hybrid_Document $old = NULL, DataSource_Hybrid_Document $new) 
 	{
-		$o = empty($old->fields[$this->name]) ? array() : explode(',', $old->fields[$this->name]);
-		$n = empty($new->fields[$this->name]) ? array() : explode(',', $new->fields[$this->name]);
+		$old_docs = $old->get($this->name);
+		$new_docs = $new->get($this->name);
+		
+		$o = empty($old_docs) ? array() : explode(',', $old->get($this->name));
+		$n = empty($new_docs) ? array() : explode(',', $new->get($this->name));
+		
 		$diff = array_diff($o, $n);
 		
 		if($this->one_to_many AND !empty($diff)) 
 		{
-			$ds = DataSource_Hybrid_Field_Utils::load_ds($this->ds_id);
-			$ds->delete($diff);
+			DataSource_Hybrid_Factory::remove_documents($doc->get($diff));
 		}
 	}
 	
-	public function onRemoveDocument( $doc )
+	public function onRemoveDocument( DataSource_Hybrid_Document $doc )
 	{
-		$ids = explode(',', $doc->fields[$this->name]);
+		$ids = explode(',', $doc->get($this->name));
 		if($this->one_to_many AND !empty($ids)) 
 		{
-			$ds = DataSource_Hybrid_Field_Utils::load_ds($this->ds_id);
-			$ds->delete($ids);
+			DataSource_Hybrid_Factory::remove_documents($doc->get($ids));
 		}
 	}
 	
-	public function fetch_value($doc) 
+	public function convert_value( $value ) 
 	{
-		$ids = $doc->fields[$this->name] 
-			? explode(',', $doc->fields[$this->name]) 
-			: array();
+		$ids = !empty($value) ? explode(',', $value) : array();
 
-		$doc->fields[$this->name] = DataSource_Hybrid_Field_Utils::get_document_headers($this->source, $this->from_ds, $ids);
-	}
-	
-	public function is_valid($value) 
-	{
-		return strlen($value) == strspn($value, '0123456789,');
-	}
-	
-	public function document_validation_rules( Validation $validation, DataSource_Hybrid_Document $doc )
-	{
-		$validation->rule($this->name, array($this, 'is_valid'));
-		
-		return parent::document_validation_rules($validation, $doc);
+		return DataSource_Hybrid_Field_Utils::get_document_headers($this->from_ds, $ids);
 	}
 	
 	public function get_type()
@@ -114,7 +102,7 @@ class DataSource_Hybrid_Field_Source_Array extends DataSource_Hybrid_Field_Sourc
 			$docs = explode(',', $value);
 			foreach($docs as $i => $id)
 			{
-				$header = DataSource_Hybrid_Field_Utils::get_document_header($this->source, $this->from_ds, $id);
+				$header = DataSource_Hybrid_Field_Utils::get_document_header($this->from_ds, $id);
 
 				$docs[$i] = HTML::anchor(Route::url('datasources', array(
 					'controller' => 'document',

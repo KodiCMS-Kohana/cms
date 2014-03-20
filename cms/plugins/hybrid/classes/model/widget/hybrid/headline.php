@@ -149,7 +149,7 @@ class Model_Widget_Hybrid_Headline extends Model_Widget_Hybrid {
 	{
 		$agent = $this->get_agent();
 
-		$query = $agent->get_query_props(array(), array(), array(), $this->doc_filter);
+		$query = $agent->get_query_props(array(), array(), $this->doc_filter);
 		$query = $this->_search_by_keyword($query);
 		
 		if(is_array($this->ids) AND count($this->ids) > 0)
@@ -272,7 +272,7 @@ class Model_Widget_Hybrid_Headline extends Model_Widget_Hybrid {
 	{
 		$agent = $this->get_agent();
 
-		$query = $agent->get_query_props($this->doc_fields, $this->doc_fetched_widgets, $this->doc_order, $this->doc_filter);
+		$query = $agent->get_query_props($this->doc_fields, $this->doc_order, $this->doc_filter);
 		
 		$query = $this->_search_by_keyword($query);
 		

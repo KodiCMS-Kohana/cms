@@ -95,11 +95,11 @@ class DataSource_Hybrid_Field_File_Image extends DataSource_Hybrid_Field_File_Fi
 	}
 	
 	/**
-	 * 
+	 * @todo Удалить этот метод, т.к. не работает валидация данных
 	 * @param array $data
 	 * @return DataSource_Hybrid_Field
 	 */
-	public function set_value(array $data, DataSource_Hybrid_Document $document)
+	public function set_document_value(array $data, DataSource_Hybrid_Document $document)
 	{
 		$file = Arr::get($data, $this->name, array());
 		
@@ -126,7 +126,7 @@ class DataSource_Hybrid_Field_File_Image extends DataSource_Hybrid_Field_File_Fi
 			$data[$this->name] = $data[$this->name . '_url'];
 		}
 		
-		return parent::set_value($data, $document);
+		return parent::set_document_value($data, $document);
 	}
 	
 	/**
@@ -135,23 +135,23 @@ class DataSource_Hybrid_Field_File_Image extends DataSource_Hybrid_Field_File_Fi
 	 * @param DataSource_Hybrid_Document $new
 	 * @return boolean
 	 */
-	public function onUpdateDocument($old, $new)
+	public function onUpdateDocument(DataSource_Hybrid_Document $old = NULL, DataSource_Hybrid_Document $new)
 	{
-		$new_file = $new->fields[$this->name];
+		$new_file = $new->get($this->name);
 		
 		if(empty($new_file)) 
 		{
-			$this->set_old_value($old, $new);
+			$this->set_old_value($new);
 			return FALSE;
 		}
 		elseif( $new_file == -1)
 		{
 			$this->onRemoveDocument($old);
 			
-			$new->fields[$this->name] = '';
+			$new->set($this->name, '');
 			return FALSE;
 		}
-		elseif($old !== NULL AND $new_file == $old->fields[$this->name])
+		elseif($old !== NULL AND $new_file == $old->get($this->name))
 		{
 			return FALSE;
 		}
@@ -183,7 +183,7 @@ class DataSource_Hybrid_Field_File_Image extends DataSource_Hybrid_Field_File_Fi
 
 		if( empty($filepath) ) 
 		{
-			$this->set_old_value($old, $new);
+			$this->set_old_value($new);
 			return FALSE;
 		}
 
@@ -206,7 +206,7 @@ class DataSource_Hybrid_Field_File_Image extends DataSource_Hybrid_Field_File_Fi
 			$image->save(NULL, $this->quality);
 		}
 		
-		$new->fields[$this->name] = $this->folder . $filename;
+		$new->set($this->name, $this->folder . $filename);
 
 		return TRUE;
 	}
@@ -280,7 +280,7 @@ class DataSource_Hybrid_Field_File_Image extends DataSource_Hybrid_Field_File_Fi
 
 	public function get_similar_fields()
 	{
-		$fields = DataSource_Hybrid_Field_Factory::get_related_fields($this->ds_id, 'file_image');
+		$fields = DataSource_Hybrid_Field_Factory::get_section_fields($this->ds_id, array('file_image'));
 
 		unset($fields[$this->id]);
 		$options = array();

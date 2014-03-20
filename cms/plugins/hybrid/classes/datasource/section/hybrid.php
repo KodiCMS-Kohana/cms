@@ -1,49 +1,48 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
 /**
- * @package    Kodi/Datasource
+ * @package Datasource
+ * @category Hybrid
  */
-
 class DataSource_Section_Hybrid extends Datasource_Section {
 	
 	/**
-	 *
+	 * Таблица раздела
+	 * 
 	 * @var string
 	 */
 	protected $_ds_table = 'dshybrid';
 	
 	/**
-	 *
+	 * Тип раздела
+	 * 
 	 * @var string
 	 */
 	protected $_type = 'hybrid';
 	
 	/**
-	 *
+	 * Индексируемы поля раздела
+	 * 
 	 * @var array 
 	 */
 	public $search_index_fields = array();
 	
 	/**
-	 *
+	 * Поле описания документа в поисковом индексе
+	 * 
 	 * @var integer 
 	 */
 	public $search_intro_field = NULL;
 	
 	/**
-	 *
+	 * Шаблон формы редактирования документа
+	 * 
 	 * @var string 
 	 */
 	public $template = NULL;
 
 	/**
-	 *
-	 * @var string 
-	 */
-	public $read_sql = NULL;
-
-	/**
-	 *
+	 * 
 	 * @var DataSource_Hybrid_Record
 	 */
 	protected $_record = NULL;
@@ -55,6 +54,7 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 	protected $_agent = NULL;
 	
 	/**
+	 * 
 	 * @return DataSource_Hybrid_Record
 	 */
 	public function record() 
@@ -68,6 +68,7 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 	}
 	
 	/**
+	 * 
 	 * @return DataSource_Hybrid_Agent
 	 */
 	public function agent() 
@@ -80,41 +81,31 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 		return $this->_agent;
 	}
 	
+	/**
+	 * Создание раздела
+	 * 
+	 * @param array $values
+	 * @return integer Идентификатор раздела
+	 */
 	public function create( array $values )
 	{
 		$id = parent::create($values);
 		
-		$dsf = new DataSource_Hybrid_Factory();
-		$dsf->create($this);
-		
+		DataSource_Hybrid_Factory::create($this);
+
 		return $id;
 	}
 	
-	public function valid(array $array)
-	{
-		$array = Validation::factory($array)
-			->rules('name', array(
-				array('not_empty')
-			))
-			->label('name', __('Header') );
-
-		if( ! $array->check())
-		{
-			throw new Validation_Exception($array);
-		}
-	}
-	
 	/**
+	 * Получение списка полей раздела
 	 * 
-	 * @return array
+	 * @return array array([Field ID] => [Field Header], ....)
 	 */
 	public function record_fields_array( )
 	{
-		$record = $this->record();
-		
 		$fields = array();
 
-		foreach($record->fields() as $field)
+		foreach( $this->record()->fields() as $field)
 		{
 			$fields[$field->id] = $field->header;
 		}
@@ -122,6 +113,13 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 		return $fields;
 	}
 	
+	/**
+	 * Сохранение раздела
+	 * 
+	 * 
+	 * @param array $values
+	 * @return boolean
+	 */
 	public function save(array $values = NULL)
 	{
 		if( ! $this->loaded())
@@ -130,7 +128,6 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 		}
 		
 		$this->doc_order = Arr::get($values, 'doc_order', array());
-		
 		$this->template = empty($values['template']) ? NULL : $values['template'];
 		
 		$this->search_intro_field = empty($values['search_intro_field']) ? NULL : $values['search_intro_field'];
@@ -161,37 +158,26 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 	}
 
 	/**
+	 * Удаление раздела
 	 * 
 	 * @return \DataSource_Hybrid_Section
 	 */
 	public function remove() 
 	{
-		$ids = DB::select('id')
-			->from('dshybrid')
-			->where('ds_id', '=', $this->id())
-			->execute()
-			->as_array(NULL, 'id');
-		
-		$this->remove_own_documents($ids);
-
-		$record = $this->record();
-		$record->destroy();
-		
-		$dsf = new DataSource_Hybrid_Factory();
-		$dsf->remove($this->id());
-		
+		$this->record()->destroy();
+		DataSource_Hybrid_Factory::remove($this->id());
 		return parent::remove();
 	}
 	
 	/**
+	 * Создание нового документа
 	 * 
-	 * @param Datasource_Document $doc
-	 * @return Datasource_Document
+	 * @param DataSource_Hybrid_Document $doc
+	 * @return DataSource_Hybrid_Document
 	 */
-	public function create_document($doc) 
+	public function create_document( $doc ) 
 	{
-		$id = $this->create_empty_document($doc->header);
-		$doc->id = $id;
+		$doc->id = $this->create_empty_document($doc->header);
 
 		$record = $this->record();
 		$record->initialize_document($doc);
@@ -207,12 +193,11 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 		if($success) 
 		{
 			$this->update_size();
-			$this->add_to_index(array($id));
+			$this->add_to_index(array($doc->id));
 		} 
 		else 
 		{
-			$record->destroy_document($doc);
-			$this->remove_empty_documents(array($doc->id));
+			$this->remove_documents(array($doc->id));
 			$doc->id = 0;
 		}
 		
@@ -222,15 +207,16 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 	}
 	
 	/**
+	 * Обновление документа
 	 * 
-	 * @param Datasource_Document $doc
+	 * @param DataSource_Hybrid_Document $doc
 	 * @return boolean
 	 */
-	public function update_document($doc) 
+	public function update_document( $doc ) 
 	{
 		$old = $this->get_document($doc->id);
 	
-		if($old !== NULL AND !$old->id)
+		if( empty($old) )
 		{
 			return FALSE;
 		}
@@ -245,9 +231,9 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 			$result = DB::query(NULL, $q)->execute() AND $result;
 		}
 
-		if($old->published != $doc->published) 
+		if( $doc->is_changed('published')) 
 		{
-			if($doc->published)
+			if( $doc->published === TRUE )
 			{
 				$this->add_to_index(array($old->id));
 			}
@@ -256,7 +242,7 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 				$this->remove_from_index(array($old->id));
 			}
 		} 
-		elseif($old->published)
+		elseif( $old->published === TRUE )
 		{
 			$this->update_index(array($old->id));
 		}
@@ -267,49 +253,31 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 	}
 	
 	/**
+	 * Загрузка документа по ID
 	 * 
 	 * @param integer $id
 	 * @return \DataSource_Hybrid_Document
 	 */
 	public function get_document($id)
 	{
-		$doc = NULL;
+		$document = NULL;
 
-		if($id > 0) 
-		{
-			$doc = new DataSource_Hybrid_Document($this->record());
-			
-			if(!$this->read_sql) 
-			{
-				$record = $this->record();
-				
-				$query = DB::select(array('dshybrid.id', 'id'))
-					->select('ds_id', 'published', 'header')
-					->select_array( array_keys( $record->fields() ))
-					->from('dshybrid')
-					->where('dshybrid.id', '=', $id)
-					->from("dshybrid_" . $this->id())
-					->where("dshybrid_" . $this->id() . ".id", '=', DB::expr('`dshybrid`.`id`'))
-					->limit(1);
-
-
-				$this->read_sql = (string) $query;
-			}
-			
-			$result = DB::query( Database::SELECT, $this->read_sql )
-				->execute()
-				->current();
-
-			if($result)
-			{
-				$doc->load_from_db($result);
-			}
-		}
-
-		return $doc;
+		if( empty($id) ) return NULL;
+		
+		$document = new DataSource_Hybrid_Document($this->record(), $id);
+		return $document->load($id);
 	}
 	
-	public function get_indexable_docs($id = NULL) 
+	/**
+	 * Загрузка документов раздела в формате для индексации
+	 * 
+	 * В этом методе происходит загрукзка индексируемых полей документа 
+	 * + поля описания документа
+	 * 
+	 * @param array $id
+	 * @return array array([ID] => array('id', 'header', 'content', 'intro', ....), ...)
+	 */
+	public function get_indexable_documents( array $id = NULL ) 
 	{
 		$result = array();
 		$fields = $this->search_index_fields;
@@ -362,22 +330,22 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 	}
 	
 	/**
+	 * Получение пустого объекта документа
 	 * 
 	 * @return \DataSource_Hybrid_Document
 	 */
 	public function get_empty_document() 
 	{
-		$doc = new DataSource_Hybrid_Document($this->record());
-		
-		return $doc;
+		return new DataSource_Hybrid_Document($this->record());
 	}
 	
 	/**
+	 * Создание пустого документа и возврат его ID
 	 * 
 	 * @param string $header
-	 * @return null|integer
+	 * @return null|integer Идентификатор документа
 	 */
-	public function create_empty_document($header) 
+	public function create_empty_document( $header ) 
 	{
 		$data = array(
 			'ds_id' => $this->id(),
@@ -404,164 +372,42 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 			return $id;
 		}
 		
-		$this->remove_empty_documents(array($id));
+		$this->remove_documents( array($id) );
 
 		return NULL;
 	}
 	
 	/**
+	 * Удаление документов по ID
+	 * 
+	 * @see DataSource_Hybrid_Document::remove()
 	 * 
 	 * @param array $ids
 	 * @return \DataSource_Hybrid_Section
 	 */
-	public function remove_empty_documents($ids) 
+	public function remove_documents( array $ids = NULL  ) 
 	{
-		if(empty($ids))
+		if( empty($ids) ) return $this;
+		
+		foreach ($ids as $id)
 		{
-			return $this;
-		}
-
-		DB::delete("dshybrid")
-			->where('id', 'in', $ids)
-			->execute();
-		
-		DB::delete("dshybrid_" . $this->id())
-			->where('id', 'in', $ids)
-			->execute();
-
-		$this->remove_from_index($ids);
-		
-		$this->clear_cache();
-		
-		return $this;
-	}
-	
-	/**
-	 * 
-	 * @param array $ids
-	 * @return \DataSource_Hybrid_Section
-	 */
-	public function delete($ids) 
-	{
-		$dsf = new DataSource_Hybrid_Factory();
-		$dsf->remove_documents($ids);
-		
-		return $this;
-	}
-	
-	/**
-	 * 
-	 * @param array $ids
-	 * @return \DataSource_Hybrid_Section
-	 */
-	public function remove_own_documents($ids) 
-	{
-		$this->remove_empty_documents($ids);
-		$this->update_size();
-		
-		return $this;
-	}
-	
-	/**
-	 * 
-	 * @param \DataSource_Document $doc
-	 * @param string $field
-	 * @param integer $id
-	 * @return boolean
-	 */
-	function set_field($doc, $field, $id) 
-	{
-		$db_field = DB::select('id', 'ds_id', 'name', 'family', 'isown')
-			->from('dshfields')
-			->where('id', '=', $field)
-			->where('from_ds', '=', $this->id())
-			->limit(1)
-			->execute()
-			->current();
-		
-		if($db_field === NULL)
-		{
-			return FALSE;
-		}
-
-		$ds_id = (int) $db_field['ds_id'];
-		$field_name = $db_field['name'];
-		$family = $r['family'];
-		
-		$doc_filed = DB::select($field_name)
-			->from('dshybrid_' . $ds_id)
-			->where('id', '=', $doc)
-			->limit(1)
-			->execute()
-			->get($field_name);
-
-		if($doc_filed === NULL)
-		{
-			return FALSE;
-		}
-
-		$oldvalue = $doc_filed;
-		$newvalue = ($oldvalue ? $oldvalue . ',' : '') . $id;
-		if(UTF8::strlen($newvalue) > 255)
-		{
-			return FALSE;
-		}
-		
-		DB::update('dshybrid_' . $ds_id)
-			->set(array(
-				$field_name => $newvalue
-			))
-			->where('id', '=', $doc)
-			->limit(1)
-			->execute();
-		
-		$this->clear_cache();
-
-		return TRUE;
-	}
-	
-	/**
-	 * @param integer $doc_id
-	 * @return \DataSource_Document
-	 * @throws Kohana_Exception
-	 */
-	public function get_doc($doc_id) 
-	{
-		static $ds, $doc;
-		$result = NULL;
-		
-		$doc_id = (int) $doc_id;
-
-		if(isset($doc[$doc_id]))
-		{
-			$result = $doc[$doc_id];
-		}
-		else 
-		{
-			$ds_id = DB::select('ds_id')
-				->from('dshybrid')
-				->where('id', '=', $doc_id)
-				->execute()
-				->get('ds_id');
-	
-			if(!isset($ds[$ds_id])) 
+			$document = $this->get_empty_document()->load($id);
+			if($document->loaded())
 			{
-				$ds[$ds_id] = Datasource_Data_Manager::load($ds_id);
-
-				if($ds[$ds_id] === NULL)
-				{
-					throw new Kohana_Exception('NULL object');
-				}
+				$this->record()->destroy_document($document);
+				$document->remove();
 			}
-
-			$doc[$doc_id] = $ds[$ds_id]->get_document($doc_id);
-			$result = $doc[$doc_id];
 		}
 
-		return $result;
+		$this->update_size();
+		$this->remove_from_index($ids);
+		$this->clear_cache();
+
+		return parent::remove_documents($ids);
 	}
 	
 	/**
+	 * Получение полного пути до файла шаблона
 	 * 
 	 * @return string
 	 */
@@ -583,6 +429,9 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 		return $template;
 	}
 	
+	/**
+	 * Очистка кеша виджетов раздела
+	 */
 	public function clear_cache( )
 	{
 		Datasource_Data_Manager::clear_cache( $this->id(), DataSource_Hybrid_Factory::$widget_types);
@@ -594,8 +443,7 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 
 		unset(
 			$vars['_agent'], 
-			$vars['_record'], 
-			$vars['read_sql'], 
+			$vars['_record'],
 			$vars['indexed_doc_query']
 		);
 		
@@ -608,7 +456,6 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 		
 		$this->_record = NULL;
 		$this->_agent = NULL;
-		$this->read_sql = NULL;
 		$this->indexed_doc_query = NULL;
 	}
 }

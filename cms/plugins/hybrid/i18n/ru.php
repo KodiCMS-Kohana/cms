@@ -45,7 +45,7 @@ return array(
 	':action document' => ':action документ',
 	':action field' => ':action поле',
 	'Document page (URI)' => 'Страница документа (URI)',
-	'Document id (Ctx)' => 'Идентификатор документа(Ctx)',
+	'Document ID (Ctx)' => 'Идентификатор документа(Ctx)',
 	'Search key (Ctx)' => 'Ключ для поиска (Ctx)',
 	'Document ID field' => 'Поле идентификатор',
 	'Generate error 404 when page has no content' 
@@ -94,5 +94,14 @@ return array(
 	'Type first 1 chars to find documents' => 'Напечатайте первую букву для поиска',
 	'Document template' => 'Шаблон документа',
 	'Identificator field' => 'Поле идентификатора',
-	'Multiple fields specify separated by commas' => 'Несколько полей указывать через запятую'
+	'Multiple fields specify separated by commas' => 'Несколько полей указывать через запятую',
+	'Class for field - :type not found' => 'Класс для типа поля - :type не найден.',
+	'Rows' => 'Кол-во строк',
+	'Can use custom value' => 'Возможность указать своё значение',
+	'Can select empty value' => 'Возможность не указывать значение',
+	'Custom value' => 'Своё значение',
+	'Current time' => 'Текущее время',
+	'Current date' => 'Текущая дата',
+	'Current datetime' => 'Текущая дата',
+	'One to one relation' => 'Связь один к одному'
 );

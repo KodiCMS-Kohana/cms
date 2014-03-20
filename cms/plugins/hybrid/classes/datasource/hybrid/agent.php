@@ -1,10 +1,53 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
 /**
- * @package    Kodi/Datasource
+ * @package Datasource
+ * @category Hybrid
  */
-
 class DataSource_Hybrid_Agent {
+
+	/**
+	 * Объекты агентов разделов
+	 * @var array 
+	 */
+	protected static $_instance = array();
+
+	/**
+	 * Получение объекта агета для раздела
+	 * 
+	 * @param integer $ds_id
+	 * @param boolean $only_sub
+	 * @return DataSource_Hybrid_Agent
+	 */
+	public static function instance($ds_id)
+	{
+		$ds_id = (int) $ds_id;
+		if(isset(self::$_instance[$ds_id]))
+		{
+			return self::$_instance[$ds_id];
+		}
+		
+		$result = DB::select('id', 'name')
+			->from('datasources')
+			->where('type', '=', 'hybrid')
+			->where('id', '=', $ds_id)
+			->execute();
+		
+		if($result->count() > 0)
+		{
+			$current = $result->current();
+			$ds_id = $current['id'];
+			$ds_name = $current['name'];
+			
+			self::$_instance[$ds_id] = new DataSource_Hybrid_Agent($ds_id, $ds_name);
+		}
+		else
+		{
+			self::$_instance[$ds_id] = NULL;
+		}
+		
+		return self::$_instance[$ds_id];
+	}
 
 	const COND_EQ = 0;
 	const COND_BTW = 1;
@@ -19,35 +62,44 @@ class DataSource_Hybrid_Agent {
 	const VALUE_PLAIN = 20;
 	
 	/**
-	 *
+	 * Идентификатор раздела
 	 * @var integer
 	 */
 	public $ds_id;
 	
 	/**
-	 *
+	 * Название раздела
 	 * @var string
 	 */
 	public $ds_name;
 	
 	/**
-	 *
+	 * Массив полей раздела
+	 * 
+	 * @see DataSource_Hybrid_Agent::get_fields()
 	 * @var array
 	 */
-	public $ds_fields = NULL;
+	protected $_ds_fields = NULL;
 	
 	/**
-	 *
+	 * Массив названий полей
+	 * 
+	 * @see DataSource_Hybrid_Agent::get_fields()
 	 * @var array
 	 */
-	public $ds_field_names = NULL;
+	protected $_ds_field_names = NULL;
 	
 	/**
-	 *
+	 * Системные поля раздела
 	 * @var array
 	 */
-	public $sys_fields = NULL;
-	
+	protected $_sys_fields = NULL;
+
+	/**
+	 * 
+	 * @param integer $ds_id
+	 * @param string $ds_name
+	 */
 	public function __construct($ds_id, $ds_name) 
 	{
 		$this->ds_id = $ds_id;
@@ -55,37 +107,52 @@ class DataSource_Hybrid_Agent {
 	}
 
 	/**
+	 * Получение списка полей раздела.
 	 * 
-	 * @return array
+	 * @return array array([id] => [DataSource_Hybrid_Field])
 	 */
 	public function get_fields()
 	{
-		if($this->ds_fields !== NULL)
+		if( $this->_ds_fields !== NULL )
 		{
-			return $this->ds_fields;
+			return $this->_ds_fields;
 		}
 		
-		$this->ds_fields = $this->ds_field_names = array();
+		$this->_ds_fields = DataSource_Hybrid_Field_Factory::get_section_fields( $this->ds_id );
 		
-		$this->ds_fields = DataSource_Hybrid_Field_Factory::get_related_fields( $this->ds_id );
-		
-		foreach ($this->ds_fields as $id => $field)
+		foreach ($this->_ds_fields as $id => $field)
 		{
-			$this->ds_field_names[$id] = $field->key;
+			$this->_ds_field_names[$id] = $field->key;
 		}
 		
-		return $this->ds_fields;
+		return $this->_ds_fields;
 	}
 	
 	/**
+	 * Получение списка массива ключей полей
 	 * 
-	 * @return array
+	 * @return array array([id] => [key])
+	 */
+	public function get_field_names() 
+	{
+		if($this->_ds_fields === NULL)
+		{
+			$this->get_fields();
+		}
+
+		return $this->_ds_field_names;
+	}
+	
+	/**
+	 * Получение списка системных полей
+	 * 
+	 * @return array  array([id] => [DataSource_Hybrid_Field])
 	 */
 	public function get_system_fields()
 	{
-		if($this->sys_fields === NULL)
+		if($this->_sys_fields === NULL)
 		{
-			$this->sys_fields = array(
+			$this->_sys_fields = array(
 				'id' => DataSource_Hybrid_Field_Factory::get_field_from_array(array(
 					'ds_id' => $this->ds_id, 
 					'type' => 'primitive_integer', 
@@ -110,31 +177,33 @@ class DataSource_Hybrid_Agent {
 			);
 		}
 
-		return $this->sys_fields;
+		return $this->_sys_fields;
 	}
 	
 	/**
+	 * Формирование Database_Query_Builder запроса на получение данных документов раздела.
 	 * 
-	 * @return array
-	 */
-	public function get_field_names() 
-	{
-		if($this->ds_fields === NULL)
-		{
-			$this->get_fields();
-		}
-
-		return $this->ds_field_names;
-	}
-	
-	/**
+	 * Используется виджетами "Список ГД документов" и "Гибридный документ", а также
+	 * списком документов в админ панели
 	 * 
-	 * @param array $fields
-	 * @param array $order
-	 * @param array $filter
-	 * @return Database_Query_Builder_Select
+	 * В параметр {@param $fields} передается массив идентификаторов полей, которые 
+	 * должны попасть в SELECT запрос, также для этих полей будет вызван {@see DataSource_Hybrid_Field::get_query_props()} 
+	 *      
+	 *		$filter = array(
+	 *			array(
+	 *				"field" =>     "slug"
+	 *				"condition" => "0"
+	 *				"type" =>      "20"
+	 *				"value" =>     "test"
+	 *			)
+	 *		)
+	 * 
+	 * @param array $fields массив ID полей, которые попадут в select array([] => [field ID])
+	 * @param array $order array( array( [id] => [ASC|DESC] ), .....    ) Парамтеры сортировки документов
+	 * @param array $filter Параметры фильтрации спсика документов
+	 * @return Database_Query_Builder
 	 */
-	public function get_query_props(array $fields, array $fetched_objects = NULL, array $order = NULL, array $filter = NULL)
+	public function get_query_props(array $fields, array $order = NULL, array $filter = NULL)
 	{
 		$result = DB::select('d.id', 'd.ds_id', 'd.header', 'd.published', 'd.created_on')
 			->from(array('dshybrid_' . $this->ds_id,  'ds'))
@@ -169,15 +238,26 @@ class DataSource_Hybrid_Agent {
 		}
 		
 		if(!empty($order))
+		{
 			$this->_fetch_orders($order, $t, $result);
+		}
 		
 		if(!empty($filter))
+		{
 			$this->_fetch_filters($filter, $t, $result);
+		}
 
 		return $result;
 	}
 	
-	protected function _fetch_orders($orders, &$t, & $result)
+	/**
+	 * Формирование Database_Query_Builder в части сортировки документов
+	 * 
+	 * @param array $orders
+	 * @param array $t
+	 * @param Database_Query_Builder $result
+	 */
+	protected function _fetch_orders(array $orders, &$t, $result)
 	{
 		$j = 0;
 		$ds_fields = $this->get_fields();
@@ -214,11 +294,21 @@ class DataSource_Hybrid_Agent {
 
 			$j++;
 		}
+		
+		return $result;
 	}
 	
-	protected function _fetch_filters($filters, & $t, & $result)
+	/**
+	 * Формирование Database_Query_Builder в части филтрации документов
+	 * 
+	 * @param array $filters
+	 * @param array $t
+	 * @param Database_Query_Builder $result
+	 * @return Database_Query_Builder
+	 */
+	protected function _fetch_filters(array $filters, & $t, & $result)
 	{
-		if(empty($filters)) return;
+		if(empty($filters)) return $result;
 
 		$field_names = array_flip($this->get_field_names());
 		$ds_fields = $this->get_fields();
@@ -357,48 +447,8 @@ class DataSource_Hybrid_Agent {
 			}
 			
 			$result = $field->filter_condition($result, $condition, $value);
-			
-		}
-	}
-
-	/**
-	 *
-	 * @var array 
-	 */
-	protected static $_instance = array();
-
-	/**
-	 * 
-	 * @param string|integer $ds_id
-	 * @param boolean $only_sub
-	 * @return DataSource_Hybrid_Agent
-	 */
-	public static function instance($ds_id)
-	{
-		if(isset(self::$_instance[$ds_id]))
-		{
-			return self::$_instance[$ds_id];
 		}
 		
-		$result = DB::select('id', 'name')
-			->from('datasources')
-			->where('type', '=', 'hybrid')
-			->where('id', '=', (int) $ds_id)
-			->execute();
-		
-		if($result->count() > 0)
-		{
-			$current = $result->current();
-			$ds_id = $current['id'];
-			$ds_name = $current['name'];
-			
-			self::$_instance[$ds_id] = new DataSource_Hybrid_Agent($ds_id, $ds_name);
-		}
-		else
-		{
-			self::$_instance[$ds_id] = NULL;
-		}
-		
-		return self::$_instance[$ds_id];
+		return $result;
 	}
 }

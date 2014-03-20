@@ -87,7 +87,7 @@ class Model_Widget_Hybrid_Document extends Model_Widget_Hybrid {
 	{
 		$data = array('ID');
 		
-		$fields = DataSource_Hybrid_Field_Factory::get_related_fields($this->ds_id);
+		$fields = DataSource_Hybrid_Field_Factory::get_section_fields($this->ds_id);
 		foreach ($fields as $field)
 		{
 			if($field->use_as_document_id())
@@ -161,7 +161,7 @@ class Model_Widget_Hybrid_Document extends Model_Widget_Hybrid {
 		}
 		
 		$agent = $this->get_agent();
-		$query = $agent->get_query_props($this->doc_fields, $this->doc_fetched_widgets);
+		$query = $agent->get_query_props( $this->doc_fields );
 		
 		if(isset($agent->ds_fields[$this->doc_id_field]))
 		{

@@ -41,4 +41,16 @@ abstract class DataSource_Hybrid_Field_Source_OneToMany extends DataSource_Hybri
 			return $widget->fetch_data();
 		}
 	}
+	
+	public function document_validation_rules( Validation $validation, DataSource_Hybrid_Document $doc )
+	{
+		$validation->rule($this->name, array($this, 'is_valid_documents_ids'));
+		
+		return parent::document_validation_rules($validation, $doc);
+	}
+	
+	public function is_valid_documents_ids($value) 
+	{
+		return strlen($value) == strspn($value, '0123456789,');
+	}
 }

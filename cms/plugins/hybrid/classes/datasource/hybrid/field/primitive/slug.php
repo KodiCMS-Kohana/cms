@@ -19,9 +19,9 @@ class DataSource_Hybrid_Field_Primitive_Slug extends DataSource_Hybrid_Field_Pri
 		return parent::set( $data );
 	}
 	
-	public function onUpdateDocument($old, $new) 
+	public function onUpdateDocument(DataSource_Hybrid_Document $old = NULL, DataSource_Hybrid_Document $new) 
 	{
-		$new->fields[$this->name] = URL::title($new->fields[$this->name]);
+		$new->set($this->name, URL::title($new->get($this->name)));
 	}
 	
 	public function document_validation_rules( Validation $validation, DataSource_Hybrid_Document $doc )

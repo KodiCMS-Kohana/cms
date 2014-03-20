@@ -11,12 +11,25 @@
 			<?php echo Form::checkbox('filter_html', 1, $field->filter_html == 1, array('id' => 'filter_html' )); ?>
 		</div>
 	</div>
-	<?php echo Bootstrap_Form_Element_Control_Group::factory(array(
-		'element' => Bootstrap_Form_Element_Textarea::factory(array(
-			'name' => 'allowed_tags', 'body' => $field->allowed_tags
-		))
-		->label(__('Allowed tags'))
-	))->attributes('id', 'allowed_tags'); ?>
+	
+	<div class="control-group" id="allowed_tags">
+		<label class="control-label" for="filter_html"><?php echo __('Allowed tags'); ?></label>
+		<div class="controls">
+			<?php echo Form::textarea('allowed_tags', $field->allowed_tags, array('id' => 'allowed_tags', 'rows' => 2 )); ?>
+		</div>
+		
+		<script>
+			$(function() {
+				$('#filter_html').on('change', function() {
+					if($(this).is(':checked')) {
+						$('#allowed_tags').show();
+					} else {
+						$('#allowed_tags').hide();
+					}
+				}).change();
+			})
+		</script>
+	</div>
 	
 	<hr />
 	
@@ -29,15 +42,3 @@
 		</div>
 	</div>
 </div>
-
-<script>
-	$(function() {
-		$('#filter_html').on('change', function() {
-			if($(this).is(':checked')) {
-				$('#allowed_tags').show();
-			} else {
-				$('#allowed_tags').hide();
-			}
-		}).change();
-	})
-</script>

@@ -25,30 +25,23 @@ abstract class DataSource_Hybrid_Field_Primitive extends DataSource_Hybrid_Field
 	{
 		$this->length = (int) $value;
 	}
-
-	public function create() 
-	{
-		if(parent::create())
-		{
-			$this->update();
-		}
-
-		return $this->id;
-	}
 	
-	public function onCreateDocument($doc) 
+	public function onCreateDocument( DataSource_Hybrid_Document $doc) 
 	{
 		$this->onUpdateDocument($doc, $doc);
 	}
 
 	public function document_validation_rules( Validation $validation, DataSource_Hybrid_Document $doc )
-	{		
-		if( ! empty($this->min) AND ! empty($this->max) )
+	{	
+		if( $this->min !== NULL OR $this->max !== NULL )
 		{
-			$validation->rule($this->name, 'range', array(':value', $this->min, $this->max));
+			$min = $this->min !== NULL ? $this->min : -99999999999;
+			$max = $this->max !== NULL ? $this->max : 99999999999;
+
+			$validation->rule($this->name, 'range', array(':value', $min, $max));
 		}
 		
-		if( ! empty($this->regexp) )
+		if( $this->regexp !== NULL )
 		{
 			if(  strpos( $this->regexp, '::' ) !== FALSE )
 			{

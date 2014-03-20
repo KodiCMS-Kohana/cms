@@ -20,4 +20,18 @@
 			) ); ?>
 		</div>
 	</div>
+	
+	<hr />
+	
+	<div class="control-group">
+		<div class="controls">
+			<?php echo __('Min'); ?> <?php echo Form::input( 'min', Arr::get($post_data, 'min', $field->min), array(
+				'class' => 'input-mini', 'id' => 'min'
+			) ); ?>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<?php echo __('Max'); ?> <?php echo Form::input( 'max', Arr::get($post_data, 'max', $field->max), array(
+				'class' => 'input-mini', 'id' => 'max'
+			) ); ?>
+		</div>
+	</div>
 </div>

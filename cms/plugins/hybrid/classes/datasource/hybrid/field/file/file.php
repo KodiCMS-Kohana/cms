@@ -12,7 +12,7 @@ class DataSource_Hybrid_Field_File_File extends DataSource_Hybrid_Field {
 	 * @var array 
 	 */
 	protected $_props = array(
-		'types' => '',
+		'types' => array(),
 		'max_size' => 1048576
 	);
 
@@ -105,23 +105,8 @@ class DataSource_Hybrid_Field_File_File extends DataSource_Hybrid_Field {
 		{
 			$this->folder = 'hybrid' . DIRECTORY_SEPARATOR . $this->ds_id . DIRECTORY_SEPARATOR . substr($this->name, 2) . DIRECTORY_SEPARATOR;
 		}
-	}
-
-	/**
-	 * 
-	 * @param array $data
-	 * @return DataSource_Hybrid_Field
-	 */
-	public function set_value(array $data, DataSource_Hybrid_Document $document)
-	{
-		$file = Arr::get($data, $this->name);
-
-		if (is_array($file))
-		{
-			$data[$this->name] = $this->_upload_file($file);
-		}
-
-		return parent::set_value($data, $document);
+		
+		return $this;
 	}
 
 	/**
@@ -203,7 +188,6 @@ class DataSource_Hybrid_Field_File_File extends DataSource_Hybrid_Field {
 	 */
 	public function remove_folder()
 	{
-
 		$folder = $this->folder;
 		if (!empty($this->folder) AND is_dir(PUBLICPATH . $this->folder))
 		{
@@ -258,55 +242,53 @@ class DataSource_Hybrid_Field_File_File extends DataSource_Hybrid_Field {
 	 * 
 	 * @param DataSource_Hybrid_Document $doc
 	 */
-	public function onCreateDocument($doc)
+	public function onCreateDocument( DataSource_Hybrid_Document $doc )
 	{
-		$this->onUpdateDocument(NULL, $doc);
+		$this->onUpdateDocument( $doc, $doc );
 	}
 
 	/**
 	 * 
-	 * @param DataSource_Hybrid_Document $old
-	 * @param DataSource_Hybrid_Document $new
+	 * @param DataSource_Hybrid_Document $doc
 	 * @return boolean
 	 */
-	public function onUpdateDocument($old, $new)
+	public function onUpdateDocument( DataSource_Hybrid_Document $old = NULL, DataSource_Hybrid_Document $new )
 	{
-		$new_file = $new->fields[$this->name];
+		$file = $new->get($this->name);
 
-		if (empty($new_file))
+		if (is_array($file))
 		{
-			$this->set_old_value($old, $new);
+			$file = $this->_upload_file($file);
+		}
+		elseif ($file == -1)
+		{
+			$this->onRemoveDocument( $old );
+
+			$new->set($this->name, '');
 			return FALSE;
 		}
-		elseif ($new_file == -1)
-		{
-			$this->onRemoveDocument($old);
-
-			$new->fields[$this->name] = '';
-			return FALSE;
-		}
-		elseif ($old !== NULL AND $new_file == $old->fields[$this->name])
+		elseif ($old !== NULL AND $file == $old->get($this->name))
 		{
 			return FALSE;
 		}
 
 		$filepath = NULL;
 
-		if (!empty($new_file) AND strpos($new_file, $this->folder()) !== FALSE)
+		if ( ! empty($file) AND strpos($file, $this->folder()) !== FALSE)
 		{
-			$filepath = $new_file;
+			$filepath = $file;
 			$filename = pathinfo($filepath, PATHINFO_BASENAME);
 		}
 
 		if (empty($filepath))
 		{
-			$this->set_old_value($old, $new);
+			$this->set_old_value($new);
 			return FALSE;
 		}
 
 		$this->onRemoveDocument($old);
 
-		$new->fields[$this->name] = $this->folder . $filename;
+		$new->set($this->name, $this->folder . $filename);
 
 		return TRUE;
 	}
@@ -315,12 +297,14 @@ class DataSource_Hybrid_Field_File_File extends DataSource_Hybrid_Field {
 	 * 
 	 * @param DataSource_Hybrid_Document $doc
 	 */
-	public function onRemoveDocument($doc)
+	public function onRemoveDocument(DataSource_Hybrid_Document $doc)
 	{
-		if ($doc !== NULL AND !empty($doc->fields[$this->name]))
+		$value = $doc->get($this->name);
+		
+		if ( ! empty($value) )
 		{
-			@unlink(PUBLICPATH . $doc->fields[$this->name]);
-			$doc->fields[$this->name] = '';
+			@unlink(PUBLICPATH . $value);
+			$doc->set($this->name, '') ;
 		}
 	}
 
@@ -333,6 +317,8 @@ class DataSource_Hybrid_Field_File_File extends DataSource_Hybrid_Field {
 	public function document_validation_rules(Validation $validation, DataSource_Hybrid_Document $doc)
 	{
 		$file = NULL;
+		
+		$types = $this->types;
 
 		if ($validation->offsetExists($this->name))
 		{
@@ -352,7 +338,7 @@ class DataSource_Hybrid_Field_File_File extends DataSource_Hybrid_Field {
 					->rule($this->name, 'Upload::valid')
 					->rule($this->name, 'Upload::size', array(':value', $this->max_size));
 
-			if (!empty($this->types))
+			if ( ! empty($types) )
 			{
 				$validation
 						->rule($this->name, 'Upload::type', array(':value', $this->types));

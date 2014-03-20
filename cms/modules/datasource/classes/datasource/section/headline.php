@@ -1,19 +1,19 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
 /**
- * @package		KodiCMS
- * @category	Datasource
+ * @package		Datasource
  */
 abstract class Datasource_Section_Headline {
 	
 	/**
-	 *
+	 * Объект раздела
+	 * 
 	 * @var Datasource_Section 
 	 */
 	protected $_section = NULL;
 
 	/**
-	 *
+	 * Правила сортировки списка документов
 	 * @var array 
 	 */
 	protected $_sorting = array(
@@ -21,20 +21,27 @@ abstract class Datasource_Section_Headline {
 	);
 	
 	/**
-	 *
+	 * Объект постраничной навигации
 	 * @var Pagination 
 	 */
 	protected $_pagination = NULL;
 
 
 	/**
-	 *
+	 * Кол-во документов выводимых на 1 странице
+	 * По умолчанию 20
+	 * 
+	 * Используется объектом постраничной навигации
+	 * 
 	 * @var integer 
 	 */
 	protected $_limit = 20;
 	
 	/**
-	 *
+	 * Кол-во пропускаемых документов
+	 * 
+	 *  Используется объектом постраничной навигации
+	 * 
 	 * @var integer 
 	 */
 	protected $_offset = 0;
@@ -46,12 +53,13 @@ abstract class Datasource_Section_Headline {
 	public function __construct(Datasource_Section $section)
 	{
 		$this->_section = $section;
-
 		$this->_pagination = Pagination::factory();
 	}
 
-		/**
-	 * @return array Fields
+	/**
+	 * Поля раздела, которые отображаются в списке
+	 * 
+	 * @return array Fields array([Field name] => array('name' => [Field header]))
 	 */
 	public function fields()
 	{
@@ -69,9 +77,10 @@ abstract class Datasource_Section_Headline {
 	}
 	
 	/**
+	 * Рендер View спсика документов раздела
 	 * 
-	 * @param type $template
-	 * @return type
+	 * @param type $template Путь для своего шаблона
+	 * @return View
 	 */
 	public function render($template = NULL)
 	{
@@ -87,11 +96,21 @@ abstract class Datasource_Section_Headline {
 		));
 	}
 	
+	/**
+	 * Рендер View спсика документов раздела
+	 * @return string
+	 */
 	public function __toString()
 	{
 		return (string) $this->render();
 	}
 	
+	/**
+	 * Геттер и Сеттер лимита
+	 * 
+	 * @param integer $limit
+	 * @return integer
+	 */
 	public function limit( $limit = NULL )
 	{
 		if($limit !== NULL)
@@ -107,12 +126,19 @@ abstract class Datasource_Section_Headline {
 		return (int) $this->_limit;
 	}
 	
+	/**
+	 * Возвращает кол-во пропускаемых документов
+	 * 
+	 * @param integer $limit
+	 * @return integer
+	 */
 	public function offset()
 	{
 		return (int) $this->_offset;
 	}
 	
 	/**
+	 * Формирование данных для постраничной навигации
 	 * 
 	 * @param array $ids
 	 * @param string $search_word
@@ -135,14 +161,16 @@ abstract class Datasource_Section_Headline {
 	}
 
 	/**
+	 * Получение списка документов в виде массива
+	 * 
 	 * 
 	 * @param array $ids
-	 * @param string $search_word
-	 * @return array
+	 * @return array array( 'total' => ..., 'documents' => array([id] => array([Field name] => $value, ....)))
 	 */
 	abstract public function get( array $ids = NULL );
 	
 	/**
+	 * Подсчет кол-ва документов в разделе
 	 * 
 	 * @param array $ids
 	 * @param string $search_word
@@ -151,9 +179,11 @@ abstract class Datasource_Section_Headline {
 	abstract public function count_total( array $ids = NULL );
 	
 	/**
+	 * Метод используется для поиска по документам по ключевому слову.
+	 * 
+	 * Ключевое слово передается в качестве $_GET запроса с ключем "keyword"
 	 * 
 	 * @param Database_Query $query
-	 * @param string $search_word
 	 * @return Database_Query
 	 */
 	public function search_by_keyword( Database_Query $query )

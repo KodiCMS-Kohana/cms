@@ -1,16 +1,12 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
 /**
- * @package		KodiCMS
- * @category	Datasource
+ * @package Datasource
+ * @category Hybrid
  */
 class Datasource_Section_Hybrid_Headline extends Datasource_Section_Headline {
-	
-	/**
-	 * 
-	 * @return array
-	 */
-	public function fields( )
+
+	public function fields()
 	{
 		$this->fields = array(
 			'id' => array(
@@ -24,7 +20,7 @@ class Datasource_Section_Hybrid_Headline extends Datasource_Section_Headline {
 			),
 		);
 		
-		$fields = DataSource_Hybrid_Field_Factory::get_related_fields($this->_section->id());
+		$fields = DataSource_Hybrid_Field_Factory::get_section_fields($this->_section->id());
 		
 		foreach($fields as $key => $field)
 		{
@@ -58,7 +54,7 @@ class Datasource_Section_Hybrid_Headline extends Datasource_Section_Headline {
 		
 		$pagination = $this->pagination($ids);
 
-		$section_fields = DataSource_Hybrid_Field_Factory::get_related_fields($this->_section->id());
+		$section_fields = DataSource_Hybrid_Field_Factory::get_section_fields($this->_section->id());
 
 		foreach($section_fields as $key => $field)
 		{
@@ -68,7 +64,7 @@ class Datasource_Section_Hybrid_Headline extends Datasource_Section_Headline {
 		}
 
 		$query = $agent
-			->get_query_props($fids, array(), (array) $this->_sorting)
+			->get_query_props($fids, (array) $this->_sorting)
 			->select(array('d.created_on', 'date'))
 			->select('dss.name')
 			->join(array('datasources', 'dss'))
@@ -122,7 +118,7 @@ class Datasource_Section_Hybrid_Headline extends Datasource_Section_Headline {
 		$query = $this
 			->_section
 			->agent()
-			->get_query_props(array(), array(),  $this->_sorting);
+			->get_query_props(array(), $this->_sorting);
 
 		$query = $this->search_by_keyword($query);
 		

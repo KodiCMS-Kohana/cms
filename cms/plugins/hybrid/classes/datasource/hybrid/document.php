@@ -1,52 +1,39 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
 /**
- * @package    Kodi/Datasource
+ * @package Datasource
+ * @category Hybrid
  */
-
 class DataSource_Hybrid_Document {
 	
 	/**
-	 *
-	 * @var integer
+	 * Список полей документа
+	 * @var array array([ID] => [Document value])
 	 */
-	public $id = NULL;
+	protected $_fields = array();
+	
+	/**
+	 * Список системных полей
+	 * @var array 
+	 */
+	protected $_system_fields = array(
+		'id' => NULL,
+		'ds_id' => NULL,
+		'published' => FALSE,
+		'header' => NULL
+	);
 	
 	/**
 	 *
-	 * @var integer
+	 * @var array 
 	 */
-	public $ds_id;
-	
-	/**
-	 *
-	 * @var boolean
-	 */
-	public $published = FALSE;
-	
-	/**
-	 *
-	 * @var string
-	 */
-	public $header;
-	
-	/**
-	 *
-	 * @var array
-	 */
-	public $fields = array();
-	
-	/**
-	 *
-	 * @var array
-	 */
-	public $field_names = array();
-	
+	protected $_changed_fields = array();
+
 	/**
 	 *
 	 * @var DataSource_Hybrid_Record
 	 */
-	public $record;
+	protected $_record;
 	
 	/**
 	 * 
@@ -54,78 +41,250 @@ class DataSource_Hybrid_Document {
 	 */
 	public function __construct( DataSource_Hybrid_Record $record )
 	{
-		$this->record = $record;
-		$this->ds_id = $record->ds_id;
-		$this->fields = array(
-			'id' => $this->id, 
-			'header' => $this->header
-		);
-	
-		$this->field_names = array_keys($this->record->fields());
+		$this->_record = $record;
+		$this->_system_fields['ds_id'] = $record->ds_id();
+
 		$this->reset(); 
 	}
 	
 	/**
+	 * Сеттер. Присваивает значение полю документа
 	 * 
-	 * @return bool
+	 * @param string $field
+	 * @param string $value
 	 */
-	public function loaded()
+	public function __set($field, $value)
 	{
-		return $this->id !== NULL;
+		$this->set($field, $value);
 	}
 	
 	/**
+	 * Геттер значений полей документов
 	 * 
-	 * @param array $values
-	 * @return \DataSource_Hybrid_Document
+	 * @param string $field
+	 * @return mixed
 	 */
-	public function load_from_db( array $values = NULL)
+	public function __get($field)
 	{
-		$this->id = (int) Arr::get($values, 'id');
-		$this->ds_id = (int) Arr::get($values, 'ds_id');
-		$this->published = (bool) Arr::get($values, 'published');
-		$this->header = Arr::get($values, 'header');
+		return $this->get($field);
+	}
 
-		foreach($this->record->fields() as $field)
-		{			
-			$this->fields[$field->name] = Arr::get($values, $field->name);
+	/**
+	 * Проаверка существаования поля в документе
+	 * 
+	 * @param type $field
+	 * @return type
+	 */
+	public function __isset($field)
+	{
+		return isset($this->_fields[$field]);
+	}
+
+	/**
+	 * Проверка существования документа
+	 * 
+	 * @return boolean
+	 */
+	public function loaded()
+	{
+		return (int) $this->id != 0;
+	}
+	
+	/**
+	 * Геттер значений полей документов
+	 * 
+	 * @param string $field
+	 * @param mixed $default
+	 * @return mixed
+	 */
+	public function get($field, $default = NULL)
+	{
+		if(isset($this->_fields[$field]))
+		{
+			return $this->_fields[$field];
+		}
+		else if(isset($this->_system_fields[$field]))
+		{
+			return $this->_system_fields[$field];
+		}
+
+		return NULL;
+	}
+	
+	/**
+	 * Сеттер. Присваивает значение полю документа
+	 * 
+	 * @param string $field
+	 * @param string $value
+	 */
+	public function set($field, $value)
+	{
+		if(array_key_exists($field, $this->_system_fields))
+		{
+			if(($field == 'id' OR $field == 'ds_id' ) AND $this->loaded())
+			{
+				return $this;
+			}
+
+			$this->_system_fields[$field] = $this->_run_filter($field, $value);
+			$this->_changed_fields[$field] = $this->_system_fields[$field];
+		}
+		else if(array_key_exists($field, $this->_fields))
+		{
+			$this->set_field_value($field, $value);
 		}
 		
 		return $this;
 	}
 
 	/**
+	 * Получение старого значения поля, до присвоения нового
 	 * 
-	 * @param array $arr
+	 * @param string $field
+	 * @param mixed $default
+	 * @return mixed
+	 */
+	public function get_old_value($field, $default = NULL)
+	{
+		return Arr::get($this->_changed_fields, $field);
+	}
+	
+	/**
+	 * Проверка поля на изменение значения
+	 * 
+	 * @param string $field
+	 * @return boolean
+	 */
+	public function is_changed( $field )
+	{
+		return $this->{$field} == $this->get_old_value($field);
+	}
+
+	/**
+	 * 
+	 * @return DataSource_Hybrid_Record
+	 */
+	public function record()
+	{
+		return $this->_record;
+	}
+
+	/**
+	 * Правила фильтрации полей документа
+	 * @return array
+	 */
+	public function filters()
+	{
+		return array(
+			'id' => array(
+				array('intval')
+			),
+			'ds_id' => array(
+				array('intval')
+			),
+			'published' => array(
+//				array('boolval')
+			)
+		);
+	}
+	
+	/**
+	 * Правила валидации полей документа
+	 * @return type
+	 */
+	public function rules()
+	{
+		return array(
+			'header' => array(
+				array('not_empty')
+			)
+		);
+	}
+	
+	/**
+	 * Заголовки полей
+	 * @return type
+	 */
+	public function labels()
+	{
+		return array(
+			'id' => __('ID'),
+			'header' =>  __('Header')
+		);
+	}
+	
+	/**
+	 * Получение всех значений полей
+	 * 
+	 * @return array array([Field name] => [value])
+	 */
+	public function values()
+	{
+		return Arr::merge($this->_fields, $this->_system_fields);
+	}
+
+	/**
+	 * Загрузка документа по его ID
+	 * 
+	 *		$ds = Datasource_Data_Manager::load($ds_id);
+	 *		$doc = $ds->get_document($id);
+	 * 
+	 * @param integer $id
+	 * @return \DataSource_Hybrid_Document
+	 */
+	public function load( $id )
+	{
+		$ds_id = $this->record()->ds_id();
+
+		$result = DB::select(array('dshybrid.id', 'id'))
+			->select('ds_id', 'published', 'header')
+			->select_array( array_keys( $this->_fields ))
+			->from('dshybrid')
+			->join("dshybrid_{$ds_id}")
+				->on("dshybrid_{$ds_id}.id", '=', 'dshybrid.id')
+			->where('dshybrid.id', '=', (int) $id)
+			->limit(1)
+			->execute()
+			->current();
+		
+		foreach($result as $field => $value)
+		{
+			$this->{$field} = $value;
+		}
+		
+		return $this;
+	}
+
+	/**
+	 * Загрузка данных из массива
+	 * 
+	 * @param array $array Массив значений полей документа
 	 * @return \DataSource_Hybrid_Document
 	 */
 	public function read_values(array $array = NULL) 
 	{
-		if( ! $this->loaded() )
+		foreach($this->record()->fields() as $field)
 		{
-			$this->id = (int) Arr::get($array, 'id');
-			$this->ds_id = (int) Arr::get($array, 'ds_id');
+			$field->set_document_value($array, $this);
 		}
 		
-		$this->published = Arr::get($array, 'published', FALSE) ? TRUE : FALSE;
-		$this->header = Arr::get($array, 'header');
-
-		foreach($this->record->fields() as $field)
+		foreach($this->_system_fields as $key => $value)
 		{
-			$field->set_value($array, $this);
+			$this->{$key} = Arr::get($array, $key);
 		}
 		
 		return $this;
 	}
 	
 	/**
+	 * Загрузка файлов из массива
 	 * 
 	 * @param array $array
 	 * @return \DataSource_Hybrid_Document
 	 */
 	public function read_files($array) 
 	{
-		foreach($this->record->fields() as $key => $field)
+		foreach($this->record()->fields() as $key => $field)
 		{
 			if(
 				isset($array[$key]) 
@@ -136,7 +295,7 @@ class DataSource_Hybrid_Document {
 			AND 
 				Upload::not_empty($array[$key]))
 			{
-				$field->set_value($array, $this);
+				$field->set_document_value($array, $this);
 			}
 		}
 	
@@ -144,57 +303,189 @@ class DataSource_Hybrid_Document {
 	}
 	
 	/**
+	 * Установка значения поля документа (не системного)
+	 * 
+	 * 
+	 * @param string $field
+	 * @param mixed $value
+	 */
+	public function set_field_value($field, $value)
+	{
+		$this->_changed_fields[$field] = $this->_fields[$field];
+		
+		$fields = $this->record()->fields();
+		
+		$this->_fields[$field] = isset($fields[$field]) 
+			? $fields[$field]->onSetValue( $value, $this )
+			: $value;
+	}
+	
+	/**
+	 * Конвертация значений полей документа в момент загрузкти данных в форму
+	 * редактора
 	 * 
 	 * @return \DataSource_Hybrid_Document
 	 */
-	public function fetch_values() 
+	public function convert_values() 
 	{
-		foreach ( $this->record->fields() as $field )
+		foreach( $this->record()->fields() as $key => $field )
 		{
-			$field->fetch_value($this);
+			$this->{$key} = $field->convert_value( $this->{$key} );
 		}
 		
 		return $this;
 	}
 	
 	/**
+	 * Сброс значений полей документа
 	 * 
 	 * @return \DataSource_Hybrid_Document
 	 */
 	public function reset() 
 	{
-		for($i = 0, $l = sizeof($this->field_names); $i < $l; $i++)
+		foreach ($this->_system_fields as $key => $value)
 		{
-			$this->fields[$this->field_names[$i]] = NULL;
+			$this->_system_fields[$key] = NULL;
+		}
+
+		foreach( $this->record()->fields() as $key => $field )
+		{
+			$this->_fields[$key] = NULL;
 		}
 		
 		return $this;
 	}
 	
 	/**
+	 * Фильтрация полей документа согласно правилам
+	 * 
+	 * @see DataSource_Hybrid_Document::filters()
+	 * 
+	 * @param string $field
+	 * @param mixed $value
+	 * @return mixed
+	 */
+	protected function _run_filter($field, $value)
+	{
+		$filters = $this->filters();
+
+		// Get the filters for this column
+		$wildcards = empty($filters[TRUE]) ? array() : $filters[TRUE];
+
+		// Merge in the wildcards
+		$filters = empty($filters[$field]) ? $wildcards : array_merge($wildcards, $filters[$field]);
+
+		// Bind the field name and model so they can be used in the filter method
+		$_bound = array
+		(
+			':field' => $field,
+			':document' => $this,
+		);
+
+		foreach ($filters as $array)
+		{
+			// Value needs to be bound inside the loop so we are always using the
+			// version that was modified by the filters that already ran
+			$_bound[':value'] = $value;
+
+			// Filters are defined as array($filter, $params)
+			$filter = $array[0];
+			$params = Arr::get($array, 1, array(':value'));
+
+			foreach ($params as $key => $param)
+			{
+				if (is_string($param) AND array_key_exists($param, $_bound))
+				{
+					// Replace with bound value
+					$params[$key] = $_bound[$param];
+				}
+			}
+
+			if (is_array($filter) OR ! is_string($filter))
+			{
+				// This is either a callback as an array or a lambda
+				$value = call_user_func_array($filter, $params);
+			}
+			elseif (strpos($filter, '::') === FALSE)
+			{
+				// Use a function call
+				$function = new ReflectionFunction($filter);
+
+				// Call $function($this[$field], $param, ...) with Reflection
+				$value = $function->invokeArgs($params);
+			}
+			else
+			{
+				// Split the class and method of the rule
+				list($class, $method) = explode('::', $filter, 2);
+
+				// Use a static method call
+				$method = new ReflectionMethod($class, $method);
+
+				// Call $Class::$method($this[$field], $param, ...) with Reflection
+				$value = $method->invokeArgs(NULL, $params);
+			}
+		}
+
+		return $value;
+	}
+
+	/**
+	 * Валидация полей документа согласно правилам валидации
+	 * 
+	 * @see DataSource_Hybrid_Document::rules()
+	 * 
+	 *			$doc = $ds->get_document($id);
+	 *			$doc
+	 *				->read_values($this->request->post())
+	 *				->read_files($_FILES)
+	 *				->validate($this->request->post() + $_FILES);
 	 * 
 	 * @param array $array
 	 * @param string $errors_file
 	 * @return boolean|Validation
 	 */
-	public function validate($array, $errors_file = 'validation')
+	public function validate($errors_file = 'validation')
 	{
-		$array = Validation::factory($array)
-			->rules( 'header', array(
-				array('not_empty')
-			) )
-			->label( 'id', __('ID') )
-			->label('header', __('Header'));
-
-		foreach ($this->record->fields() as $name => $field)
+		$validation = Validation::factory($this->values());
+		
+		foreach ($this->rules() as $field => $rules)
 		{
-			$field->document_validation_rules($array, $this);
+			$validation->rules($field, $rules);
+		}
+		
+		foreach ($this->labels() as $field => $label)
+		{
+			$validation->label($field, $label);
 		}
 
-		if(!$array->check())
+		foreach ($this->record()->fields() as $name => $field)
 		{
-			return $array->errors($errors_file);
+			$field->document_validation_rules($validation, $this);
 		}
+
+		if( ! $validation->check() )
+		{
+			throw new Validation_Exception( $validation );
+		}
+		
+		return TRUE;
+	}
+	
+	/**
+	 * Метод удаления документа
+	 * 
+	 * @return null|boolean
+	 */
+	public function remove()
+	{
+		if( ! $this->loaded() ) return NULL;
+		
+		DB::delete("dshybrid_" . $this->ds_id)
+			->where('id', '=', $this->id)
+			->execute();
+		
+		$this->reset();
 		
 		return TRUE;
 	}

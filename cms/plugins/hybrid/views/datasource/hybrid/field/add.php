@@ -68,17 +68,6 @@
 		<hr />
 		
 		<div class="control-group">
-			<label class="control-label" for="isreq"><?php echo __('Required'); ?></label>
-			<div class="controls">
-				<div class="checkbox">
-					<?php echo Form::checkbox( 'isreq', 1, (Arr::get($post_data, 'isreq') == 1), array(
-						'id' => 'isreq'
-					)); ?>
-				</div>
-			</div>
-		</div>
-		
-		<div class="control-group">
 			<label class="control-label" for="position"><?php echo __('Field position'); ?></label>
 			<div class="controls">
 				<?php echo Form::input( 'position', Arr::get($post_data, 'position', 500), array(

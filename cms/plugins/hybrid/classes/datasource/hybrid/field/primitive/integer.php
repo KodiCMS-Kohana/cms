@@ -7,27 +7,29 @@ class DataSource_Hybrid_Field_Primitive_Integer extends DataSource_Hybrid_Field_
 	protected $_props = array(
 		'default' => 0,
 		'min' => 0, 
-		'max' => 0,
+		'max' => 500,
 		'length' => 10
 	);
 	
+	public function set_value($value)
+	{
+		$value = (int) $value;
+
+		if( ! empty($this->min) AND $value < $this->min )
+		{
+			$value = $this->min;
+		}
+		else if( ! empty($this->max) AND $value > $this->max )
+		{
+			$value = $this->max;
+		}
+		
+		return $value;
+	}
+	
 	public function set_default($value)
 	{
-		$this->default = (int) $value;
-		
-		if($this->default < 0)
-		{
-			$this->default = 0;
-		}
-		
-		if( ! empty($this->min) AND $this->default < $this->min )
-		{
-			$this->default = $this->min;
-		}
-		else if( ! empty($this->max) AND $this->default > $this->max )
-		{
-			$this->default = $this->max;
-		}
+		$this->default = $this->set_value($value);
 	}
 	
 	public function set_min($value)
@@ -40,14 +42,14 @@ class DataSource_Hybrid_Field_Primitive_Integer extends DataSource_Hybrid_Field_
 		$this->max = (int) $value;
 	}
 	
-	public function onUpdateDocument($old, $new) 
+	public function onUpdateDocument(DataSource_Hybrid_Document $old = NULL, DataSource_Hybrid_Document $new) 
 	{
-		$new->fields[$this->name] = (int) $new->fields[$this->name];
+		$new->set($this->name, (int) $new->get($this->name));
 	}
 	
 	public function document_validation_rules( Validation $validation, DataSource_Hybrid_Document $doc )
 	{
-		$validation->rule($this->name, 'digit');
+		$validation->rule($this->name, 'numeric');
 			
 		return parent::document_validation_rules($validation, $doc);
 	}

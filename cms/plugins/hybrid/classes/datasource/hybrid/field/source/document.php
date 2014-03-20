@@ -29,7 +29,7 @@ class DataSource_Hybrid_Field_Source_Document extends DataSource_Hybrid_Field_So
 			return FALSE;
 		}
 
-		$ds = DataSource_Hybrid_Field_Utils::load_ds($this->from_ds);		
+		$ds = Datasource_Data_Manager::load($this->from_ds);		
 		$this->update();
 		
 		return $this->id;
@@ -47,45 +47,34 @@ class DataSource_Hybrid_Field_Source_Document extends DataSource_Hybrid_Field_So
 			->execute();
 	}
 	
-	public function remove() 
+	public function onUpdateDocument(DataSource_Hybrid_Document $old = NULL, DataSource_Hybrid_Document $new) 
 	{
-		$ds = DataSource_Hybrid_Field_Utils::load_ds($this->from_ds);
-		$ds->decrease_lock();
-
-		parent::remove();
-	}
-	
-	public function onUpdateDocument($old, $new) 
-	{
-		if( $new->fields[$this->name] == -1 ) 
+		if( $new->get($this->name) == -1 ) 
 		{
 			if($this->one_to_one) 
 			{
-				$ds = DataSource_Hybrid_Field_Utils::load_ds($this->ds_id);
-				$ds->delete($old->fields[$this->name]);
+				DataSource_Hybrid_Factory::remove_documents($old->get($this->name));
 			}
 
-			$new->fields[$this->name] = NULL;
+			$new->set($this->name, NULL) ;
 			return;
 		}
-
-//		$new->fields[$this->name] = $old->fields[$this->name];
 	}
 	
-	public function onRemoveDocument( $doc )
+	public function onRemoveDocument( DataSource_Hybrid_Document $doc )
 	{
 		if($this->one_to_one) 
 		{
-			$ds = DataSource_Hybrid_Field_Utils::load_ds($this->ds_id);
-			$ds->delete($doc->fields[$this->name]);
+			DataSource_Hybrid_Factory::remove_documents($doc->get($this->name));
 		}
 	}
 
-	public function fetch_value( $doc ) 
+	public function convert_value( $value ) 
 	{
-		$header = DataSource_Hybrid_Field_Utils::get_document_header($this->source, $this->from_ds, $doc->fields[$this->name]);
-		$doc->fields[$this->name] = array(
-			'id' => $header ? $doc->fields[$this->name] : NULL,
+		$header = DataSource_Hybrid_Field_Utils::get_document_header($this->from_ds, $value);
+		
+		return array(
+			'id' => $header ? $value : NULL,
 			'header' => $header
 		);
 	}
@@ -120,7 +109,7 @@ class DataSource_Hybrid_Field_Source_Document extends DataSource_Hybrid_Field_So
 	{
 		if(empty($value)) return parent::fetch_headline_value($value);
 
-		$header = DataSource_Hybrid_Field_Utils::get_document_header($this->source, $this->from_ds, $value);
+		$header = DataSource_Hybrid_Field_Utils::get_document_header($this->from_ds, $value);
 		
 		if(!empty($header))
 		{

@@ -28,15 +28,15 @@ class DataSource_Hybrid_Field_Primitive_Text extends DataSource_Hybrid_Field_Pri
 		}
 	}
 	
-	public function onUpdateDocument($old, $new) 
+	public function onUpdateDocument(DataSource_Hybrid_Document $old = NULL, DataSource_Hybrid_Document $new) 
 	{
 		if( $this->allow_html === FALSE )
 		{
-			$new->fields[$this->name] = strip_tags( $new->fields[$this->name] );
+			$new->set($this->name, strip_tags( $new->get($this->name)));
 		}
 		else if( $this->filter_html === TRUE )
 		{
-			$new->fields[$this->name] = Kses::filter( $new->fields[$this->name], $this->allowed_tags );
+			$new->set($this->name, Kses::filter( $new->get($this->name), $this->allowed_tags ));
 		}
 	}
 	

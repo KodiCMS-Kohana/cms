@@ -30,20 +30,22 @@
 				'class' => 'input-xlarge', 'id' => 'regexp'
 			) ); ?>
 			
-			<span class="label valid-types-label" data-type="url"><?php echo __('URL'); ?></span>
-			<span class="label valid-types-label" data-type="phone"><?php echo __('Phone number'); ?></span>
-			<span class="label valid-types-label" data-type="email"><?php echo __('Email'); ?></span>
-			<span class="label valid-types-label" data-type="email_domain"><?php echo __('Email domain'); ?></span>
-			<span class="label valid-types-label" data-type="ip"><?php echo __('IP'); ?></span>
-			<span class="label valid-types-label" data-type="credit_card"><?php echo __('Credit card'); ?></span>
-			<span class="label valid-types-label" data-type="date"><?php echo __('Date'); ?></span>
-			<span class="label valid-types-label" data-type="alpha"><?php echo __('Alpha'); ?></span>
-			<span class="label valid-types-label" data-type="alpha_dash"><?php echo __('Alpha and hyphens'); ?></span>
-			<span class="label valid-types-label" data-type="alpha_numeric"><?php echo __('Alpha and numbers'); ?></span>
-			<span class="label valid-types-label" data-type="digit"><?php echo __('Integer digit'); ?></span>
-			<span class="label valid-types-label" data-type="decimal"><?php echo __('Decimal'); ?></span>
-			<span class="label valid-types-label" data-type="numeric"><?php echo __('Numeric'); ?></span>
-			<span class="label valid-types-label" data-type="color"><?php echo __('Color'); ?></span>
+			<span class="flags">
+				<span class="label" data-value="url"><?php echo __('URL'); ?></span>
+				<span class="label" data-value="phone"><?php echo __('Phone number'); ?></span>
+				<span class="label" data-value="email"><?php echo __('Email'); ?></span>
+				<span class="label" data-value="email_domain"><?php echo __('Email domain'); ?></span>
+				<span class="label" data-value="ip"><?php echo __('IP'); ?></span>
+				<span class="label" data-value="credit_card"><?php echo __('Credit card'); ?></span>
+				<span class="label" data-value="date"><?php echo __('Date'); ?></span>
+				<span class="label" data-value="alpha"><?php echo __('Alpha'); ?></span>
+				<span class="label" data-value="alpha_dash"><?php echo __('Alpha and hyphens'); ?></span>
+				<span class="label" data-value="alpha_numeric"><?php echo __('Alpha and numbers'); ?></span>
+				<span class="label" data-value="digit"><?php echo __('Integer digit'); ?></span>
+				<span class="label" data-value="decimal"><?php echo __('Decimal'); ?></span>
+				<span class="label" data-value="numeric"><?php echo __('Numeric'); ?></span>
+				<span class="label" data-value="color"><?php echo __('Color'); ?></span>
+			</span>
 			
 			<div class="help-block"><?php echo __('Regular expression or Valid class method :link', array(
 				':link' => HTML::anchor( 'http://kohanaframework.org/3.3/guide/kohana/security/validation#provided-rules', NULL, array(
@@ -51,13 +53,5 @@
 				))
 			)); ?></div>
 		</div>
-		
-		<script>
-			$(function() {
-				$('.valid-types-label').click(function() {
-					$("#regexp").val($(this).data('type'));
-				});
-			})
-		</script>
 	</div>
 </div>

@@ -38,6 +38,7 @@
 	?>
 
 	<div class="widget-content ">
+		<?php if($field->is_required()): ?>
 		<div class="control-group">
 			<label class="control-label" for="isreq"><?php echo __('Required'); ?></label>
 			<div class="controls">
@@ -48,6 +49,7 @@
 				</div>
 			</div>
 		</div>
+		<?php endif; ?>
 		
 		<div class="control-group">
 			<label class="control-label" for="position"><?php echo __('Field position'); ?></label>

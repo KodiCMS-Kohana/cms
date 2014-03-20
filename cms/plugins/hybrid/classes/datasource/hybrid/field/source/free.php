@@ -26,18 +26,6 @@ class DataSource_Hybrid_Field_Source_Free extends DataSource_Hybrid_Field_Source
 		$this->inject_key = URL::title($key, '_');
 	}
 	
-	public function is_valid($value) 
-	{
-		return strlen($value) == strspn($value, '0123456789,');
-	}
-	
-	public function document_validation_rules( Validation $validation, DataSource_Hybrid_Document $doc )
-	{
-		$validation->rule($this->name, array($this, 'is_valid'));
-		
-		return parent::document_validation_rules($validation, $doc);
-	}
-	
 	public function get_type()
 	{
 		return 'VARCHAR(255)';

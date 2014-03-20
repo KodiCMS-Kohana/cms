@@ -1,12 +1,16 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
 /**
- * @package    Kodi/Datasource
+ * @package Datasource
+ * @category Hybrid
  */
-
 class DataSource_Hybrid_Field_Factory {
 
 	/**
+	 * Создание нового поля в таблице полей
+	 * и создание нового поля в таблице текущего раздела
+	 * 
+	 * @see Controller_Hybrid_Field::_add()
 	 * 
 	 * @param DataSource_Hybrid_Record $record
 	 * @param DataSource_Hybrid_Field $field
@@ -17,10 +21,10 @@ class DataSource_Hybrid_Field_Factory {
 	{
 		$field->name = self::get_full_key($field->name);
 		
-		$field->set_ds($record->ds_id);
+		$field->set_ds($record->ds_id());
 		$field->get_type();
 
-		if( ! self::field_not_exists($field->name, $record->ds_id) )
+		if( ! self::field_not_exists($field->name, $record->ds_id()) )
 		{
 			return FALSE;
 		}
@@ -38,13 +42,16 @@ class DataSource_Hybrid_Field_Factory {
 	}
 	
 	/**
+	 * Обновление поля в разделе и в таблице полей
+	 * 
+	 * @see Controller_Hybrid_Field::_edit()
 	 * 
 	 * @param DataSource_Hybrid_Field $old
 	 * @param DataSource_Hybrid_Field $new
 	 * 
 	 * @return DataSource_Hybrid_Field
 	 */
-	public static function update_field($old, $new) 
+	public static function update_field( DataSource_Hybrid_Field $old, DataSource_Hybrid_Field $new ) 
 	{
 		$new->get_type();
 		
@@ -63,11 +70,12 @@ class DataSource_Hybrid_Field_Factory {
 	}
 	
 	/**
+	 * Удаление полей по их ключу из раздела в из таблицы полей
 	 * 
 	 * @param DataSource_Hybrid_Record $record
 	 * @param array $keys
 	 */
-	public static function remove_fields($record, $keys) 
+	public static function remove_fields( DataSource_Hybrid_Record $record, $keys) 
 	{
 		if($keys === NULL)
 		{
@@ -86,7 +94,7 @@ class DataSource_Hybrid_Field_Factory {
 			if(
 				isset($fields[$key]) 
 			AND
-				$fields[$key]->ds_id == $record->ds_id
+				$fields[$key]->ds_id == $record->ds_id()
 			) 
 			{
 				$fields[$key]->remove();
@@ -97,6 +105,7 @@ class DataSource_Hybrid_Field_Factory {
 	}
 	
 	/**
+	 * Загрузка поля по его ID
 	 * 
 	 * @param integer $id
 	 * @return null|DataSource_Hybrid_Field
@@ -116,6 +125,7 @@ class DataSource_Hybrid_Field_Factory {
 	}
 	
 	/**
+	 * Загрузка массива полей по массиву идентификаторов
 	 * 
 	 * @param array $ids
 	 * @return array
@@ -147,19 +157,25 @@ class DataSource_Hybrid_Field_Factory {
 	}
 	
 	/**
+	 * Загрузка полей раздела
 	 * 
-	 * @param integer $ds_id
-	 * @return array
+	 * @staticvar $cached_fields Кеш загруженных полей разделов
+	 * 
+	 * @see DataSource_Hybrid_Record::load()
+	 * 
+	 * @param integer $ds_id Идентификатор раздела
+	 * @param array $type Ключ типа поля
+	 * @return array DataSource_Hybrid_Field
 	 */
-	public static function get_related_fields($ds_id, $type = NULL) 
+	public static function get_section_fields($ds_id, array $type = NULL) 
 	{
-		static $f;
+		static $cached_fields;
 
 		$ds_id = (int) $ds_id;
 		
-		if(isset($f[$ds_id]))
+		if(isset( $cached_fields[$ds_id]) )
 		{
-			return $f[$ds_id];
+			return $cached_fields[$ds_id];
 		}
 		
 		$fields = array();
@@ -169,44 +185,43 @@ class DataSource_Hybrid_Field_Factory {
 			->where('ds_id', '=', $ds_id)
 			->order_by('position');
 		
-		if(is_string($type))
-		{
-			$query->where('type', '=', $type);
-		}
-		else if(is_array($type))
+		if( ! empty($type) )
 		{
 			$query->where('type', 'in', $type);
 		}
 		
-		$query = $query->execute()->as_array('id');
+		$query = $query
+			->execute()
+			->as_array('id');
 
 		foreach ($query as $id => $row)
 		{
 			$fields[$id] = self::get_field_from_array($row);
 		}
 		
-		$f[$ds_id] = $fields;
+		$cached_fields[$ds_id] = $fields;
 
 		return $fields;
 	}
 	
 	/**
+	 * Преобразование массива в объект поля
+	 * 
+	 * @see DataSource_Hybrid_Field_Factory::get_fields()
 	 * 
 	 * @param array $array
 	 * @return null|\DataSource_Hybrid_Field
 	 * @throws Kohana_Exception
 	 */
-	public static function get_field_from_array( array $array = NULL) 
+	public static function get_field_from_array( array $array = NULL ) 
 	{
-		$result = NULL;
-
-		if( empty($array) )
+		if( empty($array) OR !isset($array['type']) )
 		{
-			return $result;
+			return NULL;
 		}
 			
 		$class_name = 'DataSource_Hybrid_Field_' . $array['type'];
-		
+
 		if( ! class_exists( $class_name ))
 		{
 			throw new Kohana_Exception('Class :class_name not exists', array(
@@ -217,16 +232,14 @@ class DataSource_Hybrid_Field_Factory {
 		{
 			$props = unserialize($array['props']);
 			unset($array['props']);
-			
+
 			if( is_array( $props))
 			{
 				$array = array_merge($array, $props);
 			}
 		}
 
-
 		$result = DataSource_Hybrid_Field::factory($array['type'], $array);
-
 		$result->set_id( Arr::get($array, 'id') );
 		$result->set_ds( Arr::get($array, 'ds_id') );
 
@@ -234,11 +247,12 @@ class DataSource_Hybrid_Field_Factory {
 	}
 	
 	/**
+	 * Генерация ключа для поля
 	 * 
 	 * @param string $key
 	 * @return string
 	 */
-	public static function get_full_key($key)
+	public static function get_full_key( $key )
 	{
 		$key = str_replace(DataSource_Hybrid_Field::PREFFIX, '', $key);
 		$key = URL::title($key, '_');
@@ -258,6 +272,7 @@ class DataSource_Hybrid_Field_Factory {
 	}
 	
 	/**
+	 * Проверка на уникальность ключа поля в разделе
 	 * 
 	 * @param string $key
 	 * @param integer $ds_id
@@ -275,6 +290,7 @@ class DataSource_Hybrid_Field_Factory {
 	}
 
 	/**
+	 * Добавление поле в таблицу раздела
 	 * 
 	 * @param DataSource_Hybrid_Field $field
 	 * @return boolean
@@ -301,6 +317,7 @@ class DataSource_Hybrid_Field_Factory {
 	}
 	
 	/**
+	 * Удаление поля из таблицы раздела
 	 * 
 	 * @param DataSource_Hybrid_Field $field
 	 * @return boolean
@@ -320,6 +337,7 @@ class DataSource_Hybrid_Field_Factory {
 	}
 	
 	/**
+	 * Обновление поля в таблице раздела
 	 * 
 	 * @param DataSource_Hybrid_Field $field
 	 * @return boolean

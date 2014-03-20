@@ -25,7 +25,7 @@
 	</div>
 
 	<div class="control-group">
-		<label class="control-label" for="doc_id_ctx"><?php echo __('Document id (Ctx)'); ?></label>
+		<label class="control-label" for="doc_id_ctx"><?php echo __('Document ID (Ctx)'); ?></label>
 		<div class="controls">
 			<?php echo Form::input( 'doc_id_ctx', $widget->doc_id_ctx, array(
 				'class' => 'input-small', 'id' => 'doc_id_ctx'

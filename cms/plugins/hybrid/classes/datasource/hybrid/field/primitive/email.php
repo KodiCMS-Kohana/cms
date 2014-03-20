@@ -6,11 +6,11 @@ class DataSource_Hybrid_Field_Primitive_Email extends DataSource_Hybrid_Field_Pr
 		'default' => NULL
 	);
 	
-//	public function fetch_value($doc) 
-//	{
-//		$doc->fields[$this->name] = HTML::mailto($doc->fields[$this->name]);
-//	}
-	
+	public function fetch_headline_value( $value )
+	{
+		return HTML::mailto($value);
+	}
+
 	public function document_validation_rules( Validation $validation, DataSource_Hybrid_Document $doc )
 	{
 		$validation->rule( $this->name, 'email' );

@@ -1,10 +1,11 @@
-<?php if(!Acl::check('hybrid'.$ds->id().'.document.edit')): ?>
 <script>
+<?php if(!Acl::check('hybrid'.$ds->id().'.document.edit')): ?>
 $(function() {
 	$('input,textarea,select').attr('disabled', 'disabled');
 })
-</script>
 <?php endif; ?>
+var API_FORM_ACTION = 'datasource/hybrid-document';
+</script>
 
 <div class="outline">
 	<div class="widget outline_inner">

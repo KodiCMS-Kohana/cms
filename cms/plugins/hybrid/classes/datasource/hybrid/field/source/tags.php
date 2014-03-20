@@ -1,9 +1,5 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
-/**
- * @package    Kodi/Datasource
- */
-
 class DataSource_Hybrid_Field_Source_Tags extends DataSource_Hybrid_Field {
 	
 	const TABLE_NAME = 'hybrid_tags';
@@ -19,17 +15,20 @@ class DataSource_Hybrid_Field_Source_Tags extends DataSource_Hybrid_Field {
 		$this->family = DataSource_Hybrid_Field::FAMILY_SOURCE;
 	}
 	
-	public function onUpdateDocument($old, $new) 
+	public function onUpdateDocument(DataSource_Hybrid_Document $old = NULL, DataSource_Hybrid_Document $new) 
 	{
-		$o = empty($old->fields[$this->name]) ? array() : explode(',', $old->fields[$this->name]);
-		$n = empty($new->fields[$this->name]) ? array() : explode(',', $new->fields[$this->name]);
+		$old_tags = $old->get($this->name);
+		$new_tags = $new->get($this->name);
+		
+		$o = empty($old_tags) ? array() : explode(',', $old->get($this->name));
+		$n = empty($new_tags) ? array() : explode(',', $new->get($this->name));
 
 		$this->update_tags($o, $n, $new->id);
 	}
 	
-	public function onRemoveDocument( $doc )
+	public function onRemoveDocument( DataSource_Hybrid_Document $doc )
 	{
-		$tags = explode(',', $doc->fields[$this->name]);
+		$tags = explode(',', $doc->get($this->name));
 		$this->update_tags($tags, array(), $doc->id);
 	}
 	

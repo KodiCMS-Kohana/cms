@@ -1,5 +1,5 @@
 <?php
-$fields = DataSource_Hybrid_Field_Factory::get_related_fields($ds_id);
+$fields = DataSource_Hybrid_Field_Factory::get_section_fields($ds_id);
 
 $order_fields = array();
 foreach ($doc_order as $data)
