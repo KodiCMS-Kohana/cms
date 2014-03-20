@@ -6497,6 +6497,9 @@ legend:after {
   color: #fff;
   background: #728092;
 }
+.flags * {
+  cursor: pointer;
+}
 .hidden {
   display: none;
 }

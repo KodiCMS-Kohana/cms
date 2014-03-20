@@ -34,32 +34,24 @@ cms.init.add('widgets_edit', function() {
 			$('#cache_settings_container').show();
 		else
 			$('#cache_settings_container').hide();
+		
+		higlight_cache_time();
 	}
 	
 	$('#caching').on('change', cache_enabled).change();
 	
-	$('.cache-time-label').on('click', function() {
-		$('#cache_lifetime').val($(this).data('time'));
-		 higlight_cache_time();
-	});
-	
 	$('#cache_lifetime').on('keyup', function() {
-		higlight_cache_time();		
+		higlight_cache_time();
 	});
 	
 	function higlight_cache_time() {
-		$('.cache-time-label').removeClass('label-success');
-		$('.cache-time-label').each(function() {
-			if($('#cache_lifetime').val() == $(this).data('time'))
-				$(this).addClass('label-success');
-		})
-		
-		 $('#caching').check();
-		 cache_enabled();
+		$('#cache_lifetime_labels .label')
+			.each(function() {
+				if($('#cache_lifetime').val() == $(this).data('value'))
+					$(this).addClass('label-success');
+			});
 	};
-});
-
-cms.init.add('widgets_template', function() {
+}).add('widgets_template', function() {
 	function calculateEditorHeight() {
 		var conentH = cms.content_height;
 		var h = $('.widget-title').outerHeight(true) + $('.widget-header').outerHeight(true) + $('.form-actions').outerHeight(true) + 10;
