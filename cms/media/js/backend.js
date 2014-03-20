@@ -332,7 +332,10 @@ cms.ui.add('flags', function() {
 		
 		var $container = $(this).parent();
 		var $append = $container.data('append') == true;
+		var $array = $container.data('array') == true;
 		var $value = $(this).data('value');
+		
+		if($array) $value = $value.split(',');
 		
 		$('.label', $container).removeClass('label-success');
 		$(this).addClass('label-success')
@@ -350,7 +353,14 @@ cms.ui.add('flags', function() {
 				$src.text($value)
 			}
 		} else {
-			if($src.is(':input')) $src.val($value)
+			if($src.hasClass('select2-offscreen'))
+			{
+				$src.select2("val", $value);
+			}
+			else if($src.is(':input'))
+			{
+				$src.val($value);
+			}
 			else $src.text($value)
 		}
 		
@@ -517,6 +527,14 @@ cms.ui.add('flags', function() {
 		lang: LOCALE,
 		dayOfWeekStart:1
 	});
+	
+	$('.timepicker').datetimepicker({
+		timepicker: true,
+		datepicker: false,
+		format: 'H:i:s',
+		lang: LOCALE,
+		dayOfWeekStart:1
+	});
 }).add('slug', function() {
 	// Slug & metadata
     var slugs = {};
@@ -618,23 +636,29 @@ cms.ui.add('flags', function() {
 	var method = ACTION == 'add' ? 'put' : 'post';
 	var $form_actions = $('.iframe .form-actions');
 	
-	$('.btn-save', $form_actions).on('click', function() {
+	var $action = CONTROLLER;
+
+	if((typeof API_FORM_ACTION != 'undefined'))
+		$action = API_FORM_ACTION;
+
+	$('.btn-save', $form_actions).on('click', function(e) {
 		var $data = $('form').serializeObject();
-		Api[method](CONTROLLER, $data);
-		return false;
+		Api[method]($action, $data);
+		
+		e.preventDefault();
 	});
 
-	$('.btn-save-close', $form_actions).on('click', function() {
+	$('.btn-save-close', $form_actions).on('click', function(e) {
 		var $data = $('form').serializeObject();
-		Api[method](CONTROLLER, $data, function(response) {
+		Api[method]($action, $data, function(response) {
 			window.top.$.fancybox.close();
 		});
-		return false;
+		e.preventDefault();
 	});
 
-	$('.btn-close', $form_actions).on('click', function() {
+	$('.btn-close', $form_actions).on('click', function(e) {
 		window.top.$.fancybox.close();
-		return false;
+		e.preventDefault();
 	})
 }).add('select2', function() {
 	$('select').not('.no-script').select2();
@@ -738,6 +762,8 @@ var Api = {
 	},
 
 	request: function(method, uri, data, callback, show_loader) {
+		uri = uri.replace('/' + ADMIN_DIR_NAME,'');
+		
 		if(uri.indexOf('-') == -1) uri = '-' + uri;
 		else if(uri.indexOf('-') > 0 && uri.indexOf('/') == -1)  uri = '/' + uri;
 		
