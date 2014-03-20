@@ -62,7 +62,7 @@ class Controller_Api_Datasource_Hybrid_Document extends Controller_System_API
 		$documents = $ds->headline()->get($ids);
 		
 		$response = array();
-		foreach($documents[1] as $id => $data)
+		foreach($documents['documents'] as $id => $data)
 		{
 			if($doc_id != $id)
 				$response[] = array(
