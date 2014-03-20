@@ -325,7 +325,38 @@ cms.init = {
 	}
 };
 
-cms.ui.add('btn-confirm', function() {
+cms.ui.add('flags', function() {
+	$('body').on('click', '.flags .label', function(e) {
+		var $src = $(this).parent().data('target');
+		if( ! $src ) $src = $(this).parent().prevAll(':input');
+		
+		var $container = $(this).parent();
+		var $append = $container.data('append') == true;
+		var $value = $(this).data('value');
+		
+		$('.label', $container).removeClass('label-success');
+		$(this).addClass('label-success')
+
+		if($append) {
+			var $old_value = '';
+			if($src.is(':input')) {
+				$old_value += $src.val();
+				$value = $old_value.length > 0 ? $old_value + ', ' + $value: $value;
+				$src.val($value);
+			}
+			else {
+				$old_value += $src.val();
+				$value = $old_value.length > 0 ? $old_value + ', ' : $value;
+				$src.text($value)
+			}
+		} else {
+			if($src.is(':input')) $src.val($value)
+			else $src.text($value)
+		}
+		
+		e.preventDefault();
+	});
+}).add('btn-confirm', function() {
 	$('body').on('click', '.btn-confirm', function () {
 		if (confirm(__('Are you sure?')))
 			return true;
