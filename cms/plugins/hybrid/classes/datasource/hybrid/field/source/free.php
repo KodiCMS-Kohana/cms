@@ -33,8 +33,9 @@ class DataSource_Hybrid_Field_Source_Free extends DataSource_Hybrid_Field_Source
 	
 	public function document_validation_rules( Validation $validation, DataSource_Hybrid_Document $doc )
 	{
-		return $validation
-				->rule($this->name, array($this, 'is_valid'));
+		$validation->rule($this->name, array($this, 'is_valid'));
+		
+		return parent::document_validation_rules($validation, $doc);
 	}
 	
 	public function get_type()

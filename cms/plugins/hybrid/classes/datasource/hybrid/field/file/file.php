@@ -359,7 +359,7 @@ class DataSource_Hybrid_Field_File_File extends DataSource_Hybrid_Field {
 			}
 		}
 
-		return $validation->label($this->name, $this->header);
+		return parent::document_validation_rules($validation, $doc);
 	}
 
 	/**

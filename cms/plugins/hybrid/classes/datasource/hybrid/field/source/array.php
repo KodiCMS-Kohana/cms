@@ -73,8 +73,9 @@ class DataSource_Hybrid_Field_Source_Array extends DataSource_Hybrid_Field_Sourc
 	
 	public function document_validation_rules( Validation $validation, DataSource_Hybrid_Document $doc )
 	{
-		return $validation
-				->rule($this->name, array($this, 'is_valid'));
+		$validation->rule($this->name, array($this, 'is_valid'));
+		
+		return parent::document_validation_rules($validation, $doc);
 	}
 	
 	public function get_type()
