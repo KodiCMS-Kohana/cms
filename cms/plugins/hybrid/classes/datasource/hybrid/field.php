@@ -326,7 +326,7 @@ abstract class DataSource_Hybrid_Field {
 	/**
 	 * В момент присвоения полям документа значений происходит обход массива
 	 * полей документа и в каждом поле вызов этого метода. Т.е. присвоение значений
-	 * происходит в этом методе.
+	 * происходит в этом методе, присвоение происзодит до валидации данных.
 	 * 
 	 * @see DataSource_Hybrid_Document::read_values()
 	 * @see DataSource_Hybrid_Document::read_files()
@@ -661,7 +661,8 @@ abstract class DataSource_Hybrid_Field {
 	 * EVENTS
 	 **************************************************************************/
 	/**
-	 * Событие вызываемое в момент присвоения значения полю
+	 * Событие вызываемое в момент присвоения значения полю до валидации
+	 * 
 	 * 
 	 * @param mixed $value
 	 * @param DataSource_Hybrid_Document $doc
@@ -679,6 +680,7 @@ abstract class DataSource_Hybrid_Field {
 	
 	/**
 	 * Событие вызываемое в момент создания документа, до сохранения данных в БД
+	 * после валидации
 	 * 
 	 * @see DataSource_Hybrid_Record::initialize_document()
 	 * 
@@ -691,6 +693,7 @@ abstract class DataSource_Hybrid_Field {
 	
 	/**
 	 * Событие вызываемое в момент обновления документа, до сохранения данных в БД
+	 * после валидации
 	 * 
 	 * @see DataSource_Hybrid_Record::document_changed()
 	 * 

@@ -1,10 +1,5 @@
-<?php
+<?php defined('SYSPATH') or die('No direct access allowed.');
 
-defined('SYSPATH') or die('No direct access allowed.');
-
-/**
- * @package    Kodi/Datasource
- */
 class DataSource_Hybrid_Field_File_File extends DataSource_Hybrid_Field {
 
 	/**
