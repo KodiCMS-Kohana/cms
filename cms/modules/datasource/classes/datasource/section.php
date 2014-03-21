@@ -136,14 +136,16 @@ class Datasource_Section {
 	public function __construct( $type ) 
 	{
 		$this->_type = $type;
+
+		$this->_initialize();
 		
-		if( ! class_exists( $this->_document_class_name))
+		
+		
+		if( ! class_exists( $this->_document_class_name ))
 		{
 			throw new DataSource_Exception('Document class :class_name not exists', 
 					array(':class_name' => $this->_document_class_name));
 		}
-
-		$this->_initialize();
 	}
 	
 	/**

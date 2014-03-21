@@ -155,7 +155,8 @@ class Controller_Datasources_Section extends Controller_System_Datasource
 	public function action_remove()
 	{
 		$this->section()->remove();
-		Messages::succes(__('Datasource has been deleted!'));
+
+		Messages::success(__('Datasource has been deleted!'));
 		$this->go_back();
 	}
 }
