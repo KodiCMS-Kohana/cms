@@ -10,13 +10,6 @@ class DataSource_Hybrid_Factory {
 	 * Преффикс таблиц разделов
 	 */
 	const PREFIX = 'dshybrid_';
-	
-	/**
-	 * Типы виджетов для которых очищать кеш при обновлении данных в документах
-	 * 
-	 * @var array
-	 */
-	public static $widget_types = array('hybrid_headline', 'hybrid_document');
 
 	/**
 	 * Создание таблицы раздела и директории
@@ -102,7 +95,6 @@ class DataSource_Hybrid_Factory {
 		{
 			$ds = Datasource_Data_Manager::load( $ds_id );
 			$ds->remove_documents( $ids );
-			Datasource_Data_Manager::clear_cache( $ds_id, self::$widget_types);
 		}
 		
 		unset($ds, $documents, $query);

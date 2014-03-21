@@ -173,16 +173,7 @@ class DataSource_Hybrid_Record {
 			}
 		}
 		
-		$date_field = $document->loaded() ? 'updated_on' : 'created_on';
-		
-		$updates = array(
-			(string) DB::update('dshybrid')
-				->set(array(
-					'published' => $document->published ? 1 : 0,
-					'header' => $document->header,
-					$date_field => date('Y-m-d H:i:s')
-				))
-				->where('id', '=', $document->id));
+		$updates = array();
 
 		foreach($queries as $table => $update)
 		{
