@@ -227,8 +227,8 @@ class Datasource_Document {
 	{
 		if(array_key_exists($field, $this->_system_fields))
 		{
-			$this->_system_fields[$field] = $this->_run_filter($field, $value);
 			$this->_changed_fields[$field] = $this->_system_fields[$field];
+			$this->_system_fields[$field] = $this->_run_filter($field, $value);
 		}
 		else
 		{
@@ -533,7 +533,7 @@ class Datasource_Document {
 	{
 		if( ! $this->loaded() ) return FALSE;
 		
-		DB::delete("dshybrid_" . $this->ds_id)
+		DB::delete($this->section()->table())
 			->where('id', '=', $this->id)
 			->execute();
 		
