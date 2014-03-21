@@ -11,10 +11,10 @@ class DataSource_Hybrid_Field_Primitive_Email extends DataSource_Hybrid_Field_Pr
 		return HTML::mailto($value);
 	}
 
-	public function document_validation_rules( Validation $validation, DataSource_Hybrid_Document $doc )
+	public function onValidateDocument( Validation $validation, DataSource_Hybrid_Document $doc )
 	{
 		$validation->rule( $this->name, 'email' );
-		return parent::document_validation_rules($validation, $doc);
+		return parent::onValidateDocument($validation, $doc);
 	}
 	
 	public function get_type() 

@@ -66,7 +66,7 @@ abstract class DataSource_Hybrid_Field {
 	 *
 	 * @var string
 	 */
-	public $name;
+	public $name = NULL;
 	
 	/**
 	 * Ключ поля без преффикса
@@ -322,25 +322,6 @@ abstract class DataSource_Hybrid_Field {
 	{
 		return $this->_widget_types;
 	}
-
-	/**
-	 * В момент присвоения полям документа значений происходит обход массива
-	 * полей документа и в каждом поле вызов этого метода. Т.е. присвоение значений
-	 * происходит в этом методе, присвоение происзодит до валидации данных.
-	 * 
-	 * @see DataSource_Hybrid_Document::read_values()
-	 * @see DataSource_Hybrid_Document::read_files()
-	 * 
-	 * @param array $data
-	 * @param DataSource_Hybrid_Document $doc
-	 * @return \DataSource_Hybrid_Field
-	 */
-	public function set_document_value(array $data, DataSource_Hybrid_Document $document)
-	{
-		$document->set($this->name, Arr::get($data, $this->name));
-
-		return $this;
-	}
 	
 	/**
 	 * Метод используется для присвоения старого значения для поля документа
@@ -532,34 +513,13 @@ abstract class DataSource_Hybrid_Field {
 	
 	/**
 	 * Поле может быть обязательным
+	 * Используется в шаблоне создания и редактирования поля.
 	 * 
 	 * @return boolean
 	 */
 	public function is_required()
 	{
 		return (bool) $this->_is_required;
-	}
-
-	/**
-	 * Правила валидации значения поля документа.
-	 * При сохранении документа происходит валидация значений его полей. 
-	 * Каждое поле прогоняется в цикле и происходит вызов этого метода.
-	 * 
-	 * @see DataSource_Hybrid_Document::validate()
-	 * 
-	 * @param Validation $validation
-	 * @param DataSource_Hybrid_Document
-	 * @return \Validation
-	 */
-	public function document_validation_rules( Validation $validation, DataSource_Hybrid_Document $doc )
-	{
-		if($this->isreq === TRUE AND $this->is_required())
-		{
-			$validation->rule($this->name, 'not_empty');
-		}
-
-		return $validation
-				->label($this->name, $this->header);
 	}
 
 	/**
@@ -676,6 +636,47 @@ abstract class DataSource_Hybrid_Field {
 		}
 		
 		return $value;
+	}	
+
+	/**
+	 * В момент присвоения полям документа значений происходит обход массива
+	 * полей документа и в каждом поле вызов этого метода. Т.е. присвоение значений
+	 * происходит в этом методе, присвоение происзодит до валидации данных.
+	 * 
+	 * @see DataSource_Hybrid_Document::read_values()
+	 * @see DataSource_Hybrid_Document::read_files()
+	 * 
+	 * @param array $data
+	 * @param DataSource_Hybrid_Document $doc
+	 * @return \DataSource_Hybrid_Field
+	 */
+	public function onReadDocumentValue(array $data, DataSource_Hybrid_Document $document)
+	{
+		$document->set($this->name, Arr::get($data, $this->name));
+
+		return $this;
+	}
+
+	/**
+	 * Правила валидации значения поля документа.
+	 * При сохранении документа происходит валидация значений его полей. 
+	 * Каждое поле прогоняется в цикле и происходит вызов этого метода.
+	 * 
+	 * @see DataSource_Hybrid_Document::validate()
+	 * 
+	 * @param Validation $validation
+	 * @param DataSource_Hybrid_Document
+	 * @return \Validation
+	 */
+	public function onValidateDocument( Validation $validation, DataSource_Hybrid_Document $doc )
+	{
+		if($this->isreq === TRUE AND $this->is_required())
+		{
+			$validation->rule($this->name, 'not_empty');
+		}
+
+		return $validation
+				->label($this->name, $this->header);
 	}
 	
 	/**

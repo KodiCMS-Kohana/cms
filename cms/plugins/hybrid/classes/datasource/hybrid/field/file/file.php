@@ -320,7 +320,7 @@ class DataSource_Hybrid_Field_File_File extends DataSource_Hybrid_Field {
 	 * @param DataSource_Hybrid_Document $doc
 	 * @return Validation
 	 */
-	public function document_validation_rules(Validation $validation, DataSource_Hybrid_Document $doc)
+	public function onValidateDocument(Validation $validation, DataSource_Hybrid_Document $doc)
 	{
 		$file = NULL;
 		
@@ -351,7 +351,7 @@ class DataSource_Hybrid_Field_File_File extends DataSource_Hybrid_Field {
 			}
 		}
 
-		return parent::document_validation_rules($validation, $doc);
+		return parent::onValidateDocument($validation, $doc);
 	}
 
 	/**

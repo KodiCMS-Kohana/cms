@@ -40,10 +40,10 @@ abstract class DataSource_Hybrid_Field_Source_OneToOne extends DataSource_Hybrid
 		}
 	}
 	
-	public function document_validation_rules( Validation $validation, DataSource_Hybrid_Document $doc )
+	public function onValidateDocument( Validation $validation, DataSource_Hybrid_Document $doc )
 	{
 		$validation->rule($this->name, 'numeric');
 		
-		return parent::document_validation_rules($validation, $doc);
+		return parent::onValidateDocument($validation, $doc);
 	}
 }

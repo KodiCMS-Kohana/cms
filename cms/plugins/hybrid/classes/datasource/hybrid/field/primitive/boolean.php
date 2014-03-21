@@ -2,16 +2,7 @@
 
 class DataSource_Hybrid_Field_Primitive_Boolean extends DataSource_Hybrid_Field_Primitive {
 	
-	protected $_props = array(
-		'default' => FALSE
-	);
-	
 	protected $_is_required = FALSE;
-	
-	public function set_default($value)
-	{
-		$this->default = (bool) $value; 
-	}
 	
 	public function onUpdateDocument(DataSource_Hybrid_Document $old = NULL, DataSource_Hybrid_Document $new) 
 	{

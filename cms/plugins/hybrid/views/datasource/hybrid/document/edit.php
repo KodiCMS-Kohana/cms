@@ -4,7 +4,7 @@ $(function() {
 	$('input,textarea,select').attr('disabled', 'disabled');
 })
 <?php endif; ?>
-var API_FORM_ACTION = 'datasource/hybrid-document';
+var API_FORM_ACTION = '/datasource/hybrid-document.<?php if($doc->loaded()): ?>update<?php else: ?>create<?php endif; ?>'; 
 </script>
 
 <div class="outline">

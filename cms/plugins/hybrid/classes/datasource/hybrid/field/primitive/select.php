@@ -48,7 +48,7 @@ class DataSource_Hybrid_Field_Primitive_Select extends DataSource_Hybrid_Field_P
 	 * @param array $data
 	 * @return DataSource_Hybrid_Field
 	 */
-	public function set_document_value(array $data, DataSource_Hybrid_Document $document)
+	public function onReadDocumentValue(array $data, DataSource_Hybrid_Document $document)
 	{
 		if($this->custom_option === TRUE AND isset($data[$this->name . '_custom']) AND !empty($data[$this->name . '_custom']))
 		{
@@ -63,7 +63,7 @@ class DataSource_Hybrid_Field_Primitive_Select extends DataSource_Hybrid_Field_P
 			return $this;
 		}
 		
-		return parent::set_document_value($data, $document);
+		return parent::onReadDocumentValue($data, $document);
 	}
 
 	public function onUpdateDocument(DataSource_Hybrid_Document $old = NULL, DataSource_Hybrid_Document $new) 
@@ -84,7 +84,7 @@ class DataSource_Hybrid_Field_Primitive_Select extends DataSource_Hybrid_Field_P
 		}
 	}
 	
-	public function document_validation_rules( Validation $validation, DataSource_Hybrid_Document $doc )
+	public function onValidateDocument( Validation $validation, DataSource_Hybrid_Document $doc )
 	{
 		if($this->custom_option === FALSE)
 		{
@@ -96,7 +96,7 @@ class DataSource_Hybrid_Field_Primitive_Select extends DataSource_Hybrid_Field_P
 			$validation->rule($this->name, 'in_array', array(':value', $this->options));
 		}
 			
-		return parent::document_validation_rules($validation, $doc);
+		return parent::onValidateDocument($validation, $doc);
 	}
 	
 	public function get_type() 

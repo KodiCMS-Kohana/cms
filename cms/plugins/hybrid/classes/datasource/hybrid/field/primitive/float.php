@@ -56,11 +56,11 @@ class DataSource_Hybrid_Field_Primitive_Float extends DataSource_Hybrid_Field_Pr
 		$new->set($this->name, Num::format($new->get($this->name), $this->after_coma_num));
 	}
 	
-	public function document_validation_rules( Validation $validation, DataSource_Hybrid_Document $doc )
+	public function onValidateDocument( Validation $validation, DataSource_Hybrid_Document $doc )
 	{
 		$validation->rule($this->name, 'numeric');
 
-		return parent::document_validation_rules($validation, $doc);
+		return parent::onValidateDocument($validation, $doc);
 	}
 	
 	public function get_type() 

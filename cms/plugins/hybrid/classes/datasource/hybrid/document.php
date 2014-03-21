@@ -90,7 +90,7 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 		foreach($this->section()->record()->fields() as $field)
 		{
 			if($field->family == DataSource_Hybrid_Field::FAMILY_FILE )	continue;
-			$field->set_document_value($array, $this);
+			$field->onReadDocumentValue($array, $this);
 			unset($array[$field->name]);
 		}
 		
@@ -116,14 +116,14 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 			AND 
 				Upload::not_empty($array[$key]))
 			{
-				$field->set_document_value($array, $this);
+				$field->onReadDocumentValue($array, $this);
 				unset($array[$field->name]);
 			}
 		}
 	
 		return $this;
 	}
-	
+
 	/**
 	 * Установка значения поля документа (не системного)
 	 * 
@@ -341,7 +341,7 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 
 		foreach ($this->section()->record()->fields() as $name => $field)
 		{
-			$field->document_validation_rules($validation, $this);
+			$field->onValidateDocument($validation, $this);
 		}
 
 		if( ! $validation->check() )

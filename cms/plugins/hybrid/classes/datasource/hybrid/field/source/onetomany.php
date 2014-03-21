@@ -42,11 +42,11 @@ abstract class DataSource_Hybrid_Field_Source_OneToMany extends DataSource_Hybri
 		}
 	}
 	
-	public function document_validation_rules( Validation $validation, DataSource_Hybrid_Document $doc )
+	public function onValidateDocument( Validation $validation, DataSource_Hybrid_Document $doc )
 	{
 		$validation->rule($this->name, array($this, 'is_valid_documents_ids'));
 		
-		return parent::document_validation_rules($validation, $doc);
+		return parent::onValidateDocument($validation, $doc);
 	}
 	
 	public function is_valid_documents_ids($value) 

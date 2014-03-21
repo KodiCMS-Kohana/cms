@@ -49,11 +49,11 @@ class DataSource_Hybrid_Field_Primitive_Date extends DataSource_Hybrid_Field_Pri
 			: $value;
 	}
 	
-	public function document_validation_rules( Validation $validation, DataSource_Hybrid_Document $doc )
+	public function onValidateDocument( Validation $validation, DataSource_Hybrid_Document $doc )
 	{
 		$validation->rule( $this->name, 'date' );
 			
-		return parent::document_validation_rules($validation, $doc);
+		return parent::onValidateDocument($validation, $doc);
 	}
 	
 	public function get_type() 

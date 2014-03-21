@@ -2,6 +2,44 @@
 
 class Controller_Api_Datasource_Hybrid_Document extends Controller_System_API
 {
+	public function post_create()
+	{
+		$ds_id = $this->param('ds_id', NULL, TRUE);
+		
+		$ds = Datasource_Data_Manager::load((int) $ds_id);
+		
+		if(empty($ds))
+		{
+			throw HTTP_API_Exception::factory(API::ERROR_UNKNOWN, 'Datasource section not found');
+		}
+		
+		echo debug::vars($this->params());
+		
+		try
+		{
+			$doc = $ds->get_empty_document();
+			
+			$doc->read_values($this->params())
+				->validate();
+			
+			$doc = $ds->create_document($doc);
+		} 
+		catch (Validation_Exception $e) 
+		{
+			throw new API_Validation_Exception($e->errors('validation'));
+		}
+		
+		$this->message(__('Document created'));
+		$this->response($doc);
+	}
+	
+	public function post_update()
+	{
+		$ds_id = $this->param('ds_id', NULL, TRUE);
+		$id = $this->param('id', NULL, TRUE);
+		
+	}
+
 	public function post_publish()
 	{
 		$doc_ids = $this->param('doc', array(), TRUE);

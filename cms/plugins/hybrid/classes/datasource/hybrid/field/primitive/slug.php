@@ -24,14 +24,14 @@ class DataSource_Hybrid_Field_Primitive_Slug extends DataSource_Hybrid_Field_Pri
 		$new->set($this->name, URL::title($new->get($this->name)));
 	}
 	
-	public function document_validation_rules( Validation $validation, DataSource_Hybrid_Document $doc )
+	public function onValidateDocument( Validation $validation, DataSource_Hybrid_Document $doc )
 	{
 		if( $this->unique === TRUE )
 		{
 			$validation->rule($this->name, array($this, 'check_unique'), array(':value', $doc));
 		}
 			
-		return parent::document_validation_rules($validation, $doc);
+		return parent::onValidateDocument($validation, $doc);
 	}
 	
 	public function check_unique($value, $doc) 

@@ -87,9 +87,9 @@ class Datasource_Data_Manager {
 	}
 	
 	/**
+	 * Проверка раздела на существование по ID
 	 * 
 	 * @param integer $ds_id	Datasource ID
-	 * 
 	 * @return boolean
 	 */
 	public static function exists($ds_id) 

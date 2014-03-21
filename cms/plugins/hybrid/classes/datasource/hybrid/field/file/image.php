@@ -148,7 +148,7 @@ class DataSource_Hybrid_Field_File_Image extends DataSource_Hybrid_Field_File_Fi
 	 * @param DataSource_Hybrid_Document $doc
 	 * @return Validation
 	 */
-	public function document_validation_rules( Validation $validation, DataSource_Hybrid_Document $doc )
+	public function onValidateDocument( Validation $validation, DataSource_Hybrid_Document $doc )
 	{
 		$image = $doc->get($this->name);
 		
