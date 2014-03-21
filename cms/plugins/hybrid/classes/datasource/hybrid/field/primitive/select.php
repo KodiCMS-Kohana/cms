@@ -23,9 +23,12 @@ class DataSource_Hybrid_Field_Primitive_Select extends DataSource_Hybrid_Field_P
 			$options = preg_split('/\\r\\n|\\r|\\n/', $options);
 		}
 		
-		$options = array_unique(array_filter($options));
-		$options = array_map('trim', $options);
-		$options = array_combine($options, $options);
+		if( ! empty($options) )
+		{
+			$options = array_unique(array_filter($options));
+			$options = array_map('trim', $options);
+			$options = array_combine($options, $options);
+		}
 		
 		$this->options = (array) $options;
 	}
