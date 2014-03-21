@@ -102,22 +102,21 @@ class Controller_Hybrid_Document extends Controller_System_Datasource
 		{
 			$doc
 				->read_values($this->request->post())
-				->read_files($_FILES)
-				->validate();
+				->read_files($_FILES);
+			
+			if( $doc->loaded() )
+			{
+				$ds->update_document($doc);
+			}
+			else
+			{
+				$doc = $ds->create_document($doc);
+			}
 		} 
 		catch (Validation_Exception $e)
 		{
 			Messages::errors($e->errors('validation'));
 			$this->go_back();
-		}
-
-		if( $doc->loaded() )
-		{
-			$ds->update_document($doc);
-		}
-		else
-		{
-			$doc = $ds->create_document($doc);
 		}
 
 		Messages::success('Document saved');

@@ -6,23 +6,8 @@
  */
 class DataSource_Hybrid_Document extends Datasource_Document {
 	
-	/**
-	 * Список полей документа
-	 * @var array array([ID] => [Document value])
-	 */
-	protected $_fields = array();
+	protected $_related_fields = array();
 
-	/**
-	 * Проаверка существаования поля в документе
-	 * 
-	 * @param type $field
-	 * @return type
-	 */
-	public function __isset($field)
-	{
-		return isset($this->_fields[$field]);
-	}
-	
 	/**
 	 * Геттер значений полей документов
 	 * 
@@ -32,9 +17,9 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 	 */
 	public function get($field, $default = NULL)
 	{
-		if( array_key_exists($field, $this->_fields) )
+		if( array_key_exists($field, $this->_related_fields) )
 		{
-			return $this->_fields[$field];
+			return $this->_related_fields[$field];
 		}
 
 		return parent::get($field, $default);
@@ -48,11 +33,11 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 	 */
 	public function set($field, $value)
 	{
-		if(array_key_exists($field, $this->_system_fields))
+		if(in_array($field, $this->fields()))
 		{
 			return parent::set($field, $value);
 		}
-		else if(array_key_exists($field, $this->_fields))
+		else if(array_key_exists($field, $this->_related_fields))
 		{
 			$this->set_field_value($field, $value);
 		}
@@ -76,7 +61,8 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 	 */
 	public function values()
 	{
-		return Arr::merge($this->_fields, $this->_system_fields);
+		$values = parent::values();
+		return Arr::merge($values, $this->_related_fields);
 	}
 
 	/**
@@ -87,9 +73,11 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 	 */
 	public function read_values(array $array = NULL) 
 	{
+		
 		foreach($this->section()->record()->fields() as $field)
 		{
 			if($field->family == DataSource_Hybrid_Field::FAMILY_FILE )	continue;
+			$this->{$field->name} = Arr::get($array, $field->name);
 			$field->onReadDocumentValue($array, $this);
 			unset($array[$field->name]);
 		}
@@ -116,6 +104,7 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 			AND 
 				Upload::not_empty($array[$key]))
 			{
+				$this->{$field->name} = Arr::get($array, $field->name);
 				$field->onReadDocumentValue($array, $this);
 				unset($array[$field->name]);
 			}
@@ -132,11 +121,12 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 	 */
 	public function set_field_value($field, $value)
 	{
-		$this->_changed_fields[$field] = $this->_fields[$field];
-		
 		$fields = $this->section()->record()->fields();
 		
-		$this->_fields[$field] = isset($fields[$field]) 
+		
+			echo debug::Vars($value);
+			
+		$this->_related_fields[$field] = isset($fields[$field]) 
 			? $fields[$field]->onSetValue( $value, $this )
 			: $value;
 	}
@@ -157,19 +147,14 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 		return $this;
 	}
 	
-	/**
-	 * Сброс значений полей документа
-	 * 
-	 * @return \DataSource_Hybrid_Document
-	 */
-	public function reset() 
+	protected function _initialize()
 	{
+		parent::_initialize();
+
 		foreach( $this->section()->record()->fields() as $key => $field )
 		{
-			$this->_fields[$key] = NULL;
+			$this->_related_fields[$key] = NULL;
 		}
-		
-		return parent::reset();
 	}
 
 	/**
@@ -191,7 +176,7 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 
 		$result = DB::select(array('dshybrid.id', 'id'))
 			->select('ds_id', 'published', 'header')
-			->select_array( array_keys( $this->_fields ))
+			->select_array( array_keys( $this->_related_fields ))
 			->from('dshybrid')
 			->join("dshybrid_{$ds_id}", 'left')
 				->on("dshybrid_{$ds_id}.id", '=', 'dshybrid.id')
@@ -204,9 +189,12 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 		
 		$this->_loaded = TRUE;
 		
-		foreach($result as $field => $value)
+		$this->_load_values($result);
+		
+		
+		foreach($this->_related_fields as $key => $value)
 		{
-			$this->{$field} = $value;
+			$this->{$key} = Arr::get($result, $key);
 		}
 		
 		return $this;
@@ -237,7 +225,7 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 		
 		$query = DB::insert("dshybrid_" . $this->ds_id)
 			->columns(array('id'))
-			->values(array($this->id))
+			->values(array($this->_id))
 			->execute();
 
 		$record = $this->section()->record();
@@ -249,7 +237,7 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 			DB::query(Database::UPDATE, $q)->execute();
 		}
 		
-		return $this->id;
+		return $this->_id;
 	}
 	
 	/**
@@ -298,10 +286,12 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 	 */
 	public function remove()
 	{
+		parent::remove();
+
 		if( ! $this->loaded() ) return NULL;
 		
-		DB::delete("dshybrid_" . $this->section()->id())
-			->where('id', '=', $this->id)
+		DB::delete("dshybrid_" . $this->ds_id)
+			->where('id', '=', $this->_id)
 			->execute();
 		
 		$this->reset();
@@ -325,20 +315,24 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 	 * @param string $errors_file
 	 * @return boolean|Validation
 	 */
-	public function validate($errors_file = 'validation')
+	public function validate()
 	{
-		$validation = Validation::factory($this->values());
-		
-		foreach ($this->rules() as $field => $rules)
-		{
-			$validation->rules($field, $rules);
-		}
-		
-		foreach ($this->labels() as $field => $label)
-		{
-			$validation->label($field, $label);
-		}
+		$values = Arr::merge($this->values(), $this->_temp_values);
 
+		$validation = Validation::factory( $values )
+			->bind(':object', $this)
+			->bind(':original_values', $this->_original_values);
+		
+		foreach ($this->rules() as $key => $rules)
+		{
+			$validation->rules($key, $rules);
+		}
+		
+		foreach ($this->labels() as $key => $label)
+		{
+			$validation->label($key, $label);
+		}
+	
 		foreach ($this->section()->record()->fields() as $name => $field)
 		{
 			$field->onValidateDocument($validation, $this);
@@ -346,9 +340,14 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 
 		if( ! $validation->check() )
 		{
+			
+			echo debug::Vars($validation);
+			exit();
 			throw new Validation_Exception( $validation );
 		}
 		
 		return TRUE;
 	}
+	
+	
 }
