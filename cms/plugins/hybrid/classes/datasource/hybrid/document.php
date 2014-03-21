@@ -190,7 +190,7 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 			->select('ds_id', 'published', 'header')
 			->select_array( array_keys( $this->_fields ))
 			->from('dshybrid')
-			->join("dshybrid_{$ds_id}")
+			->join("dshybrid_{$ds_id}", 'left')
 				->on("dshybrid_{$ds_id}.id", '=', 'dshybrid.id')
 			->where('dshybrid.id', '=', (int) $id)
 			->limit(1)
