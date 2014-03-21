@@ -24,6 +24,7 @@ class DataSource_Hybrid_Field_Primitive_Select extends DataSource_Hybrid_Field_P
 		}
 		
 		$options = array_unique(array_filter($options));
+		$options = array_map('trim', $options);
 		$options = array_combine($options, $options);
 		
 		$this->options = (array) $options;
@@ -48,10 +49,15 @@ class DataSource_Hybrid_Field_Primitive_Select extends DataSource_Hybrid_Field_P
 	{
 		if($this->custom_option === TRUE AND isset($data[$this->name . '_custom']) AND !empty($data[$this->name . '_custom']))
 		{
+			$option = $data[$this->name . '_custom'];
 			$options = $this->options;
-			$options[] = $data[$this->name . '_custom'];
+			$options[] = $option;
 			$this->set_options($options);
 			$this->update();
+			
+			$document->set($this->name, $option);
+			
+			return $this;
 		}
 		
 		return parent::set_document_value($data, $document);
@@ -59,13 +65,15 @@ class DataSource_Hybrid_Field_Primitive_Select extends DataSource_Hybrid_Field_P
 
 	public function onUpdateDocument(DataSource_Hybrid_Document $old = NULL, DataSource_Hybrid_Document $new) 
 	{
-		if($new->get($this->name) == 0 AND $this->empty_value === TRUE)
+		$value = $new->get($this->name);
+
+		if(array_key_exists($value, $this->options ) OR ($this->custom_option === TRUE AND !empty($value)))
+		{
+			$new->set($this->name, $this->options[$value]);
+		}
+		else if($value == 0 AND $this->empty_value === TRUE)
 		{
 			$new->set($this->name, '');
-		}
-		else if( in_array($new->get($this->name), $this->options ) OR $this->custom_option === TRUE)
-		{
-			$new->set($this->name, $this->options[$new->get($this->name)]);
 		}
 		else
 		{
