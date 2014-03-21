@@ -32,7 +32,7 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 	 */
 	public function get($field, $default = NULL)
 	{
-		if(isset($this->_fields[$field]))
+		if( array_key_exists($field, $this->_fields) )
 		{
 			return $this->_fields[$field];
 		}

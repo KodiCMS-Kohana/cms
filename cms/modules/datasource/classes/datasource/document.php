@@ -13,7 +13,7 @@ class Datasource_Document {
 	protected $_system_fields = array(
 		'id' => NULL,
 		'ds_id' => NULL,
-		'published' => FALSE,
+		'published' => NULL,
 		'header' => NULL
 	);
 
@@ -22,6 +22,14 @@ class Datasource_Document {
 	 * @var array 
 	 */
 	protected $_changed_fields = array();
+	
+	/**
+	 * Список значений полей по умолчанию
+	 * @var array 
+	 */
+	protected $_default_values = array(
+		'published' => 1
+	);
 	
 	/**
 	 * Объект раздела
@@ -187,8 +195,13 @@ class Datasource_Document {
 	 */
 	public function get($field, $default = NULL)
 	{
-		if(isset($this->_system_fields[$field]))
+		if(array_key_exists($field, $this->_system_fields))
 		{
+			if( ! $this->loaded() AND empty($this->_system_fields[$field]))
+			{
+				return Arr::get($this->_default_values, $field, $default);
+			}
+
 			return $this->_system_fields[$field];
 		}
 
