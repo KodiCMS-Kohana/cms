@@ -230,7 +230,7 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 	{
 		parent::create();
 		
-		if( ! $this->loaded() ) return NULL;
+		if( ! $this->created() ) return NULL;
 		
 		$query = DB::insert("dshybrid_" . $this->ds_id)
 			->columns(array('id'))
