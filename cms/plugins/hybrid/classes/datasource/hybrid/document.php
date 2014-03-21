@@ -89,7 +89,9 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 	{
 		foreach($this->section()->record()->fields() as $field)
 		{
+			if($field->family == DataSource_Hybrid_Field::FAMILY_FILE )	continue;
 			$field->set_document_value($array, $this);
+			unset($array[$field->name]);
 		}
 		
 		return parent::read_values($array);
@@ -115,6 +117,7 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 				Upload::not_empty($array[$key]))
 			{
 				$field->set_document_value($array, $this);
+				unset($array[$field->name]);
 			}
 		}
 	

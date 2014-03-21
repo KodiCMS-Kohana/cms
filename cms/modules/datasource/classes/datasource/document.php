@@ -16,6 +16,14 @@ class Datasource_Document {
 		'published' => NULL,
 		'header' => NULL
 	);
+	
+	/**
+	 * Значения, которые могут понадобится в документе,
+	 * но которые не попадут в БД.
+	 * 
+	 * @var array 
+	 */
+	protected $_temp_fields = array();
 
 	/**
 	 * 
@@ -205,11 +213,12 @@ class Datasource_Document {
 			return $this->_system_fields[$field];
 		}
 
-		return NULL;
+		return Arr::get($this->_temp_fields, $field, $default);
 	}
 	
 	/**
 	 * Сеттер. Присваивает значение полю документа
+	 * Если поле не существует, значение попадает в массив _temp_fields
 	 * 
 	 * @param string $field
 	 * @param string $value
@@ -220,6 +229,10 @@ class Datasource_Document {
 		{
 			$this->_system_fields[$field] = $this->_run_filter($field, $value);
 			$this->_changed_fields[$field] = $this->_system_fields[$field];
+		}
+		else
+		{
+			$this->_temp_fields[$field] = $value;
 		}
 		
 		return $this;
@@ -278,7 +291,10 @@ class Datasource_Document {
 		foreach($this->_system_fields as $key => $value)
 		{
 			$this->{$key} = Arr::get($array, $key);
+			unset($array[$key]);
 		}
+		
+		$this->_temp_fields = $array;
 		
 		return $this;
 	}
@@ -294,8 +310,10 @@ class Datasource_Document {
 		foreach($this->_system_fields as $key => $value)
 		{
 			$this->{$key} = Arr::get($array, $key);
+			unset($array[$key]);
 		}
-	
+		
+		$this->_temp_fields = $array;
 		return $this;
 	}
 	
@@ -463,7 +481,7 @@ class Datasource_Document {
 
 		$this->_created = TRUE;
 
-		return $this->load($id);
+		return $this;
 	}
 	
 	/**
@@ -542,7 +560,9 @@ class Datasource_Document {
 	 */
 	public function validate($errors_file = 'validation')
 	{
-		$validation = Validation::factory($this->values());
+		$values = Arr::merge($this->values(), $this->_temp_fields);
+
+		$validation = Validation::factory( $values );
 		
 		foreach ($this->rules() as $field => $rules)
 		{
