@@ -122,7 +122,6 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 	/**
 	 * Сохранение раздела
 	 * 
-	 * 
 	 * @param array $values
 	 * @return boolean
 	 */
@@ -234,37 +233,6 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 		}
 	
 		return $result;
-	}
-	
-	/**
-	 * Создание пустого документа и возврат его ID
-	 * 
-	 * @param string $header
-	 * @return null|integer Идентификатор документа
-	 */
-	public function create_empty_document( $header ) 
-	{
-		$id = parent::create_empty_document($header);
-
-		if(empty($id)) return NULL;
-
-		$success = TRUE;
-		
-		$query = DB::insert("dshybrid_" . $this->id())
-			->columns(array('id'))
-			->values(array($id))
-			->execute();
-
-		$num_rows = $query[1];
-
-		if( $num_rows > 0 )
-		{
-			return $id;
-		}
-		
-		$this->remove_documents( array($id) );
-
-		return NULL;
 	}
 	
 	/**

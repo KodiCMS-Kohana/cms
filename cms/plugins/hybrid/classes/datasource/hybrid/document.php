@@ -175,6 +175,10 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 	 *		$ds = Datasource_Data_Manager::load($ds_id);
 	 *		$doc = $ds->get_document($id);
 	 * 
+	 * Проверка загрузки документа
+	 * 
+	 *		$doc->loaded();
+	 * 
 	 * @param integer $id
 	 * @return \DataSource_Hybrid_Document
 	 */
@@ -216,8 +220,11 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 	 *			->validate();
 	 *		$doc = $ds->create_document($doc);
 	 *		
+	 *	Проверка создания документа
 	 * 
-	 * @return integer|null Идентификатор документа
+	 *		$doc->created()
+	 * 
+	 * @return DataSource_Document
 	 */
 	public function create()
 	{
@@ -253,9 +260,12 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 	 *			->validate();
 	 * 
 	 *		$doc = $ds->update_document($doc);
-	 *		
+	 *	
+	 * Проверка обновленияя документа
 	 * 
-	 * @return integer|null Идентификатор документа
+	 *		$doc->updated()
+	 *
+	 * @return DataSource_Document
 	 */
 	public function update()
 	{
