@@ -27,13 +27,7 @@ class DataSource_Hybrid_Field_File_Image extends DataSource_Hybrid_Field_File_Fi
 	 */
 	public function set( array $data )
 	{		
-		$data['crop'] = !empty($data['crop']) ? TRUE : FALSE;
-		
-		if(empty($data['linked_fields']))
-		{
-			$data['linked_fields'] = array();
-		}
-		
+		$data['crop'] = !empty($data['crop']) ? TRUE : FALSE;		
 		return parent::set( $data );
 	}
 	
@@ -56,6 +50,11 @@ class DataSource_Hybrid_Field_File_Image extends DataSource_Hybrid_Field_File_Fi
 	public function set_width( $width )
 	{
 		$this->width = (int) $width;
+		
+		if($this->width < 1)
+		{
+			$this->width = 1;
+		}
 	}
 	
 	/**
@@ -65,6 +64,11 @@ class DataSource_Hybrid_Field_File_Image extends DataSource_Hybrid_Field_File_Fi
 	public function set_height( $height )
 	{
 		$this->height = (int) $height;
+		
+		if($this->height < 1)
+		{
+			$this->height = 1;
+		}
 	}
 	
 	/**
@@ -74,59 +78,11 @@ class DataSource_Hybrid_Field_File_Image extends DataSource_Hybrid_Field_File_Fi
 	public function set_quality( $quality )
 	{
 		$this->quality = (int) $quality;
-	}
-	
-	/**
-	 * 
-	 * @param array $linked_fields
-	 */
-	public function set_linked_fields( $linked_fields )
-	{
-		$this->linked_fields = (array) $linked_fields;
-	}	
-	
-	/**
-	 * 
-	 * @return array
-	 */
-	public function linked_fields()
-	{
-		return (array) $this->linked_fields;
-	}
-	
-	/**
-	 * @todo Удалить этот метод, т.к. не работает валидация данных
-	 * @param array $data
-	 * @return DataSource_Hybrid_Field
-	 */
-	public function set_document_value(array $data, DataSource_Hybrid_Document $document)
-	{
-		$file = Arr::get($data, $this->name, array());
 		
-		if(is_array($file) AND Upload::valid($file) AND Upload::not_empty($file))
+		if($this->quality < 1)
 		{
-			$data[$this->name] = $this->_upload_file($file);
-
-			$related_fields = $this->linked_fields();
-			
-
-			if( ! empty($related_fields) )
-			{
-				foreach($related_fields as $id)
-				{
-					$related_field = DataSource_Hybrid_Field_Factory::get_field($id);
-					if($related_field === NULL) continue;
-					
-					$doc->fields[$related_field->name] = $related_field->copy_file($data[$this->name]);
-				}
-			}
+			$this->quality = 1;
 		}
-		else if(Valid::url( Arr::get($data, $this->name . '_url') )  )
-		{
-			$data[$this->name] = $data[$this->name . '_url'];
-		}
-		
-		return parent::set_document_value($data, $document);
 	}
 	
 	/**
@@ -137,78 +93,57 @@ class DataSource_Hybrid_Field_File_Image extends DataSource_Hybrid_Field_File_Fi
 	 */
 	public function onUpdateDocument(DataSource_Hybrid_Document $old = NULL, DataSource_Hybrid_Document $new)
 	{
-		$new_file = $new->get($this->name);
+		$url = $new->get($this->name . '_url');
 		
-		if(empty($new_file)) 
+		if( Valid::url($url) )
 		{
-			$this->set_old_value($new);
-			return FALSE;
-		}
-		elseif( $new_file == -1)
-		{
-			$this->onRemoveDocument($old);
+			$url = $new->get($this->name . '_url');
 			
-			$new->set($this->name, '');
-			return FALSE;
-		}
-		elseif($old !== NULL AND $new_file == $old->get($this->name))
-		{
-			return FALSE;
-		}
+			list($status, $filename) = Upload::from_url( $url, $this->types, $this->folder());
 
-		$filepath = NULL;
-		
-		if( ! empty($new_file) AND strpos($new_file, $this->folder()) !== FALSE)
-		{
-			$filepath = $new_file;
-			$filename = pathinfo($filepath, PATHINFO_BASENAME);
-		}
-		if( is_string($new_file) AND Valid::url($new_file) )
-		{
-			list($status, $filename) = Upload::from_url( $new_file, $this->types, $this->folder());
-
+			
 			if($status)
 			{
 				if(rename(TMPPATH . $filename, $this->folder() . $filename))
 				{
-					$filepath = $this->folder() . $filename;
+					$this->_filepath = $this->folder() . $filename;
+					
+					$this->onRemoveDocument($old);
+					$new->set($this->name, $this->folder . $filename);
 				}
 				else
 				{
 					unlink(TMPPATH . $filename);
-					return FALSE;
+					$status = FALSE;
 				}
 			}
 		}
-
-		if( empty($filepath) ) 
+		else
 		{
-			$this->set_old_value($new);
-			return FALSE;
+			$status = parent::onUpdateDocument($old, $new);
 		}
-
-		$this->onRemoveDocument($old);
 		
-		if($this->is_image( $filepath ))
+		if($status !== TRUE ) return $status;
+		
+		$image = Image::factory( $this->_filepath );
+		$width = (int) $this->width;
+		$height = (int) $this->height;
+		$crop = (bool) $this->crop;
+
+
+		if( $width > 0 OR $height > 0)
 		{
-			$image = Image::factory( $filepath );
-			
-			if(!empty($this->width) OR !empty($this->height))
+			$image->resize( $width, $height, $this->master );
+
+			if( $crop === TRUE )
 			{
-				$image->resize( $this->width, $this->height, $this->master );
-
-				if(!empty($this->crop ) AND $this->width > 0 AND $this->height > 0)
-				{
-					$image->crop( $this->width, $this->height );
-				}
+				$image->crop( $width, $height );
 			}
-
-			$image->save(NULL, $this->quality);
 		}
-		
-		$new->set($this->name, $this->folder . $filename);
 
-		return TRUE;
+		$image->save( NULL, $this->quality);
+
+		return $status;
 	}
 	
 	/**
@@ -219,20 +154,9 @@ class DataSource_Hybrid_Field_File_Image extends DataSource_Hybrid_Field_File_Fi
 	 */
 	public function document_validation_rules( Validation $validation, DataSource_Hybrid_Document $doc )
 	{
-		$image_url = NULL;
-		$image = NULL;
+		$image = $doc->get($this->name);
 		
-		if($validation->offsetExists($this->name))
-		{
-			$image = $validation->offsetGet($this->name );
-		}
-		
-		if($validation->offsetExists($this->name . '_url'))
-		{
-			$image_url = $validation->offsetGet($this->name . '_url');
-		}
-		
-		if($this->isreq === TRUE AND ! empty($image))
+		if($this->isreq === TRUE AND ! empty($image) )
 		{
 			if(is_array($image))
 			{
@@ -248,14 +172,14 @@ class DataSource_Hybrid_Field_File_Image extends DataSource_Hybrid_Field_File_Fi
 			}
 			
 		}
-		elseif($this->isreq === TRUE AND !empty($image_url))
+		elseif($this->isreq === TRUE AND $this->_from_url === TRUE )
 		{
 			$validation->rules( $this->name . '_url', array(
 				array('Valid::not_empty')
 			) );
 		}
 
-		if(empty($image_url) AND is_array( $image ))
+		if( $this->_from_url === FALSE AND is_array( $image ))
 		{
 			$validation->rules( $this->name, array(
 				array('Upload::valid'),
@@ -263,9 +187,9 @@ class DataSource_Hybrid_Field_File_Image extends DataSource_Hybrid_Field_File_Fi
 				array('Upload::size', array(':value', $this->max_size))
 			) );
 		}
-		else
+		else if ($this->_from_url === TRUE )
 		{
-			$ext = strtolower( pathinfo( $image_url, PATHINFO_EXTENSION ));
+			$ext = strtolower( pathinfo( $image, PATHINFO_EXTENSION ));
 			
 			$validation->rules( $this->name . '_url', array(
 				array('Valid::url'),

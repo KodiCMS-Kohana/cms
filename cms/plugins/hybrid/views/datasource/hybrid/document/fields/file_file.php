@@ -14,7 +14,7 @@
 						?>
 						&nbsp;&nbsp;&nbsp;
 						<label class="checkbox inline">
-						<?php echo Form::checkbox( $field->name, -1, FALSE, array('class' => 'remove-file-checkbox')); ?> <?php echo __('Remove file'); ?>
+						<?php echo Form::checkbox( $field->name . '_remove', 1, FALSE, array('class' => 'remove-file-checkbox')); ?> <?php echo __('Remove file'); ?>
 						</label>
 						<hr />
 					</div>
@@ -22,13 +22,9 @@
 						<i class="icon-chevron-down spoiler-toggle-icon"></i> <?php echo __('Upload new file'); ?>
 					</div>
 				</div>
-				
 			<?php endif; ?>
 			
-			
-			
 			<div class="upload-new-cont <?php if( ! empty($value)): ?>spoiler<?php endif; ?> spoiler-file-<?php echo $field->name; ?>">
-				<?php if( ! empty($value)) echo Form::hidden( $field->name, $value); ?>
 				<?php echo Form::file( $field->name, array(
 					'id' => $field->name
 				) ); ?>

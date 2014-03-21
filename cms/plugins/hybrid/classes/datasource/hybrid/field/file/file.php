@@ -21,6 +21,10 @@ class DataSource_Hybrid_Field_File_File extends DataSource_Hybrid_Field {
 	 * @var string 
 	 */
 	public $folder = NULL;
+	
+	protected $_filepath = NULL;
+	
+	protected $_remove_file = FALSE;
 
 	/**
 	 * 
@@ -209,6 +213,9 @@ class DataSource_Hybrid_Field_File_File extends DataSource_Hybrid_Field {
 			return FALSE;
 
 		$a = getimagesize($path);
+		
+		if(!$a) return FALSE;
+
 		$image_type = $a[2];
 
 		if (in_array($image_type, array(IMAGETYPE_GIF, IMAGETYPE_JPEG, IMAGETYPE_PNG, IMAGETYPE_BMP)))
@@ -244,7 +251,7 @@ class DataSource_Hybrid_Field_File_File extends DataSource_Hybrid_Field {
 	 */
 	public function onCreateDocument( DataSource_Hybrid_Document $doc )
 	{
-		$this->onUpdateDocument( $doc, $doc );
+		return $this->onUpdateDocument( $doc, $doc );
 	}
 
 	/**
@@ -255,32 +262,36 @@ class DataSource_Hybrid_Field_File_File extends DataSource_Hybrid_Field {
 	public function onUpdateDocument( DataSource_Hybrid_Document $old = NULL, DataSource_Hybrid_Document $new )
 	{
 		$file = $new->get($this->name);
-
+		$this->_remove_file = (bool) $new->get($this->name . '_remove');
+		
+		// Если установлена галочка удалить файл
+		if($this->_remove_file === TRUE)
+		{
+			$this->onRemoveDocument( $old );
+			$new->set($this->name, '');
+			return FALSE;
+		}
+		
+		// Если прикреплен новый файл
 		if (is_array($file))
 		{
 			$file = $this->_upload_file($file);
 		}
-		elseif ($file == -1)
-		{
-			$this->onRemoveDocument( $old );
-
-			$new->set($this->name, '');
-			return FALSE;
-		}
-		elseif ($old !== NULL AND $file == $old->get($this->name))
+		// Если есть старое значение 
+		elseif ( $old !== NULL AND ($file == $old->get($this->name) OR empty($file) ))
 		{
 			return FALSE;
 		}
 
-		$filepath = NULL;
+		$this->_filepath = NULL;
 
 		if ( ! empty($file) AND strpos($file, $this->folder()) !== FALSE)
 		{
-			$filepath = $file;
-			$filename = pathinfo($filepath, PATHINFO_BASENAME);
+			$this->_filepath = $file;
+			$filename = pathinfo($this->_filepath, PATHINFO_BASENAME);
 		}
 
-		if (empty($filepath))
+		if (empty($this->_filepath))
 		{
 			$this->set_old_value($new);
 			return FALSE;
