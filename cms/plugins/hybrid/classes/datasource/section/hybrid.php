@@ -176,67 +176,6 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 	}
 	
 	/**
-	 * Создание нового документа
-	 * 
-	 * @param DataSource_Hybrid_Document $doc
-	 * @return DataSource_Hybrid_Document
-	 */
-	public function create_document( $doc ) 
-	{		
-		$doc->id = $this->create_empty_document($doc->header);
-
-		$values = $doc->values();
-		unset($values['id'], $values['ds_id']);
-	
-		DB::update($this->table())
-			->set($values)
-			->where('id', '=', $doc->id);
-		
-		$record = $this->record();
-		$record->initialize_document($doc);
-		$query = $record->get_sql($doc);
-	
-		foreach($query as $q)
-		{
-			$_query = DB::query(Database::UPDATE, $q)->execute();
-		}
-
-		$this->update_size();
-		$this->add_to_index(array($doc->id));
-		
-		$this->clear_cache();
-		
-		return $doc;
-	}
-	
-	/**
-	 * Обновление документа
-	 * 
-	 * @param DataSource_Document $doc
-	 * @return DataSource_Document
-	 */
-	public function update_document( $doc ) 
-	{
-		$old = $this->get_document($doc->id);
-	
-		if( empty($old) OR !$doc->loaded() )
-		{
-			return FALSE;
-		}
-
-		$record = $this->record();
-		$record->document_changed($old, $doc);
-		$query = $record->get_sql($doc, TRUE);
-		
-		foreach($query as $q)
-		{
-			$result = DB::query(NULL, $q)->execute() AND $result;
-		}
-		
-		return parent::update_document($doc);
-	}
-	
-	/**
 	 * Загрузка документов раздела в формате для индексации
 	 * 
 	 * В этом методе происходит загрукзка индексируемых полей документа 

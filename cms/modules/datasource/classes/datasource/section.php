@@ -312,21 +312,17 @@ class Datasource_Section {
 	 * @param DataSource_Document $doc
 	 * @return DataSource_Document
 	 */
-	public function create_document( $doc ) 
+	public function create_document( DataSource_Document $doc ) 
 	{
-		$doc->id = $this->create_empty_document($doc->header);
+		$doc->create();
 
-		$values = $doc->values();
-		unset($values['id'], $values['ds_id']);
-	
-		DB::update($this->table())
-			->set($values)
-			->where('id', '=', $doc->id);
+		if($doc->loaded())
+		{
+			$this->update_size();
+			$this->add_to_index(array($doc->id));
 
-		$this->update_size();
-		$this->add_to_index(array($doc->id));
-		
-		$this->clear_cache();
+			$this->clear_cache();
+		}
 		
 		return $doc;
 	}
@@ -336,24 +332,20 @@ class Datasource_Section {
 	 * 
 	 * @param DataSource_Document $doc
 	 * @return DataSource_Document
-	 */
-	public function update_document( $doc ) 
+	 */	
+	public function update_document( DataSource_Document $doc ) 
 	{
-		$old = $this->get_document($doc->id);
+		$old = $this
+			->get_document($doc->id);
 	
 		if( empty($old) OR ! $doc->loaded() )
 		{
 			return FALSE;
 		}
+		
+		$doc->update();
 
-		$values = $doc->values();
-		unset($values['id'], $values['ds_id']);
-
-		DB::update($this->table())
-			->set($values)
-			->where('id', '=', $doc->id);
-
-		if( $doc->is_changed('published') ) 
+		if( $old->published != $doc->published ) 
 		{
 			if( $doc->published === TRUE )
 			{
@@ -423,35 +415,6 @@ class Datasource_Section {
 	public function get_empty_document() 
 	{
 		return new $this->_document_class_name($this);
-	}
-	
-	/**
-	 * Создание пустого документа и возврат его ID
-	 * 
-	 * @param string $header
-	 * @return null|integer Идентификатор документа
-	 */
-	public function create_empty_document( $header ) 
-	{
-		$data = array(
-			'ds_id' => $this->id(),
-			'header' => $header,
-			'created_on' => date('Y-m-d H:i:s'),
-		);
-		
-		$query = DB::insert($this->table())
-			->columns(array_keys($data))
-			->values(array_values($data))
-			->execute();
-
-		$id = $query[0];
-
-		if( ! empty($id) )
-		{
-			return $id;
-		}
-
-		return NULL;
 	}
 	
 	/**

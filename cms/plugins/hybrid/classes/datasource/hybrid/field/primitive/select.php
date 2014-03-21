@@ -59,13 +59,13 @@ class DataSource_Hybrid_Field_Primitive_Select extends DataSource_Hybrid_Field_P
 
 	public function onUpdateDocument(DataSource_Hybrid_Document $old = NULL, DataSource_Hybrid_Document $new) 
 	{
-		if( in_array($new->get($this->name), $this->options ) OR $this->custom_option === TRUE)
-		{
-			$new->set($this->name, $this->options[$new->get($this->name)]);
-		}
-		else if($new->get($this->name) == 0 AND $this->empty_value === TRUE)
+		if($new->get($this->name) == 0 AND $this->empty_value === TRUE)
 		{
 			$new->set($this->name, '');
+		}
+		else if( in_array($new->get($this->name), $this->options ) OR $this->custom_option === TRUE)
+		{
+			$new->set($this->name, $this->options[$new->get($this->name)]);
 		}
 		else
 		{

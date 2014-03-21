@@ -80,40 +80,6 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 	}
 
 	/**
-	 * Загрузка документа по его ID
-	 * 
-	 *		$ds = Datasource_Data_Manager::load($ds_id);
-	 *		$doc = $ds->get_document($id);
-	 * 
-	 * @param integer $id
-	 * @return \DataSource_Hybrid_Document
-	 */
-	public function load( $id )
-	{
-		$ds_id = $this->section()->id();
-
-		$result = DB::select(array('dshybrid.id', 'id'))
-			->select('ds_id', 'published', 'header')
-			->select_array( array_keys( $this->_fields ))
-			->from('dshybrid')
-			->join("dshybrid_{$ds_id}")
-				->on("dshybrid_{$ds_id}.id", '=', 'dshybrid.id')
-			->where('dshybrid.id', '=', (int) $id)
-			->limit(1)
-			->execute()
-			->current();
-				
-		if( empty($result) ) return $this;
-		
-		foreach($result as $field => $value)
-		{
-			$this->{$field} = $value;
-		}
-		
-		return $this;
-	}
-
-	/**
 	 * Загрузка данных из массива
 	 * 
 	 * @param array $array Массив значений полей документа
@@ -204,6 +170,133 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 	}
 
 	/**
+	 * Загрузка документа по его ID
+	 * 
+	 *		$ds = Datasource_Data_Manager::load($ds_id);
+	 *		$doc = $ds->get_document($id);
+	 * 
+	 * @param integer $id
+	 * @return \DataSource_Hybrid_Document
+	 */
+	public function load( $id )
+	{
+		$ds_id = $this->section()->id();
+
+		$result = DB::select(array('dshybrid.id', 'id'))
+			->select('ds_id', 'published', 'header')
+			->select_array( array_keys( $this->_fields ))
+			->from('dshybrid')
+			->join("dshybrid_{$ds_id}")
+				->on("dshybrid_{$ds_id}.id", '=', 'dshybrid.id')
+			->where('dshybrid.id', '=', (int) $id)
+			->limit(1)
+			->execute()
+			->current();
+				
+		if( empty($result) ) return $this;
+		
+		$this->_loaded = TRUE;
+		
+		foreach($result as $field => $value)
+		{
+			$this->{$field} = $value;
+		}
+		
+		return $this;
+	}
+
+	/**
+	 * Создание документа
+	 * 
+	 *		$ds = Datasource_Data_Manager::load($ds_id);
+	 *		$doc = $ds->get_empty_document();
+	 *		$doc
+	 *			->read_values($this->request->post())
+	 *			->read_files($_FILES)
+	 *			->validate();
+	 *		$doc = $ds->create_document($doc);
+	 *		
+	 * 
+	 * @return integer|null Идентификатор документа
+	 */
+	public function create()
+	{
+		parent::create();
+		
+		if( ! $this->loaded() ) return NULL;
+		
+		$query = DB::insert("dshybrid_" . $this->ds_id)
+			->columns(array('id'))
+			->values(array($this->id))
+			->execute();
+
+		$record = $this->section()->record();
+		$record->initialize_document($this);
+		$query = $record->get_sql($this);
+	
+		foreach($query as $q)
+		{
+			DB::query(Database::UPDATE, $q)->execute();
+		}
+		
+		return $this->id;
+	}
+	
+	/**
+	 * Обновление документа
+	 * 
+	 *		$ds = Datasource_Data_Manager::load($ds_id);
+	 *		$doc = $ds->get_document($id);
+	 *		$doc
+	 *			->read_values($this->request->post())
+	 *			->read_files($_FILES)
+	 *			->validate();
+	 * 
+	 *		$doc = $ds->update_document($doc);
+	 *		
+	 * 
+	 * @return integer|null Идентификатор документа
+	 */
+	public function update()
+	{
+		parent::update();
+		
+		if( ! $this->updated() ) return $this;
+		
+		$record = $this->section()->record();
+		$record->initialize_document($this);
+		$queries = $record->get_sql($this);
+	
+		foreach($queries as $query)
+		{
+			DB::query(Database::UPDATE, $query)->execute();
+		}
+		
+		return $this;
+	}
+
+	/**
+	 * Метод удаления документа
+	 * 
+	 *		$ds = Datasource_Data_Manager::load($ds_id);
+	 *		$doc = $ds->get_document($id);
+	 * 
+	 * @return null|boolean
+	 */
+	public function remove()
+	{
+		if( ! $this->loaded() ) return NULL;
+		
+		DB::delete("dshybrid_" . $this->section()->id())
+			->where('id', '=', $this->id)
+			->execute();
+		
+		$this->reset();
+		
+		return TRUE;
+	}
+
+	/**
 	 * Валидация полей документа согласно правилам валидации
 	 * 
 	 * @see DataSource_Document::rules()
@@ -242,24 +335,6 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 		{
 			throw new Validation_Exception( $validation );
 		}
-		
-		return TRUE;
-	}
-	
-	/**
-	 * Метод удаления документа
-	 * 
-	 * @return null|boolean
-	 */
-	public function remove()
-	{
-		if( ! $this->loaded() ) return NULL;
-		
-		DB::delete("dshybrid_" . $this->section()->id())
-			->where('id', '=', $this->id)
-			->execute();
-		
-		$this->reset();
 		
 		return TRUE;
 	}

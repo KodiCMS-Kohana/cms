@@ -4,7 +4,7 @@
  * @package		KodiCMS
  * @category	Datasource
  */
-abstract class Datasource_Document {
+class Datasource_Document {
 
 	/**
 	 * Список системных полей
@@ -28,6 +28,24 @@ abstract class Datasource_Document {
 	 * @var DataSource_Hybrid_Section 
 	 */
 	protected $_section = NULL;
+	
+	/**
+	 * Статус загрузки документа
+	 * @var boolean 
+	 */
+	protected $_loaded = FALSE;
+	
+	/**
+	 * Статус обновления документа
+	 * @var boolean 
+	 */
+	protected $_updated = FALSE;
+	
+	/**
+	 * Статус создания документа
+	 * @var boolean 
+	 */
+	protected $_created = FALSE;
 
 	/**
 	 * 
@@ -56,7 +74,7 @@ abstract class Datasource_Document {
 				array('intval')
 			),
 			'published' => array(
-//				array('boolval')
+				array(array($this, 'set_published'))
 			)
 		);
 	}
@@ -127,10 +145,30 @@ abstract class Datasource_Document {
 	 */
 	public function loaded()
 	{
-		return (int) $this->id != 0;
+		return (bool) $this->_loaded;
 	}
 	
 	/**
+	 * Проверка создания документа
+	 * 
+	 * @return boolean
+	 */
+	public function created()
+	{
+		return (bool) $this->_created;
+	}
+	
+	/**
+	 * Проверка обновления документа
+	 * 
+	 * @return boolean
+	 */
+	public function updated()
+	{
+		return (bool) $this->_updated;
+	}
+
+		/**
 	 * Получение объекта раздела
 	 * 
 	 * @return DataSource_Section
@@ -167,16 +205,16 @@ abstract class Datasource_Document {
 	{
 		if(array_key_exists($field, $this->_system_fields))
 		{
-			if(($field == 'id' OR $field == 'ds_id' ) AND $this->loaded())
-			{
-				return $this;
-			}
-
 			$this->_system_fields[$field] = $this->_run_filter($field, $value);
 			$this->_changed_fields[$field] = $this->_system_fields[$field];
 		}
 		
 		return $this;
+	}
+	
+	public function set_published($value)
+	{
+		return (bool) $value ? 1 : 0;
 	}
 
 	/**
@@ -336,6 +374,132 @@ abstract class Datasource_Document {
 
 		return $value;
 	}
+
+	/**
+	 * Загрузка документа по его ID
+	 * 
+	 *		$ds = Datasource_Data_Manager::load($ds_id);
+	 *		$doc = $ds->get_document($id);
+	 * 
+	 * @param integer $id
+	 * @return \DataSource_Document
+	 */
+	public function load( $id )
+	{
+		$ds_id = $this->section()->id();
+
+		$result = DB::select()
+			->select_array( array_keys( $this->_system_fields ))
+			->from($this->section()->table())
+			->where('id', '=', (int) $id)
+			->limit(1)
+			->execute()
+			->current();
+				
+		if( empty($result) ) return $this;
+		
+		$this->_loaded = TRUE;
+		
+		foreach($result as $field => $value)
+		{
+			$this->{$field} = $value;
+		}
+		
+		return $this;
+	}
+
+	/**
+	 * Создание документа
+	 * 
+	 *		$ds = Datasource_Data_Manager::load($ds_id);
+	 *		$doc = $ds->get_empty_document();
+	 *		$doc
+	 *			->read_values($this->request->post())
+	 *			->read_files($_FILES)
+	 *			->validate();
+	 *		$doc = $ds->create_document($doc);
+	 *		
+	 * 
+	 * @return integer|null Идентификатор документа
+	 */
+	public function create()
+	{
+		$values = $this->_system_fields;
+		
+		$values['ds_id'] = $this->section()->id();
+		$values['created_on'] = date('Y-m-d H:i:s');
+		unset($values['id']);
+		
+		$query = DB::insert($this->section()->table())
+			->columns(array_keys($values))
+			->values(array_values($values))
+			->execute();
+
+		$id = $query[0];
+
+		if( empty($id) ) return NULL;
+		
+		$this->id = $id;
+
+		$this->_created = TRUE;
+
+		return $this->load($id);
+	}
+	
+	/**
+	 * Обновление документа
+	 * 
+	 *		$ds = Datasource_Data_Manager::load($ds_id);
+	 *		$doc = $ds->get_document($id);
+	 *		$doc
+	 *			->read_values($this->request->post())
+	 *			->read_files($_FILES)
+	 *			->validate();
+	 * 
+	 *		$doc = $ds->update_document($doc);
+	 *		
+	 * 
+	 * @return integer|null Идентификатор документа
+	 */
+	public function update()
+	{
+		if( ! $this->loaded() ) return $this;
+		
+		$values = $this->_system_fields;
+		unset($values['id'], $values['ds_id']);
+		
+		$values['updated_on'] = date('Y-m-d H:i:s');
+
+		DB::update($this->section()->table())
+			->set($values)
+			->where('id', '=', $this->id)
+			->execute();
+		
+		$this->_updated = TRUE;
+		
+		return $this;
+	}
+	
+	/**
+	 * Метод удаления документа
+	 * 
+	 *		$ds = Datasource_Data_Manager::load($ds_id);
+	 *		$doc = $ds->get_document($id);
+	 * 
+	 * @return null|boolean
+	 */
+	public function remove()
+	{
+		if( ! $this->loaded() ) return FALSE;
+		
+		DB::delete("dshybrid_" . $this->ds_id)
+			->where('id', '=', $this->id)
+			->execute();
+		
+		$this->reset();
+		
+		return TRUE;
+	}
 	
 	/**
 	 * Валидация полей документа согласно правилам валидации
@@ -373,35 +537,5 @@ abstract class Datasource_Document {
 		}
 		
 		return TRUE;
-	}
-	
-
-	/**
-	 * Загрузка документа по его ID
-	 * 
-	 *		$ds = Datasource_Data_Manager::load($ds_id);
-	 *		$doc = $ds->get_document($id);
-	 * 
-	 * @param integer $id
-	 * @return \DataSource_Document
-	 */
-	abstract public function load( $id );
-	
-	/**
-	 * Метод удаления документа
-	 * 
-	 * @return null|boolean
-	 */
-	public function remove()
-	{
-		if( ! $this->loaded() ) return NULL;
-		
-		DB::delete("dshybrid_" . $this->ds_id)
-			->where('id', '=', $this->id)
-			->execute();
-		
-		$this->reset();
-		
-		return TRUE;
-	}
+	}	
 }

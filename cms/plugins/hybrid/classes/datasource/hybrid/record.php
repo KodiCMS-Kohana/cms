@@ -172,7 +172,7 @@ class DataSource_Hybrid_Record {
 				$queries[$field->ds_table][$part[0]] = $part[1];
 			}
 		}
-		
+
 		$updates = array();
 
 		foreach($queries as $table => $update)

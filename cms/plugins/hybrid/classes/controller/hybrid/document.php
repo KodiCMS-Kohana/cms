@@ -62,13 +62,12 @@ class Controller_Hybrid_Document extends Controller_System_Datasource
 		WYSIWYG::load_filters();
 		
 		$post_data = Session::instance()->get_once('post_data');
-		if(!empty($post_data))
+		if( ! empty($post_data))
 		{
+			unset($post_data['id']);
 			$doc->read_values($post_data);
 		}
-
 		$doc->convert_values();
-		
 
 		$this->breadcrumbs
 			->add($this->section()->name, Route::url('datasources', array(
@@ -104,7 +103,7 @@ class Controller_Hybrid_Document extends Controller_System_Datasource
 			$doc
 				->read_values($this->request->post())
 				->read_files($_FILES)
-				->validate($this->request->post() + $_FILES);
+				->validate();
 		} 
 		catch (Validation_Exception $e)
 		{
