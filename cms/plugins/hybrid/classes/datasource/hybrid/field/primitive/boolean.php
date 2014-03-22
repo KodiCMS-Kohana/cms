@@ -4,9 +4,9 @@ class DataSource_Hybrid_Field_Primitive_Boolean extends DataSource_Hybrid_Field_
 	
 	protected $_is_required = FALSE;
 	
-	public function onUpdateDocument(DataSource_Hybrid_Document $old = NULL, DataSource_Hybrid_Document $new) 
+	public function onUpdateDocument( DataSource_Hybrid_Document $document ) 
 	{
-		$new->set($this->name, $new->get($this->name) ? 1 : 0);
+		$document->set($this->name, $document->get($this->name) ? 1 : 0);
 	}
 	
 	public function get_type() 

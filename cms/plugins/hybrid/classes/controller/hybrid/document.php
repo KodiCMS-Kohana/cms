@@ -67,7 +67,6 @@ class Controller_Hybrid_Document extends Controller_System_Datasource
 			unset($post_data['id']);
 			$doc->read_values($post_data);
 		}
-		$doc->convert_values();
 
 		$this->breadcrumbs
 			->add($this->section()->name, Route::url('datasources', array(

@@ -48,7 +48,7 @@ class DataSource_Hybrid_Field_Primitive_Select extends DataSource_Hybrid_Field_P
 	 * @param array $data
 	 * @return DataSource_Hybrid_Field
 	 */
-	public function onReadDocumentValue(array $data, DataSource_Hybrid_Document $document)
+	public function onSetDocumentValue(array $data, DataSource_Hybrid_Document $document)
 	{
 		if($this->custom_option === TRUE AND isset($data[$this->name . '_custom']) AND !empty($data[$this->name . '_custom']))
 		{
@@ -66,21 +66,21 @@ class DataSource_Hybrid_Field_Primitive_Select extends DataSource_Hybrid_Field_P
 		return parent::onReadDocumentValue($data, $document);
 	}
 
-	public function onUpdateDocument(DataSource_Hybrid_Document $old = NULL, DataSource_Hybrid_Document $new) 
+	public function onUpdateDocument(DataSource_Hybrid_Document $document) 
 	{
-		$value = $new->get($this->name);
+		$value = $document->get($this->name);
 
 		if(array_key_exists($value, $this->options ) OR ($this->custom_option === TRUE AND !empty($value)))
 		{
-			$new->set($this->name, $this->options[$value]);
+			$document->set($this->name, $this->options[$value]);
 		}
 		else if($value == 0 AND $this->empty_value === TRUE)
 		{
-			$new->set($this->name, '');
+			$document->set($this->name, '');
 		}
 		else
 		{
-			$new->set($this->name, $old->get($this->name));
+			$this->set_old_value($document);
 		}
 	}
 	

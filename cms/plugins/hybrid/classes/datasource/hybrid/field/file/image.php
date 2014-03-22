@@ -15,6 +15,8 @@ class DataSource_Hybrid_Field_File_Image extends DataSource_Hybrid_Field_File_Fi
 		'types' => 'bmp,gif,jpg,png,tif',
 		'max_size' => 1048576
 	);
+	
+	protected $_from_url = FALSE;
 
 	/**
 	 * 
@@ -87,25 +89,22 @@ class DataSource_Hybrid_Field_File_Image extends DataSource_Hybrid_Field_File_Fi
 	 * @param DataSource_Hybrid_Document $new
 	 * @return boolean
 	 */
-	public function onUpdateDocument(DataSource_Hybrid_Document $old = NULL, DataSource_Hybrid_Document $new)
+	public function onUpdateDocument(DataSource_Hybrid_Document $document )
 	{
-		$url = $new->get($this->name . '_url');
+		$url = $document->get($this->name . '_url');
 		
 		if( Valid::url($url) )
 		{
-			$url = $new->get($this->name . '_url');
-			
 			list($status, $filename) = Upload::from_url( $url, $this->types, $this->folder());
 
-			
 			if($status)
 			{
 				if(rename(TMPPATH . $filename, $this->folder() . $filename))
 				{
 					$this->_filepath = $this->folder() . $filename;
 					
-					$this->onRemoveDocument($old);
-					$new->set($this->name, $this->folder . $filename);
+					$this->remove_file($document->old_value($this->name));
+					$document->set($this->name, $this->folder . $filename);
 				}
 				else
 				{
@@ -116,7 +115,7 @@ class DataSource_Hybrid_Field_File_Image extends DataSource_Hybrid_Field_File_Fi
 		}
 		else
 		{
-			$status = parent::onUpdateDocument($old, $new);
+			$status = parent::onUpdateDocument($document);
 		}
 		
 		if($status !== TRUE ) return $status;

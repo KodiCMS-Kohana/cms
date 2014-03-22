@@ -3,7 +3,7 @@
 	<div class="controls">
 		<div class="row-fluid">
 			<div class="span9">
-				<?php echo Form::hidden($field->name, implode( ',',  array_keys( $value )), array(
+				<?php echo Form::hidden($field->name, $value, array(
 					'id' => $field->name, 'class' => 'span12'
 				)); ?>
 				<script>

@@ -15,15 +15,15 @@ class DataSource_Hybrid_Field_Source_Tags extends DataSource_Hybrid_Field {
 		$this->family = DataSource_Hybrid_Field::FAMILY_SOURCE;
 	}
 	
-	public function onUpdateDocument(DataSource_Hybrid_Document $old = NULL, DataSource_Hybrid_Document $new) 
+	public function onUpdateDocument(DataSource_Hybrid_Document $document) 
 	{
-		$old_tags = $old->get($this->name);
-		$new_tags = $new->get($this->name);
+		$old_tags = $document->old_value($this->name);
+		$new_tags = $document->get($this->name);
 		
-		$o = empty($old_tags) ? array() : explode(',', $old->get($this->name));
-		$n = empty($new_tags) ? array() : explode(',', $new->get($this->name));
+		$o = empty($old_tags) ? array() : explode(',', $old_tags);
+		$n = empty($new_tags) ? array() : explode(',', $new_tags);
 
-		$this->update_tags($o, $n, $new->id);
+		$this->update_tags($o, $n, $document->id);
 	}
 	
 	public function onRemoveDocument( DataSource_Hybrid_Document $doc )

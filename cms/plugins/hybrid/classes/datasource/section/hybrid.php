@@ -236,35 +236,6 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 	}
 	
 	/**
-	 * Удаление документов по ID
-	 * 
-	 * @see DataSource_Hybrid_Document::remove()
-	 * 
-	 * @param array $ids
-	 * @return \DataSource_Hybrid_Section
-	 */
-	public function remove_documents( array $ids = NULL  ) 
-	{
-		if( empty($ids) ) return $this;
-		
-		foreach ($ids as $id)
-		{
-			$document = $this->get_empty_document()->load($id);
-			if($document->loaded())
-			{
-				$this->record()->destroy_document($document);
-				$document->remove();
-			}
-		}
-
-		$this->update_size();
-		$this->remove_from_index($ids);
-		$this->clear_cache();
-
-		return parent::remove_documents($ids);
-	}
-	
-	/**
 	 * Получение полного пути до файла шаблона
 	 * 
 	 * @return string

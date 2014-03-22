@@ -14,11 +14,11 @@ class DataSource_Hybrid_Field_Primitive_HTML extends DataSource_Hybrid_Field_Pri
 		return parent::set( $data );
 	}
 	
-	public function onUpdateDocument( DataSource_Hybrid_Document $old = NULL, DataSource_Hybrid_Document $new ) 
+	public function onUpdateDocument( DataSource_Hybrid_Document $document ) 
 	{
 		if( $this->filter_html === TRUE )
 		{
-			$new->set($this->name, Kses::filter( $new->get($this->name), $this->allowed_tags ));
+			$document->set($this->name, Kses::filter( $document->get($this->name), $this->allowed_tags ));
 		}
 	}
 	

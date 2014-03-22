@@ -19,16 +19,19 @@ class DataSource_Hybrid_Field_Primitive_Slug extends DataSource_Hybrid_Field_Pri
 		return parent::set( $data );
 	}
 	
-	public function onUpdateDocument(DataSource_Hybrid_Document $old = NULL, DataSource_Hybrid_Document $new) 
+	public function onUpdateDocument(DataSource_Hybrid_Document $document) 
 	{
-		$new->set($this->name, URL::title($new->get($this->name)));
+		$document->set($this->name, URL::title($document->get($this->name)));
 	}
 	
 	public function onValidateDocument( Validation $validation, DataSource_Hybrid_Document $doc )
 	{
 		if( $this->unique === TRUE )
 		{
-			$validation->rule($this->name, array($this, 'check_unique'), array(':value', $doc));
+			$this->isreq = TRUE;
+
+			$validation
+				->rule($this->name, array($this, 'check_unique'), array(':value', $doc));
 		}
 			
 		return parent::onValidateDocument($validation, $doc);

@@ -7,6 +7,29 @@
 class DataSource_Hybrid_Document extends Datasource_Document {
 	
 	protected $_related_fields = array();
+	
+	protected $_related_table_name = NULL;
+	
+	public function __construct( DataSource_Section $section )
+	{
+		parent::__construct($section);
+		$this->_related_table_name = $this->table_name() . '_' . $this->_section->id();
+	}
+	
+	protected function _initialize()
+	{
+		parent::_initialize();
+
+		foreach( $this->section()->record()->fields() as $key => $field )
+		{
+			$this->_related_fields[$key] = NULL;
+		}
+	}
+	
+	public function related_table_name()
+	{
+		return $this->_related_table_name;
+	}
 
 	/**
 	 * Геттер значений полей документов
@@ -73,16 +96,20 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 	 */
 	public function read_values(array $array = NULL) 
 	{
-		
+		$original_array = $array;
+		parent::read_values($array);
+
 		foreach($this->section()->record()->fields() as $field)
 		{
 			if($field->family == DataSource_Hybrid_Field::FAMILY_FILE )	continue;
+			
+			$field->onReadDocumentValue($original_array, $this);
 			$this->{$field->name} = Arr::get($array, $field->name);
-			$field->onReadDocumentValue($array, $this);
-			unset($array[$field->name]);
+
+			unset($this->_temp_values[$field->name]);
 		}
-		
-		return parent::read_values($array);
+
+		return $this;
 	}
 	
 	/**
@@ -91,25 +118,34 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 	 * @param array $array
 	 * @return \DataSource_Hybrid_Document
 	 */
-	public function read_files($array) 
+	public function read_files( array $array = NULL ) 
 	{
+		$original_array = $array;
+		parent::read_files($array);
+
 		foreach($this->section()->record()->fields() as $key => $field)
 		{
+			if($field->family != DataSource_Hybrid_Field::FAMILY_FILE) continue;
+
 			if(
 				isset($array[$key]) 
-			AND
-				$field->family == DataSource_Hybrid_Field::FAMILY_FILE 
 			AND 
 				Upload::valid( $array[$key] ) 
 			AND 
 				Upload::not_empty($array[$key]))
 			{
+				$field->onReadDocumentValue($original_array, $this);
+
 				$this->{$field->name} = Arr::get($array, $field->name);
-				$field->onReadDocumentValue($array, $this);
-				unset($array[$field->name]);
+				
+				unset($this->_temp_values[$field->name]);
+			}
+			else
+			{
+				$this->{$field->name} = '';
 			}
 		}
-	
+
 		return $this;
 	}
 
@@ -122,39 +158,15 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 	public function set_field_value($field, $value)
 	{
 		$fields = $this->section()->record()->fields();
-		
-		
-			echo debug::Vars($value);
-			
-		$this->_related_fields[$field] = isset($fields[$field]) 
-			? $fields[$field]->onSetValue( $value, $this )
-			: $value;
-	}
-	
-	/**
-	 * Конвертация значений полей документа в момент загрузкти данных в форму
-	 * редактора
-	 * 
-	 * @return \DataSource_Hybrid_Document
-	 */
-	public function convert_values() 
-	{
-		foreach( $this->section()->record()->fields() as $key => $field )
-		{
-			$this->{$key} = $field->convert_value( $this->{$key} );
-		}
-		
-		return $this;
-	}
-	
-	protected function _initialize()
-	{
-		parent::_initialize();
 
-		foreach( $this->section()->record()->fields() as $key => $field )
-		{
-			$this->_related_fields[$key] = NULL;
-		}
+		$value = isset($fields[$field]) 
+			? $fields[$field]->onSetDocumentValue( $value, $this )
+			: $value;
+
+		$this->_original_values[$field] = $this->_related_fields[$field];
+		$this->_related_fields[$field] = $value;
+
+		$this->_saved = FALSE;
 	}
 
 	/**
@@ -190,14 +202,23 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 		$this->_loaded = TRUE;
 		
 		$this->_load_values($result);
-		
-		
+
+		return $this;
+	}
+	
+	protected function _load_values(array $values)
+	{
 		foreach($this->_related_fields as $key => $value)
 		{
-			$this->{$key} = Arr::get($result, $key);
+			$this->_related_fields[$key] = Arr::get($values, $key);
 		}
 		
-		return $this;
+		if ( $this->_loaded )
+		{
+			$this->_original_values = $this->_related_fields;
+		}
+
+		return parent::_load_values($values);
 	}
 
 	/**
@@ -223,20 +244,19 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 		
 		if( ! $this->created() ) return NULL;
 		
-		$query = DB::insert("dshybrid_" . $this->ds_id)
-			->columns(array('id'))
-			->values(array($this->_id))
-			->execute();
-
-		$record = $this->section()->record();
-		$record->initialize_document($this);
-		$query = $record->get_sql($this);
-	
-		foreach($query as $q)
+		foreach($this->section()->record()->fields() as $field)
 		{
-			DB::query(Database::UPDATE, $q)->execute();
+			$field->onCreateDocument( $this );
 		}
 		
+		$values = $this->_related_fields;
+		$values['id'] = $this->_id;
+
+		$query = DB::insert($this->related_table_name())
+			->columns(array_keys($values))
+			->values(array_values($values))
+			->execute();
+
 		return $this->_id;
 	}
 	
@@ -263,15 +283,16 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 		parent::update();
 		
 		if( ! $this->updated() ) return $this;
-		
-		$record = $this->section()->record();
-		$record->initialize_document($this);
-		$queries = $record->get_sql($this);
-	
-		foreach($queries as $query)
+
+		foreach($this->section()->record()->fields() as $field)
 		{
-			DB::query(Database::UPDATE, $query)->execute();
+			$field->onUpdateDocument( $this );
 		}
+		
+		DB::update($this->related_table_name())
+			->set($this->_related_fields)
+			->where('id', '=', $this->_id)
+			->execute();
 		
 		return $this;
 	}
@@ -286,17 +307,18 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 	 */
 	public function remove()
 	{
-		parent::remove();
-
 		if( ! $this->loaded() ) return NULL;
 		
-		DB::delete("dshybrid_" . $this->ds_id)
+		foreach($this->section()->record()->fields() as $field)
+		{
+			$field->onRemoveDocument( $this );
+		}
+		
+		DB::delete($this->related_table_name())
 			->where('id', '=', $this->_id)
 			->execute();
 		
-		$this->reset();
-		
-		return TRUE;
+		return parent::remove();
 	}
 
 	/**
@@ -320,7 +342,7 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 		$values = Arr::merge($this->values(), $this->_temp_values);
 
 		$validation = Validation::factory( $values )
-			->bind(':object', $this)
+			->bind(':temp_values', $this->_temp_values)
 			->bind(':original_values', $this->_original_values);
 		
 		foreach ($this->rules() as $key => $rules)
@@ -333,21 +355,21 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 			$validation->label($key, $label);
 		}
 	
-		foreach ($this->section()->record()->fields() as $name => $field)
-		{
-			$field->onValidateDocument($validation, $this);
-		}
+		$this->_extra_validate($validation);
 
 		if( ! $validation->check() )
 		{
-			
-			echo debug::Vars($validation);
-			exit();
 			throw new Validation_Exception( $validation );
 		}
 		
 		return TRUE;
 	}
 	
-	
+	protected function _extra_validate( Validation $validation)
+	{
+		foreach ($this->section()->record()->fields() as $name => $field)
+		{
+			$field->onValidateDocument($validation, $this);
+		}
+	}
 }

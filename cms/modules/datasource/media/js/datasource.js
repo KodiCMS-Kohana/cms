@@ -66,7 +66,6 @@ cms.init.add('datasources_section_edit', function() {
 		
 		Api.delete('/datasource/hybrid-field', $checked_fields.serialize()+'&ds_id='+DS_ID, function(response) {
 			for(i in response.response) {
-				console.log(i, response.response[i]);
 				$('#field-' + response.response[i]).remove();
 			}
 		})

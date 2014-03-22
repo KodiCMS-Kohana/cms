@@ -20,24 +20,19 @@ class DataSource_Hybrid_Field_Primitive_Date extends DataSource_Hybrid_Field_Pri
 		}
 	}
 	
-	public function onSetValue( $value, DataSource_Hybrid_Document $doc)
+	public function onSetDocumentValue( $value, DataSource_Hybrid_Document $doc)
 	{
 		if( ! $doc->loaded() AND $this->set_current === TRUE )
 		{
 			return date($this->_format);
 		}
 		
-		return parent::onSetValue($value, $doc);
+		return parent::onSetDocumentValue($value, $doc);
 	}
 
-	public function onUpdateDocument(DataSource_Hybrid_Document $old = NULL, DataSource_Hybrid_Document $new)
+	public function onUpdateDocument( DataSource_Hybrid_Document $document ) 
 	{
-		$new->set($this->name, $this->format_date($new->get($this->name))); 
-	}
-	
-	public function convert_value( $value ) 
-	{
-		return $this->format_date($value);
+		$document->set($this->name, $this->format_date($document->get($this->name))); 
 	}
 	
 	public function format_date( $value ) 

@@ -246,7 +246,7 @@ class DataSource_Hybrid_Field_File_File extends DataSource_Hybrid_Field {
 	 */
 	public function onCreateDocument( DataSource_Hybrid_Document $doc )
 	{
-		return $this->onUpdateDocument( $doc, $doc );
+		return $this->onUpdateDocument( $doc );
 	}
 
 	/**
@@ -254,16 +254,16 @@ class DataSource_Hybrid_Field_File_File extends DataSource_Hybrid_Field {
 	 * @param DataSource_Hybrid_Document $doc
 	 * @return boolean
 	 */
-	public function onUpdateDocument( DataSource_Hybrid_Document $old = NULL, DataSource_Hybrid_Document $new )
+	public function onUpdateDocument( DataSource_Hybrid_Document $document )
 	{
-		$file = $new->get($this->name);
-		$this->_remove_file = (bool) $new->get($this->name . '_remove');
+		$file = $document->get($this->name);
+		$this->_remove_file = (bool) $document->get($this->name . '_remove');
 		
 		// Если установлена галочка удалить файл
 		if($this->_remove_file === TRUE)
 		{
 			$this->onRemoveDocument( $old );
-			$new->set($this->name, '');
+			$document->set($this->name, '');
 			return FALSE;
 		}
 		
@@ -273,7 +273,7 @@ class DataSource_Hybrid_Field_File_File extends DataSource_Hybrid_Field {
 			$file = $this->_upload_file($file);
 		}
 		// Если есть старое значение 
-		elseif ( $old !== NULL AND ($file == $old->get($this->name) OR empty($file) ))
+		elseif ( $file == $document->old_value($this->name OR empty($file) ))
 		{
 			return FALSE;
 		}
@@ -288,13 +288,13 @@ class DataSource_Hybrid_Field_File_File extends DataSource_Hybrid_Field {
 
 		if (empty($this->_filepath))
 		{
-			$this->set_old_value($new);
+			$this->set_old_value($document);
 			return FALSE;
 		}
 
-		$this->onRemoveDocument($old);
+		$this->remove_file($document->old_value($this->name));
 
-		$new->set($this->name, $this->folder . $filename);
+		$document->set($this->name, $this->folder . $filename);
 
 		return TRUE;
 	}
@@ -305,12 +305,15 @@ class DataSource_Hybrid_Field_File_File extends DataSource_Hybrid_Field {
 	 */
 	public function onRemoveDocument(DataSource_Hybrid_Document $doc)
 	{
-		$value = $doc->get($this->name);
-		
-		if ( ! empty($value) )
+		$this->remove_file($doc->get($this->name));
+		$doc->set($this->name, '');
+	}
+	
+	public function remove_file($file)
+	{
+		if ( ! empty($file) AND file_exists(PUBLICPATH . $file))
 		{
-			@unlink(PUBLICPATH . $value);
-			$doc->set($this->name, '') ;
+			@unlink(PUBLICPATH . $file);
 		}
 	}
 

@@ -208,6 +208,16 @@ abstract class Datasource_Decorator {
 
 		return Arr::get($this->_temp_values, $key, $default);
 	}
+	
+	public function old_value( $key, $default = NULL )
+	{
+		return Arr::get($this->_original_values, $key, $default);
+	}
+	
+	public function is_changed( $key )
+	{
+		return $this->_original_values[$key] != $this->{$key};
+	}
 
 	public function __isset($key)
 	{
@@ -263,13 +273,11 @@ abstract class Datasource_Decorator {
 
 		if ( $this->_loaded )
 		{
-			$this->_original_values = $this->_object;
+			$this->_set_original_values($this->_object);
 		}
 
 		return $this;
 	}
-	
-	
 
 	/**
 	 * Загрузка данных из массива
@@ -285,7 +293,7 @@ abstract class Datasource_Decorator {
 			unset($array[$key]);
 		}
 		
-		$this->_temp_values = Arr::merge($array, $this->_temp_values);
+		$this->_temp_values = Arr::merge($this->_temp_values, $array);
 		
 		return $this;
 	}
@@ -296,15 +304,23 @@ abstract class Datasource_Decorator {
 	 * @param array $array
 	 * @return \DataSource_Document
 	 */
-	public function read_files($array) 
+	public function read_files(array $array = NULL) 
 	{
 		foreach($this->fields() as $key)
 		{
-			$this->{$key} = Arr::get($array, $key);
-			unset($array[$key]);
+			if(
+				isset($array[$key]) 
+			AND
+				Upload::valid( $array[$key] ) 
+			AND 
+				Upload::not_empty($array[$key]))
+			{
+				$this->{$key} = Arr::get($array, $key);
+				unset($array[$key]);
+			}
 		}
 		
-		$this->_temp_values = Arr::merge($array, $this->_temp_values);
+		$this->_temp_values = Arr::merge($this->_temp_values, $array);
 		
 		return $this;
 	}
@@ -328,6 +344,11 @@ abstract class Datasource_Decorator {
 		foreach ($this->labels() as $key => $label)
 		{
 			$validation->label($key, $label);
+		}
+		
+		if(method_exists($this, '_extra_validate'))
+		{
+			$this->_extra_validate($validation);
 		}
 
 		if( ! $validation->check() )
@@ -447,7 +468,7 @@ abstract class Datasource_Decorator {
 		$this->_object['id'] = $this->_id = $result[0];
 
 		$this->_loaded = $this->_created = TRUE;
-		$this->_original_values = $this->_object;
+		$this->_set_original_values($this->_object);
 
 		return $this;
 	}
@@ -469,7 +490,8 @@ abstract class Datasource_Decorator {
 			->execute();
 		
 		$this->_updated = TRUE;
-		$this->_original_values = $this->_object;
+		
+		$this->_set_original_values($this->_object);
 
 		return $this;
 	}
@@ -485,5 +507,13 @@ abstract class Datasource_Decorator {
 		$this->reset();
 		
 		return TRUE;
+	}
+	
+	protected function _set_original_values( array $values)
+	{
+		foreach ($values as $key => $value)
+		{
+			$this->_original_values[$key] = $value;
+		}
 	}
 }

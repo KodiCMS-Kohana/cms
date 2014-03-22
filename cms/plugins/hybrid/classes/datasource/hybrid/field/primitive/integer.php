@@ -42,9 +42,9 @@ class DataSource_Hybrid_Field_Primitive_Integer extends DataSource_Hybrid_Field_
 		$this->max = (int) $value;
 	}
 	
-	public function onUpdateDocument(DataSource_Hybrid_Document $old = NULL, DataSource_Hybrid_Document $new) 
+	public function onUpdateDocument(DataSource_Hybrid_Document $document ) 
 	{
-		$new->set($this->name, (int) $new->get($this->name));
+		$document->set($this->name, (int) $document->get($this->name));
 	}
 	
 	public function onValidateDocument( Validation $validation, DataSource_Hybrid_Document $doc )

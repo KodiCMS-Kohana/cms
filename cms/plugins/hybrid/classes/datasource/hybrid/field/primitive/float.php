@@ -51,9 +51,9 @@ class DataSource_Hybrid_Field_Primitive_Float extends DataSource_Hybrid_Field_Pr
 		$this->max = Num::format((float) $value, $this->after_coma_num);
 	}
 	
-	public function onUpdateDocument(DataSource_Hybrid_Document $old = NULL, DataSource_Hybrid_Document $new)
+	public function onUpdateDocument( DataSource_Hybrid_Document $document )
 	{
-		$new->set($this->name, Num::format($new->get($this->name), $this->after_coma_num));
+		$document->set($this->name, Num::format($document->get($this->name), $this->after_coma_num));
 	}
 	
 	public function onValidateDocument( Validation $validation, DataSource_Hybrid_Document $doc )

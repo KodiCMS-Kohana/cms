@@ -337,30 +337,29 @@ class Datasource_Section {
 	 */	
 	public function update_document( DataSource_Document $doc ) 
 	{
-		$old = $this
-			->get_document($doc->id);
-	
-		if( empty($old) OR ! $doc->loaded() )
+		if( ! $doc->loaded() )
 		{
 			return FALSE;
 		}
 		
+		$old_published = $doc->old_value('published');
+		
 		$doc->update();
 
-		if( $old->published != $doc->published ) 
+		if( $old_published != $doc->published ) 
 		{
 			if( $doc->published === TRUE )
 			{
-				$this->add_to_index(array($old->id));
+				$this->add_to_index(array($doc->id));
 			}
 			else
 			{
-				$this->remove_from_index(array($old->id));
+				$this->remove_from_index(array($doc->id));
 			}
 		} 
-		elseif( $old->published === TRUE )
+		elseif( (bool) $old_published === TRUE )
 		{
-			$this->update_index(array($old->id));
+			$this->update_index(array($doc->id));
 		}
 		
 		$this->clear_cache();
@@ -383,10 +382,7 @@ class Datasource_Section {
 		foreach ($ids as $id)
 		{
 			$document = $this->get_empty_document()->load($id);
-			if($document->loaded())
-			{
-				$document->remove();
-			}
+			$document->remove();
 		}
 
 		$this->update_size();

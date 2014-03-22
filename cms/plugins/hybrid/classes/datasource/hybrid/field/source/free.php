@@ -26,11 +26,6 @@ class DataSource_Hybrid_Field_Source_Free extends DataSource_Hybrid_Field_Source
 		$this->inject_key = URL::title($key, '_');
 	}
 	
-	public function get_type()
-	{
-		return 'VARCHAR(255)';
-	}
-	
 	/**
 	 * @param Model_Widget_Hybrid
 	 * @param array $field
@@ -55,5 +50,10 @@ class DataSource_Hybrid_Field_Source_Free extends DataSource_Hybrid_Field_Source
 		return !empty($related_widget) 
 			? $related_widget 
 			: $row[$fid];
+	}
+	
+	public function get_type()
+	{
+		return 'VARCHAR(255)';
 	}
 }

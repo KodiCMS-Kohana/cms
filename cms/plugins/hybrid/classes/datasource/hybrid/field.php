@@ -330,7 +330,7 @@ abstract class DataSource_Hybrid_Field {
 	 */
 	public function set_old_value( $document )
 	{
-		$document->set($this->name, $document->get_old_value($this->name));
+		$document->set($this->name, $document->old_value($this->name, ''));
 		return $this;
 	}
 
@@ -390,27 +390,19 @@ abstract class DataSource_Hybrid_Field {
 	{
 		$this->validate();
 
+		$values = array(
+			'ds_id' => $this->ds_id, 
+			'name' => $this->name, 
+			'family' => $this->family, 
+			'type' => $this->type, 
+			'header' => $this->header,
+			'from_ds' => $this->from_ds,
+			'props' => serialize($this->_props),
+			'position' => $this->position
+		);
 		$query = DB::insert($this->table)
-			->columns(array(
-				'ds_id', 
-				'name', 
-				'family', 
-				'type', 
-				'header',
-				'from_ds',
-				'props',
-				'position'
-			))
-			->values(array(
-				$this->ds_id, 
-				$this->name, 
-				$this->family,
-				$this->type, 
-				$this->header,
-				$this->from_ds,
-				serialize($this->_props),
-				$this->position,
-			))
+			->columns(array_keys($values))
+			->values(array_values($values))
 			->execute();
 
 		$this->id = $query[0];
@@ -476,18 +468,6 @@ abstract class DataSource_Hybrid_Field {
 		$data = Arr::merge($data, $this->_props);
 
 		return $data;
-	}
-
-	/**
-	 * Используется для получения значения поля из документа и сохранения в БД
-	 * @see DataSource_Hybrid_Record::get_sql()
-	 * 
-	 * @param DataSource_Hybrid_Document $document
-	 * @return array array([field name] => [document value])
-	 */
-	final public function get_sql( DataSource_Hybrid_Document $document )
-	{
-		return array($this->name, $document->get($this->name));
 	}
 	
 	/**
@@ -564,22 +544,7 @@ abstract class DataSource_Hybrid_Field {
 	{
 		return $query->where($this->name, $condition, $value);
 	}
-	
-	/**
-	 * Метод используется в момент вывода данных документа в форме редактирования.
-	 * Применяется в том случае, если в момент вывода данных они должны быть приведены
-	 * к определенному формату
-	 * 
-	 * @see DataSource_Hybrid_Document::convert_values()
-	 * 
-	 * @param string $value
-	 * @return mixed $value
-	 */
-	public function convert_value( $value )
-	{
-		return $value;
-	}
-	
+
 	/**
 	 * Преобразование значения поля списка документов выводимых в Админ панели.
 	 * 
@@ -628,14 +593,14 @@ abstract class DataSource_Hybrid_Field {
 	 * @param DataSource_Hybrid_Document $doc
 	 * @return string
 	 */
-	public function onSetValue( $value, DataSource_Hybrid_Document $doc)
+	public function onSetDocumentValue( $value, DataSource_Hybrid_Document $document )
 	{
-		if( ! $doc->loaded() AND $this->default !== NULL )
+		if( ! $document->loaded() AND $this->default !== NULL )
 		{
 			return $this->default;
 		}
 		
-		return $value;
+		return $value === NULL ? '' : $value;
 	}	
 
 	/**
@@ -652,8 +617,7 @@ abstract class DataSource_Hybrid_Field {
 	 */
 	public function onReadDocumentValue(array $data, DataSource_Hybrid_Document $document)
 	{
-		$document->set($this->name, Arr::get($data, $this->name));
-
+		$document->set($this->name, Arr::get($data, $this->name, ''));
 		return $this;
 	}
 
@@ -668,7 +632,7 @@ abstract class DataSource_Hybrid_Field {
 	 * @param DataSource_Hybrid_Document
 	 * @return \Validation
 	 */
-	public function onValidateDocument( Validation $validation, DataSource_Hybrid_Document $doc )
+	public function onValidateDocument( Validation $validation, DataSource_Hybrid_Document $document )
 	{
 		if($this->isreq === TRUE AND $this->is_required())
 		{
@@ -687,7 +651,7 @@ abstract class DataSource_Hybrid_Field {
 	 * 
 	 * @param DataSource_Hybrid_Document $doc
 	 */
-	public function onCreateDocument(DataSource_Hybrid_Document $doc) 
+	public function onCreateDocument(DataSource_Hybrid_Document $document) 
 	{
 		$doc->set($this->name, $this->default);
 	}
@@ -701,14 +665,14 @@ abstract class DataSource_Hybrid_Field {
 	 * @param DataSource_Hybrid_Document $old
 	 * @param DataSource_Hybrid_Document $new
 	 */
-	public function onUpdateDocument(DataSource_Hybrid_Document $old = NULL, DataSource_Hybrid_Document $new) {}
+	public function onUpdateDocument(DataSource_Hybrid_Document $document) {}
 	
 	/**
 	 * Событие вызываемое в момент удаления документа
 	 * 
 	 * @param DataSource_Hybrid_Document $doc
 	 */
-	public function onRemoveDocument( DataSource_Hybrid_Document $doc) {}
+	public function onRemoveDocument( DataSource_Hybrid_Document $document) {}
 	
 	/**
 	 * Тип поля в БД

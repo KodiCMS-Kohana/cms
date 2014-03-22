@@ -47,16 +47,16 @@ class DataSource_Hybrid_Field_Source_Document extends DataSource_Hybrid_Field_So
 			->execute();
 	}
 	
-	public function onUpdateDocument(DataSource_Hybrid_Document $old = NULL, DataSource_Hybrid_Document $new) 
+	public function onUpdateDocument(DataSource_Hybrid_Document $document) 
 	{
-		if( $new->get($this->name) == -1 ) 
+		if( $document->get($this->name) == -1 ) 
 		{
 			if($this->one_to_one) 
 			{
-				DataSource_Hybrid_Factory::remove_documents($old->get($this->name));
+				DataSource_Hybrid_Factory::remove_documents($document->old_value($this->name));
 			}
 
-			$new->set($this->name, NULL) ;
+			$document->set($this->name, NULL) ;
 			return;
 		}
 	}
@@ -67,16 +67,6 @@ class DataSource_Hybrid_Field_Source_Document extends DataSource_Hybrid_Field_So
 		{
 			DataSource_Hybrid_Factory::remove_documents($doc->get($this->name));
 		}
-	}
-
-	public function convert_value( $value ) 
-	{
-		$header = DataSource_Hybrid_Field_Utils::get_document_header($this->from_ds, $value);
-		
-		return array(
-			'id' => $header ? $value : NULL,
-			'header' => $header
-		);
 	}
 	
 	public function get_type()

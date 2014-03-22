@@ -34,19 +34,19 @@ class DataSource_Hybrid_Field_Source_Array extends DataSource_Hybrid_Field_Sourc
 		parent::remove();
 	}
 	
-	public function onUpdateDocument(DataSource_Hybrid_Document $old = NULL, DataSource_Hybrid_Document $new) 
+	public function onUpdateDocument(DataSource_Hybrid_Document $document) 
 	{
-		$old_docs = $old->get($this->name);
-		$new_docs = $new->get($this->name);
+		$old_docs = $document->old_value($this->name);
+		$new_docs = $document->get($this->name);
 		
-		$o = empty($old_docs) ? array() : explode(',', $old->get($this->name));
-		$n = empty($new_docs) ? array() : explode(',', $new->get($this->name));
+		$o = empty($old_docs) ? array() : explode(',', $old_docs);
+		$n = empty($new_docs) ? array() : explode(',', $new_docs);
 		
 		$diff = array_diff($o, $n);
 		
 		if($this->one_to_many AND !empty($diff)) 
 		{
-			DataSource_Hybrid_Factory::remove_documents($doc->get($diff));
+			DataSource_Hybrid_Factory::remove_documents($diff);
 		}
 	}
 	
@@ -57,18 +57,6 @@ class DataSource_Hybrid_Field_Source_Array extends DataSource_Hybrid_Field_Sourc
 		{
 			DataSource_Hybrid_Factory::remove_documents($doc->get($ids));
 		}
-	}
-	
-	public function convert_value( $value ) 
-	{
-		$ids = !empty($value) ? explode(',', $value) : array();
-
-		return DataSource_Hybrid_Field_Utils::get_document_headers($this->from_ds, $ids);
-	}
-	
-	public function get_type()
-	{
-		return 'VARCHAR(255)';
 	}
 	
 	/**
@@ -116,5 +104,10 @@ class DataSource_Hybrid_Field_Source_Array extends DataSource_Hybrid_Field_Sourc
 		}
 		
 		return parent::fetch_headline_value($value);
+	}
+	
+	public function get_type()
+	{
+		return 'VARCHAR(255)';
 	}
 }
