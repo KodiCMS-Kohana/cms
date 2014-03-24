@@ -35,7 +35,7 @@ class Model_Widget_Hybrid_Tags extends Model_Widget_Tags_Cloud {
 		
 		if($datasource !== NULL)
 		{
-			foreach ($datasource->record()->fields as $field)
+			foreach ($datasource->record()->fields() as $field)
 			{
 				if($field instanceof DataSource_Hybrid_Field_Tags)
 				{
