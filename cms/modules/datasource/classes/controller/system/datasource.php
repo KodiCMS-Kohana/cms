@@ -6,6 +6,10 @@
  */
 class Controller_System_Datasource extends Controller_System_Backend
 {
+	public $allowed_actions = array(
+		'index'
+	);
+			
 	/**
 	 *
 	 * @var DataSource_Section 
@@ -37,6 +41,15 @@ class Controller_System_Datasource extends Controller_System_Backend
 		}
 	
 		$this->_section = Datasource_Data_Manager::load((int) $id);
+		
+		if (
+			$this->request->action() == 'index'
+		AND 
+			! ACL::check( $this->_section->type() . $id  . '.section.view' )
+		)
+		{
+			$this->_deny_access();
+		}
 
 		if(empty($this->_section))
 		{
