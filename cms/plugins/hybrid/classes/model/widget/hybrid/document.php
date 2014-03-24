@@ -162,10 +162,11 @@ class Model_Widget_Hybrid_Document extends Model_Widget_Hybrid {
 		
 		$agent = $this->get_agent();
 		$query = $agent->get_query_props( $this->doc_fields );
+		$fields = $agent->get_fields();
 		
-		if(isset($agent->ds_fields[$this->doc_id_field]))
+		if(isset($fields[$this->doc_id_field]))
 		{
-			$id_field = $agent->ds_fields[$this->doc_id_field]->name;
+			$id_field = $fields[$this->doc_id_field]->name;
 		}
 		else
 		{
@@ -188,8 +189,7 @@ class Model_Widget_Hybrid_Document extends Model_Widget_Hybrid {
 			
 			return $result;
 		}
-		
-		$fields = $agent->get_fields();
+
 		foreach ($result as $key => $value)
 		{
 			if( ! isset($fields[$key])) continue;
