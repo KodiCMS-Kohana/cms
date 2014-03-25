@@ -264,7 +264,6 @@ abstract class DataSource_Hybrid_Field {
 	public function set( array $data )
 	{
 		$data['isreq'] = ! empty($data['isreq']) ? TRUE : FALSE;
-		$data['in_headline'] = ! empty($data['in_headline']) ? TRUE : FALSE;
 
 		foreach ( $data as $key => $value )
 		{
@@ -279,6 +278,13 @@ abstract class DataSource_Hybrid_Field {
 			}
 		}
 
+		return $this;
+	}
+	
+	public function set_in_headline($status = FALSE)
+	{
+		$this->in_headline = (bool) $status;
+		
 		return $this;
 	}
 

@@ -153,7 +153,7 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 				$field = DataSource_Hybrid_Field_Factory::get_field($f->id);
 				$old_field = clone($field);
 
-				$field->set(array('in_headline' => $value));
+				$field->set_in_headline($value);
 
 				DataSource_Hybrid_Field_Factory::update_field($old_field, $field);
 			}
