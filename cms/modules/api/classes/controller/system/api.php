@@ -177,10 +177,6 @@ class Controller_System_API extends Controller_System_Ajax {
 		{
 			$this->json = $e->get_response();
 		}
-		catch (Token_Validation_Exception $e)
-		{
-			$this->json = $e->get_response();
-		}
 		catch (API_Validation_Exception $e)
 		{
 			$this->json = $e->get_response();
