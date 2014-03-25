@@ -41,7 +41,7 @@ abstract class DataSource_Hybrid_Field_Primitive extends DataSource_Hybrid_Field
 			$validation->rule($this->name, 'range', array(':value', $min, $max));
 		}
 		
-		if( $this->regexp !== NULL )
+		if( !empty($this->_props['regexp']) )
 		{
 			if(  strpos( $this->regexp, '::' ) !== FALSE )
 			{

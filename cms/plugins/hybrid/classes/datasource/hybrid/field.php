@@ -630,7 +630,7 @@ abstract class DataSource_Hybrid_Field {
 	 */
 	public function onSetValue( $value, DataSource_Hybrid_Document $doc)
 	{
-		if( ! $doc->loaded() AND $this->default !== NULL )
+		if( ! $doc->loaded() AND ! empty($this->_props['default']) AND empty($value) )
 		{
 			return $this->default;
 		}
