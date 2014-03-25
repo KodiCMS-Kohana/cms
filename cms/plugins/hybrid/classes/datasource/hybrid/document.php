@@ -275,11 +275,10 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 		parent::update();
 		
 		if( ! $this->updated() ) return $this;
-		
+
 		$record = $this->section()->record();
-		$record->initialize_document($this);
 		$queries = $record->get_sql($this);
-	
+
 		foreach($queries as $query)
 		{
 			DB::query(Database::UPDATE, $query)->execute();

@@ -717,10 +717,7 @@ abstract class DataSource_Hybrid_Field {
 	 * 
 	 * @param DataSource_Hybrid_Document $doc
 	 */
-	public function onCreateDocument(DataSource_Hybrid_Document $doc) 
-	{
-		$doc->set($this->name, $this->default);
-	}
+	public function onCreateDocument(DataSource_Hybrid_Document $doc) {}
 	
 	/**
 	 * Событие вызываемое в момент обновления документа, до сохранения данных в БД
