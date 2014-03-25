@@ -5,10 +5,10 @@
 <?php echo Form::open(Request::current()->uri(), array(
 	'class' => 'form-horizontal'
 )); ?>
-	<div class="widget-header spoiler-toggle" data-spoiler=".general-spoiler">
-		<h3><?php echo __( 'Edit field' ); ?></h3>
+	<div class="widget-header">
+		<h3><?php echo __( 'Field meta' ); ?></h3>
 	</div>
-	<div class="widget-content  spoiler general-spoiler" id="filed-type">
+	<div class="widget-content" id="filed-type">
 		<div class="control-group">
 			<label class="control-label" for="name"><?php echo __('Field key'); ?></label>
 			<div class="controls">
@@ -26,18 +26,25 @@
 			</div>
 		</div>
 	</div>
-
-	<?php
-	try
-	{
-		echo View::factory('datasource/hybrid/field/edit/' . $type, array(
-			'field' => $field, 'post_data' => $post_data, 'sections' => $sections
-		));
-	}
-	catch(Exception $e) {} 
-	?>
-
+	
+	<div class="widget-header">
+		<h3><?php echo __( 'Field settings' ); ?></h3>
+	</div>
 	<div class="widget-content ">
+		<?php
+		try
+		{
+			if( ! empty($post_data))
+			{
+				$field->set($post_data);
+			}
+			echo View::factory('datasource/hybrid/field/edit/' . $type, array(
+				'field' => $field, 'sections' => $sections
+			));
+		}
+		catch(Exception $e) {} 
+		?>
+	
 		<?php if($field->is_required()): ?>
 		<div class="control-group">
 			<label class="control-label" for="isreq"><?php echo __('Required'); ?></label>

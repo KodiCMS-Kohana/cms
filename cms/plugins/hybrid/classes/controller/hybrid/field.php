@@ -81,15 +81,14 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 	
 	private function _add($ds)
 	{
+		$data = $this->request->post();
+		
 		try 
 		{
-			$data = $this->request->post();
-			
 			$type = $data['type'];
 			unset($data['type']);
 			
 			$field = DataSource_Hybrid_Field::factory($type, $data);
-	
 			$field_id = DataSource_Hybrid_Field_Factory::create_field($ds->record(), $field);
 		}
 		catch (Validation_Exception $e)
@@ -99,7 +98,7 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 			$this->go_back();
 		}
 		
-		if( ! $field_id)
+		if( ! $field_id )
 		{
 			$this->go_back();
 		}
@@ -159,6 +158,8 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 			Messages::errors($e->errors('validation'));
 			$this->go_back();
 		}
+		
+		Session::instance()->delete('post_data');
 		
 		// save and quit or save and continue editing?
 		if ( $this->request->post('commit') !== NULL )

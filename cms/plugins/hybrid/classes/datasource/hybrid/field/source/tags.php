@@ -1,19 +1,12 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
-class DataSource_Hybrid_Field_Source_Tags extends DataSource_Hybrid_Field {
+class DataSource_Hybrid_Field_Source_Tags extends DataSource_Hybrid_Field_Source {
 	
 	const TABLE_NAME = 'hybrid_tags';
 
 	protected $_props = array(
 		'isreq' => FALSE
 	);
-	
-	public function __construct( array $data )
-	{
-		parent::__construct( $data );
-		
-		$this->family = DataSource_Hybrid_Field::FAMILY_SOURCE;
-	}
 	
 	public function onUpdateDocument(DataSource_Hybrid_Document $old = NULL, DataSource_Hybrid_Document $new) 
 	{

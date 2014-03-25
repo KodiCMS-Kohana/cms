@@ -8,12 +8,6 @@ class DataSource_Hybrid_Field_Source_Document extends DataSource_Hybrid_Field_So
 		'one_to_one' => FALSE
 	);
 	
-	public function __construct( array $data )
-	{
-		parent::__construct( $data );
-		$this->family = DataSource_Hybrid_Field::FAMILY_SOURCE;
-	}
-	
 	public function set( array $data )
 	{
 		$data['one_to_one'] = !empty($data['one_to_one']) ? TRUE : FALSE;

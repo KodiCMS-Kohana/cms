@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
-abstract class DataSource_Hybrid_Field_Source_OneToOne extends DataSource_Hybrid_Field {
+abstract class DataSource_Hybrid_Field_Source_OneToOne extends DataSource_Hybrid_Field_Source {
 	
 	public $from_ds = NULL;
 	

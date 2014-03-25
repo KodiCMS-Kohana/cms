@@ -4,7 +4,7 @@ abstract class DataSource_Hybrid_Field_Primitive extends DataSource_Hybrid_Field
 	
 	protected $_is_sortable = TRUE;
 
-	public function __construct( array $data )
+	public function __construct( array $data = NULL )
 	{
 		parent::__construct( $data );
 		$this->family = DataSource_Hybrid_Field::FAMILY_PRIMITIVE;

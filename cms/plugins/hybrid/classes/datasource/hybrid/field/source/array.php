@@ -7,12 +7,6 @@ class DataSource_Hybrid_Field_Source_Array extends DataSource_Hybrid_Field_Sourc
 		'source' => NULL
 	);
 	
-	public function __construct( array $data )
-	{
-		parent::__construct( $data );
-		$this->family = DataSource_Hybrid_Field::FAMILY_SOURCE;
-	}
-	
 	public function create() 
 	{
 		parent::create();

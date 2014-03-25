@@ -1,5 +1,4 @@
 cms.init.add(['datasources_data_index'], function () {
-	
 	var chbx_change = function() {
 		var length = checkboxes.length;
 
@@ -77,23 +76,4 @@ cms.init.add('datasources_section_edit', function() {
 
 cms.init.add(['hybrid_document_view', 'hybrid_document_create'], function () {
 	$('ul.nav-tabs').tabs();
-});
-
-cms.init.add(['hybrid_field_add'], function () {
-
-	$('#field-type-select').change(function() {
-		var id = $(this).val();
-		var fieldset = $('#field-options fieldset');
-		
-		fieldset
-			.attr('disabled', 'disabled')
-			.hide()
-			.filter('fieldset#f-' + id)
-			.show()
-			.removeAttr('disabled')
-			.end();
-	
-		$('select', fieldset).removeAttr('disabled')
-
-	}).change();
 });

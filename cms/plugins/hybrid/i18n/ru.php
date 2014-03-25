@@ -12,7 +12,7 @@ return array(
 	'Edit field' => 'Редактирование поля',
 	'Field header' => 'Название',
 	'Field type' => 'Тип поля',
-	'Primitive type' => 'Тип примитива',
+	'Field settings' => 'Настройки поля',
 	'Primitive' => 'Примитивное',
 	'File' => 'Файл',
 	'Document' => 'Документ',

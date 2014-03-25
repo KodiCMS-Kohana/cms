@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
-class DataSource_Hybrid_Field_Source_User extends DataSource_Hybrid_Field {
+class DataSource_Hybrid_Field_Source_User extends DataSource_Hybrid_Field_Source {
 	
 	protected $_props = array(
 		'default' => NULL,
@@ -8,13 +8,6 @@ class DataSource_Hybrid_Field_Source_User extends DataSource_Hybrid_Field {
 		'only_current' => FALSE
 	);
 
-	public function __construct( array $data )
-	{
-		parent::__construct( $data );
-		
-		$this->family = DataSource_Hybrid_Field::FAMILY_SOURCE;
-	}
-	
 	public function set( array $data )
 	{
 		$data['only_current'] = !empty($data['only_current']) ? TRUE : FALSE;

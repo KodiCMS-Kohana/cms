@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
-class DataSource_Hybrid_Field_File_File extends DataSource_Hybrid_Field {
+class DataSource_Hybrid_Field_File_File extends DataSource_Hybrid_Field_File {
 
 	/**
 	 *
@@ -20,17 +20,6 @@ class DataSource_Hybrid_Field_File_File extends DataSource_Hybrid_Field {
 	protected $_filepath = NULL;
 	
 	protected $_remove_file = FALSE;
-
-	/**
-	 * 
-	 * @param array $data
-	 */
-	public function __construct(array $data)
-	{
-		parent::__construct($data);
-
-		$this->family = DataSource_Hybrid_Field::FAMILY_FILE;
-	}
 
 	/**
 	 * 

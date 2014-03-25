@@ -9,7 +9,7 @@ class DataSource_Hybrid_Field_Source_Free extends DataSource_Hybrid_Field_Source
 	
 	protected $_widget_types = array();
 	
-	public function __construct( array $data )
+	public function __construct( array $data = NULL )
 	{
 		parent::__construct( $data );
 		$this->family = DataSource_Hybrid_Field::FAMILY_SOURCE;

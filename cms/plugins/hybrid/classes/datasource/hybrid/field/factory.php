@@ -24,11 +24,6 @@ class DataSource_Hybrid_Field_Factory {
 		$field->set_ds($record->ds_id());
 		$field->get_type();
 
-		if( ! self::field_not_exists($field->name, $record->ds_id()) )
-		{
-			return FALSE;
-		}
-
 		if($field->create()) 
 		{
 			self::alter_table_add_field($field);

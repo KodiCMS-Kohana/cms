@@ -130,6 +130,29 @@ abstract class DataSource_Hybrid_Field {
 	{
 		return Config::get('fields')->as_array();
 	}
+	
+	public static function get_empty_fields()
+	{
+		$filed_types = self::types();
+		
+		$fields = array();
+		foreach ($filed_types as $type => $title)
+		{
+			if(is_array($title))
+			{
+				foreach ($title as $type => $title)
+				{
+					$fields[$type] = DataSource_Hybrid_Field::factory($type);
+				}
+			}
+			else
+			{
+				$fields[$type] = DataSource_Hybrid_Field::factory($type);
+			}
+		}
+		
+		return $fields;
+	}
 
 	/**
 	 * Фабрика создания поля. 
@@ -140,7 +163,7 @@ abstract class DataSource_Hybrid_Field {
 	 * @return \DataSource_Hybrid_Field
 	 * @throws Kohana_Exception
 	 */
-	public static function factory($type, array $data)
+	public static function factory($type, array $data = NULL)
 	{
 		$class_name = 'DataSource_Hybrid_Field_' . $type;
 		
@@ -157,9 +180,12 @@ abstract class DataSource_Hybrid_Field {
 	 * 
 	 * @param array $data
 	 */
-	public function __construct( array $data) 
+	public function __construct( array $data = NULL) 
 	{
-		$this->set($data);
+		if( !empty($data) )
+		{
+			$this->set($data);
+		}
 		
 		$this->type = strtolower(substr(get_called_class(), 24));
 		$this->from_ds = (int) $this->from_ds;
@@ -238,7 +264,7 @@ abstract class DataSource_Hybrid_Field {
 	public function set( array $data )
 	{
 		$data['isreq'] = ! empty($data['isreq']) ? TRUE : FALSE;
-		$data['in_headline'] = ! empty($data['in_headline']) ? TRUE : FALSE;		
+		$data['in_headline'] = ! empty($data['in_headline']) ? TRUE : FALSE;
 
 		foreach ( $data as $key => $value )
 		{
@@ -252,8 +278,6 @@ abstract class DataSource_Hybrid_Field {
 				$this->{$key} = $value;
 			}
 		}
-
-		$this->validate();
 
 		return $this;
 	}
