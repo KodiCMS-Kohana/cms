@@ -6,23 +6,23 @@
 	'class' => 'form-horizontal'
 )); ?>
 	<div class="widget-header">
-		<h3><?php echo __( 'Field meta' ); ?></h3>
+		<h3><?php echo __( 'Field description' ); ?></h3>
 	</div>
 	<div class="widget-content" id="filed-type">
-		<div class="control-group">
-			<label class="control-label" for="name"><?php echo __('Field key'); ?></label>
-			<div class="controls">
-				<?php echo Form::hidden( 'name', Arr::get($post_data, 'name', $field->name)); ?>
-				<?php echo Form::hidden( 'in_headline', Arr::get($post_data, 'in_headline', $field->in_headline)); ?>
-				<span class="input-xlarge uneditable-input"><?php echo $field->name; ?></span>
-			</div>
-		</div>
 		<div class="control-group">
 			<label class="control-label" for="header"><?php echo __('Field header'); ?></label>
 			<div class="controls">
 				<?php echo Form::input( 'header', Arr::get($post_data, 'header', $field->header), array(
 					'class' => 'input-xlarge', 'id' => 'header'
 				) ); ?>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="name"><?php echo __('Field key'); ?></label>
+			<div class="controls">
+				<?php echo Form::hidden( 'name', Arr::get($post_data, 'name', $field->name)); ?>
+				<?php echo Form::hidden( 'in_headline', Arr::get($post_data, 'in_headline', $field->in_headline)); ?>
+				<span class="input-xlarge uneditable-input"><?php echo $field->name; ?></span>
 			</div>
 		</div>
 	</div>

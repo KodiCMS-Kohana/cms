@@ -43,9 +43,13 @@
 		<div class="control-group">
 			<label class="control-label" for="name"><?php echo __('Field key'); ?></label>
 			<div class="controls">
-				<?php echo Form::input( 'name', Arr::get($post_data, 'name'), array(
-					'class' => 'input-xlarge slug', 'id' => 'name'
-				) ); ?>
+				<div class="input-prepend">
+					<span class="add-on"><?php echo DataSource_Hybrid_Field::PREFFIX; ?></span>
+						<?php echo Form::input( 'name', Arr::get($post_data, 'name'), array(
+						'class' => 'input-xlarge slug', 'id' => 'name'
+					) ); ?>
+				</div>
+				
 			</div>
 		</div>
 		<div class="control-group">
