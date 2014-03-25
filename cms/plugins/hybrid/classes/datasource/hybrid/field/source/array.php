@@ -34,9 +34,9 @@ class DataSource_Hybrid_Field_Source_Array extends DataSource_Hybrid_Field_Sourc
 		parent::remove();
 	}
 	
-	public function onUpdateDocument(DataSource_Hybrid_Document $document) 
+	public function onUpdateDocument(DataSource_Hybrid_Document $old_document, DataSource_Hybrid_Document $document) 
 	{
-		$old_docs = $document->old_value($this->name);
+		$old_docs = $old_document->get($this->name);
 		$new_docs = $document->get($this->name);
 		
 		$o = empty($old_docs) ? array() : explode(',', $old_docs);

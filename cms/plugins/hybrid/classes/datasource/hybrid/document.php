@@ -9,21 +9,29 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 	protected $_related_fields = array();
 	
 	protected $_related_table_name = NULL;
-	
+
+	public function defaults()
+	{
+		$defaults = parent::defaults();
+		
+		foreach( $this->section()->custom_fields() as $key => $field )
+		{
+			$defaults[$key] = $field->default;
+		}
+		
+		return $defaults;
+	}
+
 	public function __construct( DataSource_Section $section )
 	{
-		parent::__construct($section);
-		$this->_related_table_name = $this->table_name() . '_' . $this->_section->id();
-	}
-	
-	protected function _initialize()
-	{
-		parent::_initialize();
-
-		foreach( $this->section()->record()->fields() as $key => $field )
+		foreach( $section->custom_fields() as $key => $field )
 		{
-			$this->_related_fields[$key] = NULL;
+			$this->_related_fields[$field->name] = NULL;
 		}
+
+		parent::__construct($section);
+
+		$this->_related_table_name = $this->table_name() . '_' . $this->_section->id();
 	}
 	
 	public function related_table_name()
@@ -69,15 +77,6 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 	}
 
 	/**
-	 * 
-	 * @return DataSource_Hybrid_Record
-	 */
-	public function record()
-	{
-		return $this->_record;
-	}
-	
-	/**
 	 * Получение всех значений полей
 	 * 
 	 * @return array array([Field name] => [value])
@@ -99,12 +98,12 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 		$original_array = $array;
 		parent::read_values($array);
 
-		foreach($this->section()->record()->fields() as $field)
+		foreach($this->section()->custom_fields() as $field)
 		{
 			if($field->family == DataSource_Hybrid_Field::FAMILY_FILE )	continue;
-			
+		
 			$field->onReadDocumentValue($original_array, $this);
-			$this->{$field->name} = Arr::get($array, $field->name);
+			$this->{$field->name} = Arr::get($original_array, $field->name);
 
 			unset($this->_temp_values[$field->name]);
 		}
@@ -123,7 +122,7 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 		$original_array = $array;
 		parent::read_files($array);
 
-		foreach($this->section()->record()->fields() as $key => $field)
+		foreach($this->section()->custom_fields() as $key => $field)
 		{
 			if($field->family != DataSource_Hybrid_Field::FAMILY_FILE) continue;
 
@@ -157,7 +156,7 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 	 */
 	public function set_field_value($field, $value)
 	{
-		$fields = $this->section()->record()->fields();
+		$fields = $this->section()->custom_fields();
 
 		$value = isset($fields[$field]) 
 			? $fields[$field]->onSetDocumentValue( $value, $this )
@@ -244,7 +243,7 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 		
 		if( ! $this->created() ) return NULL;
 		
-		foreach($this->section()->record()->fields() as $field)
+		foreach($this->section()->custom_fields() as $field)
 		{
 			$field->onCreateDocument( $this );
 		}
@@ -284,9 +283,11 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 		
 		if( ! $this->updated() ) return $this;
 
-		foreach($this->section()->record()->fields() as $field)
+		$old_docuemnt = $this->section()->load($this->_id);
+		
+		foreach($this->section()->custom_fields() as $field)
 		{
-			$field->onUpdateDocument( $this );
+			$field->onUpdateDocument( $old_docuemnt, $this );
 		}
 		
 		DB::update($this->related_table_name())
@@ -309,7 +310,7 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 	{
 		if( ! $this->loaded() ) return NULL;
 		
-		foreach($this->section()->record()->fields() as $field)
+		foreach($this->section()->custom_fields() as $field)
 		{
 			$field->onRemoveDocument( $this );
 		}
@@ -339,7 +340,7 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 	 */
 	public function validate()
 	{
-		$values = Arr::merge($this->values(), $this->_temp_values);
+		$values = Arr::merge($this->_temp_values, $this->values());
 
 		$validation = Validation::factory( $values )
 			->bind(':temp_values', $this->_temp_values)
@@ -356,6 +357,9 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 		}
 	
 		$this->_extra_validate($validation);
+		
+		echo debug::vars($this);
+		exit();
 
 		if( ! $validation->check() )
 		{
@@ -367,7 +371,7 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 	
 	protected function _extra_validate( Validation $validation)
 	{
-		foreach ($this->section()->record()->fields() as $name => $field)
+		foreach ($this->section()->custom_fields() as $name => $field)
 		{
 			$field->onValidateDocument($validation, $this);
 		}

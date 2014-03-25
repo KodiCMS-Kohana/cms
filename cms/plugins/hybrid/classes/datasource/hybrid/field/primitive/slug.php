@@ -19,7 +19,7 @@ class DataSource_Hybrid_Field_Primitive_Slug extends DataSource_Hybrid_Field_Pri
 		return parent::set( $data );
 	}
 	
-	public function onUpdateDocument(DataSource_Hybrid_Document $document) 
+	public function onUpdateDocument(DataSource_Hybrid_Document $old_document, DataSource_Hybrid_Document $document) 
 	{
 		$document->set($this->name, URL::title($document->get($this->name)));
 	}

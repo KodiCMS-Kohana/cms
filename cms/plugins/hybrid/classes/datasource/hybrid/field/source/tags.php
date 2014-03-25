@@ -15,9 +15,9 @@ class DataSource_Hybrid_Field_Source_Tags extends DataSource_Hybrid_Field {
 		$this->family = DataSource_Hybrid_Field::FAMILY_SOURCE;
 	}
 	
-	public function onUpdateDocument(DataSource_Hybrid_Document $document) 
+	public function onUpdateDocument(DataSource_Hybrid_Document $old_document, DataSource_Hybrid_Document $document) 
 	{
-		$old_tags = $document->old_value($this->name);
+		$old_tags = $old_document->get($this->name);
 		$new_tags = $document->get($this->name);
 		
 		$o = empty($old_tags) ? array() : explode(',', $old_tags);

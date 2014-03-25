@@ -328,9 +328,9 @@ abstract class DataSource_Hybrid_Field {
 	 * 
 	 * @param DataSource_Hybrid_Document $document
 	 */
-	public function set_old_value( $document )
+	public function set_old_value( DataSource_Hybrid_Document $old_document, DataSource_Hybrid_Document $document )
 	{
-		$document->set($this->name, $document->old_value($this->name, ''));
+		$document->set($this->name, $old_document->get($this->name, ''));
 		return $this;
 	}
 
@@ -647,7 +647,6 @@ abstract class DataSource_Hybrid_Field {
 	 * Событие вызываемое в момент создания документа, до сохранения данных в БД
 	 * после валидации
 	 * 
-	 * @see DataSource_Hybrid_Record::initialize_document()
 	 * 
 	 * @param DataSource_Hybrid_Document $doc
 	 */
@@ -660,12 +659,11 @@ abstract class DataSource_Hybrid_Field {
 	 * Событие вызываемое в момент обновления документа, до сохранения данных в БД
 	 * после валидации
 	 * 
-	 * @see DataSource_Hybrid_Record::document_changed()
 	 * 
-	 * @param DataSource_Hybrid_Document $old
-	 * @param DataSource_Hybrid_Document $new
+	 * @param DataSource_Hybrid_Document $old_document
+	 * @param DataSource_Hybrid_Document $new_document
 	 */
-	public function onUpdateDocument(DataSource_Hybrid_Document $document) {}
+	public function onUpdateDocument(DataSource_Hybrid_Document $old_document, DataSource_Hybrid_Document $new_document) {}
 	
 	/**
 	 * Событие вызываемое в момент удаления документа

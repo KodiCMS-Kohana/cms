@@ -28,7 +28,7 @@ class DataSource_Hybrid_Field_Primitive_Text extends DataSource_Hybrid_Field_Pri
 		}
 	}
 	
-	public function onUpdateDocument(DataSource_Hybrid_Document $document) 
+	public function onUpdateDocument(DataSource_Hybrid_Document $old_document, DataSource_Hybrid_Document $document) 
 	{
 		if( $this->allow_html === FALSE )
 		{

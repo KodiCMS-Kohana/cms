@@ -89,7 +89,7 @@ class DataSource_Hybrid_Field_File_Image extends DataSource_Hybrid_Field_File_Fi
 	 * @param DataSource_Hybrid_Document $new
 	 * @return boolean
 	 */
-	public function onUpdateDocument(DataSource_Hybrid_Document $document )
+	public function onUpdateDocument(DataSource_Hybrid_Document $old_document, DataSource_Hybrid_Document $document )
 	{
 		$url = $document->get($this->name . '_url');
 		
@@ -103,7 +103,7 @@ class DataSource_Hybrid_Field_File_Image extends DataSource_Hybrid_Field_File_Fi
 				{
 					$this->_filepath = $this->folder() . $filename;
 					
-					$this->remove_file($document->old_value($this->name));
+					$this->remove_file($old_document->get($this->name));
 					$document->set($this->name, $this->folder . $filename);
 				}
 				else
@@ -115,7 +115,7 @@ class DataSource_Hybrid_Field_File_Image extends DataSource_Hybrid_Field_File_Fi
 		}
 		else
 		{
-			$status = parent::onUpdateDocument($document);
+			$status = parent::onUpdateDocument($old_document, $document);
 		}
 		
 		if($status !== TRUE ) return $status;

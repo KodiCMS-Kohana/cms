@@ -47,13 +47,13 @@ class DataSource_Hybrid_Field_Source_Document extends DataSource_Hybrid_Field_So
 			->execute();
 	}
 	
-	public function onUpdateDocument(DataSource_Hybrid_Document $document) 
+	public function onUpdateDocument(DataSource_Hybrid_Document $old_document, DataSource_Hybrid_Document $document) 
 	{
 		if( $document->get($this->name) == -1 ) 
 		{
 			if($this->one_to_one) 
 			{
-				DataSource_Hybrid_Factory::remove_documents($document->old_value($this->name));
+				DataSource_Hybrid_Factory::remove_documents($old_document->get($this->name));
 			}
 
 			$document->set($this->name, NULL) ;

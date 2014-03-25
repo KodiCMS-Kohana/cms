@@ -12,29 +12,26 @@ class DataSource_Hybrid_Field_Factory {
 	 * 
 	 * @see Controller_Hybrid_Field::_add()
 	 * 
-	 * @param DataSource_Hybrid_Record $record
+	 * @param DataSource_Section_Hybrid $section
 	 * @param DataSource_Hybrid_Field $field
 	 * @return boolean
 	 */
 	public static function create_field( 
-			DataSource_Hybrid_Record $record, DataSource_Hybrid_Field $field) 
+	DataSource_Section_Hybrid $section, DataSource_Hybrid_Field $field) 
 	{
 		$field->name = self::get_full_key($field->name);
 		
-		$field->set_ds($record->ds_id());
+		$field->set_ds($section->id());
 		$field->get_type();
 
-		if( ! self::field_not_exists($field->name, $record->ds_id()) )
+		if( ! self::field_not_exists($field->name, $section->id()) )
 		{
 			return FALSE;
 		}
 
 		if($field->create()) 
 		{
-			self::alter_table_add_field($field);
-
-			$record->fields[$field->name] = $field;
-			
+			self::alter_table_add_field($field);			
 			return $field->id;
 		}
 
@@ -72,10 +69,10 @@ class DataSource_Hybrid_Field_Factory {
 	/**
 	 * Удаление полей по их ключу из раздела в из таблицы полей
 	 * 
-	 * @param DataSource_Hybrid_Record $record
+	 * @param DataSource_Section_Hybrid $section
 	 * @param array $keys
 	 */
-	public static function remove_fields( DataSource_Hybrid_Record $record, $keys) 
+	public static function remove_fields(DataSource_Section_Hybrid $section, $keys) 
 	{
 		if($keys === NULL)
 		{
@@ -87,14 +84,14 @@ class DataSource_Hybrid_Field_Factory {
 			$keys = array($keys);
 		}
 		
-		$fields = $record->fields();
+		$fields = $section->custom_fields();
 
 		foreach($keys as $key)
 		{
 			if(
 				isset($fields[$key]) 
 			AND
-				$fields[$key]->ds_id == $record->ds_id()
+				$fields[$key]->ds_id == $section->id()
 			) 
 			{
 				$fields[$key]->remove();
@@ -160,8 +157,6 @@ class DataSource_Hybrid_Field_Factory {
 	 * Загрузка полей раздела
 	 * 
 	 * @staticvar $cached_fields Кеш загруженных полей разделов
-	 * 
-	 * @see DataSource_Hybrid_Record::load()
 	 * 
 	 * @param integer $ds_id Идентификатор раздела
 	 * @param array $type Ключ типа поля

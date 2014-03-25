@@ -66,7 +66,7 @@ class DataSource_Hybrid_Field_Primitive_Select extends DataSource_Hybrid_Field_P
 		return parent::onReadDocumentValue($data, $document);
 	}
 
-	public function onUpdateDocument(DataSource_Hybrid_Document $document) 
+	public function onUpdateDocument(DataSource_Hybrid_Document $old_document, DataSource_Hybrid_Document $document) 
 	{
 		$value = $document->get($this->name);
 

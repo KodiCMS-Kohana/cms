@@ -14,7 +14,7 @@ class DataSource_Hybrid_Field_Primitive_HTML extends DataSource_Hybrid_Field_Pri
 		return parent::set( $data );
 	}
 	
-	public function onUpdateDocument( DataSource_Hybrid_Document $document ) 
+	public function onUpdateDocument( DataSource_Hybrid_Document $old_document, DataSource_Hybrid_Document $document ) 
 	{
 		if( $this->filter_html === TRUE )
 		{

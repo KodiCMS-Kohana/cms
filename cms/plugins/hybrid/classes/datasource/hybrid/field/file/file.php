@@ -254,7 +254,7 @@ class DataSource_Hybrid_Field_File_File extends DataSource_Hybrid_Field {
 	 * @param DataSource_Hybrid_Document $doc
 	 * @return boolean
 	 */
-	public function onUpdateDocument( DataSource_Hybrid_Document $document )
+	public function onUpdateDocument( DataSource_Hybrid_Document $old_document, DataSource_Hybrid_Document $document )
 	{
 		$file = $document->get($this->name);
 		$this->_remove_file = (bool) $document->get($this->name . '_remove');
@@ -262,7 +262,7 @@ class DataSource_Hybrid_Field_File_File extends DataSource_Hybrid_Field {
 		// Если установлена галочка удалить файл
 		if($this->_remove_file === TRUE)
 		{
-			$this->onRemoveDocument( $old );
+			$this->onRemoveDocument( $old_document );
 			$document->set($this->name, '');
 			return FALSE;
 		}
@@ -273,7 +273,7 @@ class DataSource_Hybrid_Field_File_File extends DataSource_Hybrid_Field {
 			$file = $this->_upload_file($file);
 		}
 		// Если есть старое значение 
-		elseif ( $file == $document->old_value($this->name OR empty($file) ))
+		elseif ( $file == $old_document->get($this->name) OR empty($file) )
 		{
 			return FALSE;
 		}
@@ -288,11 +288,11 @@ class DataSource_Hybrid_Field_File_File extends DataSource_Hybrid_Field {
 
 		if (empty($this->_filepath))
 		{
-			$this->set_old_value($document);
+			$this->set_old_value($old_document, $document);
 			return FALSE;
 		}
 
-		$this->remove_file($document->old_value($this->name));
+		$this->remove_file($old_document->get($this->name));
 
 		$document->set($this->name, $this->folder . $filename);
 
@@ -311,7 +311,7 @@ class DataSource_Hybrid_Field_File_File extends DataSource_Hybrid_Field {
 	
 	public function remove_file($file)
 	{
-		if ( ! empty($file) AND file_exists(PUBLICPATH . $file))
+		if ( ! empty($file) AND file_exists(PUBLICPATH . $file) AND !is_dir(PUBLICPATH . $file))
 		{
 			@unlink(PUBLICPATH . $file);
 		}

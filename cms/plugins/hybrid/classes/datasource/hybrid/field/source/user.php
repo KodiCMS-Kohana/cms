@@ -27,7 +27,7 @@ class DataSource_Hybrid_Field_Source_User extends DataSource_Hybrid_Field {
 		$doc->set($this->name, AuthUser::getId());
 	}
 	
-	public function onUpdateDocument(DataSource_Hybrid_Document $document)
+	public function onUpdateDocument(DataSource_Hybrid_Document $old_document, DataSource_Hybrid_Document $document)
 	{
 		if($this->only_current === TRUE)
 		{
@@ -36,7 +36,7 @@ class DataSource_Hybrid_Field_Source_User extends DataSource_Hybrid_Field {
 		
 		if( ! $this->is_exists( $document->get($this->name) ))
 		{
-			$this->set_old_value($document);
+			$this->set_old_value($old_document, $document);
 		}
 	}
 	

@@ -13,8 +13,6 @@ class Controller_Api_Datasource_Hybrid_Document extends Controller_System_API
 			throw HTTP_API_Exception::factory(API::ERROR_UNKNOWN, 'Datasource section not found');
 		}
 		
-		echo debug::vars($this->params());
-		
 		try
 		{
 			$doc = $ds->get_empty_document();

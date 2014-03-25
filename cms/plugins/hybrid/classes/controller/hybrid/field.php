@@ -46,7 +46,7 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 		
 		$this->template->content = View::factory('datasource/hybrid/field/template', array(
 			'ds' => $ds,
-			'fields' => $ds->record()->fields
+			'fields' => $ds->custom_fields()
 		));
 	}
 
@@ -90,7 +90,7 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 			
 			$field = DataSource_Hybrid_Field::factory($type, $data);
 	
-			$field_id = DataSource_Hybrid_Field_Factory::create_field($ds->record(), $field);
+			$field_id = DataSource_Hybrid_Field_Factory::create_field($ds, $field);
 		}
 		catch (Validation_Exception $e)
 		{

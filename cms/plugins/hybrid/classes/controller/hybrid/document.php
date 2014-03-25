@@ -86,7 +86,7 @@ class Controller_Hybrid_Document extends Controller_System_Datasource
 		$this->breadcrumbs->add($this->template->title);
 		
 		$this->template->content = View::factory('datasource/hybrid/document/edit')->set( array(
-			'fields' => $this->section()->record()->fields(),
+			'fields' => $this->section()->custom_fields(),
 			'ds' => $this->section(),
 			'doc' => $doc,
 			'action' => $this->request->action()

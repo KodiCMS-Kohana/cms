@@ -32,9 +32,7 @@
 		
 	</div>
 	
-	<?php echo View::factory('datasource/hybrid/blocks/fields', array(
-		'record' => $ds->record(), 'ds' => $ds
-	)); ?>
+	<?php echo View::factory('datasource/hybrid/blocks/fields', array('ds' => $ds)); ?>
 	
 	<?php echo View::factory('snippet/block', array(
 		'header' => __('Document template'),

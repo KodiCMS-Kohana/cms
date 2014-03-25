@@ -46,32 +46,17 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 	 * @var string 
 	 */
 	public $template = NULL;
+	
+	
+	
+	protected $_custom_fields = array();
 
-	/**
-	 * 
-	 * @var DataSource_Hybrid_Record
-	 */
-	protected $_record = NULL;
 	
 	/**
 	 *
 	 * @var DataSource_Hybrid_Agent 
 	 */
 	protected $_agent = NULL;
-	
-	/**
-	 * 
-	 * @return DataSource_Hybrid_Record
-	 */
-	public function record() 
-	{
-		if($this->_record === NULL)
-		{
-			$this->_record = new DataSource_Hybrid_Record($this);
-		}
-
-		return $this->_record;
-	}
 	
 	/**
 	 * 
@@ -111,7 +96,7 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 	{
 		$fields = array();
 
-		foreach( $this->record()->fields() as $field)
+		foreach( $this->custom_fields() as $field)
 		{
 			$fields[$field->id] = $field->header;
 		}
@@ -119,6 +104,11 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 		return $fields;
 	}
 	
+	
+	public function custom_fields()
+	{
+		return $this->_custom_fields;
+	}
 	/**
 	 * Сохранение раздела
 	 * 
@@ -146,7 +136,7 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 		if(is_array($values))
 		{
 			$headline_fields = Arr::get($values, 'in_headline', array());
-			foreach($this->record()->fields() as $f)
+			foreach($this->custom_fields() as $f)
 			{
 				$value = Arr::get($headline_fields, $f->id, 0);
 
@@ -169,8 +159,10 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 	 */
 	public function remove() 
 	{
-		$this->record()->destroy();
 		DataSource_Hybrid_Factory::remove($this->id());
+		DataSource_Hybrid_Field_Factory::remove_fields(
+				$this, array_keys($this->custom_fields));
+
 		return parent::remove();
 	}
 	
@@ -264,7 +256,7 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 
 		unset(
 			$vars['_agent'], 
-			$vars['_record'],
+			$vars['_custom_fields'],
 			$vars['indexed_doc_query']
 		);
 		
@@ -275,7 +267,14 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 	{
 		parent::_initialize();
 		
-		$this->_record = NULL;
+		
+		$fields = DataSource_Hybrid_Field_Factory::get_section_fields($this->id());
+		
+		foreach( $fields as $key => $field )
+		{
+			$this->_custom_fields[$field->name] = $field;
+		}
+		
 		$this->_agent = NULL;
 		$this->indexed_doc_query = NULL;
 	}

@@ -55,7 +55,7 @@
 				<td><?php echo Form::checkbox('', 1, TRUE, array('disabled' => 'disabled')); ?></td>
 			</tr>
 
-			<?php foreach($record->fields() as $f): ?>
+			<?php foreach($ds->custom_fields() as $f): ?>
 			<tr id="field-<?php echo $f->name; ?>">
 				<?php if(Acl::check($ds->type().$ds->id().'.field.remove')): ?>
 				<td class="f">

@@ -137,9 +137,7 @@ class Datasource_Section {
 	{
 		$this->_type = $type;
 
-		$this->_initialize();
-		
-		
+		$this->_initialize();		
 		
 		if( ! class_exists( $this->_document_class_name ))
 		{
