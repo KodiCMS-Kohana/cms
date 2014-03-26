@@ -5,6 +5,24 @@ $(function() {
 })
 <?php endif; ?>
 var API_FORM_ACTION = '/datasource/hybrid-document.<?php if($doc->loaded()): ?>update<?php else: ?>create<?php endif; ?>'; 
+
+$(function() {
+	$('body').on('post:api:datasource:hybrid-document.create ', update_documents);
+	$('body').on('put:api:datasource:hybrid-document.create ', update_documents);
+});
+
+function update_documents(e, response) {
+	var target_field = cms.popup_target.data('target');
+	if( target_field && response.id) {
+		var current_val = $('#'+target_field).select2("val");
+		if(_.isArray(current_val))
+			current_val.push(response.id);
+		else
+			current_val = response.id;
+
+		$('#'+target_field).select2("val", current_val)
+	}
+}
 </script>
 
 <div class="outline">

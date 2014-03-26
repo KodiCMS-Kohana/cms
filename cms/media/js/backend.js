@@ -3,6 +3,7 @@ var cms = {
 	views: {},
 	collections: {},
 	routes: {},
+	popup_target: null,
 	
 	// Error
 	error: function (msg, e) {
@@ -590,7 +591,9 @@ cms.ui.add('flags', function() {
 		closeEffect	: 'none',
 		beforeLoad: function() {
 			this.href = updateQueryStringParameter(this.href, 'type', 'iframe');
-			this.title = $(this.element).html();
+			this.title = this.element.html();
+			
+			cms.popup_target = this.element;
 		},
 		helpers : {
     		title : {
