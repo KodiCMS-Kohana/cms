@@ -11,7 +11,7 @@ class KodiCMS_Part
 	 *
 	 * @var array 
 	 */
-	protected static $_parts = NULL;
+	protected static $_parts = array();
 	
 	/**
 	 * 
@@ -22,7 +22,7 @@ class KodiCMS_Part
 	 */
 	public static function exists( Model_Page_Front $page, $part, $inherit = FALSE)
 	{
-		if( ! array_key_exists(self::$_parts, $page->id()) )
+		if( ! array_key_exists($page->id(), self::$_parts) )
 		{
 			self::$_parts[$page->id()] = self::_load_parts($page->id());
 		}
@@ -86,7 +86,7 @@ class KodiCMS_Part
 		
 		$page_id = ($page instanceof Model_Page_Front) ? $page->id() : (int) $page;
 
-		if( ! array_key_exists(self::$_parts, $page_id) )
+		if( ! array_key_exists($page_id, self::$_parts) )
 		{
 			self::$_parts[$page_id] = self::_load_parts($page_id);
 		}
