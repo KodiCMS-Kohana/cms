@@ -150,8 +150,6 @@ $(function() {
 			if(this.model.get('is_indexable') == 1) {
 				this.$el.find('.is_indexable').check();
 			}
-			
-			this.changeFilter();
 
 			return this;
 		},
