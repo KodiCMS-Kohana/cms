@@ -108,11 +108,13 @@ jQuery(function(){
 	cms.filters
 		.add( 'ace', cms.plugins.ace.switchOn_handler, cms.plugins.ace.switchOff_handler, cms.plugins.ace.exec_handler );
 
-	cms.filters.switchOn( 'highlight_content', 'ace' );
+	if($('#highlight_content').length > 0)
+		cms.filters.switchOn( 'highlight_content', 'ace' );
 });
 
 cms.init.add(['layout_edit', 'snippet_edit', 'layout_add', 'snippet_add'], function(){
-	jQuery(function(){
-		cms.filters.switchOn( 'textarea_content', 'ace', $('#textarea_content').data());
+	$(function(){
+		if($('#textarea_content').length > 0)
+			cms.filters.switchOn( 'textarea_content', 'ace', $('#textarea_content').data());
 	});
 })
