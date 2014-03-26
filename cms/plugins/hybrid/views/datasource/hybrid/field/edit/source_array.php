@@ -1,7 +1,7 @@
 <div class="control-group">
 	<label class="control-label" for="array_type"><?php echo __( 'Datasource' ); ?></label>
 	<div class="controls">
-		<?php echo Form::select( 'type', Datasource_Data_Manager::types(), $field->type, array('disabled')); ?>
+		<?php echo Form::select( 'ds_type', Datasource_Data_Manager::types(), $field->type, array('disabled')); ?>
 	</div>
 </div>
 <?php foreach ( Datasource_Data_Manager::types() as $key => $title ): ?>
