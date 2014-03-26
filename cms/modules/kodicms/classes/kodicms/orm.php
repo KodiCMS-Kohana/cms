@@ -278,7 +278,7 @@ class KodiCMS_ORM extends Kohana_ORM {
 	{
 		if ( ! $this->before_delete()) return FALSE;
 		
-		$id = $this->id;
+		$id = $this->pk();
 
 		parent::delete();
 
