@@ -39,8 +39,10 @@ $(function() {
 		changeFilter: function(filter_id) {
 			if(this.get('filter_id') != filter_id) 
 				this.save({filter_id: filter_id});
-
-			cms.filters.switchOn( 'pageEditPartContent-' + this.get('name'), filter_id );
+		},
+		
+		destroyFilter: function() {
+			cms.filters.switchOff( 'pageEditPartContent-' + this.get('name') );
 		},
 
 		clear: function() {
@@ -114,7 +116,9 @@ $(function() {
 		},
 		
 		changeFilter: function() {
-			this.model.changeFilter(this.$el.find('.item-filter').val());
+			var filter_id = this.$el.find('.item-filter').val();
+			this.model.changeFilter(filter_id);
+			cms.filters.switchOn( 'pageEditPartContent-' + this.model.get('name'), filter_id );
 		},
 		
 		toggleOptions: function(e) {
@@ -177,16 +181,15 @@ $(function() {
 					$self.render();
 				}
 			});
-			
-			this.collection.on('add', this.render, this);
 		},
 
 		render: function() {
 			this.clear();
-
 			this.collection.each(function(part) {
 				this.addPart(part);
 			}, this);
+			
+			this.collection.on('add', this.render, this);
 		},
 		
 		clear: function() {
@@ -235,6 +238,9 @@ $(function() {
 			this.model.save();
 			
 			this.model.on("sync", function() {
+				this.collection.each(function(part) {
+					part.destroyFilter();
+				}, this);
 				this.collection.add(this.model);
 				this.model.off('sync');
 			}, this);

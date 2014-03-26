@@ -119,15 +119,10 @@ var cms = {
 				.animate({top:0}, 1000);
 		}
 	},
-	
-	// Filters
 	filters: {
-		// Filters array
 		filters: [],
 		switchedOn: {},
 		editors: {},
-		
-		// Add new filter
 		add: function (name, switchOn_handler, switchOff_handler, exec_handler) {
 			if (switchOn_handler == undefined || switchOff_handler == undefined) {
 				cms.error('System try to add filter without required callbacks.', name, switchOn_handler, switchOff_handler);
@@ -136,29 +131,34 @@ var cms = {
 			this.filters.push([ name, switchOn_handler, switchOff_handler, exec_handler ]);
 		},
 		switchOn: function (textarea_id, filter, params) {
-			jQuery('#' + textarea_id).css('display', 'block');
+			$('#' + textarea_id).css('display', 'block');
 			if (this.filters.length > 0) {
-				this.switchOff(textarea_id);
+				var old_filter = this.get(textarea_id);
+				var new_filter = null;
+				
 				for (var i = 0; i < this.filters.length; i++) {
 					if (this.filters[i][0] == filter) {
-						try {
-							this.editors[textarea_id] = this.filters[i][1](textarea_id, params);
-							this.switchedOn[textarea_id] = this.filters[i];
-							$('#' + textarea_id).trigger('filter:switch:on', this.editors[textarea_id]);
-						}
-						catch (e) {}
-
+						new_filter = this.filters[i];
 						break;
 					}
 				}
+				if(old_filter !== new_filter) {
+					this.switchOff(textarea_id);
+				}
+				try {
+					this.switchedOn[textarea_id] = new_filter;
+					this.editors[textarea_id] = new_filter[1](textarea_id, params);
+					$('#' + textarea_id).trigger('filter:switch:on', this.editors[textarea_id]);
+				}
+				catch (e) {}
 			}
 		},
 		switchOff: function (textarea_id) {
 			var filter = this.get(textarea_id);
-			if( ! this.switchedOn[textarea_id] ) return;
 			try {
-				if ( filter && typeof(filter[2]) == 'function' )
+				if ( filter && typeof(filter[2]) == 'function' ) {
 					filter[2](this.editors[textarea_id], textarea_id);
+				}
 				this.switchedOn[textarea_id] = null;
 				$('#' + textarea_id).trigger('filter:switch:off');
 			}
@@ -807,7 +807,7 @@ var Api = {
 }
 
 // Run
-jQuery(document).ready(function() {
+$(document).ready(function() {
     cms.messages.init();
     cms.init.run();
     cms.ui.init();
