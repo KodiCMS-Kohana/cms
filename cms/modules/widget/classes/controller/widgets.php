@@ -194,7 +194,7 @@ class Controller_Widgets extends Controller_System_Backend {
 
 		$this->template->content = View::factory( 'widgets/edit', array(
 			'widget' => $widget,
-			'templates' => $templates,
+			'templates' => Model_File_Snippet::html_select(),
 			'content' =>  $widget->fetch_backend_content(),
 			'roles' => $roles,
 		) );

@@ -7,12 +7,13 @@
 class Datasource_Data_Manager {
 	
 	/**
-	 *
+	 * 
 	 * @var integer
 	 */
 	public static $first_section = NULL;
 	
 	/**
+	 * Список всех типов разделв
 	 * 
 	 * @return array
 	 */
@@ -22,22 +23,26 @@ class Datasource_Data_Manager {
 	}
 	
 	/**
+	 * Загрузить дерево всех разделов
 	 * 
-	 * @return array
+	 * @return array array([Type][ID] => array('name' => ..., 'description' => ....))
 	 */
 	public static function get_tree( $type = NULL )
 	{
 		$result = array();
 		
-		$query = self::get_all($type);
+		$sections = self::get_all($type);
 
-		foreach ( $query as $r )
+		foreach ( $sections as $section )
 		{
-			if( self::$first_section === NULL ) self::$first_section = $r['id'];
+			if( self::$first_section === NULL )
+			{
+				self::$first_section = $section['id'];
+			}
 
-			$result[$r['type']][$r['id']] = array(
-				'name' => $r['name'], 
-				'description' => $r['description']
+			$result[$section['type']][$section['id']] = array(
+				'name' => $section['name'], 
+				'description' => $section['description']
 			);
 		}
 		
@@ -45,11 +50,12 @@ class Datasource_Data_Manager {
 	}
 	
 	/**
-	 * @param	string	$type	Datasource type
+	 * Получить список всех разделов
 	 * 
-	 * @return	array
+	 * @param	string	$type Фильтрация по типу разделов
+	 * @return	array array([ID] => array('id' => ..., 'name' => ...., 'type' => ...., 'description' => ....), ...)
 	 */
-	public static function get_all($type = NULL) 
+	public static function get_all( $type = NULL) 
 	{
 		if(is_array($type) AND empty($type)) return array();
 
@@ -67,11 +73,23 @@ class Datasource_Data_Manager {
 			->execute()
 			->as_array('id');
 	}
+
+
+	/**
+	 * Загрузка разедла по ID
+	 * 
+	 * @param integer $id
+	 * @return null|Datasource_Section
+	 */
+	public static function load( $id ) 
+	{
+		return Datasource_Section::load($id);
+	}
 	
 	/**
+	 * Проверка раздела на существование по ID
 	 * 
 	 * @param integer $ds_id	Datasource ID
-	 * 
 	 * @return boolean
 	 */
 	public static function exists($ds_id) 
@@ -97,17 +115,7 @@ class Datasource_Data_Manager {
 			->limit(1)
 			->execute()
 			->current();
-	}
-
-	/**
-	 * @param indeger $ds_id Datasource ID
-	 * @return Datasource_Section|DataSource_Data_Hybrid_Section
-	 */
-	public static function load($ds_id) 
-	{
-		return Datasource_Section::load($ds_id);
-	}
-	
+	}	
 	
 	/**
 	 * 
