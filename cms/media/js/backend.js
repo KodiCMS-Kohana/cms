@@ -1,7 +1,3 @@
-// Skip errors when no access to console
-var console = console || {log:function () {}};
-
-// Main object
 var cms = {
 	models: {},
 	views: {},
@@ -16,7 +12,6 @@ var cms = {
 		
 	message: function(msg, type) {
 		if(!type) type = 'success';
-		
 		window.top.$.jGrowl(decodeURI(msg), {theme: 'alert alert-' + type});
 	},
 	error_field: function(name, message) {
@@ -46,9 +41,7 @@ var cms = {
 	// Convert slug
 	convert_dict: {
 		'ą':'a', 'ä':'a', 'č':'c', 'ę':'e', 'ė':'e', 'i':'i', 'į':'i', 'š':'s', 'ū':'u', 'ų':'u', 'ü':'u', 'ž':'z', 'ö':'o',
-		// Russian + Ukrainian (Suurce: http://transliteration.ru/iso_for_url/)
 		'а':'a','б':'b','в':'v','г':'g','д':'d','е':'e','ё':'yo','ж':'zh','з':'z','и':'i','й':'j','к':'k','л':'l','м':'m','н':'n','о':'o','п':'p','р':'r','с':'s','т':'t','у':'u','ф':'f','х':'h','ц':'c','ч':'ch','ш':'sh','щ':'shh','ы':'y','э':'e','ю':'yu','я':'ya','ь':'','ъ':'','і':'i','ї':'yi','А':'A','Б':'B','В':'V','Г':'G','Д':'D','Е':'E','Ё':'YO','Ж':'ZH','З':'Z','И':'I','Й':'J','К':'K','Л':'L','М':'M','Н':'N','О':'O','П':'P','Р':'R','С':'S','Т':'T','У':'U','Ф':'F','Х':'H','Ц':'C','Ч':'CH','Ш':'SH','Щ':'SHH','Ы':'Y','Э':'E','Ю':'YU','Я':'YA','І':'I','Ї':'YI','Є':'E','Ь':'','Ъ':'',
-		// Lithuanian
 		'Ą':'A','Č':'C','Ę':'E','Ė':'E','Į':'I','Š':'S','Ū':'U','Ų':'U','Ž':'Z','ą':'a','č':'c','ę':'e','ė':'e','i':'i','į':'i','š':'s','ū':'u','ų':'u','ž':'z'
 	},
 	convertSlug: function (str, separator) {
@@ -140,79 +133,53 @@ var cms = {
 				cms.error('System try to add filter without required callbacks.', name, switchOn_handler, switchOff_handler);
 				return;
 			}
-
 			this.filters.push([ name, switchOn_handler, switchOff_handler, exec_handler ]);
 		},
-		
-		// Switch On filter
 		switchOn: function (textarea_id, filter, params) {
-
 			jQuery('#' + textarea_id).css('display', 'block');
-
 			if (this.filters.length > 0) {
-				// Switch off previouse editor with textarea_id
 				this.switchOff(textarea_id);
-
 				for (var i = 0; i < this.filters.length; i++) {
 					if (this.filters[i][0] == filter) {
 						try {
-							// Call handler that will switch on editor
 							this.editors[textarea_id] = this.filters[i][1](textarea_id, params);
-
-							// Add editor to switchedOn stack
 							this.switchedOn[textarea_id] = this.filters[i];
-							
 							$('#' + textarea_id).trigger('filter:switch:on', this.editors[textarea_id]);
 						}
-						catch (e) {
-							
-						}
+						catch (e) {}
 
 						break;
 					}
 				}
 			}
 		},
-		
-		// Switch Off filter
 		switchOff: function (textarea_id) {
 			var filter = this.get(textarea_id);
-			
+			if( ! this.switchedOn[textarea_id] ) return;
 			try {
-				if ( filter && typeof(filter[2]) == 'function' ) {
-					// Call handler that will switch off editor and showed up simple textarea
+				if ( filter && typeof(filter[2]) == 'function' )
 					filter[2](this.editors[textarea_id], textarea_id);
-				}
-				
 				this.switchedOn[textarea_id] = null;
 				$('#' + textarea_id).trigger('filter:switch:off');
 			}
-			catch (e) {
-				//cms.error('Errors with filter switch off!', e);
-			}
+			catch (e) {}
 		},
-				
 		get: function(textarea_id) {
 			for (var key in this.switchedOn) {
-				// if textarea_id param is set we search only one editor and switch off it
 				if ( key == textarea_id )
 					return this.switchedOn[key];
 			}
-
 			return null;
-		},
-				
+		},	
 		exec: function(textarea_id, command, data) {
 			var filter = this.get(textarea_id);
 			if( filter && typeof(filter[3]) == 'function' )
 				return filter[3](this.editors[textarea_id], command, textarea_id, data);
-			
 			return false;
 		}
 	},
 	filemanager: {
 		open: function(object, type) {
-
 			return $.fancybox.open({
 				href : BASE_URL + '/elfinder/',
 				type: 'iframe'
@@ -267,7 +234,7 @@ cms.navigation = {
 			this.init();
 		}
 	}
-}
+};
 
 cms.ui = {
     callbacks:[],
@@ -295,7 +262,6 @@ cms.ui = {
     }
 };
 
-// Pages init
 cms.init = {
 	callbacks:[],
 	add:function (rout, callback) {
@@ -454,7 +420,7 @@ cms.ui.add('flags', function() {
 	var bw = brand.outerWidth(true);
 
 	$(window).resize(function() {
-		calcNav()
+		calcNav();
 	});
 	
 	function calcNav() {
@@ -785,7 +751,6 @@ var Api = {
 			url: uri,
 			data: data,
 			dataType: 'json',
-//			cache: false,
 			beforeSend: function(){
 				if(show_loader) cms.loader.show();
 			},
@@ -843,10 +808,7 @@ var Api = {
 
 // Run
 jQuery(document).ready(function() {
-    // messages
     cms.messages.init();
-
-    // init
     cms.init.run();
     cms.ui.init();
 	
@@ -855,8 +817,6 @@ jQuery(document).ready(function() {
 });
 
 (function($) {
-
-	// Checkbox status
 	$.fn.check = function () {
 		return this.each(function () {
 			this.checked = true;
@@ -919,7 +879,6 @@ jQuery(document).ready(function() {
 
 })(jQuery);
 
-/*Browser detection patch*/
 jQuery.browser = {};
 jQuery.browser.mozilla = /mozilla/.test(navigator.userAgent.toLowerCase()) && !/webkit/.test(navigator.userAgent.toLowerCase());
 jQuery.browser.webkit = /webkit/.test(navigator.userAgent.toLowerCase());
@@ -989,10 +948,7 @@ function strtr (str, from, to) {
 
 var __ = function (str, values) {
     if (cms.translations[str] !== undefined)
-	{
 		var str = cms.translations[str];
-	}
-
     return values == undefined ? str : strtr(str, values);
 };
 
