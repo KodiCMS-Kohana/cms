@@ -41,6 +41,12 @@
 	
 	<div class="control-group">
 		<div class="controls">
+			<label class="checkbox"><?php echo Form::checkbox('seo_information', 1, $widget->seo_information); ?> <?php echo __('Change meta headers'); ?></label>
+		</div>
+	</div>
+	
+	<div class="control-group">
+		<div class="controls">
 			<label class="checkbox"><?php echo Form::checkbox('crumbs', 1, $widget->crumbs); ?> <?php echo __('Change bread crumbs'); ?></label>
 		</div>
 	</div>

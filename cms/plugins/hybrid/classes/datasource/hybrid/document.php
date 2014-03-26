@@ -6,6 +6,16 @@
  */
 class DataSource_Hybrid_Document extends Datasource_Document {
 	
+	protected $_system_fields = array(
+		'id' => NULL,
+		'ds_id' => NULL,
+		'published' => NULL,
+		'header' => NULL,
+		'meta_title' => NULL, 
+		'meta_keywords' => NULL, 
+		'meta_description' => NULL
+	);
+	
 	/**
 	 * Список полей документа
 	 * @var array array([ID] => [Document value])
@@ -190,7 +200,7 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 		$ds_id = $this->section()->id();
 
 		$result = DB::select(array('dshybrid.id', 'id'))
-			->select('ds_id', 'published', 'header')
+			->select('ds_id', 'published', 'header', 'meta_title', 'meta_keywords', 'meta_description')
 			->select_array( array_keys( $this->_fields ))
 			->from('dshybrid')
 			->join("dshybrid_{$ds_id}", 'left')

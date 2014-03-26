@@ -32,9 +32,41 @@ var API_FORM_ACTION = '/datasource/hybrid-document.<?php if($doc->loaded()): ?>u
 					'doc' => $doc
 				)); ?>
 			</div>	
-		</div>		
+		</div>	
 	</div>
-		
+	<div class="spoiler-toggle-container widget-content-bg">
+		<div class="spoiler-toggle text-center" data-spoiler=".spoiler-meta">
+			<?php echo UI::icon( 'chevron-down spoiler-toggle-icon' ); ?> <span class="muted"><?php echo __('Metadata'); ?></span>
+		</div>
+		<div id="pageEditMetaMore" class="spoiler spoiler-meta">
+			<br />
+
+			<div class="control-group">
+				<label class="control-label"><?php echo __('Meta title'); ?></label>
+				<div class="controls">
+					<?php echo Form::input('meta_title', $doc->meta_title, array(
+						'class' => 'input-block-level'
+					)); ?>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label"><?php echo __('Meta keywords'); ?></label>
+				<div class="controls">
+					<?php echo Form::input('meta_keywords', $doc->meta_keywords, array(
+						'class' => 'input-block-level'
+					)); ?>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label"><?php echo __('Meta description'); ?></label>
+				<div class="controls">
+					<?php echo Form::textarea('meta_description', $doc->meta_description, array(
+						'class' => 'input-block-level'
+					)); ?>
+				</div>
+			</div>
+		</div>
+	</div>
 	<?php if($ds->template() !== NULL): ?>
 	<?php echo View_Front::factory($ds->template(), array(
 		'fields' => $fields,

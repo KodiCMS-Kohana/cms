@@ -62,6 +62,7 @@ class Model_Widget_Hybrid_Document extends Model_Widget_Hybrid {
 		
 		$this->throw_404 = (bool) Arr::get($data, 'throw_404');
 		$this->crumbs = (bool) Arr::get($data, 'crumbs');
+		$this->seo_information = (bool) Arr::get($data, 'seo_information');
 		
 		return $this;
 	}
@@ -106,7 +107,13 @@ class Model_Widget_Hybrid_Document extends Model_Widget_Hybrid {
 		
 		$page = $this->_ctx->get_page();
 
-		$page->title = $doc['header'];
+		if($this->seo_information === TRUE)
+		{
+			$page->title = $doc['header'];
+			$page->meta_title = $doc['meta_title'];
+			$page->meta_keywords = $doc['meta_keywords'];
+			$page->meta_description = $doc['meta_description'];
+		}
 	}
 	
 	public function change_crumbs( Breadcrumbs &$crumbs )

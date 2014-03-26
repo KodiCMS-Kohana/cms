@@ -205,7 +205,7 @@ class DataSource_Hybrid_Agent {
 	 */
 	public function get_query_props(array $fields, array $order = NULL, array $filter = NULL)
 	{
-		$result = DB::select('d.id', 'd.ds_id', 'd.header', 'd.published', 'd.created_on')
+		$result = DB::select('d.id', 'd.ds_id', 'd.header', 'd.published', 'd.created_on', 'd.meta_title', 'd.meta_keywords', 'd.meta_description')
 			->from(array('dshybrid_' . $this->ds_id,  'ds'))
 			->join(array('dshybrid', 'd'))
 				->on('d.id', '=', 'ds.id');

@@ -84,6 +84,7 @@ return array(
 	'Regular expression or Valid class method :link' => 'Регулярное выражение или метод класса Valid :link',
 	'Hybrid docs' => 'Гибридные документы',
 	'Change bread crumbs' => 'Изменять хлебные крошки',
+	'Change meta headers' => 'Изменять мета заголовки',
 	'Index document intro' => 'Интро документа',
 	'Index document fields' => 'Индексируемые поля',
 	'Hybrid section' => 'Раздел данных',
