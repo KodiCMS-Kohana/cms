@@ -287,6 +287,10 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 		if( ! $this->updated() ) return $this;
 
 		$record = $this->section()->record();
+		
+		$old_document = $this->section()->get_document($this->id);
+		$record->document_changed($old_document, $this);
+
 		$queries = $record->get_sql($this);
 
 		foreach($queries as $query)
