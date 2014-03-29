@@ -42,14 +42,13 @@ class Widget_Manager {
 		
 		if(!is_array($type)) $type = array($type);
 
-		$res = DB::select( 'w.id', 'w.name', 'w.description', 'w.created_on', 'w.type' )
+		$res = DB::select( 'w.*' )
 				->select( array( DB::expr( 'COUNT(:table)' )->param(
 							':table', Database::instance()->quote_column( 'pw.page_id' ) ), 'used' ) )
 				->from( array( 'widgets', 'w' ) )
 				->join( array( 'page_widgets', 'pw' ), 'left' )
-				->on( 'w.id', '=', 'pw.widget_id' )
+					->on( 'w.id', '=', 'pw.widget_id' )
 				->group_by( 'w.id' )
-				->group_by( 'w.name' )
 				->order_by( 'w.name' );
 		
 		if(!empty($type))
@@ -57,16 +56,15 @@ class Widget_Manager {
 			$res->where( 'w.type', 'in', $type );
 		}
 		
-		$res = $res->execute();
+		$res = $res->execute()->as_array('id');
 
-		foreach( $res as $row )
+		foreach($res as $id => $widget)
 		{
-			$result[$row['id']] = array(
-				'name' => $row['name'],
-				'description' => $row['description'],
-				'is_used' => $row['used'] > 0,
-				'date' => $row['created_on']
-			);
+			$result[$id] = unserialize($widget['code']);
+			$result[$id]->id = $widget['id'];
+			$result[$id]->name = $widget['name'];
+			$result[$id]->description = $widget['description'];
+			$result[$id]->template = $widget['template'];
 		}
 
 		return $result;

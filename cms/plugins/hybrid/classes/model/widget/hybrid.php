@@ -23,13 +23,15 @@ abstract class Model_Widget_Hybrid extends Model_Widget_Decorator_Pagination {
 	 * @param array array
 	 * @return array
 	 */
-	public function get_related_widgets( array $types )
+	public function get_related_widgets( array $types, $from_ds = NULL )
 	{
 		$db_widgets = Widget_Manager::get_widgets( $types );
+
 		$widgets = array();
-		foreach ($db_widgets as $id => $obj)
+		foreach ($db_widgets as $id => $widget)
 		{
-			$widgets[$id] = $obj['name'];
+			if($from_ds !== NULL AND $from_ds != $widget->ds_id) continue;
+			$widgets[$id] = $widget->name;
 		}
 
 		return $widgets;

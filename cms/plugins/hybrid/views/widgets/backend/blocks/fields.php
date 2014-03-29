@@ -48,7 +48,7 @@
 						$types = $field->widget_types();
 						if($types !== NULL)
 						{
-							$widgets = $widget->get_related_widgets($field->widget_types());
+							$widgets = $widget->get_related_widgets($field->widget_types(), $field->from_ds);
 
 							if(isset($widgets[$widget->id])) unset($widgets[$widget->id]);
 
@@ -57,6 +57,7 @@
 								$widgets = array(__('--- Not set ---')) + $widgets;
 
 								$selected = NULL;
+
 								if(isset($widget->doc_fetched_widgets[$field->id]))
 								{
 									$selected = $widget->doc_fetched_widgets[$field->id];
