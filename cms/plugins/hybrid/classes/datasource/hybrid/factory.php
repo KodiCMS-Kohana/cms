@@ -200,7 +200,7 @@ class DataSource_Hybrid_Factory {
 			 PRIMARY KEY (`id`)
 			) ENGINE=MyISAM DEFAULT CHARSET=utf8
 		')
-			->param(':name', DB::expr(self::PREFIX . $id))
+			->param(':name', DB::expr( TABLE_PREFIX . self::PREFIX . $id ))
 			->execute();
 		
 		return TRUE;
@@ -245,7 +245,7 @@ class DataSource_Hybrid_Factory {
 	public static function remove_table($id) 
 	{
 		DB::query(NULL, 'DROP TABLE `:name`')
-			->param(':name', DB::expr( self::PREFIX . $id))
+			->param(':name', DB::expr( TABLE_PREFIX .  self::PREFIX . $id ))
 			->execute();
 		
 		return TRUE;
