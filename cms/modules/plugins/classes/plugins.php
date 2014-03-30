@@ -32,7 +32,7 @@ class Plugins {
 			}
 		}
 
-		Kohana::modules( Kohana::modules() + $plugins );
+		Kohana::modules( $plugins + Kohana::modules() );
 	}
 	
 	/**
