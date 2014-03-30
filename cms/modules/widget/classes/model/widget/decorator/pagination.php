@@ -8,13 +8,13 @@
 abstract class Model_Widget_Decorator_Pagination extends Model_Widget_Decorator {
 
 	/**
-	 *
+	 * Кол-во пропускаемых строк
 	 * @var integer 
 	 */
 	public $list_offset = 0;
 	
 	/**
-	 *
+	 * Кол-во выводимых строк
 	 * @var integer 
 	 */
 	public $list_size = 10;
@@ -29,7 +29,7 @@ abstract class Model_Widget_Decorator_Pagination extends Model_Widget_Decorator 
 
 	/**
 	 * 
-	 * @param string $value
+	 * @param integer $value
 	 * @return integer
 	 */
 	public function set_list_offset($value)
@@ -39,7 +39,7 @@ abstract class Model_Widget_Decorator_Pagination extends Model_Widget_Decorator 
 	
 	/**
 	 * 
-	 * @param string $value
+	 * @param integer $value
 	 * @return integer
 	 */
 	public function set_list_size($value)
@@ -48,6 +48,9 @@ abstract class Model_Widget_Decorator_Pagination extends Model_Widget_Decorator 
 	}
 	
 	/**
+	 * Метод возвращает кол-во записей выводимых данных без учета
+	 * limit и offset
+	 * 
 	 * @return integer
 	 */
 	abstract public function count_total();

@@ -7,7 +7,7 @@
 class Widget_Manager {
 
 	/**
-	 * 
+	 * Получение всех типов виджетов из конфига
 	 * @return array
 	 */
 	public static function map()
@@ -16,8 +16,10 @@ class Widget_Manager {
 	}
 	
 	/**
+	 * Получение пустого объекта для виджета
+	 * Используется для создания виджета.
 	 * 
-	 * @param string $type
+	 * @param string $type Тип виджеа
 	 * @return Model_Widget_Decorator
 	 */
 	public static function get_empty_object( $type )
@@ -32,15 +34,14 @@ class Widget_Manager {
 	}
 	
 	/**
+	 * Получения списка виджетов по их типу
 	 * 
-	 * @param string $type
-	 * @return array
+	 * @param array $types Тип виджета
+	 * @return array array([ID] => Model_Widget_Decorator, ....)
 	 */
-	public static function get_widgets( $type )
+	public static function get_widgets( array $types = NULL )
 	{
 		$result = array( );
-		
-		if(!is_array($type)) $type = array($type);
 
 		$res = DB::select( 'w.*' )
 				->select( array( DB::expr( 'COUNT(:table)' )->param(
@@ -51,9 +52,9 @@ class Widget_Manager {
 				->group_by( 'w.id' )
 				->order_by( 'w.name' );
 		
-		if(!empty($type))
+		if( ! empty($types) )
 		{
-			$res->where( 'w.type', 'in', $type );
+			$res->where( 'w.type', 'in', $types );
 		}
 		
 		$res = $res->execute()->as_array('id');
@@ -71,7 +72,9 @@ class Widget_Manager {
 	}
 
 	/**
-	 * @return array
+	 * Получение списка всех виджетов
+	 * 
+	 * @return array array([ID] => array([ID], [TYPE], [NAME], [DESCRIPTION]), ...)
 	 */
 	public static function get_all_widgets()
 	{
@@ -84,9 +87,12 @@ class Widget_Manager {
 	}
 	
 	/**
+	 * Получение списка виджетов по ID страницы
 	 * 
-	 * @param integer $id
-	 * @return type
+	 * @cache Date::DAY
+	 * @cache_key layout_blocks_[PAGE_ID]
+	 * @param integer $page_id
+	 * @return array @return array array([ID] => Model_Widget_Decorator, ....)
 	 */
 	public static function get_widgets_by_page( $page_id )
 	{
@@ -120,6 +126,7 @@ class Widget_Manager {
 	}
 	
 	/**
+	 * Копирование списка виджетов с одной страницы на другую
 	 * 
 	 * @param integer $from_page_id
 	 * @param integer $to_page_id
@@ -157,9 +164,10 @@ class Widget_Manager {
 	}
 
 	/**
-	 * 
+	 * Добавление виджета в БД
+	 *  
 	 * @param Model_Widget_Decorator $widget
-	 * @return integer
+	 * @return integer ID виджета
 	 * @throws HTTP_Exception_404
 	 */
 	public static function create( Model_Widget_Decorator $widget )
@@ -182,6 +190,9 @@ class Widget_Manager {
 	}
 
 	/**
+	 * Обновление виджета
+	 * При обновлении виджета происходит вызов метода clear_cache() 
+	 * для очистки кеша у виджета
 	 * 
 	 * @param Widget_Decorator $widget
 	 * @return integer
@@ -205,8 +216,9 @@ class Widget_Manager {
 	}
 
 	/**
+	 * Удаление списка виджетов по ID
 	 * 
-	 * @param array $ids
+	 * @param array $ids array([ID], [ID2])
 	 * @return type
 	 */
 	public static function remove( array $ids )
@@ -217,6 +229,7 @@ class Widget_Manager {
 	}
 
 	/**
+	 * Получение виджета по ID
 	 * 
 	 * @param integer $id
 	 * @return Model_Widget_Decorator
@@ -246,9 +259,11 @@ class Widget_Manager {
 	}
 	
 	/**
+	 * Размещение виджета на страницах
 	 * 
-	 * @param integer $widget_id
-	 * @param array $data
+	 * @param integer $widget_id Идентификатор
+	 * @param array $data array([PAGE_ID] => [BLOCK NAME], ....)
+	 * @observer widget_set_location
 	 */
 	public static function set_location($widget_id, array $data)
 	{
@@ -279,9 +294,19 @@ class Widget_Manager {
 		}
 	}
 	
+	/**
+	 * Обновление позици виджета на странице
+	 * 
+	 * При передачи названия блока есть два системных состояния
+	 * 0 - Скрытый виджет
+	 * -1 - Удалить со страницы
+	 * 
+	 * @param integer $page_id
+	 * @param integer $widget_id
+	 * @param array $data array(['block'] => [String], 'position' => [Integer])
+	 */
 	public static function update_location_by_page($page_id, $widget_id, array $data)
 	{
-		
 		if( $data['block'] < 0 ) 
 		{
 			DB::delete('page_widgets')
@@ -302,6 +327,18 @@ class Widget_Manager {
 	}
 	
 	/**
+	 * Усмтановка виджета из массива
+	 * 
+	 * array(
+	 *		'type' => [Widget type],
+	 *		'data' => array (
+	 *			[KEY] => [VALUE]
+	 *			.....
+	 *		),
+	 *		'blocks' => array (
+	 *			[PAGE_ID] => [BLOCK NAME]
+	 *		)
+	 *	)
 	 * 
 	 * @param array $widget_array
 	 * @return integer $id
