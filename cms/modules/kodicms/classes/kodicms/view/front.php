@@ -4,7 +4,7 @@
  * @package		KodiCMS
  * @author		ButscHSter
  */
-class KodiCMS_View_Front extends Kohana_View {
+class KodiCMS_View_Front extends View {
 	
 	/**
 	 * 
