@@ -107,3 +107,13 @@ cms.init.add('widgets_location', function() {
 		return false;
 	});
 });
+
+cms.init.add('widgets_template', function() {
+	$('#highlight_content').on('filter:switch:on', function(e, editor) {
+		cms.filters.exec('highlight_content', 'changeHeight', cms.content_height);
+	});
+	
+	$(window).resize(function() {
+		$('#highlight_content').trigger('filter:switch:on')
+	});
+})
