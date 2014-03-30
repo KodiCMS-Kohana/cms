@@ -316,7 +316,7 @@ class KodiCMS_Model_File {
 		if ( !empty($this->_changed['name']) AND  $this->name != $this->_changed['name'] )
 		{
 			$new_file = $this->_path . $this->name . EXT;
-			rename($this->_file, $new_file);
+			@rename($this->_file, $new_file);
 			$this->_file = $new_file;
 		}
 		
