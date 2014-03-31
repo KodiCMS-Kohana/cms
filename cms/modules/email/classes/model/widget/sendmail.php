@@ -263,7 +263,7 @@ class Model_Widget_SendMail extends Model_Widget_Decorator {
 		return $value;
 	}
 	
-	public function render( $params = array( ) )
+	public function render( array $params = array( ) )
 	{
 		return NULL;
 	}
