@@ -11,7 +11,7 @@ class KodiCMS_Model_Page_Sitemap {
 	 *
 	 * @var Model_Page_Sitemap 
 	 */
-	protected static $_sitemap = NULL;
+	protected static $_sitemap = array();
 	
 	/**
 	 * 
@@ -19,7 +19,8 @@ class KodiCMS_Model_Page_Sitemap {
 	 */
 	public static function get( $include_hidden = FALSE)
 	{
-		if(Model_Page_Sitemap::$_sitemap === NULL)
+		$status = ( bool) $include_hidden ? 1 : 0;
+		if( ! array_key_exists($status, Model_Page_Sitemap::$_sitemap) )
 		{
 			$pages = ORM::factory('page')
 				->order_by('parent_id', 'asc')
@@ -31,7 +32,7 @@ class KodiCMS_Model_Page_Sitemap {
 			}
 			
 			$res_pages = $pages->find_all();
-			
+
 			$current_page = Context::instance()->get_page();
 
 			if($current_page instanceof Model_Page_Front)
@@ -82,10 +83,10 @@ class KodiCMS_Model_Page_Sitemap {
 				}
 			}
 
-			Model_Page_Sitemap::$_sitemap = new Model_Page_Sitemap(reset($pages));
+			Model_Page_Sitemap::$_sitemap[$status] = new Model_Page_Sitemap(reset($pages));
 		}
 
-		return clone(Model_Page_Sitemap::$_sitemap);
+		return clone(Model_Page_Sitemap::$_sitemap[$status]);
 	}
 	
 	/**
