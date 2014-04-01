@@ -8,10 +8,24 @@
 class KodiCMS_Upload extends Kohana_Upload {
 	
 	/**
+	 * Загрузка файла и сохранение в папку TMPPATH
+	 *
+	 *		try
+	 *		{
+	 *			$filename = Upload::file($_FILES['file'], array('jpg', 'jpeg', 'gif', 'png'));
+	 *			$path = TMPPATH . $filename;
+	 *		}
+	 *		catch (Validation_Exception $e)
+	 *		{
+	 *			echo debug::vars($e->errors('validation'));
+	 *		}
 	 * 
-	 * @param array $file
-	 * @param array $types
-	 * @return type
+	 * При указании строки в качестве параметра $file, будет произведена 
+	 * попытка загрузить файл по URL
+	 * 
+	 * @param string|array $file
+	 * @param array $types Разрешенные типы файлов (При указании пустой строки, разрешены все файлы) array('jpg', '...')
+	 * @return string|NULL Название файла.
 	 * @throws Validation_Exception
 	 */
 	public static function file( $file, array $types = array('jpg', 'jpeg', 'gif', 'png') )
@@ -24,13 +38,17 @@ class KodiCMS_Upload extends Kohana_Upload {
 		$validation = Validation::factory( array('file' => $file ) )
 			->rules( 'file', array(
 				array('Upload::valid'),
-				array('Upload::type', array(':value', $types)),
 				array('Upload::size', array(':value', 100000000))
 			) );
+		
+		if( ! empty($types) )
+		{
+			$validation->rule('file', array('Upload::type', array(':value', $types)));
+		}
 
 		if ( ! $validation->check() )
 		{
-			return array(FALSE, $validation);
+			throw new Validation_Exception($validation);
 		}
 
 		$ext = strtolower( pathinfo( $file['name'], PATHINFO_EXTENSION ) );
@@ -42,18 +60,30 @@ class KodiCMS_Upload extends Kohana_Upload {
 			chmod(TMPPATH, 0777);
 		}
 
-		$uploadedfile = Upload::save( $file, $filename, TMPPATH, 0777 );
+		Upload::save( $file, $filename, TMPPATH, 0777 );
 
-		return array(TRUE, $filename);
+		return $filename;
 	}
 	
 	/**
 	 * 
-	 * @param string $url
-	 * @param string $directory
-	 * @param string $chmod
-	 * @return string|boolean
-	 * @throws Kohana_Exception
+	 * Загрузка файла по URL и сохранение в папку TMPPATH
+	 *
+	 *		try
+	 *		{
+	 *			$filename = Upload::from_url('http://....', array('jpg', 'jpeg', 'gif', 'png'));
+	 *			$path = TMPPATH . $filename;
+	 *		}
+	 *		catch (Validation_Exception $e)
+	 *		{
+	 *			echo debug::vars($e->errors('validation'));
+	 *		}
+	 * 
+	 * 
+	 * @param string $url Ссылка на файл (http://....)
+	 * @param array $types Разрешенные типы файлов (При указании пустой строки, разрешены все файлы) array('jpg', '...')
+	 * @return string|NULL Название файла
+	 * @throws Validation_Exception
 	 */
 	public static function from_url($url, array $types = array('jpg', 'jpeg', 'gif', 'png') )
 	{
@@ -64,14 +94,16 @@ class KodiCMS_Upload extends Kohana_Upload {
 			->rules( 'url', array(
 				array('url'),
 				array('not_empty'),
-			) )
-			->rules( 'ext', array(
-				array('in_array', array(':value', $types))
 			) );
+		
+		if( ! empty($types) )
+		{
+			$validation->rule('ext', array('in_array', array(':value', $types)));
+		}
 			
 		if ( ! $validation->check() )
 		{
-			return array(FALSE, $validation);
+			throw new Validation_Exception($validation);
 		}
 
 		$filename = uniqid() . '.' . $ext;
@@ -105,9 +137,9 @@ class KodiCMS_Upload extends Kohana_Upload {
 			// Set permissions on filename
 			chmod($path, 0777);
 			
-			return array(TRUE, $filename);
+			return $filename;
 		}
 		
-		return array(TRUE, NULL);
+		return NULL;
 	}
 }
