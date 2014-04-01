@@ -14,7 +14,7 @@ class Controller_System_API extends Controller_System_Ajax {
 	protected $_model = NULL;
 
 	/**
-	 *
+	 * Массив возвращаемых значений, будет преобразован в формат JSON
 	 * @var array 
 	 */
 	public $json = array();
@@ -26,27 +26,27 @@ class Controller_System_API extends Controller_System_Ajax {
 	public $fields = array();
 	
 	/**
-	 *
+	 * Передаваемые параметры.
+	 * Значения берутся из массивов $_GET, $_POST, $_FILES, Request::params, JSON
+	 * 
 	 * @var array 
 	 */
 	protected $_params = array();
 	
 	/**
-	 *
-	 * @var array 
+	 * Публичные методы, к которым можно получить доступ без ключа или авторизации
+	 * 
+	 * @var array array('post_action', 'get_action', '...')
 	 */
 	public $public_actions = array();
 
 	/**
-	 *
+	 * Осуществялть проверку токена для входящих данных
+	 * При активации необходимо передавать параметр token
+	 * 
 	 * @var bool
 	 */
 	protected $_check_token = FALSE;
-	
-	public function __construct(\Request $request, \Response $response) 
-	{
-		parent::__construct($request, $response);
-	}
 
 	public function before()
 	{
@@ -56,11 +56,12 @@ class Controller_System_API extends Controller_System_Ajax {
 		
 		$this->fields = $this->param('fields', array());
 		
+		
 		if( strpos($this->request->headers('content-type'), 'application/json') !== FALSE )
 		{
 			$data = json_decode($this->request->body(), TRUE);
 			
-			if( !is_array( $data ))
+			if( ! is_array( $data ))
 			{
 				parse_str($this->request->body(), $data);
 			}
@@ -70,10 +71,14 @@ class Controller_System_API extends Controller_System_Ajax {
 	}
 	
 	/**
+	 * Получение значения передаваемого параметра
 	 * 
-	 * @param string $key
-	 * @param mixed $default
-	 * @param bool $is_required
+	 * Если параметр указан как обязательный, то при его отсутсвии на запрос 
+	 * вернется ошибка
+	 * 
+	 * @param string $key Ключ
+	 * @param mixed $default Значение по умолчанию, если параметр отсутсвует
+	 * @param bool $is_required Параметр обязателен для передачи
 	 * @return string
 	 * @throws HTTP_API_Exception
 	 */
@@ -91,6 +96,7 @@ class Controller_System_API extends Controller_System_Ajax {
 	}
 	
 	/**
+	 * Получение списка всех параметров
 	 * 
 	 * @param array $new_params
 	 * @return array
@@ -257,6 +263,7 @@ class Controller_System_API extends Controller_System_Ajax {
 	
 	/**
 	 * Проверка токена на валидность
+	 * 
 	 * @throws HTTP_API_Exception
 	 */
 	protected function _check_token()
