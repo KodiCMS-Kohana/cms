@@ -33,7 +33,7 @@ cms.init.add(['users_edit', 'users_add'], function () {
 				callback([{'id':1, 'text':'login'}]);
 				return ;
 			}
-			$.ajax('/api-users.roles', {
+			$.ajax(SITE_URL + 'api/api-users.roles', {
 				data: {
 					uid: USER_ID,
 					fields: 'id,name'
