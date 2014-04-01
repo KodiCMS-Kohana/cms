@@ -181,6 +181,15 @@ class Controller_System_API extends Controller_System_Ajax {
 		{
 			$this->json = $e->get_response();
 		}
+		catch (Validation_Exception $e)
+		{
+			$this->json = array(
+				'code'  => $e->getCode(),
+				'message' => rawurlencode($e->getMessage()),
+				'response' => NULL,
+				'errors' => $e->errors('validation')
+			);
+		}
 		catch (Exception $e)
 		{
 			$this->json['code'] = $e->getCode();
