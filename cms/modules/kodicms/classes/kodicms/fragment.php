@@ -17,6 +17,27 @@ class KodiCMS_Fragment extends Kohana_Fragment {
 	{
 		return Cache::instance()->get(self::_cache_key($name, $i18n)) !== NULL;
 	}
+	
+	/**
+	 * 
+	 * @param   string  $name       fragment name
+	 * @param   integer $lifetime   fragment cache lifetime
+	 * @param   boolean $i18n       multilingual fragment support
+	 * @return  string
+	 */
+	public static function get($name, $lifetime = NULL, $i18n = NULL)
+	{
+		// Set the cache lifetime
+		$lifetime = ($lifetime === NULL) ? Fragment::$lifetime : (int) $lifetime;
+		
+		// Get the cache key name
+		$cache_key = Fragment::_cache_key($name, $i18n);
+		
+		// If cache lifetime < 0 then clear
+		if( $lifetime < 0 ) Fragment::delete( $name, $i18n );
+		
+		return Cache::instance()->get($cache_key);
+	}
 
 	/**
 	 * Load a fragment from cache and display it. Multiple fragments can
@@ -34,16 +55,7 @@ class KodiCMS_Fragment extends Kohana_Fragment {
 	 */
 	public static function load($name, $lifetime = NULL, $i18n = NULL)
 	{
-		// Set the cache lifetime
-		$lifetime = ($lifetime === NULL) ? Fragment::$lifetime : (int) $lifetime;
-
-		// Get the cache key name
-		$cache_key = Fragment::_cache_key($name, $i18n);
-		
-		// If cache lifetime < 0 then clear
-		if( $lifetime < 0 ) Fragment::delete( $name, $i18n );
-
-		if ($fragment = Cache::instance()->get($cache_key))
+		if ($fragment = Fragment::get($name, $lifetime, $i18n))
 		{
 			// Display the cached fragment now
 			echo $fragment;
