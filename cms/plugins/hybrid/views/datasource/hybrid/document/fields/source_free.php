@@ -4,5 +4,9 @@
 		<?php echo Form::input( $field->name, $value, array(
 			'class' => 'input-auto', 'id' => $field->name
 		) ); ?>
+		
+		<?php if(isset($field->hint)): ?>
+		<span class="help-block"><?php echo $field->hint; ?></span>
+		<?php endif; ?>
 	</div>
 </div>

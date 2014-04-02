@@ -83,6 +83,16 @@
 		<?php endforeach; ?>
 		</div>
 		<div class="control-group">
+			<label class="control-label" for="hint"><?php echo __('Field hint'); ?></label>
+			<div class="controls">
+				<?php echo Form::input( 'hint', Arr::get($post_data, 'hint'), array(
+					'id' => 'hint',
+					'class' => 'input-xxlarge'
+				)); ?>
+			</div>
+		</div>
+		
+		<div class="control-group">
 			<label class="control-label" for="position"><?php echo __('Field position'); ?></label>
 			<div class="controls">
 				<?php echo Form::input( 'position', Arr::get($post_data, 'position', 500), array(

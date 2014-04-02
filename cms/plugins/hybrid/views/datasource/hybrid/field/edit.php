@@ -44,7 +44,17 @@
 		}
 		catch(Exception $e) {} 
 		?>
-	
+		<hr />
+		<div class="control-group">
+			<label class="control-label" for="hint"><?php echo __('Field hint'); ?></label>
+			<div class="controls">
+				<?php echo Form::input( 'hint', $field->hint, array(
+					'id' => 'hint',
+					'class' => 'input-xxlarge'
+				)); ?>
+			</div>
+		</div>
+		
 		<?php if($field->is_required()): ?>
 		<div class="control-group">
 			<label class="control-label" for="isreq"><?php echo __('Required'); ?></label>

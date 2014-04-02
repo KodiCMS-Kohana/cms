@@ -8,5 +8,9 @@
 		<label class="radio inline">
 			<?php echo Form::radio($field->name, 0, $value == 0); ?> <?php echo __('No'); ?>
 		</label>
+		
+		<?php if(isset($field->hint)): ?>
+		<span class="help-block"><?php echo $field->hint; ?></span>
+		<?php endif; ?>
 	</div>
 </div>

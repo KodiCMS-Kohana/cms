@@ -5,5 +5,9 @@
 			'class' => 'input-auto', 'id' => $field->name,
 			'maxlength' => 60, 'size' => 60
 		) ); ?>
+		
+		<?php if(isset($field->hint)): ?>
+		<span class="help-block"><?php echo $field->hint; ?></span>
+		<?php endif; ?>
 	</div>
 </div>

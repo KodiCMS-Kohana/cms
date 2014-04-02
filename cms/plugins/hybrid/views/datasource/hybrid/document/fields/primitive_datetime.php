@@ -5,5 +5,9 @@
 			'class' => 'input-auto datetimepicker', 'id' => $field->name,
 			'size' => 25
 		) ); ?>
+		
+		<?php if(isset($field->hint)): ?>
+		<span class="help-block"><?php echo $field->hint; ?></span>
+		<?php endif; ?>
 	</div>
 </div>

@@ -12,5 +12,9 @@
 			'maxlength' => 50, 'placeholder' => __('Custom value')
 		) ); ?>
 		<?php endif; ?>
+		
+		<?php if(isset($field->hint)): ?>
+		<span class="help-block"><?php echo $field->hint; ?></span>
+		<?php endif; ?>
 	</div>
 </div>

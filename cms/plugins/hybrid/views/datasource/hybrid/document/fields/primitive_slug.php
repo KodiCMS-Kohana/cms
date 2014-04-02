@@ -22,7 +22,11 @@
 		</div>
 		
 		<?php if($field->unique): ?>
-		<p class="help-block"><?php echo __('Field value must be unique'); ?></p>
+		<span class="help-inline"><?php echo __('Field value must be unique'); ?></span>
+		<?php endif; ?>
+		
+		<?php if(isset($field->hint)): ?>
+		<span class="help-block"><?php echo $field->hint; ?></span>
 		<?php endif; ?>
 	</div>
 </div>

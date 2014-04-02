@@ -12,6 +12,70 @@ abstract class DataSource_Hybrid_Field {
 
 	const PREFFIX = 'f_';
 	
+	
+
+	/**
+	 * Список всех полех, которые есть в системе.
+	 * Используется для выбора поля при создании.
+	 * 
+	 * @return array
+	 */
+	public static function types()
+	{
+		return Config::get('fields')->as_array();
+	}
+	
+	/**
+	 * Получение списка объектов доступных в системе полей.
+	 * Используется в момент создания поля.
+	 * 
+	 * @return array array([TYPE] => [DataSource_Hybrid_Field], ... )
+	 */
+	public static function get_empty_fields()
+	{
+		$filed_types = self::types();
+		
+		$fields = array();
+		foreach ($filed_types as $type => $title)
+		{
+			if(is_array($title))
+			{
+				foreach ($title as $type => $title)
+				{
+					$fields[$type] = DataSource_Hybrid_Field::factory($type);
+				}
+			}
+			else
+			{
+				$fields[$type] = DataSource_Hybrid_Field::factory($type);
+			}
+		}
+		
+		return $fields;
+	}
+
+	/**
+	 * Фабрика создания поля. 
+	 * Используется при создании нового поля и загрузке созданного поля из БД
+	 * 
+	 * @param string $type
+	 * @param array $data
+	 * @return \DataSource_Hybrid_Field
+	 * @throws Kohana_Exception
+	 */
+	public static function factory($type, array $data = NULL)
+	{
+		$class_name = 'DataSource_Hybrid_Field_' . $type;
+		
+		if(!class_exists( $class_name ))
+		{
+			throw new Kohana_Exception('Class for field - :type not found', array(
+				':type' => $type));
+		}
+		
+		return new $class_name($data);
+	}
+	
 	/**
 	 * Название таблицы раздела, в котором находится поле
 	 *
@@ -48,8 +112,6 @@ abstract class DataSource_Hybrid_Field {
 	public $from_ds = NULL;
 	
 	/**
-	 * 
-	 *
 	 * @var string
 	 */
 	public $family;
@@ -119,62 +181,6 @@ abstract class DataSource_Hybrid_Field {
 	 * @var boolean 
 	 */
 	protected $_is_required = TRUE;
-
-	/**
-	 * Список всех полех, которые есть в системе.
-	 * Используется для выбора поля при создании.
-	 * 
-	 * @return array
-	 */
-	public static function types()
-	{
-		return Config::get('fields')->as_array();
-	}
-	
-	public static function get_empty_fields()
-	{
-		$filed_types = self::types();
-		
-		$fields = array();
-		foreach ($filed_types as $type => $title)
-		{
-			if(is_array($title))
-			{
-				foreach ($title as $type => $title)
-				{
-					$fields[$type] = DataSource_Hybrid_Field::factory($type);
-				}
-			}
-			else
-			{
-				$fields[$type] = DataSource_Hybrid_Field::factory($type);
-			}
-		}
-		
-		return $fields;
-	}
-
-	/**
-	 * Фабрика создания поля. 
-	 * Используется при создании нового поля и загрузке созданного поля из БД
-	 * 
-	 * @param type $type
-	 * @param array $data
-	 * @return \DataSource_Hybrid_Field
-	 * @throws Kohana_Exception
-	 */
-	public static function factory($type, array $data = NULL)
-	{
-		$class_name = 'DataSource_Hybrid_Field_' . $type;
-		
-		if(!class_exists( $class_name ))
-		{
-			throw new Kohana_Exception('Class for field - :type not found', array(
-				':type' => $type));
-		}
-		
-		return new $class_name($data);
-	}
 
 	/**
 	 * 
@@ -280,13 +286,6 @@ abstract class DataSource_Hybrid_Field {
 
 		return $this;
 	}
-	
-	public function set_in_headline($status = FALSE)
-	{
-		$this->in_headline = (bool) $status;
-		
-		return $this;
-	}
 
 	/**
 	 * 
@@ -354,6 +353,19 @@ abstract class DataSource_Hybrid_Field {
 	}
 	
 	/**
+	 * Показывать значение поля в спсике документов раздела
+	 * 
+	 * @param boolean $status
+	 * @return \DataSource_Hybrid_Field
+	 */
+	public function set_in_headline($status = FALSE)
+	{
+		$this->in_headline = (bool) $status;
+		
+		return $this;
+	}
+	
+	/**
 	 * Метод используется для присвоения старого значения для поля документа
 	 * 
 	 * @param DataSource_Hybrid_Document $document
@@ -409,6 +421,21 @@ abstract class DataSource_Hybrid_Field {
 		return $this;
 	}
 	
+	/**
+	 * Установка подсказки для поля
+	 * 
+	 * Происходит очистка текста функцией strip_tags
+	 * 
+	 * @param string $text
+	 * @return \DataSource_Hybrid_Field
+	 */
+	public function set_hint( $text )
+	{
+		$this->hint = Text::limit_chars(strip_tags( $text ), 150, '');
+		
+		return $this;
+	}
+
 	/**
 	 * Создание поля в БД.
 	 * 
