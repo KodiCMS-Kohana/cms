@@ -25,7 +25,10 @@ class DataSource_Hybrid_Field_Yandex_Map extends DataSource_Hybrid_Field_Primiti
 		$value = $new->get($this->name);
 		if(is_array($value))
 		{
-			$value = implode(',', $value);
+			if(!empty($value[0]) AND !empty($value[1]))
+				$value = implode(',', $value);
+			else
+				$value = '';
 		}
 		
 		$new->set($this->name, $value);
