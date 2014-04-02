@@ -24,7 +24,7 @@
 	</div>
 
 	<?php if($widget->use_template): ?>
-	<?php echo View::factory('snippet/block', array(
+	<?php echo View::factory('helper/snippet_select', array(
 		'header' => __('Widget template'),
 		'template' => $widget->template,
 		'default' => $widget->default_template() ? UI::button(__('Default template'), array(

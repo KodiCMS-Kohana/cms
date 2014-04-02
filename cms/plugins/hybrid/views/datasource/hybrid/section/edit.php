@@ -36,7 +36,7 @@
 		'record' => $ds->record(), 'ds' => $ds
 	)); ?>
 	
-	<?php echo View::factory('snippet/block', array(
+	<?php echo View::factory('helper/snippet_select', array(
 		'header' => __('Document template'),
 		'template' => $ds->template,
 	)); ?>
