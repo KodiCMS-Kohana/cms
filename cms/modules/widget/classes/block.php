@@ -181,13 +181,11 @@ class Block {
 	 * 
 	 * @param string $content
 	 * @return string
-	 * 
-	 * @todo Проверить корректность работы с передачей доп. параметров
 	 */
 	public static function parse_content( $content )
 	{
 		$content = str_replace(' ', '', $content);
-		preg_match_all("/Block::([a-z]{3})\(\'(\w+)\'\)/i", $content, $blocks);
+		preg_match_all("/Block::([a-z_]{3,5})\(\'(\w+)\'(\,.*)?\)/i", $content, $blocks);
 		
 		if( !empty($blocks[2]))
 		{
