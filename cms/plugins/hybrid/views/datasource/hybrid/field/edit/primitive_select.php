@@ -1,11 +1,9 @@
-<div class="control-group">
-	<label class="control-label" for="length"><?php echo __('Field options'); ?></label>
-	<div class="controls">
-		<?php echo Form::textarea('options', implode("\n", $field->options)); ?>
-
-		<div class="help-block"><?php echo __('Set each new value appear in a new line'); ?></div>
-	</div>
-</div>
+<?php echo View::factory('helper/rows_only_value', array(
+	'label' => __('Field options'),
+	'field' => 'options',
+	'data' => $field->options,
+	'slugify' => FALSE
+)); ?>
 
 <hr />
 <div class="control-group">

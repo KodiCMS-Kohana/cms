@@ -1,35 +1,5 @@
 <script type="text/javascript">
 	var EMAIL_TYPE_ID = <?php echo (int) $type->id; ?>;
-	var EMAIL_TYPE_DATA = <?php echo json_encode($type->data()); ?>
-	
-	$(function() {
-		$('#add-field').on('click', function() {
-			clone_row();
-			return false;
-		});
-		
-		$('#type-fields').on('click', '.remove-field', function() {
-			$(this).parent().remove();
-			return false;
-		});
-
-		for(key in EMAIL_TYPE_DATA) {
-			var row = clone_row();
-
-			row.find('.field_key_input').val(key);
-			row.find('.field_desription_input').val(EMAIL_TYPE_DATA[key]);
-		}
-	});
-	
-	function clone_row() {
-		return $('#type-fields .field-row.hidden')
-			.clone()
-			.removeClass('hidden')
-			.prependTo($('#type-fields .controls'))
-			.find(':input')
-			.removeAttr('disabled')
-			.end();
-	}
 </script>
 
 <?php echo Form::open(Route::url('email_controllers', array('controller' => 'types', 'action' => $action, 'id' => $type->id)), array(
@@ -71,17 +41,10 @@
 		<h3><?php echo __('Email type fileds'); ?></h3>
 	</div>
 	<div class="widget-content" id="type-fields">
-		<div class="control-group">
-			<div class="controls">
-				<div class="field-row hidden">
-					<input type="text" name="data[key][]" disabled="disabled" class="input-small slug field_key_input" data-separator="_" placeholder="Field key">
-					<input type="text" name="data[name][]" disabled="disabled" class="input-xxlarge field_desription_input" placeholder="Desription">
-					<button class="btn btn-mini remove-field"><?php echo UI::icon('trash'); ?></button>
-					<br /><br />
-				</div>
-				<button id="add-field" class="btn"><?php echo UI::icon('plus'); ?></button>
-			</div>
-		</div>
+		<?php echo View::factory('helper/rows', array(
+			'field' => 'data',
+			'data' => $type->data()
+		)); ?>
 	</div>
 	
 	<?php if($action == 'edit'): ?>

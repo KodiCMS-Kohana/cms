@@ -40,6 +40,7 @@ return array(
 	'Select all' => 'Выбрать все',
 	'Next' => 'Далее',
 	'Previous' => 'Назад',
+	'Key' => 'Ключ',
 	
 	'Failed to validate array' => 'Ошибка',
 	'KodiCMS succefully installed!' => 'KodiCMS успешно установлена',

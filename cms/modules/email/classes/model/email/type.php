@@ -177,9 +177,10 @@ class Model_Email_Type extends ORM
 		if( ! empty($values))
 		{
 			$keys = $values['key'];
-			$names = $values['name'];
+			$names = $values['value'];
 			
 			$values = array_combine($keys, $names);
+			$values = array_unique(array_filter($values));
 		}
 		
 		return $values;
