@@ -18,7 +18,7 @@
 		<span class="help-block"><?php echo $field->hint; ?></span>
 		<?php endif; ?>
 		
-		<div id="map<?php echo $field->name; ?>" style="width: 600px; height: 400px; border: 5px solid whitesmoke; margin-top: 20px;"></div>
+		<div id="map<?php echo $field->name; ?>" style="width: 700px; height: 250px; border: 5px solid whitesmoke; margin-top: 20px;"></div>
 	</div>
 </div>
 <script type="text/javascript">
@@ -46,11 +46,14 @@ $(function() {
 				behaviors: ['default', 'scrollZoom']
 			});
 			
+		searchControl = new ymaps.control.SearchControl({ provider: 'yandex#publicMap', width: '400' });
+			
 		myMap.controls
 			// Кнопка изменения масштаба.
 			.add('zoomControl')
 			// Список типов карты
 			.add('typeSelector')
+			.add(searchControl, { left: 5, top: 5 });
 
 		if(set_value )
 			createPlacemark(default_coords);

@@ -106,5 +106,6 @@ return array(
 	'Current time' => 'Текущее время',
 	'Current date' => 'Текущая дата',
 	'Current datetime' => 'Текущая дата',
-	'One to one relation' => 'Связь один к одному'
+	'One to one relation' => 'Связь один к одному',
+	'Clear coordinates' => 'Очистить координаты',
 );
