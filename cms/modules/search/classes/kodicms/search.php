@@ -1,5 +1,9 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct access allowed.' );
 
+/**
+ * @package		KodiCMS/Search
+ * @author		ButscHSter
+ */
 abstract class KodiCMS_Search {
 	
 	/**

@@ -1,5 +1,10 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct access allowed.' );
 
+/**
+ * @package		KodiCMS/Search
+ * @category	Driver
+ * @author		ButscHSter
+ */
 class KodiCMS_Search_MySQL extends Search {
 
 	/**

@@ -1,5 +1,9 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
+/**
+ * @package		Sidebar
+ * @author		ButscHSter
+ */
 class Sidebar {
 
 	/**
