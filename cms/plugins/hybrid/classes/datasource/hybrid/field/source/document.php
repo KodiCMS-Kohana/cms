@@ -4,7 +4,7 @@ class DataSource_Hybrid_Field_Source_Document extends DataSource_Hybrid_Field_So
 
 	protected $_props = array(
 		'isreq' => TRUE,
-		'source' => NULL,
+		'ds_type' => NULL,
 		'one_to_one' => FALSE
 	);
 	
@@ -124,7 +124,7 @@ class DataSource_Hybrid_Field_Source_Document extends DataSource_Hybrid_Field_So
 	
 	public function get_query_props(\Database_Query $query)
 	{
-		return $query->join(array('ds' . $this->source, 'dss' . $this->id), 'left')
+		return $query->join(array('ds' . $this->ds_type, 'dss' . $this->id), 'left')
 			->on(DataSource_Hybrid_Field::PREFFIX . $this->key, '=', 'dss' . $this->id . '.id')
 			->on('dss' . $this->id . '.published', '=', DB::expr( 1 ))
 			->select(array('dss'.$this->id.'.header', $this->id . 'header'));
