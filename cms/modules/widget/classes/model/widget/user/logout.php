@@ -9,15 +9,9 @@ class Model_Widget_User_Logout extends Model_Widget_Decorator {
 	
 	public $use_template = FALSE;
 
-	public function fetch_data()
-	{
-		
-	}
+	public function fetch_data() {}
 	
-	public function render( $params = array( ) )
-	{
-		return;
-	}
+	public function render( array $params = array() ) {}
 
 	public function on_page_load()
 	{
