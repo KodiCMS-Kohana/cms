@@ -14,6 +14,7 @@ return array(
 	'Field header' => 'Название',
 	'Field type' => 'Тип поля',
 	'Field settings' => 'Настройки поля',
+	'Field hint' => 'Подсказка',
 	'Primitive' => 'Примитивное',
 	'File' => 'Файл',
 	'Document' => 'Документ',

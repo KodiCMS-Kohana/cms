@@ -33,5 +33,9 @@ return array(
 	'File' => array(
 		'file_file' => 'File',
 		'file_image' => 'Image',
+	),
+	
+	'Yandex' => array(
+		'yandex_map' => 'Yandex map',
 	)
 );
