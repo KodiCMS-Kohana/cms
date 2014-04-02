@@ -50,9 +50,8 @@ abstract class Datasource_Section_Headline {
 	 * 
 	 * @param Datasource_Section $section
 	 */
-	public function __construct(Datasource_Section $section)
+	public function __construct()
 	{
-		$this->_section = $section;
 		$this->_pagination = Pagination::factory();
 	}
 
@@ -209,5 +208,56 @@ abstract class Datasource_Section_Headline {
 		}
 		
 		return $query;
+	}
+	
+	/**
+	 * 
+	 * @param Datasource_Section $section
+	 * @return \Datasource_Section_Headline
+	 */
+	public function set_section(Datasource_Section $section)
+	{
+		$this->_section = $section;
+		
+		return $this;
+	}
+	
+	/**
+	 * Указание порядка сортировки
+	 *
+	 * @param array $orders array(array([FIELD NAME] => [ASC], ...))
+	 * @return \Datasource_Section_Headline
+	 */
+	public function set_sorting( array $orders = NULL )
+	{
+		$this->_sorting = $orders;
+		return $this;
+	}
+	
+	/**
+	 * 
+	 * @return array
+	 */
+	public function sorting()
+	{
+		return (array) $this->_sorting;
+	}
+
+	public function __sleep()
+	{
+		return array_keys($this->_serialize());
+	}
+
+	protected function _serialize()
+	{
+		$vars = get_object_vars($this);
+		unset($vars['_section'], $vars['_pagination']);
+		
+		return $vars;
+	}
+	
+	public function __wakeup()
+	{
+		$this->_pagination = Pagination::factory();
 	}
 }

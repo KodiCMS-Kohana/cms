@@ -6,19 +6,21 @@
  */
 class Datasource_Section_Hybrid_Headline extends Datasource_Section_Headline {
 
+	/**
+	 * Список полей, выводимых в списке документов
+	 * 
+	 * @var array 
+	 */
+	protected $_fields = NULL;
+
 	public function fields()
 	{
-		$this->fields = array(
-			'id' => array(
-				'name' => 'ID',
-				'width' => 50
-			),
-			'header' => array(
-				'name' => 'Header',
-				'width' => NULL,
-				'type' => 'link'
-			),
-		);
+		if($this->_fields !== NULL)
+		{
+			return $this->_fields;
+		}
+
+		$this->_fields = parent::fields();
 		
 		$fields = DataSource_Hybrid_Field_Factory::get_section_fields($this->_section->id());
 		
@@ -26,17 +28,17 @@ class Datasource_Section_Hybrid_Headline extends Datasource_Section_Headline {
 		{
 			if( ! $field->in_headline ) continue;
 
-			$this->fields[$field->name] = array(
+			$this->_fields[$field->name] = array(
 				'name' =>  $field->header
 			);
 		}
 		
-		$this->fields['date'] = array(
+		$this->_fields['date'] = array(
 			'name' => 'Date of creation',
 			'width' => 150
 		);
 
-		return $this->fields;
+		return $this->_fields;
 	}
 
 	public function get( array $ids = NULL )
@@ -64,7 +66,7 @@ class Datasource_Section_Hybrid_Headline extends Datasource_Section_Headline {
 		}
 
 		$query = $agent
-			->get_query_props($fids, (array) $this->_sorting)
+			->get_query_props($fids, (array) $this->sorting())
 			->select(array('d.created_on', 'date'))
 			->select('dss.name')
 			->join(array('datasources', 'dss'))
@@ -130,5 +132,13 @@ class Datasource_Section_Hybrid_Headline extends Datasource_Section_Headline {
 		return $query->select(array(DB::expr('COUNT(*)'),'total_docs'))
 			->execute()
 			->get('total_docs');
+	}
+	
+	protected function _serialize()
+	{
+		$vars = parent::_serialize();
+		unset($vars['_fields']);
+		
+		return $vars;
 	}
 }

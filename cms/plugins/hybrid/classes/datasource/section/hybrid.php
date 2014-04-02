@@ -132,7 +132,6 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 			return FALSE;
 		}
 		
-		$this->doc_order = Arr::get($values, 'doc_order', array());
 		$this->template = empty($values['template']) ? NULL : $values['template'];
 		
 		$this->search_intro_field = empty($values['search_intro_field']) ? NULL : $values['search_intro_field'];

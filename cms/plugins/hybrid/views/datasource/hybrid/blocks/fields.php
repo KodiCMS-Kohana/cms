@@ -124,6 +124,6 @@
 </div>
 <?php echo View::factory('widgets/backend/blocks/sorting', array(
 	'ds_id' => $ds->id(),
-	'doc_order' => $ds->doc_order
+	'doc_order' => $ds->headline()->sorting()
 ));?>
 

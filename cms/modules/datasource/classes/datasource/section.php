@@ -111,7 +111,7 @@ class Datasource_Section {
 	/**
 	 * Объект загрузки списка документов 
 	 * 
-	 * @var type Datasource_Section_Headline
+	 * @var Datasource_Section_Headline
 	 */
 	protected $_headline = NULL;
 
@@ -138,8 +138,7 @@ class Datasource_Section {
 		$this->_type = $type;
 
 		$this->_initialize();
-		
-		
+		$this->_init_headline();
 		
 		if( ! class_exists( $this->_document_class_name ))
 		{
@@ -258,7 +257,7 @@ class Datasource_Section {
 			return FALSE;
 		}
 		
-		if(is_array($values))
+		if( is_array($values) )
 		{
 			$this->validate($values);
 
@@ -266,6 +265,8 @@ class Datasource_Section {
 			$this->description = Arr::get($values, 'description');
 		
 			$this->set_indexable(Arr::get($values, 'is_indexable', FALSE));
+			
+			$this->_headline->set_sorting(Arr::get($values, 'doc_order', array()));
 		}
 		
 		$data = array(
@@ -543,7 +544,7 @@ class Datasource_Section {
 	protected function _serialize()
 	{
 		$vars = get_object_vars($this);
-		unset($vars['_docs'], $vars['_is_indexable'], $vars['_headline']);
+		unset($vars['_docs'], $vars['_is_indexable']);
 		
 		return $vars;
 	}
@@ -558,6 +559,12 @@ class Datasource_Section {
 	public function __wakeup()
 	{
 		$this->_initialize();
+		
+		if($this->_headline === NULL)
+		{
+			$this->_init_headline();
+		}
+		$this->_headline->set_section($this);
 	}
 	
 	/**
@@ -568,7 +575,12 @@ class Datasource_Section {
 	{
 		$this->_docs = 0;
 		$this->_is_indexable = FALSE;
-
+		
+		$this->_document_class_name = 'Datasource_' . ucfirst($this->type()) . '_Document';
+	}
+	
+	protected function _init_headline()
+	{
 		$headline_class = 'Datasource_Section_' . ucfirst($this->type()) . '_Headline';
 		if(!class_exists($headline_class))
 		{
@@ -577,12 +589,11 @@ class Datasource_Section {
 			));
 		}
 		
-		$this->_document_class_name = 'Datasource_' . ucfirst($this->type()) . '_Document';
-		$this->_headline = new $headline_class($this);
+		$this->_headline = new $headline_class();
+		$this->_headline->set_section($this);
 	}
-	
-	
-	
+
+
 	/**************************************************************************
 	 * Search indexation
 	 **************************************************************************/
