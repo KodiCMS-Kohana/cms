@@ -55,12 +55,15 @@ class Kohana_Kodoc {
 	 */
 	public static function menu()
 	{
-		$menu = Kohana::cache('kodocMenu');
+		$menu = Cache::instance()->get('kodocMenu');
+		
 		if($menu !== NULL)
 		{
 			return View::factory('userguide/api/menu')
 				->bind('menu', $menu);
 		}
+		
+		$profiler = Profiler::start('Userguide', 'build menu');
 
 		$classes = Kodoc::classes();
 
@@ -121,7 +124,12 @@ class Kohana_Kodoc {
 		// Sort the packages
 		ksort($menu);
 		
-		Kohana::cache('kodocMenu', $menu, Date::HOUR);
+		Cache::instance()->set('kodocMenu', $menu, Date::DAY);
+		
+		if(isset($profiler))
+		{
+			Profiler::stop($profiler);
+		}
 
 		return View::factory('userguide/api/menu')
 			->bind('menu', $menu);
@@ -136,12 +144,13 @@ class Kohana_Kodoc {
 	 * @return  array   an array of all the class names
 	 */
 	public static function classes(array $list = NULL)
-	{
-		if ($list === NULL)
+	{	
+		if ($list === NULL AND ($list = Cache::instance()->get('KodocClasses')) === NULL)
 		{
 			$list = Kohana::list_files('classes');
+			Cache::instance()->set('KodocClasses', $list, Date::DAY);
 		}
-
+		
 		$classes = array();
 
 		foreach ($list as $name => $path)
@@ -175,10 +184,10 @@ class Kohana_Kodoc {
 	 */
 	public static function class_methods(array $list = NULL)
 	{
-		$list = Kodoc::classes($list);
-
 		$classes = array();
-
+		
+		$list = Kodoc::classes($list);
+		
 		foreach ($list as $class)
 		{
 			$_class = new ReflectionClass($class);
