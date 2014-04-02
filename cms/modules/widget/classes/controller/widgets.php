@@ -131,7 +131,7 @@ class Controller_Widgets extends Controller_System_Backend {
 	protected function _add()
 	{
 		$data = $this->request->post();
-		$widget = Widget_Manager::get_empty_object( $data['type'] );
+		$widget = Widget_Manager::factory( $data['type'] );
 		
 		try 
 		{

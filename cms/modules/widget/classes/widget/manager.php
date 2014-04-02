@@ -16,17 +16,20 @@ class Widget_Manager {
 	}
 	
 	/**
-	 * Получение пустого объекта для виджета
-	 * Используется для создания виджета.
+	 * Фабрика для создания виджета.
 	 * 
 	 * @param string $type Тип виджеа
 	 * @return Model_Widget_Decorator
 	 */
-	public static function get_empty_object( $type )
+	public static function factory( $type )
 	{
 		$class = 'Model_Widget_' . $type;
 
-		if( ! class_exists($class) ) return NULL;
+		if( ! class_exists($class) )
+		{
+			throw new Kohana_Exception('Widget :type not exists', 
+					array(':type' => $type));
+		}
 	
 		$widget = new $class;
 
@@ -352,9 +355,7 @@ class Widget_Manager {
 		OR 
 			empty($widget_array['data']['name'])) return;
 
-		$widget = Widget_Manager::get_empty_object( $widget_array['type'] );
-		
-		if( $widget === NULL ) return FALSE;
+		$widget = Widget_Manager::factory( $widget_array['type'] );
 		
 		try 
 		{
