@@ -19,7 +19,7 @@ $(function() {
 
 
 function update_snippets_list(e, response) {
-	var select = $('#WidgetTemplate');
+	var select = $('#snippet-select');
 
 	select
 		.append($('<option>', {value: response.name, text: response.name}))
