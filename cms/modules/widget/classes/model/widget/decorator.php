@@ -299,13 +299,12 @@ abstract class Model_Widget_Decorator {
 	 * @param array $params
 	 * @return View
 	 */
-	protected function _fetch_render($params)
+	protected function _fetch_render()
 	{
-		$params = Arr::merge($params, $this->template_params);
 		$context = & Context::instance();
 
 		$data = $this->fetch_data();
-		$data['params'] = $params;
+		$data['params'] = $this->template_params;
 		$data['page'] = $context->get_page();
 	
 		return View_Front::factory($this->template, $data)
@@ -481,6 +480,17 @@ abstract class Model_Widget_Decorator {
 	{
 		return $this->render($params);
 	}
+	
+	/**
+	 * Передача дополнительных парамтеров в виджет
+	 * @param array $params Дополнительные параметры
+	 */
+	public function set_params(array $params = array()) 
+	{
+		$this->template_params = Arr::merge($params, $this->template_params);
+		
+		return $this;
+	}
 
 	/**
 	 * Рендер виджета во Frontend
@@ -520,9 +530,10 @@ abstract class Model_Widget_Decorator {
 		}
 
 		$this->_fetch_template();
+		$this->set_params($params);
 		
-		$allow_omments = (bool) Arr::get($params, 'comments', TRUE);
-		$caching = (bool) Arr::get($params, 'caching', $this->caching);
+		$allow_omments = (bool) Arr::get($this->template_params, 'comments', TRUE);
+		$caching = (bool) Arr::get($this->template_params, 'caching', $this->caching);
 
 		if( $this->block == 'PRE' OR $this->block == 'POST' )
 		{
@@ -545,12 +556,12 @@ abstract class Model_Widget_Decorator {
 			! Fragment::load($this->get_cache_id(), $this->cache_lifetime, TRUE)
 		)
 		{
-			echo $this->_fetch_render($params);
+			echo $this->_fetch_render();
 			Fragment::save_with_tags($this->cache_lifetime, $this->cache_tags);
 		}
 		else if( ! $this->caching )
 		{
-			echo $this->_fetch_render($params);
+			echo $this->_fetch_render();
 		}
 
 		if($allow_omments)
@@ -562,15 +573,6 @@ abstract class Model_Widget_Decorator {
 		{
 			Profiler::stop($benchmark);
 		}
-	}
-
-	/**
-	 * 
-	 * @return string
-	 */
-	public function __toString()
-	{
-		return (string) $this->render();
 	}
 	
 	/**
@@ -631,6 +633,15 @@ abstract class Model_Widget_Decorator {
 	 * @return array array([KEY] => [VALUE], ....)
 	 */
 	abstract public function fetch_data();
+
+	/**
+	 * 
+	 * @return string
+	 */
+	public function __toString()
+	{
+		return (string) $this->render();
+	}
 	
 	public function __sleep()
 	{
