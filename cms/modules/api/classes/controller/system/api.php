@@ -171,8 +171,8 @@ class Controller_System_API extends Controller_System_Ajax {
 			if ( ! method_exists($this, $action))
 			{
 				throw HTTP_API_Exception::factory(API::ERROR_PAGE_NOT_FOUND,
-					'The requested method :method was not found on this server.',
-					array(':method' => $this->request->controller() . '.' . $this->request->action())
+					'The requested method ":method" was not found on this server.',
+					array(':method' => $action)
 				)->request($this->request);
 			}
 
