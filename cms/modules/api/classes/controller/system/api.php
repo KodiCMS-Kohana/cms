@@ -187,10 +187,19 @@ class Controller_System_API extends Controller_System_Ajax {
 		{
 			$this->json = $e->get_response();
 		}
+		catch (ORM_Validation_Exception $e)
+		{
+			$this->json = array(
+				'code'  => API::ERROR_VALIDATION,
+				'message' => rawurlencode($e->getMessage()),
+				'response' => NULL,
+				'errors' => $e->errors('validation')
+			);
+		}
 		catch (Validation_Exception $e)
 		{
 			$this->json = array(
-				'code'  => $e->getCode(),
+				'code'  =>  API::ERROR_VALIDATION,
 				'message' => rawurlencode($e->getMessage()),
 				'response' => NULL,
 				'errors' => $e->errors('validation')

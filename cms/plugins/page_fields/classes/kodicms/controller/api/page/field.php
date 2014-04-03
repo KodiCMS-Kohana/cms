@@ -52,17 +52,13 @@ class KodiCMS_Controller_API_Page_Field extends Controller_System_Api {
 		
 		$field = ORM::factory('page_field')->values($field_array);
 		
-		try {
-			$field->create();
-			
-			$view = View::factory('page/fields/field', array(
-				'field' => $field
-			));
-			
-			$this->response((string) $view);
-		} catch (ORM_Validation_Exception $v) {
-			$this->json['message'] = $v->errors('validation');
-		}
+		$field->create();
+
+		$view = View::factory('page/fields/field', array(
+			'field' => $field
+		));
+
+		$this->response((string) $view);
 	}
 	
 	public function rest_delete()

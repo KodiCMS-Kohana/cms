@@ -28,14 +28,7 @@ class Controller_API_Snippet extends Controller_System_Api {
 		$snippet->name = $this->param('name', NULL);
 		$snippet->content = $this->param('content', NULL);
 
-		try
-		{
-			$status = $snippet->save();
-		}
-		catch(Validation_Exception $e)
-		{
-			throw new API_Validation_Exception($e->errors('validation'));
-		}
+		$status = $snippet->save();
 		
 		if ( ! $status )
 		{
@@ -66,14 +59,7 @@ class Controller_API_Snippet extends Controller_System_Api {
 		$snippet = new Model_File_Snippet( $this->param('name', NULL) );
 		$snippet->content = $this->param('content', NULL);
 		
-		try
-		{
-			$status = $snippet->save();
-		}
-		catch(Validation_Exception $e)
-		{
-			throw new API_Validation_Exception($e->errors('validation'));
-		}
+		$status = $snippet->save();
 		
 		if ( ! $status )
 		{			

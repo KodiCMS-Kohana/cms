@@ -13,19 +13,12 @@ class Controller_Api_Datasource_Hybrid_Document extends Controller_System_API
 			throw HTTP_API_Exception::factory(API::ERROR_UNKNOWN, 'Datasource section not found');
 		}
 		
-		try
-		{
-			$doc = $ds->get_empty_document();
-			
-			$doc->read_values($this->params())
-				->validate();
-			
-			$doc = $ds->create_document($doc);
-		} 
-		catch (Validation_Exception $e) 
-		{
-			throw new API_Validation_Exception($e->errors('validation'));
-		}
+		$doc = $ds->get_empty_document();
+
+		$doc->read_values($this->params())
+			->validate();
+
+		$doc = $ds->create_document($doc);
 		
 		$this->message(__('Document created'));
 		$this->response($doc->values());
@@ -42,19 +35,12 @@ class Controller_Api_Datasource_Hybrid_Document extends Controller_System_API
 			throw HTTP_API_Exception::factory(API::ERROR_UNKNOWN, 'Datasource section not found');
 		}
 		
-		try
-		{
-			$doc = $ds->get_document((int) $id);
-			
-			$doc->read_values($this->params())
-				->validate();
-			
-			$doc = $ds->update_document($doc);
-		} 
-		catch (Validation_Exception $e) 
-		{
-			throw new API_Validation_Exception($e->errors('validation'));
-		}
+		$doc = $ds->get_document((int) $id);
+
+		$doc->read_values($this->params())
+			->validate();
+
+		$doc = $ds->update_document($doc);
 		
 		$this->message(__('Document updated'));
 		$this->response($doc->values());

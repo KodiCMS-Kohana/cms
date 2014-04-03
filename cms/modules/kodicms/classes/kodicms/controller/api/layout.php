@@ -26,14 +26,7 @@ class KodiCMS_Controller_API_Layout extends Controller_System_Api {
 		$layout->name = $this->param('name', NULL);
 		$layout->content = $this->param('content', NULL);
 
-		try
-		{
-			$status = $layout->save();
-		}
-		catch(Validation_Exception $e)
-		{
-			throw new API_Validation_Exception($e->errors('validation'));
-		}
+		$status = $layout->save();
 		
 		if ( ! $status )
 		{
@@ -59,14 +52,7 @@ class KodiCMS_Controller_API_Layout extends Controller_System_Api {
 		$layout = new Model_File_Layout( $this->param('name', NULL) );
 		$layout->content = $this->param('content', NULL);
 		
-		try
-		{
-			$status = $layout->save();
-		}
-		catch(Validation_Exception $e)
-		{
-			throw new API_Validation_Exception($e->errors('validation'));
-		}
+		$status = $layout->save();
 		
 		if ( ! $status )
 		{			
