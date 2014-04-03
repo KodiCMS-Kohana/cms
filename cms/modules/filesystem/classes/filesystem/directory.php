@@ -34,13 +34,13 @@ class FileSystem_Directory extends DirectoryIterator {
 	 */
 	public function delete( $preserve = FALSE )
 	{
-		$dirHandle = opendir($this->getRealPath());
+		$dirHandle = opendir($this->getPath());
 			
 		while (FALSE !== ($file = readdir($dirHandle))) 
 		{
 			if ($file != '.' AND $file != '..')
 			{
-				$tmpPath = $this->getRealPath() . DIRECTORY_SEPARATOR . $file;
+				$tmpPath = $this->getPath() . DIRECTORY_SEPARATOR . $file;
 				chmod($tmpPath, 0777);
 
 				FileSystem::factory($tmpPath)->delete();
@@ -49,9 +49,9 @@ class FileSystem_Directory extends DirectoryIterator {
 
 		closedir($dirHandle);
 
-		if ( file_exists($this->getRealPath()) AND $preserve === FALSE )
+		if ( file_exists($this->getPath()) AND $preserve === FALSE )
 		{
-			return rmdir($this->getRealPath());
+			return rmdir($this->getPath());
 		}
 		
 		return FALSE;
@@ -72,7 +72,7 @@ class FileSystem_Directory extends DirectoryIterator {
 	 */
 	public function getParent()
 	{
-		$path = $this->getRealPath();
+		$path = $this->getPath();
 		$parent_path = (!empty($path) ? substr($path, 0, strrpos($path, DIRECTORY_SEPARATOR)): '');
 		return FileSystem::factory($parent_path);
 	}
