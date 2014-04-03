@@ -43,7 +43,7 @@ class KodiCMS_Upload extends Kohana_Upload {
 		
 		if( ! empty($types) )
 		{
-			$validation->rule('file', array('Upload::type', array(':value', $types)));
+			$validation->rule('file', 'Upload::type', array(':value', $types));
 		}
 
 		if ( ! $validation->check() )
@@ -98,7 +98,7 @@ class KodiCMS_Upload extends Kohana_Upload {
 		
 		if( ! empty($types) )
 		{
-			$validation->rule('ext', array('in_array', array(':value', $types)));
+			$validation->rule('ext', 'in_array', array(':value', $types));
 		}
 			
 		if ( ! $validation->check() )
