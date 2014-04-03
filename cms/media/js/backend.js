@@ -795,7 +795,7 @@ var Api = {
 				}
 				this._response = response;
 				
-				var $event = method + uri.replace(/\//g, ':');
+				var $event = method + uri.replace(SITE_URL, ":").replace(/\//g, ':');
 				window.top.$('body').trigger($event.toLowerCase(), [this._response.response]);
 
 				if(typeof(callback) == 'function') callback(this._response);
