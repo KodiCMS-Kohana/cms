@@ -95,7 +95,7 @@ class Model_Widget_SendMail extends Model_Widget_Decorator {
 		foreach ($data['fields'] as $field)
 		{
 			$email_type_fields['key'][] = $field['id'];
-			$email_type_fields['name'][] = ! empty($field['name']) ? $field['name'] : Inflector::humanize($field['id']);
+			$email_type_fields['value'][] = ! empty($field['name']) ? $field['name'] : Inflector::humanize($field['id']);
 		}
 
 		$email_type->set('data', $email_type_fields)->update();
