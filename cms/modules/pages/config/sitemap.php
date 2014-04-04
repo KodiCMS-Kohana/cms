@@ -6,7 +6,7 @@ return array(
 		'children' => array(
 			array(
 				'name' => __('Pages'),
-				'url' => URL::backend('page'),
+				'url' => Route::url('backend', array('controller' => 'page')),
 				'permissions' => 'page.index',
 				'priority' => 100,
 				'icon' => 'sitemap'

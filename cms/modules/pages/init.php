@@ -25,7 +25,7 @@ Observer::observe('scheduler_callbacks', function() {
 			$data[] = array(
 				'title' => $page->title,
 				'start' => strtotime($page->published_on),
-				'url' => URL::backend('page/edit/' . $page->id),
+				'url' => Route::url('backend', array('controller' => 'page', 'action' => 'edit', 'id' => $page->id)),
 				'allDay' => FALSE
 			);
 		}
