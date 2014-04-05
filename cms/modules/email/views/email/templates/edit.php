@@ -165,6 +165,18 @@
 			));
 		?>
 		<div class="control-group" id="field_description"><div class="controls"></div></div>
+		
+		<div class="control-group">
+			<div class="controls">
+				<div class="alert alert-warning">
+					<i class="icon icon-lightbulb"></i> <?php echo __('A collection of patterns & modules for responsive emails :link', array(
+						':link' => HTML::anchor('http://responsiveemailpatterns.com/', NULL, array(
+							'target' => 'blank'
+						))
+					)); ?>
+				</div>
+			</div>		
+		</div>
 	</div>
 	<div class="form-actions widget-footer">
 		<?php echo UI::actions($page_name); ?>

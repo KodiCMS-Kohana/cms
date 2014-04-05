@@ -44,6 +44,8 @@ return array(
 	'Use queue' => 'Постановка в очередь',
 	'Email send type' => 'Метод отправки сообщения',
 	'Direct sending' => 'Прямая отправка',
+	'A collection of patterns & modules for responsive emails :link' 
+		=> 'Коллекция шаблонов писем с отзывчивым дизайном :link',
 	
 	/*********************** Email types *********************************/
 	'Email types' => 'Типы почтовых событий',
