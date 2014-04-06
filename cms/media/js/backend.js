@@ -13,7 +13,9 @@ var cms = {
 	message: function(msg, type) {
 		if(!type) type = 'success';
 		
+		var title = type.charAt(0).toUpperCase() + type.slice(1);
 		window.top.$.pnotify({
+			title: __(title),
 			text: msg,
 			sticker: false,
 			type: type,
