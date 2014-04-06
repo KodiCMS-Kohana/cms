@@ -55,8 +55,7 @@ class KodiCMS_Controller_System_Backend extends Controller_System_Template
 			Assets::css('dropzone', ADMIN_RESOURCES . 'libs/dropzone/css/basic.css', 'jquery');
 			Assets::js('dropzone', ADMIN_RESOURCES . 'libs/dropzone/dropzone.min.js', 'jquery');
 			
-			Assets::css('jgrowl', ADMIN_RESOURCES . 'libs/jgrowl/jquery.jgrowl.css', 'jquery');
-			Assets::js('jgrowl', ADMIN_RESOURCES . 'libs/jgrowl/jquery.jgrowl_minimized.js', 'jquery');
+			Assets::package('notify');
 
 			Assets::js('bootstrap', ADMIN_RESOURCES . 'libs/bootstrap/js/bootstrap.min.js', 'jquery');
 			

@@ -8,12 +8,17 @@ var cms = {
 	// Error
 	error: function (msg, e) {
 		this.message(msg, 'error');
-		$.jGrowl(msg, {theme: 'alert alert-error'});
 	},
 		
 	message: function(msg, type) {
 		if(!type) type = 'success';
-		window.top.$.jGrowl(decodeURI(msg), {theme: 'alert alert-' + type});
+		
+		window.top.$.pnotify({
+			text: msg,
+			sticker: false,
+			type: type,
+			history: false
+		});
 	},
 	error_field: function(name, message) {
 		name = name.indexOf('.') !== -1 ? '['+name.replace(/\./g, '][') + ']' : name;

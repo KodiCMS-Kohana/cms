@@ -15,12 +15,9 @@ class KodiCMS_Controller_System_Frontend extends Controller_System_Template
 		{
 			Assets::js('jquery', ADMIN_RESOURCES . 'libs/jquery.min.js');
 			
-			Assets::package(array('jquery-ui', 'backbone'));
+			Assets::package(array('jquery-ui', 'backbone', 'notify'));
 
 			Assets::js('bootstrap', ADMIN_RESOURCES . 'libs/bootstrap/js/bootstrap.min.js', 'jquery');
-			
-			Assets::css('jgrowl', ADMIN_RESOURCES . 'libs/jgrowl/jquery.jgrowl.css', 'jquery');
-			Assets::js('jgrowl', ADMIN_RESOURCES . 'libs/jgrowl/jquery.jgrowl_minimized.js', 'jquery');
 			
 			Assets::css('global', ADMIN_RESOURCES . 'css/common.css');
 			Assets::js('global', ADMIN_RESOURCES . 'js/backend.js', 'backbone');
