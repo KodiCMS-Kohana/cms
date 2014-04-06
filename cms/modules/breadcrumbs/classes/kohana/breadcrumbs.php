@@ -47,10 +47,13 @@ abstract class Kohana_Breadcrumbs implements Countable, Iterator {
 	 */
 	public function add($name, $url = FALSE, $is_active = FALSE, $position = NULL, array $data = array())
 	{
-		$item = new Breadcrumbs_Item($name, $url, $is_active, $data);
+		if( ! empty($name) )
+		{
+			$item = new Breadcrumbs_Item($name, $url, $is_active, $data);
 
-		$position = $this->_get_next_positon($position);
-		$this->_items[$position] = $item;
+			$position = $this->_get_next_positon($position);
+			$this->_items[$position] = $item;
+		}
 
 		return $this;
 	}
