@@ -8,6 +8,7 @@
 class KodiCMS_Meta {
 	
 	/**
+	 * Фабрика создания объекта Meta информации для шаблона
 	 * 
 	 * @param Model_Page_Front $page
 	 * @return \self
@@ -18,6 +19,9 @@ class KodiCMS_Meta {
 	}
 	
 	/**
+	 * Очистка всех существующих записей в объекте Assets, 
+	 * который используется для генерации данных
+	 * 
 	 * Remove all assets data
 	 * @return \KodiCMS_Meta
 	 */
@@ -29,12 +33,27 @@ class KodiCMS_Meta {
 	}
 	
 	/**
+	 * Объект текущей страницы, используется для генерации мета ифнормации
 	 *
 	 * @var Model_Page_Front 
 	 */
 	protected $_page = NULL;
 
 	/**
+	 * Конструктор
+	 * 
+	 * В нем генерируется
+	 * 
+	 *		<title>...</title>
+	 *		<meta name="keywords" content="" />
+	 *		<meta name="description" content="" />
+	 *		<meta name="robots" content="" />
+	 *		<meta name="robots" content="" />
+	 *		<meta http-equiv="content-type" content="...; charset=utf-8" />
+	 * 
+	 * Для переопеределения данных используйте
+	 * 
+	 *		Meta::factory($page)->add(array('name' => 'description', ...));
 	 * 
 	 * @param Model_Page_Front $page
 	 */
@@ -43,19 +62,50 @@ class KodiCMS_Meta {
 		$this->_page = $page;
 
 		$this
-			->group('title', '<title>:title</title>', array(':title'
-				=> HTML::chars($this->_page->meta_title())))
-			->group('keywords', '<meta name="keywords" content=":content" />', array(':content' 
-				=> HTML::chars($this->_page->meta_keywords())))
-			->group('description', '<meta name="description" content=":content" />', array(':content' 
-				=> HTML::chars($this->_page->meta_description())))
+			->title(HTML::chars($this->_page->meta_title()))
+			->add(array('name' => 'keywords', 'content' => HTML::chars($this->_page->meta_keywords())))
+			->add(array('name' => 'description', 'content' => HTML::chars($this->_page->meta_description())))
+			->add(array('name' => 'robots', 'content' => HTML::chars($this->_page->robots)))
 			->group('content-type', '<meta http-equiv="content-type" content=":content; charset=utf-8" />', array(':content' 
-				=> HTML::chars($this->_page->mime())))
-			->group('robots', '<meta name="robots" content=":content" />', array(':content' 
-				=> HTML::chars($this->_page->robots)));
+				=> HTML::chars($this->_page->mime())));
 	}
 	
 	/**
+	 * Генерация тега meta
+	 * Если не передан параметр $group, происходит поиск атрибута [name] и берется
+	 * его значение, если и там нет, то `Text::random()`
+	 *
+	 *		Meta::factory($page)->add(array('name' => 'description', ...));
+	 * 
+	 * @uses HTML::attributes для обработки атрибутов
+	 * 
+	 * @param array $attributes массив атрибутов
+	 * @param string $group Группа
+	 * @return type
+	 */
+	public function add(array $attributes, $group = NULL)
+	{
+		$meta = "<meta".HTML::attributes($attributes)." />";
+		
+		if($group === NULL)
+		{
+			if(isset($attributes['name']))
+			{
+				$group = $attributes['name'];
+			}
+			else
+			{
+				$group = Text::random();
+			}
+		}
+
+		return $this->group($group, $meta);
+	}
+	
+	/**
+	 * Указание title
+	 * 
+	 *		Meta::factory($page)->title('New title');
 	 * 
 	 * @param string $title
 	 * @return KodiCMS_Meta
@@ -67,9 +117,9 @@ class KodiCMS_Meta {
 	}
 
 	/**
-	 * CSS wrapper
-	 *
-	 * Gets or sets CSS assets
+	 * Установка файла CSS стиля
+	 * 
+	 *		Meta::factory($page)->css('bootstrap', PLUGINS_URL . 'test/public/css/bootstrap.min.css');
 	 *
 	 * @param   string   Asset name.
 	 * @param   string   Asset source
@@ -77,16 +127,16 @@ class KodiCMS_Meta {
 	 * @param   array    Attributes for the <link /> element
 	 * @return  KodiCMS_Meta
 	 */
-	public function css($handle = NULL, $src = NULL, $deps = NULL, $attrs = NULL)
+	public function css($handle, $src, $deps = NULL, $attrs = NULL)
 	{
 		Assets::css($handle, $src, $deps, $attrs);
 		return $this;
 	}
 	
 	/**
-	 * Javascript wrapper
-	 *
-	 * Gets or sets javascript assets
+	 * Установка файла JS
+	 * 
+	 *		Meta::factory($page)->js('bootstrap', PLUGINS_URL . 'test/public/js/bootstrap.min.js', 'jquery');
 	 *
 	 * @param   mixed    Asset name if `string`, sets `$footer` if boolean
 	 * @param   string   Asset source
@@ -94,13 +144,17 @@ class KodiCMS_Meta {
 	 * @param   bool     Whether to show in header or footer
 	 * @return  KodiCMS_Meta
 	 */
-	public function js($handle = FALSE, $src = NULL, $deps = NULL, $footer = FALSE)
+	public function js($handle, $src, $deps = NULL, $footer = FALSE)
 	{
 		Assets::js($handle, $src, $deps, $footer);
 		return $this;
 	}
 	
 	/**
+	 * Добавление произвольного HTML
+	 * 
+	 *		Meta::factory($page)->group('content-type', '<meta http-equiv="content-type" content=":content; charset=utf-8" />', 
+	 *			array(':content' => HTML::chars($this->_page->mime())));
 	 * 
 	 * @param string $handle
 	 * @param string $content
@@ -108,13 +162,14 @@ class KodiCMS_Meta {
 	 * @param string $deps
 	 * @return \KodiCMS_Meta
 	 */
-	public function group($handle = NULL, $content = NULL, $params = array(), $deps = NULL)
+	public function group($handle, $content, $params = array(), $deps = NULL)
 	{
 		Assets::group('head', $handle, strtr($content, $params), $deps);
 		return $this;
 	}
 
 	/**
+	 * Генерация HTML кода
 	 * 
 	 * @return string
 	 */
@@ -124,7 +179,7 @@ class KodiCMS_Meta {
 				. Assets::css()
 				. Assets::js();
 	}
-	
+
 	public function __toString()
 	{
 		return (string) $this->render();
