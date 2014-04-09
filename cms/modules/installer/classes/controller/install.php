@@ -162,7 +162,16 @@ class Controller_Install extends Controller_System_Frontend
 			exit();
 		}
 		
-		Messages::errors($e->getMessage());
+		if($e instanceof Validation_Exception)
+		{
+			$errors = $e->errors('validation');
+			Messages::errors($errors);
+		}
+		else
+		{
+			Messages::errors($e->getMessage());
+		}
+
 		$this->go_back();
 	}
 
