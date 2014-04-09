@@ -311,7 +311,7 @@ class KodiCMS_Model_Page extends ORM
 		}
 		
 		// Если запрещены теги в Заголовке, удаляем их
-		if ( Config::get('site', 'allow_html_title' ) == 'off' )
+		if ( Config::get('site', 'allow_html_title' ) == Config::NO )
 		{
 			$this->title = strip_tags( trim( $this->title ) );
 		}

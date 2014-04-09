@@ -19,7 +19,7 @@ class KodiCMS_Controller_API_Settings extends Controller_System_Api {
 		$settings = $this->param('setting', array(), TRUE);
 		
 		$filter = Filter::factory($settings)
-			->rule('site.allow_html_title', FALSE, 'off');		
+			->rule('site.allow_html_title', FALSE, Config::NO);		
 		
 		$validation = Validation::factory(array());
 		Observer::notify( 'validation_settings', $validation, $filter );

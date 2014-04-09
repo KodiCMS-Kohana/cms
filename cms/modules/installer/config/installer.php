@@ -1,23 +1,28 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
 return array(
-	'cache_types' => array('file' => __('File cache'), 'sqlite' => __('SQLite cache'), 'apc' => __('APC Cache'), 'memcachetag' => __('Memcache')),
+	'cache_types' => array(
+		'file' => __('File cache'), 
+		'sqlite' => __('SQLite cache'), 
+		'apc' => __('APC Cache'), 
+		'memcachetag' => __('Memcache')
+	),
 	
 	'default_config' => array(
 		'site' => array(
-			'allow_html_title' => 'off',
-			'breadcrumbs' => 'no',
+			'allow_html_title' => Config::NO,
+			'breadcrumbs' => Config::YES,
 			'date_format' => 'd F Y',
-			'debug' => 'no',
+			'debug' => Config::NO,
 			'default_filter_id' => 'redactor',
 			'default_status_id' => 100,
 			'default_tab' => 'page',
 			'description' => '',
-			'find_similar' => 'yes',
-			'profiling' => 'no',
+			'find_similar' => Config::YES,
+			'profiling' => Config::NO,
 		),
 		'api' => array(
-			'mode' => 'no'
+			'mode' => Config::NO
 		),
 	),
 	'default_plugins' => array(
