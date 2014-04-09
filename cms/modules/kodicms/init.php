@@ -11,3 +11,10 @@ Assets_Package::add('jquery-ui')
 Assets_Package::add('notify')
 	->js('notify', ADMIN_RESOURCES . 'libs/pnotify/jquery.pnotify.min.js', 'jquery')
 	->css('notify', ADMIN_RESOURCES . 'libs/pnotify/jquery.pnotify.default.css', 'jquery');
+
+Observer::observe('modules::afer_load', function() {
+	Assets_Package::add('select2')
+		->js('select2', ADMIN_RESOURCES . 'libs/select2/select2.min.js', 'jquery')
+		->js('select2' . I18n::lang_short(), ADMIN_RESOURCES . 'libs/select2/select2_locale_'.I18n::lang_short().'.js', 'select2')
+		->css('select2', ADMIN_RESOURCES . 'libs/select2/select2.css', 'jquery');
+});
