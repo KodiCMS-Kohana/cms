@@ -109,7 +109,7 @@ abstract class KodiCMS_Search {
 	 */
 	final public function __clone()
 	{
-		throw new Cache_Exception('Cloning of Search objects is forbidden');
+		throw new KodiCMS_Exception('Cloning of Search objects is forbidden');
 	}
 	
 	/**
