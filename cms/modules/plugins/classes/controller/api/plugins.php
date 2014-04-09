@@ -35,17 +35,17 @@ class Controller_API_Plugins extends Controller_System_API
 
 		$plugin = Plugins::get_registered( $this->param('id', NULL, TRUE) );
 
-		if ( ! $plugin->is_installed() AND (bool) $this->param('installed') === TRUE )
+		if ( ! $plugin->is_activated() AND (bool) $this->param('installed') === TRUE )
 		{
-			$plugin->install();
+			$plugin->activate();
 		}
 		else
 		{
-			$plugin->uninstall((bool)$this->param('remove_data'));
+			$plugin->deactivate((bool)$this->param('remove_data'));
 		}
 		
-		Kohana::$log->add(Log::INFO, ':user :action plugin ":name"', array(
-			':action' => $plugin->is_installed() ? 'install' : 'uninstall',
+		Kohana::$log->add(Log::INFO, ':user :action plugin :name', array(
+			':action' => $plugin->is_activated() ? 'activate' : 'deactivate',
 			':name' => $plugin->title()
 		))->write();
 
@@ -60,7 +60,7 @@ class Controller_API_Plugins extends Controller_System_API
 			'description' => $plugin->description(),
 		  'version' => $plugin->version(),
 			'author' => $plugin->author(),
-			'installed' => $plugin->is_installed(),
+			'installed' => $plugin->is_activated(),
 			'settings' => $plugin->has_settings_page(),
 			'icon' => $plugin->icon()
 		);

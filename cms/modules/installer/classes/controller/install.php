@@ -384,7 +384,7 @@ class Controller_Install extends Controller_System_Frontend
 			
 			if($plugin instanceof Plugin_Decorator)
 			{
-				$plugin->install();
+				$plugin->activate();
 			}
 		}
 	}

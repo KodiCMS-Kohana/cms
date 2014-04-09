@@ -7,24 +7,32 @@
 class Plugins {
 
 	/**
-	 *
+	 * Активированные плагины
+	 * 
 	 * @var array
 	 */
-	protected static $_installed = array();
+	protected static $_activated = array();
 	
 	/**
-	 *
+	 * Найденные в системе плагины
 	 * @var array
 	 */
 	protected static $_registered = array();
 
+	/**
+	 * Инициализация модуля.
+	 * 
+	 * При инициализации активированные плагины подключаются через
+	 * Kohana::modules
+	 * 
+	 */
 	public static function init()
 	{	
-		self::$_installed = self::_load_from_db();
+		self::$_activated = self::_load_from_db();
 
 		$plugins = array();
 
-		foreach ( self::$_installed as $plugin_id => $tmp )
+		foreach ( self::$_activated as $plugin_id => $tmp )
 		{
 			if(  is_dir( PLUGPATH . $plugin_id ) )
 			{
@@ -34,78 +42,57 @@ class Plugins {
 
 		Kohana::modules( $plugins + Kohana::modules() );
 	}
-	
+
 	/**
 	 * 
-	 * @return array
+	 * 
+	 * @param string $plugin_id
 	 */
-	protected static function _load_from_db()
+	public static function activate( Plugin_Decorator $plugin )
 	{
-		return DB::select('id')
-			->from(Plugin_Decorator::TABLE_NAME)
-			->cache_key(Plugin_Decorator::CACHE_KEY . '::list')
-			->cached(Date::DAY)
-			->execute()
-			->as_array('id', 'id');
+		self::$_activated[$plugin->id()] = TRUE;
 	}
 
 	/**
 	 * 
-	 * @param Plugins_Item $plugin
+	 * @param string $plugin_id
+	 */
+	public static function deactivate( Plugin_Decorator $plugin )
+	{
+		if ( isset( self::$_activated[$plugin->id()] ) )
+		{
+			unset( self::$_activated[$plugin->id()] );
+		}
+	}
+	
+	/**
+	 * Получение спсика активированных плагинов
+	 * 
+	 * @return array
+	 */
+	public static function activated()
+	{
+		return self::$_activated;
+	}
+
+	/**
+	 * Активирован ли плагин
+	 * 
+	 * @param string $plugin_id
 	 * @return boolean
 	 */
-	public static function register( Plugin_Decorator $plugin )
+	public static function is_activated( $plugin_id )
 	{
-		self::$_registered[$plugin->id()] = $plugin;
-		return TRUE;
-	}
-
-	/**
-	 * 
-	 * @param string $plugin_id
-	 * @return Plugin_Decorator
-	 */
-	public static function get_registered( $plugin_id = NULL )
-	{
-		if ( $plugin_id === NULL )
+		if($plugin_id instanceof Plugin_Decorator)
 		{
-			return self::$_registered;
+			$plugin_id = $plugin_id->id();
 		}
 
-		return Arr::get( self::$_registered, $plugin_id );
-	}
-	
-	/**
-	 * 
-	 * @return array
-	 */
-	public static function installed( )
-	{
-		return self::$_installed;
+		return isset(self::$_activated[$plugin_id]);
 	}
 
 	/**
-	 * 
-	 * @param string $plugin_id
-	 */
-	public static function install( Plugin_Decorator $plugin )
-	{
-		self::$_installed[$plugin->id()] = TRUE;
-	}
-
-	/**
-	 * 
-	 * @param string $plugin_id
-	 */
-	public static function uninstall( Plugin_Decorator $plugin )
-	{
-		if ( isset( self::$_installed[$plugin->id()] ) )
-		{
-			unset( self::$_installed[$plugin->id()] );
-		}
-	}
-
-	/**
+	 * Получение списка всех имеющихся плагинов
 	 * 
 	 * @return array
 	 */
@@ -138,17 +125,47 @@ class Plugins {
 	}
 
 	/**
+	 * Регистрация плагина в системе
 	 * 
-	 * @param string $plugin_id
+	 * @param Plugins_Item $plugin
 	 * @return boolean
 	 */
-	public static function is_installed( $plugin_id )
+	public static function register( Plugin_Decorator $plugin )
 	{
-		if($plugin_id instanceof Plugin_Decorator)
+		self::$_registered[$plugin->id()] = $plugin;
+		return TRUE;
+	}
+
+	/**
+	 * Получение списка или одного плагина по ID
+	 * 
+	 * @param string $plugin_id
+	 * @return Plugin_Decorator
+	 */
+	public static function get_registered( $plugin_id = NULL )
+	{
+		if ( $plugin_id === NULL )
 		{
-			$plugin_id = $plugin_id->id();
+			return self::$_registered;
 		}
 
-		return isset(self::$_installed[$plugin_id]);
+		return Arr::get( self::$_registered, $plugin_id );
+	}
+	
+	/**
+	 * Получение списка плагинов из БД
+	 * 
+	 * @cache_key plugins::list
+	 * $cache Date::DAY
+	 * @return array
+	 */
+	protected static function _load_from_db()
+	{
+		return DB::select('id')
+			->from(Plugin_Decorator::TABLE_NAME)
+			->cache_key(Plugin_Decorator::CACHE_KEY . '::list')
+			->cached(Date::DAY)
+			->execute()
+			->as_array('id', 'id');
 	}
 }
