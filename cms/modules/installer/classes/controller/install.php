@@ -32,8 +32,8 @@ class Controller_Install extends Controller_System_Frontend
 	public function action_index()
 	{
 		Assets::js('steps', ADMIN_RESOURCES . 'libs/steps/jquery.steps.min.js', 'jquery');
-		Assets::css('select2', ADMIN_RESOURCES . 'libs/select2/select2.css', 'jquery');
-		Assets::js('select2', ADMIN_RESOURCES . 'libs/select2/select2.min.js', 'jquery');
+		
+		Assets::package('select2');
 		
 		Assets::js('install', ADMIN_RESOURCES . 'js/install.js', 'global');
 		Assets::css('install', ADMIN_RESOURCES . 'css/install.css', 'global');

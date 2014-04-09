@@ -55,15 +55,12 @@ class KodiCMS_Controller_System_Backend extends Controller_System_Template
 			Assets::css('dropzone', ADMIN_RESOURCES . 'libs/dropzone/css/basic.css', 'jquery');
 			Assets::js('dropzone', ADMIN_RESOURCES . 'libs/dropzone/dropzone.min.js', 'jquery');
 			
-			Assets::package('notify');
+			Assets::package(array('notify', 'select2'));
 
 			Assets::js('bootstrap', ADMIN_RESOURCES . 'libs/bootstrap/js/bootstrap.min.js', 'jquery');
 			
 			Assets::css('fancybox', ADMIN_RESOURCES . 'libs/fancybox/jquery.fancybox.css', 'jquery');
 			Assets::js('fancybox', ADMIN_RESOURCES . 'libs/fancybox/jquery.fancybox.pack.js', 'jquery');
-			
-			Assets::css('select2', ADMIN_RESOURCES . 'libs/select2/select2.css', 'jquery');
-			Assets::js('select2', ADMIN_RESOURCES . 'libs/select2/select2.min.js', 'jquery');
 			
 			Assets::css('datepicker', ADMIN_RESOURCES . 'libs/datepicker/jquery.datetimepicker.css', 'jquery');
 			Assets::js('datepicker', ADMIN_RESOURCES . 'libs/datepicker/jquery.datetimepicker.js', 'jquery');
