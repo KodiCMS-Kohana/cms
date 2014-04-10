@@ -7,7 +7,7 @@
 	'use strict'
 	var default_options  = {
 		i18n:{
-			ru:{ // Russian
+			'ru-ru':{ // Russian
 				months:[
 					'Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'
 				],
@@ -15,7 +15,7 @@
 					"Вск", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"
 				]
 			},
-			en:{ // English
+			'en-us':{ // English
 				months: [
 					"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
 				],
@@ -824,8 +824,6 @@
 									start	= new Date(_xdsoft_datetime.currentTime.getFullYear(),_xdsoft_datetime.currentTime.getMonth(),1, 12, 0, 0),
 									i = 0,
 									today = _xdsoft_datetime.now();
-								
-								console.log('fire xchange.xdsoft',_xdsoft_datetime.currentTime);  // remove
 								
 								while( start.getDay()!=options.dayOfWeekStart )
 									start.setDate(start.getDate()-1);
