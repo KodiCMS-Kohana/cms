@@ -86,6 +86,16 @@ class Controller_Install extends Controller_System_Frontend
 			$post['password_field'] = Text::random();
 		}
 		
+		if(isset($post['admin_dir_name']))
+		{
+			$post['admin_dir_name'] = URL::title($post['admin_dir_name']);
+		}
+		
+		if(isset($post['db_port']))
+		{
+			$post['db_port'] = (int) $post['db_port'];
+		}
+		
 		date_default_timezone_set( $post['timezone'] );
 
 		Session::instance()
@@ -98,7 +108,7 @@ class Controller_Install extends Controller_System_Frontend
 			
 			Database::$default = 'install';
 		}
-		catch (Validation_Exception $e)
+		catch (Kohana_Exception $e)
 		{
 			$this->_show_error($e);
 		}
@@ -164,8 +174,7 @@ class Controller_Install extends Controller_System_Frontend
 		
 		if($e instanceof Validation_Exception)
 		{
-			$errors = $e->errors('validation');
-			Messages::errors($errors);
+			Messages::errors($e->errors('validation'));
 		}
 		else
 		{
@@ -182,19 +191,28 @@ class Controller_Install extends Controller_System_Frontend
 	 * @return Database
 	 * @throws Validation_Exception
 	 */
-	protected function _connect_to_db(array $post)
+	protected function _connect_to_db( array $post )
 	{
 		$config = Kohana::$config->load('database');
-		
-		
+
 		switch ($post['db_driver'])
 		{
 			case 'mysql':
 				$connection = array(
-					'hostname' => $post['db_server'] . ':' . $post['db_port'],
-					'database' => $post['db_name'],
-					'username' => $post['db_user'],
-					'password' => $post['db_password'],
+					'hostname'	 => $post['db_server'] . ':' . $post['db_port'],
+					'database'	 => $post['db_name'],
+					'username'	 => $post['db_user'],
+					'password'	 => $post['db_password'],
+					'persistent' => FALSE,
+				);
+				break;
+			case 'mysqli':
+				$connection = array(
+					'hostname'	 => $post['db_server'],
+					'port'		 => $post['db_port'],
+					'database'	 => $post['db_name'],
+					'username'	 => $post['db_user'],
+					'password'	 => $post['db_password'],
 					'persistent' => FALSE,
 				);
 				break;
@@ -227,20 +245,32 @@ class Controller_Install extends Controller_System_Frontend
 		} 
 		catch (Database_Exception $exc)
 		{
+			$validation = FALSE;
 			switch ($exc->getCode())
 			{
 				case 1049:
 					$this->_validation->error( 'db_name' , 'incorrect' );
+					$validation = TRUE;
 					break;
 				case 2:
 					$this->_validation
 						->error( 'db_server' , 'incorrect' )
 						->error( 'db_user' , 'incorrect' )
 						->error( 'db_password' , 'incorrect' );
+					
+					$validation = TRUE;
 					break;
 			}
-
-			throw new Validation_Exception($this->_validation, $exc->getMessage(), NULL, $exc->getCode());
+			
+			if($validation === TRUE)
+			{
+				throw new Validation_Exception($this->_validation, $exc->getMessage(), NULL, $exc->getCode());
+			}
+			else
+			{
+				throw new Database_Exception($exc->getMessage(), NULL, $exc->getCode());
+			}
+			
 		}
 	}
 
@@ -251,7 +281,7 @@ class Controller_Install extends Controller_System_Frontend
 	 * @return Validation
 	 * @throws Validation_Exception
 	 */
-	protected function _valid(array $data)
+	protected function _valid( array $data )
 	{
 		$cache_types = Kohana::$config->load('installer')->get( 'cache_types', array() );
 
@@ -267,13 +297,13 @@ class Controller_Install extends Controller_System_Frontend
 			->rule( 'cache_type', 'in_array', array(':value', array_keys( $cache_types )))
 			->label('db_server', __('Database server'))
 			->label('db_user', __( 'Database user' ))
-			->label('db_password', __( 'Database password' ))
-			->label('db_name', __( 'Database name' ))
-			->label('admin_dir_name', __( 'Admin dir name' ))
-			->label('username', __( 'Administrator username' ))
-			->label('email', __( 'Administrator email' ))
-			->label('password_field', __( 'Password' ))
-			->label('cache_type', __( 'Cache type' ));
+			->label('db_password', __('Database password'))
+			->label('db_name', __('Database name'))
+			->label('admin_dir_name', __('Admin dir name'))
+			->label('username', __('Administrator username'))
+			->label('email', __('Administrator email'))
+			->label('password_field', __('Password'))
+			->label('cache_type', __('Cache type'));
 		
 		if(!isset($data['password_generate']))
 		{
@@ -281,7 +311,7 @@ class Controller_Install extends Controller_System_Frontend
 				->rule('password_field', 'min_length', array(':value', Kohana::$config->load('auth')->get( 'password_length' )))
 				->rule('password_field', 'not_empty')
 				->rule('password_confirm', 'matches', array(':validation', ':field', 'password_field'))
-				->label('password_confirm', __( 'Confirm Password' ));
+				->label('password_confirm', __('Confirm Password'));
 		}
 
 		if ( !$validation->check() )
@@ -294,10 +324,11 @@ class Controller_Install extends Controller_System_Frontend
 
 	/**
 	 * Импорт схемы БД из файла `schema.sql`
+	 * 
 	 * @param array $post
 	 * @throws Installer_Exception
 	 */
-	protected function _import_shema($post)
+	protected function _import_shema( array $post )
 	{		
 		// Merge modules schema.sql
 		$schema_content = $this->_merge_module_files('schema.sql');
@@ -316,7 +347,7 @@ class Controller_Install extends Controller_System_Frontend
 	 * @param array $post
 	 * @throws Installer_Exception
 	 */
-	protected function _import_dump($post)
+	protected function _import_dump( array $post )
 	{
 		// Merge modules dump.sql
 		$dump_content = $this->_merge_module_files('dump.sql');
@@ -346,7 +377,7 @@ class Controller_Install extends Controller_System_Frontend
 	 * 
 	 * @param array $post
 	 */
-	protected function _create_site_config($post)
+	protected function _create_site_config( array $post )
 	{
 		$config_values = Kohana::$config->load('installer')->get('default_config', array());
 		
@@ -371,8 +402,10 @@ class Controller_Install extends Controller_System_Frontend
 	 * Установка пллагинов по умолчанию
 	 * 
 	 * Список плагинов по умолчанию указывается в конфиг файле `installer`
+	 * 
+	 * @param array $post
 	 */
-	protected function _install_plugins($post)
+	protected function _install_plugins( array $post )
 	{
 		if( ! is_dir(MODPATH . 'plugins') ) return;
 
@@ -382,7 +415,7 @@ class Controller_Install extends Controller_System_Frontend
 		
 		Plugins::find_all();
 		
-		if(!empty($post['insert_test_data']))
+		if( ! empty($post['insert_test_data']))
 		{
 			$default_plugins[] = 'test';
 		}
@@ -404,10 +437,9 @@ class Controller_Install extends Controller_System_Frontend
 	 * Метод проходится по модулям, ищет в них файл install.php, если существует
 	 * запускает его и передает массив $post
 	 *
-	 * @param type $post
-	 * @return type
+	 * @param array $post
 	 */
-	protected function _install_modules($post)
+	protected function _install_modules( array $post )
 	{
 		if ( ! is_dir(MODPATH) ) return;
 		
@@ -431,7 +463,7 @@ class Controller_Install extends Controller_System_Frontend
 	 * @param array $post
 	 * @throws Installer_Exception
 	 */
-	protected function _create_config_file($post)
+	protected function _create_config_file( array $post )
 	{
 		$tpl_file = INSTALL_DATA . 'config.tpl';
 		
@@ -448,6 +480,7 @@ class Controller_Install extends Controller_System_Frontend
 		$repl = array(
 			'__DB_TYPE__'			=> $post['db_driver'],
 			'__DB_SERVER__'			=> $post['db_server'],
+			'__DB_PORT__'			=> $post['db_port'],
 			'__DB_NAME__'			=> $post['db_name'],
 			'__DB_USER__'			=> $post['db_user'],
 			'__DB_PASS__'			=> $post['db_password'],
@@ -472,10 +505,10 @@ class Controller_Install extends Controller_System_Frontend
 	/**
 	 * Вставка SQL строк в БД
 	 * 
-	 * @param array $data
+	 * @param string $data
 	 * @throws Validation_Exception
 	 */
-	protected function _insert_data($data)
+	protected function _insert_data( $data )
 	{
 		$data = preg_split( '/;(\s*)$/m', $data );
 
@@ -512,6 +545,32 @@ class Controller_Install extends Controller_System_Frontend
 	}
 	
 	/**
+	 * Сбор контента из файла модулей в переменную
+	 * 
+	 * @param string $filename
+	 * @param string $content
+	 * @return string
+	 */
+	protected function _merge_module_files( $filename, $content = '' )
+	{
+		// Create a new directory iterator
+		$path = new DirectoryIterator(MODPATH);
+
+		foreach ($path as $dir)
+		{
+			if($dir->isDot()) continue;
+			$file_name = MODPATH . $dir->getBasename() . DIRECTORY_SEPARATOR . 'install' . DIRECTORY_SEPARATOR . $filename;
+			if(file_exists($file_name))
+			{
+				$content .= "\n";
+				$content .= file_get_contents( $file_name );
+			}
+		}
+		
+		return $content;
+	}
+	
+	/**
 	 * Очистка указанной БД от записей
 	 */
 	protected function _reset()
@@ -539,31 +598,5 @@ class Controller_Install extends Controller_System_Frontend
 		
 		DB::query(NULL, 'SET FOREIGN_KEY_CHECKS = 1')
 			->execute($this->_db_instance);
-	}
-	
-	/**
-	 * Сбор текста из файла модулей в переменную
-	 * 
-	 * @param string $filename
-	 * @param string $content
-	 * @return string
-	 */
-	protected function _merge_module_files($filename, $content = '')
-	{
-		// Create a new directory iterator
-		$path = new DirectoryIterator(MODPATH);
-
-		foreach ($path as $dir)
-		{
-			if($dir->isDot()) continue;
-			$file_name = MODPATH . $dir->getBasename() . DIRECTORY_SEPARATOR . 'install' . DIRECTORY_SEPARATOR . $filename;
-			if(file_exists($file_name))
-			{
-				$content .= "\n";
-				$content .= file_get_contents( $file_name );
-			}
-		}
-		
-		return $content;
 	}
 }
