@@ -74,6 +74,7 @@ return array(
 	/******************** Install  *************************/
 	'Install now!' => 'Установить!',
 	'No install data!' => 'Отсутсвуют данные!',
+	'Install demo site' => 'Установить демо данные',
 	'KodiCMS installed succefully' => 'KodiCMS успешно установлена',
 	'Login: :login' => 'Ваш логин: :login',
 	'Password: :password' => 'Ваш пароль: :password',
