@@ -41,11 +41,13 @@ return array(
 	'Next' => 'Далее',
 	'Previous' => 'Назад',
 	'Key' => 'Ключ',
-	
+	'Never' => 'Никогда',
+	'Or' => 'Или',
 	'Failed to validate array' => 'Ошибка',
 	'KodiCMS succefully installed!' => 'KodiCMS успешно установлена',
-	
+	'--- none ---' => '--- не указан ---',
 	'Thank you for using :site' => 'Спасибо, за использование :site',
+	'Powered by :framework v:version :codename' => 'Работает на :framework v:version :codename',
 	
 	/*********************** Layouts *********************************/
 	'Add layout' => 'Добавить шаблон',
@@ -91,6 +93,7 @@ return array(
 	'No' => 'Нет',
 	'Enabled' => 'Включен',
 	'Disabled' => 'Выключен',
+	'Debug' => 'Разработка',
 	'Find similar pages' => 'Похожая страница',
 	'This text will be present at backend and can be used in frontend pages.' 
 		=> 'Этот текст будет использоваться в Backend, а также использоваться во Frontend',
@@ -110,6 +113,7 @@ return array(
 	'Revision templates' => 'Ревизия шаблонов',
 	'After save layouts or snippets create revision copy in logs directory'
 		=> 'После сохранения сниппетов или шаблонов создавать делать ревизию в директории logs',
+	'Only for filter in pages, <i>not</i> in snippets.' => 'Только для фильтров в страницах, не в сниппетах',
 	
 	/*********************** Autorization *******************/
 	'Username' => 'Логин',

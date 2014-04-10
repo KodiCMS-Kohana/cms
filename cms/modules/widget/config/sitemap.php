@@ -6,7 +6,7 @@ return array(
 		'children' => array(
 			array(
 				'divider' => TRUE,
-				'name' => __('Widgets'), 
+				'name' => 'Widgets', 
 				'url' => Route::url('backend', array('controller' => 'widgets')),
 				'permissions' => 'widgets.index',
 				'priority' => 300,

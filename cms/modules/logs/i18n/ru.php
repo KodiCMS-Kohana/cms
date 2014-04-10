@@ -10,7 +10,7 @@ return array(
 	'Logs level' => 'Уровень детализации ошибок',
 	'Clear logs older 30 days' => 'Удалить логи старше 30 дней',
 	'Old logs has been deleted' => 'Логи очищены',
-	'' => '',
+	'Date range' => 'Интервал дат',
 	'' => '',
 	'' => '',
 	'' => '',

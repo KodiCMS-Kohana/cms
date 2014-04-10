@@ -34,6 +34,7 @@ return array(
 	'Last login' => 'Последний вход',
 	':user profile' => 'Профиль пользователя :user',
 	'Section :section' => 'Раздел :section',
+	'Edit role' => 'Редактирование роли',
 	
 	//============Profile============//
 	'Profile' => 'Профиль',

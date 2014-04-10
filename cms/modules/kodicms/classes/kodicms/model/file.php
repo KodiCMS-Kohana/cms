@@ -205,7 +205,7 @@ class KodiCMS_Model_File {
 	public static function html_select()
 	{
 		$templates = array(
-			__('------ none ------')
+			__('--- none ---')
 		);
 		
 		$snippets = Model_File_Snippet::find_all();

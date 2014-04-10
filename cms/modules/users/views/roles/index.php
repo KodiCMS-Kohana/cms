@@ -37,7 +37,7 @@
 						<?php endif; ?>
 					</td>
 					<td class="description">
-						<?php echo __($role->description); ?>
+						<?php echo $role->description; ?>
 					</td>
 					<td class="actions">
 						<?php 

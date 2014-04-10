@@ -5,7 +5,7 @@ return array(
 		'name' => 'Content',
 		'children' => array(
 			array(
-				'name' => __('Categories'),
+				'name' => 'Categories',
 				'url' => URL::backend('categories'),
 				'permissions' => 'categories.index',
 				'priority' => 100,

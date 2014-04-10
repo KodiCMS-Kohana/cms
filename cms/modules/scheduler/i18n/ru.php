@@ -32,6 +32,10 @@ return array(
 	'Job agent' => 'Агент',
 	'When using cron you need to add the following line to the crontab file:' => 
 		'При использовании cron необходимо в crontab добавить следующую строку:',
+	'Crontab help' => 'Описание',
+	'View jobs' => 'Просматривать задачи',
+	'Delete job' => 'Удалять задачи',
+	'At least :num characters. Must be unique.' => 'Не менее :num символов. Должен быть уникальным.',
 	
 	//============Permissions============//
 	'View scheduler' => 'Видеть раздел',

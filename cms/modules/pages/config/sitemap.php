@@ -5,7 +5,7 @@ return array(
 		'name' => 'Content',
 		'children' => array(
 			array(
-				'name' => __('Pages'),
+				'name' => 'Pages',
 				'url' => Route::url('backend', array('controller' => 'page')),
 				'permissions' => 'page.index',
 				'priority' => 100,

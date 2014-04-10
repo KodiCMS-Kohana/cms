@@ -5,13 +5,13 @@ return array(
 		'name' => 'Documentation',
 		'children' => array(
 			array(
-				'name' => __('User Guide'), 
+				'name' => 'User Guide', 
 				'url' => Route::url('backend', array('controller' => 'guide', 'action' => 'doc')),
 				'priority' => 101,
 				'icon' => 'book',
 			),
 			array(
-				'name' => __('API Browser'), 
+				'name' => 'API Browser', 
 				'url' => Route::url('backend', array('controller' => 'guide', 'action' => 'api')),
 				'priority' => 102,
 				'icon' => 'beaker',
