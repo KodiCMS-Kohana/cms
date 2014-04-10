@@ -10,10 +10,14 @@ class KodiCMS_Meta {
 	/**
 	 * Фабрика создания объекта Meta информации для шаблона
 	 * 
+	 *		echo Meta::factory($page)
+	 *			->add(array('name' => 'author', 'content' => 'KodiCMS'))
+	 *			->js('jquery', 'htpp://code.jquery.com/jquery-1.11.0.min.js');
+	 * 
 	 * @param Model_Page_Front $page
 	 * @return \self
 	 */
-	public static function factory( Model_Page_Front $page )
+	public static function factory( Model_Page_Front $page = NULL )
 	{
 		return new Meta($page);
 	}
@@ -42,7 +46,7 @@ class KodiCMS_Meta {
 	/**
 	 * Конструктор
 	 * 
-	 * В нем генерируется
+	 * При передачи объекта страницы в нем генерируется
 	 * 
 	 *		<title>...</title>
 	 *		<meta name="keywords" content="" />
@@ -57,19 +61,39 @@ class KodiCMS_Meta {
 	 * 
 	 * @param Model_Page_Front $page
 	 */
-	public function __construct( Model_Page_Front $page )
+	public function __construct( Model_Page_Front $page = NULL )
 	{
-		$this->_page = $page;
-
-		$this
-			->title(HTML::chars($this->_page->meta_title()))
-			->add(array('name' => 'keywords', 'content' => HTML::chars($this->_page->meta_keywords())))
-			->add(array('name' => 'description', 'content' => HTML::chars($this->_page->meta_description())))
-			->add(array('name' => 'robots', 'content' => HTML::chars($this->_page->robots)))
-			->group('content-type', '<meta http-equiv="content-type" content=":content; charset=utf-8" />', array(':content' 
-				=> HTML::chars($this->_page->mime())));
+		if($page !== NULL)
+		{
+			$this->set_page($page, TRUE);
+		}
 	}
 	
+	/**
+	 * 
+	 * 
+	 * @param Model_Page_Front $page
+	 * @param boolean $set_page_data Установка данных страницы
+	 * @return KodiCMS_Meta
+	 */
+	public function set_page( Model_Page_Front $page, $set_page_data = FALSE )
+	{
+		$this->_page = $page;
+		
+		if($set_page_data !== FALSE)
+		{
+			$this
+				->title(HTML::chars($this->_page->meta_title()))
+				->add(array('name' => 'keywords', 'content' => HTML::chars($this->_page->meta_keywords())))
+				->add(array('name' => 'description', 'content' => HTML::chars($this->_page->meta_description())))
+				->add(array('name' => 'robots', 'content' => HTML::chars($this->_page->robots)))
+				->group('content-type', '<meta http-equiv="content-type" content=":content; charset=utf-8" />', array(':content' 
+					=> HTML::chars($this->_page->mime())));
+		}
+		
+		return $this;
+	}
+
 	/**
 	 * Генерация тега meta
 	 * Если не передан параметр $group, происходит поиск атрибута [name] и берется
@@ -81,7 +105,7 @@ class KodiCMS_Meta {
 	 * 
 	 * @param array $attributes массив атрибутов
 	 * @param string $group Группа
-	 * @return type
+	 * @return KodiCMS_Meta
 	 */
 	public function add(array $attributes, $group = NULL)
 	{
@@ -169,15 +193,28 @@ class KodiCMS_Meta {
 	}
 
 	/**
-	 * Генерация HTML кода
+	 * Генерация HTML кода CSS, JS, Meta
 	 * 
+	 * По умолчанию выводятся все группы CSS, JS, Meta, если вы выводите JS
+	 * код перед тегом </body>, то непобхимо передать параметр FALSE и сделать
+	 * вывод JS кода в нужно месте с помощью
+	 *		
+	 *		<?php echo Assets::js(); ?>
+	 * 
+	 * @param boolean $include_js Включить в вывод JavaScript
 	 * @return string
 	 */
-	public function render()
+	public function render( $include_js = TRUE )
 	{
-		return Assets::group('head')
-				. Assets::css()
-				. Assets::js();
+		$html = Assets::group('head')
+				. Assets::css();
+		
+		if($include_js !== FALSE)
+		{
+			$html .= Assets::js();
+		}
+		
+		return $html;
 	}
 
 	public function __toString()
