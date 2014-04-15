@@ -92,7 +92,7 @@ class KodiCMS_Controller_Layout extends Controller_System_Backend {
 		))->write();
 
 		Messages::success( __( 'Layout has been saved!' ) );
-		Observer::notify( 'layout_after_add', array( $layout ) );
+		Observer::notify( 'layout_after_add', $layout );
 		
 		Session::instance()->delete('post_data');
 
@@ -163,7 +163,7 @@ class KodiCMS_Controller_Layout extends Controller_System_Backend {
 
 
 		Messages::success( __( 'Layout has been saved!' ) );
-		Observer::notify( 'layout_after_edit', array( $layout ) );
+		Observer::notify( 'layout_after_edit', $layout );
 
 		// save and quit or save and continue editing?
 		if ( $this->request->post('commit') !== NULL )
@@ -193,7 +193,7 @@ class KodiCMS_Controller_Layout extends Controller_System_Backend {
 				))->write();
 				
 				Messages::success( __( 'Layout has been deleted!' ) );
-				Observer::notify( 'layout_after_delete', array( $layout_name ) );
+				Observer::notify( 'layout_after_delete', $layout_name );
 			}
 			else
 			{

@@ -45,7 +45,7 @@ class Controller_API_Snippet extends Controller_System_Api {
 			}
 
 			$this->json['message'] = __( 'Snippet :name has been saved!', array( ':name' => $snippet->name ) );
-			Observer::notify( 'snippet_after_edit', array( $snippet ) );
+			Observer::notify( 'snippet_after_edit', $snippet );
 		}
 		
 		$this->response(array(
@@ -72,7 +72,7 @@ class Controller_API_Snippet extends Controller_System_Api {
 		{
 			$this->json_redirect('snippet/edit/' . $snippet->name);
 			$this->json['message'] = __( 'Snippet :name has been added!', array( ':name' => $snippet->name ) );
-			Observer::notify( 'snippet_after_add', array( $snippet ) );
+			Observer::notify( 'snippet_after_add', $snippet );
 		}
 		
 		$this->response(array(
