@@ -32,9 +32,11 @@ class KodiCMS_Model_File_Layout extends Model_File {
 	 */
 	public function is_used()
     {
-        return Record::countFrom('Model_Page', array('where' => array(array('layout_file', '=', ':name'))), array(
-			':name' => $this->name
-		));
+		return DB::select(array(DB::expr('COUNT(*)'), 'total'))
+			->from('pages')
+			->where('layout_file', '=', $this->name)
+			->execute()
+			->get('total');
     }
 	
 	/**
