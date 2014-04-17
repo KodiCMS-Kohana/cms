@@ -10,6 +10,13 @@ class DataSource_Hybrid_Factory {
 	 * Преффикс таблиц разделов
 	 */
 	const PREFIX = 'dshybrid_';
+	
+	/**
+	 * Типы виджетов для которых очищать кеш при обновлении данных в документах
+	 * 
+	 * @var array
+	 */
+	public static $widget_types = array('hybrid_headline', 'hybrid_document');
 
 	/**
 	 * Создание таблицы раздела и директории

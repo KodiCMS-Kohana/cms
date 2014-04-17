@@ -20,8 +20,10 @@
 				'remove' => __('Remove'), 
 				'publish' => __('Publish'), 
 				'unpublish' => __('Unpublish')), NULL, array(
-				'id' => 'doc-actions', 'class' => 'input-medium no-script'
-			)); ?>
+					'id' => 'doc-actions', 
+					'class' => 'input-medium no-script',
+					'data-section' => $ds_type
+				)); ?>
 
 			<?php echo UI::button(__('Apply'), array(
 				'id' => 'apply-doc-action'
