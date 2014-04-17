@@ -454,13 +454,15 @@ class KodiCMS_Model_Page extends ORM
 	public function like( $keyword )
 	{
 		return $this
-			->where(DB::expr('LOWER(title)'), 'like', '%:query%')
-			->where('slug', 'like', '%:query%')
-			->where('breadcrumb', 'like', '%:query%')
-			->where('meta_title', 'like', '%:query%')
-			->where('meta_keywords', 'like', '%:query%')
-			->where('published_on', 'like', '%:query%')
-			->where('created_on', 'like', '%:query%')
+			->where_open()
+			->or_where(DB::expr('LOWER(title)'), 'like', '%:query%')
+			->or_where('slug', 'like', '%:query%')
+			->or_where('breadcrumb', 'like', '%:query%')
+			->or_where('meta_title', 'like', '%:query%')
+			->or_where('meta_keywords', 'like', '%:query%')
+			->or_where('published_on', 'like', '%:query%')
+			->or_where('created_on', 'like', '%:query%')
+			->where_close()
 			->param(':query', DB::expr($keyword));
 	}
 
