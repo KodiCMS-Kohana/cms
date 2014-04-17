@@ -604,7 +604,11 @@ cms.ui.add('flags', function() {
 		closeEffect	: 'none',
 		beforeLoad: function() {
 			this.href = updateQueryStringParameter(this.href, 'type', 'iframe');
-			this.title = this.element.html();
+			
+			var title = this.element.data('title');
+			if(title !== false) {
+				this.title = title ? title : this.element.html();
+			}
 			
 			cms.popup_target = this.element;
 		},
