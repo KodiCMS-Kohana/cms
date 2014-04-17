@@ -108,7 +108,7 @@ return array(
 	'Current datetime' => 'Текущая дата',
 	'One to one relation' => 'Связь один к одному',
 	'Clear coordinates' => 'Очистить координаты',
-
+	'Select file to upload' => 'Выберите файл для загрузки',
 	/* Validation Messages */
 	'Field with the same key :value exists.' => 'Поле с таким ключом ":value" существует',
 );

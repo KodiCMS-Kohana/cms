@@ -8,10 +8,14 @@
 				<div class="well well-small">
 					<div class="spoiler-file-<?php echo $field->name; ?>">
 						<?php 
-						$attrs = array('target' => 'blank');
-						if($field->is_image( PUBLICPATH . $value)) $attrs['class'] = 'btn popup fancybox';
-						echo HTML::anchor(PUBLIC_URL . $value, UI::icon('file' ) . ' ' . __('View file'), $attrs); 
-						?>
+						$attrs = array('target' => 'blank', 'class' => 'btn', 'id' => 'uploaded-' . $field->name);
+						$title = UI::icon('file' ) . ' ' . __('View file');
+						if($field->is_image( PUBLICPATH . $value)) 
+						{
+							$attrs['class'] .= ' popup';
+							$attrs['data-title'] = 'false';
+						}
+						echo HTML::anchor(PUBLIC_URL . $value, $title, $attrs); ?>
 						&nbsp;&nbsp;&nbsp;
 						<label class="checkbox inline">
 						<?php echo Form::checkbox( $field->name . '_remove', 1, FALSE, array('class' => 'remove-file-checkbox')); ?> <?php echo __('Remove file'); ?>
@@ -25,9 +29,13 @@
 			<?php endif; ?>
 			
 			<div class="upload-new-cont <?php if( ! empty($value)): ?>spoiler<?php endif; ?> spoiler-file-<?php echo $field->name; ?>">
-				<?php echo Form::file( $field->name, array(
-					'id' => $field->name
-				) ); ?>
+				<div class="file-upload btn">
+					<span><?php echo __('Select file to upload'); ?></span>
+					<?php echo Form::file( $field->name, array(
+						'id' => $field->name, 'class' => 'upload-input'
+					) ); ?>
+				</div>
+				
 				<span class="help-block">
 					<?php if(!empty($field->types)): ?>
 					<?php echo __('Allowed types: :types', array(
