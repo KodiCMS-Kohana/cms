@@ -25,20 +25,26 @@ class KodiCMS_Upload extends Kohana_Upload {
 	 * 
 	 * @param string|array $file
 	 * @param array $types Разрешенные типы файлов (При указании пустой строки, разрешены все файлы) array('jpg', '...')
+	 * @param integer $max_size Максимальный размер загружаемого файла
 	 * @return string|NULL Название файла.
 	 * @throws Validation_Exception
 	 */
-	public static function file( $file, array $types = array('jpg', 'jpeg', 'gif', 'png') )
+	public static function file( $file, array $types = array('jpg', 'jpeg', 'gif', 'png'), $max_size = NULL )
 	{
 		if( ! is_array($file) )
 		{
 			return Upload::from_url($file, $types);
 		}
+		
+		if($max_size === NULL)
+		{
+			$max_size = Num::bytes('20MiB');
+		}
 
 		$validation = Validation::factory( array('file' => $file ) )
 			->rules( 'file', array(
 				array('Upload::valid'),
-				array('Upload::size', array(':value', 100000000))
+				array('Upload::size', array(':value', $max_size))
 			) );
 		
 		if( ! empty($types) )
