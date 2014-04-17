@@ -4,8 +4,9 @@ return array(
 	'cache_types' => array(
 		'file' => __('File cache'), 
 		'sqlite' => __('SQLite cache'), 
-		'apc' => __('APC Cache'), 
-		'memcachetag' => __('Memcache')
+		'apc' => __('APC Cache'),
+		'mongodb' => __('MongoDB'),
+		'memcachetag' => __('Memcache'),
 	),
 	
 	'default_config' => array(

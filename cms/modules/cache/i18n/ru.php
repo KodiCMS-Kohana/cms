@@ -7,7 +7,7 @@ return array(
 	'Pages cache time' => 'Время кеширования страниц',
 	'Page parts cache time' => 'Время кеширования частей страницы',
 	'Page tags cache time' => 'Время кеширования тегов страницы',
-	'Cache driver' => 'Драйвер',
+	'Cache driver' => 'Драйвер кеша',
 	'File cache' => 'Файловый кеш',
 	'SQLite cache' => 'SQLite кеш',
 	'Cache status' => 'Статус кеша',
