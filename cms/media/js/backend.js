@@ -913,6 +913,27 @@ jQuery.browser.webkit = /webkit/.test(navigator.userAgent.toLowerCase());
 jQuery.browser.opera = /opera/.test(navigator.userAgent.toLowerCase());
 jQuery.browser.msie = /msie/.test(navigator.userAgent.toLowerCase());
 
+function readImage(input, target) {
+	if ( input.files && input.files[0] && target ) {
+		var FR = new FileReader();
+		FR.onload = function(e) {
+			var img = new Image();
+				img.src = e.target.result;
+			
+			var ratio = img.width / img.height;
+
+			var canvas = document.createElement("canvas");
+				canvas.width = 100 * ratio;
+				canvas.height = 100;
+
+			var ctx = canvas.getContext("2d");
+				ctx.drawImage(img, 0, 0, canvas.width, canvas.height );
+			target.attr( "src", canvas.toDataURL("image/jpeg", 1) );
+		};       
+		FR.readAsDataURL( input.files[0] );
+	}
+}
+
 function updateQueryStringParameter(uri, key, value) {
 	var re = new RegExp("([?|&])" + key + "=.*?(&|$)", "i");
 	separator = uri.indexOf('?') !== -1 ? "&" : "?";
