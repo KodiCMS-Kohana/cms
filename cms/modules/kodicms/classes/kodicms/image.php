@@ -6,16 +6,18 @@ abstract class KodiCMS_Image extends Kohana_Image {
 	 * Создание уменьшенной копии изображения. 
 	 * Копия помещается в папку  PUBLICPATH . cache
 	 * 
-	 * @param string $filename Путь до файла относительно PUBLICPATH
+	 * @param string $filepath Путь до файла относительно PUBLICPATH
 	 * @param integer $width
 	 * @param integer $height
 	 * @param integer $master Мастер изменеия размера
 	 * 
-	 * return NULL | string Путь до кеша изображения отностительно PUBLICPATH
+	 * return NULL | string Путь до кеша изображения
 	 */
 	public static function cache($filepath, $width, $height, $master = Image::INVERSE)
 	{
-		if ( ! is_file(PUBLICPATH . $filepath) ) 
+		$original_image = PUBLICPATH . $filepath;
+		
+		if ( ! is_file($original_image) ) 
 		{
 			return NULL;
 		}
@@ -29,10 +31,9 @@ abstract class KodiCMS_Image extends Kohana_Image {
 			return NULL;
 		}
 		
-		$old_image = PUBLICPATH . $filepath;
-		$new_image = 'cache/'  . $directory . '/' . $filename . '_' . $width . 'x' . $height . '.' . $extension;
+		$cached_image = 'cache/'  . $directory . '/' . $filename . '_' . $width . 'x' . $height . 'x' . $master . '.' . $extension;
 		
-		if( ! is_file( PUBLICPATH . $new_image ) OR (filectime( $old_image ) > filectime( PUBLICPATH . $new_image ))) 
+		if( ! is_file( PUBLICPATH . $cached_image ) OR (filectime( $original_image ) > filectime( PUBLICPATH . $cached_image ))) 
 		{
 			$path = PUBLICPATH . 'cache';
 			
@@ -40,7 +41,7 @@ abstract class KodiCMS_Image extends Kohana_Image {
 			{
 				mkdir( $path, 0777 );
 			}
-			else
+			else if( ! is_writable( PUBLICPATH ) )
 			{
 				throw new Kohana_Exception('Unable to write to the cache directory :resource', 
 						array(':resource' => $path) );
@@ -64,20 +65,20 @@ abstract class KodiCMS_Image extends Kohana_Image {
 				}
 			}
 			
-			list($width_orig, $height_orig) = getimagesize( $old_image );
+			list($width_orig, $height_orig) = getimagesize( $original_image );
 
 			if ($width_orig > $width OR $height_orig > $height) 
 			{			
-				Image::factory( $old_image )
+				Image::factory( $original_image )
 					->resize($width, $height, $master)
-					->save( PUBLICPATH . $new_image );
+					->save( PUBLICPATH . $cached_image );
 			} 
 			else 
 			{
-				copy( $old_image, PUBLICPATH . $new_image );
+				copy( $original_image, PUBLICPATH . $cached_image );
 			}
 		}
 		
-		return PUBLIC_URL . $new_image;
+		return PUBLIC_URL . $cached_image;
 	}
 }
