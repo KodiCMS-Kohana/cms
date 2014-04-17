@@ -25,6 +25,10 @@
 					<td><?php echo PHP_VERSION; ?></td>
 				</tr>
 				<tr>
+					<th><?php echo __('Kohana version') ?></th>
+					<td>v<?php echo Kohana::VERSION; ?> <strong><?php echo Kohana::CODENAME; ?></strong></td>
+				</tr>
+				<tr>
 					<th><?php echo __('Kohana enviroment') ?></th>
 					<td><?php echo Arr::get($_SERVER, 'KOHANA_ENV'); ?></td>
 				</tr>
@@ -39,6 +43,10 @@
 				<tr>
 					<th><?php echo __('Cache driver') ?></th>
 					<td><?php echo Cache::$default; ?></td>
+				</tr>
+				<tr>
+					<th><?php echo __('MySQL driver') ?></th>
+					<td><?php echo DB_TYPE; ?></td>
 				</tr>
 			</tbody>
 		</table>

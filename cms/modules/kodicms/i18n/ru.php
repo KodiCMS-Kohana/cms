@@ -114,6 +114,18 @@ return array(
 	'After save layouts or snippets create revision copy in logs directory'
 		=> 'После сохранения сниппетов или шаблонов создавать делать ревизию в директории logs',
 	'Only for filter in pages, <i>not</i> in snippets.' => 'Только для фильтров в страницах, не в сниппетах',
+	'CMS name' => 'Название CMS',
+	'CMS Version' => 'Версия CMS',
+	'PHP Version' => 'Версия PHP',
+	'Kohana version' => 'Версия Kohana',
+	'Kohana enviroment' => 'Текущее окружение',
+	'Web server' => 'Web сервер',
+	'MySQL driver' => 'MySQL драйвер',
+	'PHP info' => 'Информация о PHP',
+	'' => '',
+	'' => '',
+	'' => '',
+	'' => '',
 	
 	/*********************** Autorization *******************/
 	'Username' => 'Логин',
