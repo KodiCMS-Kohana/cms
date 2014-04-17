@@ -28,6 +28,7 @@ return array(
 		'source_tags' => 'Tags',
 		'source_user' => 'User',
 		'source_free' => 'Free',
+		'source_images' => 'Images',
 	),
 	
 	'File' => array(
