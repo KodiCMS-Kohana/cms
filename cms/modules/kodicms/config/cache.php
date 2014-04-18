@@ -43,7 +43,7 @@ return array
 	
 	'mongodb'      => array(
 		'driver'             => 'mongodb',
-		'host'				 => '127.0.0.1',  // Memcache Server
+		'host'				 => 'localhost',  // Memcache Server
 		'port'				 => 27017,        // Memcache port number
 		'default_expire'     => 3600,
 		'database'           => 'kodicms-cache',
