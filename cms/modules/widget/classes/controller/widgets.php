@@ -186,11 +186,7 @@ class Controller_Widgets extends Controller_System_Backend {
 			return $this->_edit( $widget );
 		}
 		
-		$roles = array();
-		foreach (Model_Permission::get_all() as $role)
-		{
-			$roles[$role] = $role;
-		}
+		$roles = ORM::factory('role')->find_all()->as_array('name', 'name');
 
 		$this->template->content = View::factory( 'widgets/edit', array(
 			'widget' => $widget,

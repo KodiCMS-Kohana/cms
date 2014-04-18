@@ -25,15 +25,8 @@ class Model_Widget_User_Login extends Model_Widget_Decorator {
 	
 	public function backend_data()
 	{
-		$roles = Model_Permission::get_all();
-		
-		$_roles = array();
-		foreach($roles as $role)
-		{
-			$_roles[$role] = $role;
-		}
 		return array(
-			'roles' => $_roles
+			'roles' => ORM::factory('role')->find_all()->as_array('name', 'name')
 		);
 	}
 	

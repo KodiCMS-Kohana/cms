@@ -12,8 +12,17 @@ class KodiCMS_ACL {
 	const ADMIN_USER = 1;
 	const ADMIN_ROLE = 'administrator';
 	
+	/**
+	 * Список прав
+	 * @var array 
+	 */
 	protected static $_permissions = array();
 	
+	/**
+	 * Получение спсика доступных прав из конфига
+	 * 
+	 * @return array
+	 */
 	public static function get_permissions()
 	{
 		$permissions = array();
@@ -39,6 +48,13 @@ class KodiCMS_ACL {
 		return $permissions;
 	}
 
+	/**
+	 * Проверка прав на доступ
+	 * 
+	 * @param string|Request $action
+	 * @param Model_User $user
+	 * @return boolean
+	 */
 	public static function check( $action, Model_User $user = NULL)
 	{
 		if($user === NULL)
@@ -80,7 +96,7 @@ class KodiCMS_ACL {
 			$action = strtolower(implode('.', $action));
 		}
 
-		if( !isset( self::$_permissions[$user->id] ))
+		if( ! isset( self::$_permissions[$user->id] ))
 		{
 			self::_set_permissions($user);
 		}
@@ -88,6 +104,13 @@ class KodiCMS_ACL {
 		return isset(self::$_permissions[$user->id][$action]);
 	}
 	
+	/**
+	 * Проверка прав доступа по массиву 
+	 * 
+	 * @param array $actions
+	 * @param Model_User $user
+	 * @return boolean
+	 */
 	public static function check_array( array $actions, Model_User $user = NULL)
 	{
 		foreach($actions as $action)
@@ -101,6 +124,11 @@ class KodiCMS_ACL {
 		return FALSE;
 	}
 	
+	/**
+	 * Загрузка прав доступа для пользователя
+	 * 
+	 * @param Model_User $user
+	 */
 	protected static function _set_permissions( Model_User $user )
 	{		
 		self::$_permissions[$user->id] = array_flip($user->permissions());

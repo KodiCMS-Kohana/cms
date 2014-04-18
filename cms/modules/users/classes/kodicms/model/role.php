@@ -7,6 +7,10 @@
  */
 class KodiCMS_Model_Role extends Model_Auth_Role {
 	
+	/**
+	 * 
+	 * @return array
+	 */
 	public function labels()
 	{
 		return array(
@@ -15,6 +19,10 @@ class KodiCMS_Model_Role extends Model_Auth_Role {
 		);
 	}
 	
+	/**
+	 * 
+	 * @return array
+	 */
 	public function filters()
 	{
 		return array(
@@ -25,6 +33,10 @@ class KodiCMS_Model_Role extends Model_Auth_Role {
 		);
 	}
 	
+	/**
+	 * 
+	 * @return array
+	 */
 	public function form_columns()
 	{
 		return array(
@@ -43,6 +55,11 @@ class KodiCMS_Model_Role extends Model_Auth_Role {
 		);
 	}
 
+	/**
+	 * Получение прав для роли
+	 * 
+	 * @return array
+	 */
 	public function permissions()
 	{
 		return DB::select('action')
@@ -52,6 +69,12 @@ class KodiCMS_Model_Role extends Model_Auth_Role {
 			->as_array(NULL, 'action');
 	}
 	
+	/**
+	 * Установка прав для роли
+	 * 
+	 * @param array $new_permissions
+	 * @return \KodiCMS_Model_Role
+	 */
 	public function set_permissions( array $new_permissions = NULL )
 	{
 		DB::delete('roles_permissions')
@@ -74,6 +97,9 @@ class KodiCMS_Model_Role extends Model_Auth_Role {
 		return $this;
 	}
 	
+	/**************************************************************************
+	 * Events
+	 **************************************************************************/
 	public function after_create()
 	{	
 		Kohana::$log->add(Log::INFO, 'Role :role has been added by :user', array(

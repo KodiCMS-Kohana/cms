@@ -9,6 +9,10 @@ class KodiCMS_Model_User extends Model_Auth_User {
 	
 	protected $_reload_on_wakeup = FALSE;
 	
+	/**
+	 * Список ролей пользователя
+	 * @var array 
+	 */
 	protected $_roles = NULL;
 
 	protected $_has_many = array(
@@ -31,6 +35,11 @@ class KodiCMS_Model_User extends Model_Auth_User {
 		);
 	}
 	
+	/**
+	 * Добавление в запрос получения спсика ролей
+	 * 
+	 * @return ORM
+	 */
 	public function with_roles()
 	{
 		$role = ORM::factory('role');
@@ -42,6 +51,13 @@ class KodiCMS_Model_User extends Model_Auth_User {
 				->on( 'user_permission.role_id', '=', 'permission.id' );
 	}
 
+	/**
+	 * Проверка на существование роли у пользователя
+	 * 
+	 * @param array|string $role
+	 * @param boolean $all_required
+	 * @return boolean
+	 */
 	public function has_role($role, $all_required = TRUE) 
 	{
 		$status = TRUE;
@@ -78,11 +94,25 @@ class KodiCMS_Model_User extends Model_Auth_User {
 		return $status;
 	}
 	
+	
+	/**
+	 * Получение аватара пользлователя из сервиса Gravatar
+	 * 
+	 * @param integer $size
+	 * @param string $default
+	 * @param array $attributes
+	 * @return string HTML::image
+	 */
 	public function gravatar($size = 40, $default = NULL, $attributes = array())
 	{
 		return Gravatar::load($this->email, $size, $default, $attributes );
 	}
 
+	/**
+	 * Список ролей пользователя
+	 * 
+	 * @return array
+	 */
 	public function roles()
 	{
 		if($this->_roles === NULL)
@@ -95,12 +125,16 @@ class KodiCMS_Model_User extends Model_Auth_User {
 		return $this->_roles;
 	}
 	
+	/**
+	 * 
+	 * @return array
+	 */
 	public function permissions()
 	{
 		$permissions = array();
 		$roles = $this->roles();
 		
-		if( !empty($roles) )
+		if( ! empty($roles) )
 		{
 			$permissions = DB::select('action')
 				->from('roles_permissions')
@@ -112,6 +146,11 @@ class KodiCMS_Model_User extends Model_Auth_User {
 		return array_unique($permissions);
 	}
 	
+	/**
+	 * Список прав пользователя
+	 * 
+	 * @return array
+	 */
 	public function permissions_list()
 	{
 		$permissions = array();
@@ -130,33 +169,26 @@ class KodiCMS_Model_User extends Model_Auth_User {
 		return $permissions;
 	}
 
+	/**
+	 * Переопределение метода для подгрузки списка ролей пользователя.
+	 */
 	public function complete_login()
 	{
-		$roles = $this->roles->find_all();
-		
-		foreach ($roles as $role)
+		if ($this->_loaded)
 		{
-			$this->_roles[$role->id] = $role->name;
+			$this->roles();
 		}
 
 		parent::complete_login();
 	}
-
-	public function serialize()
-	{
-		$parameters = array(
-			'_primary_key_value', '_object', '_changed', '_loaded', '_saved', '_sorting'
-		);
-		
-		// Store only information about the object
-		foreach ($parameters as $var)
-		{
-			$data[$var] = $this->{$var};
-		}
-
-		return serialize($data);
-	}
 	
+	/**
+	 * Смена email адреса 
+	 * 
+	 * @param string $email
+	 * @return ORM
+	 * @throws Kohana_Exception
+	 */
 	public function change_email($email)
 	{
 		if(!$this->loaded())
@@ -182,6 +214,11 @@ class KodiCMS_Model_User extends Model_Auth_User {
 			->rule('password_confirm', 'matches', array(':validation', ':field', 'password'));
 	}
 	
+	/**
+	 * Получение языкового кода усатновленного в профиле
+	 * 
+	 * @return string
+	 */
 	public static function locale()
 	{
 		$user = Auth::instance()->get_user();
@@ -193,7 +230,29 @@ class KodiCMS_Model_User extends Model_Auth_User {
 		
 		return Config::get('site', 'default_locale');
 	}
-	
+
+	/**
+	 *  
+	 * @return string
+	 */
+	public function serialize()
+	{
+		$parameters = array(
+			'_primary_key_value', '_object', '_changed', '_loaded', '_saved', '_sorting'
+		);
+		
+		// Store only information about the object
+		foreach ($parameters as $var)
+		{
+			$data[$var] = $this->{$var};
+		}
+
+		return serialize($data);
+	}
+
+	/**************************************************************************
+	 * Events
+	 **************************************************************************/
 	public function before_create()
 	{
 		Observer::notify( 'user_before_add', $this );
