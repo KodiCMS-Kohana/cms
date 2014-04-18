@@ -8,13 +8,15 @@
 class KodiCMS_Model_Page_Sitemap {
 	
 	/**
-	 *
-	 * @var Model_Page_Sitemap 
+	 * Хранение карт сайта с разынми параметрами
+	 * @var array 
 	 */
 	protected static $_sitemap = array();
 	
 	/**
+	 * Получение карты сайта
 	 * 
+	 * @param boolean $include_hidden Включить скрытые страницы
 	 * @return Model_Page_Sitemap
 	 */
 	public static function get( $include_hidden = FALSE)
@@ -90,21 +92,14 @@ class KodiCMS_Model_Page_Sitemap {
 	}
 	
 	/**
-	 *
+	 * Список страниц
+	 * 
 	 * @var array 
 	 */
 	protected $_pages = array();
-
-	/**
-	 * 
-	 * @param array $pages
-	 */
-	protected function __construct( array $pages = array())
-	{
-		$this->_pages = $pages;
-	}
 	
 	/**
+	 * Поиск страницы по ID
 	 * 
 	 * @param integer $id
 	 * @return \Model_Page_Sitemap
@@ -115,8 +110,106 @@ class KodiCMS_Model_Page_Sitemap {
 		
 		return $this;
 	}
+	/**
+	 * Получение внутренних страниц относительно текущей
+	 * 
+	 * @return \Model_Page_Sitemap
+	 */
+	public function children()
+	{
+		if( ! empty($this->_pages[0]['childs']))
+		{
+			$this->_pages = $this->_pages[0]['childs'];
+		}
+		else
+		{
+			$this->_pages = array();
+		}
+		
+		return $this;
+	}
 	
+	/**
+	 * Исключение из карты сайта страниц по ID
+	 * 
+	 * @param array $ids
+	 * @return \Model_Page_Sitemap
+	 */
+	public function exclude( array $ids )
+	{
+		if( !empty($ids) )
+			$this->_exclude( $this->_pages, $ids );
 
+		return $this;
+	}
+
+	/**
+	 * Вывов спсика страниц в виде массива
+	 * 
+	 * @param boolean $childs Выводить внутренние страницы
+	 * @return array
+	 */
+	public function as_array( $childs = TRUE )
+	{
+		if( $childs === FALSE )
+		{
+			foreach($this->_pages as & $page)
+			{
+				if(isset($page['childs']))
+					unset( $page['childs'] );
+			}
+		}
+			
+		return $this->_pages;
+	}
+
+	/**
+	 * Сделать список страниц плоским
+	 * 
+	 * @return array
+	 */
+	public function flatten( $childs = TRUE )
+	{
+		return $this->_flatten( $this->_pages, $childs );
+	}
+	
+	/**
+	 * Получить хлебные крошки для текущей страницы
+	 * 
+	 * @return array
+	 */
+	public function breadcrumbs()
+	{
+		return array_reverse($this->_breadcrumbs( $this->_pages[0] ));
+	}
+	
+	/**
+	 * Получить список страниц для выпадающего списка <select>
+	 * 
+	 * @return array
+	 */
+	public function select_choises()
+	{
+		$pages = $this->flatten();
+		
+		$options = array();
+		foreach ($pages as $page)
+		{
+			$options[$page['id']] = str_repeat('- ', $page['level'] * 2) . $page['title'];
+		}
+		
+		return $options;
+	}
+
+	/**
+	 * 
+	 * @param array $pages
+	 */
+	protected function __construct( array $pages = array())
+	{
+		$this->_pages = $pages;
+	}
+	
 	/**
 	 * 
 	 * @param array $array
@@ -149,119 +242,6 @@ class KodiCMS_Model_Page_Sitemap {
 	
 	/**
 	 * 
-	 * @return \Model_Page_Sitemap
-	 */
-	public function children()
-	{
-		if( ! empty($this->_pages[0]['childs']))
-		{
-			$this->_pages = $this->_pages[0]['childs'];
-		}
-		else
-		{
-			$this->_pages = array();
-		}
-		
-		return $this;
-	}
-	
-	/**
-	 * 
-	 * @param array $ids
-	 * @return \Model_Page_Sitemap
-	 */
-	public function exclude( array $ids )
-	{
-		if( !empty($ids) )
-			$this->_exclude( $this->_pages, $ids );
-
-		return $this;
-	}
-	
-	/**
-	 * 
-	 * @param array $array
-	 * @param array $ids
-	 * @return array
-	 */
-	public function _exclude( & $array, array $ids )
-	{
-		foreach($array as $i => & $page)
-		{
-			if( in_array($page['id'], $ids) )
-			{
-				unset($array[$i]);
-			}
-			
-			if( !empty($page['childs']))
-			{
-				$this->_exclude($page['childs'], $ids);
-			}
-		}
-	}
-
-	/**
-	 * 
-	 * @return array
-	 */
-	public function as_array( $childs = TRUE )
-	{
-		if( $childs === FALSE )
-		{
-			foreach($this->_pages as & $page)
-			{
-				if(isset($page['childs']))
-					unset( $page['childs'] );
-			}
-		}
-			
-		return $this->_pages;
-	}
-
-	/**
-	 * 
-	 * @return array
-	 */
-	public function flatten( $childs = TRUE )
-	{
-		return $this->_flatten( $this->_pages, $childs );
-	}
-	
-	/**
-	 * 
-	 * @param array $array
-	 * @param boolean $childs
-	 * @param array $return
-	 * @return array
-	 */
-	public function _flatten( array $array, $childs = TRUE, & $return = array() )
-	{
-		foreach( $array as $page )
-		{
-			$return[$page['id']] = $page;
-			
-			if( $childs !== FALSE AND !empty($page['childs']))
-			{
-				$this->_flatten( $page['childs'], $childs, $return );
-			}
-			
-			$return[$page['id']]['childs'] = array();
-		}
-		
-		return $return;
-	}
-	
-	/**
-	 * 
-	 * @return array
-	 */
-	public function breadcrumbs()
-	{
-		return array_reverse($this->_breadcrumbs( $this->_pages[0] ));
-	}
-	
-	/**
-	 * 
 	 * @param array $page
 	 * @param array $crumbs
 	 * @return type
@@ -278,21 +258,47 @@ class KodiCMS_Model_Page_Sitemap {
 	
 	/**
 	 * 
-	 * @param string $name
-	 * @param string $selected
-	 * @param array $attributes
-	 * @return string
+	 * @param array $array
+	 * @param array $ids
+	 * @return array
 	 */
-	public function select_choises()
+	protected function _exclude( & $array, array $ids )
 	{
-		$pages = $this->flatten();
-		
-		$options = array();
-		foreach ($pages as $page)
+		foreach($array as $i => & $page)
 		{
-			$options[$page['id']] = str_repeat('- ', $page['level'] * 2) . $page['title'];
+			if( in_array($page['id'], $ids) )
+			{
+				unset($array[$i]);
+			}
+			
+			if( !empty($page['childs']))
+			{
+				$this->_exclude($page['childs'], $ids);
+			}
+		}
+	}
+	
+	/**
+	 * 
+	 * @param array $array
+	 * @param boolean $childs
+	 * @param array $return
+	 * @return array
+	 */
+	protected function _flatten( array $array, $childs = TRUE, & $return = array() )
+	{
+		foreach( $array as $page )
+		{
+			$return[$page['id']] = $page;
+			
+			if( $childs !== FALSE AND !empty($page['childs']))
+			{
+				$this->_flatten( $page['childs'], $childs, $return );
+			}
+			
+			$return[$page['id']]['childs'] = array();
 		}
 		
-		return $options;
+		return $return;
 	}
 }
