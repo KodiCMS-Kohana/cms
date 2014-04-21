@@ -142,7 +142,7 @@ class Controller_Widgets extends Controller_System_Backend {
 			
 			Observer::notify( 'widget_after_add', $id );
 		}
-		catch (Validation_Exception $e)
+		catch (ORM_Validation_Exception $e)
 		{
 			Flash::set( 'post_data', $data );
 			Messages::errors($e->errors('validation'));

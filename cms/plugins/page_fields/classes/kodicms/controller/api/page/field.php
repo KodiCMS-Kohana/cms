@@ -39,8 +39,11 @@ class KodiCMS_Controller_API_Page_Field extends Controller_System_Api {
 		if( !empty($field_array['field_id']))
 		{
 			$field = ORM::factory( 'page_field', (int) $field_array['field_id']);
+			
 			if( ! $field->loaded())
+			{
 				throw new HTTP_API_Exception(__('Field not found'));
+			}
 			
 			$field_array['key'] = $field->key;
 			$field_array['title'] = $field->title;
@@ -70,16 +73,22 @@ class KodiCMS_Controller_API_Page_Field extends Controller_System_Api {
 		$this->json['message'] = __('Page field deleted');
 	}
 	
+	/**
+	 * @todo Проверить работу валидации
+	 */
 	public function rest_post()
 	{
 		$field_id = (int) $this->param('field_id', NULL, TRUE);
 		$value = $this->param('value');
 
-		try {
+		try 
+		{
 			ORM::factory('page_field', $field_id)->values(array(
 				'value' => $value
 			))->update();
-		} catch (ORM_Validation_Exception $v) {
+		} 
+		catch (ORM_Validation_Exception $v) 
+		{
 			$this->json['message'] = $v->errors('validation');
 		}		
 	}
