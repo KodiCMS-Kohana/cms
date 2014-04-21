@@ -2,14 +2,18 @@
 	<div class="widget-header">
 		<?php if( ACL::check( 'layout.add')): ?>
 		<?php echo UI::button(__('Add layout'), array(
-			'icon' => UI::icon( 'plus' ), 'href' => Route::url('backend', array('controller' => 'layout', 'action' => 'add')),
+			'icon' => UI::icon( 'plus' ), 
+			'href' => Route::url('backend', array('controller' => 'layout', 'action' => 'add')),
+			'hotkeys' => 'ctrl+a'
 		)); ?>
 		<?php endif; ?>
 
 		<?php if( ACL::check( 'layout.rebuild')): ?>
 		<?php echo UI::button(__('Rebuild blocks'), array(
-			'icon' => UI::icon( 'refresh' ), 'href' => Route::url('backend', array('controller' => 'layout', 'action' => 'rebuild')),
-			'class' => 'btn btn-inverse btn-mini'
+			'icon' => UI::icon( 'refresh' ), 
+			'href' => Route::url('backend', array('controller' => 'layout', 'action' => 'rebuild')),
+			'class' => 'btn btn-inverse btn-mini',
+			'hotkeys' => 'shift+r'
 		)); ?>
 		<?php endif; ?>
 	</div>

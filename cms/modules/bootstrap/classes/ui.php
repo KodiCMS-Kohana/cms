@@ -84,17 +84,20 @@ class UI {
 			UI::button(__('Save and Continue editing'), array(
 				'class' => 'btn btn-large btn-save', 
 				'icon' => UI::icon('retweet'),
-				'name' => 'continue'
+				'name' => 'continue',
+				'hotkeys' => 'ctrl+s'
 			)),
 			UI::button(__('Save and Close'), array(
 				'class' => 'btn btn-info btn-save-close', 
 				'icon' => UI::icon('ok icon-white'),
-				'name' => 'commit'
+				'name' => 'commit',
+				'hotkeys' => 'ctrl+shift+s'
 			)),
 			UI::button(__('Cancel'), array(
 				'href' => $uri, 
 				'icon' => UI::icon('ban-circle'),
-				'class' => 'btn btn-link btn-close'
+				'class' => 'btn btn-link btn-close',
+				'hotkeys' => 'ctrl+x'
 			))
 		);
 	

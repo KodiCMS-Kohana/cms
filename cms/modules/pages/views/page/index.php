@@ -4,9 +4,10 @@
 
 		<?php if ( Acl::check( 'page.add')): ?>
 		<?php echo UI::button(__('Add page'), array(
-			'id' => 'pageAddButton', 'class' => 'btn',
+			'class' => 'btn',
 			'href' => Route::url('backend', array('controller' => 'page', 'action' => 'add')),
-			'icon' => UI::icon('plus')
+			'icon' => UI::icon('plus'),
+			'hotkeys' => 'ctrl+a'
 		)); ?>
 		<?php endif; ?>
 
@@ -14,7 +15,8 @@
 		<?php echo UI::button(__('Reorder'), array(
 			'id' => 'pageMapReorderButton', 
 			'class' => 'btn btn-primary',
-			'icon' => UI::icon('move icon-white')
+			'icon' => UI::icon('move icon-white'),
+			'hotkeys' => 'ctrl+s'
 		)); ?>
 		<?php endif; ?>
 

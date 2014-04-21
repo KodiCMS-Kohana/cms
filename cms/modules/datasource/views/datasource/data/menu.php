@@ -53,7 +53,7 @@
 		$result .= '<div class="btn-group pull-right">';
 		if(ACL::check($section.$ds_id.'.section.edit'))
 		{
-			$result .= UI::button(NULL, array(
+			$attributes =  array(
 				'href' => Route::url('datasources', array(
 					'controller' => 'section',
 					'directory' => 'datasources',
@@ -62,11 +62,18 @@
 				)),
 				'icon' => UI::icon( 'wrench' ),
 				'class' => 'btn btn-mini'
-			));
+			);
+			
+			if($selected == 'active')
+			{
+				$attributes['hotkeys'] = 'ctrl+e';
+			}
+			
+			$result .= UI::button(NULL, $attributes);
 		}
-		if(ACL::check($section.$ds_id.'.section.edit'))
+		if(ACL::check($section.$ds_id.'.section.remove'))
 		{
-			$result .= UI::button(NULL, array(
+			$attributes =  array(
 				'href' => Route::url('datasources', array(
 					'controller' => 'section',
 					'directory' => 'datasources',
@@ -75,7 +82,8 @@
 				)),
 				'icon' => UI::icon( 'trash icon-white' ),
 				'class' => 'btn btn-danger btn-confirm btn-mini'
-			));
+			);
+			$result .= UI::button(NULL, $attributes);
 		}
 		$result .= '</div>';
 		

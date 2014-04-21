@@ -27,7 +27,9 @@
 	
 	<div class="widget-footer form-actions">
 		<?php echo UI::button( __('Create section'), array(
-			'icon' => UI::icon( 'plus'), 'class' => 'btn btn-large'
+			'icon' => UI::icon( 'plus'),
+			'class' => 'btn btn-large',
+			'hotkeys' => 'ctrl+s'
 		)); ?>
 	</div>
 <?php echo Form::close(); ?>

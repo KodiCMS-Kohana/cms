@@ -9,12 +9,14 @@ return array(
 				'url' => Route::url('backend', array('controller' => 'guide', 'action' => 'doc')),
 				'priority' => 101,
 				'icon' => 'book',
+				'hotkeys' => 'f1'
 			),
 			array(
 				'name' => 'API Browser', 
 				'url' => Route::url('backend', array('controller' => 'guide', 'action' => 'api')),
 				'priority' => 102,
 				'icon' => 'beaker',
+				'hotkeys' => 'f2'
 			)
 		)
 	)

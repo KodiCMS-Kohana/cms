@@ -33,6 +33,7 @@
 				'action' => 'template',
 				'id' => $widget->id
 			)), 'icon' => UI::icon('desktop'),
+			'id' => 'defaultTemplateButton',
 			'class' => 'popup fancybox.iframe btn'
 		)) : NULL
 	)); ?>
@@ -114,7 +115,7 @@
 					'action' => 'location',
 					'id' => $widget->id)), 
 			'title' => __('Widget location')
-		), array('target' => 'blank'))->icon('sitemap'); ?>
+		), array('hotkeys' => 'shift+l'))->icon('sitemap'); ?>
 	</div>
 	<?php endif; ?>
 	<div class="widget-footer form-actions">

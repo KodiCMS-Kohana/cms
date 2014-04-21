@@ -2,7 +2,9 @@
 	<div class="widget-header">
 		<?php if ( Acl::check( 'scheduler.add')): ?>
 		<?php echo UI::button(__('Add job'), array(
-			'href' => Route::url( 'backend', array('controller' => 'scheduler', 'action' => 'add')), 'icon' => UI::icon('plus')
+			'href' => Route::url( 'backend', array('controller' => 'scheduler', 'action' => 'add')), 
+			'icon' => UI::icon('plus'),
+			'hotkeys' => 'ctrl+a'
 		)); ?>
 		<?php endif; ?>
 	</div>

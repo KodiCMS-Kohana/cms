@@ -60,9 +60,7 @@ $slugify = ! isset($slugify) ? TRUE : (bool) $slugify;
 				<br /><br />
 			</div>
 		</div>
-		
 		<div class="rows-container"></div>
-
-		<button class="add-row btn"><?php echo UI::icon('plus'); ?></button>
+		<button class="add-row btn" hotkeys="ctrl+a"><?php echo UI::icon('plus'); ?></button>
 	</div>
 </div>

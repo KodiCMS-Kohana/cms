@@ -9,7 +9,8 @@
 				'directory' => $ds_type,
 				'action' => 'create'
 			)) . URL::query(array('ds_id' => $ds_id)),
-			'icon' => UI::icon( 'plus' )
+			'icon' => UI::icon( 'plus' ),
+			'hotkeys' => 'ctrl+a'
 		)); ?>
 		<?php endif; ?>
 

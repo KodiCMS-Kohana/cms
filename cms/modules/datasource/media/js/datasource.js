@@ -85,7 +85,3 @@ cms.init.add('datasources_section_edit', function() {
 		return false;
 	});
 });
-
-cms.init.add(['hybrid_document_view', 'hybrid_document_create'], function () {
-	$('ul.nav-tabs').tabs();
-});

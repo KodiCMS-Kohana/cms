@@ -3,10 +3,7 @@
 )); ?>
 	<?php echo Form::hidden('token', Security::token()); ?>
 	<div class="widget">
-		<div class="tabbable tabs-left">
-			<ul class="nav nav-tabs"></ul>
-			<div class="tab-content"></div>
-		</div>
+		<?php echo View::factory('helper/tabbable'); ?>
 		<div class="widget-header spoiler-toggle" data-spoiler=".site-information-content" data-icon="info">
 			<h3><?php echo __( 'Site information' ); ?></h3>
 		</div>
@@ -123,7 +120,8 @@
 		<?php Observer::notify( 'view_setting_plugins' ); ?>
 		<div class="form-actions widget-footer">
 			<?php echo Form::button( 'submit', UI::icon( 'ok' ) . ' ' . __( 'Save settings' ), array(
-				'class' => 'btn btn-large'
+				'class' => 'btn btn-large',
+				'hotkeys' => 'ctrl+s'
 			) ); ?>
 		</div>
 	</div>
