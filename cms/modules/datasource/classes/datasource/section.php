@@ -510,7 +510,7 @@ class Datasource_Section {
 		
 		if( ! $validation->check() )
 		{
-			throw new Validation_Exception($array);
+			throw new Validation_Exception( $validation );
 		}
 	}
 	
