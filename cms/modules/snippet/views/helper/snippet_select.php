@@ -3,7 +3,7 @@ $(function() {
 	$('#snippet-select').change(function() {
 		var $option = $('option:selected', this);
 		if($option.val() == 0)
-			$('#snippet-edit-button').hide();
+			$('#EditTemplateButton').hide();
 		else
 			$('#snippet-edit-button')
 				.show()
@@ -72,7 +72,8 @@ $hidden = empty($template) ? 'hidden' : '';
 						'action' => 'edit',
 						'id' => $template
 					)), 'icon' => UI::icon('edit'),
-					'class' => 'popup fancybox.iframe btn btn-primary '.$hidden, 'id' => 'snippet-edit-button'
+					'class' => 'popup fancybox.iframe btn btn-primary '.$hidden, 
+					'id' => 'EditTemplateButton'
 				)); ?>
 				<?php endif; ?>
 
@@ -83,7 +84,8 @@ $hidden = empty($template) ? 'hidden' : '';
 						'action' => 'add'
 					)),
 					'icon' => UI::icon('plus'),
-					'class' => 'popup fancybox.iframe btn btn-success'
+					'class' => 'popup fancybox.iframe btn btn-success',
+					'id' => 'AddTemplateButton'
 				)); ?>
 				<?php endif; ?>
 
