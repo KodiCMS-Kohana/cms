@@ -204,11 +204,50 @@ class KodiCMS_Model_Page_Front {
 		return $this->breadcrumb; 
 	}
 
-	public function author() { return $this->author; }
-	public function author_id() { return $this->author_id; }
-	public function updator() { return $this->updator; }
-	public function updator_id() { return $this->updator_id; }
-	public function slug() { return $this->slug; }
+	/**
+	 * 
+	 * @return string
+	 */
+	public function author()
+	{ 
+		return $this->author;
+	}
+
+	/**
+	 * 
+	 * @return integer
+	 */
+	public function author_id() 
+	{ 
+		return $this->author_id; 
+	}
+
+	/**
+	 * 
+	 * @return string
+	 */
+	public function updator()
+	{ 
+		return $this->updator;
+	}
+
+	/**
+	 * 
+	 * @return integer
+	 */
+	public function updator_id() 
+	{ 
+		return $this->updator_id;
+	}
+
+	/**
+	 * 
+	 * @return string
+	 */
+	public function slug()
+	{ 
+		return $this->slug;
+	}
 
 	/**
 	 * 
