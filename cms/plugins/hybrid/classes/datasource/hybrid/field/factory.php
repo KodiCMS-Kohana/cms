@@ -120,6 +120,19 @@ class DataSource_Hybrid_Field_Factory {
 	}
 	
 	/**
+	 * Получение ключа поля по ID
+	 * 
+	 * @param integer $id
+	 * @return string|null
+	 */
+	public static function get_field_key($id) 
+	{
+		$field = self::get_field($id);
+			
+		return ($field instanceof DataSource_Hybrid_Field) ? $field->key : NULL;
+	}
+	
+	/**
 	 * Загрузка массива полей по массиву идентификаторов
 	 * 
 	 * @param array $ids

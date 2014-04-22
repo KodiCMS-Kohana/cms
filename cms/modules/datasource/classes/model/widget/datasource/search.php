@@ -123,7 +123,15 @@ class Model_Widget_Datasource_Search extends Model_Widget_Decorator_Pagination {
 	
 			foreach ($ids['ds_' . $id] as $item)
 			{
-				$item['href'] = str_replace('$id', $item['id'], $href);
+				$item['href'] = str_replace(':id', $item['id'], $href);
+				
+				if(!empty($item['params']))
+				{
+					foreach($item['params'] as $field => $value)
+					{
+						$item['href'] = str_replace(':' . $field, $value, $href);
+					}
+				}
 				
 				$results[] = $item;
 			}

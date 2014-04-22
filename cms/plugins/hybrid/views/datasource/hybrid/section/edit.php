@@ -66,6 +66,15 @@
 				)); ?>
 			</div>
 		</div>
+		
+		<div class="control-group">
+			<label class="control-label" for="search_index_doc_id_fields"><?php echo __('Document ID fields'); ?></label>
+			<div class="controls">
+				<?php echo Form::select('search_index_doc_id_fields[]', $ds->record_fields_array(), (array) $ds->search_index_doc_id_fields, array(
+					'class' => 'input-block-level'
+				)); ?>
+			</div>
+		</div>
 	</div>
 	<div class="form-actions widget-footer">
 		<?php echo UI::actions(NULL, Route::url('datasources', array(
