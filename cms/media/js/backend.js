@@ -735,14 +735,12 @@ var Api = {
 		
 		return this.response();
 	},
-
 	'delete': function(uri, data, callback) {
 		this.request('DELETE', uri, data, callback);
 		
 		return this.response();
 	},
-
-	request: function(method, uri, data, callback, show_loader) {
+	build_url: function(uri) {
 		uri = uri.replace('/' + ADMIN_DIR_NAME,'');
 		
 		if(uri.indexOf('-') == -1)
@@ -756,8 +754,13 @@ var Api = {
 		
 		if(uri.indexOf('/api') == -1)
 		{
-			uri = SITE_URL + 'api' + uri;
+			uri = 'api' + uri;
 		}
+		
+		return SITE_URL + uri;
+	},
+	request: function(method, uri, data, callback, show_loader) {
+		url = Api.build_url(uri);
 		
 		if(show_loader == 'undefined')
 			show_loader = true;
@@ -771,7 +774,7 @@ var Api = {
 
 		$.ajax({
 			type: method,
-			url: uri,
+			url: url,
 			data: data,
 			dataType: 'json',
 			beforeSend: function(){
@@ -801,7 +804,7 @@ var Api = {
 				}
 				this._response = response;
 				
-				var $event = method + uri.replace(SITE_URL, ":").replace(/\//g, ':');
+				var $event = method + url.replace(SITE_URL, ":").replace(/\//g, ':');
 				window.top.$('body').trigger($event.toLowerCase(), [this._response.response]);
 
 				if(typeof(callback) == 'function') callback(this._response);
@@ -811,9 +814,8 @@ var Api = {
 			}
 		}).always(function() { 
 			cms.loader.hide();
-		});;
+		});
 	},
-
 	exception: function(response) {
 		if(response.code == 120 && typeof(response.errors) == 'object') {
 			for(i in response.errors) {
