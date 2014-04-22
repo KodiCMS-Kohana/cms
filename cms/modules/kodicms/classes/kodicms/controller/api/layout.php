@@ -102,4 +102,16 @@ class KodiCMS_Controller_API_Layout extends Controller_System_Api {
 				'Layout is used! It CAN NOT be deleted!');
 		}
 	}
+	
+	public function post_rebuild()
+	{
+		$layouts = Model_File_Layout::find_all();
+		
+		foreach($layouts as $layout)
+		{
+			$layout->rebuild_blocks();
+		}
+		
+		$this->message('Layout blocks succefully update!');
+	}
 }

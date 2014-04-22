@@ -41,7 +41,7 @@
 		'template' => $ds->template,
 	)); ?>
 
-	<div class="widget-header spoiler-toggle" data-spoiler=".indexer-spoiler">
+	<div class="widget-header spoiler-toggle" data-spoiler=".indexer-spoiler" hotkeys="shift+s">
 		<h4><?php echo __('Search indexation'); ?></h4>
 	</div>
 	<div class="widget-content spoiler indexer-spoiler">
