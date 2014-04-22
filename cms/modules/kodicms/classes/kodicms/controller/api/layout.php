@@ -40,7 +40,7 @@ class KodiCMS_Controller_API_Layout extends Controller_System_Api {
 				$this->json_redirect('layout/edit/' . $layout->name);
 			}
 
-			$this->json['message'] = __( 'Layout has been saved!' );
+			$this->message('Layout has been saved!');
 			Observer::notify( 'layout_after_edit', $layout );
 		}
 		
@@ -62,7 +62,7 @@ class KodiCMS_Controller_API_Layout extends Controller_System_Api {
 		else
 		{
 			$this->json_redirect('layout/edit/' . $layout->name);
-			$this->json['message'] = __( 'Layout has been saved!' );
+			$this->message('Layout has been saved!');
 			Observer::notify( 'layout_after_add', $layout );
 		}
 		

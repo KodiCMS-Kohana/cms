@@ -36,6 +36,6 @@ class KodiCMS_Controller_API_Settings extends Controller_System_Api {
 
 		Observer::notify('save_settings', $settings );
 		Kohana::$log->add(Log::INFO, ':user change Settings')->write();
-		$this->message(__( 'Settings has been saved!'));
+		$this->message('Settings has been saved!');
 	}
 }
