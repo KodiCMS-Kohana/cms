@@ -5,6 +5,7 @@ return array(
 	'Add hybrid' => 'Создание раздела',
 	'Edit hybrid' => ' Редактирование раздела',
 	'Remove fields' => 'Удалить выделенные',
+	'Fields has been removed!' => 'Поля удалены!',
 	'Hybrid Headline' => 'Список гибридных документов',
 	'Hybrid document' => 'Гибридный документ',
 	'Add field' => 'Новое поле',

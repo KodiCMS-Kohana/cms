@@ -113,10 +113,9 @@ class DataSource_Hybrid_Field_Factory {
 		
 		if(empty($result))
 		{
-			$result[0] = NULL;
+			return NULL;
 		}
-			
-		return $result[0];
+		return reset($result);
 	}
 	
 	/**
@@ -151,14 +150,12 @@ class DataSource_Hybrid_Field_Factory {
 			->from('dshfields')
 			->where('id', 'in', $ids)
 			->order_by('position', 'asc')
-			->execute();
+			->execute()
+			->as_array('id');
 
-		if($query)
+		foreach ($query as $id => $row)
 		{
-			foreach ($query as $row)
-			{
-				$result[] = self::get_field_from_array($row);
-			}
+			$result[$id] = self::get_field_from_array($row);
 		}
 
 		return $result;

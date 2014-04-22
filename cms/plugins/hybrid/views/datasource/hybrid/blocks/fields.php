@@ -1,3 +1,35 @@
+<script type="text/javascript">
+$(function() {
+	var $fields = $('#section-fields input'),
+		$checked_fields = $fields.filter(':checked');
+	
+	$fields.change(function(){
+		if($fields.filter(':checked').size() == 0) {
+			$('#remove-fields').attr('disabled', 'disabled');
+		} else {
+			$('#remove-fields').removeAttr('disabled');
+		}
+		
+		$checked_fields = $fields.filter(':checked');
+	}).change();
+	
+	$('#remove-fields').on('click', function() {
+		if($checked_fields.length < 1) return false;
+		
+		if( ! confirm(__('Are you sure?')))
+			return;
+		
+		Api.delete('/datasource/hybrid-field', $checked_fields.serialize(), function(response) {
+			for(i in response.response) {
+				$('#field-' + response.response[i]).remove();
+			}
+		});
+		
+		return false;
+	});
+});
+</script>
+
 <div class="widget-header">
 	<h4><?php echo __('Datasource Fields'); ?></h4>
 </div>
@@ -56,14 +88,13 @@
 			</tr>
 
 			<?php foreach($record->fields() as $f): ?>
-			<tr id="field-<?php echo $f->name; ?>">
+			<tr id="field-<?php echo $f->id; ?>">
 				<?php if(Acl::check($ds->type().$ds->id().'.field.remove')): ?>
 				<td class="f">
 					<?php 
 					$attrs = array('id' => $f->name);
 					if($f->ds_id != $ds->id()) $attrs['disabled'] = 'disabled';
-					echo Form::checkbox('field[]', $f->name, FALSE, $attrs); ?>
-
+					echo Form::checkbox('field[]', $f->id, FALSE, $attrs); ?>
 				</td>
 				<?php endif; ?>
 				<td class="position"><?php echo $f->position; ?></td>

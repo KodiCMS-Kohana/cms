@@ -35,7 +35,7 @@ cms.init.add(['datasources_data_index'], function () {
 			return;
 		}
 		
-		if( ! confirm(__('Are you surre?')) )
+		if( ! confirm(__('Are you sure?')) )
 			return;
 
 		Api.post('/datasource/' + section + '-document.' + action, data, function(response) {
@@ -43,36 +43,4 @@ cms.init.add(['datasources_data_index'], function () {
 				window.location = '';
 		})
 	})
-});
-
-cms.init.add('datasources_section_edit', function() {
-	
-	var $fields = $('#section-fields input'),
-		$checked_fields = $fields.filter(':checked');
-	
-	$fields.change(function(){
-		if($fields.filter(':checked').size() == 0) {
-			$('#remove-fields').attr('disabled', 'disabled');
-		} else {
-			$('#remove-fields').removeAttr('disabled');
-		}
-		
-		$checked_fields = $fields.filter(':checked');
-	}).change();
-	
-	$('#remove-fields').on('click', function() {
-		if($checked_fields.length < 1) return false;
-		
-		if(!confirm(__('Are you surre?')))
-			return;
-		
-		Api.delete('/datasource/hybrid-field', $checked_fields.serialize()+'&ds_id='+DS_ID, function(response) {
-			for(i in response.response) {
-				console.log(i, response.response[i]);
-				$('#field-' + response.response[i]).remove();
-			}
-		})
-		
-		return false;
-	});
 });
