@@ -88,6 +88,7 @@ return array(
 	'Change meta headers' => 'Изменять мета заголовки',
 	'Index document intro' => 'Интро документа',
 	'Index document fields' => 'Индексируемые поля',
+	'Document ID fields' => 'Поля идентификаторы документа',
 	'Hybrid section' => 'Раздел данных',
 	'You need select hybrid section' => 'Необходимо выбрать раздел данных',
 	'Hybrid tags' => 'Теги ГД',
@@ -109,6 +110,8 @@ return array(
 	'One to one relation' => 'Связь один к одному',
 	'Clear coordinates' => 'Очистить координаты',
 	'Select file to upload' => 'Выберите файл для загрузки',
+	
+	
 	/* Validation Messages */
 	'Field with the same key :value exists.' => 'Поле с таким ключом ":value" существует',
 );
