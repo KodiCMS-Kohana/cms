@@ -756,6 +756,14 @@ cms.ui.add('flags', function() {
 				$next_li.find('a').trigger('click');
 				e.preventDefault();
 			} 
+		} else if($self.is(':checkbox')) {
+			$callback = function( e ) {
+				if($self.prop("checked"))
+					$self.uncheck().trigger('change');
+				else
+					$self.check().trigger('change');
+				e.preventDefault();
+			}
 		}
 		
 		$(document).on('keydown', null, $hotkeys, $callback);
@@ -797,6 +805,16 @@ cms.ui.add('flags', function() {
 		if( ! $method) $method = 'GET';
 		Api.request($method, $url, null, $callback);
 	})
+}).add('select_all_checkbox', function() {
+	$(document).on(' change','input[name="check_all"]', function(e) {
+		var $self = $(this),
+			$target = $self.data('target');
+		
+		if( ! $target) return false;
+
+		$($target).prop("checked" , this.checked).trigger('change');
+		e.preventDefault();
+    });
 });
 
 var Api = {
@@ -923,7 +941,7 @@ $(function() {
 
 	$.fn.check=function(){return this.each(function(){this.checked=true})}
 	$.fn.uncheck=function(){return this.each(function(){this.checked=false})};
-	$.fn.checked=function(){return this.attr("checked")}
+	$.fn.checked=function(){return this.prop("checked")}
 
 	$.fn.tabs = function () {
 		return $('li a', this).on('click', function() {

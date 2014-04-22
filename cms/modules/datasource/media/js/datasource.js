@@ -1,26 +1,17 @@
 cms.init.add(['datasources_data_index'], function () {
-	var chbx_change = function() {
-		var length = checkboxes.length;
-
-		var filtered_length = checkboxes.filter(':checked').length;
-
-		if(length == filtered_length) {
-			chbx_all.check();
-		}
-		else {
-			chbx_all.uncheck();
-		}
-	}
 	
-	var checkboxes = $('#headline table tbody .row-checkbox input').change(chbx_change);
+	$('#headline table tbody tr').on('click', function (event) {
+        if (event.target.type !== 'checkbox') {
+            $(':checkbox', this).trigger('click');
+        }
+    });
 	
-	var chbx_all = $('#cb-all input').change(function() {
+	$('#headline table tbody .doc-checkbox').on('change', function() {
 		if(!$(this).prop('checked')){
-			checkboxes.uncheck().change();
+			$(this).closest('tr').removeClass("warning");
 		} else {
-			checkboxes.check();
+			$(this).closest('tr').addClass("warning");
 		}
-		chbx_change();
 	});
 	
 	$('#apply-doc-action').click(function() {
