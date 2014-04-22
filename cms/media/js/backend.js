@@ -784,6 +784,11 @@ cms.ui.add('flags', function() {
 		Api.post('layout.rebuild');
 		e.preventDefault();
 	});
+	
+	$(document).on('keydown', null, 'shift+l', function(e) {
+		window.location = '/backend/logout';
+		e.preventDefault();
+	});
 }).add('api_buttons', function(){
 	$('.btn-api').on('click', function(e) {
 		e.preventDefault();
