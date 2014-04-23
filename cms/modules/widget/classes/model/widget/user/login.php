@@ -8,6 +8,7 @@
 class Model_Widget_User_Login extends Model_Widget_Decorator {
 	
 	public $use_template = FALSE;
+	public $use_caching = FALSE;
 	
 	protected $_data = array(
 		'login_field' => 'username',
