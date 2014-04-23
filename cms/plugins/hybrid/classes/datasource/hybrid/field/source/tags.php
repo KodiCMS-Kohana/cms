@@ -154,12 +154,12 @@ class DataSource_Hybrid_Field_Source_Tags extends DataSource_Hybrid_Field_Source
 	
 	public function filter_condition(Database_Query $query, $condition, $value)
 	{
-		$query = $query
-			->join(array(DataSource_Hybrid_Field_Tags::TABLE_NAME, $this->id.'_f_ht'), 'inner')
-			->on($fid.'_f_ht.field_id', '=', DB::expr( $this->id ))
-			->on($fid.'_f_ht.doc_id', '=', 'd.id')
+		return $query
+			->join(array(DataSource_Hybrid_Field_Source_Tags::TABLE_NAME, $this->id.'_f_ht'), 'inner')
+			->on($this->id.'_f_ht.field_id', '=', DB::expr( $this->id ))
+			->on($this->id.'_f_ht.doc_id', '=', 'd.id')
 			->join(array(Model_Tag::TABLE_NAME, $this->id.'_f_tags'), 'inner')
-			->on($fid.'_f_tags.id', '=', $this->id.'_f_ht.tag_id')
-			->where($fid.'_f_tags.name', $condition, $value);
+			->on($this->id.'_f_tags.id', '=', $this->id.'_f_ht.tag_id')
+			->where($this->id.'_f_tags.name', $condition, $value);
 	}
 }
