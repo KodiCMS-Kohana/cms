@@ -255,9 +255,9 @@ class Controller_System_API extends Controller_System_Ajax {
 	 * 
 	 * @param string $uri
 	 */
-	public function message( $message )
+	public function message( $message, array $values = NULL )
 	{
-		$this->json['message'] = $message;
+		$this->json['message'] = __($message, $values);
 	}
 
 	/**

@@ -681,7 +681,7 @@ class Datasource_Section {
 	 * @param string $intro Описание документа
 	 * @return \Datasource_Section
 	 */
-	public function add_to_index(array $ids = array(), $header = NULL, $content = NULL, $intro = NULL) 
+	public function add_to_index(array $ids = array(), $header = NULL, $content = NULL, $intro = NULL, array $params = NULL) 
 	{
 		if( ! $this->is_indexable())
 		{
@@ -690,7 +690,7 @@ class Datasource_Section {
 
 		if(count($ids) == 1 AND $header !== NULL)
 		{
-			Search::instance()->add_to_index('ds_' . $this->id(), $ids[0], $header, $content, $intro);
+			Search::instance()->add_to_index('ds_' . $this->id(), $ids[0], $header, $content, $intro, $params);
 		}
 		else
 		{
@@ -698,7 +698,7 @@ class Datasource_Section {
 			
 			foreach($docs as $doc)
 			{
-				Search::instance()->add_to_index('ds_' . $this->id(), $doc['id'], $doc['header'], $doc['content'], $doc['intro']);
+				Search::instance()->add_to_index('ds_' . $this->id(), $doc['id'], $doc['header'], $doc['content'], $doc['intro'], Arr::get($doc, 'params'));
 			}
 		}
 	}
@@ -717,14 +717,14 @@ class Datasource_Section {
 	 * @param string $intro
 	 * @return \Datasource_Section
 	 */
-	public function update_index(array $ids = array(), $header = NULL, $content = NULL, $intro = NULL) 
+	public function update_index(array $ids = array(), $header = NULL, $content = NULL, $intro = NULL, array $params = NULL) 
 	{
 		if( ! $this->is_indexable())
 		{
 			return $this;
 		}
 
-		return $this->add_to_index($ids, $header, $content, $intro);
+		return $this->add_to_index($ids, $header, $content, $intro, $params);
 	}
 	
 	/**

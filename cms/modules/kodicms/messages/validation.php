@@ -6,6 +6,8 @@ return array(
 		'incorrect' => 'Invalid username or password.',
 	),
 	
+	'unique' => 'Field :field must be unique',
+	
 	'database_not_empty' => 'Database not empty',
 	'incorrect'		=> ':field is invalid',
 );

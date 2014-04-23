@@ -12,7 +12,7 @@ class Controller_API_Log extends Controller_System_Api {
 		ORM::factory('log')->clean_old();
 		
 		$this->response((bool) $delete);
-		$this->message(__('Old logs has been deleted'));
+		$this->message('Old logs has been deleted');
 	}
 
 	public function get_get()

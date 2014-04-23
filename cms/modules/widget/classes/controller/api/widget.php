@@ -54,7 +54,7 @@ class Controller_API_Widget extends Controller_System_API {
 				'widget' => Widget_Manager::load($widget_id)
 			)));
 			
-			$this->message(__('Widget added to page'));
+			$this->message('Widget added to page');
 		}
 	}
 }

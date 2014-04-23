@@ -5,8 +5,8 @@
 	<div class="well">
 		<?php echo UI::button(__('Update search index'), array(
 			'icon' => UI::icon( 'stethoscope' ),
-			'id' => 'update-search-index',
-			'class' => 'btn btn-warning'
+			'class' => 'btn btn-warning btn-api',
+			'data-url' => 'search.update_index'
 		)); ?>
 	</div>
 </div>

@@ -41,7 +41,7 @@
 		'template' => $ds->template,
 	)); ?>
 
-	<div class="widget-header spoiler-toggle" data-spoiler=".indexer-spoiler">
+	<div class="widget-header spoiler-toggle" data-spoiler=".indexer-spoiler" hotkeys="shift+s">
 		<h4><?php echo __('Search indexation'); ?></h4>
 	</div>
 	<div class="widget-content spoiler indexer-spoiler">
@@ -62,6 +62,15 @@
 			<label class="control-label" for="search_index_fields"><?php echo __('Index document fields'); ?></label>
 			<div class="controls">
 				<?php echo Form::select('search_index_fields[]', $ds->record_fields_array(), (array) $ds->search_index_fields, array(
+					'class' => 'input-block-level'
+				)); ?>
+			</div>
+		</div>
+		
+		<div class="control-group">
+			<label class="control-label" for="search_index_doc_id_fields"><?php echo __('Document ID fields'); ?></label>
+			<div class="controls">
+				<?php echo Form::select('search_index_doc_id_fields[]', $ds->record_fields_array(), (array) $ds->search_index_doc_id_fields, array(
 					'class' => 'input-block-level'
 				)); ?>
 			</div>

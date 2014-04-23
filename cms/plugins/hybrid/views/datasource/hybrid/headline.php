@@ -11,7 +11,10 @@
 		<thead>
 			<tr>
 				<?php if(Acl::check('hybrid'.$ds_id.'.document.edit')): ?>
-				<th class="row-checkbox" id="cb-all"><?php echo Form::checkbox('doc[]'); ?></th>
+				<th class="row-checkbox"><?php echo Form::checkbox('check_all', NULL, NULL, array(
+					'data-target' => '.doc-checkbox',
+					'hotkeys' => 'ctrl+shift+a'
+				)); ?></th>
 				<?php endif; ?>
 
 				<?php foreach ($fields as $key => $field): ?>
@@ -23,20 +26,24 @@
 			<?php foreach ($data['documents'] as $id => $row): ?>
 			<tr data-id="<?php echo $id; ?>" class="<?php echo !$row['published'] ? 'unpublished' : ''; ?>">
 				<?php if(Acl::check('hybrid'.$ds_id.'.document.edit')): ?>
-				<td class="row-checkbox"><?php echo Form::checkbox('doc[]', $id); ?></td>
+				<td class="row-checkbox"><?php echo Form::checkbox('doc[]', $id, NULL, array('class' => 'doc-checkbox')); ?></td>
 				<?php endif; ?>
 
 				<?php foreach ($fields as $key => $field): ?>
 				<?php if(isset($row[$key])): ?>
 					<?php if(Arr::get($field, 'type') == 'link'): ?>
 						<?php if(Acl::check('hybrid'.$ds_id.'.document.view') OR Acl::check('hybrid'.$ds_id.'.document.edit')): ?>
-						<th class="row-<?php echo $key; ?>"><?php echo HTML::anchor(Route::url('datasources', array(
+						<td class="row-<?php echo $key; ?>">
+							<strong>
+							<?php echo HTML::anchor(Route::url('datasources', array(
 								'controller' => 'document',
 								'directory' => 'hybrid',
 								'action' => 'view'
 							)) . URL::query(array(
 								'ds_id' => $ds_id, 'id' => $id
-							)), $row[$key]); ?></th>
+							)), $row[$key]); ?>
+							</strong>
+						</td>
 						<?php else: ?>
 						<td class="row-<?php echo $key; ?>"><strong><?php echo $row[$key]; ?></strong></td>
 						<?php endif; ?>

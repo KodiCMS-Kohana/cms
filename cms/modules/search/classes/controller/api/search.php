@@ -11,6 +11,6 @@ class Controller_API_Search extends Controller_System_Api {
 	{		
 		Observer::notify('update_search_index');
 		
-		$this->message(__('Search index updated'));
+		$this->message('Search index updated');
 	}
 }

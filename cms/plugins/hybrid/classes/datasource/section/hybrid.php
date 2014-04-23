@@ -34,6 +34,13 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 	public $search_index_fields = array();
 	
 	/**
+	 * Поля используемые в качестве индентификатора при поиске
+	 * 
+	 * @var array 
+	 */
+	public $search_index_doc_id_fields = array();
+	
+	/**
 	 * Поле описания документа в поисковом индексе
 	 * 
 	 * @var integer 
@@ -139,6 +146,9 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 		
 		$this->search_index_fields = (array) Arr::get($values, 'search_index_fields', array());
 		unset($values['search_index_fields']);
+		
+		$this->search_index_doc_id_fields = (array) Arr::get($values, 'search_index_doc_id_fields', array());
+		unset($values['search_index_doc_id_fields']);
 
 		$status = parent::save($values);
 		
@@ -185,16 +195,27 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 	public function get_indexable_documents( array $id = NULL ) 
 	{
 		$result = array();
+
+		if( ! empty($this->search_intro_field))
+		{
+			$this->search_index_fields[] = $this->search_intro_field;
+		}
+		
+		$this->search_index_fields = array_unique($this->search_index_fields);
+		
 		$fields = $this->search_index_fields;
 		
-		if(!empty($this->search_intro_field))
+		if( ! empty($this->search_index_doc_id_fields) )
 		{
-			$fields[] = $this->search_intro_field;
+			foreach ($this->search_index_doc_id_fields as $field)
+			{
+				$fields[] = $field;
+			}
 		}
 
 		$agent = DataSource_Hybrid_Agent::instance($this->id(), $this->id());
 		
-		$query = $agent->get_query_props($this->search_index_fields);
+		$query = $agent->get_query_props(array_unique($fields));
 		
 		if(is_array($id) AND !empty($id))
 		{
@@ -205,7 +226,9 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 			$query->where('d.id', '=', (int) $id);
 		}
 		
-		foreach ($query->execute() as $row)
+		$rows = $query->execute()->as_array();
+	
+		foreach ($rows as $row)
 		{
 			$doc_id = $row['id'];
 			$result[$doc_id] = array(
@@ -214,21 +237,24 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 				'header' => $row['header']
 			);
 			
-			unset(
-					$row['id'], 
-					$row['ds_id'], 
-					$row['published'], 
-					$row['created_on'],
-					$row['updated_on'], 
-					$row['header']
-			);
 			$content = '';
-			foreach ($row as $key => $value)
+			$params = array();
+			
+			foreach ($this->search_index_fields as $field)
 			{
-				$content .= ' ' . (string)$value;
+				$content .= ' ' . (string) Arr::get($row, $field);
+			}
+			
+			foreach ($this->search_index_doc_id_fields as $field)
+			{
+				$field_name = DataSource_Hybrid_Field_Factory::get_field_key($field);
+				
+				if(empty($field_name)) continue;
+				$params[$field_name] = Arr::get($row, $field);
 			}
 			
 			$result[$doc_id]['content'] = $content;
+			$result[$doc_id]['params'] = $params;
 		}
 	
 		return $result;

@@ -5,6 +5,7 @@ return array(
 	'Add hybrid' => 'Создание раздела',
 	'Edit hybrid' => ' Редактирование раздела',
 	'Remove fields' => 'Удалить выделенные',
+	'Fields has been removed!' => 'Поля удалены!',
 	'Hybrid Headline' => 'Список гибридных документов',
 	'Hybrid document' => 'Гибридный документ',
 	'Add field' => 'Новое поле',
@@ -88,6 +89,7 @@ return array(
 	'Change meta headers' => 'Изменять мета заголовки',
 	'Index document intro' => 'Интро документа',
 	'Index document fields' => 'Индексируемые поля',
+	'Document ID fields' => 'Поля идентификаторы документа',
 	'Hybrid section' => 'Раздел данных',
 	'You need select hybrid section' => 'Необходимо выбрать раздел данных',
 	'Hybrid tags' => 'Теги ГД',
@@ -109,6 +111,8 @@ return array(
 	'One to one relation' => 'Связь один к одному',
 	'Clear coordinates' => 'Очистить координаты',
 	'Select file to upload' => 'Выберите файл для загрузки',
+	
+	
 	/* Validation Messages */
 	'Field with the same key :value exists.' => 'Поле с таким ключом ":value" существует',
 );

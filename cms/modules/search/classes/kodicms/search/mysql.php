@@ -56,12 +56,15 @@ class KodiCMS_Search_MySQL extends Search {
 		$query = DB::select('id', 'module', 'title', 'annotation', 'params')
 			->from('search_index');
 
-		$result = $this->_get_query( $query, $keyword, $only_title, $modules, $limit, $offset )->execute();
+		$result = $this->_get_query( $query, $keyword, $only_title, $modules, $limit, $offset )
+			->execute()
+			->as_array();
 		
 		$ids = array();
 
 		foreach($result as $row)
 		{
+			$row['params'] = unserialize($row['params']);
 			$ids[$row['module']][] = $row;
 		}
 

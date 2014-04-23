@@ -40,7 +40,7 @@ class KodiCMS_Controller_API_Layout extends Controller_System_Api {
 				$this->json_redirect('layout/edit/' . $layout->name);
 			}
 
-			$this->json['message'] = __( 'Layout has been saved!' );
+			$this->message('Layout has been saved!');
 			Observer::notify( 'layout_after_edit', $layout );
 		}
 		
@@ -62,7 +62,7 @@ class KodiCMS_Controller_API_Layout extends Controller_System_Api {
 		else
 		{
 			$this->json_redirect('layout/edit/' . $layout->name);
-			$this->json['message'] = __( 'Layout has been saved!' );
+			$this->message('Layout has been saved!');
 			Observer::notify( 'layout_after_add', $layout );
 		}
 		
@@ -101,5 +101,17 @@ class KodiCMS_Controller_API_Layout extends Controller_System_Api {
 			throw HTTP_API_Exception::factory(API::ERROR_PERMISSIONS,
 				'Layout is used! It CAN NOT be deleted!');
 		}
+	}
+	
+	public function post_rebuild()
+	{
+		$layouts = Model_File_Layout::find_all();
+		
+		foreach($layouts as $layout)
+		{
+			$layout->rebuild_blocks();
+		}
+		
+		$this->message('Layout blocks succefully update!');
 	}
 }

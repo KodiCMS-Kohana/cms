@@ -20,7 +20,7 @@ class Controller_Api_Datasource_Hybrid_Document extends Controller_System_API
 
 		$doc = $ds->create_document($doc);
 		
-		$this->message(__('Document created'));
+		$this->message('Document created');
 		$this->response($doc->values());
 	}
 	
@@ -42,7 +42,7 @@ class Controller_Api_Datasource_Hybrid_Document extends Controller_System_API
 
 		$doc = $ds->update_document($doc);
 		
-		$this->message(__('Document updated'));
+		$this->message('Document updated');
 		$this->response($doc->values());
 	}
 

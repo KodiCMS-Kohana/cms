@@ -26,20 +26,6 @@ class KodiCMS_Controller_Layout extends Controller_System_Backend {
 			'layouts' => Model_File_Layout::find_all()
 		) );
 	}
-	
-	public function action_rebuild()
-	{
-		$layouts = Model_File_Layout::find_all();
-		
-		foreach($layouts as $layout)
-		{
-			$layout->rebuild_blocks();
-		}
-		
-		Messages::success( __( 'Layout blocks succefully update!' ) );
-		
-		$this->go_back();
-	}
 
 	public function action_add()
 	{
