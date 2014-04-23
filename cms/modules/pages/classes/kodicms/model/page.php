@@ -250,31 +250,31 @@ class KodiCMS_Model_Page extends ORM
 			),
 			'robots' => array(
 				'type' => 'select',
-				'choises' => 'Model_Page::robots'
+				'choices' => 'Model_Page::robots'
 			),
 			'parent_id' => array(
 				'type' => 'select',
-				'choises' => array($this, '_get_sitemap')
+				'choices' => array($this, '_get_sitemap')
 			),
 			'status_id' => array(
 				'type' => 'select',
-				'choises' => 'Model_Page::statuses'
+				'choices' => 'Model_Page::statuses'
 			),
 			'layout_file' => array(
 				'type' => 'select',
-				'choises' => array($this, '_get_layouts_list')
+				'choices' => array($this, '_get_layouts_list')
 			),
 			'behavior_id' => array(
 				'type' => 'select',
-				'choises' => 'Behavior::select_choises'
+				'choices' => 'Behavior::select_choices'
 			),
 			'needs_login' => array(
 				'type' => 'select',
-				'choises' => 'Model_Page::logins'
+				'choices' => 'Model_Page::logins'
 			),
 			'created_by_id' => array(
 				'type' => 'select',
-				'choises' => 'Model_Page::authors'
+				'choices' => 'Model_Page::authors'
 			),
 		);
 	}
@@ -601,7 +601,7 @@ class KodiCMS_Model_Page extends ORM
 			$sitemap->exclude(array($this->id));
 		}
 
-		return $sitemap->select_choises();
+		return $sitemap->select_choices();
 	}
 	
 	/**

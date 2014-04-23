@@ -124,7 +124,7 @@ class Behavior
 	 * @param array $attributes
 	 * @return string
 	 */
-	public static function select_choises()
+	public static function select_choices()
 	{
 		$options = array('' => __('none'));
 				
