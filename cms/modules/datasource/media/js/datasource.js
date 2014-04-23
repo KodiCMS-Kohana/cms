@@ -24,7 +24,9 @@ cms.init.add(['datasources_data_index'], function () {
 			return;
 		}
 		
-		var data = checkboxes.filter(':checked').serialize();
+		var data = $('#headline table tbody .doc-checkbox')
+				.filter(':checked')
+				.serialize();
 		
 		if(action == 0) {
 			cms.error(__('You need to select action'));
