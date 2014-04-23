@@ -56,21 +56,21 @@
 			<div class="control-group">
 				<label class="control-label"><?php echo __( 'Profiling' ); ?></label>
 				<div class="controls">
-					<?php echo Form::select( 'setting[site][profiling]', Form::choises(), Config::get('site', 'profiling' )); ?>
+					<?php echo Form::select( 'setting[site][profiling]', Form::choices(), Config::get('site', 'profiling' )); ?>
 					<p class="help-block"><?php echo __('For detailed profiling use Kohana::$enviroment = Kohana::DEVELOPMENT or SetEnv KOHANA_ENV DEVELOPMENT in .htaccess'); ?></p>
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="control-label"><?php echo __( 'Debug mode' ); ?></label>
 				<div class="controls">
-					<?php echo Form::select( 'setting[site][debug]', Form::choises(), Config::get('site', 'debug' )); ?>
+					<?php echo Form::select( 'setting[site][debug]', Form::choices(), Config::get('site', 'debug' )); ?>
 				</div>
 			</div>
 			<hr />
 			<div class="control-group">
 				<label class="control-label"><?php echo __( 'Revision templates' ); ?></label>
 				<div class="controls">
-					<?php echo Form::select( 'setting[site][templates_revision]', Form::choises(), Config::get('site', 'templates_revision' )); ?>
+					<?php echo Form::select( 'setting[site][templates_revision]', Form::choices(), Config::get('site', 'templates_revision' )); ?>
 					<p class="help-block"><?php echo __( 'After save layouts or snippets create revision copy in logs directory' ); ?></p>
 				</div>
 			</div>
@@ -79,7 +79,7 @@
 			<div class="control-group">
 				<label class="control-label"><?php echo __( 'Show breadcrumbs' ); ?></label>
 				<div class="controls">
-					<?php echo Form::select( 'setting[site][breadcrumbs]', Form::choises(), Config::get('site', 'breadcrumbs', Config::NO )); ?>
+					<?php echo Form::select( 'setting[site][breadcrumbs]', Form::choices(), Config::get('site', 'breadcrumbs', Config::NO )); ?>
 				</div>
 			</div>
 		</div>
@@ -106,14 +106,14 @@
 			<div class="control-group">
 				<label class="control-label"><?php echo __( 'Find similar pages' ); ?></label>
 				<div class="controls">
-					<?php echo Form::select( 'setting[site][find_similar]', Form::choises(), Config::get('site', 'find_similar' )); ?>
+					<?php echo Form::select( 'setting[site][find_similar]', Form::choices(), Config::get('site', 'find_similar' )); ?>
 					<p class="help-block"><?php echo __( 'If requested page url is incorrect, then find similar page.' ); ?></p>
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="control-label"><?php echo __( 'Check page date' ); ?></label>
 				<div class="controls">
-					<?php echo Form::select( 'setting[page][check_date]', Form::choises(), Config::get('site', 'check_page_date', Config::NO ));?>
+					<?php echo Form::select( 'setting[page][check_date]', Form::choices(), Config::get('site', 'check_page_date', Config::NO ));?>
 				</div>
 			</div>
 		</div>

@@ -73,10 +73,10 @@ class KodiCMS_ORM extends Kohana_ORM {
 		
 		$attributes['id'] = $this->object_name() . '_' . $field;
 		
-		if(isset($attributes['choises']))
+		if(isset($attributes['choices']))
 		{
-			$field_data['choises'] = $attributes['choises'];
-			unset($attributes['choises']);
+			$field_data['choices'] = $attributes['choices'];
+			unset($attributes['choices']);
 		}
 		
 		if(isset($attributes['multiply']))
@@ -86,29 +86,29 @@ class KodiCMS_ORM extends Kohana_ORM {
 			unset($attributes['multiply']);
 		}
 		
-		if( ! empty($field_data['choises']) )
+		if( ! empty($field_data['choices']) )
 		{
-			$choises = $field_data['choises'];
+			$choices = $field_data['choices'];
 	
-			if (is_array($choises) OR ! is_string($choises))
+			if (is_array($choices) OR ! is_string($choices))
 			{
 				// This is either a callback as an array or a lambda
-				$choises = call_user_func($choises);
+				$choices = call_user_func($choices);
 			}
-			elseif (strpos($choises, '::') === FALSE)
+			elseif (strpos($choices, '::') === FALSE)
 			{
 				// Use a function call
-				$function = new ReflectionFunction($choises);
-				$choises = $function->invoke();
+				$function = new ReflectionFunction($choices);
+				$choices = $function->invoke();
 			}
 			else
 			{
 				// Split the class and method of the rule
-				list($class, $method) = explode('::', $choises, 2);
+				list($class, $method) = explode('::', $choices, 2);
 
 				// Use a static method call
 				$method = new ReflectionMethod($class, $method);
-				$choises = $method->invoke(NULL);
+				$choices = $method->invoke(NULL);
 			}
 		}
 		
@@ -121,7 +121,7 @@ class KodiCMS_ORM extends Kohana_ORM {
 				$input = Form::textarea($field_name, $value, $attributes);
 				break;
 			case 'select':
-				$input = Form::select($field_name, $choises, $value, $attributes);
+				$input = Form::select($field_name, $choices, $value, $attributes);
 				break;
 			case 'checkbox':
 				$default = Arr::get($field_data, 'value', 1);

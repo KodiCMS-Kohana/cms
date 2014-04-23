@@ -188,7 +188,7 @@ class KodiCMS_Model_Page_Sitemap {
 	 * 
 	 * @return array
 	 */
-	public function select_choises()
+	public function select_choices()
 	{
 		$pages = $this->flatten();
 		

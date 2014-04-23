@@ -41,7 +41,7 @@ class KodiCMS_Model_User_Profile extends ORM {
 		return array(
 			'locale' => array(
 				'type' => 'select',
-				'choises' => 'I18n::available_langs'
+				'choices' => 'I18n::available_langs'
 			),
 			'notice' => array(
 				'type' => 'checkbox',
