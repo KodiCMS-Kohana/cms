@@ -97,7 +97,7 @@ class UI {
 				'href' => $uri, 
 				'icon' => UI::icon('ban-circle'),
 				'class' => 'btn btn-link btn-close',
-				'hotkeys' => 'ctrl+x'
+				'hotkeys' => 'esc'
 			))
 		);
 	
