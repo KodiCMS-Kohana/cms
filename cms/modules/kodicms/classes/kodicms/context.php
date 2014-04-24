@@ -1,5 +1,10 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
+/**
+ * @package		KodiCMS
+ * @category	Helper
+ * @author		ButscHSter
+ */
 class KodiCMS_Context {
 	
 	/**
@@ -124,7 +129,27 @@ class KodiCMS_Context {
 	{
 		$result = NULL;
 		
-		if(isset($this->_params[$param]))
+		if (strpos($param, '::') !== FALSE)
+		{
+			list($class, $method) = explode('::', $param, 2);
+			$method = new ReflectionMethod($class, $method);
+			$result = $method->invoke();
+		}
+		else if(strpos($param, '$page->') !== FALSE)
+		{
+			list($class, $method) = explode('->', $param, 2);
+			
+			if(strpos($method, '()') !== FALSE)
+			{
+				$method = substr($method, 0, strpos($method, '()'));
+				$result = $this->get_page()->{$method}();
+			}
+			else
+			{
+				$result = $this->get_page()->{$method};
+			}
+		}
+		else if(isset($this->_params[$param]))
 		{
 			$result = $this->_params[$param];
 		}
