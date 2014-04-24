@@ -111,7 +111,7 @@ return array(
 	'One to one relation' => 'Связь один к одному',
 	'Clear coordinates' => 'Очистить координаты',
 	'Select file to upload' => 'Выберите файл для загрузки',
-	
+	'Image :image more than :size MB' => 'Изображение :image больше :size Мб',
 	
 	/* Validation Messages */
 	'Field with the same key :value exists.' => 'Поле с таким ключом ":value" существует',

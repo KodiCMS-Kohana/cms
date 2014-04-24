@@ -9,6 +9,42 @@ var API_FORM_ACTION = '/datasource/hybrid-document.<?php if($doc->loaded()): ?>u
 $(function() {
 	$('body').on('post:api:datasource:hybrid-document.create ', update_documents);
 	$('body').on('put:api:datasource:hybrid-document.create ', update_documents);
+	
+	$('.upload-input').on('change', function(e) {
+		var target = $(this).data('target');
+		var size = parseInt($(this).data('size'));
+		
+		if(size)
+			var mb = (size/1048576).toFixed(2);
+		if( ! target) return;
+		
+		var cont = $('#' + target).empty();
+		for (var i = 0; i < this.files.length; i++) {
+			var file = this.files.item(i);
+
+			if(size && file.size > size) {
+				
+				cms.message(__('Image :image more than :size MB', {':image': file.name, ':size': mb}), 'error')
+				continue;
+			}
+			var FR = new FileReader();
+			FR.onload = function(e) {
+				var img = new Image();
+					img.src = e.target.result;
+
+				var ratio = img.width / img.height;
+
+				var canvas = document.createElement("canvas");
+					canvas.width = 50 * ratio;
+					canvas.height = 50;
+
+				var ctx = canvas.getContext("2d");
+					ctx.drawImage(img, 0, 0, canvas.width, canvas.height );
+				cont.append($('<img class="img-polaroid" src="'+canvas.toDataURL("image/jpeg", 1)+'" />'));
+			};       
+			FR.readAsDataURL( file );
+		}
+	});
 });
 
 function update_documents(e, response) {

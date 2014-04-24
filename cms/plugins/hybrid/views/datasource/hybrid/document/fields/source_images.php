@@ -4,17 +4,20 @@
 		<div class="file-upload btn">
 			<span><?php echo __('Select file to upload'); ?></span>
 			<?php echo Form::file( $field->name . '[]', array(
-				'id' => $field->name, 'multiple', 'class' => 'upload-input'
+				'id' => $field->name, 
+				'multiple', 
+				'class' => 'upload-input',
+				'data-target' => $field->name . '_preview',
+				'data-size' => $field->max_size
 			) ); ?>
 		</div>
-		
+		<div id="<?php echo $field->name; ?>_preview"></div>
 		<span class="help-block">
 			<?php echo __('Max file size: :size', array(
 			':size' => Text::bytes($field->max_size)
 			)); ?>
 		</span>
-		
-		
+			
 		<?php $files = $field->load($value); ?>
 		<?php if(!empty($files)): ?>
 		<br />
