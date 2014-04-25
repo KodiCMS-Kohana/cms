@@ -105,13 +105,25 @@ $(function() {
 		toggleMinimize: function(e) {
 			e.preventDefault();
 			
-			this.$el.find('.part-minimize-button i')
-				.toggleClass('icon-chevron-up')
-				.toggleClass('icon-chevron-down');
-				
-			this.$el.find('.item-filter-cont').toggle();
-	
-			this.$el.find('.part-textarea').slideToggle();
+			if(this.model.get('is_expanded') == 1) {
+				this.$el
+					.find('.part-minimize-button i')
+					.addClass('icon-chevron-down')
+					.removeClass('icon-chevron-up')
+					.end()
+					.find('.item-filter-cont').hide()
+					.end()
+					.find('.part-textarea').slideUp();
+			} else {
+				this.$el.find('.part-minimize-button i')
+					.addClass('icon-chevron-up')
+					.removeClass('icon-chevron-down')
+					.end()
+					.find('.item-filter-cont').show()
+					.end()
+					.find('.part-textarea').slideDown();
+			}
+
 			this.model.toggleMinimize();
 		},
 		
