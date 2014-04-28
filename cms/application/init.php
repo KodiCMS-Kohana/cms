@@ -36,8 +36,7 @@ Kohana::modules( array(
 	'database'		=> MODPATH . 'database',	// Database access
 	'logs'			=> MODPATH . 'logs',
 	'auth'			=> MODPATH . 'auth',		// Basic authentication
-	'orm'			=> MODPATH . 'orm',			// Object Relationship Mapping,
-//	'mptt'			=> MODPATH . 'mptt',		// ORM MPTT 
+	'orm'			=> MODPATH . 'orm',			// Object Relationship Mapping
 	'oauth'			=> MODPATH . 'oauth',
 	'sso'			=> MODPATH . 'sso',
 	'minion'		=> MODPATH . 'minion',		// Minion
@@ -46,7 +45,7 @@ Kohana::modules( array(
 	'email_queue'	=> MODPATH . 'email_queue',
 	'filesystem'	=> MODPATH . 'filesystem',
 	'image'			=> MODPATH . 'image',
-	'userguide'		=> MODPATH . 'userguide',	// User guide and API documentation,
+	'userguide'		=> MODPATH . 'userguide',	// User guide and API documentation
 	'scheduler'		=> MODPATH . 'scheduler',
 	'snippet'		=> MODPATH . 'snippet',
 	'pages'			=> MODPATH . 'pages',		// Pages
