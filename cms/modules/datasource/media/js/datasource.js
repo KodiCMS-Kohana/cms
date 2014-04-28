@@ -1,5 +1,4 @@
 cms.init.add(['datasources_data_index'], function () {
-	
 	$('#headline table tbody tr').on('click', function (event) {
         if (event.target.type !== 'checkbox') {
             $(':checkbox', this).trigger('click');
@@ -44,5 +43,13 @@ cms.init.add(['datasources_data_index'], function () {
 			if(response.code == 200)
 				window.location = '';
 		})
-	})
+	});
+	
+	$('.datasource-menu').on('click', '.list-group-item', function(e) {
+		var target = $(e.target);
+		if($(e.target).hasClass('list-group-item')) {
+			window.location = target.find('.list-group-item-heading').attr('href');
+			e.preventDefault();
+		}
+	});
 });

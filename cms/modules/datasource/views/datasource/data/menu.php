@@ -1,5 +1,5 @@
 <?php if(!empty($tree)): ?>
-<div class="widget">
+<div class="widget datasource-menu">
 	<?php foreach ($tree as $section => $data): ?>
 	<div class="widget-header">
 	<h4><?php echo __(ucfirst($section)); ?></h4>

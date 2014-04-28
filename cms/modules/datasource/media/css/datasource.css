@@ -2,6 +2,10 @@
 	cursor: pointer;
 }
 
+.datasource-menu .list-group-item {
+	cursor: pointer;
+}
+
 #headline tbody tr.unpublished th,
 #headline tbody tr.unpublished td {
 	color: #ccc;
