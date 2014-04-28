@@ -188,7 +188,7 @@ abstract class DataSource_Hybrid_Field {
 	 */
 	public function __construct( array $data = NULL) 
 	{
-		if( !empty($data) )
+		if( ! empty($data) )
 		{
 			$this->set($data);
 		}

@@ -240,7 +240,7 @@ class DataSource_Hybrid_Field_Factory {
 
 			if( is_array( $props))
 			{
-				$array = array_merge($array, $props);
+				$array = Arr::merge($array, $props);
 			}
 		}
 
