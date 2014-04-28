@@ -45,7 +45,7 @@ cms.init.add(['datasources_data_index'], function () {
 		})
 	});
 	
-	$('.datasource-menu').on('click', '.list-group-item', function(e) {
+	$('.datasource-menu').on('click', '.list-group-item:not(.active)', function(e) {
 		var target = $(e.target);
 		if($(e.target).hasClass('list-group-item')) {
 			window.location = target.find('.list-group-item-heading').attr('href');

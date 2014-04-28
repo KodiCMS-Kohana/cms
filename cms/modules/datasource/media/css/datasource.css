@@ -6,6 +6,10 @@
 	cursor: pointer;
 }
 
+.datasource-menu .list-group-item.active {
+	cursor: default;
+}
+
 #headline tbody tr.unpublished th,
 #headline tbody tr.unpublished td {
 	color: #ccc;
