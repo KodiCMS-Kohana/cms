@@ -3,7 +3,10 @@
 	<div class="controls">
 		<?php
 		echo Form::input( 'default', $field->default, array(
-			'class' => 'timepicker', 'id' => 'primitive_default', 'size' => 10
+			'class' => 'timepicker', 
+			'id' => 'primitive_default', 
+			'size' => 10,
+			'autocomplete' => 'off'
 		) );
 		?>
 	</div>

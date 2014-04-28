@@ -115,4 +115,5 @@ return array(
 	
 	/* Validation Messages */
 	'Field with the same key :value exists.' => 'Поле с таким ключом ":value" существует',
+	'Number of decimal places' => 'Количество знаков после запятой'
 );

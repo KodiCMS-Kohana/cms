@@ -15,7 +15,7 @@
 	<label class="control-label" for="length"><?php echo __('Field length'); ?></label>
 	<div class="controls">
 		<?php echo Form::input( 'length', $field->length, array(
-			'class' => 'input-xlarge', 'id' => 'length'
+			'class' => 'input-mini', 'id' => 'length'
 		) ); ?>
 	</div>
 </div>
