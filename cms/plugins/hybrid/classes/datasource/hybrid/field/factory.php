@@ -315,7 +315,7 @@ class DataSource_Hybrid_Field_Factory {
 		}
 		
 		return (bool) DB::query(NULL, 
-				'ALTER TABLE `:table`  ADD `:key` :type :default'
+				'ALTER TABLE `:table` ADD `:key` :type :default'
 			)
 			->parameters($params)
 			->execute();
