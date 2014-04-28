@@ -27,5 +27,8 @@ return array(
 	'Add section :type' => 'Создание раздела :type',
 	'Edit section :name' => 'Редактирование раздела :name',
 	'Datasource section :id not found' => 'Раздел :id не найден',
-	'Datasource section not loaded' => 'Раздел не загружен'
+	'Datasource section not loaded' => 'Раздел не загружен',
+	'Document saved' => 'Документ сохранен',
+	'Document ID :id not found' => 'Документ c ID :id не найден',
+	
 );
