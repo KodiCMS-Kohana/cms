@@ -12,7 +12,7 @@ class DataSource_Hybrid_Field_Primitive_Float extends DataSource_Hybrid_Field_Pr
 	
 	public function set_value($value)
 	{
-		$value = Num::format((float) $value, $this->after_coma_num);
+		$value = number_format((float) $value, $this->after_coma_num, '.', '');
 
 		if( ! empty($this->min) AND $value < $this->min )
 		{
