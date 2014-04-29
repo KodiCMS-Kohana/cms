@@ -20,7 +20,7 @@ class Controller_Datasources_Data extends Controller_System_Datasource
 			'tree' => $tree,
 		));
 		
-		if($ds) 
+		if($ds instanceof Datasource_Section) 
 		{
 			$this->template->title = $ds->name;
 
@@ -29,12 +29,11 @@ class Controller_Datasources_Data extends Controller_System_Datasource
 			
 			$limit = (int) Arr::get($this->request->query(), 'limit', Cookie::get('limit'));
 			
-			
 			Cookie::set('ds_id', $cur_ds_id);
 			
 			$keyword = $this->request->query('keyword');
 			
-			if(!empty($limit))
+			if( ! empty($limit))
 			{
 				Cookie::set('limit', $limit);
 				$this->section()->headline()->limit($limit);
