@@ -91,7 +91,8 @@ abstract class Datasource_Section_Headline {
 		return View::factory($template, array(
 			'fields' => $this->fields(),
 			'data' => $this->get(),
-			'pagination' => $this->pagination()
+			'pagination' => $this->pagination(),
+			'section' => $this->_section
 		));
 	}
 	
