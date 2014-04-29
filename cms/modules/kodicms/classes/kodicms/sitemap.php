@@ -60,10 +60,10 @@ class KodiCMS_Sitemap
 	 * @param array $ids
 	 * @return \Model_Page_Sitemap
 	 */
-	public function exclude( array $ids )
+	public function exclude( array $ids, $remove_childs = TRUE )
 	{
 		if( !empty($ids) )
-			$this->_exclude( $this->_array, $ids );
+			$this->_exclude( $this->_array, $ids, $remove_childs );
 
 		return $this;
 	}
@@ -187,18 +187,26 @@ class KodiCMS_Sitemap
 	 * @param array $ids
 	 * @return array
 	 */
-	protected function _exclude( & $array, array $ids )
+	protected function _exclude( & $array, array $ids, $remove_childs = TRUE )
 	{
 		foreach($array as $i => & $row)
 		{
 			if( in_array($row['id'], $ids) )
 			{
 				unset($array[$i]);
+				
+				if($remove_childs !== TRUE AND ! empty($row['childs']))
+				{
+					foreach($row['childs'] as $child)
+					{
+						$array[] = $child;
+					}
+				}
 			}
 			
-			if( !empty($row['childs']))
+			if( ! empty($row['childs']) )
 			{
-				$this->_exclude($row['childs'], $ids);
+				$this->_exclude($row['childs'], $ids, $remove_childs);
 			}
 		}
 	}
