@@ -6829,6 +6829,9 @@ footer a {
   text-align: center;
   margin: 10px 0;
 }
+.map-header {
+  margin-bottom: 0;
+}
 .map-items {
   margin: 0;
 }
@@ -6896,9 +6899,6 @@ footer a {
 .map-wait {
   height: 30px;
   background: #fff url(../images/loader-small-white.gif) center center no-repeat;
-}
-#pageMapHeader {
-  margin-bottom: 0;
 }
 .page-items .item .item-expander {
   margin-left: -17px;

@@ -23,7 +23,7 @@
 		<span class="clearfix"></span>
 	</div>
 	<div class="widget-content">
-		<table id="pageMapHeader" class="table">
+		<table id="pageMapHeader" class="table map-header">
 			<colgroup>
 				<col />
 				<col width="14%" />
