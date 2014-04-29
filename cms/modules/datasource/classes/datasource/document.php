@@ -307,13 +307,11 @@ class Datasource_Document {
 	 */
 	public function read_files($array) 
 	{
-		foreach($this->_system_fields as $key => $value)
+		foreach($array as $key => $value)
 		{
-			$this->{$key} = Arr::get($array, $key);
-			unset($array[$key]);
+			$this->{$key} = $value;
 		}
-		
-		$this->_temp_fields = $array;
+
 		return $this;
 	}
 	
