@@ -27,18 +27,46 @@ class KodiCMS_Sitemap
 	 * Поиск страницы по ID
 	 * 
 	 * @param integer $id
-	 * @return \Model_Page_Sitemap
+	 * @return \KodiCMS_Sitemap
 	 */
 	public function find( $id )
 	{
-		$this->_array = $this->_find( $this->_array, $id );
+		$this->_array = $this->_find( $this->_array, 'id', $id );
 		
 		return $this;
 	}
+	
+	/**
+	 * 
+	 * @param string $key
+	 * @param string $value
+	 * @return \KodiCMS_Sitemap
+	 */
+	public function find_by( $key, $value )
+	{
+		$this->_array = $this->_find( $this->_array, $key, $value );
+		
+		return $this;
+	}
+	
+	/**
+	 * Фильтрация массива
+	 * 
+	 * @param string $key
+	 * @param mixed $value
+	 * @return \KodiCMS_Sitemap
+	 */
+	public function filter($key, $value)
+	{
+		$this->_filter($this->_array, $key, $value);
+
+		return $this;
+	}
+
 	/**
 	 * Получение внутренних страниц относительно текущей
 	 * 
-	 * @return \Model_Page_Sitemap
+	 * @return \KodiCMS_Sitemap
 	 */
 	public function children()
 	{
@@ -58,7 +86,8 @@ class KodiCMS_Sitemap
 	 * Исключение из карты сайта страниц по ID
 	 * 
 	 * @param array $ids
-	 * @return \Model_Page_Sitemap
+	 * @param boolean $remove_childs
+	 * @return \KodiCMS_Sitemap
 	 */
 	public function exclude( array $ids, $remove_childs = TRUE )
 	{
@@ -106,19 +135,33 @@ class KodiCMS_Sitemap
 	 */
 	public function breadcrumbs()
 	{
-		return array_reverse($this->_breadcrumbs( $this->_array[0] ));
+		if( isset($this->_array[0]) )
+		{
+			return array_reverse($this->_breadcrumbs( $this->_array[0] ));
+		}
+		
+		return array();
 	}
 	
 	/**
 	 * Получить список страниц для выпадающего списка <select>
 	 * 
+	 * @param string $title_key
+	 * @param boolean $level
+	 * @param string $empty_value
 	 * @return array
 	 */
-	public function select_choices($title_key = 'title', $level = TRUE)
+	public function select_choices($title_key = 'title', $level = TRUE, $empty_value = FALSE)
 	{
 		$array = $this->flatten();
 		
 		$options = array();
+		
+		if($empty_value !== FALSe)
+		{
+			$options[] = $empty_value;
+		}
+		
 		foreach ($array as $row)
 		{
 			if($level === TRUE)
@@ -141,19 +184,19 @@ class KodiCMS_Sitemap
 	 * @param integer $id
 	 * @return array
 	 */
-	protected function _find( $array, $id )
+	protected function _find( $array, $key, $value )
 	{
 		$found = array();
 		foreach($array as $row)
 		{
-			if($row['id'] == $id)
+			if($row[$key] == $value)
 			{
 				return array($row);
 			}
 			
 			if( ! empty($row['childs']))
 			{
-				$found = $this->_find($row['childs'], $id);
+				$found = $this->_find($row['childs'], $key, $value);
 				
 				if(!empty($found)) 
 				{
@@ -173,7 +216,7 @@ class KodiCMS_Sitemap
 	 */
 	protected function _breadcrumbs( array $data, &$crumbs = array() )
 	{
-		$crumbs[] = $row;
+		$crumbs[] = $data;
 			
 		if( !empty($data['parent']) )
 			$this->_breadcrumbs( $data['parent'], $crumbs );
@@ -185,7 +228,7 @@ class KodiCMS_Sitemap
 	 * 
 	 * @param array $array
 	 * @param array $ids
-	 * @return array
+	 * @param boolean $remove_childs
 	 */
 	protected function _exclude( & $array, array $ids, $remove_childs = TRUE )
 	{
@@ -208,6 +251,21 @@ class KodiCMS_Sitemap
 			{
 				$this->_exclude($row['childs'], $ids, $remove_childs);
 			}
+		}
+	}
+	
+	/**
+	 * 
+	 * @param array $array
+	 * @param string $key
+	 * @param mixed $value
+	 */
+	protected function _filter( & $array, $key, $value )
+	{
+		foreach($array as $i => $row)
+		{
+			if(isset($row[$key]) AND $row[$key] == $value)
+				unset($array[$i]);
 		}
 	}
 	
