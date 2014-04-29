@@ -114,14 +114,22 @@ class KodiCMS_Sitemap
 	 * 
 	 * @return array
 	 */
-	public function select_choices()
+	public function select_choices($title_key = 'title', $level = TRUE)
 	{
 		$array = $this->flatten();
 		
 		$options = array();
 		foreach ($array as $row)
 		{
-			$options[$row['id']] = str_repeat('- ', $row['level'] * 2) . $row['title'];
+			if($level === TRUE)
+			{
+				$level_string = str_repeat('- ', Arr::get($row, 'level', 0) * 2);
+			}
+			else
+			{
+				$level_string = '';
+			}
+			$options[$row['id']] = $level_string . $row[$title_key];
 		}
 		
 		return $options;
