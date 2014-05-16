@@ -5951,10 +5951,13 @@ $.fn.elfinderdialog = function(opts) {
 		buttonset.children().length && dialog.append(buttonpane);
 		if (opts.resizable && $.fn.resizable) {
 			dialog.resizable({
-					minWidth   : opts.minWidth,
-					minHeight  : opts.minHeight,
-					alsoResize : this
-				});
+				minWidth   : opts.minWidth,
+				minHeight  : opts.minHeight,
+				alsoResize : this,
+				stop: function( event, ui ) {
+					$(this).trigger('resize', [ui]);
+				}
+			});
 		} 
 			
 		typeof(opts.create) == 'function' && $.proxy(opts.create, this)();
@@ -7725,9 +7728,11 @@ elFinder.prototype.commands.edit = function() {
 		 * @return $.Deferred
 		 **/
 		dialog = function(id, file, content) {
-
+			var ext = file.name.split('.').pop();
+			
+			if(ext=='js') ext = 'javascript'; 
 			var dfrd = $.Deferred(),
-				ta   = $('<textarea class="elfinder-file-edit" rows="20" id="'+id+'-ta">'+fm.escape(content)+'</textarea>'),
+				ta   = $('<textarea class="elfinder-file-edit" rows="20" id="'+id+'-ta" data-mode="'+ext+'">'+fm.escape(content)+'</textarea>'),
 				save = function() {
 					ta.editor && ta.editor.save(ta[0], ta.editor.instance);
 					dfrd.resolve(ta.getContent());
@@ -7739,19 +7744,21 @@ elFinder.prototype.commands.edit = function() {
 				},
 				opts = {
 					title   : file.name,
-					width   : self.options.dialogWidth || 450,
+					width   : self.options.dialogWidth || '90%',
 					buttons : {},
 					close   : function() { 
 						ta.editor && ta.editor.close(ta[0], ta.editor.instance);
 						$(this).elfinderdialog('destroy'); 
+						cms.filters.switchOff(id+'-ta');
 					},
 					open    : function() { 
 						fm.disable();
 						ta.focus(); 
 						ta[0].setSelectionRange && ta[0].setSelectionRange(0, 0);
 						ta.editor && ta.editor.load(ta[0]);
+						
+						cms.filters.switchOn(id+'-ta', 'ace');
 					}
-					
 				};
 				
 				ta.getContent = function() {
@@ -7809,7 +7816,9 @@ elFinder.prototype.commands.edit = function() {
 				opts.buttons[fm.i18n('Save')]   = save;
 				opts.buttons[fm.i18n('Cancel')] = cancel
 				
-				fm.dialog(ta, opts).attr('id', id);
+				fm.dialog(ta, opts).attr('id', id).parent().on('resizestop', function(e, ui) {
+					cms.filters.exec(id+'-ta', 'changeHeight', $(this).find('.ui-widget-content').height());
+				});
 				return dfrd.promise();
 		},
 		
