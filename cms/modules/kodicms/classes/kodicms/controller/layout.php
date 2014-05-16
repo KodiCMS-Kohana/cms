@@ -102,7 +102,7 @@ class KodiCMS_Controller_Layout extends Controller_System_Backend {
 		{
 			if(($found_file = $layout->find_file()) !== FALSE)
 			{
-				$layout = new Model_File_Snippet( $found_file );
+				$layout = new Model_File_Layout( $found_file );
 			}
 			else
 			{
