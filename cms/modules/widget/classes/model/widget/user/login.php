@@ -127,7 +127,7 @@ class Model_Widget_User_Login extends Model_Widget_Decorator {
 		$this->_ctx->response()->body(json_encode($json));
 	}
 
-	protected function _login(Validation $validation, $remember)
+	protected function _login(Validation $validation, $login_fieldname, $remember)
 	{
 		if ( $validation->check() )
 		{
