@@ -48,6 +48,7 @@ return array(
 	'--- none ---' => '--- не указан ---',
 	'Thank you for using :site' => 'Спасибо, за использование :site',
 	'Powered by :framework v:version :codename' => 'Работает на :framework v:version :codename',
+	'Items per page' => 'Кол-во элементов на странице',
 	
 	/*********************** Layouts *********************************/
 	'Add layout' => 'Добавить шаблон',

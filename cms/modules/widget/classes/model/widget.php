@@ -61,4 +61,18 @@ class Model_Widget extends ORM {
 		
 		return $this->_code;
 	}
+	
+	public function filter()
+	{
+		$request = Request::initial();
+		
+		$types = (array) $request->query('widget_type');
+		
+		if(!empty($types))
+		{
+			$this->where('type', 'in', $types);
+		}
+		
+		return $this;
+	}
 }

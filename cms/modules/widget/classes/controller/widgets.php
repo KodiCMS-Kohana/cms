@@ -24,9 +24,37 @@ class Controller_Widgets extends Controller_System_Backend {
 	public function action_index()
 	{
 		$this->template->title = __('Widgets');
+		
+		$widgets = ORM::factory('widget')->filter();
+	
+		$per_page = (int) Arr::get($this->request->query(), 'per_page', 20);
+		$pager = Pagination::factory(array(
+			'total_items' => $widgets->reset(FALSE)->count_all(),
+			'items_per_page' => $per_page
+		));
+		
+		$sidebar = new Sidebar(array(
+			new Sidebar_Fields_Select(array(
+				'name' => 'widget_type[]',
+				'label' => __('Type'),
+				'options' => Widget_Manager::map(),
+				'selected' => (array) $this->request->query('widget_type')
+			)),
+			new Sidebar_Fields_Input(array(
+				'name' => 'per_page',
+				'label' => __('Items per page'),
+				'value' => $per_page,
+				'class' => 'input-mini'
+			))
+		));
 
 		$this->template->content = View::factory( 'widgets/index', array(
-			'widgets' => ORM::factory('widget')->find_all()
+			'widgets' => $widgets
+				->limit($pager->items_per_page)
+				->offset($pager->offset)
+				->find_all(),
+			'pager' => $pager,
+			'sidebar' => $sidebar
 		));
 	}
 	
@@ -124,7 +152,7 @@ class Controller_Widgets extends Controller_System_Backend {
 			->add($this->template->title);
 
 		$this->template->content = View::factory( 'widgets/add', array(
-			'types' => Kohana::$config->load('widgets')->as_array()
+			'types' => Widget_Manager::map()
 		));
 	}
 	
