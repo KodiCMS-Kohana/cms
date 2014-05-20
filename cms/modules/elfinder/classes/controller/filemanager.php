@@ -13,7 +13,7 @@ class Controller_FileManager extends Controller_System_Backend {
 		$this->breadcrumbs
 			->add($this->template->title, $this->request->controller());
 
-		Assets::package(array('elfinder', 'jquery-ui'));
+		Assets::package(array('elfinder', 'jquery-ui', 'ace'));
 
 		$this->template->content = View::factory('elfinder/filemanager');
 	}

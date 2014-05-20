@@ -48,15 +48,9 @@
 	border-top-width: 0;
 }
 
-.elfinder-button-search input {
-	margin: 3px 0 0;
-	border: 1px solid #ccc;
-	width: 140px;
-	padding: 0 30px;
-}
-
-.elfinder-button-search .ui-icon {
-	margin: -7px 8px 0;
+.ui-widget .elfinder-button-search input,
+.ui-widget .elfinder-button-search button {
+	font-size: 12px;
 }
 
 .elfinder .ui-dialog.elfinder-dialog-confirm .ui-dialog-content {
