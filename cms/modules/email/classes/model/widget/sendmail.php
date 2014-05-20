@@ -110,6 +110,8 @@ class Model_Widget_SendMail extends Model_Widget_Decorator {
 
 	public function on_page_load() 
 	{
+		parent::on_page_load();
+
 		$this->_errors = array();
 
 		$this->_fetch_fields();

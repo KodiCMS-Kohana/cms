@@ -21,6 +21,8 @@ return array(
 	'Create widget' => 'Создать',
 	'General Information' => 'Основная информация',
 	'Widget data' => 'Параметры',
+	'Widget media' => 'Подключаемые media файлы',
+	'For including media files uses class :class' => 'Для подключения media файлов используется класс :class',
 	'Add widget to page' => 'Добавить виджет на страницу',
 	'Widget name' => 'Название',
 	'Match All Pages within Given Deepness' => 'Выводить все подразделы в пределах заданной глубины',

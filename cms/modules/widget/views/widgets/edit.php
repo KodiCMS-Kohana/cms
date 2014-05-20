@@ -90,7 +90,26 @@
 		</div>
 	</div>
 	<?php endif; ?>
+	
+	<div class="widget-header spoiler-toggle" data-spoiler=".media-spoiler" data-hash="media">
+		<h4><?php echo __('Widget media'); ?></h4>
+	</div>
+	<div class="widget-content spoiler media-spoiler">
+		<div class="control-group">
+			<div class="controls">
+				<p class="help-block"><?php echo __('For including media files uses class :class', array(
+					':class' => HTML::anchor(Route::url('docs/guide', array('module' => 'assets', 'page' => 'usage')), 'Assets')
+				)); ?></p>
+			</div>
 
+		</div>
+		<?php echo View::factory('helper/rows_only_value', array(
+			'field' => 'media',
+			'data' => $widget->media
+		)); ?>
+	</div>
+	
+	
 	<div class="widget-header">
 		<h4><?php echo __('Widget parameters'); ?></h4>
 	</div>

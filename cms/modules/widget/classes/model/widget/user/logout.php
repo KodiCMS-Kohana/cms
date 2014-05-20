@@ -16,6 +16,7 @@ class Model_Widget_User_Logout extends Model_Widget_Decorator {
 
 	public function on_page_load()
 	{
+		parent::on_page_load();
 		$username = AuthUser::getUserName();
 		
 		AuthUser::logout();

@@ -122,7 +122,15 @@ abstract class Model_Widget_Decorator {
 	 * @var array 
 	 */
 	public $roles = array();
-
+	
+	/**
+	 * Подключаемые медиа файлы для текущего виджета
+	 * 
+	 * Для подключения файлов в шаблон используется класс Assets
+	 * 
+	 * @var array 
+	 */
+	public $media = array();
 
 	/**
 	 * 
@@ -456,6 +464,11 @@ abstract class Model_Widget_Decorator {
 		{
 			$data['roles'] = array();
 		}
+		
+		if(empty($data['media']))
+		{
+			$data['media'] = array();
+		}
 
 		foreach($data as $key => $value)
 		{
@@ -490,6 +503,31 @@ abstract class Model_Widget_Decorator {
 		$this->template_params = Arr::merge($params, $this->template_params);
 		
 		return $this;
+	}
+	
+	/**
+	 * 
+	 * @param array $files
+	 * @return array
+	 */
+	public function set_media($files)
+	{
+		foreach($files as $i => $link)
+		{
+			if( strpos($link, '.css') === FALSE AND strpos($link, '.js') === FALSE)
+			{
+				unset($files[$i]);
+			}
+			
+			if( ! Valid::url($link) )
+			{
+				$files[$i] = URL::site($link, TRUE);
+			}
+		}
+		
+		
+
+		return array_unique($files);
 	}
 
 	/**
@@ -593,7 +631,23 @@ abstract class Model_Widget_Decorator {
 	 * 
 	 * @see Context::init_widgets()
 	 */
-	public function on_page_load() {}
+	public function on_page_load() 
+	{
+		if( ! empty($this->media) )
+		{
+			foreach($this->media as $link)
+			{
+				if( strpos($link, '.css') !== FALSE)
+				{
+					Assets::css($link, $link);
+				}
+				else if(strpos($link, '.js') !== FALSE)
+				{
+					Assets::js($link, $link);
+				}
+			}
+		}
+	}
 	
 	/**
 	 * Функция запоскается через обсервер frontpage_render

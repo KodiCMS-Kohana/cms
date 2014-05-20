@@ -18,6 +18,8 @@ class Model_Widget_Page_Search extends Model_Widget_Decorator_Pagination {
 	
 	public function on_page_load()
 	{
+		parent::on_page_load();
+
 		$this->count_total();
 	}
 
