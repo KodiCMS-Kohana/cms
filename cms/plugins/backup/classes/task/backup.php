@@ -36,7 +36,7 @@ class Task_Backup extends Minion_Task
 				->create()
 				->save();
 			
-			Minion_CLI::write(__('Database backup created succefully'));
+			Minion_CLI::write(__('Database backup created successfully'));
 		}
 		
 		if($params['filesystem'] > 0)
@@ -44,7 +44,7 @@ class Task_Backup extends Minion_Task
 			if(Model_Backup::factory($params['folder'] . 'filesystem-'.date('YmdHis').'.zip')
 				->create())
 			{
-				Minion_CLI::write(__('Filesystem backup created succefully'));
+				Minion_CLI::write(__('Filesystem backup created successfully'));
 			}
 		}
 	}

@@ -44,7 +44,7 @@ class Task_Backup_Restore extends Minion_Task
 			$backup = Model_Backup::factory($file)
 				->restore();
 
-			Minion_CLI::write(__('Backup from file :file restored succefully', array(
+			Minion_CLI::write(__('Backup from file :file restored successfully', array(
 				':file' => $file
 			)));
 		}

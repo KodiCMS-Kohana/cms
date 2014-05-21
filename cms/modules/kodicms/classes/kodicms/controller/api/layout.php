@@ -112,6 +112,6 @@ class KodiCMS_Controller_API_Layout extends Controller_System_Api {
 			$layout->rebuild_blocks();
 		}
 		
-		$this->message('Layout blocks succefully update!');
+		$this->message('Layout blocks successfully update!');
 	}
 }

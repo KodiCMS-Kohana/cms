@@ -40,7 +40,7 @@ class Controller_API_Backup extends Controller_System_API {
 		# Cохраняем оригинал и продолжаем работать, если ок: 
 		if ($file = Upload::save($file, $filename, NULL, 0777))
 		{
-			$this->response(__('File :filename uploaded succefully', array(
+			$this->response(__('File :filename successfully uploaded', array(
 				':filename' => $filename
 			)));
 

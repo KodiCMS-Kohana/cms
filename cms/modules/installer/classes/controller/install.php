@@ -144,7 +144,7 @@ class Controller_Install extends Controller_System_Frontend
 		if(PHP_SAPI == 'cli')
 		{
 			Minion_CLI::write('==============================================');
-			Minion_CLI::write(__('KodiCMS installed succefully'));
+			Minion_CLI::write(__('KodiCMS installed successfully'));
 			Minion_CLI::write('==============================================');
 
 			$install_data = Session::instance()->get_once('install_data');

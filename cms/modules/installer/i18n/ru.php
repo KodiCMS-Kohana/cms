@@ -75,7 +75,7 @@ return array(
 	'Install now!' => 'Установить!',
 	'No install data!' => 'Отсутсвуют данные!',
 	'Install demo site' => 'Установить демо данные',
-	'KodiCMS installed succefully' => 'KodiCMS успешно установлена',
+	'KodiCMS installed successfully' => 'KodiCMS успешно установлена',
 	'Login: :login' => 'Ваш логин: :login',
 	'Password: :password' => 'Ваш пароль: :password',
 	'Database schema file :file not found!' 

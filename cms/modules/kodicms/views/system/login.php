@@ -6,7 +6,7 @@
 	<hr />
 	<?php if( is_array( $install_data)): ?>
 	<div class="alert alert-info">
-		<h5><?php echo __('KodiCMS succefully installed!'); ?></h5>
+		<h5><?php echo __('KodiCMS successfully installed!'); ?></h5>
 		<ul>
 			<li><?php echo __('Login: :login', array(':login' => Arr::get($install_data, 'username'))); ?></li>
 			<li><?php echo __('Password: :password', array(':password' => Arr::get($install_data, 'password_field'))); ?></li>
