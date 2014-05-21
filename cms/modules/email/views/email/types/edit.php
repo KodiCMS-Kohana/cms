@@ -38,7 +38,7 @@
 	</div>
 	
 	<div class="widget-header">
-		<h3><?php echo __('Email type fileds'); ?></h3>
+		<h3><?php echo __('Email type fields'); ?></h3>
 	</div>
 	<div class="widget-content" id="type-fields">
 		<?php echo View::factory('helper/rows', array(

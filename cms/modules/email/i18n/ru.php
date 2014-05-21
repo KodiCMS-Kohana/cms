@@ -52,7 +52,7 @@ return array(
 	'Add email type' => 'Создать тип события',
 	'Email type name' => 'Название события',
 	'Email type code' => 'Код события',
-	'Email type fileds' => 'Используемые параметры',
+	'Email type fields' => 'Используемые параметры',
 	'Linked email templates' => 'Связанные почтовые шаблоны',
 	'Add linked template' => 'Добавить новый шаблон',
 	'Add email type' => 'Новое событие',
