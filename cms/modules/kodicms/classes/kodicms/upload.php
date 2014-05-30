@@ -127,7 +127,7 @@ class KodiCMS_Upload extends Kohana_Upload {
 
 		if( ! $file)
 		{
-			return array(TRUE, NULL);
+			return FALSE;
 		}
 		
 		$new_file = fopen($path, 'wb');

@@ -90,15 +90,14 @@ class DataSource_Hybrid_Field_File_Image extends DataSource_Hybrid_Field_File_Fi
 	public function onUpdateDocument(DataSource_Hybrid_Document $old = NULL, DataSource_Hybrid_Document $new)
 	{
 		$url = $new->get($this->name . '_url');
-		
+		$status = FALSE;
 		if( Valid::url($url) )
 		{
 			$url = $new->get($this->name . '_url');
 			
-			list($status, $filename) = Upload::from_url( $url, $this->types, $this->folder());
-
+			$filename = Upload::from_url( $url, $this->types, $this->folder());
 			
-			if($status)
+			if(!empty($filename))
 			{
 				if(rename(TMPPATH . $filename, $this->folder() . $filename))
 				{
@@ -106,6 +105,7 @@ class DataSource_Hybrid_Field_File_Image extends DataSource_Hybrid_Field_File_Fi
 					
 					$this->onRemoveDocument($old);
 					$new->set($this->name, $this->folder . $filename);
+					$status = TRUE;
 				}
 				else
 				{
