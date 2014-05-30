@@ -7,8 +7,16 @@ class DataSource_Hybrid_Field_Primitive_String extends DataSource_Hybrid_Field_P
 	protected $_props = array(
 		'default' => NULL,
 		'length' => 32,
-		'regexp' => NULL
+		'regexp' => NULL,
+		'use_filemanager' => FALSE
 	);
+	
+	public function set( array $data )
+	{
+		$data['use_filemanager'] = !empty($data['use_filemanager']) ? TRUE : FALSE;
+		
+		return parent::set( $data );
+	}
 	
 	public function get_type() 
 	{

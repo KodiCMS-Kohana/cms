@@ -1,3 +1,10 @@
+
+<div class="control-group">
+	<div class="controls">
+		<label class="checkbox"><?php echo Form::checkbox('use_filemanager', 1, $field->use_filemanager == 1, array('id' => 'use_filemanager' )); ?> <?php echo __('Use filemanager to get data'); ?></label>
+	</div>
+</div>
+
 <div class="control-group">
 	<label class="control-label" for="primitive_default"><?php echo __( 'Default value' ); ?></label>
 	<div class="controls">
