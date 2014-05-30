@@ -91,6 +91,7 @@
 	</div>
 	<?php endif; ?>
 	
+	<?php if($widget->use_template): ?>
 	<div class="widget-header spoiler-toggle" data-spoiler=".media-spoiler" data-hash="media">
 		<h4><?php echo __('Widget media'); ?></h4>
 	</div>
@@ -108,7 +109,7 @@
 			'data' => $widget->media
 		)); ?>
 	</div>
-	
+	<?php endif; ?>
 	
 	<div class="widget-header">
 		<h4><?php echo __('Widget parameters'); ?></h4>
