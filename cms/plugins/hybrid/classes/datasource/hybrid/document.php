@@ -245,7 +245,7 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 		
 		if( ! $this->created() ) return NULL;
 		
-		$query = DB::insert("dshybrid_" . $this->ds_id)
+		$query = DB::insert("dshybrid_" . $this->section()->id())
 			->columns(array('id'))
 			->values(array($this->id))
 			->execute();
