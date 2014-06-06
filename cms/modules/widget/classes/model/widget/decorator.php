@@ -153,6 +153,7 @@ abstract class Model_Widget_Decorator {
 	
 	public function __construct()
 	{
+		$this->_ctx = Context::instance();
 		$this->_set_type();
 	}
 
@@ -497,6 +498,7 @@ abstract class Model_Widget_Decorator {
 	/**
 	 * Передача дополнительных парамтеров в виджет
 	 * @param array $params Дополнительные параметры
+	 * @return \Model_Widget_Decorator
 	 */
 	public function set_params(array $params = array()) 
 	{
