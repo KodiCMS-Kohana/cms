@@ -149,6 +149,23 @@ class KodiCMS_Context {
 				$result = $this->get_page()->{$method};
 			}
 		}
+		else if(strpos($param, '$user->') !== FALSE)
+		{
+			$user = Auth::instance()->get_user();
+			list($class, $method) = explode('->', $param, 2);
+			
+			if(!($user instanceof ORM)) return $result;
+
+			if(strpos($method, '()') !== FALSE)
+			{
+				$method = substr($method, 0, strpos($method, '()'));
+				$result = $user->{$method}();
+			}
+			else
+			{
+				$result = $user->{$method};
+			}
+		}
 		else if(isset($this->_params[$param]))
 		{
 			$result = $this->_params[$param];
