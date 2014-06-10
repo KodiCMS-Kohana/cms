@@ -132,7 +132,7 @@ return array(
 	'Username' => 'Логин',
 	'Remember me for :num days' => 'Запомнить меня на :num дней',
 	'Forgot password?' => 'Забыли пароль?',
-	'Forgot password' => 'Забыли пароль',
+	'Forgot password' => 'Вспомнить пароль',
 	'Login failed. Please check your login data and try again.' 
 		=> 'Не удалось войти. Пожалуйста, проверьте логин и пароль, и попробуйте еще раз.',
 	'Needs login' => 'Необходим вход',

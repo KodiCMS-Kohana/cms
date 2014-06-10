@@ -121,58 +121,16 @@ class KodiCMS_Controller_Login extends Controller_System_Frontend {
 		if ( $this->request->method() == Request::POST )
 		{
 			$this->auto_render = FALSE;
-			$this->_forgot(Arr::path($_POST, 'forgot.email'));
+			
+			$widget = Widget_Manager::factory('User_Forgot');
+		
+			Context::instance()->set('email', Arr::path($_POST, 'forgot.email'));
+			$widget->set_values(array(
+				'next_url' => Route::url( 'user', array('action' => 'login') )
+			))->on_page_load();
 		}
 
 		$this->template->title = __('Forgot password');
 		$this->template->content = View::factory( 'system/forgot' );
-	}
-
-	private function _forgot($email)
-	{
-		if(!Valid::email( $email ))
-		{
-			Messages::errors( __('Use a valid e-mail address.') );
-			$this->go( Route::get('user')->uri(array( 'action' => 'forgot' ) ) );
-		}
-		
-		$user = ORM::factory('user', array(
-			'email' => $email
-		));
-		
-		if( ! $user->loaded() )
-		{
-			Messages::errors( __('No user found!') );
-			$this->go( Route::get('user')->uri(array( 'action' => 'forgot' ) ) );
-		}
-		
-		$reflink = ORM::factory( 'user_reflink' )
-			->generate($user, Model_User_Reflink::FORGOT_PASSWORD);
-
-		if( ! $reflink )
-		{
-			Messages::errors(__('Reflink generate error'));
-			$this->go_back();
-		}
-		
-		Observer::notify('admin_login_forgot_before', $user);
-		
-		try
-		{
-			Email_Type::get('user_request_password')->send(array(
-				'username' => $user->username,
-				'email' => $user->email,
-				'reflink' => ltrim( Route::url( 'reflink', array('code' => $reflink) ), '/'),
-				'code' => $reflink
-			));
-
-			Messages::success( __('Email with reflink send to address set in your profile' ));
-		} 
-		catch (Exception $e)
-		{
-			Messages::error( __('Something went wrong' ));
-		}
-
-		$this->go( Route::url( 'user', array('action' => 'login') ) );
 	}
 }

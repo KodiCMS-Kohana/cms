@@ -36,38 +36,6 @@ class Model_User_Reflink extends ORM {
 	}
 
 	/**
-	 * Confirm referial operation
-	 * Model must be loaded
-	 *
-	 * @return  Model_User
-	 * @throws ORM_Validation_Exception
-	 */
-	public function confirm() 
-	{
-		if (!$this->loaded()) 
-		{
-			throw new Reflink_Exception( 'Model not loaded or not found.' );
-		}
-
-		$status = TRUE;
-
-		switch ($this->type) {
-			case self::FORGOT_PASSWORD:
-				$status = Text::random();
-				$this->user->change_email( $status );
-
-				break;
-
-			default:
-
-				break;
-		}
-		
-
-		return $status;
-	}
-
-	/**
 	 * Generate new reflink code
 	 *
 	 * @param   Model_User  $user
