@@ -182,11 +182,11 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 		$map = Datasource_Data_Manager::get_tree();
 		$hds = Datasource_Data_Manager::get_all('hybrid');
 		
-		$sections = array(); 
+		$sections = array();
 		
 		foreach ( Datasource_Data_Manager::types() as $key => $value )
 		{
-			if($key != 'hybrid')
+			if($key != 'hybrid' AND !empty($map[$key]))
 			{
 				foreach ( $map[$key] as $id => $name )
 				{
