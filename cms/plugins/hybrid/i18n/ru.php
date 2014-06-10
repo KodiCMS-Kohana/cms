@@ -89,7 +89,14 @@ return array(
 	'Change meta headers' => 'Изменять мета заголовки',
 	'Index document intro' => 'Интро документа',
 	'Index document fields' => 'Индексируемые поля',
+
+	'Properties' => 'Опции',
+	'Set document published' => 'Опубликовать документ после создания',
+	'Hybrid data source' => 'Источник данных ГД',
+	'Hybrid data source prefix' => 'Префикс массива',
+	'Redirect url on success' => 'Редирект при успешном создании (URI)',
 	'Document ID fields' => 'Поля идентификаторы документа',
+
 	'Hybrid section' => 'Раздел данных',
 	'You need select hybrid section' => 'Необходимо выбрать раздел данных',
 	'Hybrid tags' => 'Теги ГД',
