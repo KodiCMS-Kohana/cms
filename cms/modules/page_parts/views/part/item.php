@@ -31,7 +31,7 @@
 				<div class="span4 item-filter-cont form-inline">
 					<label><?php echo __( 'WYSIWYG' ); ?></label>
 					<select class="item-filter" name="part_filter">
-						<option value="">&ndash; <?php echo __( '--- none ----' ); ?> &ndash;</option>
+						<option value="">&ndash; <?php echo __( '--- none ---' ); ?> &ndash;</option>
 						<?php foreach ( WYSIWYG::findAll() as $filter ): ?> 
 							<option value="<?php echo $filter; ?>" <% if (filter_id == "<?php echo $filter; ?>") { print('selected="selected"')} %> ><?php echo Inflector::humanize( $filter ); ?></option>
 						<?php endforeach; ?> 
@@ -57,7 +57,7 @@
 			</div>
 			<?php else: ?>
 			<select class="item-filter" name="part_filter">
-				<option value="">&ndash; <?php echo __( '--- none ----' ); ?> &ndash;</option>
+				<option value="">&ndash; <?php echo __( '--- none ---' ); ?> &ndash;</option>
 				<?php foreach ( WYSIWYG::findAll() as $filter ): ?> 
 					<option value="<?php echo $filter; ?>" <% if (filter_id == "<?php echo $filter; ?>") { print('selected="selected"')} %> ><?php echo Inflector::humanize( $filter ); ?></option>
 				<?php endforeach; ?> 

@@ -21,9 +21,10 @@ class Controller_Logs extends Controller_System_Backend {
 		
 		Assets::css('logs', 'cms/media/css/controller/logs.css');
 
+		$per_page = (int) Arr::get($this->request->query(), 'per_page', 20);
 		$pager = Pagination::factory(array(
 			'total_items' => $logs->reset(FALSE)->count_all(),
-			'items_per_page' => 20
+			'items_per_page' => $per_page
 		));
 		
 		$sidebar = new Sidebar(array(
@@ -46,6 +47,12 @@ class Controller_Logs extends Controller_System_Backend {
 				'label' => __('Log level'),
 				'options' => Log::levels(),
 				'selected' => (array) $this->request->query('level')
+			)),
+			new Sidebar_Fields_Input(array(
+				'name' => 'per_page',
+				'label' => __('Items per page'),
+				'value' => $per_page,
+				'class' => 'input-mini'
 			))
 		));
 		

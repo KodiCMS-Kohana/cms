@@ -39,8 +39,10 @@ $(function() {
 		changeFilter: function(filter_id) {
 			if(this.get('filter_id') != filter_id) 
 				this.save({filter_id: filter_id});
-
-			cms.filters.switchOn( 'pageEditPartContent-' + this.get('name'), filter_id );
+		},
+		
+		destroyFilter: function() {
+			cms.filters.switchOff( 'pageEditPartContent-' + this.get('name') );
 		},
 
 		clear: function() {
@@ -103,18 +105,32 @@ $(function() {
 		toggleMinimize: function(e) {
 			e.preventDefault();
 			
-			this.$el.find('.part-minimize-button i')
-				.toggleClass('icon-chevron-up')
-				.toggleClass('icon-chevron-down');
-				
-			this.$el.find('.item-filter-cont').toggle();
-	
-			this.$el.find('.part-textarea').slideToggle();
+			if(this.model.get('is_expanded') == 1) {
+				this.$el
+					.find('.part-minimize-button i')
+					.addClass('icon-chevron-down')
+					.removeClass('icon-chevron-up')
+					.end()
+					.find('.item-filter-cont').hide()
+					.end()
+					.find('.part-textarea').slideUp();
+			} else {
+				this.$el.find('.part-minimize-button i')
+					.addClass('icon-chevron-up')
+					.removeClass('icon-chevron-down')
+					.end()
+					.find('.item-filter-cont').show()
+					.end()
+					.find('.part-textarea').slideDown();
+			}
+
 			this.model.toggleMinimize();
 		},
 		
 		changeFilter: function() {
-			this.model.changeFilter(this.$el.find('.item-filter').val());
+			var filter_id = this.$el.find('.item-filter').val();
+			this.model.changeFilter(filter_id);
+			cms.filters.switchOn( 'pageEditPartContent-' + this.model.get('name'), filter_id );
 		},
 		
 		toggleOptions: function(e) {
@@ -150,8 +166,6 @@ $(function() {
 			if(this.model.get('is_indexable') == 1) {
 				this.$el.find('.is_indexable').check();
 			}
-			
-			this.changeFilter();
 
 			return this;
 		},
@@ -179,16 +193,15 @@ $(function() {
 					$self.render();
 				}
 			});
-			
-			this.collection.on('add', this.render, this);
 		},
 
 		render: function() {
 			this.clear();
-
 			this.collection.each(function(part) {
 				this.addPart(part);
 			}, this);
+			
+			this.collection.on('add', this.render, this);
 		},
 		
 		clear: function() {
@@ -237,6 +250,9 @@ $(function() {
 			this.model.save();
 			
 			this.model.on("sync", function() {
+				this.collection.each(function(part) {
+					part.destroyFilter();
+				}, this);
 				this.collection.add(this.model);
 				this.model.off('sync');
 			}, this);

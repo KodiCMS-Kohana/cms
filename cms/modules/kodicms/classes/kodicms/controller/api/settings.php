@@ -19,7 +19,7 @@ class KodiCMS_Controller_API_Settings extends Controller_System_Api {
 		$settings = $this->param('setting', array(), TRUE);
 		
 		$filter = Filter::factory($settings)
-			->rule('site.allow_html_title', FALSE, 'off');		
+			->rule('site.allow_html_title', FALSE, Config::NO);		
 		
 		$validation = Validation::factory(array());
 		Observer::notify( 'validation_settings', $validation, $filter );
@@ -36,6 +36,6 @@ class KodiCMS_Controller_API_Settings extends Controller_System_Api {
 
 		Observer::notify('save_settings', $settings );
 		Kohana::$log->add(Log::INFO, ':user change Settings')->write();
-		$this->message(__( 'Settings has been saved!'));
+		$this->message('Settings has been saved!');
 	}
 }

@@ -44,76 +44,10 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 		$ds_id = (int) $this->request->param('id');
 		$ds = $this->section($ds_id);
 		
-		$this->template->content = View::factory('datasource/data/hybrid/field/template', array(
+		$this->template->content = View::factory('datasource/hybrid/field/template', array(
 			'ds' => $ds,
-			'fields' => $ds->get_record()->fields
+			'fields' => $ds->record()->fields
 		));
-	}
-
-	public function action_edit()
-	{
-		$ds = $this->section($this->field->ds_id);
-	
-		if($this->request->method() === Request::POST)
-		{
-			return $this->_edit($this->field);
-		}
-		
-		$this->breadcrumbs
-			->add($ds->name, Route::url('datasources', array(
-				'controller' => 'data',
-				'directory' => 'datasources',
-			)) . URL::query(array('ds_id' => $ds->id()), FALSE))
-			->add(__('Edit hybrid'), Route::url('datasources', array(
-				'directory' => 'datasources',
-				'controller' => 'section',
-				'action' => 'edit',
-				'id' => $ds->id()
-			)))
-			->add($this->field->header);
-
-		$type = $this->field->family == DataSource_Hybrid_Field::TYPE_PRIMITIVE 
-				? $this->field->type 
-				: $this->field->family;
-		
-		$this->template->content = View::factory('datasource/data/hybrid/field/edit', array(
-			'ds' => $ds,
-			'field' => $this->field,
-			'type' => $type,
-			'sections' => $this->_get_sections(),
-			'post_data' => Session::instance()->get_once('post_data', array())
-		));
-	}
-	
-	private function _edit($field)
-	{
-		try 
-		{
-			$old_field = clone($field);
-			$field->set($this->request->post());
-			DataSource_Hybrid_Field_Factory::update_field($old_field, $field);
-		}
-		catch (Validation_Exception $e)
-		{
-			Session::instance()->set('post_data', $this->request->post());
-			Messages::errors($e->errors('validation'));
-			$this->go_back();
-		}
-		
-		// save and quit or save and continue editing?
-		if ( $this->request->post('commit') !== NULL )
-		{
-			$this->go( Route::url('datasources', array(
-				'directory' => 'datasources',
-				'controller' => 'section',
-				'action' => 'edit',
-				'id' => $field->ds_id
-			)));
-		}
-		else
-		{
-			$this->go_back();
-		}
 	}
 
 	public function action_add( )
@@ -130,7 +64,7 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 				'controller' => 'data',
 				'directory' => 'datasources',
 			)) . URL::query(array('ds_id' => $ds->id()), FALSE))
-			->add(__('Edit hybrid'), Route::url('datasources', array(
+			->add(__('Edit section :name', array(':name' => $ds->name)), Route::url('datasources', array(
 				'directory' => 'datasources',
 				'controller' => 'section',
 				'action' => 'edit',
@@ -138,7 +72,7 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 			)))
 			->add(__('Add field'));
 		
-		$this->template->content = View::factory('datasource/data/hybrid/field/add', array(
+		$this->template->content = View::factory('datasource/hybrid/field/add', array(
 			'ds' => $ds,
 			'sections' => $this->_get_sections(),
 			'post_data' => Session::instance()->get_once('post_data', array())
@@ -147,15 +81,15 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 	
 	private function _add($ds)
 	{
+		$data = $this->request->post();
+		
 		try 
 		{
-			$data = $this->request->post();
+			$type = $data['type'];
+			unset($data['type']);
 			
-			$family = $data['family'];
-			unset($data['family']);
-			
-			$field = DataSource_Hybrid_Field::factory($family, $data);
-			$field_id = DataSource_Hybrid_Field_Factory::create_field($ds->get_record(), $field);
+			$field = DataSource_Hybrid_Field::factory($type, $data);
+			$field_id = DataSource_Hybrid_Field_Factory::create_field($ds->record(), $field);
 		}
 		catch (Validation_Exception $e)
 		{
@@ -164,7 +98,7 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 			$this->go_back();
 		}
 		
-		if( ! $field_id)
+		if( ! $field_id )
 		{
 			$this->go_back();
 		}
@@ -178,6 +112,69 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 			'id' => $field_id
 		)));
 		
+	}
+
+	public function action_edit()
+	{
+		$ds = $this->section($this->field->ds_id);
+	
+		if($this->request->method() === Request::POST)
+		{
+			return $this->_edit($this->field);
+		}
+		
+		$this->breadcrumbs
+			->add($ds->name, Route::url('datasources', array(
+				'controller' => 'data',
+				'directory' => 'datasources',
+			)) . URL::query(array('ds_id' => $ds->id()), FALSE))
+			->add(__('Edit section :name', array(':name' => $ds->name)), Route::url('datasources', array(
+				'directory' => 'datasources',
+				'controller' => 'section',
+				'action' => 'edit',
+				'id' => $ds->id()
+			)))
+			->add($this->field->header);
+
+		$this->template->content = View::factory('datasource/hybrid/field/edit', array(
+			'ds' => $ds,
+			'field' => $this->field,
+			'type' => $this->field->type,
+			'sections' => $this->_get_sections(),
+			'post_data' => Session::instance()->get_once('post_data', array())
+		));
+	}
+	
+	private function _edit($field)
+	{
+		try
+		{
+			$field->set($this->request->post());
+			DataSource_Hybrid_Field_Factory::update_field(clone($field), $field);
+		}
+		catch (Validation_Exception $e)
+		{
+			Session::instance()->set('post_data', $this->request->post());
+			Messages::errors($e->errors('validation'));
+			$this->go_back();
+		}
+		
+		Session::instance()->delete('post_data');
+		
+		// save and quit or save and continue editing?
+		if ( $this->request->post('commit') !== NULL )
+		{
+			$this->go( Route::url('datasources', array(
+				'directory' => 'datasources',
+				'controller' => 'section',
+				'action' => 'edit',
+				'id' => $field->ds_id
+			)));
+		}
+		else
+		{
+			$this->go_back();
+		}
 	}
 	
 	protected function _get_sections()

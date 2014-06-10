@@ -26,8 +26,6 @@ class KodiCMS_Validation_Exception extends Kohana_Exception
 	{
 		$this->_objects['_object'] = $object;
 		parent::__construct($message, $values, $code);
-		
-		Messages::errors($this->errors('validation'));
 	}
 	
 	/**

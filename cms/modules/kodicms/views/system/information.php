@@ -1,9 +1,5 @@
 <div class="widget">
-	<div class="tabbable tabs-left">
-		<ul class="nav nav-tabs"></ul>
-		<div class="tab-content"></div>
-	</div>
-	
+	<?php echo View::factory('helper/tabbable'); ?>
 	<div class="widget-header"><h3><?php echo __( 'General information' ); ?></h3></div>
 	<div class="widget-content">
 		<table class="table table-striped">
@@ -25,6 +21,10 @@
 					<td><?php echo PHP_VERSION; ?></td>
 				</tr>
 				<tr>
+					<th><?php echo __('Kohana version') ?></th>
+					<td>v<?php echo Kohana::VERSION; ?> <strong><?php echo Kohana::CODENAME; ?></strong></td>
+				</tr>
+				<tr>
 					<th><?php echo __('Kohana enviroment') ?></th>
 					<td><?php echo Arr::get($_SERVER, 'KOHANA_ENV'); ?></td>
 				</tr>
@@ -40,6 +40,10 @@
 					<th><?php echo __('Cache driver') ?></th>
 					<td><?php echo Cache::$default; ?></td>
 				</tr>
+				<tr>
+					<th><?php echo __('MySQL driver') ?></th>
+					<td><?php echo DB_TYPE; ?></td>
+				</tr>
 			</tbody>
 		</table>
 	</div>
@@ -47,7 +51,10 @@
 	<?php if(Acl::check('system.phpinfo')): ?>
 	<div class="widget-header"><h3><?php echo __( 'PHP info' ); ?></h3></div>
 	<div class="widget-content">
-		<iframe src="/<?php echo ADMIN_DIR_NAME; ?>/system/phpinfo" width="100%" height="500px" align="left" id="phpinfo" style="border: 0"></iframe>
+		<iframe src="<?php echo Route::url('backend', array(
+			'controller' => 'system',
+			'action' => 'phpinfo'
+		)); ?>" width="100%" height="500px" id="phpinfo" style="border: 0"></iframe>
 	</div>
 	<?php endif; ?>
 

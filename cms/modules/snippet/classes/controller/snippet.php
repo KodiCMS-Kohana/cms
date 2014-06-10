@@ -79,7 +79,7 @@ class Controller_Snippet extends Controller_System_Backend {
 		))->write();
 
 		Messages::success( __( 'Snippet has been saved!' ) );
-		Observer::notify( 'snippet_after_add', array( $snippet ) );
+		Observer::notify( 'snippet_after_add', $snippet );
 		
 		Session::instance()->delete('post_data');
 
@@ -154,7 +154,7 @@ class Controller_Snippet extends Controller_System_Backend {
 		))->write();
 
 		Messages::success( __( 'Snippet has been saved!' ) );
-		Observer::notify( 'snippet_after_edit', array( $snippet ) );
+		Observer::notify( 'snippet_after_edit', $snippet );
 
 		// save and quit or save and continue editing?
 		if ( $this->request->post('commit') !== NULL )
@@ -184,7 +184,7 @@ class Controller_Snippet extends Controller_System_Backend {
 				))->write();
 				
 				Messages::success( __( 'Snippet has been deleted!' ) );
-				Observer::notify( 'snippet_after_delete', array( $snippet_name ) );
+				Observer::notify( 'snippet_after_delete', $snippet_name );
 			}
 			else
 			{

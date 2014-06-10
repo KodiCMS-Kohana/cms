@@ -6,8 +6,8 @@
 	<div class="well">
 		<?php echo UI::button(__('Clear cache'), array(
 			'icon' => UI::icon( 'stethoscope' ),
-			'id' => 'clear-cache',
-			'class' => 'btn btn-warning'
+			'class' => 'btn btn-warning btn-api',
+			'data-url' => 'cache.clear'
 		)); ?>
 	</div>
 	<?php endif; ?>

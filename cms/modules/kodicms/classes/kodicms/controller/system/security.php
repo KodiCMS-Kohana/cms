@@ -32,16 +32,26 @@ class KodiCMS_Controller_System_Security extends Controller_System_Controller
 			! ACL::check( $this->request )
 		)
 		{
-			if ( AuthUser::isLoggedIn() OR $this->request->is_ajax() )
+			$this->_deny_access();
+		}
+	}
+	
+	protected function _deny_access( $message = NULL )
+	{
+		if ( AuthUser::isLoggedIn() OR $this->request->is_ajax() )
+		{
+			if($message === NULL)
 			{
-				// Forbidden
-				throw HTTP_Exception::factory(403, 'You don`t have permissions to acces this page');
+				$message = 'You don`t have permissions to acces this page';
 			}
-			else
-			{
-				// Unauthorized / Login Requied
-				throw HTTP_Exception::factory(401);
-			}
+
+			// Forbidden
+			throw HTTP_Exception::factory(403, $message);
+		}
+		else
+		{
+			// Unauthorized / Login Requied
+			throw HTTP_Exception::factory(401);
 		}
 	}
 }

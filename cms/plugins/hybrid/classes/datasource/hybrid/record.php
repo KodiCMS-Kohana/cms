@@ -1,178 +1,185 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
 /**
- * @package    Kodi/Datasource
+ * @package Datasource
+ * @category Hybrid
  */
-
 class DataSource_Hybrid_Record {
 	
 	/**
-	 *
-	 * @var Datasource_Section
+	 * Объект раздела
+	 * @var DataSource_Section_Hybrid
 	 */
-	public $ds;
+	protected $_datasource;
 	
 	/**
-	 *
+	 * Идентификатор раздела
 	 * @var integer
 	 */
-	public $ds_id;
+	protected $_ds_id;
 	
 	/**
-	 *
-	 * @var array
+	 * Поля раздела
+	 * 
+	 * @see DataSource_Hybrid_Record::fields()
+	 * 
+	 * @var array array([Field name] => DataSource_Hybrid_Field, ....)
 	 */
-	public $fields = array();
-	
-	/**
-	 *
-	 * @var array 
-	 */
-	public $struct;
+	protected $_fields = NULL;
 	
 	/**
 	 * 
-	 * @param Datasource_Document $ds
+	 * @param Datasource_Document $datasource
 	 */
-	public function __construct( Datasource_Section $ds)
+	public function __construct( Datasource_Section $datasource)
 	{
-		$this->ds = $ds;
-		$this->ds_id = (int) $ds->id();
+		$this->_datasource = $datasource;
+		$this->_ds_id = (int) $datasource->id();
 
 		$this->load();
 	}
+	
+	/**
+	 * Получение идентификатора раздела
+	 * @return integer
+	 */
+	public function ds_id()
+	{
+		return $this->_ds_id;
+	}
 
 	/**
+	 * Загрузка полей раздела из БД
 	 * 
 	 * @return \DataSource_Hybrid_Record
 	 */
 	public function load() 
 	{
-		$this->fields = array();
-		$this->struct['primitive'] = 
-			$this->struct['document'] = 
-			$this->struct['array'] = 
-			$this->struct['datasource'] = array(); 
+		$this->_fields = array();
 		
-		$ids = DB::select('id')
-			->from('dshfields', 'hybriddatasources')
-			->where('hybriddatasources.ds_id', '=', $this->ds_id)
-			->where(DB::expr('FIND_IN_SET(:f1, :f2)', array(
-				':f1' => DB::expr(Database::instance()->quote_column('dshfields.ds_id')), 
-				':f2' => DB::expr(Database::instance()->quote_column('hybriddatasources.path'))
-			)), '>', 0)
-			->execute()
-			->as_array(NULL, 'id');
+		$fields = DataSource_Hybrid_Field_Factory::get_section_fields($this->ds_id());
 		
-		if( count( $ids ) > 0)
+		foreach ($fields as $field)
 		{
-			$fields = DataSource_Hybrid_Field_Factory::get_fields($ids);
-			for($i = 0; $i < sizeof($fields); $i++) 
-			{
-				$this->fields[$fields[$i]->name] = $fields[$i];
-				$this->struct[$fields[$i]->family][$fields[$i]->type][] = $fields[$i]->name;
-			}
+			$this->_fields[$field->name] = $field;
 		}
 		
 		return $this;
 	}
 	
 	/**
+	 * Получение списка полей раздела
+	 * 
+	 * @return array array([Field name] => DataSource_Hybrid_Field, ....)
+	 */
+	public function fields()
+	{
+		if($this->_fields === NULL)
+		{
+			$this->load();
+		}
+
+		return $this->_fields;
+	}
+
+	/**
+	 * Удаление полей раздела
+	 * 
+	 * @see DataSource_Section_Hybrid::remove()
 	 * 
 	 * @return \DataSource_Hybrid_Record
 	 */
 	public function destroy() 
 	{
-		DataSource_Hybrid_Field_Factory::remove_fields($this, array_keys($this->fields));
-		
+		DataSource_Hybrid_Field_Factory::remove_fields($this, array_keys($this->fields()));
 		return $this;
 	}
 	
 	/**
+	 * Запуск события onCreateDocument для полей документа раздела
 	 * 
-	 * @param DataSource_Hybrid_Document $doc
+	 * @see DataSource_Section_Hybrid::create_document()
+	 * 
+	 * @param DataSource_Hybrid_Document $document
 	 * @return \DataSource_Hybrid_Record
 	 */
-	public function initialize_document($doc) 
+	public function initialize_document( $document ) 
 	{
-		foreach($this->fields as $field)
+		foreach($this->fields() as $field)
 		{
-			$field->onCreateDocument($doc);
+			$field->onCreateDocument( $document );
 		}
 		
 		return $this;
 	}
 	
 	/**
+	 * Запуск события onUpdateDocument для полей документа раздела
+	 * 
+	 * @see DataSource_Section_Hybrid::update_document()
 	 * 
 	 * @param DataSource_Hybrid_Document $old
 	 * @param DataSource_Hybrid_Document $new
-	 * 
 	 * @return \DataSource_Hybrid_Record
 	 */
-	public function document_changed($old, $new) 
+	public function document_changed( $old, $new ) 
 	{
-		foreach($this->fields as $field)
+		foreach($this->fields() as $field)
 		{
-			$field->onUpdateDocument($old, $new);
+			$field->onUpdateDocument( $old, $new );
 		}
 		
 		return $this;
 	}
 	
 	/**
+	 * Запуск события onRemoveDocument для полей документа раздела
 	 * 
-	 * @param DataSource_Hybrid_Document $doc
+	 * @param DataSource_Hybrid_Document $document
 	 * @return boolean
 	 */
-	public function destroy_document($doc) 
+	public function destroy_document( $document ) 
 	{
-		if($doc->ds_id != $this->ds_id)
+		if($document->ds_id != $this->ds_id())
 		{
 			return FALSE;
 		}
 		
-		foreach($this->fields as $field)
+		foreach($this->fields() as $field)
 		{
-			$field->onRemoveDocument($doc);
+			$field->onRemoveDocument( $document );
 		}
 
 		return TRUE;
 	}
 	
 	/**
+	 * Формирование запроса на обновление значений полей документа
 	 * 
-	 * @param DataSource_Hybrid_Document $doc
-	 * @return array
+	 * Вызывает метод в полях документа get_sql
+	 * 
+	 * @param DataSource_Hybrid_Document $document
+	 * @return array Массив SQL запросов
 	 */
-	public function get_sql($doc, $update = FALSE) 
+	public function get_sql( $document ) 
 	{
 		$queries = array();
 
-		foreach($this->fields as $field)
+		foreach($this->fields() as $field)
 		{
-			if($part = $field->get_sql($doc))
+			if($part = $field->get_sql( $document ))
 			{
 				$queries[$field->ds_table][$part[0]] = $part[1];
 			}
 		}
-		
-		$date_field = $update !== FALSE ? 'updated_on' : 'created_on';
-		
-		$updates = array(
-			(string) DB::update('dshybrid')
-				->set(array(
-					'published' => $doc->published ? 1 : 0,
-					'header' => $doc->header,
-					$date_field => date('Y-m-d H:i:s')
-				))
-				->where('id', '=', $doc->id));
+
+		$updates = array();
 
 		foreach($queries as $table => $update)
 		{
 			$updates[] = (string) DB::update ( $table )
 				->set($update)
-				->where('id', '=', $doc->id);
+				->where('id', '=', $document->id);
 		}
 
 		return $updates;

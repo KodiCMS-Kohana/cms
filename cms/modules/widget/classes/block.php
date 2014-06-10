@@ -7,6 +7,7 @@
 class Block {
 
 	/**
+	 * Проверка блока на наличие в нем виджетов
 	 * 
 	 * @param type string|array
 	 */
@@ -28,6 +29,7 @@ class Block {
 	}
 
 	/**
+	 * Метод служит для разметки выводимых блоков на странице
 	 * 
 	 * @param string $name
 	 * @param array $params
@@ -54,9 +56,9 @@ class Block {
 					else if($block instanceof Model_Widget_Decorator ) 
 					{
 
-						echo $block
-							->bind('ctx', $ctx)
-							->render($params);
+						$block
+							->set_params($params)
+							->render();
 					}
 					else if( $block instanceof Model_Widget_Part ) 
 					{
@@ -76,9 +78,9 @@ class Block {
 				else if($blocks instanceof Model_Widget_Decorator ) 
 				{
 
-					echo $blocks
-						->bind('ctx', $ctx)
-						->render($params);
+					$blocks
+						->set_params($params)
+						->render();
 				}
 				else if( $blocks instanceof Model_Widget_Part ) 
 				{
@@ -89,12 +91,93 @@ class Block {
 	}
 	
 	/**
+	 * Получение виджетов блока без вывода.
+	 * 
+	 * Для вывода данных блока
+	 * 
+	 *		$widget = Block::get('block_name', $params);
+	 *		if(is_array($widget))
+	 *		{
+	 *			foreach($widget as $data)
+	 *			{
+	 *				echo $data;
+	 *			}
+	 *		}
+	 *		else
+	 *			echo $widget;
+	 * 
+	 * @param string $name
+	 * @param array $params Дополнительные параметры доступные в виджете
+	 */
+	public static function get( $name, array $params = array() )
+	{
+		$ctx = & Context::instance();
+
+		$blocks = & $ctx->get_widget_by_block( $name );
+		
+		if( $blocks === NULL )
+		{
+			return NULL;
+		}
+
+		if(is_array($blocks))
+		{
+			foreach($blocks as & $$block)
+			{
+				if($block instanceof View) 
+				{
+					$block
+						->bind('ctx', $ctx)
+						->set('params', $params);
+				}
+				else if($block instanceof Model_Widget_Decorator ) 
+				{
+
+					$block
+						->set_params($params);
+				}
+			}
+		}
+		else
+		{
+			if($blocks instanceof View) 
+			{
+				$blocks
+					->bind('ctx', $ctx)
+					->set('params', $params);
+			}
+			else if($blocks instanceof Model_Widget_Decorator ) 
+			{
+
+				$blocks
+					->set_params($params);
+			}
+		}
+		
+		return $blocks;
+	}
+	
+	/**
+	 * Блок типа def служит для помещения в него виджетов без вывода.
+	 * Необходим в том случае, если необходимо на странице вывести виджет 
+	 * внутри другого виджета, но без разметки блока в шаблоне, в него не получится
+	 * поместить виджет.
+	 * 
+	 * Т.е. в основном шаблоне в самом низу мы указываем, например:
+	 * 
+	 *		Block::def('block_name_def');
+	 * 
+	 * Теперь в него можно поместить виджет, далее в шаблоне виджета, в котором
+	 * мы хотим его вывести пишем:
+	 * 
+	 *		Block::run('block_name_def');
 	 * 
 	 * @param string $name
 	 */
 	public static function def( $name ){}
 	
 	/**
+	 * Метод служит для поиска в переданном шаблоне размеченных блоков
 	 * 
 	 * @param string $content
 	 * @return string
@@ -102,7 +185,7 @@ class Block {
 	public static function parse_content( $content )
 	{
 		$content = str_replace(' ', '', $content);
-		preg_match_all("/Block::([a-z]{3})\(\'(\w+)\'\)/i", $content, $blocks);
+		preg_match_all("/Block::([a-z_]{3,5})\(\'([0-9a-zA-Z\_\-\.]+)\'(\,.*)?\)/i", $content, $blocks);
 		
 		if( !empty($blocks[2]))
 		{

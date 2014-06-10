@@ -20,15 +20,6 @@
 				) ); ?>
 			</div>
 		</div>
-		
-		<div class="control-group">
-			<label class="control-label" for="ds_key"><?php echo __('Datasource Key'); ?></label>
-			<div class="controls">
-				<?php echo Form::input( 'key', $ds->key, array(
-					'class' => 'input-xlarge', 'id' => 'ds_key', 'disabled'
-				) ); ?>
-			</div>
-		</div>
 
 		<div class="control-group">
 			<label class="control-label" for="ds_description"><?php echo __('Datasource Description'); ?></label>
@@ -41,10 +32,16 @@
 		
 	</div>
 	
-	<?php echo View::factory('datasource/data/hybrid/blocks/fields', array(
-		'record' => $ds->get_record(), 'ds' => $ds
+	<?php echo View::factory('datasource/hybrid/blocks/fields', array(
+		'record' => $ds->record(), 'ds' => $ds
 	)); ?>
-	<div class="widget-header spoiler-toggle" data-spoiler=".indexer-spoiler">
+	
+	<?php echo View::factory('helper/snippet_select', array(
+		'header' => __('Document template'),
+		'template' => $ds->template,
+	)); ?>
+
+	<div class="widget-header spoiler-toggle" data-spoiler=".indexer-spoiler" hotkeys="shift+s">
 		<h4><?php echo __('Search indexation'); ?></h4>
 	</div>
 	<div class="widget-content spoiler indexer-spoiler">
@@ -64,7 +61,16 @@
 		<div class="control-group">
 			<label class="control-label" for="search_index_fields"><?php echo __('Index document fields'); ?></label>
 			<div class="controls">
-				<?php echo Form::select('search_index_fields[]',  array(__('--- none ---')) + $ds->record_fields_array(), (array) $ds->search_index_fields, array(
+				<?php echo Form::select('search_index_fields[]', $ds->record_fields_array(), (array) $ds->search_index_fields, array(
+					'class' => 'input-block-level'
+				)); ?>
+			</div>
+		</div>
+		
+		<div class="control-group">
+			<label class="control-label" for="search_index_doc_id_fields"><?php echo __('Document ID fields'); ?></label>
+			<div class="controls">
+				<?php echo Form::select('search_index_doc_id_fields[]', $ds->record_fields_array(), (array) $ds->search_index_doc_id_fields, array(
 					'class' => 'input-block-level'
 				)); ?>
 			</div>

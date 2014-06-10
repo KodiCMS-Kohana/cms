@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS `__TABLE_PREFIX__dshfields` (
   `header` varchar(255) NOT NULL DEFAULT '',
   `from_ds` int(11) unsigned DEFAULT '0',
   `props` text NOT NULL,
+  `position` int(4) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `ds_id` (`ds_id`),
   KEY `family` (`family`)
@@ -25,16 +26,11 @@ CREATE TABLE IF NOT EXISTS `__TABLE_PREFIX__dshybrid` (
   `ds_id` int(11) unsigned NOT NULL DEFAULT '0',
   `published` int(1) unsigned DEFAULT '0',
   `header` varchar(255) NOT NULL DEFAULT '',
+  `meta_title` varchar(255) NOT NULL DEFAULT '',
+  `meta_keywords` varchar(255) NOT NULL DEFAULT '',
+  `meta_description` text NOT NULL,
   `created_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`),
   KEY `ds_id` (`ds_id`,`published`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `__TABLE_PREFIX__hybriddatasources` (
-  `ds_id` int(11) unsigned NOT NULL DEFAULT '0',
-  `parent` int(11) unsigned NOT NULL DEFAULT '0',
-  `ds_key` varchar(128) NOT NULL DEFAULT '',
-  `path` varchar(255) NOT NULL DEFAULT '',
-  PRIMARY KEY (`ds_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;

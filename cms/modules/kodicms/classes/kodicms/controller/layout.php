@@ -26,20 +26,6 @@ class KodiCMS_Controller_Layout extends Controller_System_Backend {
 			'layouts' => Model_File_Layout::find_all()
 		) );
 	}
-	
-	public function action_rebuild()
-	{
-		$layouts = Model_File_Layout::find_all();
-		
-		foreach($layouts as $layout)
-		{
-			$layout->rebuild_blocks();
-		}
-		
-		Messages::success( __( 'Layout blocks succefully update!' ) );
-		
-		$this->go_back();
-	}
 
 	public function action_add()
 	{
@@ -92,7 +78,7 @@ class KodiCMS_Controller_Layout extends Controller_System_Backend {
 		))->write();
 
 		Messages::success( __( 'Layout has been saved!' ) );
-		Observer::notify( 'layout_after_add', array( $layout ) );
+		Observer::notify( 'layout_after_add', $layout );
 		
 		Session::instance()->delete('post_data');
 
@@ -116,7 +102,7 @@ class KodiCMS_Controller_Layout extends Controller_System_Backend {
 		{
 			if(($found_file = $layout->find_file()) !== FALSE)
 			{
-				$layout = new Model_File_Snippet( $found_file );
+				$layout = new Model_File_Layout( $found_file );
 			}
 			else
 			{
@@ -163,7 +149,7 @@ class KodiCMS_Controller_Layout extends Controller_System_Backend {
 
 
 		Messages::success( __( 'Layout has been saved!' ) );
-		Observer::notify( 'layout_after_edit', array( $layout ) );
+		Observer::notify( 'layout_after_edit', $layout );
 
 		// save and quit or save and continue editing?
 		if ( $this->request->post('commit') !== NULL )
@@ -193,7 +179,7 @@ class KodiCMS_Controller_Layout extends Controller_System_Backend {
 				))->write();
 				
 				Messages::success( __( 'Layout has been deleted!' ) );
-				Observer::notify( 'layout_after_delete', array( $layout_name ) );
+				Observer::notify( 'layout_after_delete', $layout_name );
 			}
 			else
 			{

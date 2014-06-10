@@ -12,118 +12,128 @@ abstract class Model_Widget_Decorator {
 
 
 	/**
-	 *
+	 * Идентификатор виджета
 	 * @var integer
 	 */
 	public $id;
 
 	/**
-	 *
+	 * Тип виджета
 	 * @var string 
 	 */
 	public $type;
 	
 	/**
-	 *
+	 * Название виджета
 	 * @var string 
 	 */
 	public $name;
 
 	/**
-	 *
+	 * Описание виджета
 	 * @var string 
 	 */
 	public $description = '';
 	
 	/**
-	 *
+	 * Заголовок в шаблоне
 	 * @var string 
 	 */
 	public $header = NULL;
 
 	/**
-	 *
+	 * Файл шаблона
 	 * @var string
 	 */
 	public $template = NULL;
 	
 	/**
-	 *
+	 * Файл шаблона настроек виджета
 	 * @var string 
 	 */
 	public $backend_template = NULL;
 	
 	/**
-	 *
+	 * Файл шаблона вывода
 	 * @var string 
 	 */
 	public $frontend_template = NULL;
 
 
 	/**
-	 *
+	 * Виджет использует шаблон
 	 * @var boolean 
 	 */
 	public $use_template = TRUE;
 
 	
 	/**
-	 *
+	 * Параметры передаваемые в шаблон
 	 * @var array
 	 */
 	public $template_params = array();
 
 	/**
-	 *
+	 * Название блока, в который помещен виджет
 	 * @var string
 	 */
 	public $block = NULL;
 	
 	/**
-	 *
+	 * Позиция виджета в блоке
 	 * @var integer
 	 */
 	public $position = 500;
 	
 	/**
-	 *
+	 * Виджет влияет на хлебные крошки
 	 * @var boolean 
 	 */
 	public $crumbs = FALSE;
 	
 	/**
-	 *
+	 * Виджет можно кешировать
 	 * @var boolean 
 	 */
 	public $use_caching = TRUE;
 
 	/**
-	 *
+	 * Включение / Отключение кеширования
 	 * @var bool 
 	 */
 	public $caching = FALSE;
 	
 	/**
-	 *
+	 * Время хранения кеша (По умолчанию месяц)
 	 * @var integer 
 	 */
 	public $cache_lifetime = Date::MONTH;
 	
 	/**
-	 *
+	 * Теги кеширования
 	 * @var array 
 	 */
 	public $cache_tags = array();
 	
 	/**
-	 *
+	 * Роли, с которыми видно виджет. 
+	 * Если не указаны, то видно всем
+	 * 
 	 * @var array 
 	 */
 	public $roles = array();
-
+	
+	/**
+	 * Подключаемые медиа файлы для текущего виджета
+	 * 
+	 * Для подключения файлов в шаблон используется класс Assets
+	 * 
+	 * @var array 
+	 */
+	public $media = array();
 
 	/**
-	 *
+	 * 
 	 * @var bool 
 	 */
 	public $throw_404 = FALSE;
@@ -136,7 +146,7 @@ abstract class Model_Widget_Decorator {
 
 
 	/**
-	 *
+	 * Дополнительные параметры виджета
 	 * @var array 
 	 */
 	protected $_data = array();
@@ -147,6 +157,7 @@ abstract class Model_Widget_Decorator {
 	}
 
 	/**
+	 * Сеттер доплнительных параметров
 	 * 
 	 * @param string $name
 	 * @param mixed $value
@@ -171,6 +182,7 @@ abstract class Model_Widget_Decorator {
 	}
 
 	/**
+	 * Геттер дополнительных параметров
 	 * 
 	 * @param string $name
 	 * @param mixed $default
@@ -208,6 +220,9 @@ abstract class Model_Widget_Decorator {
 	}
 
 	/**
+	 * Получения пути до шаблона настроек виджета.
+	 * Если шаблон не указан в параметре {@see Model_Widget_Decorator::backend_template},
+	 * то он основывается на типе виджета
 	 * 
 	 * @return string
 	 */
@@ -222,6 +237,9 @@ abstract class Model_Widget_Decorator {
 	}
 	
 	/**
+	 * Получения пути до шаблона для Frontend.
+	 * Если шаблон не указан в параметре {@see Model_Widget_Decorator::frontend_template},
+	 * то он основывается на типе виджета
 	 * 
 	 * @return string
 	 */
@@ -236,6 +254,7 @@ abstract class Model_Widget_Decorator {
 	}
 	
 	/**
+	 * Шаблон по умолчанию.
 	 * 
 	 * @return string
 	 */
@@ -250,6 +269,9 @@ abstract class Model_Widget_Decorator {
 	}
 	
 	/**
+	 * Получение пути до файла шаблона виджета.
+	 * Сначала происходит поиск файла по названию Сниппета, если он не 
+	 * найден, то просходит поиск шаблона по умолчанию для виджета.
 	 * 
 	 * @return string
 	 */
@@ -277,27 +299,31 @@ abstract class Model_Widget_Decorator {
 	}
 
 	/**
+	 * Подготовка к рендеру виджета
+	 * Происходит инициализация View и передача в него переменных из метода
+	 * {@see Model_Widget_Decorator::fetch_data()}, а также дополнительных параметров,
+	 * переданных в блок шаблона страницы
 	 * 
 	 * @param array $params
 	 * @return View
 	 */
-	protected function _fetch_render($params)
+	protected function _fetch_render()
 	{
-		$params = Arr::merge($params, $this->template_params);
 		$context = & Context::instance();
 
 		$data = $this->fetch_data();
-		$data['params'] = $params;
+		$data['params'] = $this->template_params;
 		$data['page'] = $context->get_page();
 	
 		return View_Front::factory($this->template, $data)
 			->bind('header', $this->header)
-			->bind('ctx', $this->get( 'ctx' ));
+			->bind('ctx', $this->_ctx);
 	}
 
 	/**
+	 * Установка настроек кеша
 	 * 
-	 * @param array $data
+	 * @param array $data array(['caching'] => [BOOLEAN], 'cache_lifetime' => [INTEGER], 'cache_tags' => [ARRAY])
 	 * @return \Model_Widget_Decorator
 	 */
 	public function set_cache_settings(array $data)
@@ -307,10 +333,18 @@ abstract class Model_Widget_Decorator {
 		
 		$this->cache_tags = explode(',', Arr::get($data, 'cache_tags'));
 		
+		unset($data['caching'], $data['cache_lifetime'], $data['cache_tags']);
+		
 		return $this;
 	}
 
 	/**
+	 * Получение идентификатора кеша. Используется для кеширования виджета.
+	 * 
+	 * Каждый виджет имеет свой, уникальный идентификатор кеша, из которого он 
+	 * получает закешированный HTML шаблон, если ваш виджет в зависимости от параметров
+	 * URL или любых других параметров должен изменять данные, то их необходимо указать
+	 * в строке идентификатора кеща.
 	 * 
 	 * @return string
 	 */
@@ -320,6 +354,7 @@ abstract class Model_Widget_Decorator {
 	}
 	
 	/**
+	 * Получение списка тегов кеширования в виде строки
 	 * 
 	 * @return string
 	 */
@@ -329,7 +364,9 @@ abstract class Model_Widget_Decorator {
 	}
 
 	/**
+	 * Метод очистки кеша виджета.
 	 * 
+	 * @todo Не совсем корректно работает с динамическим кешем
 	 * @return \Model_Widget_Decorator
 	 */
 	public function clear_cache()
@@ -343,7 +380,7 @@ abstract class Model_Widget_Decorator {
 	}
 	
 	/**
-	 * 
+	 * Метод очистки кеша по тегам
 	 * @return \Model_Widget_Decorator
 	 */
 	public function clear_cache_by_tags()
@@ -372,6 +409,7 @@ abstract class Model_Widget_Decorator {
 	}
 	
 	/**
+	 * Проверка виджета на существование в БД
 	 * 
 	 * @return bool
 	 */
@@ -381,6 +419,9 @@ abstract class Model_Widget_Decorator {
 	}
 	
 	/**
+	 * Метод используется для поиска и подключения шаблона настроек для админ 
+	 * интерфейса.
+	 * Если шаблон настроек не найдет, то выводятся стандартные настройки для виджета
 	 * 
 	 * @return View|null
 	 */
@@ -399,19 +440,11 @@ abstract class Model_Widget_Decorator {
 		
 		return $content;
 	}
-
-	/**
-	 * 
-	 * @return array
-	 * @deprecated
-	 */
-	public function load_template_data()
-	{
-		return $this->backend_data();
-	}
 	
 	/**
+	 * Параметры, которые передаются в шаблон настроек виджета
 	 * 
+	 * @see Model_Widget_Decorator::fetch_backend_content()
 	 * @return array
 	 */
 	public function backend_data()
@@ -420,15 +453,21 @@ abstract class Model_Widget_Decorator {
 	}
 	
 	/**
+	 * Метод используется для сохранения настроек виджета. 
+	 * Вызывается в момент сохранения виджета.
+	 * 
 	 * @param array $data
 	 */
 	public function set_values(array $data)
 	{
-		unset($data['caching'], $data['cache_lifetime'], $data['cache_tags']);
-
 		if(empty($data['roles']))
 		{
 			$data['roles'] = array();
+		}
+		
+		if(empty($data['media']))
+		{
+			$data['media'] = array();
 		}
 
 		foreach($data as $key => $value)
@@ -447,19 +486,64 @@ abstract class Model_Widget_Decorator {
 	}
 
 	/**
-	 * 
-	 * @param array $params
+	 * Рендер виджета
+	 * @param array $params Дополнительные параметры
 	 */
-	public function run($params = array()) 
+	public function run(array $params = array()) 
 	{
 		return $this->render($params);
 	}
-
+	
+	/**
+	 * Передача дополнительных парамтеров в виджет
+	 * @param array $params Дополнительные параметры
+	 */
+	public function set_params(array $params = array()) 
+	{
+		$this->template_params = Arr::merge($params, $this->template_params);
+		
+		return $this;
+	}
+	
 	/**
 	 * 
-	 * @param array $params
+	 * @param array $files
+	 * @return array
 	 */
-	public function render($params = array())
+	public function set_media($files)
+	{
+		foreach($files as $i => $link)
+		{
+			if( strpos($link, '.css') === FALSE AND strpos($link, '.js') === FALSE)
+			{
+				unset($files[$i]);
+			}
+			
+			if( ! Valid::url($link) )
+			{
+				$files[$i] = URL::site($link, TRUE);
+			}
+		}
+		
+		
+
+		return array_unique($files);
+	}
+
+	/**
+	 * Рендер виджета во Frontend
+	 * 
+	 * Отключение комментариев для блока
+	 * 
+	 *		Block::run('block_name', array('comments' => FALSE));
+	 * 
+	 * Отключение кеширования виджетов в блоке
+	 * 
+	 *		Block::run('block_name', array('caching' => FALSE));
+	 * 
+	 * @param array $params Дополнительные параметры
+	 */
+	public function render(array $params = array())
 	{
 		// Проверка правк на видимость виджета
 		if( ! empty($this->roles))
@@ -484,8 +568,10 @@ abstract class Model_Widget_Decorator {
 		}
 
 		$this->_fetch_template();
+		$this->set_params($params);
 		
-		$allow_omments = (bool) Arr::get($params, 'comments', TRUE);
+		$allow_omments = (bool) Arr::get($this->template_params, 'comments', TRUE);
+		$caching = (bool) Arr::get($this->template_params, 'caching', $this->caching);
 
 		if( $this->block == 'PRE' OR $this->block == 'POST' )
 		{
@@ -497,7 +583,7 @@ abstract class Model_Widget_Decorator {
 			echo "<!--{Widget: {$this->name}}-->";
 		}
 		
-		if(Kohana::$caching === FALSE)
+		if(Kohana::$caching === FALSE OR $caching === FALSE)
 		{
 			$this->caching = FALSE;
 		}
@@ -508,12 +594,12 @@ abstract class Model_Widget_Decorator {
 			! Fragment::load($this->get_cache_id(), $this->cache_lifetime, TRUE)
 		)
 		{
-			echo $this->_fetch_render($params);
+			echo $this->_fetch_render();
 			Fragment::save_with_tags($this->cache_lifetime, $this->cache_tags);
 		}
 		else if( ! $this->caching )
 		{
-			echo $this->_fetch_render($params);
+			echo $this->_fetch_render();
 		}
 
 		if($allow_omments)
@@ -526,6 +612,81 @@ abstract class Model_Widget_Decorator {
 			Profiler::stop($benchmark);
 		}
 	}
+	
+	/**
+	 * Установка типа виджета
+	 * 
+	 * @return \Model_Widget_Decorator
+	 */
+	protected function _set_type()
+	{
+		$class_name = get_called_class();
+		$this->type = strtolower(substr($class_name, 13));
+		
+		return $this;
+	}
+
+	/**
+	 * Функция запоскается через обсервер frontpage_found
+	 * 
+	 * @see Context::init_widgets()
+	 */
+	public function on_page_load() 
+	{
+		if( ! empty($this->media) )
+		{
+			foreach($this->media as $link)
+			{
+				if( strpos($link, '.css') !== FALSE)
+				{
+					Assets::css($link, $link);
+				}
+				else if(strpos($link, '.js') !== FALSE)
+				{
+					Assets::js($link, $link);
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Функция запоскается через обсервер frontpage_render
+	 * 
+	 * @see Context::init_widgets()
+	 */
+	public function after_page_load() {}
+	
+	/**
+	 * Метод изменения хлебных крошек страницы. Вызывается в момент передачи
+	 * виджетов на страницу сайта.
+	 *  
+	 * @see Context::build_crumbs()
+	 * @param Breadcrumbs $crumbs
+	 */
+	public function change_crumbs( Breadcrumbs &$crumbs) {}
+	
+	/**
+	 * Метод используется для передачи списска параметров в шаблон вывода
+	 * виджета во Frontend
+	 * 
+	 *		public function fetch_data()
+	 *		{
+	 *			....
+	 * 
+	 *			return array(
+	 *				'data' => 'test',
+	 *				'param' => 'value'
+	 *			);
+	 *		}
+	 * 
+	 * 
+	 *		//Frontend snippet template
+	 *		echo $data;  // return test
+	 *		echo $param;  // return value
+	 * 
+	 * @return array array([KEY] => [VALUE], ....)
+	 */
+	abstract public function fetch_data();
 
 	/**
 	 * 
@@ -536,21 +697,6 @@ abstract class Model_Widget_Decorator {
 		return (string) $this->render();
 	}
 	
-	public function __wakeup()
-	{
-		$this->_ctx = Context::instance();
-		
-		$this->_set_type();
-	}
-	
-	protected function _set_type()
-	{
-		$class_name = get_called_class();
-		$this->type = strtolower(substr($class_name, 13));
-		
-		return $this;
-	}
-
 	public function __sleep()
 	{
 		$vars = get_object_vars($this);
@@ -572,25 +718,10 @@ abstract class Model_Widget_Decorator {
 
 		return array_keys($vars);
 	}
-
-	/**
-	 * Функция запоскается через обсервер frontpage_found
-	 */
-	public function on_page_load() {}
 	
-	/**
-	 * Функция запоскается через обсервер frontpage_render
-	 */
-	public function after_page_load() {}
-	
-	/**
-	 * 
-	 * @param type $crumbs
-	 */
-	public function change_crumbs( Breadcrumbs &$crumbs) {}
-	
-	/**
-	 * @return array
-	 */
-	abstract public function fetch_data();
+	public function __wakeup()
+	{
+		$this->_ctx = Context::instance();
+		$this->_set_type();
+	}
 }

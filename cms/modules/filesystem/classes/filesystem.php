@@ -44,7 +44,7 @@ class FileSystem {
 	/**
 	 * 
 	 * @param string|SplFileInfo $file
-	 * @return \FileSystem
+	 * @return \FileSystem|\FileSystem_File|\FileSystem_Directory
 	 * @throws Kohana_Exception
 	 */
 	public static function factory( $path )

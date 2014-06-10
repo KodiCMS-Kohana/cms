@@ -2,7 +2,9 @@
 	<div class="widget-header">
 		<?php if ( Acl::check( 'email.templates.add')): ?>
 		<?php echo UI::button(__('Add template'), array(
-			'href' => Route::url( 'email_controllers', array('controller' => 'templates', 'action' => 'add')), 'icon' => UI::icon('plus')
+			'href' => Route::url( 'email_controllers', array('controller' => 'templates', 'action' => 'add')), 
+			'icon' => UI::icon('plus'),
+			'hotkeys' => 'ctrl+a'
 		)); ?>
 		<?php endif; ?>
 	</div>

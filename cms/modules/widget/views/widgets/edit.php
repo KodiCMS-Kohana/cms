@@ -22,63 +22,21 @@
 			->label(__('Widget Description'))
 		)); ?>
 	</div>
+
 	<?php if($widget->use_template): ?>
-	<div class="widget-header">
-		<h4><?php echo __('Widget template'); ?></h4>
-	</div>
-	<div class="widget-content">
-		<div class="control-group">
-			<label class="control-label"><?php echo __('Snippet'); ?></label>
-			<div class="controls">
-
-				<?php
-				echo Form::select( 'template', $templates, $widget->template, array(
-					'class' => 'input-medium', 'id' => 'WidgetTemplate'
-				) );
-				?>
-				
-				<div class="btn-group">
-				<?php if( ACL::check('snippet.edit')): ?>
-				<?php 
-				$hidden = empty($widget->template) ? 'hidden' : '';
-				echo UI::button(__('Edit snippet'), array(
-						'href' => Route::url('backend', array(
-							'controller' => 'snippet', 
-							'action' => 'edit',
-							'id' => $widget->template
-						)), 'icon' => UI::icon('edit'),
-						'class' => 'popup fancybox.iframe btn btn-primary '.$hidden, 'id' => 'WidgetTemplateButton'
-					)); 
-				?>
-				<?php endif; ?>
-
-				<?php if( ACL::check('snippet.add')): ?>
-				<?php echo UI::button(__('Add snippet'), array(
-					'href' => Route::url('backend', array(
-						'controller' => 'snippet', 
-						'action' => 'add'
-					)),
-					'icon' => UI::icon('plus'),
-					'class' => 'popup fancybox.iframe btn btn-success'
-				)); ?>
-				<?php endif; ?>
-				
-				<?php if($widget->default_template()): ?>
-				<?php 
-				echo UI::button(__('Default template'), array(
-						'href' => Route::url('backend', array(
-							'controller' => 'widgets', 
-							'action' => 'template',
-							'id' => $widget->id
-						)), 'icon' => UI::icon('desktop'),
-						'class' => 'popup fancybox.iframe btn'
-					)); 
-				?>
-				<?php endif; ?>
-				</div>
-			</div>
-		</div>
-	</div>
+	<?php echo View::factory('helper/snippet_select', array(
+		'header' => __('Widget template'),
+		'template' => $widget->template,
+		'default' => $widget->default_template() ? UI::button(__('Default template'), array(
+			'href' => Route::url('backend', array(
+				'controller' => 'widgets', 
+				'action' => 'template',
+				'id' => $widget->id
+			)), 'icon' => UI::icon('desktop'),
+			'id' => 'defaultTemplateButton',
+			'class' => 'popup fancybox.iframe btn'
+		)) : NULL
+	)); ?>
 	<?php endif; ?>
 
 	<?php if($widget->use_caching AND ACL::check('widgets.cache')): ?>
@@ -97,12 +55,14 @@
 				<div class="controls">
 					<input type="text" id="cache_lifetime" name="cache_lifetime" value="<?php echo $widget->cache_lifetime; ?>" class="input-medium">
 
-					<span class="label cache-time-label" data-time="<?php echo Date::MINUTE; ?>"><?php echo __('Minute'); ?></span> 
-					<span class="label cache-time-label" data-time="<?php echo Date::HOUR; ?>"><?php echo __('Hour'); ?></span>
-					<span class="label cache-time-label" data-time="<?php echo Date::DAY; ?>"><?php echo __('Day'); ?></span>
-					<span class="label cache-time-label" data-time="<?php echo Date::WEEK; ?>"><?php echo __('Week'); ?></span>
-					<span class="label cache-time-label" data-time="<?php echo Date::MONTH; ?>"><?php echo __('Month'); ?></span>
-					<span class="label cache-time-label" data-time="<?php echo Date::YEAR; ?>"><?php echo __('Year'); ?></span>
+					<span class="flags" id="cache_lifetime_labels">
+						<span class="label" data-value="<?php echo Date::MINUTE; ?>"><?php echo __('Minute'); ?></span> 
+						<span class="label" data-value="<?php echo Date::HOUR; ?>"><?php echo __('Hour'); ?></span>
+						<span class="label" data-value="<?php echo Date::DAY; ?>"><?php echo __('Day'); ?></span>
+						<span class="label" data-value="<?php echo Date::WEEK; ?>"><?php echo __('Week'); ?></span>
+						<span class="label" data-value="<?php echo Date::MONTH; ?>"><?php echo __('Month'); ?></span>
+						<span class="label" data-value="<?php echo Date::YEAR; ?>"><?php echo __('Year'); ?></span>
+					</span>
 				</div>
 			</div>
 
@@ -130,7 +90,27 @@
 		</div>
 	</div>
 	<?php endif; ?>
+	
+	<?php if($widget->use_template): ?>
+	<div class="widget-header spoiler-toggle" data-spoiler=".media-spoiler" data-hash="media">
+		<h4><?php echo __('Widget media'); ?></h4>
+	</div>
+	<div class="widget-content spoiler media-spoiler">
+		<div class="control-group">
+			<div class="controls">
+				<p class="help-block"><?php echo __('For including media files uses class :class', array(
+					':class' => HTML::anchor(Route::url('docs/guide', array('module' => 'assets', 'page' => 'usage')), 'Assets')
+				)); ?></p>
+			</div>
 
+		</div>
+		<?php echo View::factory('helper/rows_only_value', array(
+			'field' => 'media',
+			'data' => $widget->media
+		)); ?>
+	</div>
+	<?php endif; ?>
+	
 	<div class="widget-header">
 		<h4><?php echo __('Widget parameters'); ?></h4>
 	</div>
@@ -155,7 +135,7 @@
 					'action' => 'location',
 					'id' => $widget->id)), 
 			'title' => __('Widget location')
-		), array('target' => 'blank'))->icon('sitemap'); ?>
+		), array('hotkeys' => 'shift+l'))->icon('sitemap'); ?>
 	</div>
 	<?php endif; ?>
 	<div class="widget-footer form-actions">

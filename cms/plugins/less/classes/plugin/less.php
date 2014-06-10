@@ -2,12 +2,26 @@
 
 class Plugin_Less extends Plugin_Decorator {
 	
+	public function rules()
+	{
+		return array(
+			'less_folder_path' => array(
+				array('not_empty'),
+				array(array($this, 'is_dir'), array(':value')),
+			),
+			'css_folder_path' => array(
+				array('not_empty'),
+				array(array($this, 'is_dir'), array(':value')),
+			),
+		);
+	}
+
 	public function default_settings()
 	{
 		$settings = parent::default_settings();
 		
-		$settings['less_folder_path'] = 'media/less';
-		$settings['css_folder_path'] = 'media/css';
+		$settings['less_folder_path'] = 'cms/media/less';
+		$settings['css_folder_path'] = 'cms/media/css';
 		$settings['enabled'] = Config::NO;
 		
 		return $settings;
@@ -20,23 +34,9 @@ class Plugin_Less extends Plugin_Decorator {
 		return parent::set_settings($data);
 	}
 	
-	public function is_dir_less()
+	public function is_dir( $path )
 	{
-		return is_dir( $this->less_path());
-	}
-	
-	public function is_dir_css()
-	{
-		return is_dir( $this->css_path());
-	}
-	
-	public function less_path()
-	{
-		return DOCROOT . trim($this->less_folder_path, '/') . DIRECTORY_SEPARATOR;
-	}
-	
-	public function css_path()
-	{
-		return DOCROOT . trim($this->css_folder_path, '/') . DIRECTORY_SEPARATOR;
+		$path = DOCROOT . trim($path, '/') . DIRECTORY_SEPARATOR;
+		return is_dir( $path );
 	}
 }

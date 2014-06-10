@@ -62,6 +62,7 @@ class Model_Widget_Hybrid_Document extends Model_Widget_Hybrid {
 		
 		$this->throw_404 = (bool) Arr::get($data, 'throw_404');
 		$this->crumbs = (bool) Arr::get($data, 'crumbs');
+		$this->seo_information = (bool) Arr::get($data, 'seo_information');
 		
 		return $this;
 	}
@@ -87,18 +88,10 @@ class Model_Widget_Hybrid_Document extends Model_Widget_Hybrid {
 	{
 		$data = array('ID');
 		
-		$fields = DataSource_Hybrid_Field_Factory::get_related_fields($this->ds_id);
+		$fields = DataSource_Hybrid_Field_Factory::get_section_fields($this->ds_id);
 		foreach ($fields as $field)
 		{
-			if($field->family != DataSource_Hybrid_Field::TYPE_PRIMITIVE)				continue;
-			
-			if(
-				$field->type == DataSource_Hybrid_Field_Primitive::PRIMITIVE_TYPE_STRING
-			||
-				$field->type == DataSource_Hybrid_Field_Primitive::PRIMITIVE_TYPE_INTEGER
-			||
-				$field->type == DataSource_Hybrid_Field_Primitive::PRIMITIVE_TYPE_SLUG
-			)
+			if($field->use_as_document_id())
 			{
 				$data[$field->id] = $field->header;
 			}
@@ -114,7 +107,13 @@ class Model_Widget_Hybrid_Document extends Model_Widget_Hybrid {
 		
 		$page = $this->_ctx->get_page();
 
-		$page->title = $doc['header'];
+		if($this->seo_information === TRUE)
+		{
+			$page->title = $doc['header'];
+			$page->meta_title = $doc['meta_title'];
+			$page->meta_keywords = $doc['meta_keywords'];
+			$page->meta_description = $doc['meta_description'];
+		}
 	}
 	
 	public function change_crumbs( Breadcrumbs &$crumbs )
@@ -123,7 +122,7 @@ class Model_Widget_Hybrid_Document extends Model_Widget_Hybrid {
 		$page = $this->_ctx->get_page();
 		$doc = $this->get_document();
 		
-		$crumb = $crumbs->get_by('url', URL::site($page->url));
+		$crumb = $crumbs->get_by('url', $page->url);
 		
 		if($crumb !== NULL)
 		{
@@ -149,7 +148,7 @@ class Model_Widget_Hybrid_Document extends Model_Widget_Hybrid {
 	 * @param integer $id
 	 * @return array
 	 */
-	public function get_document($id = NULL)
+	public function get_document($id = NULL, $recurse = 3)
 	{
 		$result = array();
 		
@@ -169,11 +168,12 @@ class Model_Widget_Hybrid_Document extends Model_Widget_Hybrid {
 		}
 		
 		$agent = $this->get_agent();
-		$query = $agent->get_query_props($this->doc_fields, $this->doc_fetched_widgets);
+		$query = $agent->get_query_props( $this->doc_fields );
+		$fields = $agent->get_fields();
 		
-		if(isset($agent->ds_fields[$this->doc_id_field]))
+		if(isset($fields[$this->doc_id_field]))
 		{
-			$id_field = DataSource_Hybrid_Field::PREFFIX.$agent->ds_fields[$this->doc_id_field]['name'];
+			$id_field = $fields[$this->doc_id_field]->name;
 		}
 		else
 		{
@@ -190,39 +190,27 @@ class Model_Widget_Hybrid_Document extends Model_Widget_Hybrid {
 		if(empty($result) )
 		{	
 			if($this->throw_404)
+			{
 				$this->_ctx->throw_404();
+			}
 			
 			return $result;
 		}
-		
+
 		foreach ($result as $key => $value)
 		{
-			if( ! isset($agent->ds_fields[$key])) continue;
+			if( ! isset($fields[$key])) continue;
 
-			$field = & $agent->ds_fields[$key];
+			$field = & $fields[$key];
 			$related_widget = NULL;
 				
-			$field_class = 'DataSource_Hybrid_Field_' . $field['type'];
-			$field_class_method = 'set_doc_field';
+			$field_class = 'DataSource_Hybrid_Field_' . $field->type;
+			$field_class_method = 'fetch_widget_field';
+
 			if( class_exists($field_class) AND method_exists( $field_class, $field_class_method ))
 			{
-				$result[$field['name']] = call_user_func_array($field_class.'::'.$field_class_method, array( $this, $field, $result, $key, 3));
-				
-				$result['_' . $field['name']] = $result[$key];
-
-				unset($result[$key]);
-				continue;
-			}
-
-			switch($field['type']) {
-				case DataSource_Hybrid_Field::TYPE_DATASOURCE:
-					array(
-						'id' => $row[$fid]
-					);
-					break;
-				default:
-					$result[$field['name']] = $row[$fid];
-
+				$result['_' . $field->key] = $result[$key];
+				$result[$field->key] = call_user_func_array($field_class.'::'.$field_class_method, array( $this, $field, $result, $key, $recurse));
 			}
 			
 			unset($result[$key]);
@@ -244,7 +232,7 @@ class Model_Widget_Hybrid_Document extends Model_Widget_Hybrid {
 
 	public function get_doc_id()
 	{
-		if(Valid::numeric($this->_id))
+		if( Valid::numeric($this->_id) )
 		{
 			return $this->_id;
 		}

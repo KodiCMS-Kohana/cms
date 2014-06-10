@@ -20,7 +20,15 @@ return array(
 	'Datasource Fields' => 'Поля раздела',
 	'Search indexation' => 'Поисковая индексация',
 	'Datasource has been saved!' => 'Раздел сохранен!',
+	'Datasource has been deleted!' => 'Раздел удален!',
 	'Search in sources' => 'Искать в разделах',
 	'Datasources' => 'Разделы',
-	'Datasource search' => 'Поиск по разделам'
+	'Datasource search' => 'Поиск по разделам',
+	'Add section :type' => 'Создание раздела :type',
+	'Edit section :name' => 'Редактирование раздела :name',
+	'Datasource section :id not found' => 'Раздел :id не найден',
+	'Datasource section not loaded' => 'Раздел не загружен',
+	'Document saved' => 'Документ сохранен',
+	'Document ID :id not found' => 'Документ c ID :id не найден',
+	
 );

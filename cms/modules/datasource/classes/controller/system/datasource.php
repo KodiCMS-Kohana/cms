@@ -6,6 +6,10 @@
  */
 class Controller_System_Datasource extends Controller_System_Backend
 {
+	public $allowed_actions = array(
+		'index'
+	);
+			
 	/**
 	 *
 	 * @var DataSource_Section 
@@ -18,12 +22,6 @@ class Controller_System_Datasource extends Controller_System_Backend
 
 		Assets::js('datasource', ADMIN_RESOURCES . 'js/datasource.js', 'global');
 		Assets::css('datasource', ADMIN_RESOURCES . 'css/datasource.css', 'global');
-		
-		$this->breadcrumbs
-			->add(__('Datasources'), Route::url('datasources', array(
-				'directory' => 'datasources',
-				'controller' => 'data'
-			)));
 	}
 	
 	/**
@@ -38,16 +36,27 @@ class Controller_System_Datasource extends Controller_System_Backend
 		
 		if($id === NULL)
 		{
-//			throw new DataSource_Exception('Datasource section not loaded');
+			Messages::errors(__('Datasource section not loaded'));
 			$this->go_home();
 		}
 	
 		$this->_section = Datasource_Data_Manager::load((int) $id);
 		
+		if (
+			$this->request->action() == 'index'
+		AND 
+			! ACL::check( $this->_section->type() . $id  . '.section.view' )
+		)
+		{
+			$this->_deny_access();
+		}
+
 		if(empty($this->_section))
 		{
-			throw new HTTP_Exception_404('Datasource ID :id not found', 
-					array(':id' => $id));
+			Messages::errors(__('Datasource section :id not found', 
+					array(':id' => $id)));
+
+			$this->go_home();
 		}
 		
 		return $this->_section;

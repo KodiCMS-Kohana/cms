@@ -47,7 +47,8 @@
             collapseBtnHTML : '<button data-action="collapse" type="button">Collapse</button>',
             group           : 0,
             maxDepth        : 5,
-            threshold       : 20
+            threshold       : 20,
+			parent_id		: 1
         };
 
     function Plugin(element, options)
@@ -151,7 +152,7 @@
 							parent_id = level.parent().data('id');
 
 						array.push({
-							parent_id: parseInt(parent_id ? parent_id : 1),
+							parent_id: parseInt(parent_id ? parent_id : list.options.parent_id),
 							id: li.data('id'),
 							position: position++
 						});

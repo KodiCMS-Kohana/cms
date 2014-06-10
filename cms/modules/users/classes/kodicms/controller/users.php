@@ -77,7 +77,9 @@ class KodiCMS_Controller_Users extends Controller_System_Backend {
 
 		try 
 		{
-			$user = $user->values($data)->create();
+			$user = $user->create_user($data, array(
+				'password', 'username', 'email', 
+			));
 			$user->update_related_ids('roles', explode(',', $permissions));
 
 			$profile['user_id'] = $user->id;

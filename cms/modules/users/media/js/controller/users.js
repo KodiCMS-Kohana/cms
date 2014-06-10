@@ -5,7 +5,7 @@ cms.init.add(['users_edit', 'users_add'], function () {
 		minimumInputLength: 0,
 		multiple: true,
 		ajax: {
-			url: '/api/user-roles.get',
+			url: SITE_URL + 'api/user-roles.get',
 			data: function(query, pageNumber, context) {
 				return {
 					key: query,
@@ -33,13 +33,11 @@ cms.init.add(['users_edit', 'users_add'], function () {
 				callback([{'id':1, 'text':'login'}]);
 				return ;
 			}
-			$.ajax('/api-users.roles', {
-				data: {
+			
+			Api.get('users.roles', {
 					uid: USER_ID,
 					fields: 'id,name'
-				},
-				dataType: 'json',
-			}).done(function(resp, page) {
+			}, function(resp, page) {
 				var roles = [];
 				if(resp.response) {
 					for(i in resp.response) {
@@ -49,7 +47,6 @@ cms.init.add(['users_edit', 'users_add'], function () {
 						});
 					}
 				}
-
 				
 				callback(roles);
 			});

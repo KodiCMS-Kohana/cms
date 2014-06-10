@@ -1,5 +1,9 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct script access.' );
 
+/**
+ * @package		KodiCMS/Helper
+ * @author		ButscHSter
+ */
 class KodiCMS_Database_Helper {
 	
 	/**
@@ -56,6 +60,7 @@ class KodiCMS_Database_Helper {
 	}
 	
 	/**
+	 * Получение схемы БД из SQL файлов модулей и активированных плагинов
 	 * 
 	 * @return string
 	 */
@@ -79,9 +84,7 @@ class KodiCMS_Database_Helper {
 		
 		if(class_exists('Plugins'))
 		{
-			$plugins = Plugins::installed();
-			
-			foreach (Plugins::installed() as $id)
+			foreach (Plugins::activated() as $id)
 			{
 				$file_name = PLUGPATH . $id . DIRECTORY_SEPARATOR . 'install' . DIRECTORY_SEPARATOR . 'schema.sql';
 				

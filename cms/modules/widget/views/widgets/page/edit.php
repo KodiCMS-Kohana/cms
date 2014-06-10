@@ -2,7 +2,7 @@
 <script>
 	var LAYOUT_BLOCKS = <?php echo json_encode( $blocks ); ?>;
 </script>
-<div class="widget-header  spoiler-toggle" data-spoiler=".spoiler-widgets" data-hash="widgets">
+<div class="widget-header spoiler-toggle" data-spoiler=".spoiler-widgets" data-hash="widgets" hotkeys="shift+w">
 	<h4><?php echo __('Widgets'); ?></h4>
 </div>
 

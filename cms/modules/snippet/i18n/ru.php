@@ -13,7 +13,8 @@ return array(
 	'Snippets' => 'Сниппеты',
 	
 	//============Permissions============//
-	'View snippets' => 'Видеть раздел',
+	'View snippets list' => 'Видеть раздел',
+	'View snippets' => 'Просмартривать код сниппетов',
 	'Add snippets' => 'Создавать сниппеты',
 	'Edit snippets' => 'Редактировать сниппеты',
 	'Delete snippets' => 'Удалять сниппеты',

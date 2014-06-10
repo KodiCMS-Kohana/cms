@@ -66,7 +66,7 @@ class KodiCMS_Task_Users_Add extends Minion_Task
 			$user->update_related_ids('roles', $roles);
 			
 			Minion_CLI::write('==============================================');
-			Minion_CLI::write(__('User succefully created'));
+			Minion_CLI::write(__('User successfully created'));
 			Minion_CLI::write('==============================================');
 			Minion_CLI::write($user->username);
 		}

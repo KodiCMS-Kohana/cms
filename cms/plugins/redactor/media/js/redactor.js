@@ -1,3 +1,44 @@
+cms.plugins.redactor = {
+	switchOn_handler: function( textarea_id, params ){
+		var local_params = {
+			focus: true,
+			imageGetJson: '/api-media.images',
+			imageUpload: '/api-media.images',
+			autoresize: false,
+			lang: LOCALE,
+			minHeight: 200
+		};
+
+		params = $.extend(local_params, params);
+		return $('#' + textarea_id).redactor(params);
+	},
+	switchOff_handler: function( editor, textarea_id ){
+		editor.destroyEditor();	
+	},
+	exec_handler: function( editor, command, textarea_id, data ) {
+		switch(command) {
+			case 'insert':
+				if (/(jpg|gif|png|JPG|GIF|PNG|JPEG|jpeg)$/.test(data)){
+					data = '<img src="' + data + '">';
+				} else if (/((ftp|http|https|gopher|mailto|news|nntp|telnet|wais|file|prospero|aim|webcal):(([A-Za-z0-9$_.+!*(),;/?:@&~=-])|%[A-Fa-f0-9]{2}){2,}(#([a-zA-Z0-9][a-zA-Z0-9$_.+!*(),;/?:@&~=%-]*))?([A-Za-z0-9$_+!*();/?:~-]))/.test(data)) {
+					data = '<a href="' + data + '">' + data + '</a>';
+				}
+
+				editor.insertHtml(data);
+				break;
+			case 'changeHeight':
+				editor.data('redactor').$editor.height(data);
+		}
+
+		return true;
+	}
+}
+
+$(function(){
+	cms.filters
+		.add( 'redactor', cms.plugins.redactor.switchOn_handler, cms.plugins.redactor.switchOff_handler, cms.plugins.redactor.exec_handler );
+});
+
 if (!RedactorPlugins) var RedactorPlugins = {};
 
 RedactorPlugins.elfinder = {
@@ -155,58 +196,3 @@ RedactorPlugins.fullscreen = {
 		this.$editor.height(height);
 	}
 };
-
-/*
-	Redactor object
-*/
-cms.plugins.redactor = {};
-
-
-// Switch on tinymce handler
-cms.plugins.redactor.switchOn_handler = function( textarea_id, params )
-{
-	var local_params = {
-		focus: true,
-		//wym: true,
-		autoresize: false,
-		lang: LOCALE,
-		minHeight: 200
-	};
-	
-	params = $.extend(local_params, params);
-
-	return $('#' + textarea_id).redactor(params);
-};
-
-// Switch off tinymce handler
-cms.plugins.redactor.switchOff_handler = function( editor, textarea_id )
-{
-	editor.destroyEditor();	
-};
-
-cms.plugins.redactor.exec_handler = function( editor, command, textarea_id, data )
-{
-	switch(command) {
-		case 'insert':
-			if (/(jpg|gif|png|JPG|GIF|PNG|JPEG|jpeg)$/.test(data)){
-				data = '<img src="' + data + '">';
-			} else if (/((ftp|http|https|gopher|mailto|news|nntp|telnet|wais|file|prospero|aim|webcal):(([A-Za-z0-9$_.+!*(),;/?:@&~=-])|%[A-Fa-f0-9]{2}){2,}(#([a-zA-Z0-9][a-zA-Z0-9$_.+!*(),;/?:@&~=%-]*))?([A-Za-z0-9$_+!*();/?:~-]))/.test(data)) {
-				data = '<a href="' + data + '">' + data + '</a>';
-			}
-
-			editor.insertHtml(data);
-			break;
-		case 'changeHeight':
-			editor.data('redactor').$editor.height(data);
-	}
-
-	return true;
-};
-
-/*
-	When DOM init
-*/
-jQuery(function(){
-	cms.filters
-		.add( 'redactor', cms.plugins.redactor.switchOn_handler, cms.plugins.redactor.switchOff_handler, cms.plugins.redactor.exec_handler );
-});

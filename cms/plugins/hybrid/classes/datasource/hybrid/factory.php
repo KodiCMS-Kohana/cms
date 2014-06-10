@@ -1,38 +1,37 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
 /**
- * @package    Kodi/Datasource
+ * @package Datasource
+ * @category Hybrid
  */
-
 class DataSource_Hybrid_Factory {
-	
-	const TABLE = 'hybriddatasources';
-	const SEPARATOR = '.';
+
+	/**
+	 * Преффикс таблиц разделов
+	 */
 	const PREFIX = 'dshybrid_';
 	
 	/**
+	 * Типы виджетов для которых очищать кеш при обновлении данных в документах
+	 * 
 	 * @var array
 	 */
 	public static $widget_types = array('hybrid_headline', 'hybrid_document');
 
 	/**
+	 * Создание таблицы раздела и директории
 	 * 
 	 * @param string $key
 	 * @param DataSource_Section_Hybrid
 	 * @param integer $parent
 	 * @return null|\DataSource_Hybrid_Section
 	 */
-	public function create($key, DataSource_Section_Hybrid $ds, $parent = 0) 
+	public static function create( DataSource_Section_Hybrid $ds ) 
 	{
-		$parent = (int) $parent;
-
-		$key = self::get_full_key($key, $parent);
-
 		if(self::create_table($ds->id())) 
 		{
 			if(self::create_folder($ds->id())) 
 			{
-				self::update_struct($ds);
 				$ds->save();
 
 				return $ds;
@@ -47,26 +46,30 @@ class DataSource_Hybrid_Factory {
 	}
 	
 	/**
+	 * Удалении таблицы раздела и директории
 	 * 
 	 * @param integer $id
 	 * @return boolean
 	 */
-	public function remove($id) 
+	public static function remove($id) 
 	{
 		self::remove_table($id);
 		self::remove_folder($id);
-		
-		return (bool) DB::delete(self::TABLE)
-			->where('ds_id', '=', $id)
-			->execute();
 	}
 	
 	/**
+	 * Удаление документов по ID.
+	 * Поиск документов будет происходить во всех разделах
 	 * 
-	 * @param array $doc_ids
+	 * Если идентификаторы переданы в виде строки будет применена функция
+	 * explode с разделителем ","
+	 * 
+	 * Обычно данный метод используется для удаления связанных документов
+	 * 
+	 * @param array|string $doc_ids array(1,2,..) OR "1,2,3,.."
 	 * @return null|boolean
 	 */
-	public function remove_documents($doc_ids) 
+	public static function remove_documents( $doc_ids = NULL ) 
 	{
 		if( !is_array( $doc_ids ) AND strpos(',', $doc_ids ) !== FALSE)
 		{
@@ -77,7 +80,7 @@ class DataSource_Hybrid_Factory {
 			$doc_ids = array($doc_ids);
 		}
 		
-		if(empty($doc_ids))
+		if( empty($doc_ids) )
 		{
 			return NULL;
 		}
@@ -88,303 +91,110 @@ class DataSource_Hybrid_Factory {
 			->order_by('ds_id', 'desc')
 			->execute();
 		
-		$type = array();
+		$documents = array();
 		
 		foreach ($query as $row)
 		{
-			$type[$row['ds_id']][] = $row['id'];
+			$documents[$row['ds_id']][] = $row['id'];
 		}
 		
-		foreach ($type as $id => $docs)
+		foreach ($documents as $ds_id => $ids)
 		{
-			$ds = Datasource_Data_Manager::load($id);
-			$ds->remove_own_documents($docs);
+			$ds = Datasource_Data_Manager::load( $ds_id );
+			$ds->remove_documents( $ids );
 		}
 		
-		unset($ds, $type);
+		unset($ds, $documents, $query);
 		
 		return TRUE;
 	}
 	
 	/**
+	 * Опубликовать документы раздела по ID
 	 * 
 	 * @param array $ids
 	 * @return \DataSource_Hybrid_Factory
 	 */
-	public function publish_documents($ids) 
+	public function publish_documents( array $ids) 
 	{
-		return $this->set_published($ids, 1);
+		return $this->set_published($ids, TRUE);
 	}
 
 	/**
+	 * Снять с публикации документы раздела по ID
 	 * 
 	 * @param array $ids
 	 * @return \DataSource_Hybrid_Factory
 	 */
-	public function unpublish_documents($ids) 
+	public function unpublish_documents( array $ids) 
 	{
-		return $this->set_published($ids, 0);
+		return $this->set_published($ids, FALSE);
 	}
 	
 	/**
+	 * Опубликовать или снять с публикации документы раздела по ID
 	 * 
 	 * @param array $ids
 	 * @param boolean $value
 	 * @return \DataSource_Hybrid_Factory
 	 */
-	public function set_published($ids, $value) 
+	public function set_published( array $ids, $value) 
 	{
-		if( !empty($ids) ) 
+		if( empty($ids) ) return $this;
+
+		$res = DB::select('dsh.id', 'dsh.ds_id')
+			->from(array('dshybrid', 'dsh'))
+			->join(array('datasources', 'dss'), 'left')
+				->on('dsh.ds_id', '=', 'dss.id')
+			->where('dsh.id', 'in', $ids)
+			->execute();
+
+		$docs = array();
+		foreach ($res as $row)
 		{
-			$res = DB::select('dsh.id', 'dsh.ds_id')
-				->from(array('dshybrid', 'dsh'))
-				->join(array('datasources', 'dss'), 'left')
-					->on('dsh.ds_id', '=', 'dss.id')
-				->where('dsh.id', 'in', $ids)
-				->execute();
-			
-			$docs = array();
-			foreach ($res as $row)
-			{
-				$docs[$row['ds_id']][] = $row['id'];
-			}
+			$docs[$row['ds_id']][] = $row['id'];
+		}
 
-			if( !empty($docs) ) 
-			{
-				$ds_ids = array_keys($docs);
+		if( !empty($docs) ) 
+		{
+			$ds_ids = array_keys($docs);
 
-				foreach($ds_ids as $ds_id) 
+			foreach($ds_ids as $ds_id) 
+			{
+				$ds = Datasource_Data_Manager::load($ds_id);
+				$ids = $docs[$ds_id];
+
+				if($value === TRUE)
 				{
-					$ds = Datasource_Data_Manager::load($ds_id);
-					$ids = $docs[$ds_id];
-					
-					if($value)
-					{
-						$ds->add_to_index($ids);
-					}
-					else
-					{
-						$ds->remove_from_index($ids);
-					}
-					
-					DB::update('dshybrid')
-						->set(array(
-							'published' => $value,
-							'updated_on' => date('Y-m-d H:i:s')
-						))
-						->where('ds_id', '=', $ds_id)
-						->where('id', 'in', $ids)
-						->execute();
-
-					unset($ds, $ids);
-					
-					Datasource_Data_Manager::clear_cache( $ds_id, self::$widget_types);
+					$ds->add_to_index($ids);
 				}
+				else
+				{
+					$ds->remove_from_index($ids);
+				}
+
+				DB::update('dshybrid')
+					->set(array(
+						'published' => (int) $value,
+						'updated_on' => date('Y-m-d H:i:s')
+					))
+					->where('ds_id', '=', $ds_id)
+					->where('id', 'in', $ids)
+					->execute();
+
+				unset($ds, $ids, $docs);
+
+				Datasource_Data_Manager::clear_cache( $ds_id, self::$widget_types);
 			}
-			
-			
 		}
 		
 		return $this;
 	}
-	
+
 	/**
+	 * Создание таблицы раздела
 	 * 
-	 * @param array $ids
-	 * @param integer $fromId
-	 * @param integer $toId
-	 */
-	public function cast_documents($ids, $fromId, $toId) 
-	{
-		if(sizeof($ids) > 0) 
-		{
-
-			$from = Datasource_Data_Manager::load($fromId);
-			$to = Datasource_Data_Manager::load($toId);
-
-			$res = DB::select('id')
-				->from('dshybrid')
-				->where('ds_id', '=', $from->id())
-				->where('id', 'in', $ids)
-				->execute();
-			
-			if(count($res) > 0) 
-			{
-				$add = $remove = array();
-				$fromRec = $from->get_record(); 
-				$toRec = $to->get_record();
-				
-				$path1 = explode(',', $from->path); 
-				$path2 = explode(',', $to->path);
-
-				$removeDs = array_diff($path1, $path2);
-				$addDs = array_diff($path2, $path1);
-				$commonDs = (int) max(array_intersect($path1, $path2));
-
-				foreach($fromRec->fields as $key => $field)
-				{
-					if(!(isset($toRec->fields[$key]) AND $toRec->fields[$key]->ds_id == $field->ds_id))
-					{
-						$remove[] = $fromRec->fields[$key];
-					}
-				}
-
-				foreach($toRec->fields as $key => $field)
-				{
-					if(!(isset($fromRec->fields[$key]) && $fromRec->fields[$key]->ds_id == $field->ds_id))
-					{
-						$add[] = $toRec->fields[$key];
-					}
-				}
-
-				$lr = sizeof($remove); 
-				$la = sizeof($add);
-				$ids = array();
-
-				foreach ($res as $row)
-				{
-					$doc = $from->get_document($row['id']);
-					for($r = 0; $r < $lr; $r++)
-					{
-						$remove[$r]->onRemoveDocument($doc);
-					}
-					
-					$ids[] = $doc->id;
-				}
-
-				if(sizeof($ids)) 
-				{
-					$failed = array();
-
-					if(sizeof($removeDs)) 
-					{
-						foreach($removeDs as $dsId)
-						{
-							DB::delete('dshybrid_'. (int) $dsId)
-								->where('id', 'in', $ids)
-								->execute();
-						}
-					}
-
-					foreach($ids as $k => $id) 
-					{
-						$success = TRUE;
-						foreach($addDs as $dsId) 
-						{
-							$query = DB::insert('dshybrid_'. (int) $dsId)
-								->columns(array('id'))
-								->values(array($id))
-								->execute();
-
-							$success = $success && ($query[1] > 0);
-						}
-						
-						if(!$success) 
-						{
-							foreach($addDs as $dsId)
-							{
-								DB::delete('dshybrid_'. (int) $dsId)
-									->where('id', '=', $id)
-									->execute();
-							}
-
-							$failed[] = $id;
-							unset($ids[$k]);
-						}
-					}
-
-					if(sizeof($failed)) 
-					{
-						if($commonDs > 0)
-						{
-							DB::update('dshybrid')
-								->set(array(
-									'ds_id' => $commonDs
-								))
-								->where('id', 'in', $failed)
-								->execute();
-						}
-						else
-						{
-							DB::delete('dshybrid')
-									->where('id', 'in', $failed)
-									->execute();
-						}
-					}
-
-					if(sizeof($ids))
-					{
-						foreach($ids as $id) 
-						{
-							$doc = $to->get_document($id);
-							for($a = 0; $a < $la; $a++)
-							{
-								$add[$a]->onCreateDocument($doc);
-							}
-
-							$query = $toRec->get_sql($doc);
-							foreach($query as $q)
-							{
-								$db->query($q);
-							}
-						}
-
-						DB::update('dshybrid')
-							->set(array('ds_id' => $to->id()))
-							->where('id', 'in', $ids)
-							->execute();
-			
-						$from->update_size();
-						$to->update_size();
-					}
-				}
-			}
-		}
-	}
-	
-	/**
-	 * 
-	 * @param string $key
-	 * @param integer $parent
-	 * @return string
-	 */
-	public static function get_full_key($key, $parent)
-	{
-		$key = self::validate_key($key);
-		if(!$parent)
-		{
-			return $key;
-		}
-
-		$fullkey = DB::select('ds_key', 'path')
-			->from(self::TABLE)
-			->where('ds_id', '=', $parent)
-			->execute()
-			->get('ds_key');
-		
-		if($fullkey)
-		{
-			$fullkey .= self::SEPARATOR . $key;
-		}
-		
-		return $fullkey;
-	}
-	
-	/**
-	 * 
-	 * @param string $key
-	 * @return boolean
-	 */
-	public static function exists($key) 
-	{
-		return ! (bool) DB::select('ds_id')
-			->from(self::TABLE)
-			->where('ds_key', '=', $key)
-			->execute()
-			->get('ds_id');
-	}
-	
-	/**
+	 * @see DataSource_Hybrid_Factory::create()
 	 * 
 	 * @param integer $id
 	 * @return boolean
@@ -397,62 +207,16 @@ class DataSource_Hybrid_Factory {
 			 PRIMARY KEY (`id`)
 			) ENGINE=MyISAM DEFAULT CHARSET=utf8
 		')
-			->param(':name', DB::expr(self::PREFIX . $id))
+			->param(':name', DB::expr( TABLE_PREFIX . self::PREFIX . $id ))
 			->execute();
 		
 		return TRUE;
 	}
 	
 	/**
+	 * Создание директории для файлов раздела
 	 * 
-	 * @param integer $id
-	 * @return boolean
-	 */
-	public static function remove_table($id) 
-	{
-		DB::query(NULL, 'DROP TABLE `:name`')
-			->param(':name', DB::expr( self::PREFIX . $id))
-			->execute();
-		
-		return TRUE;
-	}
-	
-	/**
-	 * 
-	 * @param Datasource_Section $ds
-	 * @return array
-	 */
-	public static function update_struct($ds) 
-	{
-		if($ds->parent) 
-		{
-			$path = DB::select('path')
-				->from(self::TABLE)
-				->where('ds_id', '=', $ds->parent)
-				->execute()
-				->get('path');
-
-			$ds->path = $path . ',' . $ds->id();
-		}
-		else
-		{
-			$ds->path = '0,' . $ds->id();
-		}
-		
-		$data = array(
-			'ds_id' => $ds->id(), 
-			'parent' => (int) $ds->parent, 
-			'ds_key' => $ds->key, 
-			'path' => $ds->path
-		);
-		
-		return DB::insert(self::TABLE)
-			->columns(array_keys($data))
-			->values(array_values($data))
-			->execute();
-	}
-	
-	/**
+	 * @see DataSource_Hybrid_Factory::create()
 	 * 
 	 * @param integer $folder
 	 * @return boolean
@@ -478,6 +242,26 @@ class DataSource_Hybrid_Factory {
 	}
 	
 	/**
+	 * Удаление таблицы раздела
+	 * 
+	 * @see DataSource_Hybrid_Factory::remove()
+	 * 
+	 * @param integer $id
+	 * @return boolean
+	 */
+	public static function remove_table($id) 
+	{
+		DB::query(NULL, 'DROP TABLE `:name`')
+			->param(':name', DB::expr( TABLE_PREFIX .  self::PREFIX . $id ))
+			->execute();
+		
+		return TRUE;
+	}
+	
+	/**
+	 * Удаление директории для файлов раздела
+	 * 
+	 * @see DataSource_Hybrid_Factory::remove()
 	 * 
 	 * @param integer $folder
 	 * @return boolean
@@ -506,22 +290,5 @@ class DataSource_Hybrid_Factory {
 		}
 
 		return !is_dir($dir);
-	}
-	
-	/**
-	 * 
-	 * @param string $key
-	 * @return string
-	 */
-	public static function validate_key($key) 
-	{
-		$key = preg_replace('/[^A-Za-z0-9]+/', '', $key);
-		$key = strtolower($key);
-		if(strlen($key) > 16)
-		{
-			$key = substr($key, 0, 16);
-		}
-
-		return $key;
 	}
 }

@@ -2,7 +2,9 @@
 	<div class="widget-header">
 		<?php if ( Acl::check('roles.add')): ?>
 		<?php echo UI::button(__('Add role'), array(
-			'href' => Route::url( 'backend', array('controller' => 'roles', 'action' => 'add')), 'icon' => UI::icon('plus')
+			'href' => Route::url( 'backend', array('controller' => 'roles', 'action' => 'add')), 
+			'icon' => UI::icon('plus'),
+			'hotkeys' => 'ctrl+a'
 		)); ?>
 		<?php endif; ?>
 	</div>
@@ -37,7 +39,7 @@
 						<?php endif; ?>
 					</td>
 					<td class="description">
-						<?php echo __($role->description); ?>
+						<?php echo $role->description; ?>
 					</td>
 					<td class="actions">
 						<?php 

@@ -1,49 +1,44 @@
-# [KodiCMS](http://www.kodicms.ru/)
+# KodiCMS | [English Version](https://github.com/butschster/kodicms/blob/dev/README_EN.md)
 
-## [Канал на Youtube](http://www.youtube.com/channel/UCgZ25N9C1F8uoTXZZK55mqQ)
+[Официальный сайт](http://www.kodicms.ru/) | [Канал на Youtube](http://www.youtube.com/channel/UCgZ25N9C1F8uoTXZZK55mqQ) | [Форум](http://www.kodicms.ru/forum.html)
 
-http://www.kodicms.ru/forum.html
-
-KodiCMS основана на базе [Kohana framework](http://kohanaframework.org/). Kohana - 
-фреймворк для создания web приложений. Вы можете создавать собственные модули, 
-плагины в полном объеме используя инструменты Kohana.
-
-В качестве шаблона Backend интерфейса используется [Twitter Bootstrap](http://twitter.github.com/bootstrap/),
-который позволит вам не тратить много времени на разработку шаблонов для новых
-разделов.
+KodiCMS основана на базе [Kohana framework](http://kohanaframework.org/). 
+> Kohana - фреймворк для создания web приложений. Вы можете создавать собственные модули, 
+> плагины в полном объеме используя инструменты фреймворка.
 
 
-## Ключевые особенности.
+## Ключевые особенности
 
-* В качестве ядра используется [Kohana framework](http://kohanaframework.org/)
-* Admin интерфейс построен на базе [Twitter Bootstrap 2.3](http://twitter.github.com/bootstrap/)
-* Идеальная платформа для старта крупных проектов
+* Ядро на базе [Kohana framework](http://kohanaframework.org/)
+* Backend UI на базе [Twitter Bootstrap 2.3](http://twitter.github.com/bootstrap/)
 * Расширение при помощи плагинов
+* Модульность
 * Использование `Observer` для расширения базового функционала
 * Неограниченный уровень страниц
 * Высокая скорость работы
 * Обработка ошибочных URL. (Если посетитель допустил ошибку URL, скорее всего он не получит в ответ: Страница не найдена)
 * Виджеты
-* Визуальный редактор
-* Разграничение прав для пользователей
+* Визуальный редактор [Ace](http://ace.c9.io/)
+* Разграничение прав для пользователей (ACL)
 * Интеграция с соц. сетями
 * Почтовые шаблоны и события для почовых уведомлений
+* Запуск задач по расписанию
 * Удобный инсталлятор
 * API
-
-## DEMO / Демо сайт
-http://demo.kodicms.ru/
-
-> backend
-> http://demo.kodicms.ru/backend
-
-> Login: demo
-> Password: demodemo
+* Простота разработки
 
 
-## Forum / Форум
+## Демо сайт
+[http://demo.kodicms.ru/](http://demo.kodicms.ru/)
 
-http://www.kodicms.ru/forum.html
+> **Admin:** [http://demo.kodicms.ru/backend](http://demo.kodicms.ru/backend)
+
+> Login: **demo** / Password: **demodemo**
+
+
+## Форум
+
+[http://www.kodicms.ru/forum.html](http://www.kodicms.ru/forum.html)
 
 ## Требования
 
@@ -52,7 +47,7 @@ http://www.kodicms.ru/forum.html
 * MySQL (и доступ к управлению данными)
 
 
-## Install / Установка
+## Установка
 
 1. Создайте клон репозитория `https://github.com/butschster/kodicms.git` или 
 [скачайте zip архив](https://github.com/butschster/kodicms/zipball/master)
@@ -84,114 +79,109 @@ http://www.kodicms.ru/forum.html
 
 ## Установка через Cli (Консоль)
 
-> KodiCMS позоляет установить систему через консоль.
+> KodiCMS можно установить через консоль.
 > Для установки используется модуль `Minion`
 
-1. Перед установкой необходимо удалить файл config.php, если он имеется в корне сайта
+1. Перед установкой необходимо удалить файл **config.php**, если он имеется в корне сайта
 
-2. Перейти в корень папки kodicms
+2. Перейти в корень папки **kodicms**
 
 3. выполнить команду `php index.php --task=install`. 
 
-> Полный набор параметров можно посмотреть через help `php index.php --task=install --help`
+> Полный набор параметров можно посмотреть через **help** `php index.php --task=install --help`
 
 
 ### Пример конфигурации для Nginx
-```nginx
-server{
-  listen 127.0.0.1:80;
-  server_name   example.com www.example.com;
 
-  # PublicRoot нашего сайта
-  root          /srv/http/example.com/public_html;
-  index         index.php;
+	server{
+		listen 127.0.0.1:80;
+		server_name   example.com www.example.com;
+		
+		# PublicRoot нашего сайта
+		root          /srv/http/example.com/public_html;
+		index         index.php;
+		
+		# Устанавливаем пути к логам
+		# Для access_log делаем буферизацию
+		access_log    /srv/http/example.com/logs/access.log main buffer=50k;
+		error_log     /srv/http/example.com/logs/error.log;
+		
+		charset       utf8;
+		autoindex     off;
+	
+		location / {
+			if (!-f $request_filename) {
+				rewrite ^/(.*)$ /index.php;
+			}
+		}
 
-  # Устанавливаем пути к логам
-  # Для access_log делаем буферизацию
-  access_log    /srv/http/example.com/logs/access.log main buffer=50k;
-  error_log     /srv/http/example.com/logs/error.log;
+		# Подключаем обработчик php-fpm
+		location ~ \.php$ {
+		
+			# Этой строкой мы указываем,
+			# что текущий location можно использовать
+			# только для внутренних запросов
+			# Тем самым запрещаем обработку всех php файлов,
+			# для которых не создан location
+			internal;
+			
+			# php-fpm. Подключение через сокет.
+			fastcgi_pass   unix:/var/run/php-fpm/php-fpm.sock;
+			# или fastcgi_pass   127.0.0.1:9000;
+			fastcgi_param   KOHANA_ENV development;
+			# или fastcgi_param   KOHANA_ENV production;
+			fastcgi_index  index.php;
+			fastcgi_param  DOCUMENT_ROOT  /srv/http/oskmedia/public_html;
+			fastcgi_param  SCRIPT_FILENAME  /srv/http/oskmedia/public_html$fastcgi_script_name;
+			include fastcgi_params;
+		}
+	
+		# Блокируем доступ для всех скрытых файлов,
+		# таких как .htaccess, .git, .svn и т.д.
+		location ~ /\.ht {
+			deny all;
+		}
+	}
 
-  charset       utf8;
-  autoindex     off;
-
-  location / {
-    if (!-f $request_filename) {
-      rewrite ^/(.*)$ /index.php;
-    }
-  }
-
-  # Подключаем обработчик php-fpm
-  location ~ \.php$ {
-    # Этой строкой мы указываем,
-    # что текущий location можно использовать
-    # только для внутренних запросов
-    # Тем самым запрещаем обработку всех php файлов,
-    # для которых не создан location
-    internal;
-
-    # php-fpm. Подключение через сокет.
-    fastcgi_pass   unix:/var/run/php-fpm/php-fpm.sock;
-    # или fastcgi_pass   127.0.0.1:9000;
-    fastcgi_param   KOHANA_ENV development;
-    # или fastcgi_param   KOHANA_ENV production;
-    fastcgi_index  index.php;
-    fastcgi_param  DOCUMENT_ROOT  /srv/http/oskmedia/public_html;
-    fastcgi_param  SCRIPT_FILENAME  /srv/http/oskmedia/public_html$fastcgi_script_name;
-    include fastcgi_params;
-  }
-
-  # Блокируем доступ для всех скрытых файлов,
-  # таких как .htaccess, .git, .svn и т.д.
-  location ~ /\.ht {
-      deny all;
-  }
-}
-```
 
 ### Пример файла .htaccess для Apache
-```apache
-# Set environment
-SetEnv KOHANA_ENV production
-# SetEnv KOHANA_ENV development
-SetEnv KOHANA_BASE /
-SetEnv BASE_URL http://www.example.com
 
-# Turn on URL rewriting
-RewriteEngine On
+	# Set environment
+	SetEnv KOHANA_ENV production
+	# SetEnv KOHANA_ENV development
+	SetEnv KOHANA_BASE /
+	SetEnv BASE_URL http://www.example.com
+	
+	# Turn on URL rewriting
+	RewriteEngine On
+	
+	# Installation directory
+	RewriteBase /
+	
+	# Protect hidden files from being viewed
+	<Files .*>
+		Order Deny,Allow
+		Deny From All
+	</Files>
+	
+	# Protect application and system files from being viewed
+	RewriteRule ^(?:cms|layouts|public|snippets)\b.* index.php/$0 [L]
+	
+	# Allow any files or directories that exist to be displayed directly
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+	
+	# Rewrite all other URLs to index.php/URL
+	RewriteRule .* index.php/$0 [PT]# Set environment
 
-# Installation directory
-RewriteBase /
 
-# Protect hidden files from being viewed
-<Files .*>
-  Order Deny,Allow
-  Deny From All
-</Files>
+## Баг трекер
 
-# Protect application and system files from being viewed
-RewriteRule ^(?:cms|layouts|public|snippets)\b.* index.php/$0 [L]
-
-# Allow any files or directories that exist to be displayed directly
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-
-# Rewrite all other URLs to index.php/URL
-RewriteRule .* index.php/$0 [PT]# Set environment
-```
-
-## Bug tracker
-
-Если у вас возникли проблемы во время использования CMS, сообщайте их на наш
-баг трекер.
-
-https://github.com/butschster/kodicms/issues
+Если у вас возникли проблемы во время использования CMS, сообщайте их на баг трекер.
+[https://github.com/butschster/kodicms/issues](https://github.com/butschster/kodicms/issues)
 
 
 ## Copyright and license
-```
-Copyright 2012 Buchnev Pavel <butschster@gmail.com>.
-
----
 
 KodiCMS is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -208,4 +198,6 @@ along with KodiCMS.  If not, see <http://www.gnu.org/licenses/>.
 
 KodiCMS has made an exception to the GNU General Public License for plugins.
 See exception.txt for details and the full text.
-```
+
+
+> Copyright 2014 Buchnev Pavel <butschster@gmail.com>.

@@ -5,14 +5,14 @@ return array(
 		'name' => 'System',
 		'children' => array(
 			array(
-				'name' => __('Information'),
+				'name' => 'Information',
 				'url' => Route::url('backend', array('controller' => 'system', 'action' => 'information')),
 				'permissions' => 'system.information',
 				'priority' => 90,
 				'icon' => 'info-sign',
 			),
 			array(
-				'name' => __('Settings'),
+				'name' => 'Settings',
 				'url' => Route::url('backend', array('controller' => 'system', 'action' => 'settings')),
 				'permissions' => 'system.settings',
 				'priority' => 100,
@@ -25,7 +25,7 @@ return array(
 		'name' => 'Design',
 		'children' => array(
 			array(
-				'name' => __('Layouts'), 
+				'name' => 'Layouts', 
 				'url' => Route::url('backend', array('controller' => 'layout')),
 				'permissions' => 'layout.index',
 				'priority' => 100,

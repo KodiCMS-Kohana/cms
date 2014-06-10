@@ -86,6 +86,6 @@ $(function() {
 </div>
 <?php Form::close(); ?>
 
-<?php if(!empty($hystory)): ?>
-<?php echo $hystory; ?>
+<?php if(!empty($history)): ?>
+<?php echo $history; ?>
 <?php endif; ?>

@@ -37,7 +37,9 @@
 	</div>
 	<div class="widget-footer form-actions">
 		<?php echo UI::button( __('Save locations'), array(
-			'icon' => UI::icon( 'ok'), 'class' => 'btn btn-large'
+			'icon' => UI::icon( 'ok'), 
+			'class' => 'btn btn-large',
+			'hotkeys' => 'ctrl+s'
 		)); ?>
 	</div>
 	<?php echo Form::close(); ?>

@@ -24,9 +24,37 @@ class Controller_Widgets extends Controller_System_Backend {
 	public function action_index()
 	{
 		$this->template->title = __('Widgets');
+		
+		$widgets = ORM::factory('widget')->filter();
+	
+		$per_page = (int) Arr::get($this->request->query(), 'per_page', 20);
+		$pager = Pagination::factory(array(
+			'total_items' => $widgets->reset(FALSE)->count_all(),
+			'items_per_page' => $per_page
+		));
+		
+		$sidebar = new Sidebar(array(
+			new Sidebar_Fields_Select(array(
+				'name' => 'widget_type[]',
+				'label' => __('Type'),
+				'options' => Widget_Manager::map(),
+				'selected' => (array) $this->request->query('widget_type')
+			)),
+			new Sidebar_Fields_Input(array(
+				'name' => 'per_page',
+				'label' => __('Items per page'),
+				'value' => $per_page,
+				'class' => 'input-mini'
+			))
+		));
 
 		$this->template->content = View::factory( 'widgets/index', array(
-			'widgets' => ORM::factory('widget')->find_all()
+			'widgets' => $widgets
+				->limit($pager->items_per_page)
+				->offset($pager->offset)
+				->find_all(),
+			'pager' => $pager,
+			'sidebar' => $sidebar
 		));
 	}
 	
@@ -84,7 +112,7 @@ class Controller_Widgets extends Controller_System_Backend {
 		
 		$blocks = array();
 		
-		$default_blocks = array(-1 => '--- none ---', 'PRE' => __('Before page render'), 'POST' => __('After page render'));
+		$default_blocks = array(-1 => __('--- none ---'), 'PRE' => __('Before page render'), 'POST' => __('After page render'));
 		foreach ($res_blocks as $block)
 		{
 			if(empty($blocks[$block->layout_name])) 
@@ -124,14 +152,14 @@ class Controller_Widgets extends Controller_System_Backend {
 			->add($this->template->title);
 
 		$this->template->content = View::factory( 'widgets/add', array(
-			'types' => Kohana::$config->load('widgets')->as_array()
+			'types' => Widget_Manager::map()
 		));
 	}
 	
 	protected function _add()
 	{
 		$data = $this->request->post();
-		$widget = Widget_Manager::get_empty_object( $data['type'] );
+		$widget = Widget_Manager::factory( $data['type'] );
 		
 		try 
 		{
@@ -142,7 +170,7 @@ class Controller_Widgets extends Controller_System_Backend {
 			
 			Observer::notify( 'widget_after_add', $id );
 		}
-		catch (Validation_Exception $e)
+		catch (ORM_Validation_Exception $e)
 		{
 			Flash::set( 'post_data', $data );
 			Messages::errors($e->errors('validation'));
@@ -186,25 +214,11 @@ class Controller_Widgets extends Controller_System_Backend {
 			return $this->_edit( $widget );
 		}
 		
-		$templates = array(
-			__('------ none ------')
-		);
-		$snippets = Model_File_Snippet::find_all();
-		
-		foreach ($snippets as $snippet)
-		{
-			$templates[$snippet->name] = $snippet->name;
-		}
-		
-		$roles = array();
-		foreach (Model_Permission::get_all() as $role)
-		{
-			$roles[$role] = $role;
-		}
+		$roles = ORM::factory('role')->find_all()->as_array('name', 'name');
 
 		$this->template->content = View::factory( 'widgets/edit', array(
 			'widget' => $widget,
-			'templates' => $templates,
+			'templates' => Model_File_Snippet::html_select(),
 			'content' =>  $widget->fetch_backend_content(),
 			'roles' => $roles,
 		) );

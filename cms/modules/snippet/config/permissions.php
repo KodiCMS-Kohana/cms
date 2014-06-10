@@ -4,7 +4,7 @@ return array(
 	'snippet' => array(
 		array(
 			'action' => 'index',
-			'description' => 'View snippets'
+			'description' => 'View snippets list'
 		),
 		array(
 			'action' => 'add',

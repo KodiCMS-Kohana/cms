@@ -25,7 +25,8 @@ class Model_Widget_SendMail extends Model_Widget_Decorator {
 	public $fields = array();
 	
 	protected $_data = array(
-		'allowed_tags' => '<b><i><u><p>'
+		'allowed_tags' => '<b><i><u><p>',
+		'next_url' => NULL
 	);
 
 	public function src_types()
@@ -54,6 +55,11 @@ class Model_Widget_SendMail extends Model_Widget_Decorator {
 
 	public function set_values(array $data)
 	{
+		if( ! Valid::url($data['next_url']))
+		{
+			$data['next_url'] = NULL;
+		}
+
 		$data['fields'] = array();
 		if(!empty($data['field']) AND is_array( $data['field'] ))
 		{
@@ -89,7 +95,7 @@ class Model_Widget_SendMail extends Model_Widget_Decorator {
 		foreach ($data['fields'] as $field)
 		{
 			$email_type_fields['key'][] = $field['id'];
-			$email_type_fields['name'][] = ! empty($field['name']) ? $field['name'] : Inflector::humanize($field['id']);
+			$email_type_fields['value'][] = ! empty($field['name']) ? $field['name'] : Inflector::humanize($field['id']);
 		}
 
 		$email_type->set('data', $email_type_fields)->update();
@@ -104,9 +110,13 @@ class Model_Widget_SendMail extends Model_Widget_Decorator {
 
 	public function on_page_load() 
 	{
+		parent::on_page_load();
+
 		$this->_errors = array();
 
 		$this->_fetch_fields();
+		
+		$next_url = $this->next_url;
 		
 		if(Request::current()->is_ajax())
 		{
@@ -127,24 +137,33 @@ class Model_Widget_SendMail extends Model_Widget_Decorator {
 		}
 		else
 		{
+			$referrer = Request::current()->referrer();
+	
 			if( !empty($this->_errors))
 			{
 				Flash::set('form_errors', $this->_errors);
 				Flash::set('form_values', $this->_values);
 
 				$query = URL::query(array('status' => 'error'), FALSE);
+				$next_url = $referrer;
 			} 
 			else if( $this->send_message() )
 			{
 				$query = URL::query(array('status' => 'ok'), FALSE);
+				
+				if(empty($next_url))
+				{
+					$next_url = $referrer;
+				}
 			}
 			else
 			{
 				$query = URL::query(array('status' => 'error'), FALSE);
+				$next_url = $referrer;
 			}
 
-			$referrer = Request::current()->referrer();
-			HTTP::redirect( preg_replace('/\?.*/', '', $referrer) . $query, 302);
+			
+			HTTP::redirect( preg_replace('/\?.*/', '', $next_url) . $query, 302);
 		}
 	}
 
@@ -246,7 +265,7 @@ class Model_Widget_SendMail extends Model_Widget_Decorator {
 		return $value;
 	}
 	
-	public function render( $params = array( ) )
+	public function render( array $params = array( ) )
 	{
 		return NULL;
 	}

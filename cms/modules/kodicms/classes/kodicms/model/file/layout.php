@@ -15,6 +15,10 @@ class KodiCMS_Model_File_Layout extends Model_File {
 	 */
 	protected $_blocks = NULL;
 	
+	/**
+	 * 
+	 * @return array
+	 */
 	public function blocks()
 	{
 		if($this->_blocks === NULL)
@@ -32,9 +36,11 @@ class KodiCMS_Model_File_Layout extends Model_File {
 	 */
 	public function is_used()
     {
-        return Record::countFrom('Model_Page', array('where' => array(array('layout_file', '=', ':name'))), array(
-			':name' => $this->name
-		));
+		return DB::select(array(DB::expr('COUNT(*)'), 'total'))
+			->from('pages')
+			->where('layout_file', '=', $this->name)
+			->execute()
+			->get('total');
     }
 	
 	/**
@@ -44,12 +50,16 @@ class KodiCMS_Model_File_Layout extends Model_File {
 	public function save()
 	{
 		$result = parent::save();
-		
 		$this->rebuild_blocks();
 		
 		return $result;
 	}
 	
+	/**
+	 * Обновление списка блоков шаблона
+	 * 
+	 * @return \KodiCMS_Model_File_Layout
+	 */
 	public function rebuild_blocks()
 	{
 		$blocks = Block::parse_content($this->content);
@@ -58,7 +68,7 @@ class KodiCMS_Model_File_Layout extends Model_File {
 			->where('layout_name', '=', $this->name)
 			->execute();
 		
-		if( !empty($blocks)) 
+		if( ! empty($blocks)) 
 		{
 			$insert = DB::insert('layout_blocks')
 				->columns(array(

@@ -2,7 +2,9 @@
 	<div class="widget-header">
 		<?php if( ACL::check( 'snippet.add')): ?>
 		<?php echo UI::button(__('Add snippet'), array(
-			'href' => Route::url('backend', array('controller' => 'snippet', 'action' => 'add')), 'icon' => UI::icon('plus'),
+			'href' => Route::url('backend', array('controller' => 'snippet', 'action' => 'add')), 
+			'icon' => UI::icon('plus'),
+			'hotkeys' => 'ctrl+a'
 		)); ?>
 		<?php endif; ?>
 	</div>

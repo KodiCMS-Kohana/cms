@@ -35,6 +35,7 @@
 					'element' => Bootstrap_Form_Element_Select::factory(array(
 						'name' => 'install[db_driver]', 'options' => array(
 							'mysql' => __('MySQL'),
+							'mysqli' => __('MySQLi'),
 							'pdo' => __('PDO')
 						)
 					))

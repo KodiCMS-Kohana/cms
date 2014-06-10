@@ -8,6 +8,7 @@
 class Model_Widget_User_Login extends Model_Widget_Decorator {
 	
 	public $use_template = FALSE;
+	public $use_caching = FALSE;
 	
 	protected $_data = array(
 		'login_field' => 'username',
@@ -25,15 +26,8 @@ class Model_Widget_User_Login extends Model_Widget_Decorator {
 	
 	public function backend_data()
 	{
-		$roles = Model_Permission::get_all();
-		
-		$_roles = array();
-		foreach($roles as $role)
-		{
-			$_roles[$role] = $role;
-		}
 		return array(
-			'roles' => $_roles
+			'roles' => ORM::factory('role')->find_all()->as_array('name', 'name')
 		);
 	}
 	
@@ -76,18 +70,14 @@ class Model_Widget_User_Login extends Model_Widget_Decorator {
 		);
 	}
 
-	public function fetch_data()
-	{
-		
-	}
+	public function fetch_data() {}
 	
-	public function render( $params = array( ) )
-	{
-		return;
-	}
+	public function render( array $params = array() ) {}
 
 	public function on_page_load()
 	{
+		parent::on_page_load();
+		
 		if(Request::current()->method() !== Request::POST) return;
 
 		$data = Request::current()->post();
@@ -137,7 +127,7 @@ class Model_Widget_User_Login extends Model_Widget_Decorator {
 		$this->_ctx->response()->body(json_encode($json));
 	}
 
-	protected function _login(Validation $validation, $remember)
+	protected function _login(Validation $validation, $login_fieldname, $remember)
 	{
 		if ( $validation->check() )
 		{

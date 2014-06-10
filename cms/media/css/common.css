@@ -6497,6 +6497,9 @@ legend:after {
   color: #fff;
   background: #728092;
 }
+.flags * {
+  cursor: pointer;
+}
 .hidden {
   display: none;
 }
@@ -6826,6 +6829,9 @@ footer a {
   text-align: center;
   margin: 10px 0;
 }
+.map-header {
+  margin-bottom: 0;
+}
 .map-items {
   margin: 0;
 }
@@ -6893,9 +6899,6 @@ footer a {
 .map-wait {
   height: 30px;
   background: #fff url(../images/loader-small-white.gif) center center no-repeat;
-}
-#pageMapHeader {
-  margin-bottom: 0;
 }
 .page-items .item .item-expander {
   margin-left: -17px;
@@ -7230,4 +7233,20 @@ footer a {
 }
 .ace_editor {
   z-index: 999;
+}
+.file-upload {
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+.file-upload input.upload-input {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+  cursor: pointer;
+  opacity: 0;
+  filter: alpha(opacity=0);
 }

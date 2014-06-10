@@ -2,7 +2,9 @@
 	<div class="widget-header">
 		<?php if ( Acl::check( 'users.add')): ?>
 		<?php echo UI::button(__('Add user'), array(
-			'href' => Route::url( 'backend', array('controller' => 'users', 'action' => 'add')), 'icon' => UI::icon('plus')
+			'href' => Route::url( 'backend', array('controller' => 'users', 'action' => 'add')), 
+			'icon' => UI::icon('plus'),
+			'hotkeys' => 'ctrl+a'
 		)); ?>
 		<?php endif; ?>
 	</div>

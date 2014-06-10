@@ -1,4 +1,4 @@
-<?php $fields = DataSource_Hybrid_Field_Factory::get_related_fields($widget->ds_id); ?>
+<?php $fields = DataSource_Hybrid_Field_Factory::get_section_fields($widget->ds_id); ?>
 <div class="widget-header">
 	<h4><?php echo __('Fetched document fields'); ?></h4>
 </div>
@@ -45,30 +45,26 @@
 				</td>
 				<td>
 					<?php
-						$widgets = array();
-						switch( $field->family )
+						$types = $field->widget_types();
+						if($types !== NULL)
 						{
-							case DataSource_Hybrid_Field::TYPE_ARRAY:
-								$widgets = $widget->get_related_widgets(array('hybrid_headline'));
-								break;
+							$widgets = $widget->get_related_widgets($field->widget_types(), $field->from_ds);
 
-							case DataSource_Hybrid_Field::TYPE_DOCUMENT:
-								$widgets = $widget->get_related_widgets(array('hybrid_document'));
-								break;
-						}
+							if(isset($widgets[$widget->id])) unset($widgets[$widget->id]);
 
-						if(isset($widgets[$widget->id])) unset($widgets[$widget->id]);
-						if( ! empty($widgets) )
-						{
-							$widgets[0] = '---------';
-
-							$selected = NULL;
-							if(isset($widget->doc_fetched_widgets[$field->id]))
+							if( ! empty($widgets) )
 							{
-								$selected = $widget->doc_fetched_widgets[$field->id];
-							}
+								$widgets = array(__('--- Not set ---')) + $widgets;
 
-							echo Form::select('field['.$field->id.'][fetcher]', $widgets, $selected); 
+								$selected = NULL;
+
+								if(isset($widget->doc_fetched_widgets[$field->id]))
+								{
+									$selected = $widget->doc_fetched_widgets[$field->id];
+								}
+
+								echo Form::select('field['.$field->id.'][fetcher]', $widgets, $selected); 
+							}
 						}
 					?>
 				</td>

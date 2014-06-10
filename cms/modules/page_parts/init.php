@@ -18,7 +18,7 @@ Observer::observe( 'frontpage_found',  function($page) {
 			continue;
 		}
 
-		$widgets[] = new Model_Widget_Part($block, Part::get($page, $block));
+		$widgets['part_' . $block] = new Model_Widget_Part($block, Part::get($page, $block));
 	}
 	
 	Context::instance()->register_widgets($widgets);
@@ -83,7 +83,7 @@ Observer::observe('update_search_index', function() {
 			$indexable_content .= ' ' . $part->content;
 		}
 		
-		Search::instance()->add_to_index('pages', $page->id, $page->title, '', $indexable_content, array(
+		Search::instance()->add_to_index('pages', $page->id, $page->title, $indexable_content, '', array(
 			'uri' => $page->get_uri()
 		));
 	}

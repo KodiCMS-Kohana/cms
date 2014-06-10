@@ -56,15 +56,14 @@ cms.init.add('page_index', function () {
 			cms.loader.show();
 
 			// Sending information about page position to frog
-			jQuery.ajax({
+			$.ajax({
 				// options
-				url:SITE_URL + ADMIN_DIR_NAME + '/page/children/',
+				url: SITE_URL + ADMIN_DIR_NAME + '/page/children/',
 				dataType:'html',
 				data:{
-					parent_id:parent_id,
-					level:level
+					parent_id: parent_id,
+					level: level
 				},
-
 				// events
 				success:success_handler,
 				error:error_handler

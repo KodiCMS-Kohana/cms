@@ -16,6 +16,7 @@ return array(
 	'For example: :path' => 'Например: :path',
 	'Where the sendmail program can be found, usually :path1 or :path2. :link' 
 		=> 'Путь до программы sendmail, обычно :path1 или :path2. :link',
+	'Next page after success send (URL)' => 'Следующая страница при успешной отправке (URL)',
 	
 	/*********************** Email templates *********************************/
 	'Email templates' => 'Почтовые шаблоны',
@@ -43,13 +44,15 @@ return array(
 	'Use queue' => 'Постановка в очередь',
 	'Email send type' => 'Метод отправки сообщения',
 	'Direct sending' => 'Прямая отправка',
+	'A collection of patterns & modules for responsive emails :link' 
+		=> 'Коллекция шаблонов писем с отзывчивым дизайном :link',
 	
 	/*********************** Email types *********************************/
 	'Email types' => 'Типы почтовых событий',
 	'Add email type' => 'Создать тип события',
 	'Email type name' => 'Название события',
 	'Email type code' => 'Код события',
-	'Email type fileds' => 'Используемые параметры',
+	'Email type fields' => 'Используемые параметры',
 	'Linked email templates' => 'Связанные почтовые шаблоны',
 	'Add linked template' => 'Добавить новый шаблон',
 	'Add email type' => 'Новое событие',

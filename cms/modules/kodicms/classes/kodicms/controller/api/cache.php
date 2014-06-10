@@ -29,6 +29,6 @@ class KodiCMS_Controller_API_Cache extends Controller_System_Api {
 		
 		Kohana::$log->add(Log::INFO, ':user clear cache')->write();
 		
-		$this->json['message'] = __( 'Cache has been cleared!' );
+		$this->message('Cache has been cleared!');
 	}
 }

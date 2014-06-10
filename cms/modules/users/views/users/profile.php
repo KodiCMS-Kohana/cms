@@ -1,8 +1,5 @@
 <div class="widget" id="profile">
-	<div class="tabbable tabs-left">
-		<ul class="nav nav-tabs"></ul>
-		<div class="tab-content"></div>
-	</div>
+	<?php echo View::factory('helper/tabbable'); ?>
 	<div class="widget-header widget-header-onlytab">
 		<h3><?php echo __('General information'); ?></h3>
 	</div>

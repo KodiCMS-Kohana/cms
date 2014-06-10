@@ -1,5 +1,5 @@
 <?php
-$fields = DataSource_Hybrid_Field_Factory::get_related_fields($ds_id);
+$fields = DataSource_Hybrid_Field_Factory::get_section_fields($ds_id);
 
 $order_fields = array();
 foreach ($doc_order as $data)
@@ -10,22 +10,22 @@ foreach ($doc_order as $data)
 $selected_fields = array();
 $available_fields = array();
 
-$fields[] = DataSource_Hybrid_Field::factory(DataSource_Hybrid_Field::TYPE_PRIMITIVE, array(
-	'type' => DataSource_Hybrid_Field_Primitive::PRIMITIVE_TYPE_STRING,
+$fields[] = DataSource_Hybrid_Field::factory('primitive_string', array(
+	'family' => DataSource_Hybrid_Field::FAMILY_PRIMITIVE,
 	'name' => 'header',
 	'id' => 'header',
 	'header' => __('Header')
 ));
 
-$fields[] = DataSource_Hybrid_Field::factory(DataSource_Hybrid_Field::TYPE_PRIMITIVE, array(
-	'type' => DataSource_Hybrid_Field_Primitive::PRIMITIVE_TYPE_STRING,
+$fields[] = DataSource_Hybrid_Field::factory('primitive_integer', array(
+	'family' => DataSource_Hybrid_Field::FAMILY_PRIMITIVE,
 	'name' => 'id',
 	'id' => 'id',
 	'header' => __('ID')
 ));
 
-$fields[] = DataSource_Hybrid_Field::factory(DataSource_Hybrid_Field::TYPE_PRIMITIVE, array(
-	'type' => DataSource_Hybrid_Field_Primitive::PRIMITIVE_TYPE_STRING,
+$fields[] = DataSource_Hybrid_Field::factory('primitive_datetime', array(
+	'family' => DataSource_Hybrid_Field::FAMILY_PRIMITIVE,
 	'name' => 'created_on',
 	'id' => 'created_on',
 	'header' => __('Created on')
@@ -33,26 +33,15 @@ $fields[] = DataSource_Hybrid_Field::factory(DataSource_Hybrid_Field::TYPE_PRIMI
 
 foreach ($fields as $field)
 {
-	if(
-		(
-			$field->family == DataSource_Hybrid_Field::TYPE_PRIMITIVE
-		AND 
-			$field->type != DataSource_Hybrid_Field_Primitive::PRIMITIVE_TYPE_TEXT 
-		AND 
-			$field->type != DataSource_Hybrid_Field_Primitive::PRIMITIVE_TYPE_HTML
-		)
-	OR $field->family == DataSource_Hybrid_Field::TYPE_DATASOURCE
-	OR $field->family == DataSource_Hybrid_Field::TYPE_DOCUMENT
-	)
+	if( ! $field->is_sortable() ) continue;
+
+	if(!isset($order_fields[$field->id]))
 	{
-		if(!isset($order_fields[$field->id]))
-		{
-			$available_fields[$field->id] = $field->header;
-		}
-		else
-		{
-			$ids[$field->id] = $field->header;
-		}
+		$available_fields[$field->id] = $field->header;
+	}
+	else
+	{
+		$ids[$field->id] = $field->header;
 	}
 }
 
@@ -61,7 +50,6 @@ foreach ($doc_order as $data)
 	if(isset($ids[key($data)]))
 		$selected_fields[key($data)] = (($data[key($data)] == Model_Widget_Decorator::ORDER_ASC) ? '+' : '-') .' '. $ids[key($data)];
 }
-
 
 ?>
 <script>

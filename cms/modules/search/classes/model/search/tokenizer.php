@@ -1,5 +1,9 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct access allowed.' );
 
+/**
+ * @package		KodiCMS/Search
+ * @author		ButscHSter
+ */
 class Model_Search_Tokenizer {
 
 	const TOKEN_NUMBER = 0;

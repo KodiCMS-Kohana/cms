@@ -40,4 +40,13 @@ return array
 		),
 		'instant_death'      => TRUE,
 	),
+	
+	'mongodb'      => array(
+		'driver'             => 'mongodb',
+		'host'				 => 'localhost',  // Memcache Server
+		'port'				 => 27017,        // Memcache port number
+		'default_expire'     => 3600,
+		'database'           => 'kodicms-cache',
+		'collection'		 => 'default'
+	),
 );

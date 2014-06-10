@@ -6,7 +6,7 @@
 	<div class="control-group">
 		<label class="control-label"><?php echo __( 'Enable registration' ); ?></label>
 		<div class="controls">
-			<?php echo Form::select( 'setting[oauth][register]', Form::choises(), Config::get('oauth', 'register' ) ); ?>
+			<?php echo Form::select( 'setting[oauth][register]', Form::choices(), Config::get('oauth', 'register' ) ); ?>
 		</div>
 	</div>
 

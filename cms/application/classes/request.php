@@ -2,8 +2,16 @@
 
 class Request extends Kohana_Request {
 	
+	/**
+	 * 
+	 * @var boolean 
+	 */
 	protected static $is_mobile = NULL;
 
+	/**
+	 * 
+	 * @return boolean
+	 */
 	public static function is_mobile()
 	{
 		if(self::$is_mobile !== NULL)
@@ -89,11 +97,15 @@ class Request extends Kohana_Request {
 		return self::$is_mobile;
 	}
 
+	/**
+	 * 
+	 * @return string
+	 */
 	public static function detect_uri()
 	{
 		$uri = parent::detect_uri();
 
-		if(!defined( 'URL_SUFFIX' ))
+		if( ! defined( 'URL_SUFFIX' ))
 		{
 			return $uri;
 		}
@@ -103,6 +115,10 @@ class Request extends Kohana_Request {
 		}
 	}
 
+	/**
+	 * 
+	 * @return boolean
+	 */
 	public function is_iframe()
 	{
 		return $this->query('type') == 'iframe';

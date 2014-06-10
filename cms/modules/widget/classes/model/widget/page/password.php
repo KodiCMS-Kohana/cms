@@ -11,6 +11,8 @@ class Model_Widget_Page_Password extends Model_Widget_Decorator {
 	
 	public function on_page_load()
 	{
+		parent::on_page_load();
+		
 		if(Request::current()->method() == Request::POST)
 		{
 			return $this->_check_password();

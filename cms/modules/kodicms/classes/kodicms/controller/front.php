@@ -28,7 +28,7 @@ class KodiCMS_Controller_Front extends Controller_System_Controller
 
 	public function action_index()
 	{
-		Observer::notify('frontpage_requested', array($this->request->uri()));
+		Observer::notify('frontpage_requested', $this->request->uri());
 		
 		$page = Model_Page_Front::find($this->request->uri());
 

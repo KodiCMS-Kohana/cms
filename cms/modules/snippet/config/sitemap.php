@@ -5,7 +5,7 @@ return array(
 		'name' => 'Design',
 		'children' => array(
 			array(
-				'name' => __('Snippets'), 
+				'name' => 'Snippets', 
 				'url' => Route::url('backend', array('controller' => 'snippet')),
 				'permissions' => 'snippet.index',
 				'priority' => 200,

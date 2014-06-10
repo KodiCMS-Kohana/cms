@@ -1,191 +1,367 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
 /**
- * @package    Kodi/Datasource
+ * @package Datasource
+ * @category Hybrid
  */
+class DataSource_Hybrid_Document extends Datasource_Document {
+	
+	protected $_system_fields = array(
+		'id' => NULL,
+		'ds_id' => NULL,
+		'published' => NULL,
+		'header' => NULL,
+		'meta_title' => NULL, 
+		'meta_keywords' => NULL, 
+		'meta_description' => NULL
+	);
+	
+	/**
+	 * Список полей документа
+	 * @var array array([ID] => [Document value])
+	 */
+	protected $_fields = array();
 
-class DataSource_Hybrid_Document {
-	
 	/**
-	 *
-	 * @var integer
-	 */
-	public $id = NULL;
-	
-	/**
-	 *
-	 * @var integer
-	 */
-	public $ds_id;
-	
-	/**
-	 *
-	 * @var boolean
-	 */
-	public $published = FALSE;
-	
-	/**
-	 *
-	 * @var string
-	 */
-	public $header;
-	
-	/**
-	 *
-	 * @var array
-	 */
-	public $fields = array();
-	
-	/**
-	 *
-	 * @var array
-	 */
-	public $field_names = array();
-	
-	/**
-	 *
-	 * @var DataSource_Hybrid_Record
-	 */
-	public $record;
-	
-	/**
+	 * Проаверка существаования поля в документе
 	 * 
-	 * @param DataSource_Hybrid_Record $record
+	 * @param type $field
+	 * @return type
 	 */
-	public function __construct( DataSource_Hybrid_Record $record )
+	public function __isset($field)
 	{
-		$this->record = $record;
-		$this->ds_id = $record->ds_id;
-		$this->fields = array(
-			'id' => $this->id, 
-			'header' => $this->header
-		);
-	
-		$this->field_names = array_keys($this->record->fields);
-		$this->reset(); 
+		return isset($this->_fields[$field]);
 	}
 	
 	/**
+	 * Геттер значений полей документов
 	 * 
-	 * @return bool
+	 * @param string $field
+	 * @param mixed $default
+	 * @return mixed
 	 */
-	public function loaded()
+	public function get($field, $default = NULL)
 	{
-		return $this->id !== NULL;
+		if( array_key_exists($field, $this->_fields) )
+		{
+			return $this->_fields[$field];
+		}
+
+		return parent::get($field, $default);
 	}
 	
 	/**
+	 * Сеттер. Присваивает значение полю документа
 	 * 
-	 * @param array $arr
-	 * @return \DataSource_Hybrid_Document
+	 * @param string $field
+	 * @param string $value
 	 */
-	public function read_values(array $array = NULL) 
+	public function set($field, $value)
 	{
-		if($array === NULL)
+		if(array_key_exists($field, $this->_system_fields))
 		{
-			return $this;
+			return parent::set($field, $value);
 		}
-		
-		if( ! $this->loaded() )
+		else if(array_key_exists($field, $this->_fields))
 		{
-			$this->id = (int) Arr::get($array, 'id');
-			$this->ds_id = (int) Arr::get($array, 'ds_id');
-		}
-		
-		$this->published = Arr::get($array, 'published', FALSE) ? TRUE : FALSE;
-		$this->header = Arr::get($array, 'header');
-
-		foreach($this->record->fields as $key => $field)
-		{
-			$field->set_value($array, $this);
+			$this->set_field_value($field, $value);
 		}
 		
 		return $this;
 	}
+
+	/**
+	 * 
+	 * @return DataSource_Hybrid_Record
+	 */
+	public function record()
+	{
+		return $this->_record;
+	}
 	
 	/**
+	 * Получение всех значений полей
+	 * 
+	 * @return array array([Field name] => [value])
+	 */
+	public function values()
+	{
+		return Arr::merge($this->_fields, $this->_system_fields);
+	}
+
+	/**
+	 * Загрузка данных из массива
+	 * 
+	 * @param array $array Массив значений полей документа
+	 * @return \DataSource_Hybrid_Document
+	 */
+	public function read_values(array $array = NULL) 
+	{
+		foreach($this->section()->record()->fields() as $field)
+		{
+			if($field->family == DataSource_Hybrid_Field::FAMILY_FILE )	continue;
+			$field->onReadDocumentValue($array, $this);
+			unset($array[$field->name]);
+		}
+		
+		return parent::read_values($array);
+	}
+	
+	/**
+	 * Загрузка файлов из массива
 	 * 
 	 * @param array $array
 	 * @return \DataSource_Hybrid_Document
 	 */
 	public function read_files($array) 
 	{
-		foreach($this->record->fields as $key => $field)
+		foreach($this->section()->record()->fields() as $key => $field)
 		{
-			if(isset($array[$key]) AND $field->family == DataSource_Hybrid_Field::TYPE_FILE AND Upload::valid( $array[$key] ) AND Upload::not_empty($array[$key]))
+			if(
+				isset($array[$key]) 
+			AND
+				$field->family == DataSource_Hybrid_Field::FAMILY_FILE 
+			AND 
+				Upload::valid( $array[$key] ) 
+			AND 
+				Upload::not_empty($array[$key]))
 			{
-				$field->set_value($array, $this);
+				$field->onReadDocumentValue($array, $this);
+				unset($array[$field->name]);
 			}
 		}
-		
+	
 		return $this;
+	}
+
+	/**
+	 * Установка значения поля документа (не системного)
+	 * 
+	 * @param string $field
+	 * @param mixed $value
+	 */
+	public function set_field_value($field, $value)
+	{
+		$this->_changed_fields[$field] = $this->_fields[$field];
+		
+		$fields = $this->section()->record()->fields();
+		
+		$this->_fields[$field] = isset($fields[$field]) 
+			? $fields[$field]->onSetValue( $value, $this )
+			: $value;
 	}
 	
 	/**
+	 * Конвертация значений полей документа в момент загрузкти данных в форму
+	 * редактора
 	 * 
 	 * @return \DataSource_Hybrid_Document
 	 */
-	public function fetch_values() 
+	public function convert_values() 
 	{
-		foreach ( $this->field_names as $key )
+		foreach( $this->section()->record()->fields() as $key => $field )
 		{
-			$this->record->fields[$key]->fetch_value($this);
+			$this->{$key} = $field->convert_value( $this->{$key} );
 		}
 		
 		return $this;
 	}
 	
 	/**
-	 * 
-	 * @return \DataSource_Hybrid_Document
-	 */
-	public function convert_to_plain() 
-	{
-		for($i = 0, $l = sizeof($this->field_names); $i < $l; $i++)
-		{
-			$this->record->fields[$this->field_names[$i]]->convert_to_plain($this);
-		}
-		
-		return $this;
-	}
-	
-	/**
+	 * Сброс значений полей документа
 	 * 
 	 * @return \DataSource_Hybrid_Document
 	 */
 	public function reset() 
 	{
-		for($i = 0, $l = sizeof($this->field_names); $i < $l; $i++)
+		foreach( $this->section()->record()->fields() as $key => $field )
 		{
-			$this->fields[$this->field_names[$i]] = NULL;
+			$this->_fields[$key] = NULL;
+		}
+		
+		return parent::reset();
+	}
+
+	/**
+	 * Загрузка документа по его ID
+	 * 
+	 *		$ds = Datasource_Data_Manager::load($ds_id);
+	 *		$doc = $ds->get_document($id);
+	 * 
+	 * Проверка загрузки документа
+	 * 
+	 *		$doc->loaded();
+	 * 
+	 * @param integer $id
+	 * @return \DataSource_Hybrid_Document
+	 */
+	public function load( $id )
+	{
+		$ds_id = $this->section()->id();
+
+		$result = DB::select(array('dshybrid.id', 'id'))
+			->select('ds_id', 'published', 'header', 'meta_title', 'meta_keywords', 'meta_description')
+			->select_array( array_keys( $this->_fields ))
+			->from('dshybrid')
+			->join("dshybrid_{$ds_id}", 'left')
+				->on("dshybrid_{$ds_id}.id", '=', 'dshybrid.id')
+			->where('dshybrid.id', '=', (int) $id)
+			->limit(1)
+			->execute()
+			->current();
+				
+		if( empty($result) ) return $this;
+		
+		$this->_loaded = TRUE;
+		
+		foreach($result as $field => $value)
+		{
+			$this->{$field} = $value;
 		}
 		
 		return $this;
 	}
+
+	/**
+	 * Создание документа
+	 * 
+	 *		$ds = Datasource_Data_Manager::load($ds_id);
+	 *		$doc = $ds->get_empty_document();
+	 *		$doc
+	 *			->read_values($this->request->post())
+	 *			->read_files($_FILES)
+	 *			->validate();
+	 *		$doc = $ds->create_document($doc);
+	 *		
+	 *	Проверка создания документа
+	 * 
+	 *		$doc->created()
+	 * 
+	 * @return DataSource_Document
+	 */
+	public function create()
+	{
+		parent::create();
+		
+		if( ! $this->created() ) return NULL;
+		
+		$query = DB::insert("dshybrid_" . $this->section()->id())
+			->columns(array('id'))
+			->values(array($this->id))
+			->execute();
+
+		$record = $this->section()->record();
+		$record->initialize_document($this);
+		$query = $record->get_sql($this);
+	
+		foreach($query as $q)
+		{
+			DB::query(Database::UPDATE, $q)->execute();
+		}
+		
+		return $this->id;
+	}
 	
 	/**
+	 * Обновление документа
+	 * 
+	 *		$ds = Datasource_Data_Manager::load($ds_id);
+	 *		$doc = $ds->get_document($id);
+	 *		$doc
+	 *			->read_values($this->request->post())
+	 *			->read_files($_FILES)
+	 *			->validate();
+	 * 
+	 *		$doc = $ds->update_document($doc);
+	 *	
+	 * Проверка обновленияя документа
+	 * 
+	 *		$doc->updated()
+	 *
+	 * @return DataSource_Document
+	 */
+	public function update()
+	{
+		parent::update();
+		
+		if( ! $this->updated() ) return $this;
+
+		$record = $this->section()->record();
+		
+		$old_document = $this->section()->get_document($this->id);
+		$record->document_changed($old_document, $this);
+
+		$queries = $record->get_sql($this);
+
+		foreach($queries as $query)
+		{
+			DB::query(Database::UPDATE, $query)->execute();
+		}
+		
+		return $this;
+	}
+
+	/**
+	 * Метод удаления документа
+	 * 
+	 *		$ds = Datasource_Data_Manager::load($ds_id);
+	 *		$doc = $ds->get_document($id);
+	 * 
+	 * @return null|boolean
+	 */
+	public function remove()
+	{
+		parent::remove();
+
+		if( ! $this->loaded() ) return NULL;
+		
+		DB::delete("dshybrid_" . $this->section()->id())
+			->where('id', '=', $this->id)
+			->execute();
+		
+		$this->reset();
+		
+		return TRUE;
+	}
+
+	/**
+	 * Валидация полей документа согласно правилам валидации
+	 * 
+	 * @see DataSource_Document::rules()
+	 * @see DataSource_Document::labels()
+	 * 
+	 *			$doc = $ds->get_document($id);
+	 *			$doc
+	 *				->read_values($this->request->post())
+	 *				->read_files($_FILES)
+	 *				->validate($this->request->post() + $_FILES);
 	 * 
 	 * @param array $array
 	 * @param string $errors_file
 	 * @return boolean|Validation
 	 */
-	public function validate($array, $errors_file = 'validation')
+	public function validate($errors_file = 'validation')
 	{
-		$array = Validation::factory($array)
-			->rules( 'header', array(
-				array('not_empty')
-			) )
-			->label( 'id', __('ID') )
-			->label('header', __('Header'));
-
-		foreach ($this->record->fields as $name => $field)
+		$validation = Validation::factory($this->values());
+		
+		foreach ($this->rules() as $field => $rules)
 		{
-			$field->document_validation_rules($array, $this);
+			$validation->rules($field, $rules);
+		}
+		
+		foreach ($this->labels() as $field => $label)
+		{
+			$validation->label($field, $label);
 		}
 
-		if(!$array->check())
+		foreach ($this->section()->record()->fields() as $name => $field)
 		{
-			return $array->errors($errors_file);
+			$field->onValidateDocument($validation, $this);
+		}
+
+		if( ! $validation->check() )
+		{
+			throw new Validation_Exception( $validation );
 		}
 		
 		return TRUE;

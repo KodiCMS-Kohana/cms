@@ -5,7 +5,7 @@ return array(
 		'name' => 'System',
 		'children' => array(
 			array(
-			'name' => __('Plugins'), 
+			'name' => 'Plugins', 
 			'url' => Route::url('backend', array('controller' => 'plugins')),
 			'priority' => 999,
 			'divider' => TRUE,

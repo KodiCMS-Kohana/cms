@@ -1,5 +1,10 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
+/**
+ * @package		Sidebar
+ * @category    Fields
+ * @author		ButscHSter
+ */
 class Sidebar_Fields_Abstract {
 
 	/**

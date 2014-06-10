@@ -4,13 +4,18 @@ class Controller_Api_Datasource_Hybrid_Field extends Controller_System_API
 {
 	public function rest_delete()
 	{
-		$ds_id = (int) $this->request->post('ds_id');
+		$ids = $this->param('field', array(), TRUE);
 		
-		$fields = $this->request->post('field');
+		$fields = DataSource_Hybrid_Field_Factory::get_fields($ids);
 		
-		$ds = Datasource_Data_Manager::load($ds_id);
-		DataSource_Hybrid_Field_Factory::remove_fields($ds->get_record(), $fields);
-		
-		$this->response($fields);
+		$removed_ids = array();
+		foreach($fields as $id => $field)
+		{
+			$field->remove();
+			$removed_ids[] = $id;
+		}
+
+		$this->message('Fields has been removed!');
+		$this->response($removed_ids);
 	}
 }

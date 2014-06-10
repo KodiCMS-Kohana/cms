@@ -3,6 +3,7 @@
 // Database settings:
 define('DB_TYPE', '__DB_TYPE__');
 define('DB_SERVER', '__DB_SERVER__');
+define('DB_PORT', '__DB_PORT__');
 define('DB_NAME', '__DB_NAME__');
 define('DB_USER', '__DB_USER__');
 define('DB_PASS', '__DB_PASS__');

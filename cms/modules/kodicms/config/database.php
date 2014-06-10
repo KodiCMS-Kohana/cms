@@ -3,10 +3,30 @@
 switch(DB_TYPE)
 {
 	case 'mysql':
+		$server = DB_SERVER;
+		if(defined('DB_PORT')) $server .= ':' . DB_PORT;
 		$config = array(
-			'type'       => 'mysql',
+			'type'       => DB_TYPE,
+			'connection' => array(
+				'hostname'   => $server,
+				'database'   => DB_NAME,
+				'username'   => DB_USER,
+				'password'   => DB_PASS,
+				'persistent' => FALSE,
+			),
+			'table_prefix' => TABLE_PREFIX,
+			'charset'      => 'utf8',
+			'caching'      => FALSE,
+			'profiling'	   => TRUE
+		);
+		
+		break;
+	case 'mysqli':
+		$config = array(
+			'type'       => DB_TYPE,
 			'connection' => array(
 				'hostname'   => DB_SERVER,
+				'port'		 => defined('DB_PORT') ? DB_PORT : NULL,
 				'database'   => DB_NAME,
 				'username'   => DB_USER,
 				'password'   => DB_PASS,

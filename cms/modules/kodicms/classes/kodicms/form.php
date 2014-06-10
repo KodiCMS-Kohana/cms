@@ -7,7 +7,7 @@
  */
 class KodiCMS_Form extends Kohana_Form {
 
-	public static function choises()
+	public static function choices()
 	{
 		return array(
 			Config::NO => __( 'No' ),

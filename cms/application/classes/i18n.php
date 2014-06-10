@@ -2,6 +2,28 @@
 
 class I18n extends Kohana_I18n {
 	
+	/**
+	 * Короткий языковой код.
+	 * 
+	 * @return string
+	 */
+	public static function lang_short()
+	{
+		return substr(I18n::$lang, 0, 2);
+	}
+	
+	/**
+	 * Returns the translation table for a given language.
+	 *
+	 *     // Get all defined Spanish messages
+	 *     $messages = I18n::load('es-es');
+	 * 
+	 * После генерации таблицы происходит создание Javascript файла с таблицей
+	 * перевода для загружаемого языка.
+	 *
+	 * @param   string  $lang   language to load
+	 * @return  array
+	 */
 	public static function load($lang)
 	{
 		$table = parent::load($lang);
@@ -41,6 +63,7 @@ class I18n extends Kohana_I18n {
 	}
 	
 	/**
+	 * Определение текущей локали по данным HTTP_ACCEPT_LANGUAGE
 	 * 
 	 * @return string
 	 */
@@ -53,6 +76,7 @@ class I18n extends Kohana_I18n {
 	}
 	
 	/**
+	 * Получение списка всех доступных языков из конфига `locales.php`
 	 * 
 	 * @return array
 	 */
@@ -69,6 +93,12 @@ class I18n extends Kohana_I18n {
 		return $_langs;
 	}
 	
+	/**
+	 * Преобразование строки локали к единому стилю
+	 * 
+	 * @param string $lang
+	 * @return string
+	 */
 	public static function normalize_lang_key($lang)
 	{
 		return strtolower(str_replace(array(' ', '_'), '-', $lang));

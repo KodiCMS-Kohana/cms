@@ -1,5 +1,10 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct access allowed.' );
 
+/**
+ * @package		KodiCMS/Search
+ * @category	Stemmer
+ * @author		ButscHSter
+ */
 class Model_Search_Stemmer_Russian {
 	
 	const CHAR_LENGTH = 2;

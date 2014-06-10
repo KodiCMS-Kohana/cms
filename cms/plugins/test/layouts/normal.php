@@ -3,7 +3,7 @@
 	<head>
 		<?php
 		echo Meta::factory($page)
-				->group('author', '<meta name="author" content="butschster" />')
+				->add(array('name' => 'author', 'content' => 'KodiCMS'))
 				->js('jquery', PLUGINS_URL . 'test/public/js/jquery-1.9.0.min.js')
 				->js('bootstrap', PLUGINS_URL . 'test/public/js/bootstrap.min.js', 'jquery')
 				->js('holder', PLUGINS_URL . 'test/public/js/holder.js', 'jquery')

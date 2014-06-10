@@ -2,7 +2,7 @@
 
 /**
  * Задача удаления старых записей
- * @package		KodiCMS/EmailQueue
+ * @package		KodiCMS/Search
  * @category	Task
  * @author		ButscHSter
  */

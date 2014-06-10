@@ -25,10 +25,17 @@ if($navigation !== NULL)
 				{
 					$dropdown->add_divider();
 				}
+				
+				$item_menu = Bootstrap_Element_Button::factory(array(
+					'href' => $item->url(), 'title' => $item->name()
+				))
+					->attributes('data-counter', $item->counter)
+					->icon($item->icon);
+				
+				if($item->hotkeys !== NULL)
+					$item_menu->attributes('hotkeys', $item->hotkeys);
 
-				$dropdown->add(Bootstrap_Element_Button::factory(array(
-						'href' => $item->url(), 'title' => $item->name()
-				))->attributes('data-counter', $item->counter)->icon($item->icon), $item->is_active());
+				$dropdown->add($item_menu, $item->is_active());
 				
 				if($item->is_active())
 				{

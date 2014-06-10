@@ -17,7 +17,7 @@ class KodiCMS_Model_Page extends ORM
 	const LOGIN_INHERIT			= 2;
 
 	/**
-	 * 
+	 * Список правил авторищации
 	 * @return array
 	 */
 	public static function logins()
@@ -30,7 +30,7 @@ class KodiCMS_Model_Page extends ORM
 	}
 	
 	/**
-	 * 
+	 * Список правил для meta robots
 	 * @return array
 	 */
 	public static function robots()
@@ -42,9 +42,20 @@ class KodiCMS_Model_Page extends ORM
 			'NOINDEX, NOFOLLOW' => 'NOINDEX, NOFOLLOW'
 		);
 	}
+	
+	/**
+	 * Список пользователей
+	 * @return array
+	 */
+	public static function authors()
+	{
+		return ORM::factory('user')
+			->find_all()
+			->as_array('id', 'username');
+	}
 
 	/**
-	 * 
+	 * Список статусов
 	 * @return array
 	 */
 	public static function statuses()
@@ -104,6 +115,10 @@ class KodiCMS_Model_Page extends ORM
 	 */
 	public $children_rows = NULL;
 	
+	/**
+	 * 
+	 * @return array
+	 */
 	public function labels()
 	{
 		return array(
@@ -121,10 +136,15 @@ class KodiCMS_Model_Page extends ORM
 			'password'			=> __('Page password'),
 			'published_on'		=> __('Published date'),
 			'needs_login'		=> __('Needs login'),
-			'page_permissions'	=> __('Page permissions')
+			'page_permissions'	=> __('Page permissions'),
+			'created_by_id'		=> __('Author')
 		);
 	}
 
+	/**
+	 * 
+	 * @return array
+	 */
 	public function rules() 
 	{
 		$rules = array(
@@ -151,6 +171,10 @@ class KodiCMS_Model_Page extends ORM
 		return $rules;
 	}
 
+	/**
+	 * 
+	 * @return array
+	 */
 	public function filters()
 	{
 		return array(
@@ -199,6 +223,10 @@ class KodiCMS_Model_Page extends ORM
 		);		
 	}
 	
+	/**
+	 * 
+	 * @return array
+	 */
 	public function form_columns()
 	{
 		return array(
@@ -222,27 +250,31 @@ class KodiCMS_Model_Page extends ORM
 			),
 			'robots' => array(
 				'type' => 'select',
-				'choises' => 'Model_Page::robots'
+				'choices' => 'Model_Page::robots'
 			),
 			'parent_id' => array(
 				'type' => 'select',
-				'choises' => array($this, '_get_sitemap')
+				'choices' => array($this, '_get_sitemap')
 			),
 			'status_id' => array(
 				'type' => 'select',
-				'choises' => 'Model_Page::statuses'
+				'choices' => 'Model_Page::statuses'
 			),
 			'layout_file' => array(
 				'type' => 'select',
-				'choises' => array($this, '_get_layouts_list')
+				'choices' => array($this, '_get_layouts_list')
 			),
 			'behavior_id' => array(
 				'type' => 'select',
-				'choises' => 'Behavior::select_choises'
+				'choices' => 'Behavior::select_choices'
 			),
 			'needs_login' => array(
 				'type' => 'select',
-				'choises' => 'Model_Page::logins'
+				'choices' => 'Model_Page::logins'
+			),
+			'created_by_id' => array(
+				'type' => 'select',
+				'choices' => 'Model_Page::authors'
 			),
 		);
 	}
@@ -311,7 +343,7 @@ class KodiCMS_Model_Page extends ORM
 		}
 		
 		// Если запрещены теги в Заголовке, удаляем их
-		if ( Config::get('site', 'allow_html_title' ) == 'off' )
+		if ( Config::get('site', 'allow_html_title' ) == Config::NO )
 		{
 			$this->title = strip_tags( trim( $this->title ) );
 		}
@@ -363,6 +395,7 @@ class KodiCMS_Model_Page extends ORM
 	}
 
 	/**
+	 * Статус страницы
 	 * 
 	 * @return string
 	 */
@@ -387,6 +420,7 @@ class KodiCMS_Model_Page extends ORM
 	}
 
 	/**
+	 * Получение ссылки на страницу
 	 * 
 	 * @return string
 	 */
@@ -398,6 +432,7 @@ class KodiCMS_Model_Page extends ORM
 	}
 
 	/**
+	 * 
 	 * 
 	 * @return string
 	 */
@@ -416,7 +451,6 @@ class KodiCMS_Model_Page extends ORM
 	}
 
 	/**
-	 * 
 	 * @return string
 	 */
 	public function get_frontend_url()
@@ -425,7 +459,7 @@ class KodiCMS_Model_Page extends ORM
 	}
 
 	/**
-	 * 
+	 * Получение ссылки на редактирование страницы
 	 * @return string
 	 */
 	public function get_url()
@@ -438,7 +472,7 @@ class KodiCMS_Model_Page extends ORM
 	}
 
 	/**
-	 * 
+	 * Получение названия шаблона текущей страницы
 	 * @return string
 	 */
 	public function layout()
@@ -451,16 +485,23 @@ class KodiCMS_Model_Page extends ORM
 		return $this->layout_file;
 	}
 
+	/**
+	 * 
+	 * @param string $keyword
+	 * @return ORM
+	 */
 	public function like( $keyword )
 	{
 		return $this
-			->where(DB::expr('LOWER(title)'), 'like', '%:query%')
-			->where('slug', 'like', '%:query%')
-			->where('breadcrumb', 'like', '%:query%')
-			->where('meta_title', 'like', '%:query%')
-			->where('meta_keywords', 'like', '%:query%')
-			->where('published_on', 'like', '%:query%')
-			->where('created_on', 'like', '%:query%')
+			->where_open()
+			->or_where(DB::expr('LOWER(title)'), 'like', '%:query%')
+			->or_where('slug', 'like', '%:query%')
+			->or_where('breadcrumb', 'like', '%:query%')
+			->or_where('meta_title', 'like', '%:query%')
+			->or_where('meta_keywords', 'like', '%:query%')
+			->or_where('published_on', 'like', '%:query%')
+			->or_where('created_on', 'like', '%:query%')
+			->where_close()
 			->param(':query', DB::expr($keyword));
 	}
 
@@ -477,6 +518,11 @@ class KodiCMS_Model_Page extends ORM
 			->order_by('page.created_on', 'asc');
 	}
 
+	/**
+	 * Проверка на существование внутренних страницы
+	 * 
+	 * @return boolean
+	 */
 	public function has_children()
 	{
 		return (bool) DB::select(array(DB::expr('COUNT(*)'), 'total'))
@@ -486,6 +532,11 @@ class KodiCMS_Model_Page extends ORM
 			->get('total');
 	}
 
+	/**
+	 * Удаление внутренних страниц
+	 * 
+	 * @return \KodiCMS_Model_Page
+	 */
 	public function delete_children()
 	{
 		$child_pages = ORM::factory('page')
@@ -496,8 +547,16 @@ class KodiCMS_Model_Page extends ORM
 		{
 			$page->delete();
 		}
+		
+		return $this;
 	}
 
+	/**
+	 * Получения списка ролей, с которыми разрешен доступ к странице
+	 * 
+	 * @param boolean $all
+	 * @return array
+	 */
 	public function get_permissions( $all = FALSE )
 	{
 		if ( ! $this->loaded() OR $all === TRUE )
@@ -513,6 +572,12 @@ class KodiCMS_Model_Page extends ORM
 		return $roles->find_all()->as_array('id', 'name');
 	}
 
+	/**
+	 * Обновление списка ролей, с которым разрешен доступ к странице
+	 * 
+	 * @param array $permissions
+	 * @return ORM
+	 */
 	public function save_permissions( array $permissions = NULL )
 	{
 		if(empty($permissions))
@@ -524,6 +589,7 @@ class KodiCMS_Model_Page extends ORM
 	}
 	
 	/**
+	 * Получение списка страниц за исключением текущей
 	 * 
 	 * @return array
 	 */
@@ -535,10 +601,11 @@ class KodiCMS_Model_Page extends ORM
 			$sitemap->exclude(array($this->id));
 		}
 
-		return $sitemap->select_choises();
+		return $sitemap->select_choices();
 	}
 	
 	/**
+	 * Получение списка шаблонов
 	 * 
 	 * @return array
 	 */
