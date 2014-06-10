@@ -26,14 +26,68 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Hybrid {
 	 */
 	public function set_values(array $data) 
 	{
+		if(empty($data['ds_id']) OR ! $this->datasource_exists($data['ds_id']))
+		{
+			$data['ds_id'] = 0;
+		}
+
 		parent::set_values($data);
 		
 		$this->auto_publish = (bool) Arr::get($data, 'auto_publish');
 		$this->data_source_prefix = URL::title(Arr::get($data, 'data_source_prefix'), '_');
+		
+		if($this->ds_id > 0)
+		{
+			$email_type_fields = array(
+				'key' => array(
+					'header',
+					'meta_title',
+					'meta_keywords',
+					'meta_description'
+				),
+				'value' => array(
+					__('Header'),
+					__('Meta title'),
+					__('Meta keywords'),
+					__('Meta description')
+				)
+			);
+			$ds_fields = DataSource_Hybrid_Field_Factory::get_section_fields($this->ds_id);
+			
+			foreach ($ds_fields as $field)
+			{
+				$email_type_fields['key'][] = $field->name;
+				$email_type_fields['value'][] = $field->header;
+			}
+
+			$this->create_email_type($email_type_fields);
+		}
 
 		return $this;
 	}
 	
+	public function datasource_exists($ds_id)
+	{
+		$ds_id = (int) $ds_id;
+			
+		if($ds_id > 0)
+		{
+			$ds = Datasource_Section::load( $ds_id );
+
+			if($ds === NULL OR !$ds->loaded())
+			{
+				return FALSE;
+			}
+		}
+		else
+		{
+			return FALSE;
+		}
+		
+		return TRUE;
+	}
+			
+
 	public function on_page_load() 
 	{
 		if($this->ds_id < 1 ) return;
@@ -45,9 +99,15 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Hybrid {
 	
 	protected function _fetch_fields( ) 
 	{
-		$fields = array('header', 'published');
+		$fields = array(
+			'header', 
+			'published', 
+			'meta_title',
+			'meta_keywords',
+			'meta_description'
+		);
 
-		$ds_fields = DataSource_Hybrid_Field_Factory::get_related_fields($this->ds_id);
+		$ds_fields = DataSource_Hybrid_Field_Factory::get_section_fields($this->ds_id);
 		foreach ($ds_fields as $field)
 		{
 			$fields[] = $field->name;
@@ -59,38 +119,47 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Hybrid {
 		{
 			$data[$field] = $this->_get_field_value($field);
 		}
-		
-		$ds = Datasource_Data_Manager::load($this->ds_id);
-		$document = $ds->get_empty_document();
-
-		if( ($errors = $document->validate($data)) !== TRUE)
-		{
-			$this->_errors = $errors;
-			$this->_values = $data;
-			
-			echo debug::vars($errors, $data); return;
-			$this->_show_errors();
-			return;
-		}
+		if(empty($data['meta_title'])) $data['meta_title'] = '';
+		if(empty($data['meta_keywords'])) $data['meta_keywords'] = '';
+		if(empty($data['meta_description'])) $data['meta_description'] = '';
 		
 		if($this->auto_publish === TRUE)
 		{
 			$data['published'] = TRUE;
 		}
 		
-		$document->read_values($data);
-		$doc = $ds->create_document($document);
-
-		$this->_show_success();
+		$ds = Datasource_Data_Manager::load($this->ds_id);
+		$document = $ds->get_empty_document();
+		
+		try
+		{
+			$document
+				->read_values($data)
+				->validate();
+	
+			$document = $ds->create_document($document);
+			
+			$this->_show_success();
+		} 
+		catch (Validation_Exception $e)
+		{
+			$this->_values = $data;
+			$this->_errors = $e->errors('validation');
+			$this->_show_errors();
+			return;
+		}
 	}
 	
-	public function count_total()
-	{
-		return 1;
-	}
+	public function count_total() { return 1; }
 	
 	public function fetch_backend_content()
 	{
+		if($this->ds_id > 0 AND ! $this->datasource_exists($this->ds_id))
+		{
+			$this->ds_id = 0;
+			Widget_Manager::update($this);
+		}
+		
 		try
 		{
 			$content = View::factory( 'widgets/backend/' . $this->backend_template(), array(

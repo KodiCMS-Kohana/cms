@@ -2,6 +2,13 @@
 	'widget' => $widget
 )); ?>
 
+<?php if( ! $widget->ds_id ): ?>
+<div class="widget-content">
+	<div class="alert alert-warning">
+		<i class="icon icon-lightbulb"></i> <?php echo __('You need select hybrid section'); ?>
+	</div>
+</div>
+<?php else: ?>
 <div class="widget-header">
 	<h4><?php echo __('Properties'); ?></h4>
 </div>
@@ -34,5 +41,4 @@
 		</div>
 	</div>
 </div>
-
-
+<?php endif; ?>

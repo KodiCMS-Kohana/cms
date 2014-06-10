@@ -353,6 +353,7 @@ abstract class Model_Widget_Decorator {
 		return 'Widget::' . $this->type . '::' . $this->id;
 	}
 	
+	
 	/**
 	 * Получение списка тегов кеширования в виде строки
 	 * 
@@ -406,6 +407,53 @@ abstract class Model_Widget_Decorator {
 		}
 		
 		return $this;
+	}
+	
+	/**
+	 * Получения строки типа виджета и ID
+	 * Используется для создания нового типа почтового уведомления
+	 * 
+	 * @return string
+	 */
+	public function get_hash()
+	{
+		return 'widget_' . $this->type . '_' . $this->id;
+	}
+	
+	/**
+	 * Связывание почтового уведомления вместе с виджетом
+	 * 
+	 * @param array $fields
+	 * @return Model_Email_Type
+	 */
+	public function create_email_type(array $fields)
+	{
+		$email_type = ORM::factory('email_type', array('code' => $this->get_hash()));
+		
+		if( ! $email_type->loaded())
+		{
+			$email_type->values(array(
+				'code' => $this->get_hash(),
+				'name' => $this->name
+			))->create();
+		}
+
+		if( !empty($fields))
+		{
+			$email_type->set('data', $fields)->update();
+		}
+		
+		return $email_type;
+	}
+	
+	/**
+	 * Запуск почтового уведомления
+	 * 
+	 * @return boolean
+	 */
+	public function handle_email_type(array $values)
+	{
+		return Email_Type::get($this->get_hash())->send($values);
 	}
 	
 	/**
