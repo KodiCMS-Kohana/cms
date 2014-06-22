@@ -5,17 +5,3 @@ Observer::observe('view_setting_plugins', function($plugin) {
 		'plugin' => $plugin
 	));
 }, $plugin);
-
-Observer::observe('save_settings', function($post, $plugin) {
-
-	if(!isset($post['plugin']['maintenance_mode']))
-	{
-		$plugin->set('maintenance_mode', Config::NO);
-	}
-	else
-	{
-		$plugin->set('maintenance_mode', Config::YES);
-	}
-	
-	$plugin->save_settings();
-}, $plugin);

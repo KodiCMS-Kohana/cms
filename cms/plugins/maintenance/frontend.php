@@ -1,8 +1,7 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct script access.' );
 
-if($plugin->get('maintenance_mode') == Config::YES)
+if($plugin->get('maintenance_mode') == Config::YES AND ! AuthUser::isLoggedIn())
 {
-	// Observe
 	Observer::observe('frontpage_requested', function() {
 		$page = DB::select()
 			->from('pages')
@@ -24,7 +23,7 @@ if($plugin->get('maintenance_mode') == Config::YES)
 					->status(403)
 					->body($page->render_layout());
 
-				exit(); // need to exit here otherwise the true error page will be sended
+				exit();
 			}
 		} 
 		else 
