@@ -9,7 +9,7 @@ Route::set( 'datasources', ADMIN_DIR_NAME.'/<directory>(/<controller>(/<action>(
 		'action' => 'index',
 	) );
 
-Observer::observe('modules::afer_load', function() {
+Observer::observe('modules::after_load', function() {
 
 	$types = Datasource_Data_Manager::types();
 	

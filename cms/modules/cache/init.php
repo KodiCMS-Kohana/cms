@@ -5,7 +5,7 @@
  */
 Cache::$default = defined('CACHE_TYPE') ? CACHE_TYPE : 'file';
 
-//Observer::observe('modules::afer_load', function() {
+//Observer::observe('modules::after_load', function() {
 //	$driver = defined('CACHE_TYPE') ? CACHE_TYPE : 'file';
 //	
 //	if( Config::get('cache', 'driver') === NULL ) 

@@ -22,7 +22,7 @@ Observer::observe( array('page_add_after_save', 'page_edit_after_save'), functio
 	}
 });
 
-Observer::observe('modules::afer_load', function() {
+Observer::observe('modules::after_load', function() {
 	Behavior::init();
 });
 

@@ -69,7 +69,7 @@ Kohana::modules( array(
 Kohana::$config->attach(new Config_Database);
 Kohana::$log->attach(new Log_Database('logs'));
 
-Observer::notify('modules::afer_load');
+Observer::notify('modules::after_load');
 
 Route::set( 'user', ADMIN_DIR_NAME.'/<action>(?next=<next_url>)', array(
 	'action' => '(login|logout|forgot)',

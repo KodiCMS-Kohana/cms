@@ -43,7 +43,7 @@ Kohana::modules( array(
 	'installer'		=> MODPATH . 'installer'
 ) );
 
-Observer::notify('modules::afer_load');
+Observer::notify('modules::after_load');
 
 /**
  * Проверка на существование модуля `installer`
