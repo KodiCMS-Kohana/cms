@@ -29,7 +29,10 @@ class Plugin_Less extends Plugin_Decorator {
 	
 	public function set_settings( array $data )
 	{
-		if( !isset($data['enabled']) ) $data['enabled'] = Config::NO;
+		if ( ! isset($data['enabled']))
+		{
+			$data['enabled'] = Config::NO;
+		}
 
 		return parent::set_settings($data);
 	}
