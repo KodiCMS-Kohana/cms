@@ -57,11 +57,11 @@ class Controller_System_API extends Controller_System_Ajax {
 		$this->fields = $this->param('fields', array());
 		
 		
-		if( strpos($this->request->headers('content-type'), 'application/json') !== FALSE )
+		if (strpos($this->request->headers('content-type'), 'application/json') !== FALSE)
 		{
 			$data = json_decode($this->request->body(), TRUE);
 			
-			if( ! is_array( $data ))
+			if ( ! is_array( $data ))
 			{
 				parse_str($this->request->body(), $data);
 			}
@@ -139,7 +139,7 @@ class Controller_System_API extends Controller_System_Ajax {
 			/**
 			 * Если выключено API, запретить доступ не авторизованным пользователям к нему
 			 */
-			if( Config::get('api', 'mode') == 'no' AND ! AuthUser::isLoggedIn() )
+			if (Config::get('api', 'mode') == 'no' AND ! AuthUser::isLoggedIn())
 			{
 				throw new HTTP_Exception_403('Forbiden');
 			}
@@ -148,9 +148,9 @@ class Controller_System_API extends Controller_System_Ajax {
 			 * Если невалидный ключ и пользователь не авторизован 
 			 * или экшен не публичный то запретить доступ к API
 			 */
-			if( ! AuthUser::isLoggedIn() AND ! in_array( $action, $this->public_actions ) )
+			if ( ! AuthUser::isLoggedIn() AND ! in_array($action, $this->public_actions))
 			{
-				if( ! $this->_model->is_valid($this->param('api_key')))
+				if ( ! $this->_model->is_valid($this->param('api_key')))
 				{
 					throw new HTTP_Exception_403('Api key not valid');
 				}
@@ -162,7 +162,7 @@ class Controller_System_API extends Controller_System_Ajax {
 			/**
 			 * Проверка токена на валидность, если этого требует экшен или контроллер
 			 */
-			if( $this->_check_token !== FALSE )
+			if ($this->_check_token !== FALSE)
 			{
 				$this->_check_token();
 			}

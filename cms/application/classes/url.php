@@ -27,7 +27,7 @@ class URL extends Kohana_URL {
 	 */
 	public static function backend($uri = '', $protocol = NULL, $index = TRUE)
 	{
-		if( ! URL::match( ADMIN_DIR_NAME, $uri ))
+		if ( ! URL::match( ADMIN_DIR_NAME, $uri ))
 		{
 			$uri = ADMIN_DIR_NAME . '/' . ltrim( $uri, '/');
 		}

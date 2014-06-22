@@ -17,7 +17,7 @@ if($plugin->get('maintenance_mode') == Config::YES AND ! AuthUser::isLoggedIn())
 			$page = Model_Page_Front::find( $page->slug );
 
 			// if we fund it, display it!
-			if( is_object($page) )
+			if (is_object($page))
 			{
 				echo Response::factory()
 					->status(403)
@@ -28,7 +28,7 @@ if($plugin->get('maintenance_mode') == Config::YES AND ! AuthUser::isLoggedIn())
 		} 
 		else 
 		{
-			throw new HTTP_Exception_403( 'Maintenance mode' );
+			throw new HTTP_Exception_403('Maintenance mode');
 			exit();
 		}
 	});

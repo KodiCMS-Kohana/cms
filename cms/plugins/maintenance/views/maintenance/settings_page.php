@@ -5,7 +5,7 @@
 	<div class="control-group">
 		<label class="control-label"><?php echo __('Enable maintenance mode'); ?></label>
 		<div class="controls">
-			<?php echo Form::select( 'plugin[maintenance_mode]', Form::choices(), $plugin->get('maintenance_mode')); ?>
+			<?php echo Form::select('plugin[maintenance_mode]', Form::choices(), $plugin->get('maintenance_mode')); ?>
 		</div>
 	</div>
 </div>

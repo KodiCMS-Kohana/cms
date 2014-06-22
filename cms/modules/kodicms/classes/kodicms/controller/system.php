@@ -48,12 +48,12 @@ class KodiCMS_Controller_System extends Controller_System_Backend {
 		
 		$site_pages = array();
 
-		foreach ( Model_Navigation::get()->sections() as $section )
+		foreach (Model_Navigation::get()->sections() as $section)
 		{
-			foreach ( $section->get_pages() as $item )
+			foreach ($section->get_pages() as $item)
 			{
 				$url = trim(str_replace(ADMIN_DIR_NAME, '', $item->url()), '/');
-				if(empty($url))
+				if (empty($url))
 				{
 					$url = Config::get('site', 'default_tab');
 				}

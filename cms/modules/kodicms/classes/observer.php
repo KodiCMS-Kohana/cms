@@ -9,18 +9,18 @@ final class Observer {
 
 	static protected $events = array( );
 
-	public static function observe( $event_names, $callback )
+	public static function observe($event_names, $callback)
 	{
-		if ( !is_array( $event_names ) )
+		if ( ! is_array($event_names))
 		{
-			$event_names = array( $event_names );
+			$event_names = array($event_names);
 		}
 		
 		$args = array_slice( func_get_args(), 2 );
 		
-		foreach ( $event_names as $event )
+		foreach ($event_names as $event)
 		{
-			if ( !isset( self::$events[$event] ) )
+			if ( ! isset(self::$events[$event]))
 			{
 				self::$events[$event] = array();
 			}
@@ -50,11 +50,11 @@ final class Observer {
 	/**
 	 * If your event does not need to process the return values from any observers use this instead of getObserverList()
 	 */
-	public static function notify( $event_name )
+	public static function notify($event_name)
 	{
 		$args = array_slice(func_get_args(), 1); // removing event name from the arguments
 
-		foreach ( self::getObserverList( $event_name ) as $callback )
+		foreach (self::getObserverList($event_name) as $callback)
 		{
 			list($class, $class_args) = $callback;
 
@@ -63,16 +63,16 @@ final class Observer {
 				$benchmark = Profiler::start('Observer notify', $event_name);
 			}
 
-			if ( is_array( $class ) )
+			if (is_array($class))
 			{
-				forward_static_call_array( $class, Arr::merge($args, $class_args) );
+				forward_static_call_array($class, Arr::merge($args, $class_args));
 			}
 			else
 			{
 				call_user_func_array( $class, Arr::merge($args, $class_args) );
 			}
 
-			if(isset($benchmark))
+			if (isset($benchmark))
 			{
 				Profiler::stop($benchmark);
 			}

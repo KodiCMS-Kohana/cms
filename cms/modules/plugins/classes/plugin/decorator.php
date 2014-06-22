@@ -398,23 +398,24 @@ class Plugin_Decorator extends Plugin {
 		extract( array('plugin' => $this), EXTR_SKIP );
 
 		$frontend_file = $this->path() . 'frontend' . EXT;
-		if(  file_exists( $frontend_file ) AND ! IS_BACKEND )
-		{
-			if(Kohana::$profiling === TRUE)
+		if (file_exists($frontend_file) AND ! IS_BACKEND)
+		{			
+			if (Kohana::$profiling === TRUE)
 			{
 				$benchmark = Profiler::start('Frontend plugins', $this->title());
 			}
 		
 			include $frontend_file;
 			
-			if(isset($benchmark))
+			if (isset($benchmark))
 			{
 				Profiler::stop($benchmark);
 			}
 		}
 		
 		$backend_file = $this->path() . 'backend' . EXT;
-		if(  file_exists( $backend_file ) AND IS_BACKEND )
+		
+		if (file_exists($backend_file) AND IS_BACKEND)
 		{
 			if(Kohana::$profiling === TRUE)
 			{
@@ -423,7 +424,7 @@ class Plugin_Decorator extends Plugin {
 			
 			include $backend_file;
 			
-			if(isset($benchmark))
+			if (isset($benchmark))
 			{
 				Profiler::stop($benchmark);
 			}
