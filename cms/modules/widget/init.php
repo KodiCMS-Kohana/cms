@@ -46,15 +46,13 @@ Observer::observe( 'frontpage_after_render',  function() {
 
 Observer::observe('view_page_edit_plugins', function($page) {
 
-	$blocks = array(-1 => __('--- Remove from page ---'), 0 => __('--- Hide ---'), 'PRE' => __('Before page render'));
-	$blocks += ORM::factory( 'layout_block')->find_by_layout($page->layout());
-	$blocks += array('POST' => __('After page render'));
+	$blocks = Widget_Manager::get_blocks_by_layout($page->layout());
 	
 	echo View::factory('widgets/page/edit', array(
 		'page' => $page,
 		'pages' => Model_Page_Sitemap::get(TRUE)->exclude(array($page->id))->flatten(),
 		'widgets' => Widget_Manager::get_widgets_by_page( $page->id ),
-		'blocks' => $blocks
+		'blocks' => Arr::get($blocks, $page->layout())
 	));
 });
 

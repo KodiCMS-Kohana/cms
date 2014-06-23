@@ -108,29 +108,15 @@ class Controller_Widgets extends Controller_System_Backend {
 
 		$pages = Model_Page_Sitemap::get( TRUE )->as_array();
 		
-		$res_blocks = ORM::factory('layout_block')->find_all();
-		
-		$blocks = array();
-		
-		$default_blocks = array(-1 => __('--- none ---'), 'PRE' => __('Before page render'), 'POST' => __('After page render'));
-		foreach ($res_blocks as $block)
-		{
-			if(empty($blocks[$block->layout_name])) 
-				$blocks[$block->layout_name] = $default_blocks;
-
-			$blocks[$block->layout_name][$block->block] = $block->block;
-		}
-		
 		$this->template->content = View::factory( 'widgets/location', array(
 			'widget' => $widget,
 			'pages' => $pages,
 			'page_widgets' => $page_widgets,
 			'pages_widgets' => $pages_widgets,
-			'blocks' => $blocks,
-			'default_blocks' => $default_blocks
+			'layouts_blocks' => Widget_Manager::get_blocks_by_layout()
 		));
 	}
-	
+
 	protected function _add_location( $widget )
 	{
 		$data = $this->request->post();

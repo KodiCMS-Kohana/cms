@@ -1,5 +1,5 @@
 <?php if( ACL::check( 'widgets.index')): ?>
-<script>
+<script type="text/javascript">
 	var LAYOUT_BLOCKS = <?php echo json_encode( $blocks ); ?>;
 </script>
 <div class="widget-header spoiler-toggle" data-spoiler=".spoiler-widgets" data-hash="widgets" hotkeys="shift+w">

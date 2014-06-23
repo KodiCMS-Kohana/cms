@@ -394,4 +394,68 @@ class Widget_Manager {
 		
 		return $id;
 	}
+	
+	/**
+	 * Получение списка блоков по умолчанию
+	 * 
+	 * @return array
+	 */
+	public static function get_system_blocks()
+	{
+		return array(
+			-1 => __('--- Remove from page ---'), 
+			0 => __('--- Hide ---'), 
+			'PRE' => __('Before page render'), 
+			'POST' => __('After page render')
+		);
+	}
+
+	/**
+	 * 
+	 * @param string $layout_name
+	 * 
+	 * array(
+	 *		'[layout name]' => array(
+	 *			[block name] => [block name],
+	 *			...
+	 *		)
+	 * )
+	 * 
+	 * @return array
+	 */
+	public static function get_blocks_by_layout($layout_name = NULL)
+	{
+		$blocks_by_layout = array();
+		$database_blocks = ORM::factory('layout_block');
+		
+		if($layout_name !== NULL)
+		{
+			$database_blocks->where('layout_name', '=', $layout_name);
+		}
+
+		foreach ($database_blocks->find_all() as $block)
+		{
+			if(empty($blocks_by_layout[$block->layout_name]))
+			{
+				$blocks_by_layout[$block->layout_name] = self::get_system_blocks();
+			}
+
+			$blocks_by_layout[$block->layout_name][$block->block] = $block->block;
+		}
+		
+		// Move POST key to end
+		foreach ($blocks_by_layout as $layout_name => $blocks)
+		{
+			$post = $blocks['POST'];
+			unset($blocks_by_layout[$layout_name]['POST']);
+			$blocks_by_layout[$layout_name]['POST'] = $post;
+		}
+		
+		if($layout_name !== NULL AND empty($blocks_by_layout[$layout_name]))
+		{
+			$blocks_by_layout[$layout_name] = self::get_system_blocks();
+		}
+		
+		return $blocks_by_layout;
+	}
 }

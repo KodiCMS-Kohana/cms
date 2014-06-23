@@ -1,5 +1,5 @@
-<script>
-	var BLOCKS = <?php echo json_encode($blocks); ?>;
+<script type="text/javascript">
+var BLOCKS = <?php echo json_encode($layouts_blocks); ?>;
 </script>
 <div class="widget">
 	<?php echo Form::open(Request::current()->uri()); ?>
@@ -23,7 +23,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<?php echo recurse_pages($pages, 0, $blocks, $page_widgets, $pages_widgets); ?>
+				<?php echo recurse_pages($pages, 0, $layouts_blocks, $page_widgets, $pages_widgets); ?>
 			</tbody>
 		</table>
 	</div>
@@ -45,21 +45,15 @@
 	<?php echo Form::close(); ?>
 </div>
 <?php 
-function recurse_pages( $pages, $spaces = 0, $blocks = array(), $page_widgets = array(), $pages_widgets = array() ) 
+function recurse_pages( $pages, $spaces = 0, $layouts_blocks = array(), $page_widgets = array(), $pages_widgets = array() ) 
 {
 	$data = '';
 	foreach ($pages as $page)
 	{
 		// Выбираем из всех блоков, для шаблона текущей страницы
-		$current_page_blocks = isset($blocks[$page['layout_file']]) 
-				? $blocks[$page['layout_file']] 
-				: array(-1 => __('--- none ---'));
-		
-		// Исключаем из списка блоки, занятые другими виджетами
-//		if(!empty($pages_widgets[$page['id']]) AND is_array($current_page_blocks))
-//		{
-//			$current_page_blocks = array_diff($current_page_blocks, $pages_widgets[$page['id']]);
-//		}
+		$current_page_blocks = isset($layouts_blocks[$page['layout_file']]) 
+				? $layouts_blocks[$page['layout_file']] 
+				: Widget_Manager::get_system_blocks();
 
 		// Блок
 		$current_block = Arr::path($page_widgets, $page['id'].'.0');
@@ -97,7 +91,7 @@ function recurse_pages( $pages, $spaces = 0, $blocks = array(), $page_widgets = 
 		
 		if(!empty($page['childs']))
 		{
-			$data .= recurse_pages($page['childs'], $spaces + 5, $blocks, $page_widgets, $pages_widgets);
+			$data .= recurse_pages($page['childs'], $spaces + 5, $layouts_blocks, $page_widgets, $pages_widgets);
 		}
 	}
 	return $data;
