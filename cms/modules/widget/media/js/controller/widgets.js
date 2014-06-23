@@ -60,6 +60,10 @@ cms.init.add('page_edit', function() {
 cms.init.add('widgets_location', function() {
 	reload_blocks();
 	
+	$('body').on('post:api-layout.rebuild', function(e, response) {
+		reload_blocks();
+	});
+	
 	$('#select_for_all').on('click', function(){
 		var value = $('input[name="select_for_all"]').val();
 		if(!value.length) return false;
