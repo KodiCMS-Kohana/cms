@@ -938,8 +938,8 @@ var Api = {
 // Run
 $(function() {
     cms.messages.init();
-    cms.init.run();
     cms.ui.init();
+	cms.init.run();
 	
 	parse_messages(MESSAGE_ERRORS, 'error');
 	parse_messages(MESSAGE_SUCCESS);
