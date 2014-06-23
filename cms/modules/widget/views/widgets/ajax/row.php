@@ -24,7 +24,7 @@
 		<?php if( ACL::check( 'widgets.location')): ?>
 		<?php echo Form::hidden('widget['.$widget->id.'][block]', ! empty($widget->block) ? $widget->block : 0, array(
 			'class' => 'widget-blocks', 
-			'data-layout' => $page->layout_file)); ?>
+			'data-layout' => $page->layout())); ?>
 		<?php echo UI::button(NULL, array(
 			'href' => Route::url('backend', array(
 				'controller' => 'widgets', 

@@ -30,7 +30,7 @@ cms.init.add('widgets_edit', function() {
 });
 
 cms.init.add('page_edit', function() {
-	var layout_file = PAGE_OBJECT['layout_file'];
+	var layout_file = PAGE_OBJECT['layout'];
 	reload_blocks(layout_file);	
 	$('body').on('post:api-layout.rebuild', function(e, response) {
 		reload_blocks(layout_file);

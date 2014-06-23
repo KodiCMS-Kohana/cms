@@ -589,6 +589,19 @@ class KodiCMS_Model_Page extends ORM
 	}
 	
 	/**
+	 * 
+	 * @return array
+	 */
+	public function as_array()
+	{
+		$object = parent::as_array();
+		
+		$object['layout'] = $this->layout();
+		
+		return $object;
+	}
+	
+	/**
 	 * Получение списка страниц за исключением текущей
 	 * 
 	 * @return array
