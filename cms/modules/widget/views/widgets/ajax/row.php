@@ -14,11 +14,17 @@
 	<td>
 		<?php if( ACL::check( 'widgets.location')): ?>
 		<?php echo Form::input('widget[' . $widget->id . '][position]', (int) $widget->position, array('maxlength' => 4, 'size' => 4, 'class' => 'input-mini text-right') );?>
+		<?php else: ?>
+		<span class="label label-success"><?php echo __('Position: :position', array(
+			':block_name' => $widget->block
+		)); ?></span>
 		<?php endif; ?>
 	</td>
 	<td>
 		<?php if( ACL::check( 'widgets.location')): ?>
-		<?php echo Form::hidden('widget['.$widget->id.'][block]', ! empty($widget->block) ? $widget->block : 0, array('class' => 'widget-select-block')); ?>
+		<?php echo Form::hidden('widget['.$widget->id.'][block]', ! empty($widget->block) ? $widget->block : 0, array(
+			'class' => 'widget-blocks', 
+			'data-layout' => $page->layout_file)); ?>
 		<?php echo UI::button(NULL, array(
 			'href' => Route::url('backend', array(
 				'controller' => 'widgets', 
@@ -28,6 +34,10 @@
 			'class' => 'btn btn-mini btn-primary',
 			'target' => 'blank'
 		)); ?>
+		<?php else: ?>
+		<span class="label label-success"><?php echo __('Block: :block_name', array(
+			':block_name' => $widget->block
+		)); ?></span>
 		<?php endif; ?>
 	</td>
 </tr>

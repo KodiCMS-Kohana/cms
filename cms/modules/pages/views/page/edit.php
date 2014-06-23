@@ -1,6 +1,6 @@
 <script type="text/javascript">
 	var PAGE_ID = <?php echo (int) $page->id; ?>;
-
+	var PAGE_OBJECT = <?php echo json_encode($page->as_array()); ?>;
 	<?php if($action == 'add'): ?>
 	$(function() {
 		$('.spoiler-toggle').click();

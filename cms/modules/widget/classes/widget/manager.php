@@ -451,9 +451,13 @@ class Widget_Manager {
 			$blocks_by_layout[$layout_name]['POST'] = $post;
 		}
 		
-		if($layout_name !== NULL AND empty($blocks_by_layout[$layout_name]))
+		$layout_files = Model_File_Layout::find_all();
+		foreach ($layout_files as $file)
 		{
-			$blocks_by_layout[$layout_name] = self::get_system_blocks();
+			if(!isset($blocks_by_layout[$file->name]))
+			{
+				$blocks_by_layout[$file->name] = self::get_system_blocks();
+			}
 		}
 		
 		return $blocks_by_layout;

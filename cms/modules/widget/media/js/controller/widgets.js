@@ -30,10 +30,17 @@ cms.init.add('widgets_edit', function() {
 });
 
 cms.init.add('page_edit', function() {
-	reload_blocks();
-	$('.widget-select-block').on('change', function() {
-		reload_blocks();
+	var layout_file = PAGE_OBJECT['layout_file'];
+	reload_blocks(layout_file);	
+	$('body').on('post:api-layout.rebuild', function(e, response) {
+		reload_blocks(layout_file);
 	});
+	
+	// Reload blocks on page layout change
+//	$('body').on('change', '#page_layout_file', function() {
+//		$('.widget-blocks').data('layout', $(this).val());
+//		reload_blocks($(this).val());
+//	});
 	
 	$('body').on('click', '.popup-widget-item', function() {
 		var widget_id = $(this).data('id');
@@ -45,77 +52,49 @@ cms.init.add('page_edit', function() {
 			window.location = '#widgets';
 			$.fancybox.close();
 			$('#widget-list tbody').append(response.response);
-			reload_blocks();
+			reload_blocks(layout_file);
 		});
 	});
-	
-	function reload_blocks() {
-		var FILLED_BLOCKS = [];
-
-		$('.widget-select-block').each(function() {
-			var cb = $(this).val();
-			
-			if(!cb || cb == 0 || cb == 'PRE') return;
-
-			//FILLED_BLOCKS[cb] = LAYOUT_BLOCKS[cb];
-		});
-		
-		
-		$('.widget-select-block').each(function() {		
-			var cb = $(this).val();
-			var blocks = [];
-			for(block in LAYOUT_BLOCKS) {
-				if(!FILLED_BLOCKS[block] || (FILLED_BLOCKS[block] && block == cb) )
-					blocks.push({id: block, text: LAYOUT_BLOCKS[block]});
-			}
-		
-			$(this).select2({
-				data: blocks,
-				formatSelection: format_dropdown_block,
-				formatResult: format_dropdown_block
-			}).select2('val', cb);
-		});
-	}
 });
 
 cms.init.add('widgets_location', function() {
-	$('#select_for_all').click(function(){
+	reload_blocks();
+	
+	$('#select_for_all').on('click', function(){
 		var value = $('input[name="select_for_all"]').val();
-		
 		if(!value.length) return false;
 
-		$('select.blocks').each(function() {
-			if(val = $(this).find('option[value*="'+value+'"]').val())
-				$(this).select2("val", val);
+		$('input.widget-blocks').each(function() {
+			var $options = $(this).data('blocks');
+			for(i in $options) {
+				var $option = $options[i];
+				if($option['id'].indexOf(value) > -1 || $option['text'].indexOf(value) > -1)
+					$(this).select2("data", $option);
+			}
 		});
 
 		return false;
 	});
-	
+
 	$('.set_to_inner_pages').on('click', function() {
 		var cont = $(this).parent().parent();
 
-		var block_name = cont.find('select').val();
+		var block_name = cont.find('.widget-blocks').select2("data")['id'];
 		var position = cont.find('input.widget-position').val();
 		var id = cont.data('id');
 		
 		$('.table tbody tr[data-parent-id="'+id+'"]').each(function() {
-			if(val = $(this).find('option[value*="'+block_name+'"]').val()) {
-				$(this).find('select').select2("val", val);
+			var $select = $(this).find('input.widget-blocks');
+			var $options = $select.data('blocks');
+			for(i in $options) {
+				var $option = $options[i];
+				if($option['id'].indexOf(block_name) > -1)
+					$select.select2("data", $option);
 			}
 		
 			$(this).find('input.widget-position').val(position);
 		});
 		return false;
-	});
-	
-	
-	$('.blocks')
-		.select2('destroy');
-
-	$('.blocks').select2({
-		formatSelection: format_dropdown_block,
-		formatResult: format_dropdown_block
 	});
 });
 
@@ -139,4 +118,49 @@ function format_dropdown_block(state, container) {
 	}
 	
 	return state.text
+}
+
+function reload_blocks($layout) {
+	var FILLED_BLOCKS = [];
+	var LAYOUT_BLOCKS = {};
+	var $layout_data = {};
+	if($layout) {
+		$layout_data = {layout: $layout};
+	}
+
+	Api.get('layout.blocks', $layout_data, function(resp) {
+		if( ! resp.response) return;
+		LAYOUT_BLOCKS = resp.response;
+
+		$('.widget-blocks').each(function() {
+			var cb = $(this).val();
+			var $layout = $(this).data('layout');
+			if( ! LAYOUT_BLOCKS[$layout]) return;
+			
+			var blocks = [];
+			for(block in LAYOUT_BLOCKS[$layout]) {
+				if(!FILLED_BLOCKS[block] || (FILLED_BLOCKS[block] && block == cb) )
+					blocks.push({id: block, text: LAYOUT_BLOCKS[$layout][block]});
+			}
+
+			found = false;
+			for(i in blocks) {
+				if(blocks[i].id == cb)
+					found = true;
+			}
+
+			if(!found) {
+				cb = 0;
+			}
+
+			$(this)
+				.select2({
+					data: blocks,
+					formatSelection: format_dropdown_block,
+					formatResult: format_dropdown_block
+				})
+				.select2('val', cb)
+				.data('blocks', blocks);
+		});
+	});
 }

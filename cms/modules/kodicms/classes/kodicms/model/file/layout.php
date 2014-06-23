@@ -87,6 +87,6 @@ class KodiCMS_Model_File_Layout extends Model_File {
 		
 		Cache::instance()->delete_tag('layout_blocks');
 		
-		return $this;
+		return $blocks;
 	}
 }

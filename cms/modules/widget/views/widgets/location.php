@@ -1,6 +1,3 @@
-<script type="text/javascript">
-var BLOCKS = <?php echo json_encode($layouts_blocks); ?>;
-</script>
 <div class="widget">
 	<?php echo Form::open(Request::current()->uri()); ?>
 	<div class="widget-content ">
@@ -41,6 +38,16 @@ var BLOCKS = <?php echo json_encode($layouts_blocks); ?>;
 			'class' => 'btn btn-large',
 			'hotkeys' => 'ctrl+s'
 		)); ?>
+		
+		
+		<?php if( ACL::check( 'layout.rebuild')): ?>
+		<?php echo UI::button(__('Rebuild blocks'), array(
+			'icon' => UI::icon( 'refresh' ),
+			'class' => 'btn btn-inverse btn-mini btn-api',
+			'data-url' => 'layout.rebuild',
+			'data-method' => Request::POST
+		)); ?>
+		<?php endif; ?>
 	</div>
 	<?php echo Form::close(); ?>
 </div>
@@ -50,19 +57,13 @@ function recurse_pages( $pages, $spaces = 0, $layouts_blocks = array(), $page_wi
 	$data = '';
 	foreach ($pages as $page)
 	{
-		// Выбираем из всех блоков, для шаблона текущей страницы
-		$current_page_blocks = isset($layouts_blocks[$page['layout_file']]) 
-				? $layouts_blocks[$page['layout_file']] 
-				: Widget_Manager::get_system_blocks();
-
 		// Блок
 		$current_block = Arr::path($page_widgets, $page['id'].'.0');
-		
 		$current_position = Arr::path($page_widgets, $page['id'].'.1');
 		
 		$data .= '<tr data-id="'.$page['id'].'" data-parent-id="'.$page['parent_id'].'">';
 		$data .= '<td>';
-		$data .= Form::select('blocks[' . $page['id'] . '][name]', $current_page_blocks, $current_block, array('class' => 'blocks') );
+		$data .= Form::hidden('blocks['.$page['id'].'][name]', $current_block, array('class' => 'widget-blocks', 'data-layout' => $page['layout_file']));
 		if(!empty($page['childs']))
 		{
 			$data .= "&nbsp;" . Form::button(NULL, UI::icon('level-down'), array(

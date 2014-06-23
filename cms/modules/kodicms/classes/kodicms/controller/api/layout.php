@@ -107,11 +107,21 @@ class KodiCMS_Controller_API_Layout extends Controller_System_Api {
 	{
 		$layouts = Model_File_Layout::find_all();
 		
+		$blocks = array();
 		foreach($layouts as $layout)
 		{
-			$layout->rebuild_blocks();
+			$blocks[$layout->name] = $layout->rebuild_blocks();
 		}
 		
+		$this->response($blocks);
 		$this->message('Layout blocks successfully update!');
+	}
+	
+	public function get_blocks()
+	{
+		$layout_name = $this->param('layout', NULL);
+		$blocks = Widget_Manager::get_blocks_by_layout($layout_name);
+		
+		$this->response($blocks);
 	}
 }

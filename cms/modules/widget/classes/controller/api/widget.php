@@ -51,7 +51,8 @@ class Controller_API_Widget extends Controller_System_API {
 		if($insert)
 		{
 			$this->response((string) View::factory( 'widgets/ajax/row', array(
-				'widget' => Widget_Manager::load($widget_id)
+				'widget' => Widget_Manager::load($widget_id),
+				'page' => ORM::factory('page', $page_id)
 			)));
 			
 			$this->message('Widget added to page');

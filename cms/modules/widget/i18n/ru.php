@@ -39,6 +39,9 @@ return array(
 	'Number of documents per page' => 'Количество отображаемых документов',
 	'Select for all pages' => 'Установить для всех страниц',
 	'Save locations' => 'Сохранить позиции',
+	'Block: :block_name' => 'Блок: :block_name',
+	'Position: :position' => 'Позиция: :position',
+	'All widgets set to page' => 'Все виджеты установлены на страницу',
 	
 	'Other' => 'Другое',
 	'Menu' => 'Меню',

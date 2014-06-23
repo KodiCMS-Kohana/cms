@@ -1,4 +1,5 @@
 <div class="widget">
+	<?php if(count($widgets) > 0): ?>
 	<?php foreach ($widgets as $type => $_widgets): ?>
 	<div class="widget-header">
 		<h3><?php echo __($type); ?></h3>
@@ -14,4 +15,7 @@
 		</ul>
 	</div>
 	<?php endforeach; ?>
+	<?php else: ?>
+	<h2><?php echo __('All widgets set to page'); ?></h2>
+	<?php endif; ?>
 </div>
