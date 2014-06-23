@@ -22,12 +22,6 @@ class DataSource_Hybrid_Field_Source_Array extends DataSource_Hybrid_Field_Sourc
 		return $this->id;
 	}
 	
-	public function remove() 
-	{
-		$ds = Datasource_Data_Manager::load($this->from_ds);
-		parent::remove();
-	}
-	
 	public function onUpdateDocument(DataSource_Hybrid_Document $old = NULL, DataSource_Hybrid_Document $new) 
 	{
 		$old_docs = $old->get($this->name);

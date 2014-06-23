@@ -14,21 +14,6 @@ class DataSource_Hybrid_Field_Source_Document extends DataSource_Hybrid_Field_So
 		return parent::set( $data );
 	}
 	
-	public function create() 
-	{
-		parent::create();
-		
-		if( ! $this->id)
-		{
-			return FALSE;
-		}
-
-		$ds = Datasource_Data_Manager::load($this->from_ds);		
-		$this->update();
-		
-		return $this->id;
-	}
-	
 	public function update() 
 	{
 		return DB::update($this->table)
