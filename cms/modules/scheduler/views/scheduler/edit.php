@@ -1,11 +1,3 @@
-<script>
-$(function() {
-	$('.interval-label').on('click', function() {
-		$('#job-interval').val($(this).data('time'));
-	});
-})
-</script>
-
 <?php echo Form::open(Route::url('backend', array('controller' => 'scheduler', 'action' => $action, 'id' => $job->id)), array(
 	'class' => Bootstrap_Form::HORIZONTAL
 )); ?>
@@ -56,12 +48,15 @@ $(function() {
 			<label class="control-label"><?php echo __('Interval'); ?></label>
 			<div class="controls">
 				<?php echo Form::input('interval', $job->interval, array('class' => 'input-medium', 'id' => 'job-interval')); ?>
-				<span class="label interval-label" data-time="<?php echo Date::MINUTE; ?>"><?php echo __('Minute'); ?></span> 
-				<span class="label interval-label" data-time="<?php echo Date::HOUR; ?>"><?php echo __('Hour'); ?></span>
-				<span class="label interval-label" data-time="<?php echo Date::DAY; ?>"><?php echo __('Day'); ?></span>
-				<span class="label interval-label" data-time="<?php echo Date::WEEK; ?>"><?php echo __('Week'); ?></span>
-				<span class="label interval-label" data-time="<?php echo Date::MONTH; ?>"><?php echo __('Month'); ?></span>
-				<span class="label interval-label" data-time="<?php echo Date::YEAR; ?>"><?php echo __('Year'); ?></span>
+				
+				<span class="flags">
+					<span class="label" data-value="<?php echo Date::MINUTE; ?>"><?php echo __('Minute'); ?></span> 
+					<span class="label" data-value="<?php echo Date::HOUR; ?>"><?php echo __('Hour'); ?></span>
+					<span class="label" data-value="<?php echo Date::DAY; ?>"><?php echo __('Day'); ?></span>
+					<span class="label" data-value="<?php echo Date::WEEK; ?>"><?php echo __('Week'); ?></span>
+					<span class="label" data-value="<?php echo Date::MONTH; ?>"><?php echo __('Month'); ?></span>
+					<span class="label" data-value="<?php echo Date::YEAR; ?>"><?php echo __('Year'); ?></span>
+				</span>
 			</div>
 		</div>
 		<div class="control-group">
