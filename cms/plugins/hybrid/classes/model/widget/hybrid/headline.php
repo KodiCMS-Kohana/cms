@@ -130,6 +130,12 @@ class Model_Widget_Hybrid_Headline extends Model_Widget_Hybrid {
 	{
 		return $this->get_total_documents();
 	}
+	
+	public function reset()
+	{
+		$this->docs = NULL;
+		return $this;
+	}
 
 	/**
 	 * 
