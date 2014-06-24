@@ -1,3 +1,22 @@
+<script type="text/javascript">
+$(function() {
+	var rs = $('input[name="sort_by_rand"]');
+	rs.on('change', function() {
+		sort_by_rand($(this))
+	});
+	
+	sort_by_rand(rs)
+});
+
+function sort_by_rand($field) {
+	if($field.is(':checked')) {
+		$('#sorting_block').hide();
+	} else {
+		$('#sorting_block').show();
+	}
+}
+</script>
+
 <?php echo View::factory('widgets/backend/blocks/section', array(
 	'widget' => $widget
 )); ?>
@@ -37,12 +56,8 @@
 	<div class="control-group">
 		<div class="controls">
 			<label class="checkbox"><?php echo Form::checkbox('throw_404', 1, $widget->throw_404); ?> <?php echo __('Generate error 404 when page has no content'); ?></label>
-		</div>
-	</div>
-
-	<div class="control-group">
-		<div class="controls">
 			<label class="checkbox"><?php echo Form::checkbox('only_published', 1, $widget->only_published); ?> <?php echo __('Show only published documents'); ?></label>
+			<label class="checkbox"><?php echo Form::checkbox('sort_by_rand', 1, $widget->sort_by_rand); ?> <?php echo __('Select random documents'); ?></label>
 		</div>
 	</div>
 </div>

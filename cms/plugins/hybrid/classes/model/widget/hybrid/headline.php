@@ -45,6 +45,12 @@ class Model_Widget_Hybrid_Headline extends Model_Widget_Hybrid {
 	
 	/**
 	 *
+	 * @var bool 
+	 */
+	public $sort_by_rand = FALSE;
+	
+	/**
+	 *
 	 * @var array 
 	 */
 	public $ids = array();
@@ -75,6 +81,7 @@ class Model_Widget_Hybrid_Headline extends Model_Widget_Hybrid {
 		
 		$this->only_sub = (bool) Arr::get($data, 'only_sub');
 		$this->only_published = (bool) Arr::get($data, 'only_published');
+		$this->sort_by_rand = (bool) Arr::get($data, 'sort_by_rand');
 		
 		$this->doc_uri = Arr::get($data, 'doc_uri', $this->doc_uri);
 		$this->doc_id = preg_replace('/[^A-Za-z,]+/', '', Arr::get($data, 'doc_id', $this->doc_id));
@@ -271,10 +278,20 @@ class Model_Widget_Hybrid_Headline extends Model_Widget_Hybrid {
 	protected function _get_query()
 	{
 		$agent = $this->get_agent();
+		
+		if($this->sort_by_rand === TRUE)
+		{
+			$this->doc_order = NULL;
+		}
 
 		$query = $agent->get_query_props($this->doc_fields, $this->doc_order, $this->doc_filter);
 		
 		$query = $this->_search_by_keyword($query);
+		
+		if($this->sort_by_rand === TRUE)
+		{
+			$query->order_by(DB::expr('RAND()'));
+		}
 		
 		if(is_array($this->ids) AND count($this->ids) > 0)
 		{

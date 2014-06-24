@@ -89,7 +89,7 @@ return array(
 	'Change meta headers' => 'Изменять мета заголовки',
 	'Index document intro' => 'Интро документа',
 	'Index document fields' => 'Индексируемые поля',
-
+	'Select random documents' => 'Выбирать документы в произвольном порядке',
 	'Properties' => 'Опции',
 	'Set document published' => 'Опубликовать документ после создания',
 	'Hybrid data source' => 'Источник данных ГД',
