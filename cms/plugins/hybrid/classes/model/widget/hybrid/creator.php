@@ -132,6 +132,8 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Hybrid {
 		
 		$ds = Datasource_Data_Manager::load($this->ds_id);
 		
+		$create = TRUE;
+		
 		if(empty($data['id']))
 		{
 			$document = $ds->get_empty_document();
@@ -140,7 +142,8 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Hybrid {
 		{
 			$id = (int) $data['id'];
 			$document = $ds->get_document($id);
-			
+			$create = FALSE;
+
 			if( ! $document)
 			{
 				$this->_values = $data;
@@ -155,7 +158,14 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Hybrid {
 				->read_values($data)
 				->validate();
 	
-			$document = $ds->create_document($document);
+			if($create === TRUE)
+			{
+				$ds->create_document($document);
+			}
+			else
+			{
+				$ds->update_document($document);
+			}
 			
 			$this->handle_email_type($data);
 
