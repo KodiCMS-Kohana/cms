@@ -21,6 +21,7 @@ class Datasource_Section {
 					array(':class_name' => $class));
 		}
 		
+		$class = 'Datasource_Section_' . ucfirst($type);
 		return new $class($type);
 	}
 	
