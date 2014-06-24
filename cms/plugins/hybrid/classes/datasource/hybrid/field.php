@@ -446,28 +446,21 @@ abstract class DataSource_Hybrid_Field {
 	public function create() 
 	{
 		$this->validate();
+		
+		$data = array(
+			'ds_id' => (int) $this->ds_id, 
+			'name' => $this->name, 
+			'family' => $this->family, 
+			'type' => $this->type, 
+			'header' => $this->header,
+			'from_ds' => (int) $this->from_ds,
+			'props' => serialize($this->_props),
+			'position' => (int) $this->position
+		);
 
 		$query = DB::insert($this->table)
-			->columns(array(
-				'ds_id', 
-				'name', 
-				'family', 
-				'type', 
-				'header',
-				'from_ds',
-				'props',
-				'position'
-			))
-			->values(array(
-				$this->ds_id, 
-				$this->name, 
-				$this->family,
-				$this->type, 
-				$this->header,
-				$this->from_ds,
-				serialize($this->_props),
-				$this->position,
-			))
+			->columns(array_keys($data))
+			->values($data)
 			->execute();
 
 		$this->id = $query[0];
@@ -496,9 +489,10 @@ abstract class DataSource_Hybrid_Field {
 		return DB::update($this->table)
 			->set(array(
 				'header' => $this->header,
-				'name' => $this->name,
 				'props' => serialize( $this->_props ),
-				'position' => $this->position
+				'position' => (int) $this->position,
+				'name' => $this->name,
+				'from_ds' => (int) $this->from_ds,
 			))
 			->where('id', '=', $this->id)
 			->execute();

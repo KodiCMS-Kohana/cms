@@ -14,18 +14,6 @@ class DataSource_Hybrid_Field_Source_Document extends DataSource_Hybrid_Field_So
 		return parent::set( $data );
 	}
 	
-	public function update() 
-	{
-		return DB::update($this->table)
-			->set(array(
-				'header' => $this->header,
-				'props' => serialize($this->_props),
-				'from_ds' => $this->from_ds
-			))
-			->where('id', '=', $this->id)
-			->execute();
-	}
-	
 	public function onUpdateDocument(DataSource_Hybrid_Document $old = NULL, DataSource_Hybrid_Document $new) 
 	{
 		if( $new->get($this->name) == -1 ) 
