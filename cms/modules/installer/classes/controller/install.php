@@ -135,6 +135,42 @@ class Controller_Install extends Controller_System_Frontend
 		$this->_complete($post);
 	}
 	
+	public function action_check_connect()
+	{
+		$post = $this->request->post('install');
+		$this->_validation = Validation::factory($post)
+			->label('db_server', __('Database server'))
+			->label('db_user', __( 'Database user' ))
+			->label('db_password', __('Database password'))
+			->label('db_name', __('Database name'))
+			->rule( 'db_server', 'not_empty' )
+			->rule( 'db_user', 'not_empty' )
+			->rule( 'db_name', 'not_empty' );
+	
+		try
+		{
+			if ( ! $this->_validation->check() )
+			{
+				throw new Validation_Exception($this->_validation);
+			}
+		
+			$this->json['status'] = (bool) $this->_connect_to_db($post);
+		}
+		catch (Kohana_Exception $e)
+		{
+			if($e instanceof Validation_Exception)
+			{
+				$this->json['message'] = $e->errors('validation');
+			}
+			else
+			{
+				$this->json['message'][] = $e->getMessage();
+			}
+			
+			$this->json['status'] = FALSE;
+		}
+	}
+	
 	/**
 	 * 
 	 * @param array $post
@@ -270,7 +306,6 @@ class Controller_Install extends Controller_System_Frontend
 			{
 				throw new Database_Exception($exc->getMessage(), NULL, $exc->getCode());
 			}
-			
 		}
 	}
 
@@ -314,7 +349,7 @@ class Controller_Install extends Controller_System_Frontend
 				->label('password_confirm', __('Confirm Password'));
 		}
 
-		if ( !$validation->check() )
+		if ( ! $validation->check() )
 		{
 			throw new Validation_Exception($validation);
 		}

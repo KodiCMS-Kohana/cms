@@ -44,6 +44,10 @@ $(function() {
 			if(currentIndex == 0 && newIndex == 1 && failed) {
 				return false;
 			}
+			
+			if(currentIndex == 2 && newIndex == 3) {
+				return check_connect();
+			}
 	
 			return true;
 		},
@@ -52,21 +56,25 @@ $(function() {
 		}
 	});
 	
-	function check_connect(wizard) {
-		var $return = false;
-
+	function check_connect() {
+		cms.clear_error();
 		var $fields = $(':input[name*=db_]').serialize();
-		$.post('check_connect', $fields, function(resp) {
-			if(resp.status) {
-				$(wizard).steps('next');
-				$return = true;
-			} else {
-				cms.clear_error();
-				parse_messages(resp.message, 'error');
-			}
-		}, 'json');
+		var response = $.ajax({
+			type: "POST",
+			url: "check_connect",
+			data: $fields,
+			async: false,
+			dataType: 'json'
+		}).responseJSON;
+	
+		if(response.status === true) return response.status;
 		
-		return $return;
+		if(response.message) {
+			cms.clear_error();
+			parse_messages(response.message, 'error');
+		}
+		
+		return false;
 	}
 	
 	$('.select2-container').remove();
