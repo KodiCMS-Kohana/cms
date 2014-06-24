@@ -64,6 +64,8 @@ class Widget_Manager {
 
 		foreach($res as $id => $widget)
 		{
+			if(!self::exists_by_type($widget['type'])) continue;
+
 			$result[$id] = unserialize($widget['code']);
 			$result[$id]->id = $widget['id'];
 			$result[$id]->name = $widget['name'];
@@ -116,6 +118,8 @@ class Widget_Manager {
 		$widgets = array();
 		foreach($res as $id => $widget)
 		{
+			if(!self::exists_by_type($widget['type'])) continue;
+
 			$widgets[$id] = unserialize($widget['code']);
 			$widgets[$id]->id = $widget['id'];
 			$widgets[$id]->name = $widget['name'];
@@ -246,7 +250,7 @@ class Widget_Manager {
 			->execute()
 			->current();
 
-		if( ! $result )
+		if( ! $result OR ! self::exists_by_type($result['type']))
 		{
 			return NULL;
 		}
@@ -461,5 +465,17 @@ class Widget_Manager {
 		}
 		
 		return $blocks_by_layout;
+	}
+	
+	/**
+	 * 
+	 * @param string $type
+	 * @return boolean
+	 */
+	public static function exists_by_type($type)
+	{
+		$class = 'Model_Widget_' . ucfirst($type);
+		
+		return class_exists($class);
 	}
 }
