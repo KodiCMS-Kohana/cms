@@ -45,7 +45,7 @@ $(function() {
 				return false;
 			}
 			
-			if(currentIndex == 2 && newIndex == 3) {
+			if(currentIndex == 2 && newIndex > currentIndex) {
 				return check_connect();
 			}
 	
