@@ -256,6 +256,7 @@ class DataSource_Hybrid_Agent {
 	 * @param array $orders
 	 * @param array $t
 	 * @param Database_Query_Builder $result
+	 * @return Database_Query_Builder
 	 */
 	protected function _fetch_orders(array $orders, &$t, $result)
 	{
