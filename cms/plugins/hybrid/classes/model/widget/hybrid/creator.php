@@ -181,6 +181,21 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Hybrid {
 	
 	protected function _show_success()
 	{
+		if(Request::current()->is_ajax())
+		{
+			$json = array('status' => TRUE);
+	
+			if( ! empty($this->redirect_url)) 
+			{
+				$json['redirect'] = URL::site($this->redirect_url);
+			}
+			
+			Request::current()->headers( 'Content-type', 'application/json' );		
+			$this->_ctx->response()->body(json_encode($json));
+			
+			exit();
+		}
+		
 		if( ! empty($this->redirect_url)) 
 		{
 			$url = URL::site($this->redirect_url);
@@ -207,7 +222,7 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Hybrid {
 			Request::current()->headers( 'Content-type', 'application/json' );		
 			$this->_ctx->response()->body(json_encode($json));
 			
-			return;
+			exit();
 		}
 		
 		Flash::set('form_errors', $this->_errors);
