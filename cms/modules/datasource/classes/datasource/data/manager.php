@@ -24,6 +24,7 @@ class Datasource_Data_Manager {
 	
 	/**
 	 * Загрузить дерево всех разделов
+	 * Если есть разделы, модули для которых отключены, они будут игнорироваться
 	 * 
 	 * @return array array([Type][ID] => array('name' => ..., 'description' => ....))
 	 */
@@ -35,6 +36,11 @@ class Datasource_Data_Manager {
 
 		foreach ( $sections as $section )
 		{
+			if( ! Datasource_Section::exists($section['type']))
+			{
+				continue;
+			}
+
 			if( self::$first_section === NULL )
 			{
 				self::$first_section = $section['id'];

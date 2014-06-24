@@ -15,15 +15,26 @@ class Datasource_Section {
 	 */
 	public static function factory($type)
 	{
-		$class = 'Datasource_Section_' . ucfirst($type);
-		
-		if( ! class_exists($class))
+		if( ! self::exists($type) )
 		{
 			throw new DataSource_Exception('Class :class_name not exists', 
 					array(':class_name' => $class));
 		}
 		
 		return new $class($type);
+	}
+	
+	/**
+	 * Проверка класса на существование по типу раздела
+	 * 
+	 * @param string $type
+	 * @return boolean
+	 */
+	public static function exists($type)
+	{
+		$class = 'Datasource_Section_' . ucfirst($type);
+		
+		return class_exists($class);
 	}
 
 	/**
