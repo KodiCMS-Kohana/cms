@@ -120,7 +120,10 @@ class KodiCMS_Controller_System_Template extends Controller_System_Security
 				$this->template = $this->template->content;
 			}
 			
-			$this->template->set('request', $this->request);
+			if($this->template instanceof View)
+			{
+				$this->template->set('request', $this->request);
+			}
 			
 			Observer::notify( 'template_before_render', $this->request );
 			$this->response->body( $this->template );
