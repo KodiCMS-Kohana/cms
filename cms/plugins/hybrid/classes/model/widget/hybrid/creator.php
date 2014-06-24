@@ -177,7 +177,7 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Hybrid {
 			$this->_errors = $e->errors('validation');
 			$this->_show_errors();
 
-			exit();
+			return;
 		}
 	}
 	
@@ -224,7 +224,7 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Hybrid {
 			Request::current()->headers( 'Content-type', 'application/json' );		
 			$this->_ctx->response()->body(json_encode($json));
 			
-			exit();
+			return;
 		}
 		
 		if( ! empty($this->redirect_url)) 
@@ -253,7 +253,7 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Hybrid {
 			Request::current()->headers( 'Content-type', 'application/json' );		
 			$this->_ctx->response()->body(json_encode($json));
 			
-			exit();
+			return;
 		}
 		
 		Flash::set('form_errors', $this->_errors);
