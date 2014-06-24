@@ -327,7 +327,7 @@ abstract class Model_Widget_Decorator {
 	 * @param array $data array(['caching'] => [BOOLEAN], 'cache_lifetime' => [INTEGER], 'cache_tags' => [ARRAY])
 	 * @return \Model_Widget_Decorator
 	 */
-	public function set_cache_settings(array $data)
+	public function set_cache_settings(array & $data)
 	{
 		$this->caching = (bool) Arr::get($data, 'caching', FALSE);
 		$this->cache_lifetime = (int) Arr::get($data, 'cache_lifetime');

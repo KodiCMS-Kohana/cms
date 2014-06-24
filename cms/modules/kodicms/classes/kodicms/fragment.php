@@ -55,7 +55,7 @@ class KodiCMS_Fragment extends Kohana_Fragment {
 	 */
 	public static function load($name, $lifetime = NULL, $i18n = NULL)
 	{
-		if ($fragment = Fragment::get($name, $lifetime, $i18n))
+		if (($fragment = Fragment::get($name, $lifetime, $i18n)) !== NULL)
 		{
 			// Display the cached fragment now
 			echo $fragment;
@@ -68,7 +68,7 @@ class KodiCMS_Fragment extends Kohana_Fragment {
 			ob_start();
 
 			// Store the cache key by the buffer level
-			Fragment::$_caches[ob_get_level()] = $cache_key;
+			Fragment::$_caches[ob_get_level()] = Fragment::_cache_key($name, $i18n);
 
 			return FALSE;
 		}
