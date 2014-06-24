@@ -154,7 +154,7 @@ function reload_blocks($layout) {
 			}
 
 			if(!found) {
-				cb = 0;
+				cb = -1;
 			}
 
 			$(this)
