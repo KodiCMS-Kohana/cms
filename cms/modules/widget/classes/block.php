@@ -36,6 +36,8 @@ class Block {
 	 */
 	public static function run( $name, array $params = array() )
 	{
+		if($name == 'PRE' OR $name == 'POST') return;
+
 		$ctx = & Context::instance();
 
 		$blocks = & $ctx->get_widget_by_block( $name );
