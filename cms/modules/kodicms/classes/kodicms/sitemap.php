@@ -5,8 +5,10 @@
  * @category	Helper
  * @author		ButscHSter
  */
-class KodiCMS_Sitemap
+class KodiCMS_Sitemap implements RecursiveIterator
 {
+	private $_position = 0;
+
 	/**
 	 * Список страниц
 	 * 
@@ -291,5 +293,42 @@ class KodiCMS_Sitemap
 		}
 		
 		return $return;
+	}
+	
+	/*********************************************
+	 * RecursiveIterator Methods
+	 **********************************************/
+	public function hasChildren()
+	{
+		return is_array($this->_array[$this->_position]['childs']);
+	}
+	
+	public function getChildren()
+	{
+		return new Sitemap($this->_array[$this->_position]['childs']);
+	}
+	public function current()
+	{
+		return $this->_array[$this->_position];
+	}
+
+	public function next()
+	{
+		$this->_position++;
+	}
+	
+	public function key()
+	{
+		return $this->_position;
+	}
+
+	public function valid()
+	{
+        return isset($this->_array[$this->_position]);
+    }
+
+	public function rewind()
+	{
+		$this->_position = 0;
 	}
 }
