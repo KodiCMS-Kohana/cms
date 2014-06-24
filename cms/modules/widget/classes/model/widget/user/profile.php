@@ -7,6 +7,12 @@
  */
 class Model_Widget_User_Profile extends Model_Widget_Decorator {
 	
+	/**
+	 *
+	 * @var ORM 
+	 */
+	protected $_user = NULL;
+
 	public function set_values(array $data) 
 	{
 		parent::set_values($data);
@@ -21,25 +27,24 @@ class Model_Widget_User_Profile extends Model_Widget_Decorator {
 	{
 		parent::on_page_load();
 		
-		if( ! $this->get_user()->loaded() AND $this->throw_404 === TRUE )
+		$user = $this->get_user();
+		if( ! $user->loaded() AND $this->throw_404 === TRUE )
 		{
 			$this->_ctx->throw_404('Profile not found');
 		}
+		
+		$this->_ctx->set('widget_profile_id', $user->id);
+		$this->_ctx->set('widget_profile_username', $user->username);
 	}
 
+	/**
+	 * 
+	 * @return array
+	 */
 	public function fetch_data()
 	{
-		$profile_id = $this->_ctx->get($this->profile_id_ctx);
+		$user = $this->get_user();
 		
-		if(Valid::numeric($profile_id))
-		{
-			$user = ORM::factory('User', $profile_id);
-		}
-		else
-		{
-			$user = Auth::instance()->get_user(ORM::factory('User'));
-		}
-
 		return array(
 			'user_found' => $user->loaded(),
 			'user' => $user,
@@ -47,22 +52,35 @@ class Model_Widget_User_Profile extends Model_Widget_Decorator {
 		);
 	}
 	
+	/**
+	 * 
+	 * @return ORM
+	 */
 	public function get_user()
 	{
-		$profile_id = $this->_ctx->get($this->profile_id_ctx);
+		if($this->_user instanceof ORM) 
+		{
+			return $this->_user;
+		}
+
+		$profile_id = $this->get_profile_id();
 		
 		if(Valid::numeric($profile_id))
 		{
-			$user = ORM::factory('User', $profile_id);
+			$this->_user = ORM::factory('User', $profile_id);
 		}
 		else
 		{
-			$user = Auth::instance()->get_user(ORM::factory('User'));
+			$this->_user = Auth::instance()->get_user(ORM::factory('User'));
 		}
 		
-		return $user;
+		return $this->_user;
 	}
 
+	/**
+	 * 
+	 * @return integer
+	 */
 	public function get_profile_id()
 	{
 		return $this->_ctx->get($this->profile_id_ctx);
