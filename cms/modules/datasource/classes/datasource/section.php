@@ -237,6 +237,8 @@ class Datasource_Section {
 		
 		unset($query, $values);
 		
+		Observer::notify('datasource_after_create', $this->_id);
+		
 		return $this->_id;
 	}
 	
@@ -286,6 +288,8 @@ class Datasource_Section {
 		
 		unset($data, $values);
 		
+		Observer::notify('datasource_after_save', $this->_id);
+		
 		return TRUE;
 	}
 	
@@ -298,13 +302,22 @@ class Datasource_Section {
 	 */
 	public function remove()
 	{
-		$this->remove_documents();
+		$ids = DB::select('id')
+			->from($this->table())
+			->where('ds_id', '=', $this->id())
+			->execute()
+			->as_array(NULL, 'id');
+
+		$this->remove_documents($ids);
 		
 		DB::delete('datasources')
 			->where('id', '=', $this->_id)
 			->execute();
 
+		$id = $this->_id;
 		$this->_id = NULL;
+		
+		Observer::notify('datasource_after_remove', $id);
 		
 		return $this;
 	}
