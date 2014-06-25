@@ -16,6 +16,7 @@
 	<div class="control-group">
 		<div class="controls">
 			<label class="checkbox"><?php echo Form::checkbox('auto_publish', 1, $widget->auto_publish); ?> <?php echo __('Set document published'); ?></label>
+			<label class="checkbox"><?php echo Form::checkbox('disable_update', 1, $widget->disable_update); ?> <?php echo __('Disable update existing documents'); ?></label>
 		</div>
 	</div>
 	

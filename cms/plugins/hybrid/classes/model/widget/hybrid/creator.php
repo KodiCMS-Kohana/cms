@@ -8,6 +8,11 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Hybrid {
 	public $use_template = FALSE;
 	public $use_caching = FALSE;
 	
+	protected $_data = array(
+		'auto_publish' => FALSE,
+		'disable_update' => TRUE
+	);
+	
 	/**
 	 * 
 	 * @return array
@@ -34,6 +39,8 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Hybrid {
 		parent::set_values($data);
 		
 		$this->auto_publish = (bool) Arr::get($data, 'auto_publish');
+		$this->disable_update = (bool) Arr::get($data, 'disable_update');
+		
 		$this->data_source_prefix = URL::title(Arr::get($data, 'data_source_prefix'), '_');
 		
 		if($this->ds_id > 0)
@@ -100,6 +107,7 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Hybrid {
 	protected function _fetch_fields( ) 
 	{
 		$fields = array(
+			'csrf', // Security token
 			'id',
 			'header', 
 			'published', 
@@ -134,7 +142,7 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Hybrid {
 		
 		$create = TRUE;
 		
-		if(empty($data['id']))
+		if(empty($data['id']) OR $this->disable_update === TRUE)
 		{
 			$document = $ds->get_empty_document();
 		}
@@ -149,6 +157,8 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Hybrid {
 				$this->_values = $data;
 				$this->_errors = __('Document ID :id not found', array(':id' => $id));
 				$this->_show_errors();
+
+				return;
 			}
 		}
 		
