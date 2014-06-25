@@ -2,7 +2,7 @@
 	$(function() {
 		var elfinder = $('#elfinder').elfinder({
 			lang: 'ru',
-			url : '/api-elfinder',
+			url : Api.build_url('elfinder'),
             resizable: false,
 			height: cms.content_height,
 			uiOptions: {

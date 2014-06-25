@@ -2,7 +2,7 @@
 	function elfinderInit(id, type) {
 		var elfinder = $('body').elfinder({
 			lang: 'ru',
-			url : '/api-elfinder',
+			url : Api.build_url('elfinder'),
 			height: 595,
 			resizable: false,
 			getFileCallback : function(file) {

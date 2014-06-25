@@ -1,6 +1,9 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-Route::set('api', 'api(/<directory>)-<controller>(.<action>)(/<id>)', array('directory' => '.*'))
+Route::set('api', '(<backend>/)api(/<directory>)-<controller>(.<action>)(/<id>)', array(
+		'backend' => ADMIN_DIR_NAME,
+		'directory' => '.*'
+	))
 	->filter(function($route, $params, $request) {
 		if (strpos($params['directory'], 'Api') === FALSE)
 		{

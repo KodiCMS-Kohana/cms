@@ -846,7 +846,7 @@ var Api = {
 		return this.response();
 	},
 	build_url: function(uri) {
-		uri = uri.replace('/' + ADMIN_DIR_NAME,'');
+		uri = uri.replace('/' + ADMIN_DIR_NAME, '');
 		
 		if(uri.indexOf('-') == -1)
 		{
@@ -862,7 +862,26 @@ var Api = {
 			uri = 'api' + uri;
 		}
 		
-		return SITE_URL + uri;
+		if(uri.indexOf(ADMIN_DIR_NAME) == -1)
+		{
+			// Add the ADMIN DIR NAME
+			if(uri.indexOf('/') != 0)
+			{
+				uri = ADMIN_DIR_NAME + '/' + uri; 
+			}
+			else
+			{
+				uri = ADMIN_DIR_NAME + uri; 
+			}	
+		}
+		
+		if(uri.indexOf(SITE_URL) == -1)
+		{
+			// Add SITE_URL.
+			uri = SITE_URL + uri;
+		}
+		
+		return uri;
 	},
 	request: function(method, uri, data, callback, show_loader) {
 		url = Api.build_url(uri);
