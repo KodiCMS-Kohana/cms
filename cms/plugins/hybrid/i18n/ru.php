@@ -122,6 +122,7 @@ return array(
 	'Select file to upload' => 'Выберите файл для загрузки',
 	'Image :image more than :size MB' => 'Изображение :image больше :size Мб',
 	'Use filemanager to get data' => 'Использовать файловый менеджер',
+	'Disable update existing documents' => 'Запретить обновление существующих документов',
 	
 	/* Validation Messages */
 	'Field with the same key :value exists.' => 'Поле с таким ключом ":value" существует',
