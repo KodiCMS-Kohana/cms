@@ -295,4 +295,5 @@ return array(
 	// 'incorrect'
 	':field is invalid'		=> 'Неверное значение в поле ":field"',
 	'Field :field must be unique' => 'Поле :field должно быть уникальным',
+	'Incorrect token' => 'Не верный токен',
 );

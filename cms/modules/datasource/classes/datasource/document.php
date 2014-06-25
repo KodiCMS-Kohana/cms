@@ -562,6 +562,10 @@ class Datasource_Document {
 
 		$validation = Validation::factory( $values );
 		
+		$validation->rules('csrf', array(
+			array('not_empty'), array('Security::check')
+		));
+		
 		foreach ($this->rules() as $field => $rules)
 		{
 			$validation->rules($field, $rules);
@@ -578,5 +582,5 @@ class Datasource_Document {
 		}
 		
 		return TRUE;
-	}	
+	}
 }

@@ -342,7 +342,14 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 	 */
 	public function validate($errors_file = 'validation')
 	{
-		$validation = Validation::factory($this->values());
+		$values = $this->values();
+		$values['csrf'] = Arr::get($this->_temp_fields, 'csrf');
+		
+		$validation = Validation::factory($values);
+		
+		$validation->rules('csrf', array(
+			array('not_empty'), array('Security::check')
+		));
 		
 		foreach ($this->rules() as $field => $rules)
 		{

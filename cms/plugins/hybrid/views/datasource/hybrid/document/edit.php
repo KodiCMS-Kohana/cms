@@ -69,6 +69,7 @@ function update_documents(e, response) {
 	)); ?>
 	<?php echo Form::hidden('ds_id', $ds->id()); ?>
 	<?php echo Form::hidden('id', $doc->id); ?>
+	<?php echo Form::hidden('csrf', Security::token()); ?>
 	<?php else: ?>
 	<div class="form-horizontal">
 	<?php endif; ?>

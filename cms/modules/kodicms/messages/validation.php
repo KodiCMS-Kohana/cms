@@ -10,4 +10,5 @@ return array(
 	
 	'database_not_empty' => 'Database not empty',
 	'incorrect'		=> ':field is invalid',
+	'Security::check' => 'Incorrect token',
 );
