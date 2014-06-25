@@ -1,6 +1,12 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
 class Model_Widget_Hybrid_Document extends Model_Widget_Hybrid {
+			
+	/**
+	 *
+	 * @var array
+	 */
+	protected static $_cached_documents = array();
 	
 	/**
 	 *
@@ -25,12 +31,6 @@ class Model_Widget_Hybrid_Document extends Model_Widget_Hybrid {
 	 * @var bool 
 	 */
 	public $crumbs = FALSE;
-		
-	/**
-	 *
-	 * @var array
-	 */
-	public $document = array();
 	
 	/**
 	 *
@@ -162,9 +162,9 @@ class Model_Widget_Hybrid_Document extends Model_Widget_Hybrid {
 			return $result;
 		}
 		
-		if(isset($this->document[$id]))
+		if(isset(Model_Widget_Hybrid_Document::$_cached_documents[$id]))
 		{
-			return $this->document[$id];
+			return Model_Widget_Hybrid_Document::$_cached_documents[$id];
 		}
 		
 		$agent = $this->get_agent();
@@ -216,7 +216,7 @@ class Model_Widget_Hybrid_Document extends Model_Widget_Hybrid {
 			unset($result[$key]);
 		}
 		
-		$this->document[$id] = $result;
+		Model_Widget_Hybrid_Document::$_cached_documents[$id] = $result;
 		
 		return $result;
 	}
