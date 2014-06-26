@@ -201,7 +201,7 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Decorator {
 			Widget_Manager::update($this);
 		}
 		
-		parent::fetch_backend_content();
+		return parent::fetch_backend_content();
 	}
 	
 	public function fetch_data()
