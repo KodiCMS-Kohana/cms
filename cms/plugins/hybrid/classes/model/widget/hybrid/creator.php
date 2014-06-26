@@ -133,17 +133,17 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Decorator {
 		if(empty($data['meta_keywords'])) $data['meta_keywords'] = '';
 		if(empty($data['meta_description'])) $data['meta_description'] = '';
 		
-		if($this->auto_publish === TRUE)
-		{
-			$data['published'] = TRUE;
-		}
-		
 		$ds = Datasource_Data_Manager::load($this->ds_id);
 		
 		$create = TRUE;
 		
 		if(empty($data['id']) OR $this->disable_update === TRUE)
 		{
+			if($this->auto_publish === TRUE)
+			{
+				$data['published'] = TRUE;
+			}
+		
 			$document = $ds->get_empty_document();
 		}
 		else
