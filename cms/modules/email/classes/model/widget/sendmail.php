@@ -112,7 +112,7 @@ class Model_Widget_SendMail extends Model_Widget_Decorator {
 				$json['errors'] = $this->_errors;
 				$json['values'] = $this->_values;
 			} 
-			else if( $this->send_message() )
+			else if( $this->handle_email_type($this->_values) )
 			{
 				$json = array('status' => TRUE);
 			}
