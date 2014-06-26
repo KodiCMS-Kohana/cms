@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
-class Model_Widget_Hybrid_Creator extends Model_Widget_Hybrid {
+class Model_Widget_Hybrid_Creator extends Model_Widget_Decorator {
 
 	const GET = 1;
 	const POST = 2;
@@ -201,18 +201,7 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Hybrid {
 			Widget_Manager::update($this);
 		}
 		
-		try
-		{
-			$content = View::factory( 'widgets/backend/' . $this->backend_template(), array(
-					'widget' => $this
-				))->set($this->backend_data());
-		}
-		catch( Kohana_Exception $e)
-		{
-			$content = NULL;
-		}
-		
-		return $content;
+		parent::fetch_backend_content();
 	}
 	
 	public function fetch_data()

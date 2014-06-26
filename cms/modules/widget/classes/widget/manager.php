@@ -478,4 +478,28 @@ class Widget_Manager {
 		
 		return class_exists($class);
 	}
+	
+	/**
+	 * 
+	 * @param array $types
+	 * @param integer $ds_id
+	 * @return array
+	 */
+	public static function get_related( array $types, $ds_id = NULL )
+	{
+		$db_widgets = Widget_Manager::get_widgets( $types );
+
+		$widgets = array();
+		foreach ($db_widgets as $id => $widget)
+		{
+			if($ds_id !== NULL AND $ds_id != $widget->ds_id)
+			{
+				continue;
+			}
+
+			$widgets[$id] = $widget->name;
+		}
+
+		return $widgets;
+	}
 }

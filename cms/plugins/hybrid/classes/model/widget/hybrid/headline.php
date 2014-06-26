@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
-class Model_Widget_Hybrid_Headline extends Model_Widget_Hybrid {
+class Model_Widget_Hybrid_Headline extends Model_Widget_Decorator_Pagination {
 	/**
 	 *
 	 * @var array 
@@ -160,7 +160,7 @@ class Model_Widget_Hybrid_Headline extends Model_Widget_Hybrid {
 	
 	public function get_total_documents()
 	{
-		$agent = $this->get_agent();
+		$agent = DataSource_Hybrid_Agent::instance($this->ds_id);
 
 		$query = $agent->get_query_props(array(), array(), $this->doc_filter);
 		$query = $this->_search_by_keyword($query);
@@ -191,13 +191,8 @@ class Model_Widget_Hybrid_Headline extends Model_Widget_Hybrid {
 
 		$result = array();
 		
-		$agent = $this->get_agent();
+		$agent = DataSource_Hybrid_Agent::instance($this->ds_id);
 
-		if( ! $agent )
-		{
-			return $result;
-		}
-		
 		$query = $this
 			->_get_query();
 		
@@ -283,7 +278,7 @@ class Model_Widget_Hybrid_Headline extends Model_Widget_Hybrid {
 	 */
 	protected function _get_query()
 	{
-		$agent = $this->get_agent();
+		$agent = DataSource_Hybrid_Agent::instance($this->ds_id);
 		
 		if($this->sort_by_rand === TRUE)
 		{

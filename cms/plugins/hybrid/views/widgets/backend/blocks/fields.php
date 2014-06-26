@@ -48,7 +48,7 @@
 						$types = $field->widget_types();
 						if($types !== NULL)
 						{
-							$widgets = $widget->get_related_widgets($field->widget_types(), $field->from_ds);
+							$widgets = Widget_Manager::get_related($field->widget_types(), $field->from_ds);
 
 							if(isset($widgets[$widget->id])) unset($widgets[$widget->id]);
 

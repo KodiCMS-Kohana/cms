@@ -61,7 +61,7 @@ class Datasource_Data_Manager {
 	 * @param	string	$type Фильтрация по типу разделов
 	 * @return	array array([ID] => array('id' => ..., 'name' => ...., 'type' => ...., 'description' => ....), ...)
 	 */
-	public static function get_all( $type = NULL) 
+	public static function get_all( $type = NULL ) 
 	{
 		if(is_array($type) AND empty($type)) return array();
 
@@ -78,6 +78,23 @@ class Datasource_Data_Manager {
 		return $sections
 			->execute()
 			->as_array('id');
+	}
+	
+	/**
+	 * Получение списка разделов для выпадающего списка
+	 * @return array
+	 */
+	public static function get_all_as_options( $type = NULL )
+	{
+		$datasources = self::get_all($type);
+		
+		$options = array(__('--- Not set ---'));
+		foreach ($datasources as $value)
+		{
+			$options[$value['id']] = $value['name'];
+		}
+
+		return $options;
 	}
 
 

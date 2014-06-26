@@ -40,6 +40,4 @@ class Model_Widget_Hybrid_Editor extends Model_Widget_Hybrid_Document {
 			'document' => $document
 		);
 	}
-	
-	public function count_total() { return 1; }
 }
