@@ -582,7 +582,7 @@ abstract class DataSource_Hybrid_Field {
 	 * @param Database_Query $query
 	 * @return \Database_Query
 	 */
-	public function get_query_props(Database_Query $query)
+	public function get_query_props(Database_Query $query, DataSource_Hybrid_Agent $agent)
 	{
 		return $query;
 	}

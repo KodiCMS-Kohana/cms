@@ -95,7 +95,7 @@ class DataSource_Hybrid_Field_Source_Document extends DataSource_Hybrid_Field_So
 		return parent::fetch_headline_value($value);
 	}
 	
-	public function get_query_props(\Database_Query $query)
+	public function get_query_props(\Database_Query $query, DataSource_Hybrid_Agent $agent)
 	{
 		return $query->join(array('ds' . $this->ds_type, 'dss' . $this->id), 'left')
 			->on(DataSource_Hybrid_Field::PREFFIX . $this->key, '=', 'dss' . $this->id . '.id')

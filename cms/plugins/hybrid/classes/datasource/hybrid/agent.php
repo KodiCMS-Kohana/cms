@@ -232,7 +232,7 @@ class DataSource_Hybrid_Agent {
 
 			$result->select(array(DataSource_Hybrid_Field::PREFFIX . $field->key, $fid));
 			
-			$result = $field->get_query_props($result);
+			$result = $field->get_query_props($result, $this);
 
 			unset($field);
 		}
