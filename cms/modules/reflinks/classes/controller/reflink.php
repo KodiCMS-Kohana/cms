@@ -20,10 +20,7 @@ class Controller_Reflink extends Controller_System_Controller {
 		try
 		{
 			Database::instance()->begin();
-			
-			Reflink::factory($reflink_model)
-				->confirm();
-			
+			Reflink::factory($reflink_model)->confirm();
 			Database::instance()->commit();
 		}
 		catch ( Kohana_Exception $e )
