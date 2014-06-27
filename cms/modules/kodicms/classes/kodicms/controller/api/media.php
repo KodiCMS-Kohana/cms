@@ -10,11 +10,18 @@ class KodiCMS_Controller_API_Media extends Controller_System_Api {
 	public function get_images()
 	{
 		$json = array();
+
+		$module = $this->param('module');
+
 		$images = ORM::factory('media')
-			->where('content_type', '=', 'image')
-			->find_all();
+			->where('content_type', '=', 'image');
 		
-		foreach ($images as $image)
+		if($module !== NULL)
+		{
+			$images->where('module', '=', $module);
+		}
+		
+		foreach ($images->find_all() as $image)
 		{
 			$json[] = array(
 				'thumb' => Image::cache($image->filename, 100, 100, Image::INVERSE),
@@ -24,13 +31,16 @@ class KodiCMS_Controller_API_Media extends Controller_System_Api {
 			);
 		}
 		
-		$this->json = json_encode($json);
+		$this->response($json);
 	}
 	
 	public function post_images()
 	{
 		$json = array();
 		$file = $_FILES['file'];
+		
+		$module = $this->param('module', 'default');
+		
 		if( ! Upload::not_empty($file) ) 
 		{
 			$this->json = json_encode($json);
@@ -38,11 +48,11 @@ class KodiCMS_Controller_API_Media extends Controller_System_Api {
 		}
 		
 		$uploaded_file = ORM::factory('media')
-			->set('module', 'redactorJS')
+			->set('module', $module)
 			->upload($file, array('jpg', 'jpeg', 'gif', 'png'));
 		
 		$json = array('filelink' => PUBLIC_URL . $uploaded_file->filename);
 		
-		$this->json = json_encode($json);
+		$this->response($json);
 	}
 }

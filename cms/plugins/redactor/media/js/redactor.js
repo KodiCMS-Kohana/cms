@@ -4,6 +4,7 @@ cms.plugins.redactor = {
 			focus: true,
 			imageGetJson: Api.build_url('media.images'),
 			imageUpload: Api.build_url('media.images'),
+			uploadFields: {'module': 'redactorJS'},
 			autoresize: false,
 			lang: LOCALE,
 			minHeight: 200

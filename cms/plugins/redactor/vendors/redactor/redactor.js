@@ -3170,7 +3170,7 @@ var RLANG = {
 						var z = 0;
 
 						// folders
-						$.each(data, $.proxy(function(key, val)
+						$.each(data.response, $.proxy(function(key, val)
 						{
 							if (typeof val.folder !== 'undefined')
 							{
@@ -3181,7 +3181,7 @@ var RLANG = {
 						}, this));
 
 						var folderclass = false;
-						$.each(data, $.proxy(function(key, val)
+						$.each(data.response, $.proxy(function(key, val)
 						{
 							// title
 							var thumbtitle = '';
@@ -3315,7 +3315,7 @@ var RLANG = {
 		},
 		imageUploadCallback: function(data)
 		{
-			this._imageSet(data);
+			this._imageSet(data.response);
 		},
 		_imageSet: function(json, link)
 		{
