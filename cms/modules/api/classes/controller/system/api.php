@@ -134,12 +134,18 @@ class Controller_System_API extends Controller_System_Ajax {
 
 		$action = strtolower($action);
 
+		$is_logged_in = AuthUser::isLoggedIn();
+
 		try 
 		{
 			/**
 			 * Если выключено API, запретить доступ не авторизованным пользователям к нему
 			 */
-			if (Config::get('api', 'mode') == 'no' AND ! AuthUser::isLoggedIn())
+			if (
+				(Config::get('api', 'mode') == 'no' AND ! $is_logged_in)
+				OR
+				($this->is_backend() AND ! $is_logged_in)
+			)
 			{
 				throw new HTTP_Exception_403('Forbiden');
 			}
@@ -148,7 +154,7 @@ class Controller_System_API extends Controller_System_Ajax {
 			 * Если невалидный ключ и пользователь не авторизован 
 			 * или экшен не публичный то запретить доступ к API
 			 */
-			if ( ! AuthUser::isLoggedIn() AND ! in_array($action, $this->public_actions))
+			if ( ! $is_logged_in AND ! in_array($action, $this->public_actions))
 			{
 				if ( ! $this->_model->is_valid($this->param('api_key')))
 				{
@@ -284,5 +290,15 @@ class Controller_System_API extends Controller_System_Ajax {
 			Kohana::$log->add(Log::NOTICE, 'Error security token')->write();
 			throw HTTP_API_Exception::factory(API::ERROR_TOKEN, 'Error security token');
 		}
+	}
+	
+	/**
+	 * Проверка из какой части системы пользователь получает доступ к API
+	 * 
+	 * @return boolean
+	 */
+	public function is_backend()
+	{
+		return  $this->request->param('backend') === ADMIN_DIR_NAME;
 	}
 }
