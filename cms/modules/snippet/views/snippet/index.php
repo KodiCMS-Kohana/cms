@@ -37,7 +37,13 @@
 						<?php endif; ?>
 						
 						<?php if( ACL::check('snippet.edit') OR ACL::check('snippet.view')): ?>
-						<?php echo HTML::anchor(Route::get('backend', array('controller' => 'snippet', 'action' => 'edit', 'id' => $snippet->name)), $snippet->name)->uri(array('class' => ! $snippet->is_writable() ? 'popup fancybox.iframe' : '')); ?>
+						<?php echo HTML::anchor(Route::get('backend')->uri(array(
+							'controller' => 'snippet', 
+							'action' => 'edit', 
+							'id' => $snippet->name
+						)), $snippet->name, array(
+							'class' => ! $snippet->is_writable() ? 'popup fancybox.iframe' : ''
+						)); ?>
 						<?php else: ?>
 						<?php echo UI::icon('lock'); ?> <?php echo $snippet->name; ?>
 						<?php endif; ?>

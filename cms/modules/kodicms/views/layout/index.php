@@ -47,7 +47,13 @@
 						<?php endif; ?>
 						
 						<?php if( ACL::check( 'layout.edit') OR ACL::check( 'layout.view')): ?>
-						<?php echo HTML::anchor(Route::get('backend', array('controller' => 'layout', 'action' => 'edit', 'id' => $layout->name)), $layout->name)->uri(array('class' => ! $layout->is_writable() ? 'popup fancybox.iframe' : '')); ?>
+						<?php echo HTML::anchor(Route::get('backend')->uri(array(
+							'controller' => 'layout', 
+							'action' => 'edit', 
+							'id' => $layout->name
+						)), $layout->name, array(
+							'class' => ! $layout->is_writable() ? 'popup fancybox.iframe' : ''
+						)); ?>
 						<?php else: ?>
 						<?php echo UI::icon('lock'); ?> <?php echo $layout->name; ?>
 						<?php endif; ?>
