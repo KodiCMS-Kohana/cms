@@ -1,8 +1,8 @@
 <div class="widget widget-nopad">
 	<div class="widget-header">
-		<?php if ( Acl::check( 'scheduler.add')): ?>
+		<?php if ( Acl::check('scheduler.add')): ?>
 		<?php echo UI::button(__('Add job'), array(
-			'href' => Route::url( 'backend', array('controller' => 'scheduler', 'action' => 'add')), 
+			'href' => Route::get('backend')->uri(array('controller' => 'scheduler', 'action' => 'add')), 
 			'icon' => UI::icon('plus'),
 			'hotkeys' => 'ctrl+a'
 		)); ?>
@@ -33,8 +33,8 @@
 				<?php foreach ($jobs as $job): ?>
 					<tr class="item">
 						<td class="job-name">
-							<?php if ( Acl::check( 'scheduler.edit')): ?>
-							<?php echo HTML::anchor(Route::url('backend', array(
+							<?php if ( Acl::check('scheduler.edit')): ?>
+							<?php echo HTML::anchor(Route::get('backend')->uri(array(
 								'controller' => 'scheduler',
 								'action' => 'edit',
 								'id' => $job->id
@@ -56,9 +56,9 @@
 							<?php echo Date::format($job->date_next_run, 'j/m/Y H:i:s'); ?>
 						</td>
 						<td class="actions">
-							<?php if ( Acl::check( 'scheduleremail.templates.delete')): ?>
+							<?php if ( Acl::check('scheduleremail.templates.delete')): ?>
 							<?php echo UI::button(NULL, array(
-								'href' => Route::url('backend', array(
+								'href' => Route::get('backend')->uri(array(
 									'controller' => 'scheduler',
 									'action' => 'delete',
 									'id' => $job->id

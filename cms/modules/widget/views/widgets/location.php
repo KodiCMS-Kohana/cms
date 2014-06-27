@@ -1,7 +1,7 @@
 <div class="widget">
 	<?php echo Form::open(Request::current()->uri()); ?>
 	<div class="widget-content ">
-		<h3>&larr; <?php echo HTML::anchor(Route::url('backend', array(
+		<h3>&larr; <?php echo HTML::anchor(Route::get('backend')->uri(array(
 				'controller' => 'widgets', 
 				'action' => 'edit',
 				'id' => $widget->id)), $widget->name); ?></h3>
@@ -77,7 +77,7 @@ function recurse_pages( $pages, $spaces = 0, $layouts_blocks = array(), $page_wi
 		
 		if ( Acl::check( 'page.edit'))
 		{
-			$data .= '<th>' . str_repeat("-&nbsp;", $spaces) . HTML::anchor(Route::url('backend', array(
+			$data .= '<th>' . str_repeat("-&nbsp;", $spaces) . HTML::anchor(Route::get('backend')->uri(array(
 				'controller' => 'page',
 				'action' => 'edit',
 				'id' => $page['id']

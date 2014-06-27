@@ -1,7 +1,7 @@
 <tr>
 	<th>
 		<?php if( ACL::check( 'widgets.edit')): ?>
-		<?php echo HTML::anchor(Route::url('backend', array(
+		<?php echo HTML::anchor(Route::get('backend')->uri(array(
 			'controller' => 'widgets', 'action' => 'edit', 'id' => $widget->id
 		)), $widget->name, array('target' => 'blank')); ?>
 		<?php else: ?>
@@ -26,7 +26,7 @@
 			'class' => 'widget-blocks', 
 			'data-layout' => $page->layout())); ?>
 		<?php echo UI::button(NULL, array(
-			'href' => Route::url('backend', array(
+			'href' => Route::get('backend')->uri(array(
 				'controller' => 'widgets', 
 				'action' => 'location',
 				'id' => $widget->id)), 

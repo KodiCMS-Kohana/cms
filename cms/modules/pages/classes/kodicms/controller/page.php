@@ -16,7 +16,7 @@ class KodiCMS_Controller_Page extends Controller_System_Backend {
 		parent::before();
 
 		$this->breadcrumbs
-			->add(__('Pages'), Route::url('backend', array('controller' => 'page')));
+			->add(__('Pages'), Route::get('backend')->uri(array('controller' => 'page')));
 	}
 
 	public function action_index()

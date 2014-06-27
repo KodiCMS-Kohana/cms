@@ -138,7 +138,7 @@ function update_documents(e, response) {
 		
 	<?php if(Acl::check('hybrid'.$ds->id().'.document.edit')): ?>
 	<div class="form-actions widget-footer">
-		<?php echo UI::actions(TRUE, Route::url('datasources', array(
+		<?php echo UI::actions(TRUE, Route::get('datasources')->uri(array(
 			'controller' => 'data',
 			'directory' => 'datasources'
 		)) . URL::query(array('ds_id' => $ds->id()), FALSE)); ?>

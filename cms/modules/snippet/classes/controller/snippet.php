@@ -16,7 +16,7 @@ class Controller_Snippet extends Controller_System_Backend {
 		
 		parent::before();
 		$this->breadcrumbs
-			->add(__('Snippets'), Route::url('backend', array('controller' => 'snippet')));
+			->add(__('Snippets'), Route::get('backend')->uri(array('controller' => 'snippet')));
 	}
 
 	public function action_index()

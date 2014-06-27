@@ -31,7 +31,7 @@ class Model_Widget_User_Forgot extends Model_Widget_Decorator {
 
 		if(!Valid::email( $email ))
 		{
-			Messages::errors( __('Use a valid e-mail address.') );
+			Messages::errors(__('Use a valid e-mail address.'));
 			HTTP::redirect($referrer_page);
 		}
 		
@@ -41,11 +41,11 @@ class Model_Widget_User_Forgot extends Model_Widget_Decorator {
 		
 		if( ! $user->loaded() )
 		{
-			Messages::errors( __('No user found!') );
+			Messages::errors(__('No user found!'));
 			HTTP::redirect($referrer_page);
 		}
 		
-		$reflink = ORM::factory( 'user_reflink' )->generate($user, 'forgot');
+		$reflink = ORM::factory('user_reflink')->generate($user, 'forgot');
 
 		if( ! $reflink )
 		{
@@ -60,15 +60,15 @@ class Model_Widget_User_Forgot extends Model_Widget_Decorator {
 			Email_Type::get('user_request_password')->send(array(
 				'username' => $user->username,
 				'email' => $user->email,
-				'reflink' => ltrim( Route::url( 'reflink', array('code' => $reflink) ), '/'),
+				'reflink' => Route::url('reflink', array('code' => $reflink)),
 				'code' => $reflink
 			));
 
-			Messages::success( __('Email with reflink send to address set in your profile' ));
+			Messages::success(__('Email with reflink send to address set in your profile'));
 		} 
 		catch (Exception $e)
 		{
-			Messages::error( __('Something went wrong' ));
+			Messages::error(__('Something went wrong'));
 		}
 		
 		HTTP::redirect($next_page);

@@ -10,13 +10,13 @@ return array(
 				'children' => array(
 					array(
 						'name' => 'Email templates',
-						'url' => Route::url('email_controllers', array('controller' => 'templates')),
+						'url' => Route::get('email_controllers')->uri(array('controller' => 'templates')),
 						'permissions' => 'email.templates.index',
 						'priority' => 400,
 					),
 					array(
 						'name' => 'Email types',
-						'url' => Route::url('email_controllers', array('controller' => 'types')),
+						'url' => Route::get('email_controllers')->uri(array('controller' => 'types')),
 						'permissions' => 'email.types.index',
 						'priority' => 410,
 					)

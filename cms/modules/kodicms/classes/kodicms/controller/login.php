@@ -35,7 +35,7 @@ class KodiCMS_Controller_Login extends Controller_System_Frontend {
 		}
 
 		$this->template->title = __('Login');
-		$this->template->content = View::factory( 'system/login' );
+		$this->template->content = View::factory('system/login');
 		
 		$this->template->content->install_data = Session::instance()->get_once('install_data');
 	}
@@ -99,7 +99,7 @@ class KodiCMS_Controller_Login extends Controller_System_Frontend {
 			Messages::errors( $array->errors( 'validation' ) );
 		}
 
-		$this->go( Route::get('user')->uri(array( 'action' => 'login' ) ) );
+		$this->go(Route::get('user')->uri(array( 'action' => 'login' )));
 	}
 
 	public function action_logout()
@@ -126,7 +126,7 @@ class KodiCMS_Controller_Login extends Controller_System_Frontend {
 		
 			Context::instance()->set('email', Arr::path($_POST, 'forgot.email'));
 			$widget->set_values(array(
-				'next_url' => Route::url( 'user', array('action' => 'login') )
+				'next_url' => Route::get('user')->uri(array('action' => 'login'))
 			))->on_page_load();
 		}
 

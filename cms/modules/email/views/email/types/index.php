@@ -1,8 +1,8 @@
 <div class="widget widget-nopad">
 	<div class="widget-header">
-		<?php if ( Acl::check( 'email.types.add')): ?>
+		<?php if ( Acl::check('email.types.add')): ?>
 		<?php echo UI::button(__('Add email type'), array(
-			'href' => Route::url( 'email_controllers', array('controller' => 'types', 'action' => 'add')), 
+			'href' => Route::get('email_controllers')->uri(array('controller' => 'types', 'action' => 'add')), 
 			'icon' => UI::icon('plus'),
 			'hotkeys' => 'ctrl+a'
 		)); ?>
@@ -27,8 +27,8 @@
 				<?php foreach ($types as $type): ?>
 				<tr class="item">
 					<td class="name">
-						<?php if ( Acl::check( 'email.types.edit')): ?>
-						<?php echo HTML::anchor(Route::url('email_controllers', array(
+						<?php if (Acl::check('email.types.edit')): ?>
+						<?php echo HTML::anchor(Route::get('email_controllers')->uri(array(
 							'controller' => 'types',
 							'action' => 'edit',
 							'id' => $type->id
@@ -41,9 +41,9 @@
 						<?php echo UI::label($type->code); ?>
 					</td>
 					<td class="actions">
-						<?php if ( Acl::check( 'email.types.delete')): ?>
+						<?php if (Acl::check('email.types.delete')): ?>
 						<?php echo UI::button(NULL, array(
-							'href' => Route::url('email_controllers', array(
+							'href' => Route::get('email_controllers')->uri(array(
 								'controller' => 'types',
 								'action' => 'delete',
 								'id' => $type->id

@@ -2,7 +2,7 @@
 	<div class="widget-header">
 		<?php if ( Acl::check('roles.add')): ?>
 		<?php echo UI::button(__('Add role'), array(
-			'href' => Route::url( 'backend', array('controller' => 'roles', 'action' => 'add')), 
+			'href' => Route::get('backend')->uri(array('controller' => 'roles', 'action' => 'add')), 
 			'icon' => UI::icon('plus'),
 			'hotkeys' => 'ctrl+a'
 		)); ?>
@@ -29,7 +29,7 @@
 					<td class="name">
 						<?php echo UI::icon('unlock-alt'); ?>
 						<?php if ( Acl::check( 'roles.edit')): ?>
-						<?php echo HTML::anchor(Route::url('backend', array(
+						<?php echo HTML::anchor(Route::get('backend')->uri(array(
 							'controller' => 'roles',
 							'action' => 'edit',
 							'id' => $role->id
@@ -46,7 +46,7 @@
 						if ($role->id > 2 AND ACL::check('roles.delete'))
 						{
 							echo UI::button(NULL, array(
-								'href' => Route::url('backend', array(
+								'href' => Route::get('backend')->uri(array(
 									'controller' => 'roles',
 									'action' => 'delete',
 									'id' => $role->id

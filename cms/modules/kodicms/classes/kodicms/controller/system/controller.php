@@ -67,7 +67,7 @@ class KodiCMS_Controller_System_Controller extends Controller
 				$route_params = Arr::merge( $route_params, $url );
 			}
 			
-			$url = Route::url('backend', $route_params);
+			$url = Route::get('backend')->uri($route_params);
 		}
 		
 		if( is_array( $this->query_params ) )

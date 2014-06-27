@@ -103,7 +103,7 @@ class KodiCMS_Model_Role extends Model_Auth_Role {
 	public function after_create()
 	{	
 		Kohana::$log->add(Log::INFO, 'Role :role has been added by :user', array(
-			':role' => HTML::anchor(Route::url('backend', array(
+			':role' => HTML::anchor(Route::get('backend')->uri(array(
 				'controller' => 'roles',
 				'action' => 'edit',
 				'id' => $this->id
@@ -116,7 +116,7 @@ class KodiCMS_Model_Role extends Model_Auth_Role {
 	public function after_update()
 	{
 		Kohana::$log->add(Log::INFO, 'Role :role has been updated by :user', array(
-			':role' => HTML::anchor(Route::url('backend', array(
+			':role' => HTML::anchor(Route::get('backend')->uri(array(
 				'controller' => 'roles',
 				'action' => 'edit',
 				'id' => $this->id
@@ -129,7 +129,7 @@ class KodiCMS_Model_Role extends Model_Auth_Role {
 	public function before_delete()
 	{
 		Kohana::$log->add(Log::INFO, 'Role :role has been deleted by :user', array(
-			':role' => HTML::anchor(Route::url('backend', array(
+			':role' => HTML::anchor(Route::get('backend')->uri(array(
 				'controller' => 'roles',
 				'action' => 'edit',
 				'id' => $this->id

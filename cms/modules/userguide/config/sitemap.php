@@ -6,14 +6,14 @@ return array(
 		'children' => array(
 			array(
 				'name' => 'User Guide', 
-				'url' => Route::url('backend', array('controller' => 'guide', 'action' => 'doc')),
+				'url' => Route::get('backend')->uri(array('controller' => 'guide', 'action' => 'doc')),
 				'priority' => 101,
 				'icon' => 'book',
 				'hotkeys' => 'f1'
 			),
 			array(
 				'name' => 'API Browser', 
-				'url' => Route::url('backend', array('controller' => 'guide', 'action' => 'api')),
+				'url' => Route::get('backend')->uri(array('controller' => 'guide', 'action' => 'api')),
 				'priority' => 102,
 				'icon' => 'beaker',
 				'hotkeys' => 'f2'

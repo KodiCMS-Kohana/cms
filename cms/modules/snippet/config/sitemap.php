@@ -6,7 +6,7 @@ return array(
 		'children' => array(
 			array(
 				'name' => 'Snippets', 
-				'url' => Route::url('backend', array('controller' => 'snippet')),
+				'url' => Route::get('backend')->uri(array('controller' => 'snippet')),
 				'permissions' => 'snippet.index',
 				'priority' => 200,
 				'icon' => 'food'

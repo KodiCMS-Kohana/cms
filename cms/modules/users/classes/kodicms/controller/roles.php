@@ -11,8 +11,8 @@ class KodiCMS_Controller_Roles extends Controller_System_Backend {
 	{
 		parent::before();
 		$this->breadcrumbs
-			->add(__('Users'), Route::url( 'backend', array('controller' => 'users')))
-			->add(__('Roles'), Route::url( 'backend', array('controller' => 'roles')));
+			->add(__('Users'), Route::get('backend')->uri(array('controller' => 'users')))
+			->add(__('Roles'), Route::get('backend')->uri(array('controller' => 'roles')));
 	}
 
 	public function action_index()
@@ -22,7 +22,7 @@ class KodiCMS_Controller_Roles extends Controller_System_Backend {
 		$roles = ORM::factory('role');
 		$pager = $roles->add_pager();
 		
-		$this->template->content = View::factory( 'roles/index', array(
+		$this->template->content = View::factory('roles/index', array(
 			'roles' => $roles->find_all(),
 			'pager' => $pager
 		) );
@@ -30,7 +30,7 @@ class KodiCMS_Controller_Roles extends Controller_System_Backend {
 	
 	public function action_add()
 	{
-		$data = Flash::get( 'roles::add::data', array() );
+		$data = Flash::get('roles::add::data', array() );
 
 		$role = ORM::factory('role')->values($data);
 
@@ -93,7 +93,7 @@ class KodiCMS_Controller_Roles extends Controller_System_Backend {
 		
 		if( ! $role->loaded() )
 		{
-			Messages::errors( __('Role not found!') );
+			Messages::errors(__('Role not found!') );
 			$this->go();
 		}
 
@@ -104,7 +104,7 @@ class KodiCMS_Controller_Roles extends Controller_System_Backend {
 
 		$this->set_title(__('Edit role'));
 
-		$this->template->content = View::factory( 'roles/edit', array(
+		$this->template->content = View::factory('roles/edit', array(
 			'action' => 'edit',
 			'role' => $role
 		) );
@@ -119,16 +119,16 @@ class KodiCMS_Controller_Roles extends Controller_System_Backend {
 		{
 			$role = $role->values($data)->update();
 
-			if ( Acl::check( 'roles.change_permissions') AND ! empty($data['permissions']))
+			if ( Acl::check('roles.change_permissions') AND ! empty($data['permissions']))
 			{
 				$role->set_permissions($data['permissions']);
 			}
 
-			Messages::success( __( 'Role has been saved!' ) );
+			Messages::success(__( 'Role has been saved!' ) );
 		}
 		catch (ORM_Validation_Exception $e)
 		{
-			Messages::errors( $e->errors('validation') );
+			Messages::errors($e->errors('validation') );
 			$this->go_back();
 		}
 
@@ -152,7 +152,7 @@ class KodiCMS_Controller_Roles extends Controller_System_Backend {
 
 		if ( $id < 2 )
 		{
-			Messages::success( __( 'Action disabled!' ) );
+			Messages::success(__('Action disabled!' ) );
 			$this->go();
 		}
 
@@ -160,18 +160,18 @@ class KodiCMS_Controller_Roles extends Controller_System_Backend {
 
 		if( ! $role->loaded() )
 		{
-			Messages::errors( __('Role not found!') );
+			Messages::errors(__('Role not found!') );
 			$this->go();
 		}
 
 		try
 		{
 			$role->delete();
-			Messages::success( __( 'Role has been deleted!' ) );
+			Messages::success(__( 'Role has been deleted!' ) );
 		} 
 		catch (Kohana_Exception $e)
 		{
-			Messages::errors( __( 'Something went wrong!' ) );
+			Messages::errors(__( 'Something went wrong!' ) );
 		}
 
 		$this->go();

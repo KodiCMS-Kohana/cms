@@ -28,7 +28,7 @@
 		'header' => __('Widget template'),
 		'template' => $widget->template,
 		'default' => $widget->default_template() ? UI::button(__('Default template'), array(
-			'href' => Route::url('backend', array(
+			'href' => Route::get('backend')->uri(array(
 				'controller' => 'widgets', 
 				'action' => 'template',
 				'id' => $widget->id
@@ -99,7 +99,7 @@
 		<div class="control-group">
 			<div class="controls">
 				<p class="help-block"><?php echo __('For including media files uses class :class', array(
-					':class' => HTML::anchor(Route::url('docs/guide', array('module' => 'assets', 'page' => 'usage')), 'Assets')
+					':class' => HTML::anchor(Route::get('docs/guide')->uri(array('module' => 'assets', 'page' => 'usage')), 'Assets')
 				)); ?></p>
 			</div>
 
@@ -130,7 +130,7 @@
 	<?php if( ACL::check('widgets.location') ): ?>
 	<div class="widget-content ">
 		<?php echo Bootstrap_Element_Button::factory(array(
-			'href' => Route::url('backend', array(
+			'href' => Route::get('backend')->uri(array(
 					'controller' => 'widgets', 
 					'action' => 'location',
 					'id' => $widget->id)), 

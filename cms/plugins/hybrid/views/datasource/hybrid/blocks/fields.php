@@ -105,7 +105,7 @@ $(function() {
 				</td>
 				<td>
 					<?php if(Acl::check($ds->type().$ds->id().'.field.edit')): ?>
-					<?php echo HTML::anchor(Route::url('datasources', array(
+					<?php echo HTML::anchor(Route::get('datasources')->uri(array(
 						'controller' => 'field',
 						'directory' => 'hybrid',
 						'action' => 'edit',
@@ -134,7 +134,7 @@ $(function() {
 	<div class="btn-group">
 		<?php if(Acl::check($ds->type().$ds->id().'.field.edit')): ?>
 		<?php echo UI::button(__('Add field'), array(
-			'href' => Route::url('datasources', array(
+			'href' => Route::get('datasources')->uri(array(
 				'controller' => 'field',
 				'directory' => 'hybrid',
 				'action' => 'add',

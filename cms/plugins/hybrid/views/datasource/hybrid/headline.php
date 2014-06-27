@@ -35,7 +35,7 @@
 						<?php if(Acl::check('hybrid'.$ds_id.'.document.view') OR Acl::check('hybrid'.$ds_id.'.document.edit')): ?>
 						<td class="row-<?php echo $key; ?>">
 							<strong>
-							<?php echo HTML::anchor(Route::url('datasources', array(
+							<?php echo HTML::anchor(Route::get('datasources')->uri(array(
 								'controller' => 'document',
 								'directory' => 'hybrid',
 								'action' => 'view'

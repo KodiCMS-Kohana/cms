@@ -24,7 +24,7 @@
 			<div class="span5">
 				<div class="list-group">
 					<?php if ( Acl::check( 'users.edit') OR $user->id == AuthUser::getId() ): ?>
-					<a href="<?php echo Route::url('backend', array(
+					<a href="<?php echo Route::get('backend')->uri(array(
 							'controller' => 'users',
 							'action' => 'edit',
 							'id' => $user->id
