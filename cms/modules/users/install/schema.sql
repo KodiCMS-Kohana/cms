@@ -28,8 +28,8 @@ CREATE TABLE IF NOT EXISTS `__TABLE_PREFIX__users` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
 
 CREATE TABLE IF NOT EXISTS `__TABLE_PREFIX__user_profiles` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(10) unsigned NOT NULL,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) unsigned NOT NULL,
   `name` varchar(255) NOT NULL,
   `locale` varchar(10) NOT NULL DEFAULT 'en-us',
   `notice` tinyint(1) NOT NULL DEFAULT '0',
@@ -54,8 +54,8 @@ CREATE TABLE IF NOT EXISTS `__TABLE_PREFIX__user_tokens` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `__TABLE_PREFIX__roles_users` (
-  `user_id` int(10) unsigned NOT NULL,
-  `role_id` int(10) unsigned NOT NULL,
+  `user_id` int(11) unsigned NOT NULL,
+  `role_id` int(11) unsigned NOT NULL,
   PRIMARY KEY (`user_id`,`role_id`),
   KEY `fk_role_id` (`role_id`),
   CONSTRAINT `__TABLE_PREFIX__roles_users_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `__TABLE_PREFIX__users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `__TABLE_PREFIX__roles_users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `__TABLE_PREFIX__roles_permissions` (
-  `role_id` int(5) unsigned NOT NULL,
+  `role_id` int(11) unsigned NOT NULL,
   `action` varchar(255) NOT NULL,
   UNIQUE KEY `role_id` (`role_id`,`action`),
   CONSTRAINT `__TABLE_PREFIX__roles_permissions_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `__TABLE_PREFIX__roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
