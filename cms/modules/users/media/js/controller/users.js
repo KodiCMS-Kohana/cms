@@ -4,7 +4,7 @@ cms.init.add(['users_edit', 'users_add'], function () {
 		minimumInputLength: 0,
 		multiple: true,
 		ajax: {
-			url: SITE_URL + 'api/user-roles.get',
+			url: Api.build_url('user-roles.get'),
 			data: function(query, pageNumber, context) {
 				return {
 					key: query,
