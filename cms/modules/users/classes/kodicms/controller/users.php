@@ -65,7 +65,7 @@ class KodiCMS_Controller_Users extends Controller_System_Backend {
 	{
 		$data = $this->request->post('user');
 		$profile = $this->request->post('profile');
-		$permissions = $this->request->post('user_permission');
+		$user_roles = $this->request->post('user_roles');
 		$this->auto_render = FALSE;
 		
 		if( empty($data['notice'] ))
@@ -80,7 +80,11 @@ class KodiCMS_Controller_Users extends Controller_System_Backend {
 			$user = $user->create_user($data, array(
 				'password', 'username', 'email', 
 			));
-			$user->update_related_ids('roles', explode(',', $permissions));
+			
+			if( ! empty($user_roles))
+			{
+				$user->update_related_ids('roles', explode(',', $user_roles));
+			}
 
 			$profile['user_id'] = $user->id;
 			
