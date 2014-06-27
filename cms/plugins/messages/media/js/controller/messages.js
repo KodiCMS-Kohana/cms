@@ -3,7 +3,7 @@ cms.init.add('messages_add', function(){
 		placeholder: __("Type first 2 chars"),
 		minimumInputLength: 2,
 		ajax: {
-			url: '/api-users.like',
+			url: Api.build_url('users.like'),
 			data: function(query, pageNumber, context) {
 				return {
 					key: query, 
@@ -73,7 +73,7 @@ cms.init.add('messages_index', function(){
 		var $cont = $(this).parent().parent();
 		var $message_id = $cont.data('id');
 		
-		$.post('/api/user-messages.delete', { id: $message_id, uid: USER_ID }, function( resp ) {
+		$.post(Api.build_url('user-messages.delete'), { id: $message_id, uid: USER_ID }, function( resp ) {
 			if(resp.response) {
 				$cont.remove();
 				
