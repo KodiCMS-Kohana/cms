@@ -12,7 +12,7 @@ cms.init.add('widgets_edit', function() {
 			$('#cache_settings_container').hide();
 		
 		higlight_cache_time();
-	}
+	};
 	
 	$('#caching').on('change', cache_enabled).change();
 	
@@ -108,7 +108,7 @@ cms.init.add('widgets_template', function() {
 	});
 	
 	$(window).resize(function() {
-		$('#highlight_content').trigger('filter:switch:on')
+		$('#highlight_content').trigger('filter:switch:on');
 	});
 });
 
@@ -121,7 +121,7 @@ function format_dropdown_block(state, container) {
 		container.css({'color': 'green', 'fontWeight': 'bold'});
 	}
 	
-	return state.text
+	return state.text;
 }
 
 function reload_blocks($layout) {
