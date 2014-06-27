@@ -22,7 +22,7 @@ cms.init.add('page_index', function () {
 		});
 
 		document.cookie = ['expanded_rows', '=', encodeURIComponent(jQuery.unique(expanded_pages).join(',')), '; path=', window.location.pathname].join('');
-	}
+	};
 
 	$('#pageMapItems').on('click', '.item-expander', function () {
 		var li = $(this).parent().parent().parent().parent();
@@ -51,7 +51,7 @@ cms.init.add('page_index', function () {
 				cms.error('Ajax: Sub pages not loaded!', html);
 
 				cms.loader.hide();
-			}
+			};
 
 			cms.loader.show();
 
