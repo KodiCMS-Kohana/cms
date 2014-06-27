@@ -30,7 +30,7 @@ function update_snippets_list(e, response) {
 
 <?php
 
-if(empty($templates))
+if (empty($templates))
 {
 	$templates = array(
 		__('--- Not set ---')
@@ -43,14 +43,14 @@ if(empty($templates))
 	}
 }
 
-if(empty($template)) $template = NULL;
-if(empty($default)) $default = NULL;
-if(empty($select_name)) $select_name = 'template';
+if (empty($template)) $template = NULL;
+if (empty($default)) $default = NULL;
+if (empty($select_name)) $select_name = 'template';
 
 $hidden = empty($template) ? 'hidden' : '';
 ?>
 
-<?php if(!empty($header)): ?>
+<?php if ( ! empty($header)): ?>
 <div class="widget-header">
 	<h4><?php echo $header; ?></h4>
 </div>
@@ -60,12 +60,12 @@ $hidden = empty($template) ? 'hidden' : '';
 		<label class="control-label"><?php echo __('Snippet'); ?></label>
 		<div class="controls">
 
-			<?php echo Form::select( 'template', $templates, $template, array(
+			<?php echo Form::select('template', $templates, $template, array(
 				'class' => 'input-medium', 'id' => 'snippet-select'
 			) ); ?>
 
 			<div class="btn-group">
-				<?php if( ACL::check('snippet.edit')): ?>
+				<?php if(ACL::check('snippet.edit')): ?>
 				<?php  echo UI::button(__('Edit snippet'), array(
 					'href' => Route::url('backend', array(
 						'controller' => 'snippet', 
@@ -77,7 +77,7 @@ $hidden = empty($template) ? 'hidden' : '';
 				)); ?>
 				<?php endif; ?>
 
-				<?php if( ACL::check('snippet.add')): ?>
+				<?php if(ACL::check('snippet.add')): ?>
 				<?php echo UI::button(__('Add snippet'), array(
 					'href' => Route::url('backend', array(
 						'controller' => 'snippet', 

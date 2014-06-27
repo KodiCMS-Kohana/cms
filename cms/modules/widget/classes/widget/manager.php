@@ -250,7 +250,7 @@ class Widget_Manager {
 			->execute()
 			->current();
 
-		if( ! $result OR ! self::exists_by_type($result['type']))
+		if ( ! $result OR ! self::exists_by_type($result['type']))
 		{
 			return NULL;
 		}
@@ -278,7 +278,7 @@ class Widget_Manager {
 			->where('widget_id', '=', (int) $widget_id)
 			->execute();
 		
-		if( ! empty($data) )
+		if( ! empty($data))
 		{
 			$insert = DB::insert('page_widgets')
 				->columns(array('page_id', 'widget_id', 'block', 'position'));

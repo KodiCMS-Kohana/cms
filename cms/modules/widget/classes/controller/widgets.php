@@ -195,7 +195,7 @@ class Controller_Widgets extends Controller_System_Backend {
 			->add($widget->name);
 
 		// check if trying to save
-		if ( Request::current()->method() == Request::POST )
+		if (Request::current()->method() == Request::POST)
 		{
 			return $this->_edit( $widget );
 		}
@@ -216,12 +216,12 @@ class Controller_Widgets extends Controller_System_Backend {
 		
 		try 
 		{
-			if ( ! ACL::check( 'widget.roles' ) AND ! empty($data['roles']))
+			if ( ! ACL::check('widget.roles') AND ! empty($data['roles']))
 			{
 				$data['roles'] = array();
 			}
 			
-			if( ACL::check( 'widgets.cache'))
+			if(ACL::check('widgets.cache'))
 			{
 				$widget->set_cache_settings( $data );
 			}
@@ -231,17 +231,17 @@ class Controller_Widgets extends Controller_System_Backend {
 			
 			Widget_Manager::update($widget);
 			
-			Observer::notify( 'widget_after_edit', $widget->id );
+			Observer::notify('widget_after_edit', $widget->id);
 		}
 		catch (Validation_Exception $e)
 		{
-			Flash::set( 'post_data', $data );
+			Flash::set('post_data', $data);
 			Messages::errors($e->errors('validation'));
 			$this->go_back();
 		}
 
 		// save and quit or save and continue editing?
-		if ( $this->request->post('commit') !== NULL )
+		if ($this->request->post('commit') !== NULL)
 		{
 			$this->go();
 		}
