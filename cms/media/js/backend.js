@@ -852,7 +852,7 @@ var Api = {
 		{
 			uri = '-' + uri;
 		}
-		else if(uri.indexOf('-') > 0 && uri.indexOf('/') == -1)
+		else if(uri.indexOf('-') > 0 && (uri.indexOf('/') == -1 || uri.indexOf('/') > 0))
 		{
 			uri = '/' + uri;
 		}
