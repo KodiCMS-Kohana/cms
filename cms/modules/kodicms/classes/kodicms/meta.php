@@ -175,6 +175,21 @@ class KodiCMS_Meta {
 	}
 	
 	/**
+	 * Указание favicon 
+	 * 
+	 * @param string $url
+	 * @param string $rel
+	 * @return  KodiCMS_Meta
+	 */
+	public function icon($url, $rel = 'shortcut icon')
+	{
+		return $this->group('icon', '<link rel=":rel" href=":url" type="image/x-icon" />', array(
+			':url' => HTML::chars($url), 
+			':rel' => HTML::chars($rel)
+		));
+	}
+
+	/**
 	 * Добавление произвольного HTML
 	 * 
 	 *		Meta::factory($page)->group('content-type', '<meta http-equiv="content-type" content=":content; charset=utf-8" />', 
