@@ -301,4 +301,27 @@ class Controller_System_API extends Controller_System_Ajax {
 	{
 		return  $this->request->param('backend') === ADMIN_DIR_NAME;
 	}
+	
+	/***************************************
+	 * Magic methods
+	 ***************************************/
+	public function __set($name, $value)
+	{
+		$this->json[$name] = $value;
+	}
+	
+	public function __get($name)
+	{
+		return $this->json[$name];
+	}
+	
+	public function __isset($name)
+	{
+		return isset($this->json[$name]);
+	}
+	
+	public function __unset($name)
+	{
+		unset($this->json[$name]);
+	}
 }
