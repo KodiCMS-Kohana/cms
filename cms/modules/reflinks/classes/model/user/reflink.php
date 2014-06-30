@@ -8,12 +8,6 @@
 class Model_User_Reflink extends ORM {
 
 	protected $_primary_key = 'code';
-
-	const FORGOT_PASSWORD	= 0;
-
-	public static $types = array(
-		self::FORGOT_PASSWORD	=> 'Forgot password'
-	);
 	
 	protected $_created_column = array(
 		'column' => 'created',
@@ -23,7 +17,6 @@ class Model_User_Reflink extends ORM {
 	protected $_belongs_to = array(
 		'user' => array(),
 	);
-	
 
 	public function get($column) 
 	{

@@ -13,20 +13,22 @@ abstract class Reflink {
 		if( ! class_exists($class_name) )
 		{
 			throw new Reflink_Exception('Class :class not exists', array(
-				':class' =>$class_name));
+				':class' => $class_name));
 		}
-		
-		$object = new $class_name;
-		$object->model = $reflink;
-
-		return $object;
+		 
+		return new $class_name($reflink);
 	}
 	
 	/**
 	 *
 	 * @var Model_User_Reflink 
 	 */
-	protected $model = NULL;
+	protected $_model = NULL;
 	
+	public function __construct( Model_User_Reflink $reflink )
+	{
+		$this->_model = $reflink;
+	}
+
 	abstract public function confirm();
 }

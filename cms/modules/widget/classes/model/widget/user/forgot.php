@@ -29,7 +29,7 @@ class Model_Widget_User_Forgot extends Model_Widget_Decorator {
 		$referrer_page = Request::current()->referrer();
 		$next_page = $this->get('next_url', Request::current()->referrer());
 
-		if(!Valid::email( $email ))
+		if ( ! Valid::email( $email ))
 		{
 			Messages::errors(__('Use a valid e-mail address.'));
 			HTTP::redirect($referrer_page);

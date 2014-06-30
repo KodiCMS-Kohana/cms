@@ -124,7 +124,8 @@ class KodiCMS_Controller_Login extends Controller_System_Frontend {
 			
 			$widget = Widget_Manager::factory('User_Forgot');
 		
-			Context::instance()->set('email', Arr::path($_POST, 'forgot.email'));
+			Context::instance()->set('email', Arr::path($this->request->post(), 'forgot.email'));
+
 			$widget->set_values(array(
 				'next_url' => Route::get('user')->uri(array('action' => 'login'))
 			))->on_page_load();
