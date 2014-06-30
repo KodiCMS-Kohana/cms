@@ -152,22 +152,6 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 
 		$status = parent::save($values);
 		
-		if(is_array($values))
-		{
-			$headline_fields = Arr::get($values, 'in_headline', array());
-			foreach($this->record()->fields() as $f)
-			{
-				$value = Arr::get($headline_fields, $f->id, 0);
-
-				$field = DataSource_Hybrid_Field_Factory::get_field($f->id);
-				$old_field = clone($field);
-
-				$field->set_in_headline($value);
-
-				DataSource_Hybrid_Field_Factory::update_field($old_field, $field);
-			}
-		}
-		
 		return $status;
 	}
 

@@ -361,11 +361,27 @@ abstract class DataSource_Hybrid_Field {
 	public function set_in_headline($status = FALSE)
 	{
 		$this->in_headline = (bool) $status;
-		
 		return $this;
 	}
 	
 	/**
+	 * Установка индекса для поля
+	 * 
+	 * @param string $type
+	 * @return \DataSource_Hybrid_Field
+	 */
+	public function set_index($type = DataSource_Hybrid_Field_Factory::INDEX_INDEX)
+	{
+		$this->index_type = $type;
+		return $this;
+	}
+	
+	public function is_indexed()
+	{
+		return DataSource_Hybrid_Field_Factory::is_index($this);
+	}
+
+		/**
 	 * Метод используется для присвоения старого значения для поля документа
 	 * 
 	 * @param DataSource_Hybrid_Document $document

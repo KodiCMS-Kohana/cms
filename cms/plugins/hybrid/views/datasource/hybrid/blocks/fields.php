@@ -27,6 +27,28 @@ $(function() {
 		
 		return false;
 	});
+	
+	$('input[name^="in_headline"]').on('change', function() {
+		var id = parseInt($(this).prop('name').substr(12, 1));
+		if( ! id) return;
+		
+		if($(this).checked()) {
+			Api.post('/datasource/hybrid-field.headline', {id: id}, function(response) {});
+		} else {
+			Api.delete('/datasource/hybrid-field.headline', {id: id}, function(response) {});
+		}
+	});
+	
+	$('input[name^="index_type"]').on('change', function() {
+		var id = parseInt($(this).prop('name').substr(11, 1));
+		if( ! id) return;
+		
+		if($(this).checked()) {
+			Api.post('/datasource/hybrid-field.index_type', {id: id}, function(response) {});
+		} else {
+			Api.delete('/datasource/hybrid-field.index_type', {id: id}, function(response) {});
+		}
+	});
 });
 </script>
 
@@ -43,6 +65,7 @@ $(function() {
 			<col width="100px" />
 			<col width="200px" />
 			<col width="100px" />
+			<col width="150px" />
 			<col />
 		</colgroup>
 		<thead>
@@ -55,6 +78,7 @@ $(function() {
 				<th><?php echo __('Field header'); ?></th>
 				<th><?php echo __('Field type'); ?></th>
 				<th><?php echo __('Show in headline'); ?></th>
+				<th><?php echo __('MySQL index'); ?></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -71,6 +95,7 @@ $(function() {
 				<td>ID</td>
 				<td><?php echo UI::label('integer'); ?></td>
 				<td><?php echo Form::checkbox('', 1, TRUE, array('disabled' => 'disabled')); ?></td>
+				<td><?php echo Form::checkbox('', 1, TRUE, array('disabled' => 'disabled')); ?></td>
 			</tr>
 			<tr>
 				<?php if(Acl::check($ds->type().$ds->id().'.field.remove')): ?>
@@ -85,6 +110,7 @@ $(function() {
 				<td><?php echo __('Header'); ?></td>
 				<td><?php echo UI::label('string'); ?></td>
 				<td><?php echo Form::checkbox('', 1, TRUE, array('disabled' => 'disabled')); ?></td>
+				<td></td>
 			</tr>
 
 			<?php foreach($record->fields() as $f): ?>
@@ -124,6 +150,13 @@ $(function() {
 					if(!Acl::check($ds->type().$ds->id().'.field.edit')) $attrs['disabled'] = 'disabled';
 					
 					echo Form::checkbox('in_headline['.$f->id.']', 1, (bool) $f->in_headline, $attrs); ?>
+				</td>
+				<td>
+					<?php 
+					$attrs = array();
+					if(!Acl::check($ds->type().$ds->id().'.field.edit')) $attrs['disabled'] = 'disabled';
+					
+					echo Form::checkbox('index_type['.$f->id.']', 1, $f->is_indexed(), $attrs); ?>
 				</td>
 			</tr>
 			<?php endforeach; ?>

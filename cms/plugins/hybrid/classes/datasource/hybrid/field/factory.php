@@ -5,6 +5,13 @@
  * @category Hybrid
  */
 class DataSource_Hybrid_Field_Factory {
+	
+	const INDEX_NONE = NULL;
+	const INDEX_PRIMARY = 'PRIMARY KEY';
+	const INDEX_UNIQUE = 'UNIQUE';
+	const INDEX_INDEX = 'INDEX';
+	const INDEX_FULLTEXT = 'FULLTEXT';
+	
 
 	/**
 	 * Создание нового поля в таблице полей
@@ -367,6 +374,63 @@ class DataSource_Hybrid_Field_Factory {
 		return (bool) DB::query(NULL, 
 				'ALTER TABLE `:table` CHANGE `:old_key` `:new_key` :type :default'
 			)
+			->parameters($params)
+			->execute();
+	}
+	
+	/**
+	 * Добавление индекса для поля
+	 * 
+	 * @param string $field
+	 * @param string $type
+	 * @return boolean
+	 */
+	public static function alter_table_field_add_index($field, $type = self::INDEX_INDEX) 
+	{
+		$params = array(
+			':table' => DB::expr($field->ds_table),
+			':key' => DB::expr($field->name),
+			':type' => DB::expr($type)
+		);
+		
+		return (bool) DB::query(NULL,
+				'ALTER TABLE `:table` ADD :type(`:key`)'
+			)
+			->parameters($params)
+			->execute();
+	}
+	
+	/**
+	 * Удаление индекса из поля
+	 * 
+	 * @param string $field
+	 * @param string $type
+	 * @return boolean
+	 */
+	public static function alter_table_field_drop_index($field) 
+	{
+		$params = array(
+			':table' => DB::expr($field->ds_table),
+			':key' => DB::expr($field->name)
+		);
+		
+		return (bool) DB::query(NULL,
+				'ALTER TABLE `:table` DROP INDEX `:key`'
+			)
+			->parameters($params)
+			->execute();
+	}
+	
+	public static function is_index($field)
+	{
+		$params = array(
+			':table' => DB::expr($field->ds_table),
+			':key' => DB::expr($field->name)
+		);
+		
+		return (bool) DB::query(NULL,
+			'SHOW KEYS FROM `:table` WHERE `Column_name` = ":key"'
+		)
 			->parameters($params)
 			->execute();
 	}

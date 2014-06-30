@@ -5,7 +5,7 @@ return array(
 	'Add hybrid' => 'Создание раздела',
 	'Edit hybrid' => ' Редактирование раздела',
 	'Remove fields' => 'Удалить выделенные',
-	'Fields has been removed!' => 'Поля удалены!',
+	'Fields has been removed' => 'Поля удалены',
 	'Hybrid Headline' => 'Список ГД',
 	'Hybrid Document' => 'Гибридный документ',
 	'Hybrid Document creator' => 'Обработчик создания ГД',
@@ -124,7 +124,13 @@ return array(
 	'Use filemanager to get data' => 'Использовать файловый менеджер',
 	'Disable update existing documents' => 'Запретить обновление существующих документов',
 	
+	'MySQL index' => 'MySQL индекс',
+	'Field ":field" added to headline' => 'Поле ":field" добавлено в список',
+	'Field ":field" removed from headline' => 'Поле ":field" убранно из списока',
+	'Index to field ":field" added' => 'Для поля ":field" добавлен индекс',
+	'Index field ":field" dropped' => 'Индекс поля ":field" удален',
+	
 	/* Validation Messages */
 	'Field with the same key :value exists.' => 'Поле с таким ключом ":value" существует',
-	'Number of decimal places' => 'Количество знаков после запятой'
+	'Number of decimal places' => 'Количество знаков после запятой',
 );
