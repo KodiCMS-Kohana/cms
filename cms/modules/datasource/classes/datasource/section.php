@@ -7,6 +7,12 @@
 class Datasource_Section {
 	
 	/**
+	 * Загруженные разделы из БД
+	 * @var array 
+	 */
+	protected static $_cached_sections = array();
+
+	/**
 	 * Фабрика создания раздела данных
 	 * 
 	 * @param string $type Тип раздела
@@ -46,9 +52,14 @@ class Datasource_Section {
 	 */
 	public static function load( $id ) 
 	{
-		if($id === NULL)
+		if ($id === NULL)
 		{
 			return NULL;
+		}
+		
+		if (isset(self::$_cached_sections[$id]))
+		{
+			return self::$_cached_sections[$id];
 		}
 		
 		$query = DB::select('docs', 'indexed', 'code')
@@ -57,7 +68,7 @@ class Datasource_Section {
 			->execute()
 			->current();
 	
-		if( empty($query) )
+		if (empty($query))
 		{
 			return NULL;
 		}
@@ -67,6 +78,8 @@ class Datasource_Section {
 		$result->_id = $id;
 		$result->_docs = (int) $query['docs'];
 		$result->_is_indexable = (bool) $query['indexed'];
+		
+		self::$_cached_sections[$id] = $result;
 
 		return $result;
 	}
@@ -152,7 +165,7 @@ class Datasource_Section {
 		$this->_initialize();
 		$this->_init_headline();
 		
-		if( ! class_exists( $this->_document_class_name ))
+		if ( ! class_exists( $this->_document_class_name ))
 		{
 			throw new DataSource_Exception('Document class :class_name not exists', 
 					array(':class_name' => $this->_document_class_name));
@@ -241,7 +254,7 @@ class Datasource_Section {
 
 		$this->_id = $query[0];
 		
-		if(empty($this->_id))
+		if (empty($this->_id))
 		{
 			throw new DataSource_Exception('Datasource section :name not created', 
 					array(':name' => $this->name));
@@ -266,12 +279,12 @@ class Datasource_Section {
 	 */
 	public function save( array $values = NULL) 
 	{
-		if( ! $this->loaded())
+		if ( ! $this->loaded())
 		{
 			return FALSE;
 		}
 		
-		if( is_array($values) )
+		if (is_array($values))
 		{
 			$this->validate($values);
 
@@ -344,7 +357,7 @@ class Datasource_Section {
 	{
 		$doc->create();
 
-		if($doc->loaded())
+		if ($doc->loaded())
 		{
 			$this->update_size();
 			$this->add_to_index(array($doc->id));
@@ -366,14 +379,14 @@ class Datasource_Section {
 		$old = $this
 			->get_document($doc->id);
 	
-		if( empty($old) OR ! $doc->loaded() )
+		if (empty($old) OR ! $doc->loaded())
 		{
 			return FALSE;
 		}
 		
 		$doc->update();
 
-		if( $old->published != $doc->published ) 
+		if ($old->published != $doc->published) 
 		{
 			if( $doc->published === TRUE )
 			{
@@ -384,7 +397,7 @@ class Datasource_Section {
 				$this->remove_from_index(array($old->id));
 			}
 		} 
-		elseif( $old->published === TRUE )
+		else if ($old->published === TRUE)
 		{
 			$this->update_index(array($old->id));
 		}
@@ -404,7 +417,10 @@ class Datasource_Section {
 	 */
 	public function remove_documents( array $ids = NULL  ) 
 	{
-		if( empty($ids) ) return $this;
+		if (empty($ids))
+		{
+			return $this;
+		}
 		
 		foreach ($ids as $id)
 		{
@@ -430,7 +446,10 @@ class Datasource_Section {
 	 */
 	public function get_document($id)
 	{
-		if( empty($id) ) return NULL;
+		if( empty($id) )
+		{
+			return NULL;
+		}
 		
 		return $this->get_empty_document()->load($id);
 	}
