@@ -32,14 +32,6 @@ class Datasource_Document {
 	protected $_changed_fields = array();
 	
 	/**
-	 * Список значений полей по умолчанию
-	 * @var array 
-	 */
-	protected $_default_values = array(
-		'published' => 1
-	);
-	
-	/**
 	 * Объект раздела
 	 * @var DataSource_Hybrid_Section 
 	 */
@@ -74,6 +66,17 @@ class Datasource_Document {
 		$this->ds_id = $section->id();
 		
 		$this->reset();
+	}
+	
+	/**
+	 * Список значений полей по умолчанию
+	 * @return array
+	 */
+	public function defaults()
+	{
+		return array(
+			'published' => 1
+		);
 	}
 
 	/**
@@ -207,7 +210,7 @@ class Datasource_Document {
 		{
 			if( ! $this->loaded() AND empty($this->_system_fields[$field]))
 			{
-				return Arr::get($this->_default_values, $field, $default);
+				return Arr::get($this->defaults(), $field, $default);
 			}
 
 			return $this->_system_fields[$field];

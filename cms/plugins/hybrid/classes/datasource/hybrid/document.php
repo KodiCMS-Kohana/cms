@@ -21,6 +21,15 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 	 * @var array array([ID] => [Document value])
 	 */
 	protected $_fields = array();
+	
+	public function defaults()
+	{
+		$defaults = parent::defaults();
+		
+		$defaults['meta_title'] = '{.}';
+
+		return $defaults;
+	}
 
 	/**
 	 * Проаверка существаования поля в документе
@@ -32,6 +41,7 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 	{
 		return isset($this->_fields[$field]);
 	}
+	
 	
 	/**
 	 * Геттер значений полей документов
