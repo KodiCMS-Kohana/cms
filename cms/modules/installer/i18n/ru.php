@@ -50,8 +50,8 @@ return array(
 	'Cache Directory' => 'Путь до директории cache',
 	'Logs Directory' => 'Путь до директории logs',
 	'Config file placement' => 'Расположение конфиг файла',
-	'To change config file placement edit index.php file' => 'Дли изменения пути расположения конфиг файла, необходимо редактировать index.php',
-	'The config :dir directory does not exist or config file is exists.' => 'Указанный путь до директории :dir не существует или файл (:file) с таким именем уже существует.',
+	'To change config file placement edit index.php file' => 'Дли изменения пути расположения конфиг файла, необходимо редактировать файл index.php',
+	'The config :dir directory does not exist.' => 'Указанный путь до директории :dir не существует или файл (:file) с таким именем уже существует.',
 	'The configured <code>system</code> directory does not exist or does not contain required files.'
 		=> 'Указанный путь до директории :dir не существует или не содержит необходимых файлов.',
 	'The :dir directory is not writable.' => 'Директория защищена от записи.',
@@ -84,8 +84,8 @@ return array(
 		=> 'Файл :file с дампом Базы данных не найден!',
 	'Config template file :file not found!'
 		=> 'Шаблон конфиг файла :file не найден!',
-	'The config :dir directory must be writable.' 
-		=> 'Директория :dir расположения конфиг файла должна быть доступна для записи',
+	'The config :dir directory must be writable or empty config file :file created with write access' 
+		=> 'Директория :dir должна быть доступна для записи или создан пустой конфиг файл :file с правами на запись',
 	'Can\'t write config.php file!'
 		=> 'Невозможно записать данные в файл config.php!',
 	'Below you should enter your database connection details. If you’re not sure about these, contact your host.'

@@ -72,11 +72,12 @@ $failed = FALSE;
 			<?php else: $failed = TRUE ?>
 				<td class="fail">
 					<?php if(!is_writable( pathinfo(CFGFATH, PATHINFO_DIRNAME) )): ?>
-					<?php echo __('The config :dir directory must be writable.', array(
-						':dir' => pathinfo(CFGFATH, PATHINFO_DIRNAME)
+					<?php echo __('The config :dir directory must be writable or empty config file :file created with write access', array(
+						':dir' => pathinfo(CFGFATH, PATHINFO_DIRNAME),
+						':file' => pathinfo(CFGFATH, PATHINFO_FILENAME)
 					)); ?>
 					<?php else: ?>
-					<?php echo __('The config :dir directory does not exist or config file is exists.', array(
+					<?php echo __('The config :dir directory does not exist.', array(
 						':dir' => CFGFATH, ':file' => pathinfo( CFGFATH, PATHINFO_FILENAME) .'.'. pathinfo( CFGFATH, PATHINFO_EXTENSION)
 					)); ?>
 					<?php endif; ?>
