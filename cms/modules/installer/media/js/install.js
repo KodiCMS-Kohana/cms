@@ -3,7 +3,8 @@ cms.addTranslation({
 	'Finish': 'Установить',
 	'Next': 'Далее',
 	'Previous': 'Назад',
-	'Loading ...': 'Загрузка ...'
+	'Loading ...': 'Загрузка ...',
+	'Before proceeding to the next step you need to fix errors': 'Прежде чем приступить к следующему шагу вы должны исправить ошибки'
 });
 
 $(function() {
@@ -41,7 +42,8 @@ $(function() {
 			loading: __("Loading ...")
 		},
 		onStepChanging: function (event, currentIndex, newIndex) {
-			if(currentIndex == 0 && newIndex == 1 && failed) {
+			if(currentIndex == 1 && newIndex > currentIndex && failed) {
+				parse_messages([__('Before proceeding to the next step you need to fix errors')], 'error');
 				return false;
 			}
 			

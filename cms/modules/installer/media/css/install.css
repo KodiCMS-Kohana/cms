@@ -17,6 +17,11 @@
 	.btn-checkbox input {
 		margin-top: 3px;
 	}
+	
+.table tr.fail th, .table tr.fail td {
+	background-color: #FFE3E3 !important;
+	color: #8C0000 !important; 
+}
 
 .wizard,
 .tabcontrol {

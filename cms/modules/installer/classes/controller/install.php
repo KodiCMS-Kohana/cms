@@ -442,7 +442,10 @@ class Controller_Install extends Controller_System_Frontend
 	 */
 	protected function _install_plugins( array $post )
 	{
-		if( ! is_dir(MODPATH . 'plugins') ) return;
+		if ( ! is_dir(MODPATH . 'plugins') ) 
+		{
+			return;
+		}
 
 		Kohana::modules(Kohana::modules() + array('plugins'	=> MODPATH . 'plugins'));
 
@@ -450,7 +453,7 @@ class Controller_Install extends Controller_System_Frontend
 		
 		Plugins::find_all();
 		
-		if( ! empty($post['insert_test_data']))
+		if ( ! empty($post['insert_test_data']))
 		{
 			$default_plugins[] = 'test';
 		}
@@ -476,14 +479,21 @@ class Controller_Install extends Controller_System_Frontend
 	 */
 	protected function _install_modules( array $post )
 	{
-		if ( ! is_dir(MODPATH) ) return;
+		if ( ! is_dir(MODPATH) ) 
+		{
+			return;
+		}
 		
 		// Create a new directory iterator
 		$path = new DirectoryIterator(MODPATH);
 		
 		foreach ($path as $dir)
 		{
-			if($dir->isDot()) continue;
+			if($dir->isDot())
+			{
+				continue;
+			}
+
 			$file_name = MODPATH . $dir->getBasename() . DIRECTORY_SEPARATOR . 'install' . EXT;
 			if(file_exists($file_name))
 			{
@@ -531,10 +541,7 @@ class Controller_Install extends Controller_System_Frontend
 			array_keys( $repl ), array_values( $repl ), $tpl_content
 		);
 
-		if ( ! file_put_contents( CFGFATH, $tpl_content ) !== FALSE )
-		{
-			throw new Installer_Exception( 'Can\'t write config.php file!' );
-		}
+		$this->_write_config_to_file($tpl_content);
 	}
 
 	/**
@@ -543,42 +550,42 @@ class Controller_Install extends Controller_System_Frontend
 	 * @param string $data
 	 * @throws Validation_Exception
 	 */
-	protected function _insert_data( $data )
+	protected function _insert_data($data)
 	{
-		$data = preg_split( '/;(\s*)$/m', $data );
+		$data = preg_split('/;(\s*)$/m', $data);
 
 		try
 		{
 			DB::query(NULL, 'SET FOREIGN_KEY_CHECKS = 0')
-				->execute($this->_db_instance);
-			
-			foreach($data as $sql)
+					->execute($this->_db_instance);
+
+			foreach ($data as $sql)
 			{
-				if(empty($sql))
+				if (empty($sql))
 				{
 					continue;
 				}
 
 				DB::query(Database::INSERT, $sql)
-					->execute($this->_db_instance);
+						->execute($this->_db_instance);
 			}
-			
+
 			DB::query(NULL, 'SET FOREIGN_KEY_CHECKS = 1')
-				->execute($this->_db_instance);
-		} 
+					->execute($this->_db_instance);
+		}
 		catch (Database_Exception $exc)
 		{
 			switch ($exc->getCode())
 			{
 				case 1005:
-					$this->_validation->error( 'db_name' , 'database_not_empty' );
+					$this->_validation->error('db_name', 'database_not_empty');
 					break;
 			}
 
 			throw new Validation_Exception($this->_validation, $exc->getMessage(), NULL, $exc->getCode());
 		}
 	}
-	
+
 	/**
 	 * Сбор контента из файла модулей в переменную
 	 * 
@@ -586,25 +593,29 @@ class Controller_Install extends Controller_System_Frontend
 	 * @param string $content
 	 * @return string
 	 */
-	protected function _merge_module_files( $filename, $content = '' )
+	protected function _merge_module_files($filename, $content = '')
 	{
 		// Create a new directory iterator
 		$path = new DirectoryIterator(MODPATH);
 
 		foreach ($path as $dir)
 		{
-			if($dir->isDot()) continue;
+			if ($dir->isDot())
+			{
+				continue;
+			}
+
 			$file_name = MODPATH . $dir->getBasename() . DIRECTORY_SEPARATOR . 'install' . DIRECTORY_SEPARATOR . $filename;
-			if(file_exists($file_name))
+			if (file_exists($file_name))
 			{
 				$content .= "\n";
-				$content .= file_get_contents( $file_name );
+				$content .= file_get_contents($file_name);
 			}
 		}
-		
+
 		return $content;
 	}
-	
+
 	/**
 	 * Очистка указанной БД от записей
 	 */
@@ -615,23 +626,39 @@ class Controller_Install extends Controller_System_Frontend
 
 		$tables = DB::query(Database::SELECT, 'SHOW TABLES')
 			->execute($this->_db_instance);
-		
-		foreach ($tables as $table) 
+
+		foreach ($tables as $table)
 		{
 			$table = array_values($table);
 			$table_name = $table[0];
 
 			DB::query(NULL, 'DROP TABLE `:table_name`')
-				->param( ':table_name', DB::expr($table_name) )
+				->param(':table_name', DB::expr($table_name))
 				->execute($this->_db_instance);
 		}
-		
-		if(  file_exists( CFGFATH ) !== FALSE )
+
+		if (file_exists(CFGFATH) !== FALSE)
 		{
-			unlink(CFGFATH);
+			$this->_write_config_to_file('');
 		}
-		
+
 		DB::query(NULL, 'SET FOREIGN_KEY_CHECKS = 1')
 			->execute($this->_db_instance);
+	}
+
+	/**
+	 * 
+	 * @param string $content
+	 * @return boolean
+	 * @throws Installer_Exception
+	 */
+	protected function _write_config_to_file($content)
+	{
+		if ( ! file_put_contents(CFGFATH, $content) !== FALSE)
+		{
+			throw new Installer_Exception('Can\'t write config.php file!');
+		}
+		
+		return TRUE;
 	}
 }
