@@ -2,6 +2,8 @@
 
 class DataSource_Hybrid_Field_Primitive_Text extends DataSource_Hybrid_Field_Primitive {
 	
+	protected $_is_indexable = FALSE;
+
 	protected $_props = array(
 		'default' => NULL,
 		'allow_html' => TRUE,

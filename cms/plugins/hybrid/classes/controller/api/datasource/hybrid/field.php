@@ -22,8 +22,8 @@ class Controller_Api_Datasource_Hybrid_Field extends Controller_System_API
 	public function post_headline()
 	{
 		$field = $this->_get_field();
-		$old_field = clone($field);
 
+		$old_field = clone($field);
 		$field->set_in_headline(1);
 
 		DataSource_Hybrid_Field_Factory::update_field($old_field, $field);
@@ -44,24 +44,38 @@ class Controller_Api_Datasource_Hybrid_Field extends Controller_System_API
 	{
 		$field = $this->_get_field();
 		
-		$old_field = clone($field);
-		$field->set_index();
-		DataSource_Hybrid_Field_Factory::update_field($old_field, $field);
-		DataSource_Hybrid_Field_Factory::alter_table_field_add_index($field);
+		if($field->is_indexable() OR $field->index_type !== NULL)
+		{
+			$old_field = clone($field);
+			$field->set_index();
+			DataSource_Hybrid_Field_Factory::update_field($old_field, $field);
+			DataSource_Hybrid_Field_Factory::alter_table_field_add_index($field);
 
-		$this->message('Index to field ":field" added', array(':field' => $field->header));
+			$this->message('Index to field ":field" added', array(':field' => $field->header));
+		}
+		else
+		{
+			throw HTTP_API_Exception::factory(API::ERROR_UNKNOWN, 'Field cannot be indexed');
+		}
 	}
 	
 	public function delete_index_type()
 	{
 		$field = $this->_get_field();
 
-		$old_field = clone($field);
-		$field->set_index(NULL);
-		DataSource_Hybrid_Field_Factory::update_field($old_field, $field);
-		DataSource_Hybrid_Field_Factory::alter_table_field_drop_index($field);
+		if($field->is_indexable() OR $field->index_type === NULL)
+		{
+			$old_field = clone($field);
+			$field->set_index(NULL);
+			DataSource_Hybrid_Field_Factory::update_field($old_field, $field);
+			DataSource_Hybrid_Field_Factory::alter_table_field_drop_index($field);
 
-		$this->message('Index field ":field" dropped', array(':field' => $field->header));
+			$this->message('Index field ":field" dropped', array(':field' => $field->header));
+		}
+		else
+		{
+			throw HTTP_API_Exception::factory(API::ERROR_UNKNOWN, 'Field cannot be indexed');
+		}
 	}
 	
 	protected function _get_field()
@@ -72,7 +86,6 @@ class Controller_Api_Datasource_Hybrid_Field extends Controller_System_API
 		
 		if($field === NULL)
 		{
-			$this->status = FALSE;
 			throw HTTP_API_Exception::factory(API::ERROR_UNKNOWN, 'Field not found!');
 		}
 		

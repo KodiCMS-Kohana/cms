@@ -2,6 +2,8 @@
 
 class DataSource_Hybrid_Field_Primitive_Select extends DataSource_Hybrid_Field_Primitive {
 	
+	protected $_is_indexable = FALSE;
+
 	protected $_props = array(
 		'options' => array(),
 		'custom_option' => FALSE,

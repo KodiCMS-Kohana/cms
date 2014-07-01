@@ -3,6 +3,8 @@
 class DataSource_Hybrid_Field_Source_Tags extends DataSource_Hybrid_Field_Source {
 	
 	const TABLE_NAME = 'hybrid_tags';
+	
+	protected $_is_indexable = FALSE;
 
 	protected $_props = array(
 		'isreq' => FALSE

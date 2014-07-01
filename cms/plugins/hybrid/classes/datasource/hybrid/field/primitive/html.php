@@ -1,7 +1,9 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
 class DataSource_Hybrid_Field_Primitive_HTML extends DataSource_Hybrid_Field_Primitive {
-	
+
+	protected $_is_indexable = FALSE;
+
 	protected $_props = array(
 		'default' => NULL,
 		'filter_html' => FALSE,

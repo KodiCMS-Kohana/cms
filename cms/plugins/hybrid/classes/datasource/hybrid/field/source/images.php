@@ -2,6 +2,8 @@
 
 class DataSource_Hybrid_Field_Source_Images extends DataSource_Hybrid_Field_Source {
 	
+	protected $_is_indexable = FALSE;
+
 	protected $_props = array(
 		'max_size' => 1048576
 	);

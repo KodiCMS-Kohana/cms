@@ -11,8 +11,6 @@ abstract class DataSource_Hybrid_Field {
 	const FAMILY_SOURCE = 'source';
 
 	const PREFFIX = 'f_';
-	
-	
 
 	/**
 	 * Список всех полех, которые есть в системе.
@@ -181,6 +179,12 @@ abstract class DataSource_Hybrid_Field {
 	 * @var boolean 
 	 */
 	protected $_is_required = TRUE;
+	
+	/**
+	 * @see is_indexable()
+	 * @var boolean 
+	 */
+	protected $_is_indexable = TRUE;
 
 	/**
 	 * 
@@ -587,6 +591,16 @@ abstract class DataSource_Hybrid_Field {
 	public function is_required()
 	{
 		return (bool) $this->_is_required;
+	}
+	
+	/**
+	 * Поле может иметь MySQL индекс
+	 * 
+	 * @return boolean
+	 */
+	public function is_indexable()
+	{
+		return (bool) $this->_is_indexable;
 	}
 
 	/**
