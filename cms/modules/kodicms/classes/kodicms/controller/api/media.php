@@ -24,6 +24,7 @@ class KodiCMS_Controller_API_Media extends Controller_System_Api {
 		foreach ($images->find_all() as $image)
 		{
 			$json[] = array(
+				'id' => $image->id,
 				'thumb' => Image::cache($image->filename, 100, 100, Image::INVERSE),
 				'image' => PUBLIC_URL . $image->filename,
 				'title' => (string) $image->description,
@@ -47,11 +48,17 @@ class KodiCMS_Controller_API_Media extends Controller_System_Api {
 			return;
 		}
 		
-		$uploaded_file = ORM::factory('media')
+		$image = ORM::factory('media')
 			->set('module', $module)
 			->upload($file, array('jpg', 'jpeg', 'gif', 'png'));
 		
-		$json = array('filelink' => PUBLIC_URL . $uploaded_file->filename);
+		$json = array(
+			'id' => $image->id,
+			'thumb' => Image::cache($image->filename, 100, 100, Image::INVERSE),
+			'image' => PUBLIC_URL . $image->filename,
+			'title' => (string) $image->description,
+			'folder' => $image->module
+		);
 		
 		$this->response($json);
 	}
