@@ -10,17 +10,16 @@ $(function() {
 				.css({
 					display: 'inline-block'
 				})
-				.attr('href', BASE_URL + '/snippet/edit/' + $option.val())
+				.attr('href', BASE_URL + '/snippet/edit/' + $option.val());
 	});
 
-	$('body').on('post:api-snippet', update_snippets_list);
-	$('body').on('put:api-snippet', update_snippets_list);
-})
-
+	$('body').on('post:backend:api-snippet', update_snippets_list);
+	$('body').on('put:backend:api-snippet', update_snippets_list);
+});
 
 function update_snippets_list(e, response) {
 	var select = $('#snippet-select');
-
+	
 	select
 		.append($('<option>', {value: response.name, text: response.name}))
 		.select2('val', response.name)

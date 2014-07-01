@@ -32,7 +32,7 @@ cms.init.add('widgets_edit', function() {
 cms.init.add('page_edit', function() {
 	var layout_file = PAGE_OBJECT['layout'];
 	reload_blocks(layout_file);	
-	$('body').on('post:api-layout.rebuild', function(e, response) {
+	$('body').on('post:backend:api-layout.rebuild', function(e, response) {
 		reload_blocks(layout_file);
 	});
 	
@@ -60,7 +60,7 @@ cms.init.add('page_edit', function() {
 cms.init.add('widgets_location', function() {
 	reload_blocks();
 	
-	$('body').on('post:api-layout.rebuild', function(e, response) {
+	$('body').on('post:backend:api-layout.rebuild', function(e, response) {
 		reload_blocks();
 	});
 	

@@ -258,6 +258,9 @@ cms.ui = {
 		return this;
     },
     init:function (module) {
+		
+		$('body').trigger('before_ui_init');
+		
         for (var i = 0; i < cms.ui.callbacks.length; i++) {
 			try {
 				if(!module)
@@ -270,6 +273,8 @@ cms.ui = {
 				}
 			} catch (e) {}
         }
+		
+		$('body').trigger('after_ui_init');
     }
 };
 
@@ -290,6 +295,8 @@ cms.init = {
 		return this;
 	},
 	run:function () {
+		$('body').trigger('before_cms_init');
+		
 		var body_id = $('body:first').attr('id');
 
 		for (var i = 0; i < cms.init.callbacks.length; i++) {
@@ -298,6 +305,8 @@ cms.init = {
 			if (body_id == rout_to_id)
 				cms.init.callbacks[i][1]();
 		}
+		
+		$('body').trigger('after_cms_init');
 	}
 };
 
@@ -956,10 +965,11 @@ var Api = {
 
 // Run
 $(function() {
-    cms.messages.init();
-    cms.ui.init();
+	cms.messages.init();
+
+	cms.ui.init();
 	cms.init.run();
-	
+
 	parse_messages(MESSAGE_ERRORS, 'error');
 	parse_messages(MESSAGE_SUCCESS);
 
@@ -981,11 +991,13 @@ $(function() {
 			return false;
 		});
 	};
-
-	$.fn.serializeObject=function(){var e={};var t=this.serializeArray();$.each(t,function(){if(e[this.name]!==undefined){if(!e[this.name].push){e[this.name]=[e[this.name]]}e[this.name].push(this.value||"")}else{e[this.name]=this.value||""}});return e}
-	
-	$.fn.scrollTo=function(e,t,n){if(typeof t=="function"&&arguments.length==2){n=t;t=e}var r=$.extend({scrollTarget:e,offsetTop:50,duration:500,easing:"swing"},t);return this.each(function(){var e=$(this);var t=typeof r.scrollTarget=="number"?r.scrollTarget:$(r.scrollTarget);var i=typeof t=="number"?t:t.offset().top+e.scrollTop()-parseInt(r.offsetTop);e.animate({scrollTop:i},parseInt(r.duration),r.easing,function(){if(typeof n=="function"){n.call(this)}})})}
 });
+
+
+
+$.fn.serializeObject=function(){var e={};var t=this.serializeArray();$.each(t,function(){if(e[this.name]!==undefined){if(!e[this.name].push){e[this.name]=[e[this.name]]}e[this.name].push(this.value||"")}else{e[this.name]=this.value||""}});return e};
+
+$.fn.scrollTo=function(e,t,n){if(typeof t=="function"&&arguments.length==2){n=t;t=e}var r=$.extend({scrollTarget:e,offsetTop:50,duration:500,easing:"swing"},t);return this.each(function(){var e=$(this);var t=typeof r.scrollTarget=="number"?r.scrollTarget:$(r.scrollTarget);var i=typeof t=="number"?t:t.offset().top+e.scrollTop()-parseInt(r.offsetTop);e.animate({scrollTop:i},parseInt(r.duration),r.easing,function(){if(typeof n=="function"){n.call(this)}})})};
 
 jQuery.browser = {};
 jQuery.browser.mozilla = /mozilla/.test(navigator.userAgent.toLowerCase()) && !/webkit/.test(navigator.userAgent.toLowerCase());

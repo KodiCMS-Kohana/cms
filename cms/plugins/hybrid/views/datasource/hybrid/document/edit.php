@@ -7,9 +7,8 @@ $(function() {
 var API_FORM_ACTION = '/datasource/hybrid-document.<?php if($doc->loaded()): ?>update<?php else: ?>create<?php endif; ?>'; 
 
 $(function() {
-	$('body').on('post:api:datasource:hybrid-document.create ', update_documents);
-	$('body').on('put:api:datasource:hybrid-document.create ', update_documents);
-	
+	$('body').on('post:backend:api:datasource:hybrid-document.create ', update_documents);
+	$('body').on('put:backend:api:datasource:hybrid-document.create ', update_documents);
 	$('.upload-input').on('change', function(e) {
 		var target = $(this).data('target');
 		var size = parseInt($(this).data('size'));
