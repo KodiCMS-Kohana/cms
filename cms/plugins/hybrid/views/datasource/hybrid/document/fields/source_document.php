@@ -7,9 +7,9 @@
 
 		$('input[name="<?php echo $field->name; ?>"]').select2({
 			placeholder: __("Type first 1 chars to find documents"),
-			minimumInputLength: 1,
+			minimumInputLength: 0,
 			maximumSelectionSize: 1,
-			multiple:false,
+			multiple: false,
 			formatSelection: format,
 			escapeMarkup: function(m) { return m; },
 			ajax: {
@@ -55,13 +55,26 @@
 	<label class="control-label"><?php echo $field->header; ?> <?php if($field->isreq): ?>*<?php endif; ?></label>
 	<div class="controls">
 		<div class="row-fluid">
-			<div class="span9">
+			<div class="span8">
 				<?php echo Form::hidden($field->name, $value['id'], array(
 					'id' => $field->name, 'class' => 'span12'
 				)); ?>
 				
 			</div>
-			<div class="span1">
+			<div class="span4">
+				<?php if ( ! empty($value['id'])): ?>
+				<?php echo UI::button(__('View'), array(
+					'href' => Route::get('datasources')->uri(array(
+						'directory' => 'hybrid',
+						'controller' => 'document',
+						'action' => 'view'
+					)) . URL::query(array('ds_id' => $field->from_ds, 'id' => $value['id']), FALSE),
+					'icon' => UI::icon('building'),
+					'class' => 'btn popup fancybox.iframe',
+					'data-target' => $field->name
+				)); ?>
+				<?php endif; ?>
+
 				<?php echo UI::button(__('Create new'), array(
 					'href' => Route::get('datasources')->uri(array(
 						'directory' => 'hybrid',

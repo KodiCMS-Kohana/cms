@@ -105,7 +105,10 @@ class Controller_Api_Datasource_Hybrid_Document extends Controller_System_API
 		$ds = Datasource_Data_Manager::load($ds_id);
 		$documents = $ds->headline()->get($ids);
 		
-		$response = array();
+		$response = array(array(
+			'id' => 0,
+			'text' => __('--- Not set ---')
+		));
 		foreach($documents['documents'] as $id => $data)
 		{
 			if($doc_id != $id)

@@ -35,6 +35,7 @@ return array(
 	'unknown' => 'неизвестно',
 	'Loading' => 'Загрузка',
 	'View Site' => 'Просмотреть сайт',
+	'View' => 'Просмотреть',
 	'Are you sure?' => 'Вы уверены?',
 	'Something went wrong!' => 'Что то пошло не так',
 	'Select all' => 'Выбрать все',
