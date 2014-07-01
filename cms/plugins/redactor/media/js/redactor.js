@@ -46,9 +46,12 @@ RedactorPlugins.elfinder = {
 	init: function ()
 	{
 		var self = this;
-		this.addBtnSeparator();
-		this.addBtn('filemanager', 'elFinder', function() {
-			cms.filemanager.open(self.$el.attr('id'));
+		this.addBtn('filemanager', { 
+			title: 'elFinder',
+			icon: 'icon-folder-open',
+			callback: function() {
+				cms.filemanager.open(self.$el.attr('id'));
+			}
 		});
 	},
 };
@@ -59,7 +62,11 @@ RedactorPlugins.fullscreen = {
 	{
 		this.fullscreen = false;
 
-		this.addBtn('fullscreen', 'Fullscreen', $.proxy(this.toggleFullscreen, this));
+		this.addBtn('fullscreen', { 
+			title: 'Fullscreen',
+			icon: 'icon-resize-full',
+			callback: $.proxy(this.toggleFullscreen, this)
+		});
 		this.setBtnRight('fullscreen');
 
 		if (this.opts.fullscreen) this.toggleFullscreen();

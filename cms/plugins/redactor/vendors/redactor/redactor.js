@@ -242,24 +242,24 @@ var RLANG = {
 				'</select>' +
 				'</div>' +
 				'<div id="redactor_modal_footer">' +
-					'<a href="javascript:void(null);" id="redactor_image_delete_btn" class="redactor_modal_btn">' + RLANG._delete + '</a>&nbsp;&nbsp;&nbsp;' +
-					'<a href="javascript:void(null);" class="redactor_modal_btn redactor_btn_modal_close">' + RLANG.cancel + '</a>' +
-					'<input type="button" name="save" class="redactor_modal_btn" id="redactorSaveBtn" value="' + RLANG.save + '" />' +
+					'<a href="javascript:void(null);" id="redactor_image_delete_btn" class="btn btn-inverse">' + RLANG._delete + '</a>&nbsp;&nbsp;&nbsp;' +
+					'<a href="javascript:void(null);" class="btn btn-danger">' + RLANG.cancel + '</a>' +
+					'<input type="button" name="save" class="btn" id="redactorSaveBtn" value="' + RLANG.save + '" />' +
 				'</div>',
 
 			modal_image: String() +
 				'<div id="redactor_modal_content">' +
-				'<div id="redactor_tabs">' +
-					'<a href="javascript:void(null);" class="redactor_tabs_act">' + RLANG.upload + '</a>' +
-					'<a href="javascript:void(null);">' + RLANG.choose + '</a>' +
-					'<a href="javascript:void(null);">' + RLANG.link + '</a>' +
+				'<div id="redactor_tabs" class="btn-group">' +
+					'<a href="javascript:void(null);" class="redactor_tabs_act btn">' + RLANG.upload + '</a>' +
+					'<a href="javascript:void(null);" class="btn">' + RLANG.choose + '</a>' +
+					'<a href="javascript:void(null);" class="btn">' + RLANG.link + '</a>' +
 				'</div>' +
 				'<form id="redactorInsertImageForm" method="post" action="" enctype="multipart/form-data">' +
 					'<div id="redactor_tab1" class="redactor_tab">' +
 						'<input type="file" id="redactor_file" name="file" />' +
 					'</div>' +
 					'<div id="redactor_tab2" class="redactor_tab" style="display: none;">' +
-						'<div id="redactor_image_box"></div>' +
+						'<div id="redactor_image_box"><ul class="thumbnails"></ul></div>' +
 					'</div>' +
 				'</form>' +
 				'<div id="redactor_tab3" class="redactor_tab" style="display: none;">' +
@@ -268,17 +268,17 @@ var RLANG = {
 				'</div>' +
 				'</div>' +
 				'<div id="redactor_modal_footer">' +
-					'<a href="javascript:void(null);" class="redactor_modal_btn redactor_btn_modal_close">' + RLANG.cancel + '</a>' +
-					'<input type="button" name="upload" class="redactor_modal_btn" id="redactor_upload_btn" value="' + RLANG.insert + '" />' +
+					'<a href="javascript:void(null);" class="btn btn-danger">' + RLANG.cancel + '</a>' +
+					'<input type="button" name="upload" class="btn" id="redactor_upload_btn" value="' + RLANG.insert + '" />' +
 				'</div>',
 
 			modal_link: String() +
 				'<div id="redactor_modal_content">' +
 				'<form id="redactorInsertLinkForm" method="post" action="">' +
-					'<div id="redactor_tabs">' +
-						'<a href="javascript:void(null);" class="redactor_tabs_act">URL</a>' +
-						'<a href="javascript:void(null);">Email</a>' +
-						'<a href="javascript:void(null);">' + RLANG.anchor + '</a>' +
+					'<div id="redactor_tabs" class="btn-group">' +
+						'<a href="javascript:void(null);" class="redactor_tabs_act btn">URL</a>' +
+						'<a href="javascript:void(null);" class="btn">Email</a>' +
+						'<a href="javascript:void(null);" class="btn">' + RLANG.anchor + '</a>' +
 					'</div>' +
 					'<input type="hidden" id="redactor_tab_selected" value="1" />' +
 					'<div class="redactor_tab" id="redactor_tab1">' +
@@ -297,8 +297,8 @@ var RLANG = {
 				'</form>' +
 				'</div>' +
 				'<div id="redactor_modal_footer">' +
-					'<a href="javascript:void(null);" class="redactor_modal_btn redactor_btn_modal_close">' + RLANG.cancel + '</a>' +
-					'<input type="button" class="redactor_modal_btn" id="redactor_insert_link_btn" value="' + RLANG.insert + '" />' +
+					'<a href="javascript:void(null);" class="btn btn-danger">' + RLANG.cancel + '</a>' +
+					'<input type="button" class="btn" id="redactor_insert_link_btn" value="' + RLANG.insert + '" />' +
 				'</div>',
 
 			modal_table: String() +
@@ -309,8 +309,8 @@ var RLANG = {
 					'<input type="text" size="5" value="3" id="redactor_table_columns" />' +
 				'</div>' +
 				'<div id="redactor_modal_footer">' +
-					'<a href="javascript:void(null);" class="redactor_modal_btn redactor_btn_modal_close">' + RLANG.cancel + '</a>' +
-					'<input type="button" name="upload" class="redactor_modal_btn" id="redactor_insert_table_btn" value="' + RLANG.insert + '" />' +
+					'<a href="javascript:void(null);" class="btn btn-danger">' + RLANG.cancel + '</a>' +
+					'<input type="button" name="upload" class="btn" id="redactor_insert_table_btn" value="' + RLANG.insert + '" />' +
 				'</div>',
 
 			modal_video: String() +
@@ -321,20 +321,22 @@ var RLANG = {
 				'</form>' +
 				'</div>'+
 				'<div id="redactor_modal_footer">' +
-					'<a href="javascript:void(null);" class="redactor_modal_btn redactor_btn_modal_close">' + RLANG.cancel + '</a>' +
-					'<input type="button" class="redactor_modal_btn" id="redactor_insert_video_btn" value="' + RLANG.insert + '" />' +
+					'<a href="javascript:void(null);" class="btn btn-danger">' + RLANG.cancel + '</a>' +
+					'<input type="button" class="btn" id="redactor_insert_video_btn" value="' + RLANG.insert + '" />' +
 				'</div>',
 
 			toolbar: {
 				html:
 				{
 					title: RLANG.html,
-					func: 'toggle'
+					func: 'toggle',
+					icon: 'icon-code'
 				},
 				formatting:
 				{
 					title: RLANG.formatting,
 					func: 'show',
+					icon: 'icon-text-height',
 					dropdown:
 					{
 						p:
@@ -383,62 +385,74 @@ var RLANG = {
 				bold:
 				{
 					title: RLANG.bold,
-					exec: 'bold'
+					exec: 'bold',
+					icon: 'icon-bold'
 				},
 				italic:
 				{
 					title: RLANG.italic,
-					exec: 'italic'
+					exec: 'italic',
+					icon: 'icon-italic'
 				},
 				deleted:
 				{
 					title: RLANG.deleted,
-					exec: 'strikethrough'
+					exec: 'strikethrough',
+					icon: 'icon-strikethrough'
 				},
 				underline:
 				{
 					title: RLANG.underline,
-					exec: 'underline'
+					exec: 'underline',
+					icon: 'icon-underline'
 				},
 				unorderedlist:
 				{
 					title: '&bull; ' + RLANG.unorderedlist,
-					exec: 'insertunorderedlist'
+					exec: 'insertunorderedlist',
+					icon: 'icon-list-ul'
 				},
 				orderedlist:
 				{
 					title: '1. ' + RLANG.orderedlist,
-					exec: 'insertorderedlist'
+					exec: 'insertorderedlist',
+					icon: 'icon-list-ol'
 				},
 				outdent:
 				{
 					title: '< ' + RLANG.outdent,
-					exec: 'outdent'
+					exec: 'outdent',
+					icon: 'icon-indent-left'
 				},
 				indent:
 				{
 					title: '> ' + RLANG.indent,
-					exec: 'indent'
+					exec: 'indent',
+					icon: 'icon-indent-right'
 				},
 				image:
 				{
 					title: RLANG.image,
-					func: 'showImage'
+					func: 'showImage',
+					icon: 'icon-picture'
 				},
 				video:
 				{
 					title: RLANG.video,
-					func: 'showVideo'
+					func: 'showVideo',
+					icon: 'icon-film'
 				},
 				file:
 				{
 					title: RLANG.file,
-					func: 'showFile'
+					func: 'showFile',
+					icon: 'icon-file'
 				},
 				table:
 				{
 					title: RLANG.table,
 					func: 'show',
+					icon: 'icon-table',
 					dropdown:
 					{
 						insert_table:
@@ -509,6 +523,7 @@ var RLANG = {
 				{
 					title: RLANG.link,
 					func: 'show',
+					icon: 'icon-link',
 					dropdown:
 					{
 						link:
@@ -526,17 +541,20 @@ var RLANG = {
 				fontcolor:
 				{
 					title: RLANG.fontcolor,
-					func: 'show'
+					func: 'show',
+					icon: 'icon-adjust'
 				},
 				backcolor:
 				{
 					title: RLANG.backcolor,
-					func: 'show'
+					func: 'show',
+					icon: 'icon-tint'
 				},
 				alignment:
 				{
 					title: RLANG.alignment,
 					func: 'show',
+					icon: 'icon-align-left',
 					dropdown:
 					{
 						alignleft:
@@ -564,31 +582,34 @@ var RLANG = {
 				alignleft:
 				{
 					exec: 'JustifyLeft',
-					title: RLANG.align_left
+					title: RLANG.align_left,
+					icon: 'icon-align-left'
 				},
 				aligncenter:
 				{
 					exec: 'JustifyCenter',
-					title: RLANG.align_center
+					title: RLANG.align_center,
+					icon: 'icon-align-center'
 				},
 				alignright:
 				{
 					exec: 'JustifyRight',
-					title: RLANG.align_right
+					title: RLANG.align_right,
+					icon: 'icon-align-right'
 				},
 				justify:
 				{
 					exec: 'JustifyFull',
-					title: RLANG.align_justify
+					title: RLANG.align_justify,
+					icon: 'icon-align-justify'
 				},
 				horizontalrule:
 				{
 					exec: 'inserthorizontalrule',
-					title: RLANG.horizontalrule
+					title: RLANG.horizontalrule,
+					icon: 'icon-minus'
 				}
 			}
-
-
 		}, options, this.$el.data());
 
 		this.dropdowns = [];
@@ -674,13 +695,11 @@ var RLANG = {
 				// PLUGINS
 				if (typeof RedactorPlugins === 'object')
 				{
-					
 					$.each(RedactorPlugins, $.proxy(function(i,s)
 					{
 						if (typeof s !== 'undefined')
 						{
 							$.extend(this, s);
-
 							if (typeof s.init !== 'undefined')
 							{
 								this.init();
@@ -2054,7 +2073,10 @@ var RLANG = {
 		},
 		buildButton: function(key, s)
 		{
-			var button = $('<a href="javascript:void(null);" title="' + s.title + '" class="redactor_btn_' + key + '"></a>');
+			var icon = s.icon;
+			
+			if(! icon) icon = 'icon-' + key;
+			var button = $('<a href="#" title="' + s.title + '" class="redactor_btn_' + key + ' ' + icon + '"></a>');
 
 			if (typeof s.func === 'undefined')
 			{
@@ -2073,6 +2095,8 @@ var RLANG = {
 					}
 
 					this.execCommand(s.exec, key);
+					
+					return false;
 
 				}, this));
 			}
@@ -2249,7 +2273,7 @@ var RLANG = {
 
 				this.setBtnActive(key);
 				this.getBtn(key).addClass('dropact');
-
+				
 				var left = this.getBtn(key).offset().left;
 
 				if (this.opts.air)
@@ -2377,8 +2401,17 @@ var RLANG = {
 			{
 				return false;
 			}
+			
+			if(typeof title === 'object' )
+			{
+				var object = title;
+			}
+			else
+			{
+				var object = { title: title, callback: callback, dropdown: dropdown }
+			}
 
-			var btn = this.buildButton(key, { title: title, callback: callback, dropdown: dropdown });
+			var btn = this.buildButton(key, object);
 			this.$toolbar.append($('<li>').append(btn));
 		},
 		addBtnFirst: function(key, title, callback, dropdown)
@@ -3200,11 +3233,17 @@ var RLANG = {
 								}
 							}
 
-							var img = $('<img src="' + val.thumb + '" class="redactorfolder redactorfolder' + folderkey + '" rel="' + val.image + '" title="' + thumbtitle + '" />');
-							$('#redactor_image_box').append(img);
-							$(img).click($.proxy(this.imageSetThumb, this));
-
-
+							var img = $('<img src="' + val.thumb + '" class="redactorfolder redactorfolder' + folderkey + '" rel="' + val.image + '" title="' + thumbtitle + '" data-id="'+val.id+'" />');
+							
+							var cont = $('#redactor_image_box .thumbnails');
+							$('<li class="span1"></li>')
+								.append(img)
+//								.prepend('<button type="button" class="close" data-dismiss="alert">&times;</button>')
+								.appendTo(cont);
+									
+							
+							img.on('click', $.proxy(this.imageSetThumb, this));
+								
 						}, this));
 
 						// folders
@@ -3224,7 +3263,6 @@ var RLANG = {
 							{
 								select.append($('<option value="' + v + '">' + k + '</option>'));
 							});
-
 							$('#redactor_image_box').before(select);
 							select.change(onchangeFunc);
 						}
@@ -3664,7 +3702,7 @@ var RLANG = {
 				});
 			}
 
-			$('#redactor_modal .redactor_btn_modal_close').click($.proxy(this.modalClose, this));
+			$('#redactor_modal .btn-danger').click($.proxy(this.modalClose, this));
 
 			if (this.isMobile() === false)
 			{
