@@ -1,6 +1,6 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct access allowed.' );
 
-class KodiCMS_Controller_Update extends Controller_System_Backend {
+class Controller_Update extends Controller_System_Backend {
 	
 	public function before()
 	{
@@ -12,6 +12,11 @@ class KodiCMS_Controller_Update extends Controller_System_Backend {
 	
 	public function action_index() 
 	{
+		$this->template->content = View::factory( 'update/index');
+	}
+	
+	public function action_database() 
+	{
 		Assets::package('ace');
 		
 		$this->template->title = __('Update');
@@ -22,12 +27,12 @@ class KodiCMS_Controller_Update extends Controller_System_Backend {
 		$compare = new Database_Helper;
 		$diff = $compare->get_updates($db_sql, $file_sql, TRUE);
 		
-		$this->template->content = View::factory( 'update/index', array(
+		$this->template->content = View::factory( 'update/database', array(
 			'actions' => $diff,
-		) );
+		));
 	}
 	
-	public function action_patch()
+	public function action_patches()
 	{
 		if($this->request->method() === Request::POST)
 		{
