@@ -422,11 +422,10 @@ class Datasource_Document {
 	 */
 	public function load( $id )
 	{
-		$ds_id = $this->section()->id();
-
 		$result = DB::select()
 			->select_array( array_keys( $this->_system_fields ))
 			->from($this->section()->table())
+			->where('ds_id', '=', (int) $this->section()->id())
 			->where('id', '=', (int) $id)
 			->limit(1)
 			->execute()
@@ -514,6 +513,7 @@ class Datasource_Document {
 
 		DB::update($this->section()->table())
 			->set($values)
+			->where('ds_id', '=', (int) $this->section()->id())
 			->where('id', '=', $this->id)
 			->execute();
 		
@@ -535,6 +535,7 @@ class Datasource_Document {
 		if( ! $this->loaded() ) return FALSE;
 		
 		DB::delete($this->section()->table())
+			->where('ds_id', '=', (int) $this->section()->id())
 			->where('id', '=', $this->id)
 			->execute();
 		
