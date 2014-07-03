@@ -232,35 +232,28 @@ cms.addTranslation = function (obj) {
 
 cms.navigation = {
 	counter: {
+		total: [],
 		init: function() {
-			$('#site_nav .dropdown').each(function() {
-				var total = 0;
-
-				$('.dropdown-menu a', this).each(function() {
-					if($(this).data('counter') > 0) {
-						total += $(this).data('counter');
-						$(this).append('<span class="counter">' + $(this).data('counter') + '</span>');
-					}
-				});
-
-				if(total > 0)
-					$('.dropdown-toggle', this).append('<span class="counter">' + total + '</span>');
-			});
-			
-			$('#subnav a').each(function() {
-				if($(this).data('counter') > 0) {
-					$(this).append('<span class="counter">' + $(this).data('counter') + '</span>');
-				}
+			$('.dropdown-menu a').filter(function() { return $(this).data('counter') > 0 }).each(function() {
+				$(this)
+					.append('<span class="counter">' + $(this).data('counter') + '</span>')
+					.parents('.dropdown-menu')
+					.prev()
+					.append('<span class="counter">!</span>');
 			});
 		},
 		add: function(href, count) {
-			$('.dropdown-menu a[href*="'+href+'"]').data('counter', count);
-			$('#subnav a[href*="'+href+'"]').data('counter', count);
+			$('.dropdown-menu a[href="'+href+'"]')
+				.add('#subnav a[href="'+href+'"]')
+				.data('counter', count);
+
 			this.init();
 		},
 		remove: function(href) {
-			$('.dropdown-menu a[href*="'+href+'"]').removeData('counter');
-			$('#subnav a[href*="'+href+'"]').removeData('counter');
+			$('.dropdown-menu a[href="'+href+'"]')
+					.add('#subnav a[href="'+href+'"]')
+				.removeData('counter');
+
 			this.init();
 		}
 	}
@@ -964,7 +957,6 @@ var Api = {
 				if(typeof(callback) == 'function') callback(textStatus);
 			}
 		}).always($.proxy(function(){
-			console.log(obj._loader_id);
 			cms.loader.hide(obj._loader_id);
 		}, obj));
 	},
