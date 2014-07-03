@@ -53,7 +53,7 @@ cms.init.add('page_index', function () {
 				cms.loader.hide();
 			};
 
-			cms.loader.show();
+			cms.loader.show($(this).parent());
 
 			// Sending information about page position to frog
 			$.ajax({
@@ -132,7 +132,7 @@ cms.init.add('page_index', function () {
 					var list   = e.length ? e : $(e.target);
 					Api.post('pages.sort', {'pages': list.nestable('serialize')});
 				});
-			});
+			}, self.parent());
 		}
 	});
 

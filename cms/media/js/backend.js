@@ -81,19 +81,38 @@ var cms = {
 	},
 
 	loader: {
-		init: function () {
-			$('body')
-				.append('<div class="_loader_container"><div class="_loader_bg"></div><span>' + __('Loading') + '</span>\n\
-</div>');
+		counter: 0,
+		init: function (container) {
+			if(!(container instanceof jQuery)) 
+				container = $('body');
+
+			return $('<div class="_loader_container"><div class="_loader_bg"></div><span>' + __('Loading') + '</span></div>')
+				.appendTo(container)
+				.css({
+					width: container.outerWidth(true), 
+					height: container.outerHeight(true),
+					top: container.offset().top,
+					left: container.offset().left
+				})
+				.prop('id', 'loader' + ++this.counter);
 		},
-		show: function (speed) {
+		show: function (container, speed) {
 			if(!speed) {
 				speed = 500;
 			}
-			$('._loader_container').fadeTo(speed, 0.4);
+
+			var loader = this.init(container).fadeTo(speed, 0.4);
+			return this.counter;
 		},
-		hide: function () {
-			$('._loader_container').stop().fadeOut();
+		hide: function (id) {
+			if(!id)
+				cont = $('._loader_container');
+			else 
+				cont = $('#loader'+id);
+
+			cont.stop().fadeOut(400, function() {
+				$(this).remove();
+			});
 		}
 	},
 	
@@ -593,8 +612,6 @@ cms.ui.add('flags', function() {
         dictRemoveFile: __("Remove file"),
         dictMaxFilesExceeded: __("You can only upload {{maxFiles}} files."),
 	});
-}).add('loader', function() {
-    cms.loader.init();
 }).add('fancybox', function() {
     $(".fancybox-image").fancybox();
 }).add('popup', function() {
@@ -833,24 +850,23 @@ cms.ui.add('flags', function() {
 
 var Api = {
 	_response: null,
-
-	get: function(uri, data, callback) {
-		this.request('GET', uri, data, callback);
+	get: function(uri, data, callback, show_loader) {
+		this.request('GET', uri, data, callback, show_loader);
 		
 		return this.response();
 	},
-	post: function(uri, data, callback) {
-		this.request('POST', uri, data, callback);
+	post: function(uri, data, callback, show_loader) {
+		this.request('POST', uri, data, callback, show_loader);
 		
 		return this.response();
 	},
-	put: function(uri, data, callback) {
-		this.request('PUT', uri, data, callback);
+	put: function(uri, data, callback, show_loader) {
+		this.request('PUT', uri, data, callback, show_loader);
 		
 		return this.response();
 	},
-	'delete': function(uri, data, callback) {
-		this.request('DELETE', uri, data, callback);
+	'delete': function(uri, data, callback, show_loader) {
+		this.request('DELETE', uri, data, callback, show_loader);
 		
 		return this.response();
 	},
@@ -895,6 +911,8 @@ var Api = {
 	request: function(method, uri, data, callback, show_loader) {
 		url = Api.build_url(uri);
 		
+		var obj = new Object();
+
 		if(show_loader == 'undefined')
 			show_loader = true;
 		
@@ -910,9 +928,10 @@ var Api = {
 			url: url,
 			data: data,
 			dataType: 'json',
-			beforeSend: function(){
-				if(show_loader) cms.loader.show();
-			},
+			beforeSend: $.proxy(function(){
+				if(show_loader) 
+					obj._loader_id = cms.loader.show(show_loader);					
+			}, obj),
 			success: function(response) {
 				if(response.code != 200) {
 					if(typeof(callback) == 'function') callback(response);
@@ -944,9 +963,10 @@ var Api = {
 			error: function(jqXHR, textStatus, errorThrown) {
 				if(typeof(callback) == 'function') callback(textStatus);
 			}
-		}).always(function() { 
-			cms.loader.hide();
-		});
+		}).always($.proxy(function(){
+			console.log(obj._loader_id);
+			cms.loader.hide(obj._loader_id);
+		}, obj));
 	},
 	exception: function(response) {
 		if(response.code == 120 && typeof(response.errors) == 'object') {
