@@ -222,7 +222,7 @@ class KodiCMS_Meta {
 	 */
 	public function package($name)
 	{
-		Assets::package($names);
+		Assets::package($name);
 		return $this;
 	}
 
