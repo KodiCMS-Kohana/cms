@@ -72,23 +72,13 @@ class DataSource_Hybrid_Field_Factory {
 	}
 	
 	/**
-	 * Удаление полей по их ключу из раздела в из таблицы полей
+	 * Удаление полей по их ключу из раздела и из таблицы полей
 	 * 
 	 * @param DataSource_Hybrid_Record $record
 	 * @param array $keys
 	 */
-	public static function remove_fields( DataSource_Hybrid_Record $record, $keys) 
-	{
-		if($keys === NULL)
-		{
-			return;
-		}
-
-		if(!is_array( $keys ))
-		{
-			$keys = array($keys);
-		}
-		
+	public static function remove_fields_by_key( DataSource_Hybrid_Record $record, array $keys) 
+	{		
 		$fields = $record->fields();
 
 		foreach($keys as $key)
@@ -100,12 +90,27 @@ class DataSource_Hybrid_Field_Factory {
 			) 
 			{
 				$fields[$key]->remove();
-				
 				self::alter_table_drop_field($fields[$key]);
 			}
 		}
 	}
 	
+	/**
+	 * Удаление полей по их ID и из таблицы полей
+	 * 
+	 * @param array $ids
+	 */
+	public static function remove_fields_by_id(array $ids)
+	{
+		$fields = self::get_fields($ids);
+		
+		foreach($fields as $field)
+		{
+			$field->remove();
+			self::alter_table_drop_field($field);
+		}
+	}
+
 	/**
 	 * Загрузка поля по его ID
 	 * 

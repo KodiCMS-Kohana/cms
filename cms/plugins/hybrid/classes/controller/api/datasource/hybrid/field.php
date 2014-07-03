@@ -6,17 +6,10 @@ class Controller_Api_Datasource_Hybrid_Field extends Controller_System_API
 	{
 		$ids = $this->param('field', array(), TRUE);
 		
-		$fields = DataSource_Hybrid_Field_Factory::get_fields($ids);
-		
-		$removed_ids = array();
-		foreach($fields as $id => $field)
-		{
-			$field->remove();
-			$removed_ids[] = $id;
-		}
+		DataSource_Hybrid_Field_Factory::remove_fields_by_id($ids);
 
 		$this->message('Fields has been removed');
-		$this->response($removed_ids);
+		$this->response($ids);
 	}
 	
 	public function post_headline()

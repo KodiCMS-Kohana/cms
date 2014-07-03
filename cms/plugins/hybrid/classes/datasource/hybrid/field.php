@@ -521,7 +521,7 @@ abstract class DataSource_Hybrid_Field {
 	/**
 	 * Удаление поля из БД
 	 * 
-	 * @see DataSource_Hybrid_Field_Factory::remove_fields()
+	 * @see DataSource_Hybrid_Field_Factory::remove_fields_by_key()
 	 * 
 	 * @return boolean
 	 */

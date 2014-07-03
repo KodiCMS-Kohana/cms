@@ -91,7 +91,7 @@ class DataSource_Hybrid_Record {
 	 */
 	public function destroy() 
 	{
-		DataSource_Hybrid_Field_Factory::remove_fields($this, array_keys($this->fields()));
+		DataSource_Hybrid_Field_Factory::remove_fields_by_key($this, array_keys($this->fields()));
 		return $this;
 	}
 	
