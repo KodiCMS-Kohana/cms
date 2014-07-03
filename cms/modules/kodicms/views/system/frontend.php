@@ -15,6 +15,7 @@
 		<?php Observer::notify( 'layout_frontend_head_before' ); ?>
 		<?php echo Assets::css(); ?>
 		<?php echo Assets::js(); ?>
+		<?php echo Assets::group('global'); ?>
 		<?php Observer::notify( 'layout_frontend_head_after' ); ?>
 	</head>
 	<body id="body_frontend">

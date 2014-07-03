@@ -15,6 +15,7 @@
 		<?php Observer::notify( 'layout_backend_head_before' ); ?>
 		<?php echo Assets::css(); ?>
 		<?php echo Assets::js(); ?>
+		<?php echo Assets::group('global'); ?>
 		<?php Observer::notify( 'layout_backend_head_after' ); ?>
 	</head>
 	<body id="body_<?php echo $page_body_id; ?>" class="<?php echo $request->query('type'); ?>">

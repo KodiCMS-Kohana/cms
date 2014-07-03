@@ -67,6 +67,30 @@ class KodiCMS_Controller_System_Backend extends Controller_System_Template
 			{
 				Assets::js('controller.' . $file, ADMIN_RESOURCES . 'js/controller/' . $file . '.js', 'global');
 			}
+			
+			$cache = Cache::instance();
+			$events_js_content = $cache->get('events_js');
+			if($events_js_content === NULL)
+			{
+				$events_js_files = Kohana::find_file('media', FileSystem::normalize_path('js/events'), 'js', TRUE);
+				if ( ! empty($events_js_files))
+				{
+					foreach ($events_js_files as $file)
+					{
+						$events_js_content .= file_get_contents($file) . "\n";
+					}
+					
+					if(Kohana::$caching === TRUE)
+					{
+						$cache->set('events_js', $content, Date::DAY);
+					}
+				}
+			}
+			
+			if ( ! empty($events_js_content))
+			{
+				Assets::group('global', 'events', '<script type="text/javascript">' . $events_js_content . '</script>', 'global');
+			}
 
 			Observer::notify('controller_before_' . $this->get_path());
 		}
