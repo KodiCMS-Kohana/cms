@@ -7,6 +7,7 @@ class Update {
 	const VERSION_CURRENT = 0;
 	
 	const BRANCH = 'dev';
+	const REPOSITORY = 'butschster/kodicms';
 	
 	/**
 	 * Версия системы с удаленного сервера
@@ -19,9 +20,9 @@ class Update {
 	 * Проверка номера версии в репозитории Github
 	 * @return integer
 	 */
-	public static function check()
+	public static function check_version()
 	{
-		$respoonse = self::_request('https://raw.githubusercontent.com/butschster/kodicms/:branch/cms/application/bootstrap.php');
+		$respoonse = self::_request('https://raw.githubusercontent.com/:rep/:branch/cms/application/bootstrap.php');
 		preg_match('/define\(\'CMS_VERSION\'\,[\t\ ]*\'([0-9\.]+)\'\)\;/i', $respoonse, $matches);
 		
 		self::$_remove_version = $matches[1];
@@ -35,11 +36,20 @@ class Update {
 	 */
 	public static function check_files()
 	{
-		$respoonse = self::_request('https://api.github.com/repos/butschster/kodicms/git/trees/:branch?recursive=true');
+		$respoonse = self::_request('https://api.github.com/repos/:rep/git/trees/:branch?recursive=true');
 		$respoonse = json_decode($respoonse, TRUE);
 		
-		$new_files = array();
-		$wrong_files = array();
+		$files = array(
+			'new_files' => array(),
+			'diff_files' => array()
+		);
+		
+		$cache = Cache::instance();
+		$cached_files = $cache->get('update_cache');
+		if($cached_files !== NULL)
+		{
+			return $cached_files;
+		}
 
 		if(isset($respoonse['tree']))
 		{
@@ -48,7 +58,7 @@ class Update {
 				$filepath = DOCROOT . $row['path'];
 				if ( ! file_exists($filepath))
 				{
-					$new_files[] = 'https://raw.githubusercontent.com/butschster/kodicms/' . self::BRANCH . '/' . $row['path'];
+					$files['new_files'][] = self::build_remote_url('https://raw.githubusercontent.com/:rep/:branch/' . $row['path']);
 					continue;
 				}
 				
@@ -70,19 +80,18 @@ class Update {
 					
 					if($diff > 1 OR $diff < - 1)
 					{
-						$wrong_files[] = array(
-							'diff' => $diff,
-							'url' => 'https://raw.githubusercontent.com/butschster/kodicms/' . self::BRANCH . '/' . $row['path']
+						$files['diff_files'][] = array(
+							'diff' => Text::bytes($diff),
+							'url' => self::build_remote_url('https://raw.githubusercontent.com/:rep/:branch/' . $row['path'])
 						);
 					}
 				}
 			}
+			
+			$cache->set('update_cache', $files);
 		}
 		
-		return array(
-			'new_files' => $new_files,
-			'diff_files' => $wrong_files
-		);
+		return $files;
 	}
 	
 	/**
@@ -92,7 +101,7 @@ class Update {
 	 */
 	public static function link($name)
 	{
-		return HTML::anchor('https://github.com/butschster/kodicms/archive/' . self::BRANCH . '.zip', $name);
+		return HTML::anchor(self::build_remote_url('https://github.com/:rep/archive/:branch.zip'), $name);
 	}
 	
 	/**
@@ -114,21 +123,31 @@ class Update {
 	 * @param string $url
 	 * @return string
 	 */
+	public static function build_remote_url($url)
+	{
+		return strtr($url, array(
+			':branch' => self::BRANCH,
+			':rep' => self::REPOSITORY
+		));
+	}
+	
+	/**
+	 * 
+	 * @param string $url
+	 * @return string
+	 */
 	protected static function _request($url)
 	{
-		$request = Request::factory(strtr($url, array(
-			':branch' => self::BRANCH
-		)), array(
+		return Request::factory(self::build_remote_url($url), array(
+			'cache' => HTTP_Cache::factory(Cache::instance()),
 			'options' => array(
 				CURLOPT_SSL_VERIFYPEER => FALSE,
 				CURLOPT_SSL_VERIFYHOST => FALSE,
 				CURLOPT_USERAGENT => 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5'
 			)
-		))->execute();
-		
-		return $request->body();
+		))->execute()->body();
 	}
-	
+
 	/**
 	 * Подсчет кол-ва строк в файле
 	 * 
