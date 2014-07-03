@@ -25,7 +25,7 @@ class KodiCMS_Controller_System_Backend extends Controller_System_Template
 		$navigation = Model_Navigation::get();
 		$this->page = Model_Navigation::$current;
 		
-		if($this->auto_render === TRUE)
+		if ($this->auto_render === TRUE)
 		{
 			$this->template->set_global(array(
 				'page_body_id' => $this->get_path(),
@@ -33,7 +33,7 @@ class KodiCMS_Controller_System_Backend extends Controller_System_Template
 				'page' => $this->page
 			));
 			
-			if( $this->request->is_iframe() )
+			if ($this->request->is_iframe())
 			{
 				$navigation = NULL;
 				$this->template->footer = NULL;
@@ -50,43 +50,25 @@ class KodiCMS_Controller_System_Backend extends Controller_System_Template
 			
 			$this->template->bind_global('navigation', $navigation);
 			
-			Assets::js('jquery', ADMIN_RESOURCES . 'libs/jquery.min.js');
-			
-			Assets::css('dropzone', ADMIN_RESOURCES . 'libs/dropzone/css/basic.css', 'jquery');
-			Assets::js('dropzone', ADMIN_RESOURCES . 'libs/dropzone/dropzone.min.js', 'jquery');
-			
-			Assets::package(array('notify', 'select2'));
+			Assets::package(array(
+				'jquery', 'bootstrap', 'notify', 'select2', 'dropzone', 'fancybox', 'datepicker'
+			));
 
-			Assets::js('bootstrap', ADMIN_RESOURCES . 'libs/bootstrap/js/bootstrap.min.js', 'jquery');
-			
-			Assets::css('fancybox', ADMIN_RESOURCES . 'libs/fancybox/jquery.fancybox.css', 'jquery');
-			Assets::js('fancybox', ADMIN_RESOURCES . 'libs/fancybox/jquery.fancybox.pack.js', 'jquery');
-			
-			Assets::css('datepicker', ADMIN_RESOURCES . 'libs/datepicker/jquery.datetimepicker.css', 'jquery');
-			Assets::js('datepicker', ADMIN_RESOURCES . 'libs/datepicker/jquery.datetimepicker.js', 'jquery');
-			
 			Assets::css('global', ADMIN_RESOURCES . 'css/common.css');
 			Assets::js('global', ADMIN_RESOURCES . 'js/backend.js', 'backbone');
 
-			$lang_file = CMSPATH . FileSystem::normalize_path('media/js/i18n/'.I18n::lang().'.js');
-			if( file_exists($lang_file))
+			if (file_exists(CMSPATH . FileSystem::normalize_path('media/js/i18n/'.I18n::lang().'.js')))
 			{
 				Assets::js('i18n', ADMIN_RESOURCES . 'js/i18n/'.I18n::lang().'.js', 'global');
 			}
 			
 			$file = strtolower($this->request->controller());
-			if( Kohana::find_file('media', FileSystem::normalize_path('js/controller/' . $file), 'js'))
+			if (Kohana::find_file('media', FileSystem::normalize_path('js/controller/' . $file), 'js'))
 			{
 				Assets::js('controller.' . $file, ADMIN_RESOURCES . 'js/controller/' . $file . '.js', 'global');
 			}
-			
+
 			Observer::notify('controller_before_' . $this->get_path());
 		}
 	}
-	
-//	public function after()
-//	{
-//		Assets::minify();
-//		parent::after();
-//	}
 }

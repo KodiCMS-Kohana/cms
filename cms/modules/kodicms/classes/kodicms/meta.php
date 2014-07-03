@@ -206,6 +206,25 @@ class KodiCMS_Meta {
 		Assets::group('head', $handle, strtr($content, $params), $deps);
 		return $this;
 	}
+	
+	/**
+	 * Добавление пакетов
+	 * 
+	 *		Meta::factory($page)
+	 *			->package('jquery-ui')
+	 *			->package(array('jquery-ui', 'fancybox'));
+	 * 
+	 * @param string $handle
+	 * @param string $content
+	 * @param array $params
+	 * @param string $deps
+	 * @return \KodiCMS_Meta
+	 */
+	public function package($name)
+	{
+		Assets::package($names);
+		return $this;
+	}
 
 	/**
 	 * Генерация HTML кода CSS, JS, Meta

@@ -63,12 +63,6 @@ class Assets_Core {
 	 */
 	public static $groups = array();
 	
-	/**
-	 *
-	 * @var type 
-	 */
-	public static $packages = array();
-	
 	
 	public static function package($names)
 	{
@@ -79,18 +73,21 @@ class Assets_Core {
 
 		foreach ( $names as $name )
 		{
-			$package = Arr::get(Assets::$packages, $name);
+			$package = Assets_Package::load($name);
 
 			if($package === NULL) continue;
 
-			foreach ($package->css() as $handle => $src)
+			foreach ($package as $item)
 			{
-				Assets::$css[$handle] = $src;
-			}
-
-			foreach ($package->js() as $handle => $src)
-			{
-				Assets::$js[$handle] = $src;
+				switch($item['type'])
+				{
+					case 'css':
+						Assets::$css[$item['handle']] = $item;
+						break;
+					case 'js':
+						Assets::$js[$item['handle']] = $item;
+						break;
+				}
 			}
 		}
 		

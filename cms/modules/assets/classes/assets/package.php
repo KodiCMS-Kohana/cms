@@ -1,58 +1,70 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Assets_Package {
+class Assets_Package implements Iterator {
 	
+	protected static $_list = array();
+
 	/**
+	 * Добавление пакета
 	 * 
 	 * @param string $name
 	 * @param array $sources
 	 * @return \Assets_Package
 	 */
-	public static function add($name, array $sources = array())
+	public static function add($name)
 	{
 		return new Assets_Package($name, $sources);
 	}
 	
 	/**
-	 *
+	 * Загрузка пакета
+	 * 
+	 * @param string $name
+	 * @return \Assets_Package|NULL
+	 */
+	public static function load($name)
+	{
+		return Arr::get(Assets_Package::$_list, $name);
+	}
+	
+	/**
+	 * Получение списка всех пакетов
+	 * 
+	 * @return array
+	 */
+	public static function get_all()
+	{
+		return Assets_Package::$_list;
+	}
+
+	/**
+	 * 
 	 * @var string 
 	 */
-	protected $_name;
-	
+	protected $_handle = NULL;
+
+
 	/**
 	 *
 	 * @var array 
 	 */
-	protected $_css = array();
+	protected $_data = array();
 	
 	/**
 	 *
-	 * @var array 
+	 * @var integer 
 	 */
-	protected $_js = array();
+	private $position = 0;
 
 	/**
 	 * 
 	 * @param string $name
 	 * @param array $sources
 	 */
-	public function __construct($name, array $sources = array())
+	public function __construct($handle)
 	{
-		$this->_name = $name;
-		
-		foreach ($sources as $src)
-		{
-			if($src['type'] == 'js')
-			{
-				$this->_js[$src['handle']] = $src;
-			}
-			else
-			{
-				$this->_css[$src['handle']] = $src;
-			}
-		}
-		
-		Assets::$packages[$this->_name] = $this;
+		$this->_handle = $handle;
+		Assets_Package::$_list[$handle] = $this;
 	}
 	
 	/**
@@ -62,8 +74,8 @@ class Assets_Package {
 	public function css($handle = NULL, $src = NULL, $deps = NULL, $attrs = NULL)
 	{
 		if ($handle === NULL)
-		{
-			return $this->_css;
+		{	
+			$handle = $this->_handle;
 		}
 		
 		// Set default media attribute
@@ -72,7 +84,8 @@ class Assets_Package {
 			$attrs['media'] = 'all';
 		}
 		
-		$this->_css[$handle] = array(
+		$this->_data[] = array(
+			'type'	=> 'css',
 			'src'   => $src,
 			'deps'  => (array) $deps,
 			'attrs' => $attrs,
@@ -89,12 +102,13 @@ class Assets_Package {
 	 */
 	public function js($handle = FALSE, $src = NULL, $deps = NULL, $footer = FALSE)
 	{
-		if ($handle === TRUE OR $handle === FALSE)
+		if ($handle === NULL)
 		{
-			return $this->_js;
+			$handle = $this->_handle;
 		}
 		
-		$this->_js[$handle] = array(
+		$this->_data[] = array(
+			'type'	=> 'js',
 			'src'    => $src,
 			'deps'   => (array) $deps,
 			'footer' => $footer,
@@ -104,9 +118,34 @@ class Assets_Package {
 		
 		return $this;
 	}
-	
+
 	public function __toString()
 	{
 		return (string) $this->_name;
+	}
+	
+	function rewind()
+	{
+		$this->position = 0;
+	}
+	
+	function current() 
+	{
+		return $this->_data[$this->position];
+	}
+	
+	function key()
+	{
+		return $this->position;
+	}
+	
+	function next() 
+	{
+		++$this->position;
+	}
+	
+	function valid() 
+	{
+		return isset($this->_data[$this->position]);
 	}
 }
