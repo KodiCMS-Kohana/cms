@@ -29,7 +29,7 @@ $(function() {
 	});
 	
 	$('input[name^="in_headline"]').on('change', function() {
-		var id = parseInt($(this).prop('name').substr(12, 1));
+		var id = parseInt($(this).prop('name').match(/.*\[(\d+)\]/)[1]);
 		if( ! id) return;
 		
 		if($(this).checked()) {
@@ -40,7 +40,7 @@ $(function() {
 	});
 	
 	$('input[name^="index_type"]').on('change', function() {
-		var id = parseInt($(this).prop('name').substr(11, 1));
+		var id = parseInt($(this).prop('name').match(/.*\[(\d+)\]/)[1]);
 		if( ! id) return;
 		
 		if($(this).checked()) {
