@@ -8,11 +8,13 @@ class DataSource_Hybrid_Field_Source_Document extends DataSource_Hybrid_Field_So
 		'one_to_one' => FALSE
 	);
 	
-	public function set( array $data )
+	public function booleans()
 	{
-		
-		$data['one_to_one'] = !empty($data['one_to_one']) ? TRUE : FALSE;
-		
+		return array('one_to_one');
+	}
+	
+	public function set( array $data )
+	{		
 		if ( ! empty($data['from_ds']))
 		{
 			$section = Datasource_Section::load($data['from_ds']);

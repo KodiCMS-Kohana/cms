@@ -203,7 +203,26 @@ abstract class DataSource_Hybrid_Field {
 	}
 	
 	/**
+	 * Поулучение списка параметров
 	 * 
+	 * @return array
+	 */
+	public function properties()
+	{
+		return $this->_props;
+	}
+
+	/**
+	 * Булевые параметры поля
+	 * 
+	 * @return array
+	 */
+	public function booleans()
+	{
+		return array();
+	}
+
+	/**
 	 * Правила валидации поля при его создании и редактировании.
 	 * Используется класс Validation
 	 * 
@@ -273,7 +292,13 @@ abstract class DataSource_Hybrid_Field {
 	 */
 	public function set( array $data )
 	{
-		$data['isreq'] = ! empty($data['isreq']) ? TRUE : FALSE;
+		$boleans = $this->booleans();
+		$boleans[] = 'isreq';
+
+		foreach ($boleans as $key)
+		{
+			$data[$key] = ! empty($data[$key]) ? TRUE : FALSE;
+		}
 
 		foreach ( $data as $key => $value )
 		{
@@ -474,7 +499,7 @@ abstract class DataSource_Hybrid_Field {
 			'type' => $this->type, 
 			'header' => $this->header,
 			'from_ds' => (int) $this->from_ds,
-			'props' => serialize($this->_props),
+			'props' => serialize( $this->_props ),
 			'position' => (int) $this->position
 		);
 
@@ -754,6 +779,11 @@ abstract class DataSource_Hybrid_Field {
 		if($this->isreq === TRUE AND $this->is_required())
 		{
 			$validation->rule($this->name, 'not_empty');
+		}
+		
+		if( $this->unique === TRUE )
+		{
+			$validation->rule($this->name, array($this, 'check_unique'), array(':value', $doc));
 		}
 
 		return $validation

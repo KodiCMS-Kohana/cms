@@ -10,11 +10,13 @@ class DataSource_Hybrid_Field_Primitive_Select extends DataSource_Hybrid_Field_P
 		'empty_value' => TRUE,
 	);
 	
+	public function booleans()
+	{
+		return array('custom_option', 'empty_value');
+	}
+	
 	public function set( array $data )
 	{
-		$data['custom_option'] = !empty($data['custom_option']) ? TRUE : FALSE;
-		$data['empty_value'] = !empty($data['empty_value']) ? TRUE : FALSE;	
-		
 		return parent::set( $data );
 	}
 	

@@ -15,6 +15,11 @@ class DataSource_Hybrid_Field_File_Image extends DataSource_Hybrid_Field_File_Fi
 		'types' => 'bmp,gif,jpg,png,tif',
 		'max_size' => 1048576
 	);
+	
+	public function booleans()
+	{
+		return array('crop');
+	}
 
 	/**
 	 * 
@@ -22,8 +27,7 @@ class DataSource_Hybrid_Field_File_Image extends DataSource_Hybrid_Field_File_Fi
 	 * @return DataSource_Hybrid_Field
 	 */
 	public function set( array $data )
-	{		
-		$data['crop'] = !empty($data['crop']) ? TRUE : FALSE;		
+	{	
 		return parent::set( $data );
 	}
 	

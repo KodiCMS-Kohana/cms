@@ -11,10 +11,13 @@ class DataSource_Hybrid_Field_Primitive_String extends DataSource_Hybrid_Field_P
 		'use_filemanager' => FALSE
 	);
 	
+	public function booleans()
+	{
+		return array('use_filemanager');
+	}
+	
 	public function set( array $data )
 	{
-		$data['use_filemanager'] = !empty($data['use_filemanager']) ? TRUE : FALSE;
-		
 		return parent::set( $data );
 	}
 	

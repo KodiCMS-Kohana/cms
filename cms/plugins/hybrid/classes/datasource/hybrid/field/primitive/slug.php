@@ -11,27 +11,19 @@ class DataSource_Hybrid_Field_Primitive_Slug extends DataSource_Hybrid_Field_Pri
 		'unique' => FALSE
 	);
 
+	public function booleans()
+	{
+		return array('from_header', 'unique');
+	}
+	
 	public function set( array $data )
 	{
-		$data['from_header'] = !empty($data['from_header']) ? TRUE : FALSE;
-		$data['unique'] = !empty($data['unique']) ? TRUE : FALSE;
-
 		return parent::set( $data );
 	}
 	
 	public function onUpdateDocument(DataSource_Hybrid_Document $old = NULL, DataSource_Hybrid_Document $new) 
 	{
 		$new->set($this->name, URL::title($new->get($this->name)));
-	}
-	
-	public function onValidateDocument( Validation $validation, DataSource_Hybrid_Document $doc )
-	{
-		if( $this->unique === TRUE )
-		{
-			$validation->rule($this->name, array($this, 'check_unique'), array(':value', $doc));
-		}
-			
-		return parent::onValidateDocument($validation, $doc);
 	}
 	
 	public function check_unique($value, $doc) 

@@ -8,10 +8,13 @@ class DataSource_Hybrid_Field_Primitive_Date extends DataSource_Hybrid_Field_Pri
 	
 	protected $_format = 'Y-m-d';
 	
+	public function booleans()
+	{
+		return array('set_current');
+	}
+	
 	public function set( array $data )
 	{
-		$data['set_current'] = !empty($data['set_current']) ? TRUE : FALSE;
-		
 		return parent::set( $data );
 		
 		if($this->set_current === TRUE)
