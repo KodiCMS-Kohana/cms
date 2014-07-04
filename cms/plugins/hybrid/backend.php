@@ -49,7 +49,7 @@ Observer::observe(array('user_after_update', 'user_after_add'), function($user, 
 		'published' => TRUE
 	));
 
-	if( $doc->loaded() )
+	if ($doc->loaded())
 	{
 		$ds->update_document($doc);
 	}
@@ -57,4 +57,55 @@ Observer::observe(array('user_after_update', 'user_after_add'), function($user, 
 	{
 		$doc = $ds->create_document($doc);
 	}	
+}, $plugin);
+
+Observer::observe('user_after_delete', function($id, $plugin) {
+	
+	$ds_id = $plugin->get('user_profile_ds_id');
+	
+	$ds = Datasource_Section::load($ds_id);
+	if ($ds === NULL OR $ds->type() != 'hybrid')
+	{
+		return;
+	}
+	
+	$doc = $ds->get_empty_document()->load_by('f_profile_id', $id);
+	
+	if ($doc->loaded())
+	{
+		$ds->remove_documents(array($doc->id));
+	}
+}, $plugin);
+
+Observer::observe('view_user_profile_sidebar_list', function($id, $plugin) {
+	
+	$ds_id = $plugin->get('user_profile_ds_id');
+
+	$ds = Datasource_Section::load($ds_id);
+	if ($ds === NULL OR $ds->type() != 'hybrid')
+	{
+		return;
+	}
+	
+	$doc = $ds->get_empty_document()->load_by('f_profile_id', $id);
+
+	if ($doc->loaded())
+	{
+		echo View::factory('datasource/hybrid/user_profile', array(
+			'fields' => $ds->record()->fields(),
+			'document' => $doc,
+			'header' => $ds->name
+		));
+	}
+}, $plugin);
+
+Observer::observe('datasource_after_remove', function($id, $plugin) {
+	
+	$ds_id = $plugin->get('user_profile_ds_id');
+	if($ds_id == $id)
+	{
+		unset($plugin->user_profile_ds_id);
+		$plugin->save_settings();
+	}
+	
 }, $plugin);

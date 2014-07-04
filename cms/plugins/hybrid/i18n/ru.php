@@ -133,6 +133,8 @@ return array(
 	'Only current user' => 'Только текущий пользователь',
 	'Set current user on create document' => 'При создании документа устанавливать текущего пользователя',
 	
+	'User profile section' => 'Раздел профиля пользователя',
+	
 	/* Validation Messages */
 	'Field with the same key :value exists.' => 'Поле с таким ключом ":value" существует',
 	'Number of decimal places' => 'Количество знаков после запятой',

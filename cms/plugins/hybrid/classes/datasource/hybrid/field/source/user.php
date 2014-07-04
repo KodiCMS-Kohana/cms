@@ -58,6 +58,28 @@ class DataSource_Hybrid_Field_Source_User extends DataSource_Hybrid_Field_Source
 		
 		return $users;
 	}
+	
+	public function fetch_headline_value( $value )
+	{
+		if(empty($value)) return parent::fetch_headline_value($value);
+
+		$user = ORM::factory('user', (int) $value);
+		
+		if( ! $user->loaded())
+		{
+			return parent::fetch_headline_value($value);
+		}
+
+		$header = DataSource_Hybrid_Field_Utils::get_document_header($this->from_ds, $value);
+		
+		return HTML::anchor(Route::get('backend')->uri(array(
+			'controller' => 'users',
+			'action' => 'profile',
+			'id' => $user->id
+		)), $user->username, array(
+			'class' => ' popup fancybox.iframe'
+		));
+	}
 
 	public static function fetch_widget_field( $widget, $field, $row, $fid )
 	{
