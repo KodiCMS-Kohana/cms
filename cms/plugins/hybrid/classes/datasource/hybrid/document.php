@@ -193,21 +193,23 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 	}
 
 	/**
-	 * Загрузка документа по его ID
 	 * 
-	 *		$ds = Datasource_Data_Manager::load($ds_id);
-	 *		$doc = $ds->get_document($id);
-	 * 
-	 * Проверка загрузки документа
-	 * 
-	 *		$doc->loaded();
-	 * 
-	 * @param integer $id
+	 * @param string $field
+	 * @param string $value
 	 * @return \DataSource_Hybrid_Document
 	 */
-	public function load( $id )
+	public function load_by( $field, $value )
 	{
 		$ds_id = $this->section()->id();
+
+		if (array_key_exists($field, $this->_fields))
+		{
+			$preffix = "dshybrid_{$ds_id}.";
+		}
+		else
+		{
+			$preffix = 'dshybrid.';
+		}
 
 		$result = DB::select(array('dshybrid.id', 'id'))
 			->select('ds_id', 'published', 'header', 'meta_title', 'meta_keywords', 'meta_description')
@@ -215,12 +217,15 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 			->from('dshybrid')
 			->join("dshybrid_{$ds_id}", 'left')
 				->on("dshybrid_{$ds_id}.id", '=', 'dshybrid.id')
-			->where('dshybrid.id', '=', (int) $id)
+			->where($preffix . $field, '=', $value)
 			->limit(1)
 			->execute()
 			->current();
 				
-		if( empty($result) ) return $this;
+		if( empty($result) )
+		{
+			return $this;
+		}
 		
 		$this->_loaded = TRUE;
 		

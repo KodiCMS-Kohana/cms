@@ -421,12 +421,24 @@ class Datasource_Document {
 	 * @return \DataSource_Document
 	 */
 	public function load( $id )
+	{		
+		return $this->load_by('id', (int) $id);
+	}
+	
+	/**
+	 * Загрузка документа по названию поля значению
+	 * 
+	 * @param string $field
+	 * @param string $value
+	 * @return \DataSource_Document
+	 */
+	public function load_by( $field, $value )
 	{
 		$result = DB::select()
 			->select_array( array_keys( $this->_system_fields ))
 			->from($this->section()->table())
 			->where('ds_id', '=', (int) $this->section()->id())
-			->where('id', '=', (int) $id)
+			->where($field, '=', $value)
 			->limit(1)
 			->execute()
 			->current();
