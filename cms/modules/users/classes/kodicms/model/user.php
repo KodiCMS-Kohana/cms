@@ -320,5 +320,9 @@ class KodiCMS_Model_User extends Model_Auth_User {
 		Kohana::$log->add(Log::INFO, 'User with id :user_id has been deleted by :user', array(
 			':user_id' => $id,
 		))->write();
+		
+		Observer::notify( 'user_after_delete', $id );
+		
+		return parent::after_delete($id);
 	}
 }
