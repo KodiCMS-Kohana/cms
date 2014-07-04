@@ -1,4 +1,9 @@
-<?php if(empty($doc->id)) $value = AuthUser::getId(); ?>
+<?php 
+if ( ! $doc->loaded() AND $field->set_current === TRUE) 
+{
+	$value = AuthUser::getId(); 
+}
+?>
 
 <div class="control-group">
 	<label class="control-label" for="<?php echo $field->name; ?>"><?php echo $field->header; ?> <?php if($field->isreq): ?>*<?php endif; ?></label>
@@ -12,11 +17,11 @@
 		
 		<?php if($field->is_exists($value)): ?>
 		&nbsp;
-		<?php echo HTML::anchor(Route::get('backend', array(
+		<?php echo HTML::anchor(Route::get('backend')->uri(array(
 			'controller' => 'users', 
 			'action' => 'edit', 
 			'id' => $value
-		))->uri(array('class' => 'popup fancybox.iframe btn')), __('Show profile')) ; ?>
+		)), __('Show profile'), array('class' => 'popup fancybox.iframe btn')) ; ?>
 		<?php endif; ?>
 		
 		<?php if(isset($field->hint)): ?>

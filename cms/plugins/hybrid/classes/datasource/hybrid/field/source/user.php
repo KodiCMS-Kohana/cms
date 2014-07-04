@@ -11,7 +11,7 @@ class DataSource_Hybrid_Field_Source_User extends DataSource_Hybrid_Field_Source
 
 	public function booleans()
 	{
-		return array('only_current', 'unique');
+		return array('only_current', 'unique', 'set_current');
 	}
 	
 	public function set( array $data )
@@ -21,20 +21,24 @@ class DataSource_Hybrid_Field_Source_User extends DataSource_Hybrid_Field_Source
 	
 	public function onCreateDocument(DataSource_Hybrid_Document $doc) 
 	{
-		$doc->set($this->name, AuthUser::getId());
+		return $this->onUpdateDocument($doc, $doc);
 	}
 	
 	public function onUpdateDocument(DataSource_Hybrid_Document $old = NULL, DataSource_Hybrid_Document $new)
 	{
+		$user_id = $new->get($this->name);
+
 		if($this->only_current === TRUE)
 		{
-			$new->set($this->name, AuthUser::getId());
+			$user_id = $old->get($this->name);
 		}
 		
-		if( ! $this->is_exists( $new->get($this->name) ))
+		if( ! $this->is_exists( $user_id ))
 		{
-			$new->set($this->name, $old->get($this->name));
+			$user_id = 0;
 		}
+		
+		$new->set($this->name, $user_id);
 	}
 	
 	public function get_user($id)

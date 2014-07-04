@@ -130,6 +130,9 @@ return array(
 	'Index to field ":field" added' => 'Для поля ":field" добавлен индекс',
 	'Index field ":field" dropped' => 'Индекс поля ":field" удален',
 	
+	'Only current user' => 'Только текущий пользователь',
+	'Set current user on create document' => 'При создании документа устанавливать текущего пользователя',
+	
 	/* Validation Messages */
 	'Field with the same key :value exists.' => 'Поле с таким ключом ":value" существует',
 	'Number of decimal places' => 'Количество знаков после запятой',
