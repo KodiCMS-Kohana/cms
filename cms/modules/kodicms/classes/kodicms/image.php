@@ -13,7 +13,7 @@ abstract class KodiCMS_Image extends Kohana_Image {
 	 * 
 	 * return NULL | string Путь до кеша изображения
 	 */
-	public static function cache($filepath, $width, $height, $master = Image::INVERSE)
+	public static function cache($filepath, $width, $height, $master = Image::INVERSE, $crop = FALSE)
 	{
 		$original_image = PUBLICPATH . $filepath;
 		
@@ -31,7 +31,14 @@ abstract class KodiCMS_Image extends Kohana_Image {
 			return NULL;
 		}
 		
-		$cached_image = 'cache/'  . $directory . '/' . $filename . '_' . $width . 'x' . $height . 'x' . $master . '.' . $extension;
+		$cached_filename = $filename . '_' . $width . 'x' . $height . 'x' . $master;
+		
+		if($crop === TRUE)
+		{
+			$cached_filename .= 'xCR';
+		}
+
+		$cached_image = 'cache/'  . $directory . '/' . $cached_filename .  '.' . $extension;
 		
 		if( ! is_file( PUBLICPATH . $cached_image ) OR (filectime( $original_image ) > filectime( PUBLICPATH . $cached_image ))) 
 		{
@@ -69,9 +76,15 @@ abstract class KodiCMS_Image extends Kohana_Image {
 
 			if ($width_orig > $width OR $height_orig > $height) 
 			{			
-				Image::factory( $original_image )
-					->resize($width, $height, $master)
-					->save( PUBLICPATH . $cached_image );
+				$iamge = Image::factory( $original_image )
+					->resize($width, $height, $master);
+				
+				if($crop === TRUE)
+				{
+					$iamge->crop($width, $height);
+				}
+				
+				$iamge->save( PUBLICPATH . $cached_image );
 			} 
 			else 
 			{
