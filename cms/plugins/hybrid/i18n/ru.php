@@ -134,7 +134,8 @@ return array(
 	'Set current user on create document' => 'При создании документа устанавливать текущего пользователя',
 	
 	'User profile section' => 'Раздел профиля пользователя',
-	
+	'To bind profile section you need to create a field `:field`' => 
+		'Для привязки раздела, в нем необходимо создать поле `:field`',
 	/* Validation Messages */
 	'Field with the same key :value exists.' => 'Поле с таким ключом ":value" существует',
 	'Number of decimal places' => 'Количество знаков после запятой',
