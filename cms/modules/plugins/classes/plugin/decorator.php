@@ -473,4 +473,9 @@ class Plugin_Decorator extends Plugin {
 	{
 		return $this->get( $key );
 	}
+	
+	public function __unset( $key )
+	{
+		unset($this->_settings[$key]);
+	}
 }
