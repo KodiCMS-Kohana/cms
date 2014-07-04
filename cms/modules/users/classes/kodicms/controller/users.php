@@ -203,7 +203,7 @@ class KodiCMS_Controller_Users extends Controller_System_Backend {
 		{
 			if ($user->update_user($data, array('email', 'username', 'password')))
 			{
-				$data['user_id'] = $user->id;
+				$profile['user_id'] = $user->id;
 				$user->profile
 					->values($profile)
 					->save();
