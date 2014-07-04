@@ -15,6 +15,11 @@ abstract class KodiCMS_Image extends Kohana_Image {
 	 */
 	public static function cache($filepath, $width, $height, $master = Image::INVERSE, $crop = FALSE)
 	{
+		if($master === NULL)
+		{
+			$master = Image::INVERSE;
+		}
+
 		$original_image = PUBLICPATH . $filepath;
 		
 		if ( ! is_file($original_image) ) 
