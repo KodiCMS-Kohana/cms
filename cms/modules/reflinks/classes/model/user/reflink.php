@@ -44,11 +44,12 @@ class Model_User_Reflink extends ORM {
 		}
 		
 		$data = serialize($data);
-
+		$type = URL::title($type, '_');
+		
 		$reflink = $this
 			->reset(FALSE)
 			->where('user_id', '=', $user->id)
-			->where('type', '=', (int) $type)
+			->where('type', '=', $type)
 			->where('created', '>', DB::expr('CURDATE() - INTERVAL 1 HOUR'))
 			->find();
 
@@ -57,7 +58,7 @@ class Model_User_Reflink extends ORM {
 			$values = array(
 				'user_id'	=> (int) $user->id,
 				'code'		=> uniqid(TRUE) . sha1(microtime()),
-				'type'		=> (int) $type,
+				'type'		=> $type,
 				'data'		=> $data
 			);
 
