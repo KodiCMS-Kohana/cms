@@ -45,16 +45,23 @@ class DataSource_Hybrid_Field_Primitive_Date extends DataSource_Hybrid_Field_Pri
 	
 	public function format_date( $value ) 
 	{
-		$time = strtotime( ! empty($value) ? $value : 'now' );
+		if ( ! empty($value))
+		{
+			$time = (int) strtotime($value);
+		}
+		else
+		{
+			$time = 0;
+		}
 		
 		return $time > 0 
 			? date($this->_format, $time) 
-			: $value;
+			: NULL;
 	}
 	
 	public function onValidateDocument( Validation $validation, DataSource_Hybrid_Document $doc )
 	{
-		$validation->rule( $this->name, 'date' );
+		$validation->rule($this->name, 'date');
 			
 		return parent::onValidateDocument($validation, $doc);
 	}
