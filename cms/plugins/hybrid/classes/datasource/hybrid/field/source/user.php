@@ -8,6 +8,8 @@ class DataSource_Hybrid_Field_Source_User extends DataSource_Hybrid_Field_Source
 		'only_current' => FALSE,
 		'unique' => FALSE
 	);
+	
+	protected $_use_as_document_id = TRUE;
 
 	public function booleans()
 	{
