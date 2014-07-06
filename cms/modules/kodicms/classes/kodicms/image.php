@@ -28,7 +28,7 @@ abstract class KodiCMS_Image extends Kohana_Image {
 		}
 		
 		$filename = pathinfo($filepath, PATHINFO_FILENAME);
-		$directory = FileSystem::normalize_path(pathinfo($filepath, PATHINFO_DIRNAME));
+		$directory = pathinfo($filepath, PATHINFO_DIRNAME);
 		$extension = strtolower(pathinfo($filepath, PATHINFO_EXTENSION));
 		
 		if( ! in_array($extension, array('jpg', 'gif', 'png', 'bmp', 'jpeg')) )
@@ -44,6 +44,8 @@ abstract class KodiCMS_Image extends Kohana_Image {
 		}
 
 		$cached_image = 'cache/'  . $directory . '/' . $cached_filename .  '.' . $extension;
+		
+		$directory = FileSystem::normalize_path($directory);
 		
 		if( ! is_file( PUBLICPATH . $cached_image ) OR (filectime( $original_image ) > filectime( PUBLICPATH . $cached_image ))) 
 		{
