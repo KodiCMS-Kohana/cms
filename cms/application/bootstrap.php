@@ -120,7 +120,7 @@ Kohana::init( array(
 
 define('CMS_NAME',			'KodiCMS');
 define('CMS_SITE',			'http://www.kodicms.ru');
-define('CMS_VERSION',		'10.46.87');
+define('CMS_VERSION',		'10.50.99');
 
 define('PUBLICPATH',		DOCROOT . 'public' . DIRECTORY_SEPARATOR);
 define('TMPPATH',			PUBLICPATH . 'temp' . DIRECTORY_SEPARATOR);
