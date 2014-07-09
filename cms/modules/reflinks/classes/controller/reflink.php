@@ -29,6 +29,7 @@ class Controller_Reflink extends Controller_System_Controller {
 		{
 			Database::instance()->begin();
 			Reflink::factory($reflink_model)->confirm();
+			$reflink_model->delete();
 			Database::instance()->commit();
 		}
 		catch ( Kohana_Exception $e )

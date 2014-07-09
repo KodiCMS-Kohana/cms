@@ -35,7 +35,6 @@ class Model_User_Reflink extends ORM {
 			throw new Reflink_Exception(' User not loaded ');
 		}
 		
-		$data = serialize($data);
 		$type = URL::title($type, '_');
 		
 		$reflink = $this
