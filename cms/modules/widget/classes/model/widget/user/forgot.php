@@ -45,7 +45,9 @@ class Model_Widget_User_Forgot extends Model_Widget_Decorator {
 			HTTP::redirect($referrer_page);
 		}
 		
-		$reflink = ORM::factory('user_reflink')->generate($user, 'forgot');
+		$reflink = ORM::factory('user_reflink')->generate($user, 'forgot', array(
+			'next_url' => URL::site($this->next_url)
+		));
 
 		if( ! $reflink )
 		{

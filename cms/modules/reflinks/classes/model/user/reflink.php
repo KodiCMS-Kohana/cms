@@ -17,16 +17,8 @@ class Model_User_Reflink extends ORM {
 	protected $_belongs_to = array(
 		'user' => array(),
 	);
-
-	public function get($column) 
-	{
-		if($column == 'data')
-		{
-			return unserialize($this->_object[$column]);
-		}
-
-		return parent::get($column);
-	}
+	
+	protected $_serialize_columns = array('data');
 
 	/**
 	 * Generate new reflink code
