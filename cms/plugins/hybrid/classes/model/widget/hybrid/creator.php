@@ -133,7 +133,16 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Decorator {
 		if(empty($data['meta_keywords'])) $data['meta_keywords'] = '';
 		if(empty($data['meta_description'])) $data['meta_description'] = '';
 		
+		$this->_values = $data;
+				
 		$ds = Datasource_Data_Manager::load($this->ds_id);
+		
+		if( ! Acl::check($ds->type().$ds->id().'.document.edit'))
+		{
+			$this->_errors = __('No access');
+			$this->_show_errors();
+			return;
+		}
 		
 		$create = TRUE;
 		
@@ -154,7 +163,6 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Decorator {
 
 			if( ! $document)
 			{
-				$this->_values = $data;
 				$this->_errors = __('Document ID :id not found', array(':id' => $id));
 				$this->_show_errors();
 
@@ -183,7 +191,6 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Decorator {
 		} 
 		catch (Validation_Exception $e)
 		{
-			$this->_values = $data;
 			$this->_errors = $e->errors('validation');
 			$this->_show_errors();
 
