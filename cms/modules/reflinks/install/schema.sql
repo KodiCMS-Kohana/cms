@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS `__TABLE_PREFIX__user_reflinks` (
   `user_id` int(10) unsigned NOT NULL,
-  `type` tinyint(4) NOT NULL DEFAULT '0',
+  `type` varchar(50) NOT NULL,
   `code` varchar(255) NOT NULL,
   `data` text,
   `created` datetime NOT NULL,
