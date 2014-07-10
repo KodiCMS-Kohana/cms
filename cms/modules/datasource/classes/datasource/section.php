@@ -336,7 +336,7 @@ class Datasource_Section {
 		$this->remove_documents($ids);
 		
 		DB::delete('datasources')
-			->where('id', '=', $this->_id)
+			->where('id', '=', $this->id())
 			->execute();
 
 		$id = $this->_id;
