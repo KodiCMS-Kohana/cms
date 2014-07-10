@@ -4,7 +4,7 @@ This is the Captcha library ported from Kohana 2.3.x to 3.x. Very little has cha
 
 ##Getting Started
 
-Instantiate a captcha:
+### Instantiate a captcha:
 
 > $captcha = Captcha::instance();
 
@@ -12,17 +12,31 @@ Instantiate using your own config group (other than 'default'):
 
 > $captcha = Captcha::instance('myconfig');
 
-Render a captcha:
+### Render a captcha:
 
-> $captcha->render();
+> echo $captcha->render();
 
 or just:
 
-> $captcha;
+> echo $captcha;
 
-Validate the captcha:
+or
+
+> echo HTML::image(URL::site('captcha'));
+
+### Validate the captcha:
 
 > Captcha::valid($_POST['captcha']);
+
+OR
+
+<pre>
+Validation::factory($data)
+->rules('captcha', array(
+	array('not_empty'), array('Captcha::valid')
+))
+</pre>
+
 
 By default image-based captchas are rendered with HTML, the HTML is a very simple <img> tag. If you want to handle your own rendering of the captcha simply set the first parameter for render() to FALSE:
 
