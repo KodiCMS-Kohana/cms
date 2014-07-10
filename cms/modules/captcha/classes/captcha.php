@@ -435,7 +435,9 @@ abstract class Captcha
 			return HTML::image(URL::site('captcha/'.Captcha::$config['group']), array(
 				'width' => Captcha::$config['width'],
 				'height' => Captcha::$config['height'],
-				'alt' => 'Captcha'
+				'alt' => 'Captcha',
+				'onclick' => 'this.src="/captcha?ssid=" + Math.floor((Math.random() * 100) + 1)',
+				'style' => 'cursor: pointer'
 			));
 		}
 
