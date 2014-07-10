@@ -15,20 +15,10 @@ class Controller_API_Elfinder extends Controller_System_Api {
 		include_once Kohana::find_file('media', 'libs/elfinder/php/elFinder.class');
 		include_once Kohana::find_file('media', 'libs/elfinder/php/elFinderVolumeDriver.class');
 		include_once Kohana::find_file('media', 'libs/elfinder/php/elFinderVolumeLocalFileSystem.class');
-		
+		include_once Kohana::find_file('media', 'libs/elfinder/php/elFinderVolumeMySQL.class');
+				
 		$opts = array(
-			'roots' => array(
-				array(
-					'driver'        => 'LocalFileSystem',	// driver for accessing file system (REQUIRED)
-					'path'          => substr(PUBLICPATH, 0, -1),			// path to files (REQUIRED)
-					'URL'           => PUBLIC_URL,			// URL to files (REQUIRED),
-					'rootAlias'     => __('Public'),
-					'uploadMaxSize'	=> Config::get('elfinder', 'uploadMaxSize'),
-					'mimeDetect'	=> Config::get('elfinder', 'mimeDetect'),
-					'imgLib'		=> Config::get('elfinder', 'imgLib'),
-					
-				)
-			)
+			'roots' => Config::get('elfinder', 'volumes')
 		);
 		
 		$this->json = NULL;
