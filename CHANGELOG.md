@@ -1,4 +1,5 @@
-### 10.50.99
+### 10.53.104
+ * [feature] Добавлен модуль Captcha
  * [feature] Создание профиля пользователя из ГД раздела
  * [feature] В класс `DataSource_Hybrid_Field` добавлен метод `booleans`
  * [feature] В метод `Image::cache` добавлен кроп
@@ -22,6 +23,7 @@
  * [feature] Доработка класс Sitemap, реализация RecursiveIterator, также для перебора многомерных мыссивов может использоваться в паре с RecursiveIteratorIterator
  * [issue #256] https://github.com/butschster/kodicms/issues/258
  * [issue #256] https://github.com/butschster/kodicms/issues/256
+ * [fix] Исправление сохранение данных через elFinder
  * [fix] Исправлено удаление полей ГД раздела
  * [fix] Исправлены поля Array и Document в разделе ГД
  * [fix] Исправлена ошибка добавления ролей пользователю
