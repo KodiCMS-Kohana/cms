@@ -7,7 +7,13 @@ Observer::observe('datasource_after_remove', function($id) {
 		->execute();
 });
 Observer::observe('view_setting_plugins', function($plugin) {
-	echo View::factory('datasource/hybrid/settings_page', array('plugin' => $plugin));
+	
+	$sections = Datasource_Data_Manager::get_all_as_options('hybrid');
+	
+	echo View::factory('datasource/hybrid/settings_page', array(
+		'plugin' => $plugin,
+		'sections' => $sections
+	));
 }, $plugin);
 
 Observer::observe('save_settings', function($post, $plugin) {

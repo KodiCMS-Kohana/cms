@@ -10,7 +10,7 @@
 	<div class="control-group">
 		<label class="control-label" for="user_profile_ds_id"><?php echo __( 'User profile section' ); ?></label>
 		<div class="controls">
-			<?php echo Form::select('plugin[user_profile_ds_id]', Datasource_Data_Manager::get_all_as_options('hybrid'), $plugin->get('user_profile_ds_id')); ?>
+			<?php echo Form::select('plugin[user_profile_ds_id]', $sections, $plugin->get('user_profile_ds_id')); ?>
 		</div>
 	</div>
 </div>
