@@ -49,8 +49,11 @@ class elFinderConnector {
 	 * @author Dmitry (dio) Levashov
 	 **/
 	public function run() {
-		$isPost = $_SERVER["REQUEST_METHOD"] == 'POST';
-		$src    = $_SERVER["REQUEST_METHOD"] == 'POST' ? $_POST : $_GET;
+		$isPost = Request::initial()->method() === Request::POST;
+		$src    = $_SERVER["REQUEST_METHOD"] == Request::POST 
+				? Request::initial()->post() 
+				: Request::initial()->query();
+	
 		$cmd    = isset($src['cmd']) ? $src['cmd'] : '';
 		$args   = array();
 		
@@ -62,7 +65,7 @@ class elFinderConnector {
 		if (!$this->elFinder->loaded()) {
 			$this->output(array('error' => $this->elFinder->error(elFinder::ERROR_CONF, elFinder::ERROR_CONF_NO_VOL), 'debug' => $this->elFinder->mountErrors));
 		}
-		
+
 		// telepat_mode: on
 		if (!$cmd && $isPost) {
 			$this->output(array('error' => $this->elFinder->error(elFinder::ERROR_UPLOAD, elFinder::ERROR_UPLOAD_TOTAL_SIZE), 'header' => 'Content-Type: text/html'));
