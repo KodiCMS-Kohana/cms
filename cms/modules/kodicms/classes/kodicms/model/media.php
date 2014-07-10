@@ -64,7 +64,7 @@ class KodiCMS_Model_Media extends ORM
 
 	public function upload(array $file, array $types = array(), $max_size = NULL)
 	{
-		$filename = Upload::file($file, $types, $max_size);		
+		$filename = Upload::file($file, NULL, NULL, $types, $max_size);		
 		$tmp_file = TMPPATH . trim( $filename );
 		
 		if ( ! file_exists( $tmp_file ) OR is_dir( $tmp_file ))

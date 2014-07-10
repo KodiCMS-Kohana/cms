@@ -99,7 +99,7 @@ class DataSource_Hybrid_Field_File_Image extends DataSource_Hybrid_Field_File_Fi
 		{
 			$url = $new->get($this->name . '_url');
 			
-			$filename = Upload::from_url( $url, $this->types, $this->folder());
+			$filename = Upload::from_url( $url, $this->types, NULL, NULL, $this->folder());
 			
 			if(!empty($filename))
 			{

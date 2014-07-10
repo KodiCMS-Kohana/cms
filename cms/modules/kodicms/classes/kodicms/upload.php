@@ -12,7 +12,7 @@ class KodiCMS_Upload extends Kohana_Upload {
 	 *
 	 *		try
 	 *		{
-	 *			$filename = Upload::file($_FILES['file'], array('jpg', 'jpeg', 'gif', 'png'));
+	 *			$filename = Upload::file($_FILES['file'], NULL, NULL, array('jpg', 'jpeg', 'gif', 'png'));
 	 *			$path = TMPPATH . $filename;
 	 *		}
 	 *		catch (Validation_Exception $e)
@@ -24,16 +24,36 @@ class KodiCMS_Upload extends Kohana_Upload {
 	 * попытка загрузить файл по URL
 	 * 
 	 * @param string|array $file
+	 * @param string $directory Путь к каталогу, куда загружать файл
+	 * @param string $filename Название файла (filename.ext)
 	 * @param array $types Разрешенные типы файлов (При указании пустой строки, разрешены все файлы) array('jpg', '...')
 	 * @param integer $max_size Максимальный размер загружаемого файла
 	 * @return string|NULL Название файла.
 	 * @throws Validation_Exception
 	 */
-	public static function file( $file, array $types = array('jpg', 'jpeg', 'gif', 'png'), $max_size = NULL )
+	public static function file( $file, $directory = NULL, $filename = NULL, array $types = array('jpg', 'jpeg', 'gif', 'png'), $max_size = NULL )
 	{
-		if( ! is_array($file) )
+		if ( ! is_array($file) )
 		{
-			return Upload::from_url($file, $types);
+			return Upload::from_url($file, $directory, $filename, $types);
+		}
+		
+		if ($directory === NULL)
+		{
+			$directory = TMPPATH;
+		}
+		
+		if ($filename === NULL)
+		{
+			$filename = uniqid();
+		}
+		
+		$ext = strtolower( pathinfo( $file['name'], PATHINFO_EXTENSION ) );
+		$filename_ext = pathinfo( $filename, PATHINFO_EXTENSION );
+		
+		if (empty($filename_ext))
+		{
+			$filename .= '.' . $ext;
 		}
 		
 		if($max_size === NULL)
@@ -47,7 +67,7 @@ class KodiCMS_Upload extends Kohana_Upload {
 				array('Upload::size', array(':value', $max_size))
 			) );
 		
-		if( ! empty($types) )
+		if ( ! empty($types) )
 		{
 			$validation->rule('file', 'Upload::type', array(':value', $types));
 		}
@@ -57,16 +77,13 @@ class KodiCMS_Upload extends Kohana_Upload {
 			throw new Validation_Exception($validation);
 		}
 
-		$ext = strtolower( pathinfo( $file['name'], PATHINFO_EXTENSION ) );
-		$filename = uniqid() . '.' . $ext;
-		
-		if( ! is_dir( TMPPATH ))
+		if ( ! is_dir( $directory ))
 		{
-			mkdir(TMPPATH, 0777);
-			chmod(TMPPATH, 0777);
+			mkdir($directory, 0777);
+			chmod($directory, 0777);
 		}
 
-		Upload::save( $file, $filename, TMPPATH, 0777 );
+		Upload::save( $file, $filename, $directory, 0777 );
 
 		return $filename;
 	}
@@ -77,7 +94,7 @@ class KodiCMS_Upload extends Kohana_Upload {
 	 *
 	 *		try
 	 *		{
-	 *			$filename = Upload::from_url('http://....', array('jpg', 'jpeg', 'gif', 'png'));
+	 *			$filename = Upload::from_url('http://....', NULL, NULL, array('jpg', 'jpeg', 'gif', 'png'));
 	 *			$path = TMPPATH . $filename;
 	 *		}
 	 *		catch (Validation_Exception $e)
@@ -87,14 +104,33 @@ class KodiCMS_Upload extends Kohana_Upload {
 	 * 
 	 * 
 	 * @param string $url Ссылка на файл (http://....)
+	 * @param string $directory Путь к каталогу, куда загружать файл
+	 * @param string $filename Название файла (filename.ext)
 	 * @param array $types Разрешенные типы файлов (При указании пустой строки, разрешены все файлы) array('jpg', '...')
 	 * @return string|NULL Название файла
 	 * @throws Validation_Exception
 	 */
-	public static function from_url($url, array $types = array('jpg', 'jpeg', 'gif', 'png') )
+	public static function from_url($url, $directory = NULL, $filename = NULL, array $types = array('jpg', 'jpeg', 'gif', 'png'))
 	{
 		$url = trim($url);
 		$ext = pathinfo($url, PATHINFO_EXTENSION);
+
+		if ($directory === NULL)
+		{
+			$directory = TMPPATH;
+		}
+		
+		if ($filename === NULL)
+		{
+			$filename = uniqid();
+		}
+		
+		$filename_ext = pathinfo( $filename, PATHINFO_EXTENSION );
+		
+		if (empty($filename_ext))
+		{
+			$filename .= '.' . $ext;
+		}
 
 		$validation = Validation::factory( array('url' => $url, 'ext' => $ext ) )
 			->rules( 'url', array(
@@ -102,39 +138,37 @@ class KodiCMS_Upload extends Kohana_Upload {
 				array('not_empty'),
 			) );
 		
-		if( ! empty($types) )
+		if ( ! empty($types))
 		{
 			$validation->rule('ext', 'in_array', array(':value', $types));
 		}
 			
-		if ( ! $validation->check() )
+		if ( ! $validation->check())
 		{
 			throw new Validation_Exception($validation);
 		}
-
-		$filename = uniqid() . '.' . $ext;
 		
-		if( ! is_dir( TMPPATH ))
+		if ( ! is_dir($directory))
 		{
-			mkdir(TMPPATH, 0777);
-			chmod(TMPPATH, 0777);
+			mkdir($directory, 0777);
+			chmod($directory, 0777);
 		}
 
 		// Make the filename into a complete path
-		$path = TMPPATH.$filename;
+		$path = $directory . $filename;
 		
 		$file = fopen($url, 'rb');
 
-		if( ! $file)
+		if ( ! $file)
 		{
 			return FALSE;
 		}
 		
 		$new_file = fopen($path, 'wb');
 		
-		if($new_file)
+		if ($new_file)
 		{
-			while(!feof($file))
+			while ( ! feof($file))
 			{
 				// Write the url file to the directory.
 				fwrite($new_file, fread($file, 1024 * 8), 1024 * 8);
