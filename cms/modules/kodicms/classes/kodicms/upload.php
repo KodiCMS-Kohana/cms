@@ -47,6 +47,10 @@ class KodiCMS_Upload extends Kohana_Upload {
 		{
 			$filename = uniqid();
 		}
+		else if ($filename === TRUE)
+		{
+			$filename = $file['name'];
+		}
 		
 		$ext = strtolower( pathinfo( $file['name'], PATHINFO_EXTENSION ) );
 		$filename_ext = pathinfo( $filename, PATHINFO_EXTENSION );
@@ -123,6 +127,10 @@ class KodiCMS_Upload extends Kohana_Upload {
 		if ($filename === NULL)
 		{
 			$filename = uniqid();
+		}
+		else if ($filename === TRUE)
+		{
+			$filename = pathinfo( $filename, PATHINFO_BASENAME );
 		}
 		
 		$filename_ext = pathinfo( $filename, PATHINFO_EXTENSION );
