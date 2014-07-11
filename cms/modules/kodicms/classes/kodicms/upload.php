@@ -114,7 +114,7 @@ class KodiCMS_Upload extends Kohana_Upload {
 	 * @return string|NULL Название файла
 	 * @throws Validation_Exception
 	 */
-	public static function from_url($url, $directory = NULL, $filename = NULL, array $types = array('jpg', 'jpeg', 'gif', 'png'))
+	public static function from_url($url, $directory = NULL, $filename = NULL, array $types = array('jpg', 'jpeg', 'gif', 'png'), $use_curl = FALSE)
 	{
 		$url = trim($url);
 		$ext = pathinfo($url, PATHINFO_EXTENSION);
@@ -165,29 +165,52 @@ class KodiCMS_Upload extends Kohana_Upload {
 		// Make the filename into a complete path
 		$path = $directory . $filename;
 		
-		$file = fopen($url, 'rb');
-
-		if ( ! $file)
+		if($use_curl === TRUE)
+		{
+			$file = Request::factory($url, array(
+				'options' => array(
+					CURLOPT_SSL_VERIFYPEER => FALSE,
+					CURLOPT_SSL_VERIFYHOST => FALSE,
+					CURLOPT_USERAGENT => 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 GTB5'
+				)
+			))->execute()->body();
+		}
+		else
+		{
+			$file = fopen($url, 'rb');
+		}
+		
+		if ( empty($file))
 		{
 			return FALSE;
 		}
 		
 		$new_file = fopen($path, 'wb');
 		
-		if ($new_file)
+		if ( ! $new_file)
+		{
+			return FALSE;
+		}
+
+		if($use_curl === TRUE)
+		{
+			 fwrite($new_file, $file);
+			
+		}
+		else
 		{
 			while ( ! feof($file))
 			{
 				// Write the url file to the directory.
 				fwrite($new_file, fread($file, 1024 * 8), 1024 * 8);
 			}
-
-			// Set permissions on filename
-			chmod($path, 0777);
-			
-			return $filename;
 		}
 		
-		return NULL;
+		fclose($new_file);
+		
+		// Set permissions on filename
+		chmod($path, 0777);
+
+		return $filename;
 	}
 }
