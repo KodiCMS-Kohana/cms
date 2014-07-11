@@ -16,5 +16,8 @@ return array(
 		=> 'Если система клонирована из репозитория Github, используйте команду `git pull` для обновления',
 	'When you replace the files in the :cms_name do not forget to set permissions on folders `:cache_folder` and `:logs_folder`, and save the changes made ​​to the :cms_name core'
 		=> 'При замене файлов в :cms_name не забудьте установить права на запись для папок `:cache_folder` и `:logs_folder` и сохранить изменения внесенные в ядро :cms_name',
-	'' => '',
+	'Third party plugins' => 'Сторонние плагины',
+	'No available patches' => 'Нет доступных патчей',
+	'Select patch to apply' => 'Выберите патч для применения',
+	'You need to create a folder :folder and set access rights to :chmod' => 'Необходимо создать папку :folder и установить права :chmod'
 );

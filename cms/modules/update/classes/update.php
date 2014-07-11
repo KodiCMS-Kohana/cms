@@ -22,7 +22,7 @@ class Update {
 	 */
 	public static function check_version()
 	{
-		$respoonse = self::_request('https://raw.githubusercontent.com/:rep/:branch/cms/application/bootstrap.php');
+		$respoonse = self::request('https://raw.githubusercontent.com/:rep/:branch/cms/application/bootstrap.php');
 		preg_match('/define\(\'CMS_VERSION\'\,[\t\ ]*\'([0-9\.]+)\'\)\;/i', $respoonse, $matches);
 		
 		self::$_remove_version = $matches[1];
@@ -36,16 +36,18 @@ class Update {
 	 */
 	public static function check_files()
 	{
-		$respoonse = self::_request('https://api.github.com/repos/:rep/git/trees/:branch?recursive=true');
+		$respoonse = self::request('https://api.github.com/repos/:rep/git/trees/:branch?recursive=true');
 		$respoonse = json_decode($respoonse, TRUE);
 		
 		$files = array(
 			'new_files' => array(),
-			'diff_files' => array()
+			'diff_files' => array(),
+			'third_party_plugins' => array(),
 		);
 		
 		$cache = Cache::instance();
 		$cached_files = $cache->get('update_cache');
+		
 		if($cached_files !== NULL)
 		{
 			return $cached_files;
@@ -53,6 +55,8 @@ class Update {
 
 		if(isset($respoonse['tree']))
 		{
+			$plugins = array();
+			
 			foreach($respoonse['tree'] as $row)
 			{
 				$filepath = DOCROOT . $row['path'];
@@ -62,14 +66,25 @@ class Update {
 					continue;
 				}
 				
-				if ( is_dir($filepath)) continue;
+				if (is_dir($filepath))
+				{
+					if( preg_match('/cms\/plugins\/([\w\_]+)/', $filepath, $matches))
+					{
+						if ( ! empty($matches[1]))
+						{
+							$plugins[$matches[1]] = $matches[1];
+						}
+					}
+
+					continue;
+				}
 				
 				$filesize = filesize($filepath);
-				if($filesize != $row['size'] )
+				if ($filesize != $row['size'] )
 				{
 					// Linux файлы имеют размер отличный от Windows файлов из за 
 					// разного подсчета символов окончания строки LF против CR LF
-					if(Kohana::$is_windows)
+					if (Kohana::$is_windows)
 					{
 						$diff = $filesize - self::_count_file_lines($filepath) - $row['size'];
 					}
@@ -78,7 +93,7 @@ class Update {
 						$diff = $filesize - $row['size'];
 					}
 					
-					if($diff > 1 OR $diff < - 1)
+					if ($diff > 1 OR $diff < - 1)
 					{
 						$files['diff_files'][] = array(
 							'diff' => Text::bytes($diff),
@@ -86,6 +101,12 @@ class Update {
 						);
 					}
 				}
+			}
+			
+			if ( ! empty($plugins))
+			{
+				$local_plugins = array_keys(Plugins::find_all());
+				$files['third_party_plugins'] = array_diff($local_plugins, $plugins);
 			}
 			
 			$cache->set('update_cache', $files);
@@ -130,13 +151,13 @@ class Update {
 			':rep' => self::REPOSITORY
 		));
 	}
-	
+
 	/**
 	 * 
 	 * @param string $url
 	 * @return string
 	 */
-	protected static function _request($url)
+	public static function request($url)
 	{
 		return Request::factory(self::build_remote_url($url), array(
 			'cache' => HTTP_Cache::factory(Cache::instance()),

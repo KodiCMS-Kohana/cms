@@ -15,3 +15,12 @@
 	<?php endforeach; ?>
 </ul>
 <?php endif; ?>
+
+<?php if(!empty($files['third_party_plugins'])): ?>
+<h3><?php echo __('Third party plugins'); ?></h3>
+<ul>
+	<?php foreach ($files['third_party_plugins'] as $row): ?>
+	<li><?php echo ucfirst($row); ?></li>
+	<?php endforeach; ?>
+</ul>
+<?php endif; ?>

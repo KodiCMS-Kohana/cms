@@ -39,36 +39,26 @@ class Controller_Update extends Controller_System_Backend {
 			return $this->_apply_patch();
 		}
 
-		$patches_list = Kohana::list_files('patches', array(DOCROOT));
-		
-		$patches = array();
-		foreach ($patches_list as $path)
-		{
-			$patches[$path] = pathinfo($path, PATHINFO_FILENAME);
-		}
-		
 		$this->template->content = View::factory( 'update/patches', array(
-			'patches' => $patches,
-		) );
+			'patches' => array_flip(Patch::find_all()),
+		));
 	}
 	
 	private function _apply_patch()
 	{
 		$patch = $this->request->post('patch');
 		
-		if(file_exists($patch))
+		try
 		{
-			try
-			{
-				include $patch;
-			} 
-			catch (Kohana_Exception $ex) 
-			{
-				Messages::errors($ex->getMessage());
-				$this->go_back();
-			}
-			
-			@unlink($patch);
+			Patch::apply($patch);
+		} 
+		catch (Validation_Exception $ex)
+		{
+			Messages::errors($ex->errors());
+		}
+		catch (Kohana_Exception $ex) 
+		{
+			Messages::errors($ex->getMessage());
 		}
 		
 		$this->go_back();
