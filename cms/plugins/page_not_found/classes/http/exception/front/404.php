@@ -19,7 +19,8 @@ class HTTP_Exception_Front_404 extends Kohana_HTTP_Exception_404
 			{
 				return Request::factory($page->url)
 					->query('message', $this->message)
-					->execute();
+					->execute()
+					->status(404);
 			}
 		}
 		
