@@ -13,7 +13,7 @@ class Assets_Package implements Iterator {
 	 */
 	public static function add($name)
 	{
-		return new Assets_Package($name, $sources);
+		return new Assets_Package($name);
 	}
 	
 	/**
