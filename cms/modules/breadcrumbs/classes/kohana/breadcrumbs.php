@@ -178,6 +178,8 @@ abstract class Kohana_Breadcrumbs implements Countable, Iterator {
 	 * 
 	 * @param string $key
 	 * @param atring $value
+	 * 
+	 * return Breadcrumbs_Item
 	 */
 	public function get_by($key, $value)
 	{
