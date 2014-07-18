@@ -54,6 +54,15 @@ class DataSource_Hybrid_Field_Primitive_Integer extends DataSource_Hybrid_Field_
 		return parent::onValidateDocument($validation, $doc);
 	}
 	
+	public function onReadDocumentValue(array $data, DataSource_Hybrid_Document $document)
+	{
+		$value = Arr::get($data, $this->name);
+		$value = (int) preg_replace('/[^\d]/', '', $value);
+
+		$document->set($this->name, $value);
+		return $this;
+	}
+	
 	public function get_type() 
 	{
 		if($this->length < 1 OR $this->length > 11)
