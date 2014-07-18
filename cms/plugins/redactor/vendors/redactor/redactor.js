@@ -1,6 +1,6 @@
 /*
-	Redactor v8.2.2
-	Updated: January 17, 2013
+	Redactor v8.2.3
+	Updated: July 18, 2014
 
 	http://redactorjs.com/
 
@@ -3364,7 +3364,7 @@ var RLANG = {
 				var html = '';
 				if (link !== true)
 				{
-					html = '<p><img src="' + json.filelink + '" /></p>';
+					html = '<p><img src="' + json.image + '" /></p>';
 				}
 				else
 				{
