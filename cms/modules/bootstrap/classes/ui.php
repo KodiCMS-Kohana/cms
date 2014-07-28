@@ -96,8 +96,7 @@ class UI {
 			UI::button(__('Cancel'), array(
 				'href' => $uri, 
 				'icon' => UI::icon('ban-circle'),
-				'class' => 'btn btn-link btn-close',
-				'hotkeys' => 'esc'
+				'class' => 'btn btn-link btn-close'
 			))
 		);
 	

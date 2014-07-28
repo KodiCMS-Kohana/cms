@@ -804,7 +804,7 @@ cms.ui.add('flags', function() {
 		e.preventDefault();
 	});
 	
-	$(document).on('keydown', null, 'shift+l', function(e) {
+	$(document).on('keydown', null, 'ctrl+shift+l', function(e) {
 		window.location = '/backend/logout';
 		e.preventDefault();
 	});
