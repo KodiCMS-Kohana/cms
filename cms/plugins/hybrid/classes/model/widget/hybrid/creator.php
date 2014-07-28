@@ -8,11 +8,31 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Decorator {
 	public $use_template = FALSE;
 	public $use_caching = FALSE;
 	
+	/**
+	 *
+	 * @var integer|NULL 
+	 */
+	public $document_id = NULL;
+	
+	/**
+	 *
+	 * @var boolean 
+	 */
+	public $status = FALSE;
+
 	protected $_data = array(
 		'auto_publish' => FALSE,
 		'disable_update' => TRUE
 	);
 	
+	/**
+	 *
+	 * @var array 
+	 */
+	public $response = array(
+		'status' => FALSE
+	);
+
 	/**
 	 * 
 	 * @return array
@@ -104,6 +124,75 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Decorator {
 		$this->_fetch_fields();
 	}
 	
+	protected function _handle_document($data)
+	{
+		$ds = Datasource_Data_Manager::load($this->ds_id);
+		
+		if( ! Acl::check($ds->type().$ds->id().'.document.edit'))
+		{
+			$this->_errors = __('No access');
+			$this->_show_errors();
+
+			return NULL;
+		}
+		
+		$create = TRUE;
+		
+		if(empty($data['id']) OR $this->disable_update === TRUE)
+		{
+			if($this->auto_publish === TRUE)
+			{
+				$data['published'] = TRUE;
+			}
+		
+			$document = $ds->get_empty_document();
+		}
+		else
+		{
+			$id = (int) $data['id'];
+			$document = $ds->get_document($id);
+			$create = FALSE;
+
+			if( ! $document)
+			{
+				$this->_errors = __('Document ID :id not found', array(':id' => $id));
+				$this->_show_errors();
+
+				return NULL;
+			}
+		}
+		
+		try
+		{
+			$document
+				->read_values($data)
+				->validate();
+	
+			if($create === TRUE)
+			{
+				$ds->create_document($document);
+			}
+			else
+			{
+				$ds->update_document($document);
+			}
+			
+			$this->handle_email_type($data);
+			$this->_show_success();
+			
+			$this->status = TRUE;
+			
+			return $document->id;
+		} 
+		catch (Validation_Exception $e)
+		{
+			$this->_errors = $e->errors('validation');
+			$this->_show_errors();
+
+			return NULL;
+		}
+	}
+
 	protected function _fetch_fields( ) 
 	{
 		$fields = array(
@@ -134,68 +223,7 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Decorator {
 		if(empty($data['meta_description'])) $data['meta_description'] = '';
 		
 		$this->_values = $data;
-				
-		$ds = Datasource_Data_Manager::load($this->ds_id);
-		
-		if( ! Acl::check($ds->type().$ds->id().'.document.edit'))
-		{
-			$this->_errors = __('No access');
-			$this->_show_errors();
-			return;
-		}
-		
-		$create = TRUE;
-		
-		if(empty($data['id']) OR $this->disable_update === TRUE)
-		{
-			if($this->auto_publish === TRUE)
-			{
-				$data['published'] = TRUE;
-			}
-		
-			$document = $ds->get_empty_document();
-		}
-		else
-		{
-			$id = (int) $data['id'];
-			$document = $ds->get_document($id);
-			$create = FALSE;
-
-			if( ! $document)
-			{
-				$this->_errors = __('Document ID :id not found', array(':id' => $id));
-				$this->_show_errors();
-
-				return;
-			}
-		}
-		
-		try
-		{
-			$document
-				->read_values($data)
-				->validate();
-	
-			if($create === TRUE)
-			{
-				$ds->create_document($document);
-			}
-			else
-			{
-				$ds->update_document($document);
-			}
-			
-			$this->handle_email_type($data);
-
-			$this->_show_success();
-		} 
-		catch (Validation_Exception $e)
-		{
-			$this->_errors = $e->errors('validation');
-			$this->_show_errors();
-
-			return;
-		}
+		$this->document_id = $this->_handle_document($data);
 	}
 	
 	public function count_total() { return 1; }
@@ -216,23 +244,8 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Decorator {
 		return array();
 	}
 	
-	protected function _show_success()
+	protected function _send_http_reponse()
 	{
-		if(Request::current()->is_ajax())
-		{
-			$json = array('status' => TRUE);
-	
-			if( ! empty($this->redirect_url)) 
-			{
-				$json['redirect'] = URL::site($this->redirect_url);
-			}
-			
-			Request::current()->headers( 'Content-type', 'application/json' );		
-			$this->_ctx->response()->body(json_encode($json));
-			
-			return;
-		}
-		
 		if( ! empty($this->redirect_url)) 
 		{
 			$url = URL::site($this->redirect_url);
@@ -242,33 +255,48 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Decorator {
 			$url = Request::current()->referrer();
 		}
 		
-		$query = URL::query(array('status' => 'ok'), FALSE);
-		
+		$query = URL::query($this->response, FALSE);
 		HTTP::redirect( preg_replace('/\?.*/', '', $url) . $query, 302);
+	}
+
+	protected function _show_success()
+	{
+		$this->response['status'] = TRUE;
+		
+		if(Request::current()->is_ajax())
+		{	
+			if( ! empty($this->redirect_url)) 
+			{
+				$this->response['redirect'] = URL::site($this->redirect_url);
+			}
+			
+			Request::current()->headers( 'Content-type', 'application/json' );		
+			$this->_ctx->response()->body(json_encode($this->response));
+			
+			return;
+		}
+		
+		$this->_send_http_reponse();
 	}
 	
 	protected function _show_errors()
 	{
+		$this->response['status'] = FALSE;
+
 		if(Request::current()->is_ajax())
 		{
-			$json = array('status' => FALSE);
-			
-			$json['errors'] = $this->_errors;
-			$json['values'] = $this->_values;
+			$this->response['errors'] = $this->_errors;
+			$this->response['values'] = $this->_values;
 			
 			Request::current()->headers( 'Content-type', 'application/json' );		
 			$this->_ctx->response()->body(json_encode($json));
-			
 			return;
 		}
 		
 		Flash::set('form_errors', $this->_errors);
 		Flash::set('form_values', $this->_values);
 
-		$query = URL::query(array('status' => 'error'), FALSE);
-
-		$referrer = Request::current()->referrer();
-		HTTP::redirect( preg_replace('/\?.*/', '', $referrer) . $query, 302);
+		$this->_send_http_reponse();
 	}
 
 	protected function _get_field_value( $field ) 
