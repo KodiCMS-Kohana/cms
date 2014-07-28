@@ -122,6 +122,8 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Decorator {
 		$this->_errors = array();
 		
 		$this->_fetch_fields();
+
+		$this->document_id = $this->_handle_document($data);
 	}
 	
 	protected function _handle_document($data)
@@ -223,7 +225,6 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Decorator {
 		if(empty($data['meta_description'])) $data['meta_description'] = '';
 		
 		$this->_values = $data;
-		$this->document_id = $this->_handle_document($data);
 	}
 	
 	public function count_total() { return 1; }
