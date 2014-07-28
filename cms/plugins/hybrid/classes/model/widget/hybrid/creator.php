@@ -12,14 +12,30 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Decorator {
 	 *
 	 * @var integer|NULL 
 	 */
-	public $document_id = NULL;
+	protected $_document_id = NULL;
 	
+	/**
+	 *
+	 * @var array 
+	 */
+	protected $_errors = array();
+
+	/**
+	 *
+	 * @var array
+	 */
+	protected $_values = array();
+
 	/**
 	 *
 	 * @var boolean 
 	 */
 	public $status = FALSE;
 
+	/**
+	 *
+	 * @var array 
+	 */
 	protected $_data = array(
 		'auto_publish' => FALSE,
 		'disable_update' => TRUE
@@ -43,6 +59,26 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Decorator {
 			self::POST => __('POST array'),
 			self::GET => __('GET array')
 		);
+	}	
+
+	public function on_page_load() 
+	{
+		if($this->ds_id < 1 )
+		{
+			return;
+		}
+
+		$this->_values = $this->_fetch_fields();
+		$this->_document_id = $this->_handle_document($this->_values);
+		
+		if ( ! empty($this->_errors))
+		{
+			$this->_show_errors();
+		}
+		else
+		{
+			$this->_show_success();
+		}
 	}
 	
 	/**
@@ -93,6 +129,11 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Decorator {
 		return $this;
 	}
 	
+	/**
+	 * 
+	 * @param integer $ds_id
+	 * @return boolean
+	 */
 	public function datasource_exists($ds_id)
 	{
 		$ds_id = (int) $ds_id;
@@ -113,19 +154,12 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Decorator {
 		
 		return TRUE;
 	}
-			
-
-	public function on_page_load() 
-	{
-		if($this->ds_id < 1 ) return;
-
-		$this->_errors = array();
-		
-		$this->_fetch_fields();
-
-		$this->document_id = $this->_handle_document($data);
-	}
 	
+	/**
+	 * 
+	 * @param array $data
+	 * @return null|integer
+	 */
 	protected function _handle_document($data)
 	{
 		$ds = Datasource_Data_Manager::load($this->ds_id);
@@ -133,8 +167,6 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Decorator {
 		if( ! Acl::check($ds->type().$ds->id().'.document.edit'))
 		{
 			$this->_errors = __('No access');
-			$this->_show_errors();
-
 			return NULL;
 		}
 		
@@ -158,8 +190,6 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Decorator {
 			if( ! $document)
 			{
 				$this->_errors = __('Document ID :id not found', array(':id' => $id));
-				$this->_show_errors();
-
 				return NULL;
 			}
 		}
@@ -180,8 +210,6 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Decorator {
 			}
 			
 			$this->handle_email_type($data);
-			$this->_show_success();
-			
 			$this->status = TRUE;
 			
 			return $document->id;
@@ -189,13 +217,15 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Decorator {
 		catch (Validation_Exception $e)
 		{
 			$this->_errors = $e->errors('validation');
-			$this->_show_errors();
-
 			return NULL;
 		}
 	}
 
-	protected function _fetch_fields( ) 
+	/**
+	 * 
+	 * @return array
+	 */
+	protected function _fetch_fields() 
 	{
 		$fields = array(
 			'csrf', // Security token
@@ -224,10 +254,8 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Decorator {
 		if(empty($data['meta_keywords'])) $data['meta_keywords'] = '';
 		if(empty($data['meta_description'])) $data['meta_description'] = '';
 		
-		$this->_values = $data;
+		return $data;
 	}
-	
-	public function count_total() { return 1; }
 	
 	public function fetch_backend_content()
 	{
@@ -240,6 +268,10 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Decorator {
 		return parent::fetch_backend_content();
 	}
 	
+	/**
+	 * 
+	 * @return array
+	 */
 	public function fetch_data()
 	{
 		return array();
