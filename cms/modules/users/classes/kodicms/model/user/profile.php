@@ -41,7 +41,7 @@ class KodiCMS_Model_User_Profile extends ORM {
 		return array(
 			'locale' => array(
 				'type' => 'select',
-				'choices' => 'I18n::available_langs'
+				'choices' => array($this, '_get_available_langs')
 			),
 			'notice' => array(
 				'type' => 'checkbox',
@@ -49,5 +49,17 @@ class KodiCMS_Model_User_Profile extends ORM {
 				'value' => 1
 			)
 		);
+	}
+	
+	protected function _get_available_langs()
+	{
+		$langs = I18n::available_langs();
+		$system_default = Arr::get($langs, Config::get('site', 'default_locale'));
+
+		$langs[Model_User::DEFAULT_LOCALE] = __('System default (:locale)', array(
+			':locale' => $system_default
+		));
+
+		return $langs;
 	}
 }

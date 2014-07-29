@@ -41,6 +41,7 @@ return array(
 	'Profile' => 'Профиль',
 	'Edit profile' => 'Редактировать профиль',
 	'Activity' => 'Активность',
+	'System default (:locale)' => 'Язык по умолчанию (:locale)',
 	
 	//============Permissions============//
 	'View users' => 'Видеть раздел',

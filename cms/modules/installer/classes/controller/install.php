@@ -393,7 +393,7 @@ class Controller_Install extends Controller_System_Frontend
 			'__TABLE_PREFIX__'		=> $post['db_table_prefix'],
 			'__ADMIN_PASSWORD__'	=> Auth::instance()->hash($post['password_field']),
 			'__DATE__'				=> date('Y-m-d H:i:s'),
-			'__LANG__'				=> Arr::get($post, 'locale')
+			'__LANG__'				=> Model_User::DEFAULT_LOCALE
 		);
 		
 		$dump_content = str_replace(

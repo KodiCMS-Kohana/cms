@@ -7,6 +7,8 @@
  */
 class KodiCMS_Model_User extends Model_Auth_User {
 	
+	const DEFAULT_LOCALE = 'st-df';
+	
 	protected $_reload_on_wakeup = FALSE;
 	
 	/**
@@ -225,7 +227,12 @@ class KodiCMS_Model_User extends Model_Auth_User {
 		
 		if($user instanceof Model_User)
 		{
-			return $user->profile->get('locale');
+			$locale = $user->profile->get('locale');
+			
+			if($locale != Model_User::DEFAULT_LOCALE)
+			{
+				return $user->profile->get('locale');
+			}
 		}
 		
 		return Config::get('site', 'default_locale');

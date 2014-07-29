@@ -87,7 +87,7 @@ class I18n extends Kohana_I18n {
 		$_langs = array();
 		foreach ($langs as $lang => $name)
 		{
-			$_langs[self::normalize_lang_key($lang)] = $name;
+			$_langs[self::normalize_lang_key($lang)] = __($name);
 		}
 		
 		return $_langs;
