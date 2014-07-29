@@ -6,34 +6,6 @@ Observer::observe('datasource_after_remove', function($id) {
 		->where('from_ds', '=', (int) $id)
 		->execute();
 });
-Observer::observe('view_setting_plugins', function($plugin) {
-	
-	$sections = Datasource_Data_Manager::get_all_as_options('hybrid');
-	
-	echo View::factory('datasource/hybrid/settings_page', array(
-		'plugin' => $plugin,
-		'sections' => $sections
-	));
-}, $plugin);
-
-Observer::observe('save_settings', function($post, $plugin) {
-	$post = Request::current()->post();
-
-	if ( ! empty($post['plugin']['user_profile_ds_id']))
-	{
-		$profile_ds_id = $post['plugin']['user_profile_ds_id'];
-		
-		$ds = Datasource_Section::load($profile_ds_id);
-		if ($ds === NULL OR $ds->type() != 'hybrid')
-		{
-			return;
-		}
-		
-		$plugin->set('user_profile_ds_id', $profile_ds_id);
-		$plugin->save_settings();
-	}
-
-}, $plugin);
 
 Observer::observe(array('user_after_update', 'user_after_add'), function($user, $plugin) {
 	$ds_id = $plugin->get('user_profile_ds_id');
