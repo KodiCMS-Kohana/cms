@@ -13,9 +13,9 @@ class KodiCMS_Filter implements ArrayAccess {
 	 * @param   array   $array  array to use for filter
 	 * @return  Filter
 	 */
-	public static function factory(array $array)
+	public static function factory(array $array, array $rules = NULL)
 	{
-		return new Filter($array);
+		return new Filter($array, $rules);
 	}
 	
 	// Array to filter
@@ -29,11 +29,168 @@ class KodiCMS_Filter implements ArrayAccess {
 	 * passed array.
 	 *
 	 * @param   array   $array  array to filter
+	 * @param array $rules rules [field => array(..., rules, ...)]
 	 * @return  void
 	 */
-	public function __construct(array $array)
+	public function __construct(array $array, array $rules = NULL)
 	{
 		$this->_data = $array;
+		
+		foreach ($rules as $field => $data)
+		{
+			$this->rules($field, $data);
+		}
+	}
+
+	/**
+	 * Returns the array of data to be filter.
+	 *
+	 * @return  array
+	 */
+	public function data()
+	{
+		return $this->_data;
+	}
+	
+	/**
+	 * @param   string      $field  field name
+	 * @param   callback    $rule   valid PHP callback or closure
+	 * @param   mixed       $default default value
+	 * @return  $this
+	 */
+	public function rule($field, $rule, $default = NULL)
+	{
+		if( ! is_bool($rule) AND ! is_null($rule) )
+		{
+			// Store the rule and params for this rule
+			$this->_rules[$field]['rules'][] = $rule;
+		}
+
+		$this->_rules[$field]['default'] = $default;
+
+		return $this;
+	}
+	
+	/**
+	 * Add rules using an array.
+	 *
+	 * @param   string|array  $field  field name
+	 * @param   array   $rules  list of callbacks
+	 * @return  $this
+	 */
+	public function rules($field, array $rules = NULL)
+	{
+		foreach ($rules as $rule)
+		{
+			$this->rule($field, $rule[0], Arr::get($rule, 1));
+		}
+
+		return $this;
+	}
+	
+	/**
+	 * Filters a values
+	 */
+	public function run()
+	{
+		$rules = $this->_rules;
+
+		foreach ($rules as $field => $data)
+		{
+			$data['rules'] = empty($data['rules']) ? $wildcards : array_merge($wildcards, $data['rules']);
+	
+			if($this->offsetExists($field))
+			{
+				$value = $this->offsetGet($field);
+			}
+			elseif(!$this->offsetExists($field) AND !empty($data['default']))
+			{
+				Arr::set_path($this->_data, $field, $data['default']);
+				continue;
+			}
+		
+			$value = $this->field($field, $value, $data['rules']);
+
+			Arr::set_path($this->_data, $field, $value);
+		}
+		
+		return $this;
+	}
+	
+	/**
+	 * 
+	 * @param string $field
+	 * @param mixed $value
+	 * @param array $rules
+	 * @return mixed
+	 */
+	public function field($field, $value, array $rules = NULL)
+	{
+		if(Kohana::$profiling === TRUE)
+		{
+			$benchmark = Profiler::start('Filter field', $field);
+		}
+		
+		if(empty($rules))
+		{
+			$rules = Arr::path($this->_rules, $field . '.rules', array());
+		}
+
+		// Bind the field name and model so they can be used in the filter method
+		$_bound = array
+		(
+			':field' => $field,
+			':filter' => $this,
+		);
+
+		foreach ($rules as $filter)
+		{
+			// Value needs to be bound inside the loop so we are always using the
+			// version that was modified by the filters that already ran
+			$_bound[':value'] = $value;
+			$params = array(':value');
+
+			foreach ($params as $key => $param)
+			{
+				if (is_string($param) AND array_key_exists($param, $_bound))
+				{
+					// Replace with bound value
+					$params[$key] = $_bound[$param];
+				}
+			}
+
+			if (is_array($filter) OR ! is_string($filter))
+			{
+				// This is either a callback as an array or a lambda
+				$value = call_user_func_array($filter, $params);
+			}
+			elseif (strpos($filter, '::') === FALSE)
+			{
+				// Use a function call
+				$function = new ReflectionFunction($filter);
+
+				// Call $function($this[$field], $param, ...) with Reflection
+				$value = $function->invokeArgs($params);
+			}
+			else
+			{
+				// Split the class and method of the rule
+				list($class, $method) = explode('::', $filter, 2);
+
+				// Use a static method call
+				$method = new ReflectionMethod($class, $method);
+
+				// Call $Class::$method($this[$field], $param, ...) with Reflection
+				$value = $method->invokeArgs(NULL, $params);
+			}
+		}
+
+		if(isset($benchmark))
+		{
+			Profiler::stop($benchmark);
+		}
+		
+		return $value;
 	}
 	
 	/**
@@ -85,138 +242,5 @@ class KodiCMS_Filter implements ArrayAccess {
 	public function offsetGet($offset)
 	{
 		return Arr::path($this->_data, $offset);
-	}
-
-	/**
-	 * Returns the array of data to be filter.
-	 *
-	 * @return  array
-	 */
-	public function data()
-	{
-		return $this->_data;
-	}
-	
-	/**
-	 * @param   string      $field  field name
-	 * @param   callback    $rule   valid PHP callback or closure
-	 * @param   mixed       $default default value
-	 * @return  $this
-	 */
-	public function rule($field, $rule, $default = NULL)
-	{
-		if( ! is_bool($rule) AND ! is_null($rule) )
-		{
-			// Store the rule and params for this rule
-			$this->_rules[$field]['rules'][] = $rule;
-		}
-
-		$this->_rules[$field]['default'] = $default;
-
-		return $this;
-	}
-	
-	/**
-	 * Add rules using an array.
-	 *
-	 * @param   string  $field  field name
-	 * @param   array   $rules  list of callbacks
-	 * @return  $this
-	 */
-	public function rules($field, array $rules)
-	{
-		foreach ($rules as $rule)
-		{
-			$this->rule($field, $rule[0], Arr::get($rule, 1));
-		}
-
-		return $this;
-	}
-	
-	/**
-	 * Filters a values
-	 */
-	public function run()
-	{
-		$rules = $this->_rules;
-
-		// Get the filters for this column
-		$wildcards = empty($rules[TRUE]) ? array() : $rules[TRUE];
-
-		foreach ($rules as $field => $data)
-		{
-			if(Kohana::$profiling === TRUE)
-			{
-				$benchmark = Profiler::start('Filter field', $field);
-			}
-		
-			$data['rules'] = empty($data['rules']) ? $wildcards : array_merge($wildcards, $data['rules']);
-			
-			if($this->offsetExists($field))
-			{
-				$value = Arr::get($this, $field);
-			}
-			elseif(!$this->offsetExists($field) AND !empty($data['default']))
-			{
-				Arr::set_path($this->_data, $field, $data['default']);
-				continue;
-			}
-			
-			// Bind the field name and model so they can be used in the filter method
-			$_bound = array
-			(
-				':field' => $field,
-				':filter' => $this,
-			);
-			
-			foreach ($data['rules'] as $filter)
-			{
-				// Value needs to be bound inside the loop so we are always using the
-				// version that was modified by the filters that already ran
-				$_bound[':value'] = $value;
-				$params = array(':value');
-
-				foreach ($params as $key => $param)
-				{
-					if (is_string($param) AND array_key_exists($param, $_bound))
-					{
-						// Replace with bound value
-						$params[$key] = $_bound[$param];
-					}
-				}
-
-				if (is_array($filter) OR ! is_string($filter))
-				{
-					// This is either a callback as an array or a lambda
-					$value = call_user_func_array($filter, $params);
-				}
-				elseif (strpos($filter, '::') === FALSE)
-				{
-					// Use a function call
-					$function = new ReflectionFunction($filter);
-
-					// Call $function($this[$field], $param, ...) with Reflection
-					$value = $function->invokeArgs($params);
-				}
-				else
-				{
-					// Split the class and method of the rule
-					list($class, $method) = explode('::', $filter, 2);
-
-					// Use a static method call
-					$method = new ReflectionMethod($class, $method);
-
-					// Call $Class::$method($this[$field], $param, ...) with Reflection
-					$value = $method->invokeArgs(NULL, $params);
-				}
-			}
-			
-			Arr::set_path($this->_data, $field, $value);
-			
-			if(isset($benchmark))
-			{
-				Profiler::stop($benchmark);
-			}
-		}
 	}
 }
