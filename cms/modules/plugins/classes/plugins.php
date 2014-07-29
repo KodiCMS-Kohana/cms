@@ -162,8 +162,8 @@ class Plugins {
 	protected static function _load_from_db()
 	{
 		return DB::select('id')
-			->from(Plugin_Decorator::TABLE_NAME)
-			->cache_key(Plugin_Decorator::CACHE_KEY . '::list')
+			->from(Plugin::TABLE_NAME)
+			->cache_key(Plugin::CACHE_KEY . '::list')
 			->cached(Date::DAY)
 			->execute()
 			->as_array('id', 'id');
