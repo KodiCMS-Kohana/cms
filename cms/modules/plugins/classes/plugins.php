@@ -48,7 +48,7 @@ class Plugins {
 	 * 
 	 * @param string $plugin_id
 	 */
-	public static function activate( Plugin_Decorator $plugin )
+	public static function activate( Plugin $plugin )
 	{
 		self::$_activated[$plugin->id()] = TRUE;
 	}
@@ -57,7 +57,7 @@ class Plugins {
 	 * 
 	 * @param string $plugin_id
 	 */
-	public static function deactivate( Plugin_Decorator $plugin )
+	public static function deactivate( Plugin $plugin )
 	{
 		if ( isset( self::$_activated[$plugin->id()] ) )
 		{
@@ -83,7 +83,7 @@ class Plugins {
 	 */
 	public static function is_activated( $plugin_id )
 	{
-		if($plugin_id instanceof Plugin_Decorator)
+		if($plugin_id instanceof Plugin)
 		{
 			$plugin_id = $plugin_id->id();
 		}
@@ -130,7 +130,7 @@ class Plugins {
 	 * @param Plugins_Item $plugin
 	 * @return boolean
 	 */
-	public static function register( Plugin_Decorator $plugin )
+	public static function register( Plugin $plugin )
 	{
 		self::$_registered[$plugin->id()] = $plugin;
 		return TRUE;

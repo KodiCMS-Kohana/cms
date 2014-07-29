@@ -52,7 +52,7 @@ class Controller_API_Plugins extends Controller_System_API
 		$this->response($this->_get_info($plugin));
 	}
 	
-	protected function _get_info( Plugin_Decorator $plugin )
+	protected function _get_info( Plugin $plugin )
 	{
 		return array(
 			'id' => $plugin->id(),
