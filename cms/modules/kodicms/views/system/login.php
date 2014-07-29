@@ -30,7 +30,7 @@
 	</div>
 
 	<div class="control-group">
-		<div class="input-prepend  input-append">
+		<div class="input-prepend input-append">
 			<span class="add-on">
 				<i class="icon-lock"></i>
 			</span>

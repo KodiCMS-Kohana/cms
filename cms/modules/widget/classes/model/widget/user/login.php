@@ -96,6 +96,8 @@ class Model_Widget_User_Login extends Model_Widget_Decorator {
 				array( 'not_empty' ),
 			) );
 		
+		Observer::notify( 'login_validation', $data );
+
 		// Get the remember login option
 		$remember = isset( $data[$this->get( 'remember_field' )] ) AND $this->get( 'remember' ) === TRUE;
 		
@@ -108,13 +110,18 @@ class Model_Widget_User_Login extends Model_Widget_Decorator {
 		
 		if ( $validation->check() )
 		{
-			if ( AuthUser::login( $login_fieldname, $validation[$this->get( 'login_field' )], $validation[$this->get( 'password_field' )], $remember ) )
+			Observer::notify( 'login_before', $validation );
+			
+			if ( AuthUser::login( $login_fieldname, $validation[$this->get('login_field')], $validation[$this->get('password_field')], $remember ) )
 			{
+				Observer::notify( 'login_success', $validation[$this->get('login_field')] );
+				
 				$json['status'] = TRUE;
 				$json['redirect'] = $this->get_next_url();
 			}
 			else
 			{
+				Observer::notify( 'login_failed', $validation );
 				$json['message'] = __('Login failed. Please check your login data and try again.');
 			}			
 		}
@@ -131,16 +138,19 @@ class Model_Widget_User_Login extends Model_Widget_Decorator {
 	{
 		if ( $validation->check() )
 		{
-			if ( AuthUser::login( $login_fieldname, $validation[$this->get( 'login_field' )], $validation[$this->get( 'password_field' )], $remember ) )
+			Observer::notify( 'login_before', $validation );
+			
+			if ( AuthUser::login( $login_fieldname, $validation[$this->get('login_field')], $validation[$this->get('password_field')], $remember ) )
 			{
+				Observer::notify( 'login_success', $validation[$this->get('login_field')] );
 				HTTP::redirect($this->get_next_url());
 			}
 			else
 			{
+				Observer::notify( 'login_failed', $validation );
 				Messages::errors( __('Login failed. Please check your login data and try again.') );
 			}
 		}
-		
 
 		HTTP::redirect( Request::current()->referrer() );
 	}
