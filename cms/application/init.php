@@ -68,6 +68,8 @@ Kohana::modules( array(
 	'captcha'		=> MODPATH . 'captcha'
 ) );
 
+Kohana::$log->attach(new Log_Database('logs'));
+
 Observer::notify('modules::after_load');
 
 Route::set( 'user', ADMIN_DIR_NAME.'/<action>(?next=<next_url>)', array(
