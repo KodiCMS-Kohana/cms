@@ -8,9 +8,10 @@ if ( ! is_dir($plugins) AND is_dir(DOCROOT.$plugins))
 
 define('PLUGPATH', realpath($plugins).DIRECTORY_SEPARATOR);
 
-// Init plugins
-Plugins::init();
-
+Observer::observe('modules::after_load', function() {
+	// Init plugins
+	Plugins::init();
+});
 
 Route::set( 'plugins', ADMIN_DIR_NAME.'/plugins(/<action>(/<id>))', array(
 	'id' => '.*'

@@ -68,10 +68,12 @@ Kohana::modules( array(
 	'captcha'		=> MODPATH . 'captcha'
 ) );
 
-Kohana::$log->attach(new Log_Database('logs'));
+
 Kohana::$config->attach(new Config_Database);
 
 Observer::notify('modules::after_load');
+
+Kohana::$log->attach(new Log_Database('logs'));
 
 Route::set( 'user', ADMIN_DIR_NAME.'/<action>(?next=<next_url>)', array(
 	'action' => '(login|logout|forgot)',
