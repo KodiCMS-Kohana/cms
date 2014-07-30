@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS `__TABLE_PREFIX__config` (
   PRIMARY KEY (`group_name`,`config_key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `media` (
+CREATE TABLE IF NOT EXISTS `__TABLE_PREFIX__media` (
   `id` int(18) NOT NULL AUTO_INCREMENT,
   `module` varchar(50) DEFAULT NULL,
   `size` int(18) NOT NULL,
