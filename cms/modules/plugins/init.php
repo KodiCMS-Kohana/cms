@@ -4,14 +4,14 @@ $plugins = CMSPATH . 'plugins';
 
 // Make the plugins relative to the docroot, for symlink'd index.php
 if ( ! is_dir($plugins) AND is_dir(DOCROOT.$plugins))
+{
 	$plugins = DOCROOT.$plugins;
+}
 
 define('PLUGPATH', realpath($plugins).DIRECTORY_SEPARATOR);
 
-Observer::observe('modules::after_load', function() {
-	// Init plugins
-	Plugins::init();
-});
+// Init plugins
+Plugins::init();
 
 Route::set( 'plugins', ADMIN_DIR_NAME.'/plugins(/<action>(/<id>))', array(
 	'id' => '.*'
