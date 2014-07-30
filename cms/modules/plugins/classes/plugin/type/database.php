@@ -50,7 +50,7 @@ class Plugin_Type_Database extends Plugin_Settings_Decorator {
 	{
 		if(Kohana::$caching === TRUE)
 		{
-			$cache->delete('Database::cache('.Plugin::CACHE_KEY . '::plugin::' . $this->id() . ')');
+			Cache::instance()->delete('Database::cache('.Plugin::CACHE_KEY . '::plugin::' . $this->id() . ')');
 		}
 
 		return parent::_clear_cache();

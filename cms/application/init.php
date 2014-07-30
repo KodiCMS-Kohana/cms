@@ -69,6 +69,7 @@ Kohana::modules( array(
 ) );
 
 Kohana::$log->attach(new Log_Database('logs'));
+Kohana::$config->attach(new Config_Database);
 
 Observer::notify('modules::after_load');
 
