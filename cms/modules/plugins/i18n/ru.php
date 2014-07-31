@@ -21,6 +21,8 @@ return array(
 	'Download and copy files to directory' => 'Скачайте и скопируйте архив в директорию',
 	'Install using git' => 'Установка с помощью git',
 	'Install plugin' => 'Установка',
+	'Go to plugin homepage' => 'Перейти на страницу плагина',
+	
 	//============Permissions============//
 	'View plugins' => 'Видеть раздел',
 	'Edit plugin settings' => 'Редактировать настройки',
