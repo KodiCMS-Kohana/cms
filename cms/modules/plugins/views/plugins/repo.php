@@ -9,7 +9,7 @@
 		<br />
 		<div class="text-info">
 			<p><strong><?php echo __('Install plugin'); ?>:</strong> <?php echo __('Download and copy files to directory'); ?> <code><%= plugin_path %></code></p>
-			<p><strong><?php echo __('Install using git'); ?>:</strong> <code>git submodule add <%= description %> <%= plugin_path %></code></p>
+			<p><strong><?php echo __('Install using git'); ?>:</strong> <code>git submodule add <%= clone_url %> <%= plugin_path %></code></p>
 		</div>
 	</td>
 	<td class="plugin-update">
@@ -19,7 +19,7 @@
 		<a href="<%= url %>" target="blank" class="btn btn-link"><?php echo __('Repository'); ?></a>
 	</td>
 	<td class="plugin-link">
-		<a href="<%= archive %>" class="btn"><?php echo __('Download'); ?></a>
+		<a href="<%= archive_url %>" class="btn"><?php echo __('Download'); ?></a>
 		<a href="<%= url %>/issues" target="blank" class="btn btn-mini btn-warning"><?php echo __('Report a bug'); ?></a>
 	</td>
 </script>
