@@ -1,6 +1,6 @@
 /*
-	Redactor v8.2.3
-	Updated: July 18, 2014
+	Redactor v8.2.6
+	Updated: July 31, 2014
 
 	http://redactorjs.com/
 
@@ -2076,7 +2076,7 @@ var RLANG = {
 			var icon = s.icon;
 			
 			if(! icon) icon = 'icon-' + key;
-			var button = $('<a href="#" title="' + s.title + '" class="redactor_btn_' + key + ' ' + icon + '"></a>');
+			var button = $('<a href="javascript:void(null); return false;" title="' + s.title + '" class="redactor_btn_' + key + ' ' + icon + '"></a>');
 
 			if (typeof s.func === 'undefined')
 			{
@@ -2155,7 +2155,7 @@ var RLANG = {
 					}
 					else
 					{
-						drop_a = $('<a href="javascript:void(null);" class="' + d.className + '">' + d.title + '</a>');
+						drop_a = $('<a href="javascript:void(null); return false;" class="' + d.className + '">' + d.title + '</a>');
 
 						if (typeof(d.callback) === 'function')
 						{
@@ -2299,6 +2299,7 @@ var RLANG = {
 			this.$editor.one('click', hdlHideDropDown);
 			this.$content.one('click', hdlHideDropDown);
 
+			e.preventDefault();
 			e.stopPropagation();
 
 		},
@@ -3477,7 +3478,7 @@ var RLANG = {
 			this.modalInit(RLANG.link, this.opts.modal_link, 460, callback);
 
 		},
-		insertLink: function()
+		insertLink: function(e)
 		{
 			var tab_selected = $('#redactor_tab_selected').val();
 			var link = '', text = '', target = '';
