@@ -16,6 +16,13 @@
 			</div>
 		</div>
 		<% if (description) { %><p class="muted"><%= description %></p><% } %>
+			
+		<% if (!is_installed) { %>
+		<div class="text-info">
+			<p><strong><?php echo __('Install plugin'); ?>:</strong> <?php echo __('Download and copy files to directory'); ?> <code><%= plugin_path %></code></p>
+			<p><strong><?php echo __('Install using git'); ?>:</strong> <code>git submodule add <%= clone_url %> <%= plugin_path %></code></p>
+		</div>
+		<% } %>
 		<small class="muted"><strong><?php echo __('Last update'); ?>:</strong> <%= last_update %></small>
 	</td>
 </script>
