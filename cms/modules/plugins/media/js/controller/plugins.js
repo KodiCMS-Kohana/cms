@@ -4,9 +4,13 @@ cms.init.add('plugins_repo', function () {
 			name: '',
 			description: '',
 			is_installed: false,
+			is_new: false,
 			url: '',
 			archive: '',
-			last_update: ''
+			last_update: '',
+			plugin_path: '',
+			stars: 0,
+			watchers: 0
 		},
 
 		clear: function() {

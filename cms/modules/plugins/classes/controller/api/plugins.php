@@ -74,12 +74,15 @@ class Controller_API_Plugins extends Controller_System_API
 				'name' => ucfirst(Inflector::humanize($replo_plugin_name)),
 				'description' => $repo['description'],
 				'url' => $repo['html_url'],
-				'archive' => $repo['html_url'] . '/archive/' . $repo['default_branch'] . '.zip',
+				'clone_url' => $repo['clone_url'],
+				'archive_url' => $repo['html_url'] . '/archive/' . $repo['default_branch'] . '.zip',
 				'is_installed' => in_array($replo_plugin_name, $local_plugins),
 				'is_new' => (time() - strtotime($repo['created_at'])) < Date::MONTH,
-				'last_update' => Date::format(strtotime($repo['updated_at']), 'd F Y H:i'),
+				'last_update' => Date::format(strtotime($repo['updated_at'])),
 				'homepage' => $repo['homepage'],
 				'plugin_path' => DIRECTORY_SEPARATOR . implode(DIRECTORY_SEPARATOR, array('cms', 'plugins', $replo_plugin_name)),
+				'stars' => $repo['stargazers_count'],
+				'watchers' => $repo['watchers_count']
 			);
 		}
 		
@@ -92,7 +95,7 @@ class Controller_API_Plugins extends Controller_System_API
 			'id' => $plugin->id(),
 			'title' => $plugin->title(),
 			'description' => $plugin->description(),
-		  'version' => $plugin->version(),
+			'version' => $plugin->version(),
 			'author' => $plugin->author(),
 			'installed' => $plugin->is_activated(),
 			'settings' => $plugin->has_settings_page(),

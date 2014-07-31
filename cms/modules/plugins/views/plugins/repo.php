@@ -1,12 +1,15 @@
 <script id="plugin-item" type="text/template">
 
 	<td class="plugin-name">
-		<h5><%= name %> <% if (is_installed) { %> <strong>(<?php echo __('Installed'); ?>)</strong><% } %> <% if (is_new) { %> <strong>(<?php echo __('New plugin'); ?>)</strong><% } %></h5>
+		<h5><%= name %> <% if (is_installed) { %> <strong>(<?php echo __('Installed'); ?>)</strong><% } %> <% if (is_new) { %> <strong>(<?php echo __('New plugin'); ?>)</strong><% } %>&nbsp;&nbsp;&nbsp;&nbsp;
+			<i class="icon-star<% if (stars == 0) { %>-empty<% } %>"></i> <%= stars %>&nbsp;&nbsp;&nbsp;&nbsp;
+			<i class="icon-eye-open"></i> <%= watchers %>
+		</h5>
 		<p class="muted"><%= description %></p>
-			
+		<br />
 		<div class="text-info">
 			<p><strong><?php echo __('Install plugin'); ?>:</strong> <?php echo __('Download and copy files to directory'); ?> <code><%= plugin_path %></code></p>
-			<p><strong><?php echo __('Install using git'); ?>:</strong> <code>git submodule add <%= description %> <%= plugin_path %></code></p>
+			<p><strong><?php echo __('Install using git'); ?>:</strong> <code>git submodule add <%= clone_url %> <%= plugin_path %></code></p>
 		</div>
 	</td>
 	<td class="plugin-update">
@@ -16,7 +19,7 @@
 		<a href="<%= url %>" target="blank" class="btn btn-link"><?php echo __('Repository'); ?></a>
 	</td>
 	<td class="plugin-link">
-		<a href="<%= archive %>" class="btn"><?php echo __('Download'); ?></a>
+		<a href="<%= archive_url %>" class="btn"><?php echo __('Download'); ?></a>
 		<a href="<%= url %>/issues" target="blank" class="btn btn-mini btn-warning"><?php echo __('Report a bug'); ?></a>
 	</td>
 </script>
