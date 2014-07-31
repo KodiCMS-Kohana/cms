@@ -153,6 +153,25 @@ class Plugins {
 	}
 	
 	/**
+	 * 
+	 * @param string $plugin_id
+	 * @param string $key
+	 * @param mixed $default
+	 * @return mixed
+	 */
+	public static function setting( $plugin_id, $key, $default = NULL)
+	{
+		$plugin = self::get_registered($plugin_id);
+		
+		if($plugin instanceof Plugin)
+		{
+			return $plugin->get($key, $default);
+		}
+		
+		return $default;
+	}
+
+	/**
 	 * Получение списка плагинов из БД
 	 * 
 	 * @cache_key plugins::list

@@ -22,7 +22,8 @@ return array(
 	'Install using git' => 'Установка с помощью git',
 	'Install plugin' => 'Установка',
 	'Go to plugin homepage' => 'Перейти на страницу плагина',
-	
+	'Plugin :title settings' => 'Настройки плагина :title',
+
 	//============Permissions============//
 	'View plugins' => 'Видеть раздел',
 	'Edit plugin settings' => 'Редактировать настройки',
