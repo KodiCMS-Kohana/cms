@@ -77,9 +77,11 @@ class Controller_API_Plugins extends Controller_System_API
 				'archive' => $repo['html_url'] . '/archive/' . $repo['default_branch'] . '.zip',
 				'is_installed' => in_array($replo_plugin_name, $local_plugins),
 				'is_new' => (time() - strtotime($repo['created_at'])) < Date::MONTH,
-				'last_update' => Date::format(strtotime($repo['updated_at']), 'd F Y H:i'),
+				'last_update' => Date::format(strtotime($repo['updated_at'])),
 				'homepage' => $repo['homepage'],
 				'plugin_path' => DIRECTORY_SEPARATOR . implode(DIRECTORY_SEPARATOR, array('cms', 'plugins', $replo_plugin_name)),
+				'stars' => $repo['stargazers_count'],
+				'watchers' => $repo['watchers_count']
 			);
 		}
 		

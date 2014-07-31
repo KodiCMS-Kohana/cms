@@ -1,9 +1,12 @@
 <script id="plugin-item" type="text/template">
 
 	<td class="plugin-name">
-		<h5><%= name %> <% if (is_installed) { %> <strong>(<?php echo __('Installed'); ?>)</strong><% } %> <% if (is_new) { %> <strong>(<?php echo __('New plugin'); ?>)</strong><% } %></h5>
+		<h5><%= name %> <% if (is_installed) { %> <strong>(<?php echo __('Installed'); ?>)</strong><% } %> <% if (is_new) { %> <strong>(<?php echo __('New plugin'); ?>)</strong><% } %>&nbsp;&nbsp;&nbsp;&nbsp;
+			<i class="icon-star<% if (stars == 0) { %>-empty<% } %>"></i> <%= stars %>&nbsp;&nbsp;&nbsp;&nbsp;
+			<i class="icon-eye-open"></i> <%= watchers %>
+		</h5>
 		<p class="muted"><%= description %></p>
-			
+		<br />
 		<div class="text-info">
 			<p><strong><?php echo __('Install plugin'); ?>:</strong> <?php echo __('Download and copy files to directory'); ?> <code><%= plugin_path %></code></p>
 			<p><strong><?php echo __('Install using git'); ?>:</strong> <code>git submodule add <%= description %> <%= plugin_path %></code></p>
