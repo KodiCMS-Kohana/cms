@@ -1,3 +1,12 @@
+### 10.58.3
+ * [feature] Добавлен просмотр списка репозиториев плагинов в Github
+ * [feature] Указание в профиле пользователя языка по умолчанию
+ * [refactoring] Plugins module
+ * [refactoring] Filter class
+ * [refactoring] Hybrid creator widget
+ * [fix] Fix hotkeys bug
+ * [fix] Исправление ошибок
+
 ### 10.53.104
  * [feature] Добавлен модуль Captcha
  * [feature] Создание профиля пользователя из ГД раздела
