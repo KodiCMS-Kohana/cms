@@ -3,6 +3,47 @@
 abstract class KodiCMS_Image extends Kohana_Image {
 	
 	/**
+	 * Конвертация изображений с разным расширением в jpeg
+	 * 
+	 * @param string $source
+	 * @param integer $quality
+	 * @return boolean
+	 */
+	public static function convert_to_jpeg($source, $quality = 100)
+	{
+		$ext = pathinfo($source, PATHINFO_EXTENSION);
+		$filename = pathinfo( $source, PATHINFO_FILENAME );
+		$dirname = pathinfo( $source, PATHINFO_DIRNAME );
+
+		if (Valid::regex($ext, '/jpg|jpeg/i'))
+		{
+			$image_tmp = imagecreatefromjpeg($source);
+		}
+		else if (Valid::regex($ext, '/png/i'))
+		{
+			$image_tmp = imagecreatefrompng($source);
+		}
+		else if (Valid::regex($ext, '/gif/i'))
+		{
+			$image_tmp = imagecreatefromgif($source);
+		}
+		else if (Valid::regex($ext, '/bmp/i'))
+		{
+			$image_tmp = imagecreatefrombmp($source);
+		}
+		else
+		{
+			return FALSE;
+		}
+		
+		// quality is a value from 0 (worst) to 100 (best)
+		imagejpeg($image_tmp, $dirname . $filename . '.jpg', $quality);
+		imagedestroy($image_tmp);
+
+		return TRUE;
+	}
+
+	/**
 	 * Создание уменьшенной копии изображения. 
 	 * Копия помещается в папку  PUBLICPATH . cache
 	 * 
