@@ -1,4 +1,89 @@
-$(function() {
+cms.init.add('plugins_repo', function () {
+	cms.models.plugin_repo = Backbone.Model.extend({
+		defaults: {
+			name: '',
+			description: '',
+			is_installed: false,
+			url: '',
+			archive: '',
+			last_update: ''
+		},
+
+		clear: function() {
+			this.destroy();
+		}
+	});
+	
+	cms.collections.plugins_repo = Backbone.Collection.extend({
+	    url: Api.build_url('plugins.repositories_list'),
+
+		model: cms.models.plugin_repo,
+
+		parse: function(response) {
+			return response.response;
+		},
+		
+		comparator: function(a) {
+			return a.get('is_installed');
+		}
+	});
+	
+	cms.views.plugin_repo = Backbone.View.extend({
+		tagName: 'tr',
+		template: _.template($('#plugin-item').html()),
+		initialize: function() {
+			this.model.on('destroy', this.remove, this);
+		},
+		// Re-render the titles of the todo item.
+		render: function() {
+			this.$el.toggleClass('info', this.model.get('is_new'));
+			this.$el.toggleClass('success', this.model.get('is_installed'));
+			this.$el.html(this.template(this.model.toJSON()));
+			return this;
+		},
+
+		// Remove the item, destroy the model.
+		clear: function() {
+			this.model.clear();
+		}
+	});
+	
+	cms.views.plugins_repo = Backbone.View.extend({
+
+		el: $("#pluginsMap tbody"),
+
+		initialize: function() {
+			var $self = this;
+			this.collection = new cms.collections.plugins_repo();
+			this.collection.fetch({
+				success: function () {
+					$self.render();
+				}
+			});
+		},
+
+		render: function() {
+			this.clear();
+
+			this.collection.each(function(plugin_repo) {
+				this.addPlugin(plugin_repo);
+			}, this);
+		},
+		
+		clear: function() {
+			this.$el.empty();
+		},
+
+		addPlugin: function(plugin_repo) {
+			var view = new cms.views.plugin_repo({model: plugin_repo});
+			this.$el.append(view.render().el);
+		}
+	});
+	
+	var AppPlugins = new cms.views.plugins_repo();
+})
+
+cms.init.add('plugins_index', function () {
 	cms.models.plugin = Backbone.Model.extend({
 		defaults: {
 			title: '',

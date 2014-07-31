@@ -5,14 +5,24 @@ return array(
 		'name' => 'System',
 		'children' => array(
 			array(
-			'name' => 'Plugins', 
-			'url' => Route::get('backend')->uri(array('controller' => 'plugins')),
-			'priority' => 999,
-			'divider' => TRUE,
-			'icon' => 'puzzle-piece',
-			'permissions' => 'plugins.index',
+				'name' => 'Plugins',
+				'divider' => TRUE,
+				'icon' => 'puzzle-piece',
+				'children' => array(
+					array(
+						'name' => 'List',
+						'url' => Route::get('backend')->uri(array('controller' => 'plugins')),
+						'permissions' => 'plugins.index',
+						'priority' => 400,
+					),
+					array(
+						'name' => 'Repository',
+						'url' => Route::get('backend')->uri(array('controller' => 'plugins', 'action' => 'repo')),
+						'permissions' => 'plugins.repo',
+						'priority' => 420,
+					),
+				)
+			)
 		)
-		)
-		
 	)
 );

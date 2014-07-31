@@ -10,11 +10,17 @@ return array(
 	'Plugin name' => 'Название плагина',
 	'Plugin settings' => 'Настройки плагина',
 	'Version' => 'Версия',
-	
-	
+	'Repository' => 'Репозиторий',
+	'Installed' => 'Установлен',
+	'Last update' => 'Последнее обновление',
 	'Deactivate plugin' => 'Деактивировать плагин',
 	'Documentation' => 'Документация',
-	
+	'Link' => 'Ссылка',
+	'Report a bug' => 'Сообщить об ошибке',
+	'New plugin' => 'Новый',
+	'Download and copy files to directory' => 'Скачайте и скопируйте архив в директорию',
+	'Install using git' => 'Установка с помощью git',
+	'Install plugin' => 'Установка',
 	//============Permissions============//
 	'View plugins' => 'Видеть раздел',
 	'Edit plugin settings' => 'Редактировать настройки',

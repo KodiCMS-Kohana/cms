@@ -26,11 +26,7 @@
 </script>
 
 <div id="pluginsMap" class="widget widget-nopad">
-	<div class="widget-header">
-		<h3 class="text-right"><?php echo HTML::anchor('https://github.com/KodiCMS', __('KodiCMS plugin repository'), array(
-			'class' => 'btn', 'target' => 'blank'
-		)); ?></h3>
-	</div>
+	<div class="widget-header"></div>
 	<div class="widget-content">
 		<table class="table table-striped table-hover" id="PluginsList">
 			<colgroup>

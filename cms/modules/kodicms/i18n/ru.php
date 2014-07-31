@@ -44,6 +44,8 @@ return array(
 	'Key' => 'Ключ',
 	'Never' => 'Никогда',
 	'Or' => 'Или',
+	'List' => 'Список',
+	'Download' => 'Скачать',
 	'Failed to validate array' => 'Ошибка',
 	'KodiCMS successfully installed!' => 'KodiCMS успешно установлена',
 	'--- none ---' => '--- не указан ---',
