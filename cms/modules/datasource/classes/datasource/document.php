@@ -568,12 +568,14 @@ class Datasource_Document {
 	 *				->read_files($_FILES)
 	 *				->validate($this->request->post() + $_FILES);
 	 * 
-	 * @param array $array
-	 * @param string $errors_file
+	 * @param Validation $extra_validation
 	 * @return boolean|Validation
 	 */
-	public function validate($errors_file = 'validation')
+	public function validate(Validation $extra_validation = NULL)
 	{
+		// Determine if any external validation failed
+		$extra_errors = ($extra_validation AND ! $extra_validation->check());
+		
 		$values = Arr::merge($this->values(), $this->_temp_fields);
 
 		$validation = Validation::factory( $values );
@@ -592,9 +594,17 @@ class Datasource_Document {
 			$validation->label($field, $label);
 		}
 
-		if( ! $validation->check() )
+		if( ! $validation->check() OR $extra_errors )
 		{
-			throw new Validation_Exception( $validation );
+			$exception = new Validation_Exception( $validation );
+			
+			if ($extra_errors)
+			{
+				// Merge any possible errors from the external object
+				$exception->add_object($extra_validation);
+			}
+			
+			throw $exception;
 		}
 		
 		return TRUE;

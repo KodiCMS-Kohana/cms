@@ -29,6 +29,34 @@ class KodiCMS_Validation_Exception extends Kohana_Exception
 	}
 	
 	/**
+	 * Adds a Validation object to this exception
+	 *
+	 *     // The following will add a validation object for a profile model
+	 *     // inside the exception for a user model.
+	 *     $e->add_object('profile', $validation);
+	 *     // The errors array will now look something like this
+	 *     // array
+	 *     // (
+	 *     //   'username' => 'This field is required',
+	 *     //   'profile'  => array
+	 *     //   (
+	 *     //     'first_name' => 'This field is required',
+	 *     //   ),
+	 *     // );
+	 *
+	 * @param  string     $alias    The relationship alias from the model
+	 * @param  Validation $object   The Validation object to merge
+	 * @param  mixed      $has_many The array key to use if this exception can be merged multiple times
+	 * @return ORM_Validation_Exception
+	 */
+	public function add_object( Validation $object )
+	{
+		$this->_objects[] = $object;
+
+		return $this;
+	}
+	
+	/**
 	 * Returns a merged array of the errors from all the Validation objects in this exception
 	 *
 	 *     // Will load Model_User errors from messages/orm-validation/user.php

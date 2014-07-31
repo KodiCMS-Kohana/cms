@@ -160,7 +160,7 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Decorator {
 	 * @param array $data
 	 * @return null|integer
 	 */
-	protected function _handle_document($data)
+	protected function _handle_document($data, Validation $external_validation = NULL)
 	{
 		$ds = Datasource_Data_Manager::load($this->ds_id);
 		
@@ -198,7 +198,7 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Decorator {
 		{
 			$document
 				->read_values($data)
-				->validate();
+				->validate($external_validation);
 	
 			if($create === TRUE)
 			{
