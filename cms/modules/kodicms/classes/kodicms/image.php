@@ -6,14 +6,39 @@ abstract class KodiCMS_Image extends Kohana_Image {
 	 * Конвертация изображений с разным расширением в jpeg
 	 * 
 	 * @param string $source
+	 * @param string $target_directory
 	 * @param integer $quality
+	 * @param boolean $remove_source_image
 	 * @return boolean
+	 * @throws Kohana_Exception
 	 */
-	public static function convert_to_jpeg($source, $quality = 100)
+	public static function convert_to_jpeg($source, $target_directory = NULL, $quality = 100, $remove_source_image = FALSE)
 	{
+		if (!file_exists($source))
+		{
+			return FALSE;
+		}
+
 		$ext = pathinfo($source, PATHINFO_EXTENSION);
-		$filename = pathinfo( $source, PATHINFO_FILENAME );
-		$dirname = pathinfo( $source, PATHINFO_DIRNAME );
+		$filename = pathinfo($source, PATHINFO_FILENAME);
+
+		if ($target_directory !== NULL)
+		{
+			if (!is_dir($target_directory) AND is_writable($target_directory))
+			{
+				mkdir($target_directory, 0777);
+			}
+		}
+		else
+		{
+			$target_directory = pathinfo($source, PATHINFO_DIRNAME);
+		}
+
+		if (!is_writable($target_directory))
+		{
+			throw new Kohana_Exception('Unable to write to the target directory :resource', array(
+				':resource' => $target_directory));
+		}
 
 		if (Valid::regex($ext, '/jpg|jpeg/i'))
 		{
@@ -35,10 +60,15 @@ abstract class KodiCMS_Image extends Kohana_Image {
 		{
 			return FALSE;
 		}
-		
+
 		// quality is a value from 0 (worst) to 100 (best)
 		imagejpeg($image_tmp, $dirname . $filename . '.jpg', $quality);
 		imagedestroy($image_tmp);
+
+		if ($remove_source_image === TRUE)
+		{
+			unlink($source);
+		}
 
 		return TRUE;
 	}
@@ -56,90 +86,89 @@ abstract class KodiCMS_Image extends Kohana_Image {
 	 */
 	public static function cache($filepath, $width, $height, $master = Image::INVERSE, $crop = FALSE)
 	{
-		if($master === NULL)
+		if ($master === NULL)
 		{
 			$master = Image::INVERSE;
 		}
 
 		$original_image = PUBLICPATH . $filepath;
-		
-		if ( ! is_file($original_image) ) 
+
+		if (!is_file($original_image))
 		{
 			return NULL;
 		}
-		
+
 		$filename = pathinfo($filepath, PATHINFO_FILENAME);
 		$directory = pathinfo($filepath, PATHINFO_DIRNAME);
 		$extension = strtolower(pathinfo($filepath, PATHINFO_EXTENSION));
-		
-		if( ! in_array($extension, array('jpg', 'gif', 'png', 'bmp', 'jpeg')) )
+
+		if (!in_array($extension, array('jpg', 'gif', 'png', 'bmp', 'jpeg')))
 		{
 			return NULL;
 		}
-		
+
 		$cached_filename = $filename . '_' . $width . 'x' . $height . 'x' . $master;
-		
-		if($crop === TRUE)
+
+		if ($crop === TRUE)
 		{
 			$cached_filename .= 'xCR';
 		}
 
-		$cached_image = 'cache/'  . $directory . '/' . $cached_filename .  '.' . $extension;
-		
+		$cached_image = 'cache/' . $directory . '/' . $cached_filename . '.' . $extension;
+
 		$directory = FileSystem::normalize_path($directory);
-		
-		if( ! is_file( PUBLICPATH . $cached_image ) OR (filectime( $original_image ) > filectime( PUBLICPATH . $cached_image ))) 
+
+		if (!is_file(PUBLICPATH . $cached_image) OR ( filectime($original_image) > filectime(PUBLICPATH . $cached_image)))
 		{
 			$path = PUBLICPATH . 'cache';
-			
-			if ( ! is_dir( $path ) AND is_writable( PUBLICPATH )) 
+
+			if (!is_dir($path) AND is_writable(PUBLICPATH))
 			{
-				mkdir( $path, 0777 );
+				mkdir($path, 0777);
 			}
-			else if( ! is_writable( PUBLICPATH ) )
+			else if (!is_writable(PUBLICPATH))
 			{
-				throw new Kohana_Exception('Unable to write to the cache directory :resource', 
-						array(':resource' => $path) );
+				throw new Kohana_Exception('Unable to write to the cache directory :resource', array(':resource' => $path));
 			}
-			
+
 			$directories = explode(DIRECTORY_SEPARATOR, $directory);
-			
+
 			foreach ($directories as $directory)
 			{
-				if( ! is_writable( $path ) )
+				if (!is_writable($path))
 				{
-					throw new Kohana_Exception('Unable to write to the cache directory :resource', 
-						array(':resource' => $path));
+					throw new Kohana_Exception('Unable to write to the cache directory :resource', array(':resource' => $path));
 				}
 
 				$path = $path . DIRECTORY_SEPARATOR . $directory;
 
-				if ( ! is_dir( $path) ) 
+				if (!is_dir($path))
 				{
-					mkdir( $path, 0777 );
+					mkdir($path, 0777);
 				}
 			}
-			
-			list($width_orig, $height_orig) = getimagesize( $original_image );
 
-			if ($width_orig > $width OR $height_orig > $height) 
-			{			
-				$iamge = Image::factory( $original_image )
-					->resize($width, $height, $master);
-				
-				if($crop === TRUE)
+			list($width_orig, $height_orig) = getimagesize($original_image);
+
+			if ($width_orig > $width OR $height_orig > $height)
+			{
+				$iamge = Image::factory($original_image)
+						->resize($width, $height, $master);
+
+				if ($crop === TRUE)
 				{
 					$iamge->crop($width, $height);
 				}
-				
-				$iamge->save( PUBLICPATH . $cached_image );
-			} 
-			else 
+
+				$iamge->save(PUBLICPATH . $cached_image);
+			}
+			else
 			{
-				copy( $original_image, PUBLICPATH . $cached_image );
+				copy($original_image, PUBLICPATH . $cached_image);
 			}
 		}
-		
+
 		return PUBLIC_URL . $cached_image;
 	}
+
 }
