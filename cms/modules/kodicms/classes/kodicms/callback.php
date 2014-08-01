@@ -1,0 +1,88 @@
+<?php defined('SYSPATH') or die('No direct access allowed.');
+
+/**
+ * @package		KodiCMS
+ * @category	Helper
+ * @author		ButscHSter
+ */
+class KodiCMS_Callback
+{
+	/**
+	 * 
+	 * @param mixed $callback
+	 * @param array $params
+	 * @param mixed $default
+	 * @return mixed
+	 */
+	public static function invoke($callback, array $params = NULL, $default = NULL)
+	{
+		if (is_array($callback) OR ! is_string($callback))
+		{
+			if(empty($params))
+			{
+				return call_user_func($callback);
+			}
+			else
+			{
+				return call_user_func_array($callback, $params);
+			}
+		}
+		elseif (strpos($callback, '::') === FALSE)
+		{
+			return self::invoke_function($callback, $params, $default);
+		}
+		else
+		{
+			return self::invoke_static_class($callback, $params, $default);
+		}
+		
+		return $default;
+	}
+	
+	/**
+	 * 
+	 * @param string $callback
+	 * @param array $params
+	 * @param mixed $default
+	 * @return mixed
+	 */
+	public static function invoke_static_class($callback, array $params = NULL, $default = NULL)
+	{
+		// Split the class and method of the rule
+		list($class, $method) = explode('::', $callback, 2);
+
+		// Use a static method call
+		$method = new ReflectionMethod($class, $method);
+
+		if (empty($params))
+		{
+			return $method->invoke(NULL);
+		}
+		else
+		{
+			return $method->invokeArgs(NULL, $params);
+		}
+	}
+
+	/**
+	 * 
+	 * @param string $callback
+	 * @param array $params
+	 * @param mixed $default
+	 * @return mixed
+	 */
+	public static function invoke_function($callback, array $params = NULL, $default = NULL)
+	{
+		$class = new ReflectionFunction($callback);
+
+		if (empty($params))
+		{
+			return $class->invoke();
+		}
+		else
+		{
+			return $class->invokeArgs($params);
+		}
+	}
+
+}
