@@ -13,7 +13,7 @@ class KodiCMS_Filter implements ArrayAccess {
 	 * @param   array   $array  array to use for filter
 	 * @return  Filter
 	 */
-	public static function factory(array $array, array $rules = NULL)
+	public static function factory(array $array = NULL, array $rules = NULL)
 	{
 		return new Filter($array, $rules);
 	}
@@ -32,7 +32,7 @@ class KodiCMS_Filter implements ArrayAccess {
 	 * @param array $rules rules [field => array(..., rules, ...)]
 	 * @return  void
 	 */
-	public function __construct(array $array, array $rules = NULL)
+	public function __construct(array $array = NULL, array $rules = NULL)
 	{
 		$this->_data = $array;
 		
