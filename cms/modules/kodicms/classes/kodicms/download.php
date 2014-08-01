@@ -16,5 +16,4 @@ class KodiCMS_Download {
 	{
 		return Encrypt::instance()->decode($path);
 	}
-	
 }

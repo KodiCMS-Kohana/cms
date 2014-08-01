@@ -70,8 +70,7 @@ class Controller_Scheduler extends Controller_System_Backend {
 
 		$this->template->content = View::factory( 'scheduler/edit', array(
 			'action' => 'add',
-			'job' => $job,
-			'types' => Config::get('jobs')->as_array()
+			'job' => $job
 		));
 	}
 	
@@ -155,8 +154,7 @@ class Controller_Scheduler extends Controller_System_Backend {
 			'job' => $job,
 			'history' => View::factory( 'scheduler/job_history', array(
 				'history' => $job->logs->order_by('created_on', 'desc')->limit(30)->find_all()
-			)),
-			'types' => Config::get('jobs')->as_array()
+			))
 		) );
 	}
 	

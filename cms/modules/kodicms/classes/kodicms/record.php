@@ -97,10 +97,6 @@ class KodiCMS_Record
 
 	public function __set( $field, $value )
 	{
-		// TODO Fix 
-		// Filter the data
-		//$value = $this->run_filter($field, $value);
-
 		$this->_object_data[$field] = $value;
 	}
 	

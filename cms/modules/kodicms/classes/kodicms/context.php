@@ -20,7 +20,7 @@ class KodiCMS_Context {
 	 */
 	public static function & instance(array $params = array())
 	{
-		if(self::$_instance === NULL)
+		if (self::$_instance === NULL)
 		{
 			self::$_instance = new Context($params);
 			return self::$_instance;
@@ -28,7 +28,7 @@ class KodiCMS_Context {
 
 		return self::$_instance;
 	}
-	
+
 	/**
 	 *
 	 * @var Model_Page_Front 
@@ -112,11 +112,11 @@ class KodiCMS_Context {
 	 */
 	public function meta(Meta $meta = NULL)
 	{
-		if($meta !== NULL)
+		if ($meta !== NULL)
 		{
 			$this->_meta = $meta;
 		}
-		
+
 		return $this->_meta;
 	}
 
@@ -125,21 +125,19 @@ class KodiCMS_Context {
 	 * @param string $param
 	 * @return mixed
 	 */
-	public function &get($param) 
+	public function &get($param)
 	{
 		$result = NULL;
-		
+
 		if (strpos($param, '::') !== FALSE)
 		{
-			list($class, $method) = explode('::', $param, 2);
-			$method = new ReflectionMethod($class, $method);
-			$result = $method->invoke();
+			$result = Callback::invoke_static_class($param);
 		}
-		else if(strpos($param, '$page->') !== FALSE)
+		else if (strpos($param, '$page->') !== FALSE)
 		{
 			list($class, $method) = explode('->', $param, 2);
-			
-			if(strpos($method, '()') !== FALSE)
+
+			if (strpos($method, '()') !== FALSE)
 			{
 				$method = substr($method, 0, strpos($method, '()'));
 				$result = $this->get_page()->{$method}();
@@ -149,14 +147,17 @@ class KodiCMS_Context {
 				$result = $this->get_page()->{$method};
 			}
 		}
-		else if(strpos($param, '$user->') !== FALSE)
+		else if (strpos($param, '$user->') !== FALSE)
 		{
 			$user = Auth::instance()->get_user();
 			list($class, $method) = explode('->', $param, 2);
-			
-			if(!($user instanceof ORM)) return $result;
 
-			if(strpos($method, '()') !== FALSE)
+			if (!($user instanceof ORM))
+			{
+				return $result;
+			}
+
+			if (strpos($method, '()') !== FALSE)
 			{
 				$method = substr($method, 0, strpos($method, '()'));
 				$result = $user->{$method}();
@@ -166,33 +167,33 @@ class KodiCMS_Context {
 				$result = $user->{$method};
 			}
 		}
-		else if(isset($this->_params[$param]))
+		else if (isset($this->_params[$param]))
 		{
 			$result = $this->_params[$param];
 		}
-		elseif ( $this->request()->query($param) !== NULL) 
+		elseif ($this->request()->query($param) !== NULL)
 		{
 			$result = $this->request()->query($param);
 		}
-		else if($this->request()->post( $param ) !== NULL)
+		else if ($this->request()->post($param) !== NULL)
 		{
-			$result = $this->request()->post( $param );
+			$result = $this->request()->post($param);
 		}
-		elseif(
-			$this->behavior_router() instanceof Behavior_Route 
-		AND 
-			$this->behavior_router()->param($param) !== NULL)
+		elseif (
+				$this->behavior_router() instanceof Behavior_Route
+				AND
+				$this->behavior_router()->param($param) !== NULL)
 		{
 			$result = $this->behavior_router()->param($param);
 		}
-		else if($this->request()->param( $param ) !== NULL)
+		else if ($this->request()->param($param) !== NULL)
 		{
-			$result = $this->request()->param( $param );
+			$result = $this->request()->param($param);
 		}
-		
+
 		return $result;
 	}
-	
+
 	/**
 	 * 
 	 * @param string $param
@@ -212,8 +213,7 @@ class KodiCMS_Context {
 				{
 					foreach($fields as $field => $param_name)
 					{
-						$this->inject($this->_widgets[$id], 
-								$field, $this->get($param_name));
+						$this->inject($this->_widgets[$id], $field, $this->get($param_name));
 					}
 				}
 			}
@@ -322,26 +322,26 @@ class KodiCMS_Context {
 	public function & get_widget($id)
 	{
 		$result = NULL;
-		
-		if(isset($this->_widgets[$id]))
+
+		if (isset($this->_widgets[$id]))
 		{
 			$result = & $this->_widgets[$id];
 		}
 
 		return $result;
 	}
-	
+
 	/**
 	 * 
 	 * @param string $block
 	 * @return Model_Widget_Decorator
 	 */
-	public function & get_widget_by_block( $block )
+	public function & get_widget_by_block($block)
 	{
 		$result = NULL;
-		if( !empty($block) AND isset($this->_blocks[$block]))
+		if (!empty($block) AND isset($this->_blocks[$block]))
 		{
-			if(count($this->_blocks[$block]) == 1)
+			if (count($this->_blocks[$block]) == 1)
 			{
 				$result = & $this->_blocks[$block][0];
 			}
@@ -350,10 +350,10 @@ class KodiCMS_Context {
 				$result = & $this->_blocks[$block];
 			}
 		}
-		
+
 		return $result;
 	}
-	
+
 	/**
 	 * 
 	 * @return array
@@ -368,29 +368,28 @@ class KodiCMS_Context {
 	 * @param array $widgets
 	 * @return \Context
 	 */
-	public function register_widgets( array $widgets )
+	public function register_widgets(array $widgets)
 	{
 		foreach ($widgets as $id => $widget)
 		{
 			$this->_widgets[$id] = $widget;
 		}
-		
+
 		return $this;
 	}
-	
-	
+
 	public function init_widgets()
 	{
 		$this->_sort_widgets();
-		
-		foreach( $this->_widget_ids as $id ) 
+
+		foreach ($this->_widget_ids as $id)
 		{
-			$widget =& $this->_widgets[$id];
-			if( !empty($widget->block) ) 
+			$widget = & $this->_widgets[$id];
+			if (!empty($widget->block))
 			{
 				$this->_blocks[$widget->block][] = & $widget;
-				
-				if($widget instanceof Model_Widget_Decorator)
+
+				if ($widget instanceof Model_Widget_Decorator)
 				{
 					Observer::observe('on_page_load', array(& $widget, 'on_page_load'));
 					Observer::observe('after_page_load', array(& $widget, 'after_page_load'));
@@ -406,24 +405,23 @@ class KodiCMS_Context {
 	 * @param mixed $value
 	 * @return \Context
 	 */
-	public function inject( & $widget, $field, $value) 
+	public function inject(& $widget, $field, $value)
 	{
-		if($widget instanceof Model_Widget_Decorator 
-				OR $widget instanceof View)
+		if ($widget instanceof Model_Widget_Decorator OR $widget instanceof View)
 		{
-			if( ! empty($field) )
+			if (!empty($field))
 			{
-				if(method_exists($widget, "set_{$field}"))
+				if (method_exists($widget, "set_{$field}"))
 				{
-					call_user_func(array( & $widget, "set_{$field}"), $value);
+					call_user_func(array(& $widget, "set_{$field}"), $value);
 				}
 				else
 				{
 					$widget->{$field} = $value;
-				}				
+				}
 			}
 		}
-		
+
 		return $this;
 	}
 
@@ -434,58 +432,62 @@ class KodiCMS_Context {
 	 * @param mixed $param_key
 	 * @return \Context
 	 */
-	public function inject_param( & $widget, $field, $param_key) 
+	public function inject_param(& $widget, $field, $param_key)
 	{
-		if($widget instanceof Model_Widget_Decorator 
-				OR $widget instanceof View)
+		if ($widget instanceof Model_Widget_Decorator OR $widget instanceof View)
 		{
-			if( strpos( $param_key, '/' ) !== FALSE)
+			if (strpos($param_key, '/') !== FALSE)
 			{
 				list($name, $index) = explode('/', $param_key, 2);
 			}
 
 			$value = $this->get($param_key);
-			if($value !== NULL)
+			if ($value !== NULL)
 			{
 				$this->inject($widget, $field, $value);
 			}
-			else if(isset($name))
+			else if (isset($name))
 			{
 				$this->_injections[$name][$widget->id][$field] = $param_key;
 			}
 		}
-		
+
 		return $this;
 	}
-	
-	protected function _sort_widgets() 
+
+	protected function _sort_widgets()
 	{
-		if( $this->_widget_ids !== NULL ) return;
-
-		$ids = array_keys( $this->_widgets );
-
-		$widgets = array(); 
-		$types = array('PRE' => array(), '*named' => array(), 'POST' => array());
-	
-		foreach($ids as $id)
+		if ($this->_widget_ids !== NULL)
 		{
-			if(isset($types[$this->_widgets[$id]->block]))
+			return;
+		}
+
+		$ids = array_keys($this->_widgets);
+
+		$widgets = array();
+		$types = array('PRE' => array(), '*named' => array(), 'POST' => array());
+
+		foreach ($ids as $id)
+		{
+			if (isset($types[$this->_widgets[$id]->block]))
 			{
 				$types[$this->_widgets[$id]->block][] = $id;
 			}
 			else
+			{
 				$types['*named'][] = $id;
+			}
 		}
-	
-		foreach($types as $type => $ids)
+
+		foreach ($types as $type => $ids)
 		{
-			foreach($ids as $id )
+			foreach ($ids as $id)
 			{
 				$widgets[$id] = & $this->_widgets[$id];
 			}
 		}
 
-		$this->_widget_ids = array_keys( $widgets );
+		$this->_widget_ids = array_keys($widgets);
 		$this->_widgets = & $widgets;
 	}
 
@@ -495,18 +497,18 @@ class KodiCMS_Context {
 	 */
 	public function build_crumbs()
 	{
-		foreach($this->_widget_ids as $id)
+		foreach ($this->_widget_ids as $id)
 		{
-			if($this->_widgets[$id] instanceof Model_Widget_Decorator 
+			if ($this->_widgets[$id] instanceof Model_Widget_Decorator
 					AND $this->_widgets[$id]->crumbs)
 			{
 				$this->_widgets[$id]->change_crumbs($this->_crumbs);
 			}
 		}
-		
+
 		return $this;
 	}
-	
+
 	/**
 	 * Используется для вывода ошибки 404
 	 * Если не сбрасывать объект, то все блоки на странице дублируются

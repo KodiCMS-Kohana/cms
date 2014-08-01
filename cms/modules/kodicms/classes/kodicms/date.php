@@ -20,7 +20,7 @@ class KodiCMS_Date extends Kohana_Date
 
 	protected static function _translate()
 	{
-		if( empty(self::$_translate) )
+		if (empty(self::$_translate))
 		{
 			$array = array(
 				'am', 'pm', 'AM', 'PM',
@@ -29,7 +29,7 @@ class KodiCMS_Date extends Kohana_Date
 				'Sunday', 'Sun', 'January', 'Jan', 'February', 'Feb',
 				'March', 'Mar', 'April', 'Apr', 'May', 'June', 'Jun',
 				'July', 'Jul', 'August', 'Aug', 'September', 'Sep',
-				'October', 'Oct', 'November', 'Nov', 'December' , 'Dec',
+				'October', 'Oct', 'November', 'Nov', 'December', 'Dec',
 				'st', 'nd', 'rd', 'th'
 			);
 
@@ -38,10 +38,10 @@ class KodiCMS_Date extends Kohana_Date
 				self::$_translate[$value] = __($value);
 			}
 		}
-		
+
 		return self::$_translate;
 	}
-	
+
 	/**
 	 * 
 	 * @return array
@@ -50,7 +50,7 @@ class KodiCMS_Date extends Kohana_Date
 	{
 		$zones = array();
 
-		foreach(DateTimeZone::listIdentifiers() as $zone) 
+		foreach (DateTimeZone::listIdentifiers() as $zone)
 		{
 			$zones[$zone] = $zone;
 		}
@@ -66,24 +66,24 @@ class KodiCMS_Date extends Kohana_Date
 	 */
 	public static function format($date = NULL, $format = NULL)
 	{
-		if( $format === NULL )
+		if ($format === NULL)
 		{
 			$format = Config::get('site', 'date_format', 'Y-m-d H:I:s');
 		}
 
-		if( ! Valid::numeric( $date ) )
+		if (!Valid::numeric($date))
 		{
 			$date = strtotime($date);
 		}
-		
-		if( ! $date)
+
+		if (!$date)
 		{
 			return __('Never');
 		}
 
-		return strtr( date( $format, $date ), self::_translate() );
+		return strtr(date($format, $date), self::_translate());
 	}
-	
+
 	/**
 	 * 
 	 * @return array
@@ -95,7 +95,8 @@ class KodiCMS_Date extends Kohana_Date
 		{
 			$dates[$format] = Date::format(time(), $format);
 		}
-		
+
 		return $dates;
 	}
+
 }
