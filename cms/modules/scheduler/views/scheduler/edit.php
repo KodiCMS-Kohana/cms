@@ -4,7 +4,6 @@
 
 <?php echo Form::hidden('token', Security::token()); ?>
 <div class="widget">
-	
 	<div class="widget-header">
 		<h4><?php echo __('General information'); ?></h4>
 		
@@ -16,22 +15,16 @@
 	</div>
 	<div class="widget-content">
 		<div class="control-group">
-			<label class="control-label title" for="name"><?php echo __( 'Job name' ); ?></label>
+			<?php echo $job->label('name', array('class' => 'control-label title')); ?>
 			<div class="controls">
-				<?php
-				echo Form::input( 'name', $job->name, array(
-					'class' => 'input-title input-block-level', 'id' => 'subject'
-				) );
-				?>
+				<?php echo $job->field('name', array('class' => 'input-title input-block-level')); ?>
 			</div>
 		</div>
 	
 		<div class="control-group">
-			<label class="control-label" for="job"><?php echo __( 'Job function' ); ?></label>
+			<?php echo $job->label('job', array('class' => 'control-label')); ?>
 			<div class="controls">
-				<?php echo Form::select( 'job', $types, $job->job, array(
-					'id' => 'job'
-				) ); ?>
+				<?php echo $job->field('job'); ?>
 			</div>
 		</div>
 	</div>
@@ -40,14 +33,14 @@
 		<h4><?php echo __('Runing options'); ?></h4>
 	</div>
 	<div class="widget-content">
-		<div class='well'>
-			<?php echo __('Job run start'); ?> <?php echo Form::input('date_start', $job->date_start(), array('class' => 'datetimepicker input-medium')); ?> -
-			<?php echo __('Job run end'); ?> <?php echo Form::input('date_end', $job->date_end(), array('class' => 'datetimepicker input-medium')); ?>
+		<div class='well form-inline'>
+			<?php echo $job->label('date_start'); ?> <?php echo $job->field('date_start', array('class' => 'datetimepicker input-medium')); ?> -
+			<?php echo $job->label('date_end'); ?> <?php echo $job->field('date_end', array('class' => 'datetimepicker input-medium')); ?>
 		</div>
 		<div class="control-group">
-			<label class="control-label"><?php echo __('Interval'); ?></label>
+			<?php echo $job->label('interval', array('class' => 'control-label')); ?>
 			<div class="controls">
-				<?php echo Form::input('interval', $job->interval, array('class' => 'input-medium', 'id' => 'job-interval')); ?>
+				<?php echo $job->field('interval', array('class' => 'input-medium')); ?>
 				
 				<span class="flags">
 					<span class="label" data-value="<?php echo Date::MINUTE; ?>"><?php echo __('Minute'); ?></span> 
@@ -64,11 +57,10 @@
 				<?php echo __('Or'); ?>
 			</div>
 		</div>
-		
 		<div class="control-group">
-			<label class="control-label"><?php echo __('Crontime string'); ?></label>
+			<?php echo $job->label('crontime', array('class' => 'control-label')); ?>
 			<div class="controls">
-				<?php echo Form::input('crontime', $job->crontime, array('class' => 'input-large', 'id' => 'job-crontime')); ?>
+				<?php echo $job->field('crontime', array('class' => 'input-large')); ?>
 				<p class="help-inline"><?php echo HTML::anchor('http://ru.wikipedia.org/wiki/Cron', __('Crontab help'), array(
 					'target' => 'blank'
 				)); ?></p>

@@ -58,9 +58,10 @@ class Model_Job extends ORM {
 		return array(
 			'name' => __('Job name'),
 			'job' => __('Job function'),
-			'date_start' => __('Job date start'),
-			'date_end' => __('Job date end'),
-			'interval' => __('Job date end'),
+			'date_start' => __('Job run start'),
+			'date_end' => __('Job run end'),
+			'interval' => __('Interval'),
+			'crontime' => __('Crontime string')
 		);
 	}
 
@@ -93,6 +94,33 @@ class Model_Job extends ORM {
 			),
 			'attempts' => array(
 				array('intval')
+			),
+		);
+	}
+	
+	public function form_columns()
+	{
+		return array(
+			'id' => array(
+				'type' => 'input',
+				'editable' => FALSE
+			),
+			'name' => array(
+				'type' => 'input'
+			),
+			'job' => array(
+				'type' => 'select',
+				'choices' => array($this, 'get_types')
+			),
+			'date_start' => array(
+				'type' => function($object, $field, $attributes) {
+					return Form::input($field, $object->date_start(), $attributes);
+				}
+			),
+			'date_end' => array(
+				'type' => function($object, $field, $attributes) {
+					return Form::input($field, $object->date_end(), $attributes);
+				}
 			),
 		);
 	}
@@ -203,5 +231,10 @@ class Model_Job extends ORM {
 	public function run()
 	{
 		return $this->logs->run($this);
+	}
+	
+	public function get_types()
+	{
+		return Config::get('jobs')->as_array();
 	}
 }
