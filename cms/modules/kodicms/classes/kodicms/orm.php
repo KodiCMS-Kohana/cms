@@ -40,8 +40,9 @@ class KodiCMS_ORM extends Kohana_ORM {
 
 		if ($field_data === NULL)
 		{
+			$field_type = Arr::path($this->_table_columns, $field . '.data_type');
 			$field_data = array(
-				'type' => 'input'
+				'type' => $field_type
 			);
 		}
 
@@ -75,6 +76,11 @@ class KodiCMS_ORM extends Kohana_ORM {
 		}
 		
 		$input = NULL;
+		
+		if (isset($attributes['class']) AND ! is_array($attributes['class']))
+		{
+			$attributes['class'] = array($attributes['class']);
+		}
 
 		if (is_callable($field_data['type']))
 		{
@@ -88,10 +94,8 @@ class KodiCMS_ORM extends Kohana_ORM {
 		{
 			switch ($field_data['type'])
 			{
-				case 'input':
-					$input = Form::input($field_name, $value, $attributes);
-					break;
 				case 'textarea':
+				case 'text':
 					$input = Form::textarea($field_name, $value, $attributes);
 					break;
 				case 'select':
@@ -100,6 +104,9 @@ class KodiCMS_ORM extends Kohana_ORM {
 				case 'checkbox':
 					$default = Arr::get($field_data, 'value', 1);
 					$input = Form::checkbox($field_name, $default, $default == $value, $attributes);
+					break;
+				default:
+					$input = Form::input($field_name, $value, $attributes);
 					break;
 			}
 		}
@@ -113,22 +120,21 @@ class KodiCMS_ORM extends Kohana_ORM {
 	 */
 	public function list_columns()
 	{
-		if(Kohana::$caching === TRUE)
+		if (Kohana::$caching === TRUE)
 		{
 			$cache = Cache::instance();
-			if ( ($result = $cache->get( 'table_columns_' . $this->_object_name )) !== NULL )
+			if (($result = $cache->get('table_columns_' . $this->_object_name)) !== NULL)
 			{
 				return $result;
 			}
 
-			$cache->set( 'table_columns_' . $this->_object_name, $this->_db->list_columns( $this->table_name() ) );
+			$cache->set('table_columns_' . $this->_object_name, $this->_db->list_columns($this->table_name()));
 		}
 
 		// Proxy to database
-
 		return parent::list_columns();
 	}
-	
+
 	/**
 	 * 
 	 * @param array $config
@@ -138,31 +144,31 @@ class KodiCMS_ORM extends Kohana_ORM {
 	{
 		$config['total_items'] = $this->reset(FALSE)->count_all();
 		$pager = Pagination::factory($config);
-		
+
 		$this
 			->limit($pager->items_per_page)
 			->offset($pager->offset);
-		
+
 		return $pager;
 	}
-	
+
 	/**
 	 * 
 	 * @param string $alias
 	 * @return array
 	 * @throws Kohana_Exception
 	 */
-	public function get_related_ids( $alias )
+	public function get_related_ids($alias)
 	{
-		if( ! isset($this->_has_many[$alias]))
+		if (!isset($this->_has_many[$alias]))
 		{
 			throw new Kohana_Exception('Relation :alias not exists in object :object', array(
-				':alias' => $alias,
-				':object' => $this->object_name()
+		':alias' => $alias,
+		':object' => $this->object_name()
 			));
 		}
 
-		if( ! $this->loaded() )
+		if (!$this->loaded())
 		{
 			return array();
 		}
@@ -172,10 +178,10 @@ class KodiCMS_ORM extends Kohana_ORM {
 		$related_field = $this->_has_many[$alias]['far_key'];
 
 		return DB::select($related_field)
-			->from( $table_name )
+			->from($table_name)
 			->where($filed, '=', $this->pk())
 			->execute($this->_db)
-			->as_array( NULL, $related_field);
+			->as_array(NULL, $related_field);
 	}
 
 	/**
@@ -185,39 +191,39 @@ class KodiCMS_ORM extends Kohana_ORM {
 	 * @param array $current_ids
 	 * @return \KodiCMS_ORM
 	 */
-	public function update_related_ids( $alias, array $new_ids = NULL, array $current_ids = NULL )
+	public function update_related_ids($alias, array $new_ids = NULL, array $current_ids = NULL)
 	{
-		if( ! is_array($new_ids) )
+		if (!is_array($new_ids))
 		{
 			return $this;
 		}
 
-		if ( ! $this->loaded() AND ! empty( $new_ids ) )
+		if (!$this->loaded() AND ! empty($new_ids))
 		{
-			return $this->add( $alias, $new_ids );
-		}
-		
-		if( empty( $current_ids ) )
-		{
-			$current_ids = $this->get_related_ids( $alias );
+			return $this->add($alias, $new_ids);
 		}
 
-		$old_ids = array_diff( $current_ids, $new_ids );
-		$new_ids = array_diff( $new_ids, $current_ids );
-
-		if ( !empty( $old_ids ) )
+		if (empty($current_ids))
 		{
-			$this->remove( $alias, $old_ids );
+			$current_ids = $this->get_related_ids($alias);
 		}
 
-		if ( !empty( $new_ids ) )
+		$old_ids = array_diff($current_ids, $new_ids);
+		$new_ids = array_diff($new_ids, $current_ids);
+
+		if (!empty($old_ids))
 		{
-			$this->add( $alias, $new_ids );
+			$this->remove($alias, $old_ids);
+		}
+
+		if (!empty($new_ids))
+		{
+			$this->add($alias, $new_ids);
 		}
 
 		return $this;
 	}
-	
+
 	/**
 	 * Updates a single record or multiple records
 	 *
@@ -228,17 +234,24 @@ class KodiCMS_ORM extends Kohana_ORM {
 	 */
 	public function create(Validation $validation = NULL)
 	{
-		if ( ! $this->before_save()) return FALSE;
-		if ( ! $this->before_create()) return FALSE;
+		if (!$this->before_save())
+		{
+			return FALSE;
+		}
 		
+		if (!$this->before_create())
+		{
+			return FALSE;
+		}
+
 		parent::create($validation);
-		
+
 		$this->after_create();
 		$this->after_save();
 
 		return $this;
 	}
-	
+
 	/**
 	 * Updates or Creates the record depending on loaded()
 	 *
@@ -248,17 +261,24 @@ class KodiCMS_ORM extends Kohana_ORM {
 	 */
 	public function update(Validation $validation = NULL)
 	{
-		if ( ! $this->before_save()) return FALSE;
-		if ( ! $this->before_update()) return FALSE;
+		if (!$this->before_save())
+		{
+			return FALSE;
+		}
 		
+		if (!$this->before_update())
+		{
+			return FALSE;
+		}
+
 		parent::update($validation);
-		
+
 		$this->after_update();
 		$this->after_save();
 
 		return $this;
 	}
-	
+
 	/**
 	 * Deletes a single record while ignoring relationships.
 	 *
@@ -268,17 +288,20 @@ class KodiCMS_ORM extends Kohana_ORM {
 	 */
 	public function delete()
 	{
-		if ( ! $this->before_delete()) return FALSE;
-		
+		if (!$this->before_delete())
+		{
+			return FALSE;
+		}
+
 		$id = $this->pk();
 
 		parent::delete();
 
 		$this->after_delete($id);
-		
+
 		return $this;
 	}
-	
+
 	/**
 	 * 
 	 * @param array $tags
