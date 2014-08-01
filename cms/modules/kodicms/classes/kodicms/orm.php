@@ -16,25 +16,8 @@ class KodiCMS_ORM extends Kohana_ORM {
 	{
 		return array();
 	}
-	
-	/**
-	 * 
-	 * @param array $config
-	 * @return Pagination
-	 */
-	public function add_pager(array $config = NULL)
-	{
-		$config['total_items'] = $this->reset(FALSE)->count_all();
-		$pager = Pagination::factory($config);
-		
-		$this
-			->limit($pager->items_per_page)
-			->offset($pager->offset);
-		
-		return $pager;
-	}
 
-		/**
+	/**
 	 * 
 	 * @param string $field
 	 * @param array $attributes
@@ -54,81 +37,73 @@ class KodiCMS_ORM extends Kohana_ORM {
 	public function field( $field, array $attributes = NULL )
 	{
 		$field_data = Arr::get($this->form_columns(), $field);
-		
-		if($field_data === NULL)
+
+		if ($field_data === NULL)
 		{
 			$field_data = array(
 				'type' => 'input'
 			);
 		}
-		
+
 		$field_name = $field;
 		$value = $this->get($field);
-		
-		if(isset($attributes['prefix']))
+
+		if (isset($attributes['prefix']))
 		{
 			$field_name = $attributes['prefix'] . "[{$field_name}]";
 			unset($attributes['prefix']);
 		}
-		
+
 		$attributes['id'] = $this->object_name() . '_' . $field;
-		
-		if(isset($attributes['choices']))
+
+		if (isset($attributes['choices']))
 		{
 			$field_data['choices'] = $attributes['choices'];
 			unset($attributes['choices']);
 		}
-		
-		if(isset($attributes['multiply']))
+
+		if (isset($attributes['multiply']))
 		{
 			$field_data['multiply'] = TRUE;
 			$field_name .= '[]';
 			unset($attributes['multiply']);
 		}
-		
-		if( ! empty($field_data['choices']) )
-		{
-			$choices = $field_data['choices'];
-	
-			if (is_array($choices) OR ! is_string($choices))
-			{
-				// This is either a callback as an array or a lambda
-				$choices = call_user_func($choices);
-			}
-			elseif (strpos($choices, '::') === FALSE)
-			{
-				// Use a function call
-				$function = new ReflectionFunction($choices);
-				$choices = $function->invoke();
-			}
-			else
-			{
-				// Split the class and method of the rule
-				list($class, $method) = explode('::', $choices, 2);
 
-				// Use a static method call
-				$method = new ReflectionMethod($class, $method);
-				$choices = $method->invoke(NULL);
+		if (!empty($field_data['choices']))
+		{
+			$choices = Callback::invoke($field_data['choices']);
+		}
+		
+		$input = NULL;
+
+		if (is_callable($field_data['type']))
+		{
+			$input = call_user_func($field_data['type'], $this, $field, $attributes);
+		}
+		else if (is_array($field_data['type']))
+		{
+			$input = Callback::invoke_function($field_data['type'], array($this, $field, $attributes));
+		}
+		else
+		{
+			switch ($field_data['type'])
+			{
+				case 'input':
+					$input = Form::input($field_name, $value, $attributes);
+					break;
+				case 'textarea':
+					$input = Form::textarea($field_name, $value, $attributes);
+					break;
+				case 'select':
+					$input = Form::select($field_name, $choices, $value, $attributes);
+					break;
+				case 'checkbox':
+					$default = Arr::get($field_data, 'value', 1);
+					$input = Form::checkbox($field_name, $default, $default == $value, $attributes);
+					break;
 			}
 		}
-		
-		switch ($field_data['type'])
-		{
-			case 'input':
-				$input = Form::input($field_name, $value, $attributes);
-				break;
-			case 'textarea':
-				$input = Form::textarea($field_name, $value, $attributes);
-				break;
-			case 'select':
-				$input = Form::select($field_name, $choices, $value, $attributes);
-				break;
-			case 'checkbox':
-				$default = Arr::get($field_data, 'value', 1);
-				$input = Form::checkbox($field_name, $default, $default == $value, $attributes);
-				break;
-		}
-		
+
 		return $input;
 	}
 
@@ -152,6 +127,23 @@ class KodiCMS_ORM extends Kohana_ORM {
 		// Proxy to database
 
 		return parent::list_columns();
+	}
+	
+	/**
+	 * 
+	 * @param array $config
+	 * @return Pagination
+	 */
+	public function add_pager(array $config = NULL)
+	{
+		$config['total_items'] = $this->reset(FALSE)->count_all();
+		$pager = Pagination::factory($config);
+		
+		$this
+			->limit($pager->items_per_page)
+			->offset($pager->offset);
+		
+		return $pager;
 	}
 	
 	/**
