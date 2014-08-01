@@ -40,9 +40,8 @@ class KodiCMS_ORM extends Kohana_ORM {
 
 		if ($field_data === NULL)
 		{
-			$field_type = Arr::path($this->_table_columns, $field . '.data_type');
 			$field_data = array(
-				'type' => $field_type
+				'type' => Arr::path($this->_table_columns, $field . '.data_type')
 			);
 		}
 
