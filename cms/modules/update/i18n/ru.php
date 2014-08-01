@@ -8,6 +8,7 @@ return array(
 	'Database update SQL script' => 'SQL скрипт обновления БД',
 	'New files' => 'Новые файлы',
 	'Changed files' => 'Измененные файлы',
+	'Check updates' => 'Проверить обновления',
 	'There is a new :cms_name version (:version)' => 'Имеется более новая версия :cms_name (:version)',
 	'You have the latest version of :cms_name' => 'У вас установлена последня версия :cms_name',
 	'To update the system, you can download :archive and unzip it to a folder :folder' 
