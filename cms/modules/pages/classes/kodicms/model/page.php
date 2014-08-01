@@ -254,7 +254,7 @@ class KodiCMS_Model_Page extends ORM
 			),
 			'parent_id' => array(
 				'type' => 'select',
-				'choices' => array($this, '_get_sitemap')
+				'choices' => array($this, 'get_sitemap')
 			),
 			'status_id' => array(
 				'type' => 'select',
@@ -262,7 +262,7 @@ class KodiCMS_Model_Page extends ORM
 			),
 			'layout_file' => array(
 				'type' => 'select',
-				'choices' => array($this, '_get_layouts_list')
+				'choices' => array($this, 'get_layouts_list')
 			),
 			'behavior_id' => array(
 				'type' => 'select',
@@ -606,7 +606,7 @@ class KodiCMS_Model_Page extends ORM
 	 * 
 	 * @return array
 	 */
-	protected function _get_sitemap()
+	public function get_sitemap()
 	{
 		$sitemap = Model_Page_Sitemap::get(TRUE);
 		if($this->loaded())
@@ -622,7 +622,7 @@ class KodiCMS_Model_Page extends ORM
 	 * 
 	 * @return array
 	 */
-	protected function _get_layouts_list()
+	public function get_layouts_list()
 	{
 		$options = array();
 		

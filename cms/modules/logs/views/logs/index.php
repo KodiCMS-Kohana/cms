@@ -1,9 +1,6 @@
 <div class="row-fluid">
 	<div class="span9">
 		<div class="widget widget-nopad">
-			<div class="widget-header">
-
-			</div>
 			<div class="widget-content">
 				<table id="logs-table" class="table table-hover">
 					<colgroup>

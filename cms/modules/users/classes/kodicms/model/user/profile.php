@@ -41,7 +41,7 @@ class KodiCMS_Model_User_Profile extends ORM {
 		return array(
 			'locale' => array(
 				'type' => 'select',
-				'choices' => array($this, '_get_available_langs')
+				'choices' => array($this, 'get_available_langs')
 			),
 			'notice' => array(
 				'type' => 'checkbox',
@@ -51,7 +51,7 @@ class KodiCMS_Model_User_Profile extends ORM {
 		);
 	}
 	
-	protected function _get_available_langs()
+	public function get_available_langs()
 	{
 		$langs = I18n::available_langs();
 		$system_default = Arr::get($langs, Config::get('site', 'default_locale'));
