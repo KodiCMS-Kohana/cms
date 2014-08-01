@@ -62,7 +62,6 @@ class Model_Email_Template extends ORM
 			'reply_to' => array(),
 			'cc' => array(),
 			'status' => array(
-				array('not_empty'),
 				array('in_array', array(':value', array(Model_Email_Template::ACTIVE, Model_Email_Template::INACTIVE))),
 			),
 			'use_queue' => array(
@@ -83,15 +82,39 @@ class Model_Email_Template extends ORM
 			'email_type' => __('Email type'),
 			'status' => __('Email status'),
 			'message' => __('Email message'),
-			'message_type' => __('Email message type'),
+			'message_type' => __('Message type'),
 			'reply_to' => __('Email reply to'),
 			'cc' => __('CC'),
 			'bcc' => __('BCC'),
 			'subject' => __('Email subject'),
-			'use_queue' => __('Use queue')
+			'use_queue' => __('Email send type')
 		);
 	}
 	
+	public function form_columns()
+	{
+		return array(
+			'id' => array(
+				'type' => 'input',
+				'editable' => FALSE
+			),
+			'status' => array(
+				'type' => 'select',
+				'choices' => array($this, 'get_status_list')
+			),
+			'use_queue' => array(
+				'type' => 'select',
+				'choices' => array($this, 'get_send_type_list')
+			),
+			'email_type' => array(
+				'type' => 'select',
+				'choices' => function() {
+					return ORM::factory('email_type')->select_array();
+				}
+			),
+		);
+	}
+
 	public function use_queue()
 	{
 		return (bool) $this->use_queue;
@@ -159,5 +182,29 @@ class Model_Email_Template extends ORM
 		Email_Queue::add_to_queue($this->email_to, array(
 			$this->email_from, Config::get('site', 'title')
 		), $this->subject, $this->message);
+	}
+	
+	/**
+	 * 
+	 * @return array
+	 */
+	public function get_status_list()
+	{
+		return array(
+			self::ACTIVE => __('Active'), 
+			self::INACTIVE => __('Inactive')
+		);
+	}
+	
+	/**
+	 * 
+	 * @return array
+	 */
+	public function get_send_type_list()
+	{
+		return array(
+			Model_Email_Template::USE_DIRECT => __('Direct sending'),
+			Model_Email_Template::USE_QUEUE => __('Use queue')
+		);
 	}
 }

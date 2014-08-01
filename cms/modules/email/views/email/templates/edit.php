@@ -2,7 +2,7 @@
 	var EMAIL_TEMPLATE_ID = <?php echo (int) $template->id; ?>;
 	
 	$(function() {
-		$('#email_types').on('change', function() {
+		$('#email_template_email_type').on('change', function() {
 			show_options($(this).val());
 		});
 		
@@ -16,9 +16,9 @@
 
 		function change_message_redator(type) {
 			if(type == '<?php echo Model_Email_Template::TYPE_HTML; ?>')
-				cms.filters.switchOn( 'message', 'redactor' );
+				cms.filters.switchOn( 'email_template_message', 'redactor' );
 			else
-				cms.filters.switchOff('message');
+				cms.filters.switchOff('email_template_message');
 		}
 		
 		var activeInput;
@@ -32,7 +32,7 @@
 			if(!activeInput) return false;
 
 			if(curInput.hasClass('redactor_editor') && message_type == '<?php echo Model_Email_Template::TYPE_HTML; ?>') {
-				cms.filters.exec('message', 'insert', $(this).text());
+				cms.filters.exec('email_template_message', 'insert', $(this).text());
 			} else {
 				var cursorPos = curInput.prop('selectionStart');
 				var v = curInput.val();
@@ -44,7 +44,7 @@
 			return false;
 		});
 
-		show_options($('#email_types').val());
+		show_options($('#email_template_email_type').val());
 		function show_options(id) {
 			Api.get('email-types.options', {uid: id}, function(resp) {
 				var cont = $('#field_description .controls').empty();
@@ -71,35 +71,21 @@
 	</div>
 	<div class="widget-content">
 		<div class="control-group">
-			<label class="control-label" for="status"><?php echo __( 'Email status' ); ?></label>
+			<?php echo $template->label('status', array('class' => 'control-label')); ?>
 			<div class="controls">
-				<?php echo Form::select( 'status', array(
-					Model_Email_Template::ACTIVE => __('Active'), 
-					Model_Email_Template::INACTIVE => __('Inactive')
-					), (bool) $template->status, array(
-					'id' => 'status'
-				) ); ?>
+				<?php echo $template->field('status'); ?>
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label" for="status"><?php echo __( 'Email send type' ); ?></label>
+			<?php echo $template->label('use_queue', array('class' => 'control-label')); ?>
 			<div class="controls">
-				<?php echo Form::select( 'use_queue', array(
-					Model_Email_Template::USE_DIRECT => __('Direct sending'),
-					Model_Email_Template::USE_QUEUE => __('Use queue'), 
-					), $template->use_queue, array(
-					'id' => 'use_queue'
-				) ); ?>
+				<?php echo $template->field('use_queue'); ?>
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label" for="email_type"><?php echo __( 'Email type' ); ?></label>
+			<?php echo $template->label('email_type', array('class' => 'control-label')); ?>
 			<div class="controls">
-				<?php
-				echo Form::select( 'email_type', $types, $template->email_type, array(
-					'id' => 'email_types'
-				) );
-				?>
+				<?php echo $template->field('email_type'); ?>
 				
 				<?php if ( Acl::check( 'email_type.add')): ?>
 				<?php echo UI::button(__('Add email type'), array(
@@ -112,38 +98,32 @@
 		<hr />
 		
 		<div class="control-group">
-			<label class="control-label title" for="subject"><?php echo __( 'Email subject' ); ?></label>
+			<?php echo $template->label('subject', array('class' => 'control-label title')); ?>
 			<div class="controls">
-				<?php
-				echo Form::input( 'subject', $template->subject, array(
-					'class' => 'input-title input-block-level', 'id' => 'subject'
-				) );
-				?>
+				<?php echo $template->field('subject', array('class' => 'input-title input-block-level')); ?>
 			</div>
 		</div>
 		
-		<?php
-			echo Bootstrap_Form_Element_Control_Group::factory(array(
-				'element' => Bootstrap_Form_Element_Input::factory(array(
-					'name' => 'email_from', 'value' => $template->email_from
-				))
-				->label(__('Email from'))
-			));
-			
-			echo Bootstrap_Form_Element_Control_Group::factory(array(
-				'element' => Bootstrap_Form_Element_Input::factory(array(
-					'name' => 'email_to', 'value' => $template->email_to
-				))
-				->label(__('Email to'))
-			));
-		?>
+		<div class="control-group">
+			<?php echo $template->label('email_from', array('class' => 'control-label')); ?>
+			<div class="controls">
+				<?php echo $template->field('email_from'); ?>
+			</div>
+		</div>
+		
+		<div class="control-group">
+			<?php echo $template->label('email_to', array('class' => 'control-label')); ?>
+			<div class="controls">
+				<?php echo $template->field('email_to'); ?>
+			</div>
+		</div>
 	</div>
 	<div class="widget-header">
 		<h3><?php echo __('Email message'); ?></h3>
 	</div>
 	<div class="widget-content">
 		<div class="control-group">
-			<label class="control-label"><?php echo __( 'Message type' ); ?></label>
+			<?php echo $template->label('message_type', array('class' => 'control-label')); ?>
 			<div class="controls">
 				<label class="radio inline">
 					<?php echo Form::radio('message_type', Model_Email_Template::TYPE_TEXT, $template->message_type == Model_Email_Template::TYPE_TEXT); ?> <?php echo __('Plain text'); ?>
@@ -154,16 +134,13 @@
 			</div>
 		</div>
 		
-		<?php
-			echo Bootstrap_Form_Element_Control_Group::factory(array(
-				'element' => Bootstrap_Form_Element_Textarea::factory(array(
-					'name' => 'message', 'body' => $template->message
-				))
-				->attributes('id', 'message')
-				->attributes('class', 'input-block-level')
-				->label(__('Email message'))
-			));
-		?>
+		<div class="control-group">
+			<?php echo $template->label('message', array('class' => 'control-label')); ?>
+			<div class="controls">
+				<?php echo $template->field('message', array('class' => 'input-block-level')); ?>
+			</div>
+		</div>
+		
 		<div class="control-group" id="field_description"><div class="controls"></div></div>
 		
 		<div class="control-group">

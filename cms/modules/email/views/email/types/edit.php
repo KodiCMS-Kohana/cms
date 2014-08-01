@@ -7,29 +7,25 @@
 )); ?>
 
 <?php echo Form::hidden('token', Security::token()); ?>
+
 <div class="widget">
 	<div class="widget-header">
 		<h3><?php echo __('General information'); ?></h3>
 	</div>
 	<div class="widget-content">
+		
 		<div class="control-group">
-			<label class="control-label title" for="name"><?php echo __('Email type name'); ?></label>
+			<?php echo $type->label('name', array('class' => 'control-label title')); ?>
 			<div class="controls">
-				<?php
-				echo Form::input( 'name', $type->name, array(
-					'class' => 'input-title input-block-level', 'id' => 'subject'
-				) );
-				?>
+				<?php echo $type->field('name', array('class' => 'input-title input-block-level')); ?>
 			</div>
 		</div>
 		
 		<div class="control-group">
-			<label class="control-label" for="code"><?php echo __('Email type code'); ?></label>
+			<?php echo $type->label('code', array('class' => 'control-label')); ?>
 			<div class="controls">
 				<?php if($action == 'add'): ?>
-				<?php echo Form::input( 'code', $type->code, array(
-					'class' => 'slug', 'id' => 'code', 'data-separator' => '_'
-				) ); ?>
+				<?php echo $type->field('code', array('class' => 'slug', 'data-separator' => '_')); ?>
 				<?php else: ?>
 				<span class="input-xlarge uneditable-input"><?php echo $type->code; ?></span>
 				<?php endif; ?>

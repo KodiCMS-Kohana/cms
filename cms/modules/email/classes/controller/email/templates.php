@@ -58,8 +58,7 @@ class Controller_Email_Templates extends Controller_System_Backend {
 
 		$this->template->content = View::factory( 'email/templates/edit', array(
 			'action' => 'add',
-			'template' => $template,
-			'types' => ORM::factory('email_type')->select_array()
+			'template' => $template
 		) );
 	}
 	
@@ -144,8 +143,7 @@ class Controller_Email_Templates extends Controller_System_Backend {
 
 		$this->template->content = View::factory( 'email/templates/edit', array(
 			'action' => 'edit',
-			'template' => $template,
-			'types' => ORM::factory('email_type')->select_array()
+			'template' => $template
 		) );
 	}
 	
