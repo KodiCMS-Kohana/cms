@@ -29,6 +29,7 @@ return array(
 	'Include hidden pages' => 'Показывать скрытые страницы',
 	'Exclude pages' => 'Исключить страницы',
 	'Select to child pages' => 'Установить для дочерних страниц',
+	'Include users object' => 'Загружать объект пользователя',
 	'--- Do not copy ---' => '--- Не копировать ---',
 	'Page password form' => 'Форма ввода пароля для закрытой страницы',
 	'Widget :name' => 'Виджет :name',
