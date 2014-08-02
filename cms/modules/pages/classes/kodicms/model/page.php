@@ -42,17 +42,6 @@ class KodiCMS_Model_Page extends ORM
 			'NOINDEX, NOFOLLOW' => 'NOINDEX, NOFOLLOW'
 		);
 	}
-	
-	/**
-	 * Список пользователей
-	 * @return array
-	 */
-	public static function authors()
-	{
-		return ORM::factory('user')
-			->find_all()
-			->as_array('id', 'username');
-	}
 
 	/**
 	 * Список статусов
@@ -274,7 +263,11 @@ class KodiCMS_Model_Page extends ORM
 			),
 			'created_by_id' => array(
 				'type' => 'select',
-				'choices' => 'Model_Page::authors'
+				'choices' => function() {
+					 return ORM::factory('user')
+						->find_all()
+						->as_array('id', 'username');
+				}
 			),
 		);
 	}
