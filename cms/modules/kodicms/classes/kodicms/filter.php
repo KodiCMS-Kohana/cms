@@ -35,10 +35,13 @@ class KodiCMS_Filter implements ArrayAccess {
 	public function __construct(array $array = NULL, array $rules = NULL)
 	{
 		$this->_data = $array;
-		
-		foreach ($rules as $field => $data)
+
+		if (!empty($rules))
 		{
-			$this->rules($field, $data);
+			foreach ($rules as $field => $data)
+			{
+				$this->rules($field, $data);
+			}
 		}
 	}
 
@@ -80,9 +83,12 @@ class KodiCMS_Filter implements ArrayAccess {
 	 */
 	public function rules($field, array $rules = NULL)
 	{
-		foreach ($rules as $rule)
+		if (!empty($rules))
 		{
-			$this->rule($field, $rule[0], Arr::get($rule, 1));
+			foreach ($rules as $rule)
+			{
+				$this->rule($field, $rule[0], Arr::get($rule, 1));
+			}
 		}
 
 		return $this;
@@ -95,6 +101,9 @@ class KodiCMS_Filter implements ArrayAccess {
 	{
 		$rules = $this->_rules;
 
+		// Get the filters for this column
+		$wildcards = empty($rules[TRUE]) ? array() : $rules[TRUE];
+		
 		foreach ($rules as $field => $data)
 		{
 			$data['rules'] = empty($data['rules']) ? $wildcards : array_merge($wildcards, $data['rules']);
