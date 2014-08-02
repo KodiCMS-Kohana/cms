@@ -9,6 +9,12 @@ class KodiCMS_Model_Page_Front {
 
 	/**
 	 *
+	 * @var array 
+	 */
+	private static $pages_cache = array();
+
+	/**
+	 *
 	 * @var string 
 	 */
 	public $title = '';
@@ -18,31 +24,7 @@ class KodiCMS_Model_Page_Front {
 	 * @var string 
 	 */
 	public $breadcrumb;
-	
-	/**
-	 *
-	 * @var string 
-	 */
-	public $author;
-	
-	/**
-	 *
-	 * @var integer 
-	 */
-	public $author_id;
-	
-	/**
-	 *
-	 * @var string 
-	 */
-	public $updator;
-	
-	/**
-	 *
-	 * @var integer 
-	 */
-	public $updator_id;
-	
+
 	/**
 	 *
 	 * @var string 
@@ -72,12 +54,6 @@ class KodiCMS_Model_Page_Front {
 	 * @var string 
 	 */
 	public $url = '';
-
-	/**
-	 *
-	 * @var Model_Front_Page 
-	 */
-	protected $_parent = NULL;
 	
 	/**
 	 *
@@ -87,15 +63,39 @@ class KodiCMS_Model_Page_Front {
 	
 	/**
 	 *
+	 * @var integer 
+	 */
+	public $created_by_id = NULL;
+	
+	/**
+	 *
+	 * @var integer 
+	 */
+	public $updated_by_id = NULL;
+	
+	/**
+	 *
 	 * @var boolean 
 	 */
 	public $needs_login;
+	
+	/**
+	 *
+	 * @var Model_User 
+	 */
+	public $author;
+	
+	/**
+	 *
+	 * @var Model_User 
+	 */
+	public $updator;
 
 	/**
 	 *
-	 * @var array 
+	 * @var Model_Front_Page 
 	 */
-	private static $pages_cache = array();
+	protected $_parent = NULL;
 	
 	/**
 	 *
@@ -154,17 +154,6 @@ class KodiCMS_Model_Page_Front {
 
 	/**
 	 * 
-	 * @return \Model_Page_Front
-	 */
-	protected function _set_url()
-	{
-		$this->url = trim($this->parent()->url .'/'. $this->slug, '/');
-		
-		return $this;
-	}
-
-	/**
-	 * 
 	 * @return integer
 	 */
 	public function id() 
@@ -206,38 +195,32 @@ class KodiCMS_Model_Page_Front {
 
 	/**
 	 * 
-	 * @return string
+	 * @return Model_User
 	 */
 	public function author()
-	{ 
+	{
+		if($this->author instanceof Model_User)
+		{
+			return $this->author;
+		}
+		
+		$this->author = ORM::factory('user', $this->created_by_id);
 		return $this->author;
 	}
 
 	/**
 	 * 
-	 * @return integer
-	 */
-	public function author_id() 
-	{ 
-		return $this->author_id; 
-	}
-
-	/**
-	 * 
-	 * @return string
+	 * @return Model_User
 	 */
 	public function updator()
-	{ 
+	{
+		if($this->updator instanceof Model_User)
+		{
+			return $this->updator;
+		}
+		
+		$this->updator = ORM::factory('user', $this->updated_by_id);
 		return $this->updator;
-	}
-
-	/**
-	 * 
-	 * @return integer
-	 */
-	public function updator_id() 
-	{ 
-		return $this->updator_id;
 	}
 
 	/**
@@ -372,6 +355,36 @@ class KodiCMS_Model_Page_Front {
 	}
 	
 	/**
+	 * Дата создания
+	 * 
+	 * @return string
+	 */
+	public function created_on()
+	{
+		return $this->date();
+	}
+	
+	/**
+	 * Дата публикации
+	 * 
+	 * @return string
+	 */
+	public function published_on()
+	{
+		return $this->date(NULL, 'published');
+	}
+	
+	/**
+	 * Дата обновления
+	 * 
+	 * @return string
+	 */
+	public function updated_on()
+	{
+		return $this->date(NULL, 'updated');
+	}
+
+	/**
 	 * 
 	 * @return Behavior_Abstract
 	 */
@@ -400,24 +413,6 @@ class KodiCMS_Model_Page_Front {
 		));
 
 		return $crumbs;
-	}
-
-	/**
-	 * 
-	 * @param integer $level
-	 * @param Breadcrumbs $crumbs
-	 */
-	private function _recurse_breadcrumbs($level, &$crumbs)
-	{
-		if ($this->parent() instanceof Model_Page_Front 
-				AND $this->level > $level)
-		{
-			$this->parent()->_recurse_breadcrumbs($level, $crumbs);
-		}
-		
-		$crumbs->add($this->breadcrumb(), $this->url, FALSE, NULL, array(
-			'id' => $this->id
-		));
 	}
 
 	/**
@@ -480,13 +475,7 @@ class KodiCMS_Model_Page_Front {
 		}
 
 		$sql = DB::select('page.*')
-			->select(array('author.username', 'author'), array('author.id', 'author_id'))
-			->select(array('updator.username', 'updator'), array('updator.id', 'updator_id'))
 			->from(array('pages', 'page'))
-			->join(array('users', 'author'), 'left')
-				->on('author.id', '=', 'page.created_by_id')
-			->join(array('users', 'updator'), 'left')
-				->on('updator.id', '=', 'page.updated_by_id')
 			->where('parent_id', '=', $this->id)
 			->where('status_id', 'in', self::get_statuses($include_hidden));
 		
@@ -653,13 +642,7 @@ class KodiCMS_Model_Page_Front {
 		$parent_id = $parent instanceof Model_Page_Front ? $parent->id : 0;
 
 		$page = DB::select('page.*')
-			->select(array('author.username', 'author'))
-			->select(array('updator.username', 'updator'))
 			->from(array('pages', 'page'))
-			->join(array('users', 'author'), 'left')
-				->on('author.id', '=', 'page.created_by_id')
-			->join(array('users', 'updator'), 'left')
-				->on('updator.id', '=', 'page.updated_by_id')
 			->where('slug', '=', $slug)
 			->where('parent_id', '=', $parent_id)
 			->where('status_id', 'in', self::get_statuses($include_hidden))
@@ -744,13 +727,7 @@ class KodiCMS_Model_Page_Front {
 		$page_class = get_called_class();
 
 		$page = DB::select('page.*')
-			->select(array('author.username', 'author'))
-			->select(array('updator.username', 'updator'))
 			->from(array('pages', 'page'))
-			->join(array('users', 'author'), 'left')
-				->on('author.id', '=', 'page.created_by_id')
-			->join(array('users', 'updator'), 'left')
-				->on('updator.id', '=', 'page.updated_by_id')
 			->where('page.id', '=', $id)
 			->where('published_on', '<=', DB::expr('NOW()'))
 			->where('status_id', 'in', self::get_statuses($include_hidden))
@@ -905,6 +882,34 @@ class KodiCMS_Model_Page_Front {
 
 		return $this->needs_login;
 	}
+
+	/**
+	 * 
+	 * @param boolean $include_hidden
+	 * @return array
+	 */
+	public static function get_statuses($include_hidden = FALSE)
+	{
+		$statuses = array(Model_Page::STATUS_PASSWORD_PROTECTED, Model_Page::STATUS_PUBLISHED);
+		
+		if($include_hidden)
+		{
+			$statuses[] = Model_Page::STATUS_HIDDEN;
+		}
+
+		return $statuses;
+	}
+
+	/**
+	 * 
+	 * @return \Model_Page_Front
+	 */
+	protected function _set_url()
+	{
+		$this->url = trim($this->parent()->url .'/'. $this->slug, '/');
+		
+		return $this;
+	}
 	
 	/**
 	 * 
@@ -995,19 +1000,20 @@ class KodiCMS_Model_Page_Front {
 
 	/**
 	 * 
-	 * @param boolean $include_hidden
-	 * @return array
+	 * @param integer $level
+	 * @param Breadcrumbs $crumbs
 	 */
-	public static function get_statuses($include_hidden = FALSE)
+	private function _recurse_breadcrumbs($level, &$crumbs)
 	{
-		$statuses = array(Model_Page::STATUS_PASSWORD_PROTECTED, Model_Page::STATUS_PUBLISHED);
-		
-		if($include_hidden)
+		if ($this->parent() instanceof Model_Page_Front 
+				AND $this->level > $level)
 		{
-			$statuses[] = Model_Page::STATUS_HIDDEN;
+			$this->parent()->_recurse_breadcrumbs($level, $crumbs);
 		}
-
-		return $statuses;
+		
+		$crumbs->add($this->breadcrumb(), $this->url, FALSE, NULL, array(
+			'id' => $this->id
+		));
 	}
 	
 	/**
