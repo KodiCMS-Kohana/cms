@@ -87,7 +87,7 @@ class DataSource_Hybrid_Agent {
 	 * @see DataSource_Hybrid_Agent::get_fields()
 	 * @var array
 	 */
-	protected $_ds_field_names = NULL;
+	protected $_ds_field_names = array();
 	
 	/**
 	 * Системные поля раздела
