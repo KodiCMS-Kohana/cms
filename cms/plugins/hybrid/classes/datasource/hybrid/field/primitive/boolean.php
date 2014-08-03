@@ -2,7 +2,16 @@
 
 class DataSource_Hybrid_Field_Primitive_Boolean extends DataSource_Hybrid_Field_Primitive {
 	
+	const HTML_SELECT = 2;
+	const HTML_RADIO = 0;
+	const HTML_CHECKBOX = 1;
+	
 	protected $_is_required = FALSE;
+	
+	protected $_props = array(
+		'default' => 0,
+		'display' => 0
+	);
 	
 	public function onUpdateDocument(DataSource_Hybrid_Document $old = NULL, DataSource_Hybrid_Document $new) 
 	{
@@ -22,5 +31,14 @@ class DataSource_Hybrid_Field_Primitive_Boolean extends DataSource_Hybrid_Field_
 	public function fetch_headline_value( $value )
 	{
 		return $value == 1 ? __('TRUE') : __('FALSE');
+	}
+	
+	public function display_types()
+	{
+		return array(
+			self::HTML_RADIO => __('Radio buttons'),
+			self::HTML_CHECKBOX => __('Checkbox'),
+			self::HTML_SELECT => __('Dropdown')
+		);
 	}
 }

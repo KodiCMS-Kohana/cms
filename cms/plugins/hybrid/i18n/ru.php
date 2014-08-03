@@ -124,6 +124,10 @@ return array(
 	'Use filemanager to get data' => 'Использовать файловый менеджер',
 	'Disable update existing documents' => 'Запретить обновление существующих документов',
 	
+	'Radio buttons' => 'Радио кнопки',
+	'Checkbox' => 'Флажок',
+	'Dropdown' => 'Выпадающий список',
+	
 	'MySQL index' => 'MySQL индекс',
 	'Field ":field" added to headline' => 'Поле ":field" добавлено в список',
 	'Field ":field" removed from headline' => 'Поле ":field" убранно из списока',
