@@ -93,6 +93,7 @@ class Model_Widget_Page_Pages extends Model_Widget_Decorator_Pagination {
 		if ($this->include_users_object)
 		{
 			$user_ids = array();
+			$users = array();
 
 			foreach ($pages as $page)
 			{
@@ -109,7 +110,10 @@ class Model_Widget_Page_Pages extends Model_Widget_Decorator_Pagination {
 
 			$user_ids = array_unique($user_ids);
 
-			$users = ORM::factory('user')->where('id', 'in', $user_ids)->find_all()->as_array('id');
+			if (!empty($user_ids))
+			{
+				$users = ORM::factory('user')->where('id', 'in', $user_ids)->find_all()->as_array('id');
+			}
 
 			foreach ($pages as $page)
 			{
