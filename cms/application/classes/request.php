@@ -3,10 +3,24 @@
 class Request extends Kohana_Request {
 	
 	/**
+	 * @var  string  server host
+	 */
+	public static $host = '';
+
+		/**
 	 * 
 	 * @var boolean 
 	 */
 	protected static $is_mobile = NULL;
+	
+	public static function factory($uri = TRUE, $client_params = array(), $allow_external = TRUE, $injected_routes = array())
+	{
+		$request = parent::factory($uri, $client_params, $allow_external, $injected_routes);
+		
+		Request::$host = $_SERVER['HTTP_HOST'];
+
+		return $request;
+	}
 
 	/**
 	 * 
