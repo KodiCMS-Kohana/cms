@@ -4,6 +4,5 @@
 * Set current lang
 */
 Observer::observe('modules::after_load', function() {
-	I18n::lang( Model_User::locale() );
-	I18n::available_langs();
+	I18n::lang(Model_User::locale());
 });
