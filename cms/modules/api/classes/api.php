@@ -18,11 +18,12 @@ class API {
 	 * 
 	 * @param string $uri
 	 * @param array $params
+	 * @param boolean $cache
 	 * @return API_Response
 	 */
-	public static function get($uri, array $params = array())
+	public static function get($uri, array $params = array(), $cache = FALSE)
 	{
-		$request = static::request($uri)
+		$request = static::request($uri, $cache)
 			->method(Request::GET)
 			->query($params)
 			->query('api_key', Config::get('api', 'key'))
@@ -35,11 +36,12 @@ class API {
 	 * 
 	 * @param string $uri
 	 * @param array $params
+	 * @param boolean $cache
 	 * @return API_Response
 	 */
-	public static function put($uri, array $params = array())
+	public static function put($uri, array $params = array(), $cache = FALSE)
 	{
-		$request = static::request($uri)
+		$request = static::request($uri, $cache)
 			->method(Request::PUT)
 			->post($params)
 			->post('api_key', Config::get('api', 'key'))
@@ -52,11 +54,12 @@ class API {
 	 * 
 	 * @param string $uri
 	 * @param array $params
+	 * @param boolean $cache
 	 * @return API_Response
 	 */
-	public static function post($uri, array $params = array())
+	public static function post($uri, array $params = array(), $cache = FALSE)
 	{
-		$request = static::request($uri)
+		$request = static::request($uri, $cache)
 			->method(Request::POST)
 			->post($params)
 			->post('api_key', Config::get('api', 'key'))
@@ -69,11 +72,12 @@ class API {
 	 * 
 	 * @param string $uri
 	 * @param array $params
+	 * @param boolean $cache
 	 * @return API_Response
 	 */
-	public static function delete($uri, array $params = array())
+	public static function delete($uri, array $params = array(), $cache = FALSE)
 	{
-		$request = static::request($uri)
+		$request = static::request($uri, $cache)
 			->method(Request::DELETE)
 			->post($params)
 			->post('api_key', Config::get('api', 'key'))
@@ -85,9 +89,10 @@ class API {
 	/**
 	 * 
 	 * @param string $uri
+	 * @param boolean $cache
 	 * @return Request
 	 */
-	public static function request($uri)
+	public static function request($uri, $cache = FALSE)
 	{
 		if(strpos( $uri, '-' ) === FALSE)
 		{
@@ -106,8 +111,14 @@ class API {
 		{
 			$uri = 'api' . $uri;
 		}
+		
+		$params = array();
+		if($cache !== FALSE)
+		{
+			$params['cache'] = HTTP_Cache::factory(Cache::instance());
+		}
 
-		return Request::factory($uri);
+		return Request::factory($uri, $params);
 	}
 	
 	/**
