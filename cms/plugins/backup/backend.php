@@ -26,11 +26,11 @@ Observer::observe('scheduler_callbacks', function() {
 				$data[] = array(
 					'title' => 'Backup::(' . $file . ')',
 					'start' => $created,
-					'url' => Route::get('backend')->uri(array(
+					'url' => URL::site(Route::get('backend')->uri(array(
 						'controller' => 'backup',
 						'action' => 'view',
 						'id' => $file
-					)),
+					))),
 					'color' => $color,
 					'allDay' => FALSE
 				);
