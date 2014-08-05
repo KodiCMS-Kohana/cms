@@ -141,11 +141,7 @@ class Controller_System_API extends Controller_System_Ajax {
 			/**
 			 * Если выключено API, запретить доступ не авторизованным пользователям к нему
 			 */
-			if (
-				(Config::get('api', 'mode') == 'no' AND ! $is_logged_in)
-				OR
-				($this->is_backend() AND ! $is_logged_in)
-			)
+			if ((Config::get('api', 'mode') == 'no' AND (! $is_logged_in AND $this->is_backend())))
 			{
 				throw new HTTP_Exception_403('Forbiden');
 			}
