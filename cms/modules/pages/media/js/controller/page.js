@@ -49,7 +49,6 @@ cms.init.add('page_index', function () {
 			// When ajax error of updating information about page position
 			var error_handler = function (html) {
 				cms.error('Ajax: Sub pages not loaded!', html);
-
 				cms.loader.hide();
 			};
 
@@ -57,14 +56,12 @@ cms.init.add('page_index', function () {
 
 			// Sending information about page position to frog
 			$.ajax({
-				// options
 				url: SITE_URL + ADMIN_DIR_NAME + '/page/children/',
 				dataType:'html',
 				data:{
 					parent_id: parent_id,
 					level: level
 				},
-				// events
 				success:success_handler,
 				error:error_handler
 			});
@@ -126,6 +123,7 @@ cms.init.add('page_index', function () {
 
 				$('#nestable').nestable({
 					group: 1,
+					maxDepth: 10,
 					listNodeName: 'ul',
 					listClass: 'dd-list unstyled',
 				}).on('change', function(e, el) {
