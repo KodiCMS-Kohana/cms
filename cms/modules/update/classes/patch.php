@@ -27,7 +27,7 @@ class Patch {
 			
 			foreach($respoonse['tree'] as $row)
 			{
-				if ( ! in_array($row['path'], $installed_patches) AND $row['path'] != 'README.md')
+				if ( ! in_array($row['path'], $installed_patches) AND pathinfo($row['path'], PATHINFO_EXTENSION) == 'php')
 				{
 					$patches[$row['path']] = 'https://raw.githubusercontent.com/KodiCMS/patches/master/' . $row['path'];
 				}
