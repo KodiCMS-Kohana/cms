@@ -326,12 +326,14 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 	 */
 	public function remove()
 	{
+		$id = $this->id;
+
 		parent::remove();
 
-		if( ! $this->loaded() ) return NULL;
-		
+		if( ! $this->loaded() ) return FALSE;
+
 		DB::delete("dshybrid_" . $this->section()->id())
-			->where('id', '=', $this->id)
+			->where('id', '=', $id)
 			->execute();
 		
 		$this->reset();
