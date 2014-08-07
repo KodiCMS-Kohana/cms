@@ -682,8 +682,12 @@ class KodiCMS_Database_Helper {
 				}
 			}
 		}
-
-		rsort($sqls);
+		
+		uasort($sqls, function($a, $b) {
+			return (strpos($a, 'DROP INDEX') !== FALSE || strpos($a, 'DROP TABLE') !== FALSE) ? 1 : -1;
+		});
+		
+		//rsort($sqls);
 		return $sqls;
 	}
 
@@ -703,12 +707,12 @@ class KodiCMS_Database_Helper {
 		$keyField = '`?\w`?(?:\(\d+\))?';//matches `name`(10)
 		$keyFieldList = '(?:'.$keyField.'(?:,\s?)?)+';//matches `name`(10),`desc`(255)
 
-		if (preg_match('/((?:PRIMARY )|(?:UNIQUE )|(?:FULLTEXT ))?KEY `?(\w+)?`?\s(\(' . $keyFieldList . '\))/i', $sql, $m))
-		{   //key and index operations
+		if ( preg_match('/((?:PRIMARY )|(?:UNIQUE )|(?:FULLTEXT ))?KEY `?(\w+)?`?\s(\(' . $keyFieldList . '\))/i', $sql, $m))
+		{
 			$type = strtolower(trim($m[1]));
 			$name = trim($m[2]);
 			$fields = trim($m[3]);
-			
+
 			switch ($action)
 			{
 				case 'drop':
@@ -761,8 +765,23 @@ class KodiCMS_Database_Helper {
 			
 			if ($action == 'drop')
 			{
-				$spacePos = strpos($sql, ' ');
-				$result.= ' ' . substr($sql, 0, $spacePos);
+				if(strpos($sql, 'CONSTRAINT') !== FALSE)
+				{
+					$sql = str_replace('`', '', $sql);
+					//ALTER TABLE `job_logs` DROP FOREIGN KEY `job_logs_ibfk_1`;
+					$pos1 = strpos($sql, ' ');
+					$pos2 = strpos($sql, ' ', $pos1 + 1);
+					$key = trim(substr($sql, $pos1, $pos2 - $pos1 + 1));
+					
+					$spacePos = 'FOREIGN KEY ' . Database::instance()->quote($key);
+					
+					$result.= ' ' . $spacePos;
+				}
+				else
+				{
+					$spacePos = strpos($sql, ' ');
+					$result.= ' ' . substr($sql, 0, $spacePos);
+				}
 			}
 			else
 			{
