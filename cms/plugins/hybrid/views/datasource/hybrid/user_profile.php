@@ -12,6 +12,6 @@
 <dl class="dl-horizontal">
 	<?php foreach($fields as $field): ?>
 	<dt><?php echo $field->header; ?></dt>
-	<dd><?php echo $field->fetch_headline_value($document->get($field->name)); ?></dd>
+	<dd><?php echo $field->fetch_headline_value($document->get($field->name), $document->id); ?></dd>
 	<?php endforeach; ?>
 </dl>
