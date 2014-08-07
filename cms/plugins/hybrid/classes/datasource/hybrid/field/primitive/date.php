@@ -71,13 +71,13 @@ class DataSource_Hybrid_Field_Primitive_Date extends DataSource_Hybrid_Field_Pri
 		return 'DATE NOT NULL';
 	}
 	
-	public function fetch_headline_value( $value )
+	public function fetch_headline_value( $value, $document_id )
 	{
 		if(!empty($value))
 		{
 			return Date::format($value);
 		}
 
-		return parent::fetch_headline_value($value);
+		return parent::fetch_headline_value($value, $document_id);
 	}
 }

@@ -28,7 +28,7 @@ class DataSource_Hybrid_Field_Primitive_Boolean extends DataSource_Hybrid_Field_
 		return (bool) $row[$fid];
 	}
 	
-	public function fetch_headline_value( $value )
+	public function fetch_headline_value( $value, $document_id)
 	{
 		return $value == 1 ? __('TRUE') : __('FALSE');
 	}

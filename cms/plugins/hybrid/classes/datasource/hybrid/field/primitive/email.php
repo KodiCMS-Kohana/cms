@@ -6,7 +6,7 @@ class DataSource_Hybrid_Field_Primitive_Email extends DataSource_Hybrid_Field_Pr
 		'default' => NULL
 	);
 	
-	public function fetch_headline_value( $value )
+	public function fetch_headline_value( $value, $document_id )
 	{
 		return HTML::mailto($value);
 	}

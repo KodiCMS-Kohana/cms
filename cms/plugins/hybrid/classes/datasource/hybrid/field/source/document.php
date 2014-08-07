@@ -86,9 +86,9 @@ class DataSource_Hybrid_Field_Source_Document extends DataSource_Hybrid_Field_So
 			: $row[$fid];
 	}
 	
-	public function fetch_headline_value( $value )
+	public function fetch_headline_value( $value, $document_id )
 	{
-		if(empty($value)) return parent::fetch_headline_value($value);
+		if(empty($value)) return parent::fetch_headline_value($value, $document_id);
 
 		$header = DataSource_Hybrid_Field_Utils::get_document_header($this->from_ds, $value);
 		
@@ -106,7 +106,7 @@ class DataSource_Hybrid_Field_Source_Document extends DataSource_Hybrid_Field_So
 			);
 		}
 		
-		return parent::fetch_headline_value($value);
+		return parent::fetch_headline_value($value, $document_id);
 	}
 	
 	public function get_query_props(\Database_Query $query, DataSource_Hybrid_Agent $agent)

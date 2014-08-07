@@ -11,46 +11,90 @@ class DataSource_Hybrid_Field_Source_Array extends DataSource_Hybrid_Field_Sourc
 	{
 		parent::create();
 		
-		if( ! $this->id )
+		if (!$this->id)
 		{
 			return FALSE;
 		}
-		
+
 		$ds = Datasource_Data_Manager::load($this->from_ds);		
 		$this->update();
 		
 		return $this->id;
 	}
 	
+	public function get_related_docs($doc_id)
+	{
+		return DB::select('related_id')
+			->from('dshybrid_relations')
+			->where('document_id', '=', (int) $doc_id)
+			->execute()
+			->as_array(NULL, 'related_id');
+	}
+	
+	public function delete_related_docs($doc_id)
+	{
+		return DB::delete('dshybrid_relations')
+			->where('document_id', '=', (int) $doc_id)
+			->execute();
+	}
+	
+	public function update_related_docs($doc_id, array $old_ids = array(), array $new_ids = array())
+	{
+		if (!empty($old_ids))
+		{
+			DB::delete('dshybrid_relations')
+				->where('document_id', '=', (int) $doc_id)
+				->where('related_id', 'in', $old_ids)
+				->execute();
+		}
+		
+		if (!empty($new_ids))
+		{
+			$insert = DB::insert('dshybrid_relations');
+
+			foreach ($new_ids as $id)
+			{
+				$insert
+					->columns(array('document_id', 'related_id'))
+					->values(array((int) $doc_id, $id));
+			}
+
+			$insert->execute();
+		}
+	}
+
 	public function onUpdateDocument(DataSource_Hybrid_Document $old = NULL, DataSource_Hybrid_Document $new) 
 	{
-		$old_docs = $old->get($this->name);
 		$new_docs = $new->get($this->name);
-		
-		$o = empty($old_docs) ? array() : explode(',', $old->get($this->name));
-		$n = empty($new_docs) ? array() : explode(',', $new->get($this->name));
-		
-		$diff = array_diff($o, $n);
-		
-		if($this->one_to_many AND !empty($diff)) 
+
+		$current = $this->get_related_docs($old->id);
+		$new_ids = empty($new_docs) ? array() : explode(',', $new->get($this->name));
+
+		$old_ids = array_diff($current, $new_ids);
+		$new_ids = array_diff($new_ids, $current);
+
+		$this->update_related_docs($new->id, $old_ids, $new_ids);
+
+		if ($this->one_to_many AND !empty($old_ids))
 		{
-			DataSource_Hybrid_Factory::remove_documents($doc->get($diff));
+			DataSource_Hybrid_Factory::remove_documents($old_ids);
 		}
 	}
 	
-	public function onRemoveDocument( DataSource_Hybrid_Document $doc )
+	public function onRemoveDocument(DataSource_Hybrid_Document $doc)
 	{
 		$ids = explode(',', $doc->get($this->name));
-		if($this->one_to_many AND !empty($ids)) 
+		$this->delete_related_docs($doc->id);
+		
+		if ($this->one_to_many AND !empty($ids))
 		{
-			DataSource_Hybrid_Factory::remove_documents($doc->get($ids));
+			DataSource_Hybrid_Factory::remove_documents($ids);
 		}
 	}
-	
+
 	public function convert_value( $value ) 
 	{
 		$ids = !empty($value) ? explode(',', $value) : array();
-
 		return DataSource_Hybrid_Field_Utils::get_document_headers($this->from_ds, $ids);
 	}
 	
@@ -70,9 +114,9 @@ class DataSource_Hybrid_Field_Source_Array extends DataSource_Hybrid_Field_Sourc
 	{
 		$related_widget = NULL;
 
-		if($recurse > 0 AND isset($widget->doc_fetched_widgets[$fid]))
+		if ($recurse > 0 AND isset($widget->doc_fetched_widgets[$fid]))
 		{
-			if(!empty($row[$fid]))
+			if (!empty($row[$fid]))
 			{
 				$related_widget = self::_fetch_related_widget($widget, $row, $fid, $recurse);
 			}
@@ -80,15 +124,16 @@ class DataSource_Hybrid_Field_Source_Array extends DataSource_Hybrid_Field_Sourc
 
 		return !empty($related_widget) 
 			? $related_widget 
-			: (!empty($row[$fid]) ? explode(',', $row[$fid]) : array());
+			: $field->get_related_docs($row['id']);
 	}
 	
-	public function fetch_headline_value( $value )
+	public function fetch_headline_value( $value, $document_id )
 	{
-		if( ! empty($value) )
+		if (!empty($value))
 		{
-			$docs = explode(',', $value);
-			foreach($docs as $i => $id)
+			$docs = $this->get_related_docs($document_id);
+
+			foreach ($docs as $i => $id)
 			{
 				$header = DataSource_Hybrid_Field_Utils::get_document_header($this->from_ds, $id);
 
@@ -100,9 +145,19 @@ class DataSource_Hybrid_Field_Source_Array extends DataSource_Hybrid_Field_Sourc
 					'ds_id' => $this->from_ds, 'id' => $id
 				)), $header, array('target' => 'blank'));
 			}
+
 			return implode(', ', $docs);
 		}
-		
-		return parent::fetch_headline_value($value);
+
+		return parent::fetch_headline_value($value, $document_id);
+	}
+	
+	public function get_query_props(Database_Query $query, DataSource_Hybrid_Agent $agent)
+	{
+		$sub_query = DB::select(DB::expr("GROUP_CONCAT(related_id SEPARATOR ',')"))
+			->from('dshybrid_relations')
+			->where('document_id', '=', DB::expr('d.id'));
+
+		return $query->select(array($sub_query, $this->id));
 	}
 }

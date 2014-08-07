@@ -102,7 +102,7 @@ class Datasource_Section_Hybrid_Headline extends Datasource_Section_Headline {
 				{
 					if(isset($row[$field->id]))
 					{
-						$documents[$id][$field->name] = $field->fetch_headline_value($row[$field->id]);
+						$documents[$id][$field->name] = $field->fetch_headline_value($row[$field->id], $id);
 					}
 				}
 			}

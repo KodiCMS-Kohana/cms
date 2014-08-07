@@ -8,12 +8,14 @@
 <hr />
 
 <div class="control-group">
-	<label class="control-label" for="one_to_one"><?php echo __('One to one relation'); ?></label>
 	<div class="controls">
 		<div class="checkbox">
-			<?php echo Form::checkbox( 'one_to_one', 1, ($field->one_to_one == 1), array(
-				'id' => 'one_to_one'
-			)); ?>
+			<label>
+				<?php echo Form::checkbox( 'one_to_one', 1, ($field->one_to_one == 1), array(
+					'id' => 'one_to_one'
+				)); ?>
+				<?php echo __('Remove the related documents when deleting a document'); ?>
+			</label>
 		</div>
 	</div>
 </div>

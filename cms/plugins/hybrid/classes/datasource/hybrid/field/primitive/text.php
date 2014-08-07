@@ -49,7 +49,7 @@ class DataSource_Hybrid_Field_Primitive_Text extends DataSource_Hybrid_Field_Pri
 		return 'TEXT NOT NULL';
 	}
 	
-	public function fetch_headline_value( $value )
+	public function fetch_headline_value( $value, $document_id )
 	{
 		if(empty($value)) return '';
 

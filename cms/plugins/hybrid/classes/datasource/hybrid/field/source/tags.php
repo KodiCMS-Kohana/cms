@@ -143,7 +143,7 @@ class DataSource_Hybrid_Field_Source_Tags extends DataSource_Hybrid_Field_Source
 		return ! empty($row[$fid]) ? explode(',', $row[$fid]) : array();
 	}
 	
-	public function fetch_headline_value( $value )
+	public function fetch_headline_value( $value, $document_id )
 	{
 		$tags = explode(',', $value );
 		foreach($tags as $i => $tag)

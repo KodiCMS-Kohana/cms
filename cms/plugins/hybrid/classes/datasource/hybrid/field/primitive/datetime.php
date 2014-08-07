@@ -9,13 +9,13 @@ class DataSource_Hybrid_Field_Primitive_DateTime extends DataSource_Hybrid_Field
 		return 'DATETIME NOT NULL';
 	}
 	
-	public function fetch_headline_value( $value )
+	public function fetch_headline_value( $value, $document_id )
 	{
 		if(!empty($value))
 		{
 			return Date::format($value, 'j F Y H:i:s');
 		}
 
-		return parent::fetch_headline_value($value);
+		return parent::fetch_headline_value($value, $document_id);
 	}
 }

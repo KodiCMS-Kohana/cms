@@ -364,7 +364,7 @@ class DataSource_Hybrid_Field_File_File extends DataSource_Hybrid_Field_File {
 		return !empty($row[$fid]) ? str_replace(array('/', '\\'), '/', $row[$fid]) : NULL;
 	}
 
-	public function fetch_headline_value($value)
+	public function fetch_headline_value($value, $document_id)
 	{
 		if ($this->is_image(PUBLICPATH . $value))
 		{
@@ -375,7 +375,7 @@ class DataSource_Hybrid_Field_File_File extends DataSource_Hybrid_Field_File {
 			return HTML::anchor(PUBLIC_URL . $value, __('File'), array('target' => 'blank'));
 		}
 
-		return parent::fetch_headline_value($value);
+		return parent::fetch_headline_value($value, $document_id);
 	}
 
 }

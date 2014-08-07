@@ -118,6 +118,7 @@ return array(
 	'Current date' => 'Текущая дата',
 	'Current datetime' => 'Текущая дата',
 	'One to one relation' => 'Связь один к одному',
+	'Remove the related documents when deleting a document' => 'При удалении документа удалить связанные документы',
 	'Clear coordinates' => 'Очистить координаты',
 	'Select file to upload' => 'Выберите файл для загрузки',
 	'Image :image more than :size MB' => 'Изображение :image больше :size Мб',

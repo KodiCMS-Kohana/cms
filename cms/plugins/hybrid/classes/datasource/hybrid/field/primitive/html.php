@@ -33,7 +33,7 @@ class DataSource_Hybrid_Field_Primitive_HTML extends DataSource_Hybrid_Field_Pri
 		return 'TEXT NOT NULL';
 	}
 	
-	public function fetch_headline_value( $value )
+	public function fetch_headline_value( $value, $document_id )
 	{
 		return substr(strip_tags($value), 0, 500) . ' ...';
 	}

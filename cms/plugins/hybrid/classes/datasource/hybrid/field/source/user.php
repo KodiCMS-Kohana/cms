@@ -61,15 +61,15 @@ class DataSource_Hybrid_Field_Source_User extends DataSource_Hybrid_Field_Source
 		return $users;
 	}
 	
-	public function fetch_headline_value( $value )
+	public function fetch_headline_value( $value, $document_id )
 	{
-		if(empty($value)) return parent::fetch_headline_value($value);
+		if(empty($value)) return parent::fetch_headline_value($value, $document_id);
 
 		$user = ORM::factory('user', (int) $value);
 		
 		if( ! $user->loaded())
 		{
-			return parent::fetch_headline_value($value);
+			return parent::fetch_headline_value($value, $document_id);
 		}
 
 		$header = DataSource_Hybrid_Field_Utils::get_document_header($this->from_ds, $value);

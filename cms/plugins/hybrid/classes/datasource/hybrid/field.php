@@ -697,7 +697,7 @@ abstract class DataSource_Hybrid_Field {
 	 * @param string $value
 	 * @return string
 	 */
-	public function fetch_headline_value( $value )
+	public function fetch_headline_value( $value, $document_id )
 	{
 		return $value;
 	}
