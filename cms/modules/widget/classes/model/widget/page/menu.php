@@ -10,6 +10,13 @@ class Model_Widget_Page_Menu extends Model_Widget_Decorator {
 	public $exclude = array();
 	
 	public $cache_tags = array('pages');
+	
+	protected $_data = array(
+		'page_level' => 0,
+		'exclude' => array(),
+		'match_all_paths' => FALSE,
+		'include_hidden' => FALSE
+	);
 
 	public function backend_data()
 	{
@@ -34,18 +41,16 @@ class Model_Widget_Page_Menu extends Model_Widget_Decorator {
 		{
 			$this->exclude = array();
 		}
+
+		parent::set_values($data);
 		
-		if( empty( $data['match_all_paths'] ))
-		{
-			$this->match_all_paths = 0;
-		}
-		
-		if( empty( $data['include_hidden'] ))
-		{
-			$this->include_hidden = 0;
-		}
-		
-		return parent::set_values($data);
+		$this->match_all_paths = (bool) Arr::get($data, 'match_all_paths');
+		$this->include_hidden = (bool) Arr::get($data, 'include_hidden');
+	}
+	
+	public function set_page_level($level)
+	{
+		return (int) $level;
 	}
 
 	public function fetch_data()
@@ -72,7 +77,12 @@ class Model_Widget_Page_Menu extends Model_Widget_Decorator {
 		}
 		else if($this->page_id == 0 AND ($page = $this->_ctx->get_page()) instanceof Model_Page_Front)
 		{
-			return $page->id;
+			if($this->page_level > 0)
+			{
+				return $page->parent($this->page_level)->id();
+			}
+
+			return $page->id();
 		}
 		
 		return NULL;

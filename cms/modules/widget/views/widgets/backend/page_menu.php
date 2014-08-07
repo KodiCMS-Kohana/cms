@@ -1,3 +1,20 @@
+<script type="text/javascript">
+$(function() {
+	$('#select_page_id').on('change', function() {
+		show_field($(this));
+	});
+	
+	show_field($('#select_page_id'));
+})
+
+function show_field($select) {
+	if($select.val() == 0)
+		$('#page_level_container').show();
+	else
+		$('#page_level_container').hide();
+}
+</script>
+
 <div class="widget-content">
 	<?php
 		echo Bootstrap_Form_Element_Control_Group::factory(array(
@@ -5,10 +22,20 @@
 				'name' => 'page_id', 'options' => $select
 			))
 			->attributes('class', Bootstrap_Form_Element_Input::XXLARGE)
+			->attributes('id', 'select_page_id')
 			->selected($widget->page_id)
 			->label(__('Page'))
 		));
-		
+	?>
+
+	<div class="control-group" id="page_level_container">
+		<label class="control-label" for="page_level"><?php echo __('Select page level'); ?></label>
+		<div class="controls">
+			<?php echo Form::input('page_level',  $widget->page_level, array('id' => 'page_level', 'class' => 'input-mini')); ?>	
+		</div>
+	</div>
+	
+	<?php	
 		echo Bootstrap_Form_Element_Control_Group::factory(array(
 			'element' => Bootstrap_Form_Element_Checkbox::factory(array(
 				'name' => 'match_all_paths', 'value' => 1
@@ -16,11 +43,7 @@
 			->checked($widget->match_all_paths == 1)
 			->label(__('Match All Pages within Given Deepness'))
 		));
-	?>
-	
-	<hr />
-	
-	<?php
+		
 		echo Bootstrap_Form_Element_Control_Group::factory(array(
 			'element' => Bootstrap_Form_Element_Checkbox::factory(array(
 				'name' => 'include_hidden', 'value' => 1
