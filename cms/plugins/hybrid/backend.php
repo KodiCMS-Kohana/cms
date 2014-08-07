@@ -72,7 +72,7 @@ Observer::observe('view_user_profile_sidebar_list', function($id, $plugin) {
 		echo View::factory('datasource/hybrid/user_profile', array(
 			'fields' => $ds->record()->fields(),
 			'document' => $doc,
-			'header' => $ds->name
+			'datasource' => $ds,
 		));
 	}
 }, $plugin);
