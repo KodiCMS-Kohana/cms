@@ -167,24 +167,28 @@ class KodiCMS_Database_Helper {
 	* @param bool $asString if TRUE - result will be a string, otherwise - array
 	* @return array|string update sql statements - in array or string (separated with ';')
 	*/
-	public function get_updates($source, $dest, $asString=FALSE)
+	public function get_updates($source, $dest, $asString = FALSE)
 	{
-		$result = $asString?'':array();
+		$result = $asString ? '' : array();
 		$compRes = $this->compare($source, $dest);
+		
 		if (empty($compRes))
 		{
 			return $result;
 		}
+		
 		$compRes = $this->_filter_diffs($compRes);
 		if (empty($compRes))
 		{
 			return $result;
 		}
+		
 		$result = $this->_get_diff_sql($compRes);
 		if ($asString)
 		{
-			$result = implode(";\r\n\n", $result).';';
+			$result = implode(";\r\n\n", $result) . ';';
 		}
+		
 		return $result;
 	}
 
@@ -335,6 +339,7 @@ class KodiCMS_Database_Helper {
 				}				
 				else continue;//empty array
 			}
+			
 			$result[$tab] = $info;
 		}
 		return $result;
@@ -355,6 +360,7 @@ class KodiCMS_Database_Helper {
 				$result[] = $match;
 			}
 		}
+
 		return $result;
 	}
 
@@ -369,6 +375,7 @@ class KodiCMS_Database_Helper {
 	protected function _get_tab_sql($struct, $tab, $removeDatabase = TRUE)
 	{
 		$result = '';
+
 		/* create table should be single line in this case*/
 		//1 - part before database, 2-database name, 3 - part after database
 		if (preg_match('/(CREATE(?:\s*TEMPORARY)?\s*TABLE\s*(?:IF NOT EXISTS\s*)?)(?:`?(\w+)`?\.)?(`?('.$tab.')`?(\W|$))/i', $struct, $m, PREG_OFFSET_CAPTURE))		
@@ -378,6 +385,7 @@ class KodiCMS_Database_Helper {
 			$database = $m[2][0];
 			$offset = $start+strlen($m[0][0]);
 			$end = $this->_get_delim_pos($struct, $offset);
+			
 			if ($end === FALSE)
 			{
 				$result = substr($struct, $start);
@@ -387,11 +395,13 @@ class KodiCMS_Database_Helper {
 				$result = substr($struct, $start, $end-$start);//already without ';'
 			}
 		}
+		
 		$result = trim($result);
 		if ($database && $removeDatabase)
 		{
 			$result = str_replace($tableDef, $m[1][0].$m[3][0], $result);
 		}
+		
 		return $result;
 	}
 	
@@ -402,6 +412,7 @@ class KodiCMS_Database_Helper {
 	protected function _split_tab_sql($sql)
 	{
 		$result = array();
+	
 		//find opening bracket, get the prefix along with it
 		$openBracketPos = $this->_get_delim_pos($sql, 0, '(');
 		if ($openBracketPos===FALSE)
@@ -409,9 +420,11 @@ class KodiCMS_Database_Helper {
 			trigger_error('[WARNING] can not find opening bracket in table definition');
 			return FALSE;
 		}
+		
 		$prefix = substr($sql, 0, $openBracketPos+1);//prefix can not be empty, so do not check it, just trim
 		$result[] = trim($prefix);
 		$body = substr($sql, strlen($prefix));//fields, indexes and part after closing bracket
+
 		//split by commas, get part by part
 		while(($commaPos = $this->_get_delim_pos($body, 0, ',', TRUE))!==FALSE)
 		{
@@ -420,8 +433,10 @@ class KodiCMS_Database_Helper {
 			{
 				$result[] = $part;
 			}
+			
 			$body = substr($body, $commaPos+1);
 		}
+		
 		//here we have last field (or index) definition + part after closing bracket (ENGINE, ect)
 		$closeBracketPos = $this->_get_delim_rpos($body, 0, ')');
 		if ($closeBracketPos===FALSE)
@@ -429,12 +444,15 @@ class KodiCMS_Database_Helper {
 			trigger_error('[WARNING] can not find closing bracket in table definition');
 			return FALSE;
 		}
+		
 		//get last field / index definition before closing bracket
 		$part = substr($body, 0, $closeBracketPos);
 		$result[] = trim($part);
+		
 		//get the suffix part along with the closing bracket
 		$suffix = substr($body, $closeBracketPos);
 		$suffix = trim($suffix);
+		
 		if ($suffix)
 		{
 			$result[] = $suffix;
@@ -456,50 +474,64 @@ class KodiCMS_Database_Helper {
 	*/
 	protected function _compare_sql($sourceSql, $destSql)//$sourceSql, $destSql
 	{
-		$result = array();		
+		$result = array();
+		
 		//split with comma delimiter, not line breaks
-		$sourceParts =  $this->_split_tab_sql($sourceSql);
-		if ($sourceParts===FALSE)//error parsing sql
+		$sourceParts = $this->_split_tab_sql($sourceSql);
+
+		if ($sourceParts === FALSE)//error parsing sql
 		{
 			trigger_error('[WARNING] error parsing source sql');
 			return FALSE;
 		}
+		
 		$destParts = $this->_split_tab_sql($destSql);
-		if ($destParts===FALSE)
+		
+		if ($destParts === FALSE)
 		{
 			trigger_error('[WARNING] error parsing destination sql');
 			return FALSE;
 		}
-		
+
 		$sourcePartsIndexed = array();
 		$destPartsIndexed = array();
-		foreach($sourceParts as $line)
-		{			
+		
+		foreach ($sourceParts as $line)
+		{
 			$lineInfo = $this->_process_line($line);
-			if (!$lineInfo) continue;
+			if (!$lineInfo)
+			{
+				continue;
+			}
+			
 			$sourcePartsIndexed[$lineInfo['key']] = $lineInfo['line'];
 		}
-		foreach($destParts as $line)
-		{			
+		
+		foreach ($destParts as $line)
+		{
 			$lineInfo = $this->_process_line($line);
-			if (!$lineInfo) continue;
+			if (!$lineInfo)
+			{
+				continue;
+			}
+			
 			$destPartsIndexed[$lineInfo['key']] = $lineInfo['line'];
 		}
+		
 		$sourceKeys = array_keys($sourcePartsIndexed);
 		$destKeys = array_keys($destPartsIndexed);
 		$all = array_unique(array_merge($sourceKeys, $destKeys));
-		sort($all);//fields first, then indexes - because fields are prefixed with '!'
-		
+		sort($all); //fields first, then indexes - because fields are prefixed with '!'
+
 		foreach ($all as $key)
 		{
-			
-			$info = array('source'=>'', 'dest'=>'');
-			$inSource= in_array($key, $sourceKeys);
-			$inDest= in_array($key, $destKeys);
+			$info = array('source' => '', 'dest' => '');
+			$inSource = in_array($key, $sourceKeys);
+			$inDest = in_array($key, $destKeys);
 			$sourceOrphan = $inSource && !$inDest;
 			$destOrphan = $inDest && !$inSource;
-			$different =  $inSource && $inDest && 
-			strcasecmp($this->_normalize_string($destPartsIndexed[$key]), $this->_normalize_string($sourcePartsIndexed[$key]));
+			$different = $inSource && $inDest &&
+					strcasecmp($this->_normalize_string($destPartsIndexed[$key]), $this->_normalize_string($sourcePartsIndexed[$key]));
 			if ($sourceOrphan)
 			{
 				$info['source'] = $sourcePartsIndexed[$key];
@@ -513,7 +545,11 @@ class KodiCMS_Database_Helper {
 				$info['source'] = $sourcePartsIndexed[$key];
 				$info['dest'] = $destPartsIndexed[$key];
 			}
-			else continue;
+			else
+			{
+				continue;
+			}
+
 			$result[] = $info;
 		}
 		return $result;
@@ -527,43 +563,48 @@ class KodiCMS_Database_Helper {
 	* @return array array with single key=>value pair as described in the description
 	* implements some options
 	*/
-	protected function _process_line($line)
+   protected function _process_line($line)
 	{
 		$options = $this->_config;
-		$result = array('key'=>'', 'line'=>'');
+		$result = array('key' => '', 'line' => '');
 		$line = rtrim(trim($line), ',');
+
 		if (preg_match('/^(CREATE\s+TABLE)|(\) ENGINE=)/i', $line))//first or last table definition line
 		{
 			return FALSE;
 		}
-		//if (preg_match('/^(PRIMARY KEY)|(((UNIQUE )|(FULLTEXT ))?KEY `?\w+`?)/i', $line, $m))//key definition
+
+
 		if (preg_match('/^(PRIMARY\s+KEY)|(((UNIQUE\s+)|(FULLTEXT\s+))?KEY\s+`?\w+`?)/i', $line, $m))//key definition
 		{
 			$key = $m[0];
 		}
 		elseif (preg_match('/^`?\w+`?/i', $line, $m))//field definition
 		{
-			$key = '!'.$m[0];//to make sure fields will be synchronised before the keys
+			$key = '!' . $m[0]; //to make sure fields will be synchronised before the keys
 		}
 		else
 		{
-			return FALSE;//line has no valuable info (empty or comment)
+			return FALSE; //line has no valuable info (empty or comment)
 		}
-		//$key = str_replace('`', '', $key);
+
 		if (!empty($options['varcharDefaultIgnore']))
 		{
 			$line = preg_replace("/(var)?char\(([0-9]+)\)\s+NOT\s+NULL\s+default\s+''/i", '$1char($2) NOT NULL', $line);
 		}
+
 		if (!empty($options['intDefaultIgnore']))
 		{
 			$line = preg_replace("/((?:big)|(?:tiny))?int\(([0-9]+)\)\s+NOT\s+NULL\s+default\s+'0'/i", '$1int($2) NOT NULL', $line);
 		}
+
 		if (!empty($options['ignoreIncrement']))
 		{
 			$line = preg_replace("/ AUTO_INCREMENT=[0-9]+/i", '', $line);
 		}
+
 		$result['key'] = $this->_normalize_string($key);
-		$result['line']= $line;
+		$result['line'] = $line;
 		return $result;
 	}
 
@@ -579,17 +620,19 @@ class KodiCMS_Database_Helper {
 	{
 		$options = $this->_config;
 		$sqls = array();
+		
 		if (!is_array($diff) || empty($diff))
 		{
 			return $sqls;
 		}
-		foreach($diff as $tab=>$info)
+		
+		foreach ($diff as $tab => $info)
 		{
-			if ($info['sourceOrphan'])//delete it
+			if ($info['sourceOrphan'])
 			{
 				$sqls[] = "-- DROP TABLE `{$tab}`";
 			}
-			elseif ($info['destOrphan'])//create destination table in source
+			elseif ($info['destOrphan'])
 			{
 				$database = '';
 				$destSql = $this->_get_tab_sql($this->_dest_struct, $tab, $database);
@@ -597,22 +640,26 @@ class KodiCMS_Database_Helper {
 				{
 					$destSql = preg_replace("/\s*AUTO_INCREMENT=[0-9]+/i", '', $destSql);
 				}
+				
 				if (!empty($options['ingoreIfNotExists']))
 				{
 					$destSql = preg_replace("/IF NOT EXISTS\s*/i", '', $destSql);
 				}
+				
 				if (!empty($options['forceIfNotExists']))
 				{
 					$destSql = preg_replace('/(CREATE(?:\s*TEMPORARY)?\s*TABLE\s*)(?:IF\sNOT\sEXISTS\s*)?(`?\w+`?)/i', '$1IF NOT EXISTS $2', $destSql);
 				}
+				
 				$sqls[] = $destSql;
 			}
 			else
 			{
-				foreach($info['differs'] as $finfo)
+				foreach ($info['differs'] as $finfo)
 				{
 					$inDest = !empty($finfo['dest']);
 					$inSource = !empty($finfo['source']);
+					
 					if ($inSource && !$inDest)
 					{
 						$sql = $finfo['source'];
@@ -628,12 +675,14 @@ class KodiCMS_Database_Helper {
 						$sql = $finfo['dest'];
 						$action = 'modify';
 					}
+					
 					$sql = $this->_get_action_sql($action, $tab, $sql);
+
 					$sqls[] = $sql;
 				}
 			}
 		}
-		
+
 		rsort($sqls);
 		return $sqls;
 	}
@@ -650,70 +699,77 @@ class KodiCMS_Database_Helper {
 	{
 		$result = 'ALTER TABLE `'.$tab.'` ';
 		$action = strtolower($action);
+		
 		$keyField = '`?\w`?(?:\(\d+\))?';//matches `name`(10)
 		$keyFieldList = '(?:'.$keyField.'(?:,\s?)?)+';//matches `name`(10),`desc`(255)
-		if (preg_match('/((?:PRIMARY )|(?:UNIQUE )|(?:FULLTEXT ))?KEY `?(\w+)?`?\s(\('.$keyFieldList.'\))/i', $sql, $m))
+
+		if (preg_match('/((?:PRIMARY )|(?:UNIQUE )|(?:FULLTEXT ))?KEY `?(\w+)?`?\s(\(' . $keyFieldList . '\))/i', $sql, $m))
 		{   //key and index operations
 			$type = strtolower(trim($m[1]));
 			$name = trim($m[2]);
 			$fields = trim($m[3]);
-			switch($action)
+			
+			switch ($action)
 			{
 				case 'drop':
-					if ($type=='primary')
+					if ($type == 'primary')
 					{
 						$result.= 'DROP PRIMARY KEY';
 					}
 					else
 					{
-						$result.= 'DROP INDEX `'.$name.'`';
+						$result.= 'DROP INDEX `' . $name . '`';
 					}
-				break;
+					
+					break;
 				case 'add':
-					if ($type=='primary')
+					if ($type == 'primary')
 					{
-						$result.= 'ADD PRIMARY KEY '.$fields;
+						$result.= 'ADD PRIMARY KEY ' . $fields;
 					}
-					elseif ($type=='')
+					elseif ($type == '')
 					{
-						$result.= 'ADD INDEX `'.$name.'` '.$fields;
+						$result.= 'ADD INDEX `' . $name . '` ' . $fields;
 					}
 					else
 					{
-						$result .='ADD '.strtoupper($type).' `'.$name.'` '.$fields;//fulltext or unique
+						$result .='ADD ' . strtoupper($type) . ' `' . $name . '` ' . $fields; //fulltext or unique
 					}
-				break;
+					
+					break;
 				case 'modify':
-					if ($type=='primary')
+					if ($type == 'primary')
 					{
-						$result.='DROP PRIMARY KEY, ADD PRIMARY KEY '.$fields;
+						$result.='DROP PRIMARY KEY, ADD PRIMARY KEY ' . $fields;
 					}
-					elseif ($type=='')
+					elseif ($type == '')
 					{
-						$result.='DROP INDEX `'.$name.'`, ADD INDEX `'.$name.'` '.$fields;
+						$result.='DROP INDEX `' . $name . '`, ADD INDEX `' . $name . '` ' . $fields;
 					}
 					else
 					{
-						$result.='DROP INDEX `'.$name.'`, ADD '.strtoupper($type).' `'.$name.'` '.$fields;//fulltext or unique
+						$result.='DROP INDEX `' . $name . '`, ADD ' . strtoupper($type) . ' `' . $name . '` ' . $fields; //fulltext or unique
 					}
-				break;
-
+					
+					break;
 			}
 		}
 		else //fields operations
 		{
 			$sql = rtrim(trim($sql), ',');
 			$result.= strtoupper($action);
-			if ($action=='drop')
+			
+			if ($action == 'drop')
 			{
 				$spacePos = strpos($sql, ' ');
-				$result.= ' '.substr($sql, 0, $spacePos);
+				$result.= ' ' . substr($sql, 0, $spacePos);
 			}
 			else
 			{
-				$result.= ' '.$sql;
+				$result.= ' ' . $sql;
 			}
 		}
+
 		return $result;
 	}
 
@@ -738,6 +794,7 @@ class KodiCMS_Database_Helper {
 		{
 			$reg.='()';
 		}
+		
 		$reg .= '('.preg_quote($delim).')';
 		while (preg_match('%'.$reg.'%', $string, $m, PREG_OFFSET_CAPTURE, $offset))
 		{
@@ -748,14 +805,17 @@ class KodiCMS_Database_Helper {
 				{
 					array_pop($stack);
 				}
+				
 				continue;//here we could also simplify regexp
 			}
+			
 			if (end($stack)=='-- ')
 			{
 				if (!empty($m[5][0]))
 				{
 					array_pop($stack);
 				}
+				
 				continue;//here we could also simplify regexp
 			}
 
@@ -770,6 +830,7 @@ class KodiCMS_Database_Helper {
 					//var_dump($stack, substr($string, $offset-strlen($m[0][0])));
 				}
 			}
+			
 			if (!empty($m[6][0]))// '(' or ')' found
 			{
 				if (empty($stack) && $m[6][0]=='(')
@@ -801,6 +862,7 @@ class KodiCMS_Database_Helper {
 				array_push($stack, $m[4][0]);
 			}
 		}
+		
 		return FALSE;
 	}
 	
@@ -811,6 +873,7 @@ class KodiCMS_Database_Helper {
 	protected function _get_delim_rpos($string, $offset=0, $delim=';', $skipInBrackets=FALSE)
 	{
 		$pos = $this->_get_delim_pos($string, $offset, $delim, $skipInBrackets);
+		
 		if ($pos===FALSE)
 		{
 			return FALSE;
@@ -824,6 +887,7 @@ class KodiCMS_Database_Helper {
 			}
 		}
 		while($newPos!==FALSE);
+		
 		return $pos;
 	}
 
