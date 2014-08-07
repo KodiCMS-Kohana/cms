@@ -42,13 +42,24 @@ $(function() {
 			loading: __("Loading ...")
 		},
 		onStepChanging: function (event, currentIndex, newIndex) {
+			$form = $(".form-horizontal");
+
 			if(currentIndex == 1 && newIndex > currentIndex && failed) {
 				parse_messages([__('Before proceeding to the next step you need to fix errors')], 'error');
 				return false;
 			}
 			
 			if(currentIndex == 2 && newIndex > currentIndex) {
-				return check_connect();
+				if(validate_step_2($form))
+				{
+					return check_connect();
+				}
+				
+				return false;
+			}
+			
+			if(currentIndex == 3 && newIndex > currentIndex) {
+				return validate_step_3($form);
 			}
 	
 			return true;
@@ -58,6 +69,63 @@ $(function() {
 		}
 	});
 	
+	function validate_step_2($form) {
+		$form.validate({
+			onsubmit: false,
+			errorElement: 'span',
+			errorClass: 'help-inline',
+			unhighlight: function(obj, element) {
+				$(obj).closest('.control-group').removeClass('error');
+			},
+			errorPlacement: function(place, element) {
+				element.closest('.control-group').addClass('error');
+				place.insertAfter( element );
+			},
+			rules: {
+				'install[db_server]': "required", 
+				'install[db_port]': "required",
+				'install[db_user]': "required",
+				'install[db_name]': "required"
+			}
+		}, true);
+		
+		return $form.valid();
+	}
+	
+	function validate_step_3($form) {
+
+		$form.validate({
+			onsubmit: false,
+			errorElement: 'span',
+			errorClass: 'help-inline',
+			unhighlight: function(obj, element) {
+				$(obj).closest('.control-group').removeClass('error');
+			},
+			errorPlacement: function(place, element) {
+				element.closest('.control-group').addClass('error');
+				place.insertAfter( element );
+			},
+			rules: {
+				'install[site_name]': "required", 
+				'install[username]': "required",
+				'install[password_field]': {
+					required: true,
+					minlength: 5
+				},
+				'install[email]': {
+					required: true,
+					email: true
+				},
+				'install[admin_dir_name]': "required", 
+				'install[password_confirm]': {
+					equalTo: "#password"
+				},
+			}
+		}, true);
+
+		return $form.valid();
+	}
+
 	function check_connect() {
 		cms.clear_error();
 		var $fields = $(':input[name*=db_]').serialize();

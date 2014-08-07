@@ -32,6 +32,8 @@ class Controller_Install extends Controller_System_Frontend
 	public function action_index()
 	{
 		Assets::js('steps', ADMIN_RESOURCES . 'libs/steps/jquery.steps.min.js', 'jquery');
+		Assets::js('validate', ADMIN_RESOURCES . 'libs/validation/jquery.validate.min.js', 'jquery');
+		Assets::js('validate.localization', ADMIN_RESOURCES . 'libs/validation/localization/messages_' . I18n::lang_short() . '.min.js', 'validate');
 		
 		Assets::package('select2');
 		

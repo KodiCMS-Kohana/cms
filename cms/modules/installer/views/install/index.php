@@ -44,10 +44,10 @@
 				)); ?>
 
 				<div class="control-group">
-					<label class="control-label" for="installDBServerField"><?php echo __( 'Database server' ); ?></label>
+					<label class="control-label" for="db_server"><?php echo __( 'Database server' ); ?></label>
 					<div class="controls inline">
 						<?php echo Form::input( 'install[db_server]', Arr::get( $data, 'db_server' ), array(
-							'class' => 'span3', 'id' => 'installDBServerField'
+							'class' => 'span3', 'id' => 'db_server'
 						) ); ?>
 
 						<?php echo Form::input( 'install[db_port]', Arr::get( $data, 'db_port' ), array(
@@ -59,19 +59,19 @@
 				</div>
 
 				<div class="control-group">
-					<label class="control-label" for="installDBUserField"><?php echo __( 'Database user' ); ?></label>
+					<label class="control-label" for="db_user"><?php echo __( 'Database user' ); ?></label>
 					<div class="controls">
 						<?php echo Form::input( 'install[db_user]', Arr::get( $data, 'db_user' ), array(
-							'class' => 'input-xlarge', 'id' => 'installDBUserField'
+							'class' => 'input-xlarge', 'id' => 'db_user'
 						) ); ?> <?php echo UI::label( __( 'Required' ) ); ?>
 					</div>
 				</div>
 
 				<div class="control-group">
-					<label class="control-label" for="installDBPasswordField"><?php echo __( 'Database password' ); ?></label>
+					<label class="control-label" for="db_password"><?php echo __( 'Database password' ); ?></label>
 					<div class="controls">
 						<?php echo Form::password( 'install[db_password]', Arr::get( $data, 'db_password' ), array(
-							'class' => 'input-xlarge', 'id' => 'installDBPasswordField'
+							'class' => 'input-xlarge', 'id' => 'db_password'
 						) ); ?>
 
 						<p class="help-block"><?php echo __( 'If there is no database password, leave it blank.' ); ?></p>
@@ -79,10 +79,10 @@
 				</div>
 
 				<div class="control-group well well-small">
-					<label class="control-label" for="installDBNameField"><?php echo __( 'Database name' ); ?></label>
+					<label class="control-label" for="db_name"><?php echo __( 'Database name' ); ?></label>
 					<div class="controls">
 						<?php echo Form::input( 'install[db_name]', Arr::get( $data, 'db_name' ), array(
-							'class' => 'input-xlarge', 'id' => 'installDBNameField'
+							'class' => 'input-xlarge', 'id' => 'db_name'
 						) ); ?> <?php echo UI::label( __( 'Required' ) ); ?>
 						<p class="help-block"><?php echo __( 'You have to create a database manually and enter its name here.' ); ?></p>
 						
@@ -93,10 +93,10 @@
 				</div>
 
 				<div class="control-group">
-					<label class="control-label" for="installDBPrefixField"><?php echo __( 'Prefix' ); ?></label>
+					<label class="control-label" for="db_preffix"><?php echo __( 'Prefix' ); ?></label>
 					<div class="controls">
 						<?php echo Form::input( 'install[db_table_prefix]', Arr::get( $data, 'db_table_prefix' ), array(
-							'class' => 'input-small', 'id' => 'installDBPrefixField'
+							'class' => 'input-small', 'id' => 'db_preffix'
 						) ); ?>
 
 						<p class="help-block"><?php echo __( 'Usefull to prevent conflicts if you have, or plan to have, multiple :cms installations with a single database.', array(':cms' => CMS_NAME) ); ?></p>
@@ -111,51 +111,61 @@
 		<div class="widget">
 			<div class="widget-content">
 				<div class="control-group">
-					<label class="control-label" for="installSiteNameField"><?php echo __( 'Site title' ); ?></label>
+					<label class="control-label" for="site_name"><?php echo __( 'Site title' ); ?></label>
 					<div class="controls">
 						<?php echo Form::input( 'install[site_name]', Arr::get( $data, 'site_name' ), array(
-							'class' => 'span7', 'id' => 'installSiteNameField'
+							'class' => 'span7', 'id' => 'site_name'
 						) ); ?> <?php echo UI::label( __( 'Required' ) ); ?>
 					</div>
 				</div>
 
 				<div class="control-group">
-					<label class="control-label" for="installUsernameField"><?php echo __( 'Administrator username' ); ?></label>
+					<label class="control-label" for="username"><?php echo __( 'Administrator username' ); ?></label>
 					<div class="controls">
 						<?php echo Form::input( 'install[username]', Arr::get( $data, 'username' ), array(
-							'class' => 'input-medium', 'id' => 'installUsernameField'
+							'class' => 'input-medium', 'id' => 'username'
 						) ); ?> <?php echo UI::label( __( 'Required' ) ); ?>
 					</div>
 				</div>
-				<div class="control-group well well-small">
-					<label class="control-label" for="userEditPasswordField"><?php echo __('Password'); ?></label>
-					<div class="controls">
-						<div id="password-form">
-							<?php echo Form::password('install[password_field]', Arr::get( $data,'password_field'), array(
-								'class' => 'input-medium', 'id' => 'userEditPasswordField'
-							)); ?>
-
-							<?php echo Form::password('install[password_confirm]', Arr::get( $data,'password_confirm'), array(
-								'class' => 'input-medium', 'id' => 'userEditPasswordConfirmField', 'placeholder' => __('Confirm Password')
-							)); ?>
-
-							<p class="help-block"><?php echo __('At least :num characters. Must be unique.', array(
-								':num' => Kohana::$config->load('auth')->get( 'password_length', 5 )
-							)); ?>
-							<hr />
+				<div class="well well-small">
+					<div id="password-form">
+						<div class="control-group">
+							<label class="control-label" for="password"><?php echo __('Password'); ?></label>
+							<div class="controls">
+								<?php echo Form::password('install[password_field]', Arr::get( $data,'password_field'), array(
+									'class' => 'input-medium', 'id' => 'password'
+								)); ?>
+							</div>
 						</div>
-						<label class="checkbox btn btn-success btn-checkbox">
-							<?php echo Form::checkbox( 'install[password_generate]', 1, (bool) Arr::get( $data,'password_generate'), array(
-								'id' => 'generate-password-checkbox'
-							)); ?> <?php echo __( 'Generate password' ); ?>
-						</label>
+						
+						<div class="control-group">
+							<div class="controls">
+								<?php echo Form::password('install[password_confirm]', Arr::get( $data,'password_confirm'), array(
+									'class' => 'input-medium', 'id' => 'password_confirm', 'placeholder' => __('Confirm Password')
+								)); ?>
+								
+								<p class="help-block"><?php echo __('At least :num characters. Must be unique.', array(
+									':num' => Kohana::$config->load('auth')->get( 'password_length', 5 )
+								)); ?>
+							</div>
+						</div>
+						<hr />
+					</div>
+					<div class="control-group">
+						<div class="controls">
+							<label class="checkbox btn btn-success btn-checkbox">
+								<?php echo Form::checkbox( 'install[password_generate]', 1, (bool) Arr::get( $data,'password_generate'), array(
+									'id' => 'generate-password-checkbox'
+								)); ?> <?php echo __( 'Generate password' ); ?>
+							</label>
+						</div>
 					</div>
 				</div>
 				<div class="control-group">
-					<label class="control-label" for="installEmailField"><?php echo __( 'Administrator email' ); ?></label>
+					<label class="control-label" for="email"><?php echo __( 'Administrator email' ); ?></label>
 					<div class="controls">
 						<?php echo Form::input( 'install[email]', Arr::get( $data, 'email' ), array(
-							'class' => 'input-medium', 'id' => 'installEmailField'
+							'class' => 'input-medium', 'id' => 'email'
 						) ); ?> <?php echo UI::label( __( 'Required' ) ); ?>
 					</div>
 				</div>
@@ -168,18 +178,18 @@
 				)); ?>
 				<hr />
 				<div class="control-group">
-					<label class="control-label" for="installAdminDirNamexField"><?php echo __( 'Admin dir name' ); ?></label>
+					<label class="control-label" for="admin_dir_name"><?php echo __( 'Admin dir name' ); ?></label>
 					<div class="controls">
 						<?php echo Form::input( 'install[admin_dir_name]', Arr::get( $data, 'admin_dir_name' ), array(
-							'class' => 'input-small', 'id' => 'installAdminDirNamexField'
+							'class' => 'input-small', 'id' => 'admin_dir_name'
 						) ); ?> <?php echo UI::label( __( 'Required' ) ); ?>
 					</div>
 				</div>
 				<div class="control-group">
-					<label class="control-label" for="installURLSuffixField"><?php echo __( 'URL suffix' ); ?></label>
+					<label class="control-label" for="url_suffix"><?php echo __( 'URL suffix' ); ?></label>
 					<div class="controls">
 						<?php echo Form::input( 'install[url_suffix]', Arr::get( $data, 'url_suffix' ), array(
-							'class' => 'input-small', 'id' => 'installURLSuffixField'
+							'class' => 'input-small', 'id' => 'url_suffix'
 						) ); ?>
 
 						<p class="help-block"><?php echo __( 'Add a suffix to simulate static html files.' ); ?></p>
