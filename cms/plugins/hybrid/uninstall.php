@@ -8,7 +8,7 @@ foreach ($datasources as $id => $ds)
 	
 	if($datasource->loaded())
 	{
-		DB::query(NULL, 'DROP TABLE :table_:id')
+		DB::query(NULL, 'DROP TABLE IF EXISTS :table_:id')
 			->parameters(array(
 				':table' => DB::expr($datasource->table()),
 				':id' => DB::expr($id)
