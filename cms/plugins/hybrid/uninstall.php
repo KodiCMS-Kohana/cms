@@ -10,8 +10,8 @@ foreach ($datasources as $id => $ds)
 	{
 		DB::query(NULL, 'DROP TABLE :table_:id')
 			->parameters(array(
-				':table' => $datasource->table(),
-				':id' => $id
+				':table' => DB::expr($datasource->table()),
+				':id' => DB::expr($id)
 			))
 			->execute();
 	}
