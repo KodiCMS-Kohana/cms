@@ -83,7 +83,10 @@ class KodiCMS_Model_Page extends ORM
 	);
 
 	protected $_has_many = array (
-		'roles' => array('model' => 'role', 'through' => 'page_roles')
+		'roles' => array(
+			'model' => 'role', 
+			'through' => 'page_roles'
+		)
 	);
 
 	/**
@@ -168,7 +171,7 @@ class KodiCMS_Model_Page extends ORM
 	{
 		return array(
 			'slug' => array(
-				array('URL::title'),
+				array(array($this, 'clean_slug')),
 				array('strtolower')
 			),
 			'parent_id' => array(
@@ -594,6 +597,26 @@ class KodiCMS_Model_Page extends ORM
 		return $object;
 	}
 	
+	/**
+	 * 
+	 * @param string $slug
+	 * @return string
+	 */
+	public function clean_slug($slug)
+	{
+		$ext = pathinfo($slug, PATHINFO_EXTENSION);
+		$slug = pathinfo($slug, PATHINFO_FILENAME);
+
+		$slug = URL::title($slug);
+
+		if (!empty($ext) AND File::mime_by_ext($ext) !== FALSE AND URL_SUFFIX != '.' . $ext)
+		{
+			$slug .= '.' . $ext;
+		}
+
+		return $slug;
+	}
+
 	/**
 	 * Получение списка страниц за исключением текущей
 	 * 
