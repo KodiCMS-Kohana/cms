@@ -56,7 +56,7 @@ $slugify = ! isset($slugify) ? TRUE : (bool) $slugify;
 				<input type="text" name="<?php echo $field; ?>[key][]" disabled="disabled" class="input-small <?php if($slugify): ?>slug<?php endif; ?> row-key" data-separator="_" placeholder="<?php echo __('Key'); ?>">
 				<span class="add-on"> - </span>
 				<input type="text" name="<?php echo $field; ?>[value][]" disabled="disabled" class="input-xxlarge row-value" placeholder="<?php echo __('Description'); ?>">
-				<button class="btn btn-warning remove-row"><?php echo UI::icon('trash'); ?></button>
+				<button class="btn btn-warning remove-row"><?php echo UI::icon('trash-o'); ?></button>
 				<br /><br />
 			</div>
 		</div>

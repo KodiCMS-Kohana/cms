@@ -385,12 +385,12 @@ cms.ui.add('flags', function() {
 	if($('.tabbable').length > 0) {
 		$('#content .widget-header').each(function(i) {
 			if($(this).hasClass('widget-section')) {
-				$('<li class="nav-section"><h5><i class="icon-arrow-down"></i> ' + $(this).text() + '</h5></li>').appendTo($('.tabbable .nav'));
+				$('<li class="nav-section"><h5><i class="fa fa-arrow-down"></i> ' + $(this).text() + '</h5></li>').appendTo($('.tabbable .nav'));
 			} else {
 				var text = $(this).text();
 				
 				if($(this).data('icon')) {
-					text = '<i class="icon-'+$(this).data('icon')+'"></i> ' + text;
+					text = '<i class="fa fa-'+$(this).data('icon')+'"></i> ' + text;
 				}
 				
 				$('<li class="tab-item"><a href="#tab' + i + '" data-toggle="tab">' + text + '</a></li>')
@@ -477,8 +477,8 @@ cms.ui.add('flags', function() {
 	
 	calcNav();
 }).add('spoiler', function() {
-	var icon_open = 'icon-chevron-up',
-		icon_close = 'icon-chevron-down';
+	var icon_open = 'fa fa-chevron-up',
+		icon_close = 'fa fa-chevron-down';
 
 	$('.spoiler-toggle')
 		.click(function () {
@@ -718,7 +718,7 @@ cms.ui.add('flags', function() {
 	var input = $('input.input-filemanager:not(.init)')
 		.addClass('init');
 	
-	$('<button class="btn" type="button"><i class="icon-folder-open"></i></button>')
+	$('<button class="btn" type="button"><i class="fa fa-folder-open"></i></button>')
 		.insertAfter(input)
 		.on('click', function() {
 			cms.filemanager.open($(this).prev());

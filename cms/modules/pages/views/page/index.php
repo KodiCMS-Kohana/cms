@@ -15,7 +15,7 @@
 		<?php echo UI::button(__('Reorder'), array(
 			'id' => 'pageMapReorderButton', 
 			'class' => 'btn btn-primary',
-			'icon' => UI::icon('move icon-white'),
+			'icon' => UI::icon('arrows'),
 			'hotkeys' => 'ctrl+s'
 		)); ?>
 		<?php endif; ?>

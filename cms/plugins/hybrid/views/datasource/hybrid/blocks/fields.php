@@ -187,7 +187,7 @@ $(function() {
 		
 		<?php if(Acl::check($ds->type().$ds->id().'.field.remove')): ?>
 		<?php echo UI::button(__('Remove fields'), array(
-			'icon' => UI::icon('minus icon-white'), 'id' => 'remove-fields',
+			'icon' => UI::icon('minus'), 'id' => 'remove-fields',
 			'class' => 'btn btn-danger'
 		)); ?>
 		<?php endif; ?>

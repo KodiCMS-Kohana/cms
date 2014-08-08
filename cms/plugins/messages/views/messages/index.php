@@ -3,7 +3,7 @@
 	<div class="widget-header">
 		<div class="row-fluid">
 			<?php echo UI::button(__('Send message'), array(
-				'href' => Route::get('backend')->uri(array('controller' => 'messages', 'action' => 'add')), 'icon' => UI::icon('envelope'),
+				'href' => Route::get('backend')->uri(array('controller' => 'messages', 'action' => 'add')), 'icon' => UI::icon('envelope-o'),
 				'class' => 'btn'
 			)); ?>
 		</div>
@@ -34,7 +34,7 @@
 					<td><?php echo Date::format($message->created_on); ?></td>
 					<td class="actions">
 						<?php echo UI::button(NULL, array(
-							'icon' => UI::icon( 'remove' ),
+							'icon' => UI::icon( 'times fa-inverse' ),
 							'class' => 'btn btn-mini btn-confirm btn-remove'
 						)); ?>
 					</td>

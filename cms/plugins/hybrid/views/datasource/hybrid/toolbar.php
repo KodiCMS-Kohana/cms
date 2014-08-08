@@ -6,7 +6,7 @@
 		)); ?>
 			<div class="input-append">
 				<input type="text" name="keyword" class="input-large search-query" value="<?php echo $keyword; ?>" placeholder="<?php echo __('Search'); ?>">
-				<button class="btn"><i class="icon-search"></i> <?php echo __('Search'); ?></button>	
+				<button class="btn"><?php echo UI::icon('search'); ?> <?php echo __('Search'); ?></button>	
 			</div>
 		<?php echo Form::close(); ?>
 	</div>	

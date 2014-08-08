@@ -29,13 +29,13 @@
 						'controller' => 'users',
 						'action' => 'edit',
 						'id' => $user->id
-					)), UI::icon('user') . '&nbsp;&nbsp' . __('Edit profile'). '<i class="list-group-chevron icon-chevron-right"></i>', array(
+					)), UI::icon('user') . '&nbsp;&nbsp' . __('Edit profile'). UI::icon('chevron-right list-group-chevron'), array(
 						'class' => 'list-group-item'
 					)); ?>
 					<?php endif; ?>
 					<?php if(!empty($user->email)): ?>
 					<a href="mailto:<?php echo $user->email; ?>" class="list-group-item">
-						<i class="icon-envelope-alt"></i>&nbsp;&nbsp;<?php echo $user->email; ?>
+						<?php echo UI::icon('envelope-o'); ?>&nbsp;&nbsp;<?php echo $user->email; ?>
 					</a>
 					<?php endif; ?>
 					<?php Observer::notify('view_user_profile_sidebar_list', $user->id); ?>

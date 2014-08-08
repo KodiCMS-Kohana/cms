@@ -9,7 +9,7 @@
 
 		<div class="control-group">			
 			<div class="input-prepend input-append">
-				<span class="add-on"><i class="icon-envelope"></i></span>
+				<span class="add-on"><?php echo UI::icon('envelope'); ?></span>
 				<?php echo Form::input('forgot[email]', NULL, array(
 					'class' => 'login-field'
 				)); ?>

@@ -46,7 +46,7 @@
 									':date' => Date::format($page->updated_on, 'D, j F Y'))), 'important'); ?>
 								<?php endif; ?>
 
-								<?php echo HTML::anchor($page->get_frontend_url(), UI::label(UI::icon('globe icon-white') . ' ' . __('View page')), array(
+								<?php echo HTML::anchor($page->get_frontend_url(), UI::label(UI::icon('globe') . ' ' . __('View page')), array(
 									'class' => 'item-preview', 'target' => '_blank'
 								)); ?>
 							<?php endif; ?>

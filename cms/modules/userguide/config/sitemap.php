@@ -15,7 +15,7 @@ return array(
 				'name' => 'API Browser', 
 				'url' => Route::get('backend')->uri(array('controller' => 'guide', 'action' => 'api')),
 				'priority' => 102,
-				'icon' => 'beaker',
+				'icon' => 'flask',
 				'hotkeys' => 'f2'
 			)
 		)

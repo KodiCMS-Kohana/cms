@@ -35,7 +35,7 @@
 		)); ?>
 
 		<?php if($field->loaded()): ?>
-		<?php echo FORM::button('remove_field', UI::icon( 'trash'), array(
+		<?php echo FORM::button('remove_field', UI::icon( 'trash-o'), array(
 			'class' => 'btn btn-danger btn-remove'
 		)); ?>
 		<?php else: ?>

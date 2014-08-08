@@ -11,7 +11,7 @@ class UI {
 
 	public static function icon( $name )
 	{
-		return '<i class="icon-' . HTML::chars( $name ) .'"></i>';
+		return '<i class="fa fa-' . HTML::chars( $name ) .'"></i>';
 	}
 	
 	public static function label( $text, $type = 'info' )
@@ -89,13 +89,13 @@ class UI {
 			)),
 			UI::button(__('Save and Close'), array(
 				'class' => 'btn btn-info btn-save-close', 
-				'icon' => UI::icon('ok icon-white'),
+				'icon' => UI::icon('check'),
 				'name' => 'commit',
 				'hotkeys' => 'ctrl+shift+s'
 			)),
 			UI::button(__('Cancel'), array(
 				'href' => $uri, 
-				'icon' => UI::icon('ban-circle'),
+				'icon' => UI::icon('ban'),
 				'class' => 'btn btn-link btn-close'
 			))
 		);

@@ -9,7 +9,7 @@ return array(
 				'url' => Route::get('backend')->uri(array('controller' => 'system', 'action' => 'information')),
 				'permissions' => 'system.information',
 				'priority' => 90,
-				'icon' => 'info-sign',
+				'icon' => 'info-circle',
 			),
 			array(
 				'name' => 'Settings',

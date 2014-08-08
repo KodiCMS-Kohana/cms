@@ -73,11 +73,11 @@
 						<?php echo UI::label($layout->get_relative_path()); ?>
 					</td>
 					<td class="actions">
-						<?php if( ACL::check( 'layout.delete')): ?>
+						<?php if (ACL::check('layout.delete')): ?>
 						<?php echo UI::button(NULL, array(
-							'icon' => UI::icon( 'remove' ),
+							'icon' => UI::icon('times fa-inverse'),
 							'href' => Route::get('backend')->uri(array('controller' => 'layout', 'action' => 'delete', 'id' => $layout->name)),
-							'class' => 'btn btn-mini btn-confirm'
+							'class' => 'btn btn-danger btn-mini btn-confirm'
 						)); ?>
 						<?php endif; ?>
 					</td>

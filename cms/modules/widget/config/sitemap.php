@@ -10,7 +10,7 @@ return array(
 				'url' => Route::get('backend')->uri(array('controller' => 'widgets')),
 				'permissions' => 'widgets.index',
 				'priority' => 300,
-				'icon' => 'th-large'
+				'icon' => 'cubes'
 			),
 		)
 	)

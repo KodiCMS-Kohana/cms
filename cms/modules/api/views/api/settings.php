@@ -11,7 +11,7 @@ $(function(){
 });
 </script>
 
-<div class="widget-header spoiler-toggle" data-spoiler=".api-settings" data-icon="beaker">
+<div class="widget-header spoiler-toggle" data-spoiler=".api-settings" data-icon="flask">
 	<h3><?php echo __('API'); ?></h3>
 </div>
 <div class="widget-content spoiler api-settings">

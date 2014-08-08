@@ -1,5 +1,5 @@
 /*
-	Redactor v8.2.6
+	Redactor v8.2.7
 	Updated: July 31, 2014
 
 	http://redactorjs.com/
@@ -330,13 +330,13 @@ var RLANG = {
 				{
 					title: RLANG.html,
 					func: 'toggle',
-					icon: 'icon-code'
+					icon: 'fa-code'
 				},
 				formatting:
 				{
 					title: RLANG.formatting,
 					func: 'show',
-					icon: 'icon-text-height',
+					icon: 'fa-header',
 					dropdown:
 					{
 						p:
@@ -386,73 +386,73 @@ var RLANG = {
 				{
 					title: RLANG.bold,
 					exec: 'bold',
-					icon: 'icon-bold'
+					icon: 'fa-bold'
 				},
 				italic:
 				{
 					title: RLANG.italic,
 					exec: 'italic',
-					icon: 'icon-italic'
+					icon: 'fa-italic'
 				},
 				deleted:
 				{
 					title: RLANG.deleted,
 					exec: 'strikethrough',
-					icon: 'icon-strikethrough'
+					icon: 'fa-strikethrough'
 				},
 				underline:
 				{
 					title: RLANG.underline,
 					exec: 'underline',
-					icon: 'icon-underline'
+					icon: 'fa-underline'
 				},
 				unorderedlist:
 				{
 					title: '&bull; ' + RLANG.unorderedlist,
 					exec: 'insertunorderedlist',
-					icon: 'icon-list-ul'
+					icon: 'fa-list-ul'
 				},
 				orderedlist:
 				{
 					title: '1. ' + RLANG.orderedlist,
 					exec: 'insertorderedlist',
-					icon: 'icon-list-ol'
+					icon: 'fa-list-ol'
 				},
 				outdent:
 				{
 					title: '< ' + RLANG.outdent,
 					exec: 'outdent',
-					icon: 'icon-indent-left'
+					icon: 'fa-indent'
 				},
 				indent:
 				{
 					title: '> ' + RLANG.indent,
 					exec: 'indent',
-					icon: 'icon-indent-right'
+					icon: 'fa-outdent'
 				},
 				image:
 				{
 					title: RLANG.image,
 					func: 'showImage',
-					icon: 'icon-picture'
+					icon: 'fa-picture-o'
 				},
 				video:
 				{
 					title: RLANG.video,
 					func: 'showVideo',
-					icon: 'icon-film'
+					icon: 'fa-film'
 				},
 				file:
 				{
 					title: RLANG.file,
 					func: 'showFile',
-					icon: 'icon-file'
+					icon: 'fa-file'
 				},
 				table:
 				{
 					title: RLANG.table,
 					func: 'show',
-					icon: 'icon-table',
+					icon: 'fa-table',
 					dropdown:
 					{
 						insert_table:
@@ -523,7 +523,7 @@ var RLANG = {
 				{
 					title: RLANG.link,
 					func: 'show',
-					icon: 'icon-link',
+					icon: 'fa-link',
 					dropdown:
 					{
 						link:
@@ -542,19 +542,19 @@ var RLANG = {
 				{
 					title: RLANG.fontcolor,
 					func: 'show',
-					icon: 'icon-adjust'
+					icon: 'fa-adjust'
 				},
 				backcolor:
 				{
 					title: RLANG.backcolor,
 					func: 'show',
-					icon: 'icon-tint'
+					icon: 'fa-tint'
 				},
 				alignment:
 				{
 					title: RLANG.alignment,
 					func: 'show',
-					icon: 'icon-align-left',
+					icon: 'fa-align-left',
 					dropdown:
 					{
 						alignleft:
@@ -583,31 +583,31 @@ var RLANG = {
 				{
 					exec: 'JustifyLeft',
 					title: RLANG.align_left,
-					icon: 'icon-align-left'
+					icon: 'fa-align-left'
 				},
 				aligncenter:
 				{
 					exec: 'JustifyCenter',
 					title: RLANG.align_center,
-					icon: 'icon-align-center'
+					icon: 'fa-align-center'
 				},
 				alignright:
 				{
 					exec: 'JustifyRight',
 					title: RLANG.align_right,
-					icon: 'icon-align-right'
+					icon: 'fa-align-right'
 				},
 				justify:
 				{
 					exec: 'JustifyFull',
 					title: RLANG.align_justify,
-					icon: 'icon-align-justify'
+					icon: 'fa-align-justify'
 				},
 				horizontalrule:
 				{
 					exec: 'inserthorizontalrule',
 					title: RLANG.horizontalrule,
-					icon: 'icon-minus'
+					icon: 'fa-minus'
 				}
 			}
 		}, options, this.$el.data());
@@ -2075,8 +2075,8 @@ var RLANG = {
 		{
 			var icon = s.icon;
 			
-			if(! icon) icon = 'icon-' + key;
-			var button = $('<a href="javascript:void(null); return false;" title="' + s.title + '" class="redactor_btn_' + key + ' ' + icon + '"></a>');
+			if(! icon) icon = 'fa-' + key;
+			var button = $('<a href="javascript:void(null); return false;" title="' + s.title + '" class="redactor_btn_' + key + ' fa ' + icon + '"></a>');
 
 			if (typeof s.func === 'undefined')
 			{

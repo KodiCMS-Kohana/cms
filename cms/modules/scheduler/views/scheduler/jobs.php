@@ -63,7 +63,7 @@
 									'action' => 'delete',
 									'id' => $job->id
 								)), 
-								'icon' => UI::icon('remove'),
+								'icon' => UI::icon('times fa-inverse'),
 								'class' => 'btn btn-mini btn-danger btn-confirm'
 							)); ?>
 							<?php endif; ?>

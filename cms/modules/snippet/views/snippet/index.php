@@ -61,8 +61,8 @@
 						<?php if( ACL::check( 'snippet.delete')): ?>
 						<?php echo UI::button(NULL, array(
 							'href' => Route::get('backend')->uri(array('controller' => 'snippet', 'action' => 'delete', 'id' => $snippet->name)), 
-							'icon' => UI::icon('remove'),
-							'class' => 'btn btn-mini btn-confirm'
+							'icon' => UI::icon('times fa-inverse'),
+							'class' => 'btn btn-mini btn-danger btn-confirm'
 						)); ?>
 						<?php endif; ?>
 					</td>

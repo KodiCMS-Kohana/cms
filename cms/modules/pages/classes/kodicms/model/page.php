@@ -419,7 +419,7 @@ class KodiCMS_Model_Page extends ORM
 	 */
 	public function get_public_anchor()
 	{
-		return HTML::anchor($this->get_frontend_url(), UI::label(UI::icon( 'globe icon-white' ) . ' ' . __('View page')), array(
+		return HTML::anchor($this->get_frontend_url(), UI::label(UI::icon( 'globe' ) . ' ' . __('View page')), array(
 			'class' => 'item-preview', 'target' => '_blank'
 		));
 	}

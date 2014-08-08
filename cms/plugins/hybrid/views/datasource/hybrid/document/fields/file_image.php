@@ -18,7 +18,7 @@
 						<hr />
 					</div>
 					<div class="spoiler-toggle" data-spoiler=".spoiler-file-<?php echo $field->name; ?>">
-						<i class="icon-chevron-down spoiler-toggle-icon"></i> <?php echo __('Upload new file'); ?>
+						<?php echo UI::icon('chevron-down spoiler-toggle-icon'); ?> <?php echo __('Upload new file'); ?>
 					</div>
 				</div>
 			<?php endif; ?>

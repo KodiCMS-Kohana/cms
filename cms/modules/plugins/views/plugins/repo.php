@@ -5,8 +5,8 @@
 				<h5 class="pull-left">
 					<a href="<%= url %>" target="blank" class="lead" title="<?php echo __('Go to plugin homepage'); ?>"><%= name %></a>
 					<% if (is_installed) { %> <strong>(<?php echo __('Installed'); ?>)</strong><% } %> <% if (is_new) { %> <strong>(<?php echo __('New plugin'); ?>)</strong><% } %>&nbsp;&nbsp;&nbsp;&nbsp;
-					<i class="icon-star<% if (stars == 0) { %>-empty<% } %>"></i> <%= stars %>&nbsp;&nbsp;&nbsp;&nbsp;
-					<i class="icon-eye-open"></i> <%= watchers %>&nbsp;&nbsp;&nbsp;&nbsp;
+					<i class="fa fa-star<% if (stars == 0) { %>-o<% } %>"></i> <%= stars %>&nbsp;&nbsp;&nbsp;&nbsp;
+					<i class="fa-eye"></i> <%= watchers %>&nbsp;&nbsp;&nbsp;&nbsp;
 				</h5>
 				<div class="pull-right">
 					<a href="<%= archive_url %>" class="btn"><?php echo __('Download'); ?></a>

@@ -14,7 +14,7 @@ if(AuthUser::isLoggedIn())
 					'name' => __('Messages'), 
 					'url' => Route::get('backend')->uri(array('controller' => 'messages')),
 					'permissions' => 'messages.index',
-					'icon' => 'envelope',
+					'icon' => 'envelope-o',
 					'divider' => TRUE,
 					'counter' => (int) $new->response,
 					'priority' => 105

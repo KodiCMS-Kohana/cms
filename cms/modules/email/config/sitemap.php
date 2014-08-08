@@ -12,12 +12,14 @@ return array(
 						'name' => 'Email templates',
 						'url' => Route::get('email_controllers')->uri(array('controller' => 'templates')),
 						'permissions' => 'email.templates.index',
+						'icon' => 'envelope-o',
 						'priority' => 400,
 					),
 					array(
 						'name' => 'Email types',
 						'url' => Route::get('email_controllers')->uri(array('controller' => 'types')),
 						'permissions' => 'email.types.index',
+						'icon' => 'exchange',
 						'priority' => 410,
 					)
 				)

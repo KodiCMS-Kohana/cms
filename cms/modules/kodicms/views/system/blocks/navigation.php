@@ -58,7 +58,7 @@ if($navigation !== NULL)
 			->attributes('id', 'user_nav')
 			->add(
 				Bootstrap_Navbar_Dropdown::factory(array(
-					'title' => UI::label(UI::icon( 'user icon-white' ) . ' <span class="text">' .  AuthUser::getUserName() . '</span>')
+					'title' => UI::label(UI::icon( 'user' ) . ' <span class="text">' .  AuthUser::getUserName() . '</span>')
 				))
 				->add(
 					Bootstrap_Helper_HTML::factory(array(
@@ -71,19 +71,19 @@ if($navigation !== NULL)
 					Bootstrap_Element_Button::factory(array(
 						'href' => Route::get('backend')->uri(array('controller' => 'users', 'action' => 'profile')),
 						'title' => __( 'Profile' )
-					))->icon('eye-open')
+					))->icon('eye')
 				)
 				->add_divider()
 				->add(
 					Bootstrap_Element_Button::factory(array(
 							'href' => Route::get('user')->uri(array('action' => 'logout')), 'title' => __( 'Logout' )
-					))->icon('signout')
+					))->icon('sign-out')
 				)
 				)
 			->add_divider()
 			->add(Bootstrap_Element_Button::factory(array(
 				'href' => URL::base(TRUE), 
-				'title' => UI::label(UI::icon( 'globe icon-white' ) . ' <span class="text">' .   __( 'View Site' ) . '</span>'))
+				'title' => UI::label(UI::icon( 'globe' ) . ' <span class="text">' .   __( 'View Site' ) . '</span>'))
 			, array('target' => '_blank'))	); 
 
 		$nav_container

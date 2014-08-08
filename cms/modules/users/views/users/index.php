@@ -56,8 +56,8 @@
 									'action' => 'delete',
 									'id' => $user->id
 								)), 
-								'icon' => UI::icon('remove'),
-								'class' => 'btn btn-mini btn-confirm'
+								'icon' => UI::icon('times fa-inverse'),
+								'class' => 'btn btn-mini brn-danger btn-confirm'
 							));
 						} ?>
 					</td>

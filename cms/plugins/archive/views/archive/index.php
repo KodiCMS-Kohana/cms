@@ -57,7 +57,7 @@
 								'controller' => 'page',
 								'action' => 'delete',
 								'id' => $page->id
-							)), 'icon' => UI::icon('remove icon-white'), 
+							)), 'icon' => UI::icon('times fa-inverse'), 
 							'class' => 'btn btn-mini btn-confirm btn-danger'
 						)); ?>
 						<?php endif; ?>

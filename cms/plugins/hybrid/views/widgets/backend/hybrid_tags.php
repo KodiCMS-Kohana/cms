@@ -5,7 +5,7 @@
 <?php if( $widget->ds_id == 0 ): ?>
 <div class="widget-content">
 	<div class="alert alert-warning">
-		<i class="icon icon-lightbulb"></i> <?php echo __('You need select hybrid section'); ?>
+		<?php echo UI::icon('lightbulb-o'); ?> <?php echo __('You need select hybrid section'); ?>
 	</div>
 </div>
 <?php else: ?>

@@ -22,7 +22,7 @@
 
 	<div class="control-group">
 		<div class="input-prepend">
-			<span class="add-on"><i class="icon-user"></i></span>
+			<span class="add-on"><?php echo UI::icon('user'); ?></span>
 			<?php echo Form::input('login[username]', NULL, array(
 				'id' => 'username', 'class' => 'login-field'
 			)); ?>
@@ -32,7 +32,7 @@
 	<div class="control-group">
 		<div class="input-prepend input-append">
 			<span class="add-on">
-				<i class="icon-lock"></i>
+				<?php echo UI::icon('lock'); ?>
 			</span>
 			<?php echo Form::password('login[password]', NULL, array(
 				'id' => 'password', 'class' => 'login-field'

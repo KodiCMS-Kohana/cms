@@ -48,7 +48,7 @@ RedactorPlugins.elfinder = {
 		var self = this;
 		this.addBtn('filemanager', { 
 			title: 'elFinder',
-			icon: 'icon-folder-open',
+			icon: 'fa-folder-open',
 			callback: function() {
 				cms.filemanager.open(self.$el.attr('id'));
 			}
@@ -64,7 +64,7 @@ RedactorPlugins.fullscreen = {
 
 		this.addBtn('fullscreen', { 
 			title: 'Fullscreen',
-			icon: 'icon-resize-full',
+			icon: 'fa-expand',
 			callback: $.proxy(this.toggleFullscreen, this)
 		});
 		this.setBtnRight('fullscreen');

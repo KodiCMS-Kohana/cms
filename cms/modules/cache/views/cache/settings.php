@@ -20,7 +20,7 @@
 			), Cache::$default, array('id' => 'setting_cache_driver', 'disabled', 'readonly'));?>
 			
 			<div class="help-block">
-				<i class="icon icon-lightbulb"></i> <?php echo __('The cache driver can change in the config file (:path)', array(':path' => CFGFATH)); ?>
+				<?php echo UI::icon('lightbulb-o'); ?> <?php echo __('The cache driver can change in the config file (:path)', array(':path' => CFGFATH)); ?>
 			</div>
 		</div>
 	</div>

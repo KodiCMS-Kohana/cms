@@ -14,7 +14,7 @@
 				<?php echo $log->message; ?>
 			</span>
 		</div>
-		<span class="time"><i class="icon-time"></i> <?php echo Date::format($log->created_on, 'j F Y H:i:s'); ?></span>
+		<span class="time"><?php echo UI::icon('clock-o'); ?> <?php echo Date::format($log->created_on, 'j F Y H:i:s'); ?></span>
 		<div class="clearfix"></div>
 	</li>
 	<?php endforeach; ?>

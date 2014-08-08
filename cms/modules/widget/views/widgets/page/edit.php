@@ -15,7 +15,7 @@
 	<?php else: ?>
 	
 	<?php if( ACL::check( 'widgets.location')): ?>
-	<a class="btn btn-success fancybox.ajax popup" href="/api-widget.list/<?php echo $page->id; ?>" id="addWidgetToPage"><i class="icon-plus"></i> <?php echo __( 'Add widget to page' ); ?></a>
+	<a class="btn btn-success fancybox.ajax popup" href="/api-widget.list/<?php echo $page->id; ?>" id="addWidgetToPage"><i class="fa fa-plus"></i> <?php echo __( 'Add widget to page' ); ?></a>
 	
 	<?php if( ACL::check( 'layout.rebuild')): ?>
 	<?php echo UI::button(__('Rebuild blocks'), array(

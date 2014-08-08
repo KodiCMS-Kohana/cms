@@ -35,7 +35,7 @@
 </div>
 <div class="widget-content spoiler social-accouns-binder">
 	<div class="alert alert-warning">
-		<i class="icon icon-lightbulb"></i> <?php echo __('Binding account to an account in a social network will allow to enter the site with a single click. You can bind the account to several accounts. :settings_link', array(':settings_link' => HTML::anchor($settings_link, __('Settings')))); ?>
+		<?php echo UI::icon('lightbulb-o'); ?> <?php echo __('Binding account to an account in a social network will allow to enter the site with a single click. You can bind the account to several accounts. :settings_link', array(':settings_link' => HTML::anchor($settings_link, __('Settings')))); ?>
 	</div>
 
 	<div class="btn-group">

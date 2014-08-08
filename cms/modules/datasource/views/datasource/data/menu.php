@@ -15,7 +15,7 @@
 		<div class="btn-group">
 			<?php echo UI::button(__('Create section'), array(
 				'href' => '#', 'class' => 'btn dropdown-toggle btn-success',
-				'icon' => UI::icon( 'plus icon-white' ), 'data-toggle' => 'dropdown'
+				'icon' => UI::icon( 'plus' ), 'data-toggle' => 'dropdown'
 			)); ?>
 
 			<ul class="dropdown-menu">
@@ -80,7 +80,7 @@
 					'action' => 'remove',
 					'id' => $id
 				)),
-				'icon' => UI::icon( 'trash icon-white' ),
+				'icon' => UI::icon( 'trash-o fa-inverse' ),
 				'class' => 'btn btn-danger btn-confirm btn-mini'
 			);
 			$result .= UI::button(NULL, $attributes);

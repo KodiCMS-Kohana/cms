@@ -3,7 +3,7 @@
 </div>
 <div class="widget-content spoiler jobs-spoiler">
 	<div class="alert alert-warning">
-		<i class="icon icon-lightbulb"></i> <?php echo __('When using cron you need to add the following line to the crontab file:'); ?>
+		<?php echo UI::icon('lightbulb-o'); ?> <?php echo __('When using cron you need to add the following line to the crontab file:'); ?>
 		<br /><br />
 		<strong>* * * * * cd <?php echo DOCROOT;?>; php -f index.php --task=job:run &gt; /dev/null 2&gt;&amp;1</strong>
 	</div>

@@ -96,7 +96,7 @@
 		<div class="widget-content spoiler password-spoiler">
 			<?php if($action == 'edit'): ?>
 			<div class="alert alert-warning">
-				<i class="icon icon-lightbulb"></i> <?php echo __('Leave password blank for it to remain unchanged.'); ?>
+				<?php echo UI::icon('lightbulb-o'); ?> <?php echo __('Leave password blank for it to remain unchanged.'); ?>
 			</div>
 			<?php endif; ?>
 			<?php

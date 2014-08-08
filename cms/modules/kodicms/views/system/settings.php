@@ -123,7 +123,7 @@
 		</div>
 		<?php Observer::notify( 'view_setting_plugins' ); ?>
 		<div class="form-actions widget-footer">
-			<?php echo Form::button( 'submit', UI::icon( 'ok' ) . ' ' . __( 'Save settings' ), array(
+			<?php echo Form::button( 'submit', UI::icon( 'check' ) . ' ' . __( 'Save settings' ), array(
 				'class' => 'btn btn-large',
 				'hotkeys' => 'ctrl+s'
 			) ); ?>

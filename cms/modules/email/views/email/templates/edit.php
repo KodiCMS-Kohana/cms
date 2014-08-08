@@ -146,7 +146,7 @@
 		<div class="control-group">
 			<div class="controls">
 				<div class="alert alert-warning">
-					<i class="icon icon-lightbulb"></i> <?php echo __('A collection of patterns & modules for responsive emails :link', array(
+					<?php echo UI::icon('lightbulb-o'); ?> <?php echo __('A collection of patterns & modules for responsive emails :link', array(
 						':link' => HTML::anchor('http://responsiveemailpatterns.com/', NULL, array(
 							'target' => 'blank'
 						))

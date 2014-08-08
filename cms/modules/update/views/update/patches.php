@@ -8,7 +8,7 @@
 			<div class="controls">
 				<?php if ( ! is_dir(PATCHES_FOLDER)): ?>
 				<div class="alert alert-warning">
-					<i class="icon icon-lightbulb"></i>
+					<?php echo UI::icon('lightbulb-o'); ?>
 					<?php echo __('You need to create a folder :folder and set access rights to :chmod', array(
 						':folder' => PATCHES_FOLDER,
 						':chmod' => '0777'

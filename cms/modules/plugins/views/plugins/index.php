@@ -5,7 +5,7 @@
 			<%= title %>
 			<?php if( ACL::check('plugins.settings')): ?>
 			<a href="/<?php echo ADMIN_DIR_NAME; ?>/plugins/settings/<%= id %>" class="btn pull-right">
-				<i class="icon-cog"></i> <%= __('Settings') %>
+				<?php echo UI::icon('cog'); ?> <%= __('Settings') %>
 			</a>
 			<?php endif; ?>
 			<% } else { %>

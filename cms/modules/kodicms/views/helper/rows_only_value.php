@@ -51,7 +51,7 @@ $field = URL::title($field, '_');
 		<div class="row-helper hidden">
 			<div class="input-append">
 				<input type="text" name="<?php echo $field; ?>[]" disabled="disabled" class="input-xxlarge row-value" placeholder="<?php echo __('Value'); ?>">
-				<button class="btn btn-warning remove-row"><?php echo UI::icon('trash'); ?></button>
+				<button class="btn btn-warning remove-row"><?php echo UI::icon('trash-o'); ?></button>
 				<br /><br />
 			</div>
 		</div>

@@ -9,7 +9,7 @@ return array(
 				'url' => Route::get('backend')->uri(array('controller' => 'snippet')),
 				'permissions' => 'snippet.index',
 				'priority' => 200,
-				'icon' => 'food'
+				'icon' => 'cutlery'
 			)
 		)
 	)

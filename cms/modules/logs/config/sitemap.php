@@ -6,7 +6,7 @@ return array(
 		'children' => array(
 			array(
 				'name' => 'Logs',
-				'icon' => 'time',
+				'icon' => 'clock-o',
 				'url' => Route::get('backend')->uri(array('controller' => 'logs')),
 				'permissions' => 'logs.index',
 				'priority' => 150,

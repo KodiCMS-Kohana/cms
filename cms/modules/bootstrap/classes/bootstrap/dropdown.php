@@ -80,8 +80,7 @@ class Bootstrap_Dropdown extends Bootstrap_Helper_Elements {
 			$title = $this->get('title');
 			
 			
-			$this->set('title', 
-				UI::icon( $icon_name ) . ' ' . $title);
+			$this->set('title', UI::icon( $icon_name . ' fa-fw' ) . ' ' . $title);
 		}
 		
 		return $this;

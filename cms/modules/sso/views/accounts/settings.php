@@ -12,7 +12,7 @@
 
 	<?php foreach ($oauth as $provider => $data): ?>
 	<div class="well">
-		<h4><?php echo UI::icon($provider.'-sign'); ?> <?php echo Arr::path($params, $provider.'.name'); ?> <?php if(Arr::path($params, $provider.'.create_link')): ?>(<?php echo HTML::anchor(Arr::path($params, $provider.'.create_link'), NULL, array(
+		<h4><?php echo UI::icon($provider); ?> <?php echo Arr::path($params, $provider.'.name'); ?> <?php if(Arr::path($params, $provider.'.create_link')): ?>(<?php echo HTML::anchor(Arr::path($params, $provider.'.create_link'), NULL, array(
 			'target' => 'blank'
 		)); ?>)<?php endif; ?></h4>
 		<hr />

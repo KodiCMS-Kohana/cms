@@ -14,12 +14,14 @@ return array(
 						'url' => Route::get('backend')->uri(array('controller' => 'plugins')),
 						'permissions' => 'plugins.index',
 						'priority' => 400,
+						'icon' => 'list'
 					),
 					array(
 						'name' => 'Repository',
 						'url' => Route::get('backend')->uri(array('controller' => 'plugins', 'action' => 'repo')),
 						'permissions' => 'plugins.repo',
 						'priority' => 420,
+						'icon' => 'cloud',
 					),
 				)
 			)

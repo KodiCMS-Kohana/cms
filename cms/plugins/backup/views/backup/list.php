@@ -38,7 +38,7 @@
                     'controller' => 'backup',
                     'action' => 'restore', 'id' => $filename
                 )), 
-                'icon' => UI::icon( 'off icon-white' )
+                'icon' => UI::icon( 'power-off' )
             ));?> 
             <?php echo UI::button(NULL, array(
                 'class' => 'btn btn-mini btn-danger btn-confirm', 
@@ -46,7 +46,7 @@
                     'controller' => 'backup',
                     'action' => 'delete', 'id' => $filename
                 )), 
-                'icon' => UI::icon( 'trash icon-white' )
+                'icon' => UI::icon( 'trash-o' )
             ));
             ?>
         </td>

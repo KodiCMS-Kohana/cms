@@ -12,11 +12,11 @@
 				<?php endif; ?>
 				
 				<% if ( is_expanded == 0 ) { %>
-				<?php echo UI::button(UI::icon( 'chevron-down icon-white' ), array(
+				<?php echo UI::button(UI::icon( 'chevron-down' ), array(
 					'class' => 'part-minimize-button btn btn-mini btn-inverse')
 				); ?>		
 				<% } else { %>		
-				<?php echo UI::button(UI::icon( 'chevron-up icon-white' ), array(
+				<?php echo UI::button(UI::icon( 'chevron-up' ), array(
 					'class' => 'part-minimize-button btn btn-mini btn-inverse')
 				); ?>
 				<% } %>
@@ -50,7 +50,7 @@
 					</label>
 					<% } %>
 					<?php echo UI::button(__( 'Remove part :part_name', array( ':part_name' => '<%= name %>' ) ), array(
-						'class' => 'item-remove btn btn-mini btn-danger', 'icon' => UI::icon( 'trash icon-white' )
+						'class' => 'item-remove btn btn-mini btn-danger', 'icon' => UI::icon( 'trash-o' )
 					) ); ?>
 				</div>
 				

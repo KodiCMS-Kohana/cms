@@ -156,14 +156,14 @@ $failed = FALSE;
 	</table>
 
 	<?php if ($failed === TRUE): ?>
-		<p id="results" class="alert alert-error lead"><?php echo UI::icon('remove'); ?> <?php echo __('Kohana may not work correctly with your environment.'); ?></p>
+		<p id="results" class="alert alert-error lead"><?php echo UI::icon('times'); ?> <?php echo __('Kohana may not work correctly with your environment.'); ?></p>
 	<?php else: ?>
-		<p id="results" class="alert alert-success lead"><?php echo UI::icon('ok'); ?> <?php echo __('Your environment passed all requirements.'); ?></p>
+		<p id="results" class="alert alert-success lead"><?php echo UI::icon('check'); ?> <?php echo __('Your environment passed all requirements.'); ?></p>
 	<?php endif ?>
 </div>
 <div class="widget-header "><h3><?php echo __( 'Optional Tests' ); ?></h3></div>
 <div class="env_test widget-content">
-	<p id="info" class="lead alert alert-info"><?php echo UI::icon('lightbulb'); ?> <?php echo __('The following extensions are not required to run the Kohana core, but if enabled can provide access to additional classes.'); ?></p>
+	<p id="info" class="lead alert alert-info"><?php echo UI::icon('lightbulb-o'); ?> <?php echo __('The following extensions are not required to run the Kohana core, but if enabled can provide access to additional classes.'); ?></p>
 
 	<table class="table table-striped">
 		<tr>
