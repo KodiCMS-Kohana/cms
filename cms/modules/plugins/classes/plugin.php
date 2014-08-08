@@ -207,17 +207,17 @@ class Plugin  {
 			->execute();
 		
 		Plugins::deactivate( $this );
-		
-		$drop_file = $this->path() . 'install' . DIRECTORY_SEPARATOR . 'drop.sql';
-		if( file_exists( $drop_file ))
-		{
-			Database_Helper::insert_sql(file_get_contents($drop_file));
-		}
 
 		$uninstall_file = $this->path() . 'uninstall' . EXT;
 		if($run_script === TRUE AND file_exists( $uninstall_file ))
 		{
 			Kohana::load($uninstall_file);
+		}
+		
+		$drop_file = $this->path() . 'install' . DIRECTORY_SEPARATOR . 'drop.sql';
+		if( file_exists( $drop_file ))
+		{
+			Database_Helper::insert_sql(file_get_contents($drop_file));
 		}
 
 		Observer::notify('plugin_uninstall', $this->id());
