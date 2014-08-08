@@ -41,7 +41,7 @@
 	}
 
 	.widget-header {
-		.gradientBar(#FAFAFA, #E9E9E9, #555555);
+		background-color: @navbarBackground;
 		text-shadow: none;
 
 		h3, h4 {
@@ -69,10 +69,14 @@
 			vertical-align: middle;
 		}
 
-		&.widget-inverse {
-			.gradientBar(#444, #222);
-			text-shadow: none;
+		&.spoiler-toggle {
+			background-color: darken(@navbarBackground, 5%);
+		}
 
+		&.widget-inverse {
+			background-color: #333f4d;
+			text-shadow: none;
+			border-color: darken(#333f4d, 5%);
 			h3, h4 {
 				color: #fff;
 			}

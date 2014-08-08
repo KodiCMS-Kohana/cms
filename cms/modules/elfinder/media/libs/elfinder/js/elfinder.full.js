@@ -5921,7 +5921,7 @@ $.fn.elfinderdialog = function(opts) {
 		}
 		dialog.prepend(
 			$('<div class="widget-header">'+opts.title+'</div>')
-				.prepend($('<i class="icon-remove pull-right"></i>')
+				.prepend($('<i class="fa fa-times pull-right"></i>')
 					.css('cursor', 'pointer')
 					.mousedown(function(e) {
 						e.preventDefault();
@@ -6493,11 +6493,11 @@ $.fn.elfindersearchbutton = function(cmd) {
 					}
 				});
 		
-		$('<button class="btn" title="'+cmd.title+'"><i class="icon-search" /></button>')
+		$('<button class="btn" title="'+cmd.title+'"><i class="fa fa-search" /></button>')
 			.prependTo(form)
 			.click(search);
 		
-		$('<button class="btn"><i class="icon-remove" /></button>')
+		$('<button class="btn"><i class="fa fa-times" /></button>')
 			.appendTo(form)
 			.click(abort)
 		
