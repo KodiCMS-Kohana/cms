@@ -4,8 +4,8 @@
 <div class="widget-content spoiler search-settings">
 	<div class="well">
 		<?php echo UI::button(__('Update search index'), array(
-			'icon' => UI::icon( 'stethoscope' ),
-			'class' => 'btn btn-warning btn-api',
+			'icon' => UI::icon( 'refresh fa-lg' ),
+			'class' => 'btn btn-warning btn-api btn-large',
 			'data-url' => 'search.update_index'
 		)); ?>
 	</div>

@@ -50,8 +50,8 @@ $hidden = empty($template) ? 'hidden' : '';
 ?>
 
 <?php if ( ! empty($header)): ?>
-<div class="widget-header">
-	<h4><?php echo $header; ?></h4>
+<div class="widget-header" >
+	<h4><?php echo UI::icon('desktop'); ?> <?php echo $header; ?></h4>
 </div>
 <?php endif; ?>
 <div class="widget-content">

@@ -4,8 +4,8 @@
 <div class="widget-content spoiler logs-spoiler">
 	<div class="well">
 		<?php echo UI::button(__('Clear logs older 30 days'), array(
-			'icon' => UI::icon( 'trash-o' ),
-			'class' => 'btn btn-warning',
+			'icon' => UI::icon( 'trash-o fa-lg' ),
+			'class' => 'btn btn-warning btn-large',
 			'data-url' => 'log.clear_old',
 			'data-method' => Request::POST
 		)); ?>

@@ -5,8 +5,8 @@
 	<?php if( ACL::check('system.cache.clear')): ?>
 	<div class="well">
 		<?php echo UI::button(__('Clear cache'), array(
-			'icon' => UI::icon( 'stethoscope' ),
-			'class' => 'btn btn-warning btn-api',
+			'icon' => UI::icon('trash-o fa-lg'),
+			'class' => 'btn btn-warning btn-api btn-large',
 			'data-url' => 'cache.clear'
 		)); ?>
 	</div>

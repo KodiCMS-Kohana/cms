@@ -16,7 +16,7 @@
 			<div class="widget-content">
 				<table class=" table table-striped table-hover">
 					<colgroup>
-						<col width="200px" />
+						<col width="250px" />
 						<col width="150px" />
 						<col />
 						<col width="150px" />
@@ -35,6 +35,7 @@
 						<?php foreach ($widgets as $widget): ?>
 						<tr>
 							<th class="name">
+								<?php echo UI::icon('cube'); ?> 
 								<?php if( ACL::check('widgets.edit')): ?>
 								<?php echo HTML::anchor(Route::get('backend')->uri(array(
 									'controller' => 'widgets', 

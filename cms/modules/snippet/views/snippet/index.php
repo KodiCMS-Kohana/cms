@@ -31,7 +31,7 @@
 				<?php foreach ($snippets as $snippet): ?>
 				<tr>
 					<th class="name">
-						<?php echo UI::icon('code'); ?> 
+						<?php echo UI::icon('file-code-o'); ?>
 						<?php if( ! $snippet->is_writable()): ?>
 						<span class="label label-warning"><?php echo __('Read only'); ?></span>
 						<?php endif; ?>

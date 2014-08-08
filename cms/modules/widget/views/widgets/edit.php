@@ -4,7 +4,7 @@
 )); ?>
 	<?php echo Form::hidden('id', $widget->id); ?>
 	<div class="widget-header spoiler-toggle" data-spoiler=".general-spoiler" data-hash="description">
-		<h4><?php echo __('Widget Information'); ?></h4>
+		<h4><?php echo UI::icon('exclamation-circle'); ?> <?php echo __('Widget Information'); ?></h4>
 	</div>
 	<div class="widget-content spoiler general-spoiler">
 		<?php echo Bootstrap_Form_Element_Control_Group::factory(array(
@@ -80,7 +80,7 @@
 
 	<?php if ( ACL::check( 'widgets.roles' ) ): ?>
 	<div class="widget-header spoiler-toggle" data-spoiler=".roles-spoiler" data-hash="roles">
-		<h4><?php echo __('Widget permissions'); ?></h4>
+		<h4><?php echo UI::icon('users'); ?> <?php echo __('Widget permissions'); ?></h4>
 	</div>
 	<div class="widget-content spoiler roles-spoiler">
 		<div class="controls">
@@ -93,7 +93,7 @@
 	
 	<?php if($widget->use_template): ?>
 	<div class="widget-header spoiler-toggle" data-spoiler=".media-spoiler" data-hash="media">
-		<h4><?php echo __('Widget media'); ?></h4>
+		<h4><?php echo UI::icon('file-o'); ?> <?php echo __('Widget media'); ?></h4>
 	</div>
 	<div class="widget-content spoiler media-spoiler">
 		<div class="control-group">
@@ -112,7 +112,7 @@
 	<?php endif; ?>
 	
 	<div class="widget-header">
-		<h4><?php echo __('Widget parameters'); ?></h4>
+		<h4><?php echo UI::icon('cogs'); ?> <?php echo __('Widget parameters'); ?></h4>
 	</div>
 	<?php if($widget->use_template): ?>
 	<div class="widget-content">
