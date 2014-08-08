@@ -477,8 +477,8 @@ cms.ui.add('flags', function() {
 	
 	calcNav();
 }).add('spoiler', function() {
-	var icon_open = 'fa fa-chevron-up',
-		icon_close = 'fa fa-chevron-down';
+	var icon_open = 'fa-chevron-up',
+		icon_close = 'fa-chevron-down';
 
 	$('.spoiler-toggle')
 		.click(function () {
@@ -492,9 +492,9 @@ cms.ui.add('flags', function() {
 			$spoiler_cont.slideToggle('fast', function() {
 				var $icon = $self.find('.spoiler-toggle-icon');
 				if($(this).is(':hidden')) {
-					$icon.removeClass(icon_open).addClass(icon_close);
+					$icon.removeClass(icon_open).addClass(icon_close).addClass('fa');
 				} else {
-					$icon.addClass(icon_open).removeClass(icon_close);
+					$icon.addClass(icon_open).removeClass(icon_close).addClass('fa');
 				}
 			});
 			
@@ -508,7 +508,7 @@ cms.ui.add('flags', function() {
 			
 		})
 		.find('h3, h4')
-		.append(' <i class="spoiler-toggle-icon '+icon_close+'"></i>');
+		.append(' <i class="spoiler-toggle-icon fa '+icon_close+'"></i>');
 }).add('datepicker', function() {
 	$('.datetimepicker').datetimepicker({
 		format:'Y-m-d H:i:00',
