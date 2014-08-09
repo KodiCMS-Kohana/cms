@@ -1,6 +1,6 @@
 <?php if( ACL::check( 'widgets.index')): ?>
 <div class="widget-header spoiler-toggle" data-spoiler=".spoiler-widgets" data-hash="widgets" hotkeys="shift+w">
-	<h4><?php echo __('Widgets'); ?></h4>
+	<h4><?php echo UI::icon('cubes'); ?> <?php echo __('Widgets'); ?></h4>
 </div>
 
 <div class="widget-content  spoiler spoiler-widgets">

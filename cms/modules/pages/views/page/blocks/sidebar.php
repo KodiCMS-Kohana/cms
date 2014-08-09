@@ -1,5 +1,5 @@
 <div class="widget-header">
-	<h3><?php echo __('Page options'); ?></h3>
+	<h3><?php echo UI::icon('cogs'); ?> <?php echo __('Page options'); ?></h3>
 </div>
 
 <div class="widget-content">
