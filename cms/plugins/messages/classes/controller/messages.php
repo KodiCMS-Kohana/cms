@@ -8,7 +8,7 @@ class Controller_Messages extends Controller_System_Backend {
 	{
 		parent::before();
 		$this->breadcrumbs
-			->add(__('Messages'), strtolower($this->request->controller()));
+			->add(__('Messages'), Route::get('backend')->uri(array('controller' => 'messages')));
 		
 		Assets::package('redactor');
 	}
