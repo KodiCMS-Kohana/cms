@@ -1,7 +1,7 @@
 <?php echo $content; ?>
 
 <div class="widget-header">
-	<h4><?php echo __('List settings'); ?></h4>
+	<h4><?php echo UI::icon('list'); ?> <?php echo __('List settings'); ?></h4>
 </div>
 <div class="widget-content ">
 	<div class="control-group">

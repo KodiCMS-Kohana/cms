@@ -53,7 +53,7 @@ $(function() {
 </script>
 
 <div class="widget-header">
-	<h4><?php echo __('Datasource Fields'); ?></h4>
+	<h4><?php echo UI::icon('th-list'); ?> <?php echo __('Datasource Fields'); ?></h4>
 </div>
 <div class="widget-content widget-nopad">
 	<table id="section-fields" class="table table-striped table-hover">
@@ -187,7 +187,7 @@ $(function() {
 		
 		<?php if(Acl::check($ds->type().$ds->id().'.field.remove')): ?>
 		<?php echo UI::button(__('Remove fields'), array(
-			'icon' => UI::icon('minus'), 'id' => 'remove-fields',
+			'icon' => UI::icon('trash-o'), 'id' => 'remove-fields',
 			'class' => 'btn btn-danger'
 		)); ?>
 		<?php endif; ?>

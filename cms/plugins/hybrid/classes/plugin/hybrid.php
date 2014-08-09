@@ -8,7 +8,7 @@ class Plugin_Hybrid extends Plugin_Decorator {
 		{
 			$profile_ds_id = $data['user_profile_ds_id'];
 
-			$ds = Datasource_Section::load($profile_ds_id);
+			$ds = Datasource_Data_Manager::load($profile_ds_id);
 			if ($ds === NULL OR $ds->type() != 'hybrid')
 			{
 				return;
@@ -24,7 +24,7 @@ class Plugin_Hybrid extends Plugin_Decorator {
 
 		foreach ($options as $id => $name)
 		{
-			$ds = Datasource_Section::load($id);
+			$ds = Datasource_Data_Manager::load($id);
 
 			if ($ds === NULL)
 				continue;

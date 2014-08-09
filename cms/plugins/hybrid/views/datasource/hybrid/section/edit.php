@@ -9,7 +9,7 @@
 	<?php echo Form::hidden('ds_id', $ds->id()); ?>
 
 	<div class="widget-header spoiler-toggle" data-spoiler=".general-spoiler">
-		<h4><?php echo __('Datasource Information'); ?></h4>
+		<h4><?php echo UI::icon('exclamation-circle'); ?> <?php echo __('Datasource Information'); ?></h4>
 	</div>
 	<div class="widget-content spoiler general-spoiler">
 		<div class="control-group">
@@ -42,7 +42,7 @@
 	)); ?>
 
 	<div class="widget-header spoiler-toggle" data-spoiler=".indexer-spoiler" hotkeys="shift+s">
-		<h4><?php echo __('Search indexation'); ?></h4>
+		<h4><?php echo UI::icon('search'); ?> <?php echo __('Search indexation'); ?></h4>
 	</div>
 	<div class="widget-content spoiler indexer-spoiler">
 		<div class="control-group">

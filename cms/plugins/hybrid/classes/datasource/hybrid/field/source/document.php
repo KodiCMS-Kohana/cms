@@ -17,7 +17,7 @@ class DataSource_Hybrid_Field_Source_Document extends DataSource_Hybrid_Field_So
 	{		
 		if ( ! empty($data['from_ds']))
 		{
-			$section = Datasource_Section::load($data['from_ds']);
+			$section = Datasource_Data_Manager::load($data['from_ds']);
 			
 			if ($section !== NULL)
 			{

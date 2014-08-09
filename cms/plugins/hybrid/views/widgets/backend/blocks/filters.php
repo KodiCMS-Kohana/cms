@@ -54,7 +54,7 @@
 </script>
 
 <div class="widget-header">
-	<h4><?php echo __('Filters'); ?></h4>
+	<h4><?php echo UI::icon('filter'); ?> <?php echo __('Filters'); ?></h4>
 </div>
 
 <div class="widget-content">

@@ -104,11 +104,11 @@ class Datasource_Data_Manager {
 	 * @param integer $id
 	 * @return null|Datasource_Section
 	 */
-	public static function load( $id ) 
+	public static function load($id)
 	{
 		return Datasource_Section::load($id);
 	}
-	
+
 	/**
 	 * Проверка раздела на существование по ID
 	 * 
@@ -138,7 +138,24 @@ class Datasource_Data_Manager {
 			->limit(1)
 			->execute()
 			->current();
-	}	
+	}
+	
+	/**
+	 * 
+	 * @param string $type
+	 * @return string
+	 */
+	public static function get_icon($type)
+	{
+		$class_name = 'DataSource_Section_' . ucfirst($type);
+		
+		if(class_exists($class_name))
+		{
+			return call_user_func($class_name . '::icon');
+		}
+		
+		return Datasource_Section::icon();
+	}
 	
 	/**
 	 * 

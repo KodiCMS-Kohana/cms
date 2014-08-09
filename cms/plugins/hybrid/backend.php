@@ -10,7 +10,7 @@ Observer::observe('datasource_after_remove', function($id) {
 Observer::observe(array('user_after_update', 'user_after_add'), function($user, $plugin) {
 	$ds_id = $plugin->get('user_profile_ds_id');
 	
-	$ds = Datasource_Section::load($ds_id);
+	$ds = Datasource_Data_Manager::load($ds_id);
 	if ($ds === NULL OR $ds->type() != 'hybrid')
 	{
 		return;
@@ -41,7 +41,7 @@ Observer::observe('user_after_delete', function($id, $plugin) {
 	
 	$ds_id = $plugin->get('user_profile_ds_id');
 	
-	$ds = Datasource_Section::load($ds_id);
+	$ds = Datasource_Data_Manager::load($ds_id);
 	if ($ds === NULL OR $ds->type() != 'hybrid')
 	{
 		return;
@@ -59,7 +59,7 @@ Observer::observe('view_user_profile_sidebar_list', function($id, $plugin) {
 	
 	$ds_id = $plugin->get('user_profile_ds_id');
 
-	$ds = Datasource_Section::load($ds_id);
+	$ds = Datasource_Data_Manager::load($ds_id);
 	if ($ds === NULL OR $ds->type() != 'hybrid')
 	{
 		return;

@@ -5,6 +5,15 @@
  * @category Hybrid
  */
 class DataSource_Section_Hybrid extends Datasource_Section {
+
+	/**
+	 * 
+	 * @return string
+	 */
+	public static function icon()
+	{
+		return 'table';
+	}
 	
 	/**
 	 * Таблица раздела

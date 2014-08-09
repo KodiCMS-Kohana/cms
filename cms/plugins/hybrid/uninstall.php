@@ -4,7 +4,7 @@ $datasources = Datasource_Data_Manager::get_all('hybrid');
 
 foreach ($datasources as $id => $ds)
 {
-	$datasource = Datasource_Section::load($id);
+	$datasource = Datasource_Data_Manager::load($id);
 	
 	if($datasource->loaded())
 	{

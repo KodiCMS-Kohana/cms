@@ -9,7 +9,7 @@
 	<?php echo Form::hidden('ds_id', $ds->id()); ?>
 
 	<div class="widget-header">
-		<h4><?php echo __('Datasource Information'); ?></h4>
+		<h4><?php echo UI::icon('exclamation-circle'); ?> <?php echo __('Datasource Information'); ?></h4>
 	</div>
 	<div class="widget-content">
 		<div class="control-group">

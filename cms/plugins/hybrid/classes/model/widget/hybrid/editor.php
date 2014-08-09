@@ -6,7 +6,7 @@ class Model_Widget_Hybrid_Editor extends Model_Widget_Hybrid_Document {
 	
 	public function fetch_data()
 	{
-		$datasource = Datasource_Section::load($this->ds_id);
+		$datasource = Datasource_Data_Manager::load($this->ds_id);
 		
 		if($datasource === NULL) 
 		{

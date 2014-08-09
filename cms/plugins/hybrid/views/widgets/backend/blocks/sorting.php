@@ -33,7 +33,10 @@ $fields[] = DataSource_Hybrid_Field::factory('primitive_datetime', array(
 
 foreach ($fields as $field)
 {
-	if( ! $field->is_sortable() ) continue;
+	if( ! $field->is_sortable() ) 
+	{
+		continue;
+	}
 
 	if(!isset($order_fields[$field->id]))
 	{
@@ -48,7 +51,9 @@ foreach ($fields as $field)
 foreach ($doc_order as $data)
 {
 	if(isset($ids[key($data)]))
+	{
 		$selected_fields[key($data)] = (($data[key($data)] == Model_Widget_Decorator::ORDER_ASC) ? '+' : '-') .' '. $ids[key($data)];
+	}
 }
 
 ?>
@@ -128,17 +133,16 @@ jQuery.fn.swapWith = function(to) {
 </script>
 <div id="sorting_block">
 	<div class="widget-header">
-		<h4><?php echo __('Documents order'); ?></h4>
+		<h4><?php echo UI::icon('sort-alpha-desc'); ?> <?php echo __('Documents order'); ?></h4>
 	</div>
-	<div class="widget-content">
-
+	<div class="widget-content widget-nopad">
 		<table class="table">
 			<colgroup>
 				<col width="220px" />
 				<col width="110px" />
 				<col />
 			</colgroup>
-			<tbody>
+			<thead>
 				<tr>
 					<td>
 						<?php echo __('Order by'); ?>
@@ -150,6 +154,8 @@ jQuery.fn.swapWith = function(to) {
 						<?php echo __('Available fields'); ?>
 					</td>
 				</tr>
+			</thead>
+			<tbody>
 				<tr>
 					<td id="sf-cont">
 						<?php echo Form::select('sf', $selected_fields, NULL, array(

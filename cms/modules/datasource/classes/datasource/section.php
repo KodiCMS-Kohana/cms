@@ -43,6 +43,15 @@ class Datasource_Section {
 		
 		return class_exists($class);
 	}
+	
+	/**
+	 * 
+	 * @return string
+	 */
+	public static function icon()
+	{
+		return 'folder-open-o';
+	}
 
 	/**
 	 * Загрузка разедла по ID

@@ -2,7 +2,7 @@
 <div class="widget datasource-menu">
 	<?php foreach ($tree as $section => $data): ?>
 	<div class="widget-header">
-	<h4><?php echo __(ucfirst($section)); ?></h4>
+		<h4><?php echo UI::icon(Datasource_Data_Manager::get_icon($section)); ?> <?php echo __(ucfirst($section)); ?></h4>
 	</div>
 	<ul class="list-group unstyled">
 	<?php foreach ($data as $id => $name): ?>
@@ -26,7 +26,7 @@
 						'directory' => 'datasources',
 						'action' => 'create',
 						'id' => $type
-					)), $title); ?></li>
+					)), UI::icon(Datasource_Data_Manager::get_icon($section)) . ' ' . $title); ?></li>
 				<?php endif; ?>
 			<?php endforeach; ?>
 			</ul>
@@ -71,6 +71,7 @@
 			
 			$result .= UI::button(NULL, $attributes);
 		}
+		
 		if(ACL::check($section.$ds_id.'.section.remove'))
 		{
 			$attributes =  array(
@@ -85,6 +86,7 @@
 			);
 			$result .= UI::button(NULL, $attributes);
 		}
+		
 		$result .= '</div>';
 		
 		if(!empty($name['description']))
@@ -94,5 +96,4 @@
 		
 		return $result;
 	}
-
 ?>

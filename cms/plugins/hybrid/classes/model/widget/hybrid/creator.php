@@ -140,7 +140,7 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Decorator {
 			
 		if($ds_id > 0)
 		{
-			$ds = Datasource_Section::load( $ds_id );
+			$ds = Datasource_Data_Manager::load( $ds_id );
 
 			if($ds === NULL OR !$ds->loaded())
 			{
