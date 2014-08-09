@@ -32,7 +32,7 @@ Observer::observe('modules::after_load', function() {
 						'controller' => 'data',
 						'directory' => 'datasources',
 					)) . URL::query(array('ds_id' => $id)),
-					'icon' => 'folder-open-alt'
+					'icon' => 'folder-open-o'
 				)), 999);
 		}
 	}
