@@ -217,17 +217,24 @@
 		</div>
 	</div>
 	
-	<h1><?php echo __( 'Cache system' ); ?></h1>
+	<h1><?php echo __( 'Other' ); ?></h1>
 	<div>
 		<div class="widget">
 			<div class="widget-content">
-
 				<?php echo Bootstrap_Form_Element_Control_Group::factory(array(
 					'element' => Bootstrap_Form_Element_Select::factory(array(
 						'name' => 'install[cache_type]', 'options' => $cache_types
 					))
 					->selected(Arr::get( $data, 'cache_type' ))
 					->label(__('Cache type'))
+				)); ?>
+				
+				<?php echo Bootstrap_Form_Element_Control_Group::factory(array(
+					'element' => Bootstrap_Form_Element_Select::factory(array(
+						'name' => 'install[session_type]', 'options' => $session_types
+					))
+					->selected(Arr::get( $data, 'session_type' ))
+					->label(__('Session storage'))
 				)); ?>
 			</div>
 		</div>

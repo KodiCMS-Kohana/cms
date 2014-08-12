@@ -126,7 +126,7 @@ return array(
 	'Web server' => 'Web сервер',
 	'MySQL driver' => 'MySQL драйвер',
 	'PHP info' => 'Информация о PHP',
-	'' => '',
+	'Session storage' => 'Хранение сессии',
 	'' => '',
 	'' => '',
 	'' => '',

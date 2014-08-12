@@ -5,12 +5,16 @@ if (PHP_SAPI != 'cli')
 	define('IS_BACKEND', URL::match(ADMIN_DIR_NAME, Request::detect_uri()));
 }
 
-if( ! defined( 'IS_BACKEND' )) define('IS_BACKEND', FALSE);
+if (!defined('IS_BACKEND'))
+	define('IS_BACKEND', FALSE);
+
+if (!defined('SESSION_TYPE'))
+	define('SESSION_TYPE', 'native');
 
 // CMS defaults
-define('ADMIN_URL',			BASE_URL . ADMIN_DIR_NAME . '/');
-define('PLUGINS_URL',		BASE_URL . 'cms/plugins/');
-define('PUBLIC_URL',		BASE_URL . 'public/');
+define('ADMIN_URL', BASE_URL . ADMIN_DIR_NAME . '/');
+define('PLUGINS_URL', BASE_URL . 'cms/plugins/');
+define('PUBLIC_URL', BASE_URL . 'public/');
 
 /**
  * Set the default time zone.
@@ -24,6 +28,11 @@ date_default_timezone_set( DEFAULT_TIMEZONE );
  * Set the default cookie salt
  */
 Cookie::$salt = COOKIE_SALT;
+
+/**
+ * Set the default session type
+ */
+Session::$default = SESSION_TYPE;
 
 /**
  * Enable modules. Modules are referenced by a relative or absolute path.

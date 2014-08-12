@@ -23,3 +23,6 @@ define('COOKIE_SALT', '__COOKIE_SALT__');
 
 // Cache
 define('CACHE_TYPE', '__CACHE_TYPE__');
+
+// Session
+define('SESSION_TYPE', '__SESSION_TYPE__');

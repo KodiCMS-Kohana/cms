@@ -9,6 +9,12 @@ return array(
 		'memcachetag' => __('Memcache'),
 	),
 	
+	'session_types' => array(
+		'native' => __('Native'), 
+		'database' => __('Database'), 
+		'cookie' => __('Cookie')
+	),
+	
 	'default_config' => array(
 		'site' => array(
 			'allow_html_title' => Config::NO,

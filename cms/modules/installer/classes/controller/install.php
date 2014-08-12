@@ -23,7 +23,7 @@ class Controller_Install extends Controller_System_Frontend
 
 	public function action_error()
 	{
-		$this->template->title = __( ':cms_name &rsaquo; error', array(':cms_name' => CMS_NAME ));
+		$this->template->title = __(':cms_name &rsaquo; error', array(':cms_name' => CMS_NAME));
 		$this->template->content = View::factory('install/error', array(
 			'title' => $this->template->title
 		));
@@ -34,17 +34,17 @@ class Controller_Install extends Controller_System_Frontend
 		Assets::js('steps', ADMIN_RESOURCES . 'libs/steps/jquery.steps.min.js', 'jquery');
 		Assets::js('validate', ADMIN_RESOURCES . 'libs/validation/jquery.validate.min.js', 'jquery');
 		Assets::js('validate.localization', ADMIN_RESOURCES . 'libs/validation/localization/messages_' . I18n::lang_short() . '.min.js', 'validate');
-		
+
 		Assets::package('select2');
-		
+
 		Assets::js('install', ADMIN_RESOURCES . 'js/install.js', 'global');
 		Assets::css('install', ADMIN_RESOURCES . 'css/install.css', 'global');
 
-		$this->template->title = __( ':cms_name &rsaquo; installation', array(':cms_name' => CMS_NAME ) );
+		$this->template->title = __(':cms_name &rsaquo; installation', array(':cms_name' => CMS_NAME));
 
 		$data = array(
 			'db_driver' => 'mysql',
-			'db_server' => '127.0.0.1',
+			'db_server' => 'localhost',
 			'db_port' => 3306,
 			'db_user' => 'root',
 			'db_name' => 'kodicms',
@@ -61,9 +61,10 @@ class Controller_Install extends Controller_System_Frontend
 		);
 
 		$this->template->content = View::factory('install/index', array(
-			'data' => Session::instance()->get_once( 'install_data', $data ),
+			'data' => Session::instance()->get_once('install_data', $data),
 			'env_test' => View::factory('install/env_test'),
-			'cache_types' => Kohana::$config->load('installer')->get( 'cache_types', array() ),
+			'cache_types' => Kohana::$config->load('installer')->get('cache_types', array()),
+			'session_types' => Kohana::$config->load('installer')->get('session_types', array()),
 			'title' => $this->template->title
 		));
 	}
@@ -75,65 +76,64 @@ class Controller_Install extends Controller_System_Frontend
 	public function action_go()
 	{
 		$this->auto_render = FALSE;
-		
+
 		$post = $this->request->post('install');
 
-		if ( empty($post) )
+		if (empty($post))
 		{
-			throw new Installer_Exception( 'No install data!' );
+			throw new Installer_Exception('No install data!');
 		}
-		
-		if(isset($post['password_generate']))
+
+		if (isset($post['password_generate']))
 		{
 			$post['password_field'] = Text::random();
 		}
-		
-		if(isset($post['admin_dir_name']))
+
+		if (isset($post['admin_dir_name']))
 		{
 			$post['admin_dir_name'] = URL::title($post['admin_dir_name']);
 		}
-		
-		if(isset($post['db_port']))
+
+		if (isset($post['db_port']))
 		{
 			$post['db_port'] = (int) $post['db_port'];
 		}
-		
-		date_default_timezone_set( $post['timezone'] );
 
-		Session::instance()
-			->set( 'install_data', $post );
+		date_default_timezone_set($post['timezone']);
+
+		Session::instance()->set('install_data', $post);
 
 		try
 		{
 			$this->_validation = $this->_valid($post);
 			$this->_db_instance = $this->_connect_to_db($post);
-			
+
 			Database::$default = 'install';
-		}
+		} 
 		catch (Kohana_Exception $e)
 		{
 			$this->_show_error($e);
 		}
-		
-		try 
+
+		try
 		{
-			if(isset($post['empty_database']))
+			if (isset($post['empty_database']))
 			{
 				$this->_reset();
 			}
-			
+
 			$this->_import_shema($post);
 			$this->_import_dump($post);
 			$this->_install_plugins($post);
 			$this->_install_modules($post);
 			$this->_create_site_config($post);
 			$this->_create_config_file($post);
-		}
+		} 
 		catch (Exception $e)
 		{
 			$this->_show_error($e);
 		}
-		
+
 		$this->_complete($post);
 	}
 	
@@ -179,7 +179,7 @@ class Controller_Install extends Controller_System_Frontend
 	 */
 	protected function _complete($post)
 	{
-		if(PHP_SAPI == 'cli')
+		if (PHP_SAPI == 'cli')
 		{
 			Minion_CLI::write('==============================================');
 			Minion_CLI::write(__('KodiCMS installed successfully'));
@@ -190,7 +190,7 @@ class Controller_Install extends Controller_System_Frontend
 			Minion_CLI::write(__('Password: :password', array(':password' => Arr::get($install_data, 'password_field'))));
 			exit();
 		}
-		
+
 		$this->go($post['admin_dir_name'] . '/login');
 	}
 
@@ -200,7 +200,7 @@ class Controller_Install extends Controller_System_Frontend
 	 */
 	protected function _show_error(Exception $e)
 	{
-		if(PHP_SAPI == 'cli')
+		if (PHP_SAPI == 'cli')
 		{
 			Minion_CLI::write(__(':text | :file [:line]', array(
 				':text' => $e->getMessage(),
@@ -209,8 +209,8 @@ class Controller_Install extends Controller_System_Frontend
 			)));
 			exit();
 		}
-		
-		if($e instanceof Validation_Exception)
+
+		if ($e instanceof Validation_Exception)
 		{
 			Messages::errors($e->errors('validation'));
 		}
@@ -273,34 +273,33 @@ class Controller_Install extends Controller_System_Frontend
 			'profiling' => TRUE
 		));
 
-		$db = Database::instance( 'install');
+		$db = Database::instance('install');
 
 		try
 		{
 			$db->connect();
-			
 			return $db;
-		} 
+		}
 		catch (Database_Exception $exc)
 		{
 			$validation = FALSE;
 			switch ($exc->getCode())
 			{
 				case 1049:
-					$this->_validation->error( 'db_name' , 'incorrect' );
+					$this->_validation->error('db_name', 'incorrect');
 					$validation = TRUE;
 					break;
 				case 2:
 					$this->_validation
-						->error( 'db_server' , 'incorrect' )
-						->error( 'db_user' , 'incorrect' )
-						->error( 'db_password' , 'incorrect' );
-					
+							->error('db_server', 'incorrect')
+							->error('db_user', 'incorrect')
+							->error('db_password', 'incorrect');
+
 					$validation = TRUE;
 					break;
 			}
-			
-			if($validation === TRUE)
+
+			if ($validation === TRUE)
 			{
 				throw new Validation_Exception($this->_validation, $exc->getMessage(), NULL, $exc->getCode());
 			}
@@ -320,42 +319,46 @@ class Controller_Install extends Controller_System_Frontend
 	 */
 	protected function _valid( array $data )
 	{
-		$cache_types = Kohana::$config->load('installer')->get( 'cache_types', array() );
-
+		$cache_types = Kohana::$config->load('installer')->get('cache_types', array());
+		$session_types = Kohana::$config->load('installer')->get('session_types', array());
+		
 		$validation = Validation::factory( $data )
-			->rule( 'db_server', 'not_empty' )
-			->rule( 'db_user', 'not_empty' )
-			->rule( 'db_name', 'not_empty' )
-			->rule( 'admin_dir_name', 'not_empty' )
-			->rule( 'username', 'not_empty' )
-			->rule( 'email', 'not_empty' )
-			->rule( 'email', 'email' )
-			->rule( 'cache_type', 'not_empty')
-			->rule( 'cache_type', 'in_array', array(':value', array_keys( $cache_types )))
+			->rule('db_server', 'not_empty')
+			->rule('db_user', 'not_empty')
+			->rule('db_name', 'not_empty')
+			->rule('admin_dir_name', 'not_empty')
+			->rule('username', 'not_empty')
+			->rule('email', 'not_empty')
+			->rule('email', 'email')
+			->rule('cache_type', 'not_empty')
+			->rule('cache_type', 'in_array', array(':value', array_keys($cache_types)))
+			->rule('session_type', 'not_empty')
+			->rule('session_type', 'in_array', array(':value', array_keys($session_types)))
 			->label('db_server', __('Database server'))
-			->label('db_user', __( 'Database user' ))
+			->label('db_user', __('Database user'))
 			->label('db_password', __('Database password'))
 			->label('db_name', __('Database name'))
 			->label('admin_dir_name', __('Admin dir name'))
 			->label('username', __('Administrator username'))
 			->label('email', __('Administrator email'))
 			->label('password_field', __('Password'))
-			->label('cache_type', __('Cache type'));
-		
-		if(!isset($data['password_generate']))
+			->label('cache_type', __('Cache type'))
+			->label('session_type', __('Session type'));
+
+		if (!isset($data['password_generate']))
 		{
 			$validation
-				->rule('password_field', 'min_length', array(':value', Kohana::$config->load('auth')->get( 'password_length' )))
+				->rule('password_field', 'min_length', array(':value', Kohana::$config->load('auth')->get('password_length')))
 				->rule('password_field', 'not_empty')
 				->rule('password_confirm', 'matches', array(':validation', ':field', 'password_field'))
 				->label('password_confirm', __('Confirm Password'));
 		}
 
-		if ( ! $validation->check() )
+		if (!$validation->check())
 		{
 			throw new Validation_Exception($validation);
 		}
-		
+
 		return $validation;
 	}
 
@@ -369,10 +372,10 @@ class Controller_Install extends Controller_System_Frontend
 	{		
 		// Merge modules schema.sql
 		$schema_content = $this->_merge_module_files('schema.sql');
-		
-		$schema_content = str_replace( '__TABLE_PREFIX__', $post['db_table_prefix'], $schema_content );
 
-		if ( !empty( $schema_content ) )
+		$schema_content = str_replace('__TABLE_PREFIX__', $post['db_table_prefix'], $schema_content);
+
+		if (!empty($schema_content))
 		{
 			$this->_insert_data($schema_content);
 		}
@@ -399,10 +402,10 @@ class Controller_Install extends Controller_System_Frontend
 		);
 		
 		$dump_content = str_replace(
-			array_keys( $replace ), array_values( $replace ), $dump_content
+				array_keys($replace), array_values($replace), $dump_content
 		);
 
-		if ( ! empty( $dump_content ) )
+		if (!empty($dump_content))
 		{
 			$this->_insert_data($dump_content);
 		}
@@ -417,7 +420,7 @@ class Controller_Install extends Controller_System_Frontend
 	protected function _create_site_config( array $post )
 	{
 		$config_values = Kohana::$config->load('installer')->get('default_config', array());
-		
+
 		$config_values['site']['title'] = Arr::get($post, 'site_name');
 		$config_values['site']['default_locale'] = Arr::get($post, 'locale');
 		$config_values['email']['default'] = Arr::get($post, 'email');
@@ -428,10 +431,9 @@ class Controller_Install extends Controller_System_Frontend
 			foreach ($data as $key => $config)
 			{
 				$insert->values(array($group, $key, serialize($config)));
-					
 			}
 		}
-		
+
 		$insert->execute($this->_db_instance);
 	}
 	
@@ -444,27 +446,27 @@ class Controller_Install extends Controller_System_Frontend
 	 */
 	protected function _install_plugins( array $post )
 	{
-		if ( ! is_dir(MODPATH . 'plugins') ) 
+		if (!is_dir(MODPATH . 'plugins'))
 		{
 			return;
 		}
 
-		Kohana::modules(Kohana::modules() + array('plugins'	=> MODPATH . 'plugins'));
+		Kohana::modules(Kohana::modules() + array('plugins' => MODPATH . 'plugins'));
 
 		$default_plugins = Kohana::$config->load('installer')->get('default_plugins', array());
-		
+
 		Plugins::find_all();
-		
-		if ( ! empty($post['insert_test_data']))
+
+		if (!empty($post['insert_test_data']))
 		{
 			$default_plugins[] = 'test';
 		}
 
 		foreach ($default_plugins as $name)
 		{
-			$plugin = Plugins::get_registered( $name );
-			
-			if($plugin instanceof Plugin_Decorator)
+			$plugin = Plugins::get_registered($name);
+
+			if ($plugin instanceof Plugin_Decorator)
 			{
 				$plugin->activate();
 			}
@@ -481,23 +483,23 @@ class Controller_Install extends Controller_System_Frontend
 	 */
 	protected function _install_modules( array $post )
 	{
-		if ( ! is_dir(MODPATH) ) 
+		if (!is_dir(MODPATH))
 		{
 			return;
 		}
-		
+
 		// Create a new directory iterator
 		$path = new DirectoryIterator(MODPATH);
-		
+
 		foreach ($path as $dir)
 		{
-			if($dir->isDot())
+			if ($dir->isDot())
 			{
 				continue;
 			}
 
 			$file_name = MODPATH . $dir->getBasename() . DIRECTORY_SEPARATOR . 'install' . EXT;
-			if(file_exists($file_name))
+			if (file_exists($file_name))
 			{
 				include $file_name;
 			}
@@ -513,16 +515,16 @@ class Controller_Install extends Controller_System_Frontend
 	protected function _create_config_file( array $post )
 	{
 		$tpl_file = INSTALL_DATA . 'config.tpl';
-		
-		if ( ! file_exists( $tpl_file ) )
+
+		if (!file_exists($tpl_file))
 		{
-			throw new Installer_Exception( 'Config template file :file not found!', array(
+			throw new Installer_Exception('Config template file :file not found!', array(
 				':file' => $tpl_file
-			) );
+			));
 		}
 
 		// Insert settings to config.php		
-		$tpl_content = file_get_contents( $tpl_file );
+		$tpl_content = file_get_contents($tpl_file);
 
 		$repl = array(
 			'__DB_TYPE__'			=> $post['db_driver'],
@@ -536,11 +538,12 @@ class Controller_Install extends Controller_System_Frontend
 			'__ADMIN_DIR_NAME__'	=> $post['admin_dir_name'],
 			'__TIMEZONE__'			=> $post['timezone'],
 			'__COOKIE_SALT__'		=> Text::random('alnum', 16),
-			'__CACHE_TYPE__'		=> $post['cache_type']
+			'__CACHE_TYPE__'		=> $post['cache_type'],
+			'__SESSION_TYPE__'		=> $post['session_type']
 		);
 
 		$tpl_content = str_replace(
-			array_keys( $repl ), array_values( $repl ), $tpl_content
+			array_keys($repl), array_values($repl), $tpl_content
 		);
 
 		$this->_write_config_to_file($tpl_content);
@@ -574,7 +577,7 @@ class Controller_Install extends Controller_System_Frontend
 
 			DB::query(NULL, 'SET FOREIGN_KEY_CHECKS = 1')
 					->execute($this->_db_instance);
-		}
+		} 
 		catch (Database_Exception $exc)
 		{
 			switch ($exc->getCode())
@@ -656,11 +659,11 @@ class Controller_Install extends Controller_System_Frontend
 	 */
 	protected function _write_config_to_file($content)
 	{
-		if ( ! file_put_contents(CFGFATH, $content) !== FALSE)
+		if (!file_put_contents(CFGFATH, $content) !== FALSE)
 		{
 			throw new Installer_Exception('Can\'t write config.php file!');
 		}
-		
+
 		return TRUE;
 	}
 }
