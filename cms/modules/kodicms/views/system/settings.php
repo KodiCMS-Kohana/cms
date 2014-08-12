@@ -126,7 +126,7 @@
 			<h3><?php echo __( 'Session settings' ); ?></h3>
 		</div>
 		<div class="widget-content spoiler session-settings">
-			<?php if( ACL::check('system.session.clear') AND Session::$default = 'database'): ?>
+			<?php if( ACL::check('system.session.clear') AND Session::$default == 'database'): ?>
 			<div class="well">
 				<?php echo UI::button(__('Clear user sessions'), array(
 					'icon' => UI::icon('trash-o fa-lg'),
@@ -139,9 +139,8 @@
 			<div class="control-group">
 				<?php echo Form::label('setting_session_storage', __('Session storage'), array('class' => 'control-label')); ?>
 				<div class="controls">
-					<?php echo Form::select('', array(
-						'native' => __('Native'), 'database' => __('Database'), 'cookie' => __('Cookie')
-						), Session::$default, array('id' => 'setting_session_storage', 'disabled', 'readonly'));?>
+					<?php echo Form::select('', array('native' => __('Native'), 'database' => __('Database'), 'cookie' => __('Cookie')), Session::$default, array(
+						'id' => 'setting_session_storage', 'disabled', 'readonly'));?>
 
 					<div class="help-block">
 						<?php echo UI::icon('lightbulb-o'); ?> <?php echo __('The session storage driver can change in the config file (:path)', array(':path' => CFGFATH)); ?>
