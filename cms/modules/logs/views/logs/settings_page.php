@@ -1,4 +1,4 @@
-<div class="widget-header spoiler-toggle" data-spoiler=".logs-spoiler" data-icon="time">
+<div class="widget-header spoiler-toggle" data-spoiler=".logs-spoiler" data-icon="clock-o">
 	<h3><?php echo __('Log settings'); ?></h3>
 </div>
 <div class="widget-content spoiler logs-spoiler">

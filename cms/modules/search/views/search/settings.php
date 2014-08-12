@@ -1,4 +1,4 @@
-<div class="widget-header spoiler-toggle" data-spoiler=".search-settings" data-hash="search-settings" data-icon="hdd">
+<div class="widget-header spoiler-toggle" data-spoiler=".search-settings" data-hash="search-settings" data-icon="search">
 	<h3 id="cache-settings"><?php echo __('Search settings'); ?></h3>
 </div>
 <div class="widget-content spoiler search-settings">
