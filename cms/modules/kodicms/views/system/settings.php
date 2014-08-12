@@ -121,6 +121,34 @@
 				</div>
 			</div>
 		</div>
+		
+		<div class="widget-header spoiler-toggle" data-spoiler=".session-settings" data-icon="hdd-o">
+			<h3><?php echo __( 'Session settings' ); ?></h3>
+		</div>
+		<div class="widget-content spoiler session-settings">
+			<?php if( ACL::check('system.session.clear') AND Session::$default = 'database'): ?>
+			<div class="well">
+				<?php echo UI::button(__('Clear user sessions'), array(
+					'icon' => UI::icon('trash-o fa-lg'),
+					'class' => 'btn btn-warning btn-api btn-large',
+					'data-url' => 'session.clear'
+				)); ?>
+			</div>
+			<?php endif; ?>
+			
+			<div class="control-group">
+				<?php echo Form::label('setting_session_storage', __('Session storage'), array('class' => 'control-label')); ?>
+				<div class="controls">
+					<?php echo Form::select('', array(
+						'native' => __('Native'), 'database' => __('Database'), 'cookie' => __('Cookie')
+						), Session::$default, array('id' => 'setting_session_storage', 'disabled', 'readonly'));?>
+
+					<div class="help-block">
+						<?php echo UI::icon('lightbulb-o'); ?> <?php echo __('The session storage driver can change in the config file (:path)', array(':path' => CFGFATH)); ?>
+					</div>
+				</div>
+			</div>
+		</div>
 		<?php Observer::notify( 'view_setting_plugins' ); ?>
 		<div class="form-actions widget-footer">
 			<?php echo Form::button( 'submit', UI::icon( 'check' ) . ' ' . __( 'Save settings' ), array(

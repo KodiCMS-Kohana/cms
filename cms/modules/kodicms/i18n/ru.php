@@ -127,9 +127,11 @@ return array(
 	'MySQL driver' => 'MySQL драйвер',
 	'PHP info' => 'Информация о PHP',
 	'Session storage' => 'Хранение сессии',
-	'' => '',
-	'' => '',
-	'' => '',
+	'Session settings' => 'Настройки сессии',
+	'Clear user sessions' => 'Сбросить сессии пользователей',
+	'User sessions has been cleared!' => 'Пользовательские сессии сброшены',
+	'The session storage driver can change in the config file (:path)' 
+		=> 'Драйвер хранения сессии можно изменить через конфиг файл (:path)',
 	
 	/*********************** Autorization *******************/
 	'Username' => 'Логин',
