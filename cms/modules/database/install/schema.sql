@@ -1,4 +1,4 @@
-CREATE TABLE  `__TABLE_PREFIX__sessions` (
+CREATE TABLE IF NOT EXISTS `__TABLE_PREFIX__sessions` (
   `session_id` varchar(24) NOT NULL,
   `last_active` int(11) UNSIGNED NOT NULL,
   `contents` text NOT NULL,

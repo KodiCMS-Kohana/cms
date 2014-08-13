@@ -557,26 +557,9 @@ class Controller_Install extends Controller_System_Frontend
 	 */
 	protected function _insert_data($data)
 	{
-		$data = preg_split('/;(\s*)$/m', $data);
-
 		try
 		{
-			DB::query(NULL, 'SET FOREIGN_KEY_CHECKS = 0')
-					->execute($this->_db_instance);
-
-			foreach ($data as $sql)
-			{
-				if (empty($sql))
-				{
-					continue;
-				}
-
-				DB::query(Database::INSERT, $sql)
-						->execute($this->_db_instance);
-			}
-
-			DB::query(NULL, 'SET FOREIGN_KEY_CHECKS = 1')
-					->execute($this->_db_instance);
+			Database_Helper::insert_sql($data, $this->_db_instance);
 		} 
 		catch (Database_Exception $exc)
 		{
