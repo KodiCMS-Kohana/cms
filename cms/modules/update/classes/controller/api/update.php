@@ -30,11 +30,19 @@ class Controller_API_Update extends Controller_System_API {
 		try
 		{
 			Database_Helper::insert_sql($diff);
+		
+			$this->message('Database schema updated successfuly!');
+			
 			$this->response(TRUE);
 		} 
 		catch (Exception $ex)
 		{
+			$this->message('Something went wrong!');
 			$this->response(FALSE);
 		}
+		
+		Kohana::$log->add(Log::INFO, ':user update database')->write();
+		
+		
 	}
 }
