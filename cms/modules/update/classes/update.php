@@ -82,16 +82,7 @@ class Update {
 				$filesize = filesize($filepath);
 				if ($filesize != $row['size'] )
 				{
-					// Linux файлы имеют размер отличный от Windows файлов из за 
-					// разного подсчета символов окончания строки LF против CR LF
-					if (Kohana::$is_windows)
-					{
-						$diff = $filesize - self::_count_file_lines($filepath) - $row['size'];
-					}
-					else
-					{
-						$diff = $filesize - $row['size'];
-					}
+					$diff = $filesize - self::_count_file_lines($filepath) - $row['size'];
 					
 					if ($diff > 1 OR $diff < - 1)
 					{
