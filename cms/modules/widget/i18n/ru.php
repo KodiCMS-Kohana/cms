@@ -52,6 +52,7 @@ return array(
 	'Authentication' => 'Авторизация',
 	'Authentication destroy' => 'Выход',
 	
+	'Handler' => 'Обработчик',
 	'Send mail' => 'Отправка писем',
 	'Message subject' => 'Заголовок письма',
 	'Message from' => 'От',
