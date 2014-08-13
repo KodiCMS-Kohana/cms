@@ -49,5 +49,5 @@ return array(
 	'Metadata' => 'Метаданные',
 	'--- Not set ---' => '--- Не указан ---',
 	'Use redirect' => 'Включить редирект',
-	'Redirect URL' => 'URL редиректа',
+	'Redirect URL' => 'URL для редиректа',
 );
