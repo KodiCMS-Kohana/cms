@@ -22,6 +22,7 @@ return array(
 	'Select patch to apply' => 'Выберите патч для применения',
 	'There are no changes to the database structure' => 'Нет изменений в структуре базы данных',
 	'You need to create a folder :folder and set access rights to :chmod' => 'Необходимо создать папку :folder и установить права :chmod',
-	'Database schema updated successfuly' => 'Схема БД успешно обновлена',
+	'Database schema updated successfully!' => 'Схема базы данных успешно обновлена!',
 	'You dont hanve permissions to update database' => 'У вас нет прав на обновление БД',
+	
 );

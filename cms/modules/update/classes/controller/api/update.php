@@ -31,7 +31,7 @@ class Controller_API_Update extends Controller_System_API {
 		{
 			Database_Helper::insert_sql($diff);
 		
-			$this->message('Database schema updated successfuly!');
+			$this->message('Database schema updated successfully!');
 			
 			$this->response(TRUE);
 		} 

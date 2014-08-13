@@ -5,11 +5,6 @@ cms.init.add('update_index', function() {
 });
 
 cms.init.add('update_database', function() {
-	$('body').on('get:backend:api-update.database', function(e, response) {
-		if(response)
-			window.location = '';
-	});
-	
 	function calculateEditorHeight() {
 		var conentH = cms.content_height;
 		var h = $('.widget-title').outerHeight(true) + $('.widget-header').outerHeight(true) + $('.form-actions').outerHeight(true) + 10;
