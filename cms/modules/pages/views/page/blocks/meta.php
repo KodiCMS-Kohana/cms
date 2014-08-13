@@ -47,29 +47,31 @@
 		<hr />
 		<?php endif; ?>
 		
-		<?php $fields = array('breadcrumb', 'meta_title', 'meta_keywords', 'meta_description');
-		foreach ($fields as $field): ?>
-		<div class="control-group">
-			<?php echo $page->label($field, array('class' => 'control-label')); ?>
-			<div class="controls">
-				<?php echo $page->field($field, array(
-					'class' => 'span12',
-					'prefix' => 'page'
-				)); ?>
+		<div id="meta-container">
+			<?php $fields = array('breadcrumb', 'meta_title', 'meta_keywords', 'meta_description');
+			foreach ($fields as $field): ?>
+			<div class="control-group">
+				<?php echo $page->label($field, array('class' => 'control-label')); ?>
+				<div class="controls">
+					<?php echo $page->field($field, array(
+						'class' => 'span12',
+						'prefix' => 'page'
+					)); ?>
+				</div>
+			</div>
+			<?php endforeach; ?>
+
+
+			<hr />
+
+			<div class="control-group">
+				<label class="control-label" for="pageEditMetaRobotsField"><?php echo __( 'Robots' ); ?></label>
+				<div class="controls">
+					<?php echo Form::select( 'page[robots]', Model_Page::robots(), $page->robots, array(
+						'id' => 'pageEditMetaRobotsField'
+					) ); ?>
+				</div>
 			</div>
 		</div>
-		<?php endforeach; ?>
-	
-		<hr />
-
-		<div class="control-group">
-			<label class="control-label" for="pageEditMetaRobotsField"><?php echo __( 'Robots' ); ?></label>
-			<div class="controls">
-				<?php echo Form::select( 'page[robots]', Model_Page::robots(), $page->robots, array(
-					'id' => 'pageEditMetaRobotsField'
-				) ); ?>
-			</div>
-		</div>
-
 		<?php Observer::notify( 'view_page_edit_meta', $page ); ?>
 	</div>
