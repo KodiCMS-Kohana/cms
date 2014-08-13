@@ -34,6 +34,11 @@ class KodiCMS_Controller_Front extends Controller_System_Controller
 
 		if ($page instanceof Model_Page_Front)
 		{
+			if($page->use_redirect AND !empty($page->redirect_url))
+			{
+				HTTP::redirect($page->redirect_url, 301);
+			}
+			
 			return $this->_render($page);
 		}
 		else

@@ -129,7 +129,9 @@ class KodiCMS_Model_Page extends ORM
 			'published_on'		=> __('Published date'),
 			'needs_login'		=> __('Needs login'),
 			'page_permissions'	=> __('Page permissions'),
-			'created_by_id'		=> __('Author')
+			'created_by_id'		=> __('Author'),
+			'use_redirect'		=> __('Use redirect'),
+			'redirect_url'		=> __('Redirect URL')
 		);
 	}
 
@@ -212,6 +214,12 @@ class KodiCMS_Model_Page extends ORM
 				array('trim'),
 				array('strip_tags')
 			),
+			'use_redirect' => array(
+				array('intval')
+			),
+			'redirect_url' => array(
+				array('trim')
+			),
 		);		
 	}
 	
@@ -289,6 +297,11 @@ class KodiCMS_Model_Page extends ORM
 		{
 			$this->published_on = date('Y-m-d H:i:s');
 		}
+		
+		if( empty($this->use_redirect))
+		{
+			$this->redirect_url = NULL;
+		}
 
 		if ($this->position == 0)
 		{
@@ -336,6 +349,11 @@ class KodiCMS_Model_Page extends ORM
 		if( empty($this->published_on) AND $this->status_id == Model_Page::STATUS_PUBLISHED)
 		{
 			$this->published_on = date('Y-m-d H:i:s');
+		}
+		
+		if( empty($this->use_redirect))
+		{
+			$this->redirect_url = NULL;
 		}
 		
 		// Если запрещены теги в Заголовке, удаляем их

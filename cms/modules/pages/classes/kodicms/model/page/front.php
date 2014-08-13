@@ -710,10 +710,13 @@ class KodiCMS_Model_Page_Front {
 				}
 			}
 			else
+			{
 				break;
+			}
 
 			$parent = $page;
 		}
+
 		return $page;
 	}
 

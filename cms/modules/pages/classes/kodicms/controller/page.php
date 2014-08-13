@@ -155,6 +155,8 @@ class KodiCMS_Controller_Page extends Controller_System_Backend {
 	{
 		$page_data = $this->request->post('page');
 
+		$page_data['use_redirect'] = ! empty($page_data['use_redirect']);
+
 		try
 		{
 			$page = $page->values($page_data)->update();

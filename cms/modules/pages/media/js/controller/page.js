@@ -169,7 +169,22 @@ cms.init.add(['page_add', 'page_edit'], function () {
 		show_password_field($(this).val());
 	});
 	
+	$('input[name="page[use_redirect]"]').on('change', function() {
+		show_redirect_field($(this))
+	});
+	
+	show_redirect_field($('input[name="page[use_redirect]"]'));
 	show_password_field($('select[name="page[status_id]"]').val());
+	
+	function show_redirect_field(input) {
+		var cont = $('#redirect-to-container');
+		
+		if(input.is(':checked'))
+			cont.show();
+		else
+			cont.hide();
+			
+	}
 	
 	function show_password_field(val) {
 		var select = $('select[name="page[status_id]"]');

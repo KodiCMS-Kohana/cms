@@ -10,12 +10,12 @@
 </div>
 <div class="spoiler-toggle-container widget-content-bg">
 	<div class="spoiler-toggle text-center" data-spoiler=".spoiler-meta" hotkeys="shift+m">
-		<?php echo UI::icon( 'chevron-down spoiler-toggle-icon' ); ?> <span class="muted"><?php echo __('Metadata'); ?></span>
+		<?php echo UI::icon('chevron-down spoiler-toggle-icon'); ?> <span class="muted"><?php echo __('Metadata'); ?></span>
 	</div>
 	<div id="pageEditMetaMore" class="spoiler spoiler-meta">
 		<br />
 
-		<?php if ( $action == 'add' || ($action == 'edit' && isset( $page->id ) && $page->id != 1) ): ?>
+		<?php if ($action == 'add' || ($action == 'edit' AND $page->id != 1)): ?>
 		<div class="control-group">
 			<?php echo $page->label('slug', array('class' => 'control-label')); ?>
 			<div class="controls">
@@ -25,6 +25,26 @@
 				)); ?>
 			</div>
 		</div>
+		<?php endif; ?>
+		
+		<?php if ($page->id != 1): ?>
+		<div class="control-group">
+			<?php echo $page->label('use_redirect', array('class' => 'control-label')); ?>
+			<div class="controls">
+				<?php echo Form::checkbox('page[use_redirect]', 1, (bool) $page->use_redirect); ?>
+			</div>
+		</div>
+		
+		<div class="control-group hidden" id="redirect-to-container">
+			<?php echo $page->label('redirect_url', array('class' => 'control-label')); ?>
+			<div class="controls">
+				<?php echo $page->field('redirect_url', array(
+					'class' => 'span12',
+					'prefix' => 'page'
+				)); ?>
+			</div>
+		</div>
+		<hr />
 		<?php endif; ?>
 		
 		<?php $fields = array('breadcrumb', 'meta_title', 'meta_keywords', 'meta_description');
