@@ -32,6 +32,7 @@
 					?>
 					<?php endif; ?>				
 					<?php if( !empty($child->behavior_id) ): ?> <?php echo UI::label(__(ucfirst(Inflector::humanize( $child->behavior_id ))), 'default'); ?><?php endif; ?>
+					<?php if( !empty($child->use_redirect) ): ?> <?php echo UI::label(__('Redirect: :url', array(':url' => $child->redirect_url))); ?><?php endif; ?>
 					
 					<?php echo $child->get_public_anchor(); ?>
 				</div>
