@@ -13,4 +13,28 @@ class Controller_API_Update extends Controller_System_API {
 			'files' => Update::check_files()
 		)));
 	}
+	
+	public function get_database()
+	{
+		if (!ACL::check('update.database_apply'))
+		{
+			throw HTTP_API_Exception::factory(API::ERROR_PERMISSIONS, 'You dont hanve permissions to update database');
+		}
+			
+		$db_sql = Database_Helper::schema();
+		$file_sql = Database_Helper::install_schema();
+
+		$compare = new Database_Helper;
+		$diff = $compare->get_updates($db_sql, $file_sql, TRUE);
+
+		try
+		{
+			Database_Helper::insert_sql($diff);
+			$this->response(TRUE);
+		} 
+		catch (Exception $ex)
+		{
+			$this->response(FALSE);
+		}
+	}
 }

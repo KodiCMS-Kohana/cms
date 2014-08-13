@@ -3,3 +3,27 @@ cms.init.add('update_index', function() {
 		$('#files').html(resp.response);
 	}, $('#files'));
 });
+
+cms.init.add('update_database', function() {
+	$('body').on('get:backend:api-update.database', function(e, response) {
+		if(response)
+			window.location = '';
+	});
+	
+	function calculateEditorHeight() {
+		var conentH = cms.content_height;
+		var h = $('.widget-title').outerHeight(true) + $('.widget-header').outerHeight(true) + $('.form-actions').outerHeight(true) + 10;
+
+		return conentH - h;
+	}
+
+	$('#highlight_content').on('filter:switch:on', function(e, editor) {
+		cms.filters.exec('highlight_content', 'changeHeight', calculateEditorHeight);
+	});
+
+	$(window).resize(function() {
+		$('#highlight_content').trigger('filter:switch:on');
+	});
+	
+	$('#highlight_content').trigger('filter:switch:on');
+});

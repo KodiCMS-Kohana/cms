@@ -10,22 +10,24 @@ class KodiCMS_Database_Helper {
 	 * @param string $data
 	 * @throws Validation_Exception
 	 */
-	public static function insert_sql( $sql_data, $db = NULL )
+	public static function insert_sql( $sql, $db = NULL )
 	{
-		$sql_data = str_replace('__TABLE_PREFIX__', TABLE_PREFIX, $sql_data);
-		$sql_data = preg_split( '/;(\s*)$/m', $sql_data );
+		$sql = str_replace('__TABLE_PREFIX__', TABLE_PREFIX, $sql);
+		$sql = str_replace(array("\r\n", "\n", "\r"), '', $sql);
+
+		$sql_array = preg_split('/;(\s*)$/m', $sql);
 
 		DB::query(NULL, 'SET FOREIGN_KEY_CHECKS = 0')
 			->execute($db);
 
-		foreach($sql_data as $sql)
+		foreach ($sql_array as $sql)
 		{
-			if(empty($sql))
+			if (empty($sql) OR strpos($sql, '--') == 0)
 			{
 				continue;
 			}
 
-			DB::query(Database::INSERT, $sql)
+			DB::query(NULL, $sql)
 				->execute($db);
 		}
 
