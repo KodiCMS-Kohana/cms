@@ -402,7 +402,7 @@ class Controller_Install extends Controller_System_Frontend
 		);
 		
 		$dump_content = str_replace(
-				array_keys($replace), array_values($replace), $dump_content
+			array_keys($replace), array_values($replace), $dump_content
 		);
 
 		if (!empty($dump_content))
@@ -557,10 +557,26 @@ class Controller_Install extends Controller_System_Frontend
 	 */
 	protected function _insert_data($data)
 	{
+		$data = preg_split('/;(\s*)$/m', $data);
+
 		try
 		{
-			Database_Helper::insert_sql($data, $this->_db_instance);
-		} 
+			DB::query(NULL, 'SET FOREIGN_KEY_CHECKS = 0')
+				->execute($this->_db_instance);
+
+			foreach ($data as $sql)
+			{
+				if (empty($sql))
+				{
+					continue;
+				}
+
+				DB::query(NULL, $sql)->execute($this->_db_instance);
+			}
+
+			DB::query(NULL, 'SET FOREIGN_KEY_CHECKS = 1')
+				->execute($this->_db_instance);
+		}
 		catch (Database_Exception $exc)
 		{
 			switch ($exc->getCode())
@@ -568,8 +584,12 @@ class Controller_Install extends Controller_System_Frontend
 				case 1005:
 					$this->_validation->error('db_name', 'database_not_empty');
 					break;
+				case 1146:
+				case 1064:
+					$this->_validation->error('db_server', 'syntax_error', array(':error' => $exc->getMessage()));
+					break;
 			}
-
+			
 			throw new Validation_Exception($this->_validation, $exc->getMessage(), NULL, $exc->getCode());
 		}
 	}

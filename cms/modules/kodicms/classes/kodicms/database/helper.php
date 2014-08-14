@@ -13,21 +13,19 @@ class KodiCMS_Database_Helper {
 	public static function insert_sql( $sql, $db = NULL )
 	{
 		$sql = str_replace('__TABLE_PREFIX__', TABLE_PREFIX, $sql);
-		$sql = str_replace(array("\r\n", "\n", "\r"), '', $sql);
-
 		$sql_array = preg_split('/;(\s*)$/m', $sql);
 
 		DB::query(NULL, 'SET FOREIGN_KEY_CHECKS = 0')
 			->execute($db);
 
-		foreach ($sql_array as $sql)
+		foreach ($sql_array as $sql_string)
 		{
-			if (empty($sql) OR strpos($sql, '--') == 0)
+			if (empty($sql_string) OR strpos($sql_string, '--') == 0)
 			{
 				continue;
 			}
 
-			DB::query(NULL, $sql)
+			DB::query(NULL, $sql_string)
 				->execute($db);
 		}
 
