@@ -64,6 +64,15 @@
 				<p class="help-inline"><?php echo HTML::anchor('http://ru.wikipedia.org/wiki/Cron', __('Crontab help'), array(
 					'target' => 'blank'
 				)); ?></p>
+				
+				<pre style="font-size: 16px; background: none; border: none;">
+* * * * *
+| | | | --- <?php echo __('Day of week (0 - 6) (0 to 6 are Sunday to Saturday, or use names; 7 is Sunday, the same as 0)'); ?> 
+| | | ----- <?php echo __('Month (1 - 12)'); ?> 
+| | ------- <?php echo __('Day of month (1 - 31)'); ?> 
+| --------- <?php echo __('Hour (0 - 23)'); ?> 
+----------- <?php echo __('Min (0 - 59)'); ?> 
+				</pre>
 			</div>
 		</div>
 	</div>
