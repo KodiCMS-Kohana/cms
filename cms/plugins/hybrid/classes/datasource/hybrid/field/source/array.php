@@ -25,8 +25,11 @@ class DataSource_Hybrid_Field_Source_Array extends DataSource_Hybrid_Field_Sourc
 	public function get_related_docs($doc_id)
 	{
 		return DB::select('related_id')
+			->distinct('related_id')
 			->from('dshybrid_relations')
+			->where('related_id', '!=', 0)
 			->where('document_id', '=', (int) $doc_id)
+			->where('field_id', '=', $this->id)
 			->execute()
 			->as_array(NULL, 'related_id');
 	}
@@ -34,6 +37,7 @@ class DataSource_Hybrid_Field_Source_Array extends DataSource_Hybrid_Field_Sourc
 	public function delete_related_docs($doc_id)
 	{
 		return DB::delete('dshybrid_relations')
+			->where('field_id', '=', $this->id)
 			->where('document_id', '=', (int) $doc_id)
 			->execute();
 	}
@@ -43,6 +47,7 @@ class DataSource_Hybrid_Field_Source_Array extends DataSource_Hybrid_Field_Sourc
 		if (!empty($old_ids))
 		{
 			DB::delete('dshybrid_relations')
+				->where('field_id', '=', $this->id)
 				->where('document_id', '=', (int) $doc_id)
 				->where('related_id', 'in', $old_ids)
 				->execute();
@@ -55,8 +60,8 @@ class DataSource_Hybrid_Field_Source_Array extends DataSource_Hybrid_Field_Sourc
 			foreach ($new_ids as $id)
 			{
 				$insert
-					->columns(array('document_id', 'related_id'))
-					->values(array((int) $doc_id, $id));
+					->columns(array('document_id', 'related_id', 'field_id'))
+					->values(array((int) $doc_id, $id, $this->id));
 			}
 
 			$insert->execute();
@@ -156,7 +161,8 @@ class DataSource_Hybrid_Field_Source_Array extends DataSource_Hybrid_Field_Sourc
 	{
 		$sub_query = DB::select(DB::expr("GROUP_CONCAT(related_id SEPARATOR ',')"))
 			->from('dshybrid_relations')
-			->where('document_id', '=', DB::expr('d.id'));
+			->where('document_id', '=', DB::expr('d.id'))
+			->where('field_id', '=', $this->id);
 
 		return $query->select(array($sub_query, $this->id));
 	}

@@ -15,7 +15,8 @@
 					return {
 						key: query,
 						<?php if(!empty($doc->id)): ?>id: <?php echo $doc->id; ?>,<?php endif; ?>
-						doc_ds: <?php echo $field->from_ds; ?>
+						doc_ds: <?php echo $field->from_ds; ?>,
+						is_array: true
 					}
 				},
 				dataType: 'json',
@@ -34,7 +35,8 @@
 						data: {
 							ids: ids,
 							<?php if(!empty($doc->id)): ?>id: <?php echo $doc->id; ?>,<?php endif; ?>
-							doc_ds: <?php echo $field->from_ds; ?>
+							doc_ds: <?php echo $field->from_ds; ?>,
+							is_array: true
 						},
 						dataType: 'json',
 					}).done(function(resp, page) {

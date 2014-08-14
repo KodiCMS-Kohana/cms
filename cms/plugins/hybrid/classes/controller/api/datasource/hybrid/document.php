@@ -99,16 +99,22 @@ class Controller_Api_Datasource_Hybrid_Document extends Controller_System_API
 		$query = $this->param('key', NULL);
 		$ids = $this->param('ids', array());
 		$doc_id = $this->param('id', NULL);
+		$is_array = $this->param('is_array', FALSE);
 		$ds_id = (int) $this->param('doc_ds', NULL, TRUE);
 
 		$this->request->query('keyword', $query);
 		$ds = Datasource_Data_Manager::load($ds_id);
 		$documents = $ds->headline()->get($ids);
+		$response = array();
 		
-		$response = array(array(
-			'id' => 0,
-			'text' => __('--- Not set ---')
-		));
+		if($is_array === FALSE)
+		{
+			$response[] = array(
+				'id' => 0,
+				'text' => __('--- Not set ---')
+			);
+		}
+
 		foreach($documents['documents'] as $id => $data)
 		{
 			if($doc_id != $id)

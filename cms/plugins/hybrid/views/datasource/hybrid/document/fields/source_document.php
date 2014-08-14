@@ -18,7 +18,8 @@
 					return {
 						key: query,
 						<?php if(!empty($doc->id)): ?>id: <?php echo $doc->id; ?>,<?php endif; ?>
-						doc_ds: <?php echo $field->from_ds; ?>
+						doc_ds: <?php echo $field->from_ds; ?>,
+						is_array: false
 					}
 				},
 				dataType: 'json',
@@ -33,7 +34,8 @@
 						data: {
 							ids: [parseInt(id)],
 							<?php if(!empty($doc->id)): ?>id: <?php echo $doc->id; ?>,<?php endif; ?>
-							doc_ds: <?php echo $field->from_ds; ?>
+							doc_ds: <?php echo $field->from_ds; ?>,
+							is_array: false
 						},
 						dataType: 'json',
 					}).done(function(resp, page) {
