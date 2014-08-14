@@ -20,7 +20,7 @@ class KodiCMS_Database_Helper {
 
 		foreach ($sql_array as $sql_string)
 		{
-			if (empty($sql_string) OR strpos($sql_string, '--') == 0)
+			if (empty($sql_string))
 			{
 				continue;
 			}
