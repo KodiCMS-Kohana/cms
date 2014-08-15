@@ -40,6 +40,7 @@ Kohana::modules( array(
 	'breadcrumbs'	=> MODPATH . 'breadcrumbs',
 	'widget'		=> MODPATH . 'widget',
 	'email'			=> MODPATH . 'email',
+	'plugins'		=> MODPATH . 'plugins',
 	'installer'		=> MODPATH . 'installer'
 ) );
 

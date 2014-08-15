@@ -22,6 +22,7 @@
 	<div>
 		<div class="widget">
 			<?php echo $env_test; ?>
+			<?php Observer::notify('installer_step_environment', $data); ?>
 		</div>
 	</div>
     <h1><?php echo __( 'Database information' ); ?></h1>
@@ -33,11 +34,7 @@
 				
 				<?php echo Bootstrap_Form_Element_Control_Group::factory(array(
 					'element' => Bootstrap_Form_Element_Select::factory(array(
-						'name' => 'install[db_driver]', 'options' => array(
-							'mysql' => __('MySQL'),
-							'mysqli' => __('MySQLi'),
-							'pdo' => __('PDO')
-						)
+						'name' => 'install[db_driver]', 'options' => $database_drivers
 					))
 					->selected(Arr::get( $data, 'db_driver' ))
 					->label(__('Database driver'))
@@ -106,7 +103,7 @@
 		</div>
 	</div>
  
-    <h1><?php echo __( 'Site information' ); ?></h1>
+    <h1><?php echo __('Site information'); ?></h1>
     <div>
 		<div class="widget">
 			<div class="widget-content">
@@ -118,6 +115,8 @@
 						) ); ?> <?php echo UI::label( __( 'Required' ) ); ?>
 					</div>
 				</div>
+				
+				<hr />
 
 				<div class="control-group">
 					<label class="control-label" for="username"><?php echo __( 'Administrator username' ); ?></label>
@@ -169,6 +168,9 @@
 						) ); ?> <?php echo UI::label( __( 'Required' ) ); ?>
 					</div>
 				</div>
+
+				<hr />
+				
 				<?php echo Bootstrap_Form_Element_Control_Group::factory(array(
 					'element' => Bootstrap_Form_Element_Select::factory(array(
 						'name' => 'install[locale]', 'options' => I18n::available_langs()
@@ -176,7 +178,7 @@
 					->selected(Arr::get( $data, 'locale' ))
 					->label(__('Interface language'))
 				)); ?>
-				<hr />
+				
 				<div class="control-group">
 					<label class="control-label" for="admin_dir_name"><?php echo __( 'Admin dir name' ); ?></label>
 					<div class="controls">
@@ -202,22 +204,13 @@
 					->selected(Arr::get( $data, 'timezone' ))
 					->label(__('Timezone'))
 				)); ?>
-				
-				<hr />
-				
-				<div class="control-group">
-					<label class="control-label"><?php echo __( 'Demo site' ); ?></label>
-					<div class="controls">
-						<label id="insert-test-data" class="checkbox btn btn-success btn-checkbox">
-							<?php echo Form::checkbox( 'install[insert_test_data]', 1, (bool) Arr::get( $data,'insert_test_data'));?> <?php echo __('Install demo site'); ?>
-						</label>
-					</div>
-				</div>
 			</div>
+			
+			<?php Observer::notify('installer_step_site_imformation', $data); ?>
 		</div>
 	</div>
 	
-	<h1><?php echo __( 'Other' ); ?></h1>
+	<h1><?php echo __('Other'); ?></h1>
 	<div>
 		<div class="widget">
 			<div class="widget-content">
@@ -237,8 +230,11 @@
 					->label(__('Session storage'))
 				)); ?>
 			</div>
+			
+			<?php Observer::notify('installer_step_other', $data); ?>
 		</div>
 	</div>
+	
+	<?php Observer::notify('installer_step_new', $data); ?>
 </div>
-
 <?php echo Form::close(); ?>

@@ -14,7 +14,11 @@ return array(
 		'database' => __('Database'), 
 		'cookie' => __('Cookie')
 	),
-	
+	'database_drivers' => array(
+		'mysql' => __('MySQL'),
+		'mysqli' => __('MySQLi'),
+		'pdo' => __('PDO')
+	),
 	'default_config' => array(
 		'site' => array(
 			'allow_html_title' => Config::NO,
@@ -31,8 +35,5 @@ return array(
 		'api' => array(
 			'mode' => Config::NO
 		),
-	),
-	'default_plugins' => array(
-		'archive', 'maintenance', 'page_not_found', 'redactor', 'slug_translit'
 	)
 );

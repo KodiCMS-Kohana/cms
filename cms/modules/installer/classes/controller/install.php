@@ -20,6 +20,20 @@ class Controller_Install extends Controller_System_Frontend
 	 * @var Database 
 	 */
 	protected $_db_instance = NULL;
+	
+	/**
+	 *
+	 * @var Config 
+	 */
+	protected $_config;
+	
+	public function before()
+	{
+		parent::before();
+
+		$this->_config = Kohana::$config->load('installer');
+		$this->_load_module_observers();
+	}
 
 	public function action_error()
 	{
@@ -56,15 +70,22 @@ class Controller_Install extends Controller_System_Frontend
 			'password_generate' => FALSE,
 			'timezone' => date_default_timezone_get(),
 			'cache_type' => 'sqlite',
-			'locale' => I18n::lang(),
-			'insert_test_data' => FALSE
+			'locale' => I18n::lang()
 		);
+		
+		$database_drivers =  $this->_config->get('database_drivers', array());
+
+		if (version_compare(PHP_VERSION, '5.5.0', '>='))
+		{
+			unset($database_drivers['mysql']);
+		}
 
 		$this->template->content = View::factory('install/index', array(
 			'data' => Session::instance()->get_once('install_data', $data),
 			'env_test' => View::factory('install/env_test'),
-			'cache_types' => Kohana::$config->load('installer')->get('cache_types', array()),
-			'session_types' => Kohana::$config->load('installer')->get('session_types', array()),
+			'cache_types' => $this->_config->get('cache_types', array()),
+			'session_types' => $this->_config->get('session_types', array()),
+			'database_drivers' => $database_drivers,
 			'title' => $this->template->title
 		));
 	}
@@ -114,6 +135,8 @@ class Controller_Install extends Controller_System_Frontend
 		{
 			$this->_show_error($e);
 		}
+		
+		Observer::notify('before_install', $post, $this->_validation);
 
 		try
 		{
@@ -124,8 +147,10 @@ class Controller_Install extends Controller_System_Frontend
 
 			$this->_import_shema($post);
 			$this->_import_dump($post);
-			$this->_install_plugins($post);
 			$this->_install_modules($post);
+			
+			Observer::notify('install', $post);
+
 			$this->_create_site_config($post);
 			$this->_create_config_file($post);
 		} 
@@ -179,6 +204,8 @@ class Controller_Install extends Controller_System_Frontend
 	 */
 	protected function _complete($post)
 	{
+		Observer::notify('after_install', $post);
+
 		if (PHP_SAPI == 'cli')
 		{
 			Minion_CLI::write('==============================================');
@@ -319,8 +346,8 @@ class Controller_Install extends Controller_System_Frontend
 	 */
 	protected function _valid( array $data )
 	{
-		$cache_types = Kohana::$config->load('installer')->get('cache_types', array());
-		$session_types = Kohana::$config->load('installer')->get('session_types', array());
+		$cache_types = $this->_config->get('cache_types', array());
+		$session_types = $this->_config->get('session_types', array());
 		
 		$validation = Validation::factory( $data )
 			->rule('db_server', 'not_empty')
@@ -419,7 +446,7 @@ class Controller_Install extends Controller_System_Frontend
 	 */
 	protected function _create_site_config( array $post )
 	{
-		$config_values = Kohana::$config->load('installer')->get('default_config', array());
+		$config_values = $this->_config->get('default_config', array());
 
 		$config_values['site']['title'] = Arr::get($post, 'site_name');
 		$config_values['site']['default_locale'] = Arr::get($post, 'locale');
@@ -435,42 +462,6 @@ class Controller_Install extends Controller_System_Frontend
 		}
 
 		$insert->execute($this->_db_instance);
-	}
-	
-	/**
-	 * Установка пллагинов по умолчанию
-	 * 
-	 * Список плагинов по умолчанию указывается в конфиг файле `installer`
-	 * 
-	 * @param array $post
-	 */
-	protected function _install_plugins( array $post )
-	{
-		if (!is_dir(MODPATH . 'plugins'))
-		{
-			return;
-		}
-
-		Kohana::modules(Kohana::modules() + array('plugins' => MODPATH . 'plugins'));
-
-		$default_plugins = Kohana::$config->load('installer')->get('default_plugins', array());
-
-		Plugins::find_all();
-
-		if (!empty($post['insert_test_data']))
-		{
-			$default_plugins[] = 'test';
-		}
-
-		foreach ($default_plugins as $name)
-		{
-			$plugin = Plugins::get_registered($name);
-
-			if ($plugin instanceof Plugin_Decorator)
-			{
-				$plugin->activate();
-			}
-		}
 	}
 	
 	/**
@@ -498,7 +489,32 @@ class Controller_Install extends Controller_System_Frontend
 				continue;
 			}
 
-			$file_name = MODPATH . $dir->getBasename() . DIRECTORY_SEPARATOR . 'install' . EXT;
+			$file_name = MODPATH . $dir->getBasename() . DIRECTORY_SEPARATOR . 'install' . DIRECTORY_SEPARATOR . 'install' . EXT;
+			if (file_exists($file_name))
+			{
+				include $file_name;
+			}
+		}
+	}
+	
+	protected function _load_module_observers()
+	{
+		if (!is_dir(MODPATH))
+		{
+			return;
+		}
+
+		// Create a new directory iterator
+		$path = new DirectoryIterator(MODPATH);
+
+		foreach ($path as $dir)
+		{
+			if ($dir->isDot())
+			{
+				continue;
+			}
+
+			$file_name = MODPATH . $dir->getBasename() . DIRECTORY_SEPARATOR . 'install' . DIRECTORY_SEPARATOR . 'observers' . EXT;
 			if (file_exists($file_name))
 			{
 				include $file_name;

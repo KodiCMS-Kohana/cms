@@ -24,6 +24,10 @@ return array(
 	'Install plugin' => 'Установка',
 	'Go to plugin homepage' => 'Перейти на страницу плагина',
 	'Plugin :title settings' => 'Настройки плагина :title',
+	
+	
+	'Install demo site' => 'Установить демо данные',
+	'Install plugins' => 'Установить плагины',
 
 	//============Permissions============//
 	'View plugins' => 'Видеть раздел',

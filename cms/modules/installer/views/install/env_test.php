@@ -210,6 +210,7 @@ $failed = FALSE;
 				)); ?></td>
 			<?php endif ?>
 		</tr>
+		<?php if (! version_compare(PHP_VERSION, '5.5.0', '>=')): ?>
 		<tr>
 			<th>MySQL Enabled</th>
 			<?php if (function_exists('mysql_connect')): ?>
@@ -218,6 +219,18 @@ $failed = FALSE;
 				<td class="warning"><?php echo __('Kohana can use the :extension extension for the :class class.', array(
 					':extension' => '<a href="http://php.net/mysql" target="blank">MySQL</a>',
 					':class' => 'MySQL'
+				)); ?></td>
+			<?php endif ?>
+		</tr>
+		<?php endif; ?>
+		<tr>
+			<th>MySQLi Enabled</th>
+			<?php if (function_exists('mysqli_connect')): ?>
+				<td class="pass"><?php echo __('Pass'); ?></td>
+			<?php else: ?>
+				<td class="warning"><?php echo __('Kohana can use the :extension extension for the :class class.', array(
+					':extension' => '<a href="http://php.net/mysqli" target="blank">MySQLi</a>',
+					':class' => 'MySQLi'
 				)); ?></td>
 			<?php endif ?>
 		</tr>
