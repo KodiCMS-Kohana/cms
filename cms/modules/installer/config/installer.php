@@ -23,7 +23,6 @@ return array(
 		'site' => array(
 			'allow_html_title' => Config::NO,
 			'breadcrumbs' => Config::YES,
-			'date_format' => 'd F Y',
 			'debug' => Config::NO,
 			'default_filter_id' => 'redactor',
 			'default_status_id' => 100,

@@ -70,6 +70,7 @@ class Controller_Install extends Controller_System_Frontend
 			'password_generate' => FALSE,
 			'timezone' => date_default_timezone_get(),
 			'cache_type' => 'sqlite',
+			'date_format' => 'd F Y',
 			'locale' => I18n::lang()
 		);
 		
@@ -86,7 +87,8 @@ class Controller_Install extends Controller_System_Frontend
 			'cache_types' => $this->_config->get('cache_types', array()),
 			'session_types' => $this->_config->get('session_types', array()),
 			'database_drivers' => $database_drivers,
-			'title' => $this->template->title
+			'title' => $this->template->title,
+			'dates' => Date::formats()
 		));
 	}
 
@@ -449,6 +451,7 @@ class Controller_Install extends Controller_System_Frontend
 		$config_values = $this->_config->get('default_config', array());
 
 		$config_values['site']['title'] = Arr::get($post, 'site_name');
+		$config_values['site']['date_format'] = Arr::get($post, 'date_format');
 		$config_values['site']['default_locale'] = Arr::get($post, 'locale');
 		$config_values['email']['default'] = Arr::get($post, 'email');
 

@@ -51,7 +51,7 @@
 							'class' => 'span1'
 						) ); ?>
 
-						<?php echo UI::label( __( 'Required' ) ); ?>
+						<?php echo UI::label(__('Required')); ?>
 					</div>
 				</div>
 
@@ -106,18 +106,10 @@
     <h1><?php echo __('Site information'); ?></h1>
     <div>
 		<div class="widget">
+			<div class="widget-header">
+				<h3><?php echo __('User settings'); ?></h3>
+			</div>
 			<div class="widget-content">
-				<div class="control-group">
-					<label class="control-label" for="site_name"><?php echo __( 'Site title' ); ?></label>
-					<div class="controls">
-						<?php echo Form::input( 'install[site_name]', Arr::get( $data, 'site_name' ), array(
-							'class' => 'span7', 'id' => 'site_name'
-						) ); ?> <?php echo UI::label( __( 'Required' ) ); ?>
-					</div>
-				</div>
-				
-				<hr />
-
 				<div class="control-group">
 					<label class="control-label" for="username"><?php echo __( 'Administrator username' ); ?></label>
 					<div class="controls">
@@ -168,16 +160,19 @@
 						) ); ?> <?php echo UI::label( __( 'Required' ) ); ?>
 					</div>
 				</div>
-
-				<hr />
-				
-				<?php echo Bootstrap_Form_Element_Control_Group::factory(array(
-					'element' => Bootstrap_Form_Element_Select::factory(array(
-						'name' => 'install[locale]', 'options' => I18n::available_langs()
-					))
-					->selected(Arr::get( $data, 'locale' ))
-					->label(__('Interface language'))
-				)); ?>
+			</div>
+			<div class="widget-header">
+				<h3><?php echo __('Site settings'); ?></h3>
+			</div>
+			<div class="widget-content">
+				<div class="control-group">
+					<label class="control-label" for="site_name"><?php echo __( 'Site title' ); ?></label>
+					<div class="controls">
+						<?php echo Form::input( 'install[site_name]', Arr::get( $data, 'site_name' ), array(
+							'class' => 'span7', 'id' => 'site_name'
+						) ); ?> <?php echo UI::label( __( 'Required' ) ); ?>
+					</div>
+				</div>
 				
 				<div class="control-group">
 					<label class="control-label" for="admin_dir_name"><?php echo __( 'Admin dir name' ); ?></label>
@@ -197,6 +192,19 @@
 						<p class="help-block"><?php echo __( 'Add a suffix to simulate static html files.' ); ?></p>
 					</div>
 				</div>
+			</div>
+			<div class="widget-header">
+				<h3><?php echo __('Regional settings'); ?></h3>
+			</div>
+			<div class="widget-content">
+				<?php echo Bootstrap_Form_Element_Control_Group::factory(array(
+					'element' => Bootstrap_Form_Element_Select::factory(array(
+						'name' => 'install[locale]', 'options' => I18n::available_langs()
+					))
+					->selected(Arr::get( $data, 'locale' ))
+					->label(__('Interface language'))
+				)); ?>
+				
 				<?php echo Bootstrap_Form_Element_Control_Group::factory(array(
 					'element' => Bootstrap_Form_Element_Select::factory(array(
 						'name' => 'install[timezone]', 'options' => Date::timezones()
@@ -204,8 +212,14 @@
 					->selected(Arr::get( $data, 'timezone' ))
 					->label(__('Timezone'))
 				)); ?>
+				
+				<div class="control-group">
+					<?php echo Form::label('setting_date_format', __('Date format'), array('class' => 'control-label')); ?>
+					<div class="controls">
+						<?php echo Form::select('install[date_format]', $dates, Arr::get( $data, 'date_format' ), array('id' => 'setting_date_format')); ?>
+					</div>
+				</div>
 			</div>
-			
 			<?php Observer::notify('installer_step_site_imformation', $data); ?>
 		</div>
 	</div>
