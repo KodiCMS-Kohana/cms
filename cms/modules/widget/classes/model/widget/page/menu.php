@@ -46,6 +46,8 @@ class Model_Widget_Page_Menu extends Model_Widget_Decorator {
 		
 		$this->match_all_paths = (bool) Arr::get($data, 'match_all_paths');
 		$this->include_hidden = (bool) Arr::get($data, 'include_hidden');
+		
+		return $this;
 	}
 	
 	public function set_page_level($level)
