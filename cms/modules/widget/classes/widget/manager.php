@@ -365,23 +365,11 @@ class Widget_Manager {
 		{
 			$widget->name = $widget_array['data']['name'];
 			$widget->description = Arr::get($widget_array, 'description');
-	
+
+			$widget->set_values($widget_array['data']);
+			$widget->set_cache_settings($widget_array['data']);
+
 			$id = Widget_Manager::create($widget);
-		}
-		catch (Exception $e)
-		{
-			return FALSE;
-		}
-		
-		$widget = Widget_Manager::load( $id );
-		
-		try 
-		{
-			$widget
-				->set_values( $widget_array['data'] )
-				->set_cache_settings( $widget_array['data'] );
-	
-			Widget_Manager::update($widget);
 		}
 		catch (Exception $e)
 		{
