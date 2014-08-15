@@ -203,7 +203,8 @@ class Kohana_Cache_MongoDB extends Cache implements Cache_Tagging, Cache_Garbage
         return TRUE;
 	}
 	
-	protected function expired($doc) {
-		return ( ! empty($doc['lifetime']) AND ((int)$doc['lifetime']) <= time());
+	protected function expired($doc)
+	{
+		return (!empty($doc['lifetime']) AND ((int) $doc['lifetime']) <= time());
 	}
 }

@@ -17,9 +17,11 @@ class Controller_API_Widget extends Controller_System_API {
 
 		$res_widgets = ORM::factory('widget');
 		
-		if(!empty($page_widgets))
+		if (!empty($page_widgets))
+		{
 			$res_widgets->where('id', 'NOT IN', $page_widgets);
-		
+		}
+
 		$res_widgets = $res_widgets->find_all();
 		$widgets = array();
 		
@@ -27,7 +29,7 @@ class Controller_API_Widget extends Controller_System_API {
 		{
 			$widgets[$widget->type()][$widget->id] = $widget;
 		}
-		
+
 		$this->json = (string) View::factory( 'widgets/ajax/list', array(
 			'widgets' => $widgets
 		));
