@@ -12,7 +12,7 @@
 	<div class="widget-header">
 		<h3><?php echo __('General information'); ?></h3>
 	</div>
-	<div class="widget-content">
+	<div class="panel-body">
 		
 		<div class="control-group">
 			<?php echo $type->label('name', array('class' => 'control-label title')); ?>
@@ -36,7 +36,7 @@
 	<div class="widget-header">
 		<h3><?php echo __('Email type fields'); ?></h3>
 	</div>
-	<div class="widget-content" id="type-fields">
+	<div class="panel-body" id="type-fields">
 		<?php echo View::factory('helper/rows', array(
 			'field' => 'data',
 			'data' => $type->data()
@@ -47,7 +47,7 @@
 	<div class="widget-header">
 		<h3><?php echo __('Linked email templates'); ?></h3>
 	</div>
-	<div class="widget-content">
+	<div class="panel-body">
 		<?php if(count($templates) > 0): ?>
 		<ul class="unstyled">
 		<?php foreach($templates as $tpl): ?>

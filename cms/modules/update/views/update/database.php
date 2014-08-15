@@ -7,7 +7,7 @@
 		<?php endif; ?>
 	</div>
 
-	<div class="widget-content widget-nopad">
+	<div class="panel-body widget-nopad">
 		<?php if(!empty($actions)): ?>
 		<textarea id="highlight_content" data-readonly="on" data-mode="mysql">
 SET FOREIGN_KEY_CHECKS = 0;

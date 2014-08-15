@@ -8,7 +8,7 @@
 		</div>
 	</div>
 </div>
-<div class="spoiler-toggle-container widget-content-bg">
+<div class="spoiler-toggle-container panel-body-bg">
 	<div class="spoiler-toggle text-center" data-spoiler=".spoiler-meta" hotkeys="shift+m">
 		<?php echo UI::icon('chevron-down spoiler-toggle-icon'); ?> <span class="muted"><?php echo __('Metadata'); ?></span>
 	</div>

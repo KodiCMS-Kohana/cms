@@ -1,9 +1,43 @@
-<div class="widget" id="profile">
-	<?php echo View::factory('helper/tabbable'); ?>
-	<div class="widget-header widget-header-onlytab">
-		<h3><?php echo __('General information'); ?></h3>
+<div class="page-profile">
+	
+<div class="profile-full-name">
+	<span class="text-semibold"><?php echo $user->username; ?></span> <?php echo __('Last login'); ?> <?php echo Date::format($user->last_login); ?>
+</div>
+
+<div class="profile-row">
+	<div class="left-col">
+		<div class="profile-block">
+			<div class="panel profile-photo">
+				<?php echo HTML::anchor('http://gravatar.com/emails/', $user->gravatar(100, NULL), array(
+					'target' => '_blank',
+				)); ?>
+			</div>
+			
+			<br>
+			
+			<?php if ( Acl::check( 'users.edit') OR $user->id == AuthUser::getId() ): ?>
+					
+			<?php echo HTML::anchor(Route::get('backend')->uri(array(
+				'controller' => 'users',
+				'action' => 'edit',
+				'id' => $user->id
+			)), __('Edit profile'), array(
+				'class' => 'btn btn-success btn-sm',
+				'data-icon' => 'user'
+			)); ?>
+			<?php endif; ?>
+		</div>
 	</div>
-	<div class="widget-content">
+	<div class="right-col">
+
+	</div>
+</div>
+
+<?php /*
+	<div class="panel-heading">
+		<span class="panel-title"><?php echo __('General information'); ?></span>
+	</div>
+	<div class="panel-body">
 		<div class="profile-header">
 			<?php echo HTML::anchor('http://gravatar.com/emails/', $user->gravatar(100, NULL, array('class' => 'profile-avatar img-circle')), array(
 				'target' => '_blank',
@@ -58,7 +92,7 @@
 		<div class="widget-header">
 			<h3><?php echo __(ucfirst($title)); ?></h3>
 		</div>
-		<div class="widget-content">
+		<div class="panel-body">
 			<table class="table" id="permissions-list">
 				<tbody>
 					<?php foreach($actions as $action => $title): ?>
@@ -71,4 +105,7 @@
 		</div>
 		<?php endforeach; ?>
 	<?php endif; ?>
+ * 
+ */
+?>
 </div>	

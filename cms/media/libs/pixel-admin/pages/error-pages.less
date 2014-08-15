@@ -1,0 +1,156 @@
+//
+// Pages / Error pages
+//
+// --------------------------------------------------
+
+.page-404 {
+  background: @warning-color !important;
+}
+
+.page-500 {
+  background: @danger-color !important;
+
+  .error-text {
+    margin-bottom: 80px !important;
+  }
+}
+
+// Error pages
+//
+
+.page-404,
+.page-500 {
+  text-align: center;
+
+  // Page header
+  //
+
+  .header {
+    background: #fff;
+    padding: 20px 0;
+    .box-shadow(0 4px 0 rgba(0, 0, 0, .1));
+
+    .logo {
+      color: @text-color;
+      font-size: 16px;
+      height: 24px;
+      line-height: 24px;
+      width: 24px;
+      opacity: .6;
+      .transition(all .3s);
+
+      &[href]:hover {
+        opacity: 1;
+      }
+    }
+
+    // Demo
+    .demo-logo {
+      display: inline-block;
+      height: 24px;
+      line-height: 24px;
+      background: @text-color !important;
+    }
+  }
+
+  // Error code
+  //
+
+  .error-code {
+    color: #fff;
+    font-size: 120px;
+    font-weight: 700;
+    line-height: 140px;
+    margin-top: 60px;
+    text-shadow: 0 4px 0 rgba(0,0,0,.1);
+  }
+
+  // Error text
+  //
+
+  .error-text {
+    color: #fff;
+    color: rgba(0, 0, 0, .5);
+    font-size: 20px;
+    font-weight: 600;
+    padding: 0 20px;
+
+    .oops {
+      font-size: 50px;
+    }
+
+    // Divider
+    .hr {
+      background: #fff;
+      background: rgba(0, 0, 0, .2);
+      display: inline-block;
+      height: 5px;
+      margin: 20px 0;
+      width: 40px;
+    }
+
+    .solve {
+      display: inline-block;
+      font-size: 16px;
+      font-weight: 400;
+      margin-top: 15px;
+    }
+  }
+
+  // Search form
+  //
+
+  .search-form {
+    display: inline-block;
+    margin: 50px 0 80px 0;
+
+    // Inputs
+    .search-input,
+    .search-btn {
+      border: none;
+      border-radius: 3px;
+      display: block;
+      float: left;
+      font-size: 15px;
+      height: 46px;
+      line-height: 20px;
+      padding: 13px 0;
+
+      &,
+      &:active,
+      &:focus  {
+        outline: 0 !important;
+        outline-offset: 0 !important;
+      }
+    }
+
+    // Input
+    .search-input {
+      background: #fff;
+      color: @text-color;
+      padding-left: 12px;
+      padding-right: 12px;
+      width: 220px;
+    }
+
+    // Button
+    .search-btn {
+      background: #444;
+      background: rgba(0,0,0,.2);
+      color: #fff;
+      font-size: 13px;
+      margin-left: 10px;
+      padding-left: 12px;
+      padding-right: 12px;
+      .transition(all .3s);
+
+      &:hover {
+        background: rgba(0,0,0,.5);
+      }
+
+      &:active {
+        background: rgba(0,0,0,.7);
+      }
+    }
+  }
+}

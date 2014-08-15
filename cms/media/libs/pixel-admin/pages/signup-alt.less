@@ -1,0 +1,94 @@
+//
+// Pages / Sign Up Alt
+//
+// --------------------------------------------------
+
+.page-signup-alt {
+  padding-bottom: 40px;
+
+  .signup-header {
+    background: #fff;
+    padding: 16px 0 16px 16px;
+    position: relative;
+    .box-shadow(~"0 2px 2px rgba(0,0,0,0.05),0 1px 0 rgba(0,0,0,0.05)");
+
+    .logo {
+      color: @text-color;
+      font-size: 16px;
+      height: 24px;
+      line-height: 24px;
+      width: 24px;
+      opacity: 1;
+      .transition(all .3s);
+
+      &[href]:hover {
+        opacity: .6;
+      }
+    }
+
+    .btn {
+      position: absolute;
+      right: 16px;
+      top: 12px;
+    }
+
+    // Demo
+    .demo-logo {
+      display: inline-block;
+      height: 24px;
+      line-height: 24px;
+    }
+  }
+
+  .form-header {
+    font-size: 22px;
+    font-weight: 300;
+    text-align: center;
+    margin: 40px 0;
+  }
+
+  .panel {
+    margin: 0 16px;
+    padding: 20px;
+  }
+
+  .signup-with {
+    margin: 0 14px;
+    padding: 20px;
+    text-align: center;
+
+    .header {
+      font-size: 16px;
+      font-weight: 300;
+      text-align: center;
+      margin: 0 0 20px 0;
+    }
+
+    .btn {
+      padding-left: 0;
+      padding-right: 0;
+      width: 40px;
+      text-align: center;
+    }
+  }
+}
+
+@media (min-width: @screen-small) {
+  .page-signup-alt {
+    .signup-header {
+      padding-left: 0;
+      text-align: center;
+    }
+
+    .panel {
+      width: 360px;
+      margin: 0 auto;
+      padding: 27px;
+    }
+
+    .signup-with {
+      width: 360px;
+      margin: 0 auto;
+    }
+  }
+}

@@ -1,7 +1,7 @@
 <div class="row-fluid">
 	<div class="span9">
 		<div class="widget widget-nopad">
-			<div class="widget-content">
+			<div class="panel-body">
 				<table id="logs-table" class="table table-hover">
 					<colgroup>
 						<col width="150px" />

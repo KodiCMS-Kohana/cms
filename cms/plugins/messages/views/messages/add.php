@@ -24,7 +24,7 @@
 		</div>
 		<?php endif; ?>
 	</div>
-	<div class="widget-content  widget-nopad">
+	<div class="panel-body  widget-nopad">
 		<?php echo Form::textarea('content', NULL, array('id' => 'message-content')); ?>
 		<script>
 		$(function() {

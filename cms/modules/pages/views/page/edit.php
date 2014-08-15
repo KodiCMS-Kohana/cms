@@ -33,7 +33,7 @@
 						<?php Observer::notify('view_page_edit_plugins', $page); ?>
 						
 						<?php if($action != 'add'): ?>
-						<div class="widget-content ">
+						<div class="panel-body ">
 							<?php if( $page->loaded()): ?>
 							
 								<?php if (isset($page->updated_on)): ?>

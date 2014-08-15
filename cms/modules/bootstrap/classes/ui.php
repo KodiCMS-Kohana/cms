@@ -82,7 +82,7 @@ class UI {
 			
 		$actions = array(
 			UI::button(__('Save and Continue editing'), array(
-				'class' => 'btn btn-large btn-save', 
+				'class' => 'btn btn-lg btn-save', 
 				'icon' => UI::icon('retweet'),
 				'name' => 'continue',
 				'hotkeys' => 'ctrl+s'
@@ -96,11 +96,11 @@ class UI {
 			UI::button(__('Cancel'), array(
 				'href' => $uri, 
 				'icon' => UI::icon('ban'),
-				'class' => 'btn btn-link btn-close'
+				'class' => 'btn btn-close'
 			))
 		);
 	
-		return implode('', $actions);
+		return implode('&nbsp;&nbsp;', $actions);
 	}
 	
 	public static function counter( $num = 0 )

@@ -1,7 +1,7 @@
 <div class="widget-header spoiler-toggle" data-spoiler=".jobs-spoiler" data-icon="bolt">
 	<h3><?php echo __('Job settings'); ?></h3>
 </div>
-<div class="widget-content spoiler jobs-spoiler">
+<div class="panel-body spoiler jobs-spoiler">
 	<div class="alert alert-warning">
 		<?php echo UI::icon('lightbulb-o'); ?> <?php echo __('When using cron you need to add the following line to the crontab file:'); ?>
 		<br /><br />

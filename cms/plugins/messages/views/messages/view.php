@@ -2,10 +2,10 @@
 	var MESSAGE_ID = <?php echo $message->id; ?>;
 </script>
 <style>
-	.widget-content.new-message {
+	.panel-body.new-message {
 		background: #e8efcf
 	}
-	.widget-content.own-message {
+	.panel-body.own-message {
 		background: #FCF8E3
 	}
 	
@@ -22,7 +22,7 @@
 	
 	<?php echo $tpl->set('message', $message); ?>
 	
-	<div class="widget-content ">
+	<div class="panel-body ">
 		<?php echo Form::open(); ?>
 		<h4><?php echo __('Answer'); ?></h4>
 		<?php echo Form::hidden('parent_id', $message->id); ?>

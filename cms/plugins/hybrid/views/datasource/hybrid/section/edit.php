@@ -11,7 +11,7 @@
 	<div class="widget-header spoiler-toggle" data-spoiler=".general-spoiler">
 		<h4><?php echo UI::icon('exclamation-circle'); ?> <?php echo __('Datasource Information'); ?></h4>
 	</div>
-	<div class="widget-content spoiler general-spoiler">
+	<div class="panel-body spoiler general-spoiler">
 		<div class="control-group">
 			<label class="control-label title" for="ds_name"><?php echo __('Datasource Header'); ?></label>
 			<div class="controls">
@@ -44,7 +44,7 @@
 	<div class="widget-header spoiler-toggle" data-spoiler=".indexer-spoiler" hotkeys="shift+s">
 		<h4><?php echo UI::icon('search'); ?> <?php echo __('Search indexation'); ?></h4>
 	</div>
-	<div class="widget-content spoiler indexer-spoiler">
+	<div class="panel-body spoiler indexer-spoiler">
 		<div class="control-group">
 			<div class="controls">
 				<label class="checkbox"><?php echo Form::checkbox( 'is_indexable', 1, $ds->is_indexable() ); ?> <?php echo __('Is indexable'); ?></label>

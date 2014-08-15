@@ -4,7 +4,7 @@
 	<div class="widget-header">
 		<h3><?php echo __($type); ?></h3>
 	</div>
-	<div class="widget-content">
+	<div class="panel-body">
 		<ul class="inline" class="popup-widget-list">
 		<?php foreach ($_widgets as $id => $widget): ?>
 			<?php echo UI::button($widget->name, array(

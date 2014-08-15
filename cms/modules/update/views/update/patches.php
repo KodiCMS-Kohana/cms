@@ -2,7 +2,7 @@
 	<?php echo Form::open(Request::current()->uri(), array(
 		'class' => Bootstrap_Form::HORIZONTAL
 	)); ?>
-	<div class="widget-content">
+	<div class="panel-body">
 		<?php if( ! empty($patches)): ?>
 		<div class="control-group">
 			<div class="controls">

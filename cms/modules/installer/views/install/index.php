@@ -6,7 +6,7 @@
 	<h1><?php echo __( 'Language' ); ?></h1>
 	<div>
 		<div class="widget">
-			<div class="widget-content">
+			<div class="panel-body">
 				<?php echo Bootstrap_Form_Element_Control_Group::factory(array(
 					'element' => Bootstrap_Form_Element_Select::factory(array(
 						'name' => 'locale', 'options' => I18n::available_langs()
@@ -28,7 +28,7 @@
     <h1><?php echo __( 'Database information' ); ?></h1>
     <div>
 		<div class="widget">
-			<div id="install-page" class="widget-content">				
+			<div id="install-page" class="panel-body">				
 				<p class="lead"><?php echo __('Below you should enter your database connection details. If you’re not sure about these, contact your host.'); ?>
 				<hr />
 				
@@ -109,7 +109,7 @@
 			<div class="widget-header">
 				<h3><?php echo __('User settings'); ?></h3>
 			</div>
-			<div class="widget-content">
+			<div class="panel-body">
 				<div class="control-group">
 					<label class="control-label" for="username"><?php echo __( 'Administrator username' ); ?></label>
 					<div class="controls">
@@ -164,7 +164,7 @@
 			<div class="widget-header">
 				<h3><?php echo __('Site settings'); ?></h3>
 			</div>
-			<div class="widget-content">
+			<div class="panel-body">
 				<div class="control-group">
 					<label class="control-label" for="site_name"><?php echo __( 'Site title' ); ?></label>
 					<div class="controls">
@@ -196,7 +196,7 @@
 			<div class="widget-header">
 				<h3><?php echo __('Regional settings'); ?></h3>
 			</div>
-			<div class="widget-content">
+			<div class="panel-body">
 				<?php echo Bootstrap_Form_Element_Control_Group::factory(array(
 					'element' => Bootstrap_Form_Element_Select::factory(array(
 						'name' => 'install[locale]', 'options' => I18n::available_langs()
@@ -227,7 +227,7 @@
 	<h1><?php echo __('Other'); ?></h1>
 	<div>
 		<div class="widget">
-			<div class="widget-content">
+			<div class="panel-body">
 				<?php echo Bootstrap_Form_Element_Control_Group::factory(array(
 					'element' => Bootstrap_Form_Element_Select::factory(array(
 						'name' => 'install[cache_type]', 'options' => $cache_types

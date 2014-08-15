@@ -14,7 +14,7 @@ else
 $failed = FALSE;
 ?>
 
-<div id="env_test widget-content">
+<div id="env_test panel-body">
 	<table class="table table-striped">
 		<tr>
 			<th><?php echo __('PHP Version'); ?></th>
@@ -162,7 +162,7 @@ $failed = FALSE;
 	<?php endif ?>
 </div>
 <div class="widget-header "><h3><?php echo __( 'Optional Tests' ); ?></h3></div>
-<div class="env_test widget-content">
+<div class="env_test panel-body">
 	<p id="info" class="lead alert alert-info"><?php echo UI::icon('lightbulb-o'); ?> <?php echo __('The following extensions are not required to run the Kohana core, but if enabled can provide access to additional classes.'); ?></p>
 
 	<table class="table table-striped">

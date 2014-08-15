@@ -8,7 +8,7 @@
 	<div class="widget-header">
 		<h3><?php echo __( 'Field description' ); ?></h3>
 	</div>
-	<div class="widget-content" id="filed-type">
+	<div class="panel-body" id="filed-type">
 		<div class="control-group">
 			<label class="control-label" for="header"><?php echo __('Field header'); ?></label>
 			<div class="controls">
@@ -30,7 +30,7 @@
 	<div class="widget-header">
 		<h3><?php echo __( 'Field settings' ); ?></h3>
 	</div>
-	<div class="widget-content ">
+	<div class="panel-body ">
 		<?php
 		try
 		{

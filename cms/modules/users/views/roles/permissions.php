@@ -7,7 +7,7 @@
 <div class="widget-header">
 	<h3><?php echo __(ucfirst($title)); ?></h3>
 </div>
-<div class="widget-content widget-nopad">
+<div class="panel-body widget-nopad">
 	<table class="table table-hover" id="permissions-list">
 		<colgroup>
 			<col width="20px" />

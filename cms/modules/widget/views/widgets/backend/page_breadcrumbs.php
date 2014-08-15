@@ -1,7 +1,7 @@
 <div class="widget-header">
 	<h4><?php echo __('Exclude pages'); ?></h4>
 </div>
-<div class="widget-content widget-nopad">
+<div class="panel-body widget-nopad">
 	<table class="table table-striped">
 		<colgroup>
 			<col width="30px" />

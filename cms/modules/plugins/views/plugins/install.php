@@ -1,7 +1,7 @@
 <div class="widget-header">
 	<h3><?php echo __('Plugins'); ?></h3>
 </div>
-<div class="widget-content">
+<div class="panel-body">
 	<?php if(isset($plugins['test'])): ?>
 	<div class="control-group">
 		<label class="control-label"><?php echo __('Demo site'); ?></label>

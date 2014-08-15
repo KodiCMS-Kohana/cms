@@ -9,7 +9,7 @@
 		)); ?>
 	</div>
 
-	<div class="widget-content">
+	<div class="panel-body">
 		<table class="table table-striped" id="SnippetList">
 			<colgroup>
 				<col />

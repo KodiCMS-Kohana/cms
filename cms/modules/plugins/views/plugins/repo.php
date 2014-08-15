@@ -28,7 +28,7 @@
 </script>
 
 <div id="pluginsMap" class="widget widget-nopad">
-	<div class="widget-content">
+	<div class="panel-body">
 		<table class="table table-striped table-hover" id="PluginsList">
 			<thead>
 				<tr>

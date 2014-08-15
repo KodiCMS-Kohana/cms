@@ -1,4 +1,4 @@
-<div class="widget-content">
+<div class="panel-body">
 	<div class="control-group">
 		<label class="control-label" for="field_id"><?php echo __('Hybrid field'); ?></label>
 		<div class="controls">

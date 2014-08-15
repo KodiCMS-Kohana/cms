@@ -2,7 +2,7 @@
 	<div class="widget-header">
 		<h3><?php echo __('Modules'); ?></h3>
 	</div>
-	<div class="widget-content">
+	<div class="panel-body">
 		<ol class="menu">
 		<?php foreach ($menu as $package => $categories): ksort($categories); ?>
 		<li><span><strong><?php echo $package ?></strong></span>

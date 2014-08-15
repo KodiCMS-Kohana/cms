@@ -54,7 +54,7 @@ $hidden = empty($template) ? 'hidden' : '';
 	<h4><?php echo UI::icon('desktop'); ?> <?php echo $header; ?></h4>
 </div>
 <?php endif; ?>
-<div class="widget-content">
+<div class="panel-body">
 	<div class="control-group">
 		<label class="control-label"><?php echo __('Snippet'); ?></label>
 		<div class="controls">

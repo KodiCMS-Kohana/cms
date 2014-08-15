@@ -1,4 +1,4 @@
-<div class="widget-content">
+<div class="panel-body">
 	<div class="control-group">
 		<label class="control-label" for="profile_id_ctx"><?php echo __('Profile ID (Ctx)'); ?></label>
 		<div class="controls">

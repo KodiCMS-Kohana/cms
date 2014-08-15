@@ -1,7 +1,7 @@
 <div class="widget-header" data-icon="envelope">
 	<h3><?php echo __( 'Email queue settings' ); ?></h3>
 </div>
-<div class="widget-content">
+<div class="panel-body">
 	<div class="control-group">
 		<label class="control-label"><?php echo __( 'Email queue batch size' ); ?></label>
 		<div class="controls">

@@ -14,13 +14,13 @@ $(function(){
 <div class="widget-header spoiler-toggle" data-spoiler=".api-settings" data-icon="flask">
 	<h3><?php echo __('API'); ?></h3>
 </div>
-<div class="widget-content spoiler api-settings">
+<div class="panel-body spoiler api-settings">
 	<div class="lead">
 		<?php echo __( 'KodiCMS API key'); ?>: <span id="api-key"><?php echo Config::get('api', 'key'); ?></span>
 		
 		<?php if( ACL::check('system.api.refresh')): ?>
-		<?php echo HTML::anchor('#', UI::icon('refresh') . ' ' . __( 'Change key' ), array(
-			'class' => 'btn btn-primary', 'id' => 'refresh-api-key'
+		<?php echo HTML::anchor('#', __( 'Change key' ), array(
+			'class' => 'btn btn-primary', 'id' => 'refresh-api-key', 'data-icon' => 'refresh'
 		)); ?>
 		<?php endif; ?>
 	</div>

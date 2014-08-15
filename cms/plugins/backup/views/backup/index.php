@@ -16,7 +16,7 @@
 		)); ?>
 	</div>
 
-	<div id="backup-container" class="widget-content widget-nopad">
+	<div id="backup-container" class="panel-body widget-nopad">
 		<div id="backups-list">
 			<?php echo $files; ?>
 		</div>
@@ -25,7 +25,7 @@
 	<div class="widget-header">
 		<?php echo UI::icon('upload'); ?><h3><?php echo __('Upload backup file'); ?></h3>
 	</div>
-	<div class="widget-content">
+	<div class="panel-body">
 		<?php 
 		echo Form::open('api-backup.upload', array(
 			'enctype' => 'multipart/form-data',

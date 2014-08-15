@@ -31,7 +31,7 @@
 		<h3><?php echo __( 'Add field' ); ?></h3>
 	</div>
 
-	<div class="widget-content" id="filed-type">
+	<div class="panel-body" id="filed-type">
 		<div class="control-group">
 			<label class="control-label title" for="header"><?php echo __('Field header'); ?></label>
 			<div class="controls">
@@ -65,7 +65,7 @@
 	<div class="widget-header">
 		<h3><?php echo __( 'Field settings' ); ?></h3>
 	</div>
-	<div class="widget-content">
+	<div class="panel-body">
 		<div id="field-options">
 		<?php foreach (DataSource_Hybrid_Field::get_empty_fields() as $type => $field): ?>
 		<fieldset id="f-<?php echo $type; ?>" disabled="disabled">

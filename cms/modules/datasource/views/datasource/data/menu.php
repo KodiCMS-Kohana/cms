@@ -2,7 +2,7 @@
 <div class="widget datasource-menu">
 	<?php foreach ($tree as $section => $data): ?>
 	<div class="widget-header">
-		<h4><?php echo UI::icon(Datasource_Data_Manager::get_icon($section)); ?> <?php echo __(ucfirst($section)); ?></h4>
+		<h4 data-icon="<?php echo Datasource_Data_Manager::get_icon($section); ?>"><?php echo __(ucfirst($section)); ?></h4>
 	</div>
 	<ul class="list-group unstyled">
 	<?php foreach ($data as $id => $name): ?>

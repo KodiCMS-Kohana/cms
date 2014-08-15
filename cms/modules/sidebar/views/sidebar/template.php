@@ -1,6 +1,6 @@
 <?php echo $form; ?>
 <div class="widget widget-sidebar">
-	<div class="widget-content">
+	<div class="panel-body">
 		<?php foreach ($fields as $field): ?>
 		<?php echo $field; ?>
 		<?php endforeach; ?>

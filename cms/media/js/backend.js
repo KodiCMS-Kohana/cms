@@ -382,56 +382,56 @@ cms.ui.add('flags', function() {
 		.addClass('outline_inner')
 		.wrap('<div class="outline"></div>');
 }).add('tabable', function() {
-	if($('.tabbable').length > 0) {
-		$('#content .widget-header').each(function(i) {
-			if($(this).hasClass('widget-section')) {
-				$('<li class="nav-section"><h5><i class="fa fa-arrow-down"></i> ' + $(this).text() + '</h5></li>').appendTo($('.tabbable .nav'));
-			} else {
-				var text = $(this).text();
-				
-				if($(this).data('icon')) {
-					text = '<i class="fa fa-'+$(this).data('icon')+'"></i> ' + text;
-				}
-				
-				$('<li class="tab-item"><a href="#tab' + i + '" data-toggle="tab">' + text + '</a></li>')
-					.appendTo($('.tabbable .nav'));
-				
-				if($(this).hasClass('widget-header-onlytab'))
-					$('<div class="tab-pane" id="tab' + i + '">' + $(this).next().html() + '</div>').appendTo($('.tabbable .tab-content'));
-				else 
-					$('<div class="tab-pane" id="tab' + i + '"><h2>'+$(this).text()+'</h2><hr />' + $(this).next().html() + '</div>').appendTo($('.tabbable .tab-content'));
-
-				$(this).next().remove();
-			}
-			
-			$(this).remove();
-			
-			
-		});
-		$('.tabbable .nav li a').on('click', function() {
-			window.location.hash = $(this).attr('href');
-		});
-
-		if(window.location.hash.length > 0 && $('.tabbable .nav li a[href='+window.location.hash+']').length > 0) {
-			$('.tabbable .nav li a[href='+window.location.hash+']').parent().addClass('active');
-			$('.tabbable ' + window.location.hash).addClass('active');
-		} else {
-			$('.tabbable .nav li:first-child').addClass('active');
-			$('.tabbable .tab-pane:first-child').addClass('active');
-		}
-
-		$('.tabbable .tab-pane').css({
-			'min-height': cms.calculateContentHeight() - 130
-		});
-		
-		$(window).resize(function() {
-			$('.tabbable .tab-pane').css({
-				'min-height': cms.calculateContentHeight() - 130
-			});
-		});
-	}
-	
-	$(window).trigger('tabbable');
+//	if($('.tabbable').length > 0) {
+//		$('#content .widget-header').each(function(i) {
+//			if($(this).hasClass('widget-section')) {
+//				$('<li class="nav-section"><h5><i class="fa fa-arrow-down"></i> ' + $(this).text() + '</h5></li>').appendTo($('.tabbable .nav'));
+//			} else {
+//				var text = $(this).text();
+//				
+//				if($(this).data('icon')) {
+//					text = '<i class="fa fa-'+$(this).data('icon')+'"></i> ' + text;
+//				}
+//				
+//				$('<li class="tab-item"><a href="#tab' + i + '" data-toggle="tab">' + text + '</a></li>')
+//					.appendTo($('.tabbable .nav'));
+//				
+//				if($(this).hasClass('widget-header-onlytab'))
+//					$('<div class="tab-pane" id="tab' + i + '">' + $(this).next().html() + '</div>').appendTo($('.tabbable .tab-content'));
+//				else 
+//					$('<div class="tab-pane" id="tab' + i + '"><h2>'+$(this).text()+'</h2><hr />' + $(this).next().html() + '</div>').appendTo($('.tabbable .tab-content'));
+//
+//				$(this).next().remove();
+//			}
+//			
+//			$(this).remove();
+//			
+//			
+//		});
+//		$('.tabbable .nav li a').on('click', function() {
+//			window.location.hash = $(this).attr('href');
+//		});
+//
+//		if(window.location.hash.length > 0 && $('.tabbable .nav li a[href='+window.location.hash+']').length > 0) {
+//			$('.tabbable .nav li a[href='+window.location.hash+']').parent().addClass('active');
+//			$('.tabbable ' + window.location.hash).addClass('active');
+//		} else {
+//			$('.tabbable .nav li:first-child').addClass('active');
+//			$('.tabbable .tab-pane:first-child').addClass('active');
+//		}
+//
+//		$('.tabbable .tab-pane').css({
+//			'min-height': cms.calculateContentHeight() - 130
+//		});
+//		
+//		$(window).resize(function() {
+//			$('.tabbable .tab-pane').css({
+//				'min-height': cms.calculateContentHeight() - 130
+//			});
+//		});
+//	}
+//	
+//	$(window).trigger('tabbable');
 }).add('calculate_height', function() {
 	cms.calculateContentHeight();
 
@@ -839,6 +839,10 @@ cms.ui.add('flags', function() {
 		$($target).prop("checked" , this.checked).trigger('change');
 		e.preventDefault();
     });
+}).add('icon', function() {
+	$('*[data-icon]').each(function() {
+		$(this).html('<i class="fa fa-' + $(this).data('icon') + '"></i> ' + $(this).html());
+	});
 });
 
 var Api = {

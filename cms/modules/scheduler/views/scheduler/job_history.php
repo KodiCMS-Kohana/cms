@@ -1,7 +1,7 @@
 <hr />
 <h3><?php echo __('Job history'); ?></h3>
 <div class="widget widget-nopad">
-	<div class="widget-content">
+	<div class="panel-body">
 		<table class="table table-striped table-hover">
 			<colgroup>
 				<col width="200px" />

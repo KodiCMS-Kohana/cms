@@ -135,7 +135,7 @@ jQuery.fn.swapWith = function(to) {
 	<div class="widget-header">
 		<h4><?php echo UI::icon('sort-alpha-desc'); ?> <?php echo __('Documents order'); ?></h4>
 	</div>
-	<div class="widget-content widget-nopad">
+	<div class="panel-body widget-nopad">
 		<table class="table">
 			<colgroup>
 				<col width="220px" />

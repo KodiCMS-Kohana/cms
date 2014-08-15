@@ -6,12 +6,11 @@
 	'id' => 'settingForm', 'class' => 'form-horizontal form-ajax'
 )); ?>
 	<?php echo Form::hidden('token', Security::token()); ?>
-	<div class="widget">
-		<?php echo View::factory('helper/tabbable'); ?>
-		<div class="widget-header spoiler-toggle" data-spoiler=".site-information-content" data-icon="info">
-			<h3><?php echo __( 'Site information' ); ?></h3>
+	<div class="panel">
+		<div class="panel-heading" data-icon="info">
+			<span class="panel-title"><?php echo __( 'Site information' ); ?></span>
 		</div>
-		<div class="widget-content spoiler site-information-content">
+		<div class="panel-body">
 			<div class="control-group">
 				<label class="control-label title" for="settingTitle"><?php echo __( 'Site title' ); ?></label>
 				<div class="controls">
@@ -30,10 +29,10 @@
 				</div>
 			</div>
 		</div>
-		<div class="widget-header" data-icon="globe">
-			<h3><?php echo __( 'Site settings' ); ?></h3>
+		<div class="panel-heading" data-icon="globe">
+			<span class="panel-title"><?php echo __( 'Site settings' ); ?></span>
 		</div>
-		<div class="widget-content">
+		<div class="panel-body">
 			<div class="control-group">
 				<?php echo Form::label('setting_default_locale', __('Default interface language'), array('class' => 'control-label')); ?>
 				<div class="controls">
@@ -55,7 +54,7 @@
 					<p class="help-block"><?php echo __( 'This allows you to specify which section you will see by default after login.' ); ?></p>
 				</div>
 			</div>
-			<h3><?php echo __( 'Debug' ); ?></h3>
+			<span class="panel-title"><?php echo __( 'Debug' ); ?></span>
 			<hr />
 			<div class="control-group">
 				<label class="control-label"><?php echo __( 'Profiling' ); ?></label>
@@ -78,7 +77,7 @@
 					<p class="help-block"><?php echo __( 'After save layouts or snippets create revision copy in logs directory' ); ?></p>
 				</div>
 			</div>
-			<h3><?php echo __( 'Design' ); ?></h3>
+			<span class="panel-title"><?php echo __( 'Design' ); ?></span>
 			<hr />
 			<div class="control-group">
 				<label class="control-label"><?php echo __( 'Show breadcrumbs' ); ?></label>
@@ -87,10 +86,10 @@
 				</div>
 			</div>
 		</div>
-		<div class="widget-header spoiler-toggle" data-spoiler=".page-options-container" data-icon="edit">
-			<h3><?php echo __( 'Page settings' ); ?></h3>
+		<div class="panel-heading" data-icon="edit">
+			<span class="panel-title"><?php echo __( 'Page settings' ); ?></span>
 		</div>
-		<div class="widget-content spoiler page-options-container">
+		<div class="panel-body">
 			<div class="control-group">
 				<label class="control-label"><?php echo __( 'Default page status' ); ?> </label>
 				<div class="controls">
@@ -122,10 +121,10 @@
 			</div>
 		</div>
 		
-		<div class="widget-header spoiler-toggle" data-spoiler=".session-settings" data-icon="hdd-o">
-			<h3><?php echo __( 'Session settings' ); ?></h3>
+		<div class="panel-heading" data-icon="hdd-o">
+			<span class="panel-title"><?php echo __( 'Session settings' ); ?></span>
 		</div>
-		<div class="widget-content spoiler session-settings">
+		<div class="panel-body">
 			<?php if( ACL::check('system.session.clear') AND Session::$default == 'database'): ?>
 			<div class="well">
 				<?php echo UI::button(__('Clear user sessions'), array(
@@ -149,7 +148,7 @@
 			</div>
 		</div>
 		<?php Observer::notify( 'view_setting_plugins' ); ?>
-		<div class="form-actions widget-footer">
+		<div class="form-actions panel-footer">
 			<?php echo Form::button( 'submit', UI::icon( 'check' ) . ' ' . __( 'Save settings' ), array(
 				'class' => 'btn btn-large',
 				'hotkeys' => 'ctrl+s'

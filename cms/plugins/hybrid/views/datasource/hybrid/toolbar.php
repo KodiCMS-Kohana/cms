@@ -1,5 +1,5 @@
 <div id="toolbar" class="widget">
-	<div class="widget-content">
+	<div class="panel-body">
 		<?php echo Form::open(Request::initial(), array(
 			'class' => 'form-search',
 			'method' => Request::GET

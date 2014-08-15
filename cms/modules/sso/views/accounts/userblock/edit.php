@@ -8,7 +8,7 @@
 <div class="widget-header">
 	<h3><?php echo __('Linked social accounts'); ?></h3>
 </div>
-<div class="widget-content">
+<div class="panel-body">
 	<div class="row-fluid social-accounts-linked">
 	<?php foreach($socials as $social): ?>
 		<?php $linked[] = $social->provider(); ?>
@@ -33,7 +33,7 @@
 <div class="widget-header spoiler-toggle" data-spoiler=".social-accouns-binder">
 	<h3><?php echo __('List of supported OAuth providers'); ?></h3>
 </div>
-<div class="widget-content spoiler social-accouns-binder">
+<div class="panel-body spoiler social-accouns-binder">
 	<div class="alert alert-warning">
 		<?php echo UI::icon('lightbulb-o'); ?> <?php echo __('Binding account to an account in a social network will allow to enter the site with a single click. You can bind the account to several accounts. :settings_link', array(':settings_link' => HTML::anchor($settings_link, __('Settings')))); ?>
 	</div>

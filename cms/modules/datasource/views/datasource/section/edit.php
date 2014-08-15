@@ -11,7 +11,7 @@
 	<div class="widget-header">
 		<h4><?php echo UI::icon('exclamation-circle'); ?> <?php echo __('Datasource Information'); ?></h4>
 	</div>
-	<div class="widget-content">
+	<div class="panel-body">
 		<div class="control-group">
 			<label class="control-label" for="name"><?php echo __('Datasource Header'); ?></label>
 			<div class="controls">

@@ -1,4 +1,4 @@
-<div class="widget-content ">
+<div class="panel-body ">
 	<?php
 		echo Bootstrap_Form_Element_Control_Group::factory(array(
 			'element' => Bootstrap_Form_Element_Select::factory(array(

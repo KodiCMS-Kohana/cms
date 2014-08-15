@@ -3,7 +3,7 @@
 	<h4><?php echo UI::icon('cubes'); ?> <?php echo __('Widgets'); ?></h4>
 </div>
 
-<div class="widget-content  spoiler spoiler-widgets">
+<div class="panel-body  spoiler spoiler-widgets">
 	<?php if(empty($page->id)): ?>
 	<h4><?php echo __('Copy widgets from'); ?></h4>
 	<select name="widgets[from_page_id]" class="span12">

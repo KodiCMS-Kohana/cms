@@ -1,7 +1,7 @@
 <div class="widget-header spoiler-toggle" data-spoiler=".cache-settings" data-hash="cache-settings" data-icon="hdd-o">
 	<h3 id="cache-settings"><?php echo __('Cache settings'); ?></h3>
 </div>
-<div class="widget-content spoiler cache-settings">
+<div class="panel-body spoiler cache-settings">
 	<?php if( ACL::check('system.cache.clear')): ?>
 	<div class="well">
 		<?php echo UI::button(__('Clear cache'), array(

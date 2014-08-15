@@ -34,7 +34,7 @@
 			)); ?>
 			<?php endif; ?>
 		</div>
-		<div class="widget-content">
+		<div class="panel-body">
 			<?php echo Form::textarea('content', $layout->content, array(
 				'tabindex'		=> 2,
 				'id'			=> 'textarea_content',

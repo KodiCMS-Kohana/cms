@@ -1,4 +1,4 @@
-<div class="widget-content">
+<div class="panel-body">
 	<?php
 		echo Bootstrap_Form_Element_Control_Group::factory(array(
 			'element' => Bootstrap_Form_Element_Textarea::factory(array(
@@ -69,7 +69,7 @@
 		});
 	})
 </script>
-<div class="widget-content " id="fields">
+<div class="panel-body " id="fields">
 	<div id="sample_field" class="hide">
 		<div class="well field">
 			<h4 class="field-title"></h4>

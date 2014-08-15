@@ -57,7 +57,7 @@
 	<h4><?php echo UI::icon('filter'); ?> <?php echo __('Filters'); ?></h4>
 </div>
 
-<div class="widget-content">
+<div class="panel-body">
 	<fieldset disabled id="sample_filter" class="hide">
 		<div class="well filter">
 			<div class="clearfix"></div>

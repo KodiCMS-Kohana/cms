@@ -1,4 +1,4 @@
-<div class="widget-content ">
+<div class="panel-body ">
 	<?php 
 	
 	echo Bootstrap_Form_Element_Control_Group::factory(array(
@@ -70,7 +70,7 @@ $(function() {
 	});
 });
 </script>
-<div class="widget-content ">
+<div class="panel-body ">
 	<div class="roles-redirect-contaier">
 		<?php foreach($widget->roles_redirect as $key => $data): ?>
 		<div class="roles-redirect-item">

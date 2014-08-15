@@ -3,17 +3,13 @@
 </script>
 	
 <?php echo Form::open(Route::get('backend')->uri(array('controller' => 'users', 'action' => $action, 'id' => $user->id)), array(
-	'class' => Bootstrap_Form::HORIZONTAL
+	'class' => array(Bootstrap_Form::HORIZONTAL, 'panel')
 )); ?>
 	<?php echo Form::hidden('token', Security::token()); ?>
-	<div class="widget">
-		<?php if($user->loaded()): ?>
-		<?php echo View::factory('helper/tabbable'); ?>
-		<?php endif; ?>
-		<div class="widget-header">
-			<h3><?php echo __('General information'); ?></h3>
+		<div class="panel-heading">
+			<span class="panel-title"><?php echo __('General information'); ?></span>
 		</div>
-		<div class="widget-content">
+		<div class="panel-body">
 			<div class="row-fluid">
 				<div class="span8">
 					<div class="control-group">
@@ -58,7 +54,7 @@
 				</div>
 			</div>
 			
-			<hr />
+			<hr class="panel-wide"/>
 			
 			<div class="control-group">
 				<?php echo $user->profile->label('locale', array('class' => 'control-label')); ?>
@@ -70,11 +66,11 @@
 			</div>
 		</div>
 		
-		<div class="widget-header">
-			<h3><?php echo __('Notifications'); ?></h3>
+		<div class="panel-heading">
+			<span class="panel-title"><?php echo __('Notifications'); ?></span>
 		</div>
 		
-		<div class="widget-content">
+		<div class="panel-body">
 			<div class="control-group">
 				<div class="controls form-inline">
 					<?php echo $user->profile->field('notice', array(
@@ -90,10 +86,10 @@
 		</div>
 
 		<?php if( ACL::check('users.change_password') OR $user->id == AuthUser::getId() OR !$user->loaded() ): ?>
-		<div class="widget-header spoiler-toggle" data-spoiler=".password-spoiler">
-			<h3><?php echo __('Password'); ?></h3>
+		<div class="panel-heading spoiler-toggle" data-spoiler=".password-spoiler">
+			<span class="panel-title"><?php echo __('Password'); ?></span>
 		</div>
-		<div class="widget-content spoiler password-spoiler">
+		<div class="panel-body spoiler password-spoiler">
 			<?php if($action == 'edit'): ?>
 			<div class="alert alert-warning">
 				<?php echo UI::icon('lightbulb-o'); ?> <?php echo __('Leave password blank for it to remain unchanged.'); ?>
@@ -125,10 +121,10 @@
 		<?php endif; ?>
 
 		<?php if (Acl::check( 'users.change_roles') AND ($user->id === NULL OR $user->id > 1)): ?>
-		<div class="widget-header">
-			<h3><?php echo __('Roles'); ?></h3>
+		<div class="panel-heading">
+			<span class="panel-title"><?php echo __('Roles'); ?></span>
 		</div>
-		<div class="widget-content">
+		<div class="panel-body">
 			<div class="row-fluid">
 			<?php 
 				echo Form::hidden('user_roles', (int) $user->id, array(
@@ -145,9 +141,7 @@
 		
 		<?php Observer::notify('view_user_edit_plugins', $user); ?>
 		
-		<div class="form-actions widget-footer">
+		<div class="form-actions panel-footer">
 			<?php echo UI::actions($page_name); ?>
 		</div>
-	
-	</div>
 <?php Form::close(); ?>

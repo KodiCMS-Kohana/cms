@@ -3,7 +3,7 @@
 	<h4><?php echo __('Page fields'); ?></h4>
 </div>
 
-<div class="widget-content  spoiler spoiler-page-fields">
+<div class="panel-body  spoiler spoiler-page-fields">
 	<?php if(empty($page->id)): ?>
 	<h4><?php echo __('Copy fields from'); ?></h4>
 	<select name="fields[from_page_id]" class="span12">

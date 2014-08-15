@@ -15,7 +15,7 @@ function show_field($select) {
 }
 </script>
 
-<div class="widget-content">
+<div class="panel-body">
 	<?php
 		echo Bootstrap_Form_Element_Control_Group::factory(array(
 			'element' => Bootstrap_Form_Element_Select::factory(array(
@@ -56,7 +56,7 @@ function show_field($select) {
 <div class="widget-header">
 	<h4><?php echo __('Exclude pages'); ?></h4>
 </div>
-<div class="widget-content widget-nopad">
+<div class="panel-body widget-nopad">
 	<table class="table table-striped">
 		<colgroup>
 			<col width="30px" />

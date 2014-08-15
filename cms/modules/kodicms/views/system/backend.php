@@ -18,26 +18,30 @@
 		<?php echo Assets::group('global'); ?>
 		<?php Observer::notify( 'layout_backend_head_after' ); ?>
 	</head>
-	<body id="body_<?php echo $page_body_id; ?>" class="<?php echo $request->query('type'); ?>">
-		<div id="content-wrapper">
+	<body id="body_<?php echo $page_body_id; ?>" class="<?php echo $request->query('type'); ?> theme-default">
+		<div id="main-wrapper">
 			<header>
-				<nav>
-					<?php echo View::factory('system/blocks/navigation'); ?>
-				</nav>
-				<?php echo $breadcrumbs; ?>
+				<?php echo View::factory('system/layout/navbar'); ?>
 			</header>
-			<div class="container-fluid">
+
+			<div id="main-menu" role="navigation">
+				<?php echo View::factory('system/layout/menu'); ?>
+			</div>
+
+			<div id="content-wrapper">
+				<?php echo $breadcrumbs; ?>
 				<section id="content" >
 				<?php echo $content; ?>
 				</section>
 			</div>
-		</div>
-		
-		<?php echo $footer; ?>
 
-		<?php if ( Config::get('site', 'profiling' ) == Config::YES ): ?>
-		<hr />
-		<?php echo View::factory( 'profiler/stats' ) ?>
-		<?php endif; ?>
+			<?php echo $footer; ?>
+
+			<?php if ( Config::get('site', 'profiling' ) == Config::YES ): ?>
+			<hr />
+			<?php echo View::factory( 'profiler/stats' ) ?>
+			<?php endif; ?>
+		
+		</div>
 	</body>
 </html>

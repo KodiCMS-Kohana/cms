@@ -1,0 +1,236 @@
+//
+// Themes / Fresh / Main navbar
+// --------------------------------------------------
+
+
+// Navbar backgrounds
+//
+
+.gt-ie9 & #main-navbar,
+.gt-ie9 & #main-navbar .navbar-header {
+  #gradient > .vertical(@navbar-start-color, @navbar-end-color);
+}
+
+// Use image for bg on IE 8-9
+.ie8 & #main-navbar,
+.ie9 & #main-navbar,
+.ie8 & #main-navbar .navbar-header,
+.ie9 & #main-navbar .navbar-header {
+  background: @navbar-start-color;
+}
+
+
+// Main navbar
+//
+
+#main-navbar {
+  // Header
+  //
+
+  .dropdown > a,
+  .dropdown-menu > li > a,
+  .nav > li > a,
+  .navbar-header a {
+    color: @navbar-text-color;
+  }
+
+  .navbar-toggle,
+  #main-menu-toggle,
+  #main-menu-toggle .fa:before,
+  a {
+    text-shadow: @navbar-text-shadow;
+  }
+
+
+  // Navbar buttona
+  //
+
+  .navbar-toggle,
+  #main-menu-toggle {
+    color: @navbar-text-color;
+  }
+
+  #main-menu-toggle .fa:before {
+    color: @navbar-text-color;
+  }
+
+
+  // Navbar collapse
+  //
+
+  #main-navbar-collapse {
+    border-top-color: darken(@navbar-end-color, 6%);
+    background: @navbar-end-color;
+  }
+
+
+  // Navbar Items
+  //
+
+  li + li,
+  .nav + .nav,
+  .nav + .right {
+    border-top: 1px solid lighten(@navbar-end-color, 8%);
+  }
+
+  .dropdown.open > a {
+    border-top: 1px solid darken(@navbar-end-color, 12%);
+    border-bottom: 1px solid darken(@navbar-end-color, 9%);
+    margin-top: -1px;
+    background: darken(@navbar-end-color, 6%);
+  }
+
+  // Navbar forms
+  //
+
+  form.navbar-form {
+    .box-shadow(none);
+
+    .form-control {
+      background: #fff;
+      border-color: #fff;
+      border-radius: 3px;
+    }
+  }
+}
+
+
+// Desktops
+//
+
+@media (min-width: @screen-tablet) {
+  #main-navbar {
+    
+    // Navbar collapse
+    //
+
+    #main-navbar-collapse {
+      background: none;
+    }
+
+
+    // Navbar Items
+    //
+
+    // Reset borders
+    li + li,
+    .nav + .nav,
+    .nav + .right {
+      border: none;
+    }
+
+    .nav > li > a {
+      border-left: 1px solid transparent;
+      border-right: 1px solid transparent;
+
+      &:hover {
+        background: rgba(0,0,0,.08);
+        border-color: darken(@navbar-end-color, 10%);
+      }
+    }
+
+
+    // Dropdowns
+    //
+
+    .dropdown.open > a {
+      border-top: none;
+      border-bottom: none;
+      margin-top: 0;
+      background: rgba(0,0,0,.08);
+      border-color: darken(@navbar-end-color, 10%);
+    }
+
+    .dropdown-menu {
+      background: @menu-color;
+      border-color: @menu-color;
+      margin-top: 2px;
+      padding: 5px 0;
+      border-radius: @border-radius-base;
+
+      a {
+        text-shadow: none;
+        margin: 0 -2px;
+      }
+
+      a:hover {
+        background: @menu-active-color;
+      }
+
+      .divider {
+        background-color: lighten(@menu-color, 4%);
+        margin-left: -2px;
+        margin-right: -2px;
+      }
+    }
+
+    
+    // Notifications widget
+    //
+
+    .widget-notifications {
+      a:hover {
+        color: #fff !important;
+      }
+
+      .notification,
+      .notifications-link {
+        border-color: lighten(@menu-color, 4%);
+        margin: 0 -2px;
+        .border-bottom-radius(@border-radius-base);
+      }
+
+      .notification-description {
+        color: lighten(@menu-color, 35%);
+      }
+
+      .notification-ago {
+        color: lighten(@menu-color, 25%);
+      }
+    }
+
+
+    // Alt messages widget
+    //
+
+    .widget-messages-alt {
+      a:hover {
+        color: #fff !important;
+      }
+
+      .message,
+      .messages-link {
+        border-color: lighten(@menu-color, 4%);
+        .border-bottom-radius(3px);
+
+        a:hover {
+          background: none;
+        }
+      }
+
+      .message-subject {
+        color: @menu-active-color;
+      }
+
+      .message-description {
+        color: lighten(@menu-color, 25%);
+
+        a {
+          color: lighten(@menu-color, 35%);
+        }
+      }
+    }
+  }
+}
+
+#main-navbar #main-menu-toggle,
+&.right-to-left.main-menu-right #main-navbar #main-menu-toggle {
+  border-left: none;
+  border-right: 1px solid darken(@navbar-end-color, 8%);
+}
+
+&.right-to-left #main-navbar #main-menu-toggle,
+&.main-menu-right #main-navbar #main-menu-toggle {
+  border-left: 1px solid darken(@navbar-end-color, 8%);
+  border-right: none;
+}

@@ -2,7 +2,7 @@
 	<h3><?php echo __('Hybrid settings'); ?></h3>
 </div>
 
-<div class="widget-content">
+<div class="panel-body">
 	<div class="alert alert-warning">
 		<?php echo UI::icon('lightbulb-o'); ?> <?php echo __('To bind profile section you need to create a field `:field`', array(':field' => 'profile_id')); ?>
 	</div>

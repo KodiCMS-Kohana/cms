@@ -13,7 +13,7 @@
 				<?php endif; ?>
 			</div>
 
-			<div class="widget-content">
+			<div class="panel-body">
 				<table class=" table table-striped table-hover">
 					<colgroup>
 						<col width="250px" />

@@ -22,7 +22,7 @@ function sort_by_rand($field) {
 )); ?>
 
 <?php if( ! $widget->ds_id ): ?>
-<div class="widget-content">
+<div class="panel-body">
 	<div class="alert alert-warning">
 		<?php echo UI::icon('lightbulb-o'); ?> <?php echo __('You need select hybrid section'); ?>
 	</div>
@@ -31,7 +31,7 @@ function sort_by_rand($field) {
 <div class="widget-header">
 	<h4><?php echo __('Properties'); ?></h4>
 </div>
-<div class="widget-content">
+<div class="panel-body">
 	<div class="control-group">
 		<label class="control-label" for="doc_uri"><?php echo __('Document page (URI)'); ?></label>
 		<div class="controls">
@@ -62,7 +62,7 @@ function sort_by_rand($field) {
 	</div>
 </div>
 
-<div class="widget-content ">
+<div class="panel-body ">
 	<?php
 		echo Bootstrap_Form_Element_Control_Group::factory(array(
 			'element' => Bootstrap_Form_Element_Input::factory(array(

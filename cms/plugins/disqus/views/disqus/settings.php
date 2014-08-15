@@ -1,7 +1,7 @@
 <div class="widget-header">
 	<h3><?php echo __('General settings'); ?></h3>
 </div>
-<div class="widget-content">
+<div class="panel-body">
 	<div class="control-group">
 		<?php echo Form::label('setting_disqus_id', __('Profile ID'), array('class' => 'control-label')); ?>
 		<div class="controls">

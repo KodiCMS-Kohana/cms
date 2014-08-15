@@ -6,7 +6,7 @@
 	<div class="widget-header spoiler-toggle" data-spoiler=".general-spoiler" data-hash="description">
 		<h4><?php echo UI::icon('exclamation-circle'); ?> <?php echo __('Widget Information'); ?></h4>
 	</div>
-	<div class="widget-content spoiler general-spoiler">
+	<div class="panel-body spoiler general-spoiler">
 		<?php echo Bootstrap_Form_Element_Control_Group::factory(array(
 			'element' => Bootstrap_Form_Element_Input::factory(array(
 				'name' => 'name', 'value' => $widget->name
@@ -40,7 +40,7 @@
 	<?php endif; ?>
 
 	<?php if($widget->use_caching AND ACL::check('widgets.cache')): ?>
-	<div class="widget-content">
+	<div class="panel-body">
 		<?php echo Bootstrap_Form_Element_Control_Group::factory(array(
 			'element' => Bootstrap_Form_Element_Checkbox::factory(array(
 				'name' => 'caching', 'value' => 1
@@ -82,7 +82,7 @@
 	<div class="widget-header spoiler-toggle" data-spoiler=".roles-spoiler" data-hash="roles">
 		<h4><?php echo UI::icon('users'); ?> <?php echo __('Widget permissions'); ?></h4>
 	</div>
-	<div class="widget-content spoiler roles-spoiler">
+	<div class="panel-body spoiler roles-spoiler">
 		<div class="controls">
 			<?php echo Form::select('roles[]', $roles, $widget->roles, array(
 				'class' => 'span12'
@@ -95,7 +95,7 @@
 	<div class="widget-header spoiler-toggle" data-spoiler=".media-spoiler" data-hash="media">
 		<h4><?php echo UI::icon('file-o'); ?> <?php echo __('Widget media'); ?></h4>
 	</div>
-	<div class="widget-content spoiler media-spoiler">
+	<div class="panel-body spoiler media-spoiler">
 		<div class="control-group">
 			<div class="controls">
 				<p class="help-block"><?php echo __('For including media files uses class :class', array(
@@ -115,7 +115,7 @@
 		<h4><?php echo UI::icon('cogs'); ?> <?php echo __('Widget parameters'); ?></h4>
 	</div>
 	<?php if($widget->use_template): ?>
-	<div class="widget-content">
+	<div class="panel-body">
 		<?php echo Bootstrap_Form_Element_Control_Group::factory(array(
 			'element' => Bootstrap_Form_Element_Input::factory(array(
 				'name' => 'header', 'value' => $widget->header
@@ -128,7 +128,7 @@
 	<?php echo $content; ?>
 
 	<?php if( ACL::check('widgets.location') ): ?>
-	<div class="widget-content ">
+	<div class="panel-body ">
 		<?php echo Bootstrap_Element_Button::factory(array(
 			'href' => Route::get('backend')->uri(array(
 					'controller' => 'widgets', 

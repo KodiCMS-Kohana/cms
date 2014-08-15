@@ -25,7 +25,7 @@
 		</div>
 		
 		<% if ((is_protected == <?php echo Model_Page_Part::PART_PROTECTED; ?> && is_developer == 1) || is_protected == <?php echo Model_Page_Part::PART_NOT_PROTECTED; ?> ) { %>
-		<div class="widget-content part-options">
+		<div class="panel-body part-options">
 		<?php if( ACL::check('page.parts')): ?>
 			<div class="row-fluid">
 				<div class="span4 item-filter-cont form-inline">
@@ -68,11 +68,11 @@
 		
 
 		<% if (is_protected == <?php echo Model_Page_Part::PART_PROTECTED; ?> && is_developer == 0 ) { %>
-		<div class="widget-content ">
+		<div class="panel-body ">
 			<p class="text-warning"><?php echo __( 'Content of page part :part_name is protected from changes.', array( ':part_name' => '<%= name %>' ) ); ?></p>
 		</div>
 		<% } else { %>
-		<div class="widget-content  widget-nopad part-textarea" <% if ( is_expanded == 0 ) { %>style="display:none;"<% } %>>
+		<div class="panel-body  widget-nopad part-textarea" <% if ( is_expanded == 0 ) { %>style="display:none;"<% } %>>
 			<textarea id="pageEditPartContent-<%= name %>" name="part_content[<%= id %>]"><%= content.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;") %></textarea>
 		</div>
 		<% } %>

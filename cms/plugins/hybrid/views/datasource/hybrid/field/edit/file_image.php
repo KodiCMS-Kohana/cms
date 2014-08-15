@@ -14,7 +14,7 @@
 <div class="widget-header">
 	<h3><?php echo __('Image settings'); ?></h3>
 </div>
-<div class="widget-content">
+<div class="panel-body">
 	<div class="control-group">
 		<label class="control-label"><?php echo __( 'Image size' ); ?></label>
 		<div class="controls">

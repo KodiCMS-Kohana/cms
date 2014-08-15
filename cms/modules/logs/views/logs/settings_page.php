@@ -1,7 +1,7 @@
 <div class="widget-header spoiler-toggle" data-spoiler=".logs-spoiler" data-icon="clock-o">
 	<h3><?php echo __('Log settings'); ?></h3>
 </div>
-<div class="widget-content spoiler logs-spoiler">
+<div class="panel-body spoiler logs-spoiler">
 	<div class="well">
 		<?php echo UI::button(__('Clear logs older 30 days'), array(
 			'icon' => UI::icon( 'trash-o fa-lg' ),

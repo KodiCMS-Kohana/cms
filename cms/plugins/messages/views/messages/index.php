@@ -10,7 +10,7 @@
 	</div>
 	
 	<?php if(count($messages) > 0): ?>
-	<div class="widget-content widget-nopad">
+	<div class="panel-body widget-nopad">
 		<table class=" table table-striped table-hover" id="MessagesList">
 			<colgroup>
 				<col />
@@ -44,7 +44,7 @@
 		</table>
 	</div>
 	<?php else: ?>
-	<div class="widget-content">
+	<div class="panel-body">
 		<h1><?php echo __('You dont have messages'); ?></h1>
 	</div>
 	<?php endif; ?>

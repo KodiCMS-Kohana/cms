@@ -1,5 +1,5 @@
 <div class="widget">
-	<div class="widget-content">
+	<div class="panel-body">
 		<div id="calendar"></div>
 	</div>
 </div>

@@ -13,7 +13,7 @@
 		)); ?>
 		<?php endif; ?>
 	</div>
-	<div class="widget-content">
+	<div class="panel-body">
 		<div class="control-group">
 			<?php echo $job->label('name', array('class' => 'control-label title')); ?>
 			<div class="controls">
@@ -32,7 +32,7 @@
 	<div class="widget-header">
 		<h4><?php echo __('Runing options'); ?></h4>
 	</div>
-	<div class="widget-content">
+	<div class="panel-body">
 		<div class='well form-inline'>
 			<?php echo $job->label('date_start'); ?> <?php echo $job->field('date_start', array('class' => 'datetimepicker input-medium')); ?> -
 			<?php echo $job->label('date_end'); ?> <?php echo $job->field('date_end', array('class' => 'datetimepicker input-medium')); ?>

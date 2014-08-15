@@ -3,7 +3,7 @@
 )); ?>
 
 <?php if( $widget->ds_id == 0 ): ?>
-<div class="widget-content">
+<div class="panel-body">
 	<div class="alert alert-warning">
 		<?php echo UI::icon('lightbulb-o'); ?> <?php echo __('You need select hybrid section'); ?>
 	</div>

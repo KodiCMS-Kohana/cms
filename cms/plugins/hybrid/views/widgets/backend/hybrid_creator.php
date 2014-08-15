@@ -3,7 +3,7 @@
 )); ?>
 
 <?php if( ! $widget->ds_id ): ?>
-<div class="widget-content">
+<div class="panel-body">
 	<div class="alert alert-warning">
 		<?php echo UI::icon('lightbulb-o'); ?> <?php echo __('You need select hybrid section'); ?>
 	</div>
@@ -12,7 +12,7 @@
 <div class="widget-header">
 	<h4><?php echo __('Properties'); ?></h4>
 </div>
-<div class="widget-content">
+<div class="panel-body">
 	<div class="control-group">
 		<div class="controls">
 			<label class="checkbox"><?php echo Form::checkbox('auto_publish', 1, $widget->auto_publish); ?> <?php echo __('Set document published'); ?></label>

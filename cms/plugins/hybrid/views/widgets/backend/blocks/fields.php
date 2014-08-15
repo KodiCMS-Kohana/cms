@@ -2,7 +2,7 @@
 <div class="widget-header">
 	<h4><?php echo UI::icon('th-list'); ?> <?php echo __('Fetched document fields'); ?></h4>
 </div>
-<div class="widget-content widget-nopad">
+<div class="panel-body widget-nopad">
 	<table id="section-fields" class="table table-striped">
 		<colgroup>
 			<col width="30px" />

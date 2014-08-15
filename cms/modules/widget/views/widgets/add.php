@@ -6,7 +6,7 @@
 	<div class="widget-header">
 		<h4><?php echo __('General Information'); ?></h4>
 	</div>
-	<div class="widget-content">
+	<div class="panel-body">
 		<div class="control-group">
 			<label class="control-label"><?php echo __('Widget Header'); ?></label>
 			<div class="controls">
@@ -32,7 +32,7 @@
 	<div class="widget-header">
 		<h4><?php echo __('Widget data'); ?></h4>
 	</div>
-	<div class="widget-content">
+	<div class="panel-body">
 		<div class="control-group">
 			<label class="control-label"><?php echo __('Type'); ?></label>
 			<div class="controls">

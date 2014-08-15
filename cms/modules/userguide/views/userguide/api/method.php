@@ -6,7 +6,7 @@
 			<small>(defined in <?php echo html::anchor( $route->uri( array( 'class' => $declares->name ) ), $declares->name, NULL, NULL, TRUE ) ?>)</small>
 		</h3>
 	</div>
-	<div class="widget-content">
+	<div class="panel-body">
 		<?php if(!empty($doc->description)): ?>
 		<blockquote><?php echo $doc->description; ?></blockquote>
 		<?php endif; ?>

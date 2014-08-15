@@ -2,7 +2,7 @@
 	<h3><?php echo UI::icon('cogs'); ?> <?php echo __('Page options'); ?></h3>
 </div>
 
-<div class="widget-content">
+<div class="panel-body">
 	<?php if( $page->id != 1 ): ?>
 	<?php echo $page->label('parent_id'); ?>
 	<?php echo $page->field('parent_id', array(

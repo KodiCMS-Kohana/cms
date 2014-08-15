@@ -1,7 +1,7 @@
 <div class="widget-header spoiler-toggle" data-spoiler=".maintenance-spoiler" data-icon="wrench">
 	<h3><?php echo __('Maintenance mode'); ?></h3>
 </div>
-<div class="widget-content spoiler maintenance-spoiler">
+<div class="panel-body spoiler maintenance-spoiler">
 	<div class="control-group">
 		<label class="control-label"><?php echo __('Enable maintenance mode'); ?></label>
 		<div class="controls">

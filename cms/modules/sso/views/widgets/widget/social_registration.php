@@ -1,7 +1,7 @@
 <div class="widget-header">
 	<h4><?php echo __('Social providers'); ?></h4>
 </div>
-<div class="widget-content">
+<div class="panel-body">
 	<?php foreach($widget->get_registered_providers() as $provider => $data): ?>
 	<div class="control-group">
 		<label class="checkbox">

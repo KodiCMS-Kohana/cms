@@ -36,7 +36,7 @@ function change_email_driver(driver) {
 <div class="widget-header" data-icon="envelope">
 	<h3><?php echo __( 'Email settings' ); ?></h3>
 </div>
-<div class="widget-content">
+<div class="panel-body">
 	<div class="control-group">
 		<label class="control-label" for="settingDefault"><?php echo __( 'Default email address' ); ?></label>
 		<div class="controls">

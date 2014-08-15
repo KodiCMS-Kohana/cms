@@ -1,6 +1,6 @@
 <div class="widget">
 	<?php echo Form::open(Request::current()->uri()); ?>
-	<div class="widget-content ">
+	<div class="panel-body ">
 		<h3>&larr; <?php echo HTML::anchor(Route::get('backend')->uri(array(
 				'controller' => 'widgets', 
 				'action' => 'edit',
@@ -24,7 +24,7 @@
 			</tbody>
 		</table>
 	</div>
-	<div class="widget-content ">
+	<div class="panel-body ">
 		<div class="input-prepend input-append">
 			<?php echo Form::input('select_for_all', NULL, array('class' => 'inline')); ?>
 			<?php echo UI::button( __('Select for all pages'), array(

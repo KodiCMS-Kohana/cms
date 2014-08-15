@@ -1,0 +1,152 @@
+/* ===================================================
+	Widget
+ ===================================================*/
+.widget {
+    clear: both;
+    margin-bottom: 2em;
+    position: relative;
+    width: auto;
+	
+	&.widget-sidebar {
+		.select2-container {
+			min-width: 0;
+		}
+	}
+
+	.widget-title, .widget-header {
+		border: 1px solid #D5D5D5;
+		position: relative;
+		margin: 0;
+		padding: 10px;
+
+		form {
+			margin-bottom: 0;
+		}
+
+		& + .widget-content {
+			border-top: medium none;
+		}
+	}
+
+	.widget-title {
+		background: #eee;
+
+		.control-group {
+			margin-bottom: 0;
+		}
+
+		& + .widget-header {
+			border-top: medium none;
+		}
+	}
+
+	.widget-header {
+		background-color: @navbar-default-bg;
+		text-shadow: none;
+
+		h3, h4 {
+			color: #555555;
+			display: inline-block;
+			font-size: 16px;
+			font-weight: 200;
+			left: 10px;
+			line-height: 18px;
+			margin: 0 3em 0 0;
+			position: relative;
+			top: 2px;
+		}
+
+		h4 {
+			font-size: 14px;
+			line-height: 16px;
+		}
+
+		> [class^="icon-"], > [class*=" icon-"] {
+			color: #555555;
+			display: inline-block;
+			margin-left: 5px;
+			margin-right: -2px;
+			vertical-align: middle;
+		}
+
+		&.spoiler-toggle {
+			background-color: darken(@navbar-default-bg, 5%);
+		}
+
+		&.widget-inverse {
+			background-color: #333f4d;
+			text-shadow: none;
+			border-color: darken(#333f4d, 5%);
+			h3, h4 {
+				color: #fff;
+			}
+		}
+	}
+
+	.widget-tabs {
+		padding: 10px 10px 0 10px;
+		border: 1px solid #D5D5D5;
+		border-top-color: #fff;
+		border-bottom-width: 0;
+		margin-bottom: -1px;
+	}
+
+	.widget-content {
+		background: none repeat scroll 0 0 #FFFFFF;
+		border: 1px solid #D5D5D5;
+		padding: 15px;
+
+		&.widget-nopad {
+			padding: 0;
+		}
+
+		&.widget-small {
+			padding: 5px 15px;
+		}
+
+		&:before, &:after {
+			content: "";
+			display: table;
+		}
+		
+		&:after {
+			clear: both;
+		}
+
+		& + .widget-header {
+			border-top: medium none;
+		}
+	}
+
+	.widget-footer, .widget-content-bg {
+		border: 1px solid #D5D5D5;
+		border-top: 1px solid #fff;
+		background: whitesmoke;
+		padding: 10px 15px;
+		margin: 0;
+	}
+
+	&.widget-nopad {
+		.widget-content {
+			padding: 0;
+		}
+	}
+
+	&.widget-small {
+		.widget-content {
+			padding: 5px;
+		}
+	}
+}
+
+.iframe {
+	.widget-title, 
+	.widget-header,
+	.widget-content, 
+	.widget-footer {
+	}
+
+	.widget:last-child {
+		margin-bottom: 0;
+	}
+}
