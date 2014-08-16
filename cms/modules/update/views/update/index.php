@@ -1,11 +1,12 @@
-<div class="widget">
-	<div class="widget-header">
-		<h3><?php echo __('Update'); ?></h3>
+<div class="panel">
+	<div class="panel-heading">
+		<span class="panel-title"><?php echo __('Update'); ?></<>
 	</div>
 	<div class="panel-body">
 		<?php if(Update::check_version() === Update::VERSION_OLD): ?>
 		<h3><?php echo __('There is a new :cms_name version (:version)', array(':version' => Update::remote_version(), ':cms_name' => CMS_NAME)); ?></h3>
 		<?php else: ?>
+		
 		<h3><?php echo __('You have the latest version of :cms_name', array(':cms_name' => CMS_NAME)); ?></h3>
 		<?php endif; ?>
 		
