@@ -16,6 +16,28 @@
 					</a>
 				</li>
 				<?php endforeach; ?>
+				
+				<?php if(count($section->sections()) > 0): ?>
+				<?php foreach ( $section->sections() as $sub_section ): ?>
+				<li class="mm-dropdown">
+					<a href="#">
+						<?php if($sub_section->icon): ?><?php echo UI::icon($sub_section->icon); ?> <?php endif; ?>
+						<span class="mm-text"><?php echo $sub_section->name(); ?></span>
+					</a>
+					
+					<ul>
+						<?php foreach ( $sub_section as $sub_item ): ?>
+						<li>
+							<a href="/<?php echo $sub_item->url(); ?>">
+								<?php if($sub_item->icon): ?><?php echo UI::icon($sub_item->icon); ?> <?php endif; ?>
+								<span class="mm-text"><?php echo $sub_item->name(); ?></span>
+							</a>
+						</li>
+						<?php endforeach; ?>
+					</ul>
+				</li>
+				<?php endforeach; ?>
+				<?php endif; ?>
 			</ul>
 		</li>
 		<?php endforeach; ?>

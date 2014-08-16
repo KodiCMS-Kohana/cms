@@ -44,7 +44,7 @@ class Controller_Widgets extends Controller_System_Backend {
 				'name' => 'per_page',
 				'label' => __('Items per page'),
 				'value' => $per_page,
-				'class' => 'input-mini'
+				'class' => 'form-control'
 			))
 		));
 

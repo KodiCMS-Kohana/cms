@@ -20,13 +20,15 @@
 	</head>
 	<body id="body_<?php echo $page_body_id; ?>" class="<?php echo $request->query('type'); ?> theme-default main-menu-fixed">
 		<div id="main-wrapper">
+
+			<?php if($request->query('type') != 'iframe'): ?>
 			<header>
 				<?php echo View::factory('system/layout/navbar'); ?>
 			</header>
-
 			<div id="main-menu" role="navigation">
 				<?php echo View::factory('system/layout/menu'); ?>
 			</div>
+			<?php endif; ?>
 
 			<div id="content-wrapper">
 				<?php echo $breadcrumbs; ?>

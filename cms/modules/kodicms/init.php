@@ -34,6 +34,5 @@ Assets_Package::add('datepicker')
 Observer::observe('modules::after_load', function() {
 	Assets_Package::add('select2')
 		->js(NULL, ADMIN_RESOURCES . 'libs/select2/select2.min.js', 'jquery')
-		->js(NULL . I18n::lang_short(), ADMIN_RESOURCES . 'libs/select2/select2_locale_'.I18n::lang_short().'.js', 'select2')
-		->css(NULL, ADMIN_RESOURCES . 'libs/select2/select2.css', 'jquery');
+		->js(NULL . I18n::lang_short(), ADMIN_RESOURCES . 'libs/select2/select2_locale_'.I18n::lang_short().'.js', 'select2');
 });

@@ -326,6 +326,7 @@ cms.ui.add('flags', function() {
 	$('body').on('click', '.flags .label', function(e) {
 		var $src = $(this).parent().data('target');
 		if( ! $src ) $src = $(this).parent().prevAll(':input');
+		else $src = $($src);
 		
 		var $container = $(this).parent();
 		var $append = $container.data('append') == true;
@@ -679,9 +680,9 @@ cms.ui.add('flags', function() {
 		return false;
 	});
 }).add('hotkeys', function(){
-	$('*[hotkeys]').each(function() {
+	$('*[data-hotkeys]').each(function() {
 		var $self = $(this),
-			$hotkeys = $self.attr('hotkeys'),
+			$hotkeys = $self.data('hotkeys'),
 			$callback = function(e){ e.preventDefault(); };
 			
 		if($self.is(':submit') || $self.hasClass('popup')) {

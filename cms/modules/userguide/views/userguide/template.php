@@ -16,40 +16,39 @@
 		<?php echo Assets::js(); ?>
 		<?php Observer::notify( 'layout_backend_head_after' ); ?>
 	</head>
-	<body id="body_<?php echo $page_body_id; ?>">
-		<div id="content-wrapper">
-			<?php echo View::factory('system/blocks/navigation'); ?>
-			<?php echo $breadcrumbs; ?>
-			<div class="container-fluid">
-				
-				
-				<div id="content">
-					<div class="row-fluid">
-						<div class="span3">
-							<div id="kodoc-topics">
-								<?php echo $menu ?>
-							</div>
-						</div>
-						<div class="span9">
-							<?php if(!empty($title)): ?>
-							<?php echo UI::page_header($title); ?>
-							<?php endif; ?>
-							<?php echo $content; ?>
+	<body id="body_<?php echo $page_body_id; ?>" class="<?php echo $request->query('type'); ?> theme-default main-menu-fixed">
+		<div id="main-wrapper">
+			<?php if($request->query('type') != 'iframe'): ?>
+			<header>
+				<?php echo View::factory('system/layout/navbar'); ?>
+			</header>
+			<div id="main-menu" role="navigation">
+				<?php echo View::factory('system/layout/menu'); ?>
+			</div>
+			<?php endif; ?>
 
-							<div class="clearfix"></div>
+			<div id="content-wrapper">
+				<div class="row">
+					<div class="col-md-3">
+						<div id="kodoc-topics">
+							<?php echo $menu ?>
 						</div>
+					</div>
+					<div class="col-md-9">
+						<?php if(!empty($title)): ?>
+						<?php echo UI::page_header($title); ?>
+						<?php endif; ?>
+						<?php echo $content; ?>
+
+						<div class="clearfix"></div>
 					</div>
 				</div>
 			</div>
 			
-			<div class="clearfix"></div>
+			<?php if ( Config::get('site', 'profiling' ) == Config::YES ): ?>
+			<hr />
+			<?php echo View::factory( 'profiler/stats' ) ?>
+			<?php endif; ?>
 		</div>
-		
-		<?php echo View::factory('system/blocks/footer'); ?>
-
-		<?php if ( Config::get('site', 'profiling' ) == Config::YES ): ?>
-		<hr />
-		<?php echo View::factory( 'profiler/stats' ) ?>
-		<?php endif; ?>
 </body>
 </html>

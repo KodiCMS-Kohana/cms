@@ -1,6 +1,7 @@
-<div class="widget">
-	<?php echo View::factory('helper/tabbable'); ?>
-	<div class="widget-header"><h3><?php echo __( 'General information' ); ?></h3></div>
+<div class="panel">
+	<div class="panel-heading">
+		<span class="panel-title"><?php echo __( 'General information' ); ?></span>
+	</div>
 	<div class="panel-body">
 		<table class="table table-striped">
 			<colgroup>
@@ -51,7 +52,9 @@
 	</div>
 	
 	<?php if(Acl::check('system.phpinfo')): ?>
-	<div class="widget-header"><h3><?php echo __( 'PHP info' ); ?></h3></div>
+	<div class="panel-heading">
+		<span class="panel-title"><?php echo __( 'PHP info' ); ?></span>
+	</div>
 	<div class="panel-body">
 		<iframe src="<?php echo URL::site(Route::get('backend')->uri(array(
 			'controller' => 'system',

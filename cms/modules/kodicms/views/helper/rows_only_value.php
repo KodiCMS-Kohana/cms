@@ -46,16 +46,26 @@ $field = URL::title($field, '_');
 </script>
 
 <div class="form-group" id="<?php echo $container; ?>">
-	<?php if(!empty($label)): ?><label class="control-label"><?php echo $label; ?></label><?php endif; ?>
-	<div class="controls">
-		<div class="row-helper hidden">
-			<div class="input-append">
-				<input type="text" name="<?php echo $field; ?>[]" disabled="disabled" class="input-xxlarge row-value" placeholder="<?php echo __('Value'); ?>">
-				<button class="btn btn-warning remove-row"><?php echo UI::icon('trash-o'); ?></button>
-				<br /><br />
+	<?php if(!empty($label)): ?><label class="control-label col-md-3"><?php echo $label; ?></label><?php endif; ?>
+	<div class="<?php if(!empty($label)): ?>col-xs-9<?php else: ?>col-xs-12<?php endif; ?>">
+		<div class="row-helper hidden padding-xs-vr">
+			<div class="input-group">
+				<?php echo Form::input($field . '[]', NULL, array(
+					'disabled', 'class' => 'row-value form-control', 
+					'placeholder' => __('Value')
+				)); ?>
+				<div class="input-group-btn">
+					<?php echo Form::button('trash-row', UI::icon('trash-o'), array(
+						'class' => 'btn btn-warning remove-row'
+					)); ?>
+				</div>
 			</div>
 		</div>
+
 		<div class="rows-container"></div>
-		<button class="add-row btn" hotkeys="ctrl+a"><?php echo UI::icon('plus'); ?></button>
+		
+		<?php echo Form::button('add-row', UI::icon('plus'), array(
+			'class' => 'add-row btn btn-primary', 'data-hotkeys' => 'ctrl+a'
+		)); ?>
 	</div>
 </div>
