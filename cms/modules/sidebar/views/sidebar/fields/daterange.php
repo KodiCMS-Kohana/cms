@@ -1,4 +1,4 @@
-<div class="control-group">
+<div class="form-group">
     <label class="control-label"><?php echo $label; ?></label>
     <div class="controls">
 		<?php echo implode(' - ', $range); ?>

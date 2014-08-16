@@ -32,10 +32,10 @@
 			)); ?>
 		</div>
 	</div>
-	<div class="widget-footer form-actions">
+	<div class="panel-footer form-actions">
 		<?php echo UI::button( __('Save locations'), array(
 			'icon' => UI::icon( 'check'), 
-			'class' => 'btn btn-large',
+			'class' => 'btn btn-lg',
 			'hotkeys' => 'ctrl+s'
 		)); ?>
 		
@@ -43,7 +43,7 @@
 		<?php if( ACL::check( 'layout.rebuild')): ?>
 		<?php echo UI::button(__('Rebuild blocks'), array(
 			'icon' => UI::icon( 'refresh' ),
-			'class' => 'btn btn-inverse btn-mini btn-api',
+			'class' => 'btn btn-inverse btn-xs btn-api',
 			'data-url' => 'layout.rebuild',
 			'data-method' => Request::POST
 		)); ?>
@@ -67,7 +67,7 @@ function recurse_pages( $pages, $spaces = 0, $layouts_blocks = array(), $page_wi
 		if(!empty($page['childs']))
 		{
 			$data .= "&nbsp;" . Form::button(NULL, UI::icon('level-down'), array(
-				'class' => 'set_to_inner_pages btn btn-mini',
+				'class' => 'set_to_inner_pages btn btn-xs',
 				'title' => __('Select to child pages')
 			) );
 		}

@@ -13,7 +13,7 @@ class Bootstrap_Form_Element_Control_Group extends Bootstrap_Form_Helper_Element
 	public function default_attributes()
 	{
 		return array(
-			'class' => 'control-group'
+			'class' => 'form-group'
 		);
 	}
 }

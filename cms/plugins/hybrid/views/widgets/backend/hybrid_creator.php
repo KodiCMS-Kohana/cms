@@ -13,7 +13,7 @@
 	<h4><?php echo __('Properties'); ?></h4>
 </div>
 <div class="panel-body">
-	<div class="control-group">
+	<div class="form-group">
 		<div class="controls">
 			<label class="checkbox"><?php echo Form::checkbox('auto_publish', 1, $widget->auto_publish); ?> <?php echo __('Set document published'); ?></label>
 			<label class="checkbox"><?php echo Form::checkbox('disable_update', 1, $widget->disable_update); ?> <?php echo __('Disable update existing documents'); ?></label>
@@ -21,13 +21,13 @@
 	</div>
 	
 	<div class="well">
-		<div class="control-group">
+		<div class="form-group">
 			<label class="control-label" for="data_source"><?php echo __('Hybrid data source')?></label>
 			<div class="controls">
 				<?php echo Form::select('data_source', $widget->src_types()); ?>
 			</div>
 		</div>
-		<div class="control-group">
+		<div class="form-group">
 			<label class="control-label" for="data_source_prefix"><?php echo __('Hybrid data source prefix')?></label>
 			<div class="controls">
 				<?php echo Form::input('data_source_prefix', $widget->data_source_prefix); ?>
@@ -35,7 +35,7 @@
 		</div>
 	</div>
 	
-	<div class="control-group">
+	<div class="form-group">
 		<label class="control-label" for="redirect_url"><?php echo __('Redirect url on success')?></label>
 		<div class="controls">
 			<?php echo Form::input('redirect_url', $widget->redirect_url); ?>

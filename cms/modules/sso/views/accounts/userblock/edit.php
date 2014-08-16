@@ -17,7 +17,7 @@
 			<strong><?php echo $social->link(); ?></strong>
 			<br />
 			<?php echo UI::button(__('Disconnect'), array(
-				'class' => 'btn btn-mini btn-warning',
+				'class' => 'btn btn-xs btn-warning',
 				'href' => Route::get('accounts-auth')->uri(array(
 					'directory' => 'oauth', 
 					'controller' => $social->provider(), 

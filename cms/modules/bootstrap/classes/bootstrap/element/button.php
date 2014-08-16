@@ -23,9 +23,9 @@ class Bootstrap_Element_Button extends Bootstrap_Helper_Elements {
 	/**
 	 * Button sizes
 	 */
-	const LARGE		= 'btn-large';
-	const MINI		= 'btn-mini';
-	const SMALL		= 'btn-small';
+	const LARGE		= 'btn-lg';
+	const MINI		= 'btn-xs';
+	const SMALL		= 'btn-sm';
 	
 	/**
 	 * Block level button

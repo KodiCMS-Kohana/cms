@@ -8,7 +8,7 @@
 		<strong>* * * * * cd <?php echo DOCROOT;?>; php -f index.php --task=job:run &gt; /dev/null 2&gt;&amp;1</strong>
 	</div>
 				
-	<div class="control-group">
+	<div class="form-group">
 		<label class="control-label"><?php echo __( 'Job agent' ); ?></label>
 		<div class="controls">
 			<?php echo Form::select( 'setting[job][agent]', Model_Job::agents(), (int) Config::get('job', 'agent')); ?>

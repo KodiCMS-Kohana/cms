@@ -11,7 +11,7 @@
 	</ul>
 	<?php endforeach; ?>
 	
-	<div class="widget-footer">
+	<div class="panel-footer">
 		<div class="btn-group">
 			<?php echo UI::button(__('Create section'), array(
 				'href' => '#', 'class' => 'btn dropdown-toggle btn-success',
@@ -61,7 +61,7 @@
 					'id' => $id
 				)),
 				'icon' => UI::icon( 'wrench' ),
-				'class' => 'btn btn-mini'
+				'class' => 'btn btn-xs'
 			);
 			
 			if($selected == 'active')
@@ -82,7 +82,7 @@
 					'id' => $id
 				)),
 				'icon' => UI::icon( 'trash-o fa-inverse' ),
-				'class' => 'btn btn-danger btn-confirm btn-mini'
+				'class' => 'btn btn-danger btn-confirm btn-xs'
 			);
 			$result .= UI::button(NULL, $attributes);
 		}

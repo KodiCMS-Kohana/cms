@@ -5,13 +5,13 @@
 	<div class="well">
 		<?php echo UI::button(__('Clear logs older 30 days'), array(
 			'icon' => UI::icon( 'trash-o fa-lg' ),
-			'class' => 'btn btn-warning btn-large',
+			'class' => 'btn btn-warning btn-lg',
 			'data-url' => 'log.clear_old',
 			'data-method' => Request::POST
 		)); ?>
 	</div>
 	
-	<div class="control-group">
+	<div class="form-group">
 		<label class="control-label"><?php echo __( 'Logs level' ); ?></label>
 		<div class="controls">
 			<?php echo Form::select( 'setting[site][log_level]', Log::levels(), (int) Config::get('site', 'log_level' )); ?>

@@ -3,7 +3,7 @@
 </div>
 <div class="panel-body">
 	<?php if(isset($plugins['test'])): ?>
-	<div class="control-group">
+	<div class="form-group">
 		<label class="control-label"><?php echo __('Demo site'); ?></label>
 		<div class="controls">
 			<label id="insert-test-data" class="checkbox btn btn-success btn-checkbox">
@@ -14,7 +14,7 @@
 	<?php unset($plugins['test']); ?>
 	<?php endif; ?>
 
-	<div class="control-group">
+	<div class="form-group">
 		<label class="control-label"><?php echo __('Install plugins'); ?></label>
 		<div class="controls">
 			<?php foreach ($plugins as $id => $plugin): ?>

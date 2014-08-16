@@ -51,7 +51,7 @@
 							'id' => $child->id
 						)), 
 						'icon' => UI::icon('plus'), 
-						'class' => 'btn btn-mini'
+						'class' => 'btn btn-xs'
 					)); ?>
 					<?php endif; ?>
 					<?php if (Acl::check( 'page.delete')): ?>
@@ -61,7 +61,7 @@
 							'action' => 'delete',
 							'id' => $child->id
 						)), 'icon' => UI::icon('times fa-inverse'), 
-						'class' => 'btn btn-mini btn-confirm btn-danger'
+						'class' => 'btn btn-xs btn-confirm btn-danger'
 					)); ?>
 					<?php endif; ?>
 				</div>

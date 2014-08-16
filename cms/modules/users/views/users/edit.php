@@ -12,7 +12,7 @@
 		<div class="panel-body">
 			<div class="row-fluid">
 				<div class="span8">
-					<div class="control-group">
+					<div class="form-group">
 						<?php echo $user->profile->label('name', array('class' => 'control-label')); ?>
 						<div class="controls">
 							<?php echo $user->profile->field('name', array(
@@ -22,7 +22,7 @@
 						</div>
 					</div>
 					
-					<div class="control-group">
+					<div class="form-group">
 						<?php echo $user->label('email', array('class' => 'control-label')); ?>
 						<div class="controls">
 							<div class=" input-append">
@@ -35,7 +35,7 @@
 						</div>
 					</div>
 					
-					<div class="control-group">
+					<div class="form-group">
 						<?php echo $user->label('username', array('class' => 'control-label')); ?>
 						<div class="controls">
 							<div class="input-append">
@@ -56,7 +56,7 @@
 			
 			<hr class="panel-wide"/>
 			
-			<div class="control-group">
+			<div class="form-group">
 				<?php echo $user->profile->label('locale', array('class' => 'control-label')); ?>
 				<div class="controls">
 					<?php echo $user->profile->field('locale', array(
@@ -71,7 +71,7 @@
 		</div>
 		
 		<div class="panel-body">
-			<div class="control-group">
+			<div class="form-group">
 				<div class="controls form-inline">
 					<?php echo $user->profile->field('notice', array(
 						'prefix' => 'profile',

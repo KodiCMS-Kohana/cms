@@ -12,7 +12,7 @@
 		<h4><?php echo UI::icon('exclamation-circle'); ?> <?php echo __('Datasource Information'); ?></h4>
 	</div>
 	<div class="panel-body spoiler general-spoiler">
-		<div class="control-group">
+		<div class="form-group">
 			<label class="control-label title" for="ds_name"><?php echo __('Datasource Header'); ?></label>
 			<div class="controls">
 				<?php echo Form::input( 'name', $ds->name, array(
@@ -21,7 +21,7 @@
 			</div>
 		</div>
 
-		<div class="control-group">
+		<div class="form-group">
 			<label class="control-label" for="ds_description"><?php echo __('Datasource Description'); ?></label>
 			<div class="controls">
 				<?php echo Form::textarea( 'description', $ds->description, array(
@@ -45,20 +45,20 @@
 		<h4><?php echo UI::icon('search'); ?> <?php echo __('Search indexation'); ?></h4>
 	</div>
 	<div class="panel-body spoiler indexer-spoiler">
-		<div class="control-group">
+		<div class="form-group">
 			<div class="controls">
 				<label class="checkbox"><?php echo Form::checkbox( 'is_indexable', 1, $ds->is_indexable() ); ?> <?php echo __('Is indexable'); ?></label>
 			</div>
 		</div>
 		
-		<div class="control-group">
+		<div class="form-group">
 			<label class="control-label" for="search_intro_field"><?php echo __('Index document intro'); ?></label>
 			<div class="controls">
 				<?php echo Form::select('search_intro_field',  array(__('--- none ---')) + $ds->record_fields_array(), $ds->search_intro_field); ?>
 			</div>
 		</div>
 		
-		<div class="control-group">
+		<div class="form-group">
 			<label class="control-label" for="search_index_fields"><?php echo __('Index document fields'); ?></label>
 			<div class="controls">
 				<?php echo Form::select('search_index_fields[]', $ds->record_fields_array(), (array) $ds->search_index_fields, array(
@@ -67,7 +67,7 @@
 			</div>
 		</div>
 		
-		<div class="control-group">
+		<div class="form-group">
 			<label class="control-label" for="search_index_doc_id_fields"><?php echo __('Document ID fields'); ?></label>
 			<div class="controls">
 				<?php echo Form::select('search_index_doc_id_fields[]', $ds->record_fields_array(), (array) $ds->search_index_doc_id_fields, array(
@@ -76,7 +76,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="form-actions widget-footer">
+	<div class="form-actions panel-footer">
 		<?php echo UI::actions(NULL, Route::get('datasources')->uri(array(
 			'controller' => 'data',
 			'directory' => 'datasources'

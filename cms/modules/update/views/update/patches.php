@@ -4,7 +4,7 @@
 	)); ?>
 	<div class="panel-body">
 		<?php if( ! empty($patches)): ?>
-		<div class="control-group">
+		<div class="form-group">
 			<div class="controls">
 				<?php if ( ! is_dir(PATCHES_FOLDER)): ?>
 				<div class="alert alert-warning">
@@ -29,8 +29,8 @@
 	</div>
 	
 	<?php if( ! empty($patches)): ?>
-	<div class="widget-footer form-actions">
-		<div class="control-group">
+	<div class="panel-footer form-actions">
+		<div class="form-group">
 			<div class="controls">
 				<?php echo Form::button('apply', __('Apply'), array('class' => 'btn btn-confirm btn-danger')); ?>
 			</div>

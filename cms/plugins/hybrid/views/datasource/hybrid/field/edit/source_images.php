@@ -1,4 +1,4 @@
-<div class="control-group">
+<div class="form-group">
 	<label class="control-label"><?php echo __( 'Max file size' ); ?></label>
 	<div class="controls">
 		<?php echo Form::input('max_size', $field->max_size, array('class' => 'input-small', 'id' => 'max_size')); ?> (<?php echo Text::bytes($field->max_size); ?>)

@@ -3,7 +3,7 @@
 </div>
 <div class="panel-body">
 	<?php foreach($widget->get_registered_providers() as $provider => $data): ?>
-	<div class="control-group">
+	<div class="form-group">
 		<label class="checkbox">
 			<?php echo Form::checkbox('providers['.$provider.']', 1, !empty($widget->providers[$provider])); ?>
 			<?php echo $widget->get_provider_param($provider, 'name'); ?>

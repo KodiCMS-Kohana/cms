@@ -1,87 +1,98 @@
-<div class="widget-header">
-	<h3><?php echo UI::icon('cogs'); ?> <?php echo __('Page options'); ?></h3>
-</div>
+<?php Observer::notify('view_page_edit_sidebar_before', $page); ?>
 
 <div class="panel-body">
 	<?php if( $page->id != 1 ): ?>
-	<?php echo $page->label('parent_id'); ?>
-	<?php echo $page->field('parent_id', array(
-		'prefix' => 'page',
-		'class' => 'span12'
-	)); ?>
-
-	<br />
-	<?php endif; ?>
-
-	<?php echo $page->label('layout_file', array('class' => 'pull-left')); ?>
-	
-	<?php if( empty($page->layout_file) ): ?>
-	<span class="pull-right">
-		<?php echo UI::label(__('Current layput: :name', array(':name' => $page->layout()))); ?>
-	</span>
-	<?php endif; ?>
-	<div class="clearfix"></div>
-
-	<?php echo $page->field('layout_file', array(
-		'prefix' => 'page',
-		'class' => 'span12'
-	)); ?>
-	<br />
-
-	<div class="well well-small">
-		<?php echo $page->label('behavior_id'); ?>
-		<?php echo $page->field('behavior_id', array(
-			'prefix' => 'page',
-			'class' => 'span12'
-		)); ?>
-		<div id="behavor_options"></div>
-	</div>
-
-	<?php if( $page->id != 1 ): ?>
-	<div class="page-statuses">
-		<?php echo $page->label('status_id'); ?>
-		<?php echo $page->field('status_id', array(
-			'prefix' => 'page',
-			'class' => 'span12'
-		)); ?>
-
-		<div class="hidden password-container">
-			<br />
-			<?php echo $page->label('password'); ?>
-			<?php echo $page->field('password', array(
-				'prefix' => 'page',
-				'class' => 'span12'
+	<div class="form-group">
+		<?php echo $page->label('parent_id', array('class' => 'control-label col-md-3')); ?>
+		<div class="col-md-6">
+			<?php echo $page->field('parent_id', array(
+				'prefix' => 'page'
 			)); ?>
 		</div>
 	</div>
 	<?php endif; ?>
 
-	<?php if( $page->id != 1 ): ?>
+	<div class="form-group">
+		<?php echo $page->label('layout_file', array('class' => 'control-label col-md-3')); ?>
 	
-	<?php echo $page->label('published_on'); ?>
-	<?php echo $page->field('published_on', array(
-		'prefix' => 'page',
-		'class' => 'span12 datetimepicker'
-	)); ?>
+		<div class="col-md-6">
+			<?php echo $page->field('layout_file', array(
+				'prefix' => 'page'
+			)); ?>
+		</div>
+		
+		<div class="col-md-3">
+			<?php echo UI::label(__('Current layput: :name', array(':name' => $page->layout()))); ?>
+		</div>
+	</div>
+	
+	<hr class="panel-wide" />
+
+	<div class="form-group">
+		<?php echo $page->label('behavior_id', array('class' => 'control-label col-md-3')); ?>
+		<div class="col-md-6">
+			<?php echo $page->field('behavior_id', array(
+				'prefix' => 'page'
+			)); ?>
+			<div id="behavor_options"></div>
+		</div>
+	</div>
+	
+	<hr class="panel-wide" />
+
+	<?php if( $page->id != 1 ): ?>
+	<div class="form-group page-statuses">
+		<?php echo $page->label('status_id', array('class' => 'control-label col-md-3')); ?>
+		<div class="col-md-6">
+			<?php echo $page->field('status_id', array(
+				'prefix' => 'page'
+			)); ?>
+			
+			<div class="hidden password-container form-group no-margin-hr">
+				<hr />
+				<?php echo $page->label('password', array('class' => 'control-label')); ?>
+				<?php echo $page->field('password', array(
+					'prefix' => 'page',
+					'class' => 'form-control'
+				)); ?>
+			</div>
+		</div>
+	</div>
+	
+	<hr class="panel-wide" />
+	<?php endif; ?>
+
+	<?php if( $page->id != 1 ): ?>
+	<div class="form-group">
+		<?php echo $page->label('published_on', array('class' => 'control-label col-md-3')); ?>
+		<div class="col-md-6">
+			<?php echo $page->field('published_on', array(
+				'prefix' => 'page',
+				'class' => 'form-control datetimepicker'
+			)); ?>
+		</div>
+	</div>
+	<hr class="panel-wide" />
 	<?php endif; ?>
 
 	<?php if ( ACL::check( 'page.permissions' ) ): ?>
-	<?php echo $page->label('needs_login'); ?>
-	<?php echo $page->field('needs_login', array(
-		'prefix' => 'page',
-		'class' => 'span12'
-	)); ?>
-	<?php endif; ?>
-
-	<?php if ( ACL::check( 'page.permissions' ) ): ?>
-	<br />
-	<div class="well well-small">
-		<?php echo $page->label('page_permissions'); ?>
-		<?php echo Form::select('page_permissions[]', $permissions, array_keys($page_permissions), array(
-			'class' => 'span12'
-		)); ?>
+	<div class="form-group">
+		<?php echo $page->label('needs_login', array('class' => 'control-label col-md-3')); ?>
+		<div class="col-md-6">
+			<?php echo $page->field('needs_login', array(
+				'prefix' => 'page'
+			)); ?>
+		</div>
 	</div>
 	<?php endif; ?>
 </div>
 
-<?php Observer::notify('view_page_edit_options', array($page)); ?>
+<?php if ( ACL::check( 'page.permissions' ) ): ?>
+<div class="panel-heading">
+	<?php echo $page->label('page_permissions', array('class' => 'panel-title')); ?>
+</div>
+<div class="panel-body">
+	<?php echo Form::select('page_permissions[]', $permissions, array_keys($page_permissions)); ?>
+</div>
+<?php endif; ?>
+<?php Observer::notify('view_page_edit_sidebar_after', $page); ?>

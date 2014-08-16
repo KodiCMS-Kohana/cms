@@ -15,17 +15,12 @@
 		<?php Observer::notify( 'layout_frontend_head_before' ); ?>
 		<?php echo Assets::css(); ?>
 		<?php echo Assets::js(); ?>
-		<?php echo Assets::group('global'); ?>
+		<?php echo Assets::group('global', 'events'); ?>
 		<?php Observer::notify( 'layout_frontend_head_after' ); ?>
 	</head>
 	<body id="body_frontend">
-		<div id="content-wrapper">
-			<div class="container" id="content">
-				<section id="content">
-					<?php echo $content; ?>
-				</section>
-			</div>
-		</div>
+		<?php echo $content; ?>
+		
 		<?php if ( Config::get('site', 'profiling' ) == Config::YES ): ?>
 		<hr />
 		<?php echo View::factory( 'profiler/stats' ) ?>

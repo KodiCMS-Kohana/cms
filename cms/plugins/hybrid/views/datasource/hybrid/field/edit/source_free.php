@@ -1,4 +1,4 @@
-<div class="control-group">
+<div class="form-group">
 	<label class="control-label" for="primitive_default"><?php echo __( 'Widget inject key' ); ?></label>
 	<div class="controls">
 		<?php

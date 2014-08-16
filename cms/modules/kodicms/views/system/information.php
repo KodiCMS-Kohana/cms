@@ -16,7 +16,7 @@
 					<th><?php echo __('CMS Version') ?></th>
 					<td><?php echo CMS_VERSION; ?>&nbsp;&nbsp;&nbsp;<?php echo HTML::anchor(Route::get('backend')->uri(array(
 						'controller' => 'update'
-					)), __('Check updates'), array('class' => 'btn btn-mini btn-info'));?></td>
+					)), __('Check updates'), array('class' => 'btn btn-xs btn-info'));?></td>
 				</tr>
 				<tr>
 					<th><?php echo __('PHP Version') ?></th>

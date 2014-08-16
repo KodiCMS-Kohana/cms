@@ -5,7 +5,7 @@ if ( ! $doc->loaded() AND $field->set_current === TRUE)
 }
 ?>
 
-<div class="control-group">
+<div class="form-group">
 	<label class="control-label" for="<?php echo $field->name; ?>"><?php echo $field->header; ?> <?php if($field->isreq): ?>*<?php endif; ?></label>
 	<div class="controls">
 		<?php if($field->only_current): ?>

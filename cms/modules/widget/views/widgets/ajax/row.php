@@ -31,7 +31,7 @@
 				'action' => 'location',
 				'id' => $widget->id)), 
 			'icon' => UI::icon('sitemap'),
-			'class' => 'btn btn-mini btn-primary',
+			'class' => 'btn btn-xs btn-primary',
 			'target' => 'blank'
 		)); ?>
 		<?php else: ?>

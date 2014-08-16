@@ -1,9 +1,10 @@
-<div class="hero-unit raised outline" id="login-form">
-	<div class="outline_inner">
-	<?php
-		echo HTML::image( ADMIN_RESOURCES . 'images/logo-color.png');
-	?>
-	<hr />
+<div class="page-signin-alt">
+	<div class="signin-header">
+		<a href="/" class="logo">
+			<?php echo HTML::image( ADMIN_RESOURCES . 'images/logo-color.png'); ?>
+		</a>
+	</div>
+
 	<?php if( is_array( $install_data)): ?>
 	<div class="alert alert-info">
 		<h5><?php echo __('KodiCMS successfully installed!'); ?></h5>
@@ -14,54 +15,46 @@
 	</div>
 	<?php endif; ?>
 
-	<?php echo Form::open( Route::get('user')->uri(array('action' => 'login') ), array(
-		'method' => 'post', 'class' => 'form-vertical'
-	) ); ?>
+	<?php 
+	echo Form::open(Route::get('user')->uri(array('action' => 'login')), array(
+		'method' => 'post', 'class' => 'panel', 'id' => 'signin-form_id'
+	));
+	
+	echo Form::hidden( 'token', Security::token() ); 
+	?>
 
-	<?php echo Form::hidden( 'token', Security::token() ); ?>
-
-	<div class="control-group">
-		<div class="input-prepend">
-			<span class="add-on"><?php echo UI::icon('user'); ?></span>
+	<div class="panel-body">
+		<div class="form-group">
 			<?php echo Form::input('login[username]', NULL, array(
-				'id' => 'username', 'class' => 'login-field'
+				'id' => 'username_id', 'class' => 'form-control input-lg', 'placeholder' => __('Username or email')
 			)); ?>
 		</div>
-	</div>
 
-	<div class="control-group">
-		<div class="input-prepend input-append">
-			<span class="add-on">
-				<?php echo UI::icon('lock'); ?>
-			</span>
+		<div class="form-group signin-password">
 			<?php echo Form::password('login[password]', NULL, array(
-				'id' => 'password', 'class' => 'login-field'
+				'id' => 'password_id', 'class' => 'form-control input-lg', 'placeholder' => __('Password')
 			)); ?>
-			
-			<?php echo HTML::anchor(ADMIN_DIR_NAME . '/login/forgot', __('Forgot password?'), array('class' => 'btn btn-large btn-link')); ?>
+
+			<?php echo HTML::anchor(ADMIN_DIR_NAME . '/login/forgot', __('Forgot?'), array('class' => 'forgot')); ?>
+		</div>
+
+		<div class="form-group">
+			<label class="checkbox-inline">
+				<?php echo Form::checkbox('login[remember]', 'checked', TRUE, array('class' => 'px', 'id' => 'rememder_id')); ?>
+				<span class="lbl"><?php echo __('Remember me for :num days', array(':num' => Kohana::$config->load('auth.lifetime') / Date::DAY )); ?></span>
+			</label>
 		</div>
 	</div>
-
-	<div class="control-group">
-		<label class="checkbox">
-			<?php echo Form::checkbox('login[remember]', 'checked', TRUE); ?>
-			<?php echo __('Remember me for :num days', array(
-				':num' => Kohana::$config->load('auth.lifetime') / Date::DAY )); ?>
-		</label>
-	</div>
-
-	<hr />
 	
 	<?php Observer::notify('admin_login_form'); ?>
-
-	<?php echo Form::button('sign-in', __('Login') . ' ' . UI::icon('chevron-right'), array(
-		'class' => 'btn btn-large'
-	)); ?>
 	
-	<div class="clearfix"></div>
+	<div class="panel-footer">
+		<?php echo Form::button('sign-in', __('Login'), array(
+			'class' => 'btn btn-success btn-lg'
+		)); ?>
+	</div>
 
 	<?php echo Form::close(); ?>
 	
 	<?php Observer::notify('admin_login_form_after_button'); ?>
-	</div>
 </div>

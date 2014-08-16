@@ -33,7 +33,7 @@
                 'icon' => UI::icon( 'download' )
             ));?>
             <?php echo UI::button(NULL, array(
-                'class' => 'btn btn-mini btn-success btn-confirm', 
+                'class' => 'btn btn-xs btn-success btn-confirm', 
                 'href' => Route::get('backend')->uri(array(
                     'controller' => 'backup',
                     'action' => 'restore', 'id' => $filename
@@ -41,7 +41,7 @@
                 'icon' => UI::icon( 'power-off' )
             ));?> 
             <?php echo UI::button(NULL, array(
-                'class' => 'btn btn-mini btn-danger btn-confirm', 
+                'class' => 'btn btn-xs btn-danger btn-confirm', 
                 'href' => Route::get('backend')->uri(array(
                     'controller' => 'backup',
                     'action' => 'delete', 'id' => $filename

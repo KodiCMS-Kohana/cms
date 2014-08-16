@@ -25,7 +25,7 @@ $(function(){
 		<?php endif; ?>
 	</div>
 	<hr />
-	<div class="control-group">
+	<div class="form-group">
 		<label class="control-label"><?php echo __( 'API enable' ); ?></label>
 		<div class="controls">
 			<?php echo Form::select( 'setting[api][mode]', Form::choices(), Config::get('api', 'mode')); ?>

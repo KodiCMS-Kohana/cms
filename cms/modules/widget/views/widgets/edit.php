@@ -50,7 +50,7 @@
 		)); ?>
 		
 		<div id="cache_settings_container">
-			<div id="cache_lifetime_group" class="control-group">
+			<div id="cache_lifetime_group" class="form-group">
 				<label class="control-label" for="cache_lifetime"><?php echo __('Cache lifetime'); ?></label>
 				<div class="controls">
 					<input type="text" id="cache_lifetime" name="cache_lifetime" value="<?php echo $widget->cache_lifetime; ?>" class="input-medium">
@@ -96,7 +96,7 @@
 		<h4><?php echo UI::icon('file-o'); ?> <?php echo __('Widget media'); ?></h4>
 	</div>
 	<div class="panel-body spoiler media-spoiler">
-		<div class="control-group">
+		<div class="form-group">
 			<div class="controls">
 				<p class="help-block"><?php echo __('For including media files uses class :class', array(
 					':class' => HTML::anchor(Route::get('docs/guide')->uri(array('module' => 'assets', 'page' => 'usage')), 'Assets')
@@ -138,7 +138,7 @@
 		), array('hotkeys' => 'shift+l'))->icon('sitemap'); ?>
 	</div>
 	<?php endif; ?>
-	<div class="widget-footer form-actions">
+	<div class="panel-footer form-actions">
 		<?php echo UI::actions($page_name); ?>
 	</div>
 <?php echo Form::close(); ?>

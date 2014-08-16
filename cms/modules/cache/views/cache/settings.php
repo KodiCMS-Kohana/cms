@@ -6,13 +6,13 @@
 	<div class="well">
 		<?php echo UI::button(__('Clear cache'), array(
 			'icon' => UI::icon('trash-o fa-lg'),
-			'class' => 'btn btn-warning btn-api btn-large',
+			'class' => 'btn btn-warning btn-api btn-lg',
 			'data-url' => 'cache.clear'
 		)); ?>
 	</div>
 	<?php endif; ?>
 	
-	<div class="control-group">
+	<div class="form-group">
 		<?php echo Form::label('setting_cache_driver', __('Cache driver'), array('class' => 'control-label')); ?>
 		<div class="controls">
 			<?php echo Form::select('', array(
@@ -25,14 +25,14 @@
 		</div>
 	</div>
 	
-	<div class="control-group">
+	<div class="form-group">
 		<?php echo Form::label('setting_cache_status', __('Cache status'), array('class' => 'control-label')); ?>
 		<div class="controls">
 			<?php echo Form::select('', array('1' => __('Enabled'), '0' => __('Disabled')), (int) (Kohana::$environment === Kohana::PRODUCTION), array('disabled', 'readonly'));?>
 		</div>
 	</div>
 	<hr />
-	<div class="control-group">
+	<div class="form-group">
 		<label class="control-label"><?php echo __('Pages cache time'); ?></label>
 		<div class="controls">
 			<?php echo Form::input( 'setting[cache][front_page]', (int) Config::get('cache', 'front_page'), array(
@@ -41,7 +41,7 @@
 		</div>
 	</div>
 	
-	<div class="control-group">
+	<div class="form-group">
 		<label class="control-label"><?php echo __('Page parts cache time'); ?></label>
 		<div class="controls">
 			<?php echo Form::input( 'setting[cache][page_parts]', (int) Config::get('cache', 'page_parts'), array(
@@ -50,7 +50,7 @@
 		</div>
 	</div>
 	
-	<div class="control-group">
+	<div class="form-group">
 		<label class="control-label"><?php echo __('Page tags cache time'); ?></label>
 		<div class="controls">
 			<?php echo Form::input( 'setting[cache][tags]', (int) Config::get('cache', 'tags'), array(

@@ -12,6 +12,7 @@ Version: 3.5.0 Timestamp: Mon Jun 16 19:29:44 EDT 2014
 	float: none !important;
 	margin-left: 0 !important;
 	min-width: 220px;
+	width: 100%;
 }
 
 .select2-container,

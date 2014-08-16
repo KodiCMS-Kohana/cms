@@ -1,4 +1,4 @@
-<div class="control-group">
+<div class="form-group">
 	<label class="control-label"><?php echo $field->header; ?> <?php if($field->isreq): ?>*<?php endif; ?></label>
 	<div class="controls">
 		<?php if($field->display == DataSource_Hybrid_Field_Primitive_Boolean::HTML_SELECT): ?>

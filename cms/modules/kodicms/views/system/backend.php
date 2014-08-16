@@ -15,10 +15,10 @@
 		<?php Observer::notify( 'layout_backend_head_before' ); ?>
 		<?php echo Assets::css(); ?>
 		<?php echo Assets::js(); ?>
-		<?php echo Assets::group('global'); ?>
+		<?php echo Assets::group('global', 'events'); ?>
 		<?php Observer::notify( 'layout_backend_head_after' ); ?>
 	</head>
-	<body id="body_<?php echo $page_body_id; ?>" class="<?php echo $request->query('type'); ?> theme-default">
+	<body id="body_<?php echo $page_body_id; ?>" class="<?php echo $request->query('type'); ?> theme-default main-menu-fixed">
 		<div id="main-wrapper">
 			<header>
 				<?php echo View::factory('system/layout/navbar'); ?>

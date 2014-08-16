@@ -1,4 +1,4 @@
-<div class="control-group">
+<div class="form-group">
 	<label class="control-label"><?php echo __( 'Max file size' ); ?></label>
 	<div class="controls">
 		<?php echo Form::input('max_size', $field->max_size, array('class' => 'input-small', 'id' => 'max_size')); ?> (<?php echo Text::bytes($field->max_size); ?>)
@@ -15,28 +15,28 @@
 	<h3><?php echo __('Image settings'); ?></h3>
 </div>
 <div class="panel-body">
-	<div class="control-group">
+	<div class="form-group">
 		<label class="control-label"><?php echo __( 'Image size' ); ?></label>
 		<div class="controls">
 			<?php echo Form::input('width', $field->width, array('class' => 'span1')); ?> x <?php echo Form::input('height', $field->height, array('class' => 'span1')); ?>
 		</div>
 	</div>
 	
-	<div class="control-group">
+	<div class="form-group">
 		<label class="control-label"><?php echo __( 'Image quality' ); ?></label>
 		<div class="controls">
 			<?php echo Form::input('quality', $field->quality, array('class' => 'span1')); ?>
 		</div>
 	</div>
 
-	<div class="control-group">
+	<div class="form-group">
 		<label class="control-label" for="crop"><?php echo __('Crop image'); ?></label>
 		<div class="controls">
 			<?php echo Form::checkbox('crop', 1, $field->crop == 1, array('id' => 'crop' )); ?>
 		</div>
 	</div>
 
-	<div class="control-group">
+	<div class="form-group">
 		<label class="control-label" for="master"><?php echo __('Resizing constraints'); ?></label>
 		<div class="controls">
 			<?php echo Form::select( 'master', array(

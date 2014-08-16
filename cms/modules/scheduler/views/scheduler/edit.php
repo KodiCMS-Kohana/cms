@@ -14,14 +14,14 @@
 		<?php endif; ?>
 	</div>
 	<div class="panel-body">
-		<div class="control-group">
+		<div class="form-group">
 			<?php echo $job->label('name', array('class' => 'control-label title')); ?>
 			<div class="controls">
 				<?php echo $job->field('name', array('class' => 'input-title input-block-level')); ?>
 			</div>
 		</div>
 	
-		<div class="control-group">
+		<div class="form-group">
 			<?php echo $job->label('job', array('class' => 'control-label')); ?>
 			<div class="controls">
 				<?php echo $job->field('job'); ?>
@@ -37,7 +37,7 @@
 			<?php echo $job->label('date_start'); ?> <?php echo $job->field('date_start', array('class' => 'datetimepicker input-medium')); ?> -
 			<?php echo $job->label('date_end'); ?> <?php echo $job->field('date_end', array('class' => 'datetimepicker input-medium')); ?>
 		</div>
-		<div class="control-group">
+		<div class="form-group">
 			<?php echo $job->label('interval', array('class' => 'control-label')); ?>
 			<div class="controls">
 				<?php echo $job->field('interval', array('class' => 'input-medium')); ?>
@@ -52,12 +52,12 @@
 				</span>
 			</div>
 		</div>
-		<div class="control-group">
+		<div class="form-group">
 			<div class="controls">
 				<?php echo __('Or'); ?>
 			</div>
 		</div>
-		<div class="control-group">
+		<div class="form-group">
 			<?php echo $job->label('crontime', array('class' => 'control-label')); ?>
 			<div class="controls">
 				<?php echo $job->field('crontime', array('class' => 'input-large')); ?>
@@ -76,7 +76,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="form-actions widget-footer">
+	<div class="form-actions panel-footer">
 		<?php echo UI::actions($page_name); ?>
 	</div>
 </div>

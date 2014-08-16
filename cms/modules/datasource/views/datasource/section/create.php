@@ -6,7 +6,7 @@
 		<h4><?php echo __('General Information'); ?></h4>
 	</div>
 	<div class="panel-body">
-		<div class="control-group">
+		<div class="form-group">
 			<label class="control-label title" for="name"><?php echo __('Datasource Header'); ?></label>
 			<div class="controls">
 				<?php echo Form::input( 'name', Arr::get($data, 'name'), array(
@@ -15,7 +15,7 @@
 			</div>
 		</div>
 
-		<div class="control-group">
+		<div class="form-group">
 			<label class="control-label" for="description"><?php echo __('Datasource Description'); ?></label>
 			<div class="controls">
 				<?php echo Form::textarea( 'description', Arr::get($data, 'description'), array(
@@ -25,10 +25,10 @@
 		</div>
 	</div>
 	
-	<div class="widget-footer form-actions">
+	<div class="panel-footer form-actions">
 		<?php echo UI::button( __('Create section'), array(
 			'icon' => UI::icon( 'plus'),
-			'class' => 'btn btn-large',
+			'class' => 'btn btn-lg',
 			'hotkeys' => 'ctrl+s'
 		)); ?>
 	</div>

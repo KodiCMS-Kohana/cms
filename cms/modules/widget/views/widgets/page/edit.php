@@ -1,9 +1,9 @@
 <?php if( ACL::check( 'widgets.index')): ?>
-<div class="widget-header spoiler-toggle" data-spoiler=".spoiler-widgets" data-hash="widgets" hotkeys="shift+w">
-	<h4><?php echo UI::icon('cubes'); ?> <?php echo __('Widgets'); ?></h4>
+<div class="panel-heading spoiler-toggle" data-spoiler=".spoiler-widgets" data-hash="widgets" hotkeys="shift+w">
+	<span class="panel-title" data-icon="cubes"><?php echo __('Widgets'); ?></h4>
 </div>
 
-<div class="panel-body  spoiler spoiler-widgets">
+<div class="panel-body spoiler spoiler-widgets">
 	<?php if(empty($page->id)): ?>
 	<h4><?php echo __('Copy widgets from'); ?></h4>
 	<select name="widgets[from_page_id]" class="span12">
@@ -20,7 +20,7 @@
 	<?php if( ACL::check( 'layout.rebuild')): ?>
 	<?php echo UI::button(__('Rebuild blocks'), array(
 		'icon' => UI::icon( 'refresh' ),
-		'class' => 'btn btn-inverse btn-mini btn-api',
+		'class' => 'btn btn-inverse btn-xs btn-api',
 		'data-url' => 'layout.rebuild',
 		'data-method' => Request::POST
 	)); ?>

@@ -73,7 +73,7 @@ function update_documents(e, response) {
 	<div class="form-horizontal">
 	<?php endif; ?>
 	<div class="widget-title">
-		<div class="control-group">
+		<div class="form-group">
 			<label class="control-label title"><?php echo __('Header'); ?></label>
 			<div class="controls">
 				<?php echo Form::input('header', $doc->header, array(
@@ -95,7 +95,7 @@ function update_documents(e, response) {
 		<div id="pageEditMetaMore" class="spoiler spoiler-meta">
 			<br />
 
-			<div class="control-group">
+			<div class="form-group">
 				<label class="control-label"><?php echo __('Meta title'); ?></label>
 				<div class="controls">
 					<?php echo Form::input('meta_title', $doc->meta_title, array(
@@ -103,7 +103,7 @@ function update_documents(e, response) {
 					)); ?>
 				</div>
 			</div>
-			<div class="control-group">
+			<div class="form-group">
 				<label class="control-label"><?php echo __('Meta keywords'); ?></label>
 				<div class="controls">
 					<?php echo Form::input('meta_keywords', $doc->meta_keywords, array(
@@ -111,7 +111,7 @@ function update_documents(e, response) {
 					)); ?>
 				</div>
 			</div>
-			<div class="control-group">
+			<div class="form-group">
 				<label class="control-label"><?php echo __('Meta description'); ?></label>
 				<div class="controls">
 					<?php echo Form::textarea('meta_description', $doc->meta_description, array(
@@ -136,7 +136,7 @@ function update_documents(e, response) {
 
 		
 	<?php if(Acl::check('hybrid'.$ds->id().'.document.edit')): ?>
-	<div class="form-actions widget-footer">
+	<div class="form-actions panel-footer">
 		<?php echo UI::actions(TRUE, Route::get('datasources')->uri(array(
 			'controller' => 'data',
 			'directory' => 'datasources'

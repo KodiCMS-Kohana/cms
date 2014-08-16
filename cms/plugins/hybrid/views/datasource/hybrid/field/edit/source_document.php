@@ -1,4 +1,4 @@
-<div class="control-group">
+<div class="form-group">
 	<label class="control-label" for="document_type"><?php echo __( 'Datasource' ); ?></label>
 	<div class="controls">
 		<?php echo Form::select( 'from_ds', Datasource_Data_Manager::get_all_as_options('hybrid'), $field->from_ds); ?>
@@ -7,7 +7,7 @@
 
 <hr />
 
-<div class="control-group">
+<div class="form-group">
 	<div class="controls">
 		<div class="checkbox">
 			<label>

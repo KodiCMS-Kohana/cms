@@ -177,16 +177,16 @@ cms.init.add(['page_add', 'page_edit'], function () {
 	show_password_field($('select[name="page[status_id]"]').val());
 	
 	function show_redirect_field(input) {
+		console.log(input.is(':checked'));
 		var cont = $('#redirect-to-container'),
-			meta_cont = $('#meta-container');
+			meta_cont = $('#page-meta-panel-li');
 		if(input.is(':checked')) {
 			cont.show();
 			meta_cont.hide();
 		} else {
 			cont.hide();
 			meta_cont.show();
-		}
-			
+		}	
 	}
 	
 	function show_password_field(val) {

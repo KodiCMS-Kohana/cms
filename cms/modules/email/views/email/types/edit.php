@@ -14,14 +14,14 @@
 	</div>
 	<div class="panel-body">
 		
-		<div class="control-group">
+		<div class="form-group">
 			<?php echo $type->label('name', array('class' => 'control-label title')); ?>
 			<div class="controls">
 				<?php echo $type->field('name', array('class' => 'input-title input-block-level')); ?>
 			</div>
 		</div>
 		
-		<div class="control-group">
+		<div class="form-group">
 			<?php echo $type->label('code', array('class' => 'control-label')); ?>
 			<div class="controls">
 				<?php if($action == 'add'): ?>
@@ -68,7 +68,7 @@
 		<?php endif; ?>
 	</div>
 	<?php endif; ?>
-	<div class="form-actions widget-footer">
+	<div class="form-actions panel-footer">
 		<?php echo UI::actions($page_name); ?>
 	</div>
 </div>

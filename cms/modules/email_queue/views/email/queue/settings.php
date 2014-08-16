@@ -2,7 +2,7 @@
 	<h3><?php echo __( 'Email queue settings' ); ?></h3>
 </div>
 <div class="panel-body">
-	<div class="control-group">
+	<div class="form-group">
 		<label class="control-label"><?php echo __( 'Email queue batch size' ); ?></label>
 		<div class="controls">
 			<?php echo Form::input('setting[email_queue][batch_size]', (int) Config::get('email_queue', 'batch_size'), array(
@@ -12,7 +12,7 @@
 			<div class="help-block"><?php echo __('The number of emails to send out in each batch. This should be tuned to your servers abilities and the frequency of the cron.'); ?></div>
 		</div>
 	</div>
-	<div class="control-group">
+	<div class="form-group">
 		<label class="control-label"><?php echo __( 'Email queue interval' ); ?></label>
 		<div class="controls">
 			<?php echo Form::input('setting[email_queue][interval]', (int) Config::get('email_queue', 'interval'), array(
@@ -23,7 +23,7 @@
 
 	<hr />
 
-	<div class="control-group">
+	<div class="form-group">
 		<label class="control-label"><?php echo __( 'Email queue max attempts' ); ?></label>
 		<div class="controls">
 			<?php echo Form::input('setting[email_queue][max_attempts]', (int) Config::get('email_queue', 'max_attempts'), array(

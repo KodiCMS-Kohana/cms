@@ -70,19 +70,19 @@
 		<h3><?php echo __('General information'); ?></h3>
 	</div>
 	<div class="panel-body">
-		<div class="control-group">
+		<div class="form-group">
 			<?php echo $template->label('status', array('class' => 'control-label')); ?>
 			<div class="controls">
 				<?php echo $template->field('status'); ?>
 			</div>
 		</div>
-		<div class="control-group">
+		<div class="form-group">
 			<?php echo $template->label('use_queue', array('class' => 'control-label')); ?>
 			<div class="controls">
 				<?php echo $template->field('use_queue'); ?>
 			</div>
 		</div>
-		<div class="control-group">
+		<div class="form-group">
 			<?php echo $template->label('email_type', array('class' => 'control-label')); ?>
 			<div class="controls">
 				<?php echo $template->field('email_type'); ?>
@@ -97,21 +97,21 @@
 		</div>
 		<hr />
 		
-		<div class="control-group">
+		<div class="form-group">
 			<?php echo $template->label('subject', array('class' => 'control-label title')); ?>
 			<div class="controls">
 				<?php echo $template->field('subject', array('class' => 'input-title input-block-level')); ?>
 			</div>
 		</div>
 		
-		<div class="control-group">
+		<div class="form-group">
 			<?php echo $template->label('email_from', array('class' => 'control-label')); ?>
 			<div class="controls">
 				<?php echo $template->field('email_from'); ?>
 			</div>
 		</div>
 		
-		<div class="control-group">
+		<div class="form-group">
 			<?php echo $template->label('email_to', array('class' => 'control-label')); ?>
 			<div class="controls">
 				<?php echo $template->field('email_to'); ?>
@@ -122,7 +122,7 @@
 		<h3><?php echo __('Email message'); ?></h3>
 	</div>
 	<div class="panel-body">
-		<div class="control-group">
+		<div class="form-group">
 			<?php echo $template->label('message_type', array('class' => 'control-label')); ?>
 			<div class="controls">
 				<label class="radio inline">
@@ -134,16 +134,16 @@
 			</div>
 		</div>
 		
-		<div class="control-group">
+		<div class="form-group">
 			<?php echo $template->label('message', array('class' => 'control-label')); ?>
 			<div class="controls">
 				<?php echo $template->field('message', array('class' => 'input-block-level')); ?>
 			</div>
 		</div>
 		
-		<div class="control-group" id="field_description"><div class="controls"></div></div>
+		<div class="form-group" id="field_description"><div class="controls"></div></div>
 		
-		<div class="control-group">
+		<div class="form-group">
 			<div class="controls">
 				<div class="alert alert-warning">
 					<?php echo UI::icon('lightbulb-o'); ?> <?php echo __('A collection of patterns & modules for responsive emails :link', array(
@@ -155,7 +155,7 @@
 			</div>		
 		</div>
 	</div>
-	<div class="form-actions widget-footer">
+	<div class="form-actions panel-footer">
 		<?php echo UI::actions($page_name); ?>
 	</div>
 </div>

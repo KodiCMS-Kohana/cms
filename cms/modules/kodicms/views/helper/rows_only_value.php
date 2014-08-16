@@ -45,7 +45,7 @@ $field = URL::title($field, '_');
 	}
 </script>
 
-<div class="control-group" id="<?php echo $container; ?>">
+<div class="form-group" id="<?php echo $container; ?>">
 	<?php if(!empty($label)): ?><label class="control-label"><?php echo $label; ?></label><?php endif; ?>
 	<div class="controls">
 		<div class="row-helper hidden">

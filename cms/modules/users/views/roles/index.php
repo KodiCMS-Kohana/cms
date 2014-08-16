@@ -52,7 +52,7 @@
 									'id' => $role->id
 								)), 
 								'icon' => UI::icon('times fa-inverse'),
-								'class' => 'btn btn-mini btn-danger btn-confirm'
+								'class' => 'btn btn-xs btn-danger btn-confirm'
 							));
 						} ?>
 					</td>

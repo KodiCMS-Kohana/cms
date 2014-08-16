@@ -5,7 +5,7 @@
 	<div class="well">
 		<?php echo UI::button(__('Update search index'), array(
 			'icon' => UI::icon( 'refresh fa-lg' ),
-			'class' => 'btn btn-warning btn-api btn-large',
+			'class' => 'btn btn-warning btn-api btn-lg',
 			'data-url' => 'search.update_index'
 		)); ?>
 	</div>

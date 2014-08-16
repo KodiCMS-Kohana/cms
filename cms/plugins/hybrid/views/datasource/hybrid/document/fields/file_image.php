@@ -1,4 +1,4 @@
-<div class="control-group">
+<div class="form-group">
 	<label class="control-label" for="<?php echo $field->name; ?>">
 		<?php echo $field->header; ?> 
 	</label>

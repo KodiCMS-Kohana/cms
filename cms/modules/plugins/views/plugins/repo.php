@@ -10,7 +10,7 @@
 				</h5>
 				<div class="pull-right">
 					<a href="<%= archive_url %>" class="btn"><?php echo __('Download'); ?></a>
-					<a href="<%= url %>/issues" target="blank" class="btn btn-mini btn-warning"><?php echo __('Report a bug'); ?></a>
+					<a href="<%= url %>/issues" target="blank" class="btn btn-xs btn-warning"><?php echo __('Report a bug'); ?></a>
 				</div>
 				<div class="clearfix"></div>
 			</div>

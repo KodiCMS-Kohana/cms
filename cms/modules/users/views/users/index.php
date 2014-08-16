@@ -56,7 +56,7 @@
 								'id' => $user->id
 							)), 
 							'icon' => UI::icon('times fa-inverse'),
-							'class' => 'btn btn-mini brn-danger btn-confirm'
+							'class' => 'btn btn-xs brn-danger btn-confirm'
 						));
 					} ?>
 				</td>

@@ -6,7 +6,7 @@
 		
 		<?php echo $content; ?>
 	
-		<div class="form-actions widget-footer">
+		<div class="form-actions panel-footer">
 			<?php echo UI::actions('plugins'); ?>
 		</div>
 	</div>

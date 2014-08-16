@@ -1,4 +1,4 @@
-<div class="control-group">
+<div class="form-group">
 	<label class="control-label"><?php echo $field->header; ?></label>
 	<div class="controls">
 		<div class="input-append">

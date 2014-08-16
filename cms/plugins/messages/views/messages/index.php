@@ -35,7 +35,7 @@
 					<td class="actions">
 						<?php echo UI::button(NULL, array(
 							'icon' => UI::icon( 'times fa-inverse' ),
-							'class' => 'btn btn-mini btn-confirm btn-remove'
+							'class' => 'btn btn-xs btn-confirm btn-remove'
 						)); ?>
 					</td>
 				</tr>

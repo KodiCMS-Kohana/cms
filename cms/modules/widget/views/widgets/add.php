@@ -7,7 +7,7 @@
 		<h4><?php echo __('General Information'); ?></h4>
 	</div>
 	<div class="panel-body">
-		<div class="control-group">
+		<div class="form-group">
 			<label class="control-label"><?php echo __('Widget Header'); ?></label>
 			<div class="controls">
 				<?php
@@ -18,7 +18,7 @@
 			</div>
 		</div>
 
-		<div class="control-group">
+		<div class="form-group">
 			<label class="control-label"><?php echo __('Widget Description'); ?></label>
 			<div class="controls">
 				<?php
@@ -33,7 +33,7 @@
 		<h4><?php echo __('Widget data'); ?></h4>
 	</div>
 	<div class="panel-body">
-		<div class="control-group">
+		<div class="form-group">
 			<label class="control-label"><?php echo __('Type'); ?></label>
 			<div class="controls">
 				<div class="row-fluid">
@@ -45,10 +45,10 @@
 			</div>
 		</div>
 	</div>
-	<div class="widget-footer form-actions">
+	<div class="panel-footer form-actions">
 		<?php echo UI::button( __('Create widget'), array(
 			'icon' => UI::icon( 'plus'), 
-			'class' => 'btn btn-large',
+			'class' => 'btn btn-lg',
 			'hotkeys' => 'ctrl+s'
 		)); ?>
 	</div>

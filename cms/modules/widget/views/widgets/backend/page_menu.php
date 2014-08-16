@@ -28,7 +28,7 @@ function show_field($select) {
 		));
 	?>
 
-	<div class="control-group" id="page_level_container">
+	<div class="form-group" id="page_level_container">
 		<label class="control-label" for="page_level"><?php echo __('Select page level'); ?></label>
 		<div class="controls">
 			<?php echo Form::input('page_level',  $widget->page_level, array('id' => 'page_level', 'class' => 'input-mini')); ?>	

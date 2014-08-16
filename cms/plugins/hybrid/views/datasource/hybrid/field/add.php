@@ -32,7 +32,7 @@
 	</div>
 
 	<div class="panel-body" id="filed-type">
-		<div class="control-group">
+		<div class="form-group">
 			<label class="control-label title" for="header"><?php echo __('Field header'); ?></label>
 			<div class="controls">
 				<?php echo Form::input( 'header', Arr::get($post_data, 'header'), array(
@@ -40,7 +40,7 @@
 				) ); ?>
 			</div>
 		</div>
-		<div class="control-group">
+		<div class="form-group">
 			<label class="control-label" for="name"><?php echo __('Field key'); ?></label>
 			<div class="controls">
 				<div class="input-prepend">
@@ -52,7 +52,7 @@
 				
 			</div>
 		</div>
-		<div class="control-group">
+		<div class="form-group">
 			<label class="control-label" for="select-field-type"><?php echo __('Field type'); ?></label>
 			<div class="controls">
 				<?php echo Form::select( 'type', DataSource_Hybrid_Field::types(), Arr::get($post_data, 'type'), array(
@@ -82,7 +82,7 @@
 		</fieldset>
 		<?php endforeach; ?>
 		</div>
-		<div class="control-group">
+		<div class="form-group">
 			<label class="control-label" for="hint"><?php echo __('Field hint'); ?></label>
 			<div class="controls">
 				<?php echo Form::input( 'hint', Arr::get($post_data, 'hint'), array(
@@ -92,7 +92,7 @@
 			</div>
 		</div>
 		
-		<div class="control-group">
+		<div class="form-group">
 			<label class="control-label" for="position"><?php echo __('Field position'); ?></label>
 			<div class="controls">
 				<?php echo Form::input( 'position', Arr::get($post_data, 'position', 500), array(
@@ -102,9 +102,9 @@
 			</div>
 		</div>
 	</div>
-	<div class="widget-footer form-actions">
+	<div class="panel-footer form-actions">
 		<?php echo UI::button( __('Add field'), array(
-			'icon' => UI::icon( 'plus'), 'class' => 'btn btn-large'
+			'icon' => UI::icon( 'plus'), 'class' => 'btn btn-lg'
 		)); ?>
 	</div>
 <?php echo Form::close(); ?>

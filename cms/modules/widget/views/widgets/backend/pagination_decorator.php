@@ -4,7 +4,7 @@
 	<h4><?php echo UI::icon('list'); ?> <?php echo __('List settings'); ?></h4>
 </div>
 <div class="panel-body ">
-	<div class="control-group">
+	<div class="form-group">
 		<label class="control-label" for="list_offset"><?php echo __('Number of documents to omit'); ?></label>
 		<div class="controls">
 			<?php
@@ -15,7 +15,7 @@
 		</div>
 	</div>
 	
-	<div class="control-group">
+	<div class="form-group">
 		<label class="control-label" for="list_size"><?php echo __('Number of documents per page'); ?></label>
 		<div class="controls">
 			<?php

@@ -1,5 +1,5 @@
 <div class="panel-body">
-	<div class="control-group">
+	<div class="form-group">
 		<label class="control-label" for="field_id"><?php echo __('Hybrid field'); ?></label>
 		<div class="controls">
 			<?php echo Form::select( 'field_id', $widget->get_doc_fields(), $widget->field_id, array(

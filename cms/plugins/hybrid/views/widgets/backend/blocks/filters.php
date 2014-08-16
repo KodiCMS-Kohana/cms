@@ -63,7 +63,7 @@
 			<div class="clearfix"></div>
 			<h4 class="field-title hide pull-left"></h4>
 			
-			<?php echo UI::button(NULL, array('icon' => UI::icon('trash-o'), 'class' => 'btn btn-danger btn-mini remove_filter pull-right')); ?>
+			<?php echo UI::button(NULL, array('icon' => UI::icon('trash-o'), 'class' => 'btn btn-danger btn-xs remove_filter pull-right')); ?>
 			<div class="clearfix"></div>
 			<table style="width: 100%">
 				<colgroup>

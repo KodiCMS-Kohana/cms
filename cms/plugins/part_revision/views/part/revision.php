@@ -85,7 +85,7 @@ $(function() {
 </script>
 
 <?php if(!empty($part->id)): ?>
-<h3><?php echo __('Current text'); ?>  <button class="btn btn-mini btn-clear"><?php echo __('Clear diff'); ?></button></h3>
+<h3><?php echo __('Current text'); ?>  <button class="btn btn-xs btn-clear"><?php echo __('Clear diff'); ?></button></h3>
 <pre id="text"><?php echo htmlspecialchars($part->content); ?></pre>
 <?php endif ;?>
 
@@ -93,7 +93,7 @@ $(function() {
 <h3><?php echo Date::format($p->created_on, 'd F Y H:i'); ?> 
 	<span class="btn-group">
 		<?php if(!empty($part->id)): ?>
-		<button class="btn btn-mini btn-diff" data-id="<?php echo $p->id; ?>">
+		<button class="btn btn-xs btn-diff" data-id="<?php echo $p->id; ?>">
 			<?php echo __('Show diff'); ?>
 		</button>
 		<?php endif ;?>
@@ -103,7 +103,7 @@ $(function() {
 			'action' => 'revert',
 			'id' => $p->id
 		)); ?>
-		<a href="<?php echo $url; ?>" class="btn btn-mini btn-confirm btn-success">
+		<a href="<?php echo $url; ?>" class="btn btn-xs btn-confirm btn-success">
 			<?php echo __('Use this revision'); ?>
 		</a>
 	</span>

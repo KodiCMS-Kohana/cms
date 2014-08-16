@@ -13,7 +13,7 @@
 		<h3><?php echo __('General information'); ?></h3>
 	</div>
 	<div class="panel-body">
-		<div class="control-group">
+		<div class="form-group">
 			<?php echo $role->label('name', array('class' => 'control-label')); ?>
 			<div class="controls">
 				<?php echo $role->field('name', array(
@@ -24,7 +24,7 @@
 			</div>
 		</div>
 		
-		<div class="control-group">
+		<div class="form-group">
 			<?php echo $role->label('description', array('class' => 'control-label')); ?>
 			<div class="controls">
 				<?php echo $role->field('description', array(
@@ -43,7 +43,7 @@
 		)); ?>
 	<?php endif; ?>
 
-	<div class="form-actions widget-footer">
+	<div class="form-actions panel-footer">
 		<?php echo UI::actions($page_name); ?>
 	</div>
 </div>

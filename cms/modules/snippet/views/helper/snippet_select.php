@@ -55,7 +55,7 @@ $hidden = empty($template) ? 'hidden' : '';
 </div>
 <?php endif; ?>
 <div class="panel-body">
-	<div class="control-group">
+	<div class="form-group">
 		<label class="control-label"><?php echo __('Snippet'); ?></label>
 		<div class="controls">
 

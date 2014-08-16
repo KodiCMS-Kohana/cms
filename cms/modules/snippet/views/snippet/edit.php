@@ -8,8 +8,8 @@
 		<?php echo Form::hidden('token', Security::token()); ?>
 		<?php echo Form::hidden('snippet_name', $snippet->name); ?>
 
-		<div class="panel-body">
-			<div class="form-group">
+		<div class="panel-heading">
+			<div class="form-group form-group-lg">
 				<label for="snippet-input-name" class="col-sm-2 control-label"><?php echo __('Snippet name'); ?></label>
 				<div class="col-sm-10 input-group">
 					<?php echo Form::input('name', $snippet->name, array(

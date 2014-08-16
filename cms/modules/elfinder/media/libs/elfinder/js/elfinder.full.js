@@ -5803,7 +5803,7 @@ $.fn.elfinderdialog = function(opts) {
 			id         = parseInt(Math.random()*1000000),
 			overlay    = parent.children('.elfinder-overlay'),
 			buttonset  = $('<div />'),
-			buttonpane = $('<div class="widget-footer"/>')
+			buttonpane = $('<div class="panel-footer"/>')
 				.append(buttonset),
 			
 			dialog = $('<div class="ui-dialog widget outline_inner widget-nopad ui-draggable std42-dialog '+cldialog+' '+opts.cssClass+'"/>')

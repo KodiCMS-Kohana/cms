@@ -19,7 +19,7 @@
 	<?php if( ACL::check('plugins.change_status')): ?>
 	<td class="plugin-status">
 		<?php echo UI::button(NULL, array(
-			'class' => 'change-status btn btn-mini',
+			'class' => 'change-status btn btn-xs',
 		)); ?>
 	</td>
 	<?php endif; ?>

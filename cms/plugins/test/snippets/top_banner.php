@@ -3,7 +3,7 @@
 	<p>Информационная система или компьютерная программа, используемая для обеспечения и организации совместного процесса создания, редактирования и управления контентом (то есть содержимым)</p>
 	<hr />
 	<p class="text-center">
-		<?php echo HTML::anchor(ADMIN_DIR_NAME, __('Backend'), array('class' => 'btn btn-large')); ?> <?php echo HTML::anchor('http://kodicms.ru/forum.html', 'Форум', array('class' => 'btn btn-large btn-primary')); ?>
+		<?php echo HTML::anchor(ADMIN_DIR_NAME, __('Backend'), array('class' => 'btn btn-lg')); ?> <?php echo HTML::anchor('http://kodicms.ru/forum.html', 'Форум', array('class' => 'btn btn-lg btn-primary')); ?>
 	</p>
 </div>
 <div style="margin: 60px;">

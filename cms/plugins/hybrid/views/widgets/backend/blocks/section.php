@@ -1,5 +1,5 @@
 <div class="panel-body">
-	<div class="control-group">
+	<div class="form-group">
 		<label class="control-label" for="ds_id"><?php echo __('Hybrid section'); ?></label>
 		<div class="controls">
 			<?php echo Form::select( 'ds_id', Datasource_Data_Manager::get_all_as_options('hybrid'), $widget->ds_id, array(

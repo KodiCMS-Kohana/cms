@@ -140,8 +140,12 @@ class Model_Navigation_Section extends Model_Navigation_Abstract implements Coun
 			$len = strpos($url, ADMIN_DIR_NAME);
 			if($len !== FALSE) $len += strlen(ADMIN_DIR_NAME);
 			$url = substr($url, $len);
+			
+			$len = strpos($uri, ADMIN_DIR_NAME);
+			if($len !== FALSE) $len += strlen(ADMIN_DIR_NAME);
+			$uri = substr($uri, $len);
 
-			if ( !empty($url) AND strpos($uri, ltrim($url, '/')) !== FALSE )
+			if ( !empty($url) AND strpos($uri, $url) !== FALSE )
 			{
 				$page->set_active();
 

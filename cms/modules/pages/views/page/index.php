@@ -62,7 +62,7 @@
 						<?php echo UI::button(NULL, array(
 							'icon' => UI::icon('plus'), 
 							'href' => Route::get('backend')->uri(array('controller' => 'page', 'action' => 'add')),
-							'class' => 'btn btn-mini')); ?>
+							'class' => 'btn btn-xs')); ?>
 						<?php endif; ?>
 					</div>
 				</div>

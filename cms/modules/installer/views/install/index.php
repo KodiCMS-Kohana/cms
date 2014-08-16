@@ -40,7 +40,7 @@
 					->label(__('Database driver'))
 				)); ?>
 
-				<div class="control-group">
+				<div class="form-group">
 					<label class="control-label" for="db_server"><?php echo __( 'Database server' ); ?></label>
 					<div class="controls inline">
 						<?php echo Form::input( 'install[db_server]', Arr::get( $data, 'db_server' ), array(
@@ -55,7 +55,7 @@
 					</div>
 				</div>
 
-				<div class="control-group">
+				<div class="form-group">
 					<label class="control-label" for="db_user"><?php echo __( 'Database user' ); ?></label>
 					<div class="controls">
 						<?php echo Form::input( 'install[db_user]', Arr::get( $data, 'db_user' ), array(
@@ -64,7 +64,7 @@
 					</div>
 				</div>
 
-				<div class="control-group">
+				<div class="form-group">
 					<label class="control-label" for="db_password"><?php echo __( 'Database password' ); ?></label>
 					<div class="controls">
 						<?php echo Form::password( 'install[db_password]', Arr::get( $data, 'db_password' ), array(
@@ -75,7 +75,7 @@
 					</div>
 				</div>
 
-				<div class="control-group well well-small">
+				<div class="form-group well well-small">
 					<label class="control-label" for="db_name"><?php echo __( 'Database name' ); ?></label>
 					<div class="controls">
 						<?php echo Form::input( 'install[db_name]', Arr::get( $data, 'db_name' ), array(
@@ -84,12 +84,12 @@
 						<p class="help-block"><?php echo __( 'You have to create a database manually and enter its name here.' ); ?></p>
 						
 						<hr />
-						<label id="empty_database" class="checkbox btn btn-mini btn-danger btn-checkbox"><?php echo Form::checkbox( 'install[empty_database]', 1, (bool) Arr::get( $data,'empty_database'));?> <?php echo __('Empty database'); ?></label>
+						<label id="empty_database" class="checkbox btn btn-xs btn-danger btn-checkbox"><?php echo Form::checkbox( 'install[empty_database]', 1, (bool) Arr::get( $data,'empty_database'));?> <?php echo __('Empty database'); ?></label>
 						
 					</div>
 				</div>
 
-				<div class="control-group">
+				<div class="form-group">
 					<label class="control-label" for="db_preffix"><?php echo __( 'Prefix' ); ?></label>
 					<div class="controls">
 						<?php echo Form::input( 'install[db_table_prefix]', Arr::get( $data, 'db_table_prefix' ), array(
@@ -110,7 +110,7 @@
 				<h3><?php echo __('User settings'); ?></h3>
 			</div>
 			<div class="panel-body">
-				<div class="control-group">
+				<div class="form-group">
 					<label class="control-label" for="username"><?php echo __( 'Administrator username' ); ?></label>
 					<div class="controls">
 						<?php echo Form::input( 'install[username]', Arr::get( $data, 'username' ), array(
@@ -120,7 +120,7 @@
 				</div>
 				<div class="well well-small">
 					<div id="password-form">
-						<div class="control-group">
+						<div class="form-group">
 							<label class="control-label" for="password"><?php echo __('Password'); ?></label>
 							<div class="controls">
 								<?php echo Form::password('install[password_field]', Arr::get( $data,'password_field'), array(
@@ -129,7 +129,7 @@
 							</div>
 						</div>
 						
-						<div class="control-group">
+						<div class="form-group">
 							<div class="controls">
 								<?php echo Form::password('install[password_confirm]', Arr::get( $data,'password_confirm'), array(
 									'class' => 'input-medium', 'id' => 'password_confirm', 'placeholder' => __('Confirm Password')
@@ -142,7 +142,7 @@
 						</div>
 						<hr />
 					</div>
-					<div class="control-group">
+					<div class="form-group">
 						<div class="controls">
 							<label class="checkbox btn btn-success btn-checkbox">
 								<?php echo Form::checkbox( 'install[password_generate]', 1, (bool) Arr::get( $data,'password_generate'), array(
@@ -152,7 +152,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="control-group">
+				<div class="form-group">
 					<label class="control-label" for="email"><?php echo __( 'Administrator email' ); ?></label>
 					<div class="controls">
 						<?php echo Form::input( 'install[email]', Arr::get( $data, 'email' ), array(
@@ -165,7 +165,7 @@
 				<h3><?php echo __('Site settings'); ?></h3>
 			</div>
 			<div class="panel-body">
-				<div class="control-group">
+				<div class="form-group">
 					<label class="control-label" for="site_name"><?php echo __( 'Site title' ); ?></label>
 					<div class="controls">
 						<?php echo Form::input( 'install[site_name]', Arr::get( $data, 'site_name' ), array(
@@ -174,7 +174,7 @@
 					</div>
 				</div>
 				
-				<div class="control-group">
+				<div class="form-group">
 					<label class="control-label" for="admin_dir_name"><?php echo __( 'Admin dir name' ); ?></label>
 					<div class="controls">
 						<?php echo Form::input( 'install[admin_dir_name]', Arr::get( $data, 'admin_dir_name' ), array(
@@ -182,7 +182,7 @@
 						) ); ?> <?php echo UI::label( __( 'Required' ) ); ?>
 					</div>
 				</div>
-				<div class="control-group">
+				<div class="form-group">
 					<label class="control-label" for="url_suffix"><?php echo __( 'URL suffix' ); ?></label>
 					<div class="controls">
 						<?php echo Form::input( 'install[url_suffix]', Arr::get( $data, 'url_suffix' ), array(
@@ -213,7 +213,7 @@
 					->label(__('Timezone'))
 				)); ?>
 				
-				<div class="control-group">
+				<div class="form-group">
 					<?php echo Form::label('setting_date_format', __('Date format'), array('class' => 'control-label')); ?>
 					<div class="controls">
 						<?php echo Form::select('install[date_format]', $dates, Arr::get( $data, 'date_format' ), array('id' => 'setting_date_format')); ?>

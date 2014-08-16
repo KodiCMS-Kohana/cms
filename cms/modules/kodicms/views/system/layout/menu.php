@@ -10,7 +10,7 @@
 			<ul>
 				<?php foreach ( $section as $item ): ?>
 				<li>
-					<a href="<?php echo $item->url(); ?>">
+					<a href="/<?php echo $item->url(); ?>">
 						<?php if($item->icon): ?><?php echo UI::icon($item->icon); ?> <?php endif; ?>
 						<span class="mm-text"><?php echo $item->name(); ?></span>
 					</a>

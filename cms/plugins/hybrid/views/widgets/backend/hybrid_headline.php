@@ -32,7 +32,7 @@ function sort_by_rand($field) {
 	<h4><?php echo __('Properties'); ?></h4>
 </div>
 <div class="panel-body">
-	<div class="control-group">
+	<div class="form-group">
 		<label class="control-label" for="doc_uri"><?php echo __('Document page (URI)'); ?></label>
 		<div class="controls">
 			<?php echo Form::input( 'doc_uri', $widget->doc_uri, array(
@@ -41,7 +41,7 @@ function sort_by_rand($field) {
 		</div>
 	</div>
 
-	<div class="control-group">
+	<div class="form-group">
 		<label class="control-label" for="doc_id"><?php echo __('Identificator field'); ?></label>
 		<div class="controls">
 			<?php echo Form::input( 'doc_id', $widget->doc_id, array(
@@ -53,7 +53,7 @@ function sort_by_rand($field) {
 		</div>
 	</div>
 
-	<div class="control-group">
+	<div class="form-group">
 		<div class="controls">
 			<label class="checkbox"><?php echo Form::checkbox('throw_404', 1, $widget->throw_404); ?> <?php echo __('Generate error 404 when page has no content'); ?></label>
 			<label class="checkbox"><?php echo Form::checkbox('only_published', 1, $widget->only_published); ?> <?php echo __('Show only published documents'); ?></label>

@@ -66,7 +66,7 @@
 										'action' => 'location',
 										'id' => $widget->id)), 
 									'icon' => UI::icon('sitemap'),
-									'class' => 'btn btn-mini btn-primary'
+									'class' => 'btn btn-xs btn-primary'
 								)); ?>
 								<?php endif; ?>
 								<?php if( ACL::check('widgets.delete')): ?>
@@ -76,7 +76,7 @@
 										'action' => 'delete',
 										'id' => $widget->id)), 
 									'icon' => UI::icon('times fa-inverse'),
-									'class' => 'btn btn-mini btn-danger btn-confirm'
+									'class' => 'btn btn-xs btn-danger btn-confirm'
 								)); ?>
 								<?php endif; ?>
 							</td>

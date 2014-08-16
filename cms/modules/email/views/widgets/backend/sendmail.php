@@ -11,7 +11,7 @@
 	
 	<hr />
 	
-	<div class="control-group">
+	<div class="form-group">
 		<label class="control-label" for="next_url"><?php echo __('Next page after success send (URL)'); ?></label>
 		<div class="controls">
 			<?php echo Form::input( 'next_url', $widget->next_url, array(
@@ -87,7 +87,7 @@
 						<td><?php echo __('Field source key')?></td>
 						<td nowrap><?php echo __('Field value type')?></td>
 						<td rowspan="7" valign="top">
-							<?php echo UI::button(NULL, array('icon' => UI::icon('trash-o'), 'class' => 'btn btn-danger btn-mini remove_field')); ?>
+							<?php echo UI::button(NULL, array('icon' => UI::icon('trash-o'), 'class' => 'btn btn-danger btn-xs remove_field')); ?>
 						</td>
 					</tr>
 					<tr>
@@ -175,5 +175,5 @@
 	?>
 	
 	<div id="fields_container"></div>
-	<?php echo UI::button(__('Add field'), array('icon' => UI::icon('plus'), 'id' => 'add_field', 'class' => 'btn btn-large')); ?>
+	<?php echo UI::button(__('Add field'), array('icon' => UI::icon('plus'), 'id' => 'add_field', 'class' => 'btn btn-lg')); ?>
 </div>

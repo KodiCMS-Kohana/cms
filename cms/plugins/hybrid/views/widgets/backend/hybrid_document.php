@@ -13,7 +13,7 @@
 	<h4><?php echo __('Properties'); ?></h4>
 </div>
 <div class="panel-body">
-	<div class="control-group">
+	<div class="form-group">
 		<label class="control-label" for="doc_id_field"><?php echo __('Document ID field'); ?></label>
 		<div class="controls">
 			<?php
@@ -24,7 +24,7 @@
 		</div>
 	</div>
 
-	<div class="control-group">
+	<div class="form-group">
 		<label class="control-label" for="doc_id_ctx"><?php echo __('Document ID (Ctx)'); ?></label>
 		<div class="controls">
 			<?php echo Form::input( 'doc_id_ctx', $widget->doc_id_ctx, array(
@@ -33,19 +33,19 @@
 		</div>
 	</div>
 
-	<div class="control-group">
+	<div class="form-group">
 		<div class="controls">
 			<label class="checkbox"><?php echo Form::checkbox('throw_404', 1, $widget->throw_404); ?> <?php echo __('Generate error 404 when page has no content'); ?></label>
 		</div>
 	</div>
 	
-	<div class="control-group">
+	<div class="form-group">
 		<div class="controls">
 			<label class="checkbox"><?php echo Form::checkbox('seo_information', 1, $widget->seo_information); ?> <?php echo __('Change meta headers'); ?></label>
 		</div>
 	</div>
 	
-	<div class="control-group">
+	<div class="form-group">
 		<div class="controls">
 			<label class="checkbox"><?php echo Form::checkbox('crumbs', 1, $widget->crumbs); ?> <?php echo __('Change bread crumbs'); ?></label>
 		</div>

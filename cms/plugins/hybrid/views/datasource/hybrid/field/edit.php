@@ -9,7 +9,7 @@
 		<h3><?php echo __( 'Field description' ); ?></h3>
 	</div>
 	<div class="panel-body" id="filed-type">
-		<div class="control-group">
+		<div class="form-group">
 			<label class="control-label" for="header"><?php echo __('Field header'); ?></label>
 			<div class="controls">
 				<?php echo Form::input( 'header', Arr::get($post_data, 'header', $field->header), array(
@@ -17,7 +17,7 @@
 				) ); ?>
 			</div>
 		</div>
-		<div class="control-group">
+		<div class="form-group">
 			<label class="control-label" for="name"><?php echo __('Field key'); ?></label>
 			<div class="controls">
 				<?php echo Form::hidden( 'name', Arr::get($post_data, 'name', $field->name)); ?>
@@ -45,7 +45,7 @@
 		catch(Exception $e) {} 
 		?>
 		<hr />
-		<div class="control-group">
+		<div class="form-group">
 			<label class="control-label" for="hint"><?php echo __('Field hint'); ?></label>
 			<div class="controls">
 				<?php echo Form::input( 'hint', $field->hint, array(
@@ -56,7 +56,7 @@
 		</div>
 		
 		<?php if($field->is_required()): ?>
-		<div class="control-group">
+		<div class="form-group">
 			<label class="control-label" for="isreq"><?php echo __('Required'); ?></label>
 			<div class="controls">
 				<div class="checkbox">
@@ -68,7 +68,7 @@
 		</div>
 		<?php endif; ?>
 		
-		<div class="control-group">
+		<div class="form-group">
 			<label class="control-label" for="position"><?php echo __('Field position'); ?></label>
 			<div class="controls">
 				<?php echo Form::input( 'position', $field->position, array(
@@ -78,7 +78,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="widget-footer form-actions">
+	<div class="panel-footer form-actions">
 		<?php echo UI::actions(NULL, Route::get('datasources')->uri(array(
 			'controller' => 'section',
 			'directory' => 'datasources',

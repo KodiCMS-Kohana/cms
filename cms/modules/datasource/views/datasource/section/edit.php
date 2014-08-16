@@ -12,7 +12,7 @@
 		<h4><?php echo UI::icon('exclamation-circle'); ?> <?php echo __('Datasource Information'); ?></h4>
 	</div>
 	<div class="panel-body">
-		<div class="control-group">
+		<div class="form-group">
 			<label class="control-label" for="name"><?php echo __('Datasource Header'); ?></label>
 			<div class="controls">
 				<?php echo Form::input( 'name', $ds->name, array(
@@ -20,7 +20,7 @@
 				) ); ?>
 			</div>
 		</div>
-		<div class="control-group">
+		<div class="form-group">
 			<label class="control-label" for="description"><?php echo __('Datasource Description'); ?></label>
 			<div class="controls">
 				<?php
@@ -32,7 +32,7 @@
 		</div>
 	</div>
 	
-	<div class="form-actions widget-footer">
+	<div class="form-actions panel-footer">
 		<?php echo UI::actions(NULL, Route::get('datasources')->uri(array(
 			'controller' => 'data',
 			'directory' => 'datasources'
