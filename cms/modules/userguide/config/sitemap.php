@@ -3,6 +3,7 @@
 return array(
 	array(
 		'name' => 'Documentation',
+		'icon' => 'book',
 		'children' => array(
 			array(
 				'name' => 'User Guide', 

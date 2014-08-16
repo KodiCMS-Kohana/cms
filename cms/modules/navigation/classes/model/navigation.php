@@ -31,6 +31,11 @@ class Model_Navigation {
 
 			$section_object = self::get_section($section['name']);
 			
+			if(isset($section['icon']))
+			{
+				$section_object->icon = $section['icon'];
+			}
+
 			if(!empty($section['children']))
 			{
 				$section_object->add_pages($section['children']);

@@ -19,6 +19,7 @@ Observer::observe('modules::after_load', function() {
 	}
 	
 	$ds_section = Model_Navigation::get_section('Datasources');
+	$ds_section->icon = 'tasks';
 	$sections_list = Datasource_Data_Manager::get_tree(array_keys($types));
 
 	foreach($sections_list as $type => $sections)

@@ -3,6 +3,7 @@
 return array(
 	array(
 		'name' => 'System',
+		'icon' => 'cog',
 		'children' => array(
 			array(
 				'name' => 'Information',
@@ -23,6 +24,7 @@ return array(
 	),
 	array(
 		'name' => 'Design',
+		'icon' => 'desktop',
 		'children' => array(
 			array(
 				'name' => 'Layouts', 

@@ -453,8 +453,8 @@ cms.ui.add('flags', function() {
 			}
 			
 		})
-		.find('h3, h4')
-		.append(' <i class="spoiler-toggle-icon fa '+icon_close+'"></i>');
+		.find('.panel-title')
+		.append('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="spoiler-toggle-icon fa '+icon_close+'" />');
 }).add('datepicker', function() {
 	$('.datetimepicker').datetimepicker({
 		format:'Y-m-d H:i:00',

@@ -41,8 +41,8 @@
 					</div>
 				</div>
 				
-				<hr class="panel-wide" />
 				<?php if ($page->id != 1): ?>
+				<hr class="panel-wide" />
 				<div class="form-group">
 					<?php echo $page->label('slug', array('class' => 'control-label col-md-2')); ?>
 					<div class="col-md-10">
