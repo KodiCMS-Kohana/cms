@@ -1,33 +1,30 @@
-<script>
+<script type="text/javascript">
 	var DS_ID = '<?php echo $ds->id(); ?>';
 </script>
 
-<div class="widget">
 <?php echo Form::open(Request::current()->uri(), array(
-	'class' => 'form-horizontal'
+	'class' => 'form-horizontal panel'
 )); ?>
 	<?php echo Form::hidden('ds_id', $ds->id()); ?>
-
-	<div class="widget-header">
-		<h4><?php echo UI::icon('exclamation-circle'); ?> <?php echo __('Datasource Information'); ?></h4>
+	
+	<div class="panel-heading" data-icon="info">
+		<span class="panel-title"><?php echo __('Datasource Information'); ?></span>
 	</div>
 	<div class="panel-body">
-		<div class="form-group">
-			<label class="control-label" for="name"><?php echo __('Datasource Header'); ?></label>
-			<div class="controls">
-				<?php echo Form::input( 'name', $ds->name, array(
-					'class' => 'input-xlarge', 'id' => 'name'
-				) ); ?>
+		<div class="form-group form-group-lg">
+			<label class="control-label col-md-3" for="name"><?php echo __('Datasource Header'); ?></label>
+			<div class="col-md-9">
+				<?php echo Form::input('name', $ds->name, array(
+					'class' => 'form-control', 'id' => 'name'
+				)); ?>
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="control-label" for="description"><?php echo __('Datasource Description'); ?></label>
-			<div class="controls">
-				<?php
-				echo Form::textarea( 'description', $ds->description, array(
-					'class' => 'input-xlarge', 'id' => 'description'
-				) );
-				?>
+			<label class="control-label col-md-3" for="description"><?php echo __('Datasource Description'); ?></label>
+			<div class="col-md-9">
+				<?php echo Form::textarea('description', $ds->description, array(
+					'class' => 'form-control', 'id' => 'description'
+				)); ?>
 			</div>
 		</div>
 	</div>
@@ -39,4 +36,3 @@
 		))); ?>
 	</div>
 <?php echo Form::close(); ?>
-</div>

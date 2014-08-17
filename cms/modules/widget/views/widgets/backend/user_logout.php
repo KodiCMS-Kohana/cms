@@ -1,9 +1,10 @@
 <div class="panel-body">
-	<?php echo Bootstrap_Form_Element_Control_Group::factory(array(
-		'element' => Bootstrap_Form_Element_Input::factory(array(
-			'name' => 'next_url', 'value' => $widget->get('next_url', '/')
-		))
-		->label(__('Next page (URI)'))
-		->attributes('class', Bootstrap_Form_Element_Input::XXLARGE)
-	)); ?>
+	<div class="form-group">
+		<label class="control-label col-md-3" for="next_url"><?php echo __('Next page (URI)'); ?></label>
+		<div class="col-md-9">
+			<?php echo Form::input('next_url', $widget->get('next_url', '/'), array(
+				'class' => 'form-control', 'id' => 'next_url'
+			)); ?>
+		</div>
+	</div>
 </div>

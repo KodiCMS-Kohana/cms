@@ -1,4 +1,4 @@
-<div class="widget-header">
+<div class="panel-heading">
 	<h4><?php echo __('Exclude pages'); ?></h4>
 </div>
 <div class="panel-body widget-nopad">

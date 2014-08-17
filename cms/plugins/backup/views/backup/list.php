@@ -1,4 +1,5 @@
-<table class="table table-striped table-hover">
+<?php if ( !empty($files)): ?>
+<table class="table table-primary table-striped table-hover">
     <colgroup>
         <col width="150px" />
         <col />
@@ -54,3 +55,4 @@
     <?php endforeach; ?>
     </tbody>
 </table>
+<?php endif; ?>

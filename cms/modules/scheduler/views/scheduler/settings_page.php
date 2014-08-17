@@ -1,4 +1,4 @@
-<div class="widget-header spoiler-toggle" data-spoiler=".jobs-spoiler" data-icon="bolt">
+<div class="panel-heading spoiler-toggle" data-spoiler=".jobs-spoiler" data-icon="bolt">
 	<h3><?php echo __('Job settings'); ?></h3>
 </div>
 <div class="panel-body spoiler jobs-spoiler">
@@ -9,7 +9,7 @@
 	</div>
 				
 	<div class="form-group">
-		<label class="control-label"><?php echo __( 'Job agent' ); ?></label>
+		<label class="control-label col-md-3"><?php echo __( 'Job agent' ); ?></label>
 		<div class="controls">
 			<?php echo Form::select( 'setting[job][agent]', Model_Job::agents(), (int) Config::get('job', 'agent')); ?>
 		</div>

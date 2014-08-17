@@ -23,19 +23,19 @@
 <?php endif; ?>
 <?php echo Form::open('contacts/send', array('class' => 'form-horizontal')); ?>
 	<div class="form-group">
-		<label class="control-label" for="inputSubject"><?php echo __('Subject'); ?></label>
+		<label class="control-label col-md-3" for="inputSubject"><?php echo __('Subject'); ?></label>
 		<div class="controls">
 			<input type="text" name="subject" id="inputSubject" placeholder="<?php echo __('Subject'); ?>" value="<?php echo Arr::get($messages, 'subject'); ?>">
 		</div>
 	</div>
 	<div class="form-group">
-		<label class="control-label" for="inputEmail"><?php echo __('Email'); ?></label>
+		<label class="control-label col-md-3" for="inputEmail"><?php echo __('Email'); ?></label>
 		<div class="controls">
 			<input type="text" name="email" id="inputEmail" placeholder="<?php echo __('Email'); ?>" value="<?php echo Arr::get($messages, 'email'); ?>">
 		</div>
 	</div>
 	<div class="form-group">
-		<label class="control-label" for="inputText"><?php echo __('Text'); ?></label>
+		<label class="control-label col-md-3" for="inputText"><?php echo __('Text'); ?></label>
 		<div class="controls">
 			<textarea name="text" id="inputText"><?php echo Arr::get($messages, 'text'); ?></textarea>
 		</div>

@@ -8,7 +8,7 @@
 						'controller' => 'widgets', 
 						'action' => 'add')),
 					'icon' => UI::icon('plus'),
-					'hotkeys' => 'ctrl+a'
+					'data-hotkeys' => 'ctrl+a'
 				)); ?>
 				<?php endif; ?>
 			</div>

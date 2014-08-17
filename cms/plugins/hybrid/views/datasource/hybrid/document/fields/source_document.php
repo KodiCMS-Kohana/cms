@@ -1,6 +1,5 @@
 <script>
 	$(function() {
-
 		function format(state) {
 			return '<a target="_blank" href="/backend/hybrid/document/view?ds_id=<?php echo $field->from_ds; ?>&id='+state.id+'">' + state.text + '</a>';
 		}
@@ -54,16 +53,16 @@
 </script>
 
 <div class="form-group">
-	<label class="control-label"><?php echo $field->header; ?> <?php if($field->isreq): ?>*<?php endif; ?></label>
-	<div class="controls">
+	<label class="control-label col-md-3"><?php echo $field->header; ?> <?php if($field->isreq): ?>*<?php endif; ?></label>
+	<div class="col-md-9">
 		<div class="row-fluid">
-			<div class="span8">
+			<div class="col-md-8">
 				<?php echo Form::hidden($field->name, $value['id'], array(
-					'id' => $field->name, 'class' => 'span12'
+					'id' => $field->name, 'class' => 'col-md-12'
 				)); ?>
 				
 			</div>
-			<div class="span4">
+			<div class="col-md-4">
 				<?php if ( ! empty($value['id'])): ?>
 				<?php echo UI::button(__('View'), array(
 					'href' => Route::get('datasources')->uri(array(

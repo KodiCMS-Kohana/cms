@@ -12,7 +12,7 @@ foreach($pages->flatten() as $page)
 
 
 echo Form::select('behavior[item_page_id]', $select, Arr::get($settings, 'item_page_id'), array(
-	'class' => 'span12'
+	'class' => 'col-md-12'
 ));
 ?>
 <script>

@@ -31,7 +31,7 @@
 				'class' => 'btn btn-filemanager btn-flat btn-info btn-sm', 
 				'data-el' => 'textarea_content',
 				'icon' => UI::icon( 'folder-open'),
-				'hotkeys' => 'ctrl+m'
+				'data-hotkeys' => 'ctrl+m'
 			)); ?>
 		</div>
 		<?php endif; ?>

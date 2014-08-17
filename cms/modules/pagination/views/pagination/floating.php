@@ -54,18 +54,16 @@ for ( $i = $n7; $i <= $n8; $i++ )
 	$links[$i] = $i;
 }
 ?>
-<div class="pagination">
-	<ul>
-		<?php if ( $previous_page !== FALSE ): ?>
-			<li><?php echo HTML::anchor( $page->url( $previous_page ), '&larr; Назад', array('rel' => 'Назад', 'class' => 'prev', 'hotkeys' => 'ctrl+left') ); ?></li>
-		<?php endif ?>
-		<?php foreach ( $links as $number => $content ): ?>
-			<li <?php if ( $number === $current_page ): ?>class="active"<?php endif ?>>
-				<?php echo HTML::anchor( $page->url( $number ), $content); ?>
-			</li>
-		<?php endforeach ?>
-		<?php if ( $next_page !== FALSE ): ?>
-			<li><?php echo HTML::anchor( $page->url( $next_page ), 'Вперед &rarr;', array('rel' => 'Вперед', 'class' => 'next', 'hotkeys' => 'ctrl+right') ); ?></li>
-		<?php endif ?>
-	</ul>
-</div>
+<ul class="pagination">
+	<?php if ( $previous_page !== FALSE ): ?>
+		<li><?php echo HTML::anchor( $page->url( $previous_page ), __('Previous'), array('rel' => __('Previous'), 'class' => 'prev', 'data-hotkeys' => 'ctrl+left') ); ?></li>
+	<?php endif ?>
+	<?php foreach ( $links as $number => $content ): ?>
+		<li <?php if ( $number === $current_page ): ?>class="active"<?php endif ?>>
+			<?php echo HTML::anchor( $page->url( $number ), $content); ?>
+		</li>
+	<?php endforeach ?>
+	<?php if ( $next_page !== FALSE ): ?>
+		<li><?php echo HTML::anchor( $page->url( $next_page ), __('Next'), array('rel' => __('Next'), 'class' => 'next', 'data-hotkeys' => 'ctrl+right') ); ?></li>
+	<?php endif ?>
+</ul>

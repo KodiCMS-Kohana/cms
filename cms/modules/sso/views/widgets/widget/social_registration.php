@@ -1,5 +1,5 @@
-<div class="widget-header">
-	<h4><?php echo __('Social providers'); ?></h4>
+<div class="panel-heading">
+	<span class="panel-title"><?php echo __('Social providers'); ?></span>
 </div>
 <div class="panel-body">
 	<?php foreach($widget->get_registered_providers() as $provider => $data): ?>
@@ -9,9 +9,9 @@
 			<?php echo $widget->get_provider_param($provider, 'name'); ?>
 		</label>
 		<div class="clearfix"></div>
-		<ul class="unstyled">
+		<ul class="list-unstyled">
 			<?php foreach($data as $key => $value): ?>
-				<li><strong><?php echo $key; ?></strong>: <?php echo $value; ?></li>
+			<li><strong><?php echo $key; ?></strong>: <?php echo $value; ?></li>
 			<?php endforeach; ?>
 		</ul>
 	</div>

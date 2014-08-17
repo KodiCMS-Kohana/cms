@@ -1,7 +1,7 @@
 <script id="plugin-item" type="text/template">
 	<td>
 		<div class="row-fluid">
-			<div class="span12">
+			<div class="col-md-12">
 				<h5 class="pull-left">
 					<a href="<%= url %>" target="blank" title="<?php echo __('Go to plugin homepage'); ?>"><%= name %></a>
 					<% if (is_installed) { %> <strong>(<?php echo __('Installed'); ?>)</strong><% } %> <% if (is_new) { %> <strong>(<?php echo __('New plugin'); ?>)</strong><% } %>&nbsp;&nbsp;&nbsp;&nbsp;

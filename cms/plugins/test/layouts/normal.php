@@ -18,7 +18,7 @@
 			<?php Block::run('top_banner'); ?>
 
 			<div class="row-fluid">
-				<div class="span9">
+				<div class="col-md-9">
 					<div class="page-header">
 						<h1><?php echo $page->title(); ?></h1>
 					</div>
@@ -28,7 +28,7 @@
 					
 					<?php Block::run('extended'); ?>
 				</div>
-				<div class="span3">
+				<div class="col-md-3">
 					<?php Block::run('sidebar'); ?>
                     <?php Block::run('recent'); ?>
 				</div>

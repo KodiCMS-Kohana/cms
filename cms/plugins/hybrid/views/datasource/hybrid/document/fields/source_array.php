@@ -55,15 +55,15 @@
 </script>
 
 <div class="form-group">
-	<label class="control-label"><?php echo $field->header; ?> <?php if($field->isreq): ?>*<?php endif; ?></label>
-	<div class="controls">
-		<div class="row-fluid">
-			<div class="span9">
+	<label class="control-label col-md-3"><?php echo $field->header; ?> <?php if($field->isreq): ?>*<?php endif; ?></label>
+	<div class="col-md-9">
+		<div class="row">
+			<div class="col-md-9">
 				<?php echo Form::hidden($field->name, implode( ',',  $field->get_related_docs($doc->id)), array(
-					'id' => $field->name, 'class' => 'span12'
+					'id' => $field->name, 'class' => 'col-md-12'
 				)); ?>
 			</div>
-			<div class="span1">
+			<div class="col-md-1">
 				<?php echo UI::button(__('Create new'), array(
 					'href' => Route::get('datasources')->uri(array(
 						'directory' => 'hybrid',

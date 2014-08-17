@@ -23,9 +23,14 @@ class KodiCMS_ORM extends Kohana_ORM {
 	 * @param array $attributes
 	 * @return string
 	 */
-	public function label( $field, array $attributes = NULL )
+	public function label( $field, array $attributes = NULL, $only_text = FALSE )
 	{
-		return Form::label( $this->object_name() . '_' . $field, Arr::get($this->labels(), $field), $attributes);
+		if($only_text === FALSE)
+		{
+			return Form::label( $this->object_name() . '_' . $field, Arr::get($this->labels(), $field), $attributes);
+		}
+		
+		return Arr::get($this->labels(), $field);
 	}
 	
 	/**
@@ -46,7 +51,15 @@ class KodiCMS_ORM extends Kohana_ORM {
 		}
 
 		$field_name = $field;
-		$value = $this->get($field);
+		
+		if(Arr::get($field_data, 'free') !== TRUE)
+		{
+			$value = $this->get($field);
+		}
+		else
+		{
+			$value = NULL;
+		}
 
 		if (isset($attributes['prefix']))
 		{
@@ -102,7 +115,10 @@ class KodiCMS_ORM extends Kohana_ORM {
 					break;
 				case 'checkbox':
 					$default = Arr::get($field_data, 'value', 1);
-					$input = Form::checkbox($field_name, $default, $default == $value, $attributes);
+					$input = Form::label(NULL, Form::checkbox($field_name, $default, $default == $value, $attributes) . '&nbsp;' . $this->label($field, NULL, TRUE));
+					break;
+				case 'password':
+					$input = Form::password($field_name, NULL, $attributes);
 					break;
 				default:
 					$input = Form::input($field_name, $value, $attributes);

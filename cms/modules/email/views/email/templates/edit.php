@@ -18,7 +18,7 @@
 			if(type == '<?php echo Model_Email_Template::TYPE_HTML; ?>')
 				cms.filters.switchOn( 'email_template_message', 'redactor' );
 			else
-				cms.filters.switchOff('email_template_message');
+				cms.filters.switchOn( 'email_template_message', 'ace');
 		}
 		
 		var activeInput;
@@ -47,8 +47,8 @@
 		show_options($('#email_template_email_type').val());
 		function show_options(id) {
 			Api.get('email-types.options', {uid: id}, function(resp) {
-				var cont = $('#field_description .controls').empty();
-				var ul = $('<ul class="unstyled" />').appendTo(cont);
+				var cont = $('#field_description .col-md-9').empty();
+				var ul = $('<ul class="list-unstyled" />').appendTo(cont);
 				if(resp.response) {
 					for(field in resp.response) {
 						$('<li><a href="#">{'+field+'}</a> - ' + resp.response[field] + '</li>').appendTo(ul);
@@ -61,102 +61,102 @@
 </script>
 
 <?php echo Form::open(Route::get('email_controllers')->uri(array('controller' => 'templates', 'action' => $action, 'id' => $template->id)), array(
-	'class' => Bootstrap_Form::HORIZONTAL
+	'class' => array(Bootstrap_Form::HORIZONTAL, 'panel')
 )); ?>
 
-<?php echo Form::hidden('token', Security::token()); ?>
-<div class="widget">
-	<div class="widget-header">
-		<h3><?php echo __('General information'); ?></h3>
+	<?php echo Form::hidden('token', Security::token()); ?>
+
+	<div class="panel-heading">
+		<span class="panel-title"><?php echo __('General information'); ?></span>
 	</div>
 	<div class="panel-body">
 		<div class="form-group">
-			<?php echo $template->label('status', array('class' => 'control-label')); ?>
-			<div class="controls">
+			<?php echo $template->label('status', array('class' => 'control-label col-md-3')); ?>
+			<div class="col-md-3">
 				<?php echo $template->field('status'); ?>
 			</div>
 		</div>
 		<div class="form-group">
-			<?php echo $template->label('use_queue', array('class' => 'control-label')); ?>
-			<div class="controls">
+			<?php echo $template->label('use_queue', array('class' => 'control-label col-md-3')); ?>
+			<div class="col-md-3">
 				<?php echo $template->field('use_queue'); ?>
 			</div>
 		</div>
 		<div class="form-group">
-			<?php echo $template->label('email_type', array('class' => 'control-label')); ?>
-			<div class="controls">
+			<?php echo $template->label('email_type', array('class' => 'control-label col-md-3')); ?>
+			<div class="col-md-6">
+				<div class="input-group">
 				<?php echo $template->field('email_type'); ?>
 				
 				<?php if ( Acl::check( 'email_type.add')): ?>
-				<?php echo UI::button(__('Add email type'), array(
-					'href' => Route::get( 'email_controllers')->uri(array('controller' => 'types', 'action' => 'add')), 'icon' => UI::icon('plus'),
-					'class' => 'btn btn-primary'
-				)); ?>
+				<div class="input-group-btn">
+					<?php echo UI::button(__('Add email type'), array(
+						'href' => Route::get( 'email_controllers')->uri(array('controller' => 'types', 'action' => 'add')), 'icon' => UI::icon('plus'),
+						'class' => 'btn btn-primary'
+					)); ?>
+				</div>
 				<?php endif; ?>
+				</div>
 			</div>
 		</div>
 		<hr />
 		
-		<div class="form-group">
-			<?php echo $template->label('subject', array('class' => 'control-label title')); ?>
-			<div class="controls">
-				<?php echo $template->field('subject', array('class' => 'input-title input-block-level')); ?>
+		<div class="form-group form-group-lg">
+			<?php echo $template->label('subject', array('class' => 'control-label col-md-3 title')); ?>
+			<div class="col-md-9">
+				<?php echo $template->field('subject', array('class' => 'form-control')); ?>
 			</div>
 		</div>
 		
 		<div class="form-group">
-			<?php echo $template->label('email_from', array('class' => 'control-label')); ?>
-			<div class="controls">
-				<?php echo $template->field('email_from'); ?>
+			<?php echo $template->label('email_from', array('class' => 'control-label col-md-3')); ?>
+			<div class="col-md-3">
+				<?php echo $template->field('email_from', array('class' => 'form-control')); ?>
 			</div>
 		</div>
 		
 		<div class="form-group">
-			<?php echo $template->label('email_to', array('class' => 'control-label')); ?>
-			<div class="controls">
-				<?php echo $template->field('email_to'); ?>
+			<?php echo $template->label('email_to', array('class' => 'control-label col-md-3')); ?>
+			<div class="col-md-3">
+				<?php echo $template->field('email_to', array('class' => 'form-control')); ?>
 			</div>
 		</div>
 	</div>
-	<div class="widget-header">
-		<h3><?php echo __('Email message'); ?></h3>
+
+	<div class="panel-heading">
+		<span class="panel-title"><?php echo __('Email message'); ?></span>
+	</div>
+
+	<div class="alert alert-info no-margin-vr">
+		<?php echo UI::icon('lightbulb-o'); ?> <?php echo __('A collection of patterns & modules for responsive emails :link', array(
+			':link' => HTML::anchor('http://responsiveemailpatterns.com/', NULL, array(
+				'target' => 'blank'
+			))
+		)); ?>
 	</div>
 	<div class="panel-body">
 		<div class="form-group">
-			<?php echo $template->label('message_type', array('class' => 'control-label')); ?>
-			<div class="controls">
-				<label class="radio inline">
+			<?php echo $template->label('message_type', array('class' => 'control-label col-md-3')); ?>
+			<div class="col-md-9">
+				<label class="radio">
 					<?php echo Form::radio('message_type', Model_Email_Template::TYPE_TEXT, $template->message_type == Model_Email_Template::TYPE_TEXT); ?> <?php echo __('Plain text'); ?>
 				</label>
-				<label class="radio inline">
+				<label class="radio">
 					<?php echo Form::radio('message_type', Model_Email_Template::TYPE_HTML, $template->message_type == Model_Email_Template::TYPE_HTML); ?> <?php echo __('HTML'); ?>
 				</label>
 			</div>
 		</div>
 		
 		<div class="form-group">
-			<?php echo $template->label('message', array('class' => 'control-label')); ?>
-			<div class="controls">
-				<?php echo $template->field('message', array('class' => 'input-block-level')); ?>
+			<?php echo $template->label('message', array('class' => 'control-label col-md-3')); ?>
+			<div class="col-md-9">
+				<?php echo $template->field('message', array('class' => 'form-control')); ?>
 			</div>
 		</div>
 		
-		<div class="form-group" id="field_description"><div class="controls"></div></div>
-		
-		<div class="form-group">
-			<div class="controls">
-				<div class="alert alert-warning">
-					<?php echo UI::icon('lightbulb-o'); ?> <?php echo __('A collection of patterns & modules for responsive emails :link', array(
-						':link' => HTML::anchor('http://responsiveemailpatterns.com/', NULL, array(
-							'target' => 'blank'
-						))
-					)); ?>
-				</div>
-			</div>		
-		</div>
+		<div class="form-group" id="field_description"><div class="col-md-offset-3 col-md-9"></div></div>
 	</div>
 	<div class="form-actions panel-footer">
 		<?php echo UI::actions($page_name); ?>
 	</div>
-</div>
 <?php Form::close(); ?>

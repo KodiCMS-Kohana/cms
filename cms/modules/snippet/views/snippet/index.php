@@ -4,7 +4,7 @@
 		<?php echo UI::button(__('Add snippet'), array(
 			'href' => Route::get('backend')->uri(array('controller' => 'snippet', 'action' => 'add')), 
 			'icon' => UI::icon('plus'),
-			'hotkeys' => 'ctrl+a'
+			'data-hotkeys' => 'ctrl+a'
 		)); ?>
 		<?php endif; ?>
 	</div>

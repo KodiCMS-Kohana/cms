@@ -1,48 +1,47 @@
 <?php defined('SYSPATH') or die('No direct access allowed.'); ?>
 
-<ul data-level="<?php echo $level; ?>" class="unstyled">
+<ul data-level="<?php echo $level; ?>" class="list-unstyled">
 	<?php foreach($childrens as $child): ?>
 	<?php if($child instanceof Model_Page): ?>
 	<li data-id="<?php echo $child->id; ?>" <?php if($child->is_expanded) echo('class="item-expanded"'); ?>>
-		<div class="item">
-			<div class="row-fluid">
-				<div class="title span7">
-					
-					<?php if( $child->has_children ): ?>
-					<?php
-						if($child->is_expanded)
-						{
-							echo UI::icon( 'minus item-expander item-expander-expand');
-						}
-						else
-						{
-							echo UI::icon( 'plus item-expander');
-						}
-					?>
-					<?php endif; ?>
-					
-					
-					<?php if( ! ACL::check('page.edit') OR ! AuthUser::hasPermission( $child->get_permissions() ) ): ?>
-					<?php echo UI::icon('lock'); ?>
-					<?php echo $child->title; ?>
-					<?php else: ?>
-					<?php 
-						echo UI::icon('file') . ' ';
-						echo HTML::anchor( $child->get_url(), $child->title );
-					?>
-					<?php endif; ?>				
-					<?php if( !empty($child->behavior_id) ): ?> <?php echo UI::label(__(ucfirst(Inflector::humanize( $child->behavior_id ))), 'default'); ?><?php endif; ?>
-					<?php if( !empty($child->use_redirect) ): ?> <?php echo UI::label(__('Redirect: :url', array(':url' => $child->redirect_url))); ?><?php endif; ?>
-					
-					<?php echo $child->get_public_anchor(); ?>
-				</div>
-				<div class="date span2">
-					<?php echo Date::format($child->published_on); ?>
-				</div>
-				<div class="status span2">
-					<?php echo $child->get_status(); ?>
-				</div>
-				<div class="actions span1">
+		<div class="page-item">
+			<div class="title col-xs-6">
+				<?php if( $child->has_children ): ?>
+				<?php
+					if($child->is_expanded)
+					{
+						echo UI::icon('minus item-expander item-expander-expand');
+			}
+					else
+					{
+						echo UI::icon('plus item-expander');
+			}
+				?>
+				<?php endif; ?>
+
+
+				<?php if( ! ACL::check('page.edit') OR ! AuthUser::hasPermission( $child->get_permissions() ) ): ?>
+				<?php echo UI::icon('lock'); ?>
+				<?php echo $child->title; ?>
+				<?php else: ?>
+				<?php 
+					echo UI::icon('file') . ' ';
+					echo HTML::anchor( $child->get_url(), $child->title );
+				?>
+				<?php endif; ?>				
+				<?php if( !empty($child->behavior_id) ): ?> <?php echo UI::label(__(ucfirst(Inflector::humanize( $child->behavior_id ))), 'default'); ?><?php endif; ?>
+				<?php if( !empty($child->use_redirect) ): ?> <?php echo UI::label(__('Redirect: :url', array(':url' => $child->redirect_url))); ?><?php endif; ?>
+
+				<?php echo $child->get_public_anchor(); ?>
+			</div>
+			<div class="date col-xs-2">
+				<?php echo Date::format($child->published_on); ?>
+			</div>
+			<div class="status col-xs-2">
+				<?php echo $child->get_status(); ?>
+			</div>
+			<div class="actions col-xs-2 text-right">
+				<div class="btn-group">
 					<?php if ( Acl::check( 'page.add')): ?>
 					<?php echo UI::button(NULL, array(
 						'href' => Route::get('backend')->uri(array(
@@ -66,20 +65,21 @@
 					<?php endif; ?>
 				</div>
 			</div>
+			
+			<div class="clearfix"></div>
 		</div>
-		
+	</li>
 	<?php if( $child->is_expanded ) echo($child->children_rows); ?>
 	<?php else: ?>
 	<li>
-		<div class="item">
-			<div class="row-fluid">
-				<div class="title span12">
+		<div class="page-item">
+			<div class="row">
+				<div class="title col-xs-12">
 					<?php echo $child; ?>
 				</div>
 			</div>
 		</div>
-	
-	<?php endif; ?>
 	</li>
+	<?php endif; ?>
 	<?php endforeach; ?>
 </ul>

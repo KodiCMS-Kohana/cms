@@ -1,9 +1,9 @@
-<div class="widget-header spoiler-toggle" data-spoiler=".maintenance-spoiler" data-icon="wrench">
+<div class="panel-heading spoiler-toggle" data-spoiler=".maintenance-spoiler" data-icon="wrench">
 	<h3><?php echo __('Maintenance mode'); ?></h3>
 </div>
 <div class="panel-body spoiler maintenance-spoiler">
 	<div class="form-group">
-		<label class="control-label"><?php echo __('Enable maintenance mode'); ?></label>
+		<label class="control-label col-md-3"><?php echo __('Enable maintenance mode'); ?></label>
 		<div class="controls">
 			<?php echo Form::select('plugin[maintenance_mode]', Form::choices(), $plugin->get('maintenance_mode')); ?>
 		</div>

@@ -29,7 +29,7 @@
 		<?php echo UI::button(__('File manager'), array(
 			'class' => 'btn btn-filemanager', 'data-el' => 'textarea_content',
 			'icon' => UI::icon( 'folder-open'),
-			'hotkeys' => 'ctrl+m'
+			'data-hotkeys' => 'ctrl+m'
 		)); ?>
 		</div>
 		<?php endif; ?>

@@ -1,31 +1,30 @@
 <div class="panel-body">
-	<?php
-		echo Bootstrap_Form_Element_Control_Group::factory(array(
-			'element' => Bootstrap_Form_Element_Textarea::factory(array(
-				'name' => 'allowed_tags', 'body' => $widget->get('allowed_tags'),
-			))
-			->attributes('rows', 2)
-			->label(__('Allowed tags'))
-		));
-	?>
+	<div class="form-group">
+		<label class="control-label col-md-3" for="next_url"><?php echo __('Allowed tags'); ?></label>
+		<div class="col-md-9">
+			<?php echo Form::textarea( 'allowed_tags', $widget->get('allowed_tags'), array(
+				'class' => 'form-control', 'rows' => 2
+			)); ?>
+		</div>
+	</div>
 	
 	<hr />
 	
 	<div class="form-group">
-		<label class="control-label" for="next_url"><?php echo __('Next page after success send (URL)'); ?></label>
-		<div class="controls">
+		<label class="control-label col-md-3" for="next_url"><?php echo __('Next page after success send (URL)'); ?></label>
+		<div class="col-md-3">
 			<?php echo Form::input( 'next_url', $widget->next_url, array(
-				'class' => 'input-xxlarge'
+				'class' => 'form-control'
 			)); ?>
 		</div>
 	</div>
 </div>
 
-<div class="widget-header">
-	<h4><?php echo __('Message fields'); ?></h4>
+<div class="panel-heading">
+	<span class="panel-title"><?php echo __('Message fields'); ?></span>
 </div>
 
-<script>
+<script type="text/javascript">
 	var add_field = function() {
 		return $('#sample_field .field')
 			.clone()
@@ -69,16 +68,18 @@
 		});
 	})
 </script>
+
 <div class="panel-body " id="fields">
 	<div id="sample_field" class="hide">
-		<div class="well field">
-			<h4 class="field-title"></h4>
-			<table style="width: 100%">
+		<div class="well well-sm field">
+			<span class="panle-title field-title"></span>
+			<table class="table table-noborder">
 				<colgroup>
 					<col width="200px" />
-					<col width="260px" />
-					<col width="200px" />
+					<col width="150px" />
 					<col />
+					<col width="200px" />
+					<col width="50px" />
 				</colgroup>
 				<tbody>
 					<tr>
@@ -86,18 +87,18 @@
 						<td><?php echo __('Field source')?></td>
 						<td><?php echo __('Field source key')?></td>
 						<td nowrap><?php echo __('Field value type')?></td>
-						<td rowspan="7" valign="top">
-							<?php echo UI::button(NULL, array('icon' => UI::icon('trash-o'), 'class' => 'btn btn-danger btn-xs remove_field')); ?>
+						<td rowspan="7" valign="top" class="text-right">
+							<?php echo UI::button(NULL, array('icon' => UI::icon('trash-o'), 'class' => 'btn btn-danger remove_field')); ?>
 						</td>
 					</tr>
 					<tr>
-						<td><h5><?php echo __('Field'); ?></h5></td>
+						<td class="text-right"><strong><?php echo __('Field'); ?></strong></td>
 						<td>
 							<?php echo Form::select('field[source][]', $widget->src_types()); ?>
 						</td>
 						<td>
 							<?php echo Form::input('field[id][]', NULL, array(
-								'class' => Bootstrap_Form_Element_Input::MEDIUM
+								'class' => 'form-control'
 							)); ?>
 						</td>
 						<td>
@@ -106,15 +107,13 @@
 					</tr>
 					
 					<tr>
-						<td><h5><?php echo __('Field name'); ?></h5></td>
+						<td class="text-right"><strong><?php echo __('Field name'); ?></strong></td>
 						<td colspan="3">
 							<?php echo Form::input('field[name][]', NULL, array(
-								'class' => Bootstrap_Form_Element_Input::MEDIUM
+								'class' => 'form-control'
 							)); ?>
 						</td>
 					</tr>
-
-					<tr><td colspan="4"><hr /></td></tr>
 
 					<tr>
 						<td></td>
@@ -122,11 +121,13 @@
 						<td colspan="2"></td>
 					</tr>
 					<tr>
-						<td><h5><?php echo __('Validator'); ?></h5></td>
+						<td class="text-right"><strong><?php echo __('Validator'); ?></strong></td>
 						<td colspan="3">
-							<?php echo Form::input('field[validator][]'); ?>
-							<br /><br />
-							<span class="flags" data-append="true">
+							<?php echo Form::input('field[validator][]', NULL, array(
+								'class' => 'form-control'
+							)); ?>
+							<br />
+							<span class="flags" data-append="true" data-target="">
 								<span class="label" data-value="not_empty"><?php echo __('Not empty'); ?></span>
 								<span class="label" data-value="url"><?php echo __('URL'); ?></span>
 								<span class="label" data-value="phone"><?php echo __('Phone number'); ?></span>
@@ -145,17 +146,17 @@
 							</span>
 						</td>
 					</tr>
-					<tr><td colspan="4"><hr /></td></tr>
+					<tr><td colspan="4"><hr class="panel-wide no-margin-vr" /></td></tr>
 					<tr>
 						<td></td>
 						<td nowrap><?php echo __('Field error message'); ?></td>
 						<td colspan="2"></td>
 					</tr>
 					<tr>
-						<td><h5><?php echo __('Field error'); ?></h5></td>
+						<td class="text-right"><strong><?php echo __('Field error'); ?></strong></td>
 						<td colspan="3">
 							<?php echo Form::input('field[error][]', NULL, array(
-								'class' => Bootstrap_Form_Element_Input::BLOCK_LEVEL
+								'class' => 'form-control'
 							)); ?>
 						</td>
 					</tr>

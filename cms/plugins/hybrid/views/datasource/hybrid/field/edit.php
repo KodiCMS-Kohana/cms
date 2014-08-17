@@ -5,12 +5,12 @@
 <?php echo Form::open(Request::current()->uri(), array(
 	'class' => 'form-horizontal'
 )); ?>
-	<div class="widget-header">
+	<div class="panel-heading">
 		<h3><?php echo __( 'Field description' ); ?></h3>
 	</div>
 	<div class="panel-body" id="filed-type">
 		<div class="form-group">
-			<label class="control-label" for="header"><?php echo __('Field header'); ?></label>
+			<label class="control-label col-md-3" for="header"><?php echo __('Field header'); ?></label>
 			<div class="controls">
 				<?php echo Form::input( 'header', Arr::get($post_data, 'header', $field->header), array(
 					'class' => 'input-xlarge', 'id' => 'header'
@@ -18,7 +18,7 @@
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="control-label" for="name"><?php echo __('Field key'); ?></label>
+			<label class="control-label col-md-3" for="name"><?php echo __('Field key'); ?></label>
 			<div class="controls">
 				<?php echo Form::hidden( 'name', Arr::get($post_data, 'name', $field->name)); ?>
 				<?php echo Form::hidden( 'in_headline', Arr::get($post_data, 'in_headline', $field->in_headline)); ?>
@@ -27,7 +27,7 @@
 		</div>
 	</div>
 	
-	<div class="widget-header">
+	<div class="panel-heading">
 		<h3><?php echo __( 'Field settings' ); ?></h3>
 	</div>
 	<div class="panel-body ">
@@ -46,7 +46,7 @@
 		?>
 		<hr />
 		<div class="form-group">
-			<label class="control-label" for="hint"><?php echo __('Field hint'); ?></label>
+			<label class="control-label col-md-3" for="hint"><?php echo __('Field hint'); ?></label>
 			<div class="controls">
 				<?php echo Form::input( 'hint', $field->hint, array(
 					'id' => 'hint',
@@ -57,7 +57,7 @@
 		
 		<?php if($field->is_required()): ?>
 		<div class="form-group">
-			<label class="control-label" for="isreq"><?php echo __('Required'); ?></label>
+			<label class="control-label col-md-3" for="isreq"><?php echo __('Required'); ?></label>
 			<div class="controls">
 				<div class="checkbox">
 					<?php echo Form::checkbox( 'isreq', 1, (Arr::get($post_data, 'isreq', $field->isreq) == 1), array(
@@ -69,7 +69,7 @@
 		<?php endif; ?>
 		
 		<div class="form-group">
-			<label class="control-label" for="position"><?php echo __('Field position'); ?></label>
+			<label class="control-label col-md-3" for="position"><?php echo __('Field position'); ?></label>
 			<div class="controls">
 				<?php echo Form::input( 'position', $field->position, array(
 					'id' => 'position',

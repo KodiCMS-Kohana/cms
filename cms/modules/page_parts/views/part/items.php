@@ -7,7 +7,7 @@
 	<?php echo UI::button( __( 'Add page part' ), array(
 		'id' => 'pageEditPartAddButton', 
 		'icon' => UI::icon( 'plus' ),
-		'hotkeys' => 'ctrl+a'
+		'data-hotkeys' => 'ctrl+a'
 	) ); ?>
 </div>
 <?php endif; ?>

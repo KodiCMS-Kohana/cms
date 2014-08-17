@@ -60,90 +60,85 @@ function update_documents(e, response) {
 }
 </script>
 
-<div class="outline">
-	<div class="widget outline_inner">
-	<?php if(Acl::check('hybrid'.$ds->id().'.document.edit')): ?>
-	<?php echo Form::open(Request::current()->url() . URL::query(array('id' => $doc->id)), array(
-		'class' => 'form-horizontal', 'enctype' => 'multipart/form-data'
-	)); ?>
-	<?php echo Form::hidden('ds_id', $ds->id()); ?>
-	<?php echo Form::hidden('id', $doc->id); ?>
-	<?php echo Form::hidden('csrf', Security::token()); ?>
-	<?php else: ?>
-	<div class="form-horizontal">
-	<?php endif; ?>
-	<div class="widget-title">
-		<div class="form-group">
-			<label class="control-label title"><?php echo __('Header'); ?></label>
-			<div class="controls">
-				<?php echo Form::input('header', $doc->header, array(
-					'class' => 'input-title input-block-level slug-generator', 'data-slug' => '.from-header'
-				)); ?>
-			</div>
-			
-			<div class="controls">
-				<?php echo View::factory('datasource/hybrid/document/fields/published', array(
-					'doc' => $doc
-				)); ?>
-			</div>	
+<?php if(Acl::check('hybrid'.$ds->id().'.document.edit')): ?>
+<?php echo Form::open(Request::current()->url() . URL::query(array('id' => $doc->id)), array(
+	'class' => 'form-horizontal panel', 'enctype' => 'multipart/form-data'
+)); ?>
+<?php echo Form::hidden('ds_id', $ds->id()); ?>
+<?php echo Form::hidden('id', $doc->id); ?>
+<?php echo Form::hidden('csrf', Security::token()); ?>
+<?php else: ?>
+<div class="form-horizontal panel">
+<?php endif; ?>
+<div class="panel-heading">
+	<div class="form-group form-group-lg">
+		<label class="control-label col-md-3"><?php echo __('Header'); ?></label>
+		<div class="col-md-9">
+			<?php echo Form::input('header', $doc->header, array(
+				'class' => 'form-control slug-generator', 'data-slug' => '.from-header'
+			)); ?>
+		</div>
+
+		<div class="col-md-offset-3 col-md-9">
+			<?php echo View::factory('datasource/hybrid/document/fields/published', array(
+				'doc' => $doc
+			)); ?>
 		</div>	
-	</div>
-	<div class="spoiler-toggle-container panel-body-bg">
-		<div class="spoiler-toggle text-center" data-spoiler=".spoiler-meta">
-			<?php echo UI::icon( 'chevron-down spoiler-toggle-icon' ); ?> <span class="muted"><?php echo __('Metadata'); ?></span>
-		</div>
-		<div id="pageEditMetaMore" class="spoiler spoiler-meta">
-			<br />
-
-			<div class="form-group">
-				<label class="control-label"><?php echo __('Meta title'); ?></label>
-				<div class="controls">
-					<?php echo Form::input('meta_title', $doc->meta_title, array(
-						'class' => 'input-block-level'
-					)); ?>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="control-label"><?php echo __('Meta keywords'); ?></label>
-				<div class="controls">
-					<?php echo Form::input('meta_keywords', $doc->meta_keywords, array(
-						'class' => 'input-block-level'
-					)); ?>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="control-label"><?php echo __('Meta description'); ?></label>
-				<div class="controls">
-					<?php echo Form::textarea('meta_description', $doc->meta_description, array(
-						'class' => 'input-block-level'
-					)); ?>
-				</div>
-			</div>
+	</div>	
+</div>
+	
+<div class="spoiler-toggle text-center panel-heading" data-spoiler=".spoiler-meta">
+	<?php echo UI::icon( 'chevron-down spoiler-toggle-icon' ); ?> <span class="muted"><?php echo __('Metadata'); ?></span>
+</div>
+<div class="spoiler spoiler-meta panel-body">
+	<div class="form-group">
+		<label class="control-label col-md-3"><?php echo __('Meta title'); ?></label>
+		<div class="col-md-9">
+			<?php echo Form::input('meta_title', $doc->meta_title, array(
+				'class' => 'form-control'
+			)); ?>
 		</div>
 	</div>
-	<?php if($ds->template() !== NULL): ?>
-	<?php echo View_Front::factory($ds->template(), array(
-		'fields' => $fields,
-		'doc' => $doc,
-	)); ?>
-	<?php elseif(!empty($fields)): ?>
-	<br />
-
-	<?php foreach ($fields as $key => $field): ?>
-	<?php echo $field->backend_template($doc); ?>
-	<?php endforeach; ?>
-	<?php endif; ?>
-
-		
-	<?php if(Acl::check('hybrid'.$ds->id().'.document.edit')): ?>
-	<div class="form-actions panel-footer">
-		<?php echo UI::actions(TRUE, Route::get('datasources')->uri(array(
-			'controller' => 'data',
-			'directory' => 'datasources'
-		)) . URL::query(array('ds_id' => $ds->id()), FALSE)); ?>
+	<div class="form-group">
+		<label class="control-label col-md-3"><?php echo __('Meta keywords'); ?></label>
+		<div class="col-md-9">
+			<?php echo Form::input('meta_keywords', $doc->meta_keywords, array(
+				'class' => 'form-control'
+			)); ?>
+		</div>
 	</div>
-	<?php echo Form::close(); ?>
-	<?php else: ?>
+	<div class="form-group">
+		<label class="control-label col-md-3"><?php echo __('Meta description'); ?></label>
+		<div class="col-md-9">
+			<?php echo Form::textarea('meta_description', $doc->meta_description, array(
+				'class' => 'form-control', 'rows' => 2
+			)); ?>
+		</div>
 	</div>
-	<?php endif; ?>
-</div></div>
+</div>
+	
+<?php if($ds->template() !== NULL): ?>
+<?php echo View_Front::factory($ds->template(), array(
+	'fields' => $fields,
+	'doc' => $doc,
+)); ?>
+<?php elseif(!empty($fields)): ?>
+<br />
+
+<?php foreach ($fields as $key => $field): ?>
+<?php echo $field->backend_template($doc); ?>
+<?php endforeach; ?>
+<?php endif; ?>
+
+
+<?php if(Acl::check('hybrid'.$ds->id().'.document.edit')): ?>
+<div class="form-actions panel-footer">
+	<?php echo UI::actions(TRUE, Route::get('datasources')->uri(array(
+		'controller' => 'data',
+		'directory' => 'datasources'
+	)) . URL::query(array('ds_id' => $ds->id()), FALSE)); ?>
+</div>
+<?php echo Form::close(); ?>
+<?php else: ?>
+</div>
+<?php endif; ?>

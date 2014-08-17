@@ -1,8 +1,8 @@
 <div class="form-group">
-	<label class="control-label" for="<?php echo $field->name; ?>"><?php echo $field->header; ?> <?php if($field->isreq): ?>*<?php endif; ?></label>
-	<div class="controls">
+	<label class="control-label col-md-3" for="<?php echo $field->name; ?>"><?php echo $field->header; ?> <?php if($field->isreq): ?>*<?php endif; ?></label>
+	<div class="col-md-9">
 		<?php echo Form::input( $field->name, $value, array(
-			'class' => 'input-auto', 'id' => $field->name,
+			'class' => 'form-control', 'id' => $field->name,
 			'maxlength' => 60, 'size' => 60
 		) ); ?>
 		

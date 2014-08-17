@@ -4,10 +4,13 @@ Assets_Package::add('jquery')
 	->js(NULL, ADMIN_RESOURCES . 'libs/jquery.min.js');
 
 Assets_Package::add('bootstrap')
-	->js(NULL, ADMIN_RESOURCES . 'libs/bootstrap/js/bootstrap.min.js', 'jquery');
+	->js(NULL, ADMIN_RESOURCES . 'libs/bootstrap-3.2.0/dist/js/bootstrap.min.js', 'jquery')
+	->js('pixel-admin', ADMIN_RESOURCES . 'libs/pixel-admin/js/pixel-admin.min.js', 'bootstrap');
+
+Assets_Package::add('underscore')
+	->js(NULL, ADMIN_RESOURCES . 'libs/underscore-min.js', 'jquery');
 
 Assets_Package::add('backbone')
-	->js('underscore', ADMIN_RESOURCES . 'libs/underscore-min.js', 'jquery')
 	->js(NULL, ADMIN_RESOURCES . 'libs/backbone-min.js', 'underscore');
 
 Assets_Package::add('jquery-ui')

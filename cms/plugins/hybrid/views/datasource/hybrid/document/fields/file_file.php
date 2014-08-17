@@ -1,8 +1,8 @@
 <div class="form-group">
-	<label class="control-label" for="<?php echo $field->name; ?>">
+	<label class="control-label col-md-3" for="<?php echo $field->name; ?>">
 		<?php echo $field->header; ?> 
 	</label>
-	<div class="controls" id="file-<?php echo $field->name; ?>">
+	<div class="col-md-9" id="file-<?php echo $field->name; ?>">
 		<div class="row-fluid">
 			<?php if( ! empty($value)): ?>
 				<div class="well well-small">

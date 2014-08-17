@@ -4,7 +4,7 @@
 	<?php echo Form::hidden('id', $document->id); ?>
 
 	<div class="form-group">
-		<label class="control-label"><?php echo __('Header'); ?></label>
+		<label class="control-label col-md-3"><?php echo __('Header'); ?></label>
 		<div class="controls">
 			<?php echo Form::input('header', $document->header, array('class' => 'input-block-level')); ?>
 		</div>
@@ -18,7 +18,7 @@
 
 	<div class="well well-small">
 		<div class="form-group">
-			<label class="control-label"><?php echo __('Meta title'); ?></label>
+			<label class="control-label col-md-3"><?php echo __('Meta title'); ?></label>
 			<div class="controls">
 				<?php echo Form::input('meta_title', $document->meta_title, array(
 					'class' => 'input-block-level'
@@ -26,7 +26,7 @@
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="control-label"><?php echo __('Meta keywords'); ?></label>
+			<label class="control-label col-md-3"><?php echo __('Meta keywords'); ?></label>
 			<div class="controls">
 				<?php echo Form::input('meta_keywords', $document->meta_keywords, array(
 					'class' => 'input-block-level'
@@ -34,7 +34,7 @@
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="control-label"><?php echo __('Meta description'); ?></label>
+			<label class="control-label col-md-3"><?php echo __('Meta description'); ?></label>
 			<div class="controls">
 				<?php echo Form::textarea('meta_description', $document->meta_description, array(
 					'class' => 'input-block-level'

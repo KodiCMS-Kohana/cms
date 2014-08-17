@@ -19,7 +19,10 @@ class Controller_Update extends Controller_System_Backend {
 	{
 		Assets::package('ace');
 		
-		$this->template->title = __('Update');
+		$this->breadcrumbs
+			->add(__('Database'));
+		
+		$this->template->title = __('Database');
 		
 		$db_sql = Database_Helper::schema();
 		$file_sql = Database_Helper::install_schema();
@@ -38,6 +41,9 @@ class Controller_Update extends Controller_System_Backend {
 		{
 			return $this->_apply_patch();
 		}
+		
+		$this->breadcrumbs
+			->add(__('Patches'));
 
 		$this->template->content = View::factory( 'update/patches', array(
 			'patches' => array_flip(Patch::find_all()),

@@ -3237,7 +3237,7 @@ var RLANG = {
 							var img = $('<img src="' + val.thumb + '" class="redactorfolder redactorfolder' + folderkey + '" rel="' + val.image + '" title="' + thumbtitle + '" data-id="'+val.id+'" />');
 							
 							var cont = $('#redactor_image_box .thumbnails');
-							$('<li class="span1"></li>')
+							$('<li class="col-md-1"></li>')
 								.append(img)
 //								.prepend('<button type="button" class="close" data-dismiss="alert">&times;</button>')
 								.appendTo(cont);

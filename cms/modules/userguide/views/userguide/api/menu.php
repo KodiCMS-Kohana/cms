@@ -1,5 +1,5 @@
 <div class="widget">
-	<div class="widget-header">
+	<div class="panel-heading">
 		<h3><?php echo __('Modules'); ?></h3>
 	</div>
 	<div class="panel-body">

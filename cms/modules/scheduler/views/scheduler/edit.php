@@ -4,7 +4,7 @@
 
 <?php echo Form::hidden('token', Security::token()); ?>
 <div class="widget">
-	<div class="widget-header">
+	<div class="panel-heading">
 		<h4><?php echo __('General information'); ?></h4>
 		
 		<?php if($job->loaded() AND  Acl::check( 'scheduler.run')): ?>
@@ -29,7 +29,7 @@
 		</div>
 	</div>
 	
-	<div class="widget-header">
+	<div class="panel-heading">
 		<h4><?php echo __('Runing options'); ?></h4>
 	</div>
 	<div class="panel-body">

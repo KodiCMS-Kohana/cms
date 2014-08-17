@@ -96,7 +96,7 @@
 	</div>
 	<div class="panel-body spoiler roles-spoiler">
 		<?php echo Form::select('roles[]', $roles, $widget->roles, array(
-			'class' => 'span12'
+			'class' => 'col-md-12'
 		)); ?>
 	</div>
 	<?php endif; ?>

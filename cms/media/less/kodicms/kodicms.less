@@ -1,59 +1,6 @@
-@import "widget.less";
 @import "custom-bootstrap.less";
-/*@import "helpers.less";*/
 
 /* ===================================================
-	Design
- =================================================== */
-@contentBottomPadding: 30px;
-@footerHeight: 55px;
-@footerPadding: 20px;
-
-body {}
-html, body {
-	width: 100%;
-	height: 100%;
-	background-color: #f1f2f3;
-}
-
-#content-wrapper {
-	height: auto !important;
-    min-height: 100%;
-	min-width: 860px;
-}
-
-#content {
-	padding-top: 15px;
-	padding-bottom: @footerHeight + @contentBottomPadding - 15px;
-}
-
-.iframe {
-	.container-fluid, #content {
-		margin: 0; padding: 0;
-	}
-}
-
-
-footer {
-    background-color: #333f4d;
-    border-top: 2px solid #252525;
-    padding-top: @footerPadding;
-	color: #fff;
-	
-	height: @footerHeight - @footerPadding - 2px;
-	margin-top: -@footerHeight;
-    position: relative;
-
-	a {
-		color: #ccc;
-		text-decoration: underline;
-	}
-}
-
-
-/* ===================================================
-	Loader
- ===================================================*/
 ._loader_container {
 	display: none;
 	z-index: 5000;
@@ -95,31 +42,28 @@ footer {
 	text-align: center;
 	margin: 10px 0;
 }
+	Loader
+ ===================================================*/
 
-.map-header {
-	margin-bottom: 0;
-}
-
-.map-items {
+.page-items {
 	margin: 0;
 
 	li {
-		& > .item {
+		& > .page-item {
 			position: relative;
-			padding: 0 15px;
+			padding: 10px 0;
 			border-bottom: 1px solid #e9e9e9;
-			line-height: 35px;
 		}
 
 
 		&:nth-child(even) {
-			& > .item {
+			& > .page-item {
 				background-color: #f9f9f9;
 			}
 		}
 
 		&:hover {
-			& > .item {
+			& > .page-item {
 				background-color: #fff;
 
 				&:hover {
@@ -139,24 +83,19 @@ footer {
 		}
 	}
 
-	img {
-		vertical-align: middle;
-	}
-
-	ui-sortable-helper > .item {
+	ui-sortable-helper > .page-item {
 		border: none;
 	}
 
-/*	.ulX(@index: 0, @uls: ul, @defaultPadding: 0px, @increment: 35px) when (@index < 10) {
-      (~"@{uls} .item .title") { .ulSettings(@defaultPadding + @increment); }
-      .ulX(@index + 1, ('@{uls} ul'), @defaultPadding + @increment);
-    }
+	.ulX(@index, @ul, @padding) when (@index < 10) {
+		@item: ~"@{ul} .page-item .title";
+		@{item} { 
+			padding-left: @padding + 35px;
+		}
+		.ulX(@index + 1, '@{ul} ul', @padding + 35px);
+	 }
 
-	.ulSettings(@padding) {
-		padding-left: @padding;
-	}
-
-	.ulX(1);*/
+	.ulX(1, ul, 0);
 
 	.helper-ul {
 		border: 1px solid #0088CC;
@@ -165,18 +104,12 @@ footer {
 	}
 }
 
-
-.map-wait {
-	height: 30px;
-	background: #fff url(../images/loader-small-white.gif) center center no-repeat;
-}
-
 /* ===================================================
 	Page map
  ===================================================*/
 .page-items {
 	
-	.item {
+	.page-item {
 
 		.item-expander {
 			margin-left: -17px;
@@ -218,7 +151,7 @@ footer {
 	}
 	
 	.map-drag {
-		.item {
+		.page-item {
 			border: 1px dashed #ccc;
 		}
 	}
@@ -348,8 +281,6 @@ footer {
 }
 
 /* ===================================================
-	Page Edit
- ===================================================*/
 #pageEdit {
 	position: relative;
 
@@ -641,3 +572,5 @@ footer {
 		filter: alpha(opacity=0);
 	}
 }
+	Page Edit
+ ===================================================*/

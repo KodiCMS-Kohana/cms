@@ -41,14 +41,14 @@
 				)); ?>
 
 				<div class="form-group">
-					<label class="control-label" for="db_server"><?php echo __( 'Database server' ); ?></label>
+					<label class="control-label col-md-3" for="db_server"><?php echo __( 'Database server' ); ?></label>
 					<div class="controls inline">
 						<?php echo Form::input( 'install[db_server]', Arr::get( $data, 'db_server' ), array(
-							'class' => 'span3', 'id' => 'db_server'
+							'class' => 'col-md-3', 'id' => 'db_server'
 						) ); ?>
 
 						<?php echo Form::input( 'install[db_port]', Arr::get( $data, 'db_port' ), array(
-							'class' => 'span1'
+							'class' => 'col-md-1'
 						) ); ?>
 
 						<?php echo UI::label(__('Required')); ?>
@@ -56,7 +56,7 @@
 				</div>
 
 				<div class="form-group">
-					<label class="control-label" for="db_user"><?php echo __( 'Database user' ); ?></label>
+					<label class="control-label col-md-3" for="db_user"><?php echo __( 'Database user' ); ?></label>
 					<div class="controls">
 						<?php echo Form::input( 'install[db_user]', Arr::get( $data, 'db_user' ), array(
 							'class' => 'input-xlarge', 'id' => 'db_user'
@@ -65,7 +65,7 @@
 				</div>
 
 				<div class="form-group">
-					<label class="control-label" for="db_password"><?php echo __( 'Database password' ); ?></label>
+					<label class="control-label col-md-3" for="db_password"><?php echo __( 'Database password' ); ?></label>
 					<div class="controls">
 						<?php echo Form::password( 'install[db_password]', Arr::get( $data, 'db_password' ), array(
 							'class' => 'input-xlarge', 'id' => 'db_password'
@@ -76,7 +76,7 @@
 				</div>
 
 				<div class="form-group well well-small">
-					<label class="control-label" for="db_name"><?php echo __( 'Database name' ); ?></label>
+					<label class="control-label col-md-3" for="db_name"><?php echo __( 'Database name' ); ?></label>
 					<div class="controls">
 						<?php echo Form::input( 'install[db_name]', Arr::get( $data, 'db_name' ), array(
 							'class' => 'input-xlarge', 'id' => 'db_name'
@@ -90,7 +90,7 @@
 				</div>
 
 				<div class="form-group">
-					<label class="control-label" for="db_preffix"><?php echo __( 'Prefix' ); ?></label>
+					<label class="control-label col-md-3" for="db_preffix"><?php echo __( 'Prefix' ); ?></label>
 					<div class="controls">
 						<?php echo Form::input( 'install[db_table_prefix]', Arr::get( $data, 'db_table_prefix' ), array(
 							'class' => 'input-small', 'id' => 'db_preffix'
@@ -106,12 +106,12 @@
     <h1><?php echo __('Site information'); ?></h1>
     <div>
 		<div class="widget">
-			<div class="widget-header">
+			<div class="panel-heading">
 				<h3><?php echo __('User settings'); ?></h3>
 			</div>
 			<div class="panel-body">
 				<div class="form-group">
-					<label class="control-label" for="username"><?php echo __( 'Administrator username' ); ?></label>
+					<label class="control-label col-md-3" for="username"><?php echo __( 'Administrator username' ); ?></label>
 					<div class="controls">
 						<?php echo Form::input( 'install[username]', Arr::get( $data, 'username' ), array(
 							'class' => 'input-medium', 'id' => 'username'
@@ -121,7 +121,7 @@
 				<div class="well well-small">
 					<div id="password-form">
 						<div class="form-group">
-							<label class="control-label" for="password"><?php echo __('Password'); ?></label>
+							<label class="control-label col-md-3" for="password"><?php echo __('Password'); ?></label>
 							<div class="controls">
 								<?php echo Form::password('install[password_field]', Arr::get( $data,'password_field'), array(
 									'class' => 'input-medium', 'id' => 'password'
@@ -153,7 +153,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="control-label" for="email"><?php echo __( 'Administrator email' ); ?></label>
+					<label class="control-label col-md-3" for="email"><?php echo __( 'Administrator email' ); ?></label>
 					<div class="controls">
 						<?php echo Form::input( 'install[email]', Arr::get( $data, 'email' ), array(
 							'class' => 'input-medium', 'id' => 'email'
@@ -161,21 +161,21 @@
 					</div>
 				</div>
 			</div>
-			<div class="widget-header">
+			<div class="panel-heading">
 				<h3><?php echo __('Site settings'); ?></h3>
 			</div>
 			<div class="panel-body">
 				<div class="form-group">
-					<label class="control-label" for="site_name"><?php echo __( 'Site title' ); ?></label>
+					<label class="control-label col-md-3" for="site_name"><?php echo __( 'Site title' ); ?></label>
 					<div class="controls">
 						<?php echo Form::input( 'install[site_name]', Arr::get( $data, 'site_name' ), array(
-							'class' => 'span7', 'id' => 'site_name'
+							'class' => 'col-md-7', 'id' => 'site_name'
 						) ); ?> <?php echo UI::label( __( 'Required' ) ); ?>
 					</div>
 				</div>
 				
 				<div class="form-group">
-					<label class="control-label" for="admin_dir_name"><?php echo __( 'Admin dir name' ); ?></label>
+					<label class="control-label col-md-3" for="admin_dir_name"><?php echo __( 'Admin dir name' ); ?></label>
 					<div class="controls">
 						<?php echo Form::input( 'install[admin_dir_name]', Arr::get( $data, 'admin_dir_name' ), array(
 							'class' => 'input-small', 'id' => 'admin_dir_name'
@@ -183,7 +183,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="control-label" for="url_suffix"><?php echo __( 'URL suffix' ); ?></label>
+					<label class="control-label col-md-3" for="url_suffix"><?php echo __( 'URL suffix' ); ?></label>
 					<div class="controls">
 						<?php echo Form::input( 'install[url_suffix]', Arr::get( $data, 'url_suffix' ), array(
 							'class' => 'input-small', 'id' => 'url_suffix'
@@ -193,7 +193,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="widget-header">
+			<div class="panel-heading">
 				<h3><?php echo __('Regional settings'); ?></h3>
 			</div>
 			<div class="panel-body">

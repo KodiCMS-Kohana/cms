@@ -1,12 +1,12 @@
 <?php if( ACL::check( 'widgets.index')): ?>
-<div class="panel-heading spoiler-toggle" data-spoiler=".spoiler-widgets" data-hash="widgets" hotkeys="shift+w">
+<div class="panel-heading" data-hotkeys="shift+w">
 	<span class="panel-title" data-icon="cubes"><?php echo __('Widgets'); ?></h4>
 </div>
 
-<div class="panel-body spoiler spoiler-widgets">
+<div class="panel-body">
 	<?php if(empty($page->id)): ?>
 	<h4><?php echo __('Copy widgets from'); ?></h4>
-	<select name="widgets[from_page_id]" class="span12">
+	<select name="widgets[from_page_id]" class="col-md-12">
 		<option value=""><?php echo __('--- Do not copy ---'); ?></option>
 		<?php foreach ($pages as $p): ?>
 		<option value="<?php echo($p['id']); ?>" <?php echo($p['id'] == $page->parent_id ? ' selected="selected"': ''); ?> ><?php echo str_repeat('- ', $p['level'] * 2).$p['title']; ?></option>

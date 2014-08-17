@@ -161,7 +161,7 @@ $failed = FALSE;
 		<p id="results" class="alert alert-success lead"><?php echo UI::icon('check'); ?> <?php echo __('Your environment passed all requirements.'); ?></p>
 	<?php endif ?>
 </div>
-<div class="widget-header "><h3><?php echo __( 'Optional Tests' ); ?></h3></div>
+<div class="panel-heading "><span class="panel-title"><?php echo __( 'Optional Tests' ); ?></span></div>
 <div class="env_test panel-body">
 	<p id="info" class="lead alert alert-info"><?php echo UI::icon('lightbulb-o'); ?> <?php echo __('The following extensions are not required to run the Kohana core, but if enabled can provide access to additional classes.'); ?></p>
 

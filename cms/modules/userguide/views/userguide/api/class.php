@@ -30,7 +30,7 @@
 </p>
 
 <div class="row-fluid">
-	<div class="span4">
+	<div class="col-md-4">
 		<h3><?php echo __('Constants'); ?></h3>
 		<ul class="unstyled">
 		<?php if ($doc->constants): ?>
@@ -42,7 +42,7 @@
 		<?php endif ?>
 		</ul>
 	</div>
-	<div class="span4">
+	<div class="col-md-4">
 		<h3><?php echo __('Properties'); ?></h3>
 		<ul class="unstyled">
 		<?php if ($properties = $doc->properties()): ?>
@@ -54,7 +54,7 @@
 		<?php endif ?>
 		</ul>
 	</div>
-	<div class="span4">
+	<div class="col-md-4">
 		<h3><?php echo __('Methods'); ?></h3>
 		<ul class="unstyled">
 		<?php if ($methods = $doc->methods()): ?>

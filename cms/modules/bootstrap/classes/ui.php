@@ -26,40 +26,46 @@ class UI {
 
 	public static function button($body, array $attributes = NULL)
 	{
-		if(!isset($attributes['class']))
+		if (!isset($attributes['class']))
 		{
-			$attributes['class'] = 'btn';
+			$attributes['class'] = array();
+		}
+		else
+		{
+			$attributes['class'] = explode(' ', $attributes['class']);
 		}
 		
-		if(isset($attributes['icon']))
+		$attributes['class'][] = 'btn';
+		$attributes['class'] = array_filter(array_unique($attributes['class']));
+
+		if (isset($attributes['icon']))
 		{
-			$body = $attributes['icon'] . ' '.$body;
+			$body = $attributes['icon'] . ' ' . $body;
 			unset($attributes['icon']);
 		}
-		
-		if(isset($attributes['href']))
+
+		if (isset($attributes['href']))
 		{
 			$attributes['type'] = self::BUTTON_TYPE_ANCHOR;
-			
+
 			$href = $attributes['href'];
 			unset($attributes['href']);
 		}
-		elseif(isset($attributes['name']))
+		elseif (isset($attributes['name']))
 		{
 			$attributes['type'] = self::BUTTON_TYPE_BUTTON;
 		}
-		
-		if(!isset($attributes['type']))
+
+		if (!isset($attributes['type']))
 		{
 			$attributes['type'] = self::BUTTON_TYPE_BUTTON;
 		}
-		
+
 		$type = $attributes['type'];
 		unset($attributes['type']);
 		
 		switch ($type) {
 			case self::BUTTON_TYPE_ANCHOR:
-				
 				return HTML::anchor($href, $body, $attributes);
 				break;
 			default:
@@ -85,13 +91,13 @@ class UI {
 				'class' => 'btn btn-lg btn-save', 
 				'icon' => UI::icon('retweet'),
 				'name' => 'continue',
-				'hotkeys' => 'ctrl+s'
+				'data-hotkeys' => 'ctrl+s'
 			)),
 			UI::button(__('Save and Close'), array(
 				'class' => 'btn btn-info btn-save-close', 
 				'icon' => UI::icon('check'),
 				'name' => 'commit',
-				'hotkeys' => 'ctrl+shift+s'
+				'data-hotkeys' => 'ctrl+shift+s'
 			)),
 			UI::button(__('Cancel'), array(
 				'href' => $uri, 

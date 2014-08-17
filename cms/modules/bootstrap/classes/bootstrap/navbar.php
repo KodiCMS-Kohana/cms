@@ -26,7 +26,7 @@ class Bootstrap_Navbar extends Bootstrap_Helper_Elements {
 	 * or .pull-right to properly align it.
 	 * 
 	 *		<form class="navbar-form pull-left">
-	 *			<input type="text" class="span2">
+	 *			<input type="text" class="col-md-2">
 	 *			<button type="submit" class="btn">Submit</button>
 	 *		</form>
 	 */

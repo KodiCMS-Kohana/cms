@@ -1,8 +1,8 @@
 <div class="form-group">
-	<label class="control-label" for="<?php echo $field->name; ?>">
+	<label class="control-label col-md-3" for="<?php echo $field->name; ?>">
 		<?php echo $field->header; ?> 
 	</label>
-	<div class="controls" id="file-<?php echo $field->name; ?>">
+	<div class="col-md-9" id="file-<?php echo $field->name; ?>">
 		<div class="row-fluid">
 			<?php if( ! empty($value)): ?>
 				<div class="well well-small">
@@ -24,7 +24,7 @@
 			<?php endif; ?>
 
 			<div class="upload-new-cont <?php if( ! empty($value)): ?>spoiler<?php endif; ?> spoiler-file-<?php echo $field->name; ?>">
-				<div class="span4">
+				<div class="col-md-4">
 					<div class="file-upload btn">
 						<span><?php echo __('Select file to upload'); ?></span>
 						<?php echo Form::file( $field->name, array(
@@ -44,7 +44,7 @@
 				
 				
 				
-				<div class="span7 input-append">
+				<div class="col-md-7 input-append">
 					<?php echo Form::input( $field->name . '_url', NULL, array(
 						'id' => $field->name . '_url', 'placeholder' => __('Or paste URL to file'),
 						'class' => 'input-block-level input-filemanager'

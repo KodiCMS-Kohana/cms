@@ -1,11 +1,10 @@
 cms.init.add(['roles_edit', 'roles_add'], function () {
-	$('.widget').on('click', 'label.check_all', function() {
+	$('.panel').on('click', '.check_all', function(e) {
 		var $list = $(this)
-			.parent()
-			.parent()
-			.parent()
-			.parent()
-			.find('tbody input')
+			.closest('table')
+			.find('input')
 			.check();
+
+		e.preventDefault();
 	});
 });

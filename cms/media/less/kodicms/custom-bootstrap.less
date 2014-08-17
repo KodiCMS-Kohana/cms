@@ -1,12 +1,26 @@
 /* ===================================================
+	Table
+ ===================================================*/
+.table-noborder > thead > tr > th,
+.table-noborder > tbody > tr > th,
+.table-noborder > tfoot > tr > th,
+.table-noborder > thead > tr > td,
+.table-noborder > tbody > tr > td,
+.table-noborder > tfoot > tr > td {
+  border: none;
+}
+
+/* ===================================================
 	Body
  ===================================================*/
 .iframe {
 	#main-wrapper {
-		padding-left: 0 !important;
+		margin-left: 0 !important;
+		padding: 0 !important;
 	}
 	
 	#content-wrapper{
+		margin: 0 !important;
 		padding: 0 !important;
 	}
 }
@@ -16,7 +30,7 @@
  ===================================================*/
 .spoiler-toggle-container {
 	display: block;
-	padding: 0 10px;
+	margin: 0 10px;
 }
 
 .spoiler-toggle {
@@ -32,12 +46,12 @@
  ===================================================*/
 .span-sidebar-right {
 	border-left: 1px solid #DDD;
-	padding-left: 20px;
+	margin-left: 20px;
 }
 
 .span-sidebar-left {
 	border-right: 1px solid #DDD;
-	padding-right: 20px;
+	margin-right: 20px;
 }
 
 /* ===================================================
@@ -47,4 +61,62 @@
 	* {
 		cursor: pointer;
 	}
+}
+
+/* ===================================================
+	Reduce margin
+ ===================================================*/
+.margin-sm {
+  margin: 10px 15px !important;
+}
+
+// Small horizontal margin
+.margin-sm-hr {
+  margin-left: 15px !important;
+  margin-right: 15px !important;
+}
+
+// Extra small horizontal margin
+.margin-xs-hr {
+  margin-left: 10px !important;
+  margin-right: 10px !important;
+}
+
+// Small vertical margin
+.margin-sm-vr {
+  margin-top: 15px !important;
+  margin-bottom: 15px !important;
+}
+
+// Extra small vertical margin
+.margin-xs-vr {
+  margin-top: 10px !important;
+  margin-bottom: 10px !important;
+}
+
+// Remove margin
+.no-margin {
+  margin: 0 !important;
+}
+
+// Remove horizontal margin
+.no-margin-hr {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+// Remove vertical margin
+.no-margin-vr {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+// Remove bottom margin
+.no-margin-b {
+  margin-bottom: 0 !important;
+}
+
+// Remove top margin
+.no-margin-t {
+  margin-top: 0 !important;
 }

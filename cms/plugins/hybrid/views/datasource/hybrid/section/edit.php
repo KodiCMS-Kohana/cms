@@ -2,34 +2,32 @@
 	var DS_ID = '<?php echo $ds->id(); ?>';
 </script>
 
-<div class="widget">
 <?php echo Form::open(Request::current()->uri(), array(
-	'class' => 'form-horizontal'
+	'class' => 'form-horizontal panel'
 )); ?>
 	<?php echo Form::hidden('ds_id', $ds->id()); ?>
 
-	<div class="widget-header spoiler-toggle" data-spoiler=".general-spoiler">
-		<h4><?php echo UI::icon('exclamation-circle'); ?> <?php echo __('Datasource Information'); ?></h4>
+	<div class="panel-heading spoiler-toggle" data-spoiler=".general-spoiler" data-icon="exclamation-circle">
+		<span class="panel-title"><?php echo __('Datasource Information'); ?></span>
 	</div>
 	<div class="panel-body spoiler general-spoiler">
-		<div class="form-group">
-			<label class="control-label title" for="ds_name"><?php echo __('Datasource Header'); ?></label>
-			<div class="controls">
+		<div class="form-group form-group-lg">
+			<label class="control-label col-md-3" for="ds_name"><?php echo __('Datasource Header'); ?></label>
+			<div class="col-md-9">
 				<?php echo Form::input( 'name', $ds->name, array(
-					'class' => 'input-title input-block-level', 'id' => 'ds_name'
-				) ); ?>
+					'class' => 'form-control', 'id' => 'ds_name'
+				)); ?>
 			</div>
 		</div>
 
 		<div class="form-group">
-			<label class="control-label" for="ds_description"><?php echo __('Datasource Description'); ?></label>
-			<div class="controls">
+			<label class="control-label col-md-3" for="ds_description"><?php echo __('Datasource Description'); ?></label>
+			<div class="col-md-9">
 				<?php echo Form::textarea( 'description', $ds->description, array(
-					'class' => 'input-block-level', 'id' => 'ds_description', 'rows' => 4
-				) ); ?>
+					'class' => 'form-control', 'id' => 'ds_description', 'rows' => 4
+				)); ?>
 			</div>
 		</div>
-		
 	</div>
 	
 	<?php echo View::factory('datasource/hybrid/blocks/fields', array(
@@ -41,38 +39,36 @@
 		'template' => $ds->template,
 	)); ?>
 
-	<div class="widget-header spoiler-toggle" data-spoiler=".indexer-spoiler" hotkeys="shift+s">
-		<h4><?php echo UI::icon('search'); ?> <?php echo __('Search indexation'); ?></h4>
+	<div class="panel-heading spoiler-toggle" data-spoiler=".indexer-spoiler" data-hotkeys="shift+s" data-icon="search">
+		<span class="panel-title"><?php echo __('Search indexation'); ?></span>
 	</div>
 	<div class="panel-body spoiler indexer-spoiler">
 		<div class="form-group">
-			<div class="controls">
-				<label class="checkbox"><?php echo Form::checkbox( 'is_indexable', 1, $ds->is_indexable() ); ?> <?php echo __('Is indexable'); ?></label>
+			<div class="col-md-offset-3 col-md-9">
+				<div class="checkbox">
+					<label><?php echo Form::checkbox( 'is_indexable', 1, $ds->is_indexable() ); ?> <?php echo __('Is indexable'); ?></label>
+				</div>
 			</div>
 		</div>
 		
 		<div class="form-group">
-			<label class="control-label" for="search_intro_field"><?php echo __('Index document intro'); ?></label>
-			<div class="controls">
+			<label class="control-label col-md-3" for="search_intro_field"><?php echo __('Index document intro'); ?></label>
+			<div class="col-md-3">
 				<?php echo Form::select('search_intro_field',  array(__('--- none ---')) + $ds->record_fields_array(), $ds->search_intro_field); ?>
 			</div>
 		</div>
 		
 		<div class="form-group">
-			<label class="control-label" for="search_index_fields"><?php echo __('Index document fields'); ?></label>
-			<div class="controls">
-				<?php echo Form::select('search_index_fields[]', $ds->record_fields_array(), (array) $ds->search_index_fields, array(
-					'class' => 'input-block-level'
-				)); ?>
+			<label class="control-label col-md-3" for="search_index_fields"><?php echo __('Index document fields'); ?></label>
+			<div class="col-md-9">
+				<?php echo Form::select('search_index_fields[]', $ds->record_fields_array(), (array) $ds->search_index_fields); ?>
 			</div>
 		</div>
 		
 		<div class="form-group">
-			<label class="control-label" for="search_index_doc_id_fields"><?php echo __('Document ID fields'); ?></label>
-			<div class="controls">
-				<?php echo Form::select('search_index_doc_id_fields[]', $ds->record_fields_array(), (array) $ds->search_index_doc_id_fields, array(
-					'class' => 'input-block-level'
-				)); ?>
+			<label class="control-label col-md-3" for="search_index_doc_id_fields"><?php echo __('Document ID fields'); ?></label>
+			<div class="col-md-9">
+				<?php echo Form::select('search_index_doc_id_fields[]', $ds->record_fields_array(), (array) $ds->search_index_doc_id_fields); ?>
 			</div>
 		</div>
 	</div>
@@ -83,4 +79,3 @@
 		))); ?>
 	</div>
 <?php echo Form::close(); ?>
-</div>

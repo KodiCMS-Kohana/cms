@@ -90,7 +90,7 @@
 <div class="row-container">
 	<h4>Fields</h4>
 	<div class="row-fluid">
-		<div class="fields-container span12">
+		<div class="fields-container col-md-12">
 			<?php foreach ($fields as $field): ?>
 				<div data-id="field_<?php echo $field->id; ?>"><?php echo $field->name; ?></div>
 			<?php endforeach; ?>
@@ -102,8 +102,8 @@
 	<div class="row-container" data-id="row_1">
 		<h4>Row 1</h4>
 		<div class="row-fluid">
-			<div class="fields-container span6" data-id="col_1"></div>
-			<div class="fields-container span6" data-id="col_2"></div>
+			<div class="fields-container col-md-6" data-id="col_1"></div>
+			<div class="fields-container col-md-6" data-id="col_2"></div>
 		</div>
 		
 		<button class="close">&times;</button>
@@ -112,8 +112,8 @@
 	<div class="row-container" data-id="row_2">
 		<h4>Row 2</h4>
 		<div class="row-fluid">
-			<div class="fields-container span6" data-id="col_1"></div>
-			<div class="fields-container span6" data-id="col_2"></div>
+			<div class="fields-container col-md-6" data-id="col_1"></div>
+			<div class="fields-container col-md-6" data-id="col_2"></div>
 		</div>
 		
 		<button class="close">&times;</button>

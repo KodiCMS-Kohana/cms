@@ -16,7 +16,7 @@
 </style>
 
 <div class="widget">
-	<div class="widget-header">
+	<div class="panel-heading">
 		<h3><small><?php echo __('Subject'); ?>:</small> <?php echo $message->title; ?></h3>
 	</div>
 	

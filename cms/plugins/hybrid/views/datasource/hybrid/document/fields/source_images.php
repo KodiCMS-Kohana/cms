@@ -1,6 +1,6 @@
 <div class="form-group">
-	<label class="control-label" for="<?php echo $field->name; ?>"><?php echo $field->header; ?> <?php if($field->isreq): ?>*<?php endif; ?></label>
-	<div class="controls">
+	<label class="control-label col-md-3" for="<?php echo $field->name; ?>"><?php echo $field->header; ?> <?php if($field->isreq): ?>*<?php endif; ?></label>
+	<div class="col-md-9">
 		<div class="file-upload btn">
 			<span><?php echo __('Select file to upload'); ?></span>
 			<?php echo Form::file( $field->name . '[]', array(

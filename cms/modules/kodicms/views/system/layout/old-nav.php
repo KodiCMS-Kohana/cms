@@ -33,7 +33,9 @@ if($navigation !== NULL)
 					->icon($item->icon);
 				
 				if($item->hotkeys !== NULL)
-					$item_menu->attributes('hotkeys', $item->hotkeys);
+				{
+					$item_menu->attributes('data-hotkeys', $item->hotkeys);
+				}
 
 				$dropdown->add($item_menu, $item->is_active());
 				

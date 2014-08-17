@@ -55,7 +55,7 @@
 		
 		<div class="row-fluid">
 			
-			<div class="span5">
+			<div class="col-md-5">
 				<div class="list-group">
 					<?php if ( Acl::check( 'users.edit') OR $user->id == AuthUser::getId() ): ?>
 					
@@ -76,7 +76,7 @@
 				</div>
 				<?php Observer::notify('view_user_profile_sidebar', $user->id); ?>
 			</div>
-			<div class="span7">
+			<div class="col-md-7">
 				<?php Observer::notify('view_user_profile_information', $user->id); ?>
 			</div>
 		</div>
@@ -84,12 +84,12 @@
 	</div>
 	
 	<?php if ( !empty($permissions) AND ACL::check('users.view.permissions') ): ?>
-		<div class="widget-header widget-section">
+		<div class="panel-heading widget-section">
 			<h2><?php echo __('Section permissions'); ?></h2>
 		</div>
 		
 		<?php foreach($permissions as $title => $actions): ?>
-		<div class="widget-header">
+		<div class="panel-heading">
 			<h3><?php echo __(ucfirst($title)); ?></h3>
 		</div>
 		<div class="panel-body">

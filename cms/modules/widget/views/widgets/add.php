@@ -32,7 +32,7 @@
 			<label class="control-label col-md-3"><?php echo __('Type'); ?></label>
 			<div class="col-md-9">
 				<?php echo Form::select('type', $types, NULL, array(
-					'class' => 'span6'
+					'class' => 'col-md-6'
 				)); ?> 
 			</div>
 		</div>
@@ -41,7 +41,7 @@
 		<?php echo UI::button( __('Create widget'), array(
 			'icon' => UI::icon( 'plus'), 
 			'class' => 'btn btn-lg btn-primary',
-			'hotkeys' => 'ctrl+s'
+			'data-hotkeys' => 'ctrl+s'
 		)); ?>
 	</div>
 <?php echo Form::close(); ?>

@@ -1,19 +1,19 @@
 <?php echo $toolbar; ?>
 
-<div id="headline" class="widget">
-	<div class="tablenav form-inline widget-header page-actions">
-		<?php try 
-		{
-			echo View::factory('datasource/'.$ds_type.'/actions');
-		}
-		catch (Exception $exc)
-		{
-			echo View::factory('datasource/section/actions', array());
-		} ?>
-		<div class="clearfix"></div>
-	</div>
-	
-	<div class="panel-body widget-nopad">
+<div id="headline">
+	<div class="panel">
+		<div class="page-actions">
+			<?php try 
+			{
+				echo View::factory('datasource/'.$ds_type.'/actions');
+			}
+			catch (Exception $exc)
+			{
+				echo View::factory('datasource/section/actions', array());
+			} ?>
+			<div class="clearfix"></div>
+		</div>
+		
 		<?php echo $headline; ?>
 	</div>
 </div>

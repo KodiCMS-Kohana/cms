@@ -1,11 +1,11 @@
-<div class="widget-header spoiler-toggle" data-spoiler=".search-settings" data-hash="search-settings" data-icon="search">
-	<h3 id="cache-settings"><?php echo __('Search settings'); ?></h3>
+<div class="panel-heading" data-icon="search">
+	<span class="panel-title" id="cache-settings"><?php echo __('Search settings'); ?></span>
 </div>
-<div class="panel-body spoiler search-settings">
+<div class="panel-body">
 	<div class="well">
 		<?php echo UI::button(__('Update search index'), array(
 			'icon' => UI::icon( 'refresh fa-lg' ),
-			'class' => 'btn btn-warning btn-api btn-lg',
+			'class' => 'btn btn-warning btn-api',
 			'data-url' => 'search.update_index'
 		)); ?>
 	</div>

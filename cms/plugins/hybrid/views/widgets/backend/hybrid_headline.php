@@ -28,12 +28,12 @@ function sort_by_rand($field) {
 	</div>
 </div>
 <?php else: ?>
-<div class="widget-header">
+<div class="panel-heading">
 	<h4><?php echo __('Properties'); ?></h4>
 </div>
 <div class="panel-body">
 	<div class="form-group">
-		<label class="control-label" for="doc_uri"><?php echo __('Document page (URI)'); ?></label>
+		<label class="control-label col-md-3" for="doc_uri"><?php echo __('Document page (URI)'); ?></label>
 		<div class="controls">
 			<?php echo Form::input( 'doc_uri', $widget->doc_uri, array(
 				'class' => 'input-xlarge', 'id' => 'doc_uri'
@@ -42,7 +42,7 @@ function sort_by_rand($field) {
 	</div>
 
 	<div class="form-group">
-		<label class="control-label" for="doc_id"><?php echo __('Identificator field'); ?></label>
+		<label class="control-label col-md-3" for="doc_id"><?php echo __('Identificator field'); ?></label>
 		<div class="controls">
 			<?php echo Form::input( 'doc_id', $widget->doc_id, array(
 				'class' => 'input-xlarge', 'id' => 'doc_id'

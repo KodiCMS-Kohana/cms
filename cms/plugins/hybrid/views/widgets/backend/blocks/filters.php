@@ -53,8 +53,8 @@
 	})
 </script>
 
-<div class="widget-header">
-	<h4><?php echo UI::icon('filter'); ?> <?php echo __('Filters'); ?></h4>
+<div class="panel-heading" data-icon="filter">
+	<span class="panel-title"><?php echo __('Filters'); ?></span>
 </div>
 
 <div class="panel-body">

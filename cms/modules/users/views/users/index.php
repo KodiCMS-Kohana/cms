@@ -4,7 +4,7 @@
 		<?php echo UI::button(__('Add user'), array(
 			'href' => Route::get('backend')->uri(array('controller' => 'users', 'action' => 'add')), 
 			'icon' => UI::icon('plus'),
-			'hotkeys' => 'ctrl+a'
+			'data-hotkeys' => 'ctrl+a'
 		)); ?>
 		<?php endif; ?>
 	</div>

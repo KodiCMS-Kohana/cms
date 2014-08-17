@@ -1,15 +1,15 @@
 <?php 
-$class = 'input-auto'; 
+$class = array('form-control'); 
 if($field->use_filemanager)
 {
-	$class .= ' input-filemanager';
+	$class[] = 'input-filemanager';
 }
 ?>
 
 <div class="form-group">
-	<label class="control-label" for="<?php echo $field->name; ?>"><?php echo $field->header; ?> <?php if($field->isreq): ?>*<?php endif; ?></label>
-	<div class="controls">
-		<div class="input-append">
+	<label class="control-label col-md-3" for="<?php echo $field->name; ?>"><?php echo $field->header; ?> <?php if($field->isreq): ?>*<?php endif; ?></label>
+	<div class="col-md-9">
+		<div class="input-group">
 			<?php echo Form::input( $field->name, $value, array(
 				'id' => $field->name, 'maxlength' => $field->length, 'size' => $field->length,
 				'class' => $class

@@ -1,5 +1,5 @@
 <?php $fields = DataSource_Hybrid_Field_Factory::get_section_fields($widget->ds_id); ?>
-<div class="widget-header">
+<div class="panel-heading">
 	<h4><?php echo UI::icon('th-list'); ?> <?php echo __('Fetched document fields'); ?></h4>
 </div>
 <div class="panel-body widget-nopad">

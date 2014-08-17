@@ -7,8 +7,8 @@ foreach($config as $ext => $mime)
 }
 ?>
 <div class="form-group">
-	<label class="control-label"><?php echo __( 'Allowed file types' ); ?></label>
-	<div class="controls">
+	<label class="control-label col-md-3"><?php echo __( 'Allowed file types' ); ?></label>
+	<div class="col-md-9">
 		<?php echo Form::select( 'types[]', $mimes, (array) $field->types, array('class' => 'input-block-level', 'id' => 'allowed_types')); ?>
 
 		<span class="flags" data-array="true">
@@ -22,8 +22,8 @@ foreach($config as $ext => $mime)
 
 <hr />
 <div class="form-group">
-	<label class="control-label"><?php echo __( 'Max file size' ); ?></label>
-	<div class="controls">
+	<label class="control-label col-md-3"><?php echo __( 'Max file size' ); ?></label>
+	<div class="col-md-9">
 		<?php echo Form::input('max_size', $field->max_size, array('class' => 'input-small', 'id' => 'max_size')); ?> (<?php echo Text::bytes($field->max_size); ?>)
 		<span class="flags">
 			<span class="label" data-value="<?php echo NUM::bytes('100K'); ?>">100k</span>

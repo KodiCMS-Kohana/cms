@@ -49,18 +49,23 @@ $slugify = ! isset($slugify) ? TRUE : (bool) $slugify;
 </script>
 
 <div class="form-group" id="<?php echo $container; ?>">
-	<?php if(!empty($label)): ?><label class="control-label"><?php echo $label; ?></label><?php endif; ?>
-	<div class="controls">
-		<div class="row-helper hidden">
-			<div class="input-append">
-				<input type="text" name="<?php echo $field; ?>[key][]" disabled="disabled" class="input-small <?php if($slugify): ?>slug<?php endif; ?> row-key" data-separator="_" placeholder="<?php echo __('Key'); ?>">
-				<span class="add-on"> - </span>
-				<input type="text" name="<?php echo $field; ?>[value][]" disabled="disabled" class="input-xxlarge row-value" placeholder="<?php echo __('Description'); ?>">
-				<button class="btn btn-warning remove-row"><?php echo UI::icon('trash-o'); ?></button>
-				<br /><br />
+	<?php if(!empty($label)): ?><label class="control-label col-md-3"><?php echo $label; ?></label><?php endif; ?>
+	<div class="<?php if(!empty($label)): ?>col-xs-9<?php else: ?>col-xs-12<?php endif; ?>">
+		<div class="row-helper hidden padding-xs-vr">
+			<div class="input-group">
+				<input type="text" name="<?php echo $field; ?>[key][]" disabled="disabled" class="form-control <?php if($slugify): ?>slug<?php endif; ?> row-key" data-separator="_" placeholder="<?php echo __('Key'); ?>">
+				<span class="input-group-addon"> - </span>
+				<input type="text" name="<?php echo $field; ?>[value][]" disabled="disabled" class="form-control row-value" placeholder="<?php echo __('Description'); ?>">
+				<div class="input-group-btn">
+					<?php echo Form::button('trash-row', UI::icon('trash-o'), array(
+						'class' => 'btn btn-warning remove-row'
+					)); ?>
+				</div>
 			</div>
 		</div>
 		<div class="rows-container"></div>
-		<button class="add-row btn" hotkeys="ctrl+a"><?php echo UI::icon('plus'); ?></button>
+		<?php echo Form::button('add-row', UI::icon('plus'), array(
+			'class' => 'add-row btn btn-primary', 'data-hotkeys' => 'ctrl+a'
+		)); ?>
 	</div>
 </div>

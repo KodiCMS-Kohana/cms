@@ -3,21 +3,19 @@
 </script>
 	
 <?php echo Form::open(Route::get('backend')->uri(array('controller' => 'roles', 'action' => $action, 'id' => $role->id)), array(
-	'class' => Bootstrap_Form::HORIZONTAL
+	'class' => array(Bootstrap_Form::HORIZONTAL, 'panel')
 )); ?>
+	<?php echo Form::hidden('token', Security::token()); ?>
 
-<?php echo Form::hidden('token', Security::token()); ?>
-<div class="widget">
-	<?php echo View::factory('helper/tabbable'); ?>
-	<div class="widget-header">
-		<h3><?php echo __('General information'); ?></h3>
+	<div class="panel-heading">
+		<span class="panel-title"><?php echo __('General information'); ?></span>
 	</div>
 	<div class="panel-body">
-		<div class="form-group">
-			<?php echo $role->label('name', array('class' => 'control-label')); ?>
-			<div class="controls">
+		<div class="form-group form-group-lg">
+			<?php echo $role->label('name', array('class' => 'control-label col-md-3')); ?>
+			<div class="col-md-9">
 				<?php echo $role->field('name', array(
-					'class' => 'input-medium slug',
+					'class' => 'form-control slug',
 					'prefix' => 'role',
 					'data-separator' => '_'
 				)); ?>	
@@ -25,12 +23,12 @@
 		</div>
 		
 		<div class="form-group">
-			<?php echo $role->label('description', array('class' => 'control-label')); ?>
-			<div class="controls">
+			<?php echo $role->label('description', array('class' => 'control-label col-md-3')); ?>
+			<div class="col-md-9">
 				<?php echo $role->field('description', array(
-					'class' => 'input-xxlarge',
+					'class' => 'form-control',
 					'prefix' => 'role',
-					'rows' => 5
+					'rows' => 2
 				)); ?>	
 			</div>
 		</div>
@@ -46,5 +44,4 @@
 	<div class="form-actions panel-footer">
 		<?php echo UI::actions($page_name); ?>
 	</div>
-</div>
 <?php Form::close(); ?>

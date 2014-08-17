@@ -1,49 +1,56 @@
-<div class="widget">
+<div class="panel">
 	<?php echo Form::open(Request::current()->uri()); ?>
-	<div class="panel-body ">
-		<h3>&larr; <?php echo HTML::anchor(Route::get('backend')->uri(array(
-				'controller' => 'widgets', 
-				'action' => 'edit',
-				'id' => $widget->id)), $widget->name); ?></h3>
-		<hr />
-		<table class="table table-striped">
-			<colgroup>
-				<col width="300px" />
-				<col width="100px" />
-				<col />
-			</colgroup>
-			<thead>
-				<tr>
-					<th><?php echo __('Layout block'); ?></th>
-					<th><?php echo __('Widget weight'); ?></th>
-					<th><?php echo __('Page'); ?></th>
-				</tr>
-			</thead>
-			<tbody>
-				<?php echo recurse_pages($pages, 0, $layouts_blocks, $page_widgets, $pages_widgets); ?>
-			</tbody>
-		</table>
+	<div class="panel-heading">
+		<h3 class="no-margin-vr">
+			<small>&larr; <?php echo __('Back to widget settings:'); ?></small>
+			<?php echo HTML::anchor(Route::get('backend')->uri(array(
+			'controller' => 'widgets', 
+			'action' => 'edit',
+			'id' => $widget->id
+			)), $widget->name); ?>
+		</h3>
 	</div>
-	<div class="panel-body ">
-		<div class="input-prepend input-append">
-			<?php echo Form::input('select_for_all', NULL, array('class' => 'inline')); ?>
-			<?php echo UI::button( __('Select for all pages'), array(
-				'icon' => UI::icon('sitemap'), 'class' => 'btn inline', 'id' => 'select_for_all'
-			)); ?>
+	<table class="table table-primary table-striped">
+		<colgroup>
+			<col width="300px" />
+			<col width="100px" />
+			<col width="20px" />
+			<col />
+		</colgroup>
+		<thead>
+			<tr>
+				<th><?php echo __('Layout block'); ?></th>
+				<th><?php echo __('Widget weight'); ?></th>
+				<th></th>
+				<th><?php echo __('Page'); ?></th>
+			</tr>
+		</thead>
+		<tbody>
+			<?php echo recurse_pages($pages, 0, $layouts_blocks, $page_widgets, $pages_widgets); ?>
+		</tbody>
+	</table>
+	<div class="panel-body">
+		<div class="input-group" style="width: 400px">
+			<?php echo Form::input('select_for_all', NULL, array('class' => 'form-control')); ?>
+			<div class="input-group-btn">
+				<?php echo UI::button( __('Select for all pages'), array(
+					'icon' => UI::icon('level-up fa-flip-horizontal'), 'class' => 'btn', 'id' => 'select_for_all'
+				)); ?>
+			</div>
 		</div>
 	</div>
 	<div class="panel-footer form-actions">
 		<?php echo UI::button( __('Save locations'), array(
 			'icon' => UI::icon( 'check'), 
-			'class' => 'btn btn-lg',
-			'hotkeys' => 'ctrl+s'
+			'class' => 'btn btn-lg btn-primary',
+			'data-hotkeys' => 'ctrl+s'
 		)); ?>
 		
 		
 		<?php if( ACL::check( 'layout.rebuild')): ?>
 		<?php echo UI::button(__('Rebuild blocks'), array(
 			'icon' => UI::icon( 'refresh' ),
-			'class' => 'btn btn-inverse btn-xs btn-api',
+			'class' => 'btn btn-xs btn-success btn-api',
 			'data-url' => 'layout.rebuild',
 			'data-method' => Request::POST
 		)); ?>
@@ -72,8 +79,8 @@ function recurse_pages( $pages, $spaces = 0, $layouts_blocks = array(), $page_wi
 			) );
 		}
 		$data .= '</td><td>';
-		$data .= Form::input('blocks[' . $page['id'] . '][position]', (int) $current_position, array('maxlength' => 4, 'size' => 4, 'class' => 'input-mini text-right widget-position') );
-		$data .= '</td>';
+		$data .= Form::input('blocks[' . $page['id'] . '][position]', (int) $current_position, array('maxlength' => 4, 'size' => 4, 'class' => 'form-control text-right widget-position') );
+		$data .= '</td><td></td>';
 		
 		if ( Acl::check( 'page.edit'))
 		{

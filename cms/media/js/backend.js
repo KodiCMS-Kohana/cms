@@ -334,23 +334,30 @@ cms.ui.add('flags', function() {
 		var $value = $(this).data('value');
 		
 		if($array) $value = $value.split(',');
-		
-		$('.label', $container).removeClass('label-success');
-		$(this).addClass('label-success');
 
 		if($append) {
-			var $old_value = '';
 			if($src.is(':input')) {
-				$old_value += $src.val();
-				$value = $old_value.length > 0 ? $old_value + ', ' + $value: $value;
-				$src.val($value);
+				var $values = $src.val().split(', ');
+				$values.push($value);
+				$values = _.uniq(_.compact($values));
+				$src.val($values.join(', '));
 			}
 			else {
-				$old_value += $src.val();
-				$value = $old_value.length > 0 ? $old_value + ', ' : $value;
-				$src.text($value);
+				var $values = $src.text().split(', ');
+				$values.push($value);
+				$values = _.uniq(_.compact($values));
+				$src.text($values.join(', '));
 			}
+			
+			$('.label', $container).removeClass('label-success');
+			for(i in $values) {
+				$('.label[data-value="'+$values[i]+'"]').addClass('label-success');
+			}
+			
 		} else {
+			$('.label', $container).removeClass('label-success');
+			$(this).addClass('label-success');
+
 			if($src.hasClass('select2-offscreen'))
 			{
 				$src.select2("val", $value);
@@ -776,7 +783,7 @@ cms.ui.add('flags', function() {
 		Api.request($method, $url, null, $callback);
 	})
 }).add('select_all_checkbox', function() {
-	$(document).on(' change','input[name="check_all"]', function(e) {
+	$(document).on('change', 'input[name="check_all"]', function(e) {
 		var $self = $(this),
 			$target = $self.data('target');
 		
@@ -786,8 +793,12 @@ cms.ui.add('flags', function() {
 		e.preventDefault();
     });
 }).add('icon', function() {
-	$('*[data-icon]').each(function() {
-		$(this).html('<i class="fa fa-' + $(this).data('icon') + '"></i> ' + $(this).html());
+	$('*[data-icon]').add('*[data-icon-pepend]').each(function() {
+		$(this).html('<i class="fa fa-' + $(this).data('icon') + '"></i>&nbsp&nbsp' + $(this).html());
+	});
+	
+	$('*[data-icon-append]').each(function() {
+		$(this).html($(this).html() + '&nbsp&nbsp<i class="fa fa-' + $(this).data('icon-append') + '"></i>');
 	});
 });
 

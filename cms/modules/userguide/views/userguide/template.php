@@ -14,6 +14,7 @@
 		<?php Observer::notify( 'layout_backend_head_before' ); ?>
 		<?php echo Assets::css(); ?>
 		<?php echo Assets::js(); ?>
+		<?php echo Assets::group('global', 'events'); ?>
 		<?php Observer::notify( 'layout_backend_head_after' ); ?>
 	</head>
 	<body id="body_<?php echo $page_body_id; ?>" class="<?php echo $request->query('type'); ?> theme-default main-menu-fixed">
@@ -28,6 +29,7 @@
 			<?php endif; ?>
 
 			<div id="content-wrapper">
+				<?php echo $breadcrumbs; ?>
 				<div class="row">
 					<div class="col-md-3">
 						<div id="kodoc-topics">

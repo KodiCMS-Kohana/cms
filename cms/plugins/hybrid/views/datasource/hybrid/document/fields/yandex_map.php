@@ -1,6 +1,6 @@
 <div class="form-group">
-	<label class="control-label"><?php echo $field->header; ?></label>
-	<div class="controls">
+	<label class="control-label col-md-3"><?php echo $field->header; ?></label>
+	<div class="col-md-9">
 		<div class="input-append">
 			<?php echo Form::input( $field->name . '[]', Arr::get($value, 0), array(
 				'class' => 'input-medium', 'id' => $field->name . 'X'
@@ -48,7 +48,7 @@ $(function() {
 			
 		searchControl = new ymaps.control.SearchControl({ provider: 'yandex#publicMap', width: '400' });
 			
-		myMap.controls
+		myMap.col-md-9
 			// Кнопка изменения масштаба.
 			.add('zoomControl')
 			// Список типов карты

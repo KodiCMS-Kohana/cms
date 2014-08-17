@@ -1,6 +1,6 @@
 <div class="form-group">
-	<label class="control-label"><?php echo __( 'Max file size' ); ?></label>
-	<div class="controls">
+	<label class="control-label col-md-3"><?php echo __( 'Max file size' ); ?></label>
+	<div class="col-md-9">
 		<?php echo Form::input('max_size', $field->max_size, array('class' => 'input-small', 'id' => 'max_size')); ?> (<?php echo Text::bytes($field->max_size); ?>)
 		<span class="flags">
 			<span class="label" data-value="<?php echo NUM::bytes('100K'); ?>">100k</span>

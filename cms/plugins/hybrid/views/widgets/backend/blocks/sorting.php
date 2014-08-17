@@ -132,61 +132,55 @@ jQuery.fn.swapWith = function(to) {
 };
 </script>
 <div id="sorting_block">
-	<div class="widget-header">
-		<h4><?php echo UI::icon('sort-alpha-desc'); ?> <?php echo __('Documents order'); ?></h4>
+	<div class="panel-heading">
+		<span class="panel-title"><?php echo UI::icon('sort-alpha-desc'); ?> <?php echo __('Documents order'); ?></span>
 	</div>
-	<div class="panel-body widget-nopad">
-		<table class="table">
-			<colgroup>
-				<col width="220px" />
-				<col width="110px" />
-				<col />
-			</colgroup>
-			<thead>
-				<tr>
-					<td>
-						<?php echo __('Order by'); ?>
-					</td>
-					<td>
+	<table class="table table-noborder table-primary">
+		<colgroup>
+			<col width="220px" />
+			<col width="110px" />
+			<col width="220px" />
+			<col />
+		</colgroup>
+		<thead>
+			<tr>
+				<td><?php echo __('Order by'); ?></td>
+				<td></td>
+				<td><?php echo __('Available fields'); ?></td>
+				<td></td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td id="sf-cont">
+					<?php echo Form::select('sf', $selected_fields, NULL, array(
+						'size' => 5, 'class' => 'no-script form-control', 'id' => 'sf'
+					)); ?>
 
-					</td>
-					<td>
-						<?php echo __('Available fields'); ?>
-					</td>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td id="sf-cont">
-						<?php echo Form::select('sf', $selected_fields, NULL, array(
-							'size' => 5, 'class' => 'no-script', 'id' => 'sf'
-						)); ?>
-
-						<?php 
-						foreach($doc_order as $data) 
-						{
-							echo Form::hidden('doc_order[]['.key($data).']', $data[key($data)], array(
-								'id' => 'sf_' . key($data)
-							));
-						}
-						?>
-					</td>
-					<td class="sorting-btns">
-						<div class="btn-group btn-group-vertical span2">
-							<?php echo UI::button('Add', array('class' => 'btn btn-add btn-block')); ?>
-							<?php echo UI::button('Remove', array('class' => 'btn btn-remove btn-block')); ?>
-							<?php echo UI::button('Move up', array('class' => 'btn btn-move up btn-block')); ?>
-							<?php echo UI::button('Move down', array('class' => 'btn btn-move down btn-block')); ?>
-							<?php echo UI::button('Asc / Desc', array('class' => 'btn btn-order btn-block')); ?>
-						</div>
-					</td>
-					<td>
-						<?php echo Form::select('af', $available_fields, NULL, array(
-							'size' => 5, 'class' => 'no-script', 'id' => 'af'
-						)); ?>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
+					<?php 
+					foreach($doc_order as $data) 
+					{
+						echo Form::hidden('doc_order[]['.key($data).']', $data[key($data)], array(
+							'id' => 'sf_' . key($data)
+						));
+					}
+					?>
+				</td>
+				<td class="sorting-btns">
+					<div class="btn-group btn-group-vertical col-md-2">
+						<?php echo UI::button('Add', array('class' => 'btn btn-add btn-block')); ?>
+						<?php echo UI::button('Remove', array('class' => 'btn btn-remove btn-block')); ?>
+						<?php echo UI::button('Move up', array('class' => 'btn btn-move up btn-block')); ?>
+						<?php echo UI::button('Move down', array('class' => 'btn btn-move down btn-block')); ?>
+						<?php echo UI::button('Asc / Desc', array('class' => 'btn btn-order btn-block')); ?>
+					</div>
+				</td>
+				<td>
+					<?php echo Form::select('af', $available_fields, NULL, array(
+						'size' => 5, 'class' => 'no-script form-control', 'id' => 'af'
+					)); ?>
+				</td>
+			</tr>
+		</tbody>
+	</table>
 </div>

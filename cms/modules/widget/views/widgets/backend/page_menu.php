@@ -16,66 +16,54 @@ function show_field($select) {
 </script>
 
 <div class="panel-body">
-	<?php
-		echo Bootstrap_Form_Element_Control_Group::factory(array(
-			'element' => Bootstrap_Form_Element_Select::factory(array(
-				'name' => 'page_id', 'options' => $select
-			))
-			->attributes('class', Bootstrap_Form_Element_Input::XXLARGE)
-			->attributes('id', 'select_page_id')
-			->selected($widget->page_id)
-			->label(__('Page'))
-		));
-	?>
+	<div class="form-group">
+		<label class="control-label col-md-3"><?php echo __('Page'); ?></label>
+		<div class="col-md-4">
+			<?php echo Form::select('page_id',  $select, $widget->page_id, array('id' => 'select_page_id')); ?>	
+		</div>
+	</div>
 
 	<div class="form-group" id="page_level_container">
-		<label class="control-label" for="page_level"><?php echo __('Select page level'); ?></label>
-		<div class="controls">
-			<?php echo Form::input('page_level',  $widget->page_level, array('id' => 'page_level', 'class' => 'input-mini')); ?>	
+		<label class="control-label col-md-3" for="page_level"><?php echo __('Select page level'); ?></label>
+		<div class="col-md-2">
+			<?php echo Form::input('page_level',  $widget->page_level, array('id' => 'page_level', 'class' => 'form-control')); ?>	
 		</div>
 	</div>
 	
-	<?php	
-		echo Bootstrap_Form_Element_Control_Group::factory(array(
-			'element' => Bootstrap_Form_Element_Checkbox::factory(array(
-				'name' => 'match_all_paths', 'value' => 1
-			))
-			->checked($widget->match_all_paths == 1)
-			->label(__('Match All Pages within Given Deepness'))
-		));
-		
-		echo Bootstrap_Form_Element_Control_Group::factory(array(
-			'element' => Bootstrap_Form_Element_Checkbox::factory(array(
-				'name' => 'include_hidden', 'value' => 1
-			))
-			->checked($widget->include_hidden == 1)
-			->label(__('Include hidden pages'))
-		));
-	?>
+	<div class="form-group">
+		<div class="col-md-offset-3 col-md-9">
+			<div class="checkbox">
+				<label><?php echo Form::checkbox('match_all_paths', 1, $widget->match_all_paths == 1); ?> <?php echo __('Match All Pages within Given Deepness'); ?></label>
+			</div>
+			
+			<div class="checkbox">
+				<label><?php echo Form::checkbox('include_hidden', 1, $widget->include_hidden == 1); ?> <?php echo __('Include hidden pages'); ?></label>
+			</div>
+		</div>
+	</div>
 </div>
-<div class="widget-header">
-	<h4><?php echo __('Exclude pages'); ?></h4>
+<div class="panel-heading">
+	<span class="panel-title"><?php echo __('Exclude pages'); ?></span>
 </div>
-<div class="panel-body widget-nopad">
-	<table class="table table-striped">
-		<colgroup>
-			<col width="30px" />
-			<col />
-		</colgroup>
-		<tbody>
-			<?php foreach($pages as $page): ?>
-			<tr>
-				<?php if($page['id'] > 1): ?>
-				<td>
-					<?php echo Form::checkbox('exclude[]', $page['id'], in_array($page['id'], $widget->exclude), array('id' => 'page'.$page['id'])); ?>
-				</td>
-				<th><label for="page<?php echo $page['id']; ?>"><?php echo str_repeat('&nbsp;', $page['level'] * 10) . $page['title']; ?></label></th>
-				<?php else: ?>
-				<td></td>
-				<th><h4><?php echo $page['title']; ?></h4></th>
-				<?php endif; ?>
-			</tr>
-			<?php endforeach; ?>
-		</tbody>
-	</table>
-</div>
+<table class="table table-noborder table-striped">
+	<colgroup>
+		<col width="50px" />
+		<col />
+	</colgroup>
+	<tbody>
+		<?php foreach($pages as $page): ?>
+		<tr>
+			<?php if($page['id'] > 1): ?>
+			<td class="text-right">
+				<?php echo Form::checkbox('exclude[]', $page['id'], in_array($page['id'], $widget->exclude), array('id' => 'page'.$page['id'])); ?>
+			</td>
+			<th><label for="page<?php echo $page['id']; ?>"><?php echo str_repeat('&nbsp;', $page['level'] * 10) . $page['title']; ?></label></th>
+			<?php else: ?>
+			
+			<td></td>
+			<th><?php echo $page['title']; ?></th>
+			<?php endif; ?>
+		</tr>
+		<?php endforeach; ?>
+	</tbody>
+</table>

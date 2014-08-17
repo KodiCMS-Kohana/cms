@@ -1,47 +1,50 @@
 <div class="panel-body ">
-	<?php 
+	<div class="form-group">
+		<label class="control-label col-md-3" for="login_field"><?php echo __('Login ID (POST)'); ?></label>
+		<div class="col-md-3">
+			<?php echo Form::input('login_field', $widget->get('login_field'), array(
+				'class' => 'form-control', 'id' => 'login_field'
+			)); ?>
+		</div>
+	</div>
 	
-	echo Bootstrap_Form_Element_Control_Group::factory(array(
-		'element' => Bootstrap_Form_Element_Input::factory(array(
-			'name' => 'login_field', 'value' => $widget->get('login_field')
-		))
-		->label(__('Login ID (POST)'))
-	));
+	<div class="form-group">
+		<label class="control-label col-md-3" for="password_field"><?php echo __('Password ID (POST)'); ?></label>
+		<div class="col-md-3">
+			<?php echo Form::input('password_field', $widget->get('password_field'), array(
+				'class' => 'form-control', 'id' => 'password_field'
+			)); ?>
+		</div>
+	</div>
 	
-	echo Bootstrap_Form_Element_Control_Group::factory(array(
-		'element' => Bootstrap_Form_Element_Input::factory(array(
-			'name' => 'password_field', 'value' => $widget->get('password_field')
-		))
-		->label(__('Password ID (POST)'))
-	));
-	
-	echo Bootstrap_Form_Element_Control_Group::factory(array(
-		'element' => Bootstrap_Form_Element_Input::factory(array(
-			'name' => 'next_url', 'value' => $widget->get('next_url')
-		))
-		->label(__('Next page by default (URI)'))
-		->attributes('class', Bootstrap_Form_Element_Input::XXLARGE)
-	));
-	?>
-	<hr />
-	<?php
-	echo Bootstrap_Form_Element_Control_Group::factory(array(
-		'element' => Bootstrap_Form_Element_Checkbox::factory(array(
-			'name' => 'remember', 'value' => 1
-		))
-		->checked($widget->remember)
-		->label(__('Allow Autologin'))
-	));
-	
-	echo Bootstrap_Form_Element_Control_Group::factory(array(
-		'element' => Bootstrap_Form_Element_Input::factory(array(
-			'name' => 'remember_field', 'value' => $widget->get('remember_field')
-		))
-		->label(__('Autologin ID'))
-	));
-	?>
-</div>
+	<div class="form-group">
+		<label class="control-label col-md-3" for="next_url"><?php echo __('Next page by default (URI)'); ?></label>
+		<div class="col-md-9">
+			<?php echo Form::input('next_url', $widget->get('next_url'), array(
+				'class' => 'form-control', 'id' => 'next_url'
+			)); ?>
+		</div>
+	</div>
 
+	<hr class="panel-wide" />
+	
+	<div class="form-group">
+		<div class="col-md-offset-3 col-md-9">
+			<div class="checkbox">
+				<label><?php echo Form::checkbox('remember', 1, $widget->remember == 1); ?> <?php echo __('Allow Autologin'); ?></label>
+			</div>
+		</div>
+	</div>
+	
+	<div class="form-group">
+		<label class="control-label col-md-3" for="remember_field"><?php echo __('Autologin ID (POST)'); ?></label>
+		<div class="col-md-3">
+			<?php echo Form::input('remember_field', $widget->get('remember_field'), array(
+				'class' => 'form-control', 'id' => 'remember_field'
+			)); ?>
+		</div>
+	</div>
+</div>
 <script>
 $(function() {
 	$('button[name="new_rule"]').on('click', function() {
@@ -70,38 +73,37 @@ $(function() {
 	});
 });
 </script>
-<div class="panel-body ">
+<div class="panel-heading" data-icon="share">
+	<span class="panel-title"><?php echo __('User redirect rules'); ?></span>
+</div>
+
+<div class="panel-body">
 	<div class="roles-redirect-contaier">
 		<?php foreach($widget->roles_redirect as $key => $data): ?>
 		<div class="roles-redirect-item">
 			<button type="button" class="close" data-dismiss="alert">&times;</button>
-			<div class="clearfix"></div>
-			<?php
-				echo Bootstrap_Form_Element_Control_Group::factory(array(
-					'element' => Bootstrap_Form_Element_Select::factory(array(
-						'name' => 'roles_redirect['.$key.'][roles][]', 'options' => $roles
-					))
-					->attributes('class', Bootstrap_Form_Element_Input::BLOCK_LEVEL)
-					->selected(Arr::get($data, 'roles', array()))
-					->label(__('Roles'))
-				));
-
-				echo Bootstrap_Form_Element_Control_Group::factory(array(
-					'element' => Bootstrap_Form_Element_Input::factory(array(
-						'name' => 'roles_redirect['.$key.'][next_url]', 'value' => Arr::get($data, 'next_url')
-					))
-					->label(__('Next page (URI)'))
-					->attributes('class', Bootstrap_Form_Element_Input::XXLARGE)
-				));
-			?>
-			<hr />
+			<div class="form-group">
+				<label class="control-label col-md-3"><?php echo __('Roles'); ?></label>
+				<div class="col-md-4">
+					<?php echo Form::select('roles_redirect['.$key.'][roles][]',  $roles, Arr::get($data, 'roles', array())); ?>	
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="control-label col-md-3" for="next_url"><?php echo __('Next page (URI)'); ?></label>
+				<div class="col-md-9">
+					<?php echo Form::input('roles_redirect['.$key.'][next_url]', Arr::get($data, 'next_url'), array(
+						'class' => 'form-control'
+					)); ?>
+				</div>
+			</div>
+			
+			<hr class="panel-wide" />
 		</div>
 		<?php endforeach; ?>
 	</div>
-	<?php echo Bootstrap_Form_Element_Button::factory(array(
-		'title' => __('Add new rule'), 'name' => 'new_rule'
-	))
-	->pull_right()
-	->icon('plus'); 
-	?>
+	
+	<div class="col-md-offset-3">
+		<button name="new_rule" class="btn" data-icon="plus"><?php echo __('Add new rule'); ?></button>
+	</div>
 </div>

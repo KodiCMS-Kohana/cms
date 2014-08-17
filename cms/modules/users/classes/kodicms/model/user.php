@@ -37,6 +37,24 @@ class KodiCMS_Model_User extends Model_Auth_User {
 		);
 	}
 	
+	public function form_columns()
+	{
+		return array(
+			'id' => array(
+				'type' => 'input',
+				'editable' => FALSE,
+				'length' => 10
+			),
+			'password' => array(
+				'type' => 'password'
+			),
+			'password_confirm' => array(
+				'type' => 'password',
+				'free' => TRUE
+			)
+		);
+	}
+	
 	/**
 	 * Добавление в запрос получения спсика ролей
 	 * 

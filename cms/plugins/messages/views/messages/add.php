@@ -17,7 +17,7 @@
 		<br />
 		
 		<div class="form-group">
-			<label class="control-label"><?php echo __( 'Message to' ); ?></label>
+			<label class="control-label col-md-3"><?php echo __( 'Message to' ); ?></label>
 			<div class="controls">
 				<?php echo Form::input( 'to', Request::current()->query('to'), array(' autocomplete' => 'off', 'id' => 'messageTo') ); ?>
 			</div>

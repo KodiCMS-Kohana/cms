@@ -26,7 +26,7 @@ return array(
 	'Email from' => 'От кого',
 	'Email to' => 'Кому',
 	'Email status' => 'Статус',
-	'Email message' => 'Текст мисьма',
+	'Email message' => 'Текст письма',
 	'Plain text' => 'Простой текст',
 	'Edit email template' => 'Редактирование шаблона',
 	'Add email template' => 'Создание шаблона',

@@ -1,10 +1,10 @@
 <div class="widget widget-nopad">
-	<div class="widget-header">
+	<div class="panel-heading">
 		<?php if ( Acl::check('scheduler.add')): ?>
 		<?php echo UI::button(__('Add job'), array(
 			'href' => Route::get('backend')->uri(array('controller' => 'scheduler', 'action' => 'add')), 
 			'icon' => UI::icon('plus'),
-			'hotkeys' => 'ctrl+a'
+			'data-hotkeys' => 'ctrl+a'
 		)); ?>
 		<?php endif; ?>
 	</div>

@@ -4,7 +4,7 @@
 		<?php echo UI::button(__('Add layout'), array(
 			'icon' => UI::icon( 'plus' ), 
 			'href' => Route::get('backend')->uri(array('controller' => 'layout', 'action' => 'add')),
-			'hotkeys' => 'ctrl+a'
+			'data-hotkeys' => 'ctrl+a'
 		)); ?>
 		<?php endif; ?>
 

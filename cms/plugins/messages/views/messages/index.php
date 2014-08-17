@@ -1,6 +1,6 @@
 <div class="map widget">
 	
-	<div class="widget-header">
+	<div class="panel-heading">
 		<div class="row-fluid">
 			<?php echo UI::button(__('Send message'), array(
 				'href' => Route::get('backend')->uri(array('controller' => 'messages', 'action' => 'add')), 'icon' => UI::icon('envelope-o'),

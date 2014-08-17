@@ -1,7 +1,7 @@
 <div class="widget">
 	<?php if(count($widgets) > 0): ?>
 	<?php foreach ($widgets as $type => $_widgets): ?>
-	<div class="widget-header">
+	<div class="panel-heading">
 		<h3><?php echo __($type); ?></h3>
 	</div>
 	<div class="panel-body">

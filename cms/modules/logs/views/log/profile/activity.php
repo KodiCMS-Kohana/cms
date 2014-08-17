@@ -1,5 +1,4 @@
 <?php if ( !empty($logs) ): ?>
-
 <h3 class="page-header"><?php echo __('Activity'); ?></h3>
 
 <ul class="chat-box">
