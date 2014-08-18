@@ -15,7 +15,7 @@
 					<ul class="nav navbar-nav pull-right right-navbar-nav">
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle user-menu" data-toggle="dropdown">
-								<?php echo UI::icon('user'); ?>
+								<?php echo AuthUser::getRecord()->gravatar(25); ?>
 								<span><?php echo AuthUser::getUserName(); ?></span>
 							</a>
 							<ul class="dropdown-menu">
