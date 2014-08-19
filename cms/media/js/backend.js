@@ -385,58 +385,22 @@ cms.ui.add('flags', function() {
 		cms.content_height = null;
 		cms.calculateContentHeight();
 	});
-}).add('navbar', function() {
-	
-	var user_nav = $('#user_nav');
-	var brand = $('.brand');
-
-	var sw = $('#site_nav').outerWidth();
-	var uw = user_nav.outerWidth();
-	var bw = brand.outerWidth(true);
-
-	$(window).resize(function() {
-		calcNav();
-	});
-	
-	function calcNav() {
-		var nw = $('.navbar-inner').width();
-		var w = nw - sw - uw - bw - 20;
-		var wh = false;
-		
-		if(w <= 0) {
-			$('.text, .divider-vertical', user_nav).hide();
-			wh = true;
-		} else {
-			wh = false;
-			$('.text, .divider-vertical', user_nav).show();
-		}
-		
-		if(wh) {
-			var unw = $(user_nav).outerWidth();
-			var nw = w + uw - unw;
-			
-			if(w <= 0 && nw < 0) brand.hide();
-			else brand.fadeIn();
-				
-		} else brand.fadeIn();
-	};
-	
-	calcNav();
-}).add('spoiler', function() {
+}).add('panel-toggler', function() {
 	var icon_open = 'fa-chevron-up',
 		icon_close = 'fa-chevron-down';
 
-	$('.spoiler-toggle')
+	$('.panel-toggler')
 		.click(function () {
 			var $self = $(this);
-			var $spoiler_cont = $('.spoiler');
-			
-			if($(this).data('spoiler')) {
-				$spoiler_cont = $($(this).data('spoiler'));
+	
+			if($self.data('target-')) {
+				$_cont = $($self.data('target-'));
+			} else {
+				var $_cont = $self.next('.panel-spoiler');
 			}
 		
-			$spoiler_cont.slideToggle('fast', function() {
-				var $icon = $self.find('.spoiler-toggle-icon');
+			$_cont.slideToggle('fast', function() {
+				var $icon = $self.find('.panel-toggler-icon');
 				if($(this).is(':hidden')) {
 					$icon.removeClass(icon_open).addClass(icon_close).addClass('fa');
 				} else {
@@ -451,10 +415,9 @@ cms.ui.add('flags', function() {
 				$(this).click();
 				$('html,body').animate({scrollTop: $(this).offset().top}, 'slow');
 			}
-			
 		})
-		.find('.panel-title')
-		.append('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="spoiler-toggle-icon fa '+icon_close+'" />');
+		.append('<div class="panel-heading-controls"><span class="text-sm"><i class="panel-toggler-icon fa '+icon_close+'" />&nbsp;&nbsp;&nbsp;'+__('Toggle')+'</span></div>');
+
 }).add('datepicker', function() {
 	$('.datetimepicker').datetimepicker({
 		format:'Y-m-d H:i:00',
@@ -700,7 +663,7 @@ cms.ui.add('flags', function() {
 				window.location = $self.attr('href');
 				e.preventDefault();
 			} 
-		} else if($self.hasClass('spoiler-toggle')) {
+		} else if($self.hasClass('panel-toggler')) {
 			$callback = function( e ) {
 				$self.trigger('click');
 				$('body').scrollTo($self);
@@ -795,11 +758,37 @@ cms.ui.add('flags', function() {
 		$(this).html($(this).html() + '&nbsp&nbsp<i class="fa fa-' + $(this).data('icon-append') + '"></i>');
 		$(this).removeAttr('data-icon-append');
 	});
-}).add('required-input', function() {
-	$(':input[required]').each(function() {
-//		$(this).wrap('<div class="has-feedback" />');
-		$('<i class="fa fa-asterisk"></i>').insertAfter($(this));
+}).add('tabbable', function() {
+	$('.tabbable').each(function(i) {
+		var $self = $(this);
+		var $tabs_content = $('<div class="tab-content no-padding-t" />').prependTo($self);
+		var $tabs_ul = $('<ul class="nav nav-tabs tabs-generated" style="position:relative; margin-top: 10px;" />').insertBefore($self);
+		$('> .panel-heading', $self).each(function(j) {
+			var $li = $('<li></li>').appendTo($tabs_ul);
+			var $content = $(this).nextUntil('.panel-heading').not('.panel-footer').removeClass('panel-spoiler');
+			
+			$(this).find('.panel-title').removeClass('panel-title');
+			$(this).find('.panel-heading-controls').remove();
+			var $content_container = $('<div class="tab-pane" id="panel-tab-' + i + '' +  '' + j+ '" />').append($content).appendTo($tabs_content);
+			$('<a href="#panel-tab-' + i + '' +  '' + j+ '" data-toggle="tab"></a>').html($(this).html()).appendTo($li);
+			
+			$(this).remove();
+		});
 	});
+
+	$('.tabbable .nav-tabs li a').on('click', function() {
+		window.location.hash = $(this).attr('href');
+	});
+
+	if(window.location.hash.length > 0 && $('.tabbable .nav-tabs li a[href='+window.location.hash+']').length > 0) {
+		$('.tabs-generated li a[href='+window.location.hash+']').parent().addClass('active');
+		$('.tabbable .tab-pane' + window.location.hash).addClass('active');
+	} else {
+		$('.tabs-generated li:first-child').addClass('active');
+		$('.tabbable .tab-pane:first-child').addClass('active');
+	}
+	
+	$('.tabs-generated').tabdrop();
 });
 
 var Api = {
@@ -1032,38 +1021,36 @@ function __(e,t){if(cms.translations[e]!==undefined){var e=cms.translations[e]}r
 (function(e){function t(t){if(typeof t.data==="string"){t.data={keys:t.data}}if(!t.data||!t.data.keys||typeof t.data.keys!=="string"){return}var n=t.handler,r=t.data.keys.toLowerCase().split(" "),i=["text","password","number","email","url","range","date","month","week","time","datetime","datetime-local","search","color","tel"];t.handler=function(t){if(this!==t.target&&(/textarea|select/i.test(t.target.nodeName)||e.inArray(t.target.type,i)>-1)){return}var s=e.hotkeys.specialKeys[t.keyCode],o=String.fromCharCode(t.which).toLowerCase(),u="",a={};e.each(["alt","ctrl","meta","shift"],function(e,n){if(t[n+"Key"]&&s!==n){u+=n+"+"}});u=u.replace("alt+ctrl+meta+shift","hyper");if(s){a[u+s]=true}if(o){a[u+o]=true;a[u+e.hotkeys.shiftNums[o]]=true;if(u==="shift+"){a[e.hotkeys.shiftNums[o]]=true}}for(var f=0,l=r.length;f<l;f++){if(a[r[f]]){return n.apply(this,arguments)}}}}e.hotkeys={version:"0.8",specialKeys:{8:"backspace",9:"tab",10:"return",13:"return",16:"shift",17:"ctrl",18:"alt",19:"pause",20:"capslock",27:"esc",32:"space",33:"pageup",34:"pagedown",35:"end",36:"home",37:"left",38:"up",39:"right",40:"down",45:"insert",46:"del",59:";",61:"=",96:"0",97:"1",98:"2",99:"3",100:"4",101:"5",102:"6",103:"7",104:"8",105:"9",106:"*",107:"+",109:"-",110:".",111:"/",112:"f1",113:"f2",114:"f3",115:"f4",116:"f5",117:"f6",118:"f7",119:"f8",120:"f9",121:"f10",122:"f11",123:"f12",144:"numlock",145:"scroll",173:"-",186:";",187:"=",188:",",189:"-",190:".",191:"/",192:"`",219:"[",220:"\\",221:"]",222:"'"},shiftNums:{"`":"~",1:"!",2:"@",3:"#",4:"$",5:"%",6:"^",7:"&",8:"*",9:"(",0:")","-":"_","=":"+",";":": ","'":'"',",":"<",".":">","/":"?","\\":"|"}};e.each(["keydown","keyup","keypress"],function(){e.event.special[this]={add:t}})})(this.jQuery)
 
 
-if (!$.validator) {
-	throw new Error('jquery.validate.js required');
-}
-
-$.validator.setDefaults({
-	highlight: function(element) {
-		return $(element).closest('.form-group').addClass('has-error');
-	},
-	unhighlight: function(element) {
-		return $(element).closest('.form-group').removeClass('has-error').find('help-block-hidden').removeClass('help-block-hidden').addClass('help-block').show();
-	},
-	errorElement: 'div',
-	errorClass: 'jquery-validate-error',
-	errorPlacement: function(error, element) {
-		var $p, has_e, is_c;
-		is_c = element.is('input[type="checkbox"]') || element.is('input[type="radio"]');
-		has_e = element.closest('.form-group').find('.jquery-validate-error').length;
-		if (!is_c || !has_e) {
-			if (!has_e) {
-				element.closest('.form-group').find('.help-block').removeClass('help-block').addClass('help-block-hidden').hide();
-			}
-			error.addClass('help-block');
-			if (is_c) {
-				return element.closest('[class*="col-"]').append(error);
-			} else {
-				$p = element.parent();
-				if ($p.is('.input-group')) {
-					return $p.parent().append(error);
+if ($.validator) {
+	$.validator.setDefaults({
+		highlight: function(element) {
+			return $(element).closest('.form-group').addClass('has-error');
+		},
+		unhighlight: function(element) {
+			return $(element).closest('.form-group').removeClass('has-error').find('help-block-hidden').removeClass('help-block-hidden').addClass('help-block').show();
+		},
+		errorElement: 'div',
+		errorClass: 'jquery-validate-error',
+		errorPlacement: function(error, element) {
+			var $p, has_e, is_c;
+			is_c = element.is('input[type="checkbox"]') || element.is('input[type="radio"]');
+			has_e = element.closest('.form-group').find('.jquery-validate-error').length;
+			if (!is_c || !has_e) {
+				if (!has_e) {
+					element.closest('.form-group').find('.help-block').removeClass('help-block').addClass('help-block-hidden').hide();
+				}
+				error.addClass('help-block');
+				if (is_c) {
+					return element.closest('[class*="col-"]').append(error);
 				} else {
-					return $p.append(error);
+					$p = element.parent();
+					if ($p.is('.input-group')) {
+						return $p.parent().append(error);
+					} else {
+						return $p.append(error);
+					}
 				}
 			}
 		}
-	}
-});
+	});
+}

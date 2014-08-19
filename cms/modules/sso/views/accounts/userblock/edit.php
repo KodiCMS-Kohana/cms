@@ -1,15 +1,12 @@
-
-<?php if(count($socials) > 0 OR $user->id == AuthUser::getId()): ?>
+<?php if($user->id == AuthUser::getId()): ?>
 <div class="panel-heading">
 	<span class="panel-title"><?php echo __('Social accounts'); ?></span>
 </div>
-<?php endif; ?>
 
 <?php if(count($socials) > 0): ?>
-<div class="panel-heading">
-	<span class="panel-title"><?php echo __('Linked social accounts'); ?></span>
-</div>
 <div class="panel-body">
+	<h4><?php echo __('Linked social accounts'); ?></h4>
+	
 	<div class="row social-accounts-linked">
 	<?php foreach($socials as $social): ?>
 		<?php $linked[] = $social->provider(); ?>
@@ -30,14 +27,13 @@
 </div>
 <?php endif; ?>
 
-<?php if($user->id == AuthUser::getId()): ?>
-<div class="panel-heading">
-	<span class="panel-title"><?php echo __('List of supported OAuth providers'); ?></span>
-</div>
-<div class="alert alert-info no-margin-vr">
-	<?php echo UI::icon('lightbulb-o'); ?> <?php echo __('Binding account to an account in a social network will allow to enter the site with a single click. You can bind the account to several accounts. :settings_link', array(':settings_link' => HTML::anchor($settings_link, __('Settings')))); ?>
-</div>
 <div class="panel-body">
+	<h4><?php echo __('List of supported OAuth providers'); ?></h4>
+
+	<div class="note note-info no-margin-vr">
+		<?php echo UI::icon('lightbulb-o fa-lg'); ?> <?php echo __('Binding account to an account in a social network will allow to enter the site with a single click. You can bind the account to several accounts. :settings_link', array(':settings_link' => HTML::anchor($settings_link, __('Settings')))); ?>
+	</div>
+	
 	<div class="btn-group">
 		<?php foreach ($providers as $provider => $data): ?>
 		<?php if(in_array($provider, $linked)) continue; ?>

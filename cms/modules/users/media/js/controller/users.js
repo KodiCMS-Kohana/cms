@@ -62,6 +62,6 @@ cms.init.add('users_profile', function () {
 
 cms.init.add('users_add', function () {
 	$(function() {
-		$('.spoiler-toggle').click();
+		$('.panel-toggler').click();
 	})
 });

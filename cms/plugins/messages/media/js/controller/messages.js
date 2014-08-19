@@ -66,22 +66,29 @@ function get_messages() {
 
 cms.init.add('messages_view', function(){
 	get_messages();
+	
+	$('.btn-remove').click(function() {
+		$.post(Api.build_url('user-messages.delete'), {id: MESSAGE_ID, uid: USER_ID }, function( resp ) {
+			if(resp.response) {
+				window.location = $('.btn-go-back').attr('href');
+			}
+		}, 'json');
+	});
 });
 
 cms.init.add('messages_index', function(){
 	$('.btn-remove').click(function() {
-		var $cont = $(this).parent().parent();
-		var $message_id = $cont.data('id');
-		
-		$.post(Api.build_url('user-messages.delete'), { id: $message_id, uid: USER_ID }, function( resp ) {
-			if(resp.response) {
-				$cont.remove();
-				
-				if($('#MessagesList tbody tr').length == 0 )
-				{
-					window.location = CURRENT_URL;
+		$('.mail-list .mail-item .select-checkbox:checked').each(function() {
+			var $cont = $(this).closest('.mail-item');
+			var $message_id = $cont.data('id');
+			
+			$.post(Api.build_url('user-messages.delete'), {id: $message_id, uid: USER_ID }, function( resp ) {
+				if(resp.response) {
+					$cont.remove();
+					
+					if($('.mail-list .mail-item').length == 0) window.location = '';
 				}
-			}
-		}, 'json');
-	})
+			}, 'json');
+		});
+	});
 });

@@ -127,8 +127,8 @@
 		<span class="panel-title"><?php echo __('Email message'); ?></span>
 	</div>
 
-	<div class="alert alert-info no-margin-vr">
-		<?php echo UI::icon('lightbulb-o'); ?> <?php echo __('A collection of patterns & modules for responsive emails :link', array(
+	<div class="note note-info no-margin-vr">
+		<?php echo UI::icon('lightbulb-o fa-lg'); ?> <?php echo __('A collection of patterns & modules for responsive emails :link', array(
 			':link' => HTML::anchor('http://responsiveemailpatterns.com/', NULL, array(
 				'target' => 'blank'
 			))

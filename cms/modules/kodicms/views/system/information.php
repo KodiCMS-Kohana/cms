@@ -1,4 +1,4 @@
-<div class="panel">
+<div class="panel tabbable">
 	<div class="panel-heading">
 		<span class="panel-title"><?php echo __( 'General information' ); ?></span>
 	</div>

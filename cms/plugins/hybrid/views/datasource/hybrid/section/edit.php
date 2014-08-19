@@ -7,10 +7,10 @@
 )); ?>
 	<?php echo Form::hidden('ds_id', $ds->id()); ?>
 
-	<div class="panel-heading spoiler-toggle" data-spoiler=".general-spoiler" data-icon="exclamation-circle">
+	<div class="panel-heading panel-toggler" data-target-spoiler=".general-spoiler" data-icon="exclamation-circle">
 		<span class="panel-title"><?php echo __('Datasource Information'); ?></span>
 	</div>
-	<div class="panel-body spoiler general-spoiler">
+	<div class="panel-body panel-spoiler general-spoiler">
 		<div class="form-group form-group-lg">
 			<label class="control-label col-md-3" for="ds_name"><?php echo __('Datasource Header'); ?></label>
 			<div class="col-md-9">
@@ -39,10 +39,10 @@
 		'template' => $ds->template,
 	)); ?>
 
-	<div class="panel-heading spoiler-toggle" data-spoiler=".indexer-spoiler" data-hotkeys="shift+s" data-icon="search">
+	<div class="panel-heading panel-toggler" data-target-spoiler=".indexer-spoiler" data-hotkeys="shift+s" data-icon="search">
 		<span class="panel-title"><?php echo __('Search indexation'); ?></span>
 	</div>
-	<div class="panel-body spoiler indexer-spoiler">
+	<div class="panel-body panel-spoiler indexer-spoiler">
 		<div class="form-group">
 			<div class="col-md-offset-3 col-md-9">
 				<div class="checkbox">

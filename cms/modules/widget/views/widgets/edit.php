@@ -2,10 +2,10 @@
 	'class' => array(Bootstrap_Form::HORIZONTAL, 'panel')
 )); ?>
 	<?php echo Form::hidden('id', $widget->id); ?>
-	<div class="panel-heading spoiler-toggle" data-spoiler=".general-spoiler" data-hash="description">
+	<div class="panel-heading panel-toggler" data-target-spoiler=".general-spoiler" data-hash="description">
 		<span class="panel-title" data-icon="info-circle"><?php echo __('Widget Information'); ?></span>
 	</div>
-	<div class="panel-body spoiler general-spoiler">
+	<div class="panel-body panel-spoiler general-spoiler">
 		<div class="form-group form-group-lg">
 			<label class="control-label col-md-3"><?php echo __('Widget Header'); ?></label>
 			<div class="col-md-9">
@@ -91,10 +91,10 @@
 	<?php endif; ?>
 
 	<?php if ( ACL::check( 'widgets.roles' ) ): ?>
-	<div class="panel-heading spoiler-toggle" data-spoiler=".roles-spoiler" data-hash="roles">
+	<div class="panel-heading panel-toggler" data-target-spoiler=".roles-spoiler" data-hash="roles">
 		<span class="panel-title" data-icon="users"><?php echo __('Widget permissions'); ?></span>
 	</div>
-	<div class="panel-body spoiler roles-spoiler">
+	<div class="panel-body panel-spoiler roles-spoiler">
 		<?php echo Form::select('roles[]', $roles, $widget->roles, array(
 			'class' => 'col-md-12'
 		)); ?>
@@ -102,10 +102,10 @@
 	<?php endif; ?>
 	
 	<?php if($widget->use_template): ?>
-	<div class="panel-heading spoiler-toggle" data-spoiler=".media-spoiler" data-hash="media">
+	<div class="panel-heading panel-toggler" data-target-spoiler=".media-spoiler" data-hash="media">
 		<span class="panel-title" data-icon="file-o"><?php echo __('Widget media'); ?></h4>
 	</div>
-	<div class="panel-body spoiler media-spoiler">
+	<div class="panel-body panel-spoiler media-spoiler">
 		<p class="text-muted"><?php echo __('For including media files uses class :class', array(
 			':class' => HTML::anchor(Route::get('docs/guide')->uri(array('module' => 'assets', 'page' => 'usage')), 'Assets')
 		)); ?></p>

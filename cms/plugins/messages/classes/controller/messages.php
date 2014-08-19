@@ -18,7 +18,7 @@ class Controller_Messages extends Controller_System_Backend {
 		$this->template->title = __('Messages');
 
 		$this->template->content = View::factory('messages/index', array(
-			'messages' => Api::get('user-messages.get', array('uid' => AuthUser::getId(), 'fields' => 'author,title,is_read,created_on'))
+			'messages' => Api::get('user-messages.get', array('uid' => AuthUser::getId(), 'fields' => 'author,title,is_read,created_on,from_user_id'))
 				->as_object()->get('response')
 		));
 	}
@@ -102,7 +102,8 @@ class Controller_Messages extends Controller_System_Backend {
 		$this->template->content = View::factory('messages/view', array(
 			'tpl' => View::factory('messages/item'),
 			'message' => $message->response,
-			'messages' => $messages->response
+			'messages' => $messages->response,
+			'from_user' => ORM::factory('user', $message->response->from_user_id)
 		));
 		
 		$this->template->title = $message->response->title;

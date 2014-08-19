@@ -1,9 +1,8 @@
 <div class="panel-heading">
 	<span class="panel-title"><?php echo __('Section permissions'); ?></span>
 </div>
-<div class="panel-body" id="permissions-list">
+<div class="panel-body tabbable" id="permissions-list">
 	<?php foreach($permissions as $title => $actions):?>
-	<div class="panel">
 		<div class="panel-heading">
 			<span class="panel-title"><?php echo __(ucfirst($title)); ?></span>
 		</div>
@@ -35,6 +34,5 @@
 			<?php endforeach; ?>
 			</tbody>
 		</table>
-	</div>
 	<?php endforeach; ?>
 </div>

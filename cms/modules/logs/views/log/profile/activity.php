@@ -1,21 +1,24 @@
 <?php if ( !empty($logs) ): ?>
-<h3 class="page-header"><?php echo __('Activity'); ?></h3>
+<div class="panel-heading">
+	<span class="panel-title"><?php echo __('Activity'); ?></span>
+</div>
 
-<ul class="chat-box">
+<div class="widget-article-comments panel-body no-border fade active in" id="profile-tabs-board">
 	<?php foreach ($logs as $log): ?>
-	<li class="arrow-box-left gray log-level-<?php echo $log->level; ?>">
-		<div class="avatar">
-			<?php echo Gravatar::load($log->email, 32); ?>
-		</div>
-		<div class="info">
-			<span class="name">
-				<span class="label"><?php echo Log::level($log->level); ?></span>&nbsp;&nbsp;
+	<div class="comment">
+		<?php echo Gravatar::load($log->email, 32, NULL, array(
+			'class' => 'comment-avatar'
+		)); ?>
+		<div class="comment-body">
+			<div class="comment-text">
+				<div class="comment-heading">
+					<?php echo HTML::anchor(Route::get('backend')->uri(array('controller' => 'users', 'action' => 'profile', 'id' => $log->user_id)), $log->username); ?>
+					<span><?php echo Date::format($log->created_on, 'j F Y H:i'); ?></span>
+				</div>
 				<?php echo $log->message; ?>
-			</span>
+			</div>
 		</div>
-		<span class="time"><?php echo UI::icon('clock-o'); ?> <?php echo Date::format($log->created_on, 'j F Y H:i:s'); ?></span>
-		<div class="clearfix"></div>
-	</li>
+	</div>
 	<?php endforeach; ?>
-</ul>
+</div>
 <?php endif; ?>

@@ -13,6 +13,9 @@
 			<div>
 				<div class="right clearfix">
 					<ul class="nav navbar-nav pull-right right-navbar-nav">
+
+						<?php Observer::notify('view_navbar_menu'); ?>
+						
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle user-menu" data-toggle="dropdown">
 								<?php echo AuthUser::getRecord()->gravatar(25); ?>

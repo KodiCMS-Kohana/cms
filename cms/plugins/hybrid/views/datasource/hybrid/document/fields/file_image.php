@@ -17,8 +17,8 @@
 						</label>
 						<hr />
 					</div>
-					<div class="spoiler-toggle" data-spoiler=".spoiler-file-<?php echo $field->name; ?>">
-						<?php echo UI::icon('chevron-down spoiler-toggle-icon'); ?> <?php echo __('Upload new file'); ?>
+					<div class="panel-toggler" data-target-spoiler=".spoiler-file-<?php echo $field->name; ?>">
+						<?php echo UI::icon('chevron-down panel-toggler-icon'); ?> <?php echo __('Upload new file'); ?>
 					</div>
 				</div>
 			<?php endif; ?>
@@ -67,9 +67,9 @@
 			if($(this).is(':checked')) {
 				$('#uploaded-<?php echo $field->name; ?>').hide();
 				$('.upload-new-cont input', cont).attr('disabled', 'disabled');
-				$('.spoiler-toggle,hr', cont).hide();
+				$('.panel-toggler,hr', cont).hide();
 			} else {
-				$('.spoiler-toggle,hr', cont).show();
+				$('.panel-toggler,hr', cont).show();
 				$('#uploaded-<?php echo $field->name; ?>').show();
 				$('.upload-new-cont input', cont).removeAttr('disabled');
 			}

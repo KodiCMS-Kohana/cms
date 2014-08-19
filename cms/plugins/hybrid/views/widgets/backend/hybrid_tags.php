@@ -3,10 +3,8 @@
 )); ?>
 
 <?php if( $widget->ds_id == 0 ): ?>
-<div class="panel-body">
-	<div class="alert alert-warning">
-		<?php echo UI::icon('lightbulb-o'); ?> <?php echo __('You need select hybrid section'); ?>
-	</div>
+<div class="note note-warning">
+	<?php echo UI::icon('lightbulb-o fa-lg'); ?> <?php echo __('You need select hybrid section'); ?>
 </div>
 <?php else: ?>
 <?php echo View::factory('widgets/backend/blocks/tag_fields', array(

@@ -1,9 +1,9 @@
-<div class="panel-heading spoiler-toggle" data-spoiler=".jobs-spoiler" data-icon="bolt">
-	<h3><?php echo __('Job settings'); ?></h3>
+<div class="panel-heading panel-toggler" data-icon="bolt">
+	<span class="panel-title"><?php echo __('Job settings'); ?></span>
 </div>
-<div class="panel-body spoiler jobs-spoiler">
-	<div class="alert alert-warning">
-		<?php echo UI::icon('lightbulb-o'); ?> <?php echo __('When using cron you need to add the following line to the crontab file:'); ?>
+<div class="panel-body panel-spoiler">
+	<div class="note note-warning">
+		<?php echo UI::icon('lightbulb-o fa-lg'); ?> <?php echo __('When using cron you need to add the following line to the crontab file:'); ?>
 		<br /><br />
 		<strong>* * * * * cd <?php echo DOCROOT;?>; php -f index.php --task=job:run &gt; /dev/null 2&gt;&amp;1</strong>
 	</div>

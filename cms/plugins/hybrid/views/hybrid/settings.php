@@ -1,8 +1,8 @@
 <div class="panel-heading" data-icon="cog">
 	<span class="panel-title"><?php echo __('Hybrid settings'); ?></span>
 </div>
-<div class="alert alert-info">
-	<?php echo UI::icon('lightbulb-o'); ?> <?php echo __('To bind profile section you need to create a field `:field`', array(':field' => 'profile_id')); ?>
+<div class="note note-info">
+	<?php echo UI::icon('lightbulb-o fa-lg'); ?> <?php echo __('To bind profile section you need to create a field `:field`', array(':field' => 'profile_id')); ?>
 </div>
 <div class="panel-body">
 	<div class="form-group">

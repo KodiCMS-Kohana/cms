@@ -87,10 +87,10 @@ function update_documents(e, response) {
 	</div>	
 </div>
 	
-<div class="spoiler-toggle text-center panel-heading" data-spoiler=".spoiler-meta">
-	<?php echo UI::icon( 'chevron-down spoiler-toggle-icon' ); ?> <span class="muted"><?php echo __('Metadata'); ?></span>
+<div class="panel-toggler text-center panel-heading" data-target-spoiler=".spoiler-meta">
+	<?php echo UI::icon( 'chevron-down panel-toggler-icon' ); ?> <span class="muted"><?php echo __('Metadata'); ?></span>
 </div>
-<div class="spoiler spoiler-meta panel-body">
+<div class="panel-spoiler spoiler-meta panel-body">
 	<div class="form-group">
 		<label class="control-label col-md-3"><?php echo __('Meta title'); ?></label>
 		<div class="col-md-9">

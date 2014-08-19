@@ -4,9 +4,8 @@
 		'action' => 'save'
 	)), array(
 	'id' => 'settingForm', 
-	'class' => 'form-horizontal form-ajax panel'
+	'class' => 'form-horizontal form-ajax panel tabbable'
 )); ?>
-
 	<?php echo Form::hidden('token', Security::token()); ?>
 	<div class="panel-heading" data-icon="info">
 		<span class="panel-title"><?php echo __( 'Site information' ); ?></span>
@@ -159,7 +158,7 @@
 					'id' => 'setting_session_storage', 'disabled', 'readonly'));?>
 
 				<div class="help-block">
-					<?php echo UI::icon('lightbulb-o'); ?> <?php echo __('The session storage driver can change in the config file (:path)', array(':path' => CFGFATH)); ?>
+					<?php echo UI::icon('lightbulb-o fa-lg'); ?> <?php echo __('The session storage driver can change in the config file (:path)', array(':path' => CFGFATH)); ?>
 				</div>
 			</div>
 		</div>

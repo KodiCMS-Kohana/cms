@@ -162,7 +162,7 @@ $failed = FALSE;
 <?php endif ?>
 <div class="panel-heading "><span class="panel-title"><?php echo __( 'Optional Tests' ); ?></span></div>
 
-<p class="alert alert-info"><?php echo UI::icon('lightbulb-o'); ?> <?php echo __('The following extensions are not required to run the Kohana core, but if enabled can provide access to additional classes.'); ?></p>
+<p class="alert alert-info"><?php echo UI::icon('lightbulb-o fa-lg'); ?> <?php echo __('The following extensions are not required to run the Kohana core, but if enabled can provide access to additional classes.'); ?></p>
 <div class="env_test panel-body">
 	<table class="table table-striped">
 		<tr>

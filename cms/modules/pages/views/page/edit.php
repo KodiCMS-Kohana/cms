@@ -3,7 +3,7 @@
 	var PAGE_OBJECT = <?php echo json_encode($page->as_array()); ?>;
 	<?php if($action == 'add'): ?>
 	$(function() {
-		$('.spoiler-toggle').click();
+		$('.panel-toggler').click();
 	})
 	<?php endif; ?>
 </script>
@@ -20,7 +20,7 @@
 	
 		<ul class="nav nav-tabs">
 			<li class="active" id="page-content-panel-li">
-				<a href="#page-content-panel" data-toggle="tab">Content</a>
+				<a href="#page-content-panel" data-toggle="tab" data-icon="suitcase"><?php echo __('Content'); ?></a>
 			</li>
 			<li id="page-meta-panel-li">
 				<a href="#page-meta-panel" data-toggle="tab" data-icon="send-o"><?php echo __('Metadata'); ?></a>
@@ -43,7 +43,7 @@
 				
 				<?php if ($page->id != 1): ?>
 				<hr class="panel-wide" />
-				<div class="form-group">
+				<div class="form-group form-group-sm">
 					<?php echo $page->label('slug', array('class' => 'control-label col-md-2')); ?>
 					<div class="col-md-10">
 						<?php echo $page->field('slug', array(

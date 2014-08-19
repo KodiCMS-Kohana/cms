@@ -17,8 +17,8 @@
 		
 		<p><?php echo __('If the repository has been cloned from Github, then use the command `git pull`'); ?></p>
 		
-		<div class="alert alert-warning">
-			<?php echo UI::icon('lightbulb-o'); ?> 
+		<div class="note note-warning">
+			<?php echo UI::icon('lightbulb-o fa-lg'); ?> 
 			<?php echo __('When you replace the files in the :cms_name do not forget to set permissions on folders `:cache_folder` and `:logs_folder`, and save the changes made ​​to the :cms_name core', array(
 				':cms_name' => CMS_NAME,
 				':cache_folder' => 'cms/cache',

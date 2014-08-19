@@ -14,8 +14,8 @@
 	
 	<div class="form-group">
 		<div class="col-md-12">
-			<div class="alert alert-info">
-				<?php echo UI::icon('lightbulb-o'); ?> <?php echo __('The cache driver can change in the config file (:path)', array(':path' => CFGFATH)); ?>
+			<div class="note note-info">
+				<?php echo UI::icon('lightbulb-o fa-lg'); ?> <?php echo __('The cache driver can change in the config file (:path)', array(':path' => CFGFATH)); ?>
 			</div>
 		</div>
 		<?php echo Form::label('setting_cache_driver', __('Cache driver'), array('class' => 'control-label col-md-3')); ?>

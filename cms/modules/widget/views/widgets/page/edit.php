@@ -1,9 +1,8 @@
 <?php if( ACL::check( 'widgets.index')): ?>
-<div class="panel-heading" data-hotkeys="shift+w">
+<div class="panel-heading panel-toggler" data-hotkeys="shift+w">
 	<span class="panel-title" data-icon="cubes"><?php echo __('Widgets'); ?></h4>
 </div>
-
-<div class="panel-body">
+<div class="panel-body panel-spoiler">
 	<?php if(empty($page->id)): ?>
 	<h4><?php echo __('Copy widgets from'); ?></h4>
 	<select name="widgets[from_page_id]" class="col-md-12">
