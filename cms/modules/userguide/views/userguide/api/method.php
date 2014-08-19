@@ -1,5 +1,5 @@
-<div class="widget">
-	<div class="widget-title">
+<div class="panel">
+	<div class="panel-heading">
 		<?php $declares = $doc->method->getDeclaringClass(); ?>
 		<h3 id="<?php echo $doc->method->name ?>">
 			<?php echo $doc->modifiers, $doc->method->name ?>( <?php echo $doc->params ? $doc->params_short() : '' ?>)

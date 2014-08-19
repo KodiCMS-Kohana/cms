@@ -32,7 +32,7 @@
 				<?php echo $breadcrumbs; ?>
 				<div class="row">
 					<div class="col-md-3">
-						<div id="kodoc-topics">
+						<div id="kodoc-topics" class="panel">
 							<?php echo $menu ?>
 						</div>
 					</div>
