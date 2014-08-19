@@ -17183,6 +17183,154 @@ html body.page-signup {
 .has-success.dark .select2-choices {
   border-color: #5ebd5e;
 }
+.pxajs .wizard-pane {
+  display: none;
+}
+.wizard-wrapper + .wizard-content.panel {
+  margin-top: -1px;
+}
+.wizard.freeze .wizard-steps > li {
+  cursor: default !important;
+}
+.modal-content > .wizard .wizard-wrapper {
+  border-left: none;
+  border-radius: 0;
+  border-right: none;
+  border-top: none;
+}
+.wizard-wrapper {
+  border: 1px solid #dddddd;
+  border-radius: 0;
+  white-space: nowrap;
+  width: auto;
+  position: relative;
+  overflow: hidden;
+}
+.wizard-steps {
+  cursor: default;
+  display: block !important;
+  float: left;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  white-space: nowrap;
+  -webkit-transition: left 0.3s;
+  -o-transition: left 0.3s;
+  transition: left 0.3s;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.wizard-steps > li {
+  display: inline-block;
+  list-style: none;
+  margin: 0 0 0;
+  padding: 0 10px 0 50px;
+  vertical-align: middle;
+}
+.wizard-steps > li + li:before {
+  background: #dddddd;
+  bottom: 0;
+  content: "";
+  margin-left: -51px;
+  position: absolute;
+  top: 0;
+  width: 1px;
+}
+.wizard-steps > li.completed {
+  cursor: pointer;
+}
+.wizard-steps > li.active .wizard-step-caption,
+.wizard-steps > li.completed .wizard-step-caption {
+  color: #333333;
+}
+.wizard-steps > li.active .wizard-step-description,
+.wizard-steps > li.completed .wizard-step-description {
+  color: #888;
+}
+.wizard-steps > li.active .wizard-step-number,
+.wizard-steps > li.completed .wizard-step-number {
+  border-color: #333333;
+  color: #333333;
+}
+.wizard-steps .wizard-step-number:after {
+  display: none;
+}
+.wizard-step-number,
+.wizard-steps > li.completed .wizard-step-number:after {
+  background: #fff;
+  border-radius: 9999px;
+  display: block;
+  font-size: 14px;
+  line-height: 26px;
+  position: absolute;
+  text-align: center;
+}
+.wizard-step-number {
+  border: 2px solid #bbbbbb;
+  color: #bbb;
+  font-weight: 700;
+  height: 30px;
+  margin-left: -40px;
+  margin-top: -15px;
+  top: 50%;
+  width: 30px;
+}
+.wizard-steps > li.completed .wizard-step-number {
+  font-size: 0;
+}
+.wizard-steps > li.completed .wizard-step-number:after {
+  content: '\f00c';
+  font-family: FontAwesome;
+  font-size: 13px;
+  font-weight: 400;
+  height: 26px;
+  left: 0;
+  width: 26px;
+  top: 0;
+}
+.wizard-step-caption,
+.wizard-step-description {
+  color: #bbb;
+  display: inline-block;
+  line-height: 14px;
+  white-space: normal;
+}
+.wizard-step-caption {
+  font-weight: 600;
+  margin-bottom: 15px;
+  margin-top: 15px;
+  vertical-align: middle;
+}
+.wizard-step-description {
+  display: block;
+  font-size: 12px;
+  font-weight: 400;
+  margin-top: 4px;
+  position: relative;
+}
+.wizard-content {
+  padding: 20px;
+}
+.wizard-content:before,
+.wizard-content:after {
+  content: " ";
+  display: table;
+}
+.wizard-content:after {
+  clear: both;
+}
+.wizard-content:before,
+.wizard-content:after {
+  content: " ";
+  display: table;
+}
+.wizard-content:after {
+  clear: both;
+}
 .editableform {
   margin-bottom: 0;
 }

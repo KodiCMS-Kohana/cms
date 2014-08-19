@@ -18,7 +18,7 @@
 		<?php echo Assets::group('global', 'events'); ?>
 		<?php Observer::notify( 'layout_frontend_head_after' ); ?>
 	</head>
-	<body id="body_frontend">
+	<body id="body_frontend" class="theme-default">
 		<?php echo $content; ?>
 		
 		<?php if ( Config::get('site', 'profiling' ) == Config::YES ): ?>

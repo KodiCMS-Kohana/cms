@@ -28,13 +28,13 @@ $(function() {
 	function show_error($error) {
 		$('#wizard .wizard-alert').remove();
 
-		$('#wizard .body.current .widget-content')
+		$('#wizard .wizard-pane.active .widget-content')
 			.append('<p class="wizard-alert alert alert-error">'+$error+'</p>');
 	}
 	
 	$("#wizard").steps({
 		labels: {
-			current: "current step:",
+			current: "",
 			pagination: "Pagination",
 			finish: __("Finish"),
 			next: __("Next"),
@@ -72,15 +72,6 @@ $(function() {
 	function validate_step_2($form) {
 		$form.validate({
 			onsubmit: false,
-			errorElement: 'span',
-			errorClass: 'help-inline',
-			unhighlight: function(obj, element) {
-				$(obj).closest('.control-group').removeClass('error');
-			},
-			errorPlacement: function(place, element) {
-				element.closest('.control-group').addClass('error');
-				place.insertAfter( element );
-			},
 			rules: {
 				'install[db_server]': "required", 
 				'install[db_port]': "required",
@@ -96,15 +87,6 @@ $(function() {
 
 		$form.validate({
 			onsubmit: false,
-			errorElement: 'span',
-			errorClass: 'help-inline',
-			unhighlight: function(obj, element) {
-				$(obj).closest('.control-group').removeClass('error');
-			},
-			errorPlacement: function(place, element) {
-				element.closest('.control-group').addClass('error');
-				place.insertAfter( element );
-			},
 			rules: {
 				'install[site_name]': "required", 
 				'install[username]': "required",
@@ -149,5 +131,6 @@ $(function() {
 	
 	$('.select2-container').remove();
 	cms.ui.init('select2');
+	cms.ui.init('icon');
 })
 

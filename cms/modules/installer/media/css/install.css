@@ -23,7 +23,11 @@
 	color: #8C0000 !important; 
 }
 
-.wizard,
+.wizard-content {
+	padding: 0;
+}
+
+/*.wizard,
 .tabcontrol {
 	display: block;
 	width: 100%;
@@ -218,4 +222,4 @@
 .tabcontrol > .content > .title {
 	position: absolute;
 	left: -999em;
-}
+}*/

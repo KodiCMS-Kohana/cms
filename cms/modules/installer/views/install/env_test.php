@@ -154,17 +154,16 @@ $failed = FALSE;
 			<?php endif ?>
 		</tr>
 	</table>
-
-	<?php if ($failed === TRUE): ?>
-		<p id="results" class="alert alert-error lead"><?php echo UI::icon('times'); ?> <?php echo __('Kohana may not work correctly with your environment.'); ?></p>
-	<?php else: ?>
-		<p id="results" class="alert alert-success lead"><?php echo UI::icon('check'); ?> <?php echo __('Your environment passed all requirements.'); ?></p>
-	<?php endif ?>
 </div>
+<?php if ($failed === TRUE): ?>
+	<p class="alert alert-error"><?php echo UI::icon('times'); ?> <?php echo __('Kohana may not work correctly with your environment.'); ?></p>
+<?php else: ?>
+	<p class="alert alert-success"><?php echo UI::icon('check'); ?> <?php echo __('Your environment passed all requirements.'); ?></p>
+<?php endif ?>
 <div class="panel-heading "><span class="panel-title"><?php echo __( 'Optional Tests' ); ?></span></div>
-<div class="env_test panel-body">
-	<p id="info" class="lead alert alert-info"><?php echo UI::icon('lightbulb-o'); ?> <?php echo __('The following extensions are not required to run the Kohana core, but if enabled can provide access to additional classes.'); ?></p>
 
+<p class="alert alert-info"><?php echo UI::icon('lightbulb-o'); ?> <?php echo __('The following extensions are not required to run the Kohana core, but if enabled can provide access to additional classes.'); ?></p>
+<div class="env_test panel-body">
 	<table class="table table-striped">
 		<tr>
 			<th>PECL HTTP Enabled</th>
