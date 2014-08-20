@@ -48,7 +48,7 @@
 					<tbody>
 						<?php foreach($actions as $action => $title): ?>
 						<tr>
-							<td data-icon="check"><?php echo __($title); ?></td>
+							<td data-icon="check text-success" class=""><?php echo __($title); ?></td>
 						</tr>
 						<?php endforeach; ?>
 					</tbody>

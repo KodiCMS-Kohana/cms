@@ -4,15 +4,19 @@ return array(
 	'update' => array(
 		array(
 			'action' => 'index',
-			'description' => ''
+			'description' => 'View updates'
 		),
 		array(
 			'action' => 'database',
-			'description' => ''
+			'description' => 'View database changes'
+		),
+		array(
+			'action' => 'database_apply',
+			'description' => 'Apply database changes'
 		),
 		array(
 			'action' => 'patches',
-			'description' => ''
+			'description' => 'View patches page'
 		)
 	),
 );

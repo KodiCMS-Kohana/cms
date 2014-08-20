@@ -12,7 +12,6 @@ class Controller_Email_Templates extends Controller_System_Backend {
 		parent::before();
 
 		$this->breadcrumbs
-			->add(__('Email'))
 			->add(__('Email templates'), Route::get('email_controllers')->uri(array('controller' => 'templates')));
 	}
 	
@@ -23,6 +22,8 @@ class Controller_Email_Templates extends Controller_System_Backend {
 			'total_items' => $templates->reset(FALSE)->count_all(),
 			'items_per_page' => 20
 		));
+		
+		$this->set_title(__('Email templates'), FALSE);
 		
 		$this->template->content = View::factory( 'email/templates/index', array(
 			'templates' => $templates->with('type')->find_all(),
@@ -52,9 +53,7 @@ class Controller_Email_Templates extends Controller_System_Backend {
 		
 		WYSIWYG::load_filters();
 		
-		$this->template->title = __('Add email template');
-		$this->breadcrumbs
-			->add($this->template->title);
+		$this->set_title(__('Add email template'));
 
 		$this->template->content = View::factory( 'email/templates/edit', array(
 			'action' => 'add',
@@ -137,9 +136,7 @@ class Controller_Email_Templates extends Controller_System_Backend {
 		
 		WYSIWYG::load_filters();
 
-		$this->template->title = __('Edit email template');
-		$this->breadcrumbs
-			->add($this->template->title);
+		$this->set_title(__('Edit email template'));
 
 		$this->template->content = View::factory( 'email/templates/edit', array(
 			'action' => 'edit',

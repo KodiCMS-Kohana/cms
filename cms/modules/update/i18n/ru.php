@@ -25,4 +25,8 @@ return array(
 	'Database schema updated successfully!' => 'Схема базы данных успешно обновлена!',
 	'You dont hanve permissions to update database' => 'У вас нет прав на обновление БД',
 	
+	'View updates' => 'Просмартивать обновления',
+	'View database changes' => 'Просматривать изменения в схеме БД',
+	'Apply database changes' => 'Исправлять схему БД',
+	'View patches page' => 'Просматривать доступные патчи',
 );

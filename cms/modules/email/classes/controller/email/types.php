@@ -12,7 +12,6 @@ class Controller_Email_Types extends Controller_System_Backend {
 		parent::before();
 
 		$this->breadcrumbs
-			->add(__('Email'))
 			->add(__('Email types'), Route::get('email_controllers')->uri(array('controller' => 'types')));
 	}
 	
@@ -23,6 +22,8 @@ class Controller_Email_Types extends Controller_System_Backend {
 			'total_items' => $types->reset(FALSE)->count_all(),
 			'items_per_page' => 20
 		));
+		
+		$this->set_title(__('Email types'), FALSE);
 		
 		$this->template->content = View::factory( 'email/types/index', array(
 			'types' => $types->find_all(),
@@ -42,9 +43,7 @@ class Controller_Email_Types extends Controller_System_Backend {
 			return $this->_add($type);
 		}
 		
-		$this->template->title = __('Add email type');
-		$this->breadcrumbs
-			->add($this->template->title);
+		$this->set_title(__('Add email type'));
 
 		$this->template->content = View::factory( 'email/types/edit', array(
 			'action' => 'add',
@@ -121,9 +120,7 @@ class Controller_Email_Types extends Controller_System_Backend {
 			return $this->_edit( $type );
 		}
 
-		$this->template->title = __('Edit email type');
-		$this->breadcrumbs
-			->add($this->template->title);
+		$this->set_title(__('Edit email type'));
 
 		$this->template->content = View::factory( 'email/types/edit', array(
 			'action' => 'edit',

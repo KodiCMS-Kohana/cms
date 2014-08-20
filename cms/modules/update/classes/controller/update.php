@@ -12,6 +12,7 @@ class Controller_Update extends Controller_System_Backend {
 	
 	public function action_index() 
 	{
+		$this->set_title(__('Update'));
 		$this->template->content = View::factory( 'update/index');
 	}
 	
@@ -19,10 +20,7 @@ class Controller_Update extends Controller_System_Backend {
 	{
 		Assets::package('ace');
 		
-		$this->breadcrumbs
-			->add(__('Database'));
-		
-		$this->template->title = __('Database');
+		$this->set_title(__('Database'));
 		
 		$db_sql = Database_Helper::schema();
 		$file_sql = Database_Helper::install_schema();
@@ -42,8 +40,7 @@ class Controller_Update extends Controller_System_Backend {
 			return $this->_apply_patch();
 		}
 		
-		$this->breadcrumbs
-			->add(__('Patches'));
+		$this->set_title(__('Patches'));
 
 		$this->template->content = View::factory( 'update/patches', array(
 			'patches' => array_flip(Patch::find_all()),
