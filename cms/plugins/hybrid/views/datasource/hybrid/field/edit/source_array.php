@@ -8,7 +8,7 @@
 <hr />
 
 <div class="form-group">
-	<div class="col-md-9">
+	<div class="col-md-offset-3 col-md-9">
 		<div class="checkbox">
 			<label>
 				<?php echo Form::checkbox( 'one_to_many', 1, ($field->one_to_many == 1), array(

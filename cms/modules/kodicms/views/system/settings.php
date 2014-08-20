@@ -64,13 +64,13 @@
 		<span class="panel-title"><?php echo __( 'Debug' ); ?></span>
 	</div>
 	<div class="panel-body">
+		<div class="note note-warning">
+			<?php echo UI::icon('lightbulb-o fa-lg'); ?> <?php echo __('For detailed profiling use Kohana::$enviroment = Kohana::DEVELOPMENT or SetEnv KOHANA_ENV DEVELOPMENT in .htaccess'); ?>
+		</div>
 		<div class="form-group">
 			<label class="control-label col-md-3"><?php echo __( 'Profiling' ); ?></label>
 			<div class="col-md-2">
 				<?php echo Form::select( 'setting[site][profiling]', Form::choices(), Config::get('site', 'profiling' )); ?>
-			</div>
-			<div class="col-md-offset-3 col-md-9">
-				<p class="help-block"><?php echo __('For detailed profiling use Kohana::$enviroment = Kohana::DEVELOPMENT or SetEnv KOHANA_ENV DEVELOPMENT in .htaccess'); ?></p>
 			</div>
 		</div>
 		<hr class="panel-wide" />
@@ -151,15 +151,15 @@
 		</div>
 		<?php endif; ?>
 
+		<div class="note note-warning">
+			<?php echo UI::icon('lightbulb-o fa-lg'); ?> <?php echo __('The session storage driver can change in the config file (:path)', array(':path' => CFGFATH)); ?>
+		</div>
+
 		<div class="form-group">
-			<?php echo Form::label('setting_session_storage', __('Session storage'), array('class' => 'control-label')); ?>
+			<?php echo Form::label('setting_session_storage', __('Session storage'), array('class' => 'control-label col-md-3')); ?>
 			<div class="col-md-9">
 				<?php echo Form::select('', array('native' => __('Native'), 'database' => __('Database'), 'cookie' => __('Cookie')), Session::$default, array(
 					'id' => 'setting_session_storage', 'disabled', 'readonly'));?>
-
-				<div class="help-block">
-					<?php echo UI::icon('lightbulb-o fa-lg'); ?> <?php echo __('The session storage driver can change in the config file (:path)', array(':path' => CFGFATH)); ?>
-				</div>
 			</div>
 		</div>
 	</div>

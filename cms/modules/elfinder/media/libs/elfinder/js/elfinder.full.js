@@ -6455,7 +6455,7 @@ $.fn.elfindersearchbutton = function(cmd) {
 		var result = false,
 			button = $(this)
 				.hide()
-				.addClass('col-xs-3 '+cmd.fm.res('class', 'searchbtn')+''),
+				.addClass('pane-heading-controls form-inline col-sm-auto '+cmd.fm.res('class', 'searchbtn')+''),
 			form = $('<div class="input-group input-group-sm" />').appendTo(button),
 			search = function() {
 				var val = $.trim(input.val());
@@ -6476,7 +6476,7 @@ $.fn.elfindersearchbutton = function(cmd) {
 					cmd.fm.trigger('searchend');
 				}
 			},
-			input  = $('<input type="text" class="form-control col-md-auto" placeholder="Search..." />')
+			input  = $('<input type="text" class="form-control no-margin-b" placeholder="Search..." />')
 				.appendTo(form)
 				// to avoid fm shortcuts on arrows
 				.keypress(function(e) {

@@ -50,7 +50,7 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 		));
 	}
 
-	public function action_add( )
+	public function action_add()
 	{
 		$ds_id = (int) $this->request->param('id');
 		$ds = $this->section($ds_id);
@@ -59,6 +59,9 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 		{
 			return $this->_add($ds);
 		}
+		
+		$this->set_title(__('Add field'));
+		
 		$this->breadcrumbs
 			->add($ds->name, Route::get('datasources')->uri(array(
 				'controller' => 'data',
@@ -70,7 +73,7 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 				'action' => 'edit',
 				'id' => $ds->id()
 			)))
-			->add(__('Add field'));
+			->add($this->template->title);
 		
 		$this->template->content = View::factory('datasource/hybrid/field/add', array(
 			'ds' => $ds,
@@ -123,6 +126,8 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 			return $this->_edit($this->field);
 		}
 		
+		$this->set_title($this->field->header);
+		
 		$this->breadcrumbs
 			->add($ds->name, Route::get('datasources')->uri(array(
 				'controller' => 'data',
@@ -134,7 +139,7 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 				'action' => 'edit',
 				'id' => $ds->id()
 			)))
-			->add($this->field->header);
+			->add($this->template->title);
 
 		$this->template->content = View::factory('datasource/hybrid/field/edit', array(
 			'ds' => $ds,

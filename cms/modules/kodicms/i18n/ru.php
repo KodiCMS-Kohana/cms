@@ -23,6 +23,7 @@ return array(
 	'Pending' => 'Ожидает',
 	'Remove' => 'Удалить',
 	'Save and Close' => 'Сохранить и Закрыть',
+	'Save' => 'Сохранить',
 	'Save and Continue editing' => 'Сохранить и Продолжить',
 	'Save settings' => 'Сохранить настройки',
 	'Save changes' => 'Сохранить изменения',

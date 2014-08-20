@@ -3,7 +3,7 @@
 	<?php echo Form::hidden('token', Security::token()); ?>
 	<div class="panel-heading">
 		<div class="form-group form-group-lg">
-			<label class="control-label col-md-3"><?php echo __( 'Message title' ); ?></label>
+			<label class="control-label col-md-3"><?php echo __('Message title'); ?></label>
 			<div class="col-md-9">
 				<?php echo Form::input( 'title', NULL, array(
 					'class' => 'form-control'

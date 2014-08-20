@@ -54,7 +54,7 @@
 				</div>
 				<div class="form-group">
 					<div class="col-md-offset-2 col-md-10">
-						<div class="checkbox">
+						<div class="checkbox-inline">
 							<?php echo Form::checkbox('page[use_redirect]', 1, (bool) $page->use_redirect, array(
 								'id' => 'page_use_redirect'
 							)); ?>
@@ -83,7 +83,7 @@
 					
 					<div class="panel-body">
 						<?php if($action != 'add' AND $page->loaded()): ?>
-						<hr class="panel-wide" />
+
 						<?php if (isset($page->updated_on)): ?>
 						<?php echo UI::label(__('Last updated by :anchor on :date', array(
 							':anchor' => HTML::anchor(Route::get('backend')->uri(array(
@@ -100,11 +100,12 @@
 						<?php endif; ?>
 					</div>
 				</div>
+				
 				<div class="tab-pane fade" id="page-meta-panel">
 					<?php echo View::factory('page/blocks/meta', array(
-					'page' => $page,
-					'action' => $action
-				)); ?>
+						'page' => $page,
+						'action' => $action
+					)); ?>
 				</div>
 
 				<div class="tab-pane fade" id="page-options-panel">

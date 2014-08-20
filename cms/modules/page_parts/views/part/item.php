@@ -29,27 +29,25 @@
 		<?php if( ACL::check('page.parts')): ?>
 			<div class="row">
 				<div class="col-md-4 item-filter-cont">
-					<label><?php echo __( 'WYSIWYG' ); ?></label>
-					<select class="item-filter" name="part_filter">
-						<option value="">&ndash; <?php echo __( '--- none ---' ); ?> &ndash;</option>
-						<?php foreach ( WYSIWYG::findAll() as $filter ): ?> 
-							<option value="<?php echo $filter; ?>" <% if (filter_id == "<?php echo $filter; ?>") { print('selected="selected"')} %> ><?php echo Inflector::humanize( $filter ); ?></option>
-						<?php endforeach; ?> 
-					</select>
+					<label>
+						<?php echo __( 'WYSIWYG' ); ?>&nbsp;&nbsp;&nbsp;
+						<select class="item-filter" name="part_filter">
+							<option value="">&ndash; <?php echo __( '--- none ---' ); ?> &ndash;</option>
+							<?php foreach ( WYSIWYG::findAll() as $filter ): ?> 
+								<option value="<?php echo $filter; ?>" <% if (filter_id == "<?php echo $filter; ?>") { print('selected="selected"')} %> ><?php echo Inflector::humanize( $filter ); ?></option>
+							<?php endforeach; ?> 
+						</select>
+					</label>
 				</div>			
-				<div class="col-md-4">
+				<div class="col-md-8 text-right">
 					<?php echo Observer::notify('part_option'); ?>
 					<% if ( is_developer == 1 ) { %>
-					<div class="checkbox">
-						<label>
-							<input type="checkbox" name="is_protected" class="px is_protected" <% if (is_protected == <?php echo Model_Page_Part::PART_PROTECTED; ?>) { print('checked="checked"')} %>> <?php echo __( 'Is protected' ); ?>
-						</label>
-					</div>
-					<div class="checkbox">
-						<label>
-							<input type="checkbox" name="is_indexable" class="px is_indexable" <% if (is_indexable == 1) { print('checked="checked"')} %>> <?php echo __( 'Is indexable' ); ?>
-						</label>
-					</div>
+					<label class="checkbox-inline">
+						<input type="checkbox" name="is_protected" class="px is_protected" <% if (is_protected == <?php echo Model_Page_Part::PART_PROTECTED; ?>) { print('checked="checked"')} %>> <?php echo __( 'Is protected' ); ?>
+					</label>
+					<label class="checkbox-inline">
+						<input type="checkbox" name="is_indexable" class="px is_indexable" <% if (is_indexable == 1) { print('checked="checked"')} %>> <?php echo __( 'Is indexable' ); ?>
+					</label>
 					<% } %>
 					<?php echo UI::button(__( 'Remove part :part_name', array( ':part_name' => '<%= name %>' ) ), array(
 						'class' => 'item-remove btn btn-xs btn-danger', 'icon' => UI::icon( 'trash-o' )

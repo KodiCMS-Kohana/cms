@@ -20,12 +20,12 @@
 
 <hr />
 
-<div class="form-group">
+<div class="form-group form-inline">
 	<label class="control-label col-md-3" for="length"><?php echo __('Field length'); ?></label>
 	<div class="col-md-2">
-		<?php echo Form::input( 'length', $field->length, array(
-			'class' => 'form-control', 'id' => 'length'
-		) ); ?>
+		<?php echo Form::input('length', $field->length, array(
+			'class' => 'form-control', 'id' => 'length', 'size' => 3, 'maxlength' => 3
+		)); ?>
 	</div>
 </div>
 
@@ -34,9 +34,9 @@
 <div class="form-group">
 	<label class="control-label col-md-3" for="regexp"><?php echo __('Field validation'); ?></label>
 	<div class="col-md-9">
-		<?php echo Form::input('regexp', $field->regexp, array(
+		<?php  echo Form::input('regexp', $field->regexp, array(
 			'class' => 'form-control', 'id' => 'regexp'
-		) ); ?>
+		)); ?>
 		<br />
 		<span class="flags">
 			<span class="label" data-value="url"><?php echo __('URL'); ?></span>

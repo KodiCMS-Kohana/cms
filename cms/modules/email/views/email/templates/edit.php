@@ -138,10 +138,10 @@
 		<div class="form-group">
 			<?php echo $template->label('message_type', array('class' => 'control-label col-md-3')); ?>
 			<div class="col-md-9">
-				<label class="radio">
+				<label class="radio-inline">
 					<?php echo Form::radio('message_type', Model_Email_Template::TYPE_TEXT, $template->message_type == Model_Email_Template::TYPE_TEXT); ?> <?php echo __('Plain text'); ?>
 				</label>
-				<label class="radio">
+				<label class="radio-inline">
 					<?php echo Form::radio('message_type', Model_Email_Template::TYPE_HTML, $template->message_type == Model_Email_Template::TYPE_HTML); ?> <?php echo __('HTML'); ?>
 				</label>
 			</div>

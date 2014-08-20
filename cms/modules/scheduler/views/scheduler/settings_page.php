@@ -9,8 +9,8 @@
 	</div>
 				
 	<div class="form-group">
-		<label class="control-label col-md-3"><?php echo __( 'Job agent' ); ?></label>
-		<div class="controls">
+		<label class="control-label col-sm-3"><?php echo __( 'Job agent' ); ?></label>
+		<div class="col-sm-3">
 			<?php echo Form::select( 'setting[job][agent]', Model_Job::agents(), (int) Config::get('job', 'agent')); ?>
 		</div>
 	</div>

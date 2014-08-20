@@ -32,14 +32,15 @@ class Controller_Part extends Controller_System_Backend
 					'controller' => 'page',
 					'action' => 'edit',
 					'id' => $page->id
-				)))
-				->add(__('Revision for part :name', array(':name' => $part->name)));
+				)));
+			
+			$this->set_title(__('Revision for part :name', array(':name' => $part->name)));
 			
 			$parts->where('part_id', '=', $part_id);
 		}
 		else
 		{
-			$this->breadcrumbs->add(__('Parts revision'));
+			$this->set_title(__('Parts revision'));
 		}
 
 		

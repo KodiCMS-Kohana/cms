@@ -1,9 +1,8 @@
 <?php if( ACL::check('page.custom_fields')): ?>
-<div class="panel-heading  panel-toggler" data-target-spoiler=".spoiler-page-fields" data-hash="page-fields">
-	<h4><?php echo __('Page fields'); ?></h4>
+<div class="panel-heading panel-toggler" data-hash="page-fields" data-icon="tasks fa-lg">
+	<span class="panel-title"><?php echo __('Page fields'); ?></span>
 </div>
-
-<div class="panel-body panel-spoiler spoiler-page-fields">
+<div class="panel-body panel-spoiler">
 	<?php if(empty($page->id)): ?>
 	<h4><?php echo __('Copy fields from'); ?></h4>
 	<select name="fields[from_page_id]" class="col-md-12">
@@ -19,12 +18,11 @@
 				'disabled', 'class' => 'col-md-12', 'id' => 'select-page-field-container'
 			)); ?>
 		</div>
-		
 		<?php echo View::factory('page/fields/field', array(
 			'field' => ORM::factory( 'page_field')
 		)); ?>
 		<hr />
-		<button id="select-page-field" class="btn"><?php echo __('Show field select'); ?></button>
+		<button id="select-page-field" class="btn btn-sm"><?php echo __('Show field select'); ?></button>
 	</div>
 	<?php foreach($fields as $field): ?>
 	<?php echo View::factory('page/fields/field', array(

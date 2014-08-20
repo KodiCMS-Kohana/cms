@@ -85,28 +85,10 @@ class UI {
 		{
 			$uri = Route::get('backend')->uri(array('controller' => $page));
 		}
-			
-		$actions = array(
-			UI::button(__('Save and Continue editing'), array(
-				'class' => 'btn btn-lg btn-save', 
-				'icon' => UI::icon('retweet'),
-				'name' => 'continue',
-				'data-hotkeys' => 'ctrl+s'
-			)),
-			UI::button(__('Save and Close'), array(
-				'class' => 'btn btn-info btn-save-close', 
-				'icon' => UI::icon('check'),
-				'name' => 'commit',
-				'data-hotkeys' => 'ctrl+shift+s'
-			)),
-			UI::button(__('Cancel'), array(
-				'href' => $uri, 
-				'icon' => UI::icon('ban'),
-				'class' => 'btn btn-close'
-			))
-		);
 	
-		return implode('&nbsp;&nbsp;', $actions);
+		return View::factory('ui/actions', array(
+			'uri' => $uri
+		));
 	}
 	
 	public static function counter( $num = 0 )

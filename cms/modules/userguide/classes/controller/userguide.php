@@ -158,7 +158,7 @@ class Controller_Userguide extends Controller_System_Backend {
 		// If no class was passed to the url, display the API index page
 		if ( ! $class)
 		{
-			$this->template->title = __('Table of Contents');
+			$this->set_title(__('Table of Contents'));
 
 			$this->template->content = View::factory('userguide/api/toc')
 				->set('classes', Kodoc::class_methods())
@@ -185,14 +185,13 @@ class Controller_Userguide extends Controller_System_Backend {
 				return $this->error('That class is in package that is hidden.  Check the <code>api_packages</code> config setting.');
 		
 			// Everything is fine, display the class.
-			$this->template->title = $class;
-
+			
+			$this->set_title($class);
+			
 			$this->template->content = View::factory('userguide/api/class')
 				->set('doc', Kodoc::factory($class))
 				->set('route', $this->request->route());
 		}
-		
-		$this->breadcrumbs->add($this->template->title);
 
 		// Attach the menu to the template
 		$this->template->menu = Kodoc::menu();

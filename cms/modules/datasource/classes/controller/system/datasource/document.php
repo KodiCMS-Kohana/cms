@@ -56,14 +56,12 @@ class Controller_System_Datasource_Document extends Controller_System_Datasource
 		
 		if( ! $doc->loaded() )
 		{
-			$this->template->title = __('New document');
+			$this->set_title(__('New document'));
 		}
 		else
 		{
-			$this->template->title = $doc->header;
+			$this->set_title($doc->header);
 		}
-		
-		$this->breadcrumbs->add($this->template->title);
 		
 		$this->_load_template($doc);
 	}

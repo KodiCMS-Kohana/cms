@@ -161,7 +161,7 @@ class KodiCMS_Controller_System_Template extends Controller_System_Security
 		
 		if($set_breadcrumbs === TRUE)
 		{
-			$this->breadcrumbs->add($title);
+			$this->breadcrumbs->add($title, FALSE, FALSE, 999);
 		}
 		
 		return $this;

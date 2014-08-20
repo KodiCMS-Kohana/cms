@@ -1,8 +1,14 @@
 <?php 
-$class = array('form-control'); 
+$attributes = array(
+	'id' => $field->name, 
+	'maxlength' => $field->length, 
+	'size' => $field->length,
+	'class' => 'form-control'
+);
+
 if($field->use_filemanager)
 {
-	$class[] = 'input-filemanager';
+	$attributes['data-filemanager'] = 'true';
 }
 ?>
 
@@ -10,10 +16,7 @@ if($field->use_filemanager)
 	<label class="control-label col-md-3" for="<?php echo $field->name; ?>"><?php echo $field->header; ?> <?php if($field->isreq): ?>*<?php endif; ?></label>
 	<div class="col-md-9">
 		<div class="input-group">
-			<?php echo Form::input( $field->name, $value, array(
-				'id' => $field->name, 'maxlength' => $field->length, 'size' => $field->length,
-				'class' => $class
-			) ); ?>
+			<?php echo Form::input($field->name, $value, $attributes); ?>
 		</div>
 		
 		<?php if(isset($field->hint)): ?>

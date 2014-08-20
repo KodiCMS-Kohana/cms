@@ -14,7 +14,7 @@
 	
 	<div class="form-group">
 		<div class="col-md-12">
-			<div class="note note-info">
+			<div class="note note-warning">
 				<?php echo UI::icon('lightbulb-o fa-lg'); ?> <?php echo __('The cache driver can change in the config file (:path)', array(':path' => CFGFATH)); ?>
 			</div>
 		</div>
@@ -43,7 +43,7 @@
 				<?php echo Form::input('setting[cache][front_page]', (int) Config::get('cache', 'front_page'), array(
 					'class' => 'form-control'
 				)); ?>
-				<span class="input-group-addon"><?php echo __('(Sec.)'); ?></span>
+				<span class="input-group-addon bg-success"><?php echo __('(Sec.)'); ?></span>
 			</div>
 		</div>
 	</div>
@@ -55,7 +55,7 @@
 				<?php echo Form::input('setting[cache][page_parts]', (int) Config::get('cache', 'page_parts'), array(
 					'class' => 'form-control'
 				)); ?>
-				<span class="input-group-addon"><?php echo __('(Sec.)'); ?></span>
+				<span class="input-group-addon bg-success"><?php echo __('(Sec.)'); ?></span>
 			</div>
 		</div>
 	</div>
@@ -67,7 +67,7 @@
 				<?php echo Form::input('setting[cache][tags]', (int) Config::get('cache', 'tags'), array(
 					'class' => 'form-control'
 				)); ?>
-				<span class="input-group-addon"><?php echo __('(Sec.)'); ?></span>
+				<span class="input-group-addon bg-success"><?php echo __('(Sec.)'); ?></span>
 			</div>
 		</div>
 	</div>

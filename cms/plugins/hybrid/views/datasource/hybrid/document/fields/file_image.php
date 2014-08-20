@@ -47,7 +47,7 @@
 				<div class="col-md-7 input-append">
 					<?php echo Form::input( $field->name . '_url', NULL, array(
 						'id' => $field->name . '_url', 'placeholder' => __('Or paste URL to file'),
-						'class' => 'input-block-level input-filemanager'
+						'class' => 'form-control', 'data-filemanager' => 'true'
 					) ); ?>
 				</div>
 			</div>

@@ -23,11 +23,10 @@
 <?php echo Form::open(Request::current()->uri(), array(
 	'class' => 'form-horizontal panel'
 )); ?>
-
 	<?php echo Form::hidden('ds_id', $ds->id()); ?>
 	
-	<div class="panel-heading">
-		<span class="panel-title"><?php echo __('Add field'); ?></span>
+	<div class="panel-heading" data-icon="exclamation-circle">
+		<span class="panel-title"><?php echo __('Field description'); ?></span>
 	</div>
 
 	<div class="panel-body" id="filed-type">
@@ -79,31 +78,27 @@
 				));
 			} catch (Exception $exc) {}
 		?>
+			<hr class="panel-wide" />
+			
+			<?php if($field->is_required()): ?>
+			<?php echo View::factory('datasource/hybrid/field/edit/system_isreq', array(
+				'field' => $field, 'post_data' => $post_data
+			)); ?>
+			<?php endif; ?>
+			
+			<?php echo View::factory('datasource/hybrid/field/edit/system_hint', array(
+				'field' => $field, 'post_data' => $post_data
+			)); ?>
+			
+			<?php echo View::factory('datasource/hybrid/field/edit/system_position', array(
+				'field' => $field, 'post_data' => $post_data
+			)); ?>
 		</fieldset>
 		<?php endforeach; ?>
 		</div>
-		<div class="form-group">
-			<label class="control-label col-md-3" for="hint"><?php echo __('Field hint'); ?></label>
-			<div class="col-md-9">
-				<?php echo Form::input( 'hint', Arr::get($post_data, 'hint'), array(
-					'id' => 'hint',
-					'class' => 'form-control'
-				)); ?>
-			</div>
-		</div>
-		
-		<div class="form-group">
-			<label class="control-label col-md-3" for="position"><?php echo __('Field position'); ?></label>
-			<div class="col-md-2">
-				<?php echo Form::input( 'position', Arr::get($post_data, 'position', 500), array(
-					'id' => 'position',
-					'class' => 'form-control'
-				)); ?>
-			</div>
-		</div>
 	</div>
 	<div class="panel-footer form-actions">
-		<?php echo UI::button( __('Add field'), array(
+		<?php echo UI::button( __('Create field'), array(
 			'icon' => UI::icon( 'plus'), 'class' => 'btn-lg btn-primary'
 		)); ?>
 	</div>
