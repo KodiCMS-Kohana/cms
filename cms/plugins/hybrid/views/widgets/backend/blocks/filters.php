@@ -59,7 +59,7 @@
 
 <div class="panel-body">
 	<fieldset disabled id="sample_filter" class="hide">
-		<div class="well filter">
+		<div class="filter well well-sm">
 			<div class="clearfix"></div>
 			<h4 class="field-title hide pull-left"></h4>
 			
@@ -73,9 +73,9 @@
 				<tbody>
 					<tr>
 						<td><?php echo __('Where field')?></td>
-						<td>
+						<td class="form-inline">
 							<?php echo Form::input('doc_filter[field][]', NULL, array(
-								'class' => Bootstrap_Form_Element_Input::MEDIUM
+								'class' => 'form-control'
 							)); ?>
 						</td>
 					</tr>
@@ -85,21 +85,28 @@
 					<tr>
 						<td><?php echo __('Condition')?></td>
 						<td>
-							<?php echo Form::select('doc_filter[condition][]', array(
-								DataSource_Hybrid_Agent::COND_EQ => __('Equal'),
-								DataSource_Hybrid_Agent::COND_BTW => __('Between'),
-								DataSource_Hybrid_Agent::COND_GT => __('Greater than'),
-								DataSource_Hybrid_Agent::COND_LT => __('Less than'),
-								DataSource_Hybrid_Agent::COND_GTEQ => __('Greater than or equal'),
-								DataSource_Hybrid_Agent::COND_LTEQ => __('Less than or equal'),
-								DataSource_Hybrid_Agent::COND_CONTAINS => __('Contains'),
-								DataSource_Hybrid_Agent::COND_LIKE => __('Like')
-							)); ?>
-							<label class="inline checkbox">
-								<?php echo Form::checkbox('doc_filter[invert][]', 1, FALSE); ?>
-								<?php echo __('Invert condition'); ?>
-							</label>
-							
+							<div class="row">
+								<div class="col-md-7">
+									<?php echo Form::select('doc_filter[condition][]', array(
+										DataSource_Hybrid_Agent::COND_EQ => __('Equal'),
+										DataSource_Hybrid_Agent::COND_BTW => __('Between'),
+										DataSource_Hybrid_Agent::COND_GT => __('Greater than'),
+										DataSource_Hybrid_Agent::COND_LT => __('Less than'),
+										DataSource_Hybrid_Agent::COND_GTEQ => __('Greater than or equal'),
+										DataSource_Hybrid_Agent::COND_LTEQ => __('Less than or equal'),
+										DataSource_Hybrid_Agent::COND_CONTAINS => __('Contains'),
+										DataSource_Hybrid_Agent::COND_LIKE => __('Like')
+									)); ?>
+								</div>
+								<div class="col-md-5">
+									<div class="checkbox">
+										<label>
+											<?php echo Form::checkbox('doc_filter[invert][]', 1, FALSE); ?>
+											<?php echo __('Invert condition'); ?>
+										</label>
+									</div>
+								</div>
+							</div>
 						</td>
 					</tr>
 					<tr>
@@ -108,13 +115,19 @@
 					<tr>
 						<td><?php echo __('Conition value')?></td>
 						<td>
-							<?php echo Form::select('doc_filter[type][]', array(
-								DataSource_Hybrid_Agent::VALUE_CTX => __('Context'),
-								DataSource_Hybrid_Agent::VALUE_PLAIN => __('Plain')
-							)); ?>
-							<?php echo Form::input('doc_filter[value][]', NULL, array(
-								'class' => Bootstrap_Form_Element_Input::MEDIUM
-							)); ?>
+							<div class="row">
+								<div class="col-md-4">
+									<?php echo Form::select('doc_filter[type][]', array(
+										DataSource_Hybrid_Agent::VALUE_CTX => __('Context'),
+										DataSource_Hybrid_Agent::VALUE_PLAIN => __('Plain')
+									)); ?>
+								</div>
+								<div class="col-md-8">
+									<?php echo Form::input('doc_filter[value][]', NULL, array(
+										'class' => 'form-control'
+									)); ?>
+								</div>
+							</div>
 						</td>
 					</tr>
 				</tbody>

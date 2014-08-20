@@ -27,48 +27,50 @@ function sort_by_rand($field) {
 </div>
 <?php else: ?>
 <div class="panel-heading">
-	<h4><?php echo __('Properties'); ?></h4>
+	<span class="panel-title"><?php echo __('Properties'); ?></span>
 </div>
 <div class="panel-body">
-	<div class="form-group">
+	<div class="form-group form-inline">
 		<label class="control-label col-md-3" for="doc_uri"><?php echo __('Document page (URI)'); ?></label>
-		<div class="controls">
+		<div class="col-md-9">
 			<?php echo Form::input( 'doc_uri', $widget->doc_uri, array(
-				'class' => 'input-xlarge', 'id' => 'doc_uri'
+				'class' => 'form-control', 'id' => 'doc_uri'
 			) ); ?>
 		</div>
 	</div>
 
-	<div class="form-group">
+	<div class="form-group form-inline">
 		<label class="control-label col-md-3" for="doc_id"><?php echo __('Identificator field'); ?></label>
-		<div class="controls">
+		<div class="col-md-9">
 			<?php echo Form::input( 'doc_id', $widget->doc_id, array(
-				'class' => 'input-xlarge', 'id' => 'doc_id'
+				'class' => 'form-control', 'id' => 'doc_id'
 			) ); ?>
-			<span class="help-block">
+			<p class="help-block">
 				<?php echo __('Multiple fields specify separated by commas'); ?>
-			</span>
+			</p>
 		</div>
 	</div>
 
 	<div class="form-group">
-		<div class="controls">
-			<label class="checkbox"><?php echo Form::checkbox('throw_404', 1, $widget->throw_404); ?> <?php echo __('Generate error 404 when page has no content'); ?></label>
-			<label class="checkbox"><?php echo Form::checkbox('only_published', 1, $widget->only_published); ?> <?php echo __('Show only published documents'); ?></label>
-			<label class="checkbox"><?php echo Form::checkbox('sort_by_rand', 1, $widget->sort_by_rand); ?> <?php echo __('Select random documents'); ?></label>
+		<div class="col-md-offset-3 col-md-9">
+			<div class="checkbox">
+				<label><?php echo Form::checkbox('throw_404', 1, $widget->throw_404); ?> <?php echo __('Generate error 404 when page has no content'); ?></label>
+				<br />
+				<label><?php echo Form::checkbox('only_published', 1, $widget->only_published); ?> <?php echo __('Show only published documents'); ?></label>
+				<br />
+				<label><?php echo Form::checkbox('sort_by_rand', 1, $widget->sort_by_rand); ?> <?php echo __('Select random documents'); ?></label>
+			</div>
 		</div>
 	</div>
-</div>
-
-<div class="panel-body ">
-	<?php
-		echo Bootstrap_Form_Element_Control_Group::factory(array(
-			'element' => Bootstrap_Form_Element_Input::factory(array(
-				'name' => 'search_key', 'value' => $widget->search_key
-			))
-			->label(__('Search key (Ctx)'))
-		));
-	?>
+	
+	<div class="form-group form-inline">
+		<label class="control-label col-md-3" for="search_key"><?php echo __('Search key (Ctx)'); ?></label>
+		<div class="col-md-9">
+			<?php echo Form::input( 'search_key', $widget->search_key, array(
+				'class' => 'form-control', 'id' => 'search_key'
+			) ); ?>
+		</div>
+	</div>
 </div>
 
 <?php echo View::factory('widgets/backend/blocks/fields', array(
