@@ -63,7 +63,6 @@ ini_set('unserialize_callback_func', 'spl_autoload_call');
  */
 mb_substitute_character('none');
 
-
 /**
  * Set Kohana::$environment if a 'KOHANA_ENV' environment variable has been supplied.
  *
@@ -72,7 +71,6 @@ mb_substitute_character('none');
  */
 
 // -- Configuration and initialization -----------------------------------------
-
 if ( isset( $_SERVER['KOHANA_ENV'] ) )
 {
 	Kohana::$environment = constant( 'Kohana::' . strtoupper( $_SERVER['KOHANA_ENV'] ) );
@@ -85,7 +83,6 @@ else if(IS_INSTALLED)
     error_reporting(E_ALL ^ E_NOTICE ^ E_STRICT);
 }
 
-
 /**
  * Set the default language
  */
@@ -96,7 +93,6 @@ if (isset($_SERVER['SERVER_PROTOCOL']))
 	// Replace the default protocol.
 	HTTP::$protocol = $_SERVER['SERVER_PROTOCOL'];
 }
-
 
 /**
  * InitializeCore, setting the default options.
@@ -120,7 +116,7 @@ Kohana::init( array(
 
 define('CMS_NAME',			'KodiCMS');
 define('CMS_SITE',			'http://www.kodicms.ru');
-define('CMS_VERSION',		'11.16.22');
+define('CMS_VERSION',		'12.00.00');
 
 define('PUBLICPATH',		DOCROOT . 'public' . DIRECTORY_SEPARATOR);
 define('TMPPATH',			PUBLICPATH . 'temp' . DIRECTORY_SEPARATOR);
