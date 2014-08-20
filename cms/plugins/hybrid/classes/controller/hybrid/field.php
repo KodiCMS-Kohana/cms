@@ -108,13 +108,24 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 		
 		Session::instance()->delete('post_data');
 		
-		$this->go( Route::get('datasources')->uri(array(
-			'directory' => 'hybrid',
-			'controller' => 'field',
-			'action' => 'edit',
-			'id' => $field_id
-		)));
-		
+		if ( $this->request->post('save_and_create') !== NULL )
+		{
+			$this->go(Route::get('datasources')->uri(array(
+				'controller' => 'field',
+				'directory' => 'hybrid',
+				'action' => 'add',
+				'id' => $ds->id()
+			)));
+		}
+		else
+		{
+			$this->go( Route::get('datasources')->uri(array(
+				'directory' => 'hybrid',
+				'controller' => 'field',
+				'action' => 'edit',
+				'id' => $field_id
+			)));
+		}
 	}
 
 	public function action_edit()

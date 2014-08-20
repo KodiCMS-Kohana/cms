@@ -81,7 +81,7 @@ cms.init.add('widgets_location', function() {
 	});
 
 	$('.set_to_inner_pages').on('click', function() {
-		var cont = $(this).parent().parent();
+		var cont = $(this).closest('tr');
 
 		var block_name = cont.find('.widget-blocks').select2("data")['id'];
 		var position = cont.find('input.widget-position').val();

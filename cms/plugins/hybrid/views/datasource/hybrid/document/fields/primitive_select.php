@@ -1,4 +1,4 @@
-<div class="form-group">
+<div class="form-group form-inline">
 	<label class="control-label col-md-3" for="<?php echo $field->name; ?>"><?php echo $field->header; ?> <?php if($field->isreq): ?>*<?php endif; ?></label>
 	<div class="col-md-9">
 		<?php echo Form::select( $field->name, $field->get_options(), $value, array(
@@ -6,6 +6,7 @@
 		)); ?>
 		
 		<?php if($field->custom_option): ?>
+		<br /><br />
 		<?php echo Form::input( $field->name . '_custom', NULL, array(
 			'id' => $field->name . '_custom',
 			'maxlength' => 50,
@@ -14,8 +15,8 @@
 		) ); ?>
 		<?php endif; ?>
 		
-		<?php if(isset($field->hint)): ?>
-		<span class="help-block"><?php echo $field->hint; ?></span>
+		<?php if($field->hint): ?>
+		<p class="help-block"><?php echo $field->hint; ?></p>
 		<?php endif; ?>
 	</div>
 </div>

@@ -1,6 +1,5 @@
-<div class="form-group">
-    <label class="control-label col-md-3"><?php echo $label; ?></label>
-    <div class="controls">
-		<?php echo implode(' - ', $range); ?>
-    </div>
+<div class="form-group form-inline form-group-sm">
+	<?php echo Form::label(NULL, $label, array('class' => 'control-label')); ?>
+	<br />
+    <?php echo implode(' - ', $range); ?>
 </div>

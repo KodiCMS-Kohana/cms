@@ -57,13 +57,12 @@
 <div class="form-group">
 	<label class="control-label col-md-3"><?php echo $field->header; ?> <?php if($field->isreq): ?>*<?php endif; ?></label>
 	<div class="col-md-9">
-		<div class="row">
-			<div class="col-md-9">
-				<?php echo Form::hidden($field->name, implode( ',',  $field->get_related_docs($doc->id)), array(
-					'id' => $field->name, 'class' => 'col-md-12'
-				)); ?>
-			</div>
-			<div class="col-md-1">
+		<div class="input-group">
+			<?php echo Form::hidden($field->name, implode( ',',  $field->get_related_docs($doc->id)), array(
+				'id' => $field->name, 'class' => 'col-md-12'
+			)); ?>
+			
+			<div class="input-group-btn">
 				<?php echo UI::button(__('Create new'), array(
 					'href' => Route::get('datasources')->uri(array(
 						'directory' => 'hybrid',
@@ -77,8 +76,8 @@
 			</div>
 		</div>
 		
-		<?php if(isset($field->hint)): ?>
-		<span class="help-block"><?php echo $field->hint; ?></span>
+		<?php if($field->hint): ?>
+		<p class="help-block"><?php echo $field->hint; ?></p>
 		<?php endif; ?>
 	</div>
 </div>

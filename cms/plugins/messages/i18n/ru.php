@@ -13,5 +13,6 @@ return array(
 	'Read own messages' => 'Читать свои сообщения',
 	'Delete own messages' => 'Удалять свои сообщения',
 	'Subject' => 'Тема',
-	'Answer' => 'Ответ'
+	'Answer' => 'Ответ',
+	'From user:' => 'От пользователя:'
 );

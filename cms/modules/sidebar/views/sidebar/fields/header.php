@@ -1,1 +1,1 @@
-<h4><?php echo $label; ?></h4><hr />
+<span class="panel-heading"><?php echo $label; ?></span>

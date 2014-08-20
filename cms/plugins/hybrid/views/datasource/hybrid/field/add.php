@@ -101,5 +101,10 @@
 		<?php echo UI::button( __('Create field'), array(
 			'icon' => UI::icon( 'plus'), 'class' => 'btn-lg btn-primary'
 		)); ?>
+		
+		<?php echo UI::button( __('Save and create another'), array(
+			'icon' => UI::icon( 'plus'), 'class' => 'btn-sm',
+			'name' => 'save_and_create'
+		)); ?>
 	</div>
 <?php echo Form::close(); ?>

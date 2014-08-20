@@ -9,7 +9,18 @@ class Controller_API_User_Messages extends Controller_System_Api {
 		$messages = Model_API::factory('api_message')
 			->get_all($user_id, $parent_id, $this->fields);
 
-		$this->response($messages);
+		$use_template = $this->param('use_template', FALSE);
+		
+		if($use_template)
+		{
+			$this->response((string) View::factory('messages/messages', array(
+				'messages' => array_map(function($a) { return (object) $a; }, $messages)
+			)));
+		}
+		else
+		{
+			$this->response($messages);
+		}
 	}
 	
 	public function get_list()
@@ -86,7 +97,7 @@ class Controller_API_User_Messages extends Controller_System_Api {
 		else
 		{
 			$title = $this->param('title', NULL, TRUE);
-			$to_user_id = (int) $this->param('to_user_id', NULL, TRUE);
+			$to_user_id = (array) $this->param('to_user_id', array(), TRUE);
 		}
 		
 		$message = Model_API::factory('api_message')

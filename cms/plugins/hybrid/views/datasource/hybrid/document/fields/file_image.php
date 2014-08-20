@@ -3,65 +3,56 @@
 		<?php echo $field->header; ?> 
 	</label>
 	<div class="col-md-9" id="file-<?php echo $field->name; ?>">
-		<div class="row-fluid">
 			<?php if( ! empty($value)): ?>
-				<div class="well well-small">
-					<div class="spoiler-file-<?php echo $field->name; ?>">
-						<?php echo HTML::anchor(PUBLIC_URL . $value, UI::icon('file' ) . ' ' . __('View file'), array(
-							'target' => 'blank', 
-							'class' => 'btn popup'
-						)); ?>
-						&nbsp;&nbsp;&nbsp;
-						<label class="checkbox inline">
-						<?php echo Form::checkbox( $field->name . '_remove', 1, FALSE, array('class' => 'remove-file-checkbox')); ?> <?php echo __('Remove file'); ?>
+			<div class="panel">
+				<div class="panel-heading panel-toggler" data-icon="chevron-down">
+					<span class="panel-title"><?php echo __('Upload new file'); ?></span>
+				</div>
+				<div class="panel-body panel-spoiler">
+					<?php echo HTML::anchor(PUBLIC_URL . $value, UI::icon('file' ) . ' ' . __('View file'), array(
+						'target' => 'blank', 
+						'class' => 'btn popup'
+					)); ?>
+					&nbsp;&nbsp;&nbsp;
+					<div class="checkbox checkbox-inline">
+						<label>
+							<?php echo Form::checkbox( $field->name . '_remove', 1, FALSE, array('class' => 'remove-file-checkbox')); ?> <?php echo __('Remove file'); ?>
 						</label>
-						<hr />
-					</div>
-					<div class="panel-toggler" data-target-spoiler=".spoiler-file-<?php echo $field->name; ?>">
-						<?php echo UI::icon('chevron-down panel-toggler-icon'); ?> <?php echo __('Upload new file'); ?>
 					</div>
 				</div>
+			</div>
 			<?php endif; ?>
 
 			<div class="upload-new-cont <?php if( ! empty($value)): ?>spoiler<?php endif; ?> spoiler-file-<?php echo $field->name; ?>">
-				<div class="col-md-4">
-					<div class="file-upload btn">
-						<span><?php echo __('Select file to upload'); ?></span>
-						<?php echo Form::file( $field->name, array(
-							'id' => $field->name, 'class' => 'upload-input'
-						) ); ?>
-					</div>
-					
-					<br />
-					<img src="" id="image_preview" />
-					
-					<span class="help-block">
-						<?php echo __('Max file size: :size', array(
-						':size' => Text::bytes($field->max_size)
+				<div class="form-group">
+					<div class="col-md-5">
+						<?php echo Form::file($field->name, array(
+							'id' => $field->name, 'class' => 'form-control upload-input'
 						)); ?>
-					</span>
+					</div>
+					<div class="col-md-7">
+						<div class="input-group">
+							<?php echo Form::input($field->name . '_url', NULL, array(
+								'id' => $field->name . '_url', 'placeholder' => __('Or paste URL to file'),
+								'class' => 'form-control', 'data-filemanager' => 'true'
+							)); ?>
+
+							<div class="input-group-btn"></div>
+						</div>
+					</div>
 				</div>
-				
-				
-				
-				<div class="col-md-7 input-append">
-					<?php echo Form::input( $field->name . '_url', NULL, array(
-						'id' => $field->name . '_url', 'placeholder' => __('Or paste URL to file'),
-						'class' => 'form-control', 'data-filemanager' => 'true'
-					) ); ?>
-				</div>
+				<p class="help-block">
+					<?php echo __('Max file size: :size', array(
+					':size' => Text::bytes($field->max_size)
+					)); ?>
+				</p>
 			</div>
-		</div>
 	</div>
 </div>
 
 <script>
 	$(function() {
 		var cont = $('#file-<?php echo $field->name; ?>');
-		
-		$('#<?php echo $field->name; ?>').on('change', function() {
-			readImage(this, $('#image_preview'));
-		});
 		
 		$('.remove-file-checkbox', cont).on('change', function() {
 			if($(this).is(':checked')) {

@@ -55,14 +55,12 @@
 <div class="form-group">
 	<label class="control-label col-md-3"><?php echo $field->header; ?> <?php if($field->isreq): ?>*<?php endif; ?></label>
 	<div class="col-md-9">
-		<div class="row-fluid">
-			<div class="col-md-8">
-				<?php echo Form::hidden($field->name, $value['id'], array(
-					'id' => $field->name, 'class' => 'col-md-12'
-				)); ?>
-				
-			</div>
-			<div class="col-md-4">
+		<div class="input-group">
+			<?php echo Form::hidden($field->name, $value['id'], array(
+				'id' => $field->name, 'class' => 'col-md-12'
+			)); ?>
+
+			<div class="input-group-btn">
 				<?php if ( ! empty($value['id'])): ?>
 				<?php echo UI::button(__('View'), array(
 					'href' => Route::get('datasources')->uri(array(
@@ -87,12 +85,10 @@
 					'data-target' => $field->name
 				)); ?>
 			</div>
-
-			<div class="clearfix"></div>
 		</div>
-		
-		<?php if(isset($field->hint)): ?>
-		<span class="help-block"><?php echo $field->hint; ?></span>
-		<?php endif; ?>
 	</div>
+
+	<?php if($field->hint): ?>
+	<p class="help-block"><?php echo $field->hint; ?></p>
+	<?php endif; ?>
 </div>

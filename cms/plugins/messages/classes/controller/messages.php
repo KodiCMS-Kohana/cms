@@ -27,17 +27,12 @@ class Controller_Messages extends Controller_System_Backend {
 	{
 		if($this->request->method() === Request::POST)
 		{
-			$id = (int) $this->request->post('to');
-			$user = ORM::factory('user', $id);
-
-			if( ! $user->loaded() ) 
-			{
-				throw new HTTP_Exception_404('User not found');
-			}
+			$ids = (array) $this->request->post('to');
 
 			$post = $this->request->post();
 			$post['from_user_id'] = AuthUser::getId();
-			$post['to_user_id'] = $user->id;
+			$post['to_user_id'] = $ids;
+
 			return $this->_send(Api::put('user-messages', $post));
 		}
 		

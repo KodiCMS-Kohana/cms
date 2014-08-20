@@ -1,7 +1,7 @@
 <div class="panel">
 	<?php echo Form::open(Request::current()->uri()); ?>
 	<div class="panel-heading">
-		<h3 class="no-margin-vr">
+		<h3 class="no-margin-vr pull-left">
 			<small>&larr; <?php echo __('Back to widget settings:'); ?></small>
 			<?php echo HTML::anchor(Route::get('backend')->uri(array(
 			'controller' => 'widgets', 
@@ -9,6 +9,19 @@
 			'id' => $widget->id
 			)), $widget->name); ?>
 		</h3>
+		
+		<div class="panel-heading-controls">
+			<?php if( ACL::check( 'layout.rebuild')): ?>
+			<?php echo UI::button(__('Rebuild blocks'), array(
+				'icon' => UI::icon( 'refresh' ),
+				'class' => 'btn btn-xs btn-danger btn-api',
+				'data-url' => 'layout.rebuild',
+				'data-method' => Request::POST
+			)); ?>
+			<?php endif; ?>
+		</div>
+		
+		<div class="clearfix"></div>
 	</div>
 	<table class="table table-primary table-striped">
 		<colgroup>
@@ -29,13 +42,16 @@
 			<?php echo recurse_pages($pages, 0, $layouts_blocks, $page_widgets, $pages_widgets); ?>
 		</tbody>
 	</table>
-	<div class="panel-body">
-		<div class="input-group" style="width: 400px">
-			<?php echo Form::input('select_for_all', NULL, array('class' => 'form-control')); ?>
-			<div class="input-group-btn">
-				<?php echo UI::button( __('Select for all pages'), array(
-					'icon' => UI::icon('level-up fa-flip-horizontal'), 'class' => 'btn', 'id' => 'select_for_all'
-				)); ?>
+	<hr />
+	<div class="panel-body no-padding-vr">
+		<div class="form-group form-inline">
+			<div class="input-group">
+				<?php echo Form::input('select_for_all', NULL, array('class' => 'form-control')); ?>
+				<div class="input-group-btn">
+					<?php echo UI::button( __('Select for all pages'), array(
+						'icon' => UI::icon('level-up fa-flip-horizontal'), 'class' => 'btn', 'id' => 'select_for_all'
+					)); ?>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -45,16 +61,6 @@
 			'class' => 'btn btn-lg btn-primary',
 			'data-hotkeys' => 'ctrl+s'
 		)); ?>
-		
-		
-		<?php if( ACL::check( 'layout.rebuild')): ?>
-		<?php echo UI::button(__('Rebuild blocks'), array(
-			'icon' => UI::icon( 'refresh' ),
-			'class' => 'btn btn-xs btn-success btn-api',
-			'data-url' => 'layout.rebuild',
-			'data-method' => Request::POST
-		)); ?>
-		<?php endif; ?>
 	</div>
 	<?php echo Form::close(); ?>
 </div>
@@ -70,13 +76,17 @@ function recurse_pages( $pages, $spaces = 0, $layouts_blocks = array(), $page_wi
 		
 		$data .= '<tr data-id="'.$page['id'].'" data-parent-id="'.$page['parent_id'].'">';
 		$data .= '<td>';
-		$data .= Form::hidden('blocks['.$page['id'].'][name]', $current_block, array('class' => 'widget-blocks', 'data-layout' => $page['layout_file']));
 		if(!empty($page['childs']))
 		{
-			$data .= "&nbsp;" . Form::button(NULL, UI::icon('level-down'), array(
-				'class' => 'set_to_inner_pages btn btn-xs',
+			$data .= '<div class="input-group">';
+		}
+		$data .= Form::hidden('blocks['.$page['id'].'][name]', $current_block, array('class' => 'widget-blocks form-control', 'data-layout' => $page['layout_file']));
+		if(!empty($page['childs']))
+		{
+			$data .= "<div class=\"input-group-btn\">" . Form::button(NULL, UI::icon('level-down'), array(
+				'class' => 'set_to_inner_pages btn',
 				'title' => __('Select to child pages')
-			) );
+			) ) . '</div></div>';
 		}
 		$data .= '</td><td>';
 		$data .= Form::input('blocks[' . $page['id'] . '][position]', (int) $current_position, array('maxlength' => 4, 'size' => 4, 'class' => 'form-control text-right widget-position') );

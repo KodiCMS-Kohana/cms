@@ -7,6 +7,9 @@ $(function() {
 var API_FORM_ACTION = '/datasource/hybrid-document.<?php if($doc->loaded()): ?>update<?php else: ?>create<?php endif; ?>'; 
 
 $(function() {
+	$('.upload-input').pixelFileInput({ placeholder: __('Select file to upload') });
+
+
 	$('body').on('post:backend:api:datasource:hybrid-document.create ', update_documents);
 	$('body').on('put:backend:api:datasource:hybrid-document.create ', update_documents);
 	$('.upload-input').on('change', function(e) {
@@ -115,21 +118,20 @@ function update_documents(e, response) {
 			)); ?>
 		</div>
 	</div>
+	<hr class="panel-wide" />
 </div>
-	
 <?php if($ds->template() !== NULL): ?>
 <?php echo View_Front::factory($ds->template(), array(
 	'fields' => $fields,
 	'doc' => $doc,
 )); ?>
 <?php elseif(!empty($fields)): ?>
-<br />
-
-<?php foreach ($fields as $key => $field): ?>
-<?php echo $field->backend_template($doc); ?>
-<?php endforeach; ?>
+<div class="panel-body">
+	<?php foreach ($fields as $key => $field): ?>
+	<?php echo $field->backend_template($doc); ?>
+	<?php endforeach; ?>
+</div>
 <?php endif; ?>
-
 
 <?php if(Acl::check('hybrid'.$ds->id().'.document.edit')): ?>
 <div class="form-actions panel-footer">

@@ -11,6 +11,11 @@ class Sidebar_Fields_DateRange extends Sidebar_Fields_Abstract {
 	public $_field = array(
 		'name' => NULL
 	);
+	
+	public $_attributes = array(
+		'class' => array('form-control col-sm-auto'),
+		'size' => '10'
+	);
 
 	public function render()
 	{

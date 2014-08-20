@@ -83,13 +83,13 @@ var cms = {
 		if(this.content_height != null) 
 			return this.content_height;
 
-		var contentCont = $('#content'),
-			headerCont = $('header'),
+		var contentCont = $('#content-wrapper'),
+			headerCont = $('#main-navbar'),
 			footerCont = $('footer'),
 			windowCont = $(window);
 
 		var contentContHeight = windowCont.outerHeight() - headerCont.outerHeight(),
-			contentContPadding = contentCont.outerHeight(!$('body').hasClass('iframe')) - contentCont.innerHeight() + ($('body').hasClass('iframe')) ? 0 : 160;
+			contentContPadding = contentCont.outerHeight(!$('body').hasClass('iframe')) - contentCont.innerHeight() + ($('body').hasClass('iframe')) ? 0 : 140;
 
 		this.content_height = contentContHeight - contentContPadding;
 

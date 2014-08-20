@@ -1,3 +1,8 @@
+<script type="text/javascript">
+$(function() {
+	cms.filters.switchOn( 'message-content', '<?php echo Config::get('site', 'default_filter_id'); ?>');
+});
+</script>
 <div class="panel">
 	<?php echo Form::open(NULL, array('class' => Bootstrap_Form::HORIZONTAL)); ?>
 	<?php echo Form::hidden('token', Security::token()); ?>
@@ -19,17 +24,12 @@
 		<div class="form-group">
 			<label class="control-label col-md-3"><?php echo __('Message to'); ?></label>
 			<div class="col-md-9">
-				<?php echo Form::input('to', Request::current()->query('to'), array(' autocomplete' => 'off', 'id' => 'messageTo')); ?>
+				<?php echo Form::input('to[]', Request::current()->query('to'), array(' autocomplete' => 'off', 'id' => 'messageTo')); ?>
 			</div>
 		</div>
 		<?php endif; ?>
 	</div>
 	<?php echo Form::textarea('content', NULL, array('id' => 'message-content')); ?>
-	<script>
-	$(function() {
-		cms.filters.switchOn( 'message-content', '<?php echo Config::get('site', 'default_filter_id'); ?>');
-	});
-	</script>
 	<div class="panel-footer form-actions">
 		<?php echo UI::button(__('Send message'), array('class' => 'btn btn-lg btn-primary')); ?>
 	</div>

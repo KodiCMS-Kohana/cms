@@ -7,8 +7,8 @@
 			'rows' => $field->rows,
 		) ); ?>
 		
-		<?php if(isset($field->hint)): ?>
-		<span class="help-block"><?php echo $field->hint; ?></span>
+		<?php if($field->hint): ?>
+		<p class="help-block"><?php echo $field->hint; ?></p>
 		<?php endif; ?>
 	</div>
 </div>

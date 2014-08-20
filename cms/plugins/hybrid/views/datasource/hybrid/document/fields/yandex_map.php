@@ -1,24 +1,26 @@
-<div class="form-group">
+<div class="form-group form-inline">
 	<label class="control-label col-md-3"><?php echo $field->header; ?></label>
 	<div class="col-md-9">
-		<div class="input-append">
+		<div class="input-group">
 			<?php echo Form::input( $field->name . '[]', Arr::get($value, 0), array(
-				'class' => 'input-medium', 'id' => $field->name . 'X'
+				'class' => 'form-control', 'id' => $field->name . 'X'
 			) ); ?>
-			<span class="add-on">-</span>
+			<span class="input-group-addon">-</span>
 			<?php echo Form::input( $field->name . '[]', Arr::get($value, 1), array(
-				'class' => 'input-medium', 'id' => $field->name . 'Y'
+				'class' => 'form-control', 'id' => $field->name . 'Y'
 			) ); ?>
 			
-			<button class="btn clear-coords-<?php echo $field->name; ?>" type="button"><?php echo __('Clear coordinates'); ?></button>
+			<div class="input-group-btn">
+				<button class="btn clear-coords-<?php echo $field->name; ?>" type="button"><?php echo __('Clear coordinates'); ?></button>
+			</div>
 		</div>
 		
 		
-		<?php if(isset($field->hint)): ?>
-		<span class="help-block"><?php echo $field->hint; ?></span>
+		<?php if($field->hint): ?>
+		<p class="help-block"><?php echo $field->hint; ?></p>
 		<?php endif; ?>
 		
-		<div id="map<?php echo $field->name; ?>" style="width: 700px; height: 250px; border: 5px solid whitesmoke; margin-top: 20px;"></div>
+		<div id="map<?php echo $field->name; ?>" style="height: 250px; border: 5px solid whitesmoke; margin-top: 20px;"></div>
 	</div>
 </div>
 <script type="text/javascript">
@@ -48,7 +50,7 @@ $(function() {
 			
 		searchControl = new ymaps.control.SearchControl({ provider: 'yandex#publicMap', width: '400' });
 			
-		myMap.col-md-9
+		myMap.controls
 			// Кнопка изменения масштаба.
 			.add('zoomControl')
 			// Список типов карты

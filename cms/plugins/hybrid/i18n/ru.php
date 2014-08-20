@@ -11,6 +11,7 @@ return array(
 	'Hybrid Document creator' => 'Обработчик создания ГД',
 	'Hybrid Document editor' => 'Редактор ГД',
 	'Add field' => 'Новое поле',
+	'Save and create another' => 'Сохранить и создать еще одно',
 	'Create field' => 'Создать',
 	'Field key' => 'Ключ',
 	'Field description' => 'Описание поля',

@@ -18324,6 +18324,53 @@ a.editable-click.editable-disabled:hover {
   border: none;
   border-radius: 0;
 }
+.pixel-file-input {
+  display: block;
+  width: 100%;
+  height: 32px;
+  padding: 6px 12px;
+  line-height: 18px;
+  color: #333333;
+  vertical-align: middle;
+  background-color: #fff;
+  border: 1px solid #cccccc;
+  border-top-color: #b8b8b8;
+  border-radius: 0;
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  -webkit-transition: border-color ease-in-out .15s;
+  -o-transition: border-color ease-in-out .15s;
+  transition: border-color ease-in-out .15s;
+}
+.pixel-file-input > input[type=file] {
+  visibility: hidden;
+  position: absolute;
+  display: block;
+  left: -10000px;
+}
+.pfi-filename {
+  white-space: nowrap;
+}
+.pfi-actions {
+  display: block;
+  position: absolute;
+  right: 0;
+  top: 4px;
+  padding: 0 5px 0 10px;
+  background: #fff;
+  white-space: nowrap;
+}
+.pfi-actions > * + * {
+  margin-left: 4px;
+}
+.pfi-clear {
+  display: none;
+}
+.pfi-placeholder {
+  color: #aaa;
+  font-style: italic;
+}
 /*
 // jQuery UI
 //
@@ -18347,7 +18394,7 @@ a.editable-click.editable-disabled:hover {
 @import 'plugins/pa.limiter.less';
 @import 'plugins/pa.expanding-input.less';
 @import 'plugins/pa.wizard.less';
-@import 'plugins/pa.file-input.less';
+
 @import 'plugins/bootstrap-datepicker.less';
 @import 'plugins/bootstrap-timepicker.less';
 @import 'plugins/bootstrap-datepaginator.less';
@@ -18459,6 +18506,19 @@ a.editable-click.editable-disabled:hover {
 }
 .no-margin-t {
   margin-top: 0 !important;
+}
+/* ===================================================
+	Select2
+ ===================================================*/
+.select2-hidden-accessible {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
 }
 /* ===================================================
 ._loader_container {

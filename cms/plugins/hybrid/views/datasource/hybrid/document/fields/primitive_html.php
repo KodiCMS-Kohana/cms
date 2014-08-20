@@ -7,8 +7,8 @@
 			'class' => 'form-control', 'id' => $field->name, 'data-height' => '265'
 		) ); ?>
 		
-		<?php if(isset($field->hint)): ?>
-		<span class="help-block"><?php echo $field->hint; ?></span>
+		<?php if($field->hint): ?>
+		<p class="help-block"><?php echo $field->hint; ?></p>
 		<?php endif; ?>
 	</div>
 </div>

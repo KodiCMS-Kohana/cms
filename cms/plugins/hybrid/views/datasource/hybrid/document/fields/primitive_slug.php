@@ -1,10 +1,10 @@
 <script>
-	$(function() {
-		$('button[name="copy_from_header"]').on('click', function() {
-			$(this).prev().val(cms.convertSlug($('input[name="header"]').val(), '<?php echo $field->separator; ?>')).keyup();
-			return false;
-		});
-	})
+$(function() {
+	$('button[name="copy_from_header"]').on('click', function(e) {
+		$(this).parent().prev().val(getSlug($('input[name="header"]').val(), {separator: '<?php echo $field->separator; ?>'})).keyup();
+		e.preventDefault();
+	});
+})
 </script>
 
 <div class="form-group">
@@ -24,8 +24,8 @@
 		<span class="help-inline"><?php echo __('Field value must be unique'); ?></span>
 		<?php endif; ?>
 		
-		<?php if(isset($field->hint)): ?>
-		<span class="help-block"><?php echo $field->hint; ?></span>
+		<?php if($field->hint): ?>
+		<p class="help-block"><?php echo $field->hint; ?></p>
 		<?php endif; ?>
 	</div>
 </div>
