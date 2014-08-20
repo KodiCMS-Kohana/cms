@@ -53,6 +53,17 @@ CREATE TABLE IF NOT EXISTS `__TABLE_PREFIX__user_tokens` (
   CONSTRAINT `__TABLE_PREFIX__user_tokens_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `__TABLE_PREFIX__users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
+CREATE TABLE IF NOT EXISTS `__TABLE_PREFIX__user_meta` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) unsigned NOT NULL,
+  `key` varchar(255) DEFAULT NULL,
+  `value` longtext,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `key` (`key`),
+  CONSTRAINT `__TABLE_PREFIX__user_meta_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `__TABLE_PREFIX__users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
 CREATE TABLE IF NOT EXISTS `__TABLE_PREFIX__roles_users` (
   `user_id` int(11) unsigned NOT NULL,
   `role_id` int(11) unsigned NOT NULL,
