@@ -91,17 +91,6 @@
 			</div>
 		</div>
 	</div>
-	<div class="panel-heading" data-icon="desktop">
-		<span class="panel-title"><?php echo __( 'Design' ); ?></span>
-	</div>
-	<div class="panel-body">
-		<div class="form-group">
-			<label class="control-label col-md-3"><?php echo __( 'Show breadcrumbs' ); ?></label>
-			<div class="col-md-9">
-				<?php echo Form::select( 'setting[site][breadcrumbs]', Form::choices(), Config::get('site', 'breadcrumbs', Config::NO )); ?>
-			</div>
-		</div>
-	</div>
 	<div class="panel-heading" data-icon="edit">
 		<span class="panel-title"><?php echo __( 'Page settings' ); ?></span>
 	</div>
