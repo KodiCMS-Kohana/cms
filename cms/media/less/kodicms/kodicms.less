@@ -1,6 +1,8 @@
 @import "custom-bootstrap.less";
 
 /* ===================================================
+	Loader
+ ===================================================*/
 ._loader_container {
 	display: none;
 	z-index: 5000;
@@ -38,24 +40,43 @@
 	}
 }
 
-.navigation-avatar {
-	text-align: center;
-	margin: 10px 0;
-}
-	Loader
- ===================================================*/
-
 .page-items {
 	margin: 0;
+	
+	.page-item {
+		
+		position: relative;
+		padding: 10px 0;
+		border-bottom: 1px solid #ccc;
 
-	li {
-		& > .page-item {
-			position: relative;
-			padding: 10px 0;
-			border-bottom: 1px solid #e9e9e9;
+		.item-expander {
+			margin-left: -17px;
+			cursor: pointer;
+		}
+
+		.date,
+		.status {
+			font-size: 90%;
+		}
+
+		.actions {
+			display: none;
+			text-align: right;
 		}
 
 
+		&:hover {
+			.item-preview {
+				display: inline;
+			}
+
+			.actions {
+				display: block;
+			}
+		}
+	}
+
+	li {
 		&:nth-child(even) {
 			& > .page-item {
 				background-color: #f9f9f9;
@@ -102,53 +123,6 @@
 		padding: 5px;
 		background-color: lighten(#fdffbe, 10%);
 	}
-}
-
-/* ===================================================
-	Page map
- ===================================================*/
-.page-items {
-	
-	.page-item {
-
-		.item-expander {
-			margin-left: -17px;
-			cursor: pointer;
-		}
-
-		.title {
-
-			i {
-				font-size: 110%;
-			}
-		}
-
-		.status {}
-
-		.date {}
-
-		.date,
-		.status {
-			font-size: 90%;
-			text-align: right;
-		}
-
-		.actions {
-			display: none;
-			text-align: right;
-		}
-
-
-		&:hover {
-			.item-preview {
-				display: inline;
-			}
-
-			.actions {
-				display: block;
-			}
-		}
-	}
 	
 	.map-drag {
 		.page-item {
@@ -161,14 +135,15 @@
 		margin-left: 10px;
 	}
 }
-
 /* ===================================================
 	Page sort
  ===================================================*/
 @ddItemPadding: 12px;
 @ddListPaddingLeft: 40px;
 
-
+#nestable {
+	margin-left: 40px;
+}
 .sort-pages {
 	padding: 0 5px;
 }

@@ -42,10 +42,10 @@ var cms = {
 	loader: {
 		counter: 0,
 		init: function (container) {
-			if(!(container instanceof jQuery)) 
-				container = $('body');
+//			if(!(container instanceof jQuery)) 
+			container = $('body');
 
-			return $('<div class="_loader_container"><div class="_loader_bg"></div><span>' + __('Loading') + '</span></div>')
+			return $('<div class="_loader_container"><span>' + __('Loading') + '</span></div>')
 				.appendTo(container)
 				.css({
 					width: container.outerWidth(true), 

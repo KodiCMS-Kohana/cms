@@ -11,5 +11,6 @@ cms.init.add(['page_edit'], function () {
 		loadBehaviorData(id);
 	}).find('option:selected').val();
 
-	loadBehaviorData(behaviorId);
+	if(behaviorId.length > 0)
+		loadBehaviorData(behaviorId);
 });

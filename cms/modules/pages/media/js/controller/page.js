@@ -12,7 +12,6 @@ cms.init.add('page_index', function () {
 	expanded_pages = arr;
 	var expandedPagesAdd = function (page_id) {
 		expanded_pages.push(page_id);
-
 		document.cookie = ['expanded_rows', '=', encodeURIComponent(jQuery.unique(expanded_pages).join(',')), '; path=', window.location.pathname].join('');
 	};
 
@@ -25,7 +24,7 @@ cms.init.add('page_index', function () {
 	};
 
 	$('#page-tree-list').on('click', '.item-expander', function () {
-		var li = $(this).parent().parent().parent().parent();
+		var li = $(this).closest('li');
 		var parent_id = li.data('id');
 
 		var expander = $(this);
@@ -57,8 +56,8 @@ cms.init.add('page_index', function () {
 			// Sending information about page position to frog
 			$.ajax({
 				url: SITE_URL + ADMIN_DIR_NAME + '/page/children/',
-				dataType:'html',
-				data:{
+				dataType: 'html',
+				data: {
 					parent_id: parent_id,
 					level: level
 				},
@@ -73,7 +72,7 @@ cms.init.add('page_index', function () {
 					.removeClass('fa-minus')
 					.addClass('fa-plus');
 
-				li.find('> ul').hide();
+				li.next('ul').hide();
 
 				expandedPagesRemove(parent_id);
 			}
@@ -83,7 +82,7 @@ cms.init.add('page_index', function () {
 					.removeClass('fa-plus')
 					.addClass('fa-minus');
 
-				li.find('> ul').show();
+				li.next('ul').show();
 
 				expandedPagesAdd(parent_id);
 			}
@@ -109,6 +108,8 @@ cms.init.add('page_index', function () {
 					.show()
 					.find('li')
 					.append(resp);
+			
+					cms.ui.init('icon');
 			}, 'html');
 
 		} else {

@@ -1,6 +1,6 @@
 <li class="dd-item" data-id="<?php echo $page['id']; ?>">
 	<div class="dd-handle">
-		<?php echo UI::icon('file'); ?>
+		<?php echo UI::icon(empty($childs) ? 'file-o' : 'folder-open-o'); ?>
 		<span class="title"><?php echo $page['title']; ?></span>
 
 		<?php if( !empty($page['behavior_id']) ): ?> 

@@ -1,6 +1,6 @@
 <div class="panel tabbable">
 	<div class="panel-heading">
-		<span class="panel-title"><?php echo __( 'General information' ); ?></span>
+		<span class="panel-title"><?php echo __('General information'); ?></span>
 	</div>
 	<div class="panel-body">
 		<table class="table table-striped">
@@ -53,7 +53,7 @@
 	
 	<?php if(Acl::check('system.phpinfo')): ?>
 	<div class="panel-heading">
-		<span class="panel-title"><?php echo __( 'PHP info' ); ?></span>
+		<span class="panel-title"><?php echo __('PHP info'); ?></span>
 	</div>
 	<div class="panel-body">
 		<iframe src="<?php echo URL::site(Route::get('backend')->uri(array(
@@ -63,5 +63,5 @@
 	</div>
 	<?php endif; ?>
 
-	<?php Observer::notify( 'view_system_information' ); ?>
+	<?php Observer::notify('view_system_information'); ?>
 </div>

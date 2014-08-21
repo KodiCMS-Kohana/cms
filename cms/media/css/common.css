@@ -18413,56 +18413,67 @@ a.editable-click.editable-disabled:hover {
   width: 1px;
 }
 /* ===================================================
-._loader_container {
-	display: none;
-	z-index: 5000;
-	min-height: 70px;
-	position: relative;
-	position: fixed;
-	width: 100%;
-	height: 100%;
-
-	._loader_bg {
-		left: 0;
-		top: 0;
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		background: none;
-		opacity: 0.6;
-		z-index: 5001;
-		cursor: wait;
-	}
-
-	span {
-		display: block;
-		position: absolute;
-		left: 50%;
-		top: 50%;
-		margin: -25px 0 0 -50px;
-		padding-left: 40px;
-		width: 90px;
-		line-height: 50px;
-		text-align: center;
-		color: #fff;
-		background: #000 url(../images/loader-big-black.gif) 15px center no-repeat;
-		z-index: 5002;
-	}
-}
-
-.navigation-avatar {
-	text-align: center;
-	margin: 10px 0;
-}
 	Loader
  ===================================================*/
+._loader_container {
+  display: none;
+  z-index: 5000;
+  min-height: 70px;
+  position: relative;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+}
+._loader_container ._loader_bg {
+  left: 0;
+  top: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: none;
+  opacity: 0.6;
+  z-index: 5001;
+  cursor: wait;
+}
+._loader_container span {
+  display: block;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin: -25px 0 0 -50px;
+  padding-left: 40px;
+  width: 90px;
+  line-height: 50px;
+  text-align: center;
+  color: #fff;
+  background: #000000 url(images/loader-big-black.gif) 15px center no-repeat;
+  z-index: 5002;
+}
 .page-items {
   margin: 0;
 }
-.page-items li > .page-item {
+.page-items .page-item {
   position: relative;
   padding: 10px 0;
-  border-bottom: 1px solid #e9e9e9;
+  border-bottom: 1px solid #ccc;
+}
+.page-items .page-item .item-expander {
+  margin-left: -17px;
+  cursor: pointer;
+}
+.page-items .page-item .date,
+.page-items .page-item .status {
+  font-size: 90%;
+}
+.page-items .page-item .actions {
+  display: none;
+  text-align: right;
+}
+.page-items .page-item:hover .item-preview {
+  display: inline;
+}
+.page-items .page-item:hover .actions {
+  display: block;
 }
 .page-items li:nth-child(even) > .page-item {
   background-color: #f9f9f9;
@@ -18516,31 +18527,6 @@ a.editable-click.editable-disabled:hover {
   padding: 5px;
   background-color: #fffff1;
 }
-/* ===================================================
-	Page map
- ===================================================*/
-.page-items .page-item .item-expander {
-  margin-left: -17px;
-  cursor: pointer;
-}
-.page-items .page-item .title i {
-  font-size: 110%;
-}
-.page-items .page-item .date,
-.page-items .page-item .status {
-  font-size: 90%;
-  text-align: right;
-}
-.page-items .page-item .actions {
-  display: none;
-  text-align: right;
-}
-.page-items .page-item:hover .item-preview {
-  display: inline;
-}
-.page-items .page-item:hover .actions {
-  display: block;
-}
 .page-items .map-drag .page-item {
   border: 1px dashed #ccc;
 }
@@ -18551,6 +18537,9 @@ a.editable-click.editable-disabled:hover {
 /* ===================================================
 	Page sort
  ===================================================*/
+#nestable {
+  margin-left: 40px;
+}
 .sort-pages {
   padding: 0 5px;
 }

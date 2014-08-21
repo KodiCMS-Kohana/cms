@@ -5,44 +5,41 @@
 	<?php if($child instanceof Model_Page): ?>
 	<li data-id="<?php echo $child->id; ?>" <?php if($child->is_expanded) echo('class="item-expanded"'); ?>>
 		<div class="page-item">
-			<div class="title col-xs-6">
-				<?php if( $child->has_children ): ?>
+			<div class="title col-xs-7">
+				<?php if ($child->has_children): ?>
 				<?php
 					if($child->is_expanded)
 					{
 						echo UI::icon('minus item-expander item-expander-expand');
-			}
+					}
 					else
 					{
 						echo UI::icon('plus item-expander');
-			}
+					}
 				?>
 				<?php endif; ?>
 
 
-				<?php if( ! ACL::check('page.edit') OR ! AuthUser::hasPermission( $child->get_permissions() ) ): ?>
+				<?php if (!ACL::check('page.edit') OR !AuthUser::hasPermission($child->get_permissions())): ?>
 				<?php echo UI::icon('lock'); ?>
 				<?php echo $child->title; ?>
 				<?php else: ?>
-				<?php 
-					echo UI::icon('file') . ' ';
-					echo HTML::anchor( $child->get_url(), $child->title );
-				?>
+				<?php echo HTML::anchor($child->get_url(), $child->title, array('data-icon' => 'file-o')); ?>
 				<?php endif; ?>				
 				<?php if( !empty($child->behavior_id) ): ?> <?php echo UI::label(__(ucfirst(Inflector::humanize( $child->behavior_id ))), 'default'); ?><?php endif; ?>
 				<?php if( !empty($child->use_redirect) ): ?> <?php echo UI::label(__('Redirect: :url', array(':url' => $child->redirect_url))); ?><?php endif; ?>
 
 				<?php echo $child->get_public_anchor(); ?>
 			</div>
-			<div class="date col-xs-2">
+			<div class="date col-xs-2 text-right">
 				<?php echo Date::format($child->published_on); ?>
 			</div>
-			<div class="status col-xs-2">
+			<div class="status col-xs-2 text-right">
 				<?php echo $child->get_status(); ?>
 			</div>
-			<div class="actions col-xs-2 text-right">
+			<div class="actions col-xs-1 text-right">
 				<div class="btn-group">
-					<?php if ( Acl::check( 'page.add')): ?>
+					<?php if (Acl::check('page.add')): ?>
 					<?php echo UI::button(NULL, array(
 						'href' => Route::get('backend')->uri(array(
 							'controller' => 'page',
@@ -60,7 +57,7 @@
 							'action' => 'delete',
 							'id' => $child->id
 						)), 'icon' => UI::icon('times fa-inverse'), 
-						'class' => 'btn btn-xs btn-confirm btn-danger'
+						'class' => 'btn-xs btn-confirm btn-danger'
 					)); ?>
 					<?php endif; ?>
 				</div>
@@ -69,7 +66,7 @@
 			<div class="clearfix"></div>
 		</div>
 	</li>
-	<?php if( $child->is_expanded ) echo($child->children_rows); ?>
+	<?php if ($child->is_expanded) echo($child->children_rows); ?>
 	<?php else: ?>
 	<li>
 		<div class="page-item">

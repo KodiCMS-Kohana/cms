@@ -35,9 +35,11 @@
 				<section id="content" >
 				<?php echo $content; ?>
 				</section>
+				
+				<?php echo $footer; ?>
 			</div>
 
-			<?php echo $footer; ?>
+			
 
 			<?php if ( Config::get('site', 'profiling' ) == Config::YES ): ?>
 			<hr />

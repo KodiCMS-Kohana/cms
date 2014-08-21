@@ -57,7 +57,7 @@
 					<?php echo UI::icon('lock'); ?> <?php echo $layout->name; ?>
 					<?php endif; ?>
 					<?php if(count($layout->blocks()) > 0): ?>
-					<span class="muted">
+					<span class="text-muted text-normal text-sm">
 						<?php echo __('Layout blocks'); ?>: <span class="layout-block-list"><?php echo implode(', ', $layout->blocks()); ?></span>
 					</span>
 					<?php endif; ?>

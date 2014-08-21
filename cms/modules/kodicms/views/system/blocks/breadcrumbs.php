@@ -7,9 +7,6 @@
 		<?php else: ?>
 		<span><?php echo $breadcrumb->name; ?></span>
 		<?php endif; ?>
-		<?php /*if($i < $breadcrumbs->count()): ?>
-		<span class="divider">></span>
-		<?php endif;*/ ?>
 	</li>
 	<?php $i++; ?>
 	<?php endforeach; ?>
