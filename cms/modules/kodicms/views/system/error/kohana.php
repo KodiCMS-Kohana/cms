@@ -1,9 +1,7 @@
 <?php defined('SYSPATH') OR die('No direct script access.') ?>
 <?php
-
-// Unique error identifier
-$error_id = uniqid('error');
-
+	// Unique error identifier
+	$error_id = uniqid('error');
 ?>
 
 <!DOCTYPE html>
@@ -81,10 +79,13 @@ $error_id = uniqid('error');
 			<div class="error-code"><?php echo $code; ?></div>
 			
 			<div class="error-text">
-				<span class="type text-light-gray"><?php echo $class ?>:</span> <span class="message"><?php echo htmlspecialchars( (string) $message, ENT_QUOTES, Kohana::$charset, TRUE); ?></span>
+				<span class="type text-light-gray">
+					<?php echo $class ?>:</span> <span class="message"><?php echo htmlspecialchars( (string) $message, ENT_QUOTES, Kohana::$charset, TRUE); ?>
+				</span>
 			</div>
 		</div>
-		<br /><br />
+		<br />
+		<br />
 		<div class="container-fluid">
 			<div id="<?php echo $error_id ?>">
 				<div class="panel sources">

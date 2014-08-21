@@ -202,7 +202,6 @@ cms.ui = {
     init:function (module) {
 		
 		$('body').trigger('before_ui_init');
-		
         for (var i = 0; i < cms.ui.callbacks.length; i++) {
 			try {
 				if(!module)
@@ -213,7 +212,9 @@ cms.ui = {
 				else if (module == cms.ui.callbacks[i][0]) {
 					cms.ui.callbacks[i][1]();
 				}
-			} catch (e) {}
+			} catch (e) {
+				console.log(e);
+			}
         }
 		
 		$('body').trigger('after_ui_init');
@@ -586,7 +587,6 @@ cms.ui.add('flags', function() {
 			cms.filemanager.open($self);
 		});
 	})
-	
 		
 	$('body').on('click', '.btn-filemanager', function() {
 		var el = $(this).data('el');
@@ -654,7 +654,7 @@ cms.ui.add('flags', function() {
 	
 	// GLOBAL HOTKEYS
 	$(document).on('keydown', null, 'shift+f1', function(e) {
-		Api.get('cache.clear');
+		Api.delete('cache');
 		e.preventDefault();
 	});
 	
@@ -673,15 +673,22 @@ cms.ui.add('flags', function() {
 		e.preventDefault();
 	});
 }).add('api_buttons', function(){
-	$('.btn-api').on('click', function(e) {
+	$('.btn[data-api-url]').on('click', function(e) {
 		e.preventDefault();
+		var $self = $(this);
 		
 		var $callback = function(response) {};
-		var $url = $(this).data('url');
+		var $url = $self.data('api-url');
 		if( ! $url) return;
 		
-		var $method = $(this).data('method');
-		var $reload = $(this).data('reload');
+		var $callback = $self.data('callback');
+		if($callback) 
+			$callback = window[$callback];
+		else
+			$callback = function(response) {};
+		
+		var $method = $self.data('method');
+		var $reload = $self.data('reload');
 		
 		if($reload) {
 			if($reload === true)
@@ -705,7 +712,7 @@ cms.ui.add('flags', function() {
     });
 }).add('icon', function() {
 	$('*[data-icon]').add('*[data-icon-pepend]').each(function() {
-		$(this).html('<i class="fa fa-' + $(this).data('icon') + '"></i>&nbsp&nbsp' + $(this).html());
+		$(this).html('<i class="fa fa-' + $(this).data('icon') + '"></i> ' + $(this).html());
 		$(this).removeAttr('data-icon-pepend').removeAttr('data-icon');
 	});
 	

@@ -22,10 +22,10 @@
 			<tr>
 				<th><?php echo __('Email subject'); ?></th>
 				<th><?php echo __('Email type'); ?></th>
-				<th><?php echo __('Email from'); ?></th>
-				<th><?php echo __('Email to'); ?></th>
-				<th><?php echo __('Status'); ?></th>
-				<th><?php echo __('Actions'); ?></th>
+				<th class="hidden-xs"><?php echo __('Email from'); ?></th>
+				<th class="hidden-xs"><?php echo __('Email to'); ?></th>
+				<th class="hidden-xs"><?php echo __('Status'); ?></th>
+				<th class="text-right"><?php echo __('Actions'); ?></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -53,10 +53,10 @@
 					<?php echo $tpl->type->name; ?>
 					<?php endif; ?>
 				</td>
-				<td class="email"><?php echo UI::label($tpl->email_from); ?></td>
-				<td class="email"><?php echo UI::label($tpl->email_to); ?></td>
-				<td class="status"><?php echo $tpl->status; ?></td>
-				<td class="actions">
+				<td class="email hidden-xs"><?php echo UI::label($tpl->email_from); ?></td>
+				<td class="email hidden-xs"><?php echo UI::label($tpl->email_to); ?></td>
+				<td class="status hidden-xs"><?php echo $tpl->status; ?></td>
+				<td class="actions text-right">
 					<?php if ( Acl::check('email.templates.delete')): ?>
 					<?php echo UI::button(NULL, array(
 						'href' => Route::get('email_controllers')->uri(array(

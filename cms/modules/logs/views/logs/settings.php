@@ -6,7 +6,7 @@
 		<?php echo UI::button(__('Clear logs older 30 days'), array(
 			'icon' => UI::icon( 'trash-o fa-lg' ),
 			'class' => 'btn-warning',
-			'data-url' => 'log.clear_old',
+			'data-api-url' => 'log.clear_old',
 			'data-method' => Request::POST
 		)); ?>
 	</div>

@@ -10,9 +10,9 @@
 		<thead>
 			<tr>
 				<th class="log-date"><?php echo __('Сreated on'); ?></th>
-				<th class="log-level"><?php echo __('Log level'); ?></th>
-				<th class="log-url"><?php echo __('Log url'); ?></th>
-				<th class="log-user"><?php echo __('User'); ?></th>
+				<th class="log-level hidden-xs"><?php echo __('Log level'); ?></th>
+				<th class="log-url hidden-xs"><?php echo __('Log url'); ?></th>
+				<th class="log-user hidden-xs"><?php echo __('User'); ?></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -22,13 +22,13 @@
 					<td class="log-date">
 						<?php echo Date::format($log->created_on, 'j F y H:i'); ?>
 					</td>
-					<td class="log-level">
+					<td class="log-level hidden-xs">
 						<?php echo UI::label($log->level()); ?>
 					</td>
-					<td class="log-url">
+					<td class="log-url hidden-xs">
 						<?php echo $log->url(); ?>
 					</td>
-					<td class="log-user">
+					<td class="log-user hidden-xs">
 						<?php echo $log->user(); ?> <?php echo $log->ip(); ?>
 					</td>
 				</tr>

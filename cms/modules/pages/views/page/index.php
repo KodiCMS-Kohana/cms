@@ -18,7 +18,7 @@
 		)); ?>
 		<?php endif; ?>
 
-		<div class="panel-heading-controls">
+		<div class="panel-heading-controls hidden-xs hidden-sm">
 			<?php echo View::factory('page/blocks/search'); ?>
 		</div>
 	</div>

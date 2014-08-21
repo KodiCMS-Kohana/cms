@@ -74,6 +74,18 @@ class UI {
 		}
 	}
 	
+	public static function hidden($title, array $types = array('xs', 'sm'))
+	{
+		$attributes = array('class' => array());
+		
+		foreach($types as $type)
+		{
+			$attributes['class'][] = 'hidden-' . $type;
+		}
+
+		return '<span' . HTML::attributes($attributes) . '>' . $title . '</span>';
+	}
+	
 	public static function page_header($title)
 	{
 		return '<div class="page-header"><h1>' . $title . '</h1></div>';

@@ -8509,7 +8509,7 @@ body.no-main-menu #main-navbar .navbar-inner {
 .btn.btn-outline.btn-flat.btn-primary {
   background: none;
   color: #333333;
-  background: url('../images/pixel-admin/blank.png')\9;
+  background: url('../images/blank.png')\9;
 }
 .btn.btn-outline,
 .btn.btn-outline.btn-flat,
@@ -8538,13 +8538,13 @@ body.no-main-menu #main-navbar .navbar-inner {
   background: none;
   border-color: #e0e0e0;
   border-color: rgba(0, 0, 0, 0.12);
-  background: url('../images/pixel-admin/blank.png')\9;
+  background: url('../images/blank.png')\9;
 }
 .btn.btn-outline.dark,
 .btn.btn-outline.dark.btn-primary {
   color: #fff;
   color: rgba(255, 255, 255, 0.8);
-  background: url('../images/pixel-admin/blank.png')\9;
+  background: url('../images/blank.png')\9;
 }
 .btn.btn-outline.dark,
 .btn.btn-outline.dark.btn-primary,
@@ -9012,7 +9012,7 @@ body.no-main-menu #main-navbar .navbar-inner {
   border-color: rgba(0, 0, 0, 0.12) !important;
   -webkit-box-shadow: none !important;
   box-shadow: none !important;
-  background: url('../images/pixel-admin/blank.png')\9;
+  background: url('../images/blank.png')\9;
 }
 .btn.btn-flat.disabled:active,
 .btn.btn-flat[disabled]:active {
@@ -15749,10 +15749,8 @@ html body.page-signup {
 .page-500 .error-text {
   margin-bottom: 80px !important;
 }
-.error-container {
-  text-align: center;
-}
 .error-container .error-code {
+  text-align: center;
   font-size: 100px;
   font-weight: 700;
   line-height: 140px;
@@ -15760,6 +15758,7 @@ html body.page-signup {
   text-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
 }
 .error-container .error-text {
+  text-align: center;
   color: rgba(0, 0, 0, 0.5);
   font-size: 20px;
   font-weight: 600;
@@ -18048,7 +18047,7 @@ html body.page-signup {
   *display: inline;
 }
 .editableform-loading {
-  background: url('../libs/pixel-admin/less/plugins/images/plugins/bootstrap-editable/loading.gif') center center no-repeat;
+  background: url('../libs/pixel-admin/less/plugins/images/bootstrap-editable/loading.gif') center center no-repeat;
   height: 25px;
   width: auto;
   min-width: 25px;

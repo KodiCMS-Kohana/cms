@@ -180,7 +180,6 @@ cms.init.add(['page_add', 'page_edit'], function () {
 	show_password_field($('select[name="page[status_id]"]').val());
 	
 	function show_redirect_field(input) {
-		console.log(input.is(':checked'));
 		var cont = $('#redirect-to-container'),
 			meta_cont = $('#page-meta-panel-li');
 		if(input.is(':checked')) {

@@ -5,4 +5,4 @@ cms.ui.add('update.check', function() {
 		cms.navigation.counter.add('/backend/update', 1);
 
 	}, false);
-})
+});

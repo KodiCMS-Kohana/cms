@@ -9,7 +9,11 @@ Observer::observe('view_user_profile_information', function($user_id) {
 });
 
 Observer::observe('view_setting_plugins', function() {
-	echo View::factory('logs/settings_page');
+	echo View::factory('logs/settings');
+});
+
+Observer::observe('view_navbar_menu', function() {
+	echo View::factory('logs/navbar');
 });
 
 

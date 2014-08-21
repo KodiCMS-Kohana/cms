@@ -19,8 +19,8 @@
 		<thead>
 			<tr>
 				<th><?php echo __('Email type name'); ?></th>
-				<th><?php echo __('Email type code'); ?></th>
-				<th><?php echo __('Actions'); ?></th>
+				<th class="hidden-xs"><?php echo __('Email type code'); ?></th>
+				<th class="text-right"><?php echo __('Actions'); ?></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -37,10 +37,10 @@
 					<?php echo UI::icon('lock'); ?> <?php echo $type->name; ?>
 					<?php endif; ?>
 				</td>
-				<td class="email_type">
+				<td class="email_type hidden-xs">
 					<?php echo UI::label($type->code); ?>
 				</td>
-				<td class="actions text-center">
+				<td class="actions text-right">
 					<?php if (Acl::check('email.types.delete')): ?>
 					<?php echo UI::button(NULL, array(
 						'href' => Route::get('email_controllers')->uri(array(

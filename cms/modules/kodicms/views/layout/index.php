@@ -1,7 +1,7 @@
 <div class="panel">
 	<div class="panel-heading">
 		<?php if( ACL::check( 'layout.add')): ?>
-		<?php echo UI::button(__('Add layout'), array(
+		<?php echo UI::button(UI::hidden(__('Add layout')), array(
 			'icon' => UI::icon( 'plus' ), 
 			'href' => Route::get('backend')->uri(array('controller' => 'layout', 'action' => 'add')),
 			'data-hotkeys' => 'ctrl+a'
@@ -9,10 +9,10 @@
 		<?php endif; ?>
 
 		<?php if( ACL::check( 'layout.rebuild')): ?>
-		<?php echo UI::button(__('Rebuild blocks'), array(
+		<?php echo UI::button(UI::hidden(__('Rebuild blocks')), array(
 			'icon' => UI::icon( 'refresh' ),
-			'class' => 'btn btn-primary btn-xs btn-api',
-			'data-url' => 'layout.rebuild',
+			'class' => 'btn btn-primary btn-xs',
+			'data-api-url' => 'layout.rebuild',
 			'data-method' => Request::POST
 		)); ?>
 		<?php endif; ?>
@@ -22,16 +22,16 @@
 		<colgroup>
 			<col />
 			<col width="150px" />
-			<col width="100px" />
+			<col width="100px"/>
 			<col width="100px" />
 			<col width="100px" />
 		</colgroup>
 		<thead>
 			<tr>
 				<th><?php echo __('Layout name'); ?></th>
-				<th><?php echo __('Modified'); ?></th>
+				<th class="hidden-xs"><?php echo __('Modified'); ?></th>
 				<th><?php echo __('Size'); ?></th>
-				<th><?php echo __('Direction'); ?></th>
+				<th class="hidden-xs"><?php echo __('Direction'); ?></th>
 				<th><?php echo __('Actions'); ?></th>
 			</tr>
 		</thead>
@@ -62,13 +62,13 @@
 					</span>
 					<?php endif; ?>
 				</th>
-				<td class="modified">
+				<td class="modified hidden-xs">
 					<?php echo Date::format($layout->modified()); ?>
 				</td>
 				<td class="size">
 					<?php echo Text::bytes( $layout->size()); ?>
 				</td>
-				<td class="direction">
+				<td class="direction hidden-xs">
 					<?php echo UI::label($layout->get_relative_path()); ?>
 				</td>
 				<td class="actions">

@@ -14,8 +14,8 @@
 			<?php if( ACL::check( 'layout.rebuild')): ?>
 			<?php echo UI::button(__('Rebuild blocks'), array(
 				'icon' => UI::icon( 'refresh' ),
-				'class' => 'btn btn-xs btn-danger btn-api',
-				'data-url' => 'layout.rebuild',
+				'class' => 'btn btn-xs btn-danger',
+				'data-api-url' => 'layout.rebuild',
 				'data-method' => Request::POST
 			)); ?>
 			<?php endif; ?>

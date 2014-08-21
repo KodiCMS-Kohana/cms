@@ -9,9 +9,7 @@ class Controller_API_Log extends Controller_System_Api {
 	
 	public function post_clear_old()
 	{
-		ORM::factory('log')->clean_old();
-		
-		$this->response((bool) $delete);
+		$this->response((bool) ORM::factory('log')->clean_old());
 		$this->message('Old logs has been deleted');
 	}
 
@@ -22,19 +20,32 @@ class Controller_API_Log extends Controller_System_Api {
 		$from = $this->param('from');
 		$to = $this->param('to');
 		
-		$limit = (int) $this->param('to', 10);
+		$interval = $this->param('interval');
 		
-		if($limit > 100)
+		switch ($interval) 
 		{
-			$limit == 100;
+			case 'last-day': 
+				$from = DB::expr('CURDATE() - INTERVAL 1 DAY');
+				$to = DB::expr('CURDATE()');
+				break;
+			case 'last-week':
+				$from = DB::expr('CURDATE() - INTERVAL 1 WEEK');
+				$to = DB::expr('CURDATE()');
+				break;
+			case 'last-month':
+				$from = DB::expr('CURDATE() - INTERVAL 1 MONTH');
+				$to = DB::expr('CURDATE()');
+				break;
 		}
-		
-		if( ! empty($uids))
+
+		$limit = (int) $this->param('limit', 10);
+
+		if (!empty($uids))
 		{
 			$uids = explode(',', $uids);
 		}
-		
-		if( ! empty($level))
+
+		if (!empty($level))
 		{
 			$level = explode(',', $level);
 		}
@@ -44,12 +55,14 @@ class Controller_API_Log extends Controller_System_Api {
 		}
 
 		$list = DB::select('logs.id', 'logs.created_on', 'logs.level', 'logs.message', 'logs.user_id')
+			->select(array(DB::expr('COUNT(*)'), 'count'))
 			->select('users.email', 'users.username')
 			->from('logs')
 			->join('users')
 				->on('users.id', '=', 'logs.user_id')
+			->group_by('logs.message')
 			->limit($limit)
-			->order_by('created_on', 'desc');
+			->order_by('created_on', 'asc');
 		
 		if(!empty($from) AND !empty($to))
 		{
@@ -65,6 +78,8 @@ class Controller_API_Log extends Controller_System_Api {
 		{
 			$list->where('level', 'in', $level);
 		}
+		
+		$list->cached(DATE::HOUR);
 
 		$this->response($list->execute()->as_array('id'));
 	}

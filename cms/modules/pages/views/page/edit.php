@@ -18,17 +18,19 @@
 		<?php echo Form::hidden('page[parent_id]', $parent_id); ?>
 		<?php endif; ?>
 	
-		<ul class="nav nav-tabs">
-			<li class="active" id="page-content-panel-li">
-				<a href="#page-content-panel" data-toggle="tab" data-icon="suitcase"><?php echo __('Content'); ?></a>
-			</li>
-			<li id="page-meta-panel-li">
-				<a href="#page-meta-panel" data-toggle="tab" data-icon="send-o"><?php echo __('Metadata'); ?></a>
-			</li>
-			<li id="page-options-panel-li">
-				<a href="#page-options-panel" data-toggle="tab" data-icon="cogs"><?php echo __('Page options'); ?></a>
-			</li>
-		</ul>
+		<div style="position: relative;">
+			<ul class="nav nav-tabs tabs-generated">
+				<li class="active" id="page-content-panel-li">
+					<a href="#page-content-panel" data-toggle="tab" data-icon="suitcase"><?php echo __('Content'); ?></a>
+				</li>
+				<li id="page-meta-panel-li">
+					<a href="#page-meta-panel" data-toggle="tab" data-icon="send-o"><?php echo __('Metadata'); ?></a>
+				</li>
+				<li id="page-options-panel-li">
+					<a href="#page-options-panel" data-toggle="tab" data-icon="cogs"><?php echo __('Page options'); ?></a>
+				</li>
+			</ul>
+		</div>
 		<div class="panel form-horizontal">
 			<div class="panel-heading">
 				<div class="form-group form-group-lg">
@@ -77,7 +79,6 @@
 			<hr class="no-margin-vr" />
 			<div class="tab-content no-padding-vr">
 				<div class="tab-pane active" id="page-content-panel">
-					
 					<?php Observer::notify('view_page_edit_plugins_top', $page); ?>
 					<?php Observer::notify('view_page_edit_plugins', $page); ?>
 					

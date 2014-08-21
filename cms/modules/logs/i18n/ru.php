@@ -11,7 +11,7 @@ return array(
 	'Clear logs older 30 days' => 'Удалить логи старше 30 дней',
 	'Old logs has been deleted' => 'Логи очищены',
 	'Date range' => 'Интервал дат',
-	'' => '',
+	'More logs' => 'Больше ошибок',
 	'' => '',
 	'' => '',
 );

@@ -134,8 +134,8 @@
 		<div class="well">
 			<?php echo UI::button(__('Clear user sessions'), array(
 				'icon' => UI::icon('trash-o fa-lg'),
-				'class' => 'btn btn-warning btn-api btn-lg',
-				'data-url' => 'session.clear'
+				'class' => 'btn btn-warning btn-lg',
+				'data-api-url' => 'session.clear'
 			)); ?>
 		</div>
 		<?php endif; ?>

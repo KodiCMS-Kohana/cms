@@ -25,9 +25,9 @@
 			<tr>
 				<th><?php echo __('Widget name'); ?></th>
 				<th><?php echo __('Type'); ?></th>
-				<th><?php echo __('Description'); ?></th>
-				<th><?php echo __('Cache time'); ?></th>
-				<th><?php echo __('Actions'); ?></th>
+				<th class="hidden-xs"><?php echo __('Description'); ?></th>
+				<th class="hidden-xs"><?php echo __('Cache time'); ?></th>
+				<th class="text-right"><?php echo __('Actions'); ?></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -47,10 +47,10 @@
 				<td class="type">
 					<?php echo UI::label($widget->type()); ?>
 				</td>
-				<td class="description">
+				<td class="description hidden-xs">
 					<span class="muted"><?php echo $widget->description; ?></span>
 				</td>
-				<td class="cache">
+				<td class="cache hidden-xs">
 					<?php if($widget->code()->caching === FALSE): ?>
 					<?php echo UI::label('0', 'warning'); ?>
 					<?php else: ?>

@@ -4,11 +4,10 @@
 		
 		<?php if(ACL::check('update.database_apply')): ?>
 		<div class="panel-heading-controls">
-			<?php echo Form::button('apply', __('Apply'), array('class' => 'btn btn-danger btn-api', 'data-url' => 'update.database')); ?>
+			<?php echo Form::button('apply', __('Apply'), array('class' => 'btn btn-danger', 'data-api-url' => 'update.database')); ?>
 		</div>
 		<?php endif; ?>
 	</div>
-
 	
 	<?php if(!empty($actions)): ?>
 	<textarea id="highlight_content" data-readonly="on" data-mode="mysql">

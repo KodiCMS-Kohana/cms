@@ -20,9 +20,9 @@
 		<thead>
 			<tr>
 				<th><?php echo __('Snippet name'); ?></th>
-				<th><?php echo __('Modified'); ?></th>
+				<th class="hidden-xs"><?php echo __('Modified'); ?></th>
 				<th><?php echo __('Size'); ?></th>
-				<th><?php echo __('Direction'); ?></th>
+				<th class="hidden-xs"><?php echo __('Direction'); ?></th>
 				<th><?php echo __('Actions'); ?></th>
 			</tr>
 		</thead>
@@ -47,13 +47,13 @@
 					<?php echo UI::icon('lock'); ?> <?php echo $snippet->name; ?>
 					<?php endif; ?>
 				</th>
-				<td class="modified">
+				<td class="modified hidden-xs">
 					<?php echo Date::format($snippet->modified()); ?>
 				</td>
 				<td class="size">
 					<?php echo Text::bytes( $snippet->size()); ?>
 				</td>
-				<td class="direction">
+				<td class="direction hidden-xs">
 					<?php echo UI::label($snippet->get_relative_path()); ?>
 				</td>
 				<td class="actions text-center">

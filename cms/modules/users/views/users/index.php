@@ -20,10 +20,10 @@
 		<thead>
 			<tr>
 				<th><?php echo __('Username'); ?></th>
-				<th><?php echo __('E-mail'); ?></th>
-				<th><?php echo __('Roles'); ?></th>
-				<th><?php echo __('Last login'); ?></th>
-				<th><?php echo __('Actions'); ?></th>
+				<th class="hidden-xs"><?php echo __('E-mail'); ?></th>
+				<th class="hidden-xs"><?php echo __('Roles'); ?></th>
+				<th class="hidden-xs"><?php echo __('Last login'); ?></th>
+				<th class="text-right"><?php echo __('Actions'); ?></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -37,15 +37,15 @@
 						'id' => $user->id
 					)), $user->username); ?>
 				</td>
-				<td class="email"><?php echo UI::label(HTML::mailto($user->email)); ?></td>
-				<td class="roles">
+				<td class="email hidden-xs"><?php echo UI::label(HTML::mailto($user->email)); ?></td>
+				<td class="roles hidden-xs">
 					<?php $roles = explode(',', $user->roles); ?>
 					<?php foreach($roles as $role): ?>
 						<?php echo UI::label($role, 'default'); ?>
 					<?php endforeach; ?>
 				</td>
-				<td class="last_login"><?php echo Date::format($user->last_login); ?></td>
-				<td class="actions">
+				<td class="last_login hidden-xs"><?php echo Date::format($user->last_login); ?></td>
+				<td class="actions text-right">
 					<?php 
 					if ($user->id > 1 AND ACL::check( 'users.delete'))
 					{

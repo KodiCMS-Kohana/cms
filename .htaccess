@@ -1,6 +1,6 @@
 AddDefaultCharset utf8
 
-#SetEnv KOHANA_ENV DEVELOPMENT
+SetEnv KOHANA_ENV DEVELOPMENT
 
 # Turn on URL rewriting
 RewriteEngine On

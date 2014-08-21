@@ -825,9 +825,9 @@ class KodiCMS_Model_Page_Front {
 			}
 			else
 			{
-				throw new  Kohana_Exception('Layout file :file not found!', array(
+				throw new HTTP_Exception_500('Layout file :file not found!', array(
 					':file' => $layout_name
-				), 403);
+				));
 			}
 		}
 		
