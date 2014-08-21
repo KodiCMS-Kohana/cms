@@ -701,12 +701,16 @@ class KodiCMS_Model_Page_Front {
 
 			if( $page = self::findBySlug($page_slug, $parent, $include_hidden) )
 			{
-				$behavior = Behavior::load($page->behavior_id, $page, $url, $uri);
 				// check for behavior
-				if( !empty( $page->behavior_id ) AND $behavior !== NULL)
+				if( !empty( $page->behavior_id ))
 				{
-					$page->_behavior = $behavior;
-					return $page;
+					$behavior = Behavior::load($page->behavior_id, $page, $url, $uri);
+					
+					if($behavior !== NULL)
+					{
+						$page->_behavior = $behavior;
+						return $page;
+					}
 				}
 			}
 			else
@@ -823,7 +827,7 @@ class KodiCMS_Model_Page_Front {
 			{
 				throw new  Kohana_Exception('Layout file :file not found!', array(
 					':file' => $layout_name
-				));
+				), 403);
 			}
 		}
 		
