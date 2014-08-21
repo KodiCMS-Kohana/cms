@@ -1,5 +1,5 @@
 <?php 
-	echo Form::open('page/search', array('class' => 'form-inline'));
+	echo Form::open('page/search', array('class' => 'form-inline form-search'));
 	echo Form::hidden('token', Security::token()); 
 ?>
 	<div class="input-group input-group-sm">

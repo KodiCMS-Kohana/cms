@@ -138,11 +138,11 @@ cms.init.add('page_index', function () {
 		}
 	});
 
-	$('#page-tree .form-search')
+	$('.form-search')
 		.on('submit', function (event) {
 			var form = $(this);
 
-			if ($('.search-query', this).val() !== '') {
+			if ($('#page-seacrh-input').val() !== '') {
 				$('#page-tree-list').hide();
 				
 				Api.get('pages.search', form.serialize(), function(resp) {
