@@ -41,7 +41,8 @@ $error_id = uniqid('error');
 				display: block;
 			}
 			pre.source span.highlight {
-				background: lightsalmon;
+				background: #e66454;
+				color: #fff;
 				font-weight: bold;
 			}
 			
@@ -80,7 +81,7 @@ $error_id = uniqid('error');
 			<div class="error-code"><?php echo $code; ?></div>
 			
 			<div class="error-text">
-				<span class="type"><?php echo $class ?>:</span> <span class="message"><?php echo htmlspecialchars( (string) $message, ENT_QUOTES, Kohana::$charset, TRUE); ?></span>
+				<span class="type text-light-gray"><?php echo $class ?>:</span> <span class="message"><?php echo htmlspecialchars( (string) $message, ENT_QUOTES, Kohana::$charset, TRUE); ?></span>
 			</div>
 		</div>
 		<br /><br />
@@ -88,7 +89,7 @@ $error_id = uniqid('error');
 			<div id="<?php echo $error_id ?>">
 				<div class="panel sources">
 					<div class="panel-heading">
-						<span class="file panel-title"><?php echo Debug::path($file) ?> [ <?php echo $line ?> ]</span>
+						<span class="file panel-title text-bold"><?php echo Debug::path($file) ?> <span class="badge badge-danger"><?php echo $line; ?></span>
 					</div>
 
 					<?php echo Debug::source($file, $line) ?>
@@ -97,7 +98,7 @@ $error_id = uniqid('error');
 						<div class="panel-heading">
 							<span class="file panel-title">
 								<?php if ($step['file']): $source_id = $error_id.'source'.$i; ?>
-									<a href="#<?php echo $source_id ?>" onclick="return koggle('<?php echo $source_id ?>')"><?php echo Debug::path($step['file']) ?> [ <?php echo $step['line'] ?> ]</a>
+									<a href="#<?php echo $source_id ?>" onclick="return koggle('<?php echo $source_id ?>')"><?php echo Debug::path($step['file']) ?> <span class="badge badge-danger"><?php echo $step['line']; ?></span></a>
 								<?php else: ?>
 									{<?php echo __('PHP internal call') ?>}
 								<?php endif ?>
@@ -134,7 +135,7 @@ $error_id = uniqid('error');
 			
 				<div id="<?php echo $env_id ?>" class="panel-body collapsed">
 					<?php $included = get_included_files() ?>
-					<h4><a href="#<?php echo $env_id = $error_id.'environment_included' ?>" onclick="return koggle('<?php echo $env_id ?>')"><?php echo __('Included files') ?></a> (<?php echo count($included) ?>)</h4>
+					<h4><a href="#<?php echo $env_id = $error_id.'environment_included' ?>" onclick="return koggle('<?php echo $env_id ?>')"><?php echo __('Included files') ?></a> <span class="label label-success"><?php echo count($included) ?></span></h4>
 					<div id="<?php echo $env_id ?>" class="collapsed">
 						<table class="table table-striped">
 							<?php foreach ($included as $file): ?>
@@ -145,7 +146,7 @@ $error_id = uniqid('error');
 						</table>
 					</div>
 					<?php $included = get_loaded_extensions() ?>
-					<h4><a href="#<?php echo $env_id = $error_id.'environment_loaded' ?>" onclick="return koggle('<?php echo $env_id ?>')"><?php echo __('Loaded extensions') ?></a> (<?php echo count($included) ?>)</h4>
+					<h4><a href="#<?php echo $env_id = $error_id.'environment_loaded' ?>" onclick="return koggle('<?php echo $env_id ?>')"><?php echo __('Loaded extensions') ?></a> <span class="label label-success"><?php echo count($included) ?></span></h4>
 					<div id="<?php echo $env_id ?>" class="collapsed">
 						<table class="table table-striped">
 							<?php foreach ($included as $file): ?>
