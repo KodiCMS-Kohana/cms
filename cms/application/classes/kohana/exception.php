@@ -2,6 +2,8 @@
 
 class Kohana_Exception extends Kohana_Kohana_Exception {
 
+	public static $error_view = 'system/error/kohana';
+	
 	/**
 	 * Get a Response object representing the exception
 	 *
@@ -11,46 +13,54 @@ class Kohana_Exception extends Kohana_Kohana_Exception {
 	 */
 	public static function response(Exception $e)
 	{
-		if ( Config::get('site', 'debug') == Config::YES OR Kohana::$environment !== Kohana::PRODUCTION)
+		if (Config::get('site', 'debug') == Config::YES OR Kohana::$environment !== Kohana::PRODUCTION)
 		{
+			Assets::js('jquery', ADMIN_RESOURCES . 'libs/jquery.min.js');
+			Assets::package(array('ace', 'backbone', 'notify', 'underscore', 'select2'));
+			Assets::css('global', ADMIN_RESOURCES . 'css/common.css');
+			Assets::js('global', ADMIN_RESOURCES . 'js/backend.js', 'backbone');
+	
 			// Show the normal Kohana error page.
 			return parent::response($e);
 		}
-		else
+		
+		// Show the custom Kodicms error page.
+		return self::_show_custom_error($e);
+	}
+	
+	protected static function _show_custom_error($e)
+	{
+		$params = array(
+			'code' => 500,
+			'message' => rawurlencode($e->getMessage())
+		);
+
+		if ($e instanceof HTTP_Exception)
+		{	
+			$params['code'] = $e->getCode();
+		}
+
+		try
 		{
-			$params = array
-			(
-				'code'  => 500,
-				'message' => rawurlencode($e->getMessage())
-			);
+			$request = Request::factory(Route::get('error')->uri($params), array(), FALSE)
+				->execute()
+				->send_headers(TRUE)
+				->body();
 
-			if ($e instanceof HTTP_Exception)
-			{
-				$params['code'] = $e->getCode();
-			}
-				
-			try
-			{
-				$request = Request::factory( Route::get('error')->uri($params), array(), FALSE)
-					->execute()
-					->send_headers(TRUE)
-					->body();
-				
-				// Prepare the response object.
-				$response = Response::factory();
+			// Prepare the response object.
+			$response = Response::factory();
 
-				// Set the response status
-				$response->status(($e instanceof HTTP_Exception) ? $e->getCode() : 500);
+			// Set the response status
+			$response->status(($e instanceof HTTP_Exception) ? $e->getCode() : 500);
 
-				// Set the response body
-				$response->body($request);
-				
-				return $response;
-			}
-			catch ( Exception $e )
-			{
-				return parent::response($e);
-			}
+			// Set the response body
+			$response->body($request);
+
+			return $response;
+		} 
+		catch (Exception $e)
+		{
+			return parent::response($e);
 		}
 	}
 }

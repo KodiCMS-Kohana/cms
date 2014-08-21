@@ -701,11 +701,11 @@ class KodiCMS_Model_Page_Front {
 
 			if( $page = self::findBySlug($page_slug, $parent, $include_hidden) )
 			{
+				$behavior = Behavior::load($page->behavior_id, $page, $url, $uri);
 				// check for behavior
-				if( !empty( $page->behavior_id ) )
+				if( !empty( $page->behavior_id ) AND $behavior !== NULL)
 				{
-					$page->_behavior = Behavior::load($page->behavior_id, $page, $url, $uri);
-
+					$page->_behavior = $behavior;
 					return $page;
 				}
 			}

@@ -1,12 +1,10 @@
+<div class="frontend-header">
+	<a href="/" class="logo">
+		<?php echo HTML::image( ADMIN_RESOURCES . 'images/logo-color.png'); ?>
+	</a>
+</div>
+
 <div class="page-signin-alt">
-	<div class="signin-header">
-		<a href="/" class="logo">
-			<?php echo HTML::image( ADMIN_RESOURCES . 'images/logo-color.png'); ?>
-		</a>
-	</div>
-
-	
-
 	<?php 
 	echo Form::open(Route::get('user')->uri(array('action' => 'login')), array(
 		'method' => 'post', 'class' => 'panel', 'id' => 'signin-form_id'

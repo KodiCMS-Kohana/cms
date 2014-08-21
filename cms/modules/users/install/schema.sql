@@ -32,7 +32,6 @@ CREATE TABLE IF NOT EXISTS `__TABLE_PREFIX__user_profiles` (
   `user_id` int(11) unsigned NOT NULL,
   `name` varchar(255) NOT NULL,
   `locale` varchar(10) NOT NULL DEFAULT 'en-us',
-  `notice` tinyint(1) NOT NULL DEFAULT '0',
   `created_on` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_id` (`user_id`),

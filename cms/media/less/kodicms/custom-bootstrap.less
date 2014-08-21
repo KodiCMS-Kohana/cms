@@ -1,3 +1,28 @@
+.frontend-header {
+    background: #fff;
+    padding: 10px 20px;
+	position: relative;
+    .box-shadow(0 4px 0 rgba(0, 0, 0, .1));
+
+    .logo {
+		color: @text-color;
+		font-size: 16px;
+		height: 24px;
+		line-height: 24px;
+		width: 24px;
+		opacity: .6;
+		.transition(all .3s);
+
+		&[href]:hover {
+			opacity: 1;
+		}
+    }
+
+    .btn {
+		float: right;
+    }
+}
+
 /* ===================================================
 	Table
  ===================================================*/

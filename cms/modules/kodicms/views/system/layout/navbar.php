@@ -13,8 +13,12 @@
 			<div>
 				<div class="right clearfix">
 					<ul class="nav navbar-nav pull-right right-navbar-nav">
-
+						
 						<?php Observer::notify('view_navbar_menu'); ?>
+						
+						<li>
+							<?php echo HTML::anchor(Route::get('backend')->uri(array('controller' => 'system', 'action' => 'settings')), UI::icon('cog fa-lg')); ?>
+						</li>
 						
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle user-menu" data-toggle="dropdown">

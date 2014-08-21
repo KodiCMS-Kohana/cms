@@ -31,8 +31,7 @@ class KodiCMS_Model_User_Profile extends ORM {
 	{
 		return array(
 			'name'			=> __('Name'),
-			'locale'		=> __('Interface language'),
-			'notice'        => __('Subscribe to email notifications')
+			'locale'		=> __('Interface language')
 		);
 	}
 	
@@ -42,11 +41,6 @@ class KodiCMS_Model_User_Profile extends ORM {
 			'locale' => array(
 				'type' => 'select',
 				'choices' => array($this, 'get_available_langs')
-			),
-			'notice' => array(
-				'type' => 'checkbox',
-				'checked' => FALSE,
-				'value' => 1
 			)
 		);
 	}

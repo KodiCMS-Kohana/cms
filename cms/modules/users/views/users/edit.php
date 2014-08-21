@@ -64,24 +64,6 @@
 		</div>
 	</div>
 
-	<div class="panel-heading">
-		<span class="panel-title"><?php echo __('Notifications'); ?></span>
-	</div>
-
-	<div class="panel-body">
-		<div class="form-group">
-			<div class="col-md-offset-3 col-md-9">
-				<div class="checkbox">
-					<?php echo $user->profile->field('notice', array(
-						'prefix' => 'profile',
-					)); ?>
-				</div>
-			</div>
-		</div>
-
-		<?php Observer::notify('view_user_edit_notifications', $user->id); ?>
-	</div>
-
 	<?php if( ACL::check('users.change_password') OR $user->id == AuthUser::getId() OR !$user->loaded() ): ?>
 	<div class="panel-heading">
 		<span class="panel-title"><?php echo __('Password'); ?></span>

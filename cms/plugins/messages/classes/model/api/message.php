@@ -21,37 +21,37 @@ class Model_API_Message extends Model_API {
 		$fields = $this->prepare_param($fields);
 
 		$query = DB::select($this->_table_name . '.id')
-			->select_array(  $this->filtered_fields( $fields ) )
+			->select_array($this->filtered_fields($fields))
 			->from($this->_table_name)
 			->join('messages_users', 'left')
-				->on($this->_table_name.'.id', '=', 'messages_users.message_id')
+			->on($this->_table_name . '.id', '=', 'messages_users.message_id')
 			->where('messages_users.user_id', '=', $user_id)
 			->where('messages_users.parent_id', '=', $parent_id)
 			->order_by('created_on', 'desc');
-		
-		if(in_array('author', $fields))
+
+		if (in_array('author', $fields))
 		{
-			$query->join( 'users', 'left' )
-				->on( 'users.id', '=', $this->_table_name . '.from_user_id' )
-				->select( array('users.username', 'author') );
+			$query->join('users', 'left')
+				->on('users.id', '=', $this->_table_name . '.from_user_id')
+				->select(array('users.username', 'author'));
 		}
-		
-		if(in_array('status', $fields))
+
+		if (in_array('status', $fields))
 		{
-			$query->select( 'messages_users.status' );
+			$query->select('messages_users.status');
 		}
-		
-		if(in_array('is_read', $fields))
+
+		if (in_array('is_read', $fields))
 		{
-			$min_status = DB::select(DB::expr('MIN('.Database::instance()->quote_column('status').')'))
+			$min_status = DB::select(DB::expr('MIN(' . Database::instance()->quote_column('status') . ')'))
 				->from(array('messages_users', 'ms'))
 				->where('ms.parent_id', '=', DB::expr(Database::instance()->quote_column('messages_users.message_id')))
 				->or_where('ms.message_id', '=', DB::expr(Database::instance()->quote_column('messages_users.message_id')));
-			
+
 			$query->select(array($min_status, 'is_read'))
 				->order_by('is_read', 'asc');
 		}
-		
+
 		return $query
 			->execute()
 			->as_array();
@@ -62,28 +62,28 @@ class Model_API_Message extends Model_API {
 		$message_id = $this->prepare_param($message_id, array('Valid', 'numeric'));
 		$user_id = $this->prepare_param($user_id, array('Valid', 'numeric'));
 		$fields = $this->prepare_param($fields);
-		
+
 		$query = DB::select('from_user_id', 'messages.id')
-			->select_array(  $this->filtered_fields( $fields ) )
+			->select_array($this->filtered_fields($fields))
 			->from('messages_users')
 			->join('messages', 'left')
-				->on('messages.id', '=', 'messages_users.message_id')
+			->on('messages.id', '=', 'messages_users.message_id')
 			->where('messages_users.user_id', '=', $user_id)
 			->where('messages.id', '=', $message_id)
 			->limit(1);
-		
-		if(in_array('author', $fields))
+
+		if (in_array('author', $fields))
 		{
-			$query->join( 'users', 'left' )
-				->select( array('users.username', 'author') )
-				->on( 'users.id', '=', $this->_table_name . '.from_user_id' );
+			$query->join('users', 'left')
+					->select(array('users.username', 'author'))
+					->on('users.id', '=', $this->_table_name . '.from_user_id');
 		}
-		
-		if(in_array('is_read', $fields))
+
+		if (in_array('is_read', $fields))
 		{
-			$query->select( array('messages_users.status', 'is_read') );
+			$query->select(array('messages_users.status', 'is_read'));
 		}
-		
+
 		return $query
 			->execute()
 			->current();
@@ -91,64 +91,71 @@ class Model_API_Message extends Model_API {
 	
 	public function send($title, $text, $from = NULL, $to, $parent_id = 0, $to_from = TRUE)
 	{
-		if (!is_array($to)) 
+		if (!is_array($to))
 		{
 			$to = array($to);
 		}
-		
-		if(!$from)
+
+		if (!empty($to))
 		{
-			$from = NULL;
-		}
-		
-		if(!empty($to)) 
-		{
-			if($from !== NULL AND $to_from === TRUE) $to[] = $from;
+			if ($from !== NULL AND $to_from === TRUE)
+			{
+				$to[] = $from;
+			}
+
 			$to = array_unique($to);
+			
+			$users = DB::select('id', 'email')
+				->from('users')
+				->where('id', 'IN', $to)
+				->execute()
+				->as_array('id', 'email');
+			
+			$message = Kses::filter($text, Kohana::$config->load('global')->get('allowed_html_tags'));
 
 			$data = array(
 				'created_on' => date('Y-m-d H:i:s'),
-				'text' => Kses::filter($text, Kohana::$config->load('global')->get('allowed_html_tags')),
+				'text' => $message,
 				'title' => $title,
 				'from_user_id' => $from
 			);
-			
+
 			list($message_id, $rows) = DB::insert($this->table_name())
 				->columns(array_keys($data))
 				->values($data)
 				->execute($this->_db);
-			
-			if($message_id)
+
+			if ($message_id)
 			{
 				$insert = DB::insert('messages_users')
 					->columns(array('status', 'user_id', 'message_id', 'parent_id'));
 
-				foreach ($to as $id)
+				foreach ($users as $id => $email)
 				{
 					$insert->values(array(
 						'status' => self::STATUS_NEW,
 						'user_id' => (int) $id,
 						'message_id' => $message_id,
-						'parent_id' => (int)$parent_id
+						'parent_id' => (int) $parent_id
 					));
-					
+
 					self::clear_cache($id);
 					Observer::notify('send_message', (int) $id, $text);
 				}
 
 				$insert->execute($this->_db);
-				
-				if($from !== NULL)
+
+				if ($from !== NULL)
 				{
 					Api::post('user-messages.mark_read', array(
 						'id' => $message_id, 'uid' => $from
 					));
 				}
-				
+
 				return $message_id;
 			}
 		}
-		
+
 		return FALSE;
 	}
 	
@@ -162,9 +169,9 @@ class Model_API_Message extends Model_API {
 				'updated_on' => date('Y-m-d H:i:s')
 			))
 			->execute();
-		
+
 		self::clear_cache($user_id);
-		
+
 		return $update;
 	}
 	
@@ -182,7 +189,7 @@ class Model_API_Message extends Model_API {
 	{
 		$message_id = $this->prepare_param($message_id, array('Valid', 'numeric'));
 
-		if(empty($message_id))
+		if (empty($message_id))
 		{
 			return FALSE;
 		}
@@ -190,24 +197,24 @@ class Model_API_Message extends Model_API {
 		$delete = DB::delete('messages_users')
 			->where('user_id', '=', (int) $user_id)
 			->where_open()
-				->where('message_id', '=', (int) $message_id)
-				->or_where('parent_id', '=', (int) $message_id)
+			->where('message_id', '=', (int) $message_id)
+			->or_where('parent_id', '=', (int) $message_id)
 			->where_close()
 			->execute();
-		
-		$count = DB::select(array(DB::expr( 'COUNT(*)'), 'total'))
+
+		$count = DB::select(array(DB::expr('COUNT(*)'), 'total'))
 			->from('messages_users')
 			->where('message_id', '=', (int) $message_id)
 			->execute()
 			->get('total', 0);
-		
-		if( $count == 0 )
+
+		if ($count == 0)
 		{
 			$this->delete_by_id($message_id);
 		}
-		
+
 		self::clear_cache($user_id);
-		
+
 		return $delete;
 	}
 	
@@ -216,12 +223,12 @@ class Model_API_Message extends Model_API {
 		DB::delete('messages')
 			->where('id', '=', (int) $id)
 			->execute();
-		 
+
 		return TRUE;
 	}
 
 	protected static function clear_cache($user_id)
 	{
-		Cache::instance()->delete('Database::cache(count_messages::'.$user_id.')');
+		Cache::instance()->delete('Database::cache(count_messages::' . $user_id . ')');
 	}
 }

@@ -27,7 +27,7 @@ var cms = {
 		var gpoups = $('.form-group:not(.has-error)');
 		
 		input = $(':input[name*="' + name + '"]', gpoups)
-			.after('<span class="help-inline error-message">' + message + '</span>')
+			.after('<span class="help-block error-message">' + message + '</span>')
 			.closest('.form-group')
 			.addClass('has-error');
 	},
