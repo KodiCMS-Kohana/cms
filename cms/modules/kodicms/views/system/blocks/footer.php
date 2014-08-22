@@ -2,7 +2,7 @@
 	<div class="panel no-margin-b">
 		<div class="panel-body">
 			<div class="row">
-				<div class="col-md-6 text-muted">
+				<div class="col-md-8 text-muted">
 					&copy; 2012<?php echo (date('Y') > 2012) ? ' - ' . date('Y') : ''; ?> <?php echo HTML::anchor(CMS_SITE, CMS_NAME) ?> v<?php echo CMS_VERSION; ?>
 					&nbsp;&nbsp;&HorizontalLine;&nbsp;&nbsp;
 					<?php echo __('Powered by :framework v:version :codename', array(

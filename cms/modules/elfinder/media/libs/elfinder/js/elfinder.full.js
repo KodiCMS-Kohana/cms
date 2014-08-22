@@ -6455,7 +6455,7 @@ $.fn.elfindersearchbutton = function(cmd) {
 		var result = false,
 			button = $(this)
 				.hide()
-				.addClass('pane-heading-controls form-inline col-sm-auto '+cmd.fm.res('class', 'searchbtn')+''),
+				.addClass('pane-heading-controls hidden-sm hidden-xs form-inline col-sm-auto '+cmd.fm.res('class', 'searchbtn')+''),
 			form = $('<div class="input-group input-group-sm" />').appendTo(button),
 			search = function() {
 				var val = $.trim(input.val());

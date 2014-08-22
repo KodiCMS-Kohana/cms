@@ -4,7 +4,7 @@ cms.ui.add('logs.check', function() {
 			var $cont = $('#main-navbar-notifications');
 			for(i in response.response) {
 				var $row = response.response[i];
-				cms.notifications.add($row.message, $row.created_on, $row.level, 'text-danger');				
+				cms.notifications.add($row.message, $row.created_on, $row.level, 'text-danger', 'exclamation-triangle text-danger');				
 			}
 		}
 	});
