@@ -1,7 +1,5 @@
 <div id="main-navbar" class="navbar" role="navigation">
-	
 	<button type="button" id="main-menu-toggle"><i class="navbar-icon fa fa-bars icon"></i><span class="hide-menu-text">HIDE MENU</span></button>
-
 	<div class="navbar-inner">
 		<div class="navbar-header">
 			<?php echo HTML::anchor(ADMIN_DIR_NAME, HTML::image( ADMIN_RESOURCES . 'images/logo-color.png'), array(

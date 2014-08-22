@@ -71,7 +71,7 @@
 	<body id="body_frontend" class="theme-default">
 		<div class="frontend-header">
 			<a href="/" class="logo">
-				<?php echo HTML::image( ADMIN_RESOURCES . 'images/logo-color.png'); ?>
+				<?php echo HTML::image(ADMIN_RESOURCES . 'images/logo-color.png'); ?>
 			</a>
 		</div>
 		
