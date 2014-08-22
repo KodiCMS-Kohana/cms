@@ -26,20 +26,14 @@
 		
 		$(window).resize(function() {
 			var node = elfinder.getUI('node');
-			var h = cms.content_height - 20;
+			var h = cms.content_height - 40;
 			node.height(h);
 			node.find('.elfinder-navbar')
 				.add(node.find('.elfinder-cwd'))
 				.add(node.find('.elfinder-cwd-wrapper'))
 				.height(h - node.find('.elfinder-toolbar').height() - node.find('.elfinder-statusbar').height() )
 		});
-		
-		$('#elfinder')
-			.addClass('outline_inner')
-			.wrap('<div class="outline"></div>');
 	});
-	
-	
 </script>
 
 <div id="elfinder"></div>

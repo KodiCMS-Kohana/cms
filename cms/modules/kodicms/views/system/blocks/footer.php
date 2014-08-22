@@ -1,8 +1,8 @@
 <footer class="margin-sm-vr">
-	<div class="panel">
+	<div class="panel no-margin-b">
 		<div class="panel-body">
 			<div class="row">
-				<div class="col-md-6 text-muted">
+				<div class="col-md-8 col-sm-12 text-muted">
 					&copy; 2012<?php echo (date('Y') > 2012) ? ' - ' . date('Y') : ''; ?> <?php echo HTML::anchor( CMS_SITE, CMS_NAME ) ?> v<?php echo CMS_VERSION; ?>
 					&nbsp;&nbsp;<?php echo UI::icon('minus'); ?>&nbsp;&nbsp;
 					<?php echo __('Powered by :framework v:version :codename', array(
@@ -13,7 +13,7 @@
 					<?php echo __('Admin Theme :name', array(
 						':name' => HTML::anchor('https://wrapbootstrap.com/theme/pixeladmin-premium-admin-theme-WB07403R9', 'PixelAdmin'))); ?>
 				</div>
-				<div class="col-md-6 text-right hidden-sm hidden-xs text-muted">
+				<div class="col-md-4 text-right hidden-sm hidden-xs text-muted">
 					<?php echo __('Thank you for using :site', array(':site' => HTML::anchor(CMS_SITE, CMS_NAME))); ?>
 				</div>
 			</div>

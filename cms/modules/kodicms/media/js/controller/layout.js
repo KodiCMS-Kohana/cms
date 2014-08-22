@@ -1,7 +1,7 @@
 cms.init.add(['layout_edit', 'layout_add'], function () {
 	function calculateEditorHeight() {
 		var conentH = cms.content_height;
-		var h = $('.panel-heading').outerHeight(true) + $('.form-actions').outerHeight(true) + 50;
+		var h = $('.panel-heading').outerHeight(true) + $('.form-actions').outerHeight(true) + 80;
 		
 		return conentH - h;
 	}

@@ -1,5 +1,10 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
+Assets_Package::add('core')
+	->css('global', ADMIN_RESOURCES . 'css/common.css')
+	->js(NULL, ADMIN_RESOURCES . 'js/core.min.js', 'backbone')
+	->js('global', ADMIN_RESOURCES . 'js/backend.min.js', 'core');
+
 Assets_Package::add('jquery')
 	->js(NULL, ADMIN_RESOURCES . 'libs/jquery.min.js');
 

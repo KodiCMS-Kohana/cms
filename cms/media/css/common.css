@@ -18051,7 +18051,7 @@ html body.page-signup {
   *display: inline;
 }
 .editableform-loading {
-  background: url('../libs/pixel-admin/less/plugins/images/bootstrap-editable/loading.gif') center center no-repeat;
+  background: url('../libs/kodicms/less/plugins/images/bootstrap-editable/loading.gif') center center no-repeat;
   height: 25px;
   width: auto;
   min-width: 25px;
