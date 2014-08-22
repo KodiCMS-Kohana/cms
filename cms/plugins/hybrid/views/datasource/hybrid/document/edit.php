@@ -7,7 +7,7 @@ $(function() {
 var API_FORM_ACTION = '/datasource/hybrid-document.<?php if($doc->loaded()): ?>update<?php else: ?>create<?php endif; ?>'; 
 
 $(function() {
-	$('.upload-input').pixelFileInput({
+	$('.upload-input').FileInput({
 		placeholder: __('Select file to upload')
 	});
 	

@@ -3844,7 +3844,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   text-align: center;
   white-space: nowrap;
   vertical-align: baseline;
-  border-radius: .25em;
+  /*border-radius: .25em;*/
 }
 a.label:hover,
 a.label:focus {
@@ -9146,6 +9146,10 @@ body.no-main-menu #main-navbar .navbar-inner {
 }
 .label.pull-right {
   margin: 0;
+}
+.label a {
+  color: #fff;
+  text-decoration: underline;
 }
 h1 .label,
 h2 .label,

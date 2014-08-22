@@ -1,5 +1,20 @@
 <?php Observer::notify('view_page_edit_sidebar_before', $page); ?>
 
+<?php
+$layout_name = $page->layout();
+
+if( ACL::check( 'layout.edit') OR ACL::check( 'layout.view'))
+{
+	$layout_name = HTML::anchor(Route::get('backend')->uri(array(
+		'controller' => 'layout', 
+		'action' => 'edit', 
+		'id' => $layout_name
+	)), $layout_name, array(
+		'class' => 'popup fancybox.iframe'
+	));
+}
+?>
+
 <div class="panel-body">
 	<?php if( $page->id != 1 ): ?>
 	<div class="form-group">
@@ -22,7 +37,7 @@
 		</div>
 		
 		<div class="col-md-3">
-			<?php echo UI::label(__('Current layput: :name', array(':name' => $page->layout()))); ?>
+			<?php echo UI::label(__('Current layput: :name', array(':name' => $layout_name))); ?>
 		</div>
 	</div>
 	

@@ -40,7 +40,6 @@
 			<tr id="layout_<?php echo $layout->name; ?>">
 				<th class="name">
 					<?php echo UI::icon( 'desktop' ); ?>
-
 					<?php if( ! $layout->is_writable()): ?>
 					<span class="label label-warning"><?php echo __('Read only'); ?></span>
 					<?php endif; ?>

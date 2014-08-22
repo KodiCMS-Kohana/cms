@@ -110,7 +110,7 @@
 				</div>
 
 				<div class="tab-pane fade" id="page-options-panel">
-					<?php echo View::factory('page/blocks/sidebar', array(
+					<?php echo View::factory('page/blocks/settings', array(
 						'page' => $page,
 						'permissions' => $permissions,
 						'action' => $action,
