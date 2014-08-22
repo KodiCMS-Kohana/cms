@@ -18453,8 +18453,9 @@ a.editable-click.editable-disabled:hover {
   margin: 0;
 }
 .page-items .page-item {
+  line-height: 25px;
   position: relative;
-  padding: 10px 0;
+  padding: 8px 0;
   border-bottom: 1px solid #ccc;
 }
 .page-items .page-item .item-expander {

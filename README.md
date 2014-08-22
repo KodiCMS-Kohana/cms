@@ -10,7 +10,7 @@ KodiCMS основана на базе [Kohana framework](http://kohanaframework
 ## Ключевые особенности
 
 * Ядро на базе [Kohana framework](http://kohanaframework.org/)
-* Backend UI на базе [Twitter Bootstrap 3.2.3](http://getbootstrap.com/) и темы [PixelAdmin](https://wrapbootstrap.com/theme/pixeladmin-premium-admin-theme-WB07403R9)
+* Backend UI на базе [Twitter Bootstrap 3.2.0](http://getbootstrap.com/) и темы [PixelAdmin](https://wrapbootstrap.com/theme/pixeladmin-premium-admin-theme-WB07403R9)
 * Расширение при помощи плагинов
 * Модульность
 * Использование `Observer` для расширения базового функционала

@@ -55,7 +55,9 @@ class KodiCMS_Controller_System_Backend extends Controller_System_Template
 		));
 
 		Assets::css('global', ADMIN_RESOURCES . 'css/common.css');
-		Assets::js('global', ADMIN_RESOURCES . 'js/backend.js', 'backbone');
+
+		Assets::js('core', ADMIN_RESOURCES . 'js/core.js', 'backbone');
+		Assets::js('global', ADMIN_RESOURCES . 'js/backend.js', 'core');
 
 		if (file_exists(CMSPATH . FileSystem::normalize_path('media/js/i18n/'.I18n::lang().'.js')))
 		{
