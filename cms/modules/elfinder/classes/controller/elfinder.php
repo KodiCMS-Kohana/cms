@@ -12,11 +12,7 @@ class Controller_Elfinder extends Controller_System_Template {
 	public function before()
 	{
 		parent::before();
-		
-		Assets::js('jquery', ADMIN_RESOURCES . 'libs/jquery.min.js');
-		Assets::package(array('elfinder', 'jquery-ui', 'backbone'));
-		Assets::css('global', ADMIN_RESOURCES . 'css/common.css');
-		Assets::js('global', ADMIN_RESOURCES . 'js/backend.js', 'backbone');
+		Assets::package(array('jquery', 'elfinder', 'jquery-ui', 'backbone', 'core', 'underscore'));
 	}
 	
 	public function action_index()

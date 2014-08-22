@@ -3,7 +3,7 @@
 		var elfinder = $('body').elfinder({
 			lang: 'ru',
 			url : Api.build_url('elfinder'),
-			height: 595,
+			height: 590,
 			resizable: false,
 			getFileCallback : function(file) {
 				if(_.isObject(file)) {
