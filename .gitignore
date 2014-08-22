@@ -3,6 +3,7 @@ nbproject/*
 /config.php
 /cms/cache/*
 /cms/logs/*
+/cms/media/libs/kodicms/*
 !/cms/cache/*.html
 !/cms/cache/tags/
 !/cms/cache/tags/*.html
