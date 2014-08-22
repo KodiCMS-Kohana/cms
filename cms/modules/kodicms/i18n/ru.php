@@ -136,6 +136,7 @@ return array(
 	
 	/*********************** Autorization *******************/
 	'Username' => 'Логин',
+	'Username or email' => 'Логин или E-mail',
 	'Remember me for :num days' => 'Запомнить меня на :num дней',
 	'Forgot password?' => 'Забыли пароль?',
 	'Forgot password' => 'Вспомнить пароль',
