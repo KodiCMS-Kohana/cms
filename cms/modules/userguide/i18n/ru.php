@@ -5,7 +5,7 @@ return array
 	'Table of Contents' => 'Содержание',
 	'Available Classes' => 'Имеющиеся классы',
 	'Modules' => 'Модули',
-	'User Guide' => 'Руководство пользователя',
+	'User guide' => 'Руководство пользователя',
 	'Parameters' => 'Параметры',
 	'Properties' => 'Свойства',
 	'Methods' => 'Методы',

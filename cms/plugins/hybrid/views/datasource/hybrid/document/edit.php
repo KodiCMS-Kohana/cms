@@ -1,4 +1,4 @@
-<script>
+<script type="text/javascript">
 <?php if(!Acl::check('hybrid'.$ds->id().'.document.edit')): ?>
 $(function() {
 	$('input,textarea,select').attr('disabled', 'disabled');
@@ -7,29 +7,32 @@ $(function() {
 var API_FORM_ACTION = '/datasource/hybrid-document.<?php if($doc->loaded()): ?>update<?php else: ?>create<?php endif; ?>'; 
 
 $(function() {
-	$('.upload-input').pixelFileInput({ placeholder: __('Select file to upload') });
-
-
+	$('.upload-input').FileInput({
+		placeholder: __('Select file to upload')
+	});
+	
 	$('body').on('post:backend:api:datasource:hybrid-document.create ', update_documents);
 	$('body').on('put:backend:api:datasource:hybrid-document.create ', update_documents);
 	$('.upload-input').on('change', function(e) {
 		var target = $(this).data('target');
 		var size = parseInt($(this).data('size'));
-		
+
 		if(size)
 			var mb = (size/1048576).toFixed(2);
+
 		if( ! target) return;
-		
+
 		var cont = $('#' + target).empty();
 		for (var i = 0; i < this.files.length; i++) {
 			var file = this.files.item(i);
 
 			if(size && file.size > size) {
-				
-				cms.message(__('Image :image more than :size MB', {':image': file.name, ':size': mb}), 'error')
+				cms.messages.error(__('Image :image more than :size MB', {':image': file.name, ':size': mb}))
 				continue;
 			}
+
 			var FR = new FileReader();
+
 			FR.onload = function(e) {
 				var img = new Image();
 					img.src = e.target.result;
@@ -42,8 +45,10 @@ $(function() {
 
 				var ctx = canvas.getContext("2d");
 					ctx.drawImage(img, 0, 0, canvas.width, canvas.height );
+
 				cont.append($('<img class="img-polaroid" src="'+canvas.toDataURL("image/jpeg", 1)+'" />'));
-			};       
+			};
+
 			FR.readAsDataURL( file );
 		}
 	});

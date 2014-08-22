@@ -1,11 +1,15 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
+Assets_Package::add('core')
+	->css('global', ADMIN_RESOURCES . 'css/common.css')
+	->js(NULL, ADMIN_RESOURCES . 'js/core.min.js', 'backbone')
+	->js('global', ADMIN_RESOURCES . 'js/backend.min.js', 'core');
+
 Assets_Package::add('jquery')
 	->js(NULL, ADMIN_RESOURCES . 'libs/jquery.min.js');
 
 Assets_Package::add('bootstrap')
-	->js(NULL, ADMIN_RESOURCES . 'libs/bootstrap-3.2.0/dist/js/bootstrap.min.js', 'jquery')
-	->js('pixel-admin', ADMIN_RESOURCES . 'libs/pixel-admin/js/pixel-admin.min.js', 'bootstrap');
+	->js(NULL, ADMIN_RESOURCES . 'libs/bootstrap-3.2.0/dist/js/bootstrap.min.js', 'jquery');
 
 Assets_Package::add('underscore')
 	->js(NULL, ADMIN_RESOURCES . 'libs/underscore-min.js', 'jquery');
@@ -32,6 +36,11 @@ Assets_Package::add('fancybox')
 Assets_Package::add('datepicker')
 	->css(NULL, ADMIN_RESOURCES . 'libs/datepicker/jquery.datetimepicker.css', 'jquery')
 	->js(NULL, ADMIN_RESOURCES . 'libs/datepicker/jquery.datetimepicker.js', 'jquery');
+
+Assets_Package::add('prism')
+	->css(NULL, ADMIN_RESOURCES . 'libs/prismjs/prism.css', 'jquery')
+	->js(NULL, ADMIN_RESOURCES . 'libs/prismjs/prism.js', 'jquery');
+
 
 // Подключение пакета после загрузки модулей, чтобы определить текущий язык
 Observer::observe('modules::after_load', function() {

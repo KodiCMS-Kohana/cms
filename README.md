@@ -10,7 +10,7 @@ KodiCMS основана на базе [Kohana framework](http://kohanaframework
 ## Ключевые особенности
 
 * Ядро на базе [Kohana framework](http://kohanaframework.org/)
-* Backend UI на базе [Twitter Bootstrap 2.3](http://twitter.github.com/bootstrap/)
+* Backend UI на базе [Twitter Bootstrap 3.2.0](http://getbootstrap.com/) и темы [PixelAdmin](https://wrapbootstrap.com/theme/pixeladmin-premium-admin-theme-WB07403R9)
 * Расширение при помощи плагинов
 * Модульность
 * Использование `Observer` для расширения базового функционала
@@ -18,6 +18,7 @@ KodiCMS основана на базе [Kohana framework](http://kohanaframework
 * Высокая скорость работы
 * Обработка ошибочных URL. (Если посетитель допустил ошибку URL, скорее всего он не получит в ответ: Страница не найдена)
 * Виджеты
+* Файловый менеджер [elFinder](https://github.com/Studio-42/elFinder)
 * Визуальный редактор [Ace](http://ace.c9.io/)
 * Разграничение прав для пользователей (ACL)
 * Интеграция с соц. сетями
@@ -26,6 +27,8 @@ KodiCMS основана на базе [Kohana framework](http://kohanaframework
 * Удобный инсталлятор
 * API
 * Простота разработки
+* Возможность выбрать место хранения кеша (file, sqlite, apc, memcache, mongodb)
+* Возможность выбора места хранения сессии (native, cookie, database)
 
 
 ## Демо сайт

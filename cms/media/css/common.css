@@ -3844,7 +3844,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   text-align: center;
   white-space: nowrap;
   vertical-align: baseline;
-  border-radius: .25em;
+  /*border-radius: .25em;*/
 }
 a.label:hover,
 a.label:focus {
@@ -9146,6 +9146,10 @@ body.no-main-menu #main-navbar .navbar-inner {
 }
 .label.pull-right {
   margin: 0;
+}
+.label a {
+  color: #fff;
+  text-decoration: underline;
 }
 h1 .label,
 h2 .label,
@@ -18047,7 +18051,7 @@ html body.page-signup {
   *display: inline;
 }
 .editableform-loading {
-  background: url('../libs/pixel-admin/less/plugins/images/bootstrap-editable/loading.gif') center center no-repeat;
+  background: url('../libs/kodicms/less/plugins/images/bootstrap-editable/loading.gif') center center no-repeat;
   height: 25px;
   width: auto;
   min-width: 25px;
@@ -18453,8 +18457,9 @@ a.editable-click.editable-disabled:hover {
   margin: 0;
 }
 .page-items .page-item {
+  line-height: 25px;
   position: relative;
-  padding: 10px 0;
+  padding: 8px 0;
   border-bottom: 1px solid #ccc;
 }
 .page-items .page-item .item-expander {

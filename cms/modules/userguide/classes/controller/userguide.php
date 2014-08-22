@@ -58,13 +58,10 @@ class Controller_Userguide extends Controller_System_Backend {
 	// List all modules that have userguides
 	public function index()
 	{
-		$this->template->title = __('User guide');
 		$this->template->content = View::factory('userguide/index', array('modules' => $this->_modules()));
 		$this->template->menu = View::factory('userguide/menu', array('modules' => $this->_modules()));
 	
-		
-		$this->breadcrumbs
-			->add($this->template->title);
+		$this->set_title(__('User guide'));
 	}
 	
 	// Display an error if a page isn't found

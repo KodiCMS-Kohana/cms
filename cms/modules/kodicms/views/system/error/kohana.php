@@ -93,7 +93,7 @@
 						<span class="file panel-title text-bold"><?php echo Debug::path($file) ?> <span class="badge badge-danger"><?php echo $line; ?></span>
 					</div>
 
-					<?php echo Debug::source($file, $line) ?>
+					<div class="language-php" data-line="6" data-start="<?php echo $line; ?>"><?php echo Debug::source($file, $line) ?></div>
 
 					<?php foreach (Debug::trace($trace) as $i => $step): ?>
 						<div class="panel-heading">
@@ -113,14 +113,14 @@
 								<?php foreach ($step['args'] as $name => $arg): ?>
 									<tr>
 										<td><code><?php echo $name ?></code></td>
-										<td><pre><?php echo Debug::dump($arg) ?></pre></td>
+										<td><pre class="language-php"><?php echo Debug::dump($arg) ?></pre></td>
 									</tr>
 								<?php endforeach ?>
 								</table>
 							</div>
 							<?php endif ?>
 							<?php if (isset($source_id)): ?>
-								<div id="<?php echo $source_id ?>" class="source collapsed"><?php echo $step['source'] ?></div>
+								<div id="<?php echo $source_id ?>" class="source collapsed language-php"><?php echo $step['source'] ?></div>
 							<?php endif ?>
 						<?php unset($args_id, $source_id); ?>
 					<?php endforeach ?>
@@ -152,7 +152,7 @@
 						<table class="table table-striped">
 							<?php foreach ($included as $file): ?>
 							<tr>
-								<td><code><?php echo Debug::path($file) ?></code></td>
+								<td><code class="language-php"><?php echo Debug::path($file) ?></code></td>
 							</tr>
 							<?php endforeach ?>
 						</table>
@@ -165,7 +165,7 @@
 							<?php foreach ($GLOBALS[$var] as $key => $value): ?>
 							<tr>
 								<td><code><?php echo htmlspecialchars( (string) $key, ENT_QUOTES, Kohana::$charset, TRUE); ?></code></td>
-								<td><pre><?php echo Debug::dump($value) ?></pre></td>
+								<td><pre class="language-php"><?php echo Debug::dump($value) ?></pre></td>
 							</tr>
 							<?php endforeach ?>
 						</table>

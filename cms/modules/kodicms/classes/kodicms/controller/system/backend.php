@@ -51,11 +51,8 @@ class KodiCMS_Controller_System_Backend extends Controller_System_Template
 		$this->template->bind_global('navigation', $navigation);
 
 		Assets::package(array(
-			'jquery', 'bootstrap', 'notify', 'select2', 'dropzone', 'fancybox', 'datepicker', 'underscore'
+			'jquery', 'bootstrap', 'notify', 'select2', 'dropzone', 'fancybox', 'datepicker', 'underscore', 'core'
 		));
-
-		Assets::css('global', ADMIN_RESOURCES . 'css/common.css');
-		Assets::js('global', ADMIN_RESOURCES . 'js/backend.js', 'backbone');
 
 		if (file_exists(CMSPATH . FileSystem::normalize_path('media/js/i18n/'.I18n::lang().'.js')))
 		{

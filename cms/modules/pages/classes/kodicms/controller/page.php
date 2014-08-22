@@ -237,7 +237,7 @@ class KodiCMS_Controller_Page extends Controller_System_Backend {
 	
 	public function children( $parent_id, $level, $return = FALSE )
 	{
-		$expanded_rows = Arr::get($_COOKIE, 'expanded_rows');
+		$expanded_rows = Arr::get($_COOKIE, 'cms_expanded_pages');
 		
 		$expanded_rows = $expanded_rows == NULL ? array() : explode(',', $expanded_rows);
 

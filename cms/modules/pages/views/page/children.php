@@ -3,7 +3,7 @@
 <ul data-level="<?php echo $level; ?>" class="list-unstyled">
 	<?php foreach($childrens as $child): ?>
 	<?php if($child instanceof Model_Page): ?>
-	<li data-id="<?php echo $child->id; ?>" <?php if($child->is_expanded) echo('class="item-expanded"'); ?>>
+	<li data-id="<?php echo $child->id; ?>" <?php if($child->is_expanded):?>class="item-expanded"<?php endif; ?>>
 		<div class="page-item">
 			<div class="title col-xs-7">
 				<?php if ($child->has_children): ?>
@@ -24,7 +24,7 @@
 				<?php echo UI::icon('lock'); ?>
 				<?php echo $child->title; ?>
 				<?php else: ?>
-				<?php echo HTML::anchor($child->get_url(), $child->title, array('data-icon' => 'file-o')); ?>
+				<?php echo HTML::anchor($child->get_url(), $child->title, array('data-icon' => ! empty($child->children_rows) ? 'folder-open' : 'file-o')); ?>
 				<?php endif; ?>				
 				<?php if( !empty($child->behavior_id) ): ?> <?php echo UI::label(__(ucfirst(Inflector::humanize( $child->behavior_id ))), 'default'); ?><?php endif; ?>
 				<?php if( !empty($child->use_redirect) ): ?> <?php echo UI::label(__('Redirect: :url', array(':url' => $child->redirect_url))); ?><?php endif; ?>
