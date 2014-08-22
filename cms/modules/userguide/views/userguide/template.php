@@ -2,6 +2,12 @@
 <html>
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="generator" content="<?php echo CMS_NAME . ' v.' . CMS_VERSION; ?>">
+		<meta name="author" content="ButscH" />
+		<title><?php echo $title; ?> &ndash; <?php echo Config::get('site', 'title'); ?></title>
+		<link href="<?php echo ADMIN_RESOURCES; ?>favicon.ico" rel="favourites icon" />
+		
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<title><?php echo $title ?> | Kohana <?php echo __('User Guide'); ?></title>
 		<base href="<?php echo ADMIN_RESOURCES; ?>" />
 		<link href="<?php echo ADMIN_RESOURCES; ?>favicon.ico" rel="favourites icon" />
@@ -45,11 +51,12 @@
 						<div class="clearfix"></div>
 					</div>
 				</div>
+				
+				<?php echo $footer; ?>
 			</div>
 			
-			<?php if ( Config::get('site', 'profiling' ) == Config::YES ): ?>
-			<hr />
-			<?php echo View::factory( 'profiler/stats' ) ?>
+			<?php if (Config::get('site', 'profiling') == Config::YES): ?>
+			<?php echo View::factory('profiler/stats') ?>
 			<?php endif; ?>
 		</div>
 </body>

@@ -37,6 +37,10 @@ Assets_Package::add('datepicker')
 	->css(NULL, ADMIN_RESOURCES . 'libs/datepicker/jquery.datetimepicker.css', 'jquery')
 	->js(NULL, ADMIN_RESOURCES . 'libs/datepicker/jquery.datetimepicker.js', 'jquery');
 
+Assets_Package::add('prism')
+	->css(NULL, ADMIN_RESOURCES . 'libs/prismjs/prism.css', 'jquery')
+	->js(NULL, ADMIN_RESOURCES . 'libs/prismjs/prism.js', 'jquery');
+
 
 // Подключение пакета после загрузки модулей, чтобы определить текущий язык
 Observer::observe('modules::after_load', function() {

@@ -7,21 +7,43 @@
  */
 class Gravatar {
 	
-	public static function load($email, $size = 40, $default = NULL, $attributes = array())
-	{
-		if(empty($email)) return NULL;
+	/**
+	 *
+	 * @var array 
+	 */
+	protected static $_cache = array();
 
-		if($default === NULL)
+	/**
+	 * 
+	 * @param string $email
+	 * @param integer $size
+	 * @param string $default
+	 * @param array $attributes
+	 * @return string
+	 */
+	public static function load($email, $size = 40, $default = NULL, array $attributes = NULL)
+	{
+		if (empty($email))
+		{
+			$email = 'test@test.com';
+		}
+
+		if ($default === NULL)
 		{
 			$default = 'mm';
 		}
-	
-		$hash = md5( strtolower( trim( $email ) ) );
+
+		$hash = md5(strtolower(trim($email)));
 		$query_params = URL::query(array(
 			'd' => $default,
-			's' => $size
+			's' => (int) $size
 		));
-		
-		return HTML::image('http://www.gravatar.com/avatar/' . $hash . $query_params, $attributes);
+
+		if (!isset(self::$_cache[$email][$size]))
+		{
+			self::$_cache[$email][$size] = HTML::image('http://www.gravatar.com/avatar/' . $hash . $query_params, $attributes);
+		}
+
+		return self::$_cache[$email][$size];
 	}
 }

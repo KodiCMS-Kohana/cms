@@ -15,11 +15,8 @@ class Kohana_Exception extends Kohana_Kohana_Exception {
 	{
 		if (Config::get('site', 'debug') == Config::YES OR Kohana::$environment !== Kohana::PRODUCTION)
 		{
-			Assets::js('jquery', ADMIN_RESOURCES . 'libs/jquery.min.js');
-			Assets::package(array('ace', 'backbone', 'notify', 'underscore', 'select2'));
-			Assets::css('global', ADMIN_RESOURCES . 'css/common.css');
-			Assets::js('global', ADMIN_RESOURCES . 'js/backend.js', 'backbone');
-	
+			Assets::package(array('jquery', 'core', 'backbone', 'notify', 'underscore'));
+
 			// Show the normal Kohana error page.
 			return parent::response($e);
 		}

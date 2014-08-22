@@ -15,11 +15,16 @@
 					<ul class="nav navbar-nav pull-right right-navbar-nav">
 						
 						<?php Observer::notify('view_navbar_menu'); ?>
-						
+
 						<li>
-							<?php echo HTML::anchor(Route::get('backend')->uri(array('controller' => 'system', 'action' => 'settings')), UI::icon('cog fa-lg')); ?>
+							<?php echo HTML::anchor(Route::get('backend')->uri(array('controller' => 'system', 'action' => 'settings')), UI::icon('cogs fa-lg')); ?>
 						</li>
 						
+						<li>
+							<?php echo HTML::anchor(URL::base(TRUE), UI::hidden(__('View Site')), array(
+								'target' => 'blank', 'data-icon' => 'globe fa-lg text-info'
+							)); ?>
+						</li>
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle user-menu" data-toggle="dropdown">
 								<?php echo AuthUser::getRecord()->gravatar(25); ?>
@@ -34,7 +39,10 @@
 								</li>
 								<li class="divider"></li>
 								<li>
-									<?php echo HTML::anchor(Route::get('user')->uri(array('action' => 'logout')), __('Logout'), array('data-icon' => 'power-off')); ?>
+									<?php echo HTML::anchor(Route::get('user')->uri(array('action' => 'logout')), __('Logout'), array(
+										'data-icon' => 'power-off text-danger',
+										'class' => 'text-bold'
+									)); ?>
 								</li>
 							</ul>
 						</li>
