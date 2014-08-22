@@ -14,4 +14,4 @@ CREATE TABLE IF NOT EXISTS `__TABLE_PREFIX__media` (
   `description` varchar(255) DEFAULT NULL,
   `params` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

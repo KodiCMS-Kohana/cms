@@ -4,4 +4,4 @@ CREATE TABLE IF NOT EXISTS `__TABLE_PREFIX__sessions` (
   `contents` text NOT NULL,
   PRIMARY KEY (`session_id`),
   KEY `last_active` (`last_active`)
-) ENGINE = MYISAM ;
+) ENGINE = MYISAM DEFAULT CHARSET=utf8;
