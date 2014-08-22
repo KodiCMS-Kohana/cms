@@ -24,7 +24,6 @@ class Update {
 	{
 		$respoonse = self::request('https://raw.githubusercontent.com/:rep/:branch/cms/application/bootstrap.php');
 		preg_match('/define\(\'CMS_VERSION\'\,[\t\ ]*\'([0-9\.]+)\'\)\;/i', $respoonse, $matches);
-		
 		self::$_remove_version = $matches[1];
 
 		return version_compare(CMS_VERSION, self::$_remove_version);
@@ -124,7 +123,7 @@ class Update {
 	{
 		if(self::$_remove_version === NULL)
 		{
-			self::check();
+			self::check_version();
 		}
 		
 		return self::$_remove_version;

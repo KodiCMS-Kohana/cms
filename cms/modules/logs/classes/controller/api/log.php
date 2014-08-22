@@ -80,7 +80,13 @@ class Controller_API_Log extends Controller_System_Api {
 		}
 		
 		$list->cached(DATE::HOUR);
+		$data = $list->execute()->as_array('id');
+		
+		foreach ($data as $id => $log)
+		{
+			$data[$id]['level'] = Log::level($log['level']);
+		}
 
-		$this->response($list->execute()->as_array('id'));
+		$this->response($data);
 	}
 }

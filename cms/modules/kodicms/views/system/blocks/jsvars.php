@@ -8,4 +8,5 @@ var CURRENT_URL			= '<?php echo Request::current()->url(TRUE) . URL::query() ; ?
 	CONTROLLER			= '<?php echo strtolower(Request::current()->controller()); ?>',
 	ACTION				= '<?php echo Request::current()->action(); ?>',
 	USER_ID				= <?php echo (int) AuthUser::getId(); ?>,
-	FILTERS				= '<?php echo json_encode(WYSIWYG::findAll()); ?>';
+	FILTERS				= '<?php echo json_encode(WYSIWYG::findAll()); ?>',
+	DATE_FORMAT			= '<?php echo Config::get('site', 'date_format'); ?>';

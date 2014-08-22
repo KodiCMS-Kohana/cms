@@ -4,7 +4,7 @@ class Controller_API_Update extends Controller_System_API {
 	
 	public function get_check_version()
 	{
-		$this->response(Update::check_version() === Update::VERSION_OLD);
+		$this->response((Update::check_version() === Update::VERSION_OLD) ? Update::remote_version() : FALSE);
 	}
 	
 	public function get_check_files()
