@@ -1,5 +1,5 @@
 cms.ui.add('logs.check', function() {
-	Api.get('log.get', {interval: 'last-week', limit: 50, level: '1,2,3,4'}, function(response){
+	Api.get('log.get', {interval: 'last-week', limit: 50, level: '0,1,2,3,4'}, function(response){
 		if(response.response) {
 			var $cont = $('#main-navbar-notifications');
 			var length = 0;
