@@ -5,13 +5,13 @@ $(function() {
 		if($option.val() == 0)
 			$('#EditTemplateButton').hide();
 		else
-			$('#snippet-edit-button')
+			$('#EditTemplateButton')
 				.show()
 				.css({
 					display: 'inline-block'
 				})
 				.attr('href', BASE_URL + '/snippet/edit/' + $option.val());
-	});
+	}).change();
 
 	$('body').on('post:backend:api-snippet', update_snippets_list);
 	$('body').on('put:backend:api-snippet', update_snippets_list);
