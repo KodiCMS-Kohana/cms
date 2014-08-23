@@ -18243,6 +18243,62 @@ a.editable-click.editable-disabled:hover {
   color: #aaa;
   font-style: italic;
 }
+.expanding-input {
+  position: relative;
+}
+.expanding-input-overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  cursor: pointer;
+}
+.expanding-input-placeholder {
+  padding: 7px 13px;
+  color: #777777;
+  font-size: 13px;
+  line-height: 1.42857143;
+}
+.expanding-input-hidden {
+  display: none;
+}
+.expanding-input.expanded .expanding-input-hidden,
+.expanding-input.expanded .expanding-input-content {
+  display: block;
+}
+.expanding-input.expanded .expanding-input-hidden:before,
+.expanding-input.expanded .expanding-input-content:before,
+.expanding-input.expanded .expanding-input-hidden:after,
+.expanding-input.expanded .expanding-input-content:after {
+  content: " ";
+  display: table;
+}
+.expanding-input.expanded .expanding-input-hidden:after,
+.expanding-input.expanded .expanding-input-content:after {
+  clear: both;
+}
+.expanding-input.expanded .expanding-input-hidden:before,
+.expanding-input.expanded .expanding-input-content:before,
+.expanding-input.expanded .expanding-input-hidden:after,
+.expanding-input.expanded .expanding-input-content:after {
+  content: " ";
+  display: table;
+}
+.expanding-input.expanded .expanding-input-hidden:after,
+.expanding-input.expanded .expanding-input-content:after {
+  clear: both;
+}
+.expanding-input.expanding-input-sm .expanding-input-placeholder {
+  padding: 6px 11px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+.expanding-input.expanding-input-lg .expanding-input-placeholder {
+  padding: 11px 17px;
+  font-size: 17px;
+  line-height: 1.33;
+}
 /*
 // jQuery UI
 //

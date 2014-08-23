@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS `__TABLE_PREFIX__messages_users` (
   `parent_id` int(10) unsigned NOT NULL DEFAULT '0',
   `user_id` int(10) unsigned NOT NULL DEFAULT '0',
   `status` int(3) NOT NULL DEFAULT '1',
+  `is_starred` int(1) NOT NULL DEFAULT '0',
   `updated_on` datetime NOT NULL,
   PRIMARY KEY (`message_id`,`user_id`),
   KEY `user_id` (`user_id`),

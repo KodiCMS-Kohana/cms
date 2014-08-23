@@ -77,7 +77,7 @@ cms.init.add('messages_view', function(){
 });
 
 cms.init.add('messages_index', function(){
-	$('.btn-remove').on('click', function() {
+	$('.btn-remove').on('click', function(e) {
 		$('.mail-list .mail-item .select-checkbox:checked').each(function() {
 			var $cont = $(this).closest('.mail-item');
 			var $message_id = $cont.data('id');
@@ -90,17 +90,36 @@ cms.init.add('messages_index', function(){
 				}
 			}, 'json');
 		});
+		
+		e.preventDefault();
 	});
 	
-	$('.btn-check-new').on('click', function() {
+	$('body').on('click', '.m-star a', function(e) {
+		var $li = $(this).closest('.mail-item');
+		var $id = $li.data('id');
+		var $status = $li.hasClass('starred') ? 0 : 1;
+		
+		$.post(Api.build_url('user-messages.starred'), {id: $id, uid: USER_ID, status: $status }, function( resp ) {
+			if(resp.response == 1)
+				$li.addClass('starred');
+			else
+				$li.removeClass('starred');
+		}, 'json');
+		
+		e.preventDefault();
+	});
+	
+	$('.btn-check-new').on('click', function(e) {
 		Api.get('user-messages.get', {
 			uid: USER_ID, 
-			fields: 'author,title,is_read,created_on,from_user_id',
+			fields: 'author,title,is_read,created_on,from_user_id,is_starred',
 			use_template: true
 		}, function(response) {
 			if(!response.response) return;
 
 			var $msg_cont = $('#messages-container').html(response.response);
-		}, false)
+		}, false);
+		
+		e.preventDefault();
 	});
 });

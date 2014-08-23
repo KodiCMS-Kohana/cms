@@ -8,6 +8,9 @@ class Model_API_Message extends Model_API {
 	const STATUS_READ	= 1; // Сообщение прочитано
 	const STATUS_NEW	= 0; // Новое сообщение	
 	
+	const STARRED		= 1;
+	const NOT_STARRED	= 0;
+	
 	protected $_table_name = 'messages';
 	
 	protected $_secured_columns = array(
@@ -24,11 +27,11 @@ class Model_API_Message extends Model_API {
 			->select_array($this->filtered_fields($fields))
 			->from($this->_table_name)
 			->join('messages_users', 'left')
-			->on($this->_table_name . '.id', '=', 'messages_users.message_id')
+				->on($this->_table_name . '.id', '=', 'messages_users.message_id')
 			->where('messages_users.user_id', '=', $user_id)
 			->where('messages_users.parent_id', '=', $parent_id)
 			->order_by('created_on', 'desc');
-
+		
 		if (in_array('author', $fields))
 		{
 			$query->join('users', 'left')
@@ -39,6 +42,11 @@ class Model_API_Message extends Model_API {
 		if (in_array('status', $fields))
 		{
 			$query->select('messages_users.status');
+		}
+		
+		if (in_array('is_starred', $fields))
+		{
+			$query->select('messages_users.is_starred');
 		}
 
 		if (in_array('is_read', $fields))
@@ -77,6 +85,11 @@ class Model_API_Message extends Model_API {
 			$query->join('users', 'left')
 					->select(array('users.username', 'author'))
 					->on('users.id', '=', $this->_table_name . '.from_user_id');
+		}
+		
+		if (in_array('is_starred', $fields))
+		{
+			$query->select('messages_users.is_starred');
 		}
 
 		if (in_array('is_read', $fields))
@@ -175,6 +188,26 @@ class Model_API_Message extends Model_API {
 		return $update;
 	}
 	
+	public function starred($message_id, $user_id, $status = self::STARRED)
+	{
+		$status = ($status == self::NOT_STARRED) 
+			? self::NOT_STARRED 
+			: self::STARRED;
+	
+		DB::update('messages_users')
+			->where('user_id', '=', (int) $user_id)
+			->where('message_id', '=', $message_id)
+			->set(array(
+				'is_starred' => $status,
+				'updated_on' => date('Y-m-d H:i:s')
+			))
+			->execute();
+
+		self::clear_cache($user_id);
+
+		return $status;
+	}
+	
 	public function count_new($user_id)
 	{
 		return DB::select(array(DB::expr( 'COUNT(*)'), 'total'))
@@ -197,8 +230,8 @@ class Model_API_Message extends Model_API {
 		$delete = DB::delete('messages_users')
 			->where('user_id', '=', (int) $user_id)
 			->where_open()
-			->where('message_id', '=', (int) $message_id)
-			->or_where('parent_id', '=', (int) $message_id)
+				->where('message_id', '=', (int) $message_id)
+				->or_where('parent_id', '=', (int) $message_id)
 			->where_close()
 			->execute();
 
@@ -220,11 +253,9 @@ class Model_API_Message extends Model_API {
 	
 	public function delete_by_id($id)
 	{
-		DB::delete('messages')
+		return (bool) DB::delete('messages')
 			->where('id', '=', (int) $id)
 			->execute();
-
-		return TRUE;
 	}
 
 	protected static function clear_cache($user_id)

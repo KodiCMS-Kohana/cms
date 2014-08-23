@@ -78,6 +78,18 @@ class Controller_API_User_Messages extends Controller_System_Api {
 		
 		$this->response($message);
 	}
+	
+	public function post_starred()
+	{
+		$id = $this->param('id', NULL, TRUE);
+		$user_id = $this->param('uid', NULL, TRUE);
+		$status = (int) $this->param('status', Model_API_Message::NOT_STARRED);
+		
+		$message = Model_API::factory('api_message')
+			->starred($id, $user_id, $status);
+		
+		$this->response($message);
+	}
 
 	public function rest_put()
 	{

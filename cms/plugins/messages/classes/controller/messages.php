@@ -15,11 +15,13 @@ class Controller_Messages extends Controller_System_Backend {
 	
 	public function action_index()
 	{
-		$this->template->title = __('Messages');
+		$this->set_title(__('Messages'), FALSE);
 
 		$this->template->content = View::factory('messages/index', array(
-			'messages' => Api::get('user-messages.get', array('uid' => AuthUser::getId(), 'fields' => 'author,title,is_read,created_on,from_user_id'))
-				->as_object()->get('response')
+			'messages' => Api::get('user-messages.get', array(
+				'uid' => AuthUser::getId(), 
+				'fields' => 'author,title,is_read,is_starred,created_on,from_user_id'
+			))->as_object()->get('response')
 		));
 	}
 
@@ -44,10 +46,7 @@ class Controller_Messages extends Controller_System_Backend {
 			'to' => $to
 		));
 		
-		$this->template->title = __('Send message');
-		
-		$this->breadcrumbs
-			->add($this->template->title);
+		$this->set_title(__('Send message'));
 	}
 	
 	public function action_view()
@@ -58,7 +57,7 @@ class Controller_Messages extends Controller_System_Backend {
 		$message = Api::get('user-messages.get_by_id', array(
 			'id' => $id, 
 			'uid' =>  $user_id,
-			'fields' => 'author,title,is_read,created_on,text'
+			'fields' => 'author,title,is_read,created_on,text,is_starred'
 		))->as_object();
 		
 		if( ! $message->response )
@@ -80,17 +79,9 @@ class Controller_Messages extends Controller_System_Backend {
 			'id' => $id, 'uid' => $user_id
 		));
 		
-		$new = Api::get('user-messages.count_new', array(
-			'uid' => $user_id
-		))->as_object();
-		
-		Model_Navigation::update(URL::backend('messages'), array(
-			'counter' => $new->response
-		));
-		
 		$messages = Api::get('user-messages.get', array(
 			'uid' => $user_id, 
-			'fields' => 'author,from_user_id,title,is_read,created_on,text',
+			'fields' => 'author,from_user_id,title,is_read,created_on,text,is_starred',
 			'pid' => $id
 		))->as_object();
 		
@@ -101,10 +92,7 @@ class Controller_Messages extends Controller_System_Backend {
 			'from_user' => ORM::factory('user', $message->response->from_user_id)
 		));
 		
-		$this->template->title = $message->response->title;
-		
-		$this->breadcrumbs
-			->add($message->response->title);
+		$this->set_title($message->response->title);
 	}
 	
 	private function _send($send, $parent_id = 0)
