@@ -30,6 +30,28 @@ class Update {
 	}
 	
 	/**
+	 * Проверка БД на расхождение
+	 * @retun string
+	 */
+	public static function check_database()
+	{
+		$cache = Cache::instance();
+
+		if(($diff = $cache->get('database_schema_diff')) === NULL)
+		{
+			$db_sql = Database_Helper::schema();
+			$file_sql = Database_Helper::install_schema();
+
+			$compare = new Database_Helper;
+			$diff = $compare->get_updates($db_sql, $file_sql, TRUE);
+			
+			$cache->set('database_schema_diff', $diff);
+		}
+		
+		return $diff;
+	}
+	
+	/**
 	 * Проверка файлов на различия, проверяется по размеру файла и наличие файла в ФС
 	 * @retun array
 	 */

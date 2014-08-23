@@ -2,9 +2,12 @@
 
 class Controller_API_Update extends Controller_System_API {
 	
-	public function get_check_version()
+	public function get_check()
 	{
-		$this->response((Update::check_version() === Update::VERSION_OLD) ? Update::remote_version() : FALSE);
+		$this->response(array(
+			'version' => (Update::check_version() === Update::VERSION_OLD) ? Update::remote_version() : FALSE,
+			'database' => strlen(Update::check_database())
+		));
 	}
 	
 	public function get_check_files()
@@ -42,7 +45,5 @@ class Controller_API_Update extends Controller_System_API {
 		}
 		
 		Kohana::$log->add(Log::INFO, ':user update database')->write();
-		
-		
 	}
 }

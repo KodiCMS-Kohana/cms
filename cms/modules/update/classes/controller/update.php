@@ -22,14 +22,8 @@ class Controller_Update extends Controller_System_Backend {
 		
 		$this->set_title(__('Database'));
 		
-		$db_sql = Database_Helper::schema();
-		$file_sql = Database_Helper::install_schema();
-
-		$compare = new Database_Helper;
-		$diff = $compare->get_updates($db_sql, $file_sql, TRUE);
-		
 		$this->template->content = View::factory( 'update/database', array(
-			'actions' => $diff,
+			'actions' => Update::check_database(),
 		));
 	}
 	
