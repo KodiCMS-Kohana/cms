@@ -141,7 +141,7 @@
 		'controller' => 'widgets', 
 		'action' => 'location',
 		'id' => $widget->id)), __('Widget location'), array(
-			'class' => 'btn btn-primary',
+			'class' => 'btn btn-primary popup fancybox.iframe',
 			'data-icon' => 'sitemap'
 		)); ?>
 	</div>

@@ -1,7 +1,9 @@
 <div class="panel">
 	<?php echo Form::open(Request::current()->uri()); ?>
+	
+	<?php if(Request::initial()->query('type') != 'iframe'): ?>
 	<div class="panel-heading">
-		<h3 class="no-margin-vr pull-left">
+		<h3 class="no-margin-vr">
 			<small>&larr; <?php echo __('Back to widget settings:'); ?></small>
 			<?php echo HTML::anchor(Route::get('backend')->uri(array(
 			'controller' => 'widgets', 
@@ -9,20 +11,9 @@
 			'id' => $widget->id
 			)), $widget->name); ?>
 		</h3>
-		
-		<div class="panel-heading-controls">
-			<?php if( ACL::check( 'layout.rebuild')): ?>
-			<?php echo UI::button(__('Rebuild blocks'), array(
-				'icon' => UI::icon( 'refresh' ),
-				'class' => 'btn btn-xs btn-danger',
-				'data-api-url' => 'layout.rebuild',
-				'data-method' => Request::POST
-			)); ?>
-			<?php endif; ?>
-		</div>
-		
-		<div class="clearfix"></div>
 	</div>
+	<?php endif; ?>
+
 	<table class="table table-primary table-striped">
 		<colgroup>
 			<col width="300px" />
@@ -53,6 +44,15 @@
 					)); ?>
 				</div>
 			</div>
+			
+			<?php if( ACL::check( 'layout.rebuild')): ?>
+			<?php echo UI::button(__('Rebuild blocks'), array(
+				'icon' => UI::icon( 'refresh' ),
+				'class' => 'btn btn-xs btn-danger',
+				'data-api-url' => 'layout.rebuild',
+				'data-method' => Request::POST
+			)); ?>
+			<?php endif; ?>
 		</div>
 	</div>
 	<div class="panel-footer form-actions">
@@ -64,6 +64,7 @@
 	</div>
 	<?php echo Form::close(); ?>
 </div>
+
 <?php 
 function recurse_pages( $pages, $spaces = 0, $layouts_blocks = array(), $page_widgets = array(), $pages_widgets = array() ) 
 {
