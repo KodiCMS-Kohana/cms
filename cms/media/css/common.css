@@ -16223,7 +16223,7 @@ html body.page-signup {
 }
 .page-mail .m-chck {
   left: 15px;
-  top: 14px;
+  /*    top: 14px;*/
 }
 .page-mail .m-star {
   left: 15px;
