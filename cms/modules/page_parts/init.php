@@ -37,7 +37,7 @@ Observer::observe('page_edit_after_save', function($page) {
 
 	foreach ($parts as $id => $content)
 	{
-		$part = Record::findByIdFrom('Model_Page_Part', (int) $id);
+		$part = ORM::factory('page_part', (int) $id);
 
 		if ((bool) $part->is_indexable)
 		{
@@ -45,10 +45,12 @@ Observer::observe('page_edit_after_save', function($page) {
 		}
 
 		if ($content == $part->content)
+		{
 			continue;
+		}
 
 		$part
-			->setFromData(array('content' => $content))
+			->values(array('content' => $content))
 			->save();
 	}
 
@@ -72,12 +74,10 @@ Observer::observe('update_search_index', function() {
 	{
 		$indexable_content = '';
 
-		$parts = Model_Page_Part::findAllFrom('Model_Page_Part', array(
-			'where' => array(
-				array('page_id', '=', $page->id),
-				array('is_indexable', '=', 1)
-			)
-		));
+		$parts = ORM::factory('page_part')
+			->where('page_id', '=', $page->id)
+			->where('is_indexable', '=', 1)
+			->find_all();
 
 		foreach ($parts as $part)
 		{

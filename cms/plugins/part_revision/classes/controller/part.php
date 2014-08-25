@@ -16,7 +16,7 @@ class Controller_Part extends Controller_System_Backend
 		Assets::js('part_revision', ADMIN_RESOURCES . 'js/controller/part_revision.js', 'global');
 		
 		$part_id = (int) $this->request->param('id');
-		$part = Record::findByIdFrom('Model_Page_Part', $part_id);
+		$part = ORM::factory('page_part', $part_id);
 		
 		$parts = DB::select()
 			->from('part_revision')
@@ -62,11 +62,12 @@ class Controller_Part extends Controller_System_Backend
 			->execute()
 			->current();
 
-		$part = Record::findByIdFrom('Model_Page_Part', $revision->part_id);
-		$part->setFromData(array('content' => $revision->content))->save();
+		$part = ORM::factory('page_part', $revision->part_id);
+		$part
+			->values(array('content' => $revision->content))
+			->save();
 		
 		DB::delete('part_revision')->where('id', '=', $revision_id)->execute();
-		Cache::instance()->delete_tag('page_parts');
 
 		$this->go_back();
 	}

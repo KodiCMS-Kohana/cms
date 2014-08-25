@@ -25,42 +25,27 @@ class KodiCMS_Controller_API_Page_Parts extends Controller_System_Api {
 	public function rest_put()
 	{
 		$id = $this->param('id', NULL, TRUE);
-		$part = Record::findByIdFrom('Model_Page_Part', (int) $id);
+		$part = ORM::factory('page_part', (int) $id);
 		
 		$part
-			->setFromData($this->params(), array('id'))
-			->save();
-		
-		$part = $part->prepare_data();
-		$part['is_developer'] = (int) AuthUser::hasPermission( 'administrator, developer' );
-		
-		if(Kohana::$caching === TRUE)
-		{
-			Cache::instance()->delete_tag('page_parts');
-		}
+			->values($this->params(), array('id'))
+			->save()
+			->as_array();
 
+		$part['is_developer'] = (int) AuthUser::hasPermission('administrator, developer');
 		$this->response($part);
 	}
 	
 	public function rest_post()
 	{
-		$part = new Model_Page_Part;
+		$part = ORM::factory('page_part');
 
-		$params = $this->params();
-		$params['filter_id'] = Config::get('site', 'default_filter_id');
-		
 		$part
-			->setFromData($params)
-			->save();
+			->values($this->params())
+			->save()
+			->as_array();
 
-		$part = $part->prepare_data();
-		$part['is_developer'] = (int) AuthUser::hasPermission( 'administrator, developer' );
-		
-		if(Kohana::$caching === TRUE)
-		{
-			Cache::instance()->delete_tag('page_parts');
-		}
-
+		$part['is_developer'] = (int) AuthUser::hasPermission('administrator, developer');
 		$this->response($part);
 	}
 	
@@ -68,13 +53,7 @@ class KodiCMS_Controller_API_Page_Parts extends Controller_System_Api {
 	{
 		$id = $this->param('id', NULL, TRUE);
 		
-		$part = Model_Page_Part::findByIdFrom( 'Model_Page_Part', (int) $id );
-		
-		if(Kohana::$caching === TRUE)
-		{
-			Cache::instance()->delete_tag('page_parts');
-		}
-
+		$part = ORM::factory('page_part', (int) $id);
 		$part->delete();
 	}
 }

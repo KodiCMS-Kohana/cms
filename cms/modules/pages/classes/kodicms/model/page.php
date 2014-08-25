@@ -287,18 +287,18 @@ class KodiCMS_Model_Page extends ORM
 	{
 		$this->created_by_id = AuthUser::getId();
 		$this->updated_by_id = $this->created_by_id;
-		
-		if( empty($this->status_id) )
+
+		if (empty($this->status_id))
 		{
-			$this->status_id = Config::get('site', 'default_status_id' );
+			$this->status_id = Config::get('site', 'default_status_id');
 		}
 
 		if ($this->status_id == Model_Page::STATUS_PUBLISHED)
 		{
 			$this->published_on = date('Y-m-d H:i:s');
 		}
-		
-		if( empty($this->use_redirect))
+
+		if (empty($this->use_redirect))
 		{
 			$this->redirect_url = NULL;
 		}
@@ -313,8 +313,8 @@ class KodiCMS_Model_Page extends ORM
 
 			$this->position = ((int) $last_position) + 1;
 		}
-		
-		Observer::notify( 'page_add_before_save', $this );
+
+		Observer::notify('page_add_before_save', $this);
 
 		return TRUE;
 	}
@@ -339,48 +339,48 @@ class KodiCMS_Model_Page extends ORM
 			':id' => $this->id
 		))->write();
 		
-		Observer::notify( 'page_add_after_save', $this );
+		Observer::notify('page_add_after_save', $this);
 
 		return TRUE;
 	}
 
 	public function before_update()
 	{	
-		if( empty($this->published_on) AND $this->status_id == Model_Page::STATUS_PUBLISHED)
+		if (empty($this->published_on) AND $this->status_id == Model_Page::STATUS_PUBLISHED)
 		{
 			$this->published_on = date('Y-m-d H:i:s');
 		}
-		
-		if( empty($this->use_redirect))
+
+		if (empty($this->use_redirect))
 		{
 			$this->redirect_url = NULL;
 		}
-		
+
 		// Если запрещены теги в Заголовке, удаляем их
-		if ( Config::get('site', 'allow_html_title' ) == Config::NO )
+		if (Config::get('site', 'allow_html_title') == Config::NO)
 		{
 			$this->title = strip_tags( trim( $this->title ) );
 		}
 
 		$this->updated_by_id = AuthUser::getId();
 		
-		Observer::notify( 'page_edit_before_save', $this );
+		Observer::notify('page_edit_before_save', $this);
 
 		return TRUE;
 	}
 
 	public function after_update()
 	{
-		if(Kohana::$caching === TRUE)
+		if (Kohana::$caching === TRUE)
 		{
 			Cache::instance()->delete_tag('pages');
 		}
-		
+
 		Kohana::$log->add(Log::INFO, 'Page :id edited by :user', array(
 			':id' => $this->id
 		))->write();
 
-		Observer::notify( 'page_edit_after_save', $this );
+		Observer::notify('page_edit_after_save', $this);
 
 		return $this->after_create();
 	}

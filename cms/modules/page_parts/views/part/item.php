@@ -5,6 +5,9 @@
 			
 			<% if ((is_protected == <?php echo Model_Page_Part::PART_PROTECTED; ?> && is_developer == 1) || is_protected == <?php echo Model_Page_Part::PART_NOT_PROTECTED; ?> ) { %>
 			<div class="widget-options pull-right">
+				
+				<?php echo Observer::notify('part_controls'); ?>
+					
 				<?php if( ACL::check('page.parts')): ?>
 				<?php echo UI::button(UI::icon( 'cog' ), array(
 					'class' => 'part-options-button btn btn-xs')
