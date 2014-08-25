@@ -13,7 +13,7 @@
 	</th>
 	<td>
 		<?php if( ACL::check( 'widgets.location')): ?>
-		<?php echo Form::input('widget[' . $widget->id . '][position]', (int) $widget->position, array('maxlength' => 4, 'size' => 4, 'class' => 'input-mini text-right') );?>
+		<?php echo Form::input('widget[' . $widget->id . '][position]', (int) $widget->position, array('maxlength' => 4, 'size' => 4, 'class' => 'form-control text-right') );?>
 		<?php else: ?>
 		<span class="label label-success"><?php echo __('Position: :position', array(
 			':block_name' => $widget->block
@@ -22,18 +22,23 @@
 	</td>
 	<td>
 		<?php if( ACL::check( 'widgets.location')): ?>
-		<?php echo Form::hidden('widget['.$widget->id.'][block]', ! empty($widget->block) ? $widget->block : 0, array(
-			'class' => 'widget-blocks', 
-			'data-layout' => $page->layout())); ?>
-		<?php echo UI::button(NULL, array(
-			'href' => Route::get('backend')->uri(array(
-				'controller' => 'widgets', 
-				'action' => 'location',
-				'id' => $widget->id)), 
-			'icon' => UI::icon('sitemap'),
-			'class' => 'btn btn-xs btn-primary',
-			'target' => 'blank'
-		)); ?>
+		<div class="input-group">
+			<?php echo Form::hidden('widget['.$widget->id.'][block]', ! empty($widget->block) ? $widget->block : 0, array(
+				'class' => 'widget-blocks', 
+				'data-layout' => $page->layout())); ?>
+
+			<div class="input-group-btn">
+			<?php echo UI::button(NULL, array(
+				'href' => Route::get('backend')->uri(array(
+					'controller' => 'widgets', 
+					'action' => 'location',
+					'id' => $widget->id)), 
+				'icon' => UI::icon('sitemap'),
+				'class' => 'btn btn-primary popup fancybox.iframe',
+				'target' => 'blank'
+			)); ?>
+			</div>
+		</div>
 		<?php else: ?>
 		<span class="label label-success"><?php echo __('Block: :block_name', array(
 			':block_name' => $widget->block

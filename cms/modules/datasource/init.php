@@ -1,15 +1,23 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
-Route::set( 'datasources', ADMIN_DIR_NAME.'/<directory>(/<controller>(/<action>(/<id>)))', array(
-	'directory' => '(datasources|' . implode('|', array_keys(Datasource_Data_Manager::types())) . ')'
-))
-	->defaults( array(
+if(IS_BACKEND)
+{
+	Route::set('datasources', ADMIN_DIR_NAME . '/<directory>(/<controller>(/<action>(/<id>)))', array(
+		'directory' => '(datasources|' . implode('|', array_keys(Datasource_Data_Manager::types())) . ')'
+	))
+	->defaults(array(
 		'directory' => 'datasources',
 		'controller' => 'data',
 		'action' => 'index',
-	) );
+	));
+}
 
 Observer::observe('modules::after_load', function() {
+
+	if (!IS_BACKEND)
+	{
+		return;
+	}
 
 	$types = Datasource_Data_Manager::types();
 	
@@ -57,15 +65,18 @@ Observer::observe('modules::after_load', function() {
 });
 
 Observer::observe('update_search_index', function() {
-	
+
 	$ds_ids = Datasource_Data_Manager::get_all();
-	
+
 	foreach ($ds_ids as $ds_id => $data)
 	{
 		$ds = Datasource_Data_Manager::load($ds_id);
-		
-		if(! $ds->loaded()) continue;
-		
+
+		if (!$ds->loaded())
+		{
+			continue;
+		}
+
 		$ds->update_index();
 	}
 });

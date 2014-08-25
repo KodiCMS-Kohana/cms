@@ -1,20 +1,19 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
 Observer::observe('template_before_render',  function($request) {
-	
-	if(in_array( $request->controller(), array('Page', 'Widgets') ))
+	if (in_array($request->controller(), array('Page', 'Widgets')))
 	{
 		Assets::js('controller.widgets', ADMIN_RESOURCES . 'js/controller/widgets.js', 'global');
 	}
 });
 
-Observer::observe( 'frontpage_found',  function($page) {
+Observer::observe('frontpage_found', function($page) {
 	$widgets = Widget_Manager::get_widgets_by_page($page->id);
 
 	Context::instance()
 		->register_widgets($widgets)
 		->init_widgets();
-	
+
 	/**
 	 * Запуск метода в виджетах текущей страницы 
 	 * Model_Widget_Decorator::on_page_load
@@ -29,7 +28,7 @@ Observer::observe( 'frontpage_found',  function($page) {
 	Block::run('PRE');
 });
 
-Observer::observe( 'frontpage_after_render',  function() {
+Observer::observe('frontpage_after_render', function() {
 
 	/**
 	 * Запуск метода в виджетах текущей страницы 
@@ -47,11 +46,11 @@ Observer::observe( 'frontpage_after_render',  function() {
 Observer::observe('view_page_edit_plugins', function($page) {
 
 	$blocks = Widget_Manager::get_blocks_by_layout($page->layout());
-	
+
 	echo View::factory('widgets/page/edit', array(
 		'page' => $page,
 		'pages' => Model_Page_Sitemap::get(TRUE)->exclude(array($page->id))->flatten(),
-		'widgets' => Widget_Manager::get_widgets_by_page( $page->id ),
+		'widgets' => Widget_Manager::get_widgets_by_page($page->id),
 		'blocks' => Arr::get($blocks, $page->layout())
 	));
 });

@@ -648,7 +648,7 @@ class KodiCMS_Model_Page_Front {
 			->where('status_id', 'in', self::get_statuses($include_hidden))
 			->limit(1)
 			->cache_tags( array('pages') )
-			->cached((int)Config::get('cache', 'front_page'))
+			->cached((int) Config::get('cache', 'front_page'))
 			->as_object();
 		
 		if(Config::get('page', 'check_date') == Config::YES)

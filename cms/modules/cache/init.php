@@ -5,17 +5,6 @@
  */
 Cache::$default = defined('CACHE_TYPE') ? CACHE_TYPE : 'file';
 
-//Observer::observe('modules::after_load', function() {
-//	$driver = defined('CACHE_TYPE') ? CACHE_TYPE : 'file';
-//	
-//	if( Config::get('cache', 'driver') === NULL ) 
-//	{
-//		Config::set('cache', 'driver', $driver);
-//	}
-//
-//	Cache::$default = Config::get('cache', 'driver');
-//});
-
 if(ACL::check('system.cache.settings'))
 {
 	Observer::observe('view_setting_plugins', function() {
