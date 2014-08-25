@@ -11,10 +11,10 @@ class KodiCMS_Controller_System_Frontend extends Controller_System_Template
 	{
 		parent::before();
 
-		if($this->auto_render === TRUE)
+		if ($this->auto_render === TRUE)
 		{
 			Assets::js('jquery', ADMIN_RESOURCES . 'libs/jquery.min.js');
-			
+
 			Assets::package(array('jquery-ui', 'backbone', 'notify', 'underscore', 'select2', 'core', 'bootstrap'));
 		}
 	}

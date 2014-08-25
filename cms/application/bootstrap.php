@@ -3,17 +3,17 @@
 // -- Environment setup --------------------------------------------------------
 
 // Load the core Kohana class
-require SYSPATH.'classes/kohana/core'.EXT;
+require SYSPATH . 'classes/kohana/core' . EXT;
 
-if (is_file(APPPATH.'classes/kohana'.EXT))
+if (is_file(APPPATH . 'classes/kohana' . EXT))
 {
 	// Application extends the core
-	require APPPATH.'classes/kohana'.EXT;
+	require APPPATH . 'classes/kohana' . EXT;
 }
 else
 {
 	// Load empty core extension
-	require SYSPATH.'classes/kohana'.EXT;
+	require SYSPATH . 'classes/kohana' . EXT;
 }
 
 /**
@@ -30,7 +30,7 @@ else
  * @see  http://kohanaframework.org/guide/using.configuration
  * @see  http://php.net/setlocale
  */
-setlocale( LC_ALL, 'ru_RU.utf-8' );
+setlocale(LC_ALL, 'ru_RU.utf-8');
 
 /**
  * Enable the Kohana auto-loader.
@@ -71,16 +71,16 @@ mb_substitute_character('none');
  */
 
 // -- Configuration and initialization -----------------------------------------
-if ( isset( $_SERVER['KOHANA_ENV'] ) )
+if (isset($_SERVER['KOHANA_ENV']))
 {
-	Kohana::$environment = constant( 'Kohana::' . strtoupper( $_SERVER['KOHANA_ENV'] ) );
+	Kohana::$environment = constant('Kohana::' . strtoupper($_SERVER['KOHANA_ENV']));
 }
-else if(IS_INSTALLED)
+else if (IS_INSTALLED)
 {
 	Kohana::$environment = Kohana::PRODUCTION;
-	
+
 	// Turn off notices and strict errors
-    error_reporting(E_ALL ^ E_NOTICE ^ E_STRICT);
+	error_reporting(E_ALL ^ E_NOTICE ^ E_STRICT);
 }
 
 /**
@@ -123,42 +123,43 @@ define('TMPPATH',			PUBLICPATH . 'temp' . DIRECTORY_SEPARATOR);
 define('LAYOUTS_SYSPATH',	DOCROOT . 'layouts' . DIRECTORY_SEPARATOR);
 define('SNIPPETS_SYSPATH',	DOCROOT . 'snippets' . DIRECTORY_SEPARATOR);
 
-if(PHP_SAPI != 'cli')
+if (PHP_SAPI != 'cli')
 {
 	define('BASE_URL',		URL::base('http'));
 	define('SITE_HOST',		str_replace('www.', '', $_SERVER['HTTP_HOST']));
 }
 
-if( ! defined( 'BASE_URL' ) ) define('BASE_URL', '/');
-if( ! defined( 'SITE_HOST' ) ) define('SITE_HOST', 'test');
+if (!defined('BASE_URL'))	define('BASE_URL', '/');
+if (!defined('SITE_HOST'))	define('SITE_HOST', 'test');
 
 define('ADMIN_RESOURCES',	BASE_URL . 'cms/media/');
 
 /**
  * Attach the file write to logging. Multiple writers are supported.
  */
-Kohana::$log->attach(new Log_File(CMSPATH.'logs'));
+Kohana::$log->attach(new Log_File(CMSPATH . 'logs'));
 
 /**
  * Attach a file reader to config. Multiple readers are supported.
  */
 Kohana::$config->attach(new Config_File);
 
-Route::set( 'error', 'system/error(/<code>(/<message>))', array(
-		'message' => '.*',
-		'code' => '[0-9]+'
-	) )
-	->defaults( array(
-		'directory' => 'system',
-		'controller' => 'error',
-		'action' => 'index'
-	) );
-
-Route::set( 'admin_media', 'cms/media/<file>', array(
-	'file' => '.*'
+Route::set('error', 'system/error(/<code>(/<message>))', array(
+	'message' => '.*',
+	'code' => '[0-9]+'
 ))
-	->defaults( array(
-		'directory' => 'system',
-		'controller' => 'media',
-		'action' => 'media',
-	) );
+->defaults(array(
+	'directory' => 'system',
+	'controller' => 'error',
+	'action' => 'index'
+));
+
+Route::set('admin_media', 'cms/media/<file>.<ext>', array(
+	'file' => '.*',
+	'ext' => 'css|js'
+))
+->defaults(array(
+	'directory' => 'system',
+	'controller' => 'media',
+	'action' => 'media',
+));

@@ -9,19 +9,31 @@ class UI {
 	const BUTTON_TYPE_BUTTON = 0;
 	const BUTTON_TYPE_ANCHOR = 1;
 
-	public static function icon( $name )
-	{
-		return '<i class="fa fa-' . HTML::chars( $name ) .'"></i>';
-	}
+	public static function icon($name)
+	{	
+		$attributes = array(
+			'class' => 'fa fa-' . HTML::chars($name)
+		);
 	
-	public static function label( $text, $type = 'info' )
-	{
-		return '<span class="label label-' . $type . '">' . $text . '</span>';
+		return '<i' . HTML::attributes($attributes) . '></i>';
 	}
-	
-	public static function badge( $text, $type = 'info' )
+
+	public static function label($text, $type = 'info')
 	{
-		return '<span class="badge badge-' . $type . '">' . $text . '</span>';
+		$attributes = array(
+			'class' => 'label label-' . HTML::chars($type)
+		);
+		
+		return '<span' . HTML::attributes($attributes) . '>' . $text . '</span>';
+	}
+
+	public static function badge($text, $type = 'info')
+	{
+		$attributes = array(
+			'class' => 'badge badge-' . HTML::chars($type)
+		);
+		
+		return '<span' . HTML::attributes($attributes) . '>' . $text . '</span>';
 	}
 
 	public static function button($body, array $attributes = NULL)

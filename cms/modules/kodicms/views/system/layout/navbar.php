@@ -30,7 +30,7 @@
 							</a>
 							<ul class="dropdown-menu">
 								<li>
-									<?php echo HTML::anchor(Route::get('backend')->uri(array('controller' => 'users', 'action' => 'profile')), __('Profile')); ?>
+									<?php echo HTML::anchor(Route::get('backend')->uri(array('controller' => 'users', 'action' => 'profile')), __('Profile'), array('data-icon' => 'user')); ?>
 								</li>
 								<li>
 									<?php echo HTML::anchor(Route::get('backend')->uri(array('controller' => 'users', 'action' => 'edit', 'id' => Auth::get_id())), __('Settings'), array('data-icon' => 'cog')); ?>

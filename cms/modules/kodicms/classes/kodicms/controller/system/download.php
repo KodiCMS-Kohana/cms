@@ -11,12 +11,11 @@ class KodiCMS_Controller_System_Download extends Controller {
 
 	public function action_index()
 	{
-		$path = $this->request->param('path');
-		$path = Download::decode_path($path);
+		$path = Download::decode_path($this->request->param('path'));
 
-		if( ! file_exists( $path ))
+		if (!file_exists($path))
 		{
-			if(IS_BACKEND)
+			if (IS_BACKEND)
 			{
 				throw new HTTP_Exception_404('File :file not found', array(
 					':file' => $path));
@@ -27,9 +26,8 @@ class KodiCMS_Controller_System_Download extends Controller {
 					':file' => $path));
 			}
 		}
-		
-		$this->response
-			->send_file($path);
+
+		$this->responses->send_file($path);
 	}
 	
 }

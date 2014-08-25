@@ -22,8 +22,8 @@ catch (Exception $e)
 
 Database::$default = 'install';
 
-Route::set( 'install', 'install(/<action>(/<id>))' )
-	->defaults( array(
+Route::set('install', 'install(/<action>(/<id>))')
+	->defaults(array(
 		'controller' => 'install',
 		'action' => 'error',
-	) );
+	));

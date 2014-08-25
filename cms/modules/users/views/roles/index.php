@@ -26,13 +26,14 @@
 			<?php foreach ($roles as $role): ?>
 			<tr class="item">
 				<td class="name">
-					<?php echo UI::icon('unlock-alt'); ?>
-					<?php if ( Acl::check( 'roles.edit')): ?>
+					<?php if (Acl::check('roles.edit')): ?>
 					<?php echo HTML::anchor(Route::get('backend')->uri(array(
 						'controller' => 'roles',
 						'action' => 'edit',
 						'id' => $role->id
-					)), $role->name); ?>
+					)), $role->name, array(
+						'data-icon' => 'unlock'
+					)); ?>
 					<?php else: ?>
 					<?php echo UI::icon('lock'); ?> <?php echo $role->name; ?>
 					<?php endif; ?>

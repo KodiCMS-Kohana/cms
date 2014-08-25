@@ -111,7 +111,7 @@ class KodiCMS_Part
 		if (!array_key_exists($page_id, self::$_cache))
 		{
 			self::$_cache[$page_id] = DB::select('name', 'content', 'content_html')
-					->from(Model_Page_Part::tableName())
+					->from('page_parts')
 					->where('page_id', '=', $page_id)
 					->cache_tags(array('page_parts'))
 					->as_object('Model_Page_Part')

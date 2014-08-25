@@ -36,11 +36,16 @@ class KodiCMS_Controller_System_Security extends Controller_System_Controller
 		}
 	}
 	
+	/**
+	 * 
+	 * @param string $message
+	 * @throws HTTP_Exception
+	 */
 	protected function _deny_access( $message = NULL )
 	{
-		if ( Auth::is_logged_in() OR $this->request->is_ajax() )
+		if (Auth::is_logged_in() OR $this->request->is_ajax())
 		{
-			if($message === NULL)
+			if ($message === NULL)
 			{
 				$message = 'You don`t have permissions to acces this page';
 			}

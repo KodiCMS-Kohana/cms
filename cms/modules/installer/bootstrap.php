@@ -49,14 +49,14 @@ Observer::notify('modules::after_load');
 /**
  * Проверка на существование модуля `installer`
  */
-if( array_key_exists('installer', Kohana::modules()) === FALSE )
+if (array_key_exists('installer', Kohana::modules()) === FALSE)
 {
 	throw HTTP_Exception::factory(404, __('System not installed. Installer not found.'));
 }
 
 if (PHP_SAPI != 'cli')
 {
-	if( ! URL::match('install', Request::detect_uri()) )
+	if (!URL::match('install', Request::detect_uri()))
 	{
 		$uri = Route::get('install')->uri();
 	}

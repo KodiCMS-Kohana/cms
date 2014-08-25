@@ -171,9 +171,17 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 	 */
 	public function remove() 
 	{
+		$id = $this->id();
+
+		parent::remove();
+		
 		$this->record()->destroy();
-		DataSource_Hybrid_Factory::remove($this->id());
-		return parent::remove();
+		DataSource_Hybrid_Factory::remove($id);
+		
+		$this->_record = NULL;
+		$this->_agent = NULL;
+
+		return $this;
 	}
 	
 	/**

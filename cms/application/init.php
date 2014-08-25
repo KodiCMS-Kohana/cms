@@ -84,52 +84,52 @@ Observer::notify('modules::after_load');
 
 Kohana::$log->attach(new Log_Database('logs'));
 
-Route::set( 'user', ADMIN_DIR_NAME.'/<action>(?next=<next_url>)', array(
+Route::set('user', ADMIN_DIR_NAME . '/<action>(?next=<next_url>)', array(
 	'action' => '(login|logout|forgot)',
-) )
-	->defaults( array(
-		'controller' => 'login',
-	) );
+))
+->defaults(array(
+	'controller' => 'login',
+));
 
-Route::set( 'templates', ADMIN_DIR_NAME.'/(<controller>(/<action>(/<id>)))', array(
+Route::set('templates', ADMIN_DIR_NAME . '/(<controller>(/<action>(/<id>)))', array(
 	'controller' => '(layout|snippet)',
 	'id' => '.*'
-) )
-	->defaults( array(
-		'controller' => 'index',
-		'action' => 'index',
-	) );
+))
+->defaults(array(
+	'controller' => 'index',
+	'action' => 'index',
+));
 
-Route::set( 'downloader', '('.ADMIN_DIR_NAME.'/)download/<path>', array(
+Route::set('downloader', '(' . ADMIN_DIR_NAME . '/)download/<path>', array(
 	'path' => '.*'
-) )
-	->defaults( array(
-		'directory' => 'system',
-		'controller' => 'download',
-		'action' => 'index',
-	) );
+))
+->defaults(array(
+	'directory' => 'system',
+	'controller' => 'download',
+	'action' => 'index',
+));
 
-Route::set( 'backend', ADMIN_DIR_NAME.'(/<controller>(/<action>(/<id>)))')
-	->defaults( array(
-		'controller' => Config::get('site', 'default_tab'),
-		'action' => 'index',
-	) );
+Route::set('backend', ADMIN_DIR_NAME . '(/<controller>(/<action>(/<id>)))')
+->defaults(array(
+	'controller' => Config::get('site', 'default_tab'),
+	'action' => 'index',
+));
 
-Route::set( 'system', '<directory>-<controller>-<action>(/<id>)', array(
+Route::set('system', '<directory>-<controller>-<action>(/<id>)', array(
 	'directory' => '(ajax|action|form)',
 	'controller' => '[A-Za-z\_]+',
 	'action' => '[A-Za-z\_]+',
 	'id' => '.+',
-) );
+));
 
-Route::set( 'default', '(<page>)(<suffix>)' , array(
+Route::set('default', '(<page>)(<suffix>)', array(
 	'page' => '.*',
 	'suffix' => URL_SUFFIX
-) )
-	->defaults( array(
-		'controller' => 'front',
-		'action' => 'index',
-		'suffix' => URL_SUFFIX
-	) );
+))
+->defaults(array(
+	'controller' => 'front',
+	'action' => 'index',
+	'suffix' => URL_SUFFIX
+));
 
 Observer::notify('system::init');

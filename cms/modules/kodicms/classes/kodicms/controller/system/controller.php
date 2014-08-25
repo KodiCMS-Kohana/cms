@@ -17,28 +17,28 @@ class KodiCMS_Controller_System_Controller extends Controller
 	
 	public function go_home()
 	{
-		if(IS_BACKEND)
+		if (IS_BACKEND)
 		{
 			$this->go_backend();
 		}
 		else
 		{
-			$this->go( Route::get( 'default' )->uri() );
+			$this->go(Route::get('default')->uri());
 		}
 	}
 	
 	public function go_backend()
 	{
-		$this->go( Route::get( 'backend' )->uri(array(
+		$this->go(Route::get('backend')->uri(array(
 			'controller' => str_replace(ADMIN_DIR_NAME . '/', '', Config::get('site', 'default_tab')),
-		) ) );
+		)));
 	}
 
 	public function go_back()
 	{
-		if ( Valid::url( $this->request->referrer() ) )
+		if (Valid::url($this->request->referrer()))
 		{
-			$this->go( $this->request->referrer() );
+			$this->go($this->request->referrer());
 		}
 	}
 	
@@ -60,23 +60,23 @@ class KodiCMS_Controller_System_Controller extends Controller
 			'controller' => strtolower($this->request->controller())
 		);
 
-		if ( is_array( $url ) OR $url === NULL )
+		if (is_array($url) OR $url === NULL)
 		{
-			if(is_array( $url ))
+			if (is_array($url))
 			{
-				$route_params = Arr::merge( $route_params, $url );
+				$route_params = Arr::merge($route_params, $url);
 			}
-			
+
 			$url = Route::get('backend')->uri($route_params);
 		}
-		
-		if( is_array( $this->query_params ) )
+
+		if (is_array($this->query_params))
 		{
 			$url = preg_replace('/\?.*/', '', $url);
-			$url .= URL::query( $this->query_params, TRUE);
+			$url .= URL::query($this->query_params, TRUE);
 		}
 
-		$this->redirect( $url, $code );
+		$this->redirect($url, $code);
 	}
 
 	protected function _changed_uri($params)
@@ -121,4 +121,4 @@ class KodiCMS_Controller_System_Controller extends Controller
 		return FALSE;
 	}
 
-} // end Controller class
+}
