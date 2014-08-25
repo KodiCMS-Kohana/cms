@@ -66,7 +66,7 @@ class Log_Database extends Log_Writer {
 			
 			$data = array(
 				'created_on' => date('Y-m-d H:i:s'),
-				'user_id' => AuthUser::getId(),
+				'user_id' => Auth::get_id(),
 				'level' => $message['level'],
 				'message' => $message['body'],
 				'additional' => json_encode($message['additional'])

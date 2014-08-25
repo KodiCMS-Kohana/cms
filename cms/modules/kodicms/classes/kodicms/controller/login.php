@@ -12,11 +12,8 @@ class KodiCMS_Controller_Login extends Controller_System_Frontend {
 	public function before()
 	{
 		parent::before();
-		if (
-			$this->request->action() != 'logout'
-			AND
-			AuthUser::isLoggedIn()
-		)
+		if ($this->request->action() != 'logout'
+			AND Auth::is_logged_in())
 		{
 			$this->go_home();
 		}
@@ -28,7 +25,7 @@ class KodiCMS_Controller_Login extends Controller_System_Frontend {
 	 */
 	public function action_login()
 	{
-		if ( $this->request->method() == Request::POST )
+		if ($this->request->method() == Request::POST)
 		{
 			$this->auto_render = FALSE;
 			return $this->_login();
@@ -36,7 +33,7 @@ class KodiCMS_Controller_Login extends Controller_System_Frontend {
 
 		$this->template->title = __('Login');
 		$this->template->content = View::factory('system/login');
-		
+
 		$this->template->content->install_data = Session::instance()->get_once('install_data');
 	}
 
@@ -44,38 +41,37 @@ class KodiCMS_Controller_Login extends Controller_System_Frontend {
 	{
 		$array = $this->request->post('login');
 
-		$fieldname = Valid::email( Arr::get($array, 'username') ) 
-			? AuthUser::EMAIL : AuthUser::USERNAME;
-
-		$array = Validation::factory( $array )
-			->label( 'username', 'Username' )
-			->label( 'password', 'Password' )
-			->label( 'email', 'Email' )
-			->rules( 'username', array(
-				array( 'not_empty' )
-			) )
-			->rules( 'password', array(
-				array( 'not_empty' ),
-			) );
+		$array = Validation::factory($array)
+			->label('username', 'Username')
+			->label('password', 'Password')
+			->label('email', 'Email')
+			->rules('username', array(
+				array('not_empty')
+			))
+			->rules('password', array(
+				array('not_empty'),
+			));
+		
+		$fieldname = Valid::email(Arr::get($array, 'username')) ? Auth::EMAIL : Auth::USERNAME;
 
 		// Get the remember login option
-		$remember = isset( $array['remember'] );
-		
-		Observer::notify( 'admin_login_validation', $array );
+		$remember = isset($array['remember']);
 
-		if ( $array->check() )
+		Observer::notify('admin_login_validation', $array);
+
+		if ($array->check())
 		{
-			Observer::notify( 'admin_login_before', $array );
+			Observer::notify('admin_login_before', $array);
 
-			if ( AuthUser::login( $fieldname, $array['username'], $array['password'], $remember ) )
+			if (Auth::instance()->login($array['username'], $array['password'], $remember))
 			{
-				Observer::notify( 'admin_login_success', $array['username'] );
+				Observer::notify('admin_login_success', $array['username']);
 
 				Session::instance()->delete('install_data');
-				
+
 				Kohana::$log->add(Log::INFO, ':user login')->write();
 
-				if( $next_url = Flash::get( 'redirect') )
+				if ($next_url = Flash::get('redirect'))
 				{
 					$this->go($next_url);
 				}
@@ -85,48 +81,48 @@ class KodiCMS_Controller_Login extends Controller_System_Frontend {
 			}
 			else
 			{
-				Observer::notify( 'admin_login_failed', $array );
+				Observer::notify('admin_login_failed', $array);
 
-				Messages::errors( __('Login failed. Please check your login data and try again.') );
-				$array->error( $fieldname, 'incorrect' );
-				
-				Kohana::$log->add(Log::ALERT, 'Try to login with :field: :value. Incorrect data', 
-                    array(
-                        ':field' => $fieldname,
-                        ':value' => $array['username']
-                    ))->write();
+				Messages::errors(__('Login failed. Please check your login data and try again.'));
+				$array->error($fieldname, 'incorrect');
+
+				Kohana::$log->add(Log::ALERT, 'Try to login with :field: :value. Incorrect data', array(
+					':field' => $fieldname,
+					':value' => $array['username']
+				))->write();
 			}
 		}
 		else
 		{
-			Messages::errors( $array->errors( 'validation' ) );
+			Messages::errors($array->errors('validation'));
 		}
 
-		$this->go(Route::get('user')->uri(array( 'action' => 'login' )));
+		$this->go(Route::get('user')->uri(array('action' => 'login')));
 	}
 
 	public function action_logout()
 	{
 		$this->auto_render = FALSE;
-		AuthUser::logout();
-		Observer::notify('admin_after_logout', AuthUser::getUserName());
-		
-		if( $next_url = Flash::get( 'redirect') )
+		Auth::instance()->logout(TRUE);
+
+		Observer::notify('admin_after_logout', Auth::get_username());
+
+		if ($next_url = Flash::get('redirect'))
 		{
 			$this->go($next_url);
 		}
-				
+
 		$this->go_home();
 	}
 
 	public function action_forgot()
 	{
-		if ( $this->request->method() == Request::POST )
+		if ($this->request->method() == Request::POST)
 		{
 			$this->auto_render = FALSE;
-			
+
 			$widget = Widget_Manager::factory('User_Forgot');
-		
+
 			Context::instance()->set('email', Arr::path($this->request->post(), 'forgot.email'));
 
 			$widget->set_values(array(
@@ -135,6 +131,7 @@ class KodiCMS_Controller_Login extends Controller_System_Frontend {
 		}
 
 		$this->template->title = __('Forgot password');
-		$this->template->content = View::factory( 'system/forgot' );
+		$this->template->content = View::factory('system/forgot');
 	}
+
 }

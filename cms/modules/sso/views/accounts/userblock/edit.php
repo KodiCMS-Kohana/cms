@@ -1,4 +1,4 @@
-<?php if($user->id == AuthUser::getId()): ?>
+<?php if($user->id == Auth::get_id()): ?>
 <div class="panel-heading">
 	<span class="panel-title"><?php echo __('Social accounts'); ?></span>
 </div>

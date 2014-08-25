@@ -30,7 +30,7 @@
 			<?php foreach($items as $page): ?>
 			<tr data-id="<?php echo $page->id; ?>">
 				<th class="title">
-					<?php if( ! ACL::check('page.edit') OR ! AuthUser::hasPermission( $page->get_permissions() ) ): ?>
+					<?php if( ! ACL::check('page.edit') OR ! Auth::has_permissions( $page->get_permissions() ) ): ?>
 					<?php echo UI::icon('lock'); ?>
 					<em title="/"><?php echo $page->title; ?></em>
 					<?php else: ?>

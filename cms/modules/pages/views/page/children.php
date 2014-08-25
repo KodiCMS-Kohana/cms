@@ -20,7 +20,7 @@
 				<?php endif; ?>
 
 
-				<?php if (!ACL::check('page.edit') OR !AuthUser::hasPermission($child->get_permissions())): ?>
+				<?php if (!ACL::check('page.edit') OR !Auth::has_permissions($child->get_permissions())): ?>
 				<?php echo UI::icon('lock'); ?>
 				<?php echo $child->title; ?>
 				<?php else: ?>

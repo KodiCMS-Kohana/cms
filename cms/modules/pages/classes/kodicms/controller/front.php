@@ -72,7 +72,7 @@ class KodiCMS_Controller_Front extends Controller_System_Controller
 		{
 			Observer::notify('frontpage_login_required', $page);
 
-			if ( ! AuthUser::isLoggedIn())
+			if ( ! Auth::is_logged_in())
 			{
 				Flash::set('redirect', $page->url());
 
@@ -102,7 +102,7 @@ class KodiCMS_Controller_Front extends Controller_System_Controller
 		// Если пользователь Администраторо или девелопер, в конец шаблона 
 		// добавляем View 'system/blocks/toolbar', в котором можно добавлять 
 		// собственный HTML, например панель администратора
-		if ( AuthUser::isLoggedIn() AND AuthUser::hasPermission(array(
+		if ( Auth::is_logged_in() AND Auth::has_permissions(array(
 			'administrator', 'developer'
 		)))
 		{

@@ -60,11 +60,11 @@ if($navigation !== NULL)
 			->attributes('id', 'user_nav')
 			->add(
 				Bootstrap_Navbar_Dropdown::factory(array(
-					'title' => UI::label(UI::icon( 'user' ) . ' <span class="text">' .  AuthUser::getUserName() . '</span>')
+					'title' => UI::label(UI::icon( 'user' ) . ' <span class="text">' .  Auth::get_username() . '</span>')
 				))
 				->add(
 					Bootstrap_Helper_HTML::factory(array(
-						'string' => AuthUser::getRecord()->gravatar(90, NULL, array('class' => 'img-circle'))
+						'string' => Auth::get_record()->gravatar(90, NULL, array('class' => 'img-circle'))
 					)),
 					FALSE, array('class' => 'navigation-avatar')
 				)

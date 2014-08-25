@@ -25,15 +25,15 @@
 						</li>
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle user-menu" data-toggle="dropdown">
-								<?php echo AuthUser::getRecord()->gravatar(25); ?>
-								<span><?php echo AuthUser::getUserName(); ?></span>
+								<?php echo Auth::get_record()->gravatar(25); ?>
+								<span><?php echo Auth::get_username(); ?></span>
 							</a>
 							<ul class="dropdown-menu">
 								<li>
 									<?php echo HTML::anchor(Route::get('backend')->uri(array('controller' => 'users', 'action' => 'profile')), __('Profile')); ?>
 								</li>
 								<li>
-									<?php echo HTML::anchor(Route::get('backend')->uri(array('controller' => 'users', 'action' => 'edit', 'id' => AuthUser::getId())), __('Settings'), array('data-icon' => 'cog')); ?>
+									<?php echo HTML::anchor(Route::get('backend')->uri(array('controller' => 'users', 'action' => 'edit', 'id' => Auth::get_id())), __('Settings'), array('data-icon' => 'cog')); ?>
 								</li>
 								<li class="divider"></li>
 								<li>

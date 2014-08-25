@@ -32,7 +32,7 @@ class KodiCMS_Controller_API_Page_Parts extends Controller_System_Api {
 			->save()
 			->as_array();
 
-		$part['is_developer'] = (int) AuthUser::hasPermission('administrator, developer');
+		$part['is_developer'] = (int) Auth::has_permissions('administrator, developer');
 		$this->response($part);
 	}
 	
@@ -45,7 +45,7 @@ class KodiCMS_Controller_API_Page_Parts extends Controller_System_Api {
 			->save()
 			->as_array();
 
-		$part['is_developer'] = (int) AuthUser::hasPermission('administrator, developer');
+		$part['is_developer'] = (int) Auth::has_permissions('administrator, developer');
 		$this->response($part);
 	}
 	

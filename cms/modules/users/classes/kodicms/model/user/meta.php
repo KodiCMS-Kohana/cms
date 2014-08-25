@@ -24,7 +24,7 @@ class KodiCMS_Model_User_Meta {
 	{
 		if ($user_id === NULL)
 		{
-			$user_id = AuthUser::getId();
+			$user_id = Auth::get_id();
 		}
 
 		self::_load($user_id);
@@ -55,7 +55,7 @@ class KodiCMS_Model_User_Meta {
 	{
 		if ($user_id === NULL)
 		{
-			$user_id = AuthUser::getId();
+			$user_id = Auth::get_id();
 		}
 
 		self::_load($user_id);
@@ -91,7 +91,7 @@ class KodiCMS_Model_User_Meta {
 	{
 		if ($user_id === NULL)
 		{
-			$user_id = AuthUser::getId();
+			$user_id = Auth::get_id();
 		}
 
 		self::_clear_cache($user_id);
@@ -111,7 +111,7 @@ class KodiCMS_Model_User_Meta {
 	{
 		if ($user_id === NULL)
 		{
-			$user_id = AuthUser::getId();
+			$user_id = Auth::get_id();
 		}
 
 		self::_clear_cache($user_id);
@@ -130,7 +130,7 @@ class KodiCMS_Model_User_Meta {
 	{
 		if ($user_id === NULL)
 		{
-			$user_id = AuthUser::getId();
+			$user_id = Auth::get_id();
 		}
 
 		if (Arr::get(self::$_cache, $user_id) === NULL)
@@ -151,7 +151,7 @@ class KodiCMS_Model_User_Meta {
 	{
 		if ($user_id === NULL)
 		{
-			$user_id = AuthUser::getId();
+			$user_id = Auth::get_id();
 		}
 		
 		Cache::instance()->delete('Database::cache(user_meta' . $user_id . ')');

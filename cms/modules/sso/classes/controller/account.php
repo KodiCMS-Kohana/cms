@@ -32,7 +32,7 @@ abstract class Controller_Account extends Controller_System_SSO {
 	
 	public function action_connect($next_action = 'complete_connect')
 	{
-		if( ! AuthUser::isLoggedIn())
+		if( ! Auth::is_logged_in())
 		{
 			Messages::errors(__('User must be logged in'));
 		}
@@ -57,7 +57,7 @@ abstract class Controller_Account extends Controller_System_SSO {
 		else
 		{
 			$user = $this->_sso->get_user();
-			if( $user->loaded() AND ! AuthUser::isLoggedIn() )
+			if( $user->loaded() AND ! Auth::is_logged_in() )
 			{
 				if($user->user->loaded())
 				{
@@ -84,7 +84,7 @@ abstract class Controller_Account extends Controller_System_SSO {
 		else
 		{
 			$user = $this->_sso->get_user();
-			if( $user->loaded() AND ! AuthUser::isLoggedIn() )
+			if( $user->loaded() AND ! Auth::is_logged_in() )
 			{
 				if( ! $user->user->loaded())
 				{
@@ -142,15 +142,15 @@ abstract class Controller_Account extends Controller_System_SSO {
 		else
 		{
 			$user = $this->_sso->get_user();
-			if( $user->loaded() AND $user->user_id === NULL AND AuthUser::isLoggedIn() )
+			if( $user->loaded() AND $user->user_id === NULL AND Auth::is_logged_in() )
 			{
-				$user->set('user_id', AuthUser::getId())->update();
+				$user->set('user_id', Auth::get_id())->update();
 				
 				Messages::success( __('Social account connected') );
 			}
 			
 		}
-		$this->go('user/edit/'.AuthUser::getId());
+		$this->go('user/edit/'.Auth::get_id());
 	}
 	
 	public function action_complete_disconnect()
@@ -164,13 +164,13 @@ abstract class Controller_Account extends Controller_System_SSO {
 		else
 		{
 			$user = $this->_sso->get_user();
-			if( $user->loaded() AND AuthUser::isLoggedIn() )
+			if( $user->loaded() AND Auth::is_logged_in() )
 			{
 				$this->_sso->logout();
 				$user->delete();
 				Messages::success( __('Social account disconnected') );
 			}
 		}
-		$this->go('user/edit/'.AuthUser::getId());
+		$this->go('user/edit/'.Auth::get_id());
 	}
 }

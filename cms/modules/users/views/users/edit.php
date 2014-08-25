@@ -64,7 +64,7 @@
 		</div>
 	</div>
 
-	<?php if( ACL::check('users.change_password') OR $user->id == AuthUser::getId() OR !$user->loaded() ): ?>
+	<?php if( ACL::check('users.change_password') OR $user->id == Auth::get_id() OR !$user->loaded() ): ?>
 	<div class="panel-heading">
 		<span class="panel-title"><?php echo __('Password'); ?></span>
 	</div>

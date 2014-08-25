@@ -84,7 +84,7 @@ class Model_API extends Model_Database {
 		$fields = array_diff($fields, $remove_fields);
 		
 		// TODO сделать проверку токена, выдаваемого под API
-		if( ! empty($secured_fields) AND ! AuthUser::isLoggedIn('login') )
+		if( ! empty($secured_fields) AND ! Auth::is_logged_in('login') )
 		{
 			throw HTTP_API_Exception::factory(API::ERROR_PERMISSIONS, 'You don`t have permissions to access to this fields (:fields).', array(
 				':fields' => implode(', ', $secured_fields)

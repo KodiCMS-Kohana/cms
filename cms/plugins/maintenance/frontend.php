@@ -1,6 +1,6 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct script access.' );
 
-if ($plugin->get('maintenance_mode') == Config::YES AND !AuthUser::isLoggedIn())
+if ($plugin->get('maintenance_mode') == Config::YES AND !Auth::is_logged_in())
 {
 	Observer::observe('frontpage_requested', function() {
 		$page = DB::select()

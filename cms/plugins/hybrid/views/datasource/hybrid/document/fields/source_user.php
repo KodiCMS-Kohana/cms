@@ -1,7 +1,7 @@
 <?php 
 if ( ! $doc->loaded() AND $field->set_current === TRUE) 
 {
-	$value = AuthUser::getId(); 
+	$value = Auth::get_id(); 
 }
 ?>
 
