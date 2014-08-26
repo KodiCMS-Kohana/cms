@@ -47,7 +47,6 @@ Kohana::modules( array(
 	'auth'			=> MODPATH . 'auth',		// Basic authentication
 	'orm'			=> MODPATH . 'orm',			// Object Relationship Mapping
 	'oauth'			=> MODPATH . 'oauth',
-	'sso'			=> MODPATH . 'sso',
 	'minion'		=> MODPATH . 'minion',		// Minion
 	'pagination'	=> MODPATH . 'pagination',
 	'email'			=> MODPATH . 'email',
@@ -74,7 +73,8 @@ Kohana::modules( array(
 	'search'		=> MODPATH . 'search',
 	'sidebar'		=> MODPATH . 'sidebar',
 	'update'		=> MODPATH . 'update',
-	'captcha'		=> MODPATH . 'captcha'
+	'captcha'		=> MODPATH . 'captcha',
+	'dashboard'		=> MODPATH . 'dashboard'
 ) );
 
 
@@ -111,7 +111,7 @@ Route::set('downloader', '(' . ADMIN_DIR_NAME . '/)download/<path>', array(
 
 Route::set('backend', ADMIN_DIR_NAME . '(/<controller>(/<action>(/<id>)))')
 ->defaults(array(
-	'controller' => Config::get('site', 'default_tab'),
+	'controller' => 'dashboard',
 	'action' => 'index',
 ));
 

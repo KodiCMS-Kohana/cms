@@ -150,4 +150,3 @@
 		<?php echo UI::actions($page_name); ?>
 	</div>
 <?php echo Form::close(); ?>
-</div>

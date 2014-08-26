@@ -54,6 +54,9 @@ return array(
 	'Powered by :framework v:version :codename' => 'Работает на :framework v:version :codename',
 	'Items per page' => 'Кол-во элементов на странице',
 	
+	/*********************** Dashboard *********************************/
+	'Dashboard' => 'Рабочий стол',
+	
 	/*********************** Layouts *********************************/
 	'Add layout' => 'Добавить шаблон',
 	'Edit layout' => 'Редактировать шаблон',

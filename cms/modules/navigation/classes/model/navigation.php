@@ -28,17 +28,31 @@ class Model_Navigation {
 		foreach ($sitemap as $section)
 		{
 			if(!isset($section['name'])) continue;
-
-			$section_object = self::get_section($section['name']);
 			
-			if(isset($section['icon']))
+			if(isset($section['url']))
 			{
-				$section_object->icon = $section['icon'];
-			}
+				$section_object = self::get_root_section();
 
-			if(!empty($section['children']))
+				$page = new Model_Navigation_Page($section);
+				$section_object->add_page($page);
+			}
+			else
 			{
-				$section_object->add_pages($section['children']);
+				$section_object = self::get_section($section['name']);
+				if(isset($section['icon']))
+				{
+					$section_object->icon = $section['icon'];
+				}
+
+				if(isset($section['priority']))
+				{
+					$section_object->priority = (int) $section['priority'];
+				}
+
+				if(!empty($section['children']))
+				{
+					$section_object->add_pages($section['children']);
+				}
 			}
 		}
 	}
@@ -52,14 +66,7 @@ class Model_Navigation {
 	{
 		if($parent === NULL)
 		{
-			if(self::$_root_section === NULL)
-			{
-				self::$_root_section = new Model_Navigation_Section(array(
-					'name' => 'root'
-				));
-			}
-			
-			$parent = & self::$_root_section;
+			$parent = self::get_root_section();
 		}
 
 		$section = $parent->find_section($name);
@@ -74,6 +81,18 @@ class Model_Navigation {
 		}
 		
 		return $section;
+	}
+	
+	public static function get_root_section()
+	{
+		if(self::$_root_section === NULL)
+		{
+			self::$_root_section = new Model_Navigation_Section(array(
+				'name' => 'root'
+			));
+		}
+		
+		return self::$_root_section;
 	}
 
 	/**
@@ -99,9 +118,7 @@ class Model_Navigation {
 	 * @return array
 	 */
 	public static function get($uri = NULL)
-	{
-//		self::sort();
-		
+	{		
 		if($uri === NULL)
 		{
 			$uri = Request::current()->uri();
@@ -114,7 +131,7 @@ class Model_Navigation {
 		$break = FALSE;
 		
 		self::$_root_section->find_active_page_by_uri($uri);
-
+		self::$_root_section->sort();
 		return self::$_root_section;
 	}
 	

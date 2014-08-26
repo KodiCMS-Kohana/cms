@@ -10,9 +10,9 @@ class Widget_Manager {
 	 * Получение всех типов виджетов из конфига
 	 * @return array
 	 */
-	public static function map()
+	public static function map($type = 'widgets')
 	{
-		return Kohana::$config->load( 'widgets' )->as_array();
+		return Kohana::$config->load($type)->as_array();
 	}
 	
 	/**

@@ -22,10 +22,7 @@ class Controller_Datasources_Data extends Controller_System_Datasource
 		
 		if($ds instanceof Datasource_Section) 
 		{
-			$this->template->title = $ds->name;
-
-			$this->breadcrumbs
-				->add($this->template->title);
+			$this->set_title($ds->name);
 			
 			$limit = (int) Arr::get($this->request->query(), 'limit', Cookie::get('limit'));
 			

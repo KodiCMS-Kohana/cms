@@ -21,7 +21,7 @@ class KodiCMS_Controller_Page extends Controller_System_Backend {
 
 	public function action_index()
 	{
-		$this->template->title = __('Pages');
+		$this->set_title(__('Pages'), FALSE);
 
 		Assets::js('nestable', ADMIN_RESOURCES . 'libs/nestable/jquery.nestable.js', 'jquery');
 

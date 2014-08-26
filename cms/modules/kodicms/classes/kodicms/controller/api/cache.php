@@ -7,11 +7,6 @@
  */
 class KodiCMS_Controller_API_Cache extends Controller_System_Api {
 	
-	public function before() 
-	{
-		parent::before();
-	}
-	
 	public function rest_delete()
 	{
 		if( ! ACL::check('system.cache.clear'))

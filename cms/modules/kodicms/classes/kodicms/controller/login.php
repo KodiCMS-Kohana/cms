@@ -31,10 +31,11 @@ class KodiCMS_Controller_Login extends Controller_System_Frontend {
 			return $this->_login();
 		}
 
-		$this->template->title = __('Login');
-		$this->template->content = View::factory('system/login');
+		$this->set_title(__('Login'));
 
-		$this->template->content->install_data = Session::instance()->get_once('install_data');
+		$this->template->content = View::factory('system/login', array(
+			'install_data' => Session::instance()->get_once('install_data')
+		));
 	}
 
 	private function _login()
@@ -130,7 +131,7 @@ class KodiCMS_Controller_Login extends Controller_System_Frontend {
 			))->on_page_load();
 		}
 
-		$this->template->title = __('Forgot password');
+		$this->set_title(__('Forgot password'));
 		$this->template->content = View::factory('system/forgot');
 	}
 

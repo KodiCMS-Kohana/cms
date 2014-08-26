@@ -28,6 +28,7 @@
 			<div id="main-menu" role="navigation">
 				<?php echo View::factory('system/layout/menu'); ?>
 			</div>
+			<div id="main-menu-bg"></div>
 			<?php endif; ?>
 
 			<div id="content-wrapper">

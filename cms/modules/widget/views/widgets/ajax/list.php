@@ -1,4 +1,4 @@
-<div class="widget">
+<div class="panel">
 	<?php if(count($widgets) > 0): ?>
 	<?php foreach ($widgets as $type => $_widgets): ?>
 	<div class="panel-heading">

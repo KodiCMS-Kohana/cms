@@ -89,8 +89,6 @@ abstract class Kohana_Breadcrumbs implements Countable, Iterator {
 		{
 			$position = $this->_get_next_positon($position);
 			$this->_items[$position] = $item;
-
-			$this->delete($item->name);
 		}
 
 		return $this;
@@ -133,19 +131,18 @@ abstract class Kohana_Breadcrumbs implements Countable, Iterator {
 	protected function _get_next_positon($position = NULL)
 	{
 		$position = (int) $position;
-		if(empty($position) OR !isset($this->_items[$position]))
+		while(isset($this->_items[$position]))
 		{
-			$position = $this->count() + 1;
-		}
-		else
-		{
-			while(isset($this->_items[$position]))
-			{
-				$position++;
-			}
+			$position++;
 		}
 
 		return $position;
+	}
+	
+	protected function _sort()
+	{
+		ksort($this->_items);
+		return $this;
 	}
 
 	/**
@@ -271,6 +268,8 @@ abstract class Kohana_Breadcrumbs implements Countable, Iterator {
 	 */
 	public function render()
 	{
+		$this->_sort();
+
 		return View::factory($this->options['view'], array(
 			'breadcrumbs' => $this,
 			'active_class' => $this->options['active_class'],

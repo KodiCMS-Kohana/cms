@@ -62,13 +62,13 @@ class Model_Navigation_Section extends Model_Navigation_Abstract implements Coun
 	{
 		foreach ($pages as $page)
 		{
-			if(isset($page['children']))
+			if (isset($page['children']))
 			{
 				$section = Model_Navigation::get_section($page['name'], $this);
-				if(isset($page['icon']))
+				if (isset($page['icon']))
 					$section->icon = $page['icon'];
 
-				if(count($page['children']) > 0)
+				if (count($page['children']) > 0)
 				{
 					$section->add_pages($page['children']);
 				}
@@ -76,11 +76,13 @@ class Model_Navigation_Section extends Model_Navigation_Abstract implements Coun
 			else
 			{
 				$page = new Model_Navigation_Page($page);
-				if(ACL::check( $page->permissions )) 
-					$this->add_page( $page );
+				if (ACL::check($page->permissions))
+				{
+					$this->add_page($page);
+				}
 			}
 		}
-		
+
 		return $this;
 	}
 
@@ -90,33 +92,33 @@ class Model_Navigation_Section extends Model_Navigation_Abstract implements Coun
 	 * @param integer $priority
 	 * @return \Model_Navigation_Section
 	 */
-	public function add_page(Model_Navigation_Abstract & $page, $priority = 0)
+	public function add_page(Model_Navigation_Abstract & $page, $priority = 1)
 	{
 		$priority = (int) $priority;
-		
-		if(isset($page->priority))
+
+		if (isset($page->priority))
 		{
 			$priority = (int) $page->priority;
 		}
-		
-		if($page instanceof Model_Navigation_Section)
-		{		
+
+		if ($page instanceof Model_Navigation_Section)
+		{
 			$this->_sections[] = $page;
 			$page->set_section($this);
 		}
 		else
 		{
-			if ( isset( $this->_pages[$priority] ) )
+			if (isset($this->_pages[$priority]))
 			{
-				while ( isset( $this->_pages[$priority] ) )
+				while (isset($this->_pages[$priority]))
 				{
 					$priority++;
 				}
-			}			
-		
+			}
+
 			$this->_pages[$priority] = $page;
 		}
-		
+
 		$page->set_section($this);
 
 		return $this
@@ -132,20 +134,28 @@ class Model_Navigation_Section extends Model_Navigation_Abstract implements Coun
 	public function find_active_page_by_uri($uri)
 	{
 		$found = FALSE;
-		
-		foreach ( $this->get_pages() as $page )
+
+		foreach ($this->get_pages() as $page)
 		{
 			$url = $page->url();
 
 			$len = strpos($url, ADMIN_DIR_NAME);
-			if($len !== FALSE) $len += strlen(ADMIN_DIR_NAME);
-			$url = substr($url, $len);
+			if ($len !== FALSE)
+			{
+				$len += strlen(ADMIN_DIR_NAME);
+			}
 			
+			$url = substr($url, $len);
+
 			$len = strpos($uri, ADMIN_DIR_NAME);
-			if($len !== FALSE) $len += strlen(ADMIN_DIR_NAME);
+			if ($len !== FALSE)
+			{
+				$len += strlen(ADMIN_DIR_NAME);
+			}
+	
 			$uri = substr($uri, $len);
 
-			if ( !empty($url) AND strpos($uri, $url) !== FALSE )
+			if (!empty($url) AND strpos($uri, $url) !== FALSE)
 			{
 				$page->set_active();
 
@@ -155,19 +165,19 @@ class Model_Navigation_Section extends Model_Navigation_Abstract implements Coun
 				break;
 			}
 		}
-		
-		if($found === FALSE)
+
+		if ($found === FALSE)
 		{
 			foreach ($this->_sections as $section)
 			{
 				$found = $section->find_active_page_by_uri($uri);
-				if($found !== FALSE)
+				if ($found !== FALSE)
 				{
 					return $found;
 				}
 			}
 		}
-		
+
 		return $found;
 	}
 
@@ -180,21 +190,21 @@ class Model_Navigation_Section extends Model_Navigation_Abstract implements Coun
 	{
 		foreach ($this->_sections as $section)
 		{
-			if($section->id() == $name)
+			if ($section->id() == $name)
 			{
 				return $section;
 			}
 		}
-		
+
 		foreach ($this->_sections as $section)
 		{
 			$found = $section->find_section($name);
-			if($found !== NULL)
+			if ($found !== NULL)
 			{
 				return $found;
 			}
 		}
-		
+
 		return NULL;
 	}
 
@@ -206,24 +216,24 @@ class Model_Navigation_Section extends Model_Navigation_Abstract implements Coun
 	public function & find_page_by_uri( $uri )
 	{
 		$_page = NULL;
-		
+
 		foreach ($this->get_pages() as $page)
 		{
-			if($page->url() == $uri)
+			if ($page->url() == $uri)
 			{
 				return $page;
 			}
 		}
-		
+
 		foreach ($this->_sections as $section)
 		{
 			$found = $section->find_page_by_uri($uri);
-			if($found !== NULL)
+			if ($found !== NULL)
 			{
 				return $found;
 			}
 		}
-		
+
 		return $_page;
 	}
 	
@@ -240,7 +250,7 @@ class Model_Navigation_Section extends Model_Navigation_Abstract implements Coun
 		{
 			$this->counter += (int) $page->counter;
 		}
-		
+
 		return $this;
 	}
 
@@ -250,16 +260,15 @@ class Model_Navigation_Section extends Model_Navigation_Abstract implements Coun
 	 */
 	public function sort()
 	{
-		uasort($this->_sections, function($a, $b)
-		{
-			if ($a->id() == $b->id()) 
+		uasort($this->_sections, function($a, $b) {
+			if ($a->id() == $b->id())
 			{
 				return 0;
 			}
 
 			return ($a->id() < $b->id()) ? -1 : 1;
 		});
-		
+
 		ksort($this->_pages);
 
 		return $this;

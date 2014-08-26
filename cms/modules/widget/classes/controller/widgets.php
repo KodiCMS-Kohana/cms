@@ -133,10 +133,7 @@ class Controller_Widgets extends Controller_System_Backend {
 			return $this->_add();
 		}
 
-		$this->template->title = __('Create widget');
-		
-		$this->breadcrumbs
-			->add($this->template->title);
+		$this->set_title(__('Create widget'));
 
 		$this->template->content = View::factory( 'widgets/add', array(
 			'types' => Widget_Manager::map()

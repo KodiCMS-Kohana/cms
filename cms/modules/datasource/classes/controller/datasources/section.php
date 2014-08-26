@@ -39,10 +39,7 @@ class Controller_Datasources_Section extends Controller_System_Datasource
 			return $this->_create($type);
 		}
 		
-		$this->template->title = __('Add section :type', array(':type' => Arr::get($types, $type)));
-
-		$this->breadcrumbs
-				->add($this->template->title);
+		$this->set_title(__('Add section :type', array(':type' => Arr::get($types, $type))));
 		
 		try
 		{
@@ -95,16 +92,15 @@ class Controller_Datasources_Section extends Controller_System_Datasource
 			return $this->_edit($this->section());
 		}
 		
-		$this->template->title = __('Edit section :name', array(
-			':name' => $this->section()->name
-		));
-		
 		$this->breadcrumbs
 			->add($this->section()->name, Route::get('datasources')->uri(array(
 				'controller' => 'data',
 				'directory' => 'datasources',
-			)) . URL::query(array('ds_id' => $this->section()->id()), FALSE))
-			->add($this->template->title);
+			)) . URL::query(array('ds_id' => $this->section()->id()), FALSE));
+		
+		$this->set_title(__('Edit section :name', array(
+			':name' => $this->section()->name
+		)));
 		
 		try
 		{

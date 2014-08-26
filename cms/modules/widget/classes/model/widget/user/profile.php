@@ -65,7 +65,7 @@ class Model_Widget_User_Profile extends Model_Widget_Decorator {
 
 		$profile_id = $this->get_profile_id();
 		
-		if(Valid::numeric($profile_id))
+		if (is_string($profile_id) AND Valid::numeric($profile_id))
 		{
 			$this->_user = ORM::factory('User', $profile_id);
 		}
@@ -73,7 +73,7 @@ class Model_Widget_User_Profile extends Model_Widget_Decorator {
 		{
 			$this->_user = Auth::instance()->get_user(ORM::factory('User'));
 		}
-		
+
 		return $this->_user;
 	}
 

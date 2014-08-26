@@ -1,6 +1,14 @@
 <?php if($navigation !== NULL): ?>
 <div id="main-menu-inner">
 	<ul class="navigation">
+		<?php foreach ($navigation->get_pages() as $item): ?>
+		<li <?php if($item->is_active()): ?>class="active"<?php endif; ?>>
+			<a href="/<?php echo $item->url(); ?>">
+				<?php if($item->icon): ?><?php echo UI::icon($item->icon . ' menu-icon'); ?> <?php endif; ?>
+				<span class="mm-text"><?php echo $item->name(); ?></span>
+			</a>
+		</li>
+		<?php endforeach; ?>
 		<?php foreach ($navigation->sections() as $section): ?>
 		<li class="mm-dropdown <?php if($section->is_active()): ?>open<?php endif; ?>">
 			<a href="#">
@@ -8,7 +16,7 @@
 				<span class="mm-text"><?php echo $section->name(); ?></span>
 			</a>
 			<ul>
-				<?php foreach ( $section as $item ): ?>
+				<?php foreach ($section as $item): ?>
 				<li <?php if($item->is_active()): ?>class="active"<?php endif; ?>>
 					<a href="/<?php echo $item->url(); ?>">
 						<?php if($item->icon): ?><?php echo UI::icon($item->icon . ' menu-icon'); ?> <?php endif; ?>
@@ -41,7 +49,5 @@
 			</ul>
 		</li>
 		<?php endforeach; ?>
-		
-	</ul>
 </div>
 <?php endif; ?>

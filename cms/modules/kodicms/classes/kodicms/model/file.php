@@ -144,7 +144,7 @@ class KodiCMS_Model_File {
 	 */
 	public function set_name($name)
 	{
-		if( ! empty($this->_name) )
+		if (!empty($this->_name))
 		{
 			$this->_changed['name'] = $this->_name;
 		}

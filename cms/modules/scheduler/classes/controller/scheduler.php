@@ -11,15 +11,16 @@ class Controller_Scheduler extends Controller_System_Backend {
 	{
 		parent::before();
 		
-		$this->template->title = __('Scheduler');
 		$this->breadcrumbs
-			->add($this->template->title, Route::get('backend')->uri(array('controller' => 'scheduler')));
+			->add(__('Scheduler'), Route::get('backend')->uri(array('controller' => 'scheduler')));
 	}
 	
 	public function action_index()
 	{
 		Assets::css('fullcalendar', ADMIN_RESOURCES . 'libs/fullcalendar/fullcalendar.css', 'global');
 		Assets::js('fullcalendar', ADMIN_RESOURCES . 'libs/fullcalendar/fullcalendar.min.js', 'jquery');
+		
+		$this->set_title(__('Scheduler'), FALSE);
 		
 		$this->template->content = View::factory( 'scheduler/index' );
 	}
@@ -33,11 +34,7 @@ class Controller_Scheduler extends Controller_System_Backend {
 			'items_per_page' => 20
 		));
 		
-		$this->template->title = __('Jobs');
-		$this->breadcrumbs
-			->add($this->template->title, Route::get('backend')->uri(array(
-				'controller' => 'scheduler', 'action' => 'jobs'
-			)));
+		$this->set_title(__('Jobs'));
 		
 		$this->template->content = View::factory( 'scheduler/jobs', array(
 			'jobs' => $jobs
@@ -61,12 +58,12 @@ class Controller_Scheduler extends Controller_System_Backend {
 			return $this->_add($job);
 		}
 		
-		$this->template->title = __('Add job');
+		$this->set_title(__('Add job'));
+		
 		$this->breadcrumbs
 			->add(__('Jobs'), Route::get('backend')->uri(array(
 				'controller' => 'scheduler', 'action' => 'jobs'
-			)))
-			->add($this->template->title);
+			)));
 
 		$this->template->content = View::factory( 'scheduler/edit', array(
 			'action' => 'add',

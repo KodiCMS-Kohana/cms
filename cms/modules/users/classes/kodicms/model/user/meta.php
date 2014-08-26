@@ -5,7 +5,7 @@
  * @category	Model
  * @author		ButscHSter
  */
-class KodiCMS_Model_User_Meta {
+class KodiCMS_Model_User_Meta extends Model {
 	
 	/**
 	 *
@@ -35,8 +35,7 @@ class KodiCMS_Model_User_Meta {
 		{
 			$value = @unserialize($value);
 		}
-
-		if ($value === FALSE)
+		else
 		{
 			$value = $default;
 		}

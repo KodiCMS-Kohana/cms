@@ -18,9 +18,10 @@ class KodiCMS_Controller_Layout extends Controller_System_Backend {
 		$this->breadcrumbs
 			->add(__('Layouts'), Route::get('backend')->uri(array('controller' => 'layout')));
 	}
+	
 	public function action_index()
 	{
-		$this->template->title = __('Layouts');
+		$this->set_title(__('Layouts'), FALSE);
 
 		$this->template->content = View::factory('layout/index', array(
 			'layouts' => Model_File_Layout::find_all()
@@ -57,6 +58,8 @@ class KodiCMS_Controller_Layout extends Controller_System_Backend {
 	{
 		$data = $this->request->post();
 		Flash::set('post_data', (object) $data);
+
+		$data['name'] = URL::title(Text::translit($data['name']), '_');
 
 		$layout = new Model_File_Layout($data['name']);
 		$layout->content = $data['content'];
@@ -127,8 +130,10 @@ class KodiCMS_Controller_Layout extends Controller_System_Backend {
 
 	protected function _edit( $layout )
 	{
-		$layout->name = $this->request->post('name');
-		$layout->content = $this->request->post('content');
+		$data = $this->request->post();
+		$data['name'] = URL::title(Text::translit($data['name']), '_');
+		$layout->name = $data['name'];
+		$layout->content = $data['content'];
 
 		try
 		{

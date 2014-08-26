@@ -10,7 +10,6 @@ abstract class Model_Widget_Decorator {
 	const ORDER_ASC = 'ASC';
 	const ORDER_DESC = 'DESC';
 
-
 	/**
 	 * Идентификатор виджета
 	 * @var integer
@@ -59,13 +58,11 @@ abstract class Model_Widget_Decorator {
 	 */
 	public $frontend_template = NULL;
 
-
 	/**
 	 * Виджет использует шаблон
 	 * @var boolean 
 	 */
 	public $use_template = TRUE;
-
 	
 	/**
 	 * Параметры передаваемые в шаблон
@@ -139,11 +136,16 @@ abstract class Model_Widget_Decorator {
 	public $throw_404 = FALSE;
 	
 	/**
+	 * 
+	 * @var string 
+	 */
+	public $frontend_template_preffix = 'frontend';
+
+	/**
 	 *
 	 * @var Context 
 	 */
 	protected $_ctx = NULL;
-
 
 	/**
 	 * Дополнительные параметры виджета
@@ -261,9 +263,9 @@ abstract class Model_Widget_Decorator {
 	 */
 	public function default_template()
 	{
-		if (($template = Kohana::find_file('views', 'widgets/frontend/' . $this->frontend_template())) === FALSE)
+		if (($template = Kohana::find_file('views', 'widgets/' . $this->frontend_template_preffix . '/' . $this->frontend_template())) === FALSE)
 		{
-			$template = Kohana::find_file('views', 'widgets/frontend/default');
+			$template = Kohana::find_file('views', 'widgets/' . $this->frontend_template_preffix .'/default');
 		}
 
 		return $template;
@@ -315,7 +317,8 @@ abstract class Model_Widget_Decorator {
 		$data = $this->fetch_data();
 		$data['params'] = $this->template_params;
 		$data['page'] = $context->get_page();
-	
+		$data['widget_id'] = $this->id;
+		
 		return View_Front::factory($this->template, $data)
 			->bind('header', $this->header)
 			->bind('ctx', $this->_ctx);
@@ -533,15 +536,6 @@ abstract class Model_Widget_Decorator {
 		
 		return $this;
 	}
-
-	/**
-	 * Рендер виджета
-	 * @param array $params Дополнительные параметры
-	 */
-	public function run(array $params = array()) 
-	{
-		return $this->render($params);
-	}
 	
 	/**
 	 * Передача дополнительных парамтеров в виджет
@@ -581,6 +575,15 @@ abstract class Model_Widget_Decorator {
 	}
 
 	/**
+	 * Рендер виджета
+	 * @param array $params Дополнительные параметры
+	 */
+	public function run(array $params = array()) 
+	{
+		return $this->render($params);
+	}
+
+	/**
 	 * Рендер виджета во Frontend
 	 * 
 	 * Отключение комментариев для блока
@@ -596,12 +599,12 @@ abstract class Model_Widget_Decorator {
 	public function render(array $params = array())
 	{
 		// Проверка правк на видимость виджета
-		if( ! empty($this->roles))
+		if (!empty($this->roles))
 		{
 			$auth = Auth::instance();
-			if( $auth->logged_in() )
+			if ($auth->logged_in())
 			{
-				if( ! $auth->get_user()->has_role($this->roles, FALSE) )
+				if (!$auth->get_user()->has_role($this->roles, FALSE))
 				{
 					return;
 				}
@@ -611,33 +614,38 @@ abstract class Model_Widget_Decorator {
 				return;
 			}
 		}
-		
-		if(Kohana::$profiling === TRUE)
+
+		if (Kohana::$profiling === TRUE)
 		{
 			$benchmark = Profiler::start('Widget render', $this->name);
 		}
 
 		$this->_fetch_template();
 		$this->set_params($params);
-		
+
 		$allow_omments = (bool) Arr::get($this->template_params, 'comments', TRUE);
 		$caching = (bool) Arr::get($this->template_params, 'caching', $this->caching);
 
-		if( $this->block == 'PRE' OR $this->block == 'POST' )
+		if ($this->block == 'PRE' OR $this->block == 'POST')
 		{
 			$allow_omments = FALSE;
 		}
-		
-		if($allow_omments)
-		{
-			echo "<!--{Widget: {$this->name}}-->";
-		}
-		
-		if(Kohana::$caching === FALSE OR $caching === FALSE)
+
+		if (Kohana::$caching === FALSE OR $caching === FALSE)
 		{
 			$this->caching = FALSE;
 		}
-		
+
+		if (Arr::get($this->template_params, 'return') === TRUE)
+		{
+			return $this->_fetch_render();
+		}
+
+		if ($allow_omments)
+		{
+			echo "<!--{Widget: {$this->name}}-->";
+		}
+
 		if(
 			$this->caching === TRUE
 		AND 
@@ -647,17 +655,17 @@ abstract class Model_Widget_Decorator {
 			echo $this->_fetch_render();
 			Fragment::save_with_tags($this->cache_lifetime, $this->cache_tags);
 		}
-		else if( ! $this->caching )
+		else if (!$this->caching)
 		{
 			echo $this->_fetch_render();
 		}
 
-		if($allow_omments)
+		if ($allow_omments)
 		{
 			echo "<!--{/Widget: {$this->name}}-->";
 		}
-		
-		if(isset($benchmark))
+
+		if (isset($benchmark))
 		{
 			Profiler::stop($benchmark);
 		}

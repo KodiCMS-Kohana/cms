@@ -56,7 +56,8 @@ class Controller_Logs extends Controller_System_Backend {
 			))
 		));
 		
-		$this->template->title = __('Logs');
+		$this->set_title(__('Logs'), FALSE);
+
 		$this->template->content = View::factory( 'logs/index', array(
 			'logs' => $logs
 				->limit($pager->items_per_page)

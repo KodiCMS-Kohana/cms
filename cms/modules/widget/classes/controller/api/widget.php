@@ -9,17 +9,24 @@ class Controller_API_Widget extends Controller_System_API {
 
 	public function get_list()
 	{
+		$page_id = (int) $this->request->param('id');
+		
 		$page_widgets = DB::select('widget_id')
-			->from('page_widgets')
-			->where('page_id', '=', (int) $this->request->param('id'))
-			->execute()
-			->as_array('widget_id');
+			->from('page_widgets');
+				
+		if (!empty($page_id))
+		{
+			$page_widgets->where('page_id', '=', (int) $this->request->param('id'));
+		}
+
+		$ids = $page_widgets->execute()
+			->as_array(NULL, 'widget_id');
 
 		$res_widgets = ORM::factory('widget');
 		
-		if (!empty($page_widgets))
+		if (!empty($ids))
 		{
-			$res_widgets->where('id', 'NOT IN', $page_widgets);
+			$res_widgets->where('id', 'NOT IN', $ids);
 		}
 
 		$res_widgets = $res_widgets->find_all();
