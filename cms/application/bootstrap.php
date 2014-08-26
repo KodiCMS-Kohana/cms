@@ -156,7 +156,7 @@ Route::set('error', 'system/error(/<code>(/<message>))', array(
 
 Route::set('admin_media', 'cms/media/<file>.<ext>', array(
 	'file' => '.*',
-	'ext' => 'css|js'
+	'ext' => 'css|js|png|jpg|gif'
 ))
 ->defaults(array(
 	'directory' => 'system',
