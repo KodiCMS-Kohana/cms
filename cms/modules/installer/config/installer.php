@@ -26,7 +26,6 @@ return array(
 			'debug' => Config::NO,
 			'default_filter_id' => 'redactor',
 			'default_status_id' => 100,
-			'default_tab' => 'page',
 			'description' => '',
 			'find_similar' => Config::YES,
 			'profiling' => Config::NO,

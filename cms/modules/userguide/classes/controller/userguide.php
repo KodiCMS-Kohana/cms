@@ -50,9 +50,6 @@ class Controller_Userguide extends Controller_System_Backend {
 		}
 
 		parent::before();
-		
-		$this->breadcrumbs = Breadcrumbs::factory()
-			->add(__('Home'), Config::get('site', 'default_tab'));
 	}
 	
 	// List all modules that have userguides

@@ -29,9 +29,7 @@ class KodiCMS_Controller_System_Controller extends Controller
 	
 	public function go_backend()
 	{
-		$this->go(Route::get('backend')->uri(array(
-			'controller' => str_replace(ADMIN_DIR_NAME . '/', '', Config::get('site', 'default_tab')),
-		)));
+		$this->go(Route::get('backend')->uri());
 	}
 
 	public function go_back()
