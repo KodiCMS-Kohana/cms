@@ -1,4 +1,4 @@
-.redactor_box {
+/*.redactor_box {*/
 	position: relative;
 	overflow: visible;
 }
@@ -40,42 +40,6 @@ body .redactor_box_fullscreen {
 	width: 100%;
 }
 
-.redactor_editor,
-.redactor_editor:focus,
-.redactor_editor div,
-.redactor_editor p,
-.redactor_editor ul,
-.redactor_editor ol,
-.redactor_editor table,
-.redactor_editor dl,
-.redactor_editor blockquote,
-.redactor_editor pre,
-.redactor_editor h1,
-.redactor_editor h2,
-.redactor_editor h3,
-.redactor_editor h4,
-.redactor_editor h5 {
-	font-family: Arial, Helvetica, Verdana, Tahoma, sans-serif !important;
-}
-
-.redactor_editor code,
-.redactor_editor pre {
-	font-family: Menlo, Monaco, monospace, sans-serif !important;
-}
-
-.redactor_editor,
-.redactor_editor:focus,
-.redactor_editor div,
-.redactor_editor p,
-.redactor_editor ul,
-.redactor_editor ol,
-.redactor_editor table,
-.redactor_editor dl,
-.redactor_editor blockquote,
-.redactor_editor pre {
-	font-size: 15px !important;
-	line-height: 1.45em !important;
-}
 
 .redactor_editor, .redactor_editor:focus {
 	position: relative;
@@ -498,9 +462,7 @@ body .redactor_air .redactor_toolbar {
 }
 #redactor_tabs a:hover, #redactor_tabs a.redactor_tabs_act {
 	background-color: #ddd;
-	padding: 5px 15px;
 	box-shadow: 0 1px 2px rgba(0, 0, 0, .4) inset;
-	border: none;
 	text-shadow: 0 1px 0 #eee;
 }
 #redactor_modal_footer {

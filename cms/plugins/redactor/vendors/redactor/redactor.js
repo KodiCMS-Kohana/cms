@@ -259,7 +259,7 @@ var RLANG = {
 						'<input type="file" id="redactor_file" name="file" />' +
 					'</div>' +
 					'<div id="redactor_tab2" class="redactor_tab" style="display: none;">' +
-						'<div id="redactor_image_box"><ul class="thumbnails"></ul></div>' +
+						'<div id="redactor_image_box"><div class="row"></div></div>' +
 					'</div>' +
 				'</form>' +
 				'<div id="redactor_tab3" class="redactor_tab" style="display: none;">' +
@@ -3234,10 +3234,10 @@ var RLANG = {
 								}
 							}
 
-							var img = $('<img src="' + val.thumb + '" class="redactorfolder redactorfolder' + folderkey + '" rel="' + val.image + '" title="' + thumbtitle + '" data-id="'+val.id+'" />');
+							var img = $('<span class="thumbnail"><img src="' + val.thumb + '" class="redactorfolder redactorfolder' + folderkey + '" rel="' + val.image + '" title="' + thumbtitle + '" data-id="'+val.id+'" /></span>');
 							
-							var cont = $('#redactor_image_box .thumbnails');
-							$('<li class="col-md-1"></li>')
+							var cont = $('#redactor_image_box .row');
+							$('<div class="col-md-3"></div>')
 								.append(img)
 //								.prepend('<button type="button" class="close" data-dismiss="alert">&times;</button>')
 								.appendTo(cont);
@@ -3259,7 +3259,7 @@ var RLANG = {
 								$('.redactorfolder' + $(e.target).val()).show();
 							}
 
-							var select = $('<select id="redactor_image_box_select">');
+							var select = $('<select id="redactor_image_box_select" class="form-control">');
 							$.each(folders, function(k,v)
 							{
 								select.append($('<option value="' + v + '">' + k + '</option>'));
@@ -3338,7 +3338,8 @@ var RLANG = {
 		},
 		imageSetThumb: function(e)
 		{
-			this._imageSet('<img src="' + $(e.target).attr('rel') + '" alt="' + $(e.target).attr('title') + '" />', true);
+			var img = $(e.target);
+			this._imageSet('<img src="' + img.attr('rel') + '" alt="' + img.attr('title') + '" />', true);
 		},
 		imageUploadCallbackLink: function()
 		{

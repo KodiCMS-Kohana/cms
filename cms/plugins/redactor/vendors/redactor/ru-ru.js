@@ -1,5 +1,5 @@
 var RELANG = {};
-RELANG['ru'] = {
+RELANG['ru-ru'] = {
 	html: 'Код',
 	video: 'Видео',
 	image: 'Изображение',
