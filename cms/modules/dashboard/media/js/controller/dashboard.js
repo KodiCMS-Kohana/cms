@@ -12,8 +12,13 @@ var Dashboard = {
 				forcePlaceholderSize: true,
 				helper: 'clone',
 				opacity: 0.65,
+				start: function() {
+					$('.dashboard-widgets-column').addClass('empty-container')
+				},
 				stop: function() {
 					Dashboard.widgets.save_order();
+					
+					$('.dashboard-widgets-column').removeClass('empty-container')
 				},
 				receive: function(e,ui) {
 					Dashboard.widgets._mark_area();
@@ -34,16 +39,16 @@ var Dashboard = {
 			Api.post('user-meta', {key: 'dashboard', value: data});
 		},
 		_mark_area: function() {
-			var visible = $('div.dashboard-widget:visible').length;
-
-			$('.dashboard-widgets-column:visible').each(function() {
-				var t = $(this);
-
-				if (visible == 1 || t.children('.dashboard-widget:visible').length)
-					t.removeClass('empty-container');
-				else
-					t.addClass('empty-container');
-			});
+//			var visible = $('div.dashboard-widget:visible').length;
+//
+//			$('.dashboard-widgets-column').each(function() {
+//				var $self = $(this);
+//
+//				if ($self.children('.dashboard-widget:visible').length)
+//					$self.removeClass('empty-container');
+//				else
+//					$self.addClass('empty-container');
+//			});
 		}
 	}
 };
