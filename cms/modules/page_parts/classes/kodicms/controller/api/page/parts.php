@@ -27,13 +27,13 @@ class KodiCMS_Controller_API_Page_Parts extends Controller_System_Api {
 		$id = $this->param('id', NULL, TRUE);
 		$part = ORM::factory('page_part', (int) $id);
 		
-		$part
-			->values($this->params(), array('id'))
+		$response = $part
+			->values($this->params())
 			->save()
-			->as_array();
+			->object();
 
-		$part['is_developer'] = (int) Auth::has_permissions('administrator, developer');
-		$this->response($part);
+		$response['is_developer'] = (int) Auth::has_permissions('administrator, developer');
+		$this->response($response);
 	}
 	
 	public function rest_post()
