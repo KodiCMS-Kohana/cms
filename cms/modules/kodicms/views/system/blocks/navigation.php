@@ -13,6 +13,11 @@ if($navigation !== NULL)
 		
 		foreach ( $navigation->sections() as $section )
 		{
+			if (!count($section) && !count($section->sections()))
+			{
+				continue;
+			}
+
 			$dropdown = Bootstrap_Navbar_Dropdown::factory(array(
 				'title' => $section->name(),
 			));
