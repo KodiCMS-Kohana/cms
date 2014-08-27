@@ -7,16 +7,25 @@
  */
 abstract class Model_Widget_Decorator_Dashboard extends Model_Widget_Decorator {
 	
+	/**
+	 *
+	 * @var string 
+	 */
 	public $frontend_template_preffix = 'dashboard';
 	
-	protected function _fetch_render()
+	/**
+	 *
+	 * @var boolean 
+	 */
+	protected $_multiple = FALSE;
+	
+	/**
+	 * 
+	 * @return boolean
+	 */
+	public function is_multiple()
 	{
-		$data = $this->fetch_data();
-		$data['params'] = $this->template_params;
-		
-		return View_Front::factory($this->template, $data)
-			->bind('header', $this->header)
-			->bind('widget', $this);
+		return $this->_multiple;
 	}
 	
 	public function render(array $params = array())
@@ -82,5 +91,15 @@ abstract class Model_Widget_Decorator_Dashboard extends Model_Widget_Decorator {
 		);
 
 		return array_keys($vars);
+	}
+
+	protected function _fetch_render()
+	{
+		$data = $this->fetch_data();
+		$data['params'] = $this->template_params;
+		
+		return View_Front::factory($this->template, $data)
+			->bind('header', $this->header)
+			->bind('widget', $this);
 	}
 }

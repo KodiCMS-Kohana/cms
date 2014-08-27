@@ -1,7 +1,13 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
-class Model_Widget_Dashboard_Hybrid_Headline extends Model_Widget_Decorator_Dashboard_Pagination {
-
+class Model_Widget_Dashboard_Hybrid_Headline extends Model_Widget_Decorator_Dashboard_Pagination {	
+	
+	/**
+	 *
+	 * @var boolean
+	 */
+	protected $_multiple = TRUE;
+	
 	/**
 	 *
 	 * @var array 
@@ -22,7 +28,7 @@ class Model_Widget_Dashboard_Hybrid_Headline extends Model_Widget_Decorator_Dash
 	
 	/**
 	 *
-	 * @var bool 
+	 * @var boolean 
 	 */
 	public $only_published = TRUE;
 	

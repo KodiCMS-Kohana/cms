@@ -49,7 +49,26 @@ class Controller_API_Dashboard extends Controller_System_Api {
 	
 	public function get_widget_list()
 	{
+		$widget_settings = Model_User_Meta::get('dashboard_widget_settings', array());
 		$types = Widget_Manager::map('dashboard');
+
+		$attached_types = array();
+	
+		foreach ($widget_settings as $widget)
+		{
+			$attached_types[$widget->type] = $widget->is_multiple();
+		}
+		
+		foreach ($types as $title => $subtypes)
+		{
+			foreach ($subtypes as $key => $label)
+			{
+				if(Arr::get($attached_types, $key) === FALSE)
+				{
+					unset($types[$title][$key]);
+				}
+			}
+		}
 
 		$this->json = (string) View::factory( 'dashboard/widgets', array(
 			'types' => $types
