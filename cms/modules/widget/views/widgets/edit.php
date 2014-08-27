@@ -105,11 +105,7 @@
 	<div class="panel-heading panel-toggler" data-target-spoiler=".media-spoiler" data-hash="media">
 		<span class="panel-title" data-icon="file-o"><?php echo __('Widget media'); ?></h4>
 	</div>
-	<div class="panel-body panel-spoiler media-spoiler">
-		<p class="text-muted"><?php echo __('For including media files uses class :class', array(
-			':class' => HTML::anchor(Route::get('docs/guide')->uri(array('module' => 'assets', 'page' => 'usage')), 'Assets')
-		)); ?></p>
-		
+	<div class="panel-body panel-spoiler media-spoiler">		
 		<?php echo View::factory('helper/rows_only_value', array(
 			'field' => 'media',
 			'data' => $widget->media
