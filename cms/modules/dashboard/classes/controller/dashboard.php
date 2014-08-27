@@ -19,14 +19,11 @@ class Controller_Dashboard extends Controller_System_Backend {
 			foreach ($widgets as $i => $widget)
 			{
 				$widget_object = Arr::get($widget_settings, $widget);
-				if (!($widget_object instanceof Model_Widget_Decorator))
+				if (!($widget_object instanceof Model_Widget_Decorator_Dashboard))
 				{
 					unset($widgets_array[$column][$i]);
 					continue;
 				}
-				
-				$widget_object->id = $widget;
-				$widget_object->frontend_template_preffix = 'dashboard';
 
 				$widgets_array[$column][$i] = $widget_object;
 			}

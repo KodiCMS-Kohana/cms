@@ -88,17 +88,7 @@ cms.init.add('dashboard_index', function () {
 	$('body').on('click', '.dashboard-widget .widget_settings', function(e) {
 		var $cont = $(this).closest('.dashboard-widget');
 
-		Api.get('dashboard.widget', {
-			widget_id: $cont.data('id')
-		}, function(response) {
-			$.fancybox({
-				fitToView	: true,
-				autoSize	: false,
-				width		: '99%',
-				height		: '99%',
-				content		: response.response
-			});
-		});
+		get_widget_settings($cont.data('id'));
 
 		e.preventDefault();
 	});
@@ -110,9 +100,24 @@ cms.init.add('dashboard_index', function () {
 		Api.post($self.attr('action'), $self.serialize(), function(response) {
 			var $cont = $('.dashboard-widget[data-id="' + widget_id + '"]');
 			$cont.replaceWith(response.response);
-			$.fancybox.close();
+			
+			get_widget_settings(widget_id);
 		});
 		
 		e.preventDefault();
 	});
 });
+
+function get_widget_settings(widget_id) {
+	Api.get('dashboard.widget', {
+		widget_id: widget_id
+	}, function(response) {
+		$.fancybox({
+			fitToView	: true,
+			autoSize	: false,
+			width		: '99%',
+			height		: '99%',
+			content		: response.response
+		});
+	});
+}

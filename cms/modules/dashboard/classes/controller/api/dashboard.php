@@ -10,12 +10,11 @@ class Controller_API_Dashboard extends Controller_System_Api {
 		
 		$widget = Widget_Manager::factory($widget_type);
 		$widget->id = $widget_type . '::' . Text::random(NULL, 3);
-		$widget->frontend_template_preffix = 'dashboard';
 	
 		$widget_settings[$widget->id] = $widget;
 		Model_User_Meta::set('dashboard_widget_settings', $widget_settings);
 		
-		$this->response((string) $widget->run(array('comments' => FALSE, 'return' => TRUE)));
+		$this->response((string) $widget->run());
 	}
 	
 	public function delete_widget()
@@ -34,18 +33,18 @@ class Controller_API_Dashboard extends Controller_System_Api {
 		$widget_id = $this->param('widget_id', NULL, TRUE);
 		$settings = $this->params();
 		
+		$widget = $this->_get_widget($widget_id);
+		
 		$widget_settings = Model_User_Meta::get('dashboard_widget_settings', array());
 		$widget = Arr::get($widget_settings, $widget_id);
 		
-		if($widget instanceof Model_Widget_Decorator)
+		if($widget instanceof Model_Widget_Decorator_Dashboard)
 		{
 			$widget_settings[$widget_id] = $widget->set_values($settings);
 		}
 
 		Model_User_Meta::set('dashboard_widget_settings', $widget_settings);
-		
-		$widget->id = $widget_id;
-		$this->response((string) $widget->run(array('comments' => FALSE, 'return' => TRUE)));
+		$this->response((string) $widget->run());
 	}
 	
 	public function get_widget_list()
@@ -61,18 +60,28 @@ class Controller_API_Dashboard extends Controller_System_Api {
 	{
 		$widget_id = $this->param('widget_id', NULL, TRUE);
 
-		$widget_settings = Model_User_Meta::get('dashboard_widget_settings', array());
-		$widget = Arr::get($widget_settings, $widget_id);
-
-		if (!($widget instanceof Model_Widget_Decorator))
+		$widget = $this->_get_widget($widget_id);
+		
+		if ($widget === NULL)
 		{
 			$this->response(FALSE);
 		}
-		
-		$widget->id = $widget_id;
-		
-		$this->response((string) View::factory( 'dashboard/widget_settings', array(
-			'widget' => $widget
+
+		$this->response((string) View::factory('dashboard/widget_settings', array(
+					'widget' => $widget
 		)));
+	}
+	
+	protected function _get_widget($widget_id)
+	{
+		$widget_settings = Model_User_Meta::get('dashboard_widget_settings', array());
+		$widget = Arr::get($widget_settings, $widget_id);
+		
+		if (!($widget instanceof Model_Widget_Decorator_Dashboard))
+		{
+			return NULL;
+		}
+
+		return $widget;
 	}
 }

@@ -16,7 +16,7 @@
 	<?php foreach ($columns as $side => $class): ?>
 	<div class="<?php echo $class; ?>">
 		<div class="dashboard-widgets-column" data-column="<?php echo $side; ?>">
-			<?php foreach (Arr::get($widgets, $side, array()) as $widget) $widget->run(array('comments' => FALSE)); ?>
+			<?php foreach (Arr::get($widgets, $side, array()) as $widget) echo $widget->run(); ?>
 		</div>
 	</div>
 	<?php endforeach; ?>
