@@ -53,7 +53,6 @@ Kohana::modules( array(
 	'email_queue'	=> MODPATH . 'email_queue',
 	'filesystem'	=> MODPATH . 'filesystem',
 	'image'			=> MODPATH . 'image',
-	'userguide'		=> MODPATH . 'userguide',	// User guide and API documentation
 	'scheduler'		=> MODPATH . 'scheduler',
 	'snippet'		=> MODPATH . 'snippet',
 	'pages'			=> MODPATH . 'pages',		// Pages

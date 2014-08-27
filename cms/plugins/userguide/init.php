@@ -1,5 +1,9 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
+Plugin::factory('userguide', array(
+	'title' => __('User Guide'),
+	'version' => '1.0.0',
+))->register();
 
 // Static file serving (CSS, JS, images)
 Route::set('docs/media', ADMIN_DIR_NAME.'/guide/media(/<file>)', array('file' => '.+'))
