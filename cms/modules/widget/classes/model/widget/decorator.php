@@ -598,7 +598,7 @@ abstract class Model_Widget_Decorator {
 	 */
 	public function render(array $params = array())
 	{
-		// Проверка правк на видимость виджета
+		// Проверка прав на видимость виджета
 		if (!empty($this->roles))
 		{
 			$auth = Auth::instance();

@@ -79,7 +79,6 @@ class Model_Widget_Hybrid_Headline extends Model_Widget_Decorator_Pagination {
 		parent::set_values($data);
 		$this->doc_order = Arr::get($data, 'doc_order', array());
 		
-		$this->only_sub = (bool) Arr::get($data, 'only_sub');
 		$this->only_published = (bool) Arr::get($data, 'only_published');
 		$this->sort_by_rand = (bool) Arr::get($data, 'sort_by_rand');
 		
@@ -87,7 +86,6 @@ class Model_Widget_Hybrid_Headline extends Model_Widget_Decorator_Pagination {
 		$this->doc_id = preg_replace('/[^A-Za-z,]+/', '', Arr::get($data, 'doc_id', $this->doc_id));
 		
 		$this->throw_404 = (bool) Arr::get($data, 'throw_404');
-		$this->sort_by_rand = (bool) Arr::get($data, 'sort_by_rand');
 		
 		return $this;
 	}
