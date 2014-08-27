@@ -3,5 +3,8 @@
 return array(
 	__('Hybrid') => array(
 		'dashboard_hybrid_headline' => __('Headline')
+	),
+	__('Other') => array(
+		'dashboard_rss' => __('RSS feed')
 	)
 );
