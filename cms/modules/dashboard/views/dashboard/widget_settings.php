@@ -2,20 +2,6 @@
 	'class' => array(Bootstrap_Form::HORIZONTAL, 'panel', 'widget-settings')
 )); ?>
 	<?php echo Form::hidden('widget_id', $widget->id); ?>
-	<div class="panel-heading panel-toggler" data-target-spoiler=".general-spoiler" data-hash="description">
-		<span class="panel-title" data-icon="info-circle"><?php echo __('Widget Information'); ?></span>
-	</div>
-	<div class="panel-body panel-spoiler general-spoiler">
-		<div class="form-group form-group-lg">
-			<label class="control-label col-md-3"><?php echo __('Widget Header'); ?></label>
-			<div class="col-md-9">
-				<?php echo Form::input('name', $widget->name, array(
-					'class' => 'form-control'
-				)); ?>
-			</div>
-		</div>
-	</div>
-	
 	<div class="panel-heading">
 		<span class="panel-title" data-icon="cogs"><?php echo __('Widget parameters'); ?></span>
 	</div>
