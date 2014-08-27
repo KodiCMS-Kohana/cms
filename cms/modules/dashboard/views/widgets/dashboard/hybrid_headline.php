@@ -61,6 +61,6 @@
 
 <script type="text/javascript">
 $(function(){
-	$('.hybrid-headline-widget[data-id="<?php echo $widget->id; ?>"] .panel-body').slimScroll({height:<?php echo $widget_height; ?>});
+	$('.hybrid-headline-widget[data-id="<?php echo $widget->id; ?>"] .panel-body').slimScroll({height:<?php echo $widget->height; ?>});
 });
 </script>

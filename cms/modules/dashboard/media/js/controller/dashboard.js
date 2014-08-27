@@ -76,7 +76,7 @@ cms.init.add('dashboard_index', function () {
 		var $cont = $(this).closest('.dashboard-widget');
 
 		Api.delete('dashboard.widget', {
-			widget_id: $cont.data('id')
+			id: $cont.data('id')
 		}, function(response) {
 			$cont.remove();
 			Dashboard.widgets._mark_area();
@@ -95,7 +95,7 @@ cms.init.add('dashboard_index', function () {
 	
 	$('body').on('submit', 'form.widget-settings', function(e) {
 		var $self = $(this);
-		var widget_id = $self.find('input[name="widget_id"]').val();
+		var widget_id = $self.find('input[name="id"]').val();
 		
 		Api.post($self.attr('action'), $self.serialize(), function(response) {
 			var $cont = $('.dashboard-widget[data-id="' + widget_id + '"]');
@@ -110,7 +110,7 @@ cms.init.add('dashboard_index', function () {
 
 function get_widget_settings(widget_id) {
 	Api.get('dashboard.widget', {
-		widget_id: widget_id
+		id: widget_id
 	}, function(response) {
 		$.fancybox({
 			fitToView	: true,

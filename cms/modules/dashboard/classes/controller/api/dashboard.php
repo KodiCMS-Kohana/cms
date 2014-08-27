@@ -19,7 +19,7 @@ class Controller_API_Dashboard extends Controller_System_Api {
 	
 	public function delete_widget()
 	{
-		$widget_id = $this->param('widget_id', NULL, TRUE);
+		$widget_id = $this->param('id', NULL, TRUE);
 		$widget_settings = Model_User_Meta::get('dashboard_widget_settings', array());
 		
 		unset($widget_settings[$widget_id]);
@@ -30,7 +30,7 @@ class Controller_API_Dashboard extends Controller_System_Api {
 	
 	public function post_widget()
 	{
-		$widget_id = $this->param('widget_id', NULL, TRUE);
+		$widget_id = $this->param('id', NULL, TRUE);
 		$settings = $this->params();
 		
 		$widget = $this->_get_widget($widget_id);
@@ -77,7 +77,7 @@ class Controller_API_Dashboard extends Controller_System_Api {
 	
 	public function get_widget()
 	{
-		$widget_id = $this->param('widget_id', NULL, TRUE);
+		$widget_id = $this->param('id', NULL, TRUE);
 
 		$widget = $this->_get_widget($widget_id);
 		
@@ -87,7 +87,7 @@ class Controller_API_Dashboard extends Controller_System_Api {
 		}
 
 		$this->response((string) View::factory('dashboard/widget_settings', array(
-					'widget' => $widget
+			'widget' => $widget
 		)));
 	}
 	

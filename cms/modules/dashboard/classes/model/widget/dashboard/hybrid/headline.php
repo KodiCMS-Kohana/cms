@@ -128,8 +128,7 @@ class Model_Widget_Dashboard_Hybrid_Headline extends Model_Widget_Decorator_Dash
 			'section' => Datasource_Section::load($this->ds_id),
 			'docs' => $docs,
 			'fields' => $fields,
-			'count' => count($this->docs),
-			'widget_height' => $this->get('height')
+			'count' => count($this->docs)
 		);
 	}
 	

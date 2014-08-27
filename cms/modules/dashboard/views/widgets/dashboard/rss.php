@@ -30,5 +30,5 @@
 	<?php endif; ?>
 </div>
 <script type="text/javascript">
-$(function(){$('.rss-feed-widget[data-id="<?php echo $widget->id; ?>"] .media-list').slimScroll({height:<?php echo $widget_height; ?>});})
+$(function(){$('.rss-feed-widget[data-id="<?php echo $widget->id; ?>"] .media-list').slimScroll({height:<?php echo $widget->height; ?>});})
 </script>
