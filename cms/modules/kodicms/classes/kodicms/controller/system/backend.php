@@ -26,7 +26,9 @@ class KodiCMS_Controller_System_Backend extends Controller_System_Template
 		$this->page = Model_Navigation::$current;
 
 		if ($this->auto_render !== TRUE)
+		{
 			return;
+		}
 
 		$this->template->set_global(array(
 			'page_body_id' => $this->get_path(),
