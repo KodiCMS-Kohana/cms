@@ -9,7 +9,8 @@ class Model_Widget_Dashboard_RSS extends Model_Widget_Decorator_Dashboard {
 	protected $_multiple = TRUE;
 	
 	protected $_data = array(
-		'limit' => 10
+		'limit' => 10,
+		'height' => 250
 	);
 	
 	public function set_rss_url($url) 
@@ -27,6 +28,11 @@ class Model_Widget_Dashboard_RSS extends Model_Widget_Decorator_Dashboard {
 		return (int) $limit;
 	}
 	
+	public function set_height($height) 
+	{
+		return (int) $height;
+	}
+	
 	public function fetch_data()
 	{
 		$cache = Cache::instance();
@@ -39,6 +45,7 @@ class Model_Widget_Dashboard_RSS extends Model_Widget_Decorator_Dashboard {
 		}
 		
 		$data['rss_url'] = $this->rss_url;
+		$data['widget_height'] = $this->get('height');
 		
 		return $data;
 	}

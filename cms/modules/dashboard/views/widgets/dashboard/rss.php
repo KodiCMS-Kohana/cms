@@ -1,4 +1,4 @@
-<div class="panel dashboard-widget rss-feed panel-info panel-dark " data-id="<?php echo $widget->id; ?>">
+<div class="panel dashboard-widget rss-feed-widget panel-info panel-dark" data-id="<?php echo $widget->id; ?>">
 	<div class="panel-heading handle">
 		<span class="panel-title" data-icon="rss"><?php echo empty($header) ? $feed_title : $header; ?>&nbsp;</span>
 		
@@ -30,7 +30,5 @@
 	<?php endif; ?>
 </div>
 <script type="text/javascript">
-$(function(){
-	$(".rss-feed .media-list").slimScroll({height:250});
-})
+$(function(){$('.rss-feed-widget[data-id="<?php echo $widget->id; ?>"] .media-list').slimScroll({height:<?php echo $widget_height; ?>});})
 </script>

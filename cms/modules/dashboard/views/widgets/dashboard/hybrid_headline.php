@@ -1,4 +1,4 @@
-<div class="panel dashboard-widget" data-id="<?php echo $widget->id; ?>">
+<div class="panel dashboard-widget hybrid-headline-widget" data-id="<?php echo $widget->id; ?>">
 	<div class="panel-heading handle">
 		<span class="panel-title"><?php echo (empty($header) AND ! empty($section)) ? $section->name : $header; ?>&nbsp;</span>
 		
@@ -9,26 +9,28 @@
 	</div>
 
 	<?php if (!empty($section)): ?>
-	<table class="table-primary table table-striped">
-		<tbody>
-			<?php foreach ($docs as $id => $doc): ?>
-			<tr data-id="<?php echo $id; ?>" class="<?php echo !$doc['published'] ? 'unpublished' : ''; ?>">
-				<th>
-					<strong>
-					<?php echo HTML::anchor(Route::get('datasources')->uri(array(
-						'controller' => 'document',
-						'directory' => 'hybrid',
-						'action' => 'view'
-					)) . URL::query(array(
-						'ds_id' => $section->id(), 'id' => $id
-					)), $doc['header']); ?>
-					</strong>
-				</th>
-				<td></td>
-			</tr>
-			<?php endforeach; ?>
-		</tbody>
-	</table>
+	<div class="panel-body no-padding">
+		<table class="table-primary table table-striped">
+			<tbody>
+				<?php foreach ($docs as $id => $doc): ?>
+				<tr data-id="<?php echo $id; ?>" class="<?php echo !$doc['published'] ? 'unpublished' : ''; ?>">
+					<th>
+						<strong>
+						<?php echo HTML::anchor(Route::get('datasources')->uri(array(
+							'controller' => 'document',
+							'directory' => 'hybrid',
+							'action' => 'view'
+						)) . URL::query(array(
+							'ds_id' => $section->id(), 'id' => $id
+						)), $doc['header']); ?>
+						</strong>
+					</th>
+					<td></td>
+				</tr>
+				<?php endforeach; ?>
+			</tbody>
+		</table>
+	</div>
 	<div class="panel-footer">
 		<?php if(ACL::check($section->type().$section->id().'.document.edit')):?>
 		<?php echo UI::button(__('Create Document'), array(
@@ -56,3 +58,9 @@
 	</div>
 	<?php endif; ?>
 </div>
+
+<script type="text/javascript">
+$(function(){
+	$('.hybrid-headline-widget[data-id="<?php echo $widget->id; ?>"] .panel-body').slimScroll({height:<?php echo $widget_height; ?>});
+});
+</script>

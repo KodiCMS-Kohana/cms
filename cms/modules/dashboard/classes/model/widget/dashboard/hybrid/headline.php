@@ -43,6 +43,10 @@ class Model_Widget_Dashboard_Hybrid_Headline extends Model_Widget_Decorator_Dash
 	 * @var array 
 	 */
 	public $docs = NULL;
+	
+	protected $_data = array(
+		'height' => 250
+	);
 
 	/**
 	 * 
@@ -63,6 +67,11 @@ class Model_Widget_Dashboard_Hybrid_Headline extends Model_Widget_Decorator_Dash
 	public function set_ds_id($ds_id)
 	{
 		return (int) $ds_id;
+	}
+	
+	public function set_height($height) 
+	{
+		return (int) $height;
 	}
 	
 	public function set_field($fields = array())
@@ -119,7 +128,8 @@ class Model_Widget_Dashboard_Hybrid_Headline extends Model_Widget_Decorator_Dash
 			'section' => Datasource_Section::load($this->ds_id),
 			'docs' => $docs,
 			'fields' => $fields,
-			'count' => count($this->docs)
+			'count' => count($this->docs),
+			'widget_height' => $this->get('height')
 		);
 	}
 	
@@ -128,7 +138,6 @@ class Model_Widget_Dashboard_Hybrid_Headline extends Model_Widget_Decorator_Dash
 		$agent = DataSource_Hybrid_Agent::instance($this->ds_id);
 
 		$query = $agent->get_query_props(array(), array(), $this->doc_filter);
-		$query = $this->_search_by_keyword($query);
 		
 		if($this->only_published === TRUE)
 		{
@@ -194,21 +203,6 @@ class Model_Widget_Dashboard_Hybrid_Headline extends Model_Widget_Decorator_Dash
 
 		return array($result, $return_fields);
 	}
-	
-	/**
-	 * 
-	 * @param Database_Query $query
-	 */
-	protected function _search_by_keyword( Database_Query $query )
-	{
-		if($this->search_key === NULL OR trim($this->search_key) == '') return $query;
-
-		$keyword = $this->_ctx->get($this->search_key);
-		
-		if( empty($keyword) )return $query;
-		
-		return Search::instance()->get_module_query($query, $keyword, 'ds_' . $this->ds_id);
-	}
 
 	/**
 	 * 
@@ -219,8 +213,6 @@ class Model_Widget_Dashboard_Hybrid_Headline extends Model_Widget_Decorator_Dash
 		$agent = DataSource_Hybrid_Agent::instance($this->ds_id);
 
 		$query = $agent->get_query_props($this->doc_fields, $this->doc_order, $this->doc_filter);
-		
-		$query = $this->_search_by_keyword($query);
 		
 		if($this->only_published === TRUE)
 		{

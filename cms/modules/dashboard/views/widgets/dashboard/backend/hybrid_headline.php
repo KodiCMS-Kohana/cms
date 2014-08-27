@@ -11,21 +11,20 @@
 	<span class="panel-title"><?php echo __('Properties'); ?></span>
 </div>
 <div class="panel-body">
-
+	<div class="form-group form-inline">
+		<label class="control-label col-md-3" for="height"><?php echo __('Widget height'); ?></label>
+		<div class="col-md-9">
+			<?php echo Form::input('height', $widget->height, array(
+				'class' => 'form-control', 'id' => 'height', 'size' => 3
+			)); ?>
+		</div>
+	</div>
+	
 	<div class="form-group">
 		<div class="col-md-offset-3 col-md-9">
 			<div class="checkbox">
 				<label><?php echo Form::checkbox('only_published', 1, $widget->only_published); ?> <?php echo __('Show only published documents'); ?></label>
 			</div>
-		</div>
-	</div>
-	
-	<div class="form-group form-inline">
-		<label class="control-label col-md-3" for="search_key"><?php echo __('Search key (Ctx)'); ?></label>
-		<div class="col-md-9">
-			<?php echo Form::input( 'search_key', $widget->search_key, array(
-				'class' => 'form-control', 'id' => 'search_key'
-			) ); ?>
 		</div>
 	</div>
 </div>
