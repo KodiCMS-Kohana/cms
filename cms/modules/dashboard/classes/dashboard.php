@@ -55,17 +55,17 @@ class Dashboard {
 	public static function update_widget($id, array $data)
 	{
 		$widget_settings = Model_User_Meta::get(self::WIDGET_SETTINGS_KEY, array());
-		$widget = Arr::get($widget_settings, $widget_id);
+		$widget = Arr::get($widget_settings, $id);
 		
 		if($widget instanceof Model_Widget_Decorator_Dashboard)
 		{
-			$widget_settings[$widget_id] = $widget->set_values($data);
+			$widget_settings[$id] = $widget->set_values($data);
 			Model_User_Meta::set(self::WIDGET_SETTINGS_KEY, $widget_settings);
 			
-			return TRUE;
+			return $widget;
 		}
 
-		return FALSE;
+		return NULL;
 	}
 	
 	/**

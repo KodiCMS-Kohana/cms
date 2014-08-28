@@ -21,9 +21,12 @@ class Controller_API_Dashboard extends Controller_System_Api {
 		$widget_id = $this->param('id', NULL, TRUE);
 		$settings = $this->params();
 
-		Dashboard::update_widget($widget_id, $settings);
+		$widget = Dashboard::update_widget($widget_id, $settings);
 
-		$this->response((string) $widget->run());
+		if($widget !== NULL)
+		{
+			$this->response((string) $widget->run());
+		}
 	}
 	
 	public function get_widget_list()
@@ -53,4 +56,21 @@ class Controller_API_Dashboard extends Controller_System_Api {
 			'types' => $types
 		));
 	}
+	
+	public function get_widget()
+	{
+		$widget_id = $this->param('id', NULL, TRUE);
+
+		$widget = Dashboard::get_widget($widget_id);
+
+		if ($widget === NULL)
+		{
+			$this->response(FALSE);
+		}
+
+		$this->response((string) View::factory('dashboard/widget_settings', array(
+			'widget' => $widget
+		)));
+	}
+
 }

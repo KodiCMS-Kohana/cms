@@ -210,6 +210,8 @@ class Controller_System_API extends Controller_System_Ajax {
 		catch (Exception $e)
 		{
 			$this->json['code'] = $e->getCode();
+			$this->json['line'] = $e->getLine();
+			$this->json['file'] = $e->getFile();
 			$this->json['message'] = $e->getMessage();
 			$this->json['response'] = NULL;
 		}
