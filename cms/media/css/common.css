@@ -18717,3 +18717,13 @@ a.editable-click.editable-disabled:hover {
   border: 1px dashed #bbb;
   margin-bottom: 20px;
 }
+.fc-view-container .fc-content .close {
+  font-size: 13px;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.fc-view-container .fc-agendaWeek-view .fc-content .close {
+  top: 4px;
+  right: 4px;
+}

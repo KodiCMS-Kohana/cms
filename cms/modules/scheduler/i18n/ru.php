@@ -1,11 +1,7 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
 return array(
-	'Scheduler' => 'Планировщик',
-	'Today' => 'Сегодня',
-	'Month' => 'Месяц',
-	'Week' => 'Неделя',
-	'Day' => 'День',
+	'Calendar' => 'Календарь',
 	
 	//============Jobs============//
 	'Jobs' => 'Задачи',
@@ -44,7 +40,7 @@ return array(
 	'Min (0 - 59)' => 'Минута (0 - 59)',
 	
 	//============Permissions============//
-	'View scheduler' => 'Видеть раздел',
+	'View calendar' => 'Видеть раздел',
 		
 	/* Validation */
 	'Not true format.' => 'Не верный формат.',

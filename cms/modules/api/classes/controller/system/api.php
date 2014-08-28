@@ -238,10 +238,10 @@ class Controller_System_API extends Controller_System_Ajax {
 				$this->json['response'] = NULL;
 			}
 		
-			$this->json = json_encode( $this->json );
+			$this->json = json_encode($this->json);
 		}
 
-		$this->response->body( $this->json );
+		$this->response->body($this->json);
 	}
 	
 	/**

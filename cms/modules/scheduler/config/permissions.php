@@ -1,13 +1,15 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
 return array(
-	'scheduler' => array(
+	'calendar' => array(
 		array(
 			'action' => 'index',
-			'description' => 'View scheduler'
-		),
+			'description' => 'View calendar'
+		)
+	),
+	'jobs' => array(
 		array(
-			'action' => 'jobs',
+			'action' => 'index',
 			'description' => 'View jobs'
 		),
 		array(
@@ -25,6 +27,6 @@ return array(
 		array(
 			'action' => 'run',
 			'description' => 'Run job'
-		),
-	),
+		)
+	)
 );

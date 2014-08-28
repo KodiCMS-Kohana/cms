@@ -9,26 +9,3 @@ Observer::observe('frontpage_found', function($page) {
 	Meta::clear();
 	Context::instance()->meta(Meta::factory($page));
 });
-
-Observer::observe('scheduler_callbacks', function() {
-	scheduler::add(function($from, $to) {
-		$from = date('Y-m-d', $from);
-		$to = date('Y-m-d', $to);
-
-		$pages = ORM::factory('page')
-				->where(DB::expr('DATE(published_on)'), 'between', array($from, $to))
-				->find_all();
-
-		$data = array();
-		foreach ($pages as $page)
-		{
-			$data[] = array(
-				'title' => $page->title,
-				'start' => strtotime($page->published_on),
-				'url' => URL::site(Route::get('backend')->uri(array('controller' => 'page', 'action' => 'edit', 'id' => $page->id))),
-				'allDay' => FALSE
-			);
-		}
-		return $data;
-	});
-});

@@ -7,12 +7,11 @@
 </div>
 <script type="text/javascript">
 $(function(){
-    update_time();
-});
+	var update_dashboard_calendar = function () {
+		$('.time-container').html(moment(new Date()).format('Do MMM, dddd, YYYY, HH:mm'));
+		setTimeout(function () { update_dashboard_calendar(); }, 60000);
+	};
 
-var update_time = function () {
-    date = moment(new Date());
-    $('.time-container').html(date.format('Do MMM, dddd, YYYY, HH:mm'));
-	setInterval(update_time, 60000);
-};
+    update_dashboard_calendar();
+});
 </script>
