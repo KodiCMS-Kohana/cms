@@ -38,7 +38,7 @@ class Dashboard {
 		$widget_settings = Model_User_Meta::get(self::WIDGET_SETTINGS_KEY, array());
 		
 		$widget = Widget_Manager::factory($type);
-		$widget->id = $type . '::' . Text::random(NULL, 3);
+		$widget->id = uniqid();
 	
 		$widget_settings[$widget->id] = $widget;
 		Model_User_Meta::set(self::WIDGET_SETTINGS_KEY, $widget_settings);
