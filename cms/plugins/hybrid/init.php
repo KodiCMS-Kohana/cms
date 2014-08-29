@@ -2,4 +2,5 @@
 
 Plugin::factory('hybrid', array(
 	'title' => 'Hybrid Datasource',
+	'author' => 'ButscH'
 ))->register();

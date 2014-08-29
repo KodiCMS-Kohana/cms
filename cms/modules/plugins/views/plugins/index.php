@@ -1,21 +1,20 @@
 <script id="plugin-item" type="text/template">
 	<td class="plugin-name">
-		<h5>
-			<% if (installed  && settings) { %>
+		<% if (installed && settings) { %>
+		<?php if( ACL::check('plugins.settings')): ?>
+		<a href="/<?php echo ADMIN_DIR_NAME; ?>/plugins/settings/<%= id %>" class="btn btn-default btn-sm pull-right">
+			<?php echo UI::icon('cog'); ?> <span class="hidden-xs hidden-sm"><%= __('Settings') %></span>
+		</a>
+		<?php endif; ?>
+		<% } %>
+		<h5 class="pull-left">
 			<%= title %>
-			<?php if( ACL::check('plugins.settings')): ?>
-			<a href="/<?php echo ADMIN_DIR_NAME; ?>/plugins/settings/<%= id %>" class="btn btn-default pull-right">
-				<?php echo UI::icon('cog'); ?> <%= __('Settings') %>
-			</a>
-			<?php endif; ?>
-			<% } else { %>
-				<%= title %>
-			<% } %>
 		</h5>
-
-		<p class="muted"><%= description %></p>
+		<div class="clearfix"></div>
+		<% if (description) { %><p class="text-muted"><%= description %></p><% } %>
+		<% if (author) { %><small class="text-light-gray text-xs"><%= __('Author') %> <%= author %></small><% } %>
 	</td>
-	<td class="plugin-version"><%= version %></td>
+	<td class="plugin-version hidden-xs hidden-sm"><%= version %></td>
 	<?php if( ACL::check('plugins.change_status')): ?>
 	<td class="plugin-status text-center">
 		<?php echo UI::button(NULL, array(
@@ -37,7 +36,7 @@
 		<thead>
 			<tr>
 				<th><?php echo __('Plugin name'); ?></th>
-				<th><?php echo __('Version'); ?></th>
+				<th class="hidden-xs hidden-sm"><?php echo __('Version'); ?></th>
 
 				<?php if( ACL::check('plugins.change_status')): ?>
 				<th><?php echo __('Actions'); ?></th>

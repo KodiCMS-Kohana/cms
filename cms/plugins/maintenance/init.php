@@ -2,4 +2,5 @@
 
 Plugin::factory('maintenance', array(
 	'title' => 'Maintenance mode',
+	'author' => 'ButscH',
 ))->register();

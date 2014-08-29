@@ -3,6 +3,7 @@
 Plugin::factory('userguide', array(
 	'title' => __('User Guide'),
 	'version' => '1.0.0',
+	'author' => 'ButscH'
 ))->register();
 
 // Static file serving (CSS, JS, images)

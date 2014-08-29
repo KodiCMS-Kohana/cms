@@ -2,4 +2,5 @@
 
 Plugin::factory('part_revision', array(
 	'title' => 'Revision of parts',
+	'author' => 'ButscH'
 ))->register();

@@ -158,9 +158,9 @@ cms.init.add('plugins_index', function () {
 
 			if(this.model.get('installed')) {
 				button.addClass('btn-danger');
-				button.html('<span class="fa fa-lg fa-power-off fa-inverse" />');
+				button.html('<span class="fa fa-power-off" />');
 			} else {
-				button.html('<span class="fa fa-lg fa-play-circle" />');
+				button.html('<span class="fa fa-play-circle" />');
 			}
 
 			return this;

@@ -3,4 +3,5 @@
 Plugin::factory('messages', array(
 	'title' => 'User messages',
 	'description' => 'Provides user messages system.',
+	'author' => 'ButscH'
 ))->register();

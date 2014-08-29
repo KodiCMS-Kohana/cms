@@ -3,6 +3,7 @@
 Plugin::factory('page_not_found', array(
 	'title' => 'Page not found',
 	'description' => 'Provides Page not found type.',
+	'author' => 'ButscH'
 ))->register();
 
 Observer::observe('page_not_found', function( $message, $params ){

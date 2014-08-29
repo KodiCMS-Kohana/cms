@@ -17,6 +17,7 @@ return array(
 	'Deactivate plugin' => 'Деактивировать плагин',
 	'Documentation' => 'Документация',
 	'Link' => 'Ссылка',
+	'Author' => 'Автор',
 	'Report a bug' => 'Сообщить об ошибке',
 	'New plugin' => 'Новый',
 	'Download and copy files to directory' => 'Скачайте и скопируйте архив в директорию',

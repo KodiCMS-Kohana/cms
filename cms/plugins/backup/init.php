@@ -2,5 +2,6 @@
 
 Plugin::factory('backup', array(
 	'title' => 'Backup DB',
-	'description' => 'Provides an Archive pagetype behaving similar to a blog or news archive.'
+	'description' => 'Provides an Archive pagetype behaving similar to a blog or news archive.',
+	'author' => 'ButscH'
 ))->register();

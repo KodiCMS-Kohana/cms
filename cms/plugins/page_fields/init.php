@@ -2,5 +2,5 @@
 
 Plugin::factory('page_fields', array(
 	'title' => 'Page fields',
-	'description' => '',
+	'author' => 'ButscH'
 ))->register();
