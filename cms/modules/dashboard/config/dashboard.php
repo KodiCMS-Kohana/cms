@@ -7,6 +7,7 @@ return array(
 	__('Other') => array(
 		'dashboard_rss' => __('RSS feed'),
 		'dashboard_calendar' => __('Mini calendar'),
+		'dashboard_reformal' => __('Reformal'),
 		'dashboard_fullcalendar' => __('Calendar'),
 		'dashboard_cache_button' => __('Cache clear button'),
 	),
