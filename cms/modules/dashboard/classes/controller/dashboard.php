@@ -33,11 +33,7 @@ class Controller_Dashboard extends Controller_System_Backend {
 
 		$this->template->content = View::factory('dashboard/index', array(
 			'widgets' => $widgets_array,
-			'columns' => array(
-				'left' => 'col-sm-6',
-				'center' => 'col-sm-6',
-				'bottom' => 'col-sm-12',
-			)
+			'columns' => Config::get('dashboard', 'columns', array())
 		));
 	}
 }
