@@ -88,6 +88,7 @@ return array(
 	'Site information' => 'Информация о сайте',
 	'Site title' => 'Заголовок',
 	'Site description' => 'Описание',
+	'Regional settings' => 'Региональные настройки',
 	'Setting'  => 'Настройка',
 	'Settings' => 'Настройки',
 	'This status will be autoselected when page creating.' 

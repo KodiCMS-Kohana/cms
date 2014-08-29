@@ -23,7 +23,6 @@ return array(
 	
 	/********************* Other information *******************/
 	'User settings' => 'Настройки пользователя',
-	'Regional settings' => 'Региональные настройки',
 	'Site information' => 'Настройки',
 	'Administrator username' => 'Имя пользователя администратора',
 	
