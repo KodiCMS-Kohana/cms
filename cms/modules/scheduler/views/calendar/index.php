@@ -22,8 +22,8 @@
 						<input class="form-control" name="event_title" maxlength="40" type="text" placeholder="<?php echo __('Event Title'); ?>">
 					</div>
 					<div class="form-group form-inline">
-						<input type="text" name="event_start" value="" class="datetimepicker form-control" size="15" placeholder="<?php echo __('Event start'); ?>">&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;
-						<input type="text" name="event_end" value="" class="datetimepicker form-control" size="15" placeholder="<?php echo __('Event end'); ?>">
+						<input type="text" name="event_start" value="" class="event_start datetimepicker form-control" size="15" data-range-max-input=".event_end" placeholder="<?php echo __('Event start'); ?>">&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;
+						<input type="text" name="event_end" value="" class="event_end datetimepicker form-control" data-range-min-input=".event_start" size="15" placeholder="<?php echo __('Event end'); ?>">
 					</div>
 					
 					<div class="checkbox">
@@ -52,9 +52,7 @@
 	</div>
 	<div class="col-sm-9">
 		<div class="panel">
-			<div class="panel-body">
-				<div id="calendar"></div>
-			</div>
+			<div id="calendar" class="panel-body"></div>
 		</div>
 	</div>
 </div>
