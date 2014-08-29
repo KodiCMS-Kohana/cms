@@ -74,7 +74,7 @@ $(function() {
 	<div class="panel-body">
 		<pre id="text"><?php echo htmlspecialchars($part->content); ?></pre>
 		
-		<button class="btn btn-xs btn-clear"><?php echo __('Clear diff'); ?></button>
+		<button class="btn btn-default btn-xs btn-clear"><?php echo __('Clear diff'); ?></button>
 	</div>
 
 	<?php foreach($parts as $id => $p):?>
@@ -88,7 +88,7 @@ $(function() {
 		<br />
 		<span class="btn-group">
 			<?php if(!empty($part->id)): ?>
-			<button class="btn btn-xs btn-diff" data-id="<?php echo $p->id; ?>">
+			<button class="btn btn-default btn-xs btn-diff" data-id="<?php echo $p->id; ?>">
 				<?php echo __('Show diff'); ?>
 			</button>
 			<?php endif ;?>			

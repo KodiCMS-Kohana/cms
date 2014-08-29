@@ -6,7 +6,7 @@
 	<div class="well">
 		<?php echo UI::button(__('Clear cache'), array(
 			'icon' => UI::icon('trash-o fa-lg'),
-			'class' => 'btn btn-warning',
+			'class' => 'btn-warning',
 			'data-api-url' => 'cache',
 			'data-method' => Request::DELETE
 		)); ?>

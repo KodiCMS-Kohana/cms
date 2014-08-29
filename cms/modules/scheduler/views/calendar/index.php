@@ -8,12 +8,9 @@
 				</div>
 				<div class="panel-body">
 					<div class="form-group">
-						<?php
-						$icons = array('info', 'warning', 'check', 'user', 'lock', 'clock-o');
-						?>
 						<div class="btn-group btn-group-sm btn-group-justified" data-toggle="buttons">
 							<?php foreach ($icons as $i => $icon): ?>
-							<label class="btn btn-flat <?php if($i == 0): ?>active<?php endif; ?>">
+							<label class="btn btn-default btn-flat <?php if($i == 0): ?>active<?php endif; ?>">
 								<?php echo Form::radio('event_icon', $icon, $i == 0); ?>
 								<?php echo UI::icon($icon); ?>
 							</label>
@@ -28,12 +25,15 @@
 						<input type="text" name="event_start" value="" class="datetimepicker form-control" size="15" placeholder="<?php echo __('Event start'); ?>">&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;
 						<input type="text" name="event_end" value="" class="datetimepicker form-control" size="15" placeholder="<?php echo __('Event end'); ?>">
 					</div>
+					
+					<div class="checkbox">
+						<label>
+							<?php echo Form::checkbox('event_only_for_me', 1, TRUE); ?> <?php echo __('Only for me'); ?>
+						</label>
+					</div>
 
 					<div class="form-group">
-						<label>Select Event Color</label>
-						<?php
-						$colors = array('danger', 'default', 'info', 'primary', 'success', 'warning');
-						?>
+						<label><?php echo __('Select Event Color'); ?></label>
 						<div class="btn-group btn-group-justified" data-toggle="buttons">
 							<?php foreach ($colors as $i => $color): ?>
 							<label class="btn no-border bg-<?php echo $color; ?> <?php if($i == 0): ?>active<?php endif; ?>">
@@ -45,7 +45,7 @@
 					</div>
 				</div>
 				<div class="panel-footer">
-					<button class="btn btn-default" type="submit" id="add-event">Add Event</button>
+					<button class="btn btn-default" type="submit" id="add-event"><?php echo __('Add Event'); ?></button>
 				</div>
 			</form>
 		</div>

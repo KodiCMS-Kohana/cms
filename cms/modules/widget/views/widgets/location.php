@@ -40,7 +40,9 @@
 				<?php echo Form::input('select_for_all', NULL, array('class' => 'form-control')); ?>
 				<div class="input-group-btn">
 					<?php echo UI::button( __('Select for all pages'), array(
-						'icon' => UI::icon('level-up fa-flip-horizontal'), 'class' => 'btn', 'id' => 'select_for_all'
+						'icon' => UI::icon('level-up fa-flip-horizontal'), 
+						'class' => 'btn-default', 
+						'id' => 'select_for_all'
 					)); ?>
 				</div>
 			</div>
@@ -48,7 +50,7 @@
 			<?php if( ACL::check( 'layout.rebuild')): ?>
 			<?php echo UI::button(__('Rebuild blocks'), array(
 				'icon' => UI::icon( 'refresh' ),
-				'class' => 'btn btn-xs btn-danger',
+				'class' => 'btn-xs btn-danger',
 				'data-api-url' => 'layout.rebuild',
 				'data-method' => Request::POST
 			)); ?>
@@ -58,7 +60,7 @@
 	<div class="panel-footer form-actions">
 		<?php echo UI::button( __('Save locations'), array(
 			'icon' => UI::icon( 'check'), 
-			'class' => 'btn btn-lg btn-primary',
+			'class' => 'btn-lg btn-primary',
 			'data-hotkeys' => 'ctrl+s'
 		)); ?>
 	</div>

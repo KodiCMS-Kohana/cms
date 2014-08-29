@@ -4,7 +4,8 @@
 		<?php echo UI::button(__('Add template'), array(
 			'href' => Route::get('email_controllers')->uri(array('controller' => 'templates', 'action' => 'add')), 
 			'icon' => UI::icon('plus'),
-			'data-hotkeys' => 'ctrl+a'
+			'data-hotkeys' => 'ctrl+a',
+			'class' => 'btn-primary'
 		)); ?>
 		<?php endif; ?>
 	</div>
@@ -65,7 +66,7 @@
 							'id' => $tpl->id
 						)), 
 						'icon' => UI::icon('times fa-inverse'),
-						'class' => 'btn btn-xs btn-danger btn-confirm'
+						'class' => 'btn-xs btn-danger btn-confirm'
 					)); ?>
 					<?php endif; ?>
 				</td>

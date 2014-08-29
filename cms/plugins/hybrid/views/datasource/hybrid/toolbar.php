@@ -8,7 +8,7 @@
 				<input type="text" name="keyword" class="form-control" value="<?php echo $keyword; ?>" placeholder="<?php echo __('Search'); ?>">
 				
 				<div class="input-group-btn">
-					<button class="btn"><?php echo UI::icon('search'); ?> <?php echo __('Search'); ?></button>
+					<button class="btn btn-default"><?php echo UI::icon('search'); ?> <?php echo __('Search'); ?></button>
 				</div>
 			</div>
 		<?php echo Form::close(); ?>

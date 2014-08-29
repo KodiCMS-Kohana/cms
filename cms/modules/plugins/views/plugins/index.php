@@ -4,7 +4,7 @@
 			<% if (installed  && settings) { %>
 			<%= title %>
 			<?php if( ACL::check('plugins.settings')): ?>
-			<a href="/<?php echo ADMIN_DIR_NAME; ?>/plugins/settings/<%= id %>" class="btn pull-right">
+			<a href="/<?php echo ADMIN_DIR_NAME; ?>/plugins/settings/<%= id %>" class="btn btn-default pull-right">
 				<?php echo UI::icon('cog'); ?> <%= __('Settings') %>
 			</a>
 			<?php endif; ?>
@@ -19,7 +19,7 @@
 	<?php if( ACL::check('plugins.change_status')): ?>
 	<td class="plugin-status text-center">
 		<?php echo UI::button(NULL, array(
-			'class' => 'change-status btn btn-sm',
+			'class' => 'change-status btn-default btn-sm',
 		)); ?>
 	</td>
 	<?php endif; ?>

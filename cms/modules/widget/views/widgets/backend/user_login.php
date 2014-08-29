@@ -104,6 +104,6 @@ $(function() {
 	</div>
 	
 	<div class="col-md-offset-3">
-		<button name="new_rule" class="btn" data-icon="plus"><?php echo __('Add new rule'); ?></button>
+		<button name="new_rule" class="btn btn-default" data-icon="plus"><?php echo __('Add new rule'); ?></button>
 	</div>
 </div>

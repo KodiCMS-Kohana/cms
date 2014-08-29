@@ -19,7 +19,7 @@
 	<?php if( ACL::check( 'layout.rebuild')): ?>
 	<?php echo UI::button(__('Rebuild blocks'), array(
 		'icon' => UI::icon( 'refresh' ),
-		'class' => 'btn btn-inverse btn-xs',
+		'class' => 'btn-inverse btn-xs',
 		'data-api-url' => 'layout.rebuild',
 		'data-method' => Request::POST
 	)); ?>

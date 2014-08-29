@@ -11,7 +11,7 @@
 			) ); ?>
 			
 			<div class="input-group-btn">
-				<button class="btn clear-coords-<?php echo $field->name; ?>" type="button"><?php echo __('Clear coordinates'); ?></button>
+				<button class="btn btn-default clear-coords-<?php echo $field->name; ?>" type="button"><?php echo __('Clear coordinates'); ?></button>
 			</div>
 		</div>
 		

@@ -39,6 +39,14 @@ return array(
 	'Hour (0 - 23)' => 'Час (0 - 23)',
 	'Min (0 - 59)' => 'Минута (0 - 59)',
 	
+	'New event' => 'Новое событие',
+	'Event Title' => 'Тема',
+	'Event start' => 'Дата начала',
+	'Event end' => 'Дата окончания',
+	'Select Event Color' => 'Выберите цвет',
+	'Only for me' => 'Только для меня',
+	'Add Event' => 'Добавить',
+	
 	//============Permissions============//
 	'View calendar' => 'Видеть раздел',
 		

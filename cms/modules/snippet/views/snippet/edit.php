@@ -28,7 +28,7 @@
 		<?php if( $snippet->is_writable() OR ! $snippet->is_exists()): ?>
 		<div class="panel-heading-controls">
 			<?php echo UI::button(__('File manager'), array(
-				'class' => 'btn btn-filemanager btn-flat btn-info btn-sm', 
+				'class' => 'btn-filemanager btn-flat btn-info btn-sm', 
 				'data-el' => 'textarea_content',
 				'icon' => UI::icon( 'folder-open'),
 				'data-hotkeys' => 'ctrl+m'

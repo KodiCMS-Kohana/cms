@@ -3,8 +3,8 @@
 		<span class="panel-title"><?php echo (empty($header) AND ! empty($section)) ? $section->name : $header; ?>&nbsp;</span>
 		
 		<div class="panel-heading-controls">
-			<button type="button" class="btn btn-xs widget_settings"><?php echo UI::icon('cog'); ?></button>
-			<button type="button" class="btn btn-xs remove_widget">×</button>
+			<button type="button" class="btn btn-default btn-xs widget_settings"><?php echo UI::icon('cog'); ?></button>
+			<button type="button" class="btn btn-default btn-xs remove_widget"><?php echo UI::icon('times'); ?></button>
 		</div>
 	</div>
 
@@ -39,7 +39,8 @@
 				'directory' => $section->type(),
 				'action' => 'create'
 			)) . URL::query(array('ds_id' => $section->id())),
-			'icon' => UI::icon('plus')
+			'icon' => UI::icon('plus'),
+			'class' => 'btn-primary'
 		)); ?>
 		<?php endif; ?>
 		
@@ -49,7 +50,7 @@
 				'directory' => 'datasources',
 			)) . URL::query(array('ds_id' => $section->id())),
 			'icon' => UI::icon(Datasource_Data_Manager::get_icon($section->type())),
-			'class' => 'btn-xs btn-primary'
+			'class' => 'btn-xs btn-inverse'
 		)); ?>
 	</div>
 	<?php else: ?>

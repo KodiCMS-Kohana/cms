@@ -123,7 +123,7 @@
 		<div class="well">
 			<?php echo UI::button(__('Clear user sessions'), array(
 				'icon' => UI::icon('trash-o fa-lg'),
-				'class' => 'btn btn-warning btn-lg',
+				'class' => 'btn-warning btn-lg',
 				'data-api-url' => 'session.clear'
 			)); ?>
 		</div>

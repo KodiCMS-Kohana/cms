@@ -177,17 +177,17 @@ $(function() {
 				'controller' => 'field',
 				'directory' => 'hybrid',
 				'action' => 'add',
-				'id' => $ds->id()
+				'id' => $ds->id(),
 			)),
 			'icon' => UI::icon('plus'),
-			'class' => 'btn fancybox'
+			'class' => 'btn-primary fancybox'
 		)); ?>
 		<?php endif; ?>
 		
 		<?php if(Acl::check($ds->type().$ds->id().'.field.remove')): ?>
 		<?php echo UI::button(__('Remove fields'), array(
 			'icon' => UI::icon('trash-o'), 'id' => 'remove-fields',
-			'class' => 'btn btn-danger'
+			'class' => 'btn-danger'
 		)); ?>
 		<?php endif; ?>
 	</div>

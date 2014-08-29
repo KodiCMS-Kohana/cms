@@ -4,7 +4,8 @@
 		<?php echo UI::button(__('Add snippet'), array(
 			'href' => Route::get('backend')->uri(array('controller' => 'snippet', 'action' => 'add')), 
 			'icon' => UI::icon('plus'),
-			'data-hotkeys' => 'ctrl+a'
+			'data-hotkeys' => 'ctrl+a',
+			'class' => 'btn-primary'
 		)); ?>
 		<?php endif; ?>
 	</div>
@@ -23,7 +24,7 @@
 				<th class="hidden-xs"><?php echo __('Modified'); ?></th>
 				<th><?php echo __('Size'); ?></th>
 				<th class="hidden-xs"><?php echo __('Direction'); ?></th>
-				<th><?php echo __('Actions'); ?></th>
+				<th class="text-right"><?php echo __('Actions'); ?></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -56,12 +57,12 @@
 				<td class="direction hidden-xs">
 					<?php echo UI::label($snippet->get_relative_path()); ?>
 				</td>
-				<td class="actions text-center">
+				<td class="actions text-right">
 					<?php if( ACL::check( 'snippet.delete')): ?>
 					<?php echo UI::button(NULL, array(
 						'href' => Route::get('backend')->uri(array('controller' => 'snippet', 'action' => 'delete', 'id' => $snippet->name)), 
 						'icon' => UI::icon('times fa-inverse'),
-						'class' => 'btn btn-xs btn-danger btn-confirm'
+						'class' => 'btn-xs btn-danger btn-confirm'
 					)); ?>
 					<?php endif; ?>
 				</td>

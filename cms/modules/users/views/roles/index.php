@@ -4,7 +4,8 @@
 		<?php echo UI::button(__('Add role'), array(
 			'href' => Route::get('backend')->uri(array('controller' => 'roles', 'action' => 'add')), 
 			'icon' => UI::icon('plus'),
-			'data-hotkeys' => 'ctrl+a'
+			'data-hotkeys' => 'ctrl+a',
+			'class' => 'btn-primary'
 		)); ?>
 		<?php endif; ?>
 	</div>
@@ -52,7 +53,7 @@
 								'id' => $role->id
 							)), 
 							'icon' => UI::icon('times fa-inverse'),
-							'class' => 'btn btn-xs btn-danger btn-confirm'
+							'class' => 'btn-xs btn-danger btn-confirm'
 						));
 					} ?>
 				</td>

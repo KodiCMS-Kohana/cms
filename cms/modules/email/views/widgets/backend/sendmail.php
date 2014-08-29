@@ -88,7 +88,7 @@
 						<td><?php echo __('Field source key')?></td>
 						<td nowrap><?php echo __('Field value type')?></td>
 						<td rowspan="7" valign="top" class="text-right">
-							<?php echo UI::button(NULL, array('icon' => UI::icon('trash-o'), 'class' => 'btn btn-danger remove_field')); ?>
+							<?php echo UI::button(NULL, array('icon' => UI::icon('trash-o'), 'class' => 'btn-danger remove_field')); ?>
 						</td>
 					</tr>
 					<tr>
@@ -176,5 +176,5 @@
 	?>
 	
 	<div id="fields_container"></div>
-	<?php echo UI::button(__('Add field'), array('icon' => UI::icon('plus'), 'id' => 'add_field', 'class' => 'btn btn-lg')); ?>
+	<?php echo UI::button(__('Add field'), array('icon' => UI::icon('plus'), 'id' => 'add_field', 'class' => 'btn-default btn-lg')); ?>
 </div>

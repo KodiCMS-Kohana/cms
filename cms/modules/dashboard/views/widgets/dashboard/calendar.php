@@ -1,6 +1,6 @@
 <div class="panel dashboard-widget panel-info panel-body-colorful panel-dark" data-id="<?php echo $widget->id; ?>">
 	<div class="panel-body text-lg handle">
-		<button type="button" class="close remove_widget">×</button>
+		<button type="button" class="close remove_widget"><?php echo UI::icon('times'); ?></button>
 
 		<i class="fa fa-calendar fa-2x"></i>&nbsp;&nbsp;<span class="time-container"></span>
 	</div>

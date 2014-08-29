@@ -9,7 +9,7 @@
 					<i class="fa fa-eye"></i> <%= watchers %>&nbsp;&nbsp;&nbsp;&nbsp;
 				</h5>
 				<div class="pull-right">
-					<a href="<%= archive_url %>" class="btn btn-xs"><?php echo __('Download'); ?></a>
+					<a href="<%= archive_url %>" class="btn btn-default btn-xs"><?php echo __('Download'); ?></a>
 					<a href="<%= url %>/issues" target="blank" class="btn btn-xs btn-warning"><?php echo __('Report a bug'); ?></a>
 				</div>
 				<div class="clearfix"></div>

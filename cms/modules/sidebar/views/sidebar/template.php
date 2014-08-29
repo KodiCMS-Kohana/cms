@@ -12,7 +12,7 @@
 		
 		<hr class="panel-wide" />
 		
-		<button type="submit" class="btn btn-primary"><?php echo UI::icon('search'); ?> <?php echo __('Search'); ?></button>
+		<button type="submit" class="btn btn-primary" data-icon="search"><?php echo __('Search'); ?></button>
 		&nbsp;&nbsp;&nbsp;
 		<?php echo HTML::anchor($form->action(), __('Cancel'), array('class' => 'btn btn-xs btn-outline btn-rounded', 'data-icon' => 'ban')); ?>
 	</div>

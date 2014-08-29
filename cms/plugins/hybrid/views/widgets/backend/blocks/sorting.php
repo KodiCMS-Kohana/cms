@@ -168,11 +168,11 @@ jQuery.fn.swapWith = function(to) {
 				</td>
 				<td class="sorting-btns">
 					<div class="btn-group btn-group-vertical">
-						<?php echo UI::button('Add', array('class' => 'btn btn-add')); ?>
-						<?php echo UI::button('Remove', array('class' => 'btn btn-remove')); ?>
-						<?php echo UI::button('Move up', array('class' => 'btn btn-move up')); ?>
-						<?php echo UI::button('Move down', array('class' => 'btn btn-move down')); ?>
-						<?php echo UI::button('Asc / Desc', array('class' => 'btn btn-order')); ?>
+						<?php echo UI::button('Add', array('class' => 'btn-default btn-add')); ?>
+						<?php echo UI::button('Remove', array('class' => 'btn-default btn-remove')); ?>
+						<?php echo UI::button('Move up', array('class' => 'btn-default btn-move up')); ?>
+						<?php echo UI::button('Move down', array('class' => 'btn-default btn-move down')); ?>
+						<?php echo UI::button('Asc / Desc', array('class' => 'btn-default btn-order')); ?>
 					</div>
 				</td>
 				<td>

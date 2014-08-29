@@ -36,7 +36,7 @@
 				'id' => $widget->id
 			)), 'icon' => UI::icon('desktop'),
 			'id' => 'defaultTemplateButton',
-			'class' => 'popup fancybox.iframe btn btn-sm'
+			'class' => 'popup fancybox.iframe btn-default btn-sm'
 		)) : NULL
 	)); ?>
 	<?php endif; ?>

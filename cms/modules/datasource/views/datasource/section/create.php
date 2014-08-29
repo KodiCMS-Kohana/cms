@@ -27,7 +27,7 @@
 	<div class="panel-footer">
 		<?php echo UI::button( __('Create section'), array(
 			'icon' => UI::icon( 'plus'),
-			'class' => 'btn btn-lg btn-primary',
+			'class' => 'btn-lg btn-primary',
 			'data-hotkeys' => 'ctrl+s'
 		)); ?>
 	</div>

@@ -21,7 +21,7 @@ if ( ! $doc->loaded() AND $field->set_current === TRUE)
 			'controller' => 'users', 
 			'action' => 'edit', 
 			'id' => $value
-		)), __('Show profile'), array('class' => 'popup fancybox.iframe btn')) ; ?>
+		)), __('Show profile'), array('class' => 'popup fancybox.iframe btn btn-default')) ; ?>
 		<?php endif; ?>
 		
 		<?php if($field->hint): ?>

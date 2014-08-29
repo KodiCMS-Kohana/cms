@@ -7,10 +7,10 @@
 		<div class="btn-toolbar" role="toolbar">
 			<?php echo UI::button(__('Send message'), array(
 				'href' => Route::get('backend')->uri(array('controller' => 'messages', 'action' => 'add')), 'icon' => UI::icon('envelope-o'),
-				'class' => 'btn btn-primary'
+				'class' => 'btn-primary'
 			)); ?>
 			
-			<button type="button" class="btn btn-check-new"><i class="fa fa-repeat"></i></button>
+			<button type="button" class="btn btn-default btn-check-new"><i class="fa fa-repeat"></i></button>
 			
 			<?php if(count($messages) > 0): ?>
 				<button type="button" class="btn btn-remove btn-danger"><i class="fa fa-trash-o"></i></button>

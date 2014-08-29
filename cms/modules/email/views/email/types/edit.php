@@ -50,7 +50,8 @@
 			<?php echo UI::button(__('Add linked template'), array(
 				'href' => Route::get('email_controllers')->uri(array(
 					'controller' => 'templates', 'action' => 'add')) . '?email_type='.$type->id, 
-				'icon' => UI::icon('plus')
+				'icon' => UI::icon('plus'),
+				'class' => 'btn-default'
 			)); ?>
 			<?php endif; ?>
 		</div>

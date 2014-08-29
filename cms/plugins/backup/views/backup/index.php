@@ -5,7 +5,8 @@
 			'href' => Route::get('backend')->uri(array(
 				'controller' => 'backup',
 				'action' => 'database'
-			))
+			)),
+			'class' => 'btn-primary'
 		)); ?>
 
 		<?php echo UI::button(__('Create filesystem backup'), array(
@@ -13,7 +14,8 @@
 			'href' => Route::get('backend')->uri(array(
 				'controller' => 'backup',
 				'action' => 'filesystem'
-			))
+			)),
+			'class' => 'btn-primary'
 		)); ?>
 	</div>
 

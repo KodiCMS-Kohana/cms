@@ -73,7 +73,7 @@ $hidden = empty($template) ? 'hidden' : '';
 					'action' => 'edit',
 					'id' => $template
 				)), 'icon' => UI::icon('edit'),
-				'class' => 'popup fancybox.iframe btn btn-primary btn-sm'.$hidden, 
+				'class' => 'popup fancybox.iframe btn-primary btn-sm'.$hidden, 
 				'id' => 'EditTemplateButton'
 			)); ?>
 			<?php endif; ?>
@@ -85,7 +85,7 @@ $hidden = empty($template) ? 'hidden' : '';
 					'action' => 'add'
 				)),
 				'icon' => UI::icon('plus'),
-				'class' => 'popup fancybox.iframe btn btn-success btn-sm',
+				'class' => 'popup fancybox.iframe btn-success btn-sm',
 				'id' => 'AddTemplateButton'
 			)); ?>
 			<?php endif; ?>

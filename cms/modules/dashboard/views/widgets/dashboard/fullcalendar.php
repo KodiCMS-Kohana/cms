@@ -3,10 +3,10 @@
 		<span class="panel-title" data-icon="calendar"><?php echo __('Calendar'); ?>&nbsp;</span>
 		
 		<div class="panel-heading-controls">
-			<button type="button" class="btn btn-xs remove_widget">×</button>
+			<button type="button" class="btn btn-default btn-xs remove_widget"><?php echo UI::icon('times'); ?></button>
 		</div>
 	</div>
-	<div id="calendar" class="panel-body"></div>
+	<div id="calendar" class="panel-body padding-sm"></div>
 </div>
 <link type="text/css" href="/cms/media/libs/fullcalendar-2.1.0/fullcalendar.min.css" rel="stylesheet" media="all" />
 <script type="text/javascript" src="/cms/media/libs/fullcalendar-2.1.0/fullcalendar.min.js"></script>
@@ -19,7 +19,7 @@ $(function(){
 			center: 'title',
 			right: 'month,agendaWeek,agendaDay'
 		},
-		editable: false,
+		editable: true,
 		eventRender: function(event, element) {
 			var content = element.find('.fc-content');
 			if (event.icon) {

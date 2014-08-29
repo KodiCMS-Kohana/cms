@@ -11,11 +11,11 @@
 				</div>
 				<div class="panel-body panel-spoiler">
 					<?php 
-					$attrs = array('target' => 'blank', 'class' => 'btn', 'id' => 'uploaded-' . $field->name);
+					$attrs = array('target' => 'blank', 'class' => array('btn btn-default'), 'id' => 'uploaded-' . $field->name);
 					$title = UI::icon('file' ) . ' ' . __('View file');
 					if($field->is_image( PUBLICPATH . $value)) 
 					{
-						$attrs['class'] .= ' popup';
+						$attrs['class'][] = 'popup';
 						$attrs['data-title'] = 'false';
 					}
 					echo HTML::anchor(PUBLIC_URL . $value, $title, $attrs); ?>

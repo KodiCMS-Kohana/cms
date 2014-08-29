@@ -7,7 +7,7 @@
 	</div>
 	<div class="panel-body">
 		<?php foreach ($labels as $type => $label): ?>
-		<button class="btn popup-btn" data-type="<?php echo $type; ?>">
+		<button class="btn btn-default popup-btn" data-type="<?php echo $type; ?>">
 			<?php echo $label; ?>
 		</button>
 		<?php endforeach; ?>

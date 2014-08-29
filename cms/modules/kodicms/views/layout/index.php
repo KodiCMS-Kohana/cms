@@ -4,14 +4,15 @@
 		<?php echo UI::button(UI::hidden(__('Add layout')), array(
 			'icon' => UI::icon( 'plus' ), 
 			'href' => Route::get('backend')->uri(array('controller' => 'layout', 'action' => 'add')),
-			'data-hotkeys' => 'ctrl+a'
+			'data-hotkeys' => 'ctrl+a',
+			'class' => 'btn-primary'
 		)); ?>
 		<?php endif; ?>
 
 		<?php if( ACL::check( 'layout.rebuild')): ?>
 		<?php echo UI::button(UI::hidden(__('Rebuild blocks')), array(
 			'icon' => UI::icon( 'refresh' ),
-			'class' => 'btn btn-primary btn-xs',
+			'class' => 'btn-inverse btn-xs',
 			'data-api-url' => 'layout.rebuild',
 			'data-method' => Request::POST
 		)); ?>
@@ -32,7 +33,7 @@
 				<th class="hidden-xs"><?php echo __('Modified'); ?></th>
 				<th><?php echo __('Size'); ?></th>
 				<th class="hidden-xs"><?php echo __('Direction'); ?></th>
-				<th><?php echo __('Actions'); ?></th>
+				<th class="text-right"><?php echo __('Actions'); ?></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -70,12 +71,12 @@
 				<td class="direction hidden-xs">
 					<?php echo UI::label($layout->get_relative_path()); ?>
 				</td>
-				<td class="actions">
+				<td class="actions text-right">
 					<?php if (ACL::check('layout.delete')): ?>
 					<?php echo UI::button(NULL, array(
 						'icon' => UI::icon('times fa-inverse'),
 						'href' => Route::get('backend')->uri(array('controller' => 'layout', 'action' => 'delete', 'id' => $layout->name)),
-						'class' => 'btn btn-danger btn-xs btn-confirm'
+						'class' => 'btn-danger btn-xs btn-confirm'
 					)); ?>
 					<?php endif; ?>
 				</td>

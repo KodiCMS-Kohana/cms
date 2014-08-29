@@ -5,7 +5,9 @@
 				'controller' => 'page',
 				'action' => 'add',
 				'id' => $page->id
-			)), 'icon' => UI::icon('plus')
+			)), 
+			'icon' => UI::icon('plus'),
+			'class' => 'btn-primary'
 		)); ?>
 	</div>
 
@@ -57,7 +59,7 @@
 							'action' => 'delete',
 							'id' => $page->id
 						)), 'icon' => UI::icon('times fa-inverse'), 
-						'class' => 'btn btn-xs btn-confirm btn-danger'
+						'class' => 'btn-xs btn-confirm btn-danger'
 					)); ?>
 					<?php endif; ?>
 				</td>

@@ -31,7 +31,7 @@ $(function() {
 	</div>
 	<?php echo Form::textarea('content', NULL, array('id' => 'message-content')); ?>
 	<div class="panel-footer form-actions">
-		<?php echo UI::button(__('Send message'), array('class' => 'btn btn-lg btn-primary')); ?>
+		<?php echo UI::button(__('Send message'), array('class' => 'btn-lg btn-primary')); ?>
 	</div>
 	<?php echo Form::close(); ?>
 </div>

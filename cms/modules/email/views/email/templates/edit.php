@@ -92,7 +92,7 @@
 				<div class="input-group-btn">
 					<?php echo UI::button(__('Add email type'), array(
 						'href' => Route::get( 'email_controllers')->uri(array('controller' => 'types', 'action' => 'add')), 'icon' => UI::icon('plus'),
-						'class' => 'btn btn-primary'
+						'class' => 'btn-primary'
 					)); ?>
 				</div>
 				<?php endif; ?>

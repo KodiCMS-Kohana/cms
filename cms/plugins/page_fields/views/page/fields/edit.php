@@ -22,7 +22,7 @@
 			'field' => ORM::factory( 'page_field')
 		)); ?>
 		<hr />
-		<button id="select-page-field" class="btn btn-sm"><?php echo __('Show field select'); ?></button>
+		<button id="select-page-field" class="btn btn-default btn-sm"><?php echo __('Show field select'); ?></button>
 	</div>
 	<?php foreach($fields as $field): ?>
 	<?php echo View::factory('page/fields/field', array(

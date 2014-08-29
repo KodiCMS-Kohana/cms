@@ -24,6 +24,9 @@ class Controller_Calendar extends Controller_System_Backend {
 		
 		$this->set_title(__('Calendar'), FALSE);
 		
-		$this->template->content = View::factory('calendar/index');
+		$this->template->content = View::factory('calendar/index', array(
+			'colors' => array('default', 'darken', 'danger', 'info', 'primary', 'success', 'warning'),
+			'icons' => array('info', 'warning', 'check', 'user', 'lock', 'clock-o')
+		));
 	}
 }

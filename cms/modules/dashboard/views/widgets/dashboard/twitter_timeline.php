@@ -3,8 +3,8 @@
 		<span class="panel-title" data-icon="twitter"><?php echo $header; ?>&nbsp;</span>
 		
 		<div class="panel-heading-controls">
-			<button type="button" class="btn btn-xs widget_settings"><?php echo UI::icon('cog'); ?></button>
-			<button type="button" class="btn btn-xs remove_widget">×</button>
+			<button type="button" class="btn btn-default btn-xs widget_settings"><?php echo UI::icon('cog'); ?></button>
+			<button type="button" class="btn btn-default btn-xs remove_widget"><?php echo UI::icon('times'); ?></button>
 		</div>
 	</div>
 	<?php if($widget->widget_id === NULL): ?>

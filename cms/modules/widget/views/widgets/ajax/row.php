@@ -34,7 +34,7 @@
 					'action' => 'location',
 					'id' => $widget->id)), 
 				'icon' => UI::icon('sitemap'),
-				'class' => 'btn btn-primary popup fancybox.iframe',
+				'class' => 'btn-primary popup fancybox.iframe',
 				'target' => 'blank'
 			)); ?>
 			</div>

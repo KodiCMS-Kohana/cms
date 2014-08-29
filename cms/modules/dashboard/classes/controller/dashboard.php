@@ -34,9 +34,8 @@ class Controller_Dashboard extends Controller_System_Backend {
 		$this->template->content = View::factory('dashboard/index', array(
 			'widgets' => $widgets_array,
 			'columns' => array(
-				'left' => 'col-sm-6 col-lg-4',
-				'center' => 'col-sm-6 col-lg-4',
-				'right' => 'col-sm-12 col-md-12 col-lg-4',
+				'left' => 'col-sm-6',
+				'center' => 'col-sm-6',
 				'bottom' => 'col-sm-12',
 			)
 		));

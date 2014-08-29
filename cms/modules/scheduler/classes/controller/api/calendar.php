@@ -15,6 +15,10 @@ class Controller_API_Calendar extends Controller_System_API {
 		$events = DB::select()
 			->from('calendar')
 			->where(DB::expr('DATE(start)'), 'between', array($start, $end))
+			->where_open()
+				->or_where('user_id', '=', Auth::get_id())
+				->or_where('user_id', '=', 0)
+			->where_close()
 			->execute()
 			->as_array();
 		
@@ -29,18 +33,32 @@ class Controller_API_Calendar extends Controller_System_API {
 			'start' ,'end', 'title', 'icon', 'className'
 		);
 		
-		foreach ($array as $key => $value)
-		{
-			if(!in_array($key, $columns))
-			{
-				unset($array[$key]);
-			}
-		}
-
-		$status = DB::update('calendar')
-			->set($array)
+		$user_id = DB::select('user_id')
+			->from('calendar')
 			->where('id', '=', $id)
-			->execute();
+			->execute()
+			->get('user_id');
+		
+		if($user_id == 0 OR $user_id == Auth::get_id())
+		{
+			foreach ($array as $key => $value)
+			{
+				if(!in_array($key, $columns))
+				{
+					unset($array[$key]);
+				}
+			}
+
+			$status = DB::update('calendar')
+				->set($array)
+				->where('id', '=', $id)
+				->execute();
+		}
+		else
+		{
+			$this->message('No access');
+			$status = FALSE;
+		}
 		
 		$this->response((bool) $status);
 	}
@@ -52,14 +70,20 @@ class Controller_API_Calendar extends Controller_System_API {
 		$title = $this->param('title', NULL, TRUE);
 		$icon = $this->param('icon', NULL, TRUE);
 		$class_name = $this->param('className', NULL, TRUE);
+		$private = (bool) $this->param('private', FALSE);
 		
 		$data = array(
 			'start' => $start,
 			'end' => $end,
 			'title' => $title,
 			'icon' => $icon,
-			'className' => $class_name
+			'className' => $class_name,
 		);
+		
+		if($private === TRUE)
+		{
+			$data['user_id'] = Auth::get_id();
+		}
 
 		list($id, $count) = DB::insert('calendar')
 			->columns(array_keys($data))
@@ -73,9 +97,23 @@ class Controller_API_Calendar extends Controller_System_API {
 	{
 		$id = (int) $this->param('id', NULL, TRUE);
 
-		$status = DB::delete('calendar')
+		$user_id = DB::select('user_id')
+			->from('calendar')
 			->where('id', '=', $id)
-			->execute();
+			->execute()
+			->get('user_id');
+			
+		if($user_id == 0 OR $user_id == Auth::get_id())
+		{
+			$status = DB::delete('calendar')
+				->where('id', '=', $id)
+				->execute();
+		}
+		else
+		{
+			$this->message('No access');
+			$status = FALSE;
+		}
 		
 		$this->response((bool) $status);
 	}

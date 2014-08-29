@@ -16,7 +16,7 @@ $(function() {
 				'maxlength' => 255, 'data-separator' => $field->separator
 			) ); ?>
 			<div class="input-group-btn">
-				<?php echo Form::button('copy_from_header', UI::icon('magnet'), array('class' => 'btn')); ?>
+				<?php echo Form::button('copy_from_header', UI::icon('magnet'), array('class' => 'btn btn-default')); ?>
 			</div>
 		</div>
 		

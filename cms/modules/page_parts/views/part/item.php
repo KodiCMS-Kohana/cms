@@ -10,17 +10,17 @@
 					
 				<?php if( ACL::check('page.parts')): ?>
 				<?php echo UI::button(UI::icon( 'cog' ), array(
-					'class' => 'part-options-button btn btn-xs')
+					'class' => 'part-options-button btn-default btn-xs')
 				); ?>
 				<?php endif; ?>
 				
 				<% if ( is_expanded == 0 ) { %>
 				<?php echo UI::button(UI::icon( 'chevron-down' ), array(
-					'class' => 'part-minimize-button btn btn-xs btn-inverse')
+					'class' => 'part-minimize-button btn-xs btn-inverse')
 				); ?>		
 				<% } else { %>		
 				<?php echo UI::button(UI::icon( 'chevron-up' ), array(
-					'class' => 'part-minimize-button btn btn-xs btn-inverse')
+					'class' => 'part-minimize-button btn-xs btn-inverse')
 				); ?>
 				<% } %>
 			</div>
@@ -53,7 +53,7 @@
 					</label>
 					<% } %>
 					<?php echo UI::button(__( 'Remove part :part_name', array( ':part_name' => '<%= name %>' ) ), array(
-						'class' => 'item-remove btn btn-xs btn-danger', 'icon' => UI::icon( 'trash-o' )
+						'class' => 'item-remove btn-xs btn-danger', 'icon' => UI::icon( 'trash-o' )
 					) ); ?>
 				</div>
 				

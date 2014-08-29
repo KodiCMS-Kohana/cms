@@ -2,7 +2,7 @@
 	<div class="panel-heading">
 		<?php if ( Acl::check( 'page.add')): ?>
 		<?php echo UI::button(UI::hidden(__('Add page')), array(
-			'class' => 'btn',
+			'class' => 'btn-default',
 			'href' => Route::get('backend')->uri(array('controller' => 'page', 'action' => 'add')),
 			'icon' => UI::icon('plus'),
 			'data-hotkeys' => 'ctrl+a'
@@ -12,7 +12,7 @@
 		<?php if ( Acl::check( 'page.sort')): ?>
 		<?php echo UI::button(__('Reorder'), array(
 			'id' => 'pageMapReorderButton', 
-			'class' => 'btn btn-primary btn-sm',
+			'class' => 'btn-primary btn-sm',
 			'icon' => UI::icon('sort'),
 			'data-hotkeys' => 'ctrl+s'
 		)); ?>
@@ -51,7 +51,7 @@
 					<?php echo UI::button(NULL, array(
 						'icon' => UI::icon('plus'), 
 						'href' => Route::get('backend')->uri(array('controller' => 'page', 'action' => 'add')),
-						'class' => 'btn btn-xs')); ?>
+						'class' => 'btn-default btn-xs')); ?>
 					<?php endif; ?>
 				</div>
 				<div class="clearfix"></div>

@@ -5,7 +5,7 @@
 	<?php echo Form::open($page->url());?>
 	<div class="input-append">
 	  <?php echo Form::password('password');?>
-		<?php echo Form::button('submit', 'submit', array('class' => 'btn'));?>
+		<?php echo Form::button('submit', 'submit', array('class' => 'btn btn-default'));?>
 	</div>
 	<?php echo Form::close(); ?>
 </div>

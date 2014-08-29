@@ -9,7 +9,7 @@
 		<?php foreach ($_widgets as $id => $widget): ?>
 			<?php echo UI::button($widget->name, array(
 				'icon' => UI::icon('tag'), 'data-id' => $id, 
-				'class' => 'popup-widget-item btn'
+				'class' => 'popup-widget-item btn-default'
 			)); ?>
 		<?php endforeach; ?>
 		</ul>

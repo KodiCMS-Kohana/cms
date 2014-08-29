@@ -11,7 +11,8 @@
 		
 		<div class="input-group-btn">
 			<?php echo UI::button(__('Search'), array(
-				'icon' => UI::icon('search')
+				'icon' => UI::icon('search'), 
+				'class' => 'btn-default'
 			)); ?>
 		</div>
 	</div>

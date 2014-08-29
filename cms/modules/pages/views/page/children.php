@@ -47,7 +47,7 @@
 							'id' => $child->id
 						)), 
 						'icon' => UI::icon('plus'), 
-						'class' => 'btn btn-xs'
+						'class' => 'btn-default btn-xs'
 					)); ?>
 					<?php endif; ?>
 					<?php if (Acl::check( 'page.delete')): ?>

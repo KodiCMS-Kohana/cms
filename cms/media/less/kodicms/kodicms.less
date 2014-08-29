@@ -285,12 +285,37 @@
 	.fc-content .close {
 		font-size: 13px;
 		position: absolute;
-		top: 0;
-		right: 0;
+		top: 3px;
+		right: 3px;
 	}
 	
 	.fc-agendaWeek-view .fc-content .close {
 		top: 4px;
 		right: 4px;
+	}
+	
+	.fc-event {
+		position: relative;
+		border-width: 0;
+		border-left-width: 6px;
+		border-radius: 0;
+		
+		.fa-icon {
+			margin: 0 5px 0 3px;
+		}
+		
+		.fc-content {
+			padding: 4px 15px 4px 4px;
+			white-space: normal;
+			
+			.fc-title, .fc-time {
+				display: inline-block;
+			}
+		}
+	}
+	
+	.fc-other-month {
+		background-color: #FAFCFD;
+		background-size: 16px 16px;
 	}
 }

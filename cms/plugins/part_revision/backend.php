@@ -21,5 +21,5 @@ Observer::observe('part_controls', function() {
 		'id' => '<%=id%>'
 	));
 	
-	echo '<a class="part-revision-button btn btn-xs" href="'.URL::site($url).'">'.__('Part revision').'</a>';
+	echo '<a class="part-revision-button btn btn-default btn-xs" href="'.URL::site($url).'">'.__('Part revision').'</a>';
 });

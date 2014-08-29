@@ -27,14 +27,14 @@
         <td><?php echo $data['size']; ?></td>
         <td>
             <?php echo UI::button(NULL, array(
-                'class' => 'btn', 
+                'class' => 'btn-default', 
                 'href' => Route::get('downloader')->uri(array(
                     'path' => Download::secure_path( BACKUP_PLUGIN_FOLDER . $filename)
                 )),
                 'icon' => UI::icon( 'download' )
             ));?>
             <?php echo UI::button(NULL, array(
-                'class' => 'btn btn-xs btn-success btn-confirm', 
+                'class' => 'btn-xs btn-success btn-confirm', 
                 'href' => Route::get('backend')->uri(array(
                     'controller' => 'backup',
                     'action' => 'restore', 'id' => $filename
@@ -42,7 +42,7 @@
                 'icon' => UI::icon( 'power-off' )
             ));?> 
             <?php echo UI::button(NULL, array(
-                'class' => 'btn btn-xs btn-danger btn-confirm', 
+                'class' => 'btn-xs btn-danger btn-confirm', 
                 'href' => Route::get('backend')->uri(array(
                     'controller' => 'backup',
                     'action' => 'delete', 'id' => $filename

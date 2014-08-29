@@ -14,7 +14,7 @@
 	<div class="panel-footer">
 		<div class="btn-group">
 			<?php echo UI::button(__('Create section'), array(
-				'href' => '#', 'class' => 'btn dropdown-toggle btn-success',
+				'href' => '#', 'class' => 'dropdown-toggle btn-success',
 				'data-icon-append' => 'caret-down', 'data-toggle' => 'dropdown'
 			)); ?>
 
@@ -64,7 +64,7 @@
 					'id' => $id
 				)),
 				'icon' => UI::icon('wrench'),
-				'class' => 'btn btn-xs'
+				'class' => 'btn-default btn-xs'
 			);
 
 			if ($selected == 'active')
@@ -85,7 +85,7 @@
 					'id' => $id
 				)),
 				'icon' => UI::icon('trash-o'),
-				'class' => 'btn btn-danger btn-confirm btn-xs'
+				'class' => 'btn-danger btn-confirm btn-xs'
 			);
 			$result .= UI::button(NULL, $attributes);
 		}

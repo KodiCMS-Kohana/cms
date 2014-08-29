@@ -4,7 +4,8 @@
 		<?php echo UI::button(__('Add user'), array(
 			'href' => Route::get('backend')->uri(array('controller' => 'users', 'action' => 'add')), 
 			'icon' => UI::icon('plus'),
-			'data-hotkeys' => 'ctrl+a'
+			'data-hotkeys' => 'ctrl+a',
+			'class' => 'btn-primary'
 		)); ?>
 		<?php endif; ?>
 	</div>
@@ -56,7 +57,7 @@
 								'id' => $user->id
 							)), 
 							'icon' => UI::icon('times fa-inverse'),
-							'class' => 'btn btn-xs brn-danger btn-confirm'
+							'class' => 'btn-xs brn-danger btn-confirm'
 						));
 					} ?>
 				</td>

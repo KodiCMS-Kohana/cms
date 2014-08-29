@@ -4,7 +4,8 @@
 		<?php echo UI::button(__('Add job'), array(
 			'href' => Route::get('backend')->uri(array('controller' => 'jobs', 'action' => 'add')), 
 			'icon' => UI::icon('plus'),
-			'data-hotkeys' => 'ctrl+a'
+			'data-hotkeys' => 'ctrl+a',
+			'class' => 'btn-primary'
 		)); ?>
 		<?php endif; ?>
 	</div>

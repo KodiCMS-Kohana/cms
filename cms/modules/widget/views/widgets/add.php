@@ -40,7 +40,7 @@
 	<div class="panel-footer form-actions">
 		<?php echo UI::button( __('Create widget'), array(
 			'icon' => UI::icon( 'plus'), 
-			'class' => 'btn btn-lg btn-primary',
+			'class' => 'btn-lg btn-primary',
 			'data-hotkeys' => 'ctrl+s'
 		)); ?>
 	</div>

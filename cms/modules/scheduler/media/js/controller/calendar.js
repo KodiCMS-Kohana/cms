@@ -1,4 +1,4 @@
-var addEvent = function (title, priority, start, end, icon) {
+var addEvent = function (title, priority, private, start, end, icon) {
 	title = title.length === 0 ? "Untitled Event" : title;
 	icon = icon.length === 0 ? " " : icon;
 	priority = priority.length === 0 ? "bg-default" : 'bg-' + priority;
@@ -8,7 +8,8 @@ var addEvent = function (title, priority, start, end, icon) {
 		className: priority,
 		start: start,
 		end: end,
-		icon: icon
+		icon: icon,
+		private: private
 	};
 	
 	Api.put('calendar', eventData, function(response) {
@@ -22,12 +23,13 @@ var addEvent = function (title, priority, start, end, icon) {
 cms.init.add(['calendar_index'], function () {
 	$('#add-event-form').on('submit', function (e) {
 		var title = $('input[name="event_title"]').val(),
+			private = $('input[name=event_only_for_me]').is(':checked'),
 			priority = $('input:radio[name=event_color]:checked').val(),
 			start = $('input[name="event_start"]').val(),
 			end = $('input[name="event_end"]').val(),
 			icon = $('input:radio[name=event_icon]:checked').val();
 
-		addEvent(title, priority, start, end, icon);
+		addEvent(title, priority, private, start, end, icon);
 		
 		$(':input:not(:radio)', this).val('');
 		e.preventDefault();
@@ -55,7 +57,7 @@ cms.init.add(['calendar_index'], function () {
 			center: 'title',
 			right: 'month,agendaWeek,agendaDay'
 		},
-		minTime: '07:00:00',
+		//minTime: '07:00:00',
 		lazyFetching: false,
 		selectable: true,
 		//unselectAuto: false,
@@ -69,19 +71,21 @@ cms.init.add(['calendar_index'], function () {
 		eventRender: function(event, element) {
 			var content = element.find('.fc-content');
 			if (event.icon) {
-				content.prepend("<i class='fa-icon fa fa-" + event.icon + "'></i>");
+				content.prepend("<i class='fa-icon fa fa-lg fa-" + event.icon + "'></i>");
 			}
 			
-			var close = $("<span class='close'>x</span>")
-				.appendTo(content)
-				.on('click', function() {
-					if(event.id)
-						Api.delete('calendar', {id: event.id}, function() {
+			if(event.user_id == USER_ID || event.user_id == 0) {
+				$("<span class='close btn-confirm'>x</span>")
+					.appendTo(content)
+					.on('click', function() {
+						if(event.id)
+							Api.delete('calendar', {id: event.id}, function() {
+								$('#calendar').fullCalendar('removeEvents', event.id );
+							});
+						else
 							$('#calendar').fullCalendar('removeEvents', event.id );
-						});
-					else
-						$('#calendar').fullCalendar('removeEvents', event.id );
-				});
+					});
+			}
 		},
 		events: {
 			url: 'api-calendar',

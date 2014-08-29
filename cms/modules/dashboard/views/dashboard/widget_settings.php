@@ -22,7 +22,7 @@
 	<div class="panel-footer form-actions">
 		<?php echo UI::button(__('Save settings'), array(
 			'icon' => UI::icon('plus'),
-			'class' => 'btn btn-lg btn-primary btn-save-settings'
+			'class' => 'btn-lg btn-primary btn-save-settings'
 		)); ?>
 	</div>
 <?php echo Form::close(); ?>

@@ -22,12 +22,12 @@
 		<div class="btn-toolbar wide-btns" role="toolbar">
 			<?php echo UI::button(UI::icon('chevron-left'), array(
 				'href' => Route::get('backend')->uri(array('controller' => 'messages')),
-				'class' => 'btn-go-back'
+				'class' => 'btn-go-back btn-default'
 			)); ?>
 			
 			<?php echo UI::button(NULL, array(
 				'icon' => UI::icon('trash-o'),
-				'class' => 'btn btn-confirm btn-remove'
+				'class' => 'btn-confirm btn-remove btn-danger'
 			)); ?>
 		</div>
 	</div>
@@ -44,7 +44,7 @@
 		<?php echo Form::hidden('parent_id', $message->id); ?>
 		<?php echo Form::textarea('content', NULL, array('id' => 'message-conent', 'class' => 'form-control', 'rows' => 4)); ?>
 		<div class="expanding-input-hidden">
-			<?php echo UI::button(__('Send message'), array('class' => 'btn btn-primary pull-right')); ?>
+			<?php echo UI::button(__('Send message'), array('class' => 'btn-primary pull-right')); ?>
 		</div>
 		<?php echo Form::close(); ?>
 	</div>

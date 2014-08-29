@@ -103,7 +103,7 @@
 		)); ?>
 		
 		<?php echo UI::button( __('Save and create another'), array(
-			'icon' => UI::icon( 'plus'), 'class' => 'btn-sm',
+			'icon' => UI::icon( 'plus'), 'class' => 'btn-sm btn-default',
 			'name' => 'save_and_create'
 		)); ?>
 	</div>

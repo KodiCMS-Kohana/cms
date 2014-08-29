@@ -7,7 +7,8 @@
 		'action' => 'create'
 	)) . URL::query(array('ds_id' => $ds_id)),
 	'icon' => UI::icon( 'plus' ),
-	'data-hotkeys' => 'ctrl+a'
+	'data-hotkeys' => 'ctrl+a',
+	'class' => 'btn-primary'
 )); ?>
 <?php endif; ?>
 
@@ -27,7 +28,8 @@
 
 				<div class="input-group-btn">
 					<?php echo UI::button(__('Apply'), array(
-						'id' => 'apply-doc-action'
+						'id' => 'apply-doc-action', 
+						'class' => 'btn-success'
 					)); ?>
 				</div>
 			</div>

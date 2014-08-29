@@ -70,7 +70,7 @@
 						'action' => 'create'
 					)) . URL::query(array('ds_id' => $field->from_ds), FALSE),
 					'icon' => UI::icon('building'),
-					'class' => 'btn popup fancybox.iframe',
+					'class' => 'btn-default popup fancybox.iframe',
 					'data-target' => $field->name
 				)); ?>
 			</div>

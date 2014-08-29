@@ -4,9 +4,9 @@
 	</a>
 
 	<?php echo HTML::anchor(Route::get('user')->uri(array(
-			'action' => 'login'
-		)), __('Login'), array(
-	'class' => 'btn btn-primary'
+		'action' => 'login'
+	)), __('Login'), array(
+		'class' => 'btn btn-primary'
 	)); ?>
 	
 	<div class="clearfix"></div>
