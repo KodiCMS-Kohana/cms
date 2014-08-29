@@ -17,5 +17,10 @@ class Model_Widget_Dashboard_Twitter_Timeline extends Model_Widget_Decorator_Das
 		return (int) $height;
 	}
 	
+	public function set_widget_id($widget_id) 
+	{
+		return Valid::numeric($widget_id) ? $widget_id : NULL;
+	}
+	
 	public function fetch_data(){}
 }

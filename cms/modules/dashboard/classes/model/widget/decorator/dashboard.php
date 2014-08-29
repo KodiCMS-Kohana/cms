@@ -17,6 +17,13 @@ abstract class Model_Widget_Decorator_Dashboard extends Model_Widget_Decorator {
 	 *
 	 * @var boolean 
 	 */
+	protected $_update_settings_page = FALSE;
+
+
+	/**
+	 *
+	 * @var boolean 
+	 */
 	protected $_multiple = FALSE;
 	
 	/**
@@ -28,6 +35,15 @@ abstract class Model_Widget_Decorator_Dashboard extends Model_Widget_Decorator {
 		return $this->_multiple;
 	}
 	
+	/**
+	 * 
+	 * @return boolean
+	 */
+	public function is_update_settings_page()
+	{
+		return (bool) $this->_update_settings_page;
+	}
+
 	public function render(array $params = array())
 	{
 		if (Kohana::$profiling === TRUE)
@@ -87,7 +103,10 @@ abstract class Model_Widget_Decorator_Dashboard extends Model_Widget_Decorator {
 			$vars['use_template'],
 			$vars['block'],
 			$vars['position'],
-			$vars['template_params']
+			$vars['template_params'],
+			$vars['_update_settings_page'],
+			$vars['_multiple'],
+			$vars['frontend_template_preffix']
 		);
 
 		return array_keys($vars);

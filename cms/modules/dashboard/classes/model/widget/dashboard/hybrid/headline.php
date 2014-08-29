@@ -10,6 +10,12 @@ class Model_Widget_Dashboard_Hybrid_Headline extends Model_Widget_Decorator_Dash
 	
 	/**
 	 *
+	 * @var boolean 
+	 */
+	protected $_update_settings_page = TRUE;
+	
+	/**
+	 *
 	 * @var array 
 	 */
 	public $doc_fields = array();
@@ -55,12 +61,12 @@ class Model_Widget_Dashboard_Hybrid_Headline extends Model_Widget_Decorator_Dash
 	public function set_values(array $data) 
 	{
 		$this->doc_fields = $this->doc_fetched_widgets = array();
-		$this->doc_filter =  array();
-		
+		$this->doc_filter = array();
+
 		parent::set_values($data);
 		$this->doc_order = Arr::get($data, 'doc_order', array());
 		$this->only_published = (bool) Arr::get($data, 'only_published');
-		
+
 		return $this;
 	}
 	
@@ -76,10 +82,14 @@ class Model_Widget_Dashboard_Hybrid_Headline extends Model_Widget_Decorator_Dash
 	
 	public function set_field($fields = array())
 	{
-		if(!is_array( $fields)) return;
-		foreach($fields as $f)
+		if (!is_array($fields))
 		{
-			if(isset($f['id']))
+			return;
+		}
+
+		foreach ($fields as $f)
+		{
+			if (isset($f['id']))
 			{
 				$this->doc_fields[] = (int) $f['id'];
 			}
@@ -89,14 +99,14 @@ class Model_Widget_Dashboard_Hybrid_Headline extends Model_Widget_Decorator_Dash
 	public function set_doc_filter(array $filters)
 	{
 		$data = array();
-		foreach($filters as $key => $rows)
+		foreach ($filters as $key => $rows)
 		{
 			foreach ($rows as $i => $row)
 			{
 				$data[$i][$key] = $row;
 			}
 		}
-		
+
 		return $data;
 	}
 	
@@ -117,13 +127,13 @@ class Model_Widget_Dashboard_Hybrid_Headline extends Model_Widget_Decorator_Dash
 	 */
 	public function fetch_data()
 	{
-		if( ! $this->ds_id ) 
+		if (!$this->ds_id)
 		{
 			return array();
 		}
-		
+
 		list($docs, $fields) = $this->get_documents();
-		
+
 		return array(
 			'section' => Datasource_Section::load($this->ds_id),
 			'docs' => $docs,
@@ -137,12 +147,12 @@ class Model_Widget_Dashboard_Hybrid_Headline extends Model_Widget_Decorator_Dash
 		$agent = DataSource_Hybrid_Agent::instance($this->ds_id);
 
 		$query = $agent->get_query_props(array(), array(), $this->doc_filter);
-		
-		if($this->only_published === TRUE)
+
+		if ($this->only_published === TRUE)
 		{
-			$query->where('d.published', '=',  1);
+			$query->where('d.published', '=', 1);
 		}
-		
+
 		return $query->select(array(DB::expr('COUNT(*)'), 'total_docs'))
 			->execute()
 			->get('total_docs');
@@ -155,24 +165,27 @@ class Model_Widget_Dashboard_Hybrid_Headline extends Model_Widget_Decorator_Dash
 	 */
 	public function get_documents( $recurse = 3 )
 	{
-		if( $this->docs !== NULL ) return $this->docs;
+		if ($this->docs !== NULL)
+		{
+			return $this->docs;
+		}
 
 		$result = array();
 		$return_fields = array();
-		
+
 		$agent = DataSource_Hybrid_Agent::instance($this->ds_id);
 
 		$query = $this->_get_query();
-		
+
 		$ds_fields = $agent->get_fields();
-		
+
 		$fields = array();
 		foreach ($this->doc_fields as $fid)
 		{
-			if(isset($ds_fields[$fid]))
+			if (isset($ds_fields[$fid]))
 			{
 				$fields[$fid] = $ds_fields[$fid];
-				
+
 				$return_fields[$ds_fields[$fid]->key] = $ds_fields[$fid];
 			}
 		}
@@ -182,7 +195,7 @@ class Model_Widget_Dashboard_Hybrid_Headline extends Model_Widget_Decorator_Dash
 			$result[$row['id']] = array();
 
 			$doc = & $result[$row['id']];
-			
+
 			$doc['id'] = $row['id'];
 			$doc['header'] = $row['header'];
 			$doc['created_on'] = $row['created_on'];
@@ -190,14 +203,14 @@ class Model_Widget_Dashboard_Hybrid_Headline extends Model_Widget_Decorator_Dash
 			{
 				$field_class = 'DataSource_Hybrid_Field_' . $field->type;
 				$field_class_method = 'fetch_widget_field';
-				if( class_exists($field_class) AND method_exists( $field_class, $field_class_method ))
+				if (class_exists($field_class) AND method_exists($field_class, $field_class_method))
 				{
-					$doc[$field->key] = call_user_func_array($field_class.'::'.$field_class_method, array( $this, $field, $row, $fid, $recurse - 1));
+					$doc[$field->key] = call_user_func_array($field_class . '::' . $field_class_method, array($this, $field, $row, $fid, $recurse - 1));
 					continue;
 				}
 			}
 		}
-		
+
 		$this->docs = $result;
 
 		return array($result, $return_fields);
@@ -212,15 +225,15 @@ class Model_Widget_Dashboard_Hybrid_Headline extends Model_Widget_Decorator_Dash
 		$agent = DataSource_Hybrid_Agent::instance($this->ds_id);
 
 		$query = $agent->get_query_props($this->doc_fields, $this->doc_order, $this->doc_filter);
-		
-		if($this->only_published === TRUE)
+
+		if ($this->only_published === TRUE)
 		{
-			$query->where('d.published', '=',  1);
+			$query->where('d.published', '=', 1);
 		}
 
 		$query->limit($this->list_size);
 		$query->offset($this->list_offset);
-		
+
 		return $query;
 	}
 }

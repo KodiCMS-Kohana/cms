@@ -12,5 +12,10 @@ class Model_Widget_Dashboard_Reformal extends Model_Widget_Decorator_Dashboard {
 		'height' => 500
 	);
 	
+	public function set_widget_id($widget_id) 
+	{
+		return Valid::numeric($widget_id) ? $widget_id : NULL;
+	}
+	
 	public function fetch_data(){}
 }

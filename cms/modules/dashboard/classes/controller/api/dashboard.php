@@ -25,6 +25,7 @@ class Controller_API_Dashboard extends Controller_System_Api {
 
 		if($widget !== NULL)
 		{
+			$this->json['update_settings'] = $widget->is_update_settings_page();
 			$this->response((string) $widget->run());
 		}
 	}

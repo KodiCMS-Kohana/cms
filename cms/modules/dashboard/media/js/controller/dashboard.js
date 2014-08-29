@@ -101,7 +101,8 @@ cms.init.add('dashboard_index', function () {
 			var $cont = $('.dashboard-widget[data-id="' + widget_id + '"]');
 			$cont.replaceWith(response.response);
 			
-			get_widget_settings(widget_id);
+			if(response.update_settings)
+				get_widget_settings(widget_id);
 		});
 		
 		e.preventDefault();

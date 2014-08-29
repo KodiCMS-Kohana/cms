@@ -1,6 +1,6 @@
 <div class="panel dashboard-widget reformal-widget panel-info" data-id="<?php echo $widget->id; ?>">
 	<div class="panel-heading handle">
-		<span class="panel-title" data-icon="lightbulb-o"><?php echo $header; ?>&nbsp;</span>
+		<span class="panel-title" data-icon="lightbulb-o fa-lg"><?php echo $header; ?>&nbsp;</span>
 		
 		<div class="panel-heading-controls">
 			<button type="button" class="btn btn-default btn-xs widget_settings"><?php echo UI::icon('cog'); ?></button>
