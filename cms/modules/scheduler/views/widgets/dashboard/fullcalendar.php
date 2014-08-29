@@ -26,7 +26,7 @@ $(function(){
 				content.prepend("<i class='fa-icon fa fa-" + event.icon + "'></i>");
 			}
 			
-			var close = $("<span class='close'>x</span>")
+			$("<span class='btn-close'><i class='fa fa-times'></i></span>")
 				.appendTo(content)
 				.on('click', function() {
 					if(event.id)

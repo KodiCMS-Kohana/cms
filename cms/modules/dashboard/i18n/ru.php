@@ -9,7 +9,5 @@ return array(
 	
 	
 	'RSS feed' => 'RSS лента',
-	'Mini calendar' => 'Мини календарь',
-	'Calendar' => 'Календарь',
 	'Cache clear button' => 'Кнопка очистки кеша',
 );

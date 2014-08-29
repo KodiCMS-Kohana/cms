@@ -9,17 +9,9 @@ return array(
 		'title' => __('RSS feed'),
 		'icon' => 'rss'
 	),
-	'dashboard_calendar' => array(
-		'title' => __('Mini calendar'),
-		'icon' => 'calendar'
-	),
 	'dashboard_reformal' => array(
 		'title' => __('Reformal'),
 		'icon' => 'lightbulb-o'
-	),
-	'dashboard_fullcalendar' => array(
-		'title' => __('Calendar'),
-		'icon' => 'calendar'
 	),
 	'dashboard_cache_button' => array(
 		'title' => __('Cache clear button'),

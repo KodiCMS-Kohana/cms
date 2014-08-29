@@ -12,7 +12,7 @@
 							<?php foreach ($icons as $i => $icon): ?>
 							<label class="btn btn-default btn-flat <?php if($i == 0): ?>active<?php endif; ?>">
 								<?php echo Form::radio('event_icon', $icon, $i == 0); ?>
-								<?php echo UI::icon($icon); ?>
+								<?php echo UI::icon($icon . ' fa-lg'); ?>
 							</label>
 							<?php endforeach; ?>
 						</div>

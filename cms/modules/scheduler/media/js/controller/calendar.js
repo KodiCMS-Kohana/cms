@@ -75,7 +75,7 @@ cms.init.add(['calendar_index'], function () {
 			}
 			
 			if(event.user_id == USER_ID || event.user_id == 0) {
-				$("<span class='close btn-confirm'>x</span>")
+				$("<span class='btn-close'><i class='fa fa-times'></i></span>")
 					.appendTo(content)
 					.on('click', function() {
 						if(event.id)

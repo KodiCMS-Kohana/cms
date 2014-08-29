@@ -47,6 +47,9 @@ return array(
 	'Only for me' => 'Только для меня',
 	'Add Event' => 'Добавить',
 	
+	'Mini calendar' => 'Мини календарь',
+	'Calendar' => 'Календарь',
+	
 	//============Permissions============//
 	'View calendar' => 'Видеть раздел',
 		
