@@ -18811,9 +18811,6 @@ a.editable-click.editable-disabled:hover {
   border: 1px dashed #bbb;
   min-height: 100px;
 }
-#dashboard-widgets .dashboard-widgets-column {
-  min-height: 150px;
-}
 #dashboard-widgets .dashboard-widgets-column.hover {
   border: 1px dashed #ccc;
 }
@@ -18822,10 +18819,13 @@ a.editable-click.editable-disabled:hover {
 }
 #dashboard-widgets .dashboard-widgets-column.empty-container {
   border: 3px dashed #ccc;
+  min-height: 100px;
+  margin-bottom: 20px;
 }
 #dashboard-widgets .dashboard-widgets-column .sortable-placeholder {
   border: 1px dashed #bbb;
   margin-bottom: 20px;
+  background: #fff;
 }
 .fc-view-container .fc-content .close {
   font-size: 13px;

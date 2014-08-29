@@ -258,8 +258,6 @@
 
 #dashboard-widgets {
 	.dashboard-widgets-column {
-		min-height: 150px;
-
 		&.hover {
 			border: 1px dashed #ccc;
 		}
@@ -270,11 +268,14 @@
 		
 		&.empty-container {
 			border: 3px dashed #ccc;
+			min-height: 100px;
+			margin-bottom: 20px
 		}
 		
 		.sortable-placeholder {
 			border: 1px dashed #bbb;
-			margin-bottom: 20px
+			margin-bottom: 20px;
+			background: #fff;
 		}
 	}
 }
