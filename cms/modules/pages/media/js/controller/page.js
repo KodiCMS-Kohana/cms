@@ -3,7 +3,7 @@ cms.init.add('page_index', function() {
 	
 	var expanded_pages = KodiCMS.getStoredValue(cache_key, true);
 	if(!expanded_pages) expanded_pages = [];
-	else expanded_pages.split(',');
+	else expanded_pages = decodeURIComponent(expanded_pages).split(',');
 
 	expanded_pages = _.map(expanded_pages, function(num) { return parseInt(num); });
 
@@ -31,8 +31,8 @@ cms.init.add('page_index', function() {
 				li.append(html);
 				expander
 					.addClass('item-expander-expand')
-					.removeClass('icon-plus')
-					.addClass('icon-minus');
+					.removeClass('fa-plus')
+					.addClass('fa-minus');
 
 				li.addClass('item-expanded');
 
