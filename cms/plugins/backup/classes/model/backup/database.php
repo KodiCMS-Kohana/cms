@@ -261,12 +261,13 @@ class Model_Backup_Database extends Model_Backup {
 			->execute()
 			->as_array();
 
+		$db = Database::instance();
 		$data = '';
 		foreach ($query as $row) 
 		{
 			foreach ($row as &$value) 
 			{
-				$value = mysql_real_escape_string($value);
+				$value = $db->escape($value);
 			}
 
 			$data .= 'INSERT INTO `' . $tableName . '` VALUES (\'' . implode('\',\'', $row) . '\');' . "\n";
