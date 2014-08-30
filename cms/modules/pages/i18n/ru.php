@@ -50,4 +50,5 @@ return array(
 	'--- Not set ---' => '--- Не указан ---',
 	'Use redirect' => 'Включить редирект',
 	'Redirect URL' => 'URL для редиректа',
+	'Redirect: :url' => 'Редирект: :url',
 );
