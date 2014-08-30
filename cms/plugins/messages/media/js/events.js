@@ -5,8 +5,7 @@ cms.ui.add('messages.check', function() {
 				$('.nav-messages .counter').text(parseInt(response.response));
 		});
 
-		setTimeout(count_new, 30000);
+		setTimeout(count_new, 60 * 5 * 1000);
 	}
-
 	count_new();
 });
