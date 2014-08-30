@@ -17,10 +17,18 @@ class HTTP_Exception_Front_404 extends Kohana_HTTP_Exception_404
 
 			if( $page instanceof Model_Page_Front )
 			{
-				return Request::factory($page->url)
-					->query('message', $this->message)
-					->execute()
-					->status(404);
+				$ext = pathinfo(Request::current()->url(), PATHINFO_EXTENSION);
+				if ($ext && !($mimetype = File::mime_by_ext($ext))) $mimetype = 'application/octet-stream';
+				if ($mimetype) {
+					return Response::factory()
+						->headers('content-type', $mimetype)
+						->status(404);
+				} else {
+					return Request::factory($page->url)
+						->query('message', $this->message)
+						->execute()
+						->status(404);
+				}
 			}
 		}
 		
