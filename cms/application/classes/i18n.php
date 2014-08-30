@@ -41,7 +41,7 @@ class I18n extends Kohana_I18n {
 			try
 			{
 				// Create the log file
-				file_put_contents($filename, '// Auto generated i18n lang file for lang '. $lang."\n");
+				file_put_contents($filename, '// Auto generated i18n lang file for lang '. $lang.". Created on " . date('Y-m-d H:i:s') . "\n");
 				file_put_contents($filename, 'cms.addTranslation(' . json_encode($table) . ');', FILE_APPEND);
 				
 				// Allow anyone to write to log files
