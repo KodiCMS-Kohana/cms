@@ -2,9 +2,13 @@
 
 return array(
 	array(
-		'name' => __('Dashboard'),
+		'name' => 'Dashboard',
 		'icon' => 'dashboard',
 		'url' => Route::get('backend')->uri()
+	),
+	array(
+		'name' => 'Content',
+		'icon' => 'pencil-square-o',
 	),
 	array(
 		'name' => 'System',
