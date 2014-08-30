@@ -40,13 +40,13 @@ class KodiCMS_Controller_API_Page_Parts extends Controller_System_Api {
 	{
 		$part = ORM::factory('page_part');
 
-		$part
+		$response = $part
 			->values($this->params())
 			->save()
 			->as_array();
 
-		$part['is_developer'] = (int) Auth::has_permissions('administrator, developer');
-		$this->response($part);
+		$response['is_developer'] = (int) Auth::has_permissions('administrator, developer');
+		$this->response($response);
 	}
 	
 	public function rest_delete()

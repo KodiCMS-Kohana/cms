@@ -13418,23 +13418,26 @@ body:not(.right-to-left) .no-border-l {
   padding-right: 20px !important;
 }
 .padding-sm {
-  padding: 10px 15px !important;
+  padding: 10px !important;
+}
+.padding-xs {
+  padding: 5px !important;
 }
 .padding-sm-hr {
-  padding-left: 15px !important;
-  padding-right: 15px !important;
-}
-.padding-xs-hr {
   padding-left: 10px !important;
   padding-right: 10px !important;
 }
-.padding-sm-vr {
-  padding-top: 15px !important;
-  padding-bottom: 15px !important;
+.padding-xs-hr {
+  padding-left: 5px !important;
+  padding-right: 5px !important;
 }
-.padding-xs-vr {
+.padding-sm-vr {
   padding-top: 10px !important;
   padding-bottom: 10px !important;
+}
+.padding-xs-vr {
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
 }
 .no-padding {
   padding: 0 !important;

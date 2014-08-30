@@ -108,16 +108,16 @@ $(function() {
 			if(this.model.get('is_expanded') == 1) {
 				this.$el
 					.find('.part-minimize-button i')
-					.addClass('icon-chevron-down')
-					.removeClass('icon-chevron-up')
+					.addClass('fa-chevron-down')
+					.removeClass('fa-chevron-up')
 					.end()
 					.find('.item-filter-cont').hide()
 					.end()
 					.find('.part-textarea').slideUp();
 			} else {
 				this.$el.find('.part-minimize-button i')
-					.addClass('icon-chevron-up')
-					.removeClass('icon-chevron-down')
+					.addClass('fa-chevron-up')
+					.removeClass('fa-chevron-down')
 					.end()
 					.find('.item-filter-cont').show()
 					.end()
