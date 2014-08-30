@@ -38,14 +38,15 @@ cms.init.add(['calendar_index'], function () {
 	$('input[name="event_start"]').add('input[name="event_end"]').on('change', function() {
 		var $input_start = $('input[name="event_start"]');
 		var $input_end = $('input[name="event_end"]');
+
+		var start = $input_start.val().length > 0 ? moment($input_start.val()) : moment();
+		var end = $input_end.val().length > 0 ? moment($input_end.val()) : moment();
+
+		if(end.isBefore(start))
+			start = end;
 		
-		var start = false;
-		if($input_start.val().length > 0)
-			var start = moment($input_start.val());
-		
-		var end = false;
-		if($input_end.val().length > 0)
-			var end = moment($input_end.val());
+		if(start.isAfter(end))
+			end = start;
 
 		$('#calendar').fullCalendar('select', start, end);
 	});
