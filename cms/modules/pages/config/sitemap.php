@@ -2,16 +2,10 @@
 
 return array(
 	array(
-		'name' => 'Content',
-		'icon' => 'files-o',
-		'children' => array(
-			array(
-				'name' => 'Pages',
-				'url' => Route::get('backend')->uri(array('controller' => 'page')),
-				'permissions' => 'page.index',
-				'priority' => 100,
-				'icon' => 'sitemap'
-			)
-		)
+		'name' => 'Pages',
+		'url' => Route::get('backend')->uri(array('controller' => 'page')),
+		'permissions' => 'page.index',
+		'priority' => 100,
+		'icon' => 'sitemap'
 	),
 );
