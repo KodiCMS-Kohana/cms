@@ -15,6 +15,7 @@ class KodiCMS_HTTP_Exception_404 extends Kohana_HTTP_Exception_404 {
 	public function get_response()
 	{
 		$ext = pathinfo(Request::current()->url(), PATHINFO_EXTENSION);
+		$mimetype = FALSE;
 
 		if ($ext AND !($mimetype = File::mime_by_ext($ext)))
 		{
