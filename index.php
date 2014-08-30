@@ -1,5 +1,19 @@
 <?php
 
+/**
+ * PHP Builtin server allows you to serve any files which are access by path in the usual way,
+ * but then redirect all other requests through to index.php.
+ * Usage: php -S <host|ip>:<port> [-t docroot] index.php
+ *
+ * @see  http://php.net/manual/en/features.commandline.webserver.php
+ **/
+if (php_sapi_name() == "cli-server" AND ( $_SERVER['REQUEST_URI'] != '/') AND
+		file_exists(__DIR__ . DIRECTORY_SEPARATOR . $_SERVER['REQUEST_URI'])
+)
+{
+	return FALSE; // serve the requested resource as-is.
+}
+
 $cms = 'cms' . DIRECTORY_SEPARATOR;
 
 /**
