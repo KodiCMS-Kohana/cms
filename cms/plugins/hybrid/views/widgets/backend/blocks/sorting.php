@@ -168,11 +168,26 @@ jQuery.fn.swapWith = function(to) {
 				</td>
 				<td class="sorting-btns">
 					<div class="btn-group btn-group-vertical">
-						<?php echo UI::button('Add', array('class' => 'btn-default btn-add')); ?>
-						<?php echo UI::button('Remove', array('class' => 'btn-default btn-remove')); ?>
-						<?php echo UI::button('Move up', array('class' => 'btn-default btn-move up')); ?>
-						<?php echo UI::button('Move down', array('class' => 'btn-default btn-move down')); ?>
-						<?php echo UI::button('Asc / Desc', array('class' => 'btn-default btn-order')); ?>
+						<?php echo UI::button(__('Add'), array(
+							'class' => 'btn-default btn-add btn-xs',
+							'icon' => UI::icon('plus')
+						)); ?>
+						<?php echo UI::button(__('Remove'), array(
+							'class' => 'btn-default btn-remove btn-xs',
+							'icon' => UI::icon('minus')
+						)); ?>
+						<?php echo UI::button(__('Move up'), array(
+							'class' => 'btn-default btn-move up btn-xs',
+							'icon' => UI::icon('angle-up')
+						)); ?>
+						<?php echo UI::button(__('Move down'), array(
+							'class' => 'btn-default btn-move down btn-xs',
+							'icon' => UI::icon('angle-down')
+						)); ?>
+						<?php echo UI::button(__('Asc / Desc'), array(
+							'class' => 'btn-default btn-order btn-xs',
+							'icon' => UI::icon('sort')
+						)); ?>
 					</div>
 				</td>
 				<td>
