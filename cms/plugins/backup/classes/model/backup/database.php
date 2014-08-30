@@ -235,11 +235,11 @@ class Model_Backup_Database extends Model_Backup {
 	private function get_columns($tableName) 
 	{
 		$query = DB::query(Database::SELECT, 'SHOW CREATE TABLE `:table_name`')
-			->param( ':table_name', DB::expr($tableName) )
-			->execute()
-			->current();
+				->param(':table_name', DB::expr($tableName))
+				->execute()
+				->current();
 
-		if($query === NULL)
+		if ($query === NULL)
 		{
 			return '';
 		}
@@ -257,16 +257,18 @@ class Model_Backup_Database extends Model_Backup {
 	private function get_data($tableName) 
 	{
 		$query = DB::query(Database::SELECT, 'SELECT * FROM `:table_name`')
-			->param( ':table_name', DB::expr($tableName) )
-			->execute()
-			->as_array();
+				->param(':table_name', DB::expr($tableName))
+				->execute()
+				->as_array();
 
 		$data = '';
-		foreach ($query as $row) 
+		$db = Database::instance();
+		
+		foreach ($query as $row)
 		{
-			foreach ($row as &$value) 
+			foreach ($row as &$value)
 			{
-				$value = mysql_real_escape_string($value);
+				$value = $db->escape($value);
 			}
 
 			$data .= 'INSERT INTO `' . $tableName . '` VALUES (\'' . implode('\',\'', $row) . '\');' . "\n";
