@@ -99,7 +99,9 @@ class Controller_API_Plugins extends Controller_System_API
 			'author' => $plugin->author(),
 			'installed' => $plugin->is_activated(),
 			'settings' => $plugin->has_settings_page(),
-			'icon' => $plugin->icon()
+			'icon' => $plugin->icon(),
+			'required_cms_version' => $plugin->required_cms_version(),
+			'is_installable' => $plugin->is_installable()
 		);
 	}
 }

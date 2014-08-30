@@ -16,16 +16,16 @@ class Plugin  {
 	 * @return \Plugin_Decorator
 	 * @throws Plugin_Exception
 	 */
-	public static function factory( $id, array $info )
+	public static function factory($id, array $info)
 	{
 		$class = 'Plugin_' . $id;
-		
-		if( class_exists( $class ))
+
+		if (class_exists($class))
 		{
-			return new $class( $id, $info );
+			return new $class($id, $info);
 		}
-		
-		return new Plugin_Decorator( $id, $info );
+
+		return new Plugin_Decorator($id, $info);
 	}
 
 	/**
@@ -34,6 +34,13 @@ class Plugin  {
 	 */
 	protected $_info = array();
 	
+	/**
+	 *
+	 * @var boolean 
+	 */
+	protected $_is_installable = TRUE;
+
+
 	/**
 	 * 
 	 * @param string $id
@@ -45,28 +52,32 @@ class Plugin  {
 	 * 
 	 * @throws Plugin_Exception
 	 */
-	public function __construct( $id, array $info )
+	public function __construct($id, array $info)
 	{
 		$this->_info['id'] = strtolower($id);
 		$this->_info['path'] = PLUGPATH . $this->id() . DIRECTORY_SEPARATOR;
-		
-		if( ! isset($info['title']) )
+
+		if (!isset($info['title']))
 		{
 			throw new Plugin_Exception('Plugin title for plugin :id not set', array(
 				':id' => $this->id()
 			));
 		}
-		
+
+		$this->_is_installable = isset($info['required_cms_version']) 
+			? version_compare(CMS_VERSION, $info['required_cms_version'], '>=') 
+			: TRUE;
+
 		foreach ($info as $key => $value)
 		{
 			$this->_info[$key] = $value;
 		}
-		
-		$this->_info['icon'] = file_exists( $this->path() . 'icon.png') 
-			? PLUGINS_URL . $this->id() . '/' . 'icon.png'
+
+		$this->_info['icon'] = file_exists($this->path() . 'icon.png') 
+			? PLUGINS_URL . $this->id() . '/' . 'icon.png' 
 			: NULL;
 
-		if( $this->is_activated() )
+		if ($this->is_activated())
 		{
 			$this->_init();
 		}
@@ -88,6 +99,15 @@ class Plugin  {
 	public function title()
 	{
 		return Arr::get($this->_info, 'title');
+	}
+	
+	/**
+	 * Требуемая версия CMS
+	 * @return string
+	 */
+	public function required_cms_version()
+	{
+		return Arr::get($this->_info, 'required_cms_version', CMS_VERSION);
 	}
 	
 	/**
@@ -136,12 +156,21 @@ class Plugin  {
 	}
 	
 	/**
-	 * Проверка 
+	 * Проверка активирован ли плагин
 	 * @return boolean
 	 */
 	public function is_activated()
 	{
 		return Plugins::is_activated( $this->id() );
+	}
+	
+	/**
+	 * Проверка на возможность активации плагина
+	 * @return boolean
+	 */
+	public function is_installable()
+	{
+		return $this->_is_installable;
 	}
 
 	/**
@@ -156,6 +185,14 @@ class Plugin  {
 	 */
 	public function activate()
 	{
+		if (!$this->is_installable())
+		{
+			throw new Plugin_Exception('Plugin can not be installed. The required version of the CMS: :required_version. Version of your CMS is: :current_version.', array(
+				':required_version' => $this->required_cms_version(),
+				':current_version' => CMS_VERSION
+			));
+		}
+
 		$data = array(
 			'id' => $this->id(),
 			'title' => $this->title(),

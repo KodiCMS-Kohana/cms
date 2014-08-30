@@ -29,6 +29,9 @@ return array(
 	
 	'Install demo site' => 'Установить демо данные',
 	'Install plugins' => 'Установить плагины',
+	
+	'Plugin can not be installed. The required version of the CMS: :required_version. Version of your CMS is: :current_version.'
+		=> 'Плагин не может быть установлен. Требуемая версия CMS: :required_version. Версия вашей системы: :current_version.',
 
 	//============Permissions============//
 	'View plugins' => 'Видеть раздел',

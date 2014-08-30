@@ -1,5 +1,14 @@
 <script id="plugin-item" type="text/template">
-	<td class="plugin-name">
+	<td class="plugin-name" <% if (!is_installable) { %>colspan="<?php if( ACL::check('plugins.change_status')): ?>3<?php else: ?>2<?php endif; ?>"<% } %>>
+		<% if (!is_installable) { %>
+		<div class="alert alert-danger alert-dark padding-xs">
+		<%= __('Plugin can not be installed. The required version of the CMS: :required_version. Version of your CMS is: :current_version.', {
+			':required_version': required_cms_version,
+			':current_version': '<?php echo CMS_VERSION; ?>'
+		}) %>
+		</div>
+		<% } %>
+
 		<% if (installed && settings) { %>
 		<?php if( ACL::check('plugins.settings')): ?>
 		<a href="/<?php echo ADMIN_DIR_NAME; ?>/plugins/settings/<%= id %>" class="btn btn-default btn-sm pull-right">
@@ -14,6 +23,7 @@
 		<% if (description) { %><p class="text-muted"><%= description %></p><% } %>
 		<% if (author) { %><small class="text-light-gray text-xs"><%= __('Author') %> <%= author %></small><% } %>
 	</td>
+	<% if (is_installable) { %>
 	<td class="plugin-version hidden-xs hidden-sm"><%= version %></td>
 	<?php if( ACL::check('plugins.change_status')): ?>
 	<td class="plugin-status text-center">
@@ -21,6 +31,7 @@
 			'class' => 'change-status btn-default btn-sm',
 		)); ?>
 	</td>
+	<% } %>
 	<?php endif; ?>
 </script>
 

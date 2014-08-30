@@ -10,7 +10,9 @@ cms.init.add('plugins_repo', function () {
 			last_update: '',
 			plugin_path: '',
 			stars: 0,
-			watchers: 0
+			watchers: 0,
+			required_cms_version: '0.0.0',
+			is_installable: true
 		},
 
 		clear: function() {
