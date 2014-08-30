@@ -415,26 +415,37 @@ class KodiCMS_Model_Page extends ORM
 	 */
 	public function get_status()
 	{
+		$status = __('None');
+		$label = 'default';
+
 		switch ($this->status_id)
 		{
 			case self::STATUS_DRAFT:
-				return UI::label(__('Draft'), 'info');
+				$status = __('Draft');
+				$label = 'info';
+				break;
 			case self::STATUS_PASSWORD_PROTECTED:
-				return UI::label(__('Password protected'), 'warning');
+				$status = __('Password protected');
+				$label = 'warning';
+				break;
 			case self::STATUS_HIDDEN:
-				return UI::label(__('Hidden'), 'default');
+				$status = __('Hidden');
+				break;
 			case self::STATUS_PUBLISHED:
 				if (strtotime($this->published_on) > time())
 				{
-					return UI::label(__('Pending'), 'success');
+					$status = __('Pending');
 				}
 				else
 				{
-					return UI::label(__('Published'), 'success');
+					$status = __('Published');
 				}
+				
+				$label = 'success';
+				break;
 		}
 
-		return UI::label(__('None'), 'default');
+		return UI::label($status, $label . ' editable-status', array('data-value' => $this->status_id));
 	}
 
 	/**

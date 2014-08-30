@@ -23,7 +23,7 @@ class KodiCMS_Controller_Page extends Controller_System_Backend {
 	{
 		$this->set_title(__('Pages'), FALSE);
 
-		Assets::js('nestable', ADMIN_RESOURCES . 'libs/nestable/jquery.nestable.js', 'jquery');
+		Assets::package(array('nestable', 'editable'));
 
 		$this->template->content = View::factory('page/index', array(
 			'page' => ORM::factory('page', 1),

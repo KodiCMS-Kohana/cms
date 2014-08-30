@@ -3,7 +3,11 @@
 // При сохранении страницы обновление тегов
 Observer::observe( array('page_add_after_save', 'page_edit_after_save'), function($page) {
 	$tags = Request::current()->post('page_tags');
-	Model_Page_Tag::save_by_page( $page->id, $tags );
+	
+	if($tags !== NULL)
+	{
+		Model_Page_Tag::save_by_page( $page->id, $tags );
+	}
 });
 
 // Загрузка шаблона с тегами в блок с метатегами в редактор страницы

@@ -17357,7 +17357,7 @@ html body.page-signup {
   *display: inline;
 }
 .editableform-loading {
-  background: url('../libs/kodicms/less/plugins/images/bootstrap-editable/loading.gif') center center no-repeat;
+  background: url('/cms/media/libs/bootstrap-editable-1.5.1/img/loading.gif') center center no-repeat;
   height: 25px;
   width: auto;
   min-width: 25px;
@@ -18752,6 +18752,9 @@ a.editable-click.editable-disabled:hover {
 .page-items .page-item .date,
 .page-items .page-item .status {
   font-size: 90%;
+}
+.page-items .page-item .status .label {
+  cursor: pointer;
 }
 .page-items .page-item .actions {
   display: none;

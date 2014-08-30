@@ -41,6 +41,12 @@ Assets_Package::add('prism')
 	->css(NULL, ADMIN_RESOURCES . 'libs/prismjs/prism.css', 'jquery')
 	->js(NULL, ADMIN_RESOURCES . 'libs/prismjs/prism.js', 'jquery');
 
+Assets_Package::add('editable')
+	->js(NULL, ADMIN_RESOURCES . 'libs/bootstrap-editable-1.5.1/js/bootstrap-editable.min.js', 'bootstrap');
+
+Assets_Package::add('nestable')
+	->js(NULL, ADMIN_RESOURCES . 'libs/nestable/jquery.nestable.js', 'bootstrap');
+
 
 // Подключение пакета после загрузки модулей, чтобы определить текущий язык
 Observer::observe('modules::after_load', function() {

@@ -148,6 +148,34 @@ cms.init.add('page_index', function() {
 
 		return false;
 	});
+	
+	var editable_status = {
+		type: 'select2',
+		title: __('Page status'),
+		send: 'always',
+		highlight: false,
+		ajaxOptions: {
+			dataType: 'json'
+		},
+		params: function(params) {
+			params.page_id = $(this).closest('li').data('id');
+			return params;
+		},
+		url: '/api-pages.change_status',
+		source: PAGE_STATUSES,
+		select2: {
+			width: 200,
+			placeholder: __('Page status')
+		},
+		success: function(response, newValue) {
+			if(response.response) {
+				$(this)
+					.replaceWith($(response.response).editable(editable_status));
+			}
+		}
+	};
+	
+	$('.editable-status').editable(editable_status);
 });
 
 

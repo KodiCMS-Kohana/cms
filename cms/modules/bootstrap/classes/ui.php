@@ -9,33 +9,50 @@ class UI {
 	const BUTTON_TYPE_BUTTON = 0;
 	const BUTTON_TYPE_ANCHOR = 1;
 
-	public static function icon($name)
+	/**
+	 * 
+	 * @param string $name
+	 * @param array $attributes
+	 * @return string HTML
+	 */
+	public static function icon($name, array $attributes = array())
 	{	
-		$attributes = array(
-			'class' => 'fa fa-' . HTML::chars($name)
-		);
-	
+		$attributes['class'] = 'fa fa-' . HTML::chars($name);
 		return '<i' . HTML::attributes($attributes) . '></i>';
 	}
 
-	public static function label($text, $type = 'info')
+	/**
+	 * 
+	 * @param string $text
+	 * @param string $type
+	 * @param array $attributes
+	 * @return string HTML
+	 */
+	public static function label($text, $type = 'info', array $attributes = array())
 	{
-		$attributes = array(
-			'class' => 'label label-' . HTML::chars($type)
-		);
-		
+		$attributes['class'] = 'label label-' . HTML::chars($type);
 		return '<span' . HTML::attributes($attributes) . '>' . $text . '</span>';
 	}
 
-	public static function badge($text, $type = 'info')
+	/**
+	 * 
+	 * @param string $text
+	 * @param string $type
+	 * @param array $attributes
+	 * @return string HTML
+	 */
+	public static function badge($text, $type = 'info', array $attributes = array())
 	{
-		$attributes = array(
-			'class' => 'badge badge-' . HTML::chars($type)
-		);
-		
+		$attributes['class'] = 'badge badge-' . HTML::chars($type);
 		return '<span' . HTML::attributes($attributes) . '>' . $text . '</span>';
 	}
 
+	/**
+	 * 
+	 * @param string $body
+	 * @param array $attributes
+	 * @return string HTML
+	 */
 	public static function button($body, array $attributes = NULL)
 	{
 		if (!isset($attributes['class']))
@@ -86,6 +103,12 @@ class UI {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param string $title
+	 * @param array $types
+	 * @return string
+	 */
 	public static function hidden($title, array $types = array('xs', 'sm'))
 	{
 		$attributes = array('class' => array());
@@ -98,11 +121,22 @@ class UI {
 		return '<span' . HTML::attributes($attributes) . '>' . $title . '</span>';
 	}
 	
+	/**
+	 * 
+	 * @param string $title
+	 * @return string
+	 */
 	public static function page_header($title)
 	{
 		return '<div class="page-header"><h1>' . $title . '</h1></div>';
 	}
 
+	/**
+	 * 
+	 * @param string $page
+	 * @param string $uri
+	 * @return string
+	 */
 	public static function actions($page = NULL, $uri = NULL) 
 	{
 		if($uri === NULL)
@@ -115,6 +149,11 @@ class UI {
 		));
 	}
 	
+	/**
+	 * 
+	 * @param integer $num
+	 * @return string
+	 */
 	public static function counter( $num = 0 )
 	{
 		if($num == 0) return '';

@@ -6,7 +6,7 @@
  * @author		ButscHSter
  */
 class KodiCMS_Controller_API_Pages extends Controller_System_Api {
-	
+
 	public function get_get()
 	{		
 		$uids = $this->param('uids');
@@ -111,5 +111,17 @@ class KodiCMS_Controller_API_Pages extends Controller_System_Api {
 			'childrens' => $childrens,
 			'level' => 0
 		) ));
+	}
+	
+	public function post_change_status()
+	{
+		$page_id = $this->param('page_id', NULL, TRUE);
+		$value = $this->param('value', NULL, TRUE);
+		
+		$page = ORM::factory('page', $page_id)
+			->set('status_id', $value)
+			->update();
+		
+		$this->response($page->get_status());
 	}
 }
