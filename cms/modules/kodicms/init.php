@@ -18,8 +18,8 @@ Assets_Package::add('backbone')
 	->js(NULL, ADMIN_RESOURCES . 'libs/backbone-min.js', 'underscore');
 
 Assets_Package::add('jquery-ui')
-	->js(NULL, ADMIN_RESOURCES . 'libs/jquery-ui/js/jquery-ui.custom.min.js', 'jquery')
-	->css(NULL, ADMIN_RESOURCES . 'libs/jquery-ui/css/flick/jquery-ui-1.10.2.custom.css', 'jquery');
+	->js(NULL, ADMIN_RESOURCES . 'libs/jquery-ui/js/jquery-ui.min.js', 'jquery')
+	->css(NULL, ADMIN_RESOURCES . 'libs/jquery-ui/css/jquery-ui.min.css', 'jquery');
 
 Assets_Package::add('notify')
 	->js(NULL, ADMIN_RESOURCES . 'libs/pnotify/jquery.pnotify.min.js', 'jquery')
