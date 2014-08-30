@@ -18925,13 +18925,14 @@ a.editable-click.editable-disabled:hover {
 }
 #dashboard-widgets .dashboard-widgets-column.empty-container {
   border: 3px dashed #ccc;
-  min-height: 100px;
+  min-height: 150px;
   margin-bottom: 20px;
 }
 #dashboard-widgets .dashboard-widgets-column .sortable-placeholder {
   border: 1px dashed #bbb;
   margin-bottom: 20px;
   background: #fff;
+  min-height: 50px;
 }
 .fc-view-container .fc-content .btn-close {
   font-size: 11px;
