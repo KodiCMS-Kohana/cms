@@ -57,6 +57,11 @@ class KodiCMS_Controller_API_Pages extends Controller_System_Api {
 
 			foreach ($pages as $page)
 			{
+				if(empty($page['parent_id']))
+				{
+					$page['parent_id'] = 1;
+				}
+
 				$insert->values(array((int) $page['id'], (int) $page['parent_id'], (int) $page['position']));
 			}
 			
