@@ -11,7 +11,7 @@
 		<?php endforeach; ?>
 		<?php foreach ($navigation->sections() as $section): ?>
 		
-		<?php if(count($section->sections()) > 0): ?>
+		<?php if(count($section) > 0 OR count($section->sections()) > 0): ?>
 		<li class="mm-dropdown <?php if($section->is_active()): ?>open<?php endif; ?>">
 			<a href="#">
 				<?php if($section->icon): ?><?php echo UI::icon($section->icon . ' menu-icon'); ?> <?php endif; ?>
