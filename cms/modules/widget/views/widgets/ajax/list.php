@@ -2,17 +2,15 @@
 	<?php if(count($widgets) > 0): ?>
 	<?php foreach ($widgets as $type => $_widgets): ?>
 	<div class="panel-heading">
-		<h3><?php echo __($type); ?></h3>
+		<span class="panel-title"><?php echo __($type); ?></span>
 	</div>
-	<div class="panel-body">
-		<ul class="inline" class="popup-widget-list">
+	<div class="panel-body padding-sm">
 		<?php foreach ($_widgets as $id => $widget): ?>
 			<?php echo UI::button($widget->name, array(
 				'icon' => UI::icon('tag'), 'data-id' => $id, 
 				'class' => 'popup-widget-item btn-default'
 			)); ?>
 		<?php endforeach; ?>
-		</ul>
 	</div>
 	<?php endforeach; ?>
 	<?php else: ?>
