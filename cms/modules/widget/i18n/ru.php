@@ -92,7 +92,8 @@ return array(
 	'Default template' => 'Шаблон по умолчанию',
 	
 	'Widget permissions' => 'Права на видимость',
-	'To use handler send your data to URL :href' => 'Для использования обработчика отправляйте ваши данные на URL :href',
+	'To use handler send your data to URL :href or use route :route' => 
+		'Для использования обработчика отправляйте ваши данные на URL :href или используйте роут :route',
 	//============Permissions============//
 	'View widgets' => 'Видеть раздел',
 	'Edit widget' => 'Редактировать виджет',

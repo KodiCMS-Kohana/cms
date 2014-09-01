@@ -64,6 +64,13 @@ $.each(<?php echo json_encode($templates); ?>, function(k, v) {
 				</td>
 				<td class="description hidden-xs">
 					<span class="text-muted"><?php echo $widget->description; ?></span>
+					
+					<?php if($widget->code()->is_handler()): ?>
+					<span class="text-muted text-xs"><?php echo __('To use handler send your data to URL :href or use route :route', array(
+						':href' => '<code>' . URL::site($widget->code()->link(), TRUE) . '</code>',
+						':route' => '<code>Route::get(\'handler\')->uri(array(\'id\' => ' .$widget->id. '));</code>'
+					)); ?></span>
+					<?php endif; ?>
 				</td>
 				<td class="template hidden-xs">
 				<?php if($widget->code()->use_template()): ?>
@@ -80,7 +87,7 @@ $.each(<?php echo json_encode($templates); ?>, function(k, v) {
 				<?php endif; ?>
 				</td>
 				<td class="actions text-right">
-					<?php if( ACL::check('widgets.location') ): ?>
+					<?php if (ACL::check('widgets.location') AND !$widget->code()->is_handler()): ?>
 					<?php echo UI::button(NULL, array(
 						'href' => Route::get('backend')->uri(array(
 							'controller' => 'widgets', 
