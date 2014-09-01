@@ -10,4 +10,5 @@ return array(
 	
 	'RSS feed' => 'RSS лента',
 	'Cache clear button' => 'Кнопка очистки кеша',
+	'View dashboard' => 'Видеть раздел',
 );
