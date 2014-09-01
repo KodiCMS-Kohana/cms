@@ -35,7 +35,7 @@ Assets_Package::add('fancybox')
 
 Assets_Package::add('datepicker')
 	->css(NULL, ADMIN_RESOURCES . 'libs/datepicker/jquery.datetimepicker.css', 'jquery')
-	->js(NULL, ADMIN_RESOURCES . 'libs/datepicker/jquery.datetimepicker.js', 'jquery');
+	->js(NULL, ADMIN_RESOURCES . 'libs/datepicker/jquery.datetimepicker.min.js', 'jquery');
 
 Assets_Package::add('prism')
 	->css(NULL, ADMIN_RESOURCES . 'libs/prismjs/prism.css', 'jquery')
@@ -45,8 +45,7 @@ Assets_Package::add('editable')
 	->js(NULL, ADMIN_RESOURCES . 'libs/bootstrap-editable-1.5.1/js/bootstrap-editable.min.js', 'bootstrap');
 
 Assets_Package::add('nestable')
-	->js(NULL, ADMIN_RESOURCES . 'libs/nestable/jquery.nestable.js', 'bootstrap');
-
+	->js(NULL, ADMIN_RESOURCES . 'libs/nestable/jquery.nestable.min.js', 'bootstrap');
 
 // Подключение пакета после загрузки модулей, чтобы определить текущий язык
 Observer::observe('modules::after_load', function() {
