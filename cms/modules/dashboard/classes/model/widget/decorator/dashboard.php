@@ -80,12 +80,12 @@ abstract class Model_Widget_Decorator_Dashboard extends Model_Widget_Decorator {
 	
 	public function backend_template()
 	{
-		return $this->backend_template = substr($this->type, strlen('dashboard_'));
+		return $this->backend_template = substr($this->type(), strlen('dashboard_'));
 	}
 	
 	public function frontend_template()
 	{
-		return $this->frontend_template = substr($this->type, strlen('dashboard_'));
+		return $this->frontend_template = substr($this->type(), strlen('dashboard_'));
 	}
 
 	public function __sleep()

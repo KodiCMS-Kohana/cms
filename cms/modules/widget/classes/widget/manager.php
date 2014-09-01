@@ -186,7 +186,7 @@ class Widget_Manager {
 
 		$widget = ORM::factory('widget')
 			->values( array(
-				'type' => $widget->type,
+				'type' => $widget->type(),
 				'name' => $widget->name,
 				'description' => $widget->description,
 				'code' => serialize($widget)
@@ -209,7 +209,7 @@ class Widget_Manager {
 	{
 		$orm_widget = ORM::factory('widget', $widget->id )
 			->values(array(
-				'type' => $widget->type,
+				'type' => $widget->type(),
 				'name' => $widget->name,
 				'template' => $widget->template,
 				'description' => $widget->description,
@@ -230,8 +230,8 @@ class Widget_Manager {
 	 */
 	public static function remove( array $ids )
 	{
-		return DB::delete( 'widgets' )
-			->where( 'id', 'in', $ids )
+		return DB::delete('widgets')
+			->where('id', 'in', $ids)
 			->execute();
 	}
 
@@ -239,29 +239,28 @@ class Widget_Manager {
 	 * Получение виджета по ID
 	 * 
 	 * @param integer $id
-	 * @return Model_Widget_Decorator
+	 * @return NULL|Model_Widget_Decorator
 	 */
 	public static function load( $id )
 	{
 		$result = DB::select()
-			->from( 'widgets' )
-			->where( 'id', '=', (int) $id )
-			->limit( 1 )
+			->from('widgets')
+			->where('id', '=', (int) $id)
+			->limit(1)
 			->execute()
 			->current();
 
-		if ( ! $result OR ! self::exists_by_type($result['type']))
+		if (!$result OR ! self::exists_by_type($result['type']))
 		{
 			return NULL;
 		}
 
-		$widget = unserialize( $result['code'] );
+		$widget = unserialize($result['code']);
 		$widget->id = $result['id'];
 		$widget->name = $result['name'];
 		$widget->description = $result['description'];
-		$widget->type = $result['type'];
 		$widget->template = $result['template'];
-		
+
 		return $widget;
 	}
 	
@@ -277,27 +276,30 @@ class Widget_Manager {
 		DB::delete('page_widgets')
 			->where('widget_id', '=', (int) $widget_id)
 			->execute();
-		
-		if( ! empty($data))
+
+		if (!empty($data))
 		{
 			$insert = DB::insert('page_widgets')
 				->columns(array('page_id', 'widget_id', 'block', 'position'));
 
 			$i = 0;
-			foreach($data as $page_id => $block)
+			foreach ($data as $page_id => $block)
 			{
-				if($block['name'] == -1) continue;
+				if ($block['name'] == -1)
+				{
+					continue;
+				}
 
-				$insert->values(array(
-					$page_id, (int) $widget_id, $block['name'], (int) $block['position']
-				));
-
+				$insert->values(array($page_id, (int) $widget_id, $block['name'], (int) $block['position']));
 				$i++;
 			}
-			
-			if( $i > 0 ) $insert->execute();
-			
-			Observer::notify( 'widget_set_location' );
+
+			if ($i > 0)
+			{
+				$insert->execute();
+			}
+
+			Observer::notify('widget_set_location');
 		}
 	}
 	
@@ -314,23 +316,23 @@ class Widget_Manager {
 	 */
 	public static function update_location_by_page($page_id, $widget_id, array $data)
 	{
-		if( $data['block'] < 0 ) 
+		if ($data['block'] < 0)
 		{
 			DB::delete('page_widgets')
-				->where('widget_id', '=',$widget_id)
+				->where('widget_id', '=', $widget_id)
 				->where('page_id', '=', $page_id)
 				->execute();
 		}
 		else
 		{
 			DB::update('page_widgets')
-				->where('widget_id', '=',$widget_id)
+				->where('widget_id', '=', $widget_id)
 				->where('page_id', '=', $page_id)
-				->set( array('block' => $data['block'], 'position' => (int) $data['position']) )
+				->set(array('block' => $data['block'], 'position' => (int) $data['position']))
 				->execute();
 		}
-		
-		Observer::notify( 'widget_set_location' );
+
+		Observer::notify('widget_set_location');
 	}
 	
 	/**
@@ -359,7 +361,7 @@ class Widget_Manager {
 		OR 
 			empty($widget_array['data']['name'])) return;
 
-		$widget = Widget_Manager::factory( $widget_array['type'] );
+		$widget = Widget_Manager::factory($widget_array['type']);
 		
 		try 
 		{
@@ -395,10 +397,10 @@ class Widget_Manager {
 	public static function get_system_blocks()
 	{
 		return array(
-			-1 => __('--- Remove from page ---'), 
-			0 => __('--- Hide ---'), 
-			'PRE' => __('Before page render'), 
-			'POST' => __('After page render')
+			-1		=> __('--- Remove from page ---'), 
+			0		=> __('--- Hide ---'), 
+			'PRE'	=> __('Before page render'), 
+			'POST'	=> __('After page render')
 		);
 	}
 
@@ -475,12 +477,12 @@ class Widget_Manager {
 	 */
 	public static function get_related( array $types, $ds_id = NULL )
 	{
-		$db_widgets = Widget_Manager::get_widgets( $types );
+		$db_widgets = Widget_Manager::get_widgets($types);
 
 		$widgets = array();
 		foreach ($db_widgets as $id => $widget)
 		{
-			if($ds_id !== NULL AND $ds_id != $widget->ds_id)
+			if ($ds_id !== NULL AND $ds_id != $widget->ds_id)
 			{
 				continue;
 			}
