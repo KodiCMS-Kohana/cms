@@ -326,3 +326,76 @@
 		background-size: 16px 16px;
 	}
 }
+
+.user-menu {
+    > .dropdown-menu {
+        padding: 0 !important;
+        border-top-width: 0;
+        width: 280px;
+
+        &:after {
+            bottom: 100%;
+            right: 20px;
+            border: solid transparent;
+            content: " ";
+            height: 0;
+            width: 0;
+            position: absolute;
+            pointer-events: none;
+            border-color: rgba(255, 255, 255, 0);
+            border-bottom-color: @brand-info;
+            border-width: 10px;
+            margin-left: -10px;
+        }
+        // Header menu 
+        > li.user-header {
+            padding: 10px;
+            // Default background color. You can add any .bg-* class to 
+            //   the li element to change the background 
+            background: @brand-info;
+            text-align: center;            
+            // User image 
+            > img {
+                z-index: 5;
+                height: 90px;
+                width: 90px;
+                border: 8px solid;
+                border-color: transparent;
+                border-color: rgba(255, 255, 255, 0.2);                
+            }
+            > p {
+                z-index: 5;
+                color: #fff;
+                font-size: 17px;
+                margin-top: 10px;
+                > small {
+                    display: block;
+                    font-size: 10px;
+                }
+            }
+        }
+
+        // Menu Body 
+        > li.user-body {
+            padding: 10px;
+            border-bottom: 1px solid @dropdown-border !important;
+            border-top: 1px solid #dddddd;
+            .clearfix();
+			
+			a {
+				line-height: 18px !important;
+			}
+        }
+
+        // Menu Footer 
+        > li.user-footer {
+            padding: 10px;
+            .clearfix();
+			
+			a {
+				line-height: 25px !important;
+			}
+        }
+
+    }
+}

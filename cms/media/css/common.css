@@ -18972,3 +18972,91 @@ a.editable-click.editable-disabled:hover {
   background-color: #FAFCFD;
   background-size: 16px 16px;
 }
+.user-menu > .dropdown-menu {
+  padding: 0 !important;
+  border-top-width: 0;
+  width: 280px;
+}
+.user-menu > .dropdown-menu:after {
+  bottom: 100%;
+  right: 20px;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+  border-color: rgba(255, 255, 255, 0);
+  border-bottom-color: #5bc0de;
+  border-width: 10px;
+  margin-left: -10px;
+}
+.user-menu > .dropdown-menu > li.user-header {
+  padding: 10px;
+  background: #5bc0de;
+  text-align: center;
+}
+.user-menu > .dropdown-menu > li.user-header > img {
+  z-index: 5;
+  height: 90px;
+  width: 90px;
+  border: 8px solid;
+  border-color: transparent;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+.user-menu > .dropdown-menu > li.user-header > p {
+  z-index: 5;
+  color: #fff;
+  font-size: 17px;
+  margin-top: 10px;
+}
+.user-menu > .dropdown-menu > li.user-header > p > small {
+  display: block;
+  font-size: 10px;
+}
+.user-menu > .dropdown-menu > li.user-body {
+  padding: 10px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15) !important;
+  border-top: 1px solid #dddddd;
+}
+.user-menu > .dropdown-menu > li.user-body:before,
+.user-menu > .dropdown-menu > li.user-body:after {
+  content: " ";
+  display: table;
+}
+.user-menu > .dropdown-menu > li.user-body:after {
+  clear: both;
+}
+.user-menu > .dropdown-menu > li.user-body:before,
+.user-menu > .dropdown-menu > li.user-body:after {
+  content: " ";
+  display: table;
+}
+.user-menu > .dropdown-menu > li.user-body:after {
+  clear: both;
+}
+.user-menu > .dropdown-menu > li.user-body a {
+  line-height: 18px !important;
+}
+.user-menu > .dropdown-menu > li.user-footer {
+  padding: 10px;
+}
+.user-menu > .dropdown-menu > li.user-footer:before,
+.user-menu > .dropdown-menu > li.user-footer:after {
+  content: " ";
+  display: table;
+}
+.user-menu > .dropdown-menu > li.user-footer:after {
+  clear: both;
+}
+.user-menu > .dropdown-menu > li.user-footer:before,
+.user-menu > .dropdown-menu > li.user-footer:after {
+  content: " ";
+  display: table;
+}
+.user-menu > .dropdown-menu > li.user-footer:after {
+  clear: both;
+}
+.user-menu > .dropdown-menu > li.user-footer a {
+  line-height: 25px !important;
+}
