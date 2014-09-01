@@ -23,6 +23,8 @@ class Controller_Widgets extends Controller_System_Backend {
 
 	public function action_index()
 	{
+		Assets::package(array('editable'));
+		
 		$this->template->title = __('Widgets');
 		
 		$widgets = ORM::factory('widget')->filter();
@@ -55,7 +57,8 @@ class Controller_Widgets extends Controller_System_Backend {
 				->offset($pager->offset)
 				->find_all(),
 			'pager' => $pager,
-			'sidebar' => $sidebar
+			'sidebar' => $sidebar,
+			'templates' => Model_File_Snippet::html_select()
 		));
 	}
 	
