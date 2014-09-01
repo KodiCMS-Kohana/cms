@@ -87,7 +87,7 @@ $.each(<?php echo json_encode($templates); ?>, function(k, v) {
 							'action' => 'location',
 							'id' => $widget->id)), 
 						'icon' => UI::icon('sitemap'),
-						'class' => 'btn-xs btn-primary'
+						'class' => 'btn-xs btn-primary popup fancybox.iframe'
 					)); ?>
 					<?php endif; ?>
 					<?php if( ACL::check('widgets.delete')): ?>
