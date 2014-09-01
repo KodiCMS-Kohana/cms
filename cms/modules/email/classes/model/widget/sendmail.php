@@ -5,7 +5,7 @@
  * @category	Other
  * @author		ButscHSter
  */
-class Model_Widget_SendMail extends Model_Widget_Decorator {
+class Model_Widget_SendMail extends Model_Widget_Decorator_Handler {
 
 	const CTX = 0;
 	const GET = 1;
@@ -18,9 +18,6 @@ class Model_Widget_SendMail extends Model_Widget_Decorator {
 
 	protected $_errors = array();
 	protected $_values = array();
-	
-	public $use_template = FALSE;
-	public $use_caching = FALSE;
 
 	public $fields = array();
 	
@@ -88,15 +85,8 @@ class Model_Widget_SendMail extends Model_Widget_Decorator {
 		return parent::set_values($data);
 	}
 
-	public function fetch_data()
-	{
-		return array();
-	}
-
 	public function on_page_load() 
 	{
-		parent::on_page_load();
-
 		$this->_errors = array();
 
 		$this->_fetch_fields();
@@ -243,10 +233,5 @@ class Model_Widget_SendMail extends Model_Widget_Decorator {
 		}
 
 		return $value;
-	}
-	
-	public function render( array $params = array( ) )
-	{
-		return NULL;
 	}
 }

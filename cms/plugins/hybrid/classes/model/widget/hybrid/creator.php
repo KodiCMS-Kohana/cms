@@ -1,12 +1,9 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
-class Model_Widget_Hybrid_Creator extends Model_Widget_Decorator {
+class Model_Widget_Hybrid_Creator extends Model_Widget_Decorator_Handler {
 
 	const GET = 1;
 	const POST = 2;
-	
-	public $use_template = FALSE;
-	public $use_caching = FALSE;
 	
 	/**
 	 *
@@ -266,15 +263,6 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Decorator {
 		}
 		
 		return parent::fetch_backend_content();
-	}
-	
-	/**
-	 * 
-	 * @return array
-	 */
-	public function fetch_data()
-	{
-		return array();
 	}
 	
 	protected function _send_http_reponse()

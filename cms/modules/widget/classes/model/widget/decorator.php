@@ -51,12 +51,6 @@ abstract class Model_Widget_Decorator {
 	 * @var string 
 	 */
 	public $frontend_template = NULL;
-
-	/**
-	 * Виджет использует шаблон
-	 * @var boolean 
-	 */
-	public $use_template = TRUE;
 	
 	/**
 	 * Параметры передаваемые в шаблон
@@ -81,12 +75,6 @@ abstract class Model_Widget_Decorator {
 	 * @var boolean 
 	 */
 	public $crumbs = FALSE;
-	
-	/**
-	 * Виджет можно кешировать
-	 * @var boolean 
-	 */
-	public $use_caching = TRUE;
 
 	/**
 	 * Включение / Отключение кеширования
@@ -124,7 +112,7 @@ abstract class Model_Widget_Decorator {
 	public $media = array();
 
 	/**
-	 * 
+	 * Генерировать ошибку 404
 	 * @var bool 
 	 */
 	public $throw_404 = FALSE;
@@ -146,6 +134,24 @@ abstract class Model_Widget_Decorator {
 	 * @var string 
 	 */
 	protected $_type;
+	
+	/**
+	 * Виджет явялется обработчиком
+	 * @var bool 
+	 */
+	protected $_is_handler = FALSE;
+
+	/**
+	 * Виджет использует шаблон
+	 * @var boolean 
+	 */
+	protected $_use_template = TRUE;
+	
+	/**
+	 * Виджет можно кешировать
+	 * @var boolean 
+	 */
+	protected $_use_caching = TRUE;
 
 	/**
 	 * Дополнительные параметры виджета
@@ -229,6 +235,33 @@ abstract class Model_Widget_Decorator {
 	public function & __get( $name )
 	{
 		return $this->get( $name );
+	}
+	
+	/**
+	 * 
+	 * @return boolean
+	 */
+	public function is_handler()
+	{
+		return $this->_is_handler;
+	}
+	
+	/**
+	 * 
+	 * @return boolean
+	 */
+	public function use_template()
+	{
+		return $this->_use_template;
+	}
+	
+	/**
+	 * 
+	 * @return boolean
+	 */
+	public function use_caching()
+	{
+		return $this->_use_caching;
 	}
 
 	/**
@@ -764,10 +797,14 @@ abstract class Model_Widget_Decorator {
 		return (string) $this->render();
 	}
 	
-	public function __sleep()
+	/**
+	 * Параметры, которые не должны сериализоваться при сохранении объекта
+	 * @return array
+	 */
+	protected function _serialize_vars()
 	{
 		$vars = get_object_vars($this);
-
+		
 		unset(
 			$vars['_ctx'],
 			$vars['id'],
@@ -778,16 +815,32 @@ abstract class Model_Widget_Decorator {
 			$vars['backend_template'],
 			$vars['frontend_template'],
 			$vars['frontend_template_preffix'],
-			$vars['use_template'],
-			$vars['use_caching'],
+			$vars['_use_template'],
+			$vars['_use_caching'],
+			$vars['_is_handler'],
 			$vars['block'],
 			$vars['position'],
 			$vars['template_params']
 		);
-
-		return array_keys($vars);
+		
+		return $vars;
 	}
 	
+	/**
+	 * Метод вызывается в момент сохранения объекта в БД
+	 * 
+	 * @return array
+	 */
+	public function __sleep()
+	{
+		return array_keys($this->_serialize_vars());
+	}
+	
+	/**
+	 * Метод вызывается в момент загрузки объекта из БД
+	 * 
+	 * @return array
+	 */
 	public function __wakeup()
 	{
 		$this->_ctx = Context::instance();

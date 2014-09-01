@@ -54,22 +54,30 @@ $.each(<?php echo json_encode($templates); ?>, function(k, v) {
 					<?php else: ?>
 					<?php echo UI::icon('lock'); ?> <?php echo $widget->name; ?>
 					<?php endif; ?>
+					
+					<?php if($widget->code()->is_handler()): ?>
+					<?php echo UI::label(__('Handler'), 'warning'); ?>
+					<?php endif; ?>
 				</th>
 				<td class="type">
 					<?php echo UI::label($widget->type()); ?>
 				</td>
 				<td class="description hidden-xs">
-					<span class="muted"><?php echo $widget->description; ?></span>
+					<span class="text-muted"><?php echo $widget->description; ?></span>
 				</td>
 				<td class="template hidden-xs">
+				<?php if($widget->code()->use_template()): ?>
 					<span class="editable-template label label-info" data-value="<?php echo empty($widget->template) ? 0 : $widget->template; ?>"><?php echo $widget->template; ?></span>
+				<?php endif; ?>
 				</td>
 				<td class="cache hidden-xs">
+				<?php if($widget->code()->use_caching()): ?>
 					<?php if($widget->code()->caching === FALSE): ?>
 					<?php echo UI::label('0', 'warning'); ?>
 					<?php else: ?>
 					<?php echo UI::label($widget->code()->cache_lifetime, 'success'); ?>
 					<?php endif; ?>
+				<?php endif; ?>
 				</td>
 				<td class="actions text-right">
 					<?php if( ACL::check('widgets.location') ): ?>

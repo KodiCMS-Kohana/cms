@@ -57,6 +57,8 @@ class Model_Widget extends ORM {
 			{
 				$this->_code = new Model_Widget_HTML();
 			}
+			
+			$this->_code->id = $this->id;
 		}
 		
 		return $this->_code;

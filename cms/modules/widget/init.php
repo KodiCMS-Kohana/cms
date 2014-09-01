@@ -81,3 +81,11 @@ Observer::observe(array(
 ), function() {
 	Cache::instance()->delete_tag('layout_blocks');
 });
+
+Route::set('handler', 'handler/<id>', array(
+	'id' => '[0-9]+',
+))
+->defaults(array(
+	'directory' => 'system',
+	'controller' => 'handler'
+));

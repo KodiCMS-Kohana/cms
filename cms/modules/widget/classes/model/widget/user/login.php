@@ -5,10 +5,7 @@
  * @category	User
  * @author		ButscHSter
  */
-class Model_Widget_User_Login extends Model_Widget_Decorator {
-	
-	public $use_template = FALSE;
-	public $use_caching = FALSE;
+class Model_Widget_User_Login extends Model_Widget_Decorator_Handler {
 	
 	protected $_data = array(
 		'login_field' => 'username',
@@ -76,20 +73,8 @@ class Model_Widget_User_Login extends Model_Widget_Decorator {
 		);
 	}
 
-	public function fetch_data()
-	{
-		
-	}
-
-	public function render(array $params = array())
-	{
-		
-	}
-
 	public function on_page_load()
 	{
-		parent::on_page_load();
-
 		if (Request::current()->method() !== Request::POST)
 		{
 			return;
@@ -188,5 +173,4 @@ class Model_Widget_User_Login extends Model_Widget_Decorator {
 
 		return $next_url;
 	}
-
 }
