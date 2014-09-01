@@ -67,4 +67,27 @@ class Controller_API_Widget extends Controller_System_API {
 			$this->message('Widget added to page');
 		}
 	}
+	
+	public function post_set_template()
+	{
+		$widget_id = (int) $this->param('widget_id', NULL, TRUE);
+		$template = $this->param('template', NULL);
+		
+		$widget = Widget_Manager::load($widget_id);
+		
+		if($widget !== NULL)
+		{
+			$widget->template = empty($template) ? NULL : $template;
+			Widget_Manager::update($widget);
+
+			$this->message('Widget template changet to :name', array(
+				':name' => $template
+			));
+			
+			$this->response(TRUE);
+			return;
+		}
+		
+		$this->response(FALSE);
+	}
 }

@@ -2,6 +2,7 @@
 	'class' => array(Bootstrap_Form::HORIZONTAL, 'panel')
 )); ?>
 	<?php echo Form::hidden('id', $widget->id); ?>
+
 	<div class="panel-heading panel-toggler" data-target-spoiler=".general-spoiler" data-hash="description">
 		<span class="panel-title" data-icon="info-circle"><?php echo __('Widget Information'); ?></span>
 	</div>
@@ -25,7 +26,7 @@
 		</div>
 	</div>
 
-	<?php if($widget->use_template): ?>
+	<?php if($widget->use_template()): ?>
 	<?php echo View::factory('helper/snippet_select', array(
 		'header' => __('Widget template'),
 		'template' => $widget->template,
@@ -41,7 +42,7 @@
 	)); ?>
 	<?php endif; ?>
 
-	<?php if($widget->use_caching AND ACL::check('widgets.cache')): ?>
+	<?php if($widget->use_caching() AND ACL::check('widgets.cache')): ?>
 	<div class="panel-heading">
 		<span class="panel-title" data-icon="hdd-o"><?php echo __('Caching'); ?></span>
 	</div>
@@ -90,7 +91,7 @@
 	</div>
 	<?php endif; ?>
 
-	<?php if ( ACL::check( 'widgets.roles' ) ): ?>
+	<?php if (ACL::check('widgets.roles') AND ! $widget->is_handler()): ?>
 	<div class="panel-heading panel-toggler" data-target-spoiler=".roles-spoiler" data-hash="roles">
 		<span class="panel-title" data-icon="users"><?php echo __('Widget permissions'); ?></span>
 	</div>
@@ -101,7 +102,7 @@
 	</div>
 	<?php endif; ?>
 	
-	<?php if($widget->use_template): ?>
+	<?php if($widget->use_template()): ?>
 	<div class="panel-heading panel-toggler" data-target-spoiler=".media-spoiler" data-hash="media">
 		<span class="panel-title" data-icon="file-o"><?php echo __('Widget media'); ?></h4>
 	</div>
@@ -116,7 +117,7 @@
 	<div class="panel-heading">
 		<span class="panel-title" data-icon="cogs"><?php echo __('Widget parameters'); ?></span>
 	</div>
-	<?php if($widget->use_template): ?>
+	<?php if($widget->use_template()): ?>
 	<div class="panel-body">
 		<div class="form-group">
 			<label class="control-label col-xs-3"><?php echo __('Header'); ?></label>
@@ -128,11 +129,18 @@
 		</div>
 	</div>
 	<?php endif; ?>
-	<?php echo $content; ?>
 
+	<?php echo $content; ?>
+	<?php if($widget->is_handler()): ?>
+	<div class="alert alert-danger note-dark no-margin-b">
+		<?php echo __('To use handler send your data to URL :href', array(
+			':href' => HTML::anchor($widget->link(), URL::site($widget->link(), TRUE))
+		)); ?>
+	</div>
+	<?php endif; ?>
 	<?php if( ACL::check('widgets.location') ): ?>
+	<hr class="no-margin-vr" />
 	<div class="panel-body">
-		<hr class="panel-wide" />
 		<?php echo HTML::anchor(Route::get('backend')->uri(array(
 		'controller' => 'widgets', 
 		'action' => 'location',

@@ -311,7 +311,7 @@ class Model_Widget_Hybrid_Headline extends Model_Widget_Decorator_Pagination {
 	public function get_cache_id()
 	{
 		return 'Widget::' 
-			. $this->type . '::' 
+			. $this->type() . '::' 
 			. $this->id . '::' 
 			. $this->list_offset . '::' 
 			. $this->list_size;

@@ -39,7 +39,7 @@ class Controller_API_Dashboard extends Controller_System_Api {
 	
 		foreach ($widget_settings as $widget)
 		{
-			$attached_types[$widget->type] = $widget->is_multiple();
+			$attached_types[$widget->type()] = $widget->is_multiple();
 		}
 		
 		foreach ($types as $key => $data)

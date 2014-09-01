@@ -2,7 +2,7 @@
 
 class Model_Widget_Hybrid_Editor extends Model_Widget_Hybrid_Document {
 
-	public $use_caching = FALSE;
+	protected $_use_caching = FALSE;
 	
 	public function fetch_data()
 	{

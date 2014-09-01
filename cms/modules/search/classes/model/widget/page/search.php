@@ -71,6 +71,6 @@ class Model_Widget_Page_Search extends Model_Widget_Decorator_Pagination {
 	
 	public function get_cache_id()
 	{
-		return 'Widget::' . $this->type . '::' . $this->id . '::' . $this->keyword();
+		return 'Widget::' . $this->type() . '::' . $this->id . '::' . $this->keyword();
 	}
 }

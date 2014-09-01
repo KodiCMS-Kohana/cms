@@ -1,8 +1,16 @@
+<script type="text/javascript">
+var SNIPPETS = [];
+
+$.each(<?php echo json_encode($templates); ?>, function(k, v) {
+	SNIPPETS.push({id: k, text: v});
+});
+</script>
+
 <?php echo $sidebar; ?>
 
 <div class="panel">
 	<div class="panel-heading">
-		<?php if( ACL::check('widgets.add')): ?>
+		<?php if (ACL::check('widgets.add')): ?>
 		<?php echo UI::button(__('Add widget'), array(
 			'href' => Route::get('backend')->uri(array(
 				'controller' => 'widgets', 
@@ -20,6 +28,7 @@
 			<col width="150px" />
 			<col />
 			<col width="150px" />
+			<col width="150px" />
 			<col width="100px" />
 		</colgroup>
 		<thead>
@@ -27,13 +36,14 @@
 				<th><?php echo __('Widget name'); ?></th>
 				<th><?php echo __('Type'); ?></th>
 				<th class="hidden-xs"><?php echo __('Description'); ?></th>
+				<th class="hidden-xs"><?php echo __('Widget template'); ?></th>
 				<th class="hidden-xs"><?php echo __('Cache time'); ?></th>
 				<th class="text-right"><?php echo __('Actions'); ?></th>
 			</tr>
 		</thead>
 		<tbody>
 			<?php foreach ($widgets as $widget): ?>
-			<tr>
+			<tr data-id="<?php echo $widget->id; ?>">
 				<th class="name">
 					<?php echo UI::icon('cube'); ?> 
 					<?php if( ACL::check('widgets.edit')): ?>
@@ -44,19 +54,30 @@
 					<?php else: ?>
 					<?php echo UI::icon('lock'); ?> <?php echo $widget->name; ?>
 					<?php endif; ?>
+					
+					<?php if($widget->code()->is_handler()): ?>
+					<?php echo UI::label(__('Handler'), 'warning'); ?>
+					<?php endif; ?>
 				</th>
 				<td class="type">
 					<?php echo UI::label($widget->type()); ?>
 				</td>
 				<td class="description hidden-xs">
-					<span class="muted"><?php echo $widget->description; ?></span>
+					<span class="text-muted"><?php echo $widget->description; ?></span>
+				</td>
+				<td class="template hidden-xs">
+				<?php if($widget->code()->use_template()): ?>
+					<span class="editable-template label label-info" data-value="<?php echo empty($widget->template) ? 0 : $widget->template; ?>"><?php echo $widget->template; ?></span>
+				<?php endif; ?>
 				</td>
 				<td class="cache hidden-xs">
+				<?php if($widget->code()->use_caching()): ?>
 					<?php if($widget->code()->caching === FALSE): ?>
 					<?php echo UI::label('0', 'warning'); ?>
 					<?php else: ?>
 					<?php echo UI::label($widget->code()->cache_lifetime, 'success'); ?>
 					<?php endif; ?>
+				<?php endif; ?>
 				</td>
 				<td class="actions text-right">
 					<?php if( ACL::check('widgets.location') ): ?>

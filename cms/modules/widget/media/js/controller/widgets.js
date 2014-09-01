@@ -1,3 +1,31 @@
+cms.init.add('widgets_index', function() {
+	var editable_template = {
+		type: 'select2',
+		title: __('Widget template'),
+		send: 'always',
+		highlight: false,
+		ajaxOptions: {
+			dataType: 'json'
+		},
+		params: function(params) {
+			params.widget_id = $(this).closest('tr').data('id');
+			params.template = params.value;
+
+			return params;
+		},
+		url: '/api-widget.set_template',
+		source: SNIPPETS,
+		select2: {
+			width: 200
+		},
+		success: function(response, newValue) {
+			
+		}
+	};
+	
+	$('.editable-template').editable(editable_template);
+});
+
 cms.init.add('widgets_edit', function() {
 	
 	var cache_enabled = function() {

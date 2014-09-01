@@ -5,24 +5,14 @@
  * @category	Other
  * @author		ButscHSter
  */
-class Model_Widget_Handler extends Model_Widget_Decorator {
+class Model_Widget_Handler extends Model_Widget_Decorator_Handler {
 
-	public $use_caching = FALSE;
+	protected $_use_caching = FALSE;
+	protected $_use_template = TRUE;
 
 	public function on_page_load()
 	{
 		$this->_fetch_template();
 		$this->_fetch_render()->render();
 	}
-
-	public function fetch_data()
-	{
-
-	}
-
-	public function render(array $params = array())
-	{
-		
-	}
-
 }
