@@ -6,8 +6,14 @@ class Kohana extends Kohana_Core {
 	{
 		$modules = parent::modules($modules);
 		
-		array_unshift(Kohana::$_paths, CMSPATH);
-		
+		foreach (array(CMSPATH, DOCROOT) as $path)
+		{
+			if (!in_array($path, Kohana::$_paths))
+			{
+				array_unshift(Kohana::$_paths, $path);
+			}
+		}
+
 		return $modules;
 	}
 }
