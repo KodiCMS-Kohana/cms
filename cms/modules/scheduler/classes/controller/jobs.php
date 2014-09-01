@@ -12,7 +12,7 @@ class Controller_Jobs extends Controller_System_Backend {
 		parent::before();
 		
 		$this->breadcrumbs
-			->add(__('Jobs'), Route::get('backend')->uri(array('controller' => 'scheduler')));
+			->add(__('Jobs'), Route::get('backend')->uri(array('controller' => 'jobs')));
 	}
 	
 	public function action_index()

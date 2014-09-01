@@ -12,7 +12,7 @@ class Controller_Calendar extends Controller_System_Backend {
 		parent::before();
 		
 		$this->breadcrumbs
-			->add(__('Calendar'), Route::get('backend')->uri(array('controller' => 'scheduler')));
+			->add(__('Calendar'), Route::get('backend')->uri(array('controller' => 'calendar')));
 	}
 	
 	public function action_index()
