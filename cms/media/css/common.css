@@ -21077,25 +21077,6 @@ a.editable-click.editable-disabled:hover {
   .theme-dust #main-navbar .widget-messages-alt .messages-link:hover {
     background: #f1f1f1;
   }
-  .theme-dust.mmc #main-navbar #main-menu-toggle {
-    background: #f65d35;
-  }
-  .theme-dust.mmc #main-navbar .navbar-header {
-    background: #fff;
-  }
-  .theme-dust.mmc #main-navbar .navbar-header a {
-    color: #555555;
-  }
-}
-.theme-dust.main-menu-right #main-navbar .navbar-header,
-.theme-dust.no-main-menu #main-navbar .navbar-header,
-.theme-dust.no-main-menu #main-navbar .navbar-header {
-  background: #fff;
-}
-.theme-dust.main-menu-right #main-navbar .navbar-header a,
-.theme-dust.no-main-menu #main-navbar .navbar-header a,
-.theme-dust.no-main-menu #main-navbar .navbar-header a {
-  color: #555555;
 }
 .theme-dust #main-menu-bg,
 .theme-dust .mmc-dropdown-open-ul {
@@ -21945,25 +21926,6 @@ a.editable-click.editable-disabled:hover {
   .theme-frost #main-navbar .widget-messages-alt .messages-link:hover {
     background: #f1f1f1;
   }
-  .theme-frost.mmc #main-navbar #main-menu-toggle {
-    background: #1aaada;
-  }
-  .theme-frost.mmc #main-navbar .navbar-header {
-    background: #fff;
-  }
-  .theme-frost.mmc #main-navbar .navbar-header a {
-    color: #555555;
-  }
-}
-.theme-frost.main-menu-right #main-navbar .navbar-header,
-.theme-frost.no-main-menu #main-navbar .navbar-header,
-.theme-frost.no-main-menu #main-navbar .navbar-header {
-  background: #fff;
-}
-.theme-frost.main-menu-right #main-navbar .navbar-header a,
-.theme-frost.no-main-menu #main-navbar .navbar-header a,
-.theme-frost.no-main-menu #main-navbar .navbar-header a {
-  color: #555555;
 }
 .theme-frost #main-menu-bg,
 .theme-frost .mmc-dropdown-open-ul {
@@ -25937,8 +25899,9 @@ a.editable-click.editable-disabled:hover {
 .theme-asphalt .navbar-brand,
 .theme-purple-hills .navbar-brand,
 .theme-adminflare .navbar-brand,
-.theme-silver .navbar-brand,
 .theme-fresh .navbar-brand,
+.theme-dust .navbar-brand,
+.theme-frost .navbar-brand,
 .theme-clean .navbar-brand {
   background-image: url('../images/logo.png');
 }

@@ -31,5 +31,6 @@ return array(
 	'themes' => array(
 		'default', 'asphalt', 'purple-hills', 'adminflare', 'dust', 'frost', 'fresh', 'silver', 
 		'clean', 'white'
-	)
+	),
+	'default_theme' => 'default'
 );

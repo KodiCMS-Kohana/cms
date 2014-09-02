@@ -18,7 +18,7 @@
 		<?php echo Assets::group('global', 'events'); ?>
 		<?php Observer::notify( 'layout_backend_head_after' ); ?>
 	</head>
-	<body id="body_<?php echo $page_body_id; ?>" class="<?php echo $request->query('type'); ?> theme-default main-menu-fixed">
+	<body id="body_<?php echo $page_body_id; ?>" class="<?php echo $request->query('type'); ?> <?php echo $theme; ?> main-menu-fixed">
 		<div id="main-wrapper">
 			<?php if($request->query('type') != 'iframe'): ?>
 			<header>
