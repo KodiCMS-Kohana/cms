@@ -506,7 +506,7 @@ class Datasource_Section {
 	{
 		DB::update($this->_ds_table)
 			->set(array(
-				'published' => (bool) $value,
+				'published' => (bool) $status,
 				'updated_on' => date('Y-m-d H:i:s'),
 			))
 			->where('id', 'in', $ids)
