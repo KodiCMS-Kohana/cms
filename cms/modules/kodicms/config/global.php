@@ -28,4 +28,8 @@ return array(
 		'img' => array('src' => 1, 'class' => 1, 'style' => 1),
 		'iframe' => array('width' => 1, 'height' => 1, 'src' => 1, 'allowfullscreen' => 1)
 	),
+	'themes' => array(
+		'default', 'asphalt', 'purple-hills', 'adminflare', 'dust', 'frost', 'fresh', 'silver', 
+		'clean', 'white'
+	)
 );
