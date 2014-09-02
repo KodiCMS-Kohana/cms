@@ -2,8 +2,6 @@
 
 class Controller_Datasources_Data extends Controller_System_Datasource
 {
-	public $template = 'datasource/template';
-
 	public function action_index()
 	{
 		$cur_ds_id = (int) Arr::get($this->request->query(), 'ds_id', Cookie::get('ds_id'));
@@ -15,46 +13,42 @@ class Controller_Datasources_Data extends Controller_System_Datasource
 		
 		$ds = $this->section($cur_ds_id);
 		
-		$this->template->content = View::factory('datasource/data/index');
-		$this->template->menu = View::factory('datasource/data/menu', array(
-			'tree' => $tree,
+		$this->template->content = View::factory('datasource/content', array(
+			'content' => View::factory('datasource/data/index'),
+			'menu' => View::factory('datasource/data/menu', array(
+				'tree' => $tree,
+			))
 		));
+
+		$this->template->footer = NULL;
+		$this->template->breadcrumbs = NULL;
 		
-		if($ds instanceof Datasource_Section) 
+		if ($ds instanceof Datasource_Section)
 		{
 			$this->set_title($ds->name);
-			
+
 			$limit = (int) Arr::get($this->request->query(), 'limit', Cookie::get('limit'));
-			
+
 			Cookie::set('ds_id', $cur_ds_id);
-			
+
 			$keyword = $this->request->query('keyword');
-			
-			if( ! empty($limit))
+
+			if (!empty($limit))
 			{
 				Cookie::set('limit', $limit);
 				$this->section()->headline()->limit($limit);
 			}
-	
-			$this->template->content->headline = $this->section()->headline()->render();
-			
-			$this->template->content->toolbar = View::factory('datasource/' . $ds->type() . '/toolbar', array(
+
+			$this->template->content->content->headline = $this->section()->headline()->render();
+			$this->template->content->content->toolbar = View::factory('datasource/' . $ds->type() . '/toolbar', array(
 				'keyword' => $keyword
 			));
-			
-			$this->template->set_global(array(
-				'ds_type' => $ds->type(),
-				'ds_id' => $cur_ds_id
-			));
+
+			$this->template->set_global(array('datasource' => $ds));
 		}
 		else
 		{
-			$this->template->set_global(array(
-				'ds_type' => NULL,
-				'ds_id' => $cur_ds_id
-			));
-			
-			$this->template->content = NULL;
+			$this->template->content->content = NULL;
 		}
 	}
 }

@@ -645,7 +645,14 @@ class Datasource_Section {
 		$this->_headline = new $headline_class();
 		$this->_headline->set_section($this);
 	}
-
+	
+	/**************************************************************************
+	 * ACL
+	 **************************************************************************/
+	public function has_access($acl_type = 'section.edit')
+	{
+		return ACL::check($this->type() . $this->id() . '.' . $acl_type);
+	}
 
 	/**************************************************************************
 	 * Search indexation

@@ -96,8 +96,7 @@ class KodiCMS_Controller_System_Template extends Controller_System_Security
 						$this->json['status'] = TRUE;
 					}
 
-					$this->response
-							->headers('Content-type', 'application/json');
+					$this->response->headers('Content-type', 'application/json');
 
 					$this->template = json_encode($this->json);
 				}
@@ -109,7 +108,7 @@ class KodiCMS_Controller_System_Template extends Controller_System_Security
 			else
 			{
 				$this->template->messages = View::factory('system/blocks/messages', array(
-							'messages' => Messages::get()
+					'messages' => Messages::get()
 				));
 			}
 

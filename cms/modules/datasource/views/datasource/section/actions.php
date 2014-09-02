@@ -1,39 +1,39 @@
-<div class="panel-heading">
-<?php if(ACL::check($ds_type.$ds_id.'.document.edit')):?>
-<?php echo UI::button(__('Create Document'), array(
-	'href' => Route::get('datasources')->uri(array(
-		'controller' => 'document',
-		'directory' => $ds_type,
-		'action' => 'create'
-	)) . URL::query(array('ds_id' => $ds_id)),
-	'icon' => UI::icon( 'plus' ),
-	'data-hotkeys' => 'ctrl+a',
-	'class' => 'btn-primary'
-)); ?>
-<?php endif; ?>
-
-<?php if(ACL::check($ds_type.$ds_id.'.document.edit')):?>
-	<div class="panel-heading-controls col-md-3">
-		<div class="">
-			<div class="input-group">
-				<?php echo Form::select('doc_actions', array(
-					__('Actions'), 
-					'remove' => __('Remove'), 
-					'publish' => __('Publish'), 
-					'unpublish' => __('Unpublish')), NULL, array(
-						'id' => 'doc-actions', 
-						'class' => 'form-control no-script',
-						'data-section' => $ds_type
-					)); ?>
-
-				<div class="input-group-btn">
-					<?php echo UI::button(__('Apply'), array(
-						'id' => 'apply-doc-action', 
-						'class' => 'btn-success'
-					)); ?>
-				</div>
-			</div>
+<div class="btn-toolbar" role="toolbar">
+	<?php if ($datasource->has_access('document.edit')): ?>
+	<div class="btn-group checkbox-control">		
+		<div class="btn-group">
+			<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+				<i class="fa fa-check-square-o"></i>&nbsp;<i class="fa fa-caret-down"></i>
+			</button>
+			<ul class="dropdown-menu" role="menu">
+				<li><a href="#" class="action" data-action="check_all"><?php echo __('Check all'); ?></a></li>
+				<li class="divider"></li>
+				<li><a href="#" class="action" data-action="uncheck_all"><?php echo __('Uncheck all'); ?></a></li>
+			</ul>
 		</div>
 	</div>
-<?php endif; ?>
+	
+	<div class="btn-group doc-actions">
+		<button type="button" data-action="publish" class="btn btn-default action disabled"><i class="fa fa-eye"></i></button>
+		<button type="button" data-action="unpublish" class="btn btn-default action disabled"><i class="fa fa-eye-slash"></i></button>
+		<button type="button" data-action="remove" class="btn btn-default action disabled"><i class="fa fa-trash-o"></i></button>
+	</div>
+	<?php endif; ?>
+
+	<div class="btn-group">
+		<?php if ($datasource->has_access('document.edit')): ?>
+		<?php echo UI::button(__('Create document'), array(
+			'href' => Route::get('datasources')->uri(array(
+				'controller' => 'document',
+				'directory' => $datasource->type(),
+				'action' => 'create'
+			)) . URL::query(array('ds_id' => $datasource->id())),
+			'icon' => UI::icon('plus'),
+			'data-hotkeys' => 'ctrl+a',
+			'class' => 'btn-primary'
+		)); ?>
+		<?php endif; ?>
+	</div>
+	
+	<?php Observer::notify('datasource.headline.actions', $datasource); ?>
 </div>

@@ -7,6 +7,17 @@ Observer::observe('datasource_after_remove', function($id) {
 		->execute();
 });
 
+Observer::observe('datasource.headline.actions', function($ds) {
+	if($ds->type() != 'hybrid')
+	{
+		return;
+	}
+	
+	echo View::factory('datasource/hybrid/actions', array(
+		'fields' => $ds->record()->fields()
+	));
+});
+
 Observer::observe(array('user_after_update', 'user_after_add'), function($user, $plugin) {
 	$ds_id = $plugin->get('user_profile_ds_id');
 	

@@ -1,41 +1,24 @@
-.file-types-label, .file-size-label {
-	cursor: pointer;
+#body_datasources_data_index {
+	background: #fff;
 }
 
-.datasource-menu .list-group-item {
-	cursor: pointer;
+#body_datasources_data_index #content-wrapper {
+	padding: 45px 0 18px 0;
 }
 
-.datasource-menu .list-group-item.active {
-	cursor: default;
+.page-mail .mail-nav {
+	border-color: #e2e2e2;
 }
 
-#headline tbody tr.unpublished th,
-#headline tbody tr.unpublished td {
+.headline tbody tr.unpublished th,
+.headline tbody tr.unpublished td {
 	color: #ccc;
 }
 
-	#headline tbody tr.unpublished th a,
-	#headline tbody tr.unpublished td a {
+	.headline tbody tr.unpublished th a,
+	.headline tbody tr.unpublished td a {
 		color: #ccc;
 	}
-
-#ds-menu {
-	background-color: whitesmoke;
-}
-
-	#ds-menu .widget-content {
-		padding: 0 15px 10px;
-	}
-	
-
-	#ds-menu li.selected > a {
-		font-weight: bold;
-	}
-
-#datasource-toolbar {
-	margin: 0;
-}
 
 
 #html_fields textarea {

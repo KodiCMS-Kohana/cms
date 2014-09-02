@@ -26,16 +26,17 @@ class Datasource_Section_Hybrid_Headline extends Datasource_Section_Headline {
 		
 		foreach($fields as $key => $field)
 		{
-			if( ! $field->in_headline ) continue;
-
 			$this->_fields[$field->name] = array(
-				'name' =>  $field->header
+				'name' =>  $field->header,
+				'visible' => (bool) $field->in_headline
 			);
 		}
 		
 		$this->_fields['date'] = array(
 			'name' => 'Date of creation',
-			'width' => 150
+			'width' => 150,
+			'class' => 'text-right text-muted text-sm',
+			'visible' => TRUE
 		);
 
 		return $this->_fields;
