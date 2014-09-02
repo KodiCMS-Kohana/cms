@@ -30,15 +30,17 @@
 	<?php echo View::factory('helper/snippet_select', array(
 		'header' => __('Widget template'),
 		'template' => $widget->template,
-		'default' => $widget->default_template() ? UI::button('<span class="visible-md-inline visible-lg-inline">' . __('Default template') . '</span>', array(
-			'href' => Route::get('backend')->uri(array(
-				'controller' => 'widgets', 
-				'action' => 'template',
-				'id' => $widget->id
-			)), 'icon' => UI::icon('desktop'),
-			'id' => 'defaultTemplateButton',
-			'class' => 'popup fancybox.iframe btn-default btn-sm'
-		)) : NULL
+		'default' => $widget->default_template() 
+			? UI::button(UI::hidden(__('Default template'), array('sm', 'xs')), array(
+				'href' => Route::get('backend')->uri(array(
+					'controller' => 'widgets', 
+					'action' => 'template',
+					'id' => $widget->id
+				)), 'icon' => UI::icon('desktop'),
+				'id' => 'defaultTemplateButton',
+				'class' => 'popup fancybox.iframe btn-default'
+			)) 
+			: NULL
 	)); ?>
 	<?php endif; ?>
 
@@ -132,14 +134,13 @@
 
 	<?php echo $content; ?>
 	<?php if($widget->is_handler()): ?>
-	<div class="alert alert-info alert-dark no-margin-b">
-		<?php echo __('To use handler send your data to URL :href or use route :route', array(
-			':href' => '<code>' . URL::site($widget->link(), TRUE) . '</code>',
-			':route' => '<code>Route::get(\'handler\')->uri(array(\'id\' => ' .$widget->id. '));</code>'
+	<div class="alert alert-danger note-dark no-margin-b">
+		<?php echo __('To use handler send your data to URL :href', array(
+			':href' => HTML::anchor($widget->link(), URL::site($widget->link(), TRUE))
 		)); ?>
 	</div>
 	<?php endif; ?>
-	<?php if (ACL::check('widgets.location')): ?>
+	<?php if( ACL::check('widgets.location') ): ?>
 	<hr class="no-margin-vr" />
 	<div class="panel-body">
 		<?php echo HTML::anchor(Route::get('backend')->uri(array(

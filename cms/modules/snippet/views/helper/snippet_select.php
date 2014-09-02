@@ -49,48 +49,55 @@ if (empty($select_name)) $select_name = 'template';
 $hidden = empty($template) ? 'hidden' : '';
 ?>
 
-<?php if ( ! empty($header)): ?>
+<?php if (!empty($header)): ?>
 <div class="panel-heading" >
 	<span class="panel-title" data-icon="desktop"><?php echo $header; ?></h4>
 </div>
 <?php endif; ?>
 <div class="panel-body">
-	<div class="form-group">
-		<label class="control-label col-md-3"><?php echo __('Snippet'); ?></label>
-		<div class="col-md-6">
-			<?php echo Form::select('template', $templates, $template, array(
-				'id' => 'snippet-select'
-			)); ?>
+	<div class="form-group form-inline">
+		<label class="control-label col-sm-2" data-icon="file-code-o"><?php echo __('Snippet'); ?></label>
+		<div class="col-md-9">
+			<div class="input-group">
+				<?php echo Form::select('template', $templates, $template, array(
+					'id' => 'snippet-select', 'class' => 'form-control', 'style' => 'width: 250px'
+				)); ?>
+				
+				<div class="btn-group">
+					<?php if(ACL::check('snippet.edit')): ?>
+					<?php  echo UI::button(UI::hidden(__('Edit snippet'), array('md', 'sm', 'xs')), array(
+						'href' => Route::get('backend')->uri(array(
+							'controller' => 'snippet', 
+							'action' => 'edit',
+							'id' => $template
+						)), 'icon' => UI::icon('edit'),
+						'class' => 'popup fancybox.iframe btn-primary'.$hidden, 
+						'id' => 'EditTemplateButton'
+					)); ?>
+					<?php endif; ?>
+
+					<?php if(ACL::check('snippet.add')): ?>
+					<?php echo UI::button(UI::hidden(__('Add snippet'), array('md', 'sm', 'xs')), array(
+						'href' => Route::get('backend')->uri(array(
+							'controller' => 'snippet', 
+							'action' => 'add'
+						)),
+						'icon' => UI::icon('plus'),
+						'class' => 'popup fancybox.iframe btn-success',
+						'id' => 'AddTemplateButton'
+					)); ?>
+					<?php endif; ?>
+
+					<?php echo $default; ?>
+				</div>
+			</div>
+			
 		</div>
 	</div>
 	
 	<div class="form-group">
 		<div class="col-md-offset-3 col-md-9">
-			<?php if(ACL::check('snippet.edit')): ?>
-			<?php  echo UI::button('<span class="visible-md-inline visible-lg-inline">' . __('Edit snippet') . '</span>', array(
-				'href' => Route::get('backend')->uri(array(
-					'controller' => 'snippet', 
-					'action' => 'edit',
-					'id' => $template
-				)), 'icon' => UI::icon('edit'),
-				'class' => 'popup fancybox.iframe btn-primary btn-sm'.$hidden, 
-				'id' => 'EditTemplateButton'
-			)); ?>
-			<?php endif; ?>
-
-			<?php if(ACL::check('snippet.add')): ?>
-			<?php echo UI::button('<span class="visible-md-inline visible-lg-inline">' . __('Add snippet') . '</span>', array(
-				'href' => Route::get('backend')->uri(array(
-					'controller' => 'snippet', 
-					'action' => 'add'
-				)),
-				'icon' => UI::icon('plus'),
-				'class' => 'popup fancybox.iframe btn-success btn-sm',
-				'id' => 'AddTemplateButton'
-			)); ?>
-			<?php endif; ?>
-
-			<?php echo $default; ?>
+			
 		</div>
 	</div>
 </div>
