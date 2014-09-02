@@ -23,6 +23,25 @@
     }
 }
 
+.navbar-brand {
+	background-image: ~"url('@{images-path}/logo-color.png')";
+	background-repeat: no-repeat;
+	background-position: left center;
+	width: 119px;
+	text-indent: -9999px;
+	margin-left: 10px;
+	margin-right: 10px;
+	
+	.theme-asphalt &,
+	.theme-purple-hills &,
+	.theme-adminflare &,
+	.theme-silver &,
+	.theme-fresh &,
+	.theme-clean & {
+		background-image: ~"url('@{images-path}/logo.png')";
+	}
+}
+
 /* ===================================================
 	Table
  ===================================================*/
