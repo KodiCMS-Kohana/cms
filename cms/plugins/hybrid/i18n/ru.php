@@ -140,6 +140,8 @@ return array(
 	'Only current user' => 'Только текущий пользователь',
 	'Set current user on create document' => 'При создании документа устанавливать текущего пользователя',
 	
+	'Fields in headline' => 'Отображаемые поля',
+	
 	'User profile section' => 'Раздел профиля пользователя',
 	'To bind profile section you need to create a field `:field`' => 
 		'Для привязки раздела, в нем необходимо создать поле `:field`',

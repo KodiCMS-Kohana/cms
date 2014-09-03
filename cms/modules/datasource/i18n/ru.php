@@ -32,5 +32,6 @@ return array(
 	'Document ID :id not found' => 'Документ c ID :id не найден',
 	'Check all' => 'Выбрать все',
 	'Uncheck all' => 'Отменить выбор',
-	'Create document' => 'Создать документ'
+	'Create document' => 'Создать документ',
+	'Section is empty' => 'Раздел пустой'
 );

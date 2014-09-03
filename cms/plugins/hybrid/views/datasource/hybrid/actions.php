@@ -1,7 +1,8 @@
+<?php if(!empty($fields)): ?>
 <div class="btn-group fields-control pull-right">		
 	<div class="btn-group">
 		<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-			<?php echo __('Show fields'); ?> <i class="fa fa-caret-down"></i>
+			<?php echo __('Fields in headline'); ?> <i class="fa fa-caret-down"></i>
 		</button>
 		<ul class="dropdown-menu padding-sm" role="menu">
 			<?php foreach ($fields as $field): ?>
@@ -32,3 +33,4 @@ $(function() {
 	});
 });
 </script>
+<?php endif; ?>
