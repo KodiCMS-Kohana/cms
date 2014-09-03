@@ -211,7 +211,6 @@ class DataSource_Hybrid_Agent {
 				->on('d.id', '=', 'ds.id');
 		
 		$ds_fields = $this->get_fields();
-		$sys_fields = $this->get_system_fields();
 		
 		$t = array($this->ds_id => TRUE);
 		

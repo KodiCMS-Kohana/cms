@@ -214,6 +214,7 @@ class Model_Widget_Hybrid_Headline extends Model_Widget_Decorator_Pagination {
 			$doc['id'] = $row['id'];
 			$doc['header'] = $row['header'];
 			$doc['created_on'] = $row['created_on'];
+			$doc['published'] = (bool) $row['published'];
 			
 			foreach ($fields as $fid => $field)
 			{
