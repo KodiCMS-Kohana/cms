@@ -49,8 +49,9 @@ class KodiCMS_Controller_System_Backend extends Controller_System_Template
 		{
 			$this->template->breadcrumbs = Config::get('site', 'breadcrumbs') == Config::YES ? $this->breadcrumbs : NULL;
 			$this->template->footer = View::factory('system/blocks/footer');
-			$this->template->theme = 'theme-' . Model_User_Meta::get('admin_theme', Config::get('global', 'default_theme'));
 		}
+		
+		$this->template->theme = 'theme-' . Model_User_Meta::get('admin_theme', Config::get('global', 'default_theme'));
 
 		$this->template->bind_global('navigation', $navigation);
 
