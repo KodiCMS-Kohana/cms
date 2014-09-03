@@ -14,9 +14,9 @@
 	</div>
 	
 	<div class="btn-group doc-actions">
-		<button type="button" data-action="publish" class="btn btn-default action disabled"><i class="fa fa-eye"></i></button>
-		<button type="button" data-action="unpublish" class="btn btn-default action disabled"><i class="fa fa-eye-slash"></i></button>
-		<button type="button" data-action="remove" class="btn btn-default action disabled"><i class="fa fa-trash-o"></i></button>
+		<button type="button" data-action="publish" class="btn btn-default action disabled" data-icon="eye" title="<?php echo __('Publish'); ?>"></button>
+		<button type="button" data-action="unpublish" class="btn btn-default action disabled" data-icon="eye-slash" title="<?php echo __('Unpublish'); ?>"></button>
+		<button type="button" data-action="remove" class="btn btn-warning action disabled" data-icon="trash-o" title="<?php echo __('Remove'); ?>"></button>
 	</div>
 	<?php endif; ?>
 

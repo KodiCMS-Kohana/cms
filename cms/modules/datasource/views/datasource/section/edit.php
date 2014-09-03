@@ -30,9 +30,6 @@
 	</div>
 	
 	<div class="form-actions panel-footer">
-		<?php echo UI::actions(NULL, Route::get('datasources')->uri(array(
-			'controller' => 'data',
-			'directory' => 'datasources'
-		))); ?>
+		<?php echo UI::actions(NULL, Datasource_Section::uri()); ?>
 	</div>
 <?php echo Form::close(); ?>

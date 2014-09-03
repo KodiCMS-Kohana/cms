@@ -9,14 +9,10 @@ var DS_TYPE = '<?php echo $datasource->type(); ?>';
 		<?php if($datasource->has_access('section.edit'))
 		{
 			$attributes =  array(
-				'href' => Route::get('datasources')->uri(array(
-					'controller' => 'section',
-					'directory' => 'datasources',
-					'action' => 'edit',
-					'id' => $datasource->id()
-				)),
+				'href' => Datasource_Section::uri('edit', $datasource->id()),
 				'icon' => UI::icon( 'wrench' ),
-				'class' => 'btn btn-default'
+				'class' => 'btn btn-default',
+				'title' => __('Edit')
 			);
 			
 			if($selected == 'active')
@@ -30,14 +26,10 @@ var DS_TYPE = '<?php echo $datasource->type(); ?>';
 		if($datasource->has_access('section.remove'))
 		{
 			$attributes =  array(
-				'href' => Route::get('datasources')->uri(array(
-					'controller' => 'section',
-					'directory' => 'datasources',
-					'action' => 'remove',
-					'id' => $datasource->id()
-				)),
+				'href' => Datasource_Section::uri('remove', $datasource->id()),
 				'icon' => UI::icon( 'trash-o fa-inverse' ),
-				'class' => 'btn btn-danger btn-confirm'
+				'class' => 'btn btn-danger btn-confirm',
+				'title' => __('Remove')
 			);
 			echo UI::button(NULL, $attributes);
 		}

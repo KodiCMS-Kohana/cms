@@ -46,6 +46,34 @@ class Datasource_Section {
 	
 	/**
 	 * 
+	 * @param string $action
+	 * @param integer|string $ds_id
+	 * @return string
+	 */
+	public static function uri($action = 'view', $ds_id = NULL)
+	{
+		if($action == 'view')
+		{
+			$uri = Route::get('datasources')->uri(array(
+				'controller' => 'data',
+				'directory' => 'datasources',
+			));
+			
+			return $ds_id !== NULL 
+				? $uri. URL::query(array('ds_id' => (int) $ds_id))
+				: $uri;
+		}
+
+		return Route::get('datasources')->uri(array(
+			'controller' => 'section',
+			'directory' => 'datasources',
+			'action' => $action,
+			'id' => $ds_id
+		));
+	}
+
+	/**
+	 * 
 	 * @return string
 	 */
 	public static function icon()

@@ -30,5 +30,7 @@ return array(
 	'Datasource section not loaded' => 'Раздел не загружен',
 	'Document saved' => 'Документ сохранен',
 	'Document ID :id not found' => 'Документ c ID :id не найден',
-	
+	'Check all' => 'Выбрать все',
+	'Uncheck all' => 'Отменить выбор',
+	'Create document' => 'Создать документ'
 );

@@ -10,12 +10,9 @@
 			<?php foreach (Datasource_Data_Manager::types() as $type => $title): ?>
 				<?php if(ACL::check($type.'.section.create')): ?>
 				<li>
-					<?php echo HTML::anchor(Route::get('datasources')->uri(array(
-						'controller' => 'section',
-						'directory' => 'datasources',
-						'action' => 'create',
-						'id' => $type
-					)), $title, array('data-icon' => Datasource_Data_Manager::get_icon($datasource->type()))); ?>
+					<?php echo HTML::anchor(Datasource_Section::uri('create', $type), $title, array(
+						'data-icon' => Datasource_Data_Manager::get_icon($datasource->type())
+					)); ?>
 				</li>
 				<?php endif; ?>
 			<?php endforeach; ?>
@@ -51,10 +48,7 @@
 
 		$title = $name['name'];
 		$result .= '<li class="' . $selected . '">';
-		$result .= HTML::anchor(Route::get('datasources')->uri(array(
-			'controller' => 'data',
-			'directory' => 'datasources',
-		)) . URL::query(array('ds_id' => $id), FALSE), $title);
+		$result .= HTML::anchor(Datasource_Section::uri('view', $id), $title);
 
 		$result .= '</li>';
 
