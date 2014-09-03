@@ -99,26 +99,43 @@ class Datasource_Section {
 			return self::$_cached_sections[$id];
 		}
 		
-		$query = DB::select('docs', 'indexed', 'code')
+		$query = DB::select()
 			->from('datasources')
 			->where('id', '=', (int) $id)
 			->execute()
 			->current();
-	
-		if (empty($query))
+		
+		if(($section = self::load_from_array($query)) === NULL)
 		{
 			return NULL;
 		}
 
-		$result = unserialize($query['code']);
-
-		$result->_id = $id;
-		$result->_docs = (int) $query['docs'];
-		$result->_is_indexable = (bool) $query['indexed'];
+		self::$_cached_sections[$id] = $section;
+		return $section;
+	}
+	
+	/**
+	 * Загрузка разедла из массива данных
+	 * 
+	 * @param array $data
+	 * @return null|Datasource_Section
+	 */
+	public static function load_from_array(array $data)
+	{
+		if (empty($data))
+		{
+			return NULL;
+		}
 		
-		self::$_cached_sections[$id] = $result;
-
-		return $result;
+		$section = unserialize($data['code']);
+		
+		$section->_id = $data['id'];
+		$section->name = $data['name'];
+		$section->description = Arr::get($data, 'description');
+		$section->_docs = (int) Arr::get($data, 'docs');
+		$section->_is_indexable = (bool) Arr::get($data, 'indexed');
+		
+		return $section;
 	}
 
 	/**
@@ -625,7 +642,18 @@ class Datasource_Section {
 	protected function _serialize()
 	{
 		$vars = get_object_vars($this);
-		unset($vars['_docs'], $vars['_is_indexable']);
+		unset(
+			$vars['_id'],
+			$vars['_docs'],
+			$vars['_is_indexable'],
+			$vars['_type'], 
+			$vars['name'],
+			$vars['description'],
+			$vars['_headline'], 
+			$vars['_document_class_name'],
+			$vars['_ds_table'], 
+			$vars['_widget_types']
+		);
 		
 		return $vars;
 	}

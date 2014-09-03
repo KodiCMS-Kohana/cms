@@ -36,7 +36,7 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 	protected $_widget_types = array('hybrid_headline', 'hybrid_document');
 	
 	/**
-	 * Индексируемы поля раздела
+	 * Индексируемые поля раздела
 	 * 
 	 * @var array 
 	 */
