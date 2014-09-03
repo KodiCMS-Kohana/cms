@@ -10,7 +10,7 @@ class DataSource_Hybrid_Field_Yandex_Map extends DataSource_Hybrid_Field_Primiti
 
 	public function convert_value( $value )
 	{
-		Assets::js('Yandex.map', 'http://api-maps.yandex.ru/2.0/?load=package.full&lang=' . I18n::lang());
+		
 		if( is_string($value) )
 		{
 			return explode(',', $value);
@@ -75,5 +75,12 @@ class DataSource_Hybrid_Field_Yandex_Map extends DataSource_Hybrid_Field_Primiti
 		}
 
 		return $coord;
+	}
+	
+	public function onControllerLoad()
+	{
+		Assets::js('Yandex.map', 'http://api-maps.yandex.ru/2.0/?load=package.full&lang=' . I18n::lang());
+		
+		parent::onControllerLoad();
 	}
 }

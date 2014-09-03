@@ -400,4 +400,15 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 		
 		return TRUE;
 	}
+	
+	/**
+	 * Событие вызываемое в момент загрузки контроллера
+	 */
+	public function onControllerLoad() 
+	{
+		foreach ($this->section()->record()->fields() as $field)
+		{
+			$field->onControllerLoad();
+		}
+	}
 }

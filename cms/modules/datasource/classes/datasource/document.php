@@ -609,4 +609,9 @@ class Datasource_Document {
 		
 		return TRUE;
 	}
+
+	/**
+	 * Событие вызываемое в момент загрузки контроллера
+	 */
+	public function onControllerLoad() {}
 }

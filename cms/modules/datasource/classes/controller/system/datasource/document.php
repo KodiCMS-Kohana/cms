@@ -48,6 +48,8 @@ class Controller_System_Datasource_Document extends Controller_System_Datasource
 		
 		$this->_load_session_data($doc);
 		
+		$doc->onControllerLoad();
+		
 		$this->breadcrumbs
 			->add($this->section()->name, Route::get('datasources')->uri(array(
 				'directory' => 'datasources',

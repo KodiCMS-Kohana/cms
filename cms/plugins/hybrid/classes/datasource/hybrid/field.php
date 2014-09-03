@@ -819,6 +819,10 @@ abstract class DataSource_Hybrid_Field {
 	public function onRemoveDocument( DataSource_Hybrid_Document $doc) {}
 	
 	/**
+	 * Событие вызываемое в момент загрузки контроллера в админ панели
+	 */
+	public function onControllerLoad() {}
+	/**
 	 * Тип поля в БД
 	 * return string
 	 */
