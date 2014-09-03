@@ -12,6 +12,12 @@ class KodiCMS_Controller_Login extends Controller_System_Frontend {
 	public function before()
 	{
 		parent::before();
+
+		if (file_exists(CMSPATH . FileSystem::normalize_path('media/js/i18n/' . I18n::lang() . '-message.js')))
+		{
+			Assets::js('i18n', ADMIN_RESOURCES . 'js/i18n/' . I18n::lang() . '-message.js', 'global');
+		}
+
 		if ($this->request->action() != 'logout'
 			AND Auth::is_logged_in())
 		{

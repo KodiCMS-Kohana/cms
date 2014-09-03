@@ -1,4 +1,6 @@
 cms.addTranslation({
+	'Error': 'Ошибка',
+	'Success': 'Выполнено',
 	'Are you sure?': 'Вы уверены?',
 	'Loading': 'Загрузка',
 	'Creating page part': 'Добавить часть страницы',

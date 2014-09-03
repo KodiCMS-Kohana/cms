@@ -70,7 +70,7 @@ var cms = {
 			if(!type) var type = '';
 
 			if(title)
-				$('<div class="notification-title '+type+'" />').text(title.toUpperCase()).prependTo($notification);
+				$('<div class="notification-title '+type+'" />').text(__(title).toUpperCase()).prependTo($notification);
 
 			if(text)
 				$('<div class="notification-description" />').html(text).appendTo($notification);

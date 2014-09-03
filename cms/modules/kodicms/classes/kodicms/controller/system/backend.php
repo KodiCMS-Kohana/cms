@@ -63,6 +63,11 @@ class KodiCMS_Controller_System_Backend extends Controller_System_Template
 			Assets::js('i18n', ADMIN_RESOURCES . 'js/i18n/' . I18n::lang() . '.js', 'global');
 		}
 
+		if (file_exists(CMSPATH . FileSystem::normalize_path('media/js/i18n/' . I18n::lang() . '-message.js')))
+		{
+			Assets::js('i18n', ADMIN_RESOURCES . 'js/i18n/' . I18n::lang() . '-message.js', 'global');
+		}
+
 		$file = strtolower($this->request->controller());
 		if (Kohana::find_file('media', FileSystem::normalize_path('js/controller/' . $file), 'js'))
 		{
