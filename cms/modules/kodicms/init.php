@@ -41,6 +41,10 @@ Assets_Package::add('prism')
 	->css(NULL, ADMIN_RESOURCES . 'libs/prismjs/prism.css', 'jquery')
 	->js(NULL, ADMIN_RESOURCES . 'libs/prismjs/prism.js', 'jquery');
 
+Assets_Package::add('colorpicker')
+	->css(NULL, ADMIN_RESOURCES . 'libs/colorpicker/css/colorpicker.css', 'jquery')
+	->js(NULL, ADMIN_RESOURCES . 'libs/colorpicker/js/colorpicker.js', 'jquery');
+
 Assets_Package::add('editable')
 	->js(NULL, ADMIN_RESOURCES . 'libs/bootstrap-editable-1.5.1/js/bootstrap-editable.min.js', 'bootstrap');
 

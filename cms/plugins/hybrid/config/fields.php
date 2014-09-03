@@ -21,6 +21,9 @@ return array(
 		'primitive_date' => 'Date',
 		'primitive_time' => 'Time',
 		'primitive_datetime' => 'Datetime',
+		
+		// Color
+		'primitive_color' => 'Color',
 	),
 	'Source' => array(
 		'source_document' => 'Document',
