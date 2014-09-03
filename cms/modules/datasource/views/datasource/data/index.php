@@ -8,30 +8,23 @@ var DS_TYPE = '<?php echo $datasource->type(); ?>';
 	<div class="btn-group pull-right">
 		<?php if($datasource->has_access('section.edit'))
 		{
-			$attributes =  array(
+			echo UI::button(NULL, array(
 				'href' => Datasource_Section::uri('edit', $datasource->id()),
 				'icon' => UI::icon( 'wrench' ),
 				'class' => 'btn btn-default',
-				'title' => __('Edit')
-			);
-			
-			if($selected == 'active')
-			{
-				$attributes['hotkeys'] = 'ctrl+e';
-			}
-			
-			echo UI::button(NULL, $attributes);
+				'title' => __('Edit'),
+				'hotkeys' => 'ctrl+e'
+			));
 		}
 		
 		if($datasource->has_access('section.remove'))
 		{
-			$attributes =  array(
+			echo UI::button(NULL, array(
 				'href' => Datasource_Section::uri('remove', $datasource->id()),
 				'icon' => UI::icon( 'trash-o fa-inverse' ),
 				'class' => 'btn btn-danger btn-confirm',
 				'title' => __('Remove')
-			);
-			echo UI::button(NULL, $attributes);
+			));
 		}
 		?>
 	</div>
