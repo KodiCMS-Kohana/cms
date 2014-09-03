@@ -1,8 +1,8 @@
 <div class="form-group" id="file-<?php echo $field->name; ?>">
-	<label class="control-label col-md-3" for="<?php echo $field->name; ?>">
+	<label class="<?php echo Arr::get($form, 'label_class'); ?>" for="<?php echo $field->name; ?>">
 		<?php echo $field->header; ?> 
 	</label>
-	<div class="col-md-9">
+	<div class="<?php echo Arr::get($form, 'input_container_class'); ?>">
 		<div class="panel">
 			<?php if( !empty($value)): ?>
 			<div class="panel-heading panel-toggler" data-icon="chevron-down">

@@ -1,14 +1,14 @@
 <div class="form-group form-inline">
-	<label class="control-label col-md-3"><?php echo $field->header; ?></label>
-	<div class="col-md-9">
+	<label class="<?php echo Arr::get($form, 'label_class'); ?>"><?php echo $field->header; ?></label>
+	<div class="<?php echo Arr::get($form, 'input_container_class'); ?>">
 		<div class="input-group">
-			<?php echo Form::input( $field->name . '[]', Arr::get($value, 0), array(
+			<?php echo Form::input($field->name . '[]', Arr::get($value, 0), array(
 				'class' => 'form-control', 'id' => $field->name . 'X'
-			) ); ?>
+			)); ?>
 			<span class="input-group-addon">-</span>
-			<?php echo Form::input( $field->name . '[]', Arr::get($value, 1), array(
+			<?php echo Form::input($field->name . '[]', Arr::get($value, 1), array(
 				'class' => 'form-control', 'id' => $field->name . 'Y'
-			) ); ?>
+			)); ?>
 			
 			<div class="input-group-btn">
 				<button class="btn btn-default clear-coords-<?php echo $field->name; ?>" type="button"><?php echo __('Clear coordinates'); ?></button>
@@ -57,8 +57,7 @@ $(function() {
 			.add('typeSelector')
 			.add(searchControl, { left: 5, top: 5 });
 
-		if(set_value )
-			createPlacemark(default_coords);
+		if(set_value) createPlacemark(default_coords);
 
 		// Слушаем клик на карте
 		myMap.events.add('click', function (e) {
@@ -112,5 +111,5 @@ $(function() {
 			});
 		}
 	}
-})
+});
 </script>

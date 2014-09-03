@@ -1,7 +1,8 @@
 <div class="form-group" id="file-<?php echo $field->name; ?>">
 	<div class="col-md-12">
-		<label for="<?php echo $field->name; ?>"><?php echo $field->header; ?></label>
-		
+		<label for="<?php echo $field->name; ?>">
+			<?php echo $field->header; ?> <?php if($field->isreq): ?>*<?php endif; ?>
+		</label>
 		<div class="panel">
 			<?php if( !empty($value)): ?>
 			<div class="panel-heading panel-toggler" data-icon="chevron-down">

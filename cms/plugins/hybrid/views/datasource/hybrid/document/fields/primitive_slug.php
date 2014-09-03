@@ -8,13 +8,15 @@ $(function() {
 </script>
 
 <div class="form-group">
-	<label class="control-label col-md-3" for="<?php echo $field->name; ?>"><?php echo $field->header; ?> <?php if($field->isreq): ?>*<?php endif; ?></label>
-	<div class="col-md-9">
+	<label class="<?php echo Arr::get($form, 'label_class'); ?>" for="<?php echo $field->name; ?>">
+		<?php echo $field->header; ?> <?php if($field->isreq): ?>*<?php endif; ?>
+	</label>
+	<div class="<?php echo Arr::get($form, 'input_container_class'); ?>">
 		<div class="input-group">
-			<?php echo Form::input( $field->name, $value, array(
+			<?php echo Form::input($field->name, $value, array(
 				'class' => 'form-control slug ' . (!empty($field->from_header) ? 'from-header' : ''), 'id' => $field->name,
 				'maxlength' => 255, 'data-separator' => $field->separator
-			) ); ?>
+			)); ?>
 			<div class="input-group-btn">
 				<?php echo Form::button('copy_from_header', UI::icon('magnet'), array('class' => 'btn btn-default')); ?>
 			</div>
