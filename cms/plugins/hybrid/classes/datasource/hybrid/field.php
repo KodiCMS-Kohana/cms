@@ -456,6 +456,11 @@ abstract class DataSource_Hybrid_Field {
 	 */
 	public function set_position( $position ) 
 	{
+		if (!Valid::numeric($position))
+		{
+			$position = DataSource_Hybrid_Field_Factory::get_last_position($this->ds_id) + 10;
+		}
+	
 		$this->position = (int) $position;
 		
 		if($this->position < 0)
@@ -491,7 +496,7 @@ abstract class DataSource_Hybrid_Field {
 	public function create() 
 	{
 		$this->validate();
-		
+
 		$data = array(
 			'ds_id' => (int) $this->ds_id, 
 			'name' => $this->name, 

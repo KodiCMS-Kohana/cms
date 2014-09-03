@@ -1,3 +1,4 @@
+<?php echo Assets_Package::load('editable'); ?>
 <script type="text/javascript">
 $(function() {
 	var $fields = $('#section-fields input'),
@@ -28,9 +29,9 @@ $(function() {
 		return false;
 	});
 	
-	$('input[name^="in_headline"]').on('change', function() {
+	$(document).on('change', 'input[name^="in_headline"]', function() {
 		var id = parseInt($(this).prop('name').match(/.*\[(\d+)\]/)[1]);
-		if( ! id) return;
+		if(!id) return;
 		
 		if($(this).checked()) {
 			Api.post('/datasource/hybrid-field.headline', {id: id}, function(response) {});
@@ -39,7 +40,7 @@ $(function() {
 		}
 	});
 	
-	$('input[name^="index_type"]').on('change', function() {
+	$(document).on('change', 'input[name^="index_type"]', function() {
 		var id = parseInt($(this).prop('name').match(/.*\[(\d+)\]/)[1]);
 		if( ! id) return;
 		
@@ -49,7 +50,44 @@ $(function() {
 			Api.delete('/datasource/hybrid-field.index_type', {id: id}, function(response) {});
 		}
 	});
+
+	$('.editable-position').editable({
+		title: __('Field position'),
+		send: 'always',
+		highlight: false,
+		tpl: '<input type="text" size="5">',
+		ajaxOptions: {
+			dataType: 'json'
+		},
+		params: function(params) {
+			params.id = $(this).closest('tr').data('id');
+			return params;
+		},
+		url: Api.build_url('datasource/hybrid-field.position'),
+		success: function(response, newValue) {
+			if(response.response) {
+				$(this).text(response.response);
+				sort_field_rows();
+			}
+		}
+	});
 });
+
+	
+function sort_field_rows() {
+	var $table = $('#section-fields'),
+		$rows = $('tbody > tr[data-id]', $table);
+
+	$rows.sort(function(a, b) {
+		var keyA = $('td.position', a).text();
+		var keyB = $('td.position', b).text();
+		return (parseInt(keyA) > parseInt(keyB)) ? 1 : 0;
+	});
+
+	$rows.each(function(index, row){
+		$table.append(row);                  // append rows after sort
+	});
+}
 </script>
 
 <div class="panel-heading" data-icon="th-list">
@@ -113,7 +151,7 @@ $(function() {
 		</tr>
 
 		<?php foreach($record->fields() as $field): ?>
-		<tr id="field-<?php echo $field->id; ?>">
+		<tr id="field-<?php echo $field->id; ?>" data-id="<?php echo $field->id; ?>">
 			<?php if(Acl::check($ds->type().$ds->id().'.field.remove')): ?>
 			<td class="f">
 				<?php 
@@ -121,7 +159,7 @@ $(function() {
 				echo Form::checkbox('field[]', $field->id, FALSE, $attrs); ?>
 			</td>
 			<?php endif; ?>
-			<td class="position"><?php echo $field->position; ?></td>
+			<td class="position"><span class="editable-position"><?php echo $field->position; ?></span></td>
 			<td class="sys">
 				<label for="<?php echo $field->name; ?>">
 					<?php echo substr($field->name, 2); ?>

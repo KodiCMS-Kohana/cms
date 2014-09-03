@@ -23,6 +23,18 @@ class Controller_Api_Datasource_Hybrid_Field extends Controller_System_API
 		$this->message('Field ":field" added to headline', array(':field' => $field->header));
 	}
 	
+	public function post_position()
+	{
+		$field = $this->_get_field();
+		$position = (int) $this->param('value', 0, TRUE);
+
+		$old_field = clone($field);
+		$field->position = $position;
+
+		DataSource_Hybrid_Field_Factory::update_field($old_field, $field);
+		$this->response($field->position);
+	}
+	
 	public function delete_headline()
 	{
 		$field = $this->_get_field();

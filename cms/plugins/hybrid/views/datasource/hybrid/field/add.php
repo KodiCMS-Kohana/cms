@@ -98,12 +98,12 @@
 		</div>
 	</div>
 	<div class="panel-footer form-actions">
-		<?php echo UI::button( __('Create field'), array(
-			'icon' => UI::icon( 'plus'), 'class' => 'btn-lg btn-primary'
+		<?php echo UI::button(__('Create field'), array(
+			'icon' => UI::icon('plus'), 'class' => 'btn-lg btn-primary'
 		)); ?>
 		
-		<?php echo UI::button( __('Save and create another'), array(
-			'icon' => UI::icon( 'plus'), 'class' => 'btn-sm btn-default',
+		<?php echo UI::button(__('Save and create another'), array(
+			'icon' => UI::icon('plus'), 'class' => 'btn-sm btn-default',
 			'name' => 'save_and_create'
 		)); ?>
 	</div>

@@ -12,6 +12,15 @@ class DataSource_Hybrid_Field_Factory {
 	const INDEX_INDEX = 'INDEX';
 	const INDEX_FULLTEXT = 'FULLTEXT';
 	
+	public static function get_last_position($ds_id)
+	{
+		return DB::select(array(DB::expr('MAX(position)'), 'position'))
+			->from('dshfields')
+			->where('ds_id', '=', (int) $ds_id)
+			->execute()
+			->get('position', 0);
+	}
+	
 
 	/**
 	 * Создание нового поля в таблице полей

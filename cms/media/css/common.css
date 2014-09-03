@@ -17241,6 +17241,10 @@ html body.page-signup {
 .editableform .form-control {
   width: auto;
 }
+.editableform .form-group {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
 .editable-buttons {
   display: inline-block;
   vertical-align: top;
