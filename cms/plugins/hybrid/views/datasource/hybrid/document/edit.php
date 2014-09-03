@@ -22,7 +22,7 @@ $(function() {
 
 		if( ! target) return;
 
-		var cont = $('#' + target).empty();
+		var cont = $('#' + target).show();
 		for (var i = 0; i < this.files.length; i++) {
 			var file = this.files.item(i);
 
@@ -40,13 +40,13 @@ $(function() {
 				var ratio = img.width / img.height;
 
 				var canvas = document.createElement("canvas");
-					canvas.width = 50 * ratio;
-					canvas.height = 50;
+					canvas.width = 70 * ratio;
+					canvas.height = 70;
 
 				var ctx = canvas.getContext("2d");
 					ctx.drawImage(img, 0, 0, canvas.width, canvas.height );
 
-				cont.append($('<img class="img-polaroid" src="'+canvas.toDataURL("image/jpeg", 1)+'" />'));
+				cont.append($('<div class="thumbnail pull-left margin-xs-hr"><img src="'+canvas.toDataURL("image/jpeg", 1)+'" /></div>'));
 			};
 
 			FR.readAsDataURL( file );

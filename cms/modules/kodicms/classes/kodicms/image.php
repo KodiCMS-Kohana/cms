@@ -81,6 +81,7 @@ abstract class KodiCMS_Image extends Kohana_Image {
 	 * @param integer $width
 	 * @param integer $height
 	 * @param integer $master Мастер изменеия размера
+	 * @param bool $crop Обрезать?
 	 * 
 	 * return NULL | string Путь до кеша изображения
 	 */
