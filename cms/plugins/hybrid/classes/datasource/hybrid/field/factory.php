@@ -316,9 +316,10 @@ class DataSource_Hybrid_Field_Factory {
 	 */
 	public static function alter_table_add_field($field) 
 	{
+		$db = Database::instance();
 		$params = array(
-			':table' => DB::expr($field->ds_table),
-			':key' => DB::expr($field->name),
+			':table' => DB::expr($db->quote_table($field->ds_table)),
+			':key' => DB::expr($db->quote_column($field->name)),
 			':type' => DB::expr($field->get_type()),
 			':default' => DB::expr('')
 		);
@@ -329,7 +330,7 @@ class DataSource_Hybrid_Field_Factory {
 		}
 		
 		return (bool) DB::query(NULL, 
-				'ALTER TABLE `:table` ADD `:key` :type :default'
+				'ALTER TABLE :table ADD :key :type :default'
 			)
 			->parameters($params)
 			->execute();
@@ -343,13 +344,14 @@ class DataSource_Hybrid_Field_Factory {
 	 */
 	public static function alter_table_drop_field($field)
 	{
+		$db = Database::instance();
 		$params = array(
-			':table' => DB::expr($field->ds_table),
-			':key' => DB::expr($field->name)
+			':table' => DB::expr($db->quote_table($field->ds_table)),
+			':key' => DB::expr($db->quote_column($field->name)),
 		);
 
 		return (bool) DB::query(NULL, 
-				'ALTER TABLE `:table` DROP `:key`'
+				'ALTER TABLE :table DROP :key'
 			)
 			->parameters($params)
 			->execute();
@@ -363,10 +365,11 @@ class DataSource_Hybrid_Field_Factory {
 	 */
 	public static function alter_table_update_field($old, $field)
 	{
+		$db = Database::instance();
 		$params = array(
-			':table' => DB::expr($field->ds_table),
-			':old_key' => DB::expr($old->name),
-			':new_key' => DB::expr($field->name),
+			':table' => DB::expr($db->quote_table($field->ds_table)),
+			':old_key' => DB::expr($db->quote_column($old->name)),
+			':new_key' => DB::expr($db->quote_column($field->name)),
 			':type' => DB::expr($field->get_type()),
 			':default' => DB::expr('')
 		);
@@ -377,7 +380,7 @@ class DataSource_Hybrid_Field_Factory {
 		}
 
 		return (bool) DB::query(NULL, 
-				'ALTER TABLE `:table` CHANGE `:old_key` `:new_key` :type :default'
+				'ALTER TABLE :table CHANGE :old_key :new_key :type :default'
 			)
 			->parameters($params)
 			->execute();
@@ -392,14 +395,15 @@ class DataSource_Hybrid_Field_Factory {
 	 */
 	public static function alter_table_field_add_index($field, $type = self::INDEX_INDEX) 
 	{
+		$db = Database::instance();
 		$params = array(
-			':table' => DB::expr($field->ds_table),
-			':key' => DB::expr($field->name),
+			':table' => DB::expr($db->quote_table($field->ds_table)),
+			':key' => DB::expr($db->quote_column($field->name)),
 			':type' => DB::expr($type)
 		);
 		
 		return (bool) DB::query(NULL,
-				'ALTER TABLE `:table` ADD :type(`:key`)'
+				'ALTER TABLE :table ADD :type(:key)'
 			)
 			->parameters($params)
 			->execute();
@@ -414,13 +418,14 @@ class DataSource_Hybrid_Field_Factory {
 	 */
 	public static function alter_table_field_drop_index($field) 
 	{
+		$db = Database::instance();
 		$params = array(
-			':table' => DB::expr($field->ds_table),
-			':key' => DB::expr($field->name)
+			':table' => DB::expr($db->quote_table($field->ds_table)),
+			':key' => DB::expr($db->quote_column($field->name)),
 		);
 		
 		return (bool) DB::query(NULL,
-				'ALTER TABLE `:table` DROP INDEX `:key`'
+				'ALTER TABLE :table DROP INDEX :key'
 			)
 			->parameters($params)
 			->execute();
@@ -428,13 +433,14 @@ class DataSource_Hybrid_Field_Factory {
 	
 	public static function is_index($field)
 	{
+		$db = Database::instance();
 		$params = array(
-			':table' => DB::expr($field->ds_table),
+			':table' => DB::expr($db->quote_table($field->ds_table)),
 			':key' => DB::expr($field->name)
 		);
 		
 		return (bool) DB::query(NULL,
-			'SHOW KEYS FROM `:table` WHERE `Column_name` = ":key"'
+			'SHOW KEYS FROM :table WHERE `Column_name` = ":key"'
 		)
 			->parameters($params)
 			->execute();

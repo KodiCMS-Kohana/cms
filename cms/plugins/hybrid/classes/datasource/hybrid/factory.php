@@ -201,13 +201,15 @@ class DataSource_Hybrid_Factory {
 	 */
 	public static function create_table($id) 
 	{
+		$db = Database::instance();
+
 		DB::query(NULL, '
-			CREATE TABLE IF NOT EXISTS `:name` (
+			CREATE TABLE IF NOT EXISTS :name (
 			 `id` int(11) unsigned NOT NULL default "0",
 			 PRIMARY KEY (`id`)
 			) ENGINE=MyISAM DEFAULT CHARSET=utf8
 		')
-			->param(':name', DB::expr( TABLE_PREFIX . self::PREFIX . $id ))
+			->param(':name', DB::expr($db->quote_table(self::PREFIX . $id)))
 			->execute();
 		
 		return TRUE;
@@ -251,8 +253,10 @@ class DataSource_Hybrid_Factory {
 	 */
 	public static function remove_table($id) 
 	{
-		DB::query(NULL, 'DROP TABLE `:name`')
-			->param(':name', DB::expr( TABLE_PREFIX .  self::PREFIX . $id ))
+		$db = Database::instance();
+		
+		DB::query(NULL, 'DROP TABLE :name')
+			->param(':name', DB::expr($db->quote_table(self::PREFIX . $id)))
 			->execute();
 		
 		return TRUE;
