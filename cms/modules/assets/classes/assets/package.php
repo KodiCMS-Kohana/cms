@@ -121,7 +121,22 @@ class Assets_Package implements Iterator {
 
 	public function __toString()
 	{
-		return (string) $this->_name;
+		$string = '';
+
+		foreach ($this->_data as $item)
+		{
+			switch($item['type'])
+			{
+				case 'css':
+					$string .= HTML::style($item['src'], $item['attrs']);
+					break;
+				case 'js':
+					$string .= HTML::script($item['src']);
+					break;
+			}
+		}
+		
+		return $string;
 	}
 	
 	function rewind()
