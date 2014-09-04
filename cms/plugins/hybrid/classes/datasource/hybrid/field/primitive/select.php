@@ -3,9 +3,11 @@
 class DataSource_Hybrid_Field_Primitive_Select extends DataSource_Hybrid_Field_Primitive {
 	
 	protected $_is_indexable = FALSE;
-
+	
+	protected $_loaded_options = NULL;
+	protected $_options = array();
+	
 	protected $_props = array(
-		'options' => array(),
 		'custom_option' => FALSE,
 		'empty_value' => TRUE,
 	);
@@ -15,36 +17,118 @@ class DataSource_Hybrid_Field_Primitive_Select extends DataSource_Hybrid_Field_P
 		return array('custom_option', 'empty_value');
 	}
 	
-	public function set( array $data )
+	public function set(array $data)
 	{
-		return parent::set( $data );
+		if($this->id !== NULL)
+		{
+			$current_options = $this->load_from_db();
+			if(empty($data['options']) AND !empty($current_options))
+			{
+				$data['options'] = array();
+			}
+		}
+
+		return parent::set($data);
 	}
 	
-	public function set_options( $options )
+	public function set_new_options(array $options)
 	{
-		if( !is_array( $options ) )
+		foreach($options as $option)
 		{
-			$options = preg_split('/\\r\\n|\\r|\\n/', $options);
+			$this->add_option($option);
 		}
 		
-		if( ! empty($options) )
-		{
-			$options = array_unique(array_filter($options));
-			$options = array_map('trim', $options);
-			$options = array_combine($options, $options);
-		}
+		return $this;
+	}
+
+	/**
+	 * 
+	 * @param array $options
+	 * @return \DataSource_Hybrid_Field_Primitive_Select
+	 */
+	public function set_options(array $options)
+	{
+		$current_options = $this->load_from_db();
+		$remove = array_diff(array_keys($current_options), array_keys($options));
+		$this->remove_options($remove);
+
+		return $this;
+	}
+
+	/**
+	 * 
+	 * @param string $value
+	 * @return integer
+	 */
+	public function add_option($value)
+	{
+		$value = trim($value);
 		
-		$this->options = (array) $options;
+		if(empty($value))
+		{
+			return NULL;
+		}
+
+		$data = array(
+			'field_id' => $this->id,
+			'value' => $value,
+			'position' => DB::expr('IFNULL(:position, 0) + 10', array(
+				':position' => DB::select(array(DB::expr('MAX(position)'), 'position'))
+					->from(array('dshfield_enums', 'df'))
+					->where('field_id', '=', $this->id)
+			)) 
+		);
+
+		list($id, $num_rows) = DB::insert('dshfield_enums')
+			->columns(array_keys($data))
+			->values($data)
+			->execute();
+
+		return $id;
 	}
 	
+	public function remove_options(array $ids)
+	{
+		if (empty($ids))
+		{
+			return NULL;
+		}
+
+		return (bool) DB::delete('dshfield_enums')
+			->where('field_id', '=', $this->id)
+			->where('id', 'IN', $ids)
+			->execute();
+	}
+	
+	public function load_from_db()
+	{
+		if($this->_loaded_options === NULL )
+		{
+			$this->_loaded_options = DB::select('id', 'value')
+				->from('dshfield_enums')
+				->where('field_id', '=', $this->id)
+				->order_by('position')
+				->execute()
+				->as_array('id', 'value');
+		}
+		
+		return $this->_loaded_options;
+	}
+
+	/**
+	 * 
+	 * @return array
+	 */
 	public function get_options()
 	{
+		$this->_options = $this->load_from_db();
+
 		if($this->empty_value === TRUE)
 		{
-			$this->options = array('--- Not set ---') + $this->options;
+			$this->_options = array('--- Not set ---') + $this->_options;
 		}
 		
-		return $this->options;
+		return $this->_options;
 	}
 	
 	/**
@@ -57,12 +141,13 @@ class DataSource_Hybrid_Field_Primitive_Select extends DataSource_Hybrid_Field_P
 		if($this->custom_option === TRUE AND isset($data[$this->name . '_custom']) AND !empty($data[$this->name . '_custom']))
 		{
 			$option = $data[$this->name . '_custom'];
-			$options = $this->options;
-			$options[] = $option;
-			$this->set_options($options);
-			$this->update();
 			
-			$document->set($this->name, $option);
+			$option_id = $this->add_option($option);
+			
+			if($option_id !== NULL)
+			{
+				$document->set($this->name, $option_id);
+			}
 			
 			return $this;
 		}
@@ -72,11 +157,11 @@ class DataSource_Hybrid_Field_Primitive_Select extends DataSource_Hybrid_Field_P
 
 	public function onUpdateDocument(DataSource_Hybrid_Document $old = NULL, DataSource_Hybrid_Document $new) 
 	{
-		$value = $new->get($this->name);
+		$value = (int) $new->get($this->name);
 
-		if(array_key_exists($value, $this->options ) OR ($this->custom_option === TRUE AND !empty($value)))
+		if(array_key_exists($value, $this->_options) OR ($this->custom_option === TRUE AND !empty($value)))
 		{
-			$new->set($this->name, $this->options[$value]);
+			$new->set($this->name, $value);
 		}
 		else if($value == 0 AND $this->empty_value === TRUE)
 		{
@@ -90,21 +175,32 @@ class DataSource_Hybrid_Field_Primitive_Select extends DataSource_Hybrid_Field_P
 	
 	public function onValidateDocument( Validation $validation, DataSource_Hybrid_Document $doc )
 	{
-		if($this->custom_option === FALSE)
-		{
-			if($this->empty_value === TRUE)
-			{
-				$this->options = array(0) + $this->options;
-			}
+		$options = $this->get_options();
 
-			$validation->rule($this->name, 'in_array', array(':value', $this->options));
+		if($this->empty_value === TRUE)
+		{
+			$options = array(0) + $options;
 		}
+
+		$validation->rule($this->name, 'array_key_exists', array(':value', $options));
 			
 		return parent::onValidateDocument($validation, $doc);
 	}
 	
-	public function get_type() 
+	public function get_type()
 	{
-		return 'TEXT NOT NULL';
+		return 'VARCHAR (255) NOT NULL';
+	}
+	
+	public function get_query_props(Database_Query $query, DataSource_Hybrid_Agent $agent)
+	{
+		$query->select(array($this->table_column_key(), $this->id . '_original'));
+		
+		$subquery = DB::select('value')
+			->from('dshfield_enums')
+			->where('field_id', '=', $this->id)
+			->where('id', '=', DB::expr(Database::instance()->quote_column($this->id . '_original')));
+
+		$query->select(array($subquery, $this->id));
 	}
 }

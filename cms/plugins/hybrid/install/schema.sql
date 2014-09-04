@@ -13,6 +13,15 @@ CREATE TABLE IF NOT EXISTS `__TABLE_PREFIX__dshfields` (
   KEY `family` (`family`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
+CREATE TABLE IF NOT EXISTS `__TABLE_PREFIX__dshfield_enums` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `field_id` int(11) unsigned NOT NULL,
+  `value` varchar(255) NOT NULL,
+  `position` int(4) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `field_id` (`field_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
 CREATE TABLE IF NOT EXISTS `__TABLE_PREFIX__hybrid_tags` (
   `field_id` int(11) unsigned NOT NULL,
   `doc_id` int(11) NOT NULL,
