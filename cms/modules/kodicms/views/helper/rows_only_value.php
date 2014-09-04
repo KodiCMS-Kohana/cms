@@ -24,7 +24,7 @@ $field = URL::title($field, '_');
 		});
 		
 		$container.on('click', '.remove-row', function(e) {
-			$(this).parent().parent().remove();
+			$(this).closest('.row-helper').remove();
 			e.preventDefault();
 		});
 

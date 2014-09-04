@@ -26,7 +26,7 @@ $slugify = ! isset($slugify) ? TRUE : (bool) $slugify;
 		});
 		
 		$container.on('click', '.remove-row', function(e) {
-			$(this).parent().parent().remove();
+			$(this).closest('.row-helper').remove();
 			e.preventDefault();
 		});
 
