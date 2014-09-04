@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS `__TABLE_PREFIX__dshfields` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `ds_id` int(11) unsigned NOT NULL DEFAULT '0',
   `name` varchar(32) NOT NULL DEFAULT '',
   `family` varchar(32) NOT NULL,
