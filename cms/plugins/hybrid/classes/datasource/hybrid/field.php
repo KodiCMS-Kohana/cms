@@ -504,7 +504,7 @@ abstract class DataSource_Hybrid_Field {
 			'type' => $this->type, 
 			'header' => $this->header,
 			'from_ds' => (int) $this->from_ds,
-			'props' => serialize( $this->_props ),
+			'props' => serialize($this->_props),
 			'position' => (int) $this->position
 		);
 
@@ -644,9 +644,18 @@ abstract class DataSource_Hybrid_Field {
 	 */
 	public function get_query_props(Database_Query $query, DataSource_Hybrid_Agent $agent)
 	{
-		return $query;
+		$query->select(array($this->table_column_key(), $this->id));
 	}
 	
+	/**
+	 * 
+	 * @return string
+	 */
+	public function table_column_key()
+	{
+		return DataSource_Hybrid_Field::PREFFIX . $this->key;
+	}
+
 	/**
 	 * Сортировка списка по текущему полю.
 	 * 
@@ -657,7 +666,7 @@ abstract class DataSource_Hybrid_Field {
 	 */
 	public function sorting_condition(Database_Query $query, $dir)
 	{
-		return $query->order_by($this->name, $dir);
+		$query->order_by($this->name, $dir);
 	}	
 	
 	/**
@@ -673,7 +682,7 @@ abstract class DataSource_Hybrid_Field {
 	 */
 	public function filter_condition(Database_Query $query, $condition, $value)
 	{
-		return $query->where($this->name, $condition, $value);
+		$query->where($this->name, $condition, $value);
 	}
 	
 	/**

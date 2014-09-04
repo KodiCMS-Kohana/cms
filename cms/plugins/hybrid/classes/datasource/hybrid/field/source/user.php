@@ -103,7 +103,9 @@ class DataSource_Hybrid_Field_Source_User extends DataSource_Hybrid_Field_Source
 	
 	public function get_query_props(\Database_Query $query, DataSource_Hybrid_Agent $agent)
 	{
-		return $query->join('users', 'left')
+		parent::get_query_props($query, $agent);
+
+		$query->join('users', 'left')
 			->on(DataSource_Hybrid_Field::PREFFIX . $this->key, '=', 'users' . '.id')
 			->select(array('users.username', $this->id))
 			->select(array('users.id', 'user_id'));

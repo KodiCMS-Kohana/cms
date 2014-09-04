@@ -164,6 +164,6 @@ class DataSource_Hybrid_Field_Source_Array extends DataSource_Hybrid_Field_Sourc
 			->where('document_id', '=', DB::expr('d.id'))
 			->where('field_id', '=', $this->id);
 
-		return $query->select(array($sub_query, $this->id));
+		$query->select(array($sub_query, $this->id));
 	}
 }

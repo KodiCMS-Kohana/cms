@@ -111,7 +111,9 @@ class DataSource_Hybrid_Field_Source_Document extends DataSource_Hybrid_Field_So
 	
 	public function get_query_props(\Database_Query $query, DataSource_Hybrid_Agent $agent)
 	{
-		return $query->join(array('ds' . $this->ds_type, 'dss' . $this->id), 'left')
+		parent::get_query_props($query, $agent);
+
+		$query->join(array('ds' . $this->ds_type, 'dss' . $this->id), 'left')
 			->on(DataSource_Hybrid_Field::PREFFIX . $this->key, '=', 'dss' . $this->id . '.id')
 			->on('dss' . $this->id . '.published', '=', DB::expr( 1 ))
 			->select(array('dss'.$this->id.'.header', $this->id . 'header'));
