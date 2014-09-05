@@ -1,6 +1,3 @@
-/*
-	Ace object
-*/
 cms.plugins.ace = {};
 
 cms.plugins.ace.switchOn_handler = function( textarea_id, params )
@@ -54,11 +51,9 @@ cms.plugins.ace.switchOn_handler = function( textarea_id, params )
 	}
 	
 	if(textarea.data('readonly') == 'on') {
-//		editor.setTheme("ace/theme/monokai");
 		editor.setReadOnly(true);
 	} else {
 		editor.commands.addCommand({
-//			name: 'Save',
 			bindKey: {win: 'Ctrl-S',  mac: 'Command-S'},
 			exec: function(editor) {
 				$('button[name="continue"]').click();
@@ -101,10 +96,7 @@ cms.plugins.ace.exec_handler = function( editor, command, textarea_id, data )
 	return true;
 }
 
-/*
-	When DOM init
-*/
-jQuery(function(){
+$(function(){
 	cms.filters
 		.add( 'ace', cms.plugins.ace.switchOn_handler, cms.plugins.ace.switchOff_handler, cms.plugins.ace.exec_handler );
 

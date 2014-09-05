@@ -51,6 +51,12 @@ Assets_Package::add('editable')
 Assets_Package::add('nestable')
 	->js(NULL, ADMIN_RESOURCES . 'libs/nestable/jquery.nestable.min.js', 'bootstrap');
 
+Assets_Package::add('ace')
+	->js('ace-library', ADMIN_RESOURCES . 'libs/ace/src-min/ace.js', 'global')
+	->js(NULL, ADMIN_RESOURCES . 'js/ace.js', 'global');
+
+WYSIWYG::add('ace');
+
 // Подключение пакета после загрузки модулей, чтобы определить текущий язык
 Observer::observe('modules::after_load', function() {
 	Assets_Package::add('select2')
