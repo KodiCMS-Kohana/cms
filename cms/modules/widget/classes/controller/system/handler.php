@@ -11,7 +11,7 @@ class Controller_System_Handler extends Controller_System_Controller
 	{
 		$id = (int) $this->request->param('id');
 
-		if(Security::check($this->request->post('csrf')))
+		if(!Security::check($this->request->post('csrf')))
 		{
 			throw new Exception('Security token not check');
 		}
