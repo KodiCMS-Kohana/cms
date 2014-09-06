@@ -10,15 +10,23 @@ class DataSource_Hybrid_Field_Source_Tags extends DataSource_Hybrid_Field_Source
 		'isreq' => FALSE
 	);
 	
+	public function onCreateDocument(DataSource_Hybrid_Document $doc)
+	{
+		$tags = $doc->get($this->name);
+		$tags = empty($tags) ? array() : explode(',', $tags);
+		
+		$this->update_tags(array(), $tags, $doc->id);
+	}
+	
 	public function onUpdateDocument(DataSource_Hybrid_Document $old = NULL, DataSource_Hybrid_Document $new) 
 	{
 		$old_tags = $old->get($this->name);
 		$new_tags = $new->get($this->name);
 		
-		$o = empty($old_tags) ? array() : explode(',', $old_tags);
-		$n = empty($new_tags) ? array() : explode(',', $new_tags);
+		$old_tags = empty($old_tags) ? array() : explode(',', $old_tags);
+		$new_tags = empty($new_tags) ? array() : explode(',', $new_tags);
 
-		$this->update_tags($o, $n, $new->id);
+		$this->update_tags($old_tags, $new_tags, $new->id);
 	}
 	
 	public function onRemoveDocument( DataSource_Hybrid_Document $doc )
@@ -138,22 +146,24 @@ class DataSource_Hybrid_Field_Source_Tags extends DataSource_Hybrid_Field_Source
 	 * @param string $fid
 	 * @return mixed
 	 */
-	public static function fetch_widget_field( $widget, $field, $row, $fid, $recurse )
+	public static function fetch_widget_field($widget, $field, $row, $fid, $recurse)
 	{
-		return ! empty($row[$fid]) ? explode(',', $row[$fid]) : array();
+		return !empty($row[$fid]) ? explode(',', $row[$fid]) : array();
 	}
-	
-	public function fetch_headline_value( $value, $document_id )
+
+	public function fetch_headline_value($value, $document_id)
 	{
-		$tags = explode(',', $value );
-		foreach($tags as $i => $tag)
+		if(empty($value)) return NULL;
+
+		$tags = explode(',', $value);
+		foreach ($tags as $i => $tag)
 		{
 			$tags[$i] = UI::label($tag, 'info label-tag');
 		}
 
 		return implode(' ', $tags);
 	}
-	
+
 	public function filter_condition(Database_Query $query, $condition, $value)
 	{
 		$query
