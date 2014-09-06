@@ -32,6 +32,6 @@ class KodiCMS_Form extends Kohana_Form {
 	 */
 	public static function token()
 	{
-		return Form::input('csrf', Security::token());
+		return Form::hidden('csrf', Security::token());
 	}
 }
