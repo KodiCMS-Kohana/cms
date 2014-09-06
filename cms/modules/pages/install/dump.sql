@@ -1,3 +1,2 @@
 INSERT INTO `__TABLE_PREFIX__pages` (`id`, `title`, `slug`, `breadcrumb`, `meta_title`, `meta_keywords`, `meta_description`, `parent_id`, `layout_file`, `behavior_id`, `status_id`, `created_on`, `published_on`, `updated_on`, `created_by_id`, `updated_by_id`, `position`, `needs_login`) VALUES
-(1, 'Home', '', 'Home', 'Home', '', '', 0, '', '', 100, '__DATE__', '__DATE__', '__DATE__', 1, 1, 0, 0),
-(2, 'Page not found', 'page-not-found', 'Page not found', 'Page not found', '', '', 1, '', 'page_not_found', 101, '__DATE__', '__DATE__', '__DATE__', 1, 1, 4, 2);
+(1, 'Home', '', 'Home', 'Home', '', '', 0, '', '', 100, '__DATE__', '__DATE__', '__DATE__', 1, 1, 0, 0);
