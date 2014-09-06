@@ -667,7 +667,7 @@ abstract class DataSource_Hybrid_Field {
 	public function sorting_condition(Database_Query $query, $dir)
 	{
 		$query->order_by($this->name, $dir);
-	}	
+	}
 	
 	/**
 	 * Условие фильтрации текущего поля, если оно используется в фильтре виджета
@@ -735,6 +735,23 @@ abstract class DataSource_Hybrid_Field {
 			'field' => $this,
 			'doc' => $document
 		));
+	}
+	
+	/**
+	 * 
+	 * @param string $value
+	 * @param DataSource_Hybrid_Document $doc
+	 * @return bool
+	 */
+	public function check_unique($value, DataSource_Hybrid_Document $doc) 
+	{
+		return ! (bool) DB::select($this->name)
+			->from($this->ds_table)
+			->where($this->name, '=', $value)
+			->where('id', '!=', $doc->id)
+			->limit(1)
+			->execute()
+			->count();
 	}
 
 	/**************************************************************************

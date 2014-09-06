@@ -56,23 +56,23 @@ class DataSource_Hybrid_Field_Source_Tags extends DataSource_Hybrid_Field_Source
 		// insert all tags in the tag table and then populate the page_tag table
 		foreach( $new_tags as $index => $tag_name )
 		{
-			if ( empty($tag_name) )	continue;
+			if (empty($tag_name))
+			{
+				continue;
+			}
 
-			$tag = Record::findOneFrom('Model_Tag', array(
-				'where' => array(
-					array('name', '=', $tag_name)
-				)
-			));
+			$tag = Record::findOneFrom('Model_Tag', array('where' => array(
+				array('name', '=', $tag_name))));
 
 			// try to get it from tag list, if not we add it to the list
-			if ( !($tag instanceof Model_Tag))
+			if (!($tag instanceof Model_Tag))
 			{
 				$tag = new Model_Tag(array('name' => trim($tag_name)));
 			}
 
 			$tag->count++;
 			$tag->save();
-
+		
 			$data = array(
 				'field_id' => $this->id,
 				'doc_id' => $doc_id,
@@ -148,7 +148,7 @@ class DataSource_Hybrid_Field_Source_Tags extends DataSource_Hybrid_Field_Source
 		$tags = explode(',', $value );
 		foreach($tags as $i => $tag)
 		{
-			$tags[$i] = UI::label($tag);
+			$tags[$i] = UI::label($tag, 'info label-tag');
 		}
 
 		return implode(' ', $tags);

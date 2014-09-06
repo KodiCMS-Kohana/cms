@@ -44,6 +44,9 @@ class Model_Widget_Tags_Cloud extends Model_Widget_Decorator {
 			$fmin = $this->min_size;
 			$tmin = min($tags);
 			$tmax = max($tags);
+			
+			($tmin == $tmin) ? $tmax++ : NULL;
+			
 			foreach ($tags as $word => $frequency) 
 			{
 				$font_size = floor(($frequency - $tmin) / ($tmax - $tmin) * ($fmax - $fmin) + $fmin);

@@ -23,18 +23,7 @@ class DataSource_Hybrid_Field_Primitive_Slug extends DataSource_Hybrid_Field_Pri
 	
 	public function onUpdateDocument(DataSource_Hybrid_Document $old = NULL, DataSource_Hybrid_Document $new) 
 	{
-		$new->set($this->name, URL::title($new->get($this->name)));
-	}
-	
-	public function check_unique($value, $doc) 
-	{
-		return ! (bool) DB::select($this->name)
-			->from($this->ds_table)
-			->where($this->name, '=', $value)
-			->where('id', '!=', $doc->id)
-			->limit(1)
-			->execute()
-			->count();
+		$new->set($this->name, URL::title($new->get($this->name), $this->separator));
 	}
 	
 	public function get_type() 

@@ -4,7 +4,7 @@ class Controller_System_Datasource_Document extends Controller_System_Datasource
 {
 	public function before()
 	{
-		$ds_id = (int) $this->request->query('ds_id');
+		$ds_id = (int) Arr::get($this->request->query(), 'ds_id', $this->request->post('ds_id'));
 		
 		$this->section($ds_id);
 		
@@ -22,27 +22,8 @@ class Controller_System_Datasource_Document extends Controller_System_Datasource
 	{
 		Assets::package('backbone');
 		$id = (int) $this->request->query('id');
-		$action = $this->request->action();
-
-		if( empty($id) )
-		{
-			$doc = $this->section()->get_empty_document();
-		}
-		else
-		{
-			$doc = $this->section()->get_document($id);
-			
-			if(!$doc)
-			{
-				throw new HTTP_Exception_404('Document ID :id not found', 
-						array(':id' => $id));
-			}
-		}
-
-		if($this->request->method() === Request::POST)
-		{
-			return $this->_save($this->section(), $doc);
-		}
+		
+		$doc = $this->_get_document($id);
 		
 		WYSIWYG::load_filters();
 		
@@ -73,8 +54,11 @@ class Controller_System_Datasource_Document extends Controller_System_Datasource
 	 * @param Datasource_Section $ds
 	 * @param Datasource_Document $doc
 	 */
-	private function _save($ds, $doc)
+	public function action_post()
 	{
+		$id = (int) $this->request->post('id');
+		$doc = $this->_get_document($id);
+		
 		Session::instance()->set('post_data', $this->request->post());
 
 		try
@@ -86,11 +70,11 @@ class Controller_System_Datasource_Document extends Controller_System_Datasource
 
 			if( $doc->loaded() )
 			{
-				$ds->update_document($doc);
+				$this->section()->update_document($doc);
 			}
 			else
 			{
-				$doc = $ds->create_document($doc);
+				$doc = $this->section()->create_document($doc);
 			}
 			
 			Messages::success(__('Document saved'));
@@ -109,15 +93,15 @@ class Controller_System_Datasource_Document extends Controller_System_Datasource
 			$this->go(Route::get('datasources')->uri(array(
 				'directory' => 'datasources',
 				'controller' => 'data'
-			)) . URL::query(array('ds_id' => $ds->id()), FALSE));
+			)) . URL::query(array('ds_id' => $this->section()->id()), FALSE));
 		}
 		else
 		{
 			$this->go(Route::get('datasources')->uri(array(
-				'directory' => $ds->type(),
+				'directory' => $this->section()->type(),
 				'controller' => 'document',
 				'action' => 'view'
-			)) . URL::query(array('ds_id' => $ds->id(), 'id' => $doc->id), FALSE));
+			)) . URL::query(array('ds_id' => $this->section()->id(), 'id' => $doc->id), FALSE));
 		}
 	}
 	
@@ -174,5 +158,25 @@ class Controller_System_Datasource_Document extends Controller_System_Datasource
 		{
 			$this->allowed_actions[] = 'create';
 		}
+	}
+	
+	protected function _get_document($id)
+	{
+		if( empty($id) )
+		{
+			$doc = $this->section()->get_empty_document();
+		}
+		else
+		{
+			$doc = $this->section()->get_document($id);
+			
+			if(!$doc)
+			{
+				throw new HTTP_Exception_404('Document ID :id not found', 
+						array(':id' => $id));
+			}
+		}
+		
+		return $doc;
 	}
 }

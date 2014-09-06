@@ -293,6 +293,11 @@ class Datasource_Document {
 	{
 		foreach($this->_system_fields as $key => $value)
 		{
+			if($key == 'id')
+			{
+				continue;
+			}
+
 			$this->{$key} = Arr::get($array, $key);
 			unset($array[$key]);
 		}

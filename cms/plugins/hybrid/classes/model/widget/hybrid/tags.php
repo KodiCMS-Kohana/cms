@@ -29,7 +29,10 @@ class Model_Widget_Hybrid_Tags extends Model_Widget_Tags_Cloud {
 	{
 		$fields = array();
 		
-		if(! $this->ds_id) return $fields;
+		if (!$this->ds_id)
+		{
+			return $fields;
+		}
 
 		$datasource = Datasource_Data_Manager::load($this->ds_id);
 		
@@ -37,7 +40,7 @@ class Model_Widget_Hybrid_Tags extends Model_Widget_Tags_Cloud {
 		{
 			foreach ($datasource->record()->fields() as $field)
 			{
-				if($field instanceof DataSource_Hybrid_Field_Tags)
+				if($field instanceof DataSource_Hybrid_Field_Source_Tags)
 				{
 					$fields[$field->id] = $field->header;
 				}
@@ -50,13 +53,13 @@ class Model_Widget_Hybrid_Tags extends Model_Widget_Tags_Cloud {
 	public function fetch_data()
 	{
 		$ids = DB::select('tag_id')
-			->from('hybrid_tags')
-			->where('field_id', '=', (int) $this->field_id)
-			->execute()
-			->as_array(NULL, 'tag_id');
+				->from('hybrid_tags')
+				->where('field_id', '=', (int) $this->field_id)
+				->execute()
+				->as_array(NULL, 'tag_id');
 
 		$this->set_ids($ids);
-		
+
 		return parent::fetch_data();
 	}
 }

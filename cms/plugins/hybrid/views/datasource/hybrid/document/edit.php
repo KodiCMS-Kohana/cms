@@ -177,7 +177,11 @@ function update_documents(e, response) {
 </script>
 
 <?php if(Acl::check('hybrid'.$ds->id().'.document.edit')): ?>
-<?php echo Form::open(Request::current()->url() . URL::query(array('id' => $doc->id)), array(
+<?php echo Form::open(Route::get('datasources')->uri(array(
+		'controller' => 'document',
+		'directory' => $ds->type(),
+		'action' => 'post'
+	)), array(
 	'class' => 'form-horizontal panel', 'enctype' => 'multipart/form-data'
 )); ?>
 <?php echo Form::hidden('ds_id', $ds->id()); ?>
