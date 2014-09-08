@@ -173,6 +173,13 @@ class DataSource_Hybrid_Agent {
 					'name' => 'd.created_on',
 					'header' => __('Date created'),
 					'system' => TRUE
+				)),
+				'published' => DataSource_Hybrid_Field_Factory::get_field_from_array(array(
+					'ds_id' => $this->ds_id,
+					'type' => 'primitive_boolean',
+					'name' => 'd.published',
+					'header' => __('Published'),
+					'system' => TRUE
 				))
 			);
 		}
@@ -332,18 +339,16 @@ class DataSource_Hybrid_Agent {
 			$invert = !empty($data['invert']);
 			$field = $data['field'];
 
-			if ($type == self::VALUE_PLAIN)
-			{
-				$value = $data['value'];
-			}
-			else
-			{
-				$value = Context::instance()->get($data['value']);
-			}
-
-			if (empty($value))
+			$value = Arr::get($data, 'value');
+			
+			if ($value === NULL)
 			{
 				continue;
+			}
+			
+			if ($type != self::VALUE_PLAIN)
+			{
+				$value = Context::instance()->get($value);
 			}
 
 			$field_id = strpos($field, '$') == 1 
