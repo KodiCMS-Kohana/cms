@@ -12,7 +12,7 @@ class DataSource_Hybrid_Field_File_Image extends DataSource_Hybrid_Field_File_Fi
 		'crop' => FALSE,
 		'master' => Image::AUTO,
 		'quality' => 95,
-		'types' => 'bmp,gif,jpg,png,tif',
+		'types' => 'bmp,gif,jpg,jpeg,png,tif',
 		'max_size' => 1048576
 	);
 	
@@ -99,23 +99,14 @@ class DataSource_Hybrid_Field_File_Image extends DataSource_Hybrid_Field_File_Fi
 		{
 			$url = $new->get($this->name . '_url');
 			
-			$filename = Upload::from_url( $url, $this->types, NULL, NULL, $this->folder());
-			
+			$filename = Upload::from_url($url, $this->folder(), NULL, $this->types);
+
 			if(!empty($filename))
 			{
-				if(rename(TMPPATH . $filename, $this->folder() . $filename))
-				{
-					$this->_filepath = $this->folder() . $filename;
-					
-					$this->onRemoveDocument($old);
-					$new->set($this->name, $this->folder . $filename);
-					$status = TRUE;
-				}
-				else
-				{
-					unlink(TMPPATH . $filename);
-					$status = FALSE;
-				}
+				$this->_filepath = $this->folder() . $filename;
+				$this->onRemoveDocument($old);
+				$new->set($this->name, $this->folder . $filename);
+				$status = TRUE;
 			}
 		}
 		else

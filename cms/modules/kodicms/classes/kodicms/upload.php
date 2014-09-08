@@ -123,49 +123,49 @@ class KodiCMS_Upload extends Kohana_Upload {
 		{
 			$directory = TMPPATH;
 		}
-		
+
 		if ($filename === NULL)
 		{
 			$filename = uniqid();
 		}
 		else if ($filename === TRUE)
 		{
-			$filename = pathinfo( $filename, PATHINFO_BASENAME );
+			$filename = pathinfo($filename, PATHINFO_BASENAME);
 		}
-		
-		$filename_ext = pathinfo( $filename, PATHINFO_EXTENSION );
-		
+
+		$filename_ext = pathinfo($filename, PATHINFO_EXTENSION);
+
 		if (empty($filename_ext))
 		{
 			$filename .= '.' . $ext;
 		}
 
-		$validation = Validation::factory( array('url' => $url, 'ext' => $ext ) )
-			->rules( 'url', array(
-				array('url'),
-				array('not_empty'),
-			) );
-		
-		if ( ! empty($types))
+		$validation = Validation::factory(array('url' => $url, 'ext' => $ext))
+				->rules('url', array(
+			array('url'),
+			array('not_empty'),
+				));
+
+		if (!empty($types))
 		{
 			$validation->rule('ext', 'in_array', array(':value', $types));
 		}
-			
-		if ( ! $validation->check())
+
+		if (!$validation->check())
 		{
 			throw new Validation_Exception($validation);
 		}
-		
-		if ( ! is_dir($directory))
+
+		if (!is_dir($directory))
 		{
-			mkdir($directory, 0777);
+			mkdir($directory, 0777, TRUE);
 			chmod($directory, 0777);
 		}
 
 		// Make the filename into a complete path
 		$path = $directory . $filename;
-		
-		if($use_curl === TRUE)
+
+		if ($use_curl === TRUE)
 		{
 			$file = Request::factory($url, array(
 				'options' => array(
@@ -179,35 +179,34 @@ class KodiCMS_Upload extends Kohana_Upload {
 		{
 			$file = fopen($url, 'rb');
 		}
-		
-		if ( empty($file))
-		{
-			return FALSE;
-		}
-		
-		$new_file = fopen($path, 'wb');
-		
-		if ( ! $new_file)
+
+		if (empty($file))
 		{
 			return FALSE;
 		}
 
-		if($use_curl === TRUE)
+		$new_file = fopen($path, 'wb');
+
+		if (!$new_file)
 		{
-			 fwrite($new_file, $file);
-			
+			return FALSE;
+		}
+
+		if ($use_curl === TRUE)
+		{
+			fwrite($new_file, $file);
 		}
 		else
 		{
-			while ( ! feof($file))
+			while (!feof($file))
 			{
 				// Write the url file to the directory.
 				fwrite($new_file, fread($file, 1024 * 8), 1024 * 8);
 			}
 		}
-		
+
 		fclose($new_file);
-		
+
 		// Set permissions on filename
 		chmod($path, 0777);
 
