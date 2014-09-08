@@ -22,8 +22,7 @@ class DataSource_Hybrid_Field_Source_Tags extends DataSource_Hybrid_Field_Source
 	{
 		$old_tags = array_unique($this->get_tags($old->id));
 		$new_tags = $new->get($this->name);
-		
-		$old_tags = empty($old_tags) ? array() : explode(',', $old_tags);
+
 		$new_tags = empty($new_tags) ? array() : explode(',', $new_tags);
 
 		$this->update_tags($old_tags, $new_tags, $new->id);
@@ -41,7 +40,7 @@ class DataSource_Hybrid_Field_Source_Tags extends DataSource_Hybrid_Field_Source
 			->from(self::TABLE_NAME)
 			->where('doc_id', '=', (int) $doc_id)
 			->where('field_id', '=', $this->id)
-			->join(array('Model_Tag::tableName()', 'tags'))
+			->join(array(Model_Tag::tableName(), 'tags'))
 				->on('tags.id', '=', 'tag_id')
 			->execute()
 			->as_array(NULL, 'name');
