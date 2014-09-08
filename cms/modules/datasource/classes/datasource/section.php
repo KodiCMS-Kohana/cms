@@ -105,7 +105,7 @@ class Datasource_Section {
 			->execute()
 			->current();
 		
-		if(($section = self::load_from_array($query)) === NULL)
+		if($query == NULL OR ($section = self::load_from_array($query)) === NULL)
 		{
 			return NULL;
 		}
@@ -118,15 +118,10 @@ class Datasource_Section {
 	 * Загрузка разедла из массива данных
 	 * 
 	 * @param array $data
-	 * @return null|Datasource_Section
+	 * @return Datasource_Section
 	 */
 	public static function load_from_array(array $data)
 	{
-		if (empty($data))
-		{
-			return NULL;
-		}
-		
 		$section = unserialize($data['code']);
 		
 		$section->_id = $data['id'];
