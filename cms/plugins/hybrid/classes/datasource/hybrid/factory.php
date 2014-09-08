@@ -32,7 +32,7 @@ class DataSource_Hybrid_Factory {
 		{
 			if(self::create_folder($ds->id())) 
 			{
-				$ds->save();
+				$ds->update();
 
 				return $ds;
 			}

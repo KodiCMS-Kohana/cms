@@ -141,7 +141,7 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 	 * @param array $values
 	 * @return boolean
 	 */
-	public function save(array $values = NULL)
+	public function update(array $values = NULL)
 	{
 		if( ! $this->loaded())
 		{
@@ -159,7 +159,7 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 		$this->search_index_doc_id_fields = (array) Arr::get($values, 'search_index_doc_id_fields', array());
 		unset($values['search_index_doc_id_fields']);
 
-		$status = parent::save($values);
+		$status = parent::update($values);
 		
 		return $status;
 	}
