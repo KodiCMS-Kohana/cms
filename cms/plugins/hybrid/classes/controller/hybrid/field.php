@@ -72,8 +72,7 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 				'controller' => 'section',
 				'action' => 'edit',
 				'id' => $ds->id()
-			)))
-			->add($this->template->title);
+			)));
 		
 		$this->template->content = View::factory('datasource/hybrid/field/add', array(
 			'ds' => $ds,
@@ -137,7 +136,7 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 			return $this->_edit($this->field);
 		}
 		
-		$this->set_title($this->field->header);
+		$this->set_title(__('Edit field :field_name', array(':field_name' => $this->field->header)));
 		
 		$this->breadcrumbs
 			->add($ds->name, Route::get('datasources')->uri(array(
@@ -149,8 +148,7 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 				'controller' => 'section',
 				'action' => 'edit',
 				'id' => $ds->id()
-			)))
-			->add($this->template->title);
+			)));
 
 		$this->template->content = View::factory('datasource/hybrid/field/edit', array(
 			'ds' => $ds,

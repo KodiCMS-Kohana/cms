@@ -100,7 +100,7 @@ return array(
 	'Hybrid data source prefix' => 'Префикс массива',
 	'Redirect url on success' => 'Редирект при успешном создании (URI)',
 	'Document ID fields' => 'Поля идентификаторы документа',
-
+	'Edit field :field_name' => 'Редактирование поля :field_name',
 	'Hybrid section' => 'Раздел данных',
 	'You need select hybrid section' => 'Необходимо выбрать раздел данных',
 	'Hybrid tags' => 'Теги ГД',
