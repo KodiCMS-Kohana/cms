@@ -6,7 +6,8 @@ class DataSource_Hybrid_Field_Source_User extends DataSource_Hybrid_Field_Source
 		'default' => NULL,
 		'isreq' => FALSE,
 		'only_current' => FALSE,
-		'unique' => FALSE
+		'unique' => FALSE,
+		'set_current' => FALSE
 	);
 	
 	protected $_use_as_document_id = TRUE;
@@ -23,23 +24,28 @@ class DataSource_Hybrid_Field_Source_User extends DataSource_Hybrid_Field_Source
 	
 	public function onCreateDocument(DataSource_Hybrid_Document $doc) 
 	{
+		if($this->set_current)
+		{
+			$doc->set($this->name, Auth::get_id());
+		}
+
 		return $this->onUpdateDocument($doc, $doc);
 	}
 	
 	public function onUpdateDocument(DataSource_Hybrid_Document $old = NULL, DataSource_Hybrid_Document $new)
 	{
 		$user_id = $new->get($this->name);
-
-		if($this->only_current === TRUE)
+		
+		if ($this->only_current === TRUE)
 		{
 			$user_id = $old->get($this->name);
 		}
-		
-		if( ! $this->is_exists( $user_id ))
+
+		if (!$this->is_exists($user_id))
 		{
 			$user_id = 0;
 		}
-		
+
 		$new->set($this->name, $user_id);
 	}
 	
