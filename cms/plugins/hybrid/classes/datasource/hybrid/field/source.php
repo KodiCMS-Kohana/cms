@@ -7,4 +7,9 @@ abstract class DataSource_Hybrid_Field_Source extends DataSource_Hybrid_Field {
 		parent::__construct( $data );
 		$this->family = DataSource_Hybrid_Field::FAMILY_SOURCE;
 	}
+	
+	public function onCreateDocument( DataSource_Hybrid_Document $doc) 
+	{
+		$this->onUpdateDocument($doc, $doc);
+	}
 }

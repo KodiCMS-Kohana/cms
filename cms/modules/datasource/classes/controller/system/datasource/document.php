@@ -67,23 +67,23 @@ class Controller_System_Datasource_Document extends Controller_System_Datasource
 				->read_values($this->request->post())
 				->read_files($_FILES)
 				->validate();
-
-			if( $doc->loaded() )
-			{
-				$this->section()->update_document($doc);
-			}
-			else
-			{
-				$doc = $this->section()->create_document($doc);
-			}
-			
-			Messages::success(__('Document saved'));
 		} 
 		catch (Validation_Exception $e)
 		{
 			Messages::errors($e->errors('validation'));
 			$this->go_back();
 		}
+
+		if( $doc->loaded() )
+		{
+			$this->section()->update_document($doc);
+		}
+		else
+		{
+			$doc = $this->section()->create_document($doc);
+		}
+
+		Messages::success(__('Document saved'));
 		
 		Session::instance()->delete('post_data');
 		

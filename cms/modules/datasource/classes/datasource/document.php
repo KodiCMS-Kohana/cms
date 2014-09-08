@@ -619,4 +619,14 @@ class Datasource_Document {
 	 * Событие вызываемое в момент загрузки контроллера
 	 */
 	public function onControllerLoad() {}
+	
+	/**
+	 * Событие вызываемое в момент ошибки создания документа
+	 */
+	public function onCreateException() {}
+	
+	/**
+	 * Событие вызываемое в момент ошибки обновления документа
+	 */
+	public function onUpdateException() {}
 }

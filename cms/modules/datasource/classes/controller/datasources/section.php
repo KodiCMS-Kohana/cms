@@ -4,17 +4,17 @@ class Controller_Datasources_Section extends Controller_System_Datasource
 {	
 	public function before()
 	{
-		if($this->request->action() != 'create')
+		if ($this->request->action() != 'create')
 		{
 			$ds_id = (int) $this->request->param('id');
 			$this->section($ds_id);
 
-			if(Acl::check($this->section()->type().$ds_id.'.section.edit'))
+			if (Acl::check($this->section()->type() . $ds_id . '.section.edit'))
 			{
 				$this->allowed_actions[] = 'edit';
 			}
-			
-			if(Acl::check($this->section()->type().$ds_id.'.section.remove'))
+
+			if (Acl::check($this->section()->type() . $ds_id . '.section.remove'))
 			{
 				$this->allowed_actions[] = 'remove';
 			}
@@ -67,13 +67,15 @@ class Controller_Datasources_Section extends Controller_System_Datasource
 		
 		try
 		{
-			$ds_id = $section->create($this->request->post());
+			$section->validate($this->request->post());
 		}
 		catch (Validation_Exception $e)
 		{
 			Messages::errors($e->errors('validation'));
 			$this->go_back();
 		}
+		
+		$ds_id = $section->create($this->request->post());
 		
 		Messages::success( __( 'Datasource has been saved!' ) );
 
@@ -124,7 +126,7 @@ class Controller_Datasources_Section extends Controller_System_Datasource
 	{
 		try
 		{
-			$ds->save($this->request->post());
+			$ds->validate($this->request->post());
 		}
 		catch (Validation_Exception $e)
 		{
@@ -132,6 +134,7 @@ class Controller_Datasources_Section extends Controller_System_Datasource
 			$this->go_back();
 		}
 		
+		$ds->update($this->request->post());
 		Messages::success( __( 'Datasource has been saved!' ) );
 
 		// save and quit or save and continue editing?

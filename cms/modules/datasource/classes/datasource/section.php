@@ -286,8 +286,6 @@ class Datasource_Section {
 	 */
 	public function create( array $values ) 
 	{
-		$this->validate($values);
-
 		$this->name = Arr::get($values, 'name');
 		$this->description = Arr::get($values, 'description');
 		$this->_is_indexable = (bool) Arr::get($values, 'is_indexable');
@@ -331,7 +329,7 @@ class Datasource_Section {
 	 * @param array $values
 	 * @return boolean
 	 */
-	public function save( array $values = NULL) 
+	public function update( array $values = NULL) 
 	{
 		if ( ! $this->loaded())
 		{
@@ -340,8 +338,6 @@ class Datasource_Section {
 		
 		if (is_array($values))
 		{
-			$this->validate($values);
-
 			$this->name = Arr::get($values, 'name');
 			$this->description = Arr::get($values, 'description');
 		
@@ -405,11 +401,18 @@ class Datasource_Section {
 	 * Создание нового документа
 	 * 
 	 * @param DataSource_Document $doc
-	 * @return DataSource_Document
+	 * @return NULL|DataSource_Document
 	 */
 	public function create_document( DataSource_Document $doc ) 
 	{
-		$doc->create();
+		try
+		{
+			$doc->create();
+		} 
+		catch (Kohana_Exception $ex) 
+		{
+			$doc->onCreateException();
+		}
 
 		if ($doc->loaded())
 		{
@@ -430,15 +433,21 @@ class Datasource_Section {
 	 */	
 	public function update_document( DataSource_Document $doc ) 
 	{
-		$old = $this
-			->get_document($doc->id);
+		$old = $this->get_document($doc->id);
 	
 		if (empty($old) OR ! $doc->loaded())
 		{
 			return FALSE;
 		}
-		
-		$doc->update();
+			
+		try
+		{
+			$doc->update();
+		} 
+		catch (Kohana_Exception $ex) 
+		{
+			$doc->onUpdateException();
+		}
 
 		if ($old->published != $doc->published) 
 		{
@@ -475,7 +484,7 @@ class Datasource_Section {
 		{
 			return $this;
 		}
-		
+
 		foreach ($ids as $id)
 		{
 			$document = $this->get_empty_document()->load($id);
@@ -598,20 +607,20 @@ class Datasource_Section {
 	 * @param array $array
 	 * @throws Validation_Exception
 	 */
-	public function validate( array $array )
+	public function validate(array $array = NULL)
 	{
 		$validation = Validation::factory($array)
 			->rules('name', array(
 				array('not_empty')
 			))
-			->label('name', __('Header') );
-		
-		if( ! $validation->check() )
+			->label('name', __('Header'));
+
+		if (!$validation->check())
 		{
-			throw new Validation_Exception( $validation );
+			throw new Validation_Exception($validation);
 		}
 	}
-	
+
 	/**
 	 * Очистка кеша виджетов раздела
 	 * 
