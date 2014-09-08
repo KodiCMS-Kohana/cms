@@ -9,6 +9,8 @@ class KodiCMS_Model_Page_Part extends ORM
 {
 	const PART_NOT_PROTECTED = 0;
 	const PART_PROTECTED = 1;
+	
+	protected $_reload_on_wakeup = FALSE;
 
 	protected $_belongs_to = array(
 		'page' => array(
