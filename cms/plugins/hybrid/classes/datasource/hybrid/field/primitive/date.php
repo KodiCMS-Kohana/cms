@@ -22,16 +22,6 @@ class DataSource_Hybrid_Field_Primitive_Date extends DataSource_Hybrid_Field_Pri
 			$this->default = date($this->_format);
 		}
 	}
-	
-	public function onSetValue( $value, DataSource_Hybrid_Document $doc)
-	{
-		if( ! $doc->loaded() AND $this->set_current === TRUE )
-		{
-			return date($this->_format);
-		}
-		
-		return parent::onSetValue($value, $doc);
-	}
 
 	public function onUpdateDocument(DataSource_Hybrid_Document $old = NULL, DataSource_Hybrid_Document $new)
 	{
