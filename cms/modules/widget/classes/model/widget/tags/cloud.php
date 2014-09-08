@@ -73,7 +73,8 @@ class Model_Widget_Tags_Cloud extends Model_Widget_Decorator {
 	public function get_tags()
 	{
 		$query = DB::select()
-			->from(Model_Tag::tableName());
+			->from(Model_Tag::tableName())
+			->where('count', '>', 0);
 		
 		if(!empty($this->_ids) AND is_array($this->_ids))
 		{
