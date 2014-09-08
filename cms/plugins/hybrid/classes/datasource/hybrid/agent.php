@@ -340,15 +340,15 @@ class DataSource_Hybrid_Agent {
 			$field = $data['field'];
 
 			$value = Arr::get($data, 'value');
+
+			if ($value !== NULL AND $type != self::VALUE_PLAIN)
+			{
+				$value = Context::instance()->get($value);
+			}
 			
 			if ($value === NULL)
 			{
 				continue;
-			}
-			
-			if ($type != self::VALUE_PLAIN)
-			{
-				$value = Context::instance()->get($value);
 			}
 
 			$field_id = strpos($field, '$') == 1 
