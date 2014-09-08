@@ -114,6 +114,12 @@ class KodiCMS_Model_Page_Front {
 	 * @var Behavior_Abstract 
 	 */
 	protected $_behavior = NULL;
+	
+	/**
+	 *
+	 * @var array 
+	 */
+	protected $_meta_params = array();
 
 	/**
 	 * 
@@ -167,7 +173,7 @@ class KodiCMS_Model_Page_Front {
 	 */
 	public function title() 
 	{
-		return $this->title; 
+		return $this->parse_meta('title');
 	}
 	
 	/**
@@ -176,7 +182,7 @@ class KodiCMS_Model_Page_Front {
 	 */
 	public function meta_title() 
 	{
-		return $this->_parse_meta('meta_title');
+		return $this->parse_meta('meta_title');
 	}
 	
 	/**
@@ -190,7 +196,7 @@ class KodiCMS_Model_Page_Front {
 			$this->breadcrumb = $this->title;
 		}
 
-		return $this->breadcrumb; 
+		return $this->parse_meta('breadcrumb'); 
 	}
 
 	/**
@@ -239,7 +245,7 @@ class KodiCMS_Model_Page_Front {
 	 */
 	public function meta_keywords($default = NULL) 
 	{
-		$meta_keywords = $this->_parse_meta('meta_keywords');
+		$meta_keywords = $this->parse_meta('meta_keywords');
 		return !empty($meta_keywords) ? $meta_keywords : $default; 
 	}
 
@@ -250,8 +256,32 @@ class KodiCMS_Model_Page_Front {
 	 */
 	public function meta_description($default = NULL) 
 	{
-		$meta_description = $this->_parse_meta('meta_description');
+		$meta_description = $this->parse_meta('meta_description');
 		return ! empty($meta_description) ? $meta_description : $default; 
+	}
+	
+	/**
+	 * 
+	 * @param string|array $key
+	 * @param string $value
+	 * 
+	 * @return Model_Page_Front
+	 */
+	public function meta_params($key, $value = NULL, $field = NULL)
+	{
+		if (is_array($key))
+		{
+			foreach ($key as $key2 => $value)
+			{
+				$this->_meta_params[$key2] = $value;
+			}
+		}
+		else
+		{
+			$this->_meta_params[$key] = $field === NULL ? $value : $this->parse_meta($field, $value);
+		}
+		
+		return $this;
 	}
 
 	/**
@@ -923,23 +953,24 @@ class KodiCMS_Model_Page_Front {
 	 * @param string $key
 	 * @return string
 	 */
-	protected function _parse_meta( $key )
+	public function parse_meta($key, $value = NULL)
 	{
-		$string = strtr($this->{$key}, array('\'' => '\\\'', '\\' => '\\\\'));
+		if($value === NULL)
+		{
+			$value = strtr($this->{$key}, array('\'' => '\\\'', '\\' => '\\\\'));
+		}
 
 		$fields = array();
-		
+
 		$found = preg_match_all(
 			'/(?<!\{)\{('.
-				'((\$|\:)[A-Za-z0-9_\-\.\/]+)'. // {$abc}, {:abc}
-				'|(\-?[0-9]+(\|[^\'\}]*)?)'. // {1}, {-1| &gt; }
+				'((\$|\:)[A-Za-z0-9_\-\.\/]+(\|[\w\ ]*)?)'. // {$abc}, {:abc}
 				'|[\.]+'.
-			')\}(?!\})/u', $string, $fields);
+			')\}(?!\})/u', $value, $fields);
 
 		if($found) 
 		{
 			$fields = array_unique($fields[1]);
-
 			$parts = array();
 	
 			foreach($fields as $i => $field) 
@@ -974,11 +1005,15 @@ class KodiCMS_Model_Page_Front {
 				}
 				
 				$param = NULL;
-
+				$meta_param = NULL;
+				
+				list($field, $default) = explode('|', $field, 2);
 				switch($field{0}) 
 				{
 					case '$':
 						$param = substr($field, 1);
+					case ':':
+						$meta_param = substr($field, 1);
 					break;
 				}
 
@@ -986,7 +1021,7 @@ class KodiCMS_Model_Page_Front {
 				{
 					if (strpos( $param, 'site.') !== FALSE )
 					{
-						$parts[] = Config::get('site', substr($param, 5));
+						$parts[] = Config::get('site', substr($param, 5), $default);
 					}
 					else if (strpos( $param, 'ctx.') !== FALSE)
 					{
@@ -997,12 +1032,17 @@ class KodiCMS_Model_Page_Front {
 						$parts[] = $this->{$param}();
 					}
 				}
+
+				if ($meta_param !== NULL)
+				{
+					$parts[] = Arr::get($this->_meta_params, $meta_param, $default);
+				}			
 			}
 			
-			$string = preg_replace($patterns, $parts, $string);
+			$value = preg_replace($patterns, $parts, $value);
 		}
 		
-		return $string;
+		return $value;
 	}
 
 	/**

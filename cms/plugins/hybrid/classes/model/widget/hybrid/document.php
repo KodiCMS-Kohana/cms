@@ -102,31 +102,16 @@ class Model_Widget_Hybrid_Document extends Model_Widget_Decorator {
 	public function on_page_load()
 	{
 		parent::on_page_load();
-		
-		$doc = $this->get_document();
-		
-		$page = $this->_ctx->get_page();
 
 		if($this->seo_information === TRUE)
 		{
-			$page->title = $doc['header'];
-			$page->meta_title = $doc['meta_title'];
-			$page->meta_keywords = $doc['meta_keywords'];
-			$page->meta_description = $doc['meta_description'];
-		}
-	}
-	
-	public function change_crumbs( Breadcrumbs &$crumbs )
-	{
-		parent::change_crumbs( $crumbs );
-		$page = $this->_ctx->get_page();
-		$doc = $this->get_document();
-		
-		$crumb = $crumbs->get_by('url', $page->url);
-		
-		if($crumb !== NULL)
-		{
-			$crumb->name = $doc['header'];
+			$doc = $this->get_document();
+			$page = $this->_ctx->get_page();
+
+			$page->meta_params('document_header', $doc['header'], 'title');
+			$page->meta_params('document_meta_title', $doc['meta_title'], 'meta_title');
+			$page->meta_params('document_meta_keywords', $doc['meta_keywords'], 'meta_keywords');
+			$page->meta_params('document_meta_description', $doc['meta_description'], 'meta_description');
 		}
 	}
 

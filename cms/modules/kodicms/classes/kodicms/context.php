@@ -261,9 +261,20 @@ class KodiCMS_Context {
 	 * @param Model_Page_Front $page
 	 * @return \Context
 	 */
-	public function set_page( Model_Page_Front & $page )
+	public function set_page( Model_Page_Front $page )
 	{
 		$this->_page = & $page;
+
+		return $this;
+	}
+	
+	/**
+	 * 
+	 * @param Model_Page_Front $page
+	 * @return \Context
+	 */
+	public function set_crumbs( Model_Page_Front $page )
+	{
 		$this->_crumbs = $page->breadcrumbs();
 
 		return $this;

@@ -85,6 +85,7 @@ class KodiCMS_Controller_Front extends Controller_System_Controller
 		View_Front::bind_global('page', $page);
 		Observer::notify('frontpage_found', $page);
 		
+		$this->_ctx->set_crumbs($page);
 		$this->_ctx->build_crumbs();
 		
 		// Если установлен статус 404, то выводим страницу 404

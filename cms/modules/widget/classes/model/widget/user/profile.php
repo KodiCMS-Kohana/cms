@@ -12,6 +12,10 @@ class Model_Widget_User_Profile extends Model_Widget_Decorator {
 	 * @var ORM 
 	 */
 	protected $_user = NULL;
+	
+	protected $_data = array(
+		'profile_id_ctx' => 'user_id'
+	);
 
 	public function set_values(array $data) 
 	{
@@ -28,10 +32,17 @@ class Model_Widget_User_Profile extends Model_Widget_Decorator {
 		parent::on_page_load();
 		
 		$user = $this->get_user();
+
 		if( ! $user->loaded() AND $this->throw_404 === TRUE )
 		{
 			$this->_ctx->throw_404('Profile not found');
 		}
+		
+		$page = $this->_ctx->get_page();
+			
+		$page->meta_params(array(
+			'profile_username' => $user->username
+		));
 		
 		$this->_ctx->set('widget_profile_id', $user->id);
 		$this->_ctx->set('widget_profile_username', $user->username);
@@ -71,7 +82,8 @@ class Model_Widget_User_Profile extends Model_Widget_Decorator {
 		}
 		else
 		{
-			$this->_user = Auth::instance()->get_user(ORM::factory('User'));
+			$this->_user = Auth::get_record(ORM::factory('User'));
+			$this->_ctx->set($this->profile_id_ctx, $this->_user->id);
 		}
 
 		return $this->_user;
