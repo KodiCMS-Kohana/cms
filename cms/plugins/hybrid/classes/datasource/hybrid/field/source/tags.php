@@ -20,7 +20,7 @@ class DataSource_Hybrid_Field_Source_Tags extends DataSource_Hybrid_Field_Source
 	
 	public function onUpdateDocument(DataSource_Hybrid_Document $old = NULL, DataSource_Hybrid_Document $new) 
 	{
-		$old_tags = $old->get($this->name);
+		$old_tags = array_unique($this->get_tags($old->id));
 		$new_tags = $new->get($this->name);
 		
 		$old_tags = empty($old_tags) ? array() : explode(',', $old_tags);
@@ -35,13 +35,28 @@ class DataSource_Hybrid_Field_Source_Tags extends DataSource_Hybrid_Field_Source
 		$this->update_tags($tags, array(), $doc->id);
 	}
 	
+	public function get_tags($doc_id)
+	{
+		return DB::select('tags.name')
+			->from(self::TABLE_NAME)
+			->where('doc_id', '=', (int) $doc_id)
+			->where('field_id', '=', $this->id)
+			->join(array('Model_Tag::tableName()', 'tags'))
+				->on('tags.id', '=', 'tag_id')
+			->execute()
+			->as_array(NULL, 'name');
+	}
+	
 	public function get_type()
 	{
 		return 'TEXT NOT NULL';
 	}
 	
-	public function update_tags($old, $new, $doc_id)
+	public function update_tags(array $old, array $new, $doc_id)
 	{
+		$old = array_unique(Arr::map('trim', $old));
+		$new = array_unique(Arr::map('trim', $new));
+
 		if(empty($new))
 		{
 			foreach($old as $tag)
@@ -71,13 +86,14 @@ class DataSource_Hybrid_Field_Source_Tags extends DataSource_Hybrid_Field_Source
 
 			$tag = Record::findOneFrom('Model_Tag', array('where' => array(
 				array('name', '=', $tag_name))));
+			
 
 			// try to get it from tag list, if not we add it to the list
 			if (!($tag instanceof Model_Tag))
 			{
 				$tag = new Model_Tag(array('name' => trim($tag_name)));
 			}
-
+			
 			$tag->count++;
 			$tag->save();
 		
@@ -92,7 +108,7 @@ class DataSource_Hybrid_Field_Source_Tags extends DataSource_Hybrid_Field_Source
 				->values($data)
 				->execute();
 		}
-
+		
 		// remove all old tag
 		foreach( $old_tags as $index => $tag_name )
 		{
