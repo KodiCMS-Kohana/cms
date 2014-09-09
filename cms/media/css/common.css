@@ -25475,92 +25475,92 @@ a.editable-click.editable-disabled:hover {
   background: #000000 url('../images/loader-big-black.gif') 15px center no-repeat;
   z-index: 5002;
 }
-.page-items {
+.tree-items {
   margin: 0;
 }
-.page-items .page-item {
+.tree-items .tree-item {
   line-height: 25px;
   position: relative;
   padding: 8px 0;
   border-bottom: 1px solid #ccc;
 }
-.page-items .page-item .item-expander {
+.tree-items .tree-item .item-expander {
   margin-left: -17px;
   cursor: pointer;
 }
-.page-items .page-item .date,
-.page-items .page-item .status {
+.tree-items .tree-item .date,
+.tree-items .tree-item .status {
   font-size: 90%;
 }
-.page-items .page-item .status .label {
+.tree-items .tree-item .status .label {
   cursor: pointer;
 }
-.page-items .page-item .actions {
+.tree-items .tree-item .actions {
   display: none;
   text-align: right;
 }
-.page-items .page-item:hover .item-preview {
+.tree-items .tree-item:hover .item-preview {
   display: inline;
 }
-.page-items .page-item:hover .actions {
+.tree-items .tree-item:hover .actions {
   display: block;
 }
-.page-items li:nth-child(even) > .page-item {
+.tree-items li:nth-child(even) > .tree-item {
   background-color: #f9f9f9;
 }
-.page-items li:hover > .page-item {
+.tree-items li:hover > .tree-item {
   background-color: #fff;
 }
-.page-items li:hover > .page-item:hover {
+.tree-items li:hover > .tree-item:hover {
   background-color: #fdffbe;
 }
-.page-items li:hover > .page-item a {
+.tree-items li:hover > .tree-item a {
   color: #333435;
 }
-.page-items li.map-placeholder {
+.tree-items li.map-placeholder {
   height: 42px;
   line-height: 42px;
   background-color: #fffff1;
 }
-.page-items ui-sortable-helper > .page-item {
+.tree-items ui-sortable-helper > .tree-item {
   border: none;
 }
-.page-items ul .page-item .title {
+.tree-items ul .tree-item .title {
   padding-left: 35px;
 }
-.page-items ul ul .page-item .title {
+.tree-items ul ul .tree-item .title {
   padding-left: 70px;
 }
-.page-items ul ul ul .page-item .title {
+.tree-items ul ul ul .tree-item .title {
   padding-left: 105px;
 }
-.page-items ul ul ul ul .page-item .title {
+.tree-items ul ul ul ul .tree-item .title {
   padding-left: 140px;
 }
-.page-items ul ul ul ul ul .page-item .title {
+.tree-items ul ul ul ul ul .tree-item .title {
   padding-left: 175px;
 }
-.page-items ul ul ul ul ul ul .page-item .title {
+.tree-items ul ul ul ul ul ul .tree-item .title {
   padding-left: 210px;
 }
-.page-items ul ul ul ul ul ul ul .page-item .title {
+.tree-items ul ul ul ul ul ul ul .tree-item .title {
   padding-left: 245px;
 }
-.page-items ul ul ul ul ul ul ul ul .page-item .title {
+.tree-items ul ul ul ul ul ul ul ul .tree-item .title {
   padding-left: 280px;
 }
-.page-items ul ul ul ul ul ul ul ul ul .page-item .title {
+.tree-items ul ul ul ul ul ul ul ul ul .tree-item .title {
   padding-left: 315px;
 }
-.page-items .helper-ul {
+.tree-items .helper-ul {
   border: 1px solid #0088CC;
   padding: 5px;
   background-color: #fffff1;
 }
-.page-items .map-drag .page-item {
+.tree-items .map-drag .page-item {
   border: 1px dashed #ccc;
 }
-.page-items .item-preview {
+.tree-items .item-preview {
   display: none;
   margin-left: 10px;
 }

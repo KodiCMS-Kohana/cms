@@ -40,10 +40,10 @@
 	}
 }
 
-.page-items {
+.tree-items {
 	margin: 0;
 	
-	.page-item {
+	.tree-item {
 		line-height: 25px;
 		position: relative;
 		padding: 8px 0;
@@ -82,13 +82,13 @@
 
 	li {
 		&:nth-child(even) {
-			& > .page-item {
+			& > .tree-item {
 				background-color: #f9f9f9;
 			}
 		}
 
 		&:hover {
-			& > .page-item {
+			& > .tree-item {
 				background-color: #fff;
 
 				&:hover {
@@ -108,12 +108,12 @@
 		}
 	}
 
-	ui-sortable-helper > .page-item {
+	ui-sortable-helper > .tree-item {
 		border: none;
 	}
 
 	.ulX(@index, @ul, @padding) when (@index < 10) {
-		@item: ~"@{ul} .page-item .title";
+		@item: ~"@{ul} .tree-item .title";
 		@{item} { 
 			padding-left: @padding + 35px;
 		}

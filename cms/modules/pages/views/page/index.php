@@ -7,7 +7,7 @@ $.each(<?php echo json_encode(Model_Page::statuses()); ?>, function(k, v) {
 </script>
 <div id="page-tree" class="panel">
 	<div class="panel-heading">
-		<?php if ( Acl::check( 'page.add')): ?>
+		<?php if (Acl::check('page.add')): ?>
 		<?php echo UI::button(UI::hidden(__('Add page')), array(
 			'class' => 'btn-default',
 			'href' => Route::get('backend')->uri(array('controller' => 'page', 'action' => 'add')),
@@ -16,7 +16,7 @@ $.each(<?php echo json_encode(Model_Page::statuses()); ?>, function(k, v) {
 		)); ?>
 		<?php endif; ?>
 
-		<?php if ( Acl::check( 'page.sort')): ?>
+		<?php if (Acl::check('page.sort')): ?>
 		<?php echo UI::button(__('Reorder'), array(
 			'id' => 'pageMapReorderButton', 
 			'class' => 'btn-primary btn-sm',
@@ -40,15 +40,15 @@ $.each(<?php echo json_encode(Model_Page::statuses()); ?>, function(k, v) {
 			</tr>
 		</thead>
 	</table>
-	<ul id="page-tree-list" class="page-items list-unstyled" data-level="0">
+	<ul id="page-tree-list" class="tree-items list-unstyled" data-level="0">
 		<li data-id="<?php echo $page->id; ?>">
-			<div class="page-item">
+			<div class="tree-item">
 				<div class="title col-xs-7">
-					<?php if( ! ACL::check('page.edit') OR ! Auth::has_permissions( $page->get_permissions() ) ): ?>
-					<?php echo UI::icon('lock'); ?>
+					<?php if (!ACL::check('page.edit') OR ! Auth::has_permissions($page->get_permissions())): ?>
+					<?php echo UI::icon('lock fa-fw'); ?>
 					<em title="/"><?php echo $page->title; ?></em>
 					<?php else: ?>
-					<?php  echo HTML::anchor($page->get_url(), $page->title, array('data-icon' => 'home fa-lg')); ?>
+					<?php  echo HTML::anchor($page->get_url(), $page->title, array('data-icon' => 'home fa-lg fa-fw')); ?>
 					<?php endif; ?>
 
 					<?php echo $page->get_public_anchor(); ?>
@@ -67,7 +67,7 @@ $.each(<?php echo json_encode(Model_Page::statuses()); ?>, function(k, v) {
 		</li>
 	</ul>
 	
-	<ul id="page-search-list" class="page-items no-padding-hr"></ul>
+	<ul id="page-search-list" class="tree-items no-padding-hr"></ul>
 	
 	<div class="clearfix"></div>
 </div>

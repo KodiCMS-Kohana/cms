@@ -4,34 +4,34 @@
 	<?php foreach($childrens as $child): ?>
 	<?php if($child instanceof Model_Page): ?>
 	<li data-id="<?php echo $child->id; ?>" <?php if($child->is_expanded):?>class="item-expanded"<?php endif; ?>>
-		<div class="page-item">
+		<div class="tree-item">
 			<div class="title col-xs-7">
 				<?php if ($child->has_children): ?>
 				<?php
 					if($child->is_expanded)
 					{
-						echo UI::icon('minus item-expander item-expander-expand');
+						echo UI::icon('minus fa-fw item-expander item-expander-expand');
 					}
 					else
 					{
-						echo UI::icon('plus item-expander');
+						echo UI::icon('plus fa-fw item-expander');
 					}
 				?>
 				<?php endif; ?>
 
 
 				<?php if (!ACL::check('page.edit') OR !Auth::has_permissions($child->get_permissions())): ?>
-				<?php echo UI::icon('lock'); ?>
+				<?php echo UI::icon('lock fa-fw'); ?>
 				<?php echo $child->title; ?>
 				<?php else: ?>
-				<?php echo HTML::anchor($child->get_url(), $child->title, array('data-icon' => ! empty($child->children_rows) ? 'folder-open' : 'file-o')); ?>
+				<?php echo HTML::anchor($child->get_url(), $child->title, array('data-icon' => ! empty($child->children_rows) ? 'folder-open fa-fw' : 'file-o fa-fw')); ?>
 				<?php endif; ?>				
 				<?php if( !empty($child->behavior_id) ): ?> <?php echo UI::label(__(ucfirst(Inflector::humanize( $child->behavior_id ))), 'default'); ?><?php endif; ?>
 				<?php if( !empty($child->use_redirect) ): ?> <?php echo UI::label(__('Redirect: :url', array(':url' => $child->redirect_url))); ?><?php endif; ?>
 
 				<?php echo $child->get_public_anchor(); ?>
 			</div>
-			<div class="date col-xs-2 text-right">
+			<div class="date col-xs-2 text-right text-muted">
 				<?php echo Date::format($child->published_on); ?>
 			</div>
 			<div class="status col-xs-2 text-right">
@@ -69,7 +69,7 @@
 	<?php if ($child->is_expanded) echo($child->children_rows); ?>
 	<?php else: ?>
 	<li>
-		<div class="page-item">
+		<div class="tree-item">
 			<div class="row">
 				<div class="title col-xs-12">
 					<?php echo $child; ?>
