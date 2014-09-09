@@ -135,8 +135,9 @@
 	<?php echo $content; ?>
 	<?php if($widget->is_handler()): ?>
 	<div class="alert alert-danger note-dark no-margin-b">
-		<?php echo __('To use handler send your data to URL :href', array(
-			':href' => HTML::anchor($widget->link(), URL::site($widget->link(), TRUE))
+		<?php echo __('To use handler send your data to URL :href or use route :route', array(
+			':href' => '<code>' . URL::site($widget->link(), TRUE) . '</code>',
+			':route' => '<code>Route::get(\'handler\')->uri(array(\'id\' => ' .$widget->id. '));</code>'
 		)); ?>
 	</div>
 	<?php endif; ?>
