@@ -22,7 +22,7 @@
 
 	<div class="btn-group">
 		<?php if ($datasource->has_access('document.edit')): ?>
-		<?php echo UI::button(__('Create document'), array(
+		<?php echo UI::button(UI::hidden(__('Create document')), array(
 			'href' => Route::get('datasources')->uri(array(
 				'controller' => 'document',
 				'directory' => $datasource->type(),

@@ -32,18 +32,18 @@ class DataSource_Hybrid_Field_Utils {
 	 * @param integer $id Идентификатор документа
 	 * @return string
 	 */
-	public static function get_document_header( $ds_id, $id ) 
+	public static function get_document_header($ds_id, $id)
 	{
-		if(isset(self::$_cached_headers[$ds_id][$id]))
+		if (isset(self::$_cached_headers[$ds_id][$id]))
 		{
 			return self::$_cached_headers[$ds_id][$id];
 		}
 
-		$documents = self::get_document_headers( $ds_id, array($id));
-		
+		$documents = self::get_document_headers($ds_id, array($id));
+
 		return count($documents) > 0 ? reset($documents) : NULL;
 	}
-	
+
 	/**
 	 * Получение списка заголовков документов
 	 * 
@@ -51,21 +51,42 @@ class DataSource_Hybrid_Field_Utils {
 	 * @param array $ids
 	 * @return array
 	 */
-	public static function get_document_headers( $ds_id, array $ids ) 
+	public static function get_document_headers($ds_id, array $ids)
 	{
-		if(empty($ids)) return array();
+		$result = array();
 		
-		$result = DB::select('id', 'header')
-			->from('dshybrid')
+		foreach ($ids as $i => $id)
+		{
+			if (isset(self::$_cached_headers[$ds_id][$id]))
+			{
+				$result[$id] = self::$_cached_headers[$ds_id][$id];
+				unset($ids[$i]);
+			}
+		}
+
+		if (empty($ids))
+		{
+			return $result;
+		}
+
+		$ds = Datasource_Section::load($ds_id);
+		if (!($ds instanceof Datasource_Section))
+		{
+			return array();
+		}
+
+		$db_result = DB::select('id', 'header')
+			->from($ds->table())
 			->where('id', 'in', $ids)
 			->execute()
 			->as_array('id', 'header');
 
-		foreach ($result as $id => $header )
+		foreach ($db_result as $id => $header)
 		{
 			self::$_cached_headers[$ds_id][$id] = $header;
+			$result[$id] = $header;
 		}
-		
+
 		return $result;
 	}
 }

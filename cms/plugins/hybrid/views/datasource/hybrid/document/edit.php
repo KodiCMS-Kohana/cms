@@ -1,5 +1,5 @@
 <script type="text/javascript">
-<?php if(!Acl::check('hybrid'.$ds->id().'.document.edit')): ?>
+<?php if(!$ds->has_access('document.edit')): ?>
 $(function() {
 	$('input,textarea,select').attr('disabled', 'disabled');
 });
@@ -176,7 +176,7 @@ function update_documents(e, response) {
 }
 </script>
 
-<?php if(Acl::check('hybrid'.$ds->id().'.document.edit')): ?>
+<?php if($ds->has_access('document.edit')): ?>
 <?php echo Form::open(Route::get('datasources')->uri(array(
 		'controller' => 'document',
 		'directory' => $ds->type(),
@@ -245,7 +245,7 @@ function update_documents(e, response) {
 </div>
 <?php endif; ?>
 
-<?php if(Acl::check('hybrid'.$ds->id().'.document.edit')): ?>
+<?php if($ds->has_access('document.edit')): ?>
 <div class="form-actions panel-footer">
 	<?php echo UI::actions(TRUE, Route::get('datasources')->uri(array(
 		'controller' => 'data',

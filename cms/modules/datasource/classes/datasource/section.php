@@ -548,7 +548,7 @@ class Datasource_Section {
 	 * Смена статуса документов по ID.
 	 * 
 	 * @param array $ids
-	 * @param boolean $value
+	 * @param boolean $status
 	 * @return \Datasource_Section
 	 */
 	protected function _publish(array $ids, $status) 
@@ -562,7 +562,7 @@ class Datasource_Section {
 			->where('ds_id', '=', $this->_id)
 			->execute();
 
-		if($value === TRUE)
+		if($status === TRUE)
 		{
 			$this->add_to_index($ids);
 		}
@@ -731,39 +731,39 @@ class Datasource_Section {
 	/**
 	 * Смена статуса поисковой индексации раздела
 	 * 
-	 * @param boolean $newState
+	 * @param boolean $state
 	 * @return \Datasource_Section
 	 */
-	public function set_indexable( $state ) 
+	public function set_indexable($state)
 	{
 		$state = (bool) $state;
 
-		if( ! $this->loaded() )
+		if (!$this->loaded())
 		{
 			$this->_is_indexable = $state;
-			
+
 			return $this;
 		}
 
-		if($state == $this->is_indexable())
+		if ($state == $this->is_indexable())
 		{
 			return $this;
 		}
 
-		if($state) 
+		if ($state)
 		{
 			$this->_is_indexable = $state;
 			$this->add_to_index();
-		} 
-		else 
+		}
+		else
 		{
 			$this->remove_from_index();
 			$this->_is_indexable = $state;
 		}
-		
+
 		return $this;
 	}
-	
+
 	/**
 	 * Загрузка списка документов по ID в формате для индексации
 	 * 

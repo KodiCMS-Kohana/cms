@@ -10,13 +10,13 @@ cms.init.add(['datasources_data_index'], function() {
 		$('.mail-nav').addClass('fixed');
 	}
 	
-	$(document).on('click', '.headline table tbody tr', function(event) {
+	$(document).on('click', '.headline tr[data-id]', function(event) {
 		if (event.target.type !== 'checkbox') {
 			$(':checkbox', this).trigger('click');
 		}
 	});
 
-	$(document).on('change', '.headline table tbody .doc-checkbox', function() {
+	$(document).on('change', '.headline [data-id] .doc-checkbox', function() {
 		checkbox_check();
 	});
 	
@@ -28,7 +28,7 @@ cms.init.add(['datasources_data_index'], function() {
 		if(action == 'check_all')
 			sibling = ':not(:checked)';
 		
-		$('.headline table tbody .doc-checkbox' + sibling).trigger('click');
+		$('.headline [data-id] .doc-checkbox' + sibling).trigger('click');
 		
 		e.preventDefault();
 	});
@@ -36,7 +36,7 @@ cms.init.add(['datasources_data_index'], function() {
 	$('.headline-actions .doc-actions .action').on('click', function() {
 		var action = $(this).data('action');
 
-		var data = $('.headline table tbody .doc-checkbox:checked')
+		var data = $('.headline [data-id] .doc-checkbox:checked')
 			.serialize();
 	
 		var page = $.query.get('page');
@@ -60,17 +60,19 @@ cms.init.add(['datasources_data_index'], function() {
 
 function update_headline() {
 	var data = {
-		'page': $.query.get('page'),
+		page: $.query.get('page'),
 		ds_id: DS_ID
 	}
 	Api.get('/datasource-document.headline', data, function(response) {
-		if(response.response)
+		if(response.response) {
 			$('.headline').html(response.response);
+			cms.ui.init('icon');
+		}
 	});
 }
 
 function checkbox_check() {
-	var $checkboxes = $('.headline table tbody .doc-checkbox');
+	var $checkboxes = $('.headline [data-id] .doc-checkbox');
 	var $total_checked = $checkboxes.filter(':checked').length;
 	
 	if($total_checked > 0)
@@ -80,9 +82,9 @@ function checkbox_check() {
 	
 	$checkboxes.each(function() {
 		if (!$(this).prop('checked')) {
-			$(this).closest('tr').removeClass("info");
+			$(this).closest('[data-id]').removeClass("info");
 		} else {
-			$(this).closest('tr').addClass("info");
+			$(this).closest('[data-id]').addClass("info");
 		}
 	});
 }
