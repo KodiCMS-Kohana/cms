@@ -7,6 +7,19 @@
  */
 class Controller_System_Handler extends Controller_System_Controller
 {
+	public function before()
+	{
+		parent::before();
+		
+		$this->_ctx = Context::instance();
+
+		$this->_ctx
+			->request( $this->request )
+			->response( $this->response );
+		
+		View_Front::bind_global('ctx', $this->_ctx);
+	}
+	
 	public function action_index()
 	{
 		$id = (int) $this->request->param('id');
