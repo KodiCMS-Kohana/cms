@@ -82,7 +82,7 @@ class Model_Widget_User_Login extends Model_Widget_Decorator_Handler {
 
 		$data = Request::current()->post();
 
-		$login_fieldname = Valid::email(Arr::get($data, $this->get('login_field'))) ? AuthUser::EMAIL : AuthUser::USERNAME;
+		$login_fieldname = Valid::email(Arr::get($data, $this->get('login_field'))) ? Auth::EMAIL : Auth::USERNAME;
 
 		$data = Validation::factory($data)
 			->label($this->get('login_field'), 'Username')
