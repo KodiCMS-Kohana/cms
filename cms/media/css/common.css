@@ -10151,14 +10151,12 @@ ul.dropdown-menu .dropdown-icon {
 }
 .pagination > li > a,
 .pagination > li > span {
-  background-color: transparent;
+  background-color: #fff;
   border: 1px solid #dddddd;
   color: #595959;
   margin-right: 5px;
-  border-radius: 2px;
 }
 .pagination > li > a:hover {
-  background-color: transparent;
   color: #333333;
 }
 .pagination > li.active > a,
@@ -10176,12 +10174,11 @@ ul.dropdown-menu .dropdown-icon {
 }
 .pager li > a,
 .pager li > span {
-  background-color: transparent;
+  background-color: #fff;
   border-color: #dddddd;
   color: #595959;
 }
 .pager li > a:hover {
-  background-color: transparent;
   color: #333333;
 }
 .pager li.disabled > a {
