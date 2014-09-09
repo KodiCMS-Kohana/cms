@@ -1006,8 +1006,13 @@ class KodiCMS_Model_Page_Front {
 				
 				$param = NULL;
 				$meta_param = NULL;
+				$default = NULL;
+
+				if(strpos($field, '|') !== FALSE)
+				{
+					list($field, $default) = explode('|', $field, 2);
+				}
 				
-				list($field, $default) = explode('|', $field, 2);
 				switch($field{0}) 
 				{
 					case '$':
