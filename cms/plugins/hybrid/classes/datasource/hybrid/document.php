@@ -413,7 +413,7 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 				}
 			}
 			
-			$expected_rules = $fields;
+			$expected_rules = $rules;
 		}
 		
 		$values = $this->values();
