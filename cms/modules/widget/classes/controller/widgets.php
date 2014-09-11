@@ -208,6 +208,7 @@ class Controller_Widgets extends Controller_System_Backend {
 			'templates' => Model_File_Snippet::html_select(),
 			'content' =>  $widget->fetch_backend_content(),
 			'roles' => $roles,
+			'params' => Widget_Manager::get_params($widget->type())
 		) );
 	}
 	

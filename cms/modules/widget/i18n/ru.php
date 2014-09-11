@@ -44,7 +44,7 @@ return array(
 	'Block: :block_name' => 'Блок: :block_name',
 	'Position: :position' => 'Позиция: :position',
 	'All widgets set to page' => 'Все виджеты установлены на страницу',
-	
+	'Widget variables' => 'Пременные виджета',
 	'Other' => 'Другое',
 	'Menu' => 'Меню',
 	'Pages with parts' => 'Страницы с контентом',

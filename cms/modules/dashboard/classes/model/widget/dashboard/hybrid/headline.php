@@ -123,7 +123,7 @@ class Model_Widget_Dashboard_Hybrid_Headline extends Model_Widget_Decorator_Dash
 
 	/**
 	 * 
-	 * @return array
+	 * @return array [$section, $docs, $fields, $count]
 	 */
 	public function fetch_data()
 	{

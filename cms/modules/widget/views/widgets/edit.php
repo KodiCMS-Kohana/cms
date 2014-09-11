@@ -27,8 +27,20 @@
 	</div>
 
 	<?php if($widget->use_template()): ?>
+	<div class="panel-heading">
+		<span class="panel-title" data-icon="hdd-o"><?php echo __('Widget template'); ?></span>
+	</div>
+	<div class="note note-info no-margin-b">
+		<div class="row">
+			<div class="col-sm-offset-2 col-sm-10">
+				<strong><?php echo __('Widget variables'); ?>: </strong>
+				<?php foreach ($params as $param): ?>
+				<?php echo UI::label($param); ?>
+				<?php endforeach; ?>
+			</div>
+		</div>
+	</div>
 	<?php echo View::factory('helper/snippet_select', array(
-		'header' => __('Widget template'),
 		'template' => $widget->template,
 		'default' => $widget->default_template() 
 			? UI::button(UI::hidden(__('Default template'), array('sm', 'xs')), array(
@@ -42,6 +54,8 @@
 			)) 
 			: NULL
 	)); ?>
+	
+	
 	<?php endif; ?>
 
 	<?php if($widget->use_caching() AND ACL::check('widgets.cache')): ?>

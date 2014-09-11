@@ -137,7 +137,7 @@ class Model_Widget_Hybrid_Headline extends Model_Widget_Decorator_Pagination {
 
 	/**
 	 * 
-	 * @return array
+	 * @return array [$docs, $count]
 	 */
 	public function fetch_data()
 	{

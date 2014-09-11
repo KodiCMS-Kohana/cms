@@ -95,8 +95,8 @@ class Model_Widget_Datasource_Search extends Model_Widget_Decorator_Pagination {
 	}
 
 	/**
-	 *
-	 * @var array 
+	 * 
+	 * @return array [$total_found, $results, $keyword]
 	 */
 	public function fetch_data()
 	{

@@ -50,7 +50,7 @@ class Model_Widget_User_Profile extends Model_Widget_Decorator {
 
 	/**
 	 * 
-	 * @return array
+	 * @return array [$user_found, $user, $profile]
 	 */
 	public function fetch_data()
 	{

@@ -7,6 +7,10 @@
  */
 class Model_Widget_Disqus_Comments extends Model_Widget_Decorator {
 
+	/**
+	 * 
+	 * @return array [$plugin]
+	 */
 	public function fetch_data()
 	{
 		$plugin = Plugins::get_registered('disqus');

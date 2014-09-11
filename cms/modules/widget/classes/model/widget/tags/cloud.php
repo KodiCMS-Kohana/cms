@@ -32,6 +32,10 @@ class Model_Widget_Tags_Cloud extends Model_Widget_Decorator {
 		$this->_ids = $ids;
 	}
 
+	/**
+	 * 
+	 * @return array [$tags]
+	 */
 	public function fetch_data()
 	{
 		$tags = $this->get_tags();

@@ -23,6 +23,10 @@ class Model_Widget_Page_Search extends Model_Widget_Decorator_Pagination {
 		$this->count_total();
 	}
 
+	/**
+	 * 
+	 * @return array [$total_found, $results, $keyword]
+	 */
 	public function fetch_data()
 	{
 		$keyword = $this->keyword();

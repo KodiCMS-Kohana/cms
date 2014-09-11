@@ -7,6 +7,10 @@
  */
 class Model_Widget_Archive_Month extends Model_Widget_Archive {
 
+	/**
+	 * 
+	 * @return array [$links]
+	 */
 	public function fetch_data()
 	{
 		$page = $this->get_page();

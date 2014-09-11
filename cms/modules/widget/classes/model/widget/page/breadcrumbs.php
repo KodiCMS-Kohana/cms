@@ -28,6 +28,10 @@ class Model_Widget_Page_Breadcrumbs extends Model_Widget_Decorator {
 		return parent::set_values($data);
 	}
 
+	/**
+	 * 
+	 * @return array [$crumbs]
+	 */
 	public function fetch_data()
 	{
 		$crumbs = array();

@@ -50,6 +50,10 @@ class Model_Widget_Hybrid_Tags extends Model_Widget_Tags_Cloud {
 		return $fields;
 	}
 
+	/**
+	 * 
+	 * @return array [$tags]
+	 */
 	public function fetch_data()
 	{
 		$ids = DB::select('tag_id')

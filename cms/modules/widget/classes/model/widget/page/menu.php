@@ -55,6 +55,10 @@ class Model_Widget_Page_Menu extends Model_Widget_Decorator {
 		return (int) $level;
 	}
 
+	/**
+	 * 
+	 * @return array [$pages]
+	 */
 	public function fetch_data()
 	{
 		$pages = Model_Page_Sitemap::get( (bool) $this->include_hidden );

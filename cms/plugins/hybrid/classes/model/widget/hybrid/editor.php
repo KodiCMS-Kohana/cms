@@ -4,6 +4,10 @@ class Model_Widget_Hybrid_Editor extends Model_Widget_Hybrid_Document {
 
 	protected $_use_caching = FALSE;
 	
+	/**
+	 * 
+	 * @return array [$fields, $datasource, $document]
+	 */
 	public function fetch_data()
 	{
 		$datasource = Datasource_Data_Manager::load($this->ds_id);

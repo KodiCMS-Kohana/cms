@@ -65,6 +65,10 @@ class Model_Widget_Page_Pages extends Model_Widget_Decorator_Pagination {
 		return NULL;
 	}
 	
+	/**
+	 * 
+	 * @return array [$pages]
+	 */
 	public function fetch_data()
 	{
 		$page = $this->get_current_page();

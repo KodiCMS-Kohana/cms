@@ -9,6 +9,10 @@ class Model_Widget_Archive_HL extends Model_Widget_Page_Pages {
 	
 	public $backend_template = 'page_pages';
 
+	/**
+	 * 
+	 * @return array [$pages]
+	 */
 	public function fetch_data()
 	{
 		$page = $this->get_page();

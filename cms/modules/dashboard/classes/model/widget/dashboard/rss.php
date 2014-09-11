@@ -33,6 +33,10 @@ class Model_Widget_Dashboard_RSS extends Model_Widget_Decorator_Dashboard {
 		return (int) $height;
 	}
 	
+	/**
+	 * 
+	 * @return array [$rss_url, $items]
+	 */
 	public function fetch_data()
 	{
 		$cache = Cache::instance();

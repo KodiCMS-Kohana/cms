@@ -58,9 +58,18 @@ class Model_Widget_Pagination extends Model_Widget_Decorator {
 		);
 	}
 	
+	/**
+	 * 
+	 * @return array [
+	 *		$total_items, $items_per_page, $total_pages,
+	 *		$current_page, $current_first_item, $current_last_item
+	 *		$previous_page, $next_page, $first_page, $last_page,
+	 *		$offset, $pagination
+	 * ]
+	 */
 	public function fetch_data()
 	{
-		$data = array(
+		return array(
 			'total_items' => $this->pagination->total_items,
 			'items_per_page' => $this->pagination->items_per_page,
 			'total_pages' => $this->pagination->total_pages,
@@ -74,8 +83,6 @@ class Model_Widget_Pagination extends Model_Widget_Decorator {
 			'offset' => $this->pagination->offset,
 			'pagination' => $this->pagination
 		);
-		
-		return $data;
 	}
 	
 	public function get_cache_id()

@@ -19,6 +19,10 @@ class Model_Widget_Page_Password extends Model_Widget_Decorator {
 		}
 	}
 	
+	/**
+	 * 
+	 * @return array [$current_page]
+	 */
 	public function fetch_data()
 	{
 		return array(

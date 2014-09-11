@@ -492,4 +492,32 @@ class Widget_Manager {
 
 		return $widgets;
 	}
+	
+	public static function get_params($type)
+	{
+		$class = 'Model_Widget_' . ucfirst($type);
+		
+		$reflector = new ReflectionClass($class);
+		$comments = $reflector->getMethod('fetch_data')->getDocComment();
+		
+		$params = array();
+
+		if(!empty($comments))
+		{
+			$comments = str_replace(array('/', '*', "\t", "\n", "\r", ' '), '', $comments);
+			preg_match_all("/\[(?s)(?m)(.*)\]/i", $comments, $found);
+
+			if( !empty($found[1]))
+			{
+				$params = explode(',', $found[1][0]);
+			}
+		}
+
+		$params[] = '$params';
+		$params[] = '$ctx';		
+		$params[] = '$widget_id';
+		$params[] = '$header';
+
+		return $params;
+	}
 }
