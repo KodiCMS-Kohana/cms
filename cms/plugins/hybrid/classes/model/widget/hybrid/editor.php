@@ -38,6 +38,14 @@ class Model_Widget_Hybrid_Editor extends Model_Widget_Hybrid_Document {
 			}
 		}
 		
+		View::set_global(array(
+			'form' => array(
+				'label_class' => 'control-label col-md-2 col-sm-3',
+				'input_container_class' => 'col-md-10 col-lg-10 col-sm-9',
+				'input_container_offset_class' => 'col-md-offset-2 col-sm-offset-3 col-md-10 col-sm-9'
+			)
+		));
+		
 		return array(
 			'fields' => $datasource->record()->fields(),
 			'datasource' => $datasource,
