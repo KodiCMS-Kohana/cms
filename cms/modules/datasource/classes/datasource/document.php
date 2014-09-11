@@ -283,15 +283,36 @@ class Datasource_Document {
 		return $this->_system_fields;
 	}
 
+
 	/**
 	 * Загрузка данных из массива
 	 * 
 	 * @param array $array Массив значений полей документа
+	 * @param array $expected
 	 * @return \DataSource_Document
 	 */
-	public function read_values(array $array = NULL) 
+	public function read_values(array $array = NULL, array $expected = NULL) 
 	{
-		foreach($this->_system_fields as $key => $value)
+		// Default to expecting everything except the primary key
+		if ($expected === NULL)
+		{
+			$expected = $this->_system_fields;
+		}
+		else
+		{
+			$fields = $this->_system_fields;
+			foreach ($fields as $key => $value)
+			{
+				if(!in_array($key, $expected))
+				{
+					unset($fields[$key]);
+				}
+			}
+			
+			$expected = $fields;
+		}
+		
+		foreach($expected as $key => $value)
 		{
 			if($key == 'id')
 			{
@@ -574,9 +595,10 @@ class Datasource_Document {
 	 *				->validate($this->request->post() + $_FILES);
 	 * 
 	 * @param Validation $extra_validation
+	 * @param array $expected
 	 * @return boolean|Validation
 	 */
-	public function validate(Validation $extra_validation = NULL)
+	public function validate(Validation $extra_validation = NULL, array $expected = NULL)
 	{
 		// Determine if any external validation failed
 		$extra_errors = ($extra_validation AND ! $extra_validation->check());
@@ -589,7 +611,26 @@ class Datasource_Document {
 			array('not_empty'), array('Security::check')
 		));
 		
-		foreach ($this->rules() as $field => $rules)
+		// Default to expecting everything except the primary key
+		if ($expected === NULL)
+		{
+			$expected = $this->rules();
+		}
+		else
+		{
+			$rules = $this->rules();
+			foreach ($rules as $field => $rules)
+			{
+				if(!in_array($field, $expected))
+				{
+					unset($rules[$field]);
+				}
+			}
+			
+			$expected = $rules;
+		}
+		
+		foreach ($expected as $field => $rules)
 		{
 			$validation->rules($field, $rules);
 		}

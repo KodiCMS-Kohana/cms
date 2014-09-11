@@ -103,13 +103,37 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 	 * Загрузка данных из массива
 	 * 
 	 * @param array $array Массив значений полей документа
+	 * @param array $expected
 	 * @return \DataSource_Hybrid_Document
 	 */
-	public function read_values(array $array = NULL) 
+	public function read_values(array $array = NULL, array $expected = NULL) 
 	{
-		foreach($this->section()->record()->fields() as $field)
+		// Default to expecting everything except the primary key
+		if ($expected === NULL)
 		{
-			if($field->family == DataSource_Hybrid_Field::FAMILY_FILE )	continue;
+			$expected = $this->section()->record()->fields();
+		}
+		else
+		{
+			$fields = $this->section()->record()->fields();
+			foreach ($fields as $name => $field)
+			{
+				if(!in_array($field->id, $expected))
+				{
+					unset($fields[$name]);
+				}
+			}
+			
+			$expected = $fields;
+		}
+		
+		foreach($expected as $field)
+		{
+			if($field->family == DataSource_Hybrid_Field::FAMILY_FILE )
+			{
+				continue;
+			}
+
 			$field->onReadDocumentValue($array, $this);
 			unset($array[$field->name]);
 		}
@@ -354,12 +378,32 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 	 *				->validate($this->request->post() + $_FILES);
 	 * 
 	 * @param Validation $extra_validation
+	 * @param array $expected
 	 * @return boolean|Validation
 	 */
-	public function validate(Validation $extra_validation = NULL)
+	public function validate(Validation $extra_validation = NULL, array $expected = NULL)
 	{
 		// Determine if any external validation failed
 		$extra_errors = ($extra_validation AND ! $extra_validation->check());
+		
+		// Default to expecting everything except the primary key
+		if ($expected === NULL)
+		{
+			$expected = $this->section()->record()->fields();
+		}
+		else
+		{
+			$fields = $this->section()->record()->fields();
+			foreach ($fields as $name => $field)
+			{
+				if(!in_array($field->id, $expected))
+				{
+					unset($fields[$name]);
+				}
+			}
+			
+			$expected = $fields;
+		}
 		
 		$values = $this->values();
 		$values['csrf'] = Arr::get($this->_temp_fields, 'csrf');
@@ -380,7 +424,7 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 			$validation->label($field, $label);
 		}
 
-		foreach ($this->section()->record()->fields() as $name => $field)
+		foreach ($expected as $name => $field)
 		{
 			$field->onValidateDocument($validation, $this);
 		}
