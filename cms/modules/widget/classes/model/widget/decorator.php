@@ -110,6 +110,14 @@ abstract class Model_Widget_Decorator {
 	 * @var array 
 	 */
 	public $media = array();
+	
+	/**
+	 * Подключаемые медиа пакеты для текущего виджета
+	 * Для подключения пакетов в шаблон используется класс Assets
+	 * 
+	 * @var array 
+	 */
+	public $media_packages = array();
 
 	/**
 	 * Генерировать ошибку 404
@@ -729,19 +737,24 @@ abstract class Model_Widget_Decorator {
 	 */
 	public function on_page_load() 
 	{
-		if( ! empty($this->media) )
+		if (!empty($this->media))
 		{
-			foreach($this->media as $link)
+			foreach ($this->media as $link)
 			{
-				if( strpos($link, '.css') !== FALSE)
+				if (strpos($link, '.css') !== FALSE)
 				{
 					Assets::css($link, $link);
 				}
-				else if(strpos($link, '.js') !== FALSE)
+				else if (strpos($link, '.js') !== FALSE)
 				{
 					Assets::js($link, $link);
 				}
 			}
+		}
+		
+		if (!empty($this->media_packages))
+		{
+			Assets::package($this->media_packages);
 		}
 	}
 	

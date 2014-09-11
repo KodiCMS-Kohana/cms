@@ -36,6 +36,16 @@ class Assets_Package implements Iterator {
 	{
 		return Assets_Package::$_list;
 	}
+	
+	/**
+	 * 
+	 * @return array
+	 */
+	public static function select_choises()
+	{
+		$options = array_keys(Assets_Package::$_list);
+		return array_combine($options, $options);
+	}
 
 	/**
 	 * 

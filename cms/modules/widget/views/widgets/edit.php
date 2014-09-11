@@ -127,6 +127,15 @@
 			'field' => 'media',
 			'data' => $widget->media
 		)); ?>
+		<hr />
+		<div class="form-group">
+			<div class="col-xs-12">
+				<label class="control-label"><?php echo __('Media packages'); ?></label>
+				<?php echo Form::select('media_packages', Assets_Package::select_choises(), (array)$widget->media_packages, array(
+					'class' => 'form-control'
+				)); ?>
+			</div>
+		</div>
 	</div>
 	<?php endif; ?>
 	
