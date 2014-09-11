@@ -385,11 +385,13 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 	{
 		// Determine if any external validation failed
 		$extra_errors = ($extra_validation AND ! $extra_validation->check());
+
 		
 		// Default to expecting everything except the primary key
 		if ($expected === NULL)
 		{
 			$expected = $this->section()->record()->fields();
+			$expected_rules = $this->rules();
 		}
 		else
 		{
@@ -402,7 +404,16 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 				}
 			}
 			
-			$expected = $fields;
+			$rules = $this->rules();
+			foreach ($rules as $field => $rules)
+			{
+				if(!in_array($field, $expected_rules))
+				{
+					unset($rules[$field]);
+				}
+			}
+			
+			$expected_rules = $fields;
 		}
 		
 		$values = $this->values();
@@ -414,7 +425,7 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 			array('not_empty'), array('Security::check')
 		));
 		
-		foreach ($this->rules() as $field => $rules)
+		foreach ($expected_rules as $field => $rules)
 		{
 			$validation->rules($field, $rules);
 		}
