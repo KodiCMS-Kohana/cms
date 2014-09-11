@@ -1,8 +1,8 @@
 <div class="form-group" id="file-<?php echo $field->name; ?>">
-	<div class="col-md-12">
-		<label for="<?php echo $field->name; ?>">
-			<?php echo $field->header; ?> <?php if($field->isreq): ?>*<?php endif; ?>
-		</label>
+	<label class="<?php echo Arr::get($form, 'label_class'); ?>" for="<?php echo $field->name; ?>">
+		<?php echo $field->header; ?> <?php if($field->isreq): ?>*<?php endif; ?>
+	</label>
+	<div class="<?php echo Arr::get($form, 'input_container_class'); ?>">
 		<div class="panel">
 			<?php if( !empty($value)): ?>
 			<div class="panel-heading panel-toggler" data-icon="chevron-down">

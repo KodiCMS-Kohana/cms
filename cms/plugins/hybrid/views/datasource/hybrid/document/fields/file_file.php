@@ -1,6 +1,6 @@
 <div class="form-group" id="file-<?php echo $field->name; ?>">
-	<label class="<?php echo Arr::get($form, 'label_class'); ?>" for="<?php echo $field->name; ?>">
-		<?php echo $field->header; ?> 
+	<<label class="<?php echo Arr::get($form, 'label_class'); ?>" for="<?php echo $field->name; ?>">
+		<?php echo $field->header; ?> <?php if($field->isreq): ?>*<?php endif; ?>
 	</label>
 	<div class="<?php echo Arr::get($form, 'input_container_class'); ?>">
 		<div class="panel">
