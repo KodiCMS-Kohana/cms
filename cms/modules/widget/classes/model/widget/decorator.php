@@ -701,16 +701,12 @@ abstract class Model_Widget_Decorator {
 	 */
 	protected function _fetch_render()
 	{
-		$context = & Context::instance();
-
 		$data = $this->fetch_data();
 		$data['params'] = $this->template_params;
-		$data['page'] = $context->get_page();
 		$data['widget_id'] = $this->id;
 		
 		return View_Front::factory($this->template, $data)
-			->bind('header', $this->header)
-			->bind('ctx', $this->_ctx);
+			->bind('header', $this->header);
 	}
 	
 	/**

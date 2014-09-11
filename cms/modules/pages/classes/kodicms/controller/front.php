@@ -23,7 +23,7 @@ class KodiCMS_Controller_Front extends Controller_System_Controller
 			->request( $this->request )
 			->response( $this->response );
 		
-		View_Front::bind_global('ctx', $this->_ctx);
+		View::bind_global('ctx', $this->_ctx);
 	}
 
 	public function action_index()
@@ -63,6 +63,9 @@ class KodiCMS_Controller_Front extends Controller_System_Controller
 	 */
 	private function _render( Model_Page_Front $page)
 	{
+		View::set_global('page_object', $page);
+		View::set_global('page', $page);
+		
 		$this->_ctx->set_page($page);
 
 		// If page needs login, redirect to login
@@ -79,8 +82,7 @@ class KodiCMS_Controller_Front extends Controller_System_Controller
 				) ));
 			}
 		}
-		
-		View_Front::bind_global('page', $page);
+
 		Observer::notify('frontpage_found', $page);
 		
 		$this->_ctx->set_crumbs($page);
@@ -101,32 +103,32 @@ class KodiCMS_Controller_Front extends Controller_System_Controller
 		// Если пользователь Администраторо или девелопер, в конец шаблона 
 		// добавляем View 'system/blocks/toolbar', в котором можно добавлять 
 		// собственный HTML, например панель администратора
-		if ( Auth::is_logged_in() AND Auth::has_permissions(array(
+		if (Auth::is_logged_in() AND Auth::has_permissions(array(
 			'administrator', 'developer'
 		)))
 		{
-			$inject_html = (string) View::factory( 'system/blocks/toolbar' );
-			
+			$inject_html = (string) View::factory('system/blocks/toolbar');
+
 			// Insert system HTML before closed tag body
-			$matches = preg_split('/(<\/body>)/i', $html, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE); 
-			
-			if(count($matches) > 1)
+			$matches = preg_split('/(<\/body>)/i', $html, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
+
+			if (count($matches) > 1)
 			{
 				/* assemble the HTML output back with the iframe code in it */
 				$html = $matches[0] . $inject_html . $matches[1] . $matches[2];
 			}
 		}
-		
+
 		// Если в начтройках выключен режим отладки, то включить etag кеширование
-		if( Config::get('site', 'debug ') == 'no' )
+		if (Config::get('site', 'debug ') == 'no')
 		{
 			$this->check_cache(sha1($html));
 			$this->response->headers('last-modified', date('r', strtotime($page->updated_on)));
 		}
-		
-		$this->response->headers('Content-Type',  $page->mime() );
-		$this->response->headers('X-Powered-CMS',  CMS_NAME . ' ' . CMS_VERSION );
-		
+
+		$this->response->headers('Content-Type', $page->mime());
+		$this->response->headers('X-Powered-CMS', CMS_NAME . ' ' . CMS_VERSION);
+
 		echo $html;
 	}
 	

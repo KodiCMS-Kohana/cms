@@ -872,8 +872,7 @@ class KodiCMS_Model_Page_Front {
 	public function render_layout()
 	{
 		$layout = $this->get_layout_object();
-		return View_Front::factory($layout->get_file())
-			->set('page', $this);
+		return View_Front::factory($layout->get_file());
 	}
 	
 	/**

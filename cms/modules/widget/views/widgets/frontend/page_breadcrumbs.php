@@ -4,11 +4,11 @@
 
 <?php if(!empty($crumbs)): ?>
 <ul class="breadcrumb">
-	<?php foreach($crumbs as $page): ?>
+	<?php foreach($crumbs as $crumb): ?>
 	<?php if($crumbs->is_last()): ?>
-	<li class="active"><?php echo $page->name; ?></li>
+	<li class="active"><?php echo $crumb->name; ?></li>
 	<?php else: ?>
-	<li><?php echo $page->link(); ?></li>
+	<li><?php echo $crumb->link(); ?></li>
 	<?php endif; ?>
 	<?php endforeach; ?>
 </ul>

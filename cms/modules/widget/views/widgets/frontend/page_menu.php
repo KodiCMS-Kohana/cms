@@ -10,16 +10,16 @@
 	
 	$return = '<ul class="nav">';
 	
-	foreach($pages as $page)
+	foreach($pages as $p)
 	{
 		$return .= '<li>';
-		$return .= HTML::anchor($page['uri'], $page['title'], array(
-			'class' =>  $page['is_active'] ? 'current' : ''
+		$return .= HTML::anchor($p['uri'], $p['title'], array(
+			'class' =>  $p['is_active'] ? 'current' : ''
 		));
 		
-		if( !empty($page['childs']))
+		if( !empty($p['childs']))
 		{
-			$return .= recurse_page_menu($page['childs']);
+			$return .= recurse_page_menu($p['childs']);
 		}
 		
 		$return .= '</li>';
