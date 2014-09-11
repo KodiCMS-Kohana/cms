@@ -43,4 +43,10 @@
 		</div>
 	</div>
 </div>
+
+<?php echo View::factory('widgets/backend/blocks/fields', array(
+	'widget' => $widget,
+	'header' => __('Update only fields'),
+	'fetch_widgets' => FALSE
+)); ?>
 <?php endif; ?>

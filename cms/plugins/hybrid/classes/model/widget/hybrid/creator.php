@@ -7,6 +7,12 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Decorator_Handler {
 	
 	/**
 	 *
+	 * @var array 
+	 */
+	public $doc_fields = array();
+
+	/**
+	 *
 	 * @var integer|NULL 
 	 */
 	protected $_document_id = NULL;
@@ -60,15 +66,15 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Decorator_Handler {
 
 	public function on_page_load() 
 	{
-		if($this->ds_id < 1 )
+		if ($this->ds_id < 1)
 		{
 			return;
 		}
 
 		$this->_values = $this->_fetch_fields();
 		$this->_document_id = $this->_handle_document($this->_values);
-		
-		if ( ! empty($this->_errors))
+
+		if (!empty($this->_errors))
 		{
 			$this->_show_errors();
 		}
@@ -84,19 +90,21 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Decorator_Handler {
 	 */
 	public function set_values(array $data) 
 	{
-		if(empty($data['ds_id']) OR ! $this->datasource_exists($data['ds_id']))
+		if (empty($data['ds_id']) OR ! $this->datasource_exists($data['ds_id']))
 		{
 			$data['ds_id'] = 0;
 		}
 
+		$this->doc_fields = array();
+
 		parent::set_values($data);
-		
+
 		$this->auto_publish = (bool) Arr::get($data, 'auto_publish');
 		$this->disable_update = (bool) Arr::get($data, 'disable_update');
-		
+
 		$this->data_source_prefix = URL::title(Arr::get($data, 'data_source_prefix'), '_');
-		
-		if($this->ds_id > 0)
+
+		if ($this->ds_id > 0)
 		{
 			$email_type_fields = array(
 				'key' => array(
@@ -113,7 +121,7 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Decorator_Handler {
 				)
 			);
 			$ds_fields = DataSource_Hybrid_Field_Factory::get_section_fields($this->ds_id);
-			
+
 			foreach ($ds_fields as $field)
 			{
 				$email_type_fields['key'][] = $field->name;
@@ -128,18 +136,41 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Decorator_Handler {
 	
 	/**
 	 * 
+	 * @param array $fields
+	 * @return \Model_Widget_Hybrid_Profile
+	 */
+	public function set_field($fields = array())
+	{
+		if (!is_array($fields))
+		{
+			return;
+		}
+
+		foreach ($fields as $f)
+		{
+			if (isset($f['id']))
+			{
+				$this->doc_fields[] = (int) $f['id'];
+			}
+		}
+
+		return $this;
+	}
+	
+	/**
+	 * 
 	 * @param integer $ds_id
 	 * @return boolean
 	 */
 	public function datasource_exists($ds_id)
 	{
 		$ds_id = (int) $ds_id;
-			
-		if($ds_id > 0)
-		{
-			$ds = Datasource_Data_Manager::load( $ds_id );
 
-			if($ds === NULL OR !$ds->loaded())
+		if ($ds_id > 0)
+		{
+			$ds = Datasource_Data_Manager::load($ds_id);
+
+			if ($ds === NULL OR ! $ds->loaded())
 			{
 				return FALSE;
 			}
@@ -148,7 +179,7 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Decorator_Handler {
 		{
 			return FALSE;
 		}
-		
+
 		return TRUE;
 	}
 	
@@ -160,22 +191,17 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Decorator_Handler {
 	protected function _handle_document($data, Validation $external_validation = NULL)
 	{
 		$ds = Datasource_Data_Manager::load($this->ds_id);
-		
-		if( ! Acl::check($ds->type().$ds->id().'.document.edit'))
+
+		if (!Acl::check($ds->type() . $ds->id() . '.document.edit'))
 		{
 			$this->_errors = __('No access');
 			return NULL;
 		}
-		
+
 		$create = TRUE;
 		
-		if(empty($data['id']) OR $this->disable_update === TRUE)
+		if (empty($data['id']) OR $this->disable_update === TRUE)
 		{
-			if($this->auto_publish === TRUE)
-			{
-				$data['published'] = TRUE;
-			}
-		
 			$document = $ds->get_empty_document();
 		}
 		else
@@ -184,20 +210,26 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Decorator_Handler {
 			$document = $ds->get_document($id);
 			$create = FALSE;
 
-			if( ! $document)
+			if (!$document)
 			{
 				$this->_errors = __('Document ID :id not found', array(':id' => $id));
 				return NULL;
 			}
 		}
-		
+
 		try
 		{
+			if ($this->auto_publish === TRUE AND ! isset($data['published']))
+			{
+				$data['published'] = TRUE;
+			}
+
 			$document
-				->read_values($data)
-				->validate($external_validation);
-	
-			if($create === TRUE)
+					->read_values($data, $this->doc_fields)
+					->read_files($data)
+					->validate($external_validation, $this->doc_fields);
+
+			if ($create === TRUE)
 			{
 				$ds->create_document($document);
 			}
@@ -205,10 +237,10 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Decorator_Handler {
 			{
 				$ds->update_document($document);
 			}
-			
+
 			$this->handle_email_type($data);
 			$this->status = TRUE;
-			
+
 			return $document->id;
 		} 
 		catch (Validation_Exception $e)
@@ -283,63 +315,63 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Decorator_Handler {
 	protected function _show_success()
 	{
 		$this->response['status'] = TRUE;
-		
-		if(Request::current()->is_ajax())
-		{	
-			if( ! empty($this->redirect_url)) 
+
+		if (Request::current()->is_ajax())
+		{
+			if (!empty($this->redirect_url))
 			{
 				$this->response['redirect'] = URL::site($this->redirect_url);
 			}
-			
-			Request::current()->headers( 'Content-type', 'application/json' );		
+
+			Request::current()->headers('Content-type', 'application/json');
 			$this->_ctx->response()->body(json_encode($this->response));
-			
+
 			return;
 		}
-		
+
 		$this->_send_http_reponse();
 	}
-	
+
 	protected function _show_errors()
 	{
 		$this->response['status'] = FALSE;
 
-		if(Request::current()->is_ajax())
+		if (Request::current()->is_ajax())
 		{
 			$this->response['errors'] = $this->_errors;
 			$this->response['values'] = $this->_values;
-			
-			Request::current()->headers( 'Content-type', 'application/json' );		
+
+			Request::current()->headers('Content-type', 'application/json');
 			$this->_ctx->response()->body(json_encode($json));
 			return;
 		}
-		
+
 		Flash::set('form_errors', $this->_errors);
 		Flash::set('form_values', $this->_values);
 
 		$this->_send_http_reponse();
 	}
 
-	protected function _get_field_value( $field ) 
+	protected function _get_field_value($field)
 	{
 		$value = NULL;
 
 		$source = array();
 
 		$src = $this->data_source % 10;
-		switch($src) 
+		switch ($src)
 		{
 			case self::GET:
-				$source = Request::current()->query();	
+				$source = Request::current()->query();
 				break;
 			case self::POST:
-				$source = Request::current()->post();	
+				$source = Request::current()->post();
 				break;
 		}
-		
+
 		$source += $_FILES;
-		
-		if( ! empty($this->data_source_prefix) )
+
+		if (!empty($this->data_source_prefix))
 		{
 			$value = Arr::path($source, $this->data_source_prefix . '.' . $field);
 		}
