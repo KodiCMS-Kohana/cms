@@ -619,7 +619,7 @@ class Datasource_Document {
 		else
 		{
 			$rules = $this->rules();
-			foreach ($rules as $field => $rules)
+			foreach ($rules as $field => $_rules)
 			{
 				if(!in_array($field, $expected))
 				{

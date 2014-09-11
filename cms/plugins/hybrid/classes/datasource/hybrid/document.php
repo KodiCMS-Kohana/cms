@@ -405,7 +405,7 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 			}
 			
 			$rules = $this->rules();
-			foreach ($rules as $field => $rules)
+			foreach ($rules as $field => $_rules)
 			{
 				if(!in_array($field, $expected))
 				{
