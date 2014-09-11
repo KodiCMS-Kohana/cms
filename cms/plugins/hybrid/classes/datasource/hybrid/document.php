@@ -390,7 +390,7 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 		// Default to expecting everything except the primary key
 		if ($expected === NULL)
 		{
-			$expected = $this->section()->record()->fields();
+			$fields = $this->section()->record()->fields();
 			$expected_rules = $this->rules();
 		}
 		else
@@ -435,7 +435,7 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 			$validation->label($field, $label);
 		}
 
-		foreach ($expected as $name => $field)
+		foreach ($fields as $name => $field)
 		{
 			$field->onValidateDocument($validation, $this);
 		}
