@@ -22,7 +22,7 @@ function sort_by_rand($field) {
 )); ?>
 
 <?php if( ! $widget->ds_id ): ?>
-<div class="note note-warning">
+<div class="alert alert-warning alert-dark">
 	<?php echo UI::icon('lightbulb-o fa-lg'); ?> <?php echo __('You need select hybrid section'); ?>
 </div>
 <?php else: ?>
