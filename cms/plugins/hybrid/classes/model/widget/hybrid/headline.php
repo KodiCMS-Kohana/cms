@@ -185,7 +185,10 @@ class Model_Widget_Hybrid_Headline extends Model_Widget_Decorator_Pagination {
 	 */
 	public function get_documents( $recurse = 3 )
 	{
-		if( $this->docs !== NULL ) return $this->docs;
+		if ($this->docs !== NULL)
+		{
+			return $this->docs;
+		}
 
 		$result = array();
 		
@@ -205,7 +208,7 @@ class Model_Widget_Hybrid_Headline extends Model_Widget_Decorator_Pagination {
 		}
 
 		$href_params = $this->_parse_doc_id();
-		
+
 		foreach ($query->execute() as $row)
 		{
 			$result[$row['id']] = array();
@@ -218,17 +221,20 @@ class Model_Widget_Hybrid_Headline extends Model_Widget_Decorator_Pagination {
 			
 			foreach ($fields as $fid => $field)
 			{
-				$related_widget = NULL;
-				
+				if (!isset($row[$fid]))
+				{
+					continue;
+				}
+
 				$field_class = 'DataSource_Hybrid_Field_' . $field->type;
 				$field_class_method = 'fetch_widget_field';
-				if( class_exists($field_class) AND method_exists( $field_class, $field_class_method ))
+				if (class_exists($field_class) AND method_exists($field_class, $field_class_method))
 				{
-					$doc[$field->key] = call_user_func_array($field_class.'::'.$field_class_method, array( $this, $field, $row, $fid, $recurse - 1));
+					$doc[$field->key] = call_user_func_array($field_class . '::' . $field_class_method, array($this, $field, $row, $fid, $recurse - 1));
 					continue;
 				}
 			}
-			
+
 			$doc_params = array();
 			foreach ($href_params as $field)
 			{
