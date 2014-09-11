@@ -16,43 +16,43 @@ class KodiCMS_Controller_Front extends Controller_System_Controller
 	public function before()
 	{
 		parent::before();
-		
-		$this->_ctx =& Context::instance();
+
+		$this->_ctx = & Context::instance();
 
 		$this->_ctx
-			->request( $this->request )
-			->response( $this->response );
-		
+			->request($this->request)
+			->response($this->response);
+
 		View::bind_global('ctx', $this->_ctx);
 	}
 
 	public function action_index()
 	{
 		Observer::notify('frontpage_requested', $this->request->uri());
-		
+
 		$page = Model_Page_Front::find($this->request->uri());
 
 		if ($page instanceof Model_Page_Front)
 		{
-			if($page->use_redirect AND !empty($page->redirect_url))
+			if ($page->use_redirect AND ! empty($page->redirect_url))
 			{
 				HTTP::redirect($page->redirect_url, 301);
 			}
-			
+
 			return $this->_render($page);
 		}
 		else
 		{
 			// Если включен поиск похожей страницы и она найдена, производим
 			// редирект на найденую страницу
-			if(Config::get('site', 'find_similar') == Config::YES)
+			if (Config::get('site', 'find_similar') == Config::YES)
 			{
-				if(($uri = Model_Page_Front::find_similar($this->request->uri())) !== FALSE)
+				if (($uri = Model_Page_Front::find_similar($this->request->uri())) !== FALSE)
 				{
 					HTTP::redirect(URL::frontend($uri), 301);
 				}
 			}
-			
+
 			Model_Page_Front::not_found();
 		}
 	}
@@ -73,13 +73,13 @@ class KodiCMS_Controller_Front extends Controller_System_Controller
 		{
 			Observer::notify('frontpage_login_required', $page);
 
-			if ( ! Auth::is_logged_in())
+			if (!Auth::is_logged_in())
 			{
 				Flash::set('redirect', $page->url());
 
-				$this->redirect(Route::get('user')->uri(array( 
+				$this->redirect(Route::get('user')->uri(array(
 					'action' => 'login'
-				) ));
+				)));
 			}
 		}
 
@@ -135,7 +135,6 @@ class KodiCMS_Controller_Front extends Controller_System_Controller
 	public function after()
 	{
 		parent::after();
-
 		Observer::notify('frontpage_after_render');
 	}
 }

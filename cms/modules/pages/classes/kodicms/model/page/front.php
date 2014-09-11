@@ -329,7 +329,7 @@ class KodiCMS_Model_Page_Front {
 	public function is_password_protected()
 	{
 		$page_has_access = Session::instance()->get('page_access', array());
-		return (! empty($this->password) AND ! array_key_exists($this->id, $page_has_access));
+		return (!empty($this->password) AND ! array_key_exists($this->id, $page_has_access));
 	}
 
 	/**
@@ -654,65 +654,10 @@ class KodiCMS_Model_Page_Front {
 
 	/**
 	 * 
-	 * @param string $slug
-	 * @param Model_Page_Front $parent
-	 * @return boolean|\Model_Page_Front
-	 */
-	public static function findBySlug( $slug, $parent, $include_hidden = TRUE )
-	{
-		$page_cache_id = self::_get_cache_id( $slug, $parent );
-
-		if( isset(self::$pages_cache[ $page_cache_id ]) )
-		{
-			return self::$pages_cache[ $page_cache_id ];
-		}
-
-		$page_class = get_called_class();
-
-		$parent_id = $parent instanceof Model_Page_Front ? $parent->id : 0;
-
-		$page = DB::select('page.*')
-			->from(array('pages', 'page'))
-			->where('slug', '=', $slug)
-			->where('parent_id', '=', $parent_id)
-			->where('status_id', 'in', self::get_statuses($include_hidden))
-			->limit(1)
-			->cache_tags( array('pages') )
-			->cached((int) Config::get('cache', 'front_page'))
-			->as_object();
-		
-		if(Config::get('page', 'check_date') == Config::YES)
-		{
-			$page->where('published_on', '<=', DB::expr('NOW()'));
-		}
-		
-		$page = $page
-			->execute()
-			->current();
-
-		if( ! $page ) return FALSE;
-
-		// hook to be able to redefine the page class with behavior
-		if ( !empty( $parent->behavior_id ) )
-		{
-			// will return Page by default (if not found!)
-			$page_class = Behavior::load_page($parent->behavior_id);
-		}		
-
-		// create the object page
-		$page = new $page_class($page, $parent);
-
-		$pages_cache[ $page_cache_id ] = $page;
-
-		return $page;
-	}
-
-	/**
-	 * 
 	 * @param string $uri
 	 * @return \Model_Page_Front
 	 */
-	public static function find( $uri, $include_hidden = TRUE )
+	public static function find($uri, $include_hidden = TRUE)
 	{
 		$uri = trim($uri, '/');
 
@@ -729,14 +674,14 @@ class KodiCMS_Model_Page_Front {
 		{
 			$url = ltrim($url . '/' . $page_slug, '/');
 
-			if( $page = self::findBySlug($page_slug, $parent, $include_hidden) )
+			if ($page = self::findBySlug($page_slug, $parent, $include_hidden))
 			{
 				// check for behavior
-				if( !empty( $page->behavior_id ))
+				if (!empty($page->behavior_id))
 				{
 					$behavior = Behavior::load($page->behavior_id, $page, $url, $uri);
-					
-					if($behavior !== NULL)
+
+					if ($behavior !== NULL)
 					{
 						$page->_behavior = $behavior;
 						return $page;
@@ -756,45 +701,57 @@ class KodiCMS_Model_Page_Front {
 
 	/**
 	 * 
-	 * @param integer $id
-	 * @return \Model_Page_Front|boolean
+	 * @param string $field
+	 * @param string $value
+	 * @param Model_Page_Front $parent
+	 * @param boolean $include_hidden
+	 * @return boolean|\page_class
 	 */
-	public static function findById( $id, $include_hidden = TRUE )
+	public static function findByField($field, $value, $parent = NULL, $include_hidden = TRUE)
 	{
+		$page_cache_id = self::_get_cache_id(array($field, $value), $parent);
+
+		if (isset(self::$pages_cache[$page_cache_id]))
+		{
+			return self::$pages_cache[$page_cache_id];
+		}
+		
 		$page_class = get_called_class();
 
 		$page = DB::select('page.*')
 			->from(array('pages', 'page'))
-			->where('page.id', '=', $id)
-			->where('published_on', '<=', DB::expr('NOW()'))
+			->where('page.' . $field, '=', $value)
 			->where('status_id', 'in', self::get_statuses($include_hidden))
 			->limit(1)
-			->cache_tags( array('pages') )
-			->cached((int)Config::get('cache', 'front_page'))
+			->cache_tags(array('pages'))
+			->cached((int) Config::get('cache', 'front_page'))
 			->as_object();
-		
-		if(Config::get('page', 'check_date') == Config::YES)
+
+		if (Config::get('page', 'check_date') == Config::YES)
 		{
 			$page->where('published_on', '<=', DB::expr('NOW()'));
 		}
 		
-		$page = $page
-			->execute()
-			->current();
+		$parent_id = $parent instanceof Model_Page_Front ? $parent->id : NULL;
+		if($parent_id !== NULL)
+		{
+			$page->where('parent_id', '=', $parent_id);
+		}
 
-		if( ! $page ) return FALSE;
+		$page = $page->execute()->current();
 
-		if ($page->parent_id)
+		if (!$page)
+		{
+			return FALSE;
+		}
+
+		if ($page->parent_id AND $parent === NULL)
 		{
 			$parent = self::findById($page->parent_id);
 		}
-		else
-		{
-			$parent = NULL;
-		}
 
 		// hook to be able to redefine the page class with behavior
-		if ( !empty($parent->behavior_id) )
+		if ($parent instanceof Model_Page_Front AND !empty($parent->behavior_id))
 		{
 			// will return Page by default (if not found!)
 			$page_class = Behavior::load_page($parent->behavior_id);
@@ -803,7 +760,31 @@ class KodiCMS_Model_Page_Front {
 		// create the object page
 		$page = new $page_class($page, $parent);
 
+		$pages_cache[$page_cache_id] = $page;
+		
 		return $page;
+	}
+
+	/**
+	 * 
+	 * @param string $slug
+	 * @param Model_Page_Front $parent
+	 * @return boolean|\Model_Page_Front
+	 */
+	public static function findBySlug($slug, $parent = NULL, $include_hidden = TRUE)
+	{
+		return self::findByField('slug', $slug, $parent, $include_hidden);
+	}
+
+	/**
+	 * 
+	 * @param integer $id
+	 * @param boolean $include_hidden
+	 * @return \Model_Page_Front|boolean
+	 */
+	public static function findById($id, $include_hidden = TRUE)
+	{
+		return self::findByField('id', $id, NULL, $include_hidden);
 	}
 
 	/**
@@ -1075,12 +1056,12 @@ class KodiCMS_Model_Page_Front {
 	 */
 	final protected static function _get_cache_id($slug, $parent)
 	{
-		if(  is_array( $slug ))
+		if (is_array($slug))
 		{
 			$slug = implode('::', $slug);
 		}
-		
-		if($parent instanceof Model_Page_Front)
+
+		if ($parent instanceof Model_Page_Front)
 		{
 			$parent = $parent->id;
 		}
@@ -1088,7 +1069,7 @@ class KodiCMS_Model_Page_Front {
 		{
 			$parent = 0;
 		}
-		
+
 		return $slug . $parent;
 	}
 }

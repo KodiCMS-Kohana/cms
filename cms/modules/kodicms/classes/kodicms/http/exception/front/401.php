@@ -13,24 +13,11 @@ class KodiCMS_HTTP_Exception_Front_401 extends Kohana_HTTP_Exception_401
 	{
 		Flash::set('protected_page', Context::instance()->get_page());
 
-		$page = DB::select()
-			->from('pages')
-			->where('behavior_id', '=', 'protected_page')
-			->limit(1)
-			->as_object()
-			->execute()
-			->current();
-	
-		if($page)
+		if(($page = Model_Page_Front::findByField('behavior_id', 'protected_page')) !== FALSE)
 		{
-			$page = Model_Page_Front::find( $page->slug );
-
-			// if we fund it, display it!
-			if( is_object($page) )
-			{				
-				return Request::factory($page->url)
-					->execute();
-			}
+			return Request::factory($page->url)->execute();
 		}
+
+		throw new HTTP_Exception_401($this->message);
 	}
 }
