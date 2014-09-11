@@ -1,6 +1,11 @@
-<?php $fields = DataSource_Hybrid_Field_Factory::get_section_fields($widget->ds_id); ?>
+<?php 
+$fields = DataSource_Hybrid_Field_Factory::get_section_fields($widget->ds_id);
+$header = empty($header) ? __('Fetched document fields') : $header;
+
+$fetch_widgets = !empty($fetch_widgets) ? (bool) $fetch_widgets : TRUE;
+?>
 <div class="panel-heading">
-	<span class="panel-title"><?php echo UI::icon('th-list'); ?> <?php echo __('Fetched document fields'); ?></span>
+	<span class="panel-title"><?php echo UI::icon('th-list'); ?> <?php echo $header; ?></span>
 </div>
 <table id="section-fields" class="table table-striped">
 	<colgroup>
@@ -47,7 +52,7 @@
 			<td>
 				<?php
 					$types = $field->widget_types();
-					if($types !== NULL)
+					if($types !== NULL AND $fetch_widgets === TRUE)
 					{
 						$widgets = Widget_Manager::get_related($field->widget_types(), $field->from_ds);
 

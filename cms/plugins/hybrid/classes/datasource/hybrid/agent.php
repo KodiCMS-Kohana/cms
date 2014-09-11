@@ -105,6 +105,44 @@ class DataSource_Hybrid_Agent {
 		$this->ds_id = $ds_id;
 		$this->ds_name = $ds_name;
 	}
+	
+	/**
+	 * 
+	 * @param integer|string $id
+	 * @param array $fields
+	 * @param string $id_field
+	 * @param integer $recurse
+	 * @return null|array
+	 */
+	public function get_document($id, array $fields = NULL, $id_field = NULL, $recurse = 3)
+	{
+		$query = $this->get_query_props($fields);
+
+		$hybrid_fields = $this->get_fields();
+		
+		if($id_field === NULL)
+		{
+			$id_field = 'ds.id';
+		}
+		else if($id_field !== NULL AND Valid::numeric($id_field) AND isset($hybrid_fields[$id_field]))
+		{
+			$id_field = $hybrid_fields[$id_field]->name;
+		}
+		
+		$result = $query->where($id_field, '=', $id)
+			->where('d.published', '=', 1)
+			->group_by('d.id')
+			->limit(1)
+			->execute()
+			->current();
+		
+		if (empty($result))
+		{
+			return NULL;
+		}
+		
+		return $result;
+	}
 
 	/**
 	 * Получение списка полей раздела.
@@ -210,7 +248,7 @@ class DataSource_Hybrid_Agent {
 	 * @param array $filter Параметры фильтрации спсика документов
 	 * @return Database_Query_Builder
 	 */
-	public function get_query_props(array $fields, array $order = NULL, array $filter = NULL)
+	public function get_query_props(array $fields = NULL, array $order = NULL, array $filter = NULL)
 	{
 		$result = DB::select('d.id', 'd.ds_id', 'd.header', 'd.published', 'd.created_on', 'd.meta_title', 'd.meta_keywords', 'd.meta_description')
 			->from(array('dshybrid_' . $this->ds_id,  'ds'))
@@ -221,15 +259,27 @@ class DataSource_Hybrid_Agent {
 
 		$t = array($this->ds_id => TRUE);
 
-		foreach ($fields as $i => $fid)
+		$select_fields = array();
+
+		if($fields !== NULL)
 		{
-			if (!isset($ds_fields[$fid]))
+			foreach ($fields as $i => $fid)
 			{
-				continue;
+				if (!isset($ds_fields[$fid]))
+				{
+					continue;
+				}
+
+				$select_fields[] = $ds_fields[$fid];
 			}
+		}
+		else
+		{
+			$select_fields = $ds_fields;
+		}
 
-			$field = $ds_fields[$fid];
-
+		foreach ($select_fields as $field)
+		{
 			if (!($field instanceof DataSource_Hybrid_Field))
 			{
 				continue;
@@ -244,8 +294,6 @@ class DataSource_Hybrid_Agent {
 			}
 
 			$field->get_query_props($result, $this);
-
-			unset($field);
 		}
 
 		if (!empty($order))

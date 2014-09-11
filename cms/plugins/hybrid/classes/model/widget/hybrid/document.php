@@ -155,27 +155,9 @@ class Model_Widget_Hybrid_Document extends Model_Widget_Decorator {
 		{
 			return Model_Widget_Hybrid_Document::$_cached_documents[$id];
 		}
-		
-		$agent = DataSource_Hybrid_Agent::instance($this->ds_id);
 
-		$query = $agent->get_query_props( $this->doc_fields );
-		$fields = $agent->get_fields();
-		
-		if(isset($fields[$this->doc_id_field]))
-		{
-			$id_field = $fields[$this->doc_id_field]->name;
-		}
-		else
-		{
-			$id_field = 'ds.id';
-		}
-		
-		$result = $query->where($id_field, '=', $id)
-			->where('d.published', '=', 1)
-			->group_by('d.id')
-			->limit(1)
-			->execute()
-			->current();
+		$agent = DataSource_Hybrid_Agent::instance($this->ds_id);
+		$result = $agent->get_document($id, $this->doc_fields, $this->doc_id_field, $recurse);
 		
 		if (empty($result))
 		{
@@ -187,15 +169,15 @@ class Model_Widget_Hybrid_Document extends Model_Widget_Decorator {
 			return $result;
 		}
 
+		$hybrid_fields = $agent->get_fields();
 		foreach ($result as $key => $value)
 		{
-			if (!isset($fields[$key]))
+			if (!isset($hybrid_fields[$key]))
 			{
 				continue;
 			}
 
-			$field = & $fields[$key];
-			$related_widget = NULL;
+			$field = & $hybrid_fields[$key];
 
 			$field_class = 'DataSource_Hybrid_Field_' . $field->type;
 			$field_class_method = 'fetch_widget_field';
