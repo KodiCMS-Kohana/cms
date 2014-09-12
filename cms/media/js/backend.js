@@ -849,23 +849,26 @@ cms.ui.add('flags', function() {
 }).add('tabbable', function() {
 	$('.tabbable').each(function(i) {
 		var $self = $(this);
-		var $tabs_content = $('<div class="tab-content no-padding-t" />').prependTo($self);
-		var $tabs_ul = $('<ul class="nav nav-tabs tabs-generated" style="position:relative; margin-top: 10px;" />').insertBefore($self);
-		$('> .panel-heading', $self).each(function(j) {
-			var $li = $('<li></li>').appendTo($tabs_ul);
-			var $content = $(this).nextUntil('.panel-heading').not('.panel-footer').removeClass('panel-spoiler');
-			
-			$(this).find('.panel-title').removeClass('panel-title');
-			$(this).find('.panel-heading-controls').remove();
-			var $content_container = $('<div class="tab-pane" id="panel-tab-' + i + '' +  '' + j+ '" />').append($content).appendTo($tabs_content);
-			$('<a href="#panel-tab-' + i + '' +  '' + j+ '" data-toggle="tab"></a>').html($(this).html()).appendTo($li);
-			
-			$(this).remove();
-		});
 		
-		$('li a', $tabs_ul).on('click', function() {
-			window.location.hash = $(this).attr('href');
-		});
+		if($('> .panel-heading', $self).size() > 0) {
+			var $tabs_content = $('<div class="tab-content no-padding-t" />').prependTo($self);
+			var $tabs_ul = $('<ul class="nav nav-tabs tabs-generated" style="position:relative; margin-top: 10px;" />').insertBefore($self);
+			$('> .panel-heading', $self).each(function(j) {
+				var $li = $('<li></li>').appendTo($tabs_ul);
+				var $content = $(this).nextUntil('.panel-heading').not('.panel-footer').removeClass('panel-spoiler');
+
+				$(this).find('.panel-title').removeClass('panel-title');
+				$(this).find('.panel-heading-controls').remove();
+				var $content_container = $('<div class="tab-pane" id="panel-tab-' + i + '' +  '' + j+ '" />').append($content).appendTo($tabs_content);
+				$('<a href="#panel-tab-' + i + '' +  '' + j+ '" data-toggle="tab"></a>').html($(this).html()).appendTo($li);
+
+				$(this).remove();
+			});
+
+			$('li a', $tabs_ul).on('click', function() {
+				window.location.hash = $(this).attr('href');
+			});
+		}
 	});
 	
 	if(window.location.hash.length > 0 && $('.tabs-generated li a[href='+window.location.hash+']').length > 0) {
