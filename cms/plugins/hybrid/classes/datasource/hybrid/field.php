@@ -748,7 +748,7 @@ abstract class DataSource_Hybrid_Field {
 		return View::factory($template, array(
 			'value' => $document->get($this->name), 
 			'field' => $this,
-			'doc' => $document
+			'document' => $document
 		));
 	}
 	
