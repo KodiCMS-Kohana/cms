@@ -51,6 +51,7 @@ $(function() {
 		}
 	});
 
+	<?php if($ds->has_access('field.edit')): ?>
 	$('.editable-position').editable({
 		title: __('Field position'),
 		send: 'always',
@@ -71,6 +72,7 @@ $(function() {
 			}
 		}
 	});
+	<?php endif; ?>
 });
 
 	
@@ -95,7 +97,7 @@ function sort_field_rows() {
 </div>
 <table id="section-fields" class="table table-primary table-striped table-hover">
 	<colgroup>
-		<?php if(Acl::check($ds->type().$ds->id().'.field.remove')): ?>
+		<?php if($ds->has_access('field.remove')): ?>
 		<col width="30px" />
 		<?php endif; ?>
 		<col width="50px" />
@@ -107,7 +109,7 @@ function sort_field_rows() {
 	</colgroup>
 	<thead>
 		<tr>
-			<?php if(Acl::check($ds->type().$ds->id().'.field.remove')): ?>
+			<?php if($ds->has_access('field.remove')): ?>
 			<td></td>
 			<?php endif; ?>
 			<td><?php echo __('Field position'); ?></td>
@@ -120,7 +122,7 @@ function sort_field_rows() {
 	</thead>
 	<tbody>
 		<tr>
-			<?php if(Acl::check($ds->type().$ds->id().'.field.remove')): ?>
+			<?php if($ds->has_access('field.remove')): ?>
 			<td class="f">
 				<?php echo Form::checkbox('field[]', 'id', FALSE, array(
 					'disabled' => 'disabled'
@@ -135,7 +137,7 @@ function sort_field_rows() {
 			<td><?php echo Form::checkbox('', 1, TRUE, array('disabled' => 'disabled')); ?></td>
 		</tr>
 		<tr>
-			<?php if(Acl::check($ds->type().$ds->id().'.field.remove')): ?>
+			<?php if($ds->has_access('field.remove')): ?>
 			<td class="f">
 				<?php echo Form::checkbox('field[]', 'header', FALSE, array(
 					'disabled' => 'disabled'
@@ -152,7 +154,7 @@ function sort_field_rows() {
 
 		<?php foreach($record->fields() as $field): ?>
 		<tr id="field-<?php echo $field->id; ?>" data-id="<?php echo $field->id; ?>">
-			<?php if(Acl::check($ds->type().$ds->id().'.field.remove')): ?>
+			<?php if($ds->has_access('field.remove')): ?>
 			<td class="f">
 				<?php 
 				$attrs = array('id' => $field->name);
@@ -166,7 +168,7 @@ function sort_field_rows() {
 				</label>
 			</td>
 			<td>
-				<?php if(Acl::check($ds->type().$ds->id().'.field.edit')): ?>
+				<?php if($ds->has_access('field.edit')): ?>
 				<?php echo HTML::anchor(Route::get('datasources')->uri(array(
 					'controller' => 'field',
 					'directory' => 'hybrid',
@@ -181,25 +183,27 @@ function sort_field_rows() {
 				<?php echo UI::label($field->type); ?>
 			</td>
 			<td>
-				<?php 
+			<?php 
 				$attrs = array();
-				if ( ! Acl::check($ds->type().$ds->id().'.field.edit'))
+				if (!$ds->has_access('field.edit'))
 				{
 					$attrs['disabled'] = 'disabled';
 				}
 
-				echo Form::checkbox('in_headline['.$field->id.']', 1, (bool) $field->in_headline, $attrs); ?>
+				echo Form::checkbox('in_headline[' . $field->id . ']', 1, (bool) $field->in_headline, $attrs); 
+			?>
 			</td>
 			<td>
-			<?php if($field->is_indexable())
+			<?php 
+			if($field->is_indexable())
 			{
 				$attrs = array();
-				if ( ! Acl::check($ds->type().$ds->id().'.field.edit'))
+				if (!$ds->has_access('field.edit'))
 				{
 					$attrs['disabled'] = 'disabled';
 				}
 
-				echo Form::checkbox('index_type['.$field->id.']', 1, $field->is_indexed(), $attrs); 
+				echo Form::checkbox('index_type[' . $field->id . ']', 1, $field->is_indexed(), $attrs);
 			} ?>
 			</td>
 		</tr>
@@ -209,7 +213,7 @@ function sort_field_rows() {
 
 <div class="panel-footer">
 	<div class="btn-group">
-		<?php if(Acl::check($ds->type().$ds->id().'.field.edit')): ?>
+		<?php if($ds->has_access('field.edit')): ?>
 		<?php echo UI::button(__('Add field'), array(
 			'href' => Route::get('datasources')->uri(array(
 				'controller' => 'field',
@@ -222,7 +226,7 @@ function sort_field_rows() {
 		)); ?>
 		<?php endif; ?>
 		
-		<?php if(Acl::check($ds->type().$ds->id().'.field.remove')): ?>
+		<?php if($ds->has_access('field.remove')): ?>
 		<?php echo UI::button(__('Remove fields'), array(
 			'icon' => UI::icon('trash-o'), 'id' => 'remove-fields',
 			'class' => 'btn-danger'

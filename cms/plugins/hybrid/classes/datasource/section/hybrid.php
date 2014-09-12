@@ -337,6 +337,11 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 		$actions = parent::acl_actions();
 		
 		$actions[] = array(
+			'action' => 'field.create',
+			'description' => 'Create hybrid fields'
+		);
+		
+		$actions[] = array(
 			'action' => 'field.edit',
 			'description' => 'Edit hybrid fields'
 		);

@@ -192,12 +192,6 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Decorator_Handler {
 	{
 		$ds = Datasource_Data_Manager::load($this->ds_id);
 
-		if (!Acl::check($ds->type() . $ds->id() . '.document.edit'))
-		{
-			$this->_errors = __('No access');
-			return NULL;
-		}
-
 		$create = TRUE;
 		
 		if (empty($data['id']) OR $this->disable_update === TRUE)
@@ -210,7 +204,7 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Decorator_Handler {
 			$document = $ds->get_document($id);
 			$create = FALSE;
 
-			if (!$document)
+			if (!$document->loaded())
 			{
 				$this->_errors = __('Document ID :id not found', array(':id' => $id));
 				return NULL;
@@ -246,6 +240,11 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Decorator_Handler {
 		catch (Validation_Exception $e)
 		{
 			$this->_errors = $e->errors('validation');
+			return NULL;
+		}
+		catch (DataSource_Exception_Document $e)
+		{
+			$this->_errors = $e->getMessage();
 			return NULL;
 		}
 	}

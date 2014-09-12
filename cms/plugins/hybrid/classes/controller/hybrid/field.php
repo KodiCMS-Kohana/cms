@@ -30,7 +30,7 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 			$ds_id = (int) $this->request->param('id');
 			$ds = $this->section($ds_id);
 			
-			if($this->field->has_access_create())
+			if($ds->has_access('field.create'))
 			{
 				$this->allowed_actions[] = 'add';
 			}
@@ -198,24 +198,24 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 		
 		$sections = array();
 		
-		foreach ( Datasource_Data_Manager::types() as $key => $value )
+		foreach (Datasource_Data_Manager::types() as $key => $value)
 		{
-			if($key != 'hybrid' AND !empty($map[$key]))
+			if ($key != 'hybrid' AND ! empty($map[$key]))
 			{
-				foreach ( $map[$key] as $id => $name )
+				foreach ($map[$key] as $id => $section)
 				{
-					$sections[$key][$id] = $name;
+					$sections[$key][$id] = $section->name;
 				}
 			}
 			else
 			{
-				foreach ( $hds as $id => $data )
+				foreach ($hds as $id => $section)
 				{
-					$sections[$key][$id] = $data['name'];
+					$sections[$key][$id] = $section->name;
 				}
 			}
 		}
-		
+
 		return $sections;
 	}
 }

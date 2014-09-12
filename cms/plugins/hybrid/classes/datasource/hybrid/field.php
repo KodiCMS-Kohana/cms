@@ -495,6 +495,11 @@ abstract class DataSource_Hybrid_Field {
 	 */
 	public function create() 
 	{
+		if (!$this->has_access_create())
+		{
+			throw new DataSource_Hybrid_Exception_Field('You do not have permission to create field');
+		}
+		
 		$this->validate();
 
 		$data = array(
@@ -534,6 +539,11 @@ abstract class DataSource_Hybrid_Field {
 	 */
 	public function update() 
 	{
+		if (!$this->has_access_edit())
+		{
+			throw new DataSource_Hybrid_Exception_Field('You do not have permission to update field');
+		}
+		
 		$this->validate();
 
 		return DB::update($this->table)
@@ -557,6 +567,11 @@ abstract class DataSource_Hybrid_Field {
 	 */
 	public function remove()
 	{
+		if (!$this->has_access_remove())
+		{
+			throw new DataSource_Hybrid_Exception_Field('You do not have permission to remove field');
+		}
+		
 		DB::delete($this->table)
 			->where('id', '=', $this->id)
 			->execute();
@@ -876,7 +891,7 @@ abstract class DataSource_Hybrid_Field {
 	
 	public function has_access($acl_type = '')
 	{
-		return ACL::check($this->ds_id . '.field.' . $acl_type);
+		return ACL::check('ds_id.' . $this->ds_id . '.field.' . $acl_type);
 	}
 	
 	/**

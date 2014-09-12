@@ -560,7 +560,7 @@ class Datasource_Section {
 	 * @param integer $id
 	 * @return \DataSource_Document
 	 */
-	public function get_document($id)
+	public function get_document($id = NULL)
 	{
 		$document = $this->get_empty_document();
 		if (empty($id))

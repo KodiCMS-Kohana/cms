@@ -77,12 +77,28 @@ class Datasource_Data_Manager {
 		{
 			$type = array($type);
 		}
-		
-		$cache_key = $type === NULL ? 'all' : implode('::', $type);
-	
-		if(isset(self::$_cache[$cache_key]))
+		else
 		{
-			return self::$_cache[$cache_key];
+			$type = array_keys(self::types());
+		}
+
+		$sections = array();
+
+		foreach ($type as $i => $key)
+		{
+			if(isset(self::$_cache[$key]))
+			{
+				foreach (self::$_cache[$key] as $id => $section)
+				{
+					$sections[$id] = $section;
+				}
+				unset($type[$i]);
+			}
+		}
+		
+		if (empty($type))
+		{
+			return $sections;
 		}
 
 		$query = DB::select()
@@ -96,7 +112,6 @@ class Datasource_Data_Manager {
 		}
 		
 		$db_sections = $query->execute()->as_array('id');
-		$sections = array();
 
 		foreach ($db_sections as $id => $section)
 		{
@@ -104,11 +119,11 @@ class Datasource_Data_Manager {
 			{
 				continue;
 			}
-	
-			$sections[$id] = Datasource_Section::load_from_array($section);
+
+			$section = Datasource_Section::load_from_array($section);
+			$sections[$id] = $section;
+			self::$_cache[$section->type()][$id] = $section;
 		}
-		
-		self::$_cache[$cache_key] = $sections;
 
 		return $sections;
 	}
@@ -122,9 +137,9 @@ class Datasource_Data_Manager {
 		$datasources = self::get_all($type);
 		
 		$options = array(__('--- Not set ---'));
-		foreach ($datasources as $section)
+		foreach ($datasources as $id => $section)
 		{
-			$options[$value['id']] = $section->name;
+			$options[$id] = $section->name;
 		}
 
 		return $options;
