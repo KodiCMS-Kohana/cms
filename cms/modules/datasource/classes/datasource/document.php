@@ -166,7 +166,7 @@ class Datasource_Document implements ArrayAccess {
 	 */
 	public function __isset($field)
 	{
-		return isset($this->_system_fields[$field]);
+		return isset($this->_system_fields[$field]) OR isset($this->_temp_fields[$field]);
 	}
 	
 	/**
@@ -176,6 +176,7 @@ class Datasource_Document implements ArrayAccess {
 	public function __unset($field)
 	{
 		$this->_system_fields[$field] = NULL;
+		$this->_temp_fields[$field] = NULL;
 	}
 
 	/**
