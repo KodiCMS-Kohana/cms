@@ -4,10 +4,11 @@
 	</label>
 	<div class="<?php echo Arr::get($form, 'input_container_class'); ?>">
 		<div class="input-group">
-			<?php echo Form::hidden($field->name, implode(',', $field->get_related_docs($doc->id)), array(
+			<?php echo Form::hidden($field->name, implode(',', $field->get_related_docs($document->id)), array(
 				'id' => $field->name, 'data-related-array' => $field->from_ds
 			)); ?>
 			
+			<?php if($document->has_access_change()): ?>
 			<div class="input-group-btn">
 				<?php echo UI::button(__('Create new'), array(
 					'href' => Route::get('datasources')->uri(array(
@@ -20,6 +21,7 @@
 					'data-target' => $field->name
 				)); ?>
 			</div>
+			<?php endif; ?>
 		</div>
 		
 		<?php if($field->hint): ?>

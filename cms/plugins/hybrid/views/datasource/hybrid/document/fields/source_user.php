@@ -1,5 +1,5 @@
 <?php
-if (!$doc->loaded() AND $field->set_current === TRUE) $value = Auth::get_id(); 
+if (!$document->loaded() AND $field->set_current === TRUE) $value = Auth::get_id(); 
 ?>
 
 <div class="form-group form-inline">

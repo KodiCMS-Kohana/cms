@@ -53,19 +53,25 @@ class KodiCMS_ACL {
 	 * @param Model_User $user
 	 * @return boolean
 	 */
-	public static function is_admin(Model_User $user = NULL)
+	public static function is_admin($user = NULL)
 	{
 		if ($user === NULL)
 		{
 			$user = Auth::instance()->get_user();
 		}
-		
-		if (!( $user instanceof Model_User ))
+	
+		if ($user instanceof Model_User)
 		{
-			return FALSE;
+			$user_id = $user->id;
+			$roles = $user->roles();
+		}
+		else
+		{
+			$user_id = (int) $user;
+			$roles = array('login');
 		}
 
-		if ($user->id == self::ADMIN_USER OR in_array(self::ADMIN_ROLE, $user->roles()))
+		if ($user_id == self::ADMIN_USER OR in_array(self::ADMIN_ROLE, $roles))
 		{
 			return TRUE;
 		}

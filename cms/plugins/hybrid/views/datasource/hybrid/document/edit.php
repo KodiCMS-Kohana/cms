@@ -1,11 +1,11 @@
 <script type="text/javascript">
-<?php if (!$doc->has_access_edit() AND $doc->loaded()): ?>
+<?php if (!$document->has_access_edit() AND $document->loaded()): ?>
 $(function() {
 	$(':input').attr('disabled', 'disabled');
 });
 <?php endif; ?>
 
-var API_FORM_ACTION = '/datasource/hybrid-document.<?php if($doc->loaded()): ?>update<?php else: ?>create<?php endif; ?>'; 
+var API_FORM_ACTION = '/datasource/hybrid-document.<?php if($document->loaded()): ?>update<?php else: ?>create<?php endif; ?>'; 
 
 $(function() {
 	$('.upload-input').FileInput({
@@ -72,7 +72,7 @@ $(function() {
 				data: function(query, pageNumber, context) {
 					return {
 						key: query,
-						<?php if(!empty($doc->id)): ?>id: <?php echo $doc->id; ?>,<?php endif; ?>
+						<?php if(!empty($document->id)): ?>id: <?php echo $document->id; ?>,<?php endif; ?>
 						doc_ds: $ds_id,
 						is_array: false
 					}
@@ -88,7 +88,7 @@ $(function() {
 					$.ajax(Api.build_url('datasource/hybrid-document.find'), {
 						data: {
 							ids: [parseInt(id)],
-							<?php if(!empty($doc->id)): ?>id: <?php echo $doc->id; ?>,<?php endif; ?>
+							<?php if(!empty($document->id)): ?>id: <?php echo $document->id; ?>,<?php endif; ?>
 							doc_ds: $ds_id,
 							is_array: false
 						},
@@ -123,7 +123,7 @@ $(function() {
 				data: function(query, pageNumber, context) {
 					return {
 						key: query,
-						<?php if(!empty($doc->id)): ?>id: <?php echo $doc->id; ?>,<?php endif; ?>
+						<?php if(!empty($document->id)): ?>id: <?php echo $document->id; ?>,<?php endif; ?>
 						doc_ds: $ds_id,
 						is_array: true
 					}
@@ -143,7 +143,7 @@ $(function() {
 					$.ajax(Api.build_url('datasource/hybrid-document.find'), {
 						data: {
 							ids: ids,
-							<?php if(!empty($doc->id)): ?>id: <?php echo $doc->id; ?>,<?php endif; ?>
+							<?php if(!empty($document->id)): ?>id: <?php echo $document->id; ?>,<?php endif; ?>
 							doc_ds: $ds_id,
 							is_array: true
 						},
@@ -177,16 +177,16 @@ function update_documents(e, response) {
 }
 </script>
 
-<?php if($doc->has_access_edit() OR $doc->has_access_create()): ?>
+<?php if($document->has_access_edit() OR $document->has_access_create()): ?>
 <?php echo Form::open(Route::get('datasources')->uri(array(
 		'controller' => 'document',
-		'directory' => $ds->type(),
+		'directory' => $datasource->type(),
 		'action' => 'post'
 	)), array(
 	'class' => 'form-horizontal panel', 'enctype' => 'multipart/form-data'
 )); ?>
-<?php echo Form::hidden('ds_id', $ds->id()); ?>
-<?php echo Form::hidden('id', $doc->id); ?>
+<?php echo Form::hidden('ds_id', $datasource->id()); ?>
+<?php echo Form::hidden('id', $document->id); ?>
 <?php echo Form::hidden('csrf', Security::token()); ?>
 <?php else: ?>
 <div class="form-horizontal panel">
@@ -195,7 +195,7 @@ function update_documents(e, response) {
 	<div class="form-group form-group-lg">
 		<label class="<?php echo Arr::get($form, 'label_class'); ?>"><?php echo __('Header'); ?></label>
 		<div class="<?php echo Arr::get($form, 'input_container_class'); ?>">
-			<?php echo Form::input('header', $doc->header, array(
+			<?php echo Form::input('header', $document->header, array(
 				'class' => 'form-control slug-generator', 'data-slug' => '.from-header'
 			)); ?>
 		</div>
@@ -211,7 +211,7 @@ function update_documents(e, response) {
 	<div class="form-group">
 		<label class="<?php echo Arr::get($form, 'label_class'); ?>"><?php echo __('Meta title'); ?></label>
 		<div class="<?php echo Arr::get($form, 'input_container_class'); ?>">
-			<?php echo Form::input('meta_title', $doc->meta_title, array(
+			<?php echo Form::input('meta_title', $document->meta_title, array(
 				'class' => 'form-control'
 			)); ?>
 		</div>
@@ -219,7 +219,7 @@ function update_documents(e, response) {
 	<div class="form-group">
 		<label class="<?php echo Arr::get($form, 'label_class'); ?>"><?php echo __('Meta keywords'); ?></label>
 		<div class="<?php echo Arr::get($form, 'input_container_class'); ?>">
-			<?php echo Form::input('meta_keywords', $doc->meta_keywords, array(
+			<?php echo Form::input('meta_keywords', $document->meta_keywords, array(
 				'class' => 'form-control'
 			)); ?>
 		</div>
@@ -227,31 +227,31 @@ function update_documents(e, response) {
 	<div class="form-group">
 		<label class="<?php echo Arr::get($form, 'label_class'); ?>"><?php echo __('Meta description'); ?></label>
 		<div class="<?php echo Arr::get($form, 'input_container_class'); ?>">
-			<?php echo Form::textarea('meta_description', $doc->meta_description, array(
+			<?php echo Form::textarea('meta_description', $document->meta_description, array(
 				'class' => 'form-control', 'rows' => 2
 			)); ?>
 		</div>
 	</div>
 	<hr class="panel-wide" />
 </div>
-<?php if($ds->template() !== NULL): ?>
-<?php echo View_Front::factory($ds->template(), array(
+<?php if($datasource->template() !== NULL): ?>
+<?php echo View_Front::factory($datasource->template(), array(
 	'fields' => $fields
 )); ?>
 <?php elseif(!empty($fields)): ?>
 <div class="panel-body">
 	<?php foreach ($fields as $key => $field): ?>
-	<?php echo $field->backend_template($doc); ?>
+	<?php echo $field->backend_template($document); ?>
 	<?php endforeach; ?>
 </div>
 <?php endif; ?>
 
-<?php if($doc->has_access_edit() OR $doc->has_access_create()): ?>
+<?php if($document->has_access_edit() OR $document->has_access_create()): ?>
 <div class="form-actions panel-footer">
 	<?php echo UI::actions(TRUE, Route::get('datasources')->uri(array(
 		'controller' => 'data',
 		'directory' => 'datasources'
-	)) . URL::query(array('ds_id' => $ds->id()), FALSE)); ?>
+	)) . URL::query(array('ds_id' => $datasource->id()), FALSE)); ?>
 </div>
 <?php echo Form::close(); ?>
 <?php else: ?>

@@ -8,6 +8,7 @@
 				'id' => $field->name, 'class' => 'col-md-12', 'data-related-document' => $field->from_ds
 			)); ?>
 
+			<?php if($document->has_access_change()): ?>
 			<div class="input-group-btn">
 				<?php if (!empty($value['id'])): ?>
 				<?php echo UI::button(__('View'), array(
@@ -33,6 +34,7 @@
 					'data-target' => $field->name
 				)); ?>
 			</div>
+			<?php endif; ?>
 		</div>
 	</div>
 

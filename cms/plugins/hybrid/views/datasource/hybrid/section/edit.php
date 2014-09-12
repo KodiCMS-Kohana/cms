@@ -32,7 +32,7 @@
 		<div class="form-group">
 			<label class="control-label col-md-3" for="created_by_id"><?php echo __('Datasource Author'); ?></label>
 			<div class="col-md-9">
-				<?php echo Form::select('created_by_id', $users, $ds->created_by_id === NULL ? Auth::get_id() : $ds->created_by_id, array(
+				<?php echo Form::select('created_by_id', $users, $ds->created_by_id() == 0 ? Auth::get_id() : $ds->created_by_id(), array(
 					'class' => 'form-control', 'id' => 'created_by_id'
 				)); ?>
 			</div>

@@ -250,6 +250,14 @@ class Datasource_Section {
 	}
 	
 	/**
+	 * @return integer
+	 */
+	public function created_by_id()
+	{
+		return (int) $this->_created_by_id;
+	}
+	
+	/**
 	 * Проверка раздела на существование
 	 *  
 	 * @return boolean
@@ -435,16 +443,19 @@ class Datasource_Section {
 		{
 			$doc->create();
 		} 
+		catch (DataSource_Exception_Document $ex) 
+		{
+			$doc->onCreateException($ex);
+		}
 		catch (Kohana_Exception $ex) 
 		{
-			$doc->onCreateException();
+			$doc->onCreateException($ex);
 		}
 
 		if ($doc->loaded())
 		{
 			$this->update_size();
 			$this->add_to_index(array($doc->id));
-
 			$this->clear_cache();
 		}
 		
@@ -469,10 +480,14 @@ class Datasource_Section {
 		try
 		{
 			$doc->update();
-		} 
+		}
+		catch (DataSource_Exception_Document $ex) 
+		{
+			$doc->onUpdateException($ex);
+		}
 		catch (Kohana_Exception $ex) 
 		{
-			$doc->onUpdateException();
+			$doc->onUpdateException($ex);
 		}
 
 		if ($old->published != $doc->published) 
@@ -504,29 +519,41 @@ class Datasource_Section {
 	 * @param array $ids
 	 * @return \DataSource_Section
 	 */
-	public function remove_documents( array $ids = NULL  ) 
+	public function remove_documents(array $ids = NULL)
 	{
 		if (empty($ids))
 		{
 			return $this;
 		}
+		
+		$deleted_documents = array();
 
 		foreach ($ids as $id)
 		{
-			$document = $this->get_empty_document()->load($id);
-			if($document->loaded())
+			$document = $this->get_document($id);
+
+			try
 			{
-				$document->remove();
+				if ($document->loaded())
+				{
+					$document->remove();
+					$deleted_documents[] = $id;
+				}
+			} 
+			catch (DataSource_Exception_Document $ex)
+			{
+				$document->onRemoveException($ex);
+				continue;
 			}
 		}
 
 		$this->update_size();
-		$this->remove_from_index($ids);
+		$this->remove_from_index($deleted_documents);
 		$this->clear_cache();
 
 		return $this;
 	}
-	
+
 	/**
 	 * Загрузка документа по ID
 	 * 
@@ -535,12 +562,13 @@ class Datasource_Section {
 	 */
 	public function get_document($id)
 	{
-		if( empty($id) )
+		$document = $this->get_empty_document();
+		if (empty($id))
 		{
-			return NULL;
+			return $document;
 		}
-		
-		return $this->get_empty_document()->load($id);
+
+		return $document->load($id);
 	}
 	
 	/**
@@ -779,15 +807,7 @@ class Datasource_Section {
 			array(
 				'action' => 'document.remove',
 				'description' => 'Remove documents'
-			),
-			array(
-				'action' => 'field.edit',
-				'description' => 'Edit hybrid fields'
-			),
-			array(
-				'action' => 'field.remove',
-				'description' => 'Remove hybrid fields'
-			),
+			)
 		);
 	}
 
@@ -804,7 +824,7 @@ class Datasource_Section {
 			$user_id = Auth::get_id();
 		}
 
-		return $this->_created_by_id == (int) $user_id;
+		return ACL::is_admin($user_id) OR ($this->_created_by_id == (int) $user_id);
 	}
 	/**
 	 * Проверка прав доступа
@@ -814,7 +834,7 @@ class Datasource_Section {
 	public function has_access($acl_type = 'section.edit', $check_own = TRUE, $user_id = NULL)
 	{
 		return (
-			ACL::check($this->id() . '.' . $acl_type)
+			ACL::check('ds_id.' . $this->id() . '.' . $acl_type)
 			OR
 			(
 				$check_own === TRUE

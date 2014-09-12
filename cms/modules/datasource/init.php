@@ -34,7 +34,11 @@ Observer::observe('modules::after_load', function() {
 	{
 		foreach ($sections as $id => $section)
 		{
-			if(! $section->has_access_view()) continue;
+			if (!$section->has_access_view())
+			{
+				continue;
+			}
+
 			$ds_section
 				->add_page(new Model_Navigation_Page(array(
 					'name' => $section->name,
@@ -43,7 +47,7 @@ Observer::observe('modules::after_load', function() {
 						'directory' => 'datasources',
 					)) . URL::query(array('ds_id' => $id)),
 					'icon' => Datasource_Data_Manager::get_icon($type),
-					'permissions' => $type . $id . '.section.view'
+					'permissions' => 'ds_id.' . $id . '.section.view'
 				)), 999);
 		}
 	}

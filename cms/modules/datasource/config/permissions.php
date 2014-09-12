@@ -6,7 +6,7 @@ foreach (Datasource_Data_Manager::get_all() as $id => $section)
 {
 	$actions = $section->acl_actions();
 	$actions['title'] = __('Datasource :name', array(':name' => $section->name));
-	$perms[$id] = $actions;
+	$perms['ds_id.' . $id] = $actions;
 }
 
 foreach (Datasource_Data_Manager::types() as $type => $title)

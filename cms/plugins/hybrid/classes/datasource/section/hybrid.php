@@ -271,23 +271,38 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 	 */
 	public function remove_documents( array $ids = NULL  ) 
 	{
-		if( empty($ids) ) return $this;
+		if (empty($ids))
+		{
+			return $this;
+		}
 		
+		$deleted_documents = array();
+
 		foreach ($ids as $id)
 		{
-			$document = $this->get_empty_document()->load($id);
-			if($document->loaded())
+			try
 			{
-				$this->record()->destroy_document($document);
-				$document->remove();
+				$document = $this->get_document($id);
+				if($document->loaded())
+				{
+					$this->record()->destroy_document($document);
+					$document->remove();
+					
+					$deleted_documents[] = $id;
+				}
+			}
+			catch (DataSource_Exception_Document $ex)
+			{
+				$document->onRemoveException($ex);
+				continue;
 			}
 		}
 
 		$this->update_size();
-		$this->remove_from_index($ids);
+		$this->remove_from_index($deleted_documents);
 		$this->clear_cache();
 
-		return parent::remove_documents($ids);
+		return $this;
 	}
 	
 	/**

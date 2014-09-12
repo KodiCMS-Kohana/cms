@@ -397,7 +397,7 @@ class Datasource_Document implements ArrayAccess {
 	 */
 	public function read_files($array) 
 	{
-		foreach($array as $key => $value)
+		foreach ($array as $key => $value)
 		{
 			$this->{$key} = $value;
 		}
@@ -416,7 +416,7 @@ class Datasource_Document implements ArrayAccess {
 		{
 			$this->_system_fields[$key] = NULL;
 		}
-		
+
 		return $this;
 	}
 	
@@ -530,15 +530,18 @@ class Datasource_Document implements ArrayAccess {
 			->execute()
 			->current();
 				
-		if( empty($result) ) return $this;
-		
+		if (empty($result))
+		{
+			return $this;
+		}
+
 		$this->_loaded = TRUE;
 		
-		foreach($result as $field => $value)
+		foreach ($result as $field => $value)
 		{
 			$this->{$field} = $value;
 		}
-		
+
 		return $this;
 	}
 
@@ -561,11 +564,11 @@ class Datasource_Document implements ArrayAccess {
 	 */
 	public function create()
 	{
-		if($this->is_read_only())
+		if ($this->is_read_only())
 		{
 			throw new DataSource_Exception_Document('Document is read only');
 		}
-		
+
 		if (!$this->has_access_create())
 		{
 			throw new DataSource_Exception_Document('You do not have permission to create document');
@@ -590,8 +593,11 @@ class Datasource_Document implements ArrayAccess {
 
 		$id = $query[0];
 
-		if( empty($id) ) return NULL;
-		
+		if (empty($id))
+		{
+			return $this;
+		}
+
 		$this->id = $id;
 
 		$this->_created = TRUE;
@@ -619,7 +625,7 @@ class Datasource_Document implements ArrayAccess {
 	 */
 	public function update()
 	{
-		if($this->is_read_only())
+		if ($this->is_read_only())
 		{
 			throw new DataSource_Exception_Document('Document is read only');
 		}
@@ -660,7 +666,7 @@ class Datasource_Document implements ArrayAccess {
 	 */
 	public function remove()
 	{
-		if($this->is_read_only())
+		if ($this->is_read_only())
 		{
 			throw new DataSource_Exception_Document('Document is read only');
 		}
@@ -676,9 +682,9 @@ class Datasource_Document implements ArrayAccess {
 		}
 
 		DB::delete($this->section()->table())
-				->where('ds_id', '=', (int) $this->section()->id())
-				->where('id', '=', $this->id)
-				->execute();
+			->where('ds_id', '=', (int) $this->section()->id())
+			->where('id', '=', $this->id)
+			->execute();
 
 		$this->reset();
 
@@ -767,12 +773,17 @@ class Datasource_Document implements ArrayAccess {
 	/**
 	 * Событие вызываемое в момент ошибки создания документа
 	 */
-	public function onCreateException() {}
+	public function onCreateException(Kohana_Exception $exception) {}
 	
 	/**
 	 * Событие вызываемое в момент ошибки обновления документа
 	 */
-	public function onUpdateException() {}
+	public function onUpdateException(Kohana_Exception $exception) {}
+	
+	/**
+	 * Событие вызываемое в момент ошибки удаления документа
+	 */
+	public function onRemoveException(Kohana_Exception $exception) {}
 	
 	/**************************************************************************
 	 * ACL
@@ -792,10 +803,27 @@ class Datasource_Document implements ArrayAccess {
 				$user_id = Auth::get_id();
 			}
 
-			return Arr::get($this->system_fields(), 'created_by_id') == (int) $user_id;
+			$created_by_id = (int) Arr::get($this->system_fields(), 'created_by_id');
+			return ACL::is_admin($user_id) OR ($created_by_id == (int) $user_id);
 		}
 		
 		return TRUE;
+	}
+	
+	/**
+	 * Пользователь имеет права на создание документа
+	 * @param integer $user_id
+	 * @return boolean
+	 */
+	public function has_access_view($user_id = NULL)
+	{
+		return (
+			$this->section()->has_access('document.view')
+			OR
+			$this->has_access_create($user_id)
+			OR
+			$this->has_access_edit($user_id)
+		);
 	}
 	
 	/**
@@ -811,24 +839,6 @@ class Datasource_Document implements ArrayAccess {
 			$this->section()->is_creator()
 		);
 	}
-	
-	/**
-	 * Пользователь имеет права на создание документа
-	 * @param integer $user_id
-	 * @return boolean
-	 */
-	public function has_access_view($user_id = NULL)
-	{
-		return (
-			$this->section()->has_access('document.view')
-			AND
-			(
-				$this->has_access_create($user_id)
-				OR
-				$this->has_access_edit($user_id)
-			)
-		);
-	}
 
 	/**
 	 * Пользователь имеет права на редактирование документа
@@ -839,8 +849,21 @@ class Datasource_Document implements ArrayAccess {
 	{
 		return (
 			($check_own === TRUE AND $this->is_creator($user_id))
-			AND
+			OR
 			$this->section()->has_access('document.edit')
+		);
+	}
+	
+	/**
+	 * @param integer $user_id
+	 * @return boolean
+	 */
+	public function has_access_change($user_id = NULL, $check_own = TRUE)
+	{
+		return (
+			($this->loaded() AND $this->has_access_edit($user_id, $check_own))
+			OR
+			(!$this->loaded() AND $this->has_access_create())
 		);
 	}
 	
@@ -853,7 +876,7 @@ class Datasource_Document implements ArrayAccess {
 	{
 		return (
 			($check_own === TRUE AND $this->is_creator($user_id))
-			AND 
+			OR 
 			$this->section()->has_access('document.remove')
 		);
 	}
