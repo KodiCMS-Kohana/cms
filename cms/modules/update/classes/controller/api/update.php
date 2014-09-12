@@ -36,6 +36,7 @@ class Controller_API_Update extends Controller_System_API {
 		
 			$this->message('Database schema updated successfully!');
 			
+			Cache::instance()->delete(Update::CACHE_KEY_DB_SHEMA);
 			$this->response(TRUE);
 		} 
 		catch (Exception $ex)

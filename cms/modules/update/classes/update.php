@@ -9,12 +9,14 @@ class Update {
 	const BRANCH = 'dev';
 	const REPOSITORY = 'butschster/kodicms';
 	
+	const CACHE_KEY_DB_SHEMA = 'database_schema_diff';
+	const CACHE_KEY_FILES = 'update_cache';
+	
 	/**
 	 * Версия системы с удаленного сервера
 	 * @var string 
 	 */
 	protected static $_remove_version = NULL;
-
 
 	/**
 	 * Проверка номера версии в репозитории Github
@@ -37,7 +39,7 @@ class Update {
 	{
 		$cache = Cache::instance();
 
-		if(($diff = $cache->get('database_schema_diff')) === NULL)
+		if(($diff = $cache->get(self::CACHE_KEY_DB_SHEMA)) === NULL)
 		{
 			$db_sql = Database_Helper::schema();
 			$file_sql = Database_Helper::install_schema();
@@ -45,7 +47,7 @@ class Update {
 			$compare = new Database_Helper;
 			$diff = $compare->get_updates($db_sql, $file_sql, TRUE);
 			
-			$cache->set('database_schema_diff', $diff);
+			$cache->set(self::CACHE_KEY_DB_SHEMA, $diff);
 		}
 		
 		return $diff;
@@ -67,7 +69,7 @@ class Update {
 		);
 		
 		$cache = Cache::instance();
-		$cached_files = $cache->get('update_cache');
+		$cached_files = $cache->get(self::CACHE_KEY_FILES);
 		
 		if($cached_files !== NULL)
 		{
@@ -121,7 +123,7 @@ class Update {
 				$files['third_party_plugins'] = array_diff($local_plugins, $plugins);
 			}
 			
-			$cache->set('update_cache', $files);
+			$cache->set(self::CACHE_KEY_FILES, $files);
 		}
 		
 		return $files;
