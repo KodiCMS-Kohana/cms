@@ -177,7 +177,7 @@ function update_documents(e, response) {
 }
 </script>
 
-<?php if(!$document->has_access_change()): ?>
+<?php if($document->has_access_change()): ?>
 <?php echo Form::open(Route::get('datasources')->uri(array(
 		'controller' => 'document',
 		'directory' => $datasource->type(),
@@ -246,7 +246,7 @@ function update_documents(e, response) {
 </div>
 <?php endif; ?>
 
-<?php if(!$document->has_access_change()): ?>
+<?php if($document->has_access_change()): ?>
 <div class="form-actions panel-footer">
 	<?php echo UI::actions(TRUE, Route::get('datasources')->uri(array(
 		'controller' => 'data',
