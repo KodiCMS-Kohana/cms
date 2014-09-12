@@ -45,7 +45,7 @@ class Controller_System_Datasource extends Controller_System_Backend
 		if (
 			$this->request->action() == 'index'
 		AND 
-			! ACL::check( $this->_section->type() . $id  . '.section.view' )
+			! $this->_section->has_access_view()
 		)
 		{
 			$this->_deny_access();

@@ -312,6 +312,27 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 		
 		return $template;
 	}
+	
+	/**
+	 * 
+	 * @return array
+	 */
+	public function acl_actions()
+	{
+		$actions = parent::acl_actions();
+		
+		$actions[] = array(
+			'action' => 'field.edit',
+			'description' => 'Edit hybrid fields'
+		);
+	
+		$actions[] = array(
+			'action' => 'field.remove',
+			'description' => 'Remove hybrid fields'
+		);
+		
+		return $actions;
+	}
 
 	protected function _serialize()
 	{

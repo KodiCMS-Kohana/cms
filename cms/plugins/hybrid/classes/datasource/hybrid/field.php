@@ -853,9 +853,83 @@ abstract class DataSource_Hybrid_Field {
 	 * Событие вызываемое в момент загрузки контроллера в админ панели
 	 */
 	public function onControllerLoad() {}
+
 	/**
 	 * Тип поля в БД
 	 * return string
 	 */
 	abstract public function get_type();
+	
+	/**************************************************************************
+	 * ACL
+	 **************************************************************************/
+	/**
+	 * Пользователь - создатель документа
+	 * 
+	 * @param integer $user_id
+	 * @return boolean
+	 */
+	public function is_creator($user_id = NULL)
+	{		
+		return TRUE;
+	}
+	
+	public function has_access($acl_type = '')
+	{
+		return ACL::check($this->ds_id . '.field.' . $acl_type);
+	}
+	
+	/**
+	 * Пользователь имеет права на создание документа
+	 * @param integer $user_id
+	 * @return boolean
+	 */
+	public function has_access_create($user_id = NULL, $check_own = TRUE)
+	{
+		return (
+			$this->has_access('create')
+		);
+	}
+	
+	/**
+	 * Пользователь имеет права на создание документа
+	 * @param integer $user_id
+	 * @return boolean
+	 */
+	public function has_access_view($user_id = NULL, $check_own = TRUE)
+	{
+		return (
+			($check_own === TRUE AND $this->is_creator($user_id))
+			AND
+			$this->has_access('view')
+		);
+	}
+
+	/**
+	 * Пользователь имеет права на редактирование документа
+	 * @param integer $user_id
+	 * @return boolean
+	 */
+	public function has_access_edit($user_id = NULL, $check_own = TRUE)
+	{
+		return (
+			($check_own === TRUE AND $this->is_creator($user_id))
+			AND
+			$this->has_access('edit')
+		);
+	}
+	
+	/**
+	 * Пользователь имеет права на редактирование документа
+	 * @param integer $user_id
+	 * @return boolean
+	 */
+	public function has_access_remove($user_id = NULL, $check_own = TRUE)
+	{
+		return (
+			($check_own === TRUE AND $this->is_creator($user_id))
+			AND 
+			$this->has_access('remove')
+		);
+	}
 }

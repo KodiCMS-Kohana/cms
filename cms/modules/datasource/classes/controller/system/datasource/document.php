@@ -8,7 +8,7 @@ class Controller_System_Datasource_Document extends Controller_System_Datasource
 		
 		$this->section($ds_id);
 		
-		$this->_check_acl($this->section()->type(), $ds_id);
+		$this->_check_acl();
 
 		parent::before();
 	}
@@ -71,6 +71,11 @@ class Controller_System_Datasource_Document extends Controller_System_Datasource
 		catch (Validation_Exception $e)
 		{
 			Messages::errors($e->errors('validation'));
+			$this->go_back();
+		}
+		catch (DataSource_Exception_Document $e)
+		{
+			Messages::errors($e->getMessage());
 			$this->go_back();
 		}
 
@@ -150,19 +155,19 @@ class Controller_System_Datasource_Document extends Controller_System_Datasource
 	 * @param string $type
 	 * @param integer $ds_id
 	 */
-	protected function _check_acl($type, $ds_id)
+	protected function _check_acl()
 	{
 		if(
-			Acl::check($type.$ds_id.'.document.edit')
+			$this->section()->has_access('document.view')
 		OR
-			Acl::check($type.$ds_id.'.document.view')
+			$this->section()->has_access('document.edit')
 		)
 		{
 			$this->allowed_actions[] = 'view';
 		}
 		
 		if(
-			Acl::check($type.$ds_id.'.document.edit')
+			$this->section()->has_access('document.create')
 		)
 		{
 			$this->allowed_actions[] = 'create';

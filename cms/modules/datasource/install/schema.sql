@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS `__TABLE_PREFIX__datasources` (
   `description` varchar(255) DEFAULT NULL,
   `created_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created_by_id` int(11) unsigned NOT NULL DEFAULT '0',
   `locks` int(3) unsigned NOT NULL DEFAULT '0',
   `code` text,
   PRIMARY KEY (`id`),

@@ -6,7 +6,7 @@ var DS_TYPE = '<?php echo $datasource->type(); ?>';
 	<?php echo $datasource->name; ?>
 	
 	<div class="btn-group pull-right">
-		<?php if($datasource->has_access('section.edit'))
+		<?php if($datasource->has_access_edit())
 		{
 			echo UI::button(NULL, array(
 				'href' => Datasource_Section::uri('edit', $datasource->id()),
@@ -17,7 +17,7 @@ var DS_TYPE = '<?php echo $datasource->type(); ?>';
 			));
 		}
 		
-		if($datasource->has_access('section.remove'))
+		if($datasource->has_access_remove())
 		{
 			echo UI::button(NULL, array(
 				'href' => Datasource_Section::uri('remove', $datasource->id()),

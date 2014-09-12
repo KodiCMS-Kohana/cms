@@ -19,7 +19,7 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 			
 			$ds = $this->section($this->field->ds_id);
 			
-			if(Acl::check($ds->type().$this->field->ds_id.'.field.edit'))
+			if($this->field->has_access_edit())
 			{
 				$this->allowed_actions[] = 'edit';
 			}
@@ -30,7 +30,7 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 			$ds_id = (int) $this->request->param('id');
 			$ds = $this->section($ds_id);
 			
-			if(Acl::check($ds->type().$ds_id.'.field.edit'))
+			if($this->field->has_access_create())
 			{
 				$this->allowed_actions[] = 'add';
 			}

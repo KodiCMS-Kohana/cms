@@ -11,6 +11,7 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 		'ds_id' => NULL,
 		'published' => NULL,
 		'header' => NULL,
+		'created_on' => NULL,
 		'meta_title' => NULL, 
 		'meta_keywords' => NULL, 
 		'meta_description' => NULL
@@ -21,6 +22,12 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 	 * @var array array([ID] => [Document value])
 	 */
 	protected $_fields = array();
+	
+	/**
+	 * Документ имеет автора
+	 * @var boolean 
+	 */
+	protected $_is_authored = TRUE;
 	
 	public function defaults()
 	{
@@ -34,14 +41,23 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 	/**
 	 * Проаверка существаования поля в документе
 	 * 
-	 * @param type $field
-	 * @return type
+	 * @param string $field
+	 * @return boolean
 	 */
 	public function __isset($field)
 	{
-		return isset($this->_fields[$field]);
+		return isset($this->_fields[$field]) || parent::__isset($field);
 	}
 	
+	/**
+	 * 
+	 * @param string $field
+	 */
+	public function __unset($field)
+	{
+		unset($this->_fields[$field]);
+		parent::__unset($field);
+	}
 	
 	/**
 	 * Геттер значений полей документов
@@ -68,7 +84,12 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 	 */
 	public function set($field, $value)
 	{
-		if(array_key_exists($field, $this->_system_fields))
+		if($this->is_read_only())
+		{
+			return $this;
+		}
+		
+		if(array_key_exists($field, $this->system_fields()))
 		{
 			return parent::set($field, $value);
 		}
@@ -96,7 +117,7 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 	 */
 	public function values()
 	{
-		return Arr::merge($this->_fields, $this->_system_fields);
+		return Arr::merge($this->_fields, $this->system_fields());
 	}
 
 	/**
@@ -234,10 +255,13 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 		{
 			$preffix = 'dshybrid.';
 		}
+		
+		$columns = $this->system_fields();
+		unset($columns['id']);
 
 		$result = DB::select(array('dshybrid.id', 'id'))
-			->select('ds_id', 'published', 'header', 'meta_title', 'meta_keywords', 'meta_description')
-			->select_array( array_keys( $this->_fields ))
+			->select_array(array_keys($columns))
+			->select_array(array_keys($this->_fields))
 			->from('dshybrid')
 			->join("dshybrid_{$ds_id}", 'left')
 				->on("dshybrid_{$ds_id}.id", '=', 'dshybrid.id')

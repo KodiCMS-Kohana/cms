@@ -20,10 +20,10 @@
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="control-label col-md-3" for="description"><?php echo __('Datasource Description'); ?></label>
+			<label class="control-label col-md-3" for="created_by_id"><?php echo __('Datasource Author'); ?></label>
 			<div class="col-md-9">
-				<?php echo Form::textarea('description', $ds->description, array(
-					'class' => 'form-control', 'id' => 'description'
+				<?php echo Form::select('created_by_id', $users, $ds->created_by_id, array(
+					'class' => 'form-control', 'id' => 'created_by_id'
 				)); ?>
 			</div>
 		</div>

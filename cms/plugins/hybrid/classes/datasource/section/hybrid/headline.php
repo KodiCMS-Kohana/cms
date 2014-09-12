@@ -32,7 +32,7 @@ class Datasource_Section_Hybrid_Headline extends Datasource_Section_Headline {
 			);
 		}
 		
-		$this->_fields['date'] = array(
+		$this->_fields['created_on'] = array(
 			'name' => 'Date of creation',
 			'width' => 150,
 			'class' => 'text-right text-muted text-sm',
@@ -48,7 +48,7 @@ class Datasource_Section_Hybrid_Headline extends Datasource_Section_Headline {
 
 		$fids = array();
 
-		$documents = array();		
+		$documents = array();
 
 		$results = array(
 			'total' => 0,
@@ -59,16 +59,20 @@ class Datasource_Section_Hybrid_Headline extends Datasource_Section_Headline {
 
 		$section_fields = DataSource_Hybrid_Field_Factory::get_section_fields($this->_section->id());
 
-		foreach($section_fields as $key => $field)
+		foreach ($section_fields as $key => $field)
 		{
-			if( ! array_key_exists( $field->name, $this->fields())) continue;
-			
+			if (!array_key_exists($field->name, $this->fields()))
+			{
+				continue;
+			}
+
 			$fids[] = $field->id;
 		}
 
 		$query = $agent
 			->get_query_props($fids, (array) $this->sorting())
-			->select(array('d.created_on', 'date'))
+			->select('d.created_on')
+			->select('d.created_by_id')
 			->select('dss.name')
 			->join(array('datasources', 'dss'))
 				->on('d.ds_id', '=', 'dss.id');
@@ -92,22 +96,29 @@ class Datasource_Section_Hybrid_Headline extends Datasource_Section_Headline {
 			
 			foreach ( $result as $id => $row )
 			{
-				$documents[$id] = array(
+				$data = array(
 					'id' => $id,
 					'published' => (bool) $row['published'],
 					'header' => $row['header'],
-					'date' => Date::format($row['date'])
+					'created_on' => Date::format($row['created_on']),
+					'created_by_id' => $row['created_by_id']
 				);
 				
 				foreach($section_fields as $field)
 				{
 					if(isset($row[$field->id]))
 					{
-						$documents[$id][$field->name] = $field->fetch_headline_value($row[$field->id], $id);
+						$data[$field->name] = $field->fetch_headline_value($row[$field->id], $id);
 					}
 				}
+
+				$document = new DataSource_Hybrid_Document($this->_section);
+				$document->id = $id;
+				$documents[$id] = $document
+					->read_values($data)
+					->set_read_only();
 			}
-			
+
 			$results['documents'] = $documents;
 		}
 		

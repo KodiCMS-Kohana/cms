@@ -40,6 +40,7 @@ CREATE TABLE IF NOT EXISTS `__TABLE_PREFIX__dshybrid` (
   `meta_description` text NOT NULL,
   `created_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created_by_id` int(11) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `ds_id` (`ds_id`,`published`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;

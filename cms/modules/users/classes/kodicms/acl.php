@@ -47,6 +47,31 @@ class KodiCMS_ACL {
 		
 		return $permissions;
 	}
+	
+	/**
+	 * 
+	 * @param Model_User $user
+	 * @return boolean
+	 */
+	public static function is_admin(Model_User $user = NULL)
+	{
+		if ($user === NULL)
+		{
+			$user = Auth::instance()->get_user();
+		}
+		
+		if (!( $user instanceof Model_User ))
+		{
+			return FALSE;
+		}
+
+		if ($user->id == self::ADMIN_USER OR in_array(self::ADMIN_ROLE, $user->roles()))
+		{
+			return TRUE;
+		}
+
+		return FALSE;
+	}
 
 	/**
 	 * Проверка прав на доступ
@@ -55,33 +80,33 @@ class KodiCMS_ACL {
 	 * @param Model_User $user
 	 * @return boolean
 	 */
-	public static function check( $action, Model_User $user = NULL)
+	public static function check($action, Model_User $user = NULL)
 	{
-		if($user === NULL)
+		if ($user === NULL)
 		{
 			$user = Auth::instance()->get_user();
 		}
-		
-		if( ! ( $user instanceof Model_User ) )
+
+		if (!( $user instanceof Model_User ))
 		{
 			return self::DENY;
 		}
-		
-		if( empty($action) )
+
+		if (empty($action))
 		{
 			return self::ALLOW;
 		}
-		
-		if($user->id == self::ADMIN_USER OR in_array( self::ADMIN_ROLE, $user->roles() ))
+
+		if (self::is_admin($user))
 		{
 			return self::ALLOW;
 		}
-		
-		if( $action instanceof Request)
+
+		if ($action instanceof Request)
 		{
 			$params = array();
 			$directory = $action->directory();
-			if( !empty($directory) AND $directory != ADMIN_DIR_NAME )
+			if (!empty($directory) AND $directory != ADMIN_DIR_NAME)
 			{
 				$params[] = $action->directory();
 			}
@@ -90,17 +115,17 @@ class KodiCMS_ACL {
 			$params[] = $action->action();
 			$action = $params;
 		}
-		
-		if( is_array( $action ))
+
+		if (is_array($action))
 		{
 			$action = strtolower(implode('.', $action));
 		}
 
-		if( ! isset( self::$_permissions[$user->id] ))
+		if (!isset(self::$_permissions[$user->id]))
 		{
 			self::_set_permissions($user);
 		}
-		
+
 		return isset(self::$_permissions[$user->id][$action]);
 	}
 	

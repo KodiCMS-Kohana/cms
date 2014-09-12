@@ -76,10 +76,7 @@ class Model_Navigation_Section extends Model_Navigation_Abstract implements Coun
 			else
 			{
 				$page = new Model_Navigation_Page($page);
-				if (ACL::check($page->permissions))
-				{
-					$this->add_page($page);
-				}
+				$this->add_page($page);
 			}
 		}
 
@@ -95,6 +92,11 @@ class Model_Navigation_Section extends Model_Navigation_Abstract implements Coun
 	public function add_page(Model_Navigation_Abstract & $page, $priority = 1)
 	{
 		$priority = (int) $priority;
+		
+		if (!ACL::check($page->permissions))
+		{
+			return $this;
+		}
 
 		if (isset($page->priority))
 		{

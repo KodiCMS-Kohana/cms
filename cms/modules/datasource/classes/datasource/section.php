@@ -23,7 +23,7 @@ class Datasource_Section {
 	{
 		if( ! self::exists($type) )
 		{
-			throw new DataSource_Exception('Class :class_name not exists', 
+			throw new DataSource_Exception_Section('Class :class_name not exists', 
 					array(':class_name' => $class));
 		}
 		
@@ -129,7 +129,8 @@ class Datasource_Section {
 		$section->description = Arr::get($data, 'description');
 		$section->_docs = (int) Arr::get($data, 'docs');
 		$section->_is_indexable = (bool) Arr::get($data, 'indexed');
-		
+		$section->_created_by_id = (int) Arr::get($data, 'created_by_id');
+
 		return $section;
 	}
 
@@ -167,6 +168,13 @@ class Datasource_Section {
 	 * @var integer
 	 */
 	protected $_docs = 0;
+	
+	/**
+	 * Создатель раздела
+	 * 
+	 * @var integer
+	 */
+	protected $_created_by_id = NULL;
 	
 	/**
 	 * Таблица раздела в БД
@@ -216,7 +224,7 @@ class Datasource_Section {
 		
 		if ( ! class_exists( $this->_document_class_name ))
 		{
-			throw new DataSource_Exception('Document class :class_name not exists', 
+			throw new DataSource_Exception_Section('Document class :class_name not exists', 
 					array(':class_name' => $this->_document_class_name));
 		}
 	}
@@ -277,13 +285,19 @@ class Datasource_Section {
 	 * @param array $values Массив полей раздела
 	 *
 	 * @return integer Идентификатор раздела
-	 * @throws DataSource_Exception
+	 * @throws DataSource_Exception_Section
 	 */
 	public function create( array $values ) 
 	{
+		if (!$this->has_access_create())
+		{
+			throw new DataSource_Exception_Section('You do not have permission to create section');
+		}
+
 		$this->name = Arr::get($values, 'name');
 		$this->description = Arr::get($values, 'description');
 		$this->_is_indexable = (bool) Arr::get($values, 'is_indexable');
+		$this->_created_by_id = (int) Arr::get($values, 'created_by_id', Auth::get_id());
 		
 		$data = array(
 			'type' => $this->_type,
@@ -291,6 +305,7 @@ class Datasource_Section {
 			'description' => $this->description,
 			'name' => $this->name,
 			'created_on' => date('Y-m-d H:i:s'),
+			'created_by_id' => $this->_created_by_id,
 			'code' => serialize($this)
 		);
 		
@@ -303,7 +318,7 @@ class Datasource_Section {
 		
 		if (empty($this->_id))
 		{
-			throw new DataSource_Exception('Datasource section :name not created', 
+			throw new DataSource_Exception_Section('Datasource section :name not created', 
 					array(':name' => $this->name));
 		}
 		
@@ -326,6 +341,11 @@ class Datasource_Section {
 	 */
 	public function update( array $values = NULL) 
 	{
+		if (!$this->has_access_edit())
+		{
+			throw new DataSource_Exception_Section('You do not have permission to update section');
+		}
+
 		if ( ! $this->loaded())
 		{
 			return FALSE;
@@ -335,7 +355,12 @@ class Datasource_Section {
 		{
 			$this->name = Arr::get($values, 'name');
 			$this->description = Arr::get($values, 'description');
-		
+			
+			if(!empty($values['created_by_id']))
+			{
+				$this->_created_by_id = (int) $values['created_by_id'];
+			}
+
 			$this->set_indexable(Arr::get($values, 'is_indexable', FALSE));
 			
 			$this->_headline->set_sorting(Arr::get($values, 'doc_order', array()));
@@ -346,6 +371,7 @@ class Datasource_Section {
 			'name' => $this->name,
 			'description' => $this->description,
 			'updated_on' => date('Y-m-d H:i:s'),
+			'created_by_id' => $this->_created_by_id,
 			'code' => serialize( $this )
 		);
 		
@@ -372,6 +398,11 @@ class Datasource_Section {
 	 */
 	public function remove()
 	{
+		if (!$this->has_access_remove())
+		{
+			throw new DataSource_Exception_Section('You do not have permission to remove section');
+		}
+
 		$ids = DB::select('id')
 			->from($this->table())
 			->where('ds_id', '=', $this->id())
@@ -608,7 +639,12 @@ class Datasource_Section {
 			->rules('name', array(
 				array('not_empty')
 			))
-			->label('name', __('Header'));
+			->rules('created_by_id', array(
+				array('not_empty'),
+				array('numeric')
+			))
+			->label('name', __('Header'))
+			->label('created_by_id', __('Author'));
 
 		if (!$validation->check())
 		{
@@ -650,6 +686,7 @@ class Datasource_Section {
 			$vars['_id'],
 			$vars['_docs'],
 			$vars['_is_indexable'],
+			$vars['_created_by_id'],
 			$vars['_type'], 
 			$vars['name'],
 			$vars['description'],
@@ -688,7 +725,6 @@ class Datasource_Section {
 	{
 		$this->_docs = 0;
 		$this->_is_indexable = FALSE;
-		
 		$this->_document_class_name = 'Datasource_' . ucfirst($this->type()) . '_Document';
 	}
 	
@@ -709,11 +745,120 @@ class Datasource_Section {
 	/**************************************************************************
 	 * ACL
 	 **************************************************************************/
-	public function has_access($acl_type = 'section.edit')
+	/**
+	 * 
+	 * @return array
+	 */
+	public function acl_actions()
 	{
-		return ACL::check($this->type() . $this->id() . '.' . $acl_type);
+		return array(
+			array(
+				'action' => 'section.view',
+				'description' => 'View section'
+			),
+			array(
+				'action' => 'section.edit',
+				'description' => 'Edit section'
+			),
+			array(
+				'action' => 'section.remove',
+				'description' => 'Remove section'
+			),
+			array(
+				'action' => 'document.view',
+				'description' => 'View documents'
+			),
+			array(
+				'action' => 'document.create',
+				'description' => 'Create documents'
+			),
+			array(
+				'action' => 'document.edit',
+				'description' => 'Edit documents'
+			),
+			array(
+				'action' => 'document.remove',
+				'description' => 'Remove documents'
+			),
+			array(
+				'action' => 'field.edit',
+				'description' => 'Edit hybrid fields'
+			),
+			array(
+				'action' => 'field.remove',
+				'description' => 'Remove hybrid fields'
+			),
+		);
 	}
 
+    /**
+	 * Пользователь - создатель раздела
+	 * 
+	 * @param integer $user_id
+	 * @return boolean
+	 */
+	public function is_creator($user_id = NULL)
+	{
+		if($user_id === NULL)
+		{
+			$user_id = Auth::get_id();
+		}
+
+		return $this->_created_by_id == (int) $user_id;
+	}
+	/**
+	 * Проверка прав доступа
+	 * @param string $acl_type
+	 * @return boolean
+	 */
+	public function has_access($acl_type = 'section.edit', $check_own = TRUE, $user_id = NULL)
+	{
+		return (
+			ACL::check($this->id() . '.' . $acl_type)
+			OR
+			(
+				$check_own === TRUE
+				AND
+				$this->is_creator($user_id)
+			)
+		);
+	}
+	
+	/**
+	 * Проверка прав на редактирование
+	 * @return boolean
+	 */
+	public function has_access_edit($user_id = NULL)
+	{
+		return $this->has_access('section.edit', TRUE, $user_id);
+	}
+	
+	/**
+	 * Проверка прав на редактирование
+	 * @return boolean
+	 */
+	public function has_access_create()
+	{
+		return ACL::check($this->type() . '.' . 'section.create');
+	}
+	
+	/**
+	 * Проверка прав на просмотр
+	 * @return boolean
+	 */
+	public function has_access_view($user_id = NULL)
+	{
+		return $this->has_access('section.view', TRUE, $user_id);
+	}
+	
+	/**
+	 * Проверка прав на удаление
+	 * @return boolean
+	 */
+	public function has_access_remove($user_id = NULL)
+	{
+		return $this->has_access('section.remove', TRUE, $user_id);
+	}
 	/**************************************************************************
 	 * Search indexation
 	 **************************************************************************/

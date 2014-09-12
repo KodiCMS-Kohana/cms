@@ -9,14 +9,22 @@ class Controller_Datasources_Section extends Controller_System_Datasource
 			$ds_id = (int) $this->request->param('id');
 			$this->section($ds_id);
 
-			if (Acl::check($this->section()->type() . $ds_id . '.section.edit'))
+			if ($this->section()->has_access_edit())
 			{
 				$this->allowed_actions[] = 'edit';
 			}
 
-			if (Acl::check($this->section()->type() . $ds_id . '.section.remove'))
+			if ($this->section()->has_access_remove())
 			{
 				$this->allowed_actions[] = 'remove';
+			}
+		}
+		else
+		{
+			$type = strtolower($this->request->param('id'));
+			if(ACL::check($type . '.section.create'))
+			{
+				$this->allowed_actions[] = 'create';
 			}
 		}
 
@@ -45,14 +53,16 @@ class Controller_Datasources_Section extends Controller_System_Datasource
 		{
 			$this->template->content = View::factory('datasource/'.$type.'/section/create', array(
 				'type' => $type,
-				'data' => Flash::get('post_data')
+				'data' => Flash::get('post_data'),
+				'users' => ORM::factory('user')->find_all()->as_array('id', 'username')
 			));
 		} 
 		catch (Exception $exc)
 		{
 			$this->template->content = View::factory('datasource/section/create', array(
 				'type' => $type,
-				'data' => Flash::get('post_data')
+				'data' => Flash::get('post_data'),
+				'users' => ORM::factory('user')->find_all()->as_array('id', 'username')
 			));
 		}
 	}
@@ -65,21 +75,29 @@ class Controller_Datasources_Section extends Controller_System_Datasource
 	{
 		$section = Datasource_Section::factory($type);
 		
+		$data = $this->request->post();
+		
+		$data['created_by_id'] = Auth::get_id();
+
 		try
 		{
-			$section->validate($this->request->post());
+			$section->validate($data);
+			$ds_id = $section->create($data);
 		}
 		catch (Validation_Exception $e)
 		{
 			Messages::errors($e->errors('validation'));
 			$this->go_back();
 		}
-		
-		$ds_id = $section->create($this->request->post());
+		catch (DataSource_Exception_Section $e)
+		{
+			Messages::errors($e->getMessage());
+			$this->go_back();
+		}
 		
 		Messages::success( __( 'Datasource has been saved!' ) );
 
-		$this->go( Route::get('datasources')->uri(array(
+		$this->go(Route::get('datasources')->uri(array(
 			'directory' => 'datasources',
 			'controller' => 'section',
 			'action' => 'edit',
@@ -107,13 +125,15 @@ class Controller_Datasources_Section extends Controller_System_Datasource
 		try
 		{
 			$this->template->content = View::factory('datasource/'.$this->section()->type().'/section/edit', array(
-				'ds' => $this->section()
+				'ds' => $this->section(),
+				'users' => ORM::factory('user')->find_all()->as_array('id', 'username')
 			));
 		} 
 		catch (Exception $exc)
 		{
 			$this->template->content = View::factory('datasource/section/edit', array(
-				'ds' => $this->section()
+				'ds' => $this->section(),
+				'users' => ORM::factory('user')->find_all()->as_array('id', 'username')
 			));
 		}
 	}
@@ -124,17 +144,24 @@ class Controller_Datasources_Section extends Controller_System_Datasource
 	 */
 	private function _edit($ds)
 	{
+		$data = $this->request->post();
+		
 		try
 		{
-			$ds->validate($this->request->post());
+			$ds->validate($data);
+			$ds->update($data);
 		}
 		catch (Validation_Exception $e)
 		{
 			Messages::errors($e->errors('validation'));
 			$this->go_back();
 		}
-		
-		$ds->update($this->request->post());
+		catch (DataSource_Exception_Section $e)
+		{
+			Messages::errors($e->getMessage());
+			$this->go_back();
+		}
+
 		Messages::success( __( 'Datasource has been saved!' ) );
 
 		// save and quit or save and continue editing?

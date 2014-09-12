@@ -13,6 +13,12 @@ class Datasource_Data_Manager {
 	public static $first_section = NULL;
 	
 	/**
+	 *
+	 * @var array 
+	 */
+	protected static $_cache = array();
+
+	/**
 	 * Список всех типов разделв
 	 * 
 	 * @return array
@@ -26,7 +32,7 @@ class Datasource_Data_Manager {
 	 * Загрузить дерево всех разделов
 	 * Если есть разделы, модули для которых отключены, они будут игнорироваться
 	 * 
-	 * @return array array([Type][ID] => array('name' => ..., 'description' => ....))
+	 * @return array array([Type][ID] => Datasource_Section)
 	 */
 	public static function get_tree( $type = NULL )
 	{
@@ -36,20 +42,17 @@ class Datasource_Data_Manager {
 
 		foreach ( $sections as $section )
 		{
-			if( ! Datasource_Section::exists($section['type']))
+			if( ! Datasource_Section::exists($section->type()))
 			{
 				continue;
 			}
 
 			if( self::$first_section === NULL )
 			{
-				self::$first_section = $section['id'];
+				self::$first_section = $section->id();
 			}
 
-			$result[$section['type']][$section['id']] = array(
-				'name' => $section['name'], 
-				'description' => $section['description']
-			);
+			$result[$section->type()][$section->id()] = $section;
 		}
 		
 		return $result;
@@ -59,25 +62,55 @@ class Datasource_Data_Manager {
 	 * Получить список всех разделов
 	 * 
 	 * @param	string	$type Фильтрация по типу разделов
-	 * @return	array array([ID] => array('id' => ..., 'name' => ...., 'type' => ...., 'description' => ....), ...)
+	 * @return	array array([ID] => Datasource_Section, ...)
 	 */
-	public static function get_all( $type = NULL ) 
+	public static function get_all($type = NULL)
 	{
-		if(is_array($type) AND empty($type)) return array();
+		if(is_array($type))
+		{
+			if(empty($type))
+			{
+				return array();
+			}
+		}
+		else if($type !== NULL)
+		{
+			$type = array($type);
+		}
+		
+		$cache_key = $type === NULL ? 'all' : implode('::', $type);
+	
+		if(isset(self::$_cache[$cache_key]))
+		{
+			return self::$_cache[$cache_key];
+		}
 
-		$sections = DB::select('id', 'name', 'type', 'description')
-			->from(array('datasources', 'ds'))
+		$query = DB::select()
+			->from('datasources')
 			->order_by('type')
 			->order_by('name');
 		
 		if($type !== NULL)
 		{
-			$sections->where('ds.type', is_array($type) ? 'IN' : '=', $type);
+			$query->where('type', 'in', $type);
 		}
+		
+		$db_sections = $query->execute()->as_array('id');
+		$sections = array();
 
-		return $sections
-			->execute()
-			->as_array('id');
+		foreach ($db_sections as $id => $section)
+		{
+			if (!Datasource_Section::exists($section['type']))
+			{
+				continue;
+			}
+	
+			$sections[$id] = Datasource_Section::load_from_array($section);
+		}
+		
+		self::$_cache[$cache_key] = $sections;
+
+		return $sections;
 	}
 	
 	/**
@@ -89,9 +122,9 @@ class Datasource_Data_Manager {
 		$datasources = self::get_all($type);
 		
 		$options = array(__('--- Not set ---'));
-		foreach ($datasources as $value)
+		foreach ($datasources as $section)
 		{
-			$options[$value['id']] = $value['name'];
+			$options[$value['id']] = $section->name;
 		}
 
 		return $options;

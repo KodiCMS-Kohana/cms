@@ -12,16 +12,21 @@
 			</ul>
 		</div>
 	</div>
+	<?php endif; ?>
 	
 	<div class="btn-group doc-actions">
+		<?php if ($datasource->has_access('document.edit')): ?>
 		<button type="button" data-action="publish" class="btn btn-default action disabled" data-icon="eye" title="<?php echo __('Publish'); ?>"></button>
 		<button type="button" data-action="unpublish" class="btn btn-default action disabled" data-icon="eye-slash" title="<?php echo __('Unpublish'); ?>"></button>
+		<?php endif; ?>
+		
+		<?php if ($datasource->has_access('document.remove')): ?>
 		<button type="button" data-action="remove" class="btn btn-warning action disabled" data-icon="trash-o" title="<?php echo __('Remove'); ?>"></button>
+		<?php endif; ?>
 	</div>
-	<?php endif; ?>
 
 	<div class="btn-group">
-		<?php if ($datasource->has_access('document.edit')): ?>
+		<?php if ($datasource->has_access('document.create')): ?>
 		<?php echo UI::button(UI::hidden(__('Create document')), array(
 			'href' => Route::get('datasources')->uri(array(
 				'controller' => 'document',

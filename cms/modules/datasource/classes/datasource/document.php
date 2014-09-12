@@ -4,7 +4,7 @@
  * @package		KodiCMS
  * @category	Datasource
  */
-class Datasource_Document {
+class Datasource_Document implements ArrayAccess {
 
 	/**
 	 * Список системных полей
@@ -54,6 +54,18 @@ class Datasource_Document {
 	 * @var boolean 
 	 */
 	protected $_created = FALSE;
+	
+	/**
+	 * Документ имеет автора
+	 * @var boolean 
+	 */
+	protected $_is_authored = FALSE;
+	
+	/**
+	 * Документ в режиме для чтения
+	 * @var boolean 
+	 */
+	protected $_read_only = FALSE;
 
 	/**
 	 * 
@@ -149,12 +161,21 @@ class Datasource_Document {
 	/**
 	 * Проаверка существаования поля в документе
 	 * 
-	 * @param type $field
-	 * @return type
+	 * @param string $field
+	 * @return boolean
 	 */
 	public function __isset($field)
 	{
 		return isset($this->_system_fields[$field]);
+	}
+	
+	/**
+	 * 
+	 * @param string $field
+	 */
+	public function __unset($field)
+	{
+		$this->_system_fields[$field] = NULL;
 	}
 
 	/**
@@ -206,7 +227,7 @@ class Datasource_Document {
 	 */
 	public function get($field, $default = NULL)
 	{
-		if(array_key_exists($field, $this->_system_fields))
+		if(array_key_exists($field, $this->system_fields()))
 		{
 			if( ! $this->loaded() AND empty($this->_system_fields[$field]))
 			{
@@ -225,10 +246,16 @@ class Datasource_Document {
 	 * 
 	 * @param string $field
 	 * @param string $value
+	 * @return \Datasource_Document
 	 */
 	public function set($field, $value)
 	{
-		if(array_key_exists($field, $this->_system_fields))
+		if($this->is_read_only())
+		{
+			return $this;
+		}
+
+		if(array_key_exists($field, $this->system_fields()))
 		{
 			$this->_changed_fields[$field] = $this->_system_fields[$field];
 			$this->_system_fields[$field] = $this->_run_filter($field, $value);
@@ -244,6 +271,26 @@ class Datasource_Document {
 	public function set_published($value)
 	{
 		return (bool) $value ? 1 : 0;
+	}
+	
+	/**
+	 * Установка документа в режим для чтения
+	 * @return \Datasource_Document
+	 */
+	public function set_read_only()
+	{
+		$this->_read_only = TRUE;
+		
+		return $this;
+	}
+	
+	/**
+	 * Установка документа в режим для чтения
+	 * @return boolean
+	 */
+	public function is_read_only()
+	{
+		return $this->_read_only;
 	}
 
 	/**
@@ -280,9 +327,23 @@ class Datasource_Document {
 	 */
 	public function values()
 	{
+		return $this->system_fields();
+	}
+	
+	/**
+	 * Получение списка системных полей
+	 * 
+	 * @return array array([Field name])
+	 */
+	public function system_fields()
+	{
+		if($this->_is_authored === TRUE AND !isset($this->_system_fields['created_by_id']))
+		{
+			$this->_system_fields['created_by_id'] = NULL;
+		}
+
 		return $this->_system_fields;
 	}
-
 
 	/**
 	 * Загрузка данных из массива
@@ -296,11 +357,11 @@ class Datasource_Document {
 		// Default to expecting everything except the primary key
 		if ($expected === NULL)
 		{
-			$expected = $this->_system_fields;
+			$expected = $this->system_fields();
 		}
 		else
 		{
-			$fields = $this->_system_fields;
+			$fields = $this->system_fields();
 			foreach ($fields as $key => $value)
 			{
 				if(!in_array($key, $expected))
@@ -351,7 +412,7 @@ class Datasource_Document {
 	 */
 	public function reset() 
 	{
-		foreach ($this->_system_fields as $key => $value)
+		foreach ($this->system_fields() as $key => $value)
 		{
 			$this->_system_fields[$key] = NULL;
 		}
@@ -461,7 +522,7 @@ class Datasource_Document {
 	public function load_by( $field, $value )
 	{
 		$result = DB::select()
-			->select_array( array_keys( $this->_system_fields ))
+			->select_array(array_keys($this->system_fields()))
 			->from($this->section()->table())
 			->where('ds_id', '=', (int) $this->section()->id())
 			->where($field, '=', $value)
@@ -500,10 +561,26 @@ class Datasource_Document {
 	 */
 	public function create()
 	{
-		$values = $this->_system_fields;
+		if($this->is_read_only())
+		{
+			throw new DataSource_Exception_Document('Document is read only');
+		}
+		
+		if (!$this->has_access_create())
+		{
+			throw new DataSource_Exception_Document('You do not have permission to create document');
+		}
+
+		$values = $this->system_fields();
 		
 		$values['ds_id'] = $this->section()->id();
 		$values['created_on'] = date('Y-m-d H:i:s');
+		
+		if($this->_is_authored === TRUE)
+		{
+			$values['created_by_id'] = Auth::get_id();
+		}
+
 		unset($values['id']);
 		
 		$query = DB::insert($this->section()->table())
@@ -542,9 +619,22 @@ class Datasource_Document {
 	 */
 	public function update()
 	{
-		if( ! $this->loaded() ) return $this;
+		if($this->is_read_only())
+		{
+			throw new DataSource_Exception_Document('Document is read only');
+		}
+
+		if (!$this->has_access_edit())
+		{
+			throw new DataSource_Exception_Document('You do not have permission to update document');
+		}
 		
-		$values = $this->_system_fields;
+		if (!$this->loaded())
+		{
+			return $this;
+		}
+
+		$values = $this->system_fields();
 		unset($values['id'], $values['ds_id']);
 		
 		$values['updated_on'] = date('Y-m-d H:i:s');
@@ -570,15 +660,28 @@ class Datasource_Document {
 	 */
 	public function remove()
 	{
-		if( ! $this->loaded() ) return FALSE;
+		if($this->is_read_only())
+		{
+			throw new DataSource_Exception_Document('Document is read only');
+		}
+
+		if (!$this->has_access_remove())
+		{
+			throw new DataSource_Exception_Document('You do not have permission to remove document');
+		}
 		
+		if (!$this->loaded())
+		{
+			return FALSE;
+		}
+
 		DB::delete($this->section()->table())
-			->where('ds_id', '=', (int) $this->section()->id())
-			->where('id', '=', $this->id)
-			->execute();
-		
+				->where('ds_id', '=', (int) $this->section()->id())
+				->where('id', '=', $this->id)
+				->execute();
+
 		$this->reset();
-		
+
 		return TRUE;
 	}
 	
@@ -670,4 +773,140 @@ class Datasource_Document {
 	 * Событие вызываемое в момент ошибки обновления документа
 	 */
 	public function onUpdateException() {}
+	
+	/**************************************************************************
+	 * ACL
+	 **************************************************************************/
+	/**
+	 * Пользователь - создатель документа
+	 * 
+	 * @param integer $user_id
+	 * @return boolean
+	 */
+	public function is_creator($user_id = NULL)
+	{
+		if($this->_is_authored === TRUE)
+		{
+			if($user_id === NULL)
+			{
+				$user_id = Auth::get_id();
+			}
+
+			return Arr::get($this->system_fields(), 'created_by_id') == (int) $user_id;
+		}
+		
+		return TRUE;
+	}
+	
+	/**
+	 * Пользователь имеет права на создание документа
+	 * @param integer $user_id
+	 * @return boolean
+	 */
+	public function has_access_create()
+	{
+		return (
+			$this->section()->has_access('document.create')
+			OR
+			$this->section()->is_creator()
+		);
+	}
+	
+	/**
+	 * Пользователь имеет права на создание документа
+	 * @param integer $user_id
+	 * @return boolean
+	 */
+	public function has_access_view($user_id = NULL)
+	{
+		return (
+			$this->section()->has_access('document.view')
+			AND
+			(
+				$this->has_access_create($user_id)
+				OR
+				$this->has_access_edit($user_id)
+			)
+		);
+	}
+
+	/**
+	 * Пользователь имеет права на редактирование документа
+	 * @param integer $user_id
+	 * @return boolean
+	 */
+	public function has_access_edit($user_id = NULL, $check_own = TRUE)
+	{
+		return (
+			($check_own === TRUE AND $this->is_creator($user_id))
+			AND
+			$this->section()->has_access('document.edit')
+		);
+	}
+	
+	/**
+	 * Пользователь имеет права на редактирование документа
+	 * @param integer $user_id
+	 * @return boolean
+	 */
+	public function has_access_remove($user_id = NULL, $check_own = TRUE)
+	{
+		return (
+			($check_own === TRUE AND $this->is_creator($user_id))
+			AND 
+			$this->section()->has_access('document.remove')
+		);
+	}
+	
+	/**************************************************************************
+	 * Links
+	 **************************************************************************/
+	/**
+	 * 
+	 * @return string
+	 */
+	public function edit_link()
+	{
+		return $this->view_link();
+	}
+	
+	/**
+	 * 
+	 * @return string
+	 */
+	public function view_link()
+	{
+		return Route::get('datasources')->uri(array(
+			'controller' => 'document',
+			'directory' => $this->section()->type(),
+			'action' => 'view'
+		)) . URL::query(array(
+			'ds_id' => $this->section()->id(), 
+			'id' => $this->id
+		));
+	}
+	
+	/**************************************************************************
+	 * ArrayAccess
+	 **************************************************************************/
+	public function offsetSet($offset, $value)
+	{
+		$this->set($offset, $value);
+	}
+
+	public function offsetExists($offset)
+	{
+		return $this->__isset($offset);
+	}
+
+	public function offsetUnset($offset)
+	{
+		return $this->__unset($offset);
+	}
+
+	public function offsetGet($offset)
+	{
+		return $this->get($offset);
+	}
+
 }

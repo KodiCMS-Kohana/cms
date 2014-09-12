@@ -1,9 +1,10 @@
 <script type="text/javascript">
-<?php if(!$ds->has_access('document.edit')): ?>
+<?php if (!$doc->has_access_edit() AND $doc->loaded()): ?>
 $(function() {
-	$('input,textarea,select').attr('disabled', 'disabled');
+	$(':input').attr('disabled', 'disabled');
 });
 <?php endif; ?>
+
 var API_FORM_ACTION = '/datasource/hybrid-document.<?php if($doc->loaded()): ?>update<?php else: ?>create<?php endif; ?>'; 
 
 $(function() {
@@ -176,7 +177,7 @@ function update_documents(e, response) {
 }
 </script>
 
-<?php if($ds->has_access('document.edit')): ?>
+<?php if($doc->has_access_edit() OR $doc->has_access_create()): ?>
 <?php echo Form::open(Route::get('datasources')->uri(array(
 		'controller' => 'document',
 		'directory' => $ds->type(),
@@ -245,7 +246,7 @@ function update_documents(e, response) {
 </div>
 <?php endif; ?>
 
-<?php if($ds->has_access('document.edit')): ?>
+<?php if($doc->has_access_edit() OR $doc->has_access_create()): ?>
 <div class="form-actions panel-footer">
 	<?php echo UI::actions(TRUE, Route::get('datasources')->uri(array(
 		'controller' => 'data',

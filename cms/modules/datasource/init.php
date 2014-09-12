@@ -34,14 +34,16 @@ Observer::observe('modules::after_load', function() {
 	{
 		foreach ($sections as $id => $section)
 		{
+			if(! $section->has_access_view()) continue;
 			$ds_section
 				->add_page(new Model_Navigation_Page(array(
-					'name' => $section['name'],
+					'name' => $section->name,
 					'url' => Route::get('datasources')->uri(array(
 						'controller' => 'data',
 						'directory' => 'datasources',
 					)) . URL::query(array('ds_id' => $id)),
-					'icon' => Datasource_Data_Manager::get_icon($type)
+					'icon' => Datasource_Data_Manager::get_icon($type),
+					'permissions' => $type . $id . '.section.view'
 				)), 999);
 		}
 	}
@@ -59,7 +61,7 @@ Observer::observe('modules::after_load', function() {
 				'action' => 'create',
 				'id' => $id
 			)),
-			'permissions' => $id.'.section.create'
+			'permissions' => $type . '.section.create'
 		)));
 	}
 });

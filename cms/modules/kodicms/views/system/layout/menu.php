@@ -10,8 +10,8 @@
 		</li>
 		<?php endforeach; ?>
 		<?php foreach ($navigation->sections() as $section): ?>
-		
-		<?php if(count($section) > 0 OR count($section->sections()) > 0): ?>
+
+		<?php if(count($section) > 0): ?>
 		<li class="mm-dropdown <?php if($section->is_active()): ?>open<?php endif; ?>">
 			<a href="#">
 				<?php if($section->icon): ?><?php echo UI::icon($section->icon . ' menu-icon'); ?> <?php endif; ?>
@@ -26,7 +26,10 @@
 					</a>
 				</li>
 				<?php endforeach; ?>
-				<?php foreach ( $section->sections() as $sub_section ): ?>
+				
+				<?php foreach ($section->sections() as $sub_section ): ?>
+				
+				<?php if(!(count($sub_section) > 0)) continue; ?>
 				<li class="mm-dropdown <?php if($section->is_active()): ?>open<?php endif; ?>">
 					<a href="#">
 						<?php if($sub_section->icon): ?><?php echo UI::icon($sub_section->icon . ' menu-icon'); ?> <?php endif; ?>
@@ -34,7 +37,7 @@
 					</a>
 					
 					<ul>
-						<?php foreach ( $sub_section as $sub_item ): ?>
+						<?php foreach ($sub_section as $sub_item): ?>
 						<li <?php if($sub_item->is_active()): ?>class="active"<?php endif; ?>>
 							<a href="/<?php echo $sub_item->url(); ?>">
 								<?php if($sub_item->icon): ?><?php echo UI::icon($sub_item->icon . ' menu-icon'); ?> <?php endif; ?>
@@ -49,5 +52,6 @@
 		</li>
 		<?php endif; ?>
 		<?php endforeach; ?>
+	</ul>
 </div>
 <?php endif; ?>
