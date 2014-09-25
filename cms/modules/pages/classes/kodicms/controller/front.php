@@ -95,6 +95,12 @@ class KodiCMS_Controller_Front extends Controller_System_Controller
 			$message = $this->_ctx->get('throw_message');
 			
 			$this->_ctx = NULL;
+			
+			if (!$message)
+			{
+				$message = 'Page not found';
+			}
+
 			Model_Page_Front::not_found($message);
 		}
 
