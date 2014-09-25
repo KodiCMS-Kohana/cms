@@ -12,7 +12,7 @@ class HTTP_Exception_Front_404 extends Kohana_HTTP_Exception_404
 			$mimetype = 'application/octet-stream';
 		}
 
-		if ($mimetype)
+		if ($mimetype AND $mimetype !== 'text/html')
 		{
 			return Response::factory()
 				->headers('content-type', $mimetype)
