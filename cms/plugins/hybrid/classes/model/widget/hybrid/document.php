@@ -102,10 +102,16 @@ class Model_Widget_Hybrid_Document extends Model_Widget_Decorator {
 	public function on_page_load()
 	{
 		parent::on_page_load();
+		
+		$doc = $this->get_document();
+
+		if (empty($doc) AND $this->throw_404)
+		{
+			$this->_ctx->throw_404();
+		}
 
 		if($this->seo_information === TRUE)
 		{
-			$doc = $this->get_document();
 			$page = $this->_ctx->get_page();
 
 			$page->meta_params('document_header', $doc['header'], 'title');
@@ -161,11 +167,6 @@ class Model_Widget_Hybrid_Document extends Model_Widget_Decorator {
 		
 		if (empty($result))
 		{
-			if ($this->throw_404)
-			{
-				$this->_ctx->throw_404();
-			}
-
 			return $result;
 		}
 
