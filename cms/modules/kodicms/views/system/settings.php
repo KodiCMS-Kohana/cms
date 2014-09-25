@@ -99,7 +99,9 @@
 				<p class="help-block"><?php echo __('Only for filter in pages, <i>not</i> in snippets.'); ?></p>
 			</div>
 		</div>
+
 		<hr />
+
 		<div class="form-group">
 			<label class="control-label col-md-3"><?php echo __('Find similar pages'); ?></label>
 			<div class="col-md-9">
@@ -107,6 +109,16 @@
 				<p class="help-block"><?php echo __('If requested page url is incorrect, then find similar page.'); ?></p>
 			</div>
 		</div>
+
+		<hr />
+		
+		<div class="form-group">
+			<label class="control-label col-md-3"><?php echo __('Check URL suffix'); ?></label>
+			<div class="col-md-9">
+				<?php echo Form::select('setting[site][check_url_suffix]', Form::choices(), Config::get('site', 'check_url_suffix', Config::NO)); ?>
+			</div>
+		</div>
+		
 		<div class="form-group">
 			<label class="control-label col-md-3"><?php echo __('Check page date'); ?></label>
 			<div class="col-md-9">
