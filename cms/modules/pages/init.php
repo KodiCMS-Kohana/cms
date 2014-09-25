@@ -2,13 +2,14 @@
 
 Observer::observe('frontpage_requested', function($request_uri) {
 
-	if(strlen(URL_SUFFIX) > 0 AND Config::get('site', 'check_url_suffix'))
+	$server_uri = $_SERVER['REQUEST_URI'];
+	$server_uri = trim($server_uri, '/');
+
+	if (!empty($server_uri) AND strlen(URL_SUFFIX) > 0 AND Config::get('site', 'check_url_suffix'))
 	{
-		$server_uri = $_SERVER['REQUEST_URI'];
-		$server_uri = trim($server_uri, '/');
 		$request_uri = $request_uri . URL_SUFFIX;
 
-		if($server_uri !== $request_uri)
+		if ($server_uri !== $request_uri)
 		{
 			Context::instance()->throw_404();
 		}
