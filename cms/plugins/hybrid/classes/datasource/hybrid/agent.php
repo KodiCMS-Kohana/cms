@@ -119,12 +119,12 @@ class DataSource_Hybrid_Agent {
 		$query = $this->get_query_props($fields);
 
 		$hybrid_fields = $this->get_fields();
-		
-		if($id_field === NULL)
+
+		if(empty($id_field))
 		{
 			$id_field = 'ds.id';
 		}
-		else if($id_field !== NULL AND Valid::numeric($id_field) AND isset($hybrid_fields[$id_field]))
+		else if(Valid::numeric($id_field) AND isset($hybrid_fields[$id_field]))
 		{
 			$id_field = $hybrid_fields[$id_field]->name;
 		}
