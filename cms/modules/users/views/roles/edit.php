@@ -34,7 +34,7 @@
 		</div>
 	</div>
 
-	<?php if (Acl::check( 'roles.change_permissions') AND ($role->id > 2 OR $role->id === NULL)): ?>
+	<?php if (Acl::check('roles.change_permissions') AND ($role->id > 1 OR $role->id === NULL)): ?>
 	<?php echo View::factory('roles/permissions', array(
 		'permissions' => Acl::get_permissions(),
 		'role_permissions' => $role->permissions()

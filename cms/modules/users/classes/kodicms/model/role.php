@@ -80,20 +80,20 @@ class KodiCMS_Model_Role extends Model_Auth_Role {
 		DB::delete('roles_permissions')
 			->where('role_id', '=', $this->id)
 			->execute();
-		
-		if(!empty($new_permissions))
+
+		if (!empty($new_permissions))
 		{
 			$insert = DB::insert('roles_permissions')
 				->columns(array('role_id', 'action'));
 
-			foreach($new_permissions as $action => $status)
+			foreach ($new_permissions as $action => $status)
 			{
 				$insert->values(array($this->id, $action));
 			}
-			
+
 			$insert->execute();
 		}
-		
+
 		return $this;
 	}
 	
@@ -110,7 +110,7 @@ class KodiCMS_Model_Role extends Model_Auth_Role {
 			)), $this->name),
 		))->write();
 
-		Observer::notify( 'role_after_add', $this );
+		Observer::notify('role_after_add', $this);
 	}
 	
 	public function after_update()
@@ -123,7 +123,7 @@ class KodiCMS_Model_Role extends Model_Auth_Role {
 			)), $this->name),
 		))->write();
 
-		Observer::notify( 'role_after_edit', $this );
+		Observer::notify('role_after_edit', $this);
 	}
 	
 	public function before_delete()
@@ -136,8 +136,8 @@ class KodiCMS_Model_Role extends Model_Auth_Role {
 			)), $this->name),
 		))->write();
 
-		Observer::notify( 'role_delete', $this->id );
-		
+		Observer::notify('role_delete', $this->id);
+
 		return TRUE;
 	}
 	
