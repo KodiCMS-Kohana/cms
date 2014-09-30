@@ -5,36 +5,13 @@ class URL extends Kohana_URL {
 	/**
 	 * 
 	 * @param string $uri
-	 * @param string $suffix
-	 * @return boolean
-	 */
-	public static function check_suffix($uri, $suffix = NULL)
-	{
-		$ext = pathinfo($uri, PATHINFO_EXTENSION);
-
-		if (!empty($ext))
-		{
-			return TRUE;
-		}
-
-		if ($suffix === NULL AND defined('URL_SUFFIX') AND strlen($suffix) > 0)
-		{
-			$suffix = URL_SUFFIX;
-		}
-
-		return !(strstr($uri, $suffix) === FALSE);
-	}
-	
-	/**
-	 * 
-	 * @param string $uri
 	 * @param string $protocol
 	 * @param boolean $index
 	 * @return string
 	 */
 	public static function backend($uri = '', $protocol = NULL, $index = TRUE)
 	{
-		if (!URL::match(ADMIN_DIR_NAME, $uri))
+		if (!URL::has_segment(ADMIN_DIR_NAME, $uri))
 		{
 			$uri = ADMIN_DIR_NAME . '/' . ltrim($uri, '/');
 		}
@@ -59,7 +36,7 @@ class URL extends Kohana_URL {
 			$hash = '#' . $hash;
 		}
 
-		if (IS_INSTALLED AND ! empty($uri) AND $uri != '/' AND ! URL::check_suffix($uri))
+		if (IS_INSTALLED AND ! empty($uri) AND $uri != '/' AND ! URL::has_suffix($uri))
 		{
 			$uri .= URL_SUFFIX . $hash;
 		}
@@ -73,7 +50,7 @@ class URL extends Kohana_URL {
 	 * @param string $current
 	 * @return boolean
 	 */
-	public static function match( $uri, $current = NULL )
+	public static function match($uri, $current = NULL)
 	{
 		$uri = trim($uri, '/');
 
@@ -101,6 +78,67 @@ class URL extends Kohana_URL {
 
 		return FALSE;
 	}
-}
+	
+	/**
+	 *
+	 * @param string $segment
+	 * @param string $current
+	 * @return boolean
+	 */
+	public static function has_segment($segment, $current = NULL)
+	{
+		$segment = trim($segment, '/');
+		
+		if ($current === NULL AND Request::current())
+		{
+			$current = Request::current()->uri();
+		}
 
-// End url
+		$current = trim($current, '/');
+
+		if (empty($current))
+		{
+			return FALSE;
+		}
+		
+		if ($segment == $current)
+		{
+			return TRUE;
+		}
+		
+		$segments = explode('/', $current);
+		
+		foreach ($segments as $_segment)
+		{
+			if($segment == $_segment)
+			{
+				return TRUE;
+			}
+		}
+
+		return FALSE;
+	}
+	
+	/**
+	 * 
+	 * @param string $uri
+	 * @param string $suffix
+	 * @return boolean
+	 */
+	public static function has_suffix($uri, $suffix = NULL)
+	{
+		$ext = pathinfo($uri, PATHINFO_EXTENSION);
+
+		if (!empty($ext))
+		{
+			return TRUE;
+		}
+
+		if ($suffix === NULL AND defined('URL_SUFFIX') AND strlen($suffix) > 0)
+		{
+			$suffix = URL_SUFFIX;
+		}
+
+		return !(strstr($uri, $suffix) === FALSE);
+	}
+}
