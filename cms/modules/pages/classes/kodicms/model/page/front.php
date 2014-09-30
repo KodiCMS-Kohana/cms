@@ -291,12 +291,12 @@ class KodiCMS_Model_Page_Front {
 	public function url()
 	{
 		$uri = $this->url;
-		if(!URL::check_suffix( $uri, '.' ) AND $uri != '')
+		if (!URL::has_suffix($uri) AND $uri != '')
 		{
 			$uri .= URL_SUFFIX;
 		}
 
-		return URL::base(TRUE) . $uri; 
+		return URL::base(TRUE) . $uri;
 	}
 
 	/**
