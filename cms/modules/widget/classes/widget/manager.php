@@ -21,50 +21,51 @@ class Widget_Manager {
 	 * @param string $type Тип виджеа
 	 * @return Model_Widget_Decorator
 	 */
-	public static function factory( $type )
+	public static function factory($type)
 	{
 		$class = 'Model_Widget_' . $type;
 
-		if( ! class_exists($class) )
+		if (!class_exists($class))
 		{
-			throw new Kohana_Exception('Widget :type not exists', 
-					array(':type' => $type));
+			throw new Kohana_Exception('Widget :type not exists', array(':type' => $type));
 		}
-	
+
 		$widget = new $class;
 
 		return $widget;
 	}
-	
+
 	/**
 	 * Получения списка виджетов по их типу
 	 * 
 	 * @param array $types Тип виджета
 	 * @return array array([ID] => Model_Widget_Decorator, ....)
 	 */
-	public static function get_widgets( array $types = NULL )
+	public static function get_widgets(array $types = NULL)
 	{
 		$result = array( );
 
-		$res = DB::select( 'w.*' )
-				->select( array( DB::expr( 'COUNT(:table)' )->param(
-							':table', Database::instance()->quote_column( 'pw.page_id' ) ), 'used' ) )
-				->from( array( 'widgets', 'w' ) )
-				->join( array( 'page_widgets', 'pw' ), 'left' )
-					->on( 'w.id', '=', 'pw.widget_id' )
-				->group_by( 'w.id' )
-				->order_by( 'w.name' );
-		
-		if( ! empty($types) )
+		$res = DB::select('w.*')
+				->select(array(DB::expr('COUNT(:table)')->param(':table', Database::instance()->quote_column('pw.page_id')), 'used'))
+				->from(array('widgets', 'w'))
+				->join(array('page_widgets', 'pw'), 'left')
+				->on('w.id', '=', 'pw.widget_id')
+				->group_by('w.id')
+				->order_by('w.name');
+
+		if (!empty($types))
 		{
-			$res->where( 'w.type', 'in', $types );
+			$res->where('w.type', 'in', $types);
 		}
-		
+
 		$res = $res->execute()->as_array('id');
 
-		foreach($res as $id => $widget)
+		foreach ($res as $id => $widget)
 		{
-			if(!self::exists_by_type($widget['type'])) continue;
+			if (!self::exists_by_type($widget['type']))
+			{
+				continue;
+			}
 
 			$result[$id] = unserialize($widget['code']);
 			$result[$id]->id = $widget['id'];
@@ -83,10 +84,10 @@ class Widget_Manager {
 	 */
 	public static function get_all_widgets()
 	{
-		return DB::select( 'id', 'type', 'name', 'description' )
-			->from( 'widgets' )
-			->order_by( 'type', 'asc' )
-			->order_by( 'name', 'asc' )
+		return DB::select('id', 'type', 'name', 'description')
+			->from('widgets')
+			->order_by('type', 'asc')
+			->order_by('name', 'asc')
 			->execute()
 			->as_array('id');
 	}
@@ -99,13 +100,13 @@ class Widget_Manager {
 	 * @param integer $page_id
 	 * @return array @return array array([ID] => Model_Widget_Decorator, ....)
 	 */
-	public static function get_widgets_by_page( $page_id )
+	public static function get_widgets_by_page($page_id)
 	{
 		$res = DB::select('page_widgets.block', 'page_widgets.position')
 			->select('widgets.*')
 			->from('page_widgets')
 			->join('widgets')
-				->on('widgets.id', '=', 'page_widgets.widget_id')
+			->on('widgets.id', '=', 'page_widgets.widget_id')
 			->where('page_id', '=', (int) $page_id)
 			->order_by('page_widgets.block', 'ASC')
 			->order_by('page_widgets.position', 'ASC')
@@ -114,11 +115,14 @@ class Widget_Manager {
 			->cached(Date::DAY)
 			->execute()
 			->as_array('id');
-		
+
 		$widgets = array();
-		foreach($res as $id => $widget)
+		foreach ($res as $id => $widget)
 		{
-			if(!self::exists_by_type($widget['type'])) continue;
+			if (!self::exists_by_type($widget['type']))
+			{
+				continue;
+			}
 
 			$widgets[$id] = unserialize($widget['code']);
 			$widgets[$id]->id = $widget['id'];
@@ -128,10 +132,10 @@ class Widget_Manager {
 			$widgets[$id]->block = $widget['block'];
 			$widgets[$id]->position = (int) $widget['position'];
 		}
-		
+
 		return $widgets;
 	}
-	
+
 	/**
 	 * Копирование списка виджетов с одной страницы на другую
 	 * 
@@ -139,35 +143,22 @@ class Widget_Manager {
 	 * @param integer $to_page_id
 	 * @return boolean
 	 */
-	public static function copy( $from_page_id, $to_page_id ) 
+	public static function copy($from_page_id, $to_page_id)
 	{
-		$widgets = DB::select('widget_id', 'block', 'position')
-			->from('page_widgets')
-			->where('page_id', '=', (int) $from_page_id)
-			->execute()
-			->as_array('widget_id');
+		$select = DB::select(array(DB::expr("IF(`pw2`.`page_id` IS NULL, '{$to_page_id}', `pw2`.`page_id`)"), 'page_id'), 'pw1.widget_id', 'pw1.block', 'pw1.position')
+			->from(array('page_widgets', 'pw1'))
+			->join(array('page_widgets', 'pw2'), 'left')
+				->on('pw2.page_id', '=', DB::expr($to_page_id))
+				->on('pw1.widget_id', '=', 'pw2.widget_id')
+			->where('pw1.page_id', '=', (int) $from_page_id)
+			->where('pw2.page_id', '=', NULL);
+
+		DB::insert('page_widgets')
+			->select($select)
+			->columns(array('page_id', 'widget_id', 'block', 'position'))
+			->execute();
 		
-		if(count($widgets) > 0)
-		{
-			$insert = DB::insert('page_widgets')
-				->columns(array('page_id', 'widget_id', 'block', 'position'));
-			
-			foreach($widgets as $widget_id => $data)
-			{
-				$insert->values(array(
-					'page_id' => (int) $to_page_id,
-					'widget_id' => $widget_id,
-					'block' => $data['block'],
-					'position' => (int) $data['position']
-				));
-			}
-			
-			list($insert_id, $total_rows) = $insert->execute();
-			
-			return $total_rows;
-		}
-		
-		return FALSE;
+		return TRUE;
 	}
 
 	/**
@@ -177,15 +168,15 @@ class Widget_Manager {
 	 * @return integer ID виджета
 	 * @throws HTTP_Exception_404
 	 */
-	public static function create( Model_Widget_Decorator $widget )
+	public static function create(Model_Widget_Decorator $widget)
 	{
-		if( $widget->loaded() )
+		if ($widget->loaded())
 		{
-			throw new HTTP_Exception_404( 'Widget created' );
+			throw new HTTP_Exception_404('Widget created');
 		}
 
 		$widget = ORM::factory('widget')
-			->values( array(
+			->values(array(
 				'type' => $widget->type(),
 				'name' => $widget->name,
 				'description' => $widget->description,
@@ -205,9 +196,9 @@ class Widget_Manager {
 	 * @return integer
 	 * @throws HTTP_Exception_404
 	 */
-	public static function update( Model_Widget_Decorator $widget )
+	public static function update(Model_Widget_Decorator $widget)
 	{
-		$orm_widget = ORM::factory('widget', $widget->id )
+		$orm_widget = ORM::factory('widget', $widget->id)
 			->values(array(
 				'type' => $widget->type(),
 				'name' => $widget->name,
@@ -216,7 +207,7 @@ class Widget_Manager {
 				'code' => serialize($widget)
 			))
 			->update();
-		
+
 		$widget->clear_cache();
 
 		return $orm_widget->id;

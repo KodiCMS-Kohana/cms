@@ -308,7 +308,7 @@ class KodiCMS_Context {
 	 * 
 	 * @return \Context
 	 */
-	public function throw_404( $message = NULL)
+	public function throw_404($message = NULL)
 	{
 		$this->set('throw_message', $message);
 
@@ -316,7 +316,7 @@ class KodiCMS_Context {
 		return $this;
 	}
 
-		/**
+	/**
 	 * 
 	 * @return Breadcrumbs
 	 */
