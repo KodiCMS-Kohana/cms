@@ -22,9 +22,9 @@ class Controller_Snippet extends Controller_System_Backend {
 	public function action_index()
 	{
 		$this->template->title = __('Snippets');
-		$this->template->content = View::factory( 'snippet/index', array(
+		$this->template->content = View::factory('snippet/index', array(
 			'snippets' => Model_File_Snippet::find_all()
-		) );
+		));
 	}
 
 	public function action_add()
@@ -42,9 +42,9 @@ class Controller_Snippet extends Controller_System_Backend {
 			->add($this->template->title);
 
 		// check if user have already enter something
-		$snippet = Flash::get( 'post_data' );
+		$snippet = Flash::get('post_data');
 
-		if ( empty( $snippet ) )
+		if (empty($snippet))
 		{
 			$snippet = new Model_File_Snippet;
 		}
@@ -59,12 +59,13 @@ class Controller_Snippet extends Controller_System_Backend {
 	private function _add()
 	{
 		$data = $this->request->post();
-		Flash::set( 'post_data', (object) $data );
-
+		
 		$data['name'] = URL::title(Text::translit($data['name']), '_');
 		$snippet = new Model_File_Snippet( $data['name'] );
 		$snippet->content = $data['content'];
 		
+		Flash::set('post_data', $snippet);
+
 		try
 		{
 			$status = $snippet->save();
@@ -95,7 +96,7 @@ class Controller_Snippet extends Controller_System_Backend {
 		}
 	}
 
-	public function action_edit( )
+	public function action_edit()
 	{
 		$snippet_name = $this->request->param('id');
 		

@@ -48,11 +48,11 @@ class KodiCMS_Model_File {
 	 * 
 	 * @param string $name
 	 */
-	public function __construct( $name = '' )
+	public function __construct($name = '')
 	{
 		$this->set_name($name);
-		
-		if ($file = Kohana::find_file($this->_folder, $this->name))
+
+		if ($file = $this->find_file())
 		{
 			$this->_path = pathinfo($file, PATHINFO_DIRNAME);
 			$this->_file = $file;
@@ -62,17 +62,26 @@ class KodiCMS_Model_File {
 		else
 		{
 			$this->_path = pathinfo($this->name, PATHINFO_DIRNAME);
-			$this->_file = $this->name;
-
+	
+			if(empty($this->_path) OR $this->_path == '.')
+			{
+				$this->_path = DOCROOT . $this->_folder;
+				$this->_file = $this->_path . DIRECTORY_SEPARATOR . $this->name;
+			}
+			else
+			{
+				$this->_file = $this->name;
+			}
+			
 			$this->name = pathinfo($this->name, PATHINFO_FILENAME);
 		}
 
-		if(strpos($this->_file, EXT) === FALSE)
+		if (strpos($this->_file, EXT) === FALSE)
 		{
 			$this->_file .= EXT;
 		}
 	}
-	
+
 	public function __toString() 
 	{
 		return (string) $this->_content;
@@ -196,7 +205,11 @@ class KodiCMS_Model_File {
 		$found_files = Kohana::list_files($object->_folder, $paths);
 		foreach ($found_files as $file)
 		{
-			if(is_array($file) || strpos($file, EXT) === FALSE) continue;
+			if(is_array($file) OR strpos($file, EXT) === FALSE) 
+			{
+				continue;
+			}
+			
 			$files[] = new $class($file);
 		}
 		
