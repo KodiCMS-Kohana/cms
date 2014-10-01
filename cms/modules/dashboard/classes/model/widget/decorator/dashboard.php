@@ -87,30 +87,6 @@ abstract class Model_Widget_Decorator_Dashboard extends Model_Widget_Decorator {
 	{
 		return $this->frontend_template = substr($this->type(), strlen('dashboard_'));
 	}
-
-	public function __sleep()
-	{
-		$vars = get_object_vars($this);
-
-		unset(
-			$vars['_ctx'],
-			$vars['type'],
-			$vars['template'],
-			$vars['name'], 
-			$vars['description'],
-			$vars['backend_template'],
-			$vars['frontend_template'],
-			$vars['_use_template'],
-			$vars['block'],
-			$vars['position'],
-			$vars['template_params'],
-			$vars['_update_settings_page'],
-			$vars['_multiple'],
-			$vars['frontend_template_preffix']
-		);
-
-		return array_keys($vars);
-	}
 	
 	protected function _serialize_vars()
 	{
@@ -118,7 +94,14 @@ abstract class Model_Widget_Decorator_Dashboard extends Model_Widget_Decorator {
 		
 		unset(
 			$vars['_update_settings_page'],
-			$vars['_multiple']
+			$vars['_multiple'],
+			$vars['crumbs'],
+			$vars['roles'],
+			$vars['media'],
+			$vars['throw_404'],
+			$vars['caching'],
+			$vars['cache_lifetime'],
+			$vars['cache_tags']
 		);
 		
 		return $vars;
