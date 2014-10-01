@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS `__TABLE_PREFIX__user_tokens` (
 
 CREATE TABLE IF NOT EXISTS `__TABLE_PREFIX__user_meta` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) unsigned NOT NULL,
+  `user_id` int(11) unsigned DEFAULT NULL,
   `key` varchar(255) DEFAULT NULL,
   `value` longtext,
   PRIMARY KEY (`id`),

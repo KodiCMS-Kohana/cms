@@ -15,9 +15,9 @@ class Dashboard {
 	 * @param string $widget_id
 	 * @return \Model_Widget_Decorator_Dashboard|null
 	 */
-	public static function get_widget($id)
+	public static function get_widget($id, $user_id = NULL)
 	{
-		$widget_settings = Model_User_Meta::get(self::WIDGET_SETTINGS_KEY, array());
+		$widget_settings = Model_User_Meta::get(self::WIDGET_SETTINGS_KEY, array(), $user_id);
 		$widget = Arr::get($widget_settings, $id);
 		
 		if (!($widget instanceof Model_Widget_Decorator_Dashboard))
@@ -33,15 +33,20 @@ class Dashboard {
 	 * @param string $type
 	 * @return Model_Widget_Decorator_Dashboard
 	 */
-	public static function add_widget($type)
+	public static function add_widget($type, array $data = NULL, $user_id = NULL)
 	{
-		$widget_settings = Model_User_Meta::get(self::WIDGET_SETTINGS_KEY, array());
+		$widget_settings = Model_User_Meta::get(self::WIDGET_SETTINGS_KEY, array(), $user_id);
 		
 		$widget = Widget_Manager::factory($type);
 		$widget->id = uniqid();
 	
+		if($data !== NULL)
+		{
+			$widget->set_values($data);
+		}
+		
 		$widget_settings[$widget->id] = $widget;
-		Model_User_Meta::set(self::WIDGET_SETTINGS_KEY, $widget_settings);
+		Model_User_Meta::set(self::WIDGET_SETTINGS_KEY, $widget_settings, $user_id);
 		
 		return $widget;
 	}
@@ -52,15 +57,15 @@ class Dashboard {
 	 * @param array $data
 	 * @return boolean
 	 */
-	public static function update_widget($id, array $data)
+	public static function update_widget($id, array $data, $user_id = NULL)
 	{
-		$widget_settings = Model_User_Meta::get(self::WIDGET_SETTINGS_KEY, array());
+		$widget_settings = Model_User_Meta::get(self::WIDGET_SETTINGS_KEY, array(), $user_id);
 		$widget = Arr::get($widget_settings, $id);
 		
 		if($widget instanceof Model_Widget_Decorator_Dashboard)
 		{
 			$widget_settings[$id] = $widget->set_values($data);
-			Model_User_Meta::set(self::WIDGET_SETTINGS_KEY, $widget_settings);
+			Model_User_Meta::set(self::WIDGET_SETTINGS_KEY, $widget_settings, $user_id);
 			
 			return $widget;
 		}
@@ -73,12 +78,12 @@ class Dashboard {
 	 * @param string $id
 	 * @return boolean
 	 */
-	public static function delete_widget($id)
+	public static function delete_widget($id, $user_id = NULL)
 	{
-		$widget_settings = Model_User_Meta::get(self::WIDGET_SETTINGS_KEY, array());
+		$widget_settings = Model_User_Meta::get(self::WIDGET_SETTINGS_KEY, array(), $user_id);
 		
 		unset($widget_settings[$id]);
-		Model_User_Meta::set(self::WIDGET_SETTINGS_KEY, $widget_settings);
+		Model_User_Meta::set(self::WIDGET_SETTINGS_KEY, $widget_settings, $user_id);
 		
 		return TRUE;
 	}
@@ -89,9 +94,9 @@ class Dashboard {
 	 * @param string $column
 	 * @return boolean
 	 */
-	public static function move_widget($id, $column)
+	public static function move_widget($id, $column, $user_id = NULL)
 	{
-		$blocks =  Model_User_Meta::get(self::WIDGET_BLOCKS_KEY, array());
+		$blocks =  Model_User_Meta::get(self::WIDGET_BLOCKS_KEY, array(), $user_id);
 		$found = FALSE;
 
 		foreach ($blocks as $_column => $ids)
@@ -110,7 +115,7 @@ class Dashboard {
 		if($found === TRUE)
 		{
 			$blocks[$column][] = $id;
-			Model_User_Meta::set(self::WIDGET_BLOCKS_KEY, $blocks);
+			Model_User_Meta::set(self::WIDGET_BLOCKS_KEY, $blocks, $user_id);
 			return TRUE;
 		}
 		

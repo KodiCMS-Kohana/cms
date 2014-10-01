@@ -37,7 +37,17 @@ class KodiCMS_Model_User_Meta extends Model {
 		}
 		else
 		{
-			$value = $default;
+			self::_load(0);
+			$value = Arr::path(self::$_cache, '0' . '.' . $key);
+			
+			if($value !== NULL)
+			{
+				$value = @unserialize($value);
+			}
+			else
+			{
+				$value = $default;
+			}
 		}
 
 		return $value;
@@ -66,7 +76,7 @@ class KodiCMS_Model_User_Meta extends Model {
 			return (bool) DB::update('user_meta')
 				->value('value', serialize($value))
 				->where('key', '=', $key)
-				->where('user_id', '=', $user_id)
+				->where('user_id', '=', ($user_id === 0) ? NULL : $user_id)
 				->execute();
 		}
 		else
@@ -75,7 +85,7 @@ class KodiCMS_Model_User_Meta extends Model {
 				->columns(array(
 					'key', 'value', 'user_id'
 				))
-				->values(array($key, serialize($value), $user_id))
+				->values(array($key, serialize($value), ($user_id === 0) ? NULL : $user_id))
 				->execute();
 		}
 	}
@@ -96,7 +106,7 @@ class KodiCMS_Model_User_Meta extends Model {
 		self::_clear_cache($user_id);
 
 		return (bool) DB::delete('user_meta')
-			->where('user_id', '=', $user_id)
+			->where('user_id', '=', ($user_id === 0) ? NULL : $user_id)
 			->where('key', '=', $key)
 			->execute();
 	}
@@ -116,7 +126,7 @@ class KodiCMS_Model_User_Meta extends Model {
 		self::_clear_cache($user_id);
 
 		return (bool) DB::delete('user_meta')
-			->where('user_id', '=', $user_id)
+			->where('user_id', '=', ($user_id === 0) ? NULL : $user_id)
 			->execute();
 	}
 	
@@ -136,7 +146,7 @@ class KodiCMS_Model_User_Meta extends Model {
 		{
 			self::$_cache[$user_id] = DB::select('key', 'value')
 				->from('user_meta')
-				->where('user_id', '=', $user_id)
+				->where('user_id', '=', ($user_id === 0) ? NULL : $user_id)
 				->cache_key('user_meta' . $user_id)
 				->cached(Date::DAY)
 				->execute()
