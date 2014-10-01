@@ -341,7 +341,7 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Decorator_Handler {
 			$this->response['values'] = $this->_values;
 
 			Request::current()->headers('Content-type', 'application/json');
-			$this->_ctx->response()->body(json_encode($json));
+			$this->_ctx->response()->body(json_encode($this->response));
 			return;
 		}
 
