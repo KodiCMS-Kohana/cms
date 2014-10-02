@@ -26,11 +26,11 @@ class DataSource_Hybrid_Factory {
 	 * @param integer $parent
 	 * @return null|\DataSource_Hybrid_Section
 	 */
-	public static function create( DataSource_Section_Hybrid $ds ) 
+	public static function create(DataSource_Section_Hybrid $ds)
 	{
-		if(self::create_table($ds->id())) 
+		if (self::create_table($ds->id()))
 		{
-			if(self::create_folder($ds->id())) 
+			if (self::create_folder($ds->id()))
 			{
 				$ds->update();
 
@@ -44,7 +44,7 @@ class DataSource_Hybrid_Factory {
 
 		return NULL;
 	}
-	
+
 	/**
 	 * Удалении таблицы раздела и директории
 	 * 
@@ -69,18 +69,18 @@ class DataSource_Hybrid_Factory {
 	 * @param array|string $doc_ids array(1,2,..) OR "1,2,3,.."
 	 * @return null|boolean
 	 */
-	public static function remove_documents( $doc_ids = NULL ) 
+	public static function remove_documents($doc_ids)
 	{
-		if( !is_array( $doc_ids ) AND strpos(',', $doc_ids ) !== FALSE)
+		if (!is_array($doc_ids) AND strpos(',', $doc_ids) !== FALSE)
 		{
 			$doc_ids = explode(',', $doc_ids);
 		}
-		else if(!is_array( $doc_ids ))
+		else if (!is_array($doc_ids))
 		{
 			$doc_ids = array($doc_ids);
 		}
-		
-		if( empty($doc_ids) )
+
+		if (empty($doc_ids))
 		{
 			return NULL;
 		}
@@ -90,32 +90,33 @@ class DataSource_Hybrid_Factory {
 			->where('id', 'in', $doc_ids)
 			->order_by('ds_id', 'desc')
 			->execute();
-		
+
 		$documents = array();
-		
+
 		foreach ($query as $row)
 		{
 			$documents[$row['ds_id']][] = $row['id'];
 		}
-		
+
+
 		foreach ($documents as $ds_id => $ids)
 		{
-			$ds = Datasource_Data_Manager::load( $ds_id );
-			$ds->remove_documents( $ids );
+			$ds = Datasource_Data_Manager::load($ds_id);
+			$ds->remove_documents($ids);
 		}
-		
+
 		unset($ds, $documents, $query);
-		
+
 		return TRUE;
 	}
-	
+
 	/**
 	 * Опубликовать документы раздела по ID
 	 * 
 	 * @param array $ids
 	 * @return \DataSource_Hybrid_Factory
 	 */
-	public function publish_documents( array $ids) 
+	public function publish_documents(array $ids)
 	{
 		return $this->set_published($ids, TRUE);
 	}
@@ -126,11 +127,11 @@ class DataSource_Hybrid_Factory {
 	 * @param array $ids
 	 * @return \DataSource_Hybrid_Factory
 	 */
-	public function unpublish_documents( array $ids) 
+	public function unpublish_documents(array $ids)
 	{
 		return $this->set_published($ids, FALSE);
 	}
-	
+
 	/**
 	 * Опубликовать или снять с публикации документы раздела по ID
 	 * 
@@ -138,7 +139,7 @@ class DataSource_Hybrid_Factory {
 	 * @param boolean $value
 	 * @return \DataSource_Hybrid_Factory
 	 */
-	public function set_published( array $ids, $value) 
+	public function set_published(array $ids, $value)
 	{
 		if( empty($ids) ) return $this;
 

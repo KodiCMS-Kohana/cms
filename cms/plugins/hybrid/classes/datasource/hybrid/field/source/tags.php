@@ -62,6 +62,7 @@ class DataSource_Hybrid_Field_Source_Tags extends DataSource_Hybrid_Field_Source
 			{
 				DB::update(Model_Tag::tableName())
 					->set(array('count' => DB::expr('count - 1')))
+					->where('count', '>', 0)
 					->where('name', '=', $tag)
 					->execute();
 			}
@@ -138,6 +139,7 @@ class DataSource_Hybrid_Field_Source_Tags extends DataSource_Hybrid_Field_Source
 		{
 			DB::update(Model_Tag::tableName())
 				->set(array('count' => DB::expr('count - 1')))
+				->where('count', '>', 0)
 				->where('id', '=', $id)
 				->execute();
 		}
