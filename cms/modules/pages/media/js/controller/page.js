@@ -64,7 +64,7 @@ cms.init.add('page_index', function() {
 					.removeClass('fa-minus')
 					.addClass('fa-plus');
 
-				li.next('ul').hide();
+				li.find('>ul').hide();
 
 				expandedPagesRemove(parent_id);
 			}
@@ -74,7 +74,7 @@ cms.init.add('page_index', function() {
 					.removeClass('fa-plus')
 					.addClass('fa-minus');
 
-				li.next('ul').show();
+				li.find('>ul').show();
 
 				expandedPagesAdd(parent_id);
 			}
