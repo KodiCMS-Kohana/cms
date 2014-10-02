@@ -22,10 +22,10 @@ class KodiCMS_Text extends Kohana_Text
 	 * @param string $needle
 	 * @return boolean
 	 */
-	public static function starts_with( $haystack, $needle )
+	public static function starts_with($haystack, $needle)
 	{
-		$length = strlen( $needle );
-		return (substr( $haystack, 0, $length ) === $needle);
+		$length = strlen($needle);
+		return (substr($haystack, 0, $length) === $needle);
 	}
 
 	/**
@@ -34,17 +34,17 @@ class KodiCMS_Text extends Kohana_Text
 	 * @param string $needle
 	 * @return boolean
 	 */
-	public static function ends_with( $haystack, $needle )
+	public static function ends_with($haystack, $needle)
 	{
-		$length = strlen( $needle );
-		if ( $length == 0 )
+		$length = strlen($needle);
+		if ($length == 0)
 		{
 			return true;
 		}
 
-		return (substr( $haystack, -$length ) === $needle);
+		return (substr($haystack, -$length) === $needle);
 	}
-	
+
 	/**
 	 * 
 	 * @param string $word

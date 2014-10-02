@@ -155,7 +155,7 @@ class KodiCMS_Model_File {
 	 */
 	public function set_name($name)
 	{
-		if( ! empty($this->_name) )
+		if (!empty($this->_name))
 		{
 			$this->_changed['name'] = $this->_name;
 		}
@@ -249,10 +249,10 @@ class KodiCMS_Model_File {
 				$this->_content = '';
 			}
 		}
-		
+
 		return $this->_content;
 	}
-	
+
 	/**
 	 * 
 	 * @return string
@@ -279,7 +279,7 @@ class KodiCMS_Model_File {
 	{
 		return file_exists($this->_file);
 	}
-	
+
 	/**
 	 * 
 	 * @return boolean
@@ -288,7 +288,7 @@ class KodiCMS_Model_File {
 	{
 		return is_writable($this->_file);
 	}
-	
+
 	/**
 	 * 
 	 * @return string
@@ -297,7 +297,7 @@ class KodiCMS_Model_File {
 	{
 		return filesize($this->_file);
 	}
-	
+
 	/**
 	 * Get the file's last modification time.
 	 *
@@ -308,7 +308,7 @@ class KodiCMS_Model_File {
 	{
 		return filemtime($this->_file);
 	}
-	
+
 	/**
 	 * 
 	 * @return boolean
@@ -320,20 +320,20 @@ class KodiCMS_Model_File {
 		))
 			->rule('name', 'not_empty')
 			->label('name', __('Name'));
-		
-		if( ! $validation->check() )
+
+		if (!$validation->check())
 		{
 			throw new Validation_Exception($validation);
 		}
-		
+
 		// Если изменено название файла в редакторе, переименовываем файл
-		if ( !empty($this->_changed['name']) AND  $this->name != $this->_changed['name'] )
+		if (!empty($this->_changed['name']) AND $this->name != $this->_changed['name'])
 		{
 			$new_file = $this->_path . DIRECTORY_SEPARATOR . $this->name . EXT;
 			@rename($this->_file, $new_file);
 			$this->_file = $new_file;
 		}
-		
+
 		if(Config::get('site', 'templates_revision') == Config::YES)
 		{
 			$this->_add_revision_of_file();

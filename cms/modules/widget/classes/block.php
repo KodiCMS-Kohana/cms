@@ -90,15 +90,7 @@ class Block {
 	{
 		$ctx = Context::instance();
 
-		if (($widgets = $ctx->get_widgets_by_block($name)) === NULL)
-		{
-			return array();
-		}
-
-		if (!is_array($widgets))
-		{
-			$widgets = array($widgets);
-		}
+		$widgets = $ctx->get_widgets_by_block($name);
 		
 		foreach ($widgets as $widget)
 		{
@@ -134,24 +126,28 @@ class Block {
 	 * 
 	 * @param string $name
 	 */
-	public static function def( $name ){}
-	
+	public static function def($name)
+	{
+		
+	}
+
 	/**
 	 * Метод служит для поиска в переданном шаблоне размеченных блоков
 	 * 
 	 * @param string $content
 	 * @return string
 	 */
-	public static function parse_content( $content )
+	public static function parse_content($content)
 	{
 		$content = str_replace(' ', '', $content);
 		preg_match_all("/Block::([a-z_]{3,5})\(\'([0-9a-zA-Z\_\-\.]+)\'(\,.*)?\)/i", $content, $blocks);
-		
-		if( !empty($blocks[2]))
+
+		if (!empty($blocks[2]))
 		{
 			return $blocks[2];
 		}
 
 		return NULL;
 	}
+
 }
