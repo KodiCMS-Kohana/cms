@@ -105,10 +105,16 @@ var cms = {
 	},
 
 	error_field: function(name, message) {
-		name = name.indexOf('.') !== -1 ? '['+name.replace(/\./g, '][') + ']' : name;
 		var gpoups = $('.form-group:not(.has-error)');
 		
-		input = $(':input[name*="' + name + '"]', gpoups)
+		if(typeof name == 'object')
+			var input = name;
+		else {
+			name = name.indexOf('.') !== -1 ? '['+name.replace(/\./g, '][') + ']' : name;
+			var input = $(':input[name*="' + name + '"]', gpoups);
+		}
+
+		input
 			.after('<span class="help-block error-message">' + message + '</span>')
 			.closest('.form-group')
 			.addClass('has-error');
