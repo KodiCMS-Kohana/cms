@@ -17,7 +17,7 @@ class UI {
 	 */
 	public static function icon($name, array $attributes = array())
 	{	
-		$attributes['class'] = 'fa fa-' . HTML::chars($name);
+		$attributes = self::_build_attribute_class($attributes, 'fa fa-' . HTML::chars($name));
 		return '<i' . HTML::attributes($attributes) . '></i>';
 	}
 
@@ -30,7 +30,7 @@ class UI {
 	 */
 	public static function label($text, $type = 'info', array $attributes = array())
 	{
-		$attributes['class'] = 'label label-' . HTML::chars($type);
+		$attributes = self::_build_attribute_class($attributes, 'label label-' . HTML::chars($type));
 		return '<span' . HTML::attributes($attributes) . '>' . $text . '</span>';
 	}
 
@@ -43,7 +43,7 @@ class UI {
 	 */
 	public static function badge($text, $type = 'info', array $attributes = array())
 	{
-		$attributes['class'] = 'badge badge-' . HTML::chars($type);
+		$attributes = self::_build_attribute_class($attributes, 'badge badge-' . HTML::chars($type));
 		return '<span' . HTML::attributes($attributes) . '>' . $text . '</span>';
 	}
 
@@ -55,17 +55,7 @@ class UI {
 	 */
 	public static function button($body, array $attributes = NULL)
 	{
-		if (!isset($attributes['class']))
-		{
-			$attributes['class'] = array();
-		}
-		else
-		{
-			$attributes['class'] = explode(' ', $attributes['class']);
-		}
-		
-		$attributes['class'][] = 'btn';
-		$attributes['class'] = array_filter(array_unique($attributes['class']));
+		$attributes = self::_build_attribute_class($attributes, 'btn');
 
 		if (isset($attributes['icon']))
 		{
@@ -159,5 +149,33 @@ class UI {
 		if($num == 0) return '';
 
 		return '<span'.HTML::attributes(array('class' => 'counter')).'>' . (int)$num . '</span>';
+	}
+	
+	protected static function _build_attribute_class(array $attributes = array(), $class)
+	{
+		if (!isset($attributes['class']))
+		{
+			$attributes['class'] = array();
+		}
+		else
+		{
+			$attributes['class'] = explode(' ', $attributes['class']);
+		}
+		
+		if(is_array($class))
+		{
+			foreach ($class as $class_name)
+			{
+				$attributes['class'][] = $class_name;
+			}
+		}
+		else
+		{
+			$attributes['class'][] = $class;
+		}
+
+		$attributes['class'] = array_filter(array_unique($attributes['class']));
+		
+		return $attributes;
 	}
 }
