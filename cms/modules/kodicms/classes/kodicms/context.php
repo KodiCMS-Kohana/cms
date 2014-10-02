@@ -330,39 +330,24 @@ class KodiCMS_Context {
 	 * @param integer $id
 	 * @return Model_Widget_Decorator
 	 */
-	public function & get_widget($id)
+	public function get_widget($id)
 	{
-		$result = NULL;
-
-		if (isset($this->_widgets[$id]))
-		{
-			$result = & $this->_widgets[$id];
-		}
-
-		return $result;
+		return Arr::get($this->_widgets, $id);
 	}
 
 	/**
 	 * 
 	 * @param string $block
-	 * @return Model_Widget_Decorator
+	 * @return array
 	 */
-	public function & get_widget_by_block($block)
+	public function get_widgets_by_block($block)
 	{
-		$result = NULL;
 		if (!empty($block) AND isset($this->_blocks[$block]))
 		{
-			if (count($this->_blocks[$block]) == 1)
-			{
-				$result = & $this->_blocks[$block][0];
-			}
-			else
-			{
-				$result = & $this->_blocks[$block];
-			}
+			return $this->_blocks[$block];
 		}
 
-		return $result;
+		return array();
 	}
 
 	/**
@@ -372,6 +357,20 @@ class KodiCMS_Context {
 	public function get_blocks()
 	{
 		return array_keys($this->_blocks);
+	}
+	
+	/**
+	 * 
+	 * @return \KodiCMS_Context
+	 */
+	public function reset_widgets()
+	{
+		$this->_widgets = array();
+		$this->_widget_ids = NULL;
+		$this->_blocks = array();
+		$this->_injections = array();
+
+		return $this;
 	}
 
 	/**
@@ -526,10 +525,11 @@ class KodiCMS_Context {
 	 */
 	public function __destruct()
 	{
-		$this->_widgets = array();
-		$this->_widget_ids = array();
-		$this->_blocks = array();
+		$this->reset_widgets();
 		$this->_params = array();
-		$this->_injections = array();
+		$this->_meta = NULL;
+		$this->_page = NULL;
+		$this->_behavior_router = array();
+		$this->_crumbs = NULL;
 	}
 }

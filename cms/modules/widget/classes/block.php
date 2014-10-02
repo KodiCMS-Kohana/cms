@@ -10,21 +10,25 @@ class Block {
 	 * Проверка блока на наличие в нем виджетов
 	 * 
 	 * @param type string|array
+	 * @return boolean
 	 */
-	public static function not_empty( $name )
+	public static function is_empty($name)
 	{
-		if( ! is_array($name) )
+		if (!is_array($name))
 		{
 			$name = array($name);
 		}
-		
+
 		$blocks = Context::instance()->get_blocks();
 
-		foreach($name as $block)
+		foreach ($name as $block)
 		{
-			if(in_array($block, $blocks)) return FALSE;
+			if (in_array($block, $blocks))
+			{
+				return FALSE;
+			}
 		}
-		
+
 		return TRUE;
 	}
 
@@ -34,64 +38,34 @@ class Block {
 	 * @param string $name
 	 * @param array $params
 	 */
-	public static function run( $name, array $params = array() )
+	public static function run($name, array $params = array())
 	{
-		if($name == 'PRE' OR $name == 'POST') return;
-
-		$ctx = & Context::instance();
-
-		$blocks = & $ctx->get_widget_by_block( $name );
-		
-		if( $blocks !== NULL )
+		if ($name == 'PRE' OR $name == 'POST')
 		{
-			if(is_array($blocks))
-			{
-				foreach($blocks as $block)
-				{
-					if($block instanceof View) 
-					{
-						echo $block
-							->bind('ctx', $ctx)
-							->set('params', $params)
-							->render();
-					}
-					else if($block instanceof Model_Widget_Decorator ) 
-					{
+			return;
+		}
 
-						$block
-							->set_params($params)
-							->render();
-					}
-					else if( $block instanceof Model_Widget_Part ) 
-					{
-						echo $block;
-					}
-				}
-			}
-			else
-			{
-				if($blocks instanceof View) 
-				{
-					echo $blocks
-						->bind('ctx', $ctx)
-						->set('params', $params)
-						->render();
-				}
-				else if($blocks instanceof Model_Widget_Decorator ) 
-				{
+		$widgets = self::get($name, $params);
 
-					$blocks
-						->set_params($params)
-						->render();
-				}
-				else if( $blocks instanceof Model_Widget_Part ) 
-				{
-					echo $blocks;
-				}
+		foreach ($widgets as $widget)
+		{
+			if ($widget instanceof View)
+			{
+				echo $widget
+					->render();
 			}
-		}	
+			else if ($widget instanceof Model_Widget_Decorator)
+			{
+				$widget
+					->render();
+			}
+			else if ($widget instanceof Model_Widget_Part)
+			{
+				echo $widget;
+			}
+		}
 	}
-	
+
 	/**
 	 * Получение виджетов блока без вывода.
 	 * 
@@ -110,55 +84,39 @@ class Block {
 	 * 
 	 * @param string $name
 	 * @param array $params Дополнительные параметры доступные в виджете
+	 * @return array
 	 */
-	public static function get( $name, array $params = array() )
+	public static function get($name, array $params = array())
 	{
-		$ctx = & Context::instance();
+		$ctx = Context::instance();
 
-		$blocks = & $ctx->get_widget_by_block( $name );
+		if (($widgets = $ctx->get_widgets_by_block($name)) === NULL)
+		{
+			return array();
+		}
+
+		if (!is_array($widgets))
+		{
+			$widgets = array($widgets);
+		}
 		
-		if( $blocks === NULL )
+		foreach ($widgets as $widget)
 		{
-			return NULL;
-		}
-
-		if(is_array($blocks))
-		{
-			foreach($blocks as & $$block)
+			if ($widget instanceof View)
 			{
-				if($block instanceof View) 
-				{
-					$block
-						->bind('ctx', $ctx)
-						->set('params', $params);
-				}
-				else if($block instanceof Model_Widget_Decorator ) 
-				{
-
-					$block
-						->set_params($params);
-				}
-			}
-		}
-		else
-		{
-			if($blocks instanceof View) 
-			{
-				$blocks
+				$widget
 					->bind('ctx', $ctx)
 					->set('params', $params);
 			}
-			else if($blocks instanceof Model_Widget_Decorator ) 
+			else if ($widget instanceof Model_Widget_Decorator)
 			{
-
-				$blocks
-					->set_params($params);
+				$widget->set_params($params);
 			}
 		}
-		
-		return $blocks;
+
+		return $widgets;
 	}
-	
+
 	/**
 	 * Блок типа def служит для помещения в него виджетов без вывода.
 	 * Необходим в том случае, если необходимо на странице вывести виджет 
