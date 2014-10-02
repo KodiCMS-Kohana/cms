@@ -51,7 +51,7 @@ return array(
 	'Breadcrumbs' => 'Хлебные крошки',
 	'Authentication' => 'Авторизация',
 	'Authentication destroy' => 'Выход',
-	
+	'Widget inject key' => 'Ключ для инъекции',
 	'Handler' => 'Обработчик',
 	'Send mail' => 'Отправка писем',
 	'Message subject' => 'Заголовок письма',
@@ -71,6 +71,13 @@ return array(
 	'Validator' => 'Валидация',
 	'Field error message' => 'Текст ошибки',
 	'Field error' => 'Ошибки',
+	'Caching' => 'Кеширование',
+	'Day' => 'День',
+	'Week' => 'Неделя',
+	'Media packages' => 'Media пакеты',
+	'Equal' => 'Равно',
+	'POST array' => 'POST массив',
+	'GET array' => 'GET массив',
 	
 	'Copy widgets from' => 'Скопировать виджеты у страницы',
 	'Cache time' => 'Кеширование',

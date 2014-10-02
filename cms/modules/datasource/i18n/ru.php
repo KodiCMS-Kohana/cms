@@ -1,6 +1,7 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
 return array(
+	'Datasource' => 'Раздел',
 	'Datasources' => 'Datasources',
 	'Create Document' => 'Создать документ',
 	'Apply' => 'Применить',
@@ -33,5 +34,21 @@ return array(
 	'Check all' => 'Выбрать все',
 	'Uncheck all' => 'Отменить выбор',
 	'Create document' => 'Создать документ',
-	'Section is empty' => 'Раздел пустой'
+	'Section is empty' => 'Раздел пустой',
+	'Create folder' => 'Создать папку',
+	'New folder' => 'Новая папка',
+	'Folder name' => 'Название',
+	'Datasource Author' => 'Автор',
+	
+	'Datasource :name' => 'Раздел :name',
+	'View section' => 'Просмотр раздела',
+	'Edit section' => 'Редактировать раздел',
+	'Remove section' => 'Удалить раздел',
+	'View documents' => 'Просмотре документов',
+	'Create documents' => 'Создание документов',
+	'Edit documents' => 'Редактирование документов',
+	'Remove documents' => 'Удаление документов',
+	'Create hybrid fields' => 'Создание полей ГД',
+	'Edit hybrid fields' => 'Редактирование полей ГД',
+	'Remove hybrid fields' => 'Удаление полей ГД',
 );

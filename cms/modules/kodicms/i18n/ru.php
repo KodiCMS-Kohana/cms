@@ -55,6 +55,9 @@ return array(
 	'Thank you for using :site' => 'Спасибо, за использование :site',
 	'Powered by :framework v:version :codename' => 'Работает на :framework v:version :codename',
 	'Items per page' => 'Кол-во элементов на странице',
+	'Admin Theme :name' => 'Тема :name',
+	'The requested view :file could not be found' 
+		=> 'Запрашиваемый файл шаблона :file не найден',
 	
 	/*********************** Dashboard *********************************/
 	'Dashboard' => 'Рабочий стол',
@@ -139,6 +142,10 @@ return array(
 	'User sessions has been cleared!' => 'Пользовательские сессии сброшены',
 	'The session storage driver can change in the config file (:path)' 
 		=> 'Драйвер хранения сессии можно изменить через конфиг файл (:path)',
+	'Server host' => 'Хост',
+	'Check URL suffix' => 'Проверять налицие URL суффикса',
+	'(Sec.)' => '(Сек.)',
+	'KodiCMS API key' => 'Ключ KodiCMS API',
 	
 	/*********************** Autorization *******************/
 	'Username' => 'Логин',
@@ -254,6 +261,19 @@ return array(
     "Remove file" => 'Удалить файл',
     "You can only upload {{maxFiles}} files." => 'Вы можете загрузить только {{maxFiles}} файла(-ов).',
 
+	// Validation rules
+	'Not empty' => 'Обязательно',
+	'Phone number' => 'Номер телефона',
+	'Email domain' => 'Email домен',
+	'Credit card' => 'Кредитная карта',
+	'Alpha' => 'Буквы',
+	'Alpha and hyphens' => 'Буквы и дефис',
+	'Alpha and numbers' => 'Буквы и числа',
+	'Integer digit' => 'Целое число',
+	'Decimal' => 'Десятичное число',
+	'Numeric' => 'Число',
+	'Color' => 'Цвет',
+	
 	/* User Validation Messages */
 	'User :value is not found.' => 'Пользователь :value не найден.',
 	'Invalid username or password.' => 'Неверное имя пользователя или пароль.',

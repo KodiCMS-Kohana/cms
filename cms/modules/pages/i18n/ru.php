@@ -51,4 +51,6 @@ return array(
 	'Use redirect' => 'Включить редирект',
 	'Redirect URL' => 'URL для редиректа',
 	'Redirect: :url' => 'Редирект: :url',
+	'Robots' => 'Поисковые роботы',
+	'WYSIWYG' => 'Редактор',
 );
