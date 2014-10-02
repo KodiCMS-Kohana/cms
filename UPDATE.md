@@ -154,3 +154,18 @@ ALTER TABLE `TABLE_PREFIX_roles_permissions` ADD CONSTRAINT `roles_permissions_i
 	* $page->has_content(...) -> Part::exists($page, ...)
 	* $page->field(...) -> Page_Field::get($page, ...)
 	* $page->has_field($page, ...) -> Page_Field::exists($page, ...)
+
+
+### 12.20.37
+
+Организация папок в разделе Datasource
+После обновления необходимо выполнить SQL скрипт, если вы используете преффикс для таблиц, его необходимо учесть.
+
+	CREATE TABLE IF NOT EXISTS `datasource_folders` (
+	  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+	  `name` varchar(64) NOT NULL DEFAULT '',
+	  `position` int(11) DEFAULT '0',
+	  PRIMARY KEY (`id`)
+	) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+	ALTER TABLE `datasources` ADD `folder_id` int(11) NOT NULL;

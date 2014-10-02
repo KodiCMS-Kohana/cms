@@ -6,8 +6,55 @@
 	padding: 45px 0 18px 0;
 }
 
+.theme-default .page-mail .mail-nav-header {
+	color: #333333; 
+}
 .page-mail .mail-nav {
 	border-color: #e2e2e2;
+}
+
+.page-mail .mail-nav .compose-btn {
+	border-bottom-width: 0;
+}
+
+.sections-list {
+	min-height: 50px;
+}
+
+.folder-container {
+	background: #fff;
+}
+
+.sections {
+	margin: 0 !important;
+}
+
+.dropable-hover {
+	border: 2px dashed #ccc;
+	background: #fff;
+}
+
+.page-mail .mail-nav .mail-nav-header {
+	padding-right: 16px;
+	margin-top: 0;
+	padding-top: 12px;
+	padding-bottom: 12px;
+	border-top: 1px solid #e2e2e2;
+	cursor: pointer;
+}
+
+.dropable-hover .mail-nav-header:first-child {
+	border-top-width: 0px !important;
+}
+
+.page-mail .mail-nav .mail-nav-header .remove-folder {
+	cursor: pointer;
+}
+
+.page-mail .mail-nav .sections li a .section-draggable {
+	margin: 12px 18px 0 0;
+	cursor: move;
+	color: #c2c2c2;
 }
 
 .headline tbody tr.unpublished th,

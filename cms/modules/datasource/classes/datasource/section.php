@@ -130,7 +130,8 @@ class Datasource_Section {
 		$section->_docs = (int) Arr::get($data, 'docs');
 		$section->_is_indexable = (bool) Arr::get($data, 'indexed');
 		$section->_created_by_id = (int) Arr::get($data, 'created_by_id');
-
+		$section->_folder_id = (int) Arr::get($data, 'folder_id');
+		
 		return $section;
 	}
 
@@ -169,6 +170,13 @@ class Datasource_Section {
 	 */
 	protected $_docs = 0;
 	
+	/**
+	 * Идентификатор папки раздела
+	 * 
+	 * @var integer 
+	 */
+	protected $_folder_id = 0;
+
 	/**
 	 * Создатель раздела
 	 * 
@@ -258,6 +266,14 @@ class Datasource_Section {
 	}
 	
 	/**
+	 * @return integer
+	 */
+	public function folder_id()
+	{
+		return (int) $this->_folder_id;
+	}
+	
+	/**
 	 * Проверка раздела на существование
 	 *  
 	 * @return boolean
@@ -306,6 +322,7 @@ class Datasource_Section {
 		$this->description = Arr::get($values, 'description');
 		$this->_is_indexable = (bool) Arr::get($values, 'is_indexable');
 		$this->_created_by_id = (int) Arr::get($values, 'created_by_id', Auth::get_id());
+		$this->_folder_id = (int) Arr::get($values, 'folder_id');
 		
 		$data = array(
 			'type' => $this->_type,
@@ -314,7 +331,8 @@ class Datasource_Section {
 			'name' => $this->name,
 			'created_on' => date('Y-m-d H:i:s'),
 			'created_by_id' => $this->_created_by_id,
-			'code' => serialize($this)
+			'folder_id' => $this->_folder_id,
+			'code' => serialize($this),
 		);
 		
 		$query = DB::insert('datasources')
@@ -364,7 +382,12 @@ class Datasource_Section {
 			$this->name = Arr::get($values, 'name');
 			$this->description = Arr::get($values, 'description');
 			
-			if(!empty($values['created_by_id']))
+			if (!empty($values['folder_id']))
+			{
+				$this->_folder_id = (int) Arr::get($values, 'folder_id');
+			}
+			
+			if (!empty($values['created_by_id']))
 			{
 				$this->_created_by_id = (int) $values['created_by_id'];
 			}
@@ -380,6 +403,7 @@ class Datasource_Section {
 			'description' => $this->description,
 			'updated_on' => date('Y-m-d H:i:s'),
 			'created_by_id' => $this->_created_by_id,
+			'folder_id' => $this->_folder_id,
 			'code' => serialize( $this )
 		);
 		
@@ -431,6 +455,23 @@ class Datasource_Section {
 		return $this;
 	}
 	
+	/**
+	 * 
+	 * @param integer $folder_id
+	 * @return \Datasource_Section
+	 */
+	public function move_to_folder($folder_id)
+	{
+		DB::update('datasources')
+			->set(array('folder_id' => (int) $folder_id))
+			->where( 'id', '=', $this->_id )
+			->execute();
+		
+		$this->_folder_id = (int) $folder_id;
+		
+		return $this;
+	}
+
 	/**
 	 * Создание нового документа
 	 * 

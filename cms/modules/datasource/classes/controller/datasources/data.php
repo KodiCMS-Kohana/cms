@@ -4,6 +4,8 @@ class Controller_Datasources_Data extends Controller_System_Datasource
 {
 	public function action_index()
 	{
+		Assets::package('jquery-ui');
+
 		$cur_ds_id = (int) Arr::get($this->request->query(), 'ds_id', Cookie::get('ds_id'));
 		$tree = Datasource_Data_Manager::get_tree();
 
@@ -17,6 +19,7 @@ class Controller_Datasources_Data extends Controller_System_Datasource
 			'content' => View::factory('datasource/data/index'),
 			'menu' => View::factory('datasource/data/menu', array(
 				'tree' => $tree,
+				'folders' => Datasource_Folder::get_all()
 			))
 		));
 
