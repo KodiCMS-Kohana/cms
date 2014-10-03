@@ -51,7 +51,7 @@
 			</div>
 		</div>
 
-		<hr class="panel-wide"/>
+		<hr class="panel-wide" />
 
 		<div class="form-group">
 			<?php echo $user->profile->label('locale', array('class' => 'control-label col-md-3')); ?>
@@ -63,7 +63,7 @@
 			</div>
 		</div>
 	</div>
-
+	
 	<?php if( ACL::check('users.change_password') OR $user->id == Auth::get_id() OR !$user->loaded() ): ?>
 	<div class="panel-heading">
 		<span class="panel-title"><?php echo __('Password'); ?></span>
@@ -115,6 +115,28 @@
 				'text' => __('Roles restrict user privileges and turn parts of the administrative interface on or off.')
 			)); 
 		?>
+		</div>
+	</div>
+	<?php endif; ?>
+
+	<?php if($action == 'edit'): ?>
+	<div class="panel-heading">
+		<span class="panel-title"><?php echo __('Admin theme'); ?></span>
+	</div>
+	<div class="panel-body">
+		<?php 
+		$themes = Config::get('global', 'themes', array());
+		$current_theme = Model_User_Meta::get('admin_theme', Config::get('global', 'default_theme'));
+		?>
+
+		<div id="themes" class="row">
+		<?php foreach ($themes as $theme): ?>
+			<div class="col-md-2 col-sm-3 col-xs-4">
+				<a href="#" class="theme <?php if($theme == $current_theme): ?>active<?php endif; ?> thumbnail" data-theme="<?php echo $theme; ?>">
+					<?php echo HTML::image(ADMIN_RESOURCES . 'images/themes/' . $theme . '.jpg'); ?>
+				</a>
+			</div>
+		<?php endforeach; ?>
 		</div>
 	</div>
 	<?php endif; ?>

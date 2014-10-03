@@ -33,24 +33,27 @@ class KodiCMS_Model_User_Meta extends Model {
 		
 		if($value !== NULL)
 		{
-			$value = @unserialize($value);
+			return @unserialize($value);
 		}
 		else
 		{
+			if($user_id === 0)
+			{
+				return $default;
+			}
+
 			self::_load(0);
-			$value = Arr::path(self::$_cache, '0' . '.' . $key);
+			$value = Arr::path(self::$_cache, 0 . '.' . $key);
 			
 			if($value !== NULL)
 			{
-				$value = @unserialize($value);
+				return @unserialize($value);
 			}
 			else
 			{
-				$value = $default;
+				return $default;
 			}
 		}
-
-		return $value;
 	}
 	
 	/**
@@ -68,26 +71,27 @@ class KodiCMS_Model_User_Meta extends Model {
 		}
 
 		self::_load($user_id);
-
-		self::_clear_cache($user_id);
-
+		$value = serialize($value);
 		if (isset(self::$_cache[$user_id][$key]))
 		{
-			return (bool) DB::update('user_meta')
-				->value('value', serialize($value))
+			$status = (bool) DB::update('user_meta')
+				->value('value', $value)
 				->where('key', '=', $key)
 				->where('user_id', '=', ($user_id === 0) ? NULL : $user_id)
 				->execute();
 		}
 		else
 		{
-			return (bool) DB::insert('user_meta')
+			$status = (bool) DB::insert('user_meta')
 				->columns(array(
 					'key', 'value', 'user_id'
 				))
-				->values(array($key, serialize($value), ($user_id === 0) ? NULL : $user_id))
+				->values(array($key, $value, ($user_id === 0) ? NULL : $user_id))
 				->execute();
 		}
+		
+		self::_clear_cache($user_id);
+		return $status;
 	}
 	
 	/**
@@ -142,7 +146,7 @@ class KodiCMS_Model_User_Meta extends Model {
 			$user_id = Auth::get_id();
 		}
 
-		if (Arr::get(self::$_cache, $user_id) === NULL)
+		if (!isset(self::$_cache[$user_id]))
 		{
 			self::$_cache[$user_id] = DB::select('key', 'value')
 				->from('user_meta')
@@ -163,6 +167,7 @@ class KodiCMS_Model_User_Meta extends Model {
 			$user_id = Auth::get_id();
 		}
 		
+		unset(self::$_cache[$user_id]);
 		Cache::instance()->delete('Database::cache(user_meta' . $user_id . ')');
 	}
 }

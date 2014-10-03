@@ -65,8 +65,9 @@
 			
 			<div class="clearfix"></div>
 		</div>
+		
+		<?php if ($child->is_expanded) echo($child->children_rows); ?>
 	</li>
-	<?php if ($child->is_expanded) echo($child->children_rows); ?>
 	<?php else: ?>
 	<li>
 		<div class="tree-item">

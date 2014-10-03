@@ -23,7 +23,7 @@ class Controller_Update extends Controller_System_Backend {
 		$this->set_title(__('Database'));
 		
 		$this->template->content = View::factory( 'update/database', array(
-			'actions' => Update::check_database(),
+			'actions' => Update::check_database(FALSE),
 		));
 	}
 	

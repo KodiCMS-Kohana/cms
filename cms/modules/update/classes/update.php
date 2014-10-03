@@ -35,11 +35,11 @@ class Update {
 	 * Проверка БД на расхождение
 	 * @retun string
 	 */
-	public static function check_database()
+	public static function check_database($caching = TRUE)
 	{
 		$cache = Cache::instance();
 
-		if(($diff = $cache->get(self::CACHE_KEY_DB_SHEMA)) === NULL)
+		if($caching === FALSE OR ($diff = $cache->get(self::CACHE_KEY_DB_SHEMA)) === NULL)
 		{
 			$db_sql = Database_Helper::schema();
 			$file_sql = Database_Helper::install_schema();

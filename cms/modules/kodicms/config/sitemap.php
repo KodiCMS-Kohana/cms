@@ -2,18 +2,14 @@
 
 return array(
 	array(
-		'name' => 'Dashboard',
-		'icon' => 'dashboard',
-		'url' => Route::get('backend')->uri()
-	),
-	array(
 		'name' => 'Content',
 		'icon' => 'pencil-square-o',
+		'priority' => 200,
 	),
 	array(
 		'name' => 'System',
 		'icon' => 'cog',
-		'priority' => 99,
+		'priority' => 8000,
 		'children' => array(
 			array(
 				'name' => 'Information',
@@ -35,7 +31,7 @@ return array(
 	array(
 		'name' => 'Design',
 		'icon' => 'desktop',
-		'priority' => 4,
+		'priority' => 7000,
 		'children' => array(
 			array(
 				'name' => 'Layouts', 

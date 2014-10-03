@@ -62,7 +62,7 @@ class Model_Navigation {
 	 * @param string $name
 	 * @return Model_Navigation_Section
 	 */
-	public static function get_section($name, Model_Navigation_Section $parent = NULL)
+	public static function get_section($name, Model_Navigation_Section $parent = NULL, $priority = 1)
 	{
 		if($parent === NULL)
 		{
@@ -74,7 +74,8 @@ class Model_Navigation {
 		if( $section === NULL )
 		{
 			$section = new Model_Navigation_Section(array(
-				'name' => $name
+				'name' => $name,
+				'priority' => $priority
 			));
 
 			$parent->add_page($section);
