@@ -34,6 +34,7 @@ return array(
 	':user profile' => 'Профиль пользователя :user',
 	'Section :section' => 'Раздел :section',
 	'Edit role' => 'Редактирование роли',
+	'Admin theme' => 'Тема',
 	
 	//============Profile============//
 	'Profile' => 'Профиль',
