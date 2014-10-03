@@ -816,7 +816,6 @@ abstract class Model_Widget_Decorator {
 		
 		unset(
 			$vars['_ctx'],
-			$vars['id'],
 			$vars['_type'],
 			$vars['template'],
 			$vars['name'], 
