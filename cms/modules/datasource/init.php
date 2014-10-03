@@ -31,6 +31,8 @@ Observer::observe('modules::after_load', function() {
 		$ds_section = Model_Navigation::get_section('Datasources');
 		$ds_section->icon = 'tasks';
 		$sections_list = Datasource_Data_Manager::get_tree(array_keys($types));
+		
+		$datasource_is_empty = empty($sections_list);
 		$folders = Datasource_Folder::get_all();
 
 		foreach ($sections_list as $type => $sections)
@@ -85,7 +87,24 @@ Observer::observe('modules::after_load', function() {
 						'permissions' => 'ds_id.' . $id . '.section.view'
 					)), 999);
 			}
-		}		
+		}
+		
+		$_create_section = Model_Navigation::get_section(__('Create section'), $ds_section, 999);
+
+		foreach ($types as $id => $type)
+		{
+			$_create_section
+				->add_page(new Model_Navigation_Page(array(
+				'name' => $type,
+				'url' => Route::get('datasources')->uri(array(
+					'controller' => 'section',
+					'directory' => 'datasources',
+					'action' => 'create',
+					'id' => $id
+				)),
+				'permissions' => $id.'.section.create'
+			)));
+		}
 	}
 	catch (Exception $ex)
 	{
