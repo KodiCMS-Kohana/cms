@@ -93,7 +93,7 @@ function checkbox_check() {
 
 function init_sections_sortable() {
 	function reload_menu() {
-		Api.get('/datasource-data.menu', {ds_id: CUR_DS_ID}, function(response) {
+		Api.get('/datasource-data.menu', {ds_id: DS_ID}, function(response) {
 			$('.page-mail .mail-nav').html(response.response);
 			cms.ui.init();
 			init_sections_sortable();
@@ -144,7 +144,7 @@ function init_sections_sortable() {
 		Api.post('user-meta', {key: 'datasource_folders', value: data});
 	});
 	
-	$(".folder-container .sections li[data-id="+CUR_DS_ID+"]")
+	$(".folder-container .sections li[data-id="+DS_ID+"]")
 		.parent()
 		.show();
 	

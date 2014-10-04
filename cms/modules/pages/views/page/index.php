@@ -1,10 +1,3 @@
-<script type="text/javascript">
-var PAGE_STATUSES = [];
-$.each(<?php echo json_encode(Model_Page::statuses()); ?>, function(k, v) {
-	PAGE_STATUSES.push({id: k, text: v});
-});
-
-</script>
 <div id="page-tree" class="panel">
 	<div class="panel-heading">
 		<?php if (Acl::check('page.add')): ?>

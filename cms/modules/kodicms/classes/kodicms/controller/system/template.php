@@ -17,6 +17,12 @@ class KodiCMS_Controller_System_Template extends Controller_System_Security
 	 * @var \Breadcrumbs 
 	 */
 	public $breadcrumbs;
+	
+	/**
+	 *
+	 * @var array 
+	 */
+	public $template_js_params = array();
 
 	/**
 	 * @var  boolean  auto render template
@@ -41,15 +47,6 @@ class KodiCMS_Controller_System_Template extends Controller_System_Security
 	public function before()
 	{
 		parent::before();
-		
-		if ($this->request->method() === Request::POST)
-		{
-//			$token = Arr::get($_POST, 'token');
-//			if(empty($token) OR !Security::check($token))
-//			{
-//				throw new Exception('Security token not check');
-//			}
-		}
 
 		if ($this->auto_render === TRUE)
 		{
@@ -75,6 +72,8 @@ class KodiCMS_Controller_System_Template extends Controller_System_Security
 				$this->breadcrumbs
 					->add(UI::icon('home'), Route::get('backend')->uri());
 			}
+			
+			$this->init_media();
 		}
 	}
 	
@@ -107,9 +106,14 @@ class KodiCMS_Controller_System_Template extends Controller_System_Security
 			}
 			else
 			{
-				$this->template->messages = View::factory('system/blocks/messages', array(
-					'messages' => Messages::get()
-				));
+				$js_string = '';
+				foreach ($this->template_js_params as $var => $value)
+				{
+					$value = json_encode($value);
+			
+					$js_string .= "var {$var} = {$value};\n";
+					Assets::group('global', 'js_params', '<script type="text/javascript">' . $js_string . '</script>', 'global');
+				}
 			}
 
 			if ($this->only_content)
@@ -162,5 +166,29 @@ class KodiCMS_Controller_System_Template extends Controller_System_Security
 		}
 
 		return $this;
+	}
+	
+	public function init_media()
+	{
+		$this->template_js_params = array(
+			'CURRENT_URL' => Request::current()->url(TRUE) . URL::query(),
+			'BASE_URL' => URL::backend(ADMIN_DIR_NAME, TRUE),
+			'SITE_URL' => URL::base(TRUE),
+			'ADMIN_DIR_NAME' => ADMIN_DIR_NAME,
+			'ADMIN_RESOURCES' => ADMIN_RESOURCES,
+			'PUBLIC_URL' => PUBLIC_URL,
+			'LOCALE' => I18n::lang(),
+			'CONTROLLER' => strtolower(Request::current()->controller()),
+			'ACTION' => Request::current()->action(),
+			'USER_ID' => Auth::get_id(),
+			'FILTERS' => WYSIWYG::findAll(),
+			'DATE_FORMAT' => Config::get('site', 'date_format'),
+			'IS_BACKEND' => IS_BACKEND
+		);
+
+		foreach (Messages::get() as $type => $messages)
+		{
+			$this->template_js_params['MESSAGE_' . strtoupper($type)] = $messages;
+		}
 	}
 }

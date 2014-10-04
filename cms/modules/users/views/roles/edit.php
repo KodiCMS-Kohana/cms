@@ -1,7 +1,3 @@
-<script type="text/javascript">
-	var ROLE_ID = <?php echo (int) $role->id; ?>;
-</script>
-	
 <?php echo Form::open(Route::get('backend')->uri(array('controller' => 'roles', 'action' => $action, 'id' => $role->id)), array(
 	'class' => array(Bootstrap_Form::HORIZONTAL, 'panel')
 )); ?>

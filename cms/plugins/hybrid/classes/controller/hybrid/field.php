@@ -37,6 +37,11 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 		}
 
 		parent::before();
+		
+		if(!empty($ds))
+		{
+			$this->template_js_params['DS_ID'] = $ds->id();
+		}
 	}
 	
 	public function action_template()

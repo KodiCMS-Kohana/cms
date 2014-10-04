@@ -122,6 +122,9 @@ class Controller_Datasources_Section extends Controller_System_Datasource
 			':name' => $this->section()->name
 		)));
 		
+		$this->template_js_params['DS_ID'] = $this->section()->id();
+		$this->template_js_params['DS_TYPE'] = $this->section()->type();
+			
 		try
 		{
 			$this->template->content = View::factory('datasource/'.$this->section()->type().'/section/edit', array(

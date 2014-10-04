@@ -10,7 +10,6 @@ class Controller_Email_Types extends Controller_System_Backend {
 	public function before()
 	{
 		parent::before();
-
 		$this->breadcrumbs
 			->add(__('Email types'), Route::get('email_controllers')->uri(array('controller' => 'types')));
 	}
@@ -121,6 +120,7 @@ class Controller_Email_Types extends Controller_System_Backend {
 		}
 
 		$this->set_title(__('Edit email type'));
+		$this->template_js_params['EMAIL_TYPE_ID'] = $type->id;
 
 		$this->template->content = View::factory( 'email/types/edit', array(
 			'action' => 'edit',

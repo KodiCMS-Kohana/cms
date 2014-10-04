@@ -25,6 +25,10 @@ class KodiCMS_Controller_Page extends Controller_System_Backend {
 
 		Assets::package(array('nestable', 'editable'));
 
+		$this->template_js_params['PAGE_STATUSES'] = array_map(function($value, $key) {
+			return array('id' => $key, 'text' => $value);
+		}, Model_Page::statuses(), array_keys(Model_Page::statuses()));
+				
 		$this->template->content = View::factory('page/index', array(
 			'page' => ORM::factory('page', 1),
 			'content_children' => $this->children(1, 0, TRUE)
@@ -55,6 +59,7 @@ class KodiCMS_Controller_Page extends Controller_System_Backend {
 			return $this->_add($page);
 		}
 
+		$this->set_page_js_params($page);
 		$this->set_title(__('Add page'));
 
 		$this->template->content = View::factory('page/edit', array(
@@ -141,6 +146,7 @@ class KodiCMS_Controller_Page extends Controller_System_Backend {
 			return $this->_edit($page);
 		}
 
+		$this->set_page_js_params($page);
 		$this->set_title($page->title);
 
 		$this->template->content = View::factory('page/edit', array(
@@ -313,5 +319,10 @@ class KodiCMS_Controller_Page extends Controller_System_Backend {
 
 		return $this->children($parent_id, $level);
 	}
-
+	
+	public function set_page_js_params(Model_Page $page)
+	{
+		$this->template_js_params['PAGE_ID'] = $page->id;
+		$this->template_js_params['PAGE_OBJECT'] = $page->as_array();
+	}
 }

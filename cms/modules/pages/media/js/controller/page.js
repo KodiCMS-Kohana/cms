@@ -185,6 +185,8 @@ cms.init.add('page_add', function() {
 			.add('input[name="page[meta_title]"]')
 			.val($(this).val());
 	});
+	
+	$('.panel-toggler').click();
 });
 
 cms.init.add(['page_add', 'page_edit'], function() {

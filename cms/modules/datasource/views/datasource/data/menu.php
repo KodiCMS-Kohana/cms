@@ -1,7 +1,3 @@
-<script type="text/javascript">
-var CUR_DS_ID = <?php echo $datasource->id(); ?>;
-</script>
-
 <?php
 $sections = Datasource_Data_Manager::types();
 foreach ($sections as $type => $title)
@@ -25,8 +21,6 @@ foreach ($tree as $type => $data)
 }
 
 $folders_status = Model_User_Meta::get('datasource_folders', array());
-
-
 ?>
 
 <div class="navigation">
