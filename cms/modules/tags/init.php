@@ -18,9 +18,7 @@ Observer::observe( 'view_page_edit_meta', function($page) {
 });
 
 Observer::observe( 'layout_backend_head_before', function() {
-	echo View::factory('tags/js', array(
-		'separator' => Model_Tag::SEPARATOR
-	));
+	echo '<script type="text/javascript">var TAG_SEPARATOR = "'. Model_Tag::SEPARATOR .'";</script>';
 });
 
 // При выводе списка стран запускается метод custom_filter и передача в него 

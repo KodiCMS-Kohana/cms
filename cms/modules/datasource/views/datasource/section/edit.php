@@ -1,7 +1,3 @@
-<script type="text/javascript">
-	var DS_ID = '<?php echo $ds->id(); ?>';
-</script>
-
 <?php echo Form::open(Request::current()->uri(), array(
 	'class' => 'form-horizontal panel'
 )); ?>

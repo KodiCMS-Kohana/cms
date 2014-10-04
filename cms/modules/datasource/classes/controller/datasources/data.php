@@ -48,6 +48,8 @@ class Controller_Datasources_Data extends Controller_System_Datasource
 			));
 
 			$this->template->set_global(array('datasource' => $ds));
+			$this->template_js_params['DS_ID'] = $this->_section->id();
+			$this->template_js_params['DS_TYPE'] = $this->_section->type();
 		}
 		else
 		{

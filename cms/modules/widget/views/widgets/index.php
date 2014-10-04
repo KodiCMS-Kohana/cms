@@ -1,11 +1,3 @@
-<script type="text/javascript">
-var SNIPPETS = [];
-
-$.each(<?php echo json_encode($templates); ?>, function(k, v) {
-	SNIPPETS.push({id: k, text: v});
-});
-</script>
-
 <?php echo $sidebar; ?>
 
 <div class="panel">

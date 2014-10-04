@@ -28,7 +28,7 @@ cms.init.add(['users_edit', 'users_add'], function () {
 		},
 		initSelection: function(element, callback) {
 			element.val('');
-			if (USER_ID == 0) {
+			if (!USER_ID) {
 				callback([{'id':1, 'text':'login'}]);
 				return ;
 			}

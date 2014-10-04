@@ -103,7 +103,8 @@ class KodiCMS_Controller_Roles extends Controller_System_Backend {
 		}
 
 		$this->set_title(__('Edit role'));
-
+		$this->template_js_params['ROLE_ID'] = $role->id;
+		
 		$this->template->content = View::factory('roles/edit', array(
 			'action' => 'edit',
 			'role' => $role

@@ -50,6 +50,10 @@ class Controller_Widgets extends Controller_System_Backend {
 				'size' => 3
 			))
 		));
+		
+		$this->template_js_params['SNIPPETS'] = array_map(function($value, $key) {
+			return array('id' => $key, 'text' => $value);
+		}, Model_File_Snippet::html_select(), array_keys(Model_File_Snippet::html_select()));
 
 		$this->template->content = View::factory( 'widgets/index', array(
 			'widgets' => $widgets
@@ -57,8 +61,7 @@ class Controller_Widgets extends Controller_System_Backend {
 				->offset($pager->offset)
 				->find_all(),
 			'pager' => $pager,
-			'sidebar' => $sidebar,
-			'templates' => Model_File_Snippet::html_select()
+			'sidebar' => $sidebar
 		));
 	}
 	
