@@ -642,7 +642,7 @@ class Datasource_Document implements ArrayAccess {
 		}
 
 		$values = $this->system_fields();
-		unset($values['id'], $values['ds_id']);
+		unset($values['id'], $values['ds_id'], $values['created_on']);
 		
 		$values['updated_on'] = date('Y-m-d H:i:s');
 
