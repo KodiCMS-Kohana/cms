@@ -37,6 +37,8 @@ class Controller_System_Datasource_Document extends Controller_System_Datasource
 				'controller' => 'data'
 			)) . URL::query(array('ds_id' => $this->section()->id()), FALSE));
 		
+		$this->template_js_params['API_FORM_ACTION'] = '/datasource-document.' . ($doc->loaded() ? 'update' : 'create'); 
+		
 		if( ! $doc->loaded() )
 		{
 			$this->set_title(__('New document'));
