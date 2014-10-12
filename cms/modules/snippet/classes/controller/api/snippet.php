@@ -25,7 +25,7 @@ class Controller_API_Snippet extends Controller_System_Api {
 			);
 		}
 
-		$snippet->name = $this->param('name', NULL);
+		$snippet->name = $this->param('name');
 		$snippet->content = $this->param('content', NULL);
 
 		$status = $snippet->save();
@@ -56,7 +56,7 @@ class Controller_API_Snippet extends Controller_System_Api {
 	
 	public function rest_put()
 	{
-		$snippet = new Model_File_Snippet( $this->param('name', NULL) );
+		$snippet = new Model_File_Snippet($this->param('name', NULL, TRUE));
 		$snippet->content = $this->param('content', NULL);
 		
 		$status = $snippet->save();
@@ -85,7 +85,7 @@ class Controller_API_Snippet extends Controller_System_Api {
 	{
 		$snippet_name = $this->param('name', NULL, TRUE);
 		
-		$snippet = new Model_File_Snippet( $snippet_name );
+		$snippet = new Model_File_Snippet($snippet_name);
 		
 		if ( ! $snippet->is_exists() )
 		{
