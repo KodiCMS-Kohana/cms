@@ -20,28 +20,24 @@ class Behavior {
 	 */
 	public static function factory($behavior_id)
 	{
-		$behavior = self::get($behavior_id);
-		if ($behavior === NULL)
+		$behavior_config = self::get($behavior_id);
+		if ($behavior_config === NULL)
 		{
 			throw new HTTP_Exception_404('Behavior :behavior not found!', array(
 				':behavior' => $behavior_id
 			));
 		}
 
-		$class = $behavior_id;
-		if (isset($behavior['class']))
-		{
-			$class = $behavior['class'];
-		}
+		$class_name = Arr::get($behavior_config, 'class', $behavior_id);
 
-		$behavior_class = 'Behavior_' . URL::title($class, '');
+		$behavior_class = 'Behavior_' . URL::title($class_name, '');
 
 		if (!class_exists($behavior_class))
 		{
 			return NULL;
 		}
 
-		return new $behavior_class;
+		return new $behavior_class($behavior_config);
 	}
 
 	/**
@@ -50,7 +46,6 @@ class Behavior {
 	public static function init()
 	{
 		$config = Kohana::$config->load('behaviors');
-
 
 		foreach ($config as $behavior_id => $data)
 		{
@@ -84,8 +79,8 @@ class Behavior {
 		$uri = substr($uri, strlen($url));
 
 		return $behavior
-						->set_page($page)
-						->execute_uri($uri);
+			->set_page($page)
+			->execute_uri($uri);
 	}
 
 	/**
