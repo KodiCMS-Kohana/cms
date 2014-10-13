@@ -11,10 +11,9 @@ class KodiCMS_Callback
 	 * 
 	 * @param mixed $callback
 	 * @param array $params
-	 * @param mixed $default
 	 * @return mixed
 	 */
-	public static function invoke($callback, array $params = NULL, $default = NULL)
+	public static function invoke($callback, array $params = NULL)
 	{
 		if (is_array($callback) OR ! is_string($callback))
 		{
@@ -29,11 +28,11 @@ class KodiCMS_Callback
 		}
 		elseif (strpos($callback, '::') === FALSE)
 		{
-			return self::invoke_function($callback, $params, $default);
+			return self::invoke_function($callback, $params);
 		}
 		else
 		{
-			return self::invoke_static_class($callback, $params, $default);
+			return self::invoke_static_class($callback, $params);
 		}
 		
 		return $default;
@@ -43,10 +42,9 @@ class KodiCMS_Callback
 	 * 
 	 * @param string $callback
 	 * @param array $params
-	 * @param mixed $default
 	 * @return mixed
 	 */
-	public static function invoke_static_class($callback, array $params = NULL, $default = NULL)
+	public static function invoke_static_class($callback, array $params = NULL)
 	{
 		// Split the class and method of the rule
 		list($class, $method) = explode('::', $callback, 2);
@@ -68,10 +66,9 @@ class KodiCMS_Callback
 	 * 
 	 * @param string $callback
 	 * @param array $params
-	 * @param mixed $default
 	 * @return mixed
 	 */
-	public static function invoke_function($callback, array $params = NULL, $default = NULL)
+	public static function invoke_function($callback, array $params = NULL)
 	{
 		$class = new ReflectionFunction($callback);
 
