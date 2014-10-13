@@ -72,7 +72,7 @@ class DataSource_Hybrid_Field_Source_Document extends DataSource_Hybrid_Field_So
 	 * @param string $fid
 	 * @return mixed
 	 */
-	public static function fetch_widget_field( $widget, $field, $row, $fid, $recurse )
+	public static function fetch_widget_field($widget, $field, $row, $fid, $recurse)
 	{
 		$related_widget = NULL;
 
@@ -83,7 +83,7 @@ class DataSource_Hybrid_Field_Source_Document extends DataSource_Hybrid_Field_So
 
 		return ($related_widget !== NULL) 
 			? $related_widget 
-			: $row[$fid];
+			: (int) $row[$fid];
 	}
 	
 	public function fetch_headline_value( $value, $document_id )

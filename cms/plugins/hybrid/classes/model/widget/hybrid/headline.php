@@ -209,6 +209,8 @@ class Model_Widget_Hybrid_Headline extends Model_Widget_Decorator_Pagination {
 
 		$href_params = $this->_parse_doc_id();
 
+		$temp_data = array();
+
 		foreach ($query->execute() as $row)
 		{
 			$result[$row['id']] = array();
@@ -221,17 +223,16 @@ class Model_Widget_Hybrid_Headline extends Model_Widget_Decorator_Pagination {
 			
 			foreach ($fields as $fid => $field)
 			{
-				if (!isset($row[$fid]))
+				if (!array_key_exists($fid, $row))
 				{
 					continue;
 				}
 
-				$field_class = 'DataSource_Hybrid_Field_' . $field->type;
 				$field_class_method = 'fetch_widget_field';
-				if (class_exists($field_class) AND method_exists($field_class, $field_class_method))
+				
+				if (method_exists($field, $field_class_method))
 				{
-					$doc[$field->key] = call_user_func_array($field_class . '::' . $field_class_method, array($this, $field, $row, $fid, $recurse - 1));
-					continue;
+					$doc[$field->key] = $field->$field_class_method($this, $field, $row, $fid, $recurse - 1);
 				}
 			}
 
@@ -248,7 +249,7 @@ class Model_Widget_Hybrid_Headline extends Model_Widget_Decorator_Pagination {
 			
 			$doc['href'] = URL::site($this->doc_uri . implode( '/' , $doc_params ));
 		}
-		
+
 		$this->docs = $result;
 		return $result;
 	}
