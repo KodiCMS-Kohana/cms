@@ -81,8 +81,9 @@ class Controller_Datasources_Section extends Controller_System_Datasource
 
 		try
 		{
-			$section->validate($data);
-			$ds_id = $section->create($data);
+			$ds_id = $section
+				->validate($data)
+				->create($data);
 		}
 		catch (Validation_Exception $e)
 		{
@@ -151,8 +152,8 @@ class Controller_Datasources_Section extends Controller_System_Datasource
 		
 		try
 		{
-			$ds->validate($data);
-			$ds->update($data);
+			$ds->values($data);
+			$ds->update();
 		}
 		catch (Validation_Exception $e)
 		{

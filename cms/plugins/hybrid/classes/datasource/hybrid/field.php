@@ -190,18 +190,18 @@ abstract class DataSource_Hybrid_Field {
 	 * 
 	 * @param array $data
 	 */
-	public function __construct( array $data = NULL) 
+	public function __construct(array $data = NULL)
 	{
-		if( ! empty($data) )
+		if (!empty($data))
 		{
 			$this->set($data);
 		}
-		
+
 		$this->type = strtolower(substr(get_called_class(), 24));
 		$this->from_ds = (int) $this->from_ds;
-		$this->key = str_replace( DataSource_Hybrid_Field::PREFFIX, '', $this->name);
+		$this->key = str_replace(DataSource_Hybrid_Field::PREFFIX, '', $this->name);
 	}
-	
+
 	/**
 	 * Поулучение списка параметров
 	 * 
@@ -221,6 +221,21 @@ abstract class DataSource_Hybrid_Field {
 	{
 		return array();
 	}
+	
+	/**
+	 * Правила валидации поля при его создании и редактировании.
+	 * Используется класс Validation
+	 * 
+	 * @return array
+	 */
+	public function labels()
+	{
+		return array(
+			'name' => __('Field key'),
+			'header' => __('Field header'),
+			'from_ds' => __('Datasource'),
+		);
+	}
 
 	/**
 	 * Правила валидации поля при его создании и редактировании.
@@ -239,7 +254,7 @@ abstract class DataSource_Hybrid_Field {
 			)
 		);
 	}
-	
+
 	/**
 	 * Валидация создаваемого поля.
 	 * 
@@ -249,33 +264,35 @@ abstract class DataSource_Hybrid_Field {
 	 */
 	public function validate(array $data = NULL)
 	{
-		if($data === NULL)
+		if ($data === NULL)
 		{
 			$data = $this->as_array();
 		}
 
 		$array = Validation::factory($data);
-		
+
+		$array->labels($this->labels());
+
 		$rules = $this->rules();
-		
-		foreach ( $rules as $field => $r )
+
+		foreach ($rules as $field => $r)
 		{
 			$array->rules($field, $r);
 		}
-		
-		if($this->id === NULL)
+
+		if ($this->id === NULL)
 		{
 			$array->rule('name', 'DataSource_Hybrid_Field_Factory::field_not_exists', array(DataSource_Hybrid_Field_Factory::get_full_key($this->name), $this->ds_id));
 		}
-		
-		if( ! $array->check() )
+
+		if (!$array->check())
 		{
 			throw new Validation_Exception($array);
 		}
-		
+
 		return TRUE;
 	}
-	
+
 	/**
 	 * Сеттер. Используется при создании и обновлении параметров поля.
 	 * 
@@ -290,20 +307,20 @@ abstract class DataSource_Hybrid_Field {
 	 * @param array $data
 	 * @return \DataSource_Hybrid_Field
 	 */
-	public function set( array $data )
+	public function set(array $data)
 	{
 		$boleans = $this->booleans();
 		$boleans[] = 'isreq';
 
 		foreach ($boleans as $key)
 		{
-			$data[$key] = ! empty($data[$key]) ? TRUE : FALSE;
+			$data[$key] = !empty($data[$key]) ? TRUE : FALSE;
 		}
 
-		foreach ( $data as $key => $value )
+		foreach ($data as $key => $value)
 		{
 			$method = "set_{$key}";
-			if(method_exists($this, $method))
+			if (method_exists($this, $method))
 			{
 				$this->$method($value);
 			}
@@ -331,7 +348,7 @@ abstract class DataSource_Hybrid_Field {
 				$value = (bool) $value;
 				break;
 		}
-		
+
 		$this->_props[$key] = $value;
 	}
 
@@ -353,21 +370,21 @@ abstract class DataSource_Hybrid_Field {
 	 * @param string $key
 	 * @return mixed
 	 */
-	public function __isset( $key )
+	public function __isset($key)
 	{
 		return isset($this->_props[$key]);
 	}
-	
+
 	/**
 	 * Удаление значения из параметра $this->_props
 	 * 
 	 * @param string $key
 	 */
-	public function __unset( $key )
+	public function __unset($key)
 	{
 		unset($this->_props[$key]);
 	}
-	
+
 	/**
 	 * Указывается массив типов Виджетов, ккоторые могут загружаться с данным
 	 * полем.
@@ -410,12 +427,12 @@ abstract class DataSource_Hybrid_Field {
 		return DataSource_Hybrid_Field_Factory::is_index($this);
 	}
 
-		/**
+	/**
 	 * Метод используется для присвоения старого значения для поля документа
 	 * 
 	 * @param DataSource_Hybrid_Document $document
 	 */
-	public function set_old_value( $document )
+	public function set_old_value($document)
 	{
 		$document->set($this->name, $document->get_old_value($this->name));
 		return $this;
@@ -454,23 +471,23 @@ abstract class DataSource_Hybrid_Field {
 	 * @param integer $position
 	 * @return \DataSource_Hybrid_Field
 	 */
-	public function set_position( $position ) 
+	public function set_position($position)
 	{
 		if (!Valid::numeric($position))
 		{
 			$position = DataSource_Hybrid_Field_Factory::get_last_position($this->ds_id) + 10;
 		}
-	
+
 		$this->position = (int) $position;
-		
-		if($this->position < 0)
+
+		if ($this->position < 0)
 		{
 			$this->position = 0;
 		}
 
 		return $this;
 	}
-	
+
 	/**
 	 * Установка подсказки для поля
 	 * 
@@ -479,10 +496,10 @@ abstract class DataSource_Hybrid_Field {
 	 * @param string $text
 	 * @return \DataSource_Hybrid_Field
 	 */
-	public function set_hint( $text )
+	public function set_hint($text)
 	{
-		$this->hint = Text::limit_chars(strip_tags( $text ), 150, '');
-		
+		$this->hint = Text::limit_chars(strip_tags($text), 150, '');
+
 		return $this;
 	}
 
@@ -601,11 +618,11 @@ abstract class DataSource_Hybrid_Field {
 	 * @param DataSource_Hybrid_Document $document
 	 * @return array array([field name] => [document value])
 	 */
-	final public function get_sql( DataSource_Hybrid_Document $document )
+	final public function get_sql(DataSource_Hybrid_Document $document)
 	{
 		return array($this->name, $document->get($this->name));
 	}
-	
+
 	/**
 	 * Поле может использоваться в качестве Идентификатора документа
 	 * Используется в виджете "Гибридный документ"
@@ -710,11 +727,11 @@ abstract class DataSource_Hybrid_Field {
 	 * @param string $value
 	 * @return mixed $value
 	 */
-	public function convert_value( $value )
+	public function convert_value($value)
 	{
 		return $value;
 	}
-	
+
 	/**
 	 * Преобразование значения поля списка документов выводимых в Админ панели.
 	 * 
@@ -726,11 +743,11 @@ abstract class DataSource_Hybrid_Field {
 	 * @param string $value
 	 * @return string
 	 */
-	public function fetch_headline_value( $value, $document_id )
+	public function fetch_headline_value($value, $document_id)
 	{
 		return $value;
 	}
-	
+
 	/**
 	 * Шаблон поля, используемый при редактрировании документа.
 	 * 
@@ -738,29 +755,29 @@ abstract class DataSource_Hybrid_Field {
 	 * @param DataSource_Hybrid_Document $document
 	 * @return View
 	 */
-	public function backend_template( DataSource_Hybrid_Document $document, $template = NULL )
+	public function backend_template(DataSource_Hybrid_Document $document, $template = NULL)
 	{
-		if($template === NULL)
+		if ($template === NULL)
 		{
 			$template = 'datasource/hybrid/document/fields/' . $this->type;
 		}
-		
+
 		return View::factory($template, array(
-			'value' => $document->get($this->name), 
+			'value' => $document->get($this->name),
 			'field' => $this,
 			'document' => $document
 		));
 	}
-	
+
 	/**
 	 * 
 	 * @param string $value
 	 * @param DataSource_Hybrid_Document $doc
 	 * @return bool
 	 */
-	public function check_unique($value, DataSource_Hybrid_Document $doc) 
+	public function check_unique($value, DataSource_Hybrid_Document $doc)
 	{
-		return ! (bool) DB::select($this->name)
+		return !(bool) DB::select($this->name)
 			->from($this->ds_table)
 			->where($this->name, '=', $value)
 			->where('id', '!=', $doc->id)
@@ -780,15 +797,15 @@ abstract class DataSource_Hybrid_Field {
 	 * @param DataSource_Hybrid_Document $doc
 	 * @return string
 	 */
-	public function onSetValue( $value, DataSource_Hybrid_Document $doc)
+	public function onSetValue($value, DataSource_Hybrid_Document $doc)
 	{
-		if( ! $doc->loaded() AND ! empty($this->_props['default']) AND empty($value) )
+		if (!$doc->loaded() AND ! empty($this->_props['default']) AND empty($value))
 		{
 			return $this->default;
 		}
-		
+
 		return $value;
-	}	
+	}
 
 	/**
 	 * В момент присвоения полям документа значений происходит обход массива
@@ -820,22 +837,21 @@ abstract class DataSource_Hybrid_Field {
 	 * @param DataSource_Hybrid_Document
 	 * @return \Validation
 	 */
-	public function onValidateDocument( Validation $validation, DataSource_Hybrid_Document $doc )
+	public function onValidateDocument(Validation $validation, DataSource_Hybrid_Document $doc)
 	{
-		if($this->isreq === TRUE AND $this->is_required())
+		if ($this->isreq === TRUE AND $this->is_required())
 		{
 			$validation->rule($this->name, 'not_empty');
 		}
-		
-		if( $this->unique === TRUE )
+
+		if ($this->unique === TRUE)
 		{
 			$validation->rule($this->name, array($this, 'check_unique'), array(':value', $doc));
 		}
 
-		return $validation
-				->label($this->name, $this->header);
+		return $validation->label($this->name, $this->header);
 	}
-	
+
 	/**
 	 * Событие вызываемое в момент создания документа, до сохранения данных в БД
 	 * после валидации
@@ -862,8 +878,8 @@ abstract class DataSource_Hybrid_Field {
 	 * 
 	 * @param DataSource_Hybrid_Document $doc
 	 */
-	public function onRemoveDocument( DataSource_Hybrid_Document $doc) {}
-	
+	public function onRemoveDocument(DataSource_Hybrid_Document $doc) {}
+
 	/**
 	 * Событие вызываемое в момент загрузки контроллера в админ панели
 	 */

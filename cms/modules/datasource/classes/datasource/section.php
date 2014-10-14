@@ -356,6 +356,34 @@ class Datasource_Section {
 	}
 	
 	/**
+	 * 
+	 * @param array $values
+	 * @throws Validation_Exception
+	 */
+	public function values(array $values = array())
+	{
+		$this->validate($values);
+
+		$this->name = Arr::get($values, 'name');
+		$this->description = Arr::get($values, 'description');
+
+		if (!empty($values['folder_id']))
+		{
+			$this->_folder_id = (int) Arr::get($values, 'folder_id');
+		}
+
+		if (!empty($values['created_by_id']))
+		{
+			$this->_created_by_id = (int) $values['created_by_id'];
+		}
+
+		$this->set_indexable(Arr::get($values, 'is_indexable', FALSE));
+		$this->_headline->set_sorting(Arr::get($values, 'doc_order', array()));
+		
+		return $this;
+	}
+
+	/**
 	 * Обновление раздела.
 	 * 
 	 * При сохранении раздела в БД происходит его сериализация и сохарение данных
@@ -363,58 +391,35 @@ class Datasource_Section {
 	 * методе {@see _serialize()}
 	 * 
 	 * @param array $values
+	 * @throws DataSource_Exception_Section
 	 * @return boolean
 	 */
-	public function update( array $values = NULL) 
+	public function update()
 	{
 		if (!$this->has_access_edit())
 		{
 			throw new DataSource_Exception_Section('You do not have permission to update section');
 		}
 
-		if ( ! $this->loaded())
+		if (!$this->loaded())
 		{
 			return FALSE;
 		}
-		
-		if (is_array($values))
-		{
-			$this->name = Arr::get($values, 'name');
-			$this->description = Arr::get($values, 'description');
-			
-			if (!empty($values['folder_id']))
-			{
-				$this->_folder_id = (int) Arr::get($values, 'folder_id');
-			}
-			
-			if (!empty($values['created_by_id']))
-			{
-				$this->_created_by_id = (int) $values['created_by_id'];
-			}
 
-			$this->set_indexable(Arr::get($values, 'is_indexable', FALSE));
-			
-			$this->_headline->set_sorting(Arr::get($values, 'doc_order', array()));
-		}
-		
-		$data = array(
-			'indexed' => $this->_is_indexable,
-			'name' => $this->name,
-			'description' => $this->description,
-			'updated_on' => date('Y-m-d H:i:s'),
-			'created_by_id' => $this->_created_by_id,
-			'folder_id' => $this->_folder_id,
-			'code' => serialize( $this )
-		);
-		
 		DB::update('datasources')
-			->set($data)
+			->set(array(
+				'indexed' => $this->_is_indexable,
+				'name' => $this->name,
+				'description' => $this->description,
+				'updated_on' => date('Y-m-d H:i:s'),
+				'created_by_id' => $this->_created_by_id,
+				'folder_id' => $this->_folder_id,
+				'code' => serialize($this)
+				))
 			->where( 'id', '=', $this->_id )
 			->execute();
 
 		$this->update_size();
-		
-		unset($data, $values);
 		
 		Observer::notify('datasource_after_save', $this->_id);
 		
@@ -719,6 +724,8 @@ class Datasource_Section {
 		{
 			throw new Validation_Exception($validation);
 		}
+		
+		return $this;
 	}
 
 	/**

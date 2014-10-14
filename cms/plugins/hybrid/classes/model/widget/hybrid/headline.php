@@ -105,7 +105,9 @@ class Model_Widget_Hybrid_Headline extends Model_Widget_Decorator_Pagination {
 				$this->doc_fields[] = (int) $f['id'];
 			
 				if(isset($f['fetcher']))
+				{
 					$this->doc_fetched_widgets[(int) $f['id']] = (int) $f['fetcher'];
+				}
 			}
 		}
 	}
@@ -194,8 +196,7 @@ class Model_Widget_Hybrid_Headline extends Model_Widget_Decorator_Pagination {
 		
 		$agent = DataSource_Hybrid_Agent::instance($this->ds_id);
 
-		$query = $this
-			->_get_query();
+		$query = $this->_get_query();
 		
 		$ds_fields = $agent->get_fields();
 		$fields = array();

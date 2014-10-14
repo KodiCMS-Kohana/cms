@@ -1,0 +1,6 @@
+[submodule "cms/plugins/categories"]
+	path = cms/plugins/categories
+	url = https://github.com/KodiCMS/plugin-categories.git
+[submodule "cms/plugins/rating"]
+	path = cms/plugins/rating
+	url = D:\\webserver\\htdocs\\kodicms-plugins\\plugin-rating
