@@ -61,7 +61,7 @@ Observer::observe('modules::after_load', function() {
 							'controller' => 'data',
 							'directory' => 'datasources',
 						)) . URL::query(array('ds_id' => $id)),
-						'icon' => Datasource_Data_Manager::get_icon($type),
+						'icon' => Datasource_Data_Manager::get_icon($section->type()),
 						'permissions' => 'ds_id.' . $id . '.section.view'
 					)), 999);
 			}
