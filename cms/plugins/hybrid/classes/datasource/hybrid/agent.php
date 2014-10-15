@@ -381,10 +381,18 @@ class DataSource_Hybrid_Agent {
 
 		foreach ($filters as $pos => $data)
 		{
+			$params = array();
+
+			$field = $data['field'];
+	
+			if(!empty($data['params']))
+			{
+				parse_str($data['params'], $params);
+			}
+			
 			$condition = $data['condition'];
 			$type = $data['type'];
 			$invert = !empty($data['invert']);
-			$field = $data['field'];
 
 			$value = Arr::get($data, 'value');
 
@@ -520,8 +528,10 @@ class DataSource_Hybrid_Agent {
 				}
 			}
 
-			$field->filter_condition($result, $condition, $value);
+			$field->filter_condition($result, $condition, $value, $params);
 		}
+		
+		unset($field_names, $ds_fields, $sys_fields, $filters);
 
 		return $result;
 	}
