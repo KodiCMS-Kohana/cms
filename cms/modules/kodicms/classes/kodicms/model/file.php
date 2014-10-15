@@ -50,7 +50,7 @@ class KodiCMS_Model_File {
 	 */
 	public function __construct($name = '')
 	{
-		$this->set_name($name);
+		$this->_name = $name;
 
 		if ($file = $this->find_file())
 		{
