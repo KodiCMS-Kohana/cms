@@ -1,6 +1,7 @@
-/*.redactor_box {*/
+.redactor_box {
 	position: relative;
 	overflow: visible;
+	border: 1px solid #eee;
 }
 .redactor_box, .redactor_box textarea {
 	background-color: #fff;

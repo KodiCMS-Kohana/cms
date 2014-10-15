@@ -508,11 +508,11 @@ class Datasource_Document implements ArrayAccess {
 	 * @param integer $id
 	 * @return \DataSource_Document
 	 */
-	public function load( $id )
-	{		
+	public function load($id)
+	{
 		return $this->load_by('id', (int) $id);
 	}
-	
+
 	/**
 	 * Загрузка документа по названию поля значению
 	 * 
@@ -520,7 +520,7 @@ class Datasource_Document implements ArrayAccess {
 	 * @param string $value
 	 * @return \DataSource_Document
 	 */
-	public function load_by( $field, $value )
+	public function load_by($field, $value)
 	{
 		$result = DB::select()
 			->select_array(array_keys($this->system_fields()))
@@ -530,14 +530,14 @@ class Datasource_Document implements ArrayAccess {
 			->limit(1)
 			->execute()
 			->current();
-				
+
 		if (empty($result))
 		{
 			return $this;
 		}
 
 		$this->_loaded = TRUE;
-		
+
 		foreach ($result as $field => $value)
 		{
 			$this->{$field} = $value;
@@ -642,7 +642,7 @@ class Datasource_Document implements ArrayAccess {
 		}
 
 		$values = $this->system_fields();
-		unset($values['id'], $values['ds_id']);
+		unset($values['id'], $values['ds_id'], $values['created_on']);
 		
 		$values['updated_on'] = date('Y-m-d H:i:s');
 

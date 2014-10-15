@@ -163,7 +163,7 @@ class Model_Widget_Hybrid_Document extends Model_Widget_Decorator {
 		}
 
 		$agent = DataSource_Hybrid_Agent::instance($this->ds_id);
-		$result = $agent->get_document($id, $this->doc_fields, $this->doc_id_field, $recurse);
+		$result = $agent->get_document($id, $this->doc_fields, $this->doc_id_field);
 		
 		if (empty($result))
 		{
@@ -179,14 +179,18 @@ class Model_Widget_Hybrid_Document extends Model_Widget_Decorator {
 			}
 
 			$field = & $hybrid_fields[$key];
-
-			$field_class = 'DataSource_Hybrid_Field_' . $field->type;
+			
 			$field_class_method = 'fetch_widget_field';
+			
+			$result['_' . $field->key] = $result[$key];
 
-			if (class_exists($field_class) AND method_exists($field_class, $field_class_method))
+			if (method_exists($field, $field_class_method))
 			{
-				$result['_' . $field->key] = $result[$key];
-				$result[$field->key] = call_user_func_array($field_class . '::' . $field_class_method, array($this, $field, $result, $key, $recurse));
+				$result[$field->key] = $field->$field_class_method($this, $field, $result, $key, $recurse - 1);
+			}
+			else
+			{
+				$result[$field->key] = $result[$key];
 			}
 
 			unset($result[$key]);

@@ -93,7 +93,7 @@ class Behavior_Route {
 	{
 		$method = $this->_match_route($uri);
 		
-		Context::instance()->behavior_router( $this );
+		Context::instance()->behavior_router($this);
 
 		return $method;
 	}
@@ -117,7 +117,7 @@ class Behavior_Route {
 
 		foreach ($this->routes() as $_uri => $params)
 		{
-			if( ! isset($params['method']))
+			if (!isset($params['method']))
 			{
 				$params['method'] = $default_method;
 			}

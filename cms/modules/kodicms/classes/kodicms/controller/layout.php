@@ -59,8 +59,6 @@ class KodiCMS_Controller_Layout extends Controller_System_Backend {
 		$data = $this->request->post();
 		Flash::set('post_data', (object) $data);
 
-		$data['name'] = URL::title(Text::translit($data['name']), '_');
-
 		$layout = new Model_File_Layout($data['name']);
 		$layout->content = $data['content'];
 
@@ -131,7 +129,7 @@ class KodiCMS_Controller_Layout extends Controller_System_Backend {
 	protected function _edit( $layout )
 	{
 		$data = $this->request->post();
-		$data['name'] = URL::title(Text::translit($data['name']), '_');
+
 		$layout->name = $data['name'];
 		$layout->content = $data['content'];
 

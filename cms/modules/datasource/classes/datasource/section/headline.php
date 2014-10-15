@@ -162,6 +162,11 @@ abstract class Datasource_Section_Headline {
 		return $this;
 	}
 	
+	public function set_query_params()
+	{
+		$_GET['ds_id'] = $this->_section->id();
+	}
+
 	/**
 	 * Формирование данных для постраничной навигации
 	 * 
@@ -169,9 +174,9 @@ abstract class Datasource_Section_Headline {
 	 * @param string $search_word
 	 * @return Pagination
 	 */
-	public function pagination( array $ids = NULL )
+	public function pagination(array $ids = NULL)
 	{
-		$_GET['ds_id'] = $this->_section->id();
+		$this->set_query_params();
 
 		$options = array(
 			'items_per_page' => $this->limit(),
@@ -182,7 +187,7 @@ abstract class Datasource_Section_Headline {
 				'uri' => Route::get('datasources')->uri()
 			)
 		);
-		
+
 		if (!empty($this->_page))
 		{
 			$options['current_page']['page'] = $this->_page;
@@ -191,7 +196,7 @@ abstract class Datasource_Section_Headline {
 		$this->_pagination->setup($options);
 
 		$this->_offset = (int) $this->_pagination->offset;
-		
+
 		return $this->_pagination;
 	}
 

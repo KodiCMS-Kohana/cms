@@ -4,9 +4,6 @@ $(function() {
 	$(':input').attr('disabled', 'disabled');
 });
 <?php endif; ?>
-
-var API_FORM_ACTION = '/datasource/hybrid-document.<?php if($document->loaded()): ?>update<?php else: ?>create<?php endif; ?>'; 
-
 $(function() {
 	$('.upload-input').FileInput({
 		placeholder: __('Select file to upload')

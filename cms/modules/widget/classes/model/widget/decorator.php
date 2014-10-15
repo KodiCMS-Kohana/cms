@@ -189,19 +189,20 @@ abstract class Model_Widget_Decorator {
 	 * @param mixed $value
 	 * @return \Model_Widget_Decorator
 	 */
-	public function set( $name, $value )
+	public function set($name, $value)
 	{
 		$this->_data[$name] = $value;
+		
 		return $this;
 	}
-	
+
 	/**
 	 * 
 	 * @param string $name
 	 * @param mixed $value
 	 * @return \Model_Widget_Decorator
 	 */
-	public function bind( $name, & $value )
+	public function bind($name, & $value)
 	{
 		$this->_data[$name] = & $value;
 		return $this;
@@ -214,14 +215,14 @@ abstract class Model_Widget_Decorator {
 	 * @param mixed $default
 	 * @return mided
 	 */
-	public function & get( $name, $default = NULL)
+	public function & get($name, $default = NULL)
 	{
 		$result = $default;
 		if (array_key_exists($name, $this->_data))
 		{
 			$result = $this->_data[$name];
 		}
-		
+
 		return $result;
 	}
 
@@ -230,21 +231,21 @@ abstract class Model_Widget_Decorator {
 	 * @param string $name
 	 * @param mixed $value
 	 */
-	public function __set( $name, $value )
+	public function __set($name, $value)
 	{
 		$this->set($name, $value);
 	}
-	
+
 	/**
 	 * 
 	 * @param string $name
 	 * @return mixed
 	 */
-	public function & __get( $name )
+	public function & __get($name)
 	{
-		return $this->get( $name );
+		return $this->get($name);
 	}
-	
+
 	/**
 	 * 
 	 * @return boolean
@@ -521,11 +522,11 @@ abstract class Model_Widget_Decorator {
 
 		foreach($data as $key => $value)
 		{
-			if( method_exists( $this, 'set_' . $key ))
+			if (method_exists($this, 'set_' . $key))
 			{
-				$this->{$key} = $this->{'set_'.$key}($value);
+				$this->{$key} = $this->{'set_' . $key}($value);
 			}
-			else 
+			else
 			{
 				$this->{$key} = $value;
 			}

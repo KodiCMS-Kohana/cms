@@ -38,7 +38,7 @@ class URL extends Kohana_URL {
 
 		if (IS_INSTALLED AND ! empty($uri) AND $uri != '/' AND ! URL::has_suffix($uri))
 		{
-			$uri .= URL_SUFFIX . $hash;
+			$uri = rtrim($uri, '/') . URL_SUFFIX . $hash;
 		}
 
 		return parent::site($uri, $protocol, $index);
