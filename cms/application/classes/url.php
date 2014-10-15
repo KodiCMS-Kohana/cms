@@ -28,18 +28,27 @@ class URL extends Kohana_URL {
 	 */
 	public static function frontend($uri = '', $protocol = NULL, $index = TRUE)
 	{
-		$hash = '';
+		$uri_components = parse_url($uri);
+		
+		$hash = $query_string = '';
 		if (strpos($uri, '#') !== FALSE)
 		{
 			list($uri, $hash) = preg_split('/#/', $uri);
-
 			$hash = '#' . $hash;
+		}
+		
+		if (strpos($uri, '?') !== FALSE)
+		{
+			list($uri, $query_string) = preg_split('/\?/', $uri);
+			$query_string = '?' . $query_string;
 		}
 
 		if (IS_INSTALLED AND ! empty($uri) AND $uri != '/' AND ! URL::has_suffix($uri))
 		{
-			$uri = rtrim($uri, '/') . URL_SUFFIX . $hash;
+			$uri = rtrim($uri, '/') . URL_SUFFIX . $query_string . $hash;
 		}
+		
+		unset($hash, $query_string);
 
 		return parent::site($uri, $protocol, $index);
 	}
