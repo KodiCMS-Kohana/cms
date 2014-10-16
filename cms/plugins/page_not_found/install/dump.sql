@@ -1,2 +1,0 @@
-INSERT INTO `pages` (`title`, `slug`, `breadcrumb`, `meta_title`, `meta_keywords`, `meta_description`, `robots`, `parent_id`, `layout_file`, `behavior_id`, `status_id`, `created_on`, `published_on`, `updated_on`, `created_by_id`, `updated_by_id`, `position`, `needs_login`) VALUES
-('Page not found', 'page-not-found', 'Page not found', 'Page not found', '', '', 'NOINDEX, NOFOLLOW', 1, '', 'page_not_found', 101, CURDATE(), CURDATE(), CURDATE(), 1, 1, 100, 2);
