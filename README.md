@@ -58,7 +58,7 @@ KodiCMS основана на базе [Kohana framework](http://kohanaframework
 
 2. Разместите файлы на вашем web-сервере.
 
-> При установке сайта не в корневую директорию, необходимо в двух местах внести изменеия.
+> При установке сайта не в корневую директорию, необходимо в двух местах внести изменения.
 > В файлах:
 > * `.htaccess => RewriteBase /subfolder/`
 > * `cms\app\bootstrap.php` => `Kohana::init( array( 'base_url' => '/subfolder/', ... ) );`
