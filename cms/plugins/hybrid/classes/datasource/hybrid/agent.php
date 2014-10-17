@@ -111,10 +111,9 @@ class DataSource_Hybrid_Agent {
 	 * @param integer|string $id
 	 * @param array $fields
 	 * @param string $id_field
-	 * @param integer $recurse
 	 * @return null|array
 	 */
-	public function get_document($id, array $fields = NULL, $id_field = NULL, $recurse = 3)
+	public function get_document($id, array $fields = NULL, $id_field = NULL)
 	{
 		$query = $this->get_query_props($fields);
 
@@ -382,10 +381,18 @@ class DataSource_Hybrid_Agent {
 
 		foreach ($filters as $pos => $data)
 		{
+			$params = array();
+
+			$field = $data['field'];
+	
+			if(!empty($data['params']))
+			{
+				parse_str($data['params'], $params);
+			}
+			
 			$condition = $data['condition'];
 			$type = $data['type'];
 			$invert = !empty($data['invert']);
-			$field = $data['field'];
 
 			$value = Arr::get($data, 'value');
 
@@ -521,8 +528,10 @@ class DataSource_Hybrid_Agent {
 				}
 			}
 
-			$field->filter_condition($result, $condition, $value);
+			$field->filter_condition($result, $condition, $value, $params);
 		}
+		
+		unset($field_names, $ds_fields, $sys_fields, $filters);
 
 		return $result;
 	}

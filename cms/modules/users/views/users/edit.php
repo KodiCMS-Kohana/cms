@@ -1,7 +1,3 @@
-<script type="text/javascript">
-	var USER_ID = <?php echo (int) $user->id; ?>;
-</script>
-	
 <?php echo Form::open(Route::get('backend')->uri(array('controller' => 'users', 'action' => $action, 'id' => $user->id)), array(
 	'class' => array(Bootstrap_Form::HORIZONTAL, 'panel tabbable')
 )); ?>

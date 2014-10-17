@@ -59,9 +59,8 @@ class Controller_Snippet extends Controller_System_Backend {
 	private function _add()
 	{
 		$data = $this->request->post();
-		
-		$data['name'] = URL::title(Text::translit($data['name']), '_');
-		$snippet = new Model_File_Snippet( $data['name'] );
+
+		$snippet = new Model_File_Snippet($data['name']);
 		$snippet->content = $data['content'];
 		
 		Flash::set('post_data', $snippet);
@@ -138,9 +137,8 @@ class Controller_Snippet extends Controller_System_Backend {
 	{
 		$data = $this->request->post();
 
-		$snippet = new Model_File_Snippet( $snippet_name );
-		
-		$data['name'] = URL::title(Text::translit($data['name']), '_');
+		$snippet = new Model_File_Snippet($snippet_name);
+
 		$snippet->name = $data['name'];
 		$snippet->content = $data['content'];
 		

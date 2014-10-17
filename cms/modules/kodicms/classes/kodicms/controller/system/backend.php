@@ -50,33 +50,39 @@ class KodiCMS_Controller_System_Backend extends Controller_System_Template
 			$this->template->breadcrumbs = Config::get('site', 'breadcrumbs') == Config::YES ? $this->breadcrumbs : NULL;
 			$this->template->footer = View::factory('system/blocks/footer');
 		}
-		
+
 		$this->template->theme = 'theme-' . Model_User_Meta::get('admin_theme', Config::get('global', 'default_theme'));
-
 		$this->template->bind_global('navigation', $navigation);
-
+		Observer::notify('controller_before_' . $this->get_path());
+	}
+	
+	public function init_media()
+	{
+		parent::init_media();
+		
 		Assets::package(array(
 			'jquery', 'bootstrap', 'notify', 'select2', 'dropzone', 'fancybox', 'datepicker', 'underscore', 'core'
 		));
 
-		if (file_exists(CMSPATH . FileSystem::normalize_path('media/js/i18n/' . I18n::lang() . '.js')))
+		foreach (array('.js', '-message.js') as $file_name)
 		{
-			Assets::js('i18n', ADMIN_RESOURCES . 'js/i18n/' . I18n::lang() . '.js', 'global');
+			if (file_exists(CMSPATH . FileSystem::normalize_path('media/js/i18n/' . I18n::lang() . $file_name)))
+			{
+				Assets::js('i18n', ADMIN_RESOURCES . 'js/i18n/' . I18n::lang() . $file_name, 'global', FALSE, 0);
+			}
 		}
 
-		if (file_exists(CMSPATH . FileSystem::normalize_path('media/js/i18n/' . I18n::lang() . '-message.js')))
+		$file = $this->request->controller();
+		if($this->request->directory() !== NULL)
 		{
-			Assets::js('i18n', ADMIN_RESOURCES . 'js/i18n/' . I18n::lang() . '-message.js', 'global');
+			$file = $this->request->directory() . '/' . $file;
 		}
-
-		$file = strtolower($this->request->controller());
+		$file = strtolower($file);
 		if (Kohana::find_file('media', FileSystem::normalize_path('js/controller/' . $file), 'js'))
 		{
-			Assets::js('controller.' . $file, ADMIN_RESOURCES . 'js/controller/' . $file . '.js', 'global');
+			Assets::js('controller.' . $file, ADMIN_RESOURCES . 'js/controller/' . $file . '.js', 'global', FALSE, 999);
 		}
 
 		Assets::group('global', 'events', '<script type="text/javascript">' . Assets::merge_files('js/events', 'js') . '</script>', 'global');
-
-		Observer::notify('controller_before_' . $this->get_path());
 	}
 }

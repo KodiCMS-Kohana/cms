@@ -20,13 +20,32 @@ abstract class Behavior_Abstract {
 
 	/**
 	 *
+	 * @var array
+	 */
+	protected $_config = array();
+	
+	/**
+	 *
 	 * @var array 
 	 */
 	protected $_settings = NULL;
 
-	public function __construct() 
+	/**
+	 * 
+	 * @param array $config
+	 */
+	public function __construct(array $config = array()) 
 	{
-		$this->_router = new Behavior_Route($this->routes());
+		$this->_config = $config;
+		
+		$routes = $this->routes();
+
+		if(isset($this->_config['routes']) AND is_array($this->_config['routes']))
+		{
+			$routes = $this->_config['routes'] + $routes;
+		}
+
+		$this->_router = new Behavior_Route($routes);
 	}
 
 	/**
@@ -54,7 +73,15 @@ abstract class Behavior_Abstract {
 	public function execute_uri($uri) 
 	{
 		$method = $this->_router->find($uri);
-		$this->{$method}();
+		
+		if(strpos($method, '::') !== FALSE)
+		{
+			Callback::invoke($method, array($this));
+		}
+		else
+		{
+			$this->{$method}();
+		}
 		
 		return $this;
 	}
@@ -93,6 +120,10 @@ abstract class Behavior_Abstract {
 		return $this->_settings;
 	}
 
+	public function stub()
+	{
+		
+	}
 	
 	abstract public function execute();
 }

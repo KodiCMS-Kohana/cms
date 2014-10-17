@@ -13,6 +13,8 @@ class Controller_Email_Templates extends Controller_System_Backend {
 
 		$this->breadcrumbs
 			->add(__('Email templates'), Route::get('email_controllers')->uri(array('controller' => 'templates')));
+
+		$this->template_js_params['EMAIL_HTML_TYPE'] = Model_Email_Template::TYPE_HTML;
 	}
 	
 	public function action_index()
@@ -53,8 +55,7 @@ class Controller_Email_Templates extends Controller_System_Backend {
 		
 		WYSIWYG::load_filters();
 		
-		$this->set_title(__('Add email template'));
-
+		$this->set_title(__('Add email template'));		
 		$this->template->content = View::factory( 'email/templates/edit', array(
 			'action' => 'add',
 			'template' => $template
@@ -138,6 +139,8 @@ class Controller_Email_Templates extends Controller_System_Backend {
 
 		$this->set_title(__('Edit email template'));
 
+		$this->template_js_params['EMAIL_TEMPLATE_ID'] = $template->id;
+		
 		$this->template->content = View::factory( 'email/templates/edit', array(
 			'action' => 'edit',
 			'template' => $template

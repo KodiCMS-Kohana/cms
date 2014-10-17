@@ -77,6 +77,9 @@
 							<?php echo Form::input('doc_filter[field][]', NULL, array(
 								'class' => 'form-control'
 							)); ?>
+							<?php echo Form::input('doc_filter[params][]', NULL, array(
+								'class' => 'form-control', 'size' => 50, 'placeholder' => __('Field params as Query string')
+							)); ?>
 						</td>
 					</tr>
 					<tr>

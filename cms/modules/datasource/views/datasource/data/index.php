@@ -1,7 +1,3 @@
-<script type="text/javascript">
-var DS_ID = <?php echo $datasource->id(); ?>;
-var DS_TYPE = '<?php echo $datasource->type(); ?>';
-</script>
 <div class="mail-container-header">
 	<?php echo $datasource->name; ?>
 	

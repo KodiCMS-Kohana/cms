@@ -90,7 +90,7 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Decorator_Handler {
 	 */
 	public function set_values(array $data) 
 	{
-		if (empty($data['ds_id']) OR ! $this->datasource_exists($data['ds_id']))
+		if (empty($data['ds_id']) OR ! Datasource_Data_Manager::exists($data['ds_id']))
 		{
 			$data['ds_id'] = 0;
 		}
@@ -155,32 +155,6 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Decorator_Handler {
 		}
 
 		return $this;
-	}
-	
-	/**
-	 * 
-	 * @param integer $ds_id
-	 * @return boolean
-	 */
-	public function datasource_exists($ds_id)
-	{
-		$ds_id = (int) $ds_id;
-
-		if ($ds_id > 0)
-		{
-			$ds = Datasource_Data_Manager::load($ds_id);
-
-			if ($ds === NULL OR ! $ds->loaded())
-			{
-				return FALSE;
-			}
-		}
-		else
-		{
-			return FALSE;
-		}
-
-		return TRUE;
 	}
 	
 	/**
@@ -287,7 +261,7 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Decorator_Handler {
 	
 	public function fetch_backend_content()
 	{
-		if($this->ds_id > 0 AND ! $this->datasource_exists($this->ds_id))
+		if($this->ds_id > 0 AND ! Datasource_Data_Manager::exists($data['ds_id']))
 		{
 			$this->ds_id = 0;
 			Widget_Manager::update($this);
@@ -353,8 +327,6 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Decorator_Handler {
 
 	protected function _get_field_value($field)
 	{
-		$value = NULL;
-
 		$source = array();
 
 		$src = $this->data_source % 10;

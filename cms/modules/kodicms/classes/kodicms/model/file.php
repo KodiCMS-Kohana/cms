@@ -50,7 +50,7 @@ class KodiCMS_Model_File {
 	 */
 	public function __construct($name = '')
 	{
-		$this->set_name($name);
+		$this->_name = $name;
 
 		if ($file = $this->find_file())
 		{
@@ -159,6 +159,9 @@ class KodiCMS_Model_File {
 		{
 			$this->_changed['name'] = $this->_name;
 		}
+
+		$name = preg_replace('/[^a-zA-Z0-9-.]/', '-', Text::translit($name));
+		$name = URL::title($name, '-');
 
 		$this->_name = $name;
 		return $this;

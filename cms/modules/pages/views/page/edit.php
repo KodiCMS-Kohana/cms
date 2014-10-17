@@ -1,13 +1,3 @@
-<script type="text/javascript">
-	var PAGE_ID = <?php echo (int) $page->id; ?>;
-	var PAGE_OBJECT = <?php echo json_encode($page->as_array()); ?>;
-	<?php if($action == 'add'): ?>
-	$(function() {
-		$('.panel-toggler').click();
-	})
-	<?php endif; ?>
-</script>
-
 <div id="pageEdit">
 	<?php echo Form::open(Route::get('backend')->uri(array('controller' => 'page', 'action' => $action, 'id' => $action == 'add' ? $parent_id : $page->id)), array(
 		'method' => Request::POST

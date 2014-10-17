@@ -133,6 +133,8 @@ class KodiCMS_Controller_Users extends Controller_System_Backend {
 		$this->breadcrumbs
 			->add($this->template->title);
 		
+		$this->template_js_params['USER_ID'] = $user->id;
+		
 		$this->template->content = View::factory('users/profile', array(
 			'user' => $user,
 			'permissions' => $user->permissions_list()
@@ -168,6 +170,8 @@ class KodiCMS_Controller_Users extends Controller_System_Backend {
 				'id' => $user->id
 			)))
 			->add($this->template->title);
+
+		$this->template_js_params['USER_ID'] = $user->id;
 
 		$this->template->content = View::factory('users/edit', array(
 			'action' => 'edit',

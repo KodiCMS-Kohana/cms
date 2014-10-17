@@ -30,7 +30,7 @@ class Controller_System_Datasource extends Controller_System_Backend
 	 * @return DataSource_Section
 	 * @throws HTTP_Exception_404
 	 */
-	public function section( $id = NULL )
+	public function section($id = NULL)
 	{
 		if( $this->_section instanceof DataSource_Section) return $this->_section;
 		

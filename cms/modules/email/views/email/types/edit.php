@@ -1,13 +1,7 @@
-<script type="text/javascript">
-	var EMAIL_TYPE_ID = <?php echo (int) $type->id; ?>;
-</script>
-
 <?php echo Form::open(Route::get('email_controllers')->uri(array('controller' => 'types', 'action' => $action, 'id' => $type->id)), array(
 	'class' => array(Bootstrap_Form::HORIZONTAL, 'panel')
 )); ?>
-
 	<?php echo Form::hidden('token', Security::token()); ?>
-
 	<div class="panel-heading">
 		<span class="panel-title"><?php echo __('General information'); ?></span>
 	</div>

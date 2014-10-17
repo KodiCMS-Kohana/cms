@@ -15,5 +15,4 @@ class Controller_Hybrid_Document extends Controller_System_Datasource_Document
 	{
 		return parent::_load_session_data($doc)->convert_values();
 	}
-	
 }

@@ -24,7 +24,7 @@ if(class_exists('Widget_Manager'))
 				'cache_tags' => 'pages',
 				'page_id' => 1,
 				'exclude' => array (
-					6, 4, 2
+					6, 4
 				)
 			),
 			'blocks' => array (
@@ -36,7 +36,6 @@ if(class_exists('Widget_Manager'))
 				7 => 'header',
 				9 => 'header',
 				10 => 'header',
-				2 => 'header',
 				11 => 'header'
 			)
 		),
@@ -56,7 +55,6 @@ if(class_exists('Widget_Manager'))
 				7 => 'bradcrumbs',
 				9 => 'bradcrumbs',
 				10 => 'bradcrumbs',
-				2 => 'bradcrumbs',
 				11 => 'bradcrumbs'
 			)
 		),
@@ -75,7 +73,6 @@ if(class_exists('Widget_Manager'))
 				7 => 'footer',
 				9 => 'footer',
 				10 => 'footer',
-				2 => 'footer',
 				11 => 'footer'
 			)
 		),
@@ -94,7 +91,6 @@ if(class_exists('Widget_Manager'))
 				7 => 'sidebar',
 				9 => 'sidebar',
 				10 => 'sidebar',
-				2 => 'sidebar',
 				11 => 'sidebar'
 			)
 		),
@@ -137,8 +133,7 @@ if(class_exists('Widget_Manager'))
 				5 => 'recent',
 				7 => 'recent',
 				9 => 'recent',
-				10 => 'recent',
-				2 => 'recent'
+				10 => 'recent'
 			)
 		),
 		array(

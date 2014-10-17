@@ -139,18 +139,16 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 	 * Сохранение раздела
 	 * 
 	 * @param array $values
+	 * @throws Validation_Exception
 	 * @return boolean
 	 */
-	public function update(array $values = NULL)
-	{
-		if( ! $this->loaded())
-		{
-			return FALSE;
-		}
+	public function values(array $values = array())
+	{		
+		parent::values($values);
 		
-		$this->template = empty($values['template']) ? NULL : $values['template'];
+		$this->template = Arr::get($values, 'template');
 		
-		$this->search_intro_field = empty($values['search_intro_field']) ? NULL : $values['search_intro_field'];
+		$this->search_intro_field = Arr::get($values, 'search_intro_field');
 		unset($values['search_intro_field']);
 		
 		$this->search_index_fields = (array) Arr::get($values, 'search_index_fields', array());
@@ -158,10 +156,6 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 		
 		$this->search_index_doc_id_fields = (array) Arr::get($values, 'search_index_doc_id_fields', array());
 		unset($values['search_index_doc_id_fields']);
-
-		$status = parent::update($values);
-		
-		return $status;
 	}
 
 	/**

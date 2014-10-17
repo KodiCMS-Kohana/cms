@@ -11,6 +11,8 @@ abstract class Model_Widget_Decorator_Handler extends Model_Widget_Decorator {
 	protected $_use_caching = FALSE;
 	protected $_is_handler = TRUE;
 	
+	protected $_as_json = FALSE;
+	
 	protected $_response = array(
 		'status' => FALSE,
 		'errors' => array(),
@@ -39,7 +41,7 @@ abstract class Model_Widget_Decorator_Handler extends Model_Widget_Decorator {
 	
 	public function send_response()
 	{
-		if(Request::initial()->is_ajax())
+		if($this->is_ajax())
 		{
 			$this->ajax_response();
 		}
@@ -59,5 +61,10 @@ abstract class Model_Widget_Decorator_Handler extends Model_Widget_Decorator {
 	{
 		Request::initial()->headers('Content-type', 'application/json');
 		$this->_ctx->response()->body(json_encode($this->_response));
+	}
+	
+	public function is_ajax()
+	{
+		return (Request::initial()->is_ajax() OR $this->_as_json);
 	}
 }

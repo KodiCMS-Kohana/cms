@@ -23,7 +23,8 @@ class KodiCMS_Controller_API_Layout extends Controller_System_Api {
 				'Layout not found!');
 		}
 
-		$layout->name = $this->param('name', NULL);
+		$layout->name = $this->param('name');
+
 		$layout->content = $this->param('content', NULL);
 
 		$status = $layout->save();
@@ -49,7 +50,7 @@ class KodiCMS_Controller_API_Layout extends Controller_System_Api {
 	
 	public function rest_put()
 	{
-		$layout = new Model_File_Layout( $this->param('name', NULL) );
+		$layout = new Model_File_Layout($this->param('name', NULL, TRUE));
 		$layout->content = $this->param('content', NULL);
 		
 		$status = $layout->save();

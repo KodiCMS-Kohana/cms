@@ -2,6 +2,8 @@
 
 abstract class DataSource_Hybrid_Field_Source extends DataSource_Hybrid_Field {
 
+	protected $_section = NULL;
+
 	public function __construct( array $data = NULL )
 	{
 		parent::__construct( $data );
@@ -11,5 +13,15 @@ abstract class DataSource_Hybrid_Field_Source extends DataSource_Hybrid_Field {
 	public function onCreateDocument( DataSource_Hybrid_Document $doc) 
 	{
 		$this->onUpdateDocument($doc, $doc);
+	}
+	
+	public function section() 
+	{
+		if($this->_section === NULL)
+		{
+			$this->_section = Datasource_Data_Manager::load($this->from_ds);
+		}
+
+		return $this->_section;
 	}
 }
