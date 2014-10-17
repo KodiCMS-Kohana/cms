@@ -181,7 +181,7 @@ class DataSource_Hybrid_Field_Source_Tags extends DataSource_Hybrid_Field_Source
 		return implode(' ', $tags);
 	}
 
-	public function filter_condition(Database_Query $query, $condition, $value)
+	public function filter_condition(Database_Query $query, $condition, $value, array $params = NULL)
 	{
 		$query
 			->join(array(DataSource_Hybrid_Field_Source_Tags::TABLE_NAME, $this->id.'_f_ht'), 'inner')

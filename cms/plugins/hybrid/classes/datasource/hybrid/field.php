@@ -712,7 +712,7 @@ abstract class DataSource_Hybrid_Field {
 	 * @param string $value
 	 * @return type
 	 */
-	public function filter_condition(Database_Query $query, $condition, $value)
+	public function filter_condition(Database_Query $query, $condition, $value, array $params = NULL)
 	{
 		$query->where($this->name, $condition, $value);
 	}
