@@ -655,28 +655,32 @@ class KodiCMS_Model_Page_Front {
 	/**
 	 * 
 	 * @param string $uri
+	 * @param boolean $include_hidden
+	 * @param Model_Page_Front $parent
 	 * @return \Model_Page_Front
 	 */
-	public static function find($uri, $include_hidden = TRUE)
+	public static function find($uri, $include_hidden = TRUE, Model_Page_Front $parent = NULL)
 	{
 		$uri = trim($uri, '/');
 
-		// adding the home SYSPATH
-		$urls = array_merge(array(''), preg_split('/\//', $uri, -1, PREG_SPLIT_NO_EMPTY));
+		$urls = preg_split('/\//', $uri, -1, PREG_SPLIT_NO_EMPTY);
+		
+		if($parent === NULL)
+		{
+			$urls =  array_merge(array(''), $urls);
+		}
+
 		$url = '';
 
 		$page = new stdClass;
 		$page->id = 0;
 
-		$parent = NULL;
-
 		foreach ($urls as $page_slug)
 		{
 			$url = ltrim($url . '/' . $page_slug, '/');
-
+			
 			if ($page = self::findBySlug($page_slug, $parent, $include_hidden))
 			{
-				// check for behavior
 				if (!empty($page->behavior_id))
 				{
 					$behavior = Behavior::load($page->behavior_id, $page, $url, $uri);
@@ -705,7 +709,7 @@ class KodiCMS_Model_Page_Front {
 	 * @param string $value
 	 * @param Model_Page_Front $parent
 	 * @param boolean $include_hidden
-	 * @return boolean|\page_class
+	 * @return boolean|\Model_Page_Front
 	 */
 	public static function findByField($field, $value, $parent = NULL, $include_hidden = TRUE)
 	{
@@ -769,6 +773,7 @@ class KodiCMS_Model_Page_Front {
 	 * 
 	 * @param string $slug
 	 * @param Model_Page_Front $parent
+	 * @param boolean $include_hidden
 	 * @return boolean|\Model_Page_Front
 	 */
 	public static function findBySlug($slug, $parent = NULL, $include_hidden = TRUE)

@@ -26,7 +26,7 @@ class Behavior_HybridDocs extends Behavior_Abstract
 		$item_page_id = $this->settings()->item_page_id;
 
 		// Если не найдена внутрення страница по SLUG
-		if (($this->_page = Model_Page_Front::findBySlug($slug, $this->page())) === FALSE)
+		if (($this->_page = Model_Page_Front::find($slug, FALSE, $this->page())) === FALSE)
 		{
 			// Производим поиск страницы которая укзана в настройках типа страницы
 			if (!empty($item_page_id))
