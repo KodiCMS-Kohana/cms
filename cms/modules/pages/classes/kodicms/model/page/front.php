@@ -663,7 +663,13 @@ class KodiCMS_Model_Page_Front {
 	{
 		$uri = trim($uri, '/');
 
-		$urls = array_merge(array(''), preg_split('/\//', $uri, -1, PREG_SPLIT_NO_EMPTY));
+		$urls = preg_split('/\//', $uri, -1, PREG_SPLIT_NO_EMPTY);
+		
+		if($parent === NULL)
+		{
+			$urls =  array_merge(array(''), $urls);
+		}
+
 		$url = '';
 
 		$page = new stdClass;
@@ -672,7 +678,7 @@ class KodiCMS_Model_Page_Front {
 		foreach ($urls as $page_slug)
 		{
 			$url = ltrim($url . '/' . $page_slug, '/');
-
+			
 			if ($page = self::findBySlug($page_slug, $parent, $include_hidden))
 			{
 				if (!empty($page->behavior_id))
