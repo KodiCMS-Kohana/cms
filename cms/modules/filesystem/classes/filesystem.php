@@ -11,9 +11,25 @@ class FileSystem {
 	 * @param string $path
 	 * @return string
 	 */
-	public static function normalize_path( $path )
+	public static function normalize_path($path)
 	{
 		return str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $path);
+	}
+
+	/**
+	 * 
+	 * @param string $name
+	 * @return string
+	 */
+	public static function filter_name($name)
+	{
+		$name = preg_replace('/[^a-zA-Z0-9\-\_]/', '-', strtolower(Text::translit($name)));
+		foreach (array('-', '_', '\.') as $separator)
+		{
+			$name = preg_replace('/' . $separator . '+/', trim($separator, '\\'), $name);
+		}
+
+		return $name;
 	}
 
 	/**
