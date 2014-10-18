@@ -48,7 +48,7 @@
 				<td class="last_login hidden-xs"><?php echo Date::format($user->last_login); ?></td>
 				<td class="actions text-right">
 					<?php 
-					if ($user->id > 1 AND ACL::check( 'users.delete'))
+					if ($user->id > 1 AND ACL::check('users.delete'))
 					{
 						echo UI::button(NULL, array(
 							'href' => Route::get('backend')->uri(array(
@@ -57,7 +57,7 @@
 								'id' => $user->id
 							)), 
 							'icon' => UI::icon('times fa-inverse'),
-							'class' => 'btn-xs brn-danger btn-confirm'
+							'class' => 'btn-xs btn-danger btn-confirm'
 						));
 					} ?>
 				</td>
