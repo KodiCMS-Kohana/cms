@@ -160,9 +160,6 @@ class KodiCMS_Model_File {
 			$this->_changed['name'] = $this->_name;
 		}
 
-		$name = preg_replace('/[^a-zA-Z0-9-.]/', '-', Text::translit($name));
-		$name = URL::title($name, '-');
-
 		$this->_name = $name;
 		return $this;
 	}
@@ -328,6 +325,8 @@ class KodiCMS_Model_File {
 		{
 			throw new Validation_Exception($validation);
 		}
+		
+		$this->name = FileSystem::filter_name($this->name);
 
 		// Если изменено название файла в редакторе, переименовываем файл
 		if (!empty($this->_changed['name']) AND $this->name != $this->_changed['name'])
