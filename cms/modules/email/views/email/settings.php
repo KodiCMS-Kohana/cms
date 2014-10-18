@@ -11,6 +11,17 @@ $(function() {
 	
 	change_email_driver($('#email_driver').val());
 	change_email_port($('#settingEncryption').val());
+
+	$('body').on('click', '#send-test-email', function() {
+		Api.post('email.send', {
+			subject: '<?php echo __('Test email'); ?>',
+			to: '<?php echo Config::get('email', 'default'); ?>',
+			message: '<?php echo __('Test email'); ?>',
+		}, function(response) {
+			cms.messages.show('<?php echo __('Test email'); ?> ' + (response.send ? '<?php echo __('sended'); ?>' : '<?php echo __('not send'); ?>'), response.send ? 'success' : 'error');
+		});
+		return false;
+	});
 });
 
 function change_email_port($encryption) {
@@ -47,8 +58,13 @@ function change_email_driver(driver) {
 	<div class="well">
 		<div class="form-group">
 			<?php echo Form::label('setting_driver', __('Email driver'), array('class' => 'control-label col-md-3')); ?>
-			<div class="col-md-9">
+			<div class="col-md-6">
 				<?php echo Form::select('setting[email][driver]', $drivers, Config::get('email', 'driver'), array('id' => 'email_driver')); ?>
+			</div>
+			<div class="col-md-3 input-group-btn">
+				<?php echo HTML::anchor('#', __('Send test email'), array(
+					'class' => 'btn btn-primary', 'id' => 'send-test-email', 'data-icon' => 'envelope'
+				)); ?>
 			</div>
 		</div>
 
