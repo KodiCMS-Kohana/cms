@@ -12,11 +12,7 @@
 		<base href="<?php echo ADMIN_RESOURCES; ?>" />
 		<link href="<?php echo ADMIN_RESOURCES; ?>favicon.ico" rel="favourites icon" />
 
-		<script type="text/javascript">
-		<?php echo View::factory('system/blocks/jsvars'); ?>
-		<?php echo $messages; ?>
-		</script>
-
+		<?php echo Assets::group('global', 'js_params'); ?>
 		<?php Observer::notify( 'layout_backend_head_before' ); ?>
 		<?php echo Assets::css(); ?>
 		<?php echo Assets::js(); ?>
