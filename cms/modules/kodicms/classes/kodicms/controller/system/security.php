@@ -18,18 +18,34 @@ class KodiCMS_Controller_System_Security extends Controller_System_Controller
 	 * @var array 
 	 */
 	public $allowed_actions = array();
-
-
+	
+	/**
+	 *
+	 * @var array 
+	 */
+	public $public_actions = array();
+	
 	public function before()
 	{
 		parent::before();
 
 		if (
 			$this->auth_required === TRUE
-		AND 
+		AND
+			! Auth::is_logged_in()
+		AND
+			! in_array($this->request->action(), $this->public_actions)
+		)
+		{
+			$this->_deny_access();
+		}
+		
+		if(
+			$this->auth_required === TRUE
+		AND
 			! in_array($this->request->action(), $this->allowed_actions)
 		AND 
-			! ACL::check( $this->request )
+			! ACL::check($this->request)
 		)
 		{
 			$this->_deny_access();
@@ -41,7 +57,7 @@ class KodiCMS_Controller_System_Security extends Controller_System_Controller
 	 * @param string $message
 	 * @throws HTTP_Exception
 	 */
-	protected function _deny_access( $message = NULL )
+	protected function _deny_access($message = NULL)
 	{
 		if (Auth::is_logged_in() OR $this->request->is_ajax())
 		{
