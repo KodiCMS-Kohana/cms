@@ -3,7 +3,7 @@
 	<ul class="navigation">
 		<?php foreach ($navigation->get_pages() as $item): ?>
 		<li <?php if($item->is_active()): ?>class="active"<?php endif; ?>>
-			<a href="/<?php echo $item->url(); ?>">
+			<a href="<?php echo $item->url(); ?>">
 				<?php if($item->icon): ?><?php echo UI::icon($item->icon . ' menu-icon'); ?> <?php endif; ?>
 				<span class="mm-text"><?php echo $item->name(); ?></span>
 			</a>
@@ -20,7 +20,7 @@
 			<ul>
 				<?php foreach ($section as $item): ?>
 				<li <?php if($item->is_active()): ?>class="active"<?php endif; ?>>
-					<a href="/<?php echo $item->url(); ?>">
+					<a href="<?php echo $item->url(); ?>">
 						<?php if($item->icon): ?><?php echo UI::icon($item->icon . ' menu-icon'); ?> <?php endif; ?>
 						<span class="mm-text"><?php echo $item->name(); ?></span>
 					</a>
@@ -38,7 +38,7 @@
 					<ul>
 						<?php foreach ($sub_section as $sub_item): ?>
 						<li <?php if($sub_item->is_active()): ?>class="active"<?php endif; ?>>
-							<a href="/<?php echo $sub_item->url(); ?>">
+							<a href="<?php echo $sub_item->url(); ?>">
 								<?php if($sub_item->icon): ?><?php echo UI::icon($sub_item->icon . ' menu-icon'); ?> <?php endif; ?>
 								<span class="mm-text"><?php echo $sub_item->name(); ?></span>
 							</a>

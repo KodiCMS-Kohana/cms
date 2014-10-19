@@ -22,8 +22,13 @@ catch (Exception $e)
 
 Database::$default = 'install';
 
+
 Route::set('install', 'install(/<action>(/<id>))')
 	->defaults(array(
 		'controller' => 'install',
 		'action' => 'error',
 	));
+
+Assets_Package::add('install')
+	->js(NULL, ADMIN_RESOURCES . 'js/install.js', 'global')
+	->css(NULL, ADMIN_RESOURCES . 'css/install.css', 'global');
