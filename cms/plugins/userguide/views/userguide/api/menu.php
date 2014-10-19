@@ -3,7 +3,7 @@
 		<span class="panel-title"><?php echo __('Modules'); ?></span>
 	</div>
 	<div class="panel-body">
-		<ol class="menu">
+		<ol class="menu list-unstyled">
 			<?php foreach ($menu as $package => $categories): ksort($categories); ?>
 			<li><span><strong><?php echo $package ?></strong></span>
 				<ol>

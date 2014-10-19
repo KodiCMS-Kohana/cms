@@ -229,7 +229,7 @@ class Kohana_Kodoc_Markdown extends MarkdownExtra_Parser {
 			return $text;
 		}
 
-		return $this->hashBlock('<p class="note">'.$match[1].'</p>');
+		return $this->hashBlock('<p class="alert alert-warning alert-dark">'.$match[1].'</p>');
 	}
 	
 	protected function _add_to_toc($level, $name, $id)
