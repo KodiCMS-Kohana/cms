@@ -208,6 +208,8 @@ class Controller_Install extends Controller_System_Frontend
 	{
 		Observer::notify('after_install', $post);
 
+		Cache::clear_file();
+
 		if (PHP_SAPI == 'cli')
 		{
 			Minion_CLI::write('==============================================');
