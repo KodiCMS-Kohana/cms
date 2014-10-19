@@ -39,7 +39,7 @@ return array(
 	'New folder' => 'Новая папка',
 	'Folder name' => 'Название',
 	'Datasource Author' => 'Автор',
-	
+	'Datasource properties' => 'Настройки',
 	'Datasource :name' => 'Раздел :name',
 	'View section' => 'Просмотр раздела',
 	'Edit section' => 'Редактировать раздел',
