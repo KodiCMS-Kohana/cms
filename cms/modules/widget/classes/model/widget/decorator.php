@@ -177,9 +177,23 @@ abstract class Model_Widget_Decorator {
 	 * 
 	 * @return string
 	 */
-	public function type()
+	public function type($as_key = TRUE)
 	{
-		return $this->_type;
+		if($as_key === TRUE)
+		{
+			return $this->_type;
+		}
+		
+		$widget_types = Widget_Manager::map();
+		
+		$type = $this->_type;
+
+		foreach($widget_types as $group => $types)
+		{
+			if(isset($types[$type])) $type = $types[$type];
+		}
+		
+		return $type;
 	}
 
 	/**
