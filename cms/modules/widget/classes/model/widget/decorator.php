@@ -533,6 +533,11 @@ abstract class Model_Widget_Decorator {
 		{
 			$data['media'] = array();
 		}
+		
+		if(empty($data['media_packages']))
+		{
+			$data['media_packages'] = array();
+		}
 
 		foreach($data as $key => $value)
 		{
@@ -568,20 +573,18 @@ abstract class Model_Widget_Decorator {
 	 */
 	public function set_media($files)
 	{
-		foreach($files as $i => $link)
+		foreach ($files as $i => $link)
 		{
-			if( strpos($link, '.css') === FALSE AND strpos($link, '.js') === FALSE)
+			if (strpos($link, '.css') === FALSE AND strpos($link, '.js') === FALSE)
 			{
 				unset($files[$i]);
 			}
-			
-			if( ! Valid::url($link) )
+
+			if (!Valid::url($link))
 			{
 				$files[$i] = URL::site($link, TRUE);
 			}
 		}
-		
-		
 
 		return array_unique($files);
 	}
