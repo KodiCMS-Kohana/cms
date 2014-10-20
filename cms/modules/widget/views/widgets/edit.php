@@ -24,6 +24,15 @@
 				)); ?>
 			</div>
 		</div>
+		
+		<div class="form-group form-inline">
+			<label class="control-label col-md-3"><?php echo __('Type'); ?></label>
+			<div class="col-md-9">
+				<?php echo Form::input(NULL, $widget->type(FALSE), array(
+					'class' => 'form-control', 'disabled', 'size' => 50
+				)); ?>
+			</div>
+		</div>
 	</div>
 
 	<?php if($widget->use_template()): ?>

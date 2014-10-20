@@ -53,7 +53,7 @@ class KodiCMS_Meta {
 	 *		<meta name="description" content="" />
 	 *		<meta name="robots" content="" />
 	 *		<meta name="robots" content="" />
-	 *		<meta http-equiv="content-type" content="...; charset=utf-8" />
+	 *		<meta charset="utf-8">
 	 * 
 	 * Для переопеределения данных используйте
 	 * 
@@ -61,7 +61,7 @@ class KodiCMS_Meta {
 	 * 
 	 * @param Model_Page_Front $page
 	 */
-	public function __construct( Model_Page_Front $page = NULL )
+	public function __construct(Model_Page_Front $page = NULL)
 	{
 		if($page !== NULL)
 		{
@@ -76,7 +76,7 @@ class KodiCMS_Meta {
 	 * @param boolean $set_page_data Установка данных страницы
 	 * @return KodiCMS_Meta
 	 */
-	public function set_page( Model_Page_Front $page, $set_page_data = FALSE )
+	public function set_page(Model_Page_Front $page, $set_page_data = FALSE)
 	{
 		$this->_page = $page;
 		
@@ -87,8 +87,7 @@ class KodiCMS_Meta {
 				->add(array('name' => 'keywords', 'content' => HTML::chars($this->_page->meta_keywords())))
 				->add(array('name' => 'description', 'content' => HTML::chars($this->_page->meta_description())))
 				->add(array('name' => 'robots', 'content' => HTML::chars($this->_page->robots)))
-				->group('content-type', '<meta http-equiv="content-type" content=":content; charset=utf-8" />', array(':content' 
-					=> HTML::chars($this->_page->mime())));
+				->add(array('charset' => 'utf-8'), 'meta::charset');
 		}
 		
 		return $this;
@@ -134,7 +133,7 @@ class KodiCMS_Meta {
 	 * @param string $title
 	 * @return KodiCMS_Meta
 	 */
-	public function title( $title )
+	public function title($title)
 	{
 		return $this->group('title', '<title>:title</title>', array(':title'
 				=> HTML::chars($title)));
@@ -158,6 +157,17 @@ class KodiCMS_Meta {
 	}
 	
 	/**
+	 * 
+	 * @param string|NULL $handle
+	 * @return \KodiCMS_Meta
+	 */
+	public function remove_css($handle = NULL)
+	{
+		Assets::remove_css($handle);
+		return $this;
+	}
+	
+	/**
 	 * Установка файла JS
 	 * 
 	 *		Meta::factory($page)->js('bootstrap', PLUGINS_URL . 'test/public/js/bootstrap.min.js', 'jquery');
@@ -171,6 +181,17 @@ class KodiCMS_Meta {
 	public function js($handle, $src, $deps = NULL, $footer = FALSE)
 	{
 		Assets::js($handle, $src, $deps, $footer);
+		return $this;
+	}
+	
+	/**
+	 * 
+	 * @param string|NULL $handle
+	 * @return \KodiCMS_Meta
+	 */
+	public function remove_js($handle = NULL)
+	{
+		Assets::remove_js($handle);
 		return $this;
 	}
 	
@@ -203,7 +224,19 @@ class KodiCMS_Meta {
 	 */
 	public function group($handle, $content, $params = array(), $deps = NULL)
 	{
-		Assets::group('head', $handle, strtr($content, $params), $deps);
+		Assets::group('FRONTEND', $handle, strtr($content, $params), $deps);
+		return $this;
+	}
+	
+
+	/**
+	 * 
+	 * @param string|NULL $handle
+	 * @return \KodiCMS_Meta
+	 */
+	public function remove_group($handle = NULL)
+	{
+		Assets::remove_group('FRONTEND', $handle);
 		return $this;
 	}
 	
@@ -220,9 +253,9 @@ class KodiCMS_Meta {
 	 * @param string $deps
 	 * @return \KodiCMS_Meta
 	 */
-	public function package($name)
+	public function package($name, $footer = FALSE)
 	{
-		Assets::package($name);
+		Assets::package($name, $footer);
 		return $this;
 	}
 
@@ -238,14 +271,14 @@ class KodiCMS_Meta {
 	 * @param boolean $include_js Включить в вывод JavaScript
 	 * @return string
 	 */
-	public function render( $include_js = TRUE )
+	public function render($include_js = TRUE)
 	{
-		$html = Assets::group('head')
+		$html = Assets::group('FRONTEND')
 				. Assets::css();
 		
 		if($include_js !== FALSE)
 		{
-			$html .= Assets::js();
+			$html .= Assets::all_js();
 		}
 		
 		return $html;

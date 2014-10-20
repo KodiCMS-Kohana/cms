@@ -1,8 +1,10 @@
 <div id="main-navbar" class="navbar" role="navigation">
-	<button type="button" id="main-menu-toggle"><i class="navbar-icon fa fa-bars icon"></i><span class="hide-menu-text">HIDE MENU</span></button>
+	<button type="button" id="main-menu-toggle"><i class="navbar-icon fa fa-bars icon"></i>
+		<span class="hide-menu-text"><?php echo __('Hide menu'); ?></span>
+	</button>
 	<div class="navbar-inner">
 		<div class="navbar-header">
-			<?php echo HTML::anchor(ADMIN_DIR_NAME,'KodiCMS', array(
+			<?php echo HTML::anchor(ADMIN_DIR_NAME, 'KodiCMS', array(
 				'class' => 'navbar-brand'
 			)); ?>
 		</div>
@@ -20,6 +22,7 @@
 								'target' => 'blank', 'data-icon' => 'globe fa-lg text-info'
 							)); ?>
 						</li>
+						<?php if(Auth::is_logged_in()): ?>
 						<li class="dropdown user-menu">
 							<a href="#" class="dropdown-toggle user-menu" data-toggle="dropdown">
 								<?php echo Auth::get_record()->gravatar(25); ?>
@@ -50,6 +53,7 @@
 								</li>
 							</ul>
 						</li>
+						<?php endif; ?>
 					</ul>
 				</div>
 			</div>

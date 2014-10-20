@@ -10,6 +10,7 @@ return array(
 	'Hybrid Document' => 'Гибридный документ',
 	'Hybrid Document creator' => 'Обработчик создания ГД',
 	'Hybrid Document editor' => 'Редактор ГД',
+	'Hybrid Profile' => 'Профиль ГД',
 	'Add field' => 'Новое поле',
 	'Save and create another' => 'Сохранить и создать еще одно',
 	'Create field' => 'Создать',

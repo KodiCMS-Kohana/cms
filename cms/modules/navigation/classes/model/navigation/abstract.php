@@ -100,7 +100,7 @@ class Model_Navigation_Abstract {
 	 */
 	public function url()
 	{
-		return Arr::get($this->_params, 'url');
+		return URL::site(Arr::get($this->_params, 'url'));
 	}
 	
 	/**

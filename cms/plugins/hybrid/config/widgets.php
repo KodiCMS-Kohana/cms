@@ -7,5 +7,6 @@ return array(
 		'hybrid_creator' => __('Hybrid Document creator'),
 		'hybrid_tags' => __('Hybrid tags'),
 		'hybrid_editor' => __('Hybrid Document editor'),
+		'hybrid_profile' => __('Hybrid Profile')
 	)
 );

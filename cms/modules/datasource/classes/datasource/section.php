@@ -765,8 +765,7 @@ class Datasource_Section {
 			$vars['_created_by_id'],
 			$vars['_type'], 
 			$vars['name'],
-			$vars['description'],
-			$vars['_headline'], 
+			$vars['description'], 
 			$vars['_document_class_name'],
 			$vars['_ds_table'], 
 			$vars['_widget_types']

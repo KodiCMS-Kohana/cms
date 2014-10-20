@@ -347,7 +347,8 @@ class Plugin  {
 		{
 			$cache = Cache::instance();
 			$cache->delete('Database::cache('.self::CACHE_KEY . '::list)');
-			Kohana::cache('Kohana::find_file()', NULL, -1);
+			
+			register_shutdown_function(array('Cache', 'clear_file'));
 		}
 
 		return $this;

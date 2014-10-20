@@ -58,26 +58,35 @@ KodiCMS основана на базе [Kohana framework](http://kohanaframework
 
 2. Разместите файлы на вашем web-сервере.
 
-> При установке сайта не в корневую директорию, необходимо в двух местах внести изменения.
-> В файлах:
-> * `.htaccess => RewriteBase /subfolder/`
-> * `cms\app\bootstrap.php` => `Kohana::init( array( 'base_url' => '/subfolder/', ... ) );`
+	> При установке сайта не в корневую директорию, необходимо в двух местах внести изменения.
+	> В файлах:
+	> * `.htaccess => RewriteBase /subfolder/`
+	> * `cms\app\bootstrap.php` => `Kohana::init( array( 'base_url' => '/subfolder/', ... ) );`
 
-3. Перед установкой необходимо удалить файл config.php, если он имеется в корне сайта
+3. Перед установкой необходимо удалить, либо очистить содержимое файла config.php, если он имеется в корне сайта.
+	Также необходимо установить права на запись и чтение для следующих папок:
+	* `cms/application/logs`
+	* `cms/application/cache`
+	* `layouts`
+	* `snippets`
+
+	Через консоль можно сделать с помощью команды `chmod -R a+rwx ...`, например `chmod -R a+rwx cms/application/cache`
 
 4. Откройте главную страницу через браузер. Запустится процесс интсалляции системы.
 
-> Если возникла ошибка ErrorException [ 2 ]: date() [function.date]: It is not 
-> safe to rely on the system's timezone settings. You are required to use the 
-> date.timezone setting or the date_default_timezone_set() function.
-> ....
-> В `cms/app/bootstrap.php` есть строка `date_default_timezone_set( 'UTC' )`, 
-> необходимо ее разкомментировать.
-> [Доступные временные зоны](http://www.php.net/manual/timezones)
+	> **Если возникла ошибка ErrorException [ 2 ]: date() [function.date]: It is not 
+	> safe to rely on the system's timezone settings. You are required to use the 
+	> date.timezone setting or the date_default_timezone_set() function.**
+	> ....<br />
+	> В `cms/app/bootstrap.php` есть строка `date_default_timezone_set( 'UTC' )`, 
+	> необходимо ее разкомментировать.
+	> [Доступные временные зоны](http://www.php.net/manual/timezones)
+
+	>  **Если возникла ошибка Call to a member function load() on a non-object in cms/application/classes/config.php on line 16**<br />
+	>  Необходимо выполнить пункт 4.
 
 5. Заполните все необходимые поля и нажмите кнопку "Установить". 
-6. После установки системы вы окажетесь на странице авторизации, где будет 
-указан ваш логин и пароль для входа в систему.
+6. После установки системы вы окажетесь на странице авторизации, где будет указан ваш логин и пароль для входа в систему.
 
 
 ## Установка через Cli (Консоль)
@@ -145,37 +154,6 @@ KodiCMS основана на базе [Kohana framework](http://kohanaframework
 			deny all;
 		}
 	}
-
-
-### Пример файла .htaccess для Apache
-
-	# Set environment
-	SetEnv KOHANA_ENV production
-	# SetEnv KOHANA_ENV development
-	SetEnv KOHANA_BASE /
-	SetEnv BASE_URL http://www.example.com
-	
-	# Turn on URL rewriting
-	RewriteEngine On
-	
-	# Installation directory
-	RewriteBase /
-	
-	# Protect hidden files from being viewed
-	<Files .*>
-		Order Deny,Allow
-		Deny From All
-	</Files>
-	
-	# Protect application and system files from being viewed
-	RewriteRule ^(?:cms|layouts|public|snippets)\b.* index.php/$0 [L]
-	
-	# Allow any files or directories that exist to be displayed directly
-	RewriteCond %{REQUEST_FILENAME} !-f
-	RewriteCond %{REQUEST_FILENAME} !-d
-	
-	# Rewrite all other URLs to index.php/URL
-	RewriteRule .* index.php/$0 [PT]# Set environment
 
 
 ## Баг трекер

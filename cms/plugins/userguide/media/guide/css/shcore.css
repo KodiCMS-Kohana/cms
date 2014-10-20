@@ -79,10 +79,10 @@
 .syntaxhighlighter table td.code {
   width: 100% !important;
 }
-.syntaxhighlighter table td.code .container {
+.syntaxhighlighter table td.code .code-container {
   position: relative !important;
 }
-.syntaxhighlighter table td.code .container textarea {
+.syntaxhighlighter table td.code .code-container textarea {
   box-sizing: border-box !important;
   position: absolute !important;
   left: 0 !important;
@@ -102,7 +102,7 @@
 .syntaxhighlighter table td.code .line {
   padding: 0 1em !important;
 }
-.syntaxhighlighter.nogutter td.code .container textarea, .syntaxhighlighter.nogutter td.code .line {
+.syntaxhighlighter.nogutter td.code .code-container textarea, .syntaxhighlighter.nogutter td.code .line {
   padding-left: 0em !important;
 }
 .syntaxhighlighter.show {

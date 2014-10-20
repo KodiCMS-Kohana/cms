@@ -9,7 +9,7 @@ cms.addTranslation({
 
 $(function() {
 	$('#wizard').on('change', '#current-lang', function() {
-		window.location = '/install/index?lang=' + $(this).val();
+		window.location = '?lang=' + $(this).val();
 	})
 	
 	var password_generator_status = function() {

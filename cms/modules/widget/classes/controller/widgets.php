@@ -182,7 +182,7 @@ class Controller_Widgets extends Controller_System_Backend {
 		}
 	}
 	
-	public function action_edit( )
+	public function action_edit()
 	{
 		$id = $this->request->param('id');
 
@@ -196,6 +196,7 @@ class Controller_Widgets extends Controller_System_Backend {
 		
 		$this->template->title = $widget->name;
 		$this->breadcrumbs
+			->add($widget->type(FALSE))
 			->add($widget->name);
 
 		// check if trying to save

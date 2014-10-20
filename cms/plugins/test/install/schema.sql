@@ -1,4 +1,4 @@
-UPDATE  `__TABLE_PREFIX__pages` SET  `layout_file` = 'normal' WHERE `pages`.`id` = 1;
+UPDATE  `__TABLE_PREFIX__pages` SET  `layout_file` = 'normal' WHERE `id` = 1;
 
 INSERT INTO `__TABLE_PREFIX__pages` (`id`, `title`, `slug`, `breadcrumb`, `meta_title`, `meta_keywords`, `meta_description`, `parent_id`, `layout_file`, `behavior_id`, `status_id`, `created_on`, `published_on`, `updated_on`, `created_by_id`, `updated_by_id`, `position`, `needs_login`) VALUES
 (3, 'About us', 'about-us', 'About us', 'About us', '', '', 1, '', '', 100, '__DATE__', '__DATE__', '__DATE__', NULL, 1, 1, 2),
