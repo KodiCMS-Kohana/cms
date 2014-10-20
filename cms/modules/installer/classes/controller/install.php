@@ -46,7 +46,7 @@ class Controller_Install extends Controller_System_Frontend
 	public function action_index()
 	{
 		Assets::package(array('select2', 'validate', 'install', 'steps'));
-		
+
 		$this->template->title = __(':cms_name &rsaquo; installation', array(':cms_name' => CMS_NAME));
 
 		$data = array(
@@ -140,10 +140,12 @@ class Controller_Install extends Controller_System_Frontend
 				$this->_reset();
 			}
 
+			define('TABLE_PREFIX_TMP', Arr::get($post, 'db_table_prefix', ''));
+
 			$this->_import_shema($post);
 			$this->_import_dump($post);
 			$this->_install_modules($post);
-			
+
 			Observer::notify('install', $post);
 
 			$this->_create_site_config($post);
@@ -171,16 +173,16 @@ class Controller_Install extends Controller_System_Frontend
 	
 		try
 		{
-			if ( ! $this->_validation->check() )
+			if (!$this->_validation->check())
 			{
 				throw new Validation_Exception($this->_validation);
 			}
-		
+
 			$this->json['status'] = (bool) $this->_connect_to_db($post);
 		}
 		catch (Kohana_Exception $e)
 		{
-			if($e instanceof Validation_Exception)
+			if ($e instanceof Validation_Exception)
 			{
 				$this->json['message'] = $e->errors('validation');
 			}
@@ -188,7 +190,7 @@ class Controller_Install extends Controller_System_Frontend
 			{
 				$this->json['message'][] = $e->getMessage();
 			}
-			
+
 			$this->json['status'] = FALSE;
 		}
 	}
@@ -253,7 +255,7 @@ class Controller_Install extends Controller_System_Frontend
 	 * @return Database
 	 * @throws Validation_Exception
 	 */
-	protected function _connect_to_db( array $post )
+	protected function _connect_to_db(array $post)
 	{
 		$config = Kohana::$config->load('database');
 
@@ -341,12 +343,12 @@ class Controller_Install extends Controller_System_Frontend
 	 * @return Validation
 	 * @throws Validation_Exception
 	 */
-	protected function _valid( array $data )
+	protected function _valid(array $data)
 	{
 		$cache_types = $this->_config->get('cache_types', array());
 		$session_types = $this->_config->get('session_types', array());
-		
-		$validation = Validation::factory( $data )
+
+		$validation = Validation::factory($data)
 			->rule('db_server', 'not_empty')
 			->rule('db_user', 'not_empty')
 			->rule('db_name', 'not_empty')
@@ -392,26 +394,24 @@ class Controller_Install extends Controller_System_Frontend
 	 * @param array $post
 	 * @throws Installer_Exception
 	 */
-	protected function _import_shema( array $post )
-	{		
+	protected function _import_shema(array $post)
+	{
 		// Merge modules schema.sql
 		$schema_content = $this->_merge_module_files('schema.sql');
-
-		$schema_content = str_replace('__TABLE_PREFIX__', $post['db_table_prefix'], $schema_content);
 
 		if (!empty($schema_content))
 		{
 			$this->_insert_data($schema_content);
 		}
 	}
-	
+
 	/**
 	 * Импорт данных из файла `dump.sql`
 	 * 
 	 * @param array $post
 	 * @throws Installer_Exception
 	 */
-	protected function _import_dump( array $post )
+	protected function _import_dump(array $post)
 	{
 		// Merge modules dump.sql
 		$dump_content = $this->_merge_module_files('dump.sql');
@@ -419,7 +419,6 @@ class Controller_Install extends Controller_System_Frontend
 		$replace = array(
 			'__EMAIL__'				=> Arr::get($post, 'email'),
 			'__USERNAME__'			=> Arr::get($post, 'username'),
-			'__TABLE_PREFIX__'		=> $post['db_table_prefix'],
 			'__ADMIN_PASSWORD__'	=> Auth::instance()->hash($post['password_field']),
 			'__DATE__'				=> date('Y-m-d H:i:s'),
 			'__LANG__'				=> Model_User::DEFAULT_LOCALE
@@ -441,7 +440,7 @@ class Controller_Install extends Controller_System_Frontend
 	 * 
 	 * @param array $post
 	 */
-	protected function _create_site_config( array $post )
+	protected function _create_site_config(array $post)
 	{
 		$config_values = $this->_config->get('default_config', array());
 
@@ -461,7 +460,7 @@ class Controller_Install extends Controller_System_Frontend
 
 		$insert->execute($this->_db_instance);
 	}
-	
+
 	/**
 	 * Используется для установки данных из модулей
 	 * 
@@ -470,7 +469,7 @@ class Controller_Install extends Controller_System_Frontend
 	 *
 	 * @param array $post
 	 */
-	protected function _install_modules( array $post )
+	protected function _install_modules(array $post)
 	{
 		if (!is_dir(MODPATH))
 		{
@@ -494,7 +493,7 @@ class Controller_Install extends Controller_System_Frontend
 			}
 		}
 	}
-	
+
 	protected function _load_module_observers()
 	{
 		if (!is_dir(MODPATH))
@@ -526,7 +525,7 @@ class Controller_Install extends Controller_System_Frontend
 	 * @param array $post
 	 * @throws Installer_Exception
 	 */
-	protected function _create_config_file( array $post )
+	protected function _create_config_file(array $post)
 	{
 		$tpl_file = INSTALL_DATA . 'config.tpl';
 
@@ -566,30 +565,14 @@ class Controller_Install extends Controller_System_Frontend
 	/**
 	 * Вставка SQL строк в БД
 	 * 
-	 * @param string $data
+	 * @param string $sql
 	 * @throws Validation_Exception
 	 */
-	protected function _insert_data($data)
+	protected function _insert_data($sql)
 	{
-		$data = preg_split('/;(\s*)$/m', $data);
-
 		try
 		{
-			DB::query(NULL, 'SET FOREIGN_KEY_CHECKS = 0')
-				->execute($this->_db_instance);
-
-			foreach ($data as $sql)
-			{
-				if (empty($sql))
-				{
-					continue;
-				}
-
-				DB::query(NULL, $sql)->execute($this->_db_instance);
-			}
-
-			DB::query(NULL, 'SET FOREIGN_KEY_CHECKS = 1')
-				->execute($this->_db_instance);
+			Database_Helper::insert_sql($sql);
 		}
 		catch (Database_Exception $exc)
 		{
