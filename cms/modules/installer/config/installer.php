@@ -33,5 +33,16 @@ return array(
 		'api' => array(
 			'mode' => Config::NO
 		),
+	),
+	'dashboard' => array(
+		'left' => array(
+			'Dashboard_Calendar' => array()
+		),
+		'center' => array(
+			'Dashboard_Cache_Button' => array()
+		)
+	),
+	'user_meta' => array(
+		'admin_theme' => 'default'
 	)
 );

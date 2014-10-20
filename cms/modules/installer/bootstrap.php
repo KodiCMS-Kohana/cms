@@ -28,6 +28,7 @@ Kohana::$caching = FALSE;
 Kohana::modules( array(
 	'api'			=> MODPATH . 'api',
 	'users'			=> MODPATH . 'users',
+	'dashboard'		=> MODPATH . 'dashboard',
 	'kodicms'		=> MODPATH . 'kodicms',		// Core
 	'assets'		=> MODPATH . 'assets',		// Asset Manager
 	'cache'			=> MODPATH . 'cache',		// Cache manager
@@ -42,7 +43,7 @@ Kohana::modules( array(
 	'email'			=> MODPATH . 'email',
 	'plugins'		=> MODPATH . 'plugins',
 	'installer'		=> MODPATH . 'installer'
-) );
+));
 
 Observer::notify('modules::after_load');
 

@@ -96,7 +96,7 @@ class Dashboard {
 	 */
 	public static function move_widget($id, $column, $user_id = NULL)
 	{
-		$blocks =  Model_User_Meta::get(self::WIDGET_BLOCKS_KEY, array(), $user_id);
+		$blocks = Model_User_Meta::get(self::WIDGET_BLOCKS_KEY, array(), $user_id);
 		$found = FALSE;
 
 		foreach ($blocks as $_column => $ids)
@@ -120,5 +120,12 @@ class Dashboard {
 		}
 		
 		return FALSE;
+	}
+	
+	public static function place_widget($id, $column, $user_id = NULL)
+	{
+		$blocks = Model_User_Meta::get(self::WIDGET_BLOCKS_KEY, array(), $user_id);
+		$blocks[$column][] = $id;
+		Model_User_Meta::set(self::WIDGET_BLOCKS_KEY, $blocks, $user_id);
 	}
 }
