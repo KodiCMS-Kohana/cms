@@ -125,37 +125,6 @@ KodiCMS is a CMS based on [Kohana framework](http://kohanaframework.org/).
 	}
 
 
-### Example file . htaccess for Apache
-
-	# Set environment
-	SetEnv KOHANA_ENV production
-	# SetEnv KOHANA_ENV development
-	SetEnv KOHANA_BASE /
-	SetEnv BASE_URL http://www.example.com
-	
-	# Turn on URL rewriting
-	RewriteEngine On
-	
-	# Installation directory
-	RewriteBase /
-	
-	# Protect hidden files from being viewed
-	<Files .*>
-		Order Deny,Allow
-		Deny From All
-	</Files>
-	
-	# Protect application and system files from being viewed
-	RewriteRule ^(?:cms|layouts|public|snippets)\b.* index.php/$0 [L]
-	
-	# Allow any files or directories that exist to be displayed directly
-	RewriteCond %{REQUEST_FILENAME} !-f
-	RewriteCond %{REQUEST_FILENAME} !-d
-	
-	# Rewrite all other URLs to index.php/URL
-	RewriteRule .* index.php/$0 [PT]# Set environment
-
-
 ## Bug tracker
 
 If you have any problems while using KodiCMS, inform them on our bug tracker .
