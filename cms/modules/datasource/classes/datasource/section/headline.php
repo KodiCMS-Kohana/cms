@@ -292,7 +292,12 @@ abstract class Datasource_Section_Headline {
 	protected function _serialize()
 	{
 		$vars = get_object_vars($this);
-		unset($vars['_section'], $vars['_pagination']);
+		unset(
+			$vars['_section'], 
+			$vars['_pagination'],
+			$vars['_page'],
+			$vars['_offset']
+		);
 		
 		return $vars;
 	}

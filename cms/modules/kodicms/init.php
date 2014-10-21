@@ -55,6 +55,9 @@ Assets_Package::add('ace')
 	->js('ace-library', ADMIN_RESOURCES . 'libs/ace/src-min/ace.js', 'global')
 	->js(NULL, ADMIN_RESOURCES . 'js/ace.js', 'global');
 
+Assets_Package::add('steps')
+	->js(NULL, ADMIN_RESOURCES . 'libs/steps/jquery.steps.min.js', 'jquery');
+
 WYSIWYG::add('ace');
 
 // Подключение пакета после загрузки модулей, чтобы определить текущий язык
@@ -62,4 +65,8 @@ Observer::observe('modules::after_load', function() {
 	Assets_Package::add('select2')
 		->js(NULL, ADMIN_RESOURCES . 'libs/select2/select2.min.js', 'jquery')
 		->js(NULL . I18n::lang_short(), ADMIN_RESOURCES . 'libs/select2/select2_locale_'.I18n::lang_short().'.js', 'select2');
+	
+	Assets_Package::add('validate')
+		->js(NULL, ADMIN_RESOURCES . 'libs/validation/jquery.validate.min.js', 'jquery')
+		->js(NULL . I18n::lang_short(), ADMIN_RESOURCES . 'libs/validation/localization/messages_' . I18n::lang_short() . '.min.js', 'validate');
 });

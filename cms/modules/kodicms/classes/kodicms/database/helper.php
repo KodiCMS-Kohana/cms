@@ -10,13 +10,21 @@ class KodiCMS_Database_Helper {
 	 * @param string $data
 	 * @throws Validation_Exception
 	 */
-	public static function insert_sql( $sql, $db = NULL )
+	public static function insert_sql($sql, $db = NULL)
 	{
-		$sql = str_replace('__TABLE_PREFIX__', TABLE_PREFIX, $sql);
+		if(defined('TABLE_PREFIX_TMP'))
+		{
+			$sql = str_replace('__TABLE_PREFIX__', TABLE_PREFIX_TMP, $sql);
+		}
+		else
+		{
+			$sql = str_replace('__TABLE_PREFIX__', TABLE_PREFIX, $sql);
+		}
+
 		$sql_array = preg_split('/;(\s*)$/m', $sql);
 
 		DB::query(NULL, 'SET FOREIGN_KEY_CHECKS = 0')
-			->execute($db);
+				->execute($db);
 
 		foreach ($sql_array as $sql_string)
 		{
@@ -26,13 +34,13 @@ class KodiCMS_Database_Helper {
 			}
 
 			DB::query(NULL, $sql_string)
-				->execute($db);
+					->execute($db);
 		}
 
 		DB::query(NULL, 'SET FOREIGN_KEY_CHECKS = 1')
-			->execute($db);
+				->execute($db);
 	}
-	
+
 	/**
 	 * 
 	 * @param Database $db

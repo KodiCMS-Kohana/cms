@@ -125,13 +125,20 @@ class KodiCMS_Context {
 	 * @param string $param
 	 * @return mixed
 	 */
-	public function &get($param)
+	public function get($param)
 	{
 		$result = NULL;
 
 		if (strpos($param, '::') !== FALSE)
 		{
 			$result = Callback::invoke_static_class($param);
+		}
+		else if (($start = strpos($param, '[')) !== FALSE AND ( $end = strpos($param, ']')) == (strlen($param) - 1))
+		{
+			$path = substr($param, $start + 1, -1);
+			$param = substr($param, 0, $start);
+
+			return Arr::path($this->_params, $param . '.' . $path);
 		}
 		else if (strpos($param, '$page->') !== FALSE)
 		{

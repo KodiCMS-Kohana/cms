@@ -161,15 +161,8 @@ class Model_Widget_Hybrid_Profile extends Model_Widget_User_Profile {
 
 					$field = & $hybrid_fields[$key];
 
-					$field_class = 'DataSource_Hybrid_Field_' . $field->type;
-					$field_class_method = 'fetch_widget_field';
-
-					if (class_exists($field_class) AND method_exists($field_class, $field_class_method))
-					{
-						$profile['_' . $field->key] = $profile[$key];
-						$profile[$field->key] = call_user_func_array($field_class . '::' . $field_class_method, array($this, $field, $profile, $key, $recurse));
-					}
-
+					$profile['_' . $field->key] = $profile[$key];
+					$profile[$field->key] = $field->fetch_widget_field($this, $field, $profile, $key, $recurse);
 					unset($profile[$key]);
 				}
 			}

@@ -5,6 +5,12 @@ class Model_Widget_Hybrid_Editor extends Model_Widget_Hybrid_Document {
 	protected $_use_caching = FALSE;
 	
 	/**
+	 *
+	 * @var string 
+	 */
+	public $doc_id_field = 'd.id';
+
+	/**
 	 * 
 	 * @return array [$fields, $datasource, $document]
 	 */

@@ -56,7 +56,11 @@ if (array_key_exists('installer', Kohana::modules()) === FALSE)
 
 if (PHP_SAPI != 'cli')
 {
-	if (!URL::match('install', Request::detect_uri()))
+	if (
+		!URL::match('install', Request::detect_uri()) 
+	AND 
+		!URL::match('cms/media/', Request::detect_uri())
+	)
 	{
 		$uri = Route::get('install')->uri();
 	}

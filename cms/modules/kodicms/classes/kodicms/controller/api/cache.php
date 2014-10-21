@@ -9,21 +9,19 @@ class KodiCMS_Controller_API_Cache extends Controller_System_Api {
 	
 	public function rest_delete()
 	{
-		if( ! ACL::check('system.cache.clear'))
+		if (!ACL::check('system.cache.clear'))
 		{
 			throw HTTP_API_Exception::factory(API::ERROR_PERMISSIONS, 'You dont hanve permissions to clear cache');
 		}
-			
-		if(Kohana::$caching === TRUE)
+
+		if (Kohana::$caching === TRUE)
 		{
-			Cache::instance()->delete_all();
-			Kohana::cache('Kohana::find_file()', NULL, -1);
-			Kohana::cache('Route::cache()', NULL, -1);
-			Kohana::cache('profiler_application_stats', NULL, -1);
+			// Enable the Kohana shutdown handler, which clear cache
+			register_shutdown_function(array('Cache', 'clear_all'));
 		}
-		
+
 		Kohana::$log->add(Log::INFO, ':user clear cache')->write();
-		
+
 		$this->message('Cache has been cleared!');
 	}
 }

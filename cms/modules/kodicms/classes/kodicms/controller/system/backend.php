@@ -73,9 +73,10 @@ class KodiCMS_Controller_System_Backend extends Controller_System_Template
 		}
 
 		$file = $this->request->controller();
-		if($this->request->directory() !== NULL)
+		$directory = $this->request->directory();
+		if(!empty($directory))
 		{
-			$file = $this->request->directory() . '/' . $file;
+			$file = $directory . '/' . $file;
 		}
 		$file = strtolower($file);
 		if (Kohana::find_file('media', FileSystem::normalize_path('js/controller/' . $file), 'js'))

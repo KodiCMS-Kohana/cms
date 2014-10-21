@@ -121,7 +121,8 @@ class Controller_Userguide extends Controller_System_Backend {
 		Kodoc_Markdown::$show_toc = false;
 
 		// Attach this module's menu to the template
-		$this->template->menu = Markdown($this->_get_all_menu_markdown());
+		$this->template->menu = View::factory('userguide/doc/menu')
+			->set('menu', Markdown($this->_get_all_menu_markdown()));
 		
 		// Bind the copyright
 		$this->template->copyright = Kohana::$config->load('userguide.modules.'.$module.'.copyright');
