@@ -579,6 +579,7 @@ class Datasource_Document implements ArrayAccess {
 		
 		$values['ds_id'] = $this->section()->id();
 		$values['created_on'] = date('Y-m-d H:i:s');
+		$values['updated_on'] = $values['created_on'];
 		
 		if($this->_is_authored === TRUE)
 		{
@@ -774,12 +775,18 @@ class Datasource_Document implements ArrayAccess {
 	/**
 	 * Событие вызываемое в момент ошибки создания документа
 	 */
-	public function onCreateException(Kohana_Exception $exception) {}
+	public function onCreateException(Kohana_Exception $exception)
+	{
+		Messages::errors($exception->getMessage());
+	}
 	
 	/**
 	 * Событие вызываемое в момент ошибки обновления документа
 	 */
-	public function onUpdateException(Kohana_Exception $exception) {}
+	public function onUpdateException(Kohana_Exception $exception)
+	{
+		Messages::errors($exception->getMessage());
+	}
 	
 	/**
 	 * Событие вызываемое в момент ошибки удаления документа
