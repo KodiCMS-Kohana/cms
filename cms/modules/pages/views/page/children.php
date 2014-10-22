@@ -24,7 +24,11 @@
 				<?php echo UI::icon('lock fa-fw'); ?>
 				<?php echo $child->title; ?>
 				<?php else: ?>
-				<?php echo HTML::anchor($child->get_url(), $child->title, array('data-icon' => ! empty($child->children_rows) ? 'folder-open fa-fw' : 'file-o fa-fw')); ?>
+				<?php echo HTML::anchor($child->get_url(), $child->title, array(
+					'data-icon' => ($child->children_rows instanceof View AND $child->children_rows->childrens) 
+						? 'folder-open fa-fw' 
+						: 'file-o fa-fw'
+				)); ?>
 				<?php endif; ?>				
 				<?php if( !empty($child->behavior_id) ): ?> <?php echo UI::label(__(ucfirst(Inflector::humanize( $child->behavior_id ))), 'default'); ?><?php endif; ?>
 				<?php if( !empty($child->use_redirect) ): ?> <?php echo UI::label(__('Redirect: :url', array(':url' => $child->redirect_url))); ?><?php endif; ?>

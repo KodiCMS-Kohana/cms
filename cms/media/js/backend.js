@@ -33,6 +33,8 @@ var cms = {
 				title: __(title),
 				text: msg,
 				sticker: false,
+				nonblock: true,
+				delay: 4000,
 				type: type,
 				history: false
 			});
