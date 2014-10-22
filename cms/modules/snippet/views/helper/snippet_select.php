@@ -31,15 +31,7 @@ function update_snippets_list(e, response) {
 
 if (empty($templates))
 {
-	$templates = array(
-		__('--- Not set ---')
-	);
-	$snippets = Model_File_Snippet::find_all();
-
-	foreach ($snippets as $snippet)
-	{
-		$templates[$snippet->name] = $snippet->name;
-	}
+	$templates = Model_File_Snippet::html_select();
 }
 
 if (empty($template)) $template = NULL;
