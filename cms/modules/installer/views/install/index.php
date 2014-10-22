@@ -108,7 +108,7 @@
 			</div>
 			<div class="panel-body">
 				<div class="form-group">
-					<label class="control-label col-md-3" for="username"><?php echo __( 'Administrator username' ); ?></label>
+					<label class="control-label col-md-3" for="username"><?php echo __('Administrator username'); ?></label>
 					<div class="col-md-9 form-inline">
 						<?php echo Form::input('install[username]', Arr::get($data, 'username'), array(
 							'class' => 'form-control', 'id' => 'username', 'required'
@@ -144,7 +144,7 @@
 					<div class="form-group no-margin-vr">
 						<div class="col-md-offset-3 col-md-9 ">
 							<label class="checkbox btn btn-success btn-checkbox">
-								<?php echo Form::checkbox( 'install[password_generate]', 1, (bool) Arr::get( $data,'password_generate'), array(
+								<?php echo Form::checkbox('install[password_generate]', 1, (bool) Arr::get($data, 'password_generate'), array(
 									'id' => 'generate-password-checkbox'
 								)); ?> <?php echo __('Generate password'); ?>
 							</label>

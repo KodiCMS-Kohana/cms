@@ -63,6 +63,7 @@ class Controller_Install extends Controller_System_Frontend
 			'password_generate' => FALSE,
 			'timezone' => date_default_timezone_get(),
 			'cache_type' => 'sqlite',
+			'session_type' => 'native',
 			'date_format' => 'd F Y',
 			'locale' => I18n::lang()
 		);
