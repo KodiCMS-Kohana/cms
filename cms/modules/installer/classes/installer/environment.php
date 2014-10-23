@@ -350,7 +350,7 @@ class Installer_Environment {
 	public function optional_test_pdo()
 	{
 		return array(
-			'title' => 'MySQLi Enabled',
+			'title' => 'PDO Enabled',
 			'condition' => class_exists('PDO'),
 			'error' => __('Kohana can use the :extension to support additional databases.', array(
 				':extension' => '<a href="http://php.net/pdo" target="blank">PDO</a>',
