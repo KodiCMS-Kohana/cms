@@ -1,16 +1,14 @@
 <script type="text/javascript">
 $(function() {
-	$('#snippet-select').change(function() {
-		var $option = $('option:selected', this);
-		if($option.val() == 0)
+	$('body').on('change', '#snippet-select', function() {
+		var $value = $(this).val();
+		if($value == 0)
 			$('#EditTemplateButton').hide();
 		else
 			$('#EditTemplateButton')
 				.show()
-				.css({
-					display: 'inline-block'
-				})
-				.attr('href', BASE_URL + '/snippet/edit/' + $option.val());
+				.css({display: 'inline-block'})
+				.attr('href', BASE_URL + '/snippet/edit/' + $value);
 	}).change();
 
 	$('body').on('post:backend:api-snippet', update_snippets_list);

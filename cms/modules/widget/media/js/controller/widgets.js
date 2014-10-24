@@ -214,6 +214,6 @@ function load_snippets(intervalID) {
 		self.off();
 		var intervalID = setInterval(function() {
 			load_snippets(intervalID);
-		}, 5000);
+		}, 10000);
 	});
 }
