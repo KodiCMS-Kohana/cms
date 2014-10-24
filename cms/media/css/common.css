@@ -10151,12 +10151,14 @@ ul.dropdown-menu .dropdown-icon {
 }
 .pagination > li > a,
 .pagination > li > span {
-  background-color: #fff;
+  background-color: transparent;
   border: 1px solid #dddddd;
   color: #595959;
   margin-right: 5px;
+  border-radius: 2px;
 }
 .pagination > li > a:hover {
+  background-color: transparent;
   color: #333333;
 }
 .pagination > li.active > a,
@@ -10174,11 +10176,12 @@ ul.dropdown-menu .dropdown-icon {
 }
 .pager li > a,
 .pager li > span {
-  background-color: #fff;
+  background-color: transparent;
   border-color: #dddddd;
   color: #595959;
 }
 .pager li > a:hover {
+  background-color: transparent;
   color: #333333;
 }
 .pager li.disabled > a {
@@ -25437,6 +25440,16 @@ a.editable-click.editable-disabled:hover {
 }
 .user-menu > .dropdown-menu > li.user-footer a {
   line-height: 25px !important;
+}
+/* ===================================================
+	Nav tabs
+ ===================================================*/
+.nav-tabs a.tab-error {
+  background: #ebccd1 !important;
+}
+.nav-tabs a.tab-error.dropdown-toggle,
+.nav-tabs a.tab-error.active {
+  background: #b94a48 !important;
 }
 /* ===================================================
 	Loader

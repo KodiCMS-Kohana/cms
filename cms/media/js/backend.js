@@ -120,19 +120,32 @@ var cms = {
 			.after('<span class="help-block error-message">' + message + '</span>')
 			.closest('.form-group')
 			.addClass('has-error');
+	
+		var $tab_id = input.closest('.tab-pane').prop('id');
+		if($tab_id) {
+			var $tab = $('.nav-tabs a[href="#'+$tab_id+'"]').addClass('tab-error');
+			
+			$tab.closest('.tabdrop').find('.dropdown-toggle').addClass('tab-error');
+		}
+		
+		
 	},
-	clear_error: function() {
-		$('.form-group')
+	clear_error: function($container, $clear_tabs_error) {
+		var $group = $('.form-group');
+		if(typeof $container == 'object')
+			$group = $('.form-group', $container);
+
+		$group
 			.removeClass('has-error')
 			.find('.error-message')
 			.remove();
-	
-		$('.nav-tabs li a').removeClass('tab-error');
+
+		if($clear_tabs_error !== false)
+			$('.nav-tabs li a').removeClass('tab-error');
 	},
 	loader: {
 		counter: 0,
 		init: function (container) {
-//			if(!(container instanceof jQuery)) 
 			container = $('body');
 
 			return $('<div class="_loader_container"><span>' + __('Loading') + '</span></div>')
@@ -947,7 +960,7 @@ var Api = {
 					if(typeof(callback) == 'function') callback(response);
 					return Api.exception(response);
 				}
-				
+
 				if (response.message) {
 					cms.clear_error();
 
@@ -1015,11 +1028,13 @@ var Api = {
 	},
 	exception: function(response) {
 		if(response.code == 120 && typeof(response.errors) == 'object') {
+			cms.clear_error();
 			for(i in response.errors) {
 				cms.messages.error(response.errors[i], 'error');
 				cms.error_field(i, response.errors[i]);
 			}
 		} else if (response.message) {
+			cms.clear_error();
 			cms.messages.error(response.message, 'error');
 		}
 	},
