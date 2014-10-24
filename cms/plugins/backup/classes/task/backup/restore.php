@@ -18,15 +18,15 @@ class Task_Backup_Restore extends Minion_Task
 
 	protected function _execute(array $params)
 	{
-		if( file_exists( $params['file'] ))
+		if (file_exists($params['file']))
 		{
 			$file = $params['file'];
 		}
-		else if( file_exists( BACKUP_PLUGIN_FOLDER . $params['file']))
+		else if (file_exists(BACKUP_PLUGIN_FOLDER . $params['file']))
 		{
 			$file = BACKUP_PLUGIN_FOLDER . $params['file'];
 		}
-		else if( file_exists( DOCROOT . $params['file']))
+		else if (file_exists(DOCROOT . $params['file']))
 		{
 			$file = DOCROOT . $params['file'];
 		}
@@ -35,14 +35,13 @@ class Task_Backup_Restore extends Minion_Task
 			Minion_CLI::write(__('File :file not found', array(
 				':file' => $params['file']
 			)));
-			
+
 			exit();
 		}
 
-		try 
+		try
 		{
-			$backup = Model_Backup::factory($file)
-				->restore();
+			$backup = Model_Backup::factory($file)->restore();
 
 			Minion_CLI::write(__('Backup from file :file restored successfully', array(
 				':file' => $file

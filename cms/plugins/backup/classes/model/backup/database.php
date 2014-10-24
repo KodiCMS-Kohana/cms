@@ -26,9 +26,10 @@ class Model_Backup_Database extends Model_Backup {
      * Call this function to get the database backup 
      * @example DBBackup::backup(); 
      */ 
-    public function create()
+    public function create($charset = 'cp1251')
 	{
-		DB::query(NULL, "SET CHARACTER SET cp1251")
+		DB::query(NULL, "SET CHARACTER SET :charset")
+			->param(':charset', DB::expr($charset))
 			->execute();
 
         return $this
@@ -44,14 +45,14 @@ class Model_Backup_Database extends Model_Backup {
 	 */
 	public function view($file = NULL)
 	{
-		if($file === NULL)
+		if ($file === NULL)
 		{
 			$file = $this->file;
 		}
-		
-		if(!file_exists($file))
+
+		if (!file_exists($file))
 		{
-			throw new Exception('File '.$file.' not exists');
+			throw new Exception('File ' . $file . ' not exists');
 		}
 		
 		return file_get_contents($file);
@@ -63,13 +64,13 @@ class Model_Backup_Database extends Model_Backup {
 	 */
 	public function drop_tables()
 	{
-		foreach ($this->tables as $tbl) 
+		foreach ($this->tables as $tbl)
 		{
 			DB::query(NULL, 'DROP TABLE `:table_name`')
-				->param( ':table_name', DB::expr($tbl['name']) )
+				->param(':table_name', DB::expr($tbl['name']))
 				->execute();
 		}
-		
+
 		return $this;
 	}
 
@@ -81,57 +82,54 @@ class Model_Backup_Database extends Model_Backup {
 	 */
 	public function restore($file = NULL)
 	{
-		if($file === NULL)
+		if ($file === NULL)
 		{
 			$file = $this->file;
 		}
 
-
-		if(!file_exists($file))
+		if (!file_exists($file))
 		{
-			throw new Exception('File '.$file.' not exists');
+			throw new Exception('File ' . $file . ' not exists');
 		}
 
 		$lines = file($file);
 		$sql = '';
-		
+
 		$this->get_tables();
 
-		DB::query(NULL, 'SET FOREIGN_KEY_CHECKS = 0')
-			->execute();
+		DB::query(NULL, 'SET FOREIGN_KEY_CHECKS = 0')->execute();
 
 		$this->drop_tables();
 
-		if(!is_array($lines))
+		if (!is_array($lines))
 		{
-			throw new Exception('File '.$file.' is empty');
+			throw new Exception('File ' . $file . ' is empty');
 		}
 		else
 		{
-
-			foreach($lines as $line)
+			foreach ($lines as $line)
 			{
 				$sql .= trim($line);
-				
-				if(empty($sql))
+
+				if (empty($sql))
 				{
 					$sql = '';
 					continue;
 				}
-				elseif(preg_match("/^[#-].*+\r?\n?/i", trim($line)))
+				elseif (preg_match("/^[#-].*+\r?\n?/i", trim($line)))
 				{
 					$sql = '';
 					continue;
 				}
-				elseif(!preg_match("/;[\r\n]+/",$line))
+				elseif (!preg_match("/;[\r\n]+/", $line))
 				{
 					continue;
 				}
 
-				try 
+				try
 				{
 					DB::query(Database::INSERT, $sql)
-						->execute();
+							->execute();
 				}
 				catch (PDOException $e)
 				{
@@ -152,12 +150,12 @@ class Model_Backup_Database extends Model_Backup {
 	 */
 	public function save($file = NULL)
 	{
-		if($file === NULL)
+		if ($file === NULL)
 		{
 			$file = $this->file;
 		}
 
-		$handle = fopen($file , 'w+');
+		$handle = fopen($file, 'w+');
 		fwrite($handle, $this->sql);
 		fclose($handle);
 	}
@@ -172,7 +170,7 @@ class Model_Backup_Database extends Model_Backup {
 	{
 		$this->sql .= "SET FOREIGN_KEY_CHECKS = 0;\n\n";
 
-		foreach ($this->tables as $tbl) 
+		foreach ($this->tables as $tbl)
 		{
 			$this->sql .= "--\n";
 			$this->sql .= '-- Table structure for table `' . $tbl['name'] . "`\n";
@@ -184,18 +182,16 @@ class Model_Backup_Database extends Model_Backup {
 			$this->sql .= $tbl['data'] . "\n\n\n";
 		}
 
-//		$this->sql .= $this->get_foreign_keys_rules();
-		
 		$this->sql .= "SET FOREIGN_KEY_CHECKS = 1;\n\n";
-		
+
 		$this->sql .= "--\n\n";
 
 		$this->sql .= "--\n";
 		$this->sql .= '-- THE END' . "\n";
 		$this->sql .= "--\n\n";
-		
+
 		$this->sql = mb_convert_encoding($this->sql, 'UTF-8', 'cp1251');
-		
+
 		return $this;
 	}
 
@@ -207,12 +203,11 @@ class Model_Backup_Database extends Model_Backup {
 	 */
 	private function get_tables() 
 	{
-		$tables = DB::query(Database::SELECT, 'SHOW TABLES')
-			->execute();
+		$tables = DB::query(Database::SELECT, 'SHOW TABLES')->execute();
 
 		$this->tables = array();
 
-		foreach ($tables as $table) 
+		foreach ($tables as $table)
 		{
 			$table = array_values($table);
 
@@ -232,12 +227,12 @@ class Model_Backup_Database extends Model_Backup {
 	 * @uses Private use 
 	 * @return string
 	 */
-	private function get_columns($tableName) 
+	private function get_columns($table_name) 
 	{
 		$query = DB::query(Database::SELECT, 'SHOW CREATE TABLE `:table_name`')
-				->param(':table_name', DB::expr($tableName))
-				->execute()
-				->current();
+			->param(':table_name', DB::expr($table_name))
+			->execute()
+			->current();
 
 		if ($query === NULL)
 		{
@@ -254,16 +249,16 @@ class Model_Backup_Database extends Model_Backup {
 	 * @uses Private use 
 	 * @return string
 	 */
-	private function get_data($tableName) 
+	private function get_data($table_name) 
 	{
 		$query = DB::query(Database::SELECT, 'SELECT * FROM `:table_name`')
-				->param(':table_name', DB::expr($tableName))
-				->execute()
-				->as_array();
+			->param(':table_name', DB::expr($table_name))
+			->execute()
+			->as_array();
 
 		$data = '';
 		$db = Database::instance();
-		
+
 		foreach ($query as $row)
 		{
 			foreach ($row as &$value)
@@ -271,12 +266,12 @@ class Model_Backup_Database extends Model_Backup {
 				$value = $db->escape($value);
 			}
 
-			$data .= 'INSERT INTO `' . $tableName . '` VALUES (\'' . implode('\',\'', $row) . '\');' . "\n";
+			$data .= 'INSERT INTO ' . $db->quote_table($table_name) . ' VALUES (' . implode(', ', $row) . ');' . "\n";
 		}
 
 		return $data;
 	}
-	
+
 	/**
 	* Gets Foreign Keys names to array
 	*
@@ -294,11 +289,11 @@ class Model_Backup_Database extends Model_Backup {
 			->as_array();
 
 		$array = array();
-		foreach ($query as $row) 
+		foreach ($query as $row)
 		{
 			array_push($array, $row['CONSTRAINT_NAME']);
 		}
-		
+
 		return $array;
 	}
 	
@@ -312,41 +307,41 @@ class Model_Backup_Database extends Model_Backup {
 	private function get_foreign_keys_rules()
 	{
 		$fk_names = $this->get_foreign_keys();
-	
+
 		$FK_to_sql_file = "";
-		
+
 		$FK_to_sql_file .= "--\n";
 		$FK_to_sql_file .= '-- Foreign keys' . "\n";
 		$FK_to_sql_file .= "--\n\n";
 
-		foreach($fk_names as $fk_name)
+		foreach ($fk_names as $fk_name)
 		{
 
 			$sql = "select KEY_COLUMN_USAGE.TABLE_NAME, KEY_COLUMN_USAGE.CONSTRAINT_NAME, COLUMN_NAME,
-					REFERENCED_COLUMN_NAME, KEY_COLUMN_USAGE.REFERENCED_TABLE_NAME, UPDATE_RULE, DELETE_RULE
-					from information_schema.KEY_COLUMN_USAGE, information_schema.REFERENTIAL_CONSTRAINTS
-					where KEY_COLUMN_USAGE.CONSTRAINT_SCHEMA = :db
-					and KEY_COLUMN_USAGE.CONSTRAINT_NAME = :fk
-					and KEY_COLUMN_USAGE.CONSTRAINT_NAME = REFERENTIAL_CONSTRAINTS.CONSTRAINT_NAME
-					and KEY_COLUMN_USAGE.CONSTRAINT_SCHEMA = REFERENTIAL_CONSTRAINTS.CONSTRAINT_SCHEMA";
+				REFERENCED_COLUMN_NAME, KEY_COLUMN_USAGE.REFERENCED_TABLE_NAME, UPDATE_RULE, DELETE_RULE
+				from information_schema.KEY_COLUMN_USAGE, information_schema.REFERENTIAL_CONSTRAINTS
+				where KEY_COLUMN_USAGE.CONSTRAINT_SCHEMA = :db
+				and KEY_COLUMN_USAGE.CONSTRAINT_NAME = :fk
+				and KEY_COLUMN_USAGE.CONSTRAINT_NAME = REFERENTIAL_CONSTRAINTS.CONSTRAINT_NAME
+				and KEY_COLUMN_USAGE.CONSTRAINT_SCHEMA = REFERENTIAL_CONSTRAINTS.CONSTRAINT_SCHEMA";
 
-			$result = DB::query( Database::SELECT, $sql )
-				->parameters( array(
+			$result = DB::query(Database::SELECT, $sql)
+				->parameters(array(
 					':db' => DB_NAME,
 					':fk' => $fk_name
 				))
 				->execute()
 				->as_array();
 
-			foreach($result as $row)
+			foreach ($result as $row)
 			{
-				$FK_to_sql_file 
-					.= "ALTER TABLE `".$row['TABLE_NAME']
-					."` ADD CONSTRAINT `".$row['CONSTRAINT_NAME']
-					."` FOREIGN KEY (`".$row['COLUMN_NAME']."`) REFERENCES `"
-					.$row['REFERENCED_TABLE_NAME']."` (`"
-					.$row['REFERENCED_COLUMN_NAME']."`) ON DELETE {$row['DELETE_RULE']} ON UPDATE {$row['UPDATE_RULE']};";
-				
+				$FK_to_sql_file
+					.= "ALTER TABLE `" . $row['TABLE_NAME']
+					. "` ADD CONSTRAINT `" . $row['CONSTRAINT_NAME']
+					. "` FOREIGN KEY (`" . $row['COLUMN_NAME'] . "`) REFERENCES `"
+					. $row['REFERENCED_TABLE_NAME'] . "` (`"
+					. $row['REFERENCED_COLUMN_NAME'] . "`) ON DELETE {$row['DELETE_RULE']} ON UPDATE {$row['UPDATE_RULE']};";
+
 				$FK_to_sql_file .= "\n";
 			}
 		}
