@@ -1,12 +1,19 @@
 <script type="text/javascript">
+var show_button = true;
+var current_driver = '';
 $(function() {
+	init_test_email_button_vars();
+	
 	$('.panel')
 		.on('change', '#email_driver', function() {
 			change_email_driver($(this).val());
+			test_email_button_visible();
 		})
 		.on('change', '#settingEncryption', function() {
 			var $encryption = $(this).val();
 			change_email_port($encryption);
+			
+			test_email_button_visible();
 		});
 	
 	change_email_driver($('#email_driver').val());
@@ -14,15 +21,26 @@ $(function() {
 
 	$('body').on('click', '#send-test-email', function() {
 		Api.post('email.send', {
-			subject: '<?php echo __('Test email'); ?>',
+			subject: __('Test email'),
 			to: '<?php echo Config::get('email', 'default'); ?>',
-			message: '<?php echo __('Test email'); ?>',
+			message: __('Test email'),
 		}, function(response) {
-			cms.messages.show('<?php echo __('Test email'); ?> ' + (response.send ? '<?php echo __('sended'); ?>' : '<?php echo __('not send'); ?>'), response.send ? 'success' : 'error');
+			cms.messages.show(__('Test email') + (response.send ? __('sended') : __('not send')), response.send ? 'success' : 'error');
 		});
 		return false;
 	});
+	
+	$('body').on('post:backend:api-settings.save', function() {
+		init_test_email_button_vars();
+		test_email_button_visible();
+	});
 });
+
+function init_test_email_button_vars() {
+	show_button = true;
+	current_driver = $('#email_driver').val();
+	test_email_button_visible();
+}
 
 function change_email_port($encryption) {
 	var $port = $('#settingPort');
@@ -38,8 +56,28 @@ function change_email_port($encryption) {
 }
 
 function change_email_driver(driver) {
+	if(current_driver != driver)
+		show_button = false;
+	else
+		show_button = true;
+
     $('fieldset').attr('disabled', 'disabled').hide();
-    $('fieldset#' + driver + '-driver-settings').removeAttr('disabled').show();
+	
+	var $fieldset = $('fieldset#' + driver + '-driver-settings');
+    $fieldset.removeAttr('disabled').show();
+	cms.clear_error($fieldset, false);
+}
+
+function test_email_button_visible() {
+	var $button = $('#send-test-email');
+	var $tips = $('.test-email-message');
+	if(show_button) {
+		$button.show();
+		$tips.hide();
+	} else {
+		$button.hide();
+		$tips.show();
+	}
 }
 </script>
 
@@ -60,6 +98,8 @@ function change_email_driver(driver) {
 			<?php echo Form::label('setting_driver', __('Email driver'), array('class' => 'control-label col-md-3')); ?>
 			<div class="col-md-6">
 				<?php echo Form::select('setting[email][driver]', $drivers, Config::get('email', 'driver'), array('id' => 'email_driver')); ?>
+				
+				<p class="help-block test-email-message"><?php echo __('To send a test message, save the settings'); ?></p>
 			</div>
 			<div class="col-md-3 input-group-btn">
 				<?php echo HTML::anchor('#', __('Send test email'), array(

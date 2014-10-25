@@ -104,12 +104,17 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 			Messages::errors($e->errors('validation'));
 			$this->go_back();
 		}
-		
-		if( ! $field_id )
+		catch (Kohana_Exception $e)
 		{
+			Messages::errors($e->getMessage());
 			$this->go_back();
 		}
 		
+		if (!$field_id)
+		{
+			$this->go_back();
+		}
+
 		Session::instance()->delete('post_data');
 		
 		if ( $this->request->post('save_and_create') !== NULL )
@@ -175,6 +180,11 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 		{
 			Session::instance()->set('post_data', $this->request->post());
 			Messages::errors($e->errors('validation'));
+			$this->go_back();
+		}
+		catch (Kohana_Exception $e)
+		{
+			Messages::errors($e->getMessage());
 			$this->go_back();
 		}
 		

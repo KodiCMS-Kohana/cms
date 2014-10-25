@@ -31,8 +31,8 @@
 		<div class="form-group">
 			<label class="control-label col-md-3"><?php echo __('Type'); ?></label>
 			<div class="col-md-9">
-				<?php echo Form::select('type', $types, NULL, array(
-					'class' => 'col-md-6'
+				<?php echo Form::select('type', $types, 'html', array(
+					'class' => 'col-md-6', 'size' => 10
 				)); ?> 
 			</div>
 		</div>

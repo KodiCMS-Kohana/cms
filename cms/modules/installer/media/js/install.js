@@ -44,8 +44,8 @@ $(function() {
 		onStepChanging: function (event, currentIndex, newIndex) {
 			$form = $(".form-horizontal");
 
-			if(currentIndex == 1 && newIndex > currentIndex && failed) {
-				parse_messages([__('Before proceeding to the next step you need to fix errors')], 'error');
+			if(currentIndex == 1 && newIndex > currentIndex && failed ) {
+				cms.messages.parse([__('Before proceeding to the next step you need to fix errors')], 'error');
 				return false;
 			}
 			
@@ -123,7 +123,7 @@ $(function() {
 		
 		if(response.message) {
 			cms.clear_error();
-			parse_messages(response.message, 'error');
+			cms.messages.parse(response.message, 'error');
 		}
 		
 		return false;

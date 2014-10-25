@@ -5,5 +5,6 @@ return array(
 	'Search key ($_GET)' => 'Ключ ($_GET)',
 	'Search settings' => 'Настройки поиска',
 	'Update search index' => 'Обновить поисковый индекс',
-	'Search index updated' => 'Поисковый индекс обновлен'
+	'Search index updated' => 'Поисковый индекс обновлен',
+	'Enable full text search' => 'Включить полнотекстовый поиск'
 );

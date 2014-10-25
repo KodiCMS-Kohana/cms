@@ -11,6 +11,11 @@ class Controller_API_Snippet extends Controller_System_Api {
 	{
 		parent::before();
 	}
+	
+	public function get_list()
+	{
+		$this->response(Model_File_Snippet::html_select());
+	}
 
 	public function rest_post()
 	{

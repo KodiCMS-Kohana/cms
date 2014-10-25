@@ -50,7 +50,6 @@ class Controller_Install extends Controller_System_Frontend
 		$this->template->title = __(':cms_name &rsaquo; installation', array(':cms_name' => CMS_NAME));
 
 		$data = array(
-			'db_driver' => 'mysql',
 			'db_server' => 'localhost',
 			'db_port' => 3306,
 			'db_user' => 'root',
@@ -62,8 +61,6 @@ class Controller_Install extends Controller_System_Frontend
 			'url_suffix' => '.html',
 			'password_generate' => FALSE,
 			'timezone' => date_default_timezone_get(),
-			'cache_type' => 'sqlite',
-			'session_type' => 'native',
 			'date_format' => 'd F Y',
 			'locale' => I18n::lang()
 		);
