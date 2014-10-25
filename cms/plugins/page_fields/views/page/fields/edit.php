@@ -2,7 +2,7 @@
 <div class="panel-heading panel-toggler" data-hash="page-fields" data-icon="tasks fa-lg">
 	<span class="panel-title"><?php echo __('Page fields'); ?></span>
 </div>
-<div class="panel-body panel-spoiler">
+<div class="panel-body panel-spoiler spoiler-page-fields">
 	<?php if(empty($page->id)): ?>
 	<h4><?php echo __('Copy fields from'); ?></h4>
 	<select name="fields[from_page_id]" class="col-md-12">

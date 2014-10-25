@@ -10,10 +10,9 @@ cms.init.add('page_edit', function() {
 				fields.val('');
 			}
 		});
-
 		return false;
 	});
-	
+
 	$('.spoiler-page-fields').on('click', '.btn-remove', function() {
 		var field = $(this).parent().parent();
 		Api.delete('page-field', {field_id: field.data('id')}, function(response) {
@@ -21,16 +20,16 @@ cms.init.add('page_edit', function() {
 		});
 		return false;
 	});
-	
+
 	$('.page-field').on('change', 'input[name=value]', function() {
 		if($(this).parent().data('id'))
 			updateField($(this));
 	});
-	
+
 	function updateField(field) {
 		Api.post('page-field', {field_id: field.parent().data('id'), value: field.val()}, function(response) {});
 	}
-	
+
 	$('#select-page-field').on('click', function() {
 		var container = $(this).parent();
 		
@@ -52,7 +51,7 @@ cms.init.add('page_edit', function() {
 				.select2("destroy")
 				.attr('disabled', 'disabled');
 
-		}else{
+		} else {
 			$("#select-page-field-container")
 				.removeAttr('disabled')
 				.select2({
@@ -80,9 +79,6 @@ cms.init.add('page_edit', function() {
 				.show();
 		}
 		
-		
-		
 		return false;
-	})
-	
+	});
 });
