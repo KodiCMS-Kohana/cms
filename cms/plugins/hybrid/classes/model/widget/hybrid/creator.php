@@ -261,7 +261,7 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Decorator_Handler {
 	
 	public function fetch_backend_content()
 	{
-		if($this->ds_id > 0 AND ! Datasource_Data_Manager::exists($data['ds_id']))
+		if($this->ds_id > 0 AND ! Datasource_Data_Manager::exists($this->ds_id))
 		{
 			$this->ds_id = 0;
 			Widget_Manager::update($this);
