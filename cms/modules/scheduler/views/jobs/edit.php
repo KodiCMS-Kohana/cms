@@ -10,7 +10,7 @@
 		<?php if($job->loaded() AND  Acl::check('jobs.run')): ?>
 		<?php echo UI::button(__('Run job'), array(
 			'href' => Route::get('backend')->uri(array('controller' => 'jobs', 'action' => 'run', 'id' => $job->id)), 
-			'icon' => UI::icon('play'),
+			'icon' => UI::icon('bolt'),
 			'class' => 'btn-danger btn-sm'
 		)); ?>
 		<?php endif; ?>

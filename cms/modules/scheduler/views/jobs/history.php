@@ -1,5 +1,4 @@
-<hr />
-<div class="panel">
+<div class="panel no-margin-b">
 	<div class="panel-heading">
 		<spna class="panel-title"><?php echo __('Job history'); ?></spna>
 	</div>
