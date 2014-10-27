@@ -733,6 +733,8 @@ cms.ui.add('flags', function() {
 		$btn.on('click', function() {
 			cms.filemanager.open($self);
 		});
+		
+		$self.removeAttr('data-filemanager');
 	})
 		
 	$('body').on('click', '.btn-filemanager', function() {
