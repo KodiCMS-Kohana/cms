@@ -1,12 +1,7 @@
 <div class="form-group">
 	<label class="control-label col-md-3"><?php echo __('Default filter'); ?></label>
 	<div class="col-md-4">
-		<select name="filter">
-			<option value="">&ndash; <?php echo __( 'none' ); ?> &ndash;</option>
-			<?php foreach (WYSIWYG::findAll() as $filter ): ?> 
-			<option value="<?php echo $filter; ?>" <?php if($field->filter == $filter): ?>selected="selected"<?php endif; ?>><?php echo Inflector::humanize( $filter ); ?></option>
-			<?php endforeach; ?> 
-		</select>
+		<?php echo Form::select('filter', WYSIWYG::html_select(), $field->filter); ?>
 	</div>
 </div>
 
