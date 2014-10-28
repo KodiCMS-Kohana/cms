@@ -71,6 +71,7 @@ return array(
 	'Max file size: :size' => 'Максимальный размер файла: :size',
 	'Allow HTML tags' => 'Разрешить HTML теги',
 	'Filter HTML tags' => 'Фильтровать HTML теги',
+	'Remove empty tags' => 'Удалять пустые теги',
 	'Create hybrid section' => 'Создать гибридный раздел',
 	'Slug separator' => 'Разделитель',
 	'Slug from header' => 'Брать значение из Заголовка',

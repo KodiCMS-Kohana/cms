@@ -14,6 +14,14 @@
 	<div class="col-md-offset-3 col-md-9">
 		<div class="checkbox">
 			<label>
+				<?php echo Form::checkbox('remove_empty_tags', 1, $field->remove_empty_tags == 1, array(
+					'id' => 'remove_empty_tags'
+				)); ?> <?php echo __('Remove empty tags'); ?>
+			</label>
+		</div>
+		
+		<div class="checkbox">
+			<label>
 				<?php echo Form::checkbox('filter_html', 1, $field->filter_html == 1, array(
 					'id' => 'html_filter_html'
 				)); ?> <?php echo __('Filter HTML tags'); ?>
