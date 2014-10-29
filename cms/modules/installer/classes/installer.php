@@ -269,7 +269,7 @@ class Installer {
 					'persistent' => FALSE,
 				);
 
-				$type = 'pdo';
+				$type = 'pdo_sqlite';
 				$charset = NULL;
 				break;
 		}
@@ -559,7 +559,7 @@ class Installer {
 	 */
 	protected function _reset()
 	{
-		Database_Helper::disable_foreign_key_checks();
+		$this->_db_instance->disable_foreign_key_checks();
 
 		$tables = DB::query(Database::SELECT, 'SHOW TABLES')
 			->execute($this->_db_instance);
@@ -579,7 +579,7 @@ class Installer {
 			$this->_write_config_to_file('');
 		}
 
-		Database_Helper::enable_foreign_key_checks();
+		$this->_db_instance->enable_foreign_key_checks();
 	}
 
 	/**

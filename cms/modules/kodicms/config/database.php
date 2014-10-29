@@ -42,7 +42,7 @@ switch(DB_DRIVER)
 	case 'pdo':
 	case 'pdo::mysql':
 		$config = array(
-			'type'       => 'PDO',
+			'type'       => 'PDO_SQLite',
 			'connection' => array(
 				'dsn'        => 'mysql:host='.DB_SERVER.';dbname='.DB_NAME,
 				'username'   => DB_USER,
