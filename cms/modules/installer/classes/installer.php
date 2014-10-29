@@ -87,14 +87,7 @@ class Installer {
 	 */
 	public function database_drivers()
 	{
-		$database_drivers =  $this->_config->get('database_drivers', array());
-
-		if (version_compare(PHP_VERSION, '5.5.0', '>='))
-		{
-			unset($database_drivers['mysql']);
-		}
-		
-		return $database_drivers;
+		return $this->_config->get('database_drivers', array());
 	}
 
 	public function __construct()
@@ -171,7 +164,6 @@ class Installer {
 				throw new Database_Exception($exc->getMessage(), NULL, $exc->getCode());
 			}
 		}
-		
 
 		Database::$default = 'install';
 		
@@ -230,9 +222,14 @@ class Installer {
 	 */
 	public function connect_to_db(array $post)
 	{
+		define('DB_DRIVER', $post['db_driver']);
+		
 		$config = Kohana::$config->load('database');
 
-		switch ($post['db_driver'])
+		$charset = 'utf8';
+		$type = $post['db_driver'];
+
+		switch ($type)
 		{
 			case 'mysql':
 				$connection = array(
@@ -254,22 +251,37 @@ class Installer {
 				);
 				break;
 			case 'pdo':
+			case 'pdo::mysql':
 				$connection = array(
 					'dsn'        => 'mysql:host='.$post['db_server'].';port='.$post['db_port'].';dbname='.$post['db_name'],
 					'username'   => $post['db_user'],
 					'password'   => $post['db_password'],
 					'persistent' => FALSE,
 				);
+				
+				$type = 'pdo';
+				break;
+			case 'pdo::sqlite':
+				$connection = array(
+					'dsn'        => 'sqlite:' . CMSPATH . 'db' . DIRECTORY_SEPARATOR . $post['db_name'] . '.sqlite',
+					'username'   => NULL,
+					'password'   => NULL,
+					'persistent' => FALSE,
+				);
+
+				$type = 'pdo';
+				$charset = NULL;
 				break;
 		}
 				
 		$config->set('install', array(
-			'type' => $post['db_driver'],
+			'type' => $type,
 			'connection' => $connection,
 			'table_prefix' => $post['db_table_prefix'],
-			'charset' => 'utf8',
+			'charset' => $charset,
 			'caching' => FALSE,
-			'profiling' => TRUE
+			'profiling' => TRUE,
+			'driver' => $post['db_driver']
 		));
 
 		$db = Database::instance('install');
@@ -287,24 +299,18 @@ class Installer {
 	 */
 	protected function _valid(array $data)
 	{
-		$cache_types = $this->_config->get('cache_types', array());
-		$session_types = $this->_config->get('session_types', array());
-
+		$data['directory'] = TRUE;
+		
 		$validation = Validation::factory($data)
-			->rule('db_server', 'not_empty')
-			->rule('db_user', 'not_empty')
-			->rule('db_name', 'not_empty')
 			->rule('admin_dir_name', 'not_empty')
 			->rule('username', 'not_empty')
 			->rule('email', 'not_empty')
 			->rule('email', 'email')
 			->rule('cache_type', 'not_empty')
-			->rule('cache_type', 'in_array', array(':value', array_keys($cache_types)))
+			->rule('cache_type', 'in_array', array(':value', array_keys($this->cache_types())))
 			->rule('session_type', 'not_empty')
-			->rule('session_type', 'in_array', array(':value', array_keys($session_types)))
-			->label('db_server', __('Database server'))
-			->label('db_user', __('Database user'))
-			->label('db_password', __('Database password'))
+			->rule('session_type', 'in_array', array(':value', array_keys($this->session_types())))
+			->rule('db_driver', 'in_array', array(':value', array_keys($this->database_drivers())))
 			->label('db_name', __('Database name'))
 			->label('admin_dir_name', __('Admin dir name'))
 			->label('username', __('Administrator username'))
@@ -312,6 +318,23 @@ class Installer {
 			->label('password_field', __('Password'))
 			->label('cache_type', __('Cache type'))
 			->label('session_type', __('Session type'));
+		
+		switch ($data['db_driver'])
+		{
+//			case 'pdo:sqlite':
+//				$validation
+//					->rule('directory', array($this, 'is_writable'));
+//				break;
+			default:
+				$validation
+					->rule('db_server', 'not_empty')
+					->rule('db_user', 'not_empty')
+					->rule('db_name', 'not_empty')
+					->label('db_server', __('Database server'))
+					->label('db_user', __('Database user'))
+					->label('db_password', __('Database password'));
+				break;
+		}
 
 		if (!isset($data['password_generate']))
 		{
@@ -455,9 +478,20 @@ class Installer {
 
 		// Insert settings to config.php		
 		$tpl_content = file_get_contents($tpl_file);
+		
+		$type = $post['db_driver'];
+		switch ($type)
+		{
+			case 'pdo':
+			case 'pdo::mysql':
+			case 'pdo::sqlite':
+				$type = 'pdo';
+				break;
+		}
 
 		$repl = array(
-			'__DB_TYPE__'			=> $post['db_driver'],
+			'__DB_TYPE__'			=> $type,
+			'__DB_DRIVER__'			=> $post['db_driver'],
 			'__DB_SERVER__'			=> $post['db_server'],
 			'__DB_PORT__'			=> $post['db_port'],
 			'__DB_NAME__'			=> $post['db_name'],
@@ -487,25 +521,7 @@ class Installer {
 	 */
 	protected function _insert_data($sql)
 	{
-		try
-		{
-			Database_Helper::insert_sql($sql);
-		}
-		catch (Database_Exception $exc)
-		{
-			switch ($exc->getCode())
-			{
-				case 1005:
-					$this->_validation->error('db_name', 'database_not_empty');
-					break;
-				case 1146:
-				case 1064:
-					$this->_validation->error('db_server', 'syntax_error', array(':error' => $exc->getMessage()));
-					break;
-			}
-			
-			throw new Validation_Exception($this->_validation, $exc->getMessage(), NULL, $exc->getCode());
-		}
+		Database_Helper::insert_sql($sql);
 	}
 
 	/**
@@ -543,8 +559,7 @@ class Installer {
 	 */
 	protected function _reset()
 	{
-		DB::query(NULL, 'SET FOREIGN_KEY_CHECKS = 0')
-			->execute($this->_db_instance);
+		Database_Helper::disable_foreign_key_checks();
 
 		$tables = DB::query(Database::SELECT, 'SHOW TABLES')
 			->execute($this->_db_instance);
@@ -564,8 +579,7 @@ class Installer {
 			$this->_write_config_to_file('');
 		}
 
-		DB::query(NULL, 'SET FOREIGN_KEY_CHECKS = 1')
-			->execute($this->_db_instance);
+		Database_Helper::enable_foreign_key_checks();
 	}
 
 	/**

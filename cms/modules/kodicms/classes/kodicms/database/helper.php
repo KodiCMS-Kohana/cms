@@ -7,8 +7,29 @@
 class KodiCMS_Database_Helper {
 	
 	/**
-	 * @param string $data
-	 * @throws Validation_Exception
+	 * 
+	 * @param Database $db
+	 */
+	public static function disable_foreign_key_checks($db = NULL)
+	{
+		DB::query(NULL, 'SET FOREIGN_KEY_CHECKS = 0')
+				->execute($db);
+	}
+	
+	/**
+	 * 
+	 * @param Database $db
+	 */
+	public static function enable_foreign_key_checks($db = NULL)
+	{
+		DB::query(NULL, 'SET FOREIGN_KEY_CHECKS = 1')
+				->execute($db);
+	}
+
+	/**
+	 * 
+	 * @param string $sql
+	 * @param Database $db
 	 */
 	public static function insert_sql($sql, $db = NULL)
 	{
@@ -23,8 +44,7 @@ class KodiCMS_Database_Helper {
 
 		$sql_array = preg_split('/;(\s*)$/m', $sql);
 
-		DB::query(NULL, 'SET FOREIGN_KEY_CHECKS = 0')
-				->execute($db);
+		self::disable_foreign_key_checks();
 
 		foreach ($sql_array as $sql_string)
 		{
@@ -37,8 +57,7 @@ class KodiCMS_Database_Helper {
 					->execute($db);
 		}
 
-		DB::query(NULL, 'SET FOREIGN_KEY_CHECKS = 1')
-				->execute($db);
+		self::enable_foreign_key_checks();
 	}
 
 	/**

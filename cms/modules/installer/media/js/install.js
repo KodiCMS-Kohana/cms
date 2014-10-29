@@ -124,8 +124,22 @@ $(function() {
 		return false;
 	}
 	
+	connection_container_visible();
+	function connection_container_visible() {
+		var $cont = $('.connection-settings');
+		switch ($('#database-driver').val()) {
+			case 'pdo::sqlite':
+				$cont.slideUp();
+				break;
+			default:
+				$cont.slideDown();
+		}
+		
+		$('#database-driver').on('change', connection_container_visible);
+	}
+	
 	$('.select2-container').remove();
 	cms.ui.init('select2');
 	cms.ui.init('icon');
-})
+});
 

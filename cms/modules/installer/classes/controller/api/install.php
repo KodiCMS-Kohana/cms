@@ -9,22 +9,41 @@ class Controller_API_Install extends Controller_System_Api {
 		$this->_installer = new Installer;
 		
 		$validation = Validation::factory($post)
-			->label('db_server', __('Database server'))
-			->label('db_user', __('Database user'))
-			->label('db_password', __('Database password'))
 			->label('db_name', __('Database name'))
-			->rule('db_server', 'not_empty')
-			->rule('db_user', 'not_empty')
 			->rule('db_name', 'not_empty');
+		
+		$post['directory'] = TRUE;
+
+		switch ($post['db_driver'])
+		{
+			case 'pdo::sqlite':
+				$validation
+					->rule('directory', array($this, 'is_writable'));
+				break;
+			default:
+				$validation
+					->label('db_server', __('Database server'))
+					->label('db_user', __('Database user'))
+					->label('db_password', __('Database password'))
+					->rule('db_server', 'not_empty')
+					->rule('db_user', 'not_empty');
+				break;
+		}
 
 		if (!$validation->check())
 		{
 			throw new Validation_Exception($validation);
 		}
-
+		
 		$this->status = (bool) $this->_installer->connect_to_db($post);
 	}
 	
+	public function is_writable()
+	{
+		$path = CMSPATH . 'tedt';
+		return (is_dir($path) AND is_writable($path));
+	}
+
 	public function execute()
 	{		
 		if($this->request->action() == 'index' OR $this->request->action() == '')
