@@ -138,7 +138,40 @@ class Installer {
 		$this->_session->set('install_data', $post);
 
 		$this->_validation = $this->_valid($post);
-		$this->_db_instance = $this->_connect_to_db($post);
+		
+		try
+		{
+			$this->_db_instance = $this->connect_to_db($post);
+		}
+		catch (Database_Exception $exc)
+		{
+			$validation = FALSE;
+			switch ($exc->getCode())
+			{
+				case 1049:
+					$this->_validation->error('db_name', 'incorrect');
+					$validation = TRUE;
+					break;
+				case 2:
+					$this->_validation
+							->error('db_server', 'incorrect')
+							->error('db_user', 'incorrect')
+							->error('db_password', 'incorrect');
+
+					$validation = TRUE;
+					break;
+			}
+
+			if ($validation === TRUE)
+			{
+				throw new Validation_Exception($this->_validation, $exc->getMessage(), NULL, $exc->getCode());
+			}
+			else
+			{
+				throw new Database_Exception($exc->getMessage(), NULL, $exc->getCode());
+			}
+		}
+		
 
 		Database::$default = 'install';
 		
@@ -187,46 +220,6 @@ class Installer {
 			}
 		}
 	}
-	
-	/**
-	 * 
-	 * @param array $post
-	 * @throws Validation_Exception
-	 */
-	public function action_check_connect(array $post)
-	{
-		$this->_validation = Validation::factory($post)
-			->label('db_server', __('Database server'))
-			->label('db_user', __( 'Database user' ))
-			->label('db_password', __('Database password'))
-			->label('db_name', __('Database name'))
-			->rule( 'db_server', 'not_empty' )
-			->rule( 'db_user', 'not_empty' )
-			->rule( 'db_name', 'not_empty' );
-	
-		try
-		{
-			if (!$this->_validation->check())
-			{
-				throw new Validation_Exception($this->_validation);
-			}
-
-			$this->json['status'] = (bool) $this->_connect_to_db($post);
-		}
-		catch (Kohana_Exception $e)
-		{
-			if ($e instanceof Validation_Exception)
-			{
-				$this->json['message'] = $e->errors('validation');
-			}
-			else
-			{
-				$this->json['message'][] = $e->getMessage();
-			}
-
-			$this->json['status'] = FALSE;
-		}
-	}
 
 	/**
 	 * Создание коннекта к БД
@@ -235,7 +228,7 @@ class Installer {
 	 * @return Database
 	 * @throws Validation_Exception
 	 */
-	protected function _connect_to_db(array $post)
+	public function connect_to_db(array $post)
 	{
 		$config = Kohana::$config->load('database');
 
@@ -280,40 +273,9 @@ class Installer {
 		));
 
 		$db = Database::instance('install');
+		$db->connect();
 
-		try
-		{
-			$db->connect();
-			return $db;
-		}
-		catch (Database_Exception $exc)
-		{
-			$validation = FALSE;
-			switch ($exc->getCode())
-			{
-				case 1049:
-					$this->_validation->error('db_name', 'incorrect');
-					$validation = TRUE;
-					break;
-				case 2:
-					$this->_validation
-							->error('db_server', 'incorrect')
-							->error('db_user', 'incorrect')
-							->error('db_password', 'incorrect');
-
-					$validation = TRUE;
-					break;
-			}
-
-			if ($validation === TRUE)
-			{
-				throw new Validation_Exception($this->_validation, $exc->getMessage(), NULL, $exc->getCode());
-			}
-			else
-			{
-				throw new Database_Exception($exc->getMessage(), NULL, $exc->getCode());
-			}
-		}
+		return $db;
 	}
 
 	/**

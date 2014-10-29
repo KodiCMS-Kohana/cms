@@ -111,13 +111,8 @@ $(function() {
 	function check_connect() {
 		cms.clear_error();
 		var $fields = $(':input[name*=db_]').serialize();
-		var response = $.ajax({
-			type: "POST",
-			url: "check_connect",
-			data: $fields,
-			async: false,
-			dataType: 'json'
-		}).responseJSON;
+		
+		var response = Api.get('install.check_connect', $fields, false, false);
 	
 		if(response.status === true) return response.status;
 		

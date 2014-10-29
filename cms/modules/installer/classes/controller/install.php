@@ -59,78 +59,21 @@ class Controller_Install extends Controller_System_Frontend
 		try
 		{
 			$this->_installer->install($post);
-			$this->_complete($post);
+			
+			Observer::notify('after_install', $post);
+			Cache::clear_file();			
 		}
-		catch (Exception $ex)
-		{
-			$this->_show_error($ex);
-		}
-		
-	}
-	
-	public function action_check_connect()
-	{
-		$post = $this->request->post('install');
-		$this->_validation = Validation::factory($post)
-			->label('db_server', __('Database server'))
-			->label('db_user', __( 'Database user' ))
-			->label('db_password', __('Database password'))
-			->label('db_name', __('Database name'))
-			->rule( 'db_server', 'not_empty' )
-			->rule( 'db_user', 'not_empty' )
-			->rule( 'db_name', 'not_empty' );
-	
-		try
-		{
-			if (!$this->_validation->check())
-			{
-				throw new Validation_Exception($this->_validation);
-			}
-
-			$this->json['status'] = (bool) $this->_connect_to_db($post);
-		}
-		catch (Kohana_Exception $e)
-		{
-			if ($e instanceof Validation_Exception)
-			{
-				$this->json['message'] = $e->errors('validation');
-			}
-			else
-			{
-				$this->json['message'][] = $e->getMessage();
-			}
-
-			$this->json['status'] = FALSE;
-		}
-	}
-	
-	/**
-	 * 
-	 * @param array $post
-	 */
-	protected function _complete($post)
-	{
-		Observer::notify('after_install', $post);
-		Cache::clear_file();
-
-		$this->go($post['admin_dir_name'] . '/login');
-	}
-
-	/**
-	 * Вывод ошибок
-	 * @param Exception $e
-	 */
-	protected function _show_error(Exception $e)
-	{
-		if ($e instanceof Validation_Exception)
+		catch (Validation_Exception $e)
 		{
 			Messages::errors($e->errors('validation'));
+			$this->go_back();
 		}
-		else
+		catch (Exception $e)
 		{
 			Messages::errors($e->getMessage());
+			$this->go_back();
 		}
-
-		$this->go_back();
+		
+		$this->go($post['admin_dir_name'] . '/login');
 	}
 }

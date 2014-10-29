@@ -135,10 +135,12 @@ class Task_Install extends Minion_Task
 			unset($params['password_generate']);
 			$params['password_field'] = $params['password_confirm'] = $params['password'];
 		}
-		
+
 		try
 		{
 			$this->_installer->install($params);
+			Observer::notify('after_install', $params);
+			Cache::clear_file();
 			
 			Minion_CLI::write('==============================================');
 			Minion_CLI::write(__('KodiCMS installed successfully'));
