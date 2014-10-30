@@ -361,7 +361,7 @@ class DataSource_Hybrid_Field_Factory {
 			':default' => DB::expr('')
 		);
 		
-		if(!empty($field->default))
+		if(isset($field->default))
 		{
 			$params[':default'] = DB::expr('DEFAULT "' .  $field->default . '"');
 		}
