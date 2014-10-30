@@ -17,11 +17,6 @@ class DataSource_Hybrid_Field_Primitive_Text extends DataSource_Hybrid_Field_Pri
 		return array('allow_html', 'filter_html');
 	}
 	
-	public function set( array $data )
-	{
-		return parent::set( $data );
-	}
-	
 	public function set_rows( $rows )
 	{				
 		$this->rows = (int) $rows;
