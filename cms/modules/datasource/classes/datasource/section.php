@@ -122,7 +122,7 @@ class Datasource_Section {
 	 */
 	public static function load_from_array(array $data)
 	{
-		$section = unserialize($data['code']);
+		$section = Kohana::unserialize($data['code']);
 		
 		$section->_id = $data['id'];
 		$section->name = $data['name'];
@@ -332,7 +332,7 @@ class Datasource_Section {
 			'created_on' => date('Y-m-d H:i:s'),
 			'created_by_id' => $this->_created_by_id,
 			'folder_id' => $this->_folder_id,
-			'code' => serialize($this),
+			'code' => Kohana::serialize($this),
 		);
 		
 		$query = DB::insert('datasources')
@@ -414,7 +414,7 @@ class Datasource_Section {
 				'updated_on' => date('Y-m-d H:i:s'),
 				'created_by_id' => $this->_created_by_id,
 				'folder_id' => $this->_folder_id,
-				'code' => serialize($this)
+				'code' => Kohana::serialize($this)
 				))
 			->where( 'id', '=', $this->_id )
 			->execute();

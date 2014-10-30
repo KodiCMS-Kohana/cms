@@ -65,7 +65,7 @@ switch(DB_DRIVER)
 				'persistent' => FALSE,
 			),
 			'table_prefix' => TABLE_PREFIX,
-			'charset'      => 'utf8',
+			'charset'      => NULL,
 			'caching'      => FALSE,
 		);
 		

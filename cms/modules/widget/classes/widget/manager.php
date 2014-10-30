@@ -67,7 +67,7 @@ class Widget_Manager {
 				continue;
 			}
 
-			$result[$id] = unserialize($widget['code']);
+			$result[$id] = Kohana::unserialize($widget['code']);
 			$result[$id]->id = $widget['id'];
 			$result[$id]->name = $widget['name'];
 			$result[$id]->description = $widget['description'];
@@ -124,7 +124,7 @@ class Widget_Manager {
 				continue;
 			}
 
-			$widgets[$id] = unserialize($widget['code']);
+			$widgets[$id] = Kohana::unserialize($widget['code']);
 			$widgets[$id]->id = $widget['id'];
 			$widgets[$id]->name = $widget['name'];
 			$widgets[$id]->description = $widget['description'];
@@ -180,7 +180,7 @@ class Widget_Manager {
 				'type' => $widget->type(),
 				'name' => $widget->name,
 				'description' => $widget->description,
-				'code' => serialize($widget)
+				'code' => Kohana::serialize($widget)
 			))
 			->create();
 
@@ -204,7 +204,7 @@ class Widget_Manager {
 				'name' => $widget->name,
 				'template' => $widget->template,
 				'description' => $widget->description,
-				'code' => serialize($widget)
+				'code' => Kohana::serialize($widget)
 			))
 			->update();
 
@@ -246,7 +246,7 @@ class Widget_Manager {
 			return NULL;
 		}
 
-		$widget = unserialize($result['code']);
+		$widget = Kohana::unserialize($result['code']);
 		$widget->id = $result['id'];
 		$widget->name = $result['name'];
 		$widget->description = $result['description'];

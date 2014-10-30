@@ -51,7 +51,7 @@ class Model_Widget extends ORM {
 		{
 			try 
 			{
-				$this->_code = unserialize($this->code);	
+				$this->_code = Kohana::unserialize($this->code);	
 			}
 			catch (Exception $e) 
 			{

@@ -4,7 +4,7 @@
  * @package		KodiCMS/Helper
  * @author		ButscHSter
  */
-class KodiCMS_Database_Helper {
+class Kohana_Database_Helper {
 
 	/**
 	 * 

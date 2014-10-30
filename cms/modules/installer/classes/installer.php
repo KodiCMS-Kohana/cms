@@ -184,7 +184,6 @@ class Installer {
 
 		$this->_create_site_config($post);
 		$this->_create_config_file($post);
-
 		return TRUE;
 	}
 
@@ -321,10 +320,6 @@ class Installer {
 		
 		switch ($data['db_driver'])
 		{
-//			case 'pdo:sqlite':
-//				$validation
-//					->rule('directory', array($this, 'is_writable'));
-//				break;
 			default:
 				$validation
 					->rule('db_server', 'not_empty')
@@ -419,7 +414,7 @@ class Installer {
 		{
 			foreach ($data as $key => $config)
 			{
-				$insert->values(array($group, $key, serialize($config)));
+				$insert->values(array($group, $key, Kohana::serialize($config)));
 			}
 		}
 

@@ -551,7 +551,7 @@ class Kohana_ORM extends Model implements serializable {
 			$data[$var] = $this->{$var};
 		}
 
-		return serialize($data);
+		return Kohana::serialize($data);
 	}
 
 	/**
@@ -579,7 +579,7 @@ class Kohana_ORM extends Model implements serializable {
 		// Initialize model
 		$this->_initialize();
 
-		foreach (unserialize($data) as $name => $var)
+		foreach (Kohana::unserialize($data) as $name => $var)
 		{
 			$this->{$name} = $var;
 		}

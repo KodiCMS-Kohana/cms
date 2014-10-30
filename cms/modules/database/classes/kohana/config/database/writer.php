@@ -46,7 +46,7 @@ class Kohana_Config_Database_Writer extends Config_Database_Reader implements Ko
 	 */
 	public function write($group, $key, $config)
 	{
-		$config = serialize($config);
+		$config = Kohana::serialize($config);
 
 		// Check to see if we've loaded the config from the table already
 		if (isset($this->_loaded_keys[$group][$key]))
