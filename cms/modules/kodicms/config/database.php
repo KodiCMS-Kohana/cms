@@ -42,7 +42,7 @@ switch(DB_DRIVER)
 	case 'pdo':
 	case 'pdo::mysql':
 		$config = array(
-			'type'       => 'PDO_SQLite',
+			'type'       => 'PDO',
 			'connection' => array(
 				'dsn'        => 'mysql:host='.DB_SERVER.';dbname='.DB_NAME,
 				'username'   => DB_USER,
@@ -57,7 +57,7 @@ switch(DB_DRIVER)
 		break;
 	case 'pdo::sqlite':
 		$config = array(
-			'type'       => 'PDO',
+			'type'       => 'PDO_SQLite',
 			'connection' => array(
 				'dsn'        => 'sqlite:' . CMSPATH . 'db' . DIRECTORY_SEPARATOR . DB_NAME . '.sqlite',
 				'username'   => NULL,

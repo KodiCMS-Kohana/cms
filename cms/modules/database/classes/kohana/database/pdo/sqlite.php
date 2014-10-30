@@ -217,8 +217,6 @@ class Kohana_Database_PDO_SQLite extends Kohana_Database_PDO {
 			}
 		}
 
-		echo $sql . "\n\n\n\n";
-		
 		try
 		{
 			$result = parent::query($type, $sql, $as_object, $params);
