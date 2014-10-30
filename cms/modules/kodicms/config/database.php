@@ -1,5 +1,10 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
+if(!defined('DB_DRIVER'))
+{
+	define('DB_DRIVER', DB_TYPE);
+}
+
 switch(DB_DRIVER)
 {
 	case 'mysql':
@@ -44,7 +49,7 @@ switch(DB_DRIVER)
 		$config = array(
 			'type'       => 'PDO',
 			'connection' => array(
-				'dsn'        => 'mysql:host='.DB_SERVER.';dbname='.DB_NAME,
+				'dsn'        => 'mysql:host=' . DB_SERVER . ';dbname=' . DB_NAME,
 				'username'   => DB_USER,
 				'password'   => DB_PASS,
 				'persistent' => FALSE,
@@ -59,7 +64,7 @@ switch(DB_DRIVER)
 		$config = array(
 			'type'       => 'PDO_SQLite',
 			'connection' => array(
-				'dsn'        => 'sqlite:' . CMSPATH . 'db' . DIRECTORY_SEPARATOR . '.' .DB_NAME . '.sqlite',
+				'dsn'        => 'sqlite:' . CMSPATH . 'db' . DIRECTORY_SEPARATOR . '.' . DB_NAME . '.sqlite',
 				'username'   => NULL,
 				'password'   => NULL,
 				'persistent' => FALSE,
