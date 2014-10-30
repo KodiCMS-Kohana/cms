@@ -59,7 +59,7 @@ switch(DB_DRIVER)
 		$config = array(
 			'type'       => 'PDO_SQLite',
 			'connection' => array(
-				'dsn'        => 'sqlite:' . CMSPATH . 'db' . DIRECTORY_SEPARATOR . DB_NAME . '.sqlite',
+				'dsn'        => 'sqlite:' . CMSPATH . 'db' . DIRECTORY_SEPARATOR . '.' .DB_NAME . '.sqlite',
 				'username'   => NULL,
 				'password'   => NULL,
 				'persistent' => FALSE,

@@ -149,58 +149,51 @@ class Kohana_Database_PDO_SQLite extends Kohana_Database_PDO {
 
 	public function query($type, $sql, $as_object = false, array $params = NULL)
 	{
-		$result = preg_match('/^\\s*(SET|EXPLAIN|PRAGMA|SELECT\\s*FOUND_ROWS|SELECT|INSERT|UPDATE|REPLACE|DELETE|ALTER|CREATE|DROP\\s*INDEX|DROP|SHOW\\s*\\w+\\s*\\w+\\s*|DESCRIBE|DESC|TRUNCATE|OPTIMIZE|CHECK|ANALYZE)/i', $sql, $match);
-
+		$result = preg_match('/^\\s*(SET|EXPLAIN|PRAGMA|SELECT\\s*FOUND_ROWS|SELECT|INSERT|UPDATE|REPLACE|DELETE|ALTER|CREATE|DROP\\s*INDEX|DROP|SHOW|DESCRIBE|DESC|TRUNCATE|OPTIMIZE|CHECK|ANALYZE)/i', $sql, $match);
+		
 		if ($result)
 		{
-			$pattern = '/^\\s*SHOW\\s*TABLES\\s*/im';
-			if (preg_match($pattern, $sql))
-			{
-				$sql = $this->handle_show_tables($sql);
-			}
-
-			$pattern = '/^\\s*SHOW\\s*CREATE\\s*TABLE\\s*/im';
-			if (preg_match($pattern, $sql))
-			{
-				$sql = $this->handle_show_create($sql);
-			}
-
 			$query_type = strtolower($match[1]);
 			switch ($query_type)
 			{
 				case 'pragma':
 					break;
-				
 				case 'set':
 					$pattern = '/^\\s*SET\\s*FOREIGN_KEY_CHECKS\\s*=\\s*(0|1)\\s*/im';
 					if (preg_match($pattern, $sql, $match))
 					{
 						$sql = 'PRAGMA foreign_keys = ' . $match[1];
 					}
+					
 					break;
-
+				case 'show':
+					$sql = $this->handle_show_tables($sql);
+					$sql = $this->handle_show_create($sql);
+					$sql = $this->handle_show_columns($sql);
+					$sql = $this->handle_show_index($sql);
+					
+					break;
 				case 'create':
 					require_once PDODIR . 'query_create.class.php';
 					$engine = new CreateQuery();
 					$sql = join(";\n", $engine->rewrite_query($sql));
+					
 					break;
-			
 				case 'alter':
 					require_once PDODIR . 'query_alter.class.php';
 					$engine = new AlterQuery();
-					$re_query = '';
+					$re_query = NULL;
 					
 					$rewritten_query = $engine->rewrite_query($sql, $query_type);
 					if (is_array($rewritten_query) && array_key_exists('recursion', $rewritten_query))
 					{
 						$re_query = $rewritten_query['recursion'];
 						unset($rewritten_query['recursion']);
+						$rewritten_query[] = $re_query;
 					}
 					
-					$rewritten_query[] = $re_query;
 					$sql = join(";\n", $rewritten_query);
 					break;
-					
 				default:
 					$sql = preg_replace(array(
 							'/NOW\(\)/im',
@@ -211,16 +204,16 @@ class Kohana_Database_PDO_SQLite extends Kohana_Database_PDO {
 							"DATE('now','$1$2 $3')",
 							"DATE('now')",
 						), $sql);
-	
+					
 					$sql = preg_replace_callback('/([1-9])+\\s+WEEK/im', create_function('$matches', 'return ($matches[1] * 7) . " DAY";'), $sql);
 					break;
 			}
 		}
-
+	
 		try
 		{
 			$result = parent::query($type, $sql, $as_object, $params);
-		}
+		} 
 		catch (Database_Exception $e)
 		{
 			throw new Kohana_Kohana_Exception(
@@ -237,25 +230,32 @@ class Kohana_Database_PDO_SQLite extends Kohana_Database_PDO {
 	 */
 	private function handle_show_tables($sql)
 	{
-		$sql = str_ireplace(' FULL', '', $sql);
-		
-		$table_name = '';
-		$pattern = '/^\\s*SHOW\\s*TABLES\\s*.*?(LIKE\\s*(.*))$/im';
-		if (preg_match($pattern, $sql, $matches))
+		$pattern = '/^\\s*SHOW\\s*TABLES\\s*/im';
+
+		if (preg_match($pattern, $sql))
 		{
-			$table_name = str_replace(array("'", ';'), '', $matches[2]);
+			$sql = str_ireplace(' FULL', '', $sql);
+			$table_name = '';
+			$pattern = '/^\\s*SHOW\\s*TABLES\\s*.*?(LIKE\\s*(.*))$/im';
+			
+			if (preg_match($pattern, $sql, $matches))
+			{
+				$table_name = str_replace(array("'", ';'), '', $matches[2]);
+			}
+			
+			if (!empty($table_name))
+			{
+				$suffix = ' AND name LIKE ' . "'" . $table_name . "'";
+			}
+			else
+			{
+				$suffix = ' AND name NOT LIKE ' . "'" . 'sqlite_sequence' . "'";
+			}
+	
+			$sql = "SELECT name FROM sqlite_master WHERE type='table'" . $suffix . ' ORDER BY name DESC';
 		}
 
-		if (!empty($table_name))
-		{
-			$suffix = ' AND name LIKE ' . "'" . $table_name . "'";
-		}
-		else
-		{
-			$suffix = ' AND name NOT LIKE ' . "'" . 'sqlite_sequence' . "'";
-		}
-
-		return "SELECT name FROM sqlite_master WHERE type='table'" . $suffix . ' ORDER BY name DESC';
+		return $sql;
 	}
 
 	/**
@@ -265,23 +265,73 @@ class Kohana_Database_PDO_SQLite extends Kohana_Database_PDO {
 	 */
 	private function handle_show_create($sql)
 	{
-		$table_name = '';
-		$pattern = '/^\\s*SHOW\\s*CREATE\\s*TABLE\\s*(.+)$/im';
-		if (preg_match($pattern, $sql, $matches))
+		$pattern = '/^\\s*SHOW\\s*CREATE\\s*TABLE\\s*/im';
+
+		if (preg_match($pattern, $sql))
 		{
-			$table_name = str_replace(array("'", ';'), '', $matches[1]);
+			$table_name = '';
+			$pattern = '/^\\s*SHOW\\s*CREATE\\s*TABLE\\s*(.+)$/im';
+	
+			if (preg_match($pattern, $sql, $matches))
+			{
+				$table_name = str_replace(array("'", ';'), '', $matches[1]);
+			}
+			
+			if (!empty($table_name))
+			{
+				$suffix = ' WHERE tbl_name = ' . "'" . $table_name . "'";
+			}
+			else
+			{
+				$suffix = ' AND tbl_name NOT LIKE ' . "'" . 'sqlite_sequence' . "'";
+			}
+		
+			$sql = "SELECT sql AS " . $table_name . " FROM sqlite_master" . $suffix;
+		}
+	
+		return $sql;
+	}
+	
+	private function handle_show_columns($sql)
+	{
+		$sql = str_ireplace(' FULL', '', $sql);
+		$pattern_like = '/^\\s*SHOW\\s*(COLUMNS|FIELDS)\\s*FROM\\s*(.*)?\\s*LIKE\\s*(.*)?/i';
+		$pattern = '/^\\s*SHOW\\s*(COLUMNS|FIELDS)\\s*FROM\\s*(.*)?/i';
+		
+		if (preg_match($pattern_like, $sql, $matches))
+		{
+			$table_name = str_replace("'", "", trim($matches[2]));
+			$column_name = str_replace("'", "", trim($matches[3]));
+			$sql = "SELECT sql FROM sqlite_master WHERE tbl_name='$table_name' AND sql LIKE '%$column_name%'";
+		}
+		elseif (preg_match($pattern, $sql, $matches))
+		{
+			$table_name = $matches[2];
+			$sql = preg_replace($pattern, "PRAGMA table_info($table_name)", $sql);
 		}
 
-		if (!empty($table_name))
-		{
-			$suffix = ' WHERE tbl_name = ' . "'" . $table_name . "'";
-		}
-		else
-		{
-			$suffix = ' AND tbl_name NOT LIKE ' . "'" . 'sqlite_sequence' . "'";
-		}
+		return $sql;
+	}
 
-		return "SELECT sql AS " . $table_name . " FROM sqlite_master" . $suffix;
+	private function handle_show_index($sql)
+	{
+		$pattern = '/^\\s*SHOW\\s*(?:INDEX|INDEXES|KEYS)\\s*(FROM)*\\s*(\\w+)*\\s*(WHERE)*\\s*(\\w+)?/im';
+
+		if (preg_match($pattern, $sql, $match))
+		{
+			$table_name = preg_replace("/[\';]/", '', $match[3]);
+			$table_name = trim($table_name);
+	
+			if (!empty($matches[4]))
+			{
+				$column_name = str_replace("'", "", trim($matches[5]));
+				$suffix = " AND sql LIKE '%$column_name%'";
+			}
+			
+			$sql = "SELECT * FROM sqlite_master WHERE tbl_name='$table_name'" . $suffix;
+		}
+		
+		return $sql;
 	}
 
 	public function disable_foreign_key_checks()

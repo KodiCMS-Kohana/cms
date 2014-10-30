@@ -262,7 +262,7 @@ class Installer {
 				break;
 			case 'pdo::sqlite':
 				$connection = array(
-					'dsn'        => 'sqlite:' . CMSPATH . 'db' . DIRECTORY_SEPARATOR . $post['db_name'] . '.sqlite',
+					'dsn'        => 'sqlite:' . CMSPATH . 'db' . DIRECTORY_SEPARATOR .  '.' . $post['db_name'] . '.sqlite',
 					'username'   => NULL,
 					'password'   => NULL,
 					'persistent' => FALSE,

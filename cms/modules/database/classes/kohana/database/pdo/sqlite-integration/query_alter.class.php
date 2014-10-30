@@ -105,6 +105,7 @@ class AlterQuery {
 					$tmp_query = $this->handle_change_command($tokens);
 					break;
 				case 'alter column':
+				case 'drop column':
 					$tmp_query = $this->handle_alter_command($tokens);
 					break;
 				default:
