@@ -14,7 +14,7 @@ if(IS_BACKEND)
 
 Observer::observe('modules::after_load', function() {
 
-	if (!IS_BACKEND)
+	if (!IS_BACKEND AND ! Auth::is_logged_in())
 	{
 		return;
 	}
