@@ -156,6 +156,26 @@ class Kses
 
 		return $allowed_html;
 	}
+	
+	/**
+	 * 
+	 * @param string $string
+	 * @param array $tags
+	 * @return string
+	 */
+	public static function remove_empty_tags($string, array $tags = array('p', 'div'))
+	{
+		$tags = array_unique($tags);
+
+		foreach ($tags as $tag)
+		{
+			$string = preg_replace_callback("/<{$tag}[^>]*>[\s|&nbsp;|<br ?\/?>]*<\/{$tag}>/iU", function($match) {
+				return '';
+			}, $string);
+		}
+
+		return $string;
+	}
 
 	/**#@+
 	 *	@access private
@@ -1251,6 +1271,7 @@ class Kses
 		$string = preg_replace_callback('/&#[Xx]([0-9A-Fa-f]+);/', function($match) {
 			return chr(hexdec($match[1]));
 		}, $string);
+
 		return $string;
 	}
 

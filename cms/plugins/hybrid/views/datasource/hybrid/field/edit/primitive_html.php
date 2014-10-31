@@ -1,17 +1,20 @@
 <div class="form-group">
 	<label class="control-label col-md-3"><?php echo __('Default filter'); ?></label>
 	<div class="col-md-4">
-		<select name="filter">
-			<option value="">&ndash; <?php echo __( 'none' ); ?> &ndash;</option>
-			<?php foreach (WYSIWYG::findAll() as $filter ): ?> 
-			<option value="<?php echo $filter; ?>" <?php if($field->filter == $filter): ?>selected="selected"<?php endif; ?>><?php echo Inflector::humanize( $filter ); ?></option>
-			<?php endforeach; ?> 
-		</select>
+		<?php echo Form::select('filter', WYSIWYG::html_select(), $field->filter); ?>
 	</div>
 </div>
 
 <div class="form-group">
 	<div class="col-md-offset-3 col-md-9">
+		<div class="checkbox">
+			<label>
+				<?php echo Form::checkbox('remove_empty_tags', 1, $field->remove_empty_tags == 1, array(
+					'id' => 'remove_empty_tags'
+				)); ?> <?php echo __('Remove empty tags'); ?>
+			</label>
+		</div>
+		
 		<div class="checkbox">
 			<label>
 				<?php echo Form::checkbox('filter_html', 1, $field->filter_html == 1, array(

@@ -212,16 +212,16 @@ var RLANG = {
 				'#7f7f7f', '#0c0c0c', '#1d1b10', '#0f243e', '#244061', '#632423', '#4f6128', '#3f3151', '#31859b', '#974806', '#7f6000'],
 
 			// private
-			emptyHtml: '<p><br /></p>',
+			emptyHtml: '',
 			buffer: false,
 			visual: true,
 
 			// modal windows container
 			modal_file: String() +
-				'<div id="redactor_modal_content">' +
+				'<div id="redactor_modal_content" class="panel-body">' +
 				'<form id="redactorUploadFileForm" method="post" action="" enctype="multipart/form-data">' +
 					'<label>Name (optional)</label>' +
-					'<input type="text" id="redactor_filename" class="redactor_input" />' +
+					'<input type="text" id="redactor_filename" class="redactor_input form-control" />' +
 					'<div style="margin-top: 7px;">' +
 						'<input type="file" id="redactor_file" name="file" />' +
 					'</div>' +
@@ -229,11 +229,11 @@ var RLANG = {
 				'</div>',
 
 			modal_image_edit: String() +
-				'<div id="redactor_modal_content">' +
+				'<div id="redactor_modal_content" class="panel-body">' +
 				'<label>' + RLANG.title + '</label>' +
-				'<input id="redactor_file_alt" class="redactor_input" />' +
+				'<input id="redactor_file_alt" class="redactor_input form-control" />' +
 				'<label>' + RLANG.link + '</label>' +
-				'<input id="redactor_file_link" class="redactor_input" />' +
+				'<input id="redactor_file_link" class="redactor_input form-control" />' +
 				'<label>' + RLANG.image_position + '</label>' +
 				'<select id="redactor_form_image_align">' +
 					'<option value="none">' + RLANG.none + '</option>' +
@@ -241,14 +241,14 @@ var RLANG = {
 					'<option value="right">' + RLANG.right + '</option>' +
 				'</select>' +
 				'</div>' +
-				'<div id="redactor_modal_footer">' +
+				'<div id="redactor_modal_footer" class="panel-footer">' +
 					'<a href="javascript:void(null);" id="redactor_image_delete_btn" class="btn btn-inverse">' + RLANG._delete + '</a>&nbsp;&nbsp;&nbsp;' +
-					'<a href="javascript:void(null);" class="btn btn-danger">' + RLANG.cancel + '</a>' +
-					'<input type="button" name="save" class="btn" id="redactorSaveBtn" value="' + RLANG.save + '" />' +
+					'<a href="javascript:void(null);" class="btn btn-danger btn-sm pull-left">' + RLANG.cancel + '</a>' +
+					'<input type="button" name="save" class="btn btn-success" id="redactorSaveBtn" value="' + RLANG.save + '" />' +
 				'</div>',
 
 			modal_image: String() +
-				'<div id="redactor_modal_content">' +
+				'<div id="redactor_modal_content" class="panel-body">' +
 				'<div id="redactor_tabs" class="btn-group">' +
 					'<a href="javascript:void(null);" class="redactor_tabs_act btn">' + RLANG.upload + '</a>' +
 					'<a href="javascript:void(null);" class="btn">' + RLANG.choose + '</a>' +
@@ -264,16 +264,16 @@ var RLANG = {
 				'</form>' +
 				'<div id="redactor_tab3" class="redactor_tab" style="display: none;">' +
 					'<label>' + RLANG.image_web_link + '</label>' +
-					'<input type="text" name="redactor_file_link" id="redactor_file_link" class="redactor_input"  />' +
+					'<input type="text" name="redactor_file_link" id="redactor_file_link" class="redactor_input form-control"  />' +
 				'</div>' +
 				'</div>' +
-				'<div id="redactor_modal_footer">' +
-					'<a href="javascript:void(null);" class="btn btn-danger">' + RLANG.cancel + '</a>' +
-					'<input type="button" name="upload" class="btn" id="redactor_upload_btn" value="' + RLANG.insert + '" />' +
+				'<div id="redactor_modal_footer" class="panel-footer">' +
+					'<a href="javascript:void(null);" class="btn btn-danger btn-sm pull-left">' + RLANG.cancel + '</a>' +
+					'<input type="button" name="upload" class="btn btn-success" id="redactor_upload_btn" value="' + RLANG.insert + '" />' +
 				'</div>',
 
 			modal_link: String() +
-				'<div id="redactor_modal_content">' +
+				'<div id="redactor_modal_content" class="panel-body">' +
 				'<form id="redactorInsertLinkForm" method="post" action="">' +
 					'<div id="redactor_tabs" class="btn-group">' +
 						'<a href="javascript:void(null);" class="redactor_tabs_act btn">URL</a>' +
@@ -282,46 +282,46 @@ var RLANG = {
 					'</div>' +
 					'<input type="hidden" id="redactor_tab_selected" value="1" />' +
 					'<div class="redactor_tab" id="redactor_tab1">' +
-						'<label>URL</label><input type="text" id="redactor_link_url" class="redactor_input"  />' +
-						'<label>' + RLANG.text + '</label><input type="text" class="redactor_input redactor_link_text" id="redactor_link_url_text" />' +
+						'<label>URL</label><input type="text" id="redactor_link_url" class="redactor_input form-control"  />' +
+						'<label>' + RLANG.text + '</label><input type="text" class="redactor_input form-control redactor_link_text" id="redactor_link_url_text" />' +
 						'<label><input type="checkbox" id="redactor_link_blank"> ' + RLANG.link_new_tab + '</label>' +
 					'</div>' +
 					'<div class="redactor_tab" id="redactor_tab2" style="display: none;">' +
-						'<label>Email</label><input type="text" id="redactor_link_mailto" class="redactor_input" />' +
-						'<label>' + RLANG.text + '</label><input type="text" class="redactor_input redactor_link_text" id="redactor_link_mailto_text" />' +
+						'<label>Email</label><input type="text" id="redactor_link_mailto" class="redactor_input form-control" />' +
+						'<label>' + RLANG.text + '</label><input type="text" class="redactor_input form-control redactor_link_text" id="redactor_link_mailto_text" />' +
 					'</div>' +
 					'<div class="redactor_tab" id="redactor_tab3" style="display: none;">' +
-						'<label>' + RLANG.anchor + '</label><input type="text" class="redactor_input" id="redactor_link_anchor"  />' +
-						'<label>' + RLANG.text + '</label><input type="text" class="redactor_input redactor_link_text" id="redactor_link_anchor_text" />' +
+						'<label>' + RLANG.anchor + '</label><input type="text" class="redactor_input form-control" id="redactor_link_anchor"  />' +
+						'<label>' + RLANG.text + '</label><input type="text" class="redactor_input form-control redactor_link_text" id="redactor_link_anchor_text" />' +
 					'</div>' +
 				'</form>' +
 				'</div>' +
-				'<div id="redactor_modal_footer">' +
-					'<a href="javascript:void(null);" class="btn btn-danger">' + RLANG.cancel + '</a>' +
+				'<div id="redactor_modal_footer" class="panel-footer">' +
+					'<a href="javascript:void(null);" class="btn btn-danger btn-sm pull-left">' + RLANG.cancel + '</a>' +
 					'<input type="button" class="btn" id="redactor_insert_link_btn" value="' + RLANG.insert + '" />' +
 				'</div>',
 
 			modal_table: String() +
-				'<div id="redactor_modal_content">' +
+				'<div id="redactor_modal_content" class="panel-body">' +
 					'<label>' + RLANG.rows + '</label>' +
 					'<input type="text" size="5" value="2" id="redactor_table_rows" />' +
 					'<label>' + RLANG.columns + '</label>' +
 					'<input type="text" size="5" value="3" id="redactor_table_columns" />' +
 				'</div>' +
-				'<div id="redactor_modal_footer">' +
-					'<a href="javascript:void(null);" class="btn btn-danger">' + RLANG.cancel + '</a>' +
+				'<div id="redactor_modal_footer" class="panel-footer">' +
+					'<a href="javascript:void(null);" class="btn btn-danger btn-sm pull-left">' + RLANG.cancel + '</a>' +
 					'<input type="button" name="upload" class="btn" id="redactor_insert_table_btn" value="' + RLANG.insert + '" />' +
 				'</div>',
 
 			modal_video: String() +
-				'<div id="redactor_modal_content">' +
+				'<div id="redactor_modal_content" class="panel-body">' +
 				'<form id="redactorInsertVideoForm">' +
 					'<label>' + RLANG.video_html_code + '</label>' +
 					'<textarea id="redactor_insert_video_area" style="width: 99%; height: 160px;"></textarea>' +
 				'</form>' +
 				'</div>'+
-				'<div id="redactor_modal_footer">' +
-					'<a href="javascript:void(null);" class="btn btn-danger">' + RLANG.cancel + '</a>' +
+				'<div id="redactor_modal_footer" class="panel-footer">' +
+					'<a href="javascript:void(null);" class="btn btn-danger btn-sm pull-left">' + RLANG.cancel + '</a>' +
 					'<input type="button" class="btn" id="redactor_insert_video_btn" value="' + RLANG.insert + '" />' +
 				'</div>',
 
@@ -3649,7 +3649,7 @@ var RLANG = {
 
 			if ($('#redactor_modal').size() === 0)
 			{
-				this.modal = $('<div id="redactor_modal" style="display: none;"><div id="redactor_modal_close">&times;</div><div id="redactor_modal_header"></div><div id="redactor_modal_inner"></div></div>');
+				this.modal = $('<div id="redactor_modal" class="panel" style="display: none;"><div id="redactor_modal_close">&times;</div><div id="redactor_modal_header" class="panel-heading"></div><div id="redactor_modal_inner"></div></div>');
 				$('body').append(this.modal);
 			}
 

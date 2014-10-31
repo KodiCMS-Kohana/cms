@@ -477,10 +477,10 @@ cms.ui.add('flags', function() {
 	});
 	
 	$('.datepicker').each(function() {
-		var local_options = $.extend({
+		var local_options = $.extend(options, {
 			timepicker: false,
 			format: 'Y-m-d'
-		}, options);
+		});
 		
 		var $self = $(this);
 		
@@ -499,16 +499,16 @@ cms.ui.add('flags', function() {
 				});
 			}
 		}
-		
+
 		$self.datetimepicker(local_options);
 	});
 	
 	$('.timepicker').each(function() {
-		var local_options = $.extend({
+		var local_options = $.extend(options, {
 			timepicker: true,
 			datepicker: false,
 			format: 'H:i:s'
-		}, options);
+		});
 		
 		var $self = $(this);
 		
@@ -733,6 +733,8 @@ cms.ui.add('flags', function() {
 		$btn.on('click', function() {
 			cms.filemanager.open($self);
 		});
+		
+		$self.removeAttr('data-filemanager');
 	})
 		
 	$('body').on('click', '.btn-filemanager', function() {

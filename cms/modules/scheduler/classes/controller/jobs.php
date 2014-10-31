@@ -125,7 +125,7 @@ class Controller_Jobs extends Controller_System_Backend {
 		$this->template->content = View::factory('jobs/edit', array(
 			'action' => 'edit',
 			'job' => $job,
-			'history' => View::factory('scheduler/job_history', array(
+			'history' => View::factory('jobs/history', array(
 				'history' => $job->logs->order_by('created_on', 'desc')->limit(30)->find_all()
 			))
 		));

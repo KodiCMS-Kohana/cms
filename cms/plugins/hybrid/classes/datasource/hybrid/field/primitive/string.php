@@ -16,11 +16,6 @@ class DataSource_Hybrid_Field_Primitive_String extends DataSource_Hybrid_Field_P
 		return array('use_filemanager');
 	}
 	
-	public function set( array $data )
-	{
-		return parent::set( $data );
-	}
-	
 	public function get_type() 
 	{
 		if($this->length < 1 OR $this->length > 255)

@@ -1,59 +1,65 @@
 cms.init.add('page_edit', function() {
 	$('.spoiler-page-fields').on('click', '.btn-add', function() {
-		var container = $(this).parent().parent().parent();
+		var container = $(this).closest('.page-field');
 		var fields = container.find('input');
 		Api.put('page-field', {field: fields.serializeObject(), page_id: PAGE_ID}, function(response) {
-			if(response.response)
-			{
+			if(response.response) {
 				$('.spoiler-page-fields').append(response.response);
 				cms.ui.init('filemanager');
 				fields.val('');
 			}
 		});
-
 		return false;
 	});
-	
+
 	$('.spoiler-page-fields').on('click', '.btn-remove', function() {
-		var field = $(this).parent().parent();
+		var field = $(this).closest('.page-field');
 		Api.delete('page-field', {field_id: field.data('id')}, function(response) {
 			field.remove();
 		});
 		return false;
 	});
-	
+
 	$('.page-field').on('change', 'input[name=value]', function() {
-		if($(this).parent().data('id'))
-			updateField($(this));
+		var $container = $(this).closest('.page-field');
+		if($container.data('id'))
+			updateField(container.data('id'), $(this).val());
 	});
-	
-	function updateField(field) {
-		Api.post('page-field', {field_id: field.parent().data('id'), value: field.val()}, function(response) {});
+
+	function updateField(field_id, value) {
+		Api.post('page-field', {field_id: field_id, value: value}, function(response) {});
 	}
-	
+
 	$('#select-page-field').on('click', function() {
-		var container = $(this).parent();
+		var $container = $(this).closest('.well'),
+			$select_container = $('.select-field-container');
+
+		if($container.find('.page-field .select-field-container').length > 0) {
+			$select_container = $container.find('.page-field .select-field-container');
+		} else {
+			$select_container = $select_container.clone();
+		}
 		
-		if(container.hasClass('select-init')) {
+		var $select = $("#select-page-field-container", $select_container);
 			
+		if($container.hasClass('select-init')) {
 			$(this).text(__('Show field select'));
 			
-			container
+			$container
 				.removeClass('select-init')
 				.find('.system-field')
 				.show()
 				.find('input')
 				.removeAttr('disabled');
 
-			$('.select-field-container')
-				.hide();
+			$select_container.remove();
 				
-			$("#select-page-field-container")
+			$select
 				.select2("destroy")
 				.attr('disabled', 'disabled');
 
-		}else{
-			$("#select-page-field-container")
+		} else {
+			$select
 				.removeAttr('disabled')
 				.select2({
 					placeholder: __("Select field"),
@@ -69,20 +75,18 @@ cms.init.add('page_edit', function() {
 			
 			$(this).text(__('Hide field select'));
 			
-			container
+			$container
 				.addClass('select-init')
 				.find('.system-field')
 				.hide()
 				.find('input')
 				.attr('disabled', 'disabled');
 				
-			$('.select-field-container')
+			$select_container
+				.prependTo($('.page-field', $container))
 				.show();
 		}
 		
-		
-		
 		return false;
-	})
-	
+	});
 });

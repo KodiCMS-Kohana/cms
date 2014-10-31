@@ -7,17 +7,30 @@ class DataSource_Hybrid_Field_Primitive_HTML extends DataSource_Hybrid_Field_Pri
 	protected $_props = array(
 		'default' => NULL,
 		'filter_html' => FALSE,
+		'remove_empty_tags' => FALSE,
 		'allowed_tags' => '<b><i><u><p><ul><li><ol>'
 	);
 
 	public function booleans()
 	{
-		return array('filter_html');
+		return array('filter_html', 'remove_empty_tags');
 	}
 
 	public function set(array $data)
 	{
 		return parent::set($data);
+	}
+	
+	public function onSetValue($value, DataSource_Hybrid_Document $doc)
+	{
+		$value = parent::onSetValue($value, $doc);
+		
+		if($this->remove_empty_tags === TRUE)
+		{
+			return Kses::remove_empty_tags($value);
+		}
+		
+		return $value;
 	}
 
 	public function onUpdateDocument(DataSource_Hybrid_Document $old = NULL, DataSource_Hybrid_Document $new)

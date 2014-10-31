@@ -358,10 +358,10 @@ class DataSource_Hybrid_Field_Factory {
 			':table' => DB::expr($db->quote_table($field->ds_table)),
 			':key' => DB::expr($db->quote_column($field->name)),
 			':type' => DB::expr($field->get_type()),
-			':default' => DB::expr('')
+			':default' => DB::expr('DEFAULT ""')
 		);
 		
-		if(!empty($field->default))
+		if(isset($field->default))
 		{
 			$params[':default'] = DB::expr('DEFAULT "' .  $field->default . '"');
 		}
@@ -408,10 +408,10 @@ class DataSource_Hybrid_Field_Factory {
 			':old_key' => DB::expr($db->quote_column($old->name)),
 			':new_key' => DB::expr($db->quote_column($field->name)),
 			':type' => DB::expr($field->get_type()),
-			':default' => DB::expr('')
+			':default' => DB::expr('DEFAULT ""')
 		);
 		
-		if(!empty($field->default))
+		if(isset($field->default))
 		{
 			$params[':default'] = DB::expr('DEFAULT "' .  $field->default . '"');
 		}
