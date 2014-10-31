@@ -26,6 +26,7 @@ cms.plugins.ace.switchOn_handler = function (textarea_id, params) {
 	editor.setTheme("ace/theme/textmate");
 
 	function fullscreen(editArea, editor, height) {
+		var $menu = $('#main-menu').add('#main-navbar').add('#main-menu-bg');
 		if (!editArea.data('fullscreen') || editArea.data('fullscreen') == 'off') {
 			editArea
 					.css({
@@ -34,7 +35,9 @@ cms.plugins.ace.switchOn_handler = function (textarea_id, params) {
 						height: '100%',
 						top: 0, left: 0
 					})
-					.data('fullscreen', 'on')
+					.data('fullscreen', 'on');
+			
+			$menu.hide();
 
 			editor.setTheme("ace/theme/monokai");
 		} else {
@@ -47,6 +50,7 @@ cms.plugins.ace.switchOn_handler = function (textarea_id, params) {
 						height: height,
 						top: 'auto', left: 'auto'
 					});
+			$menu.show();
 		}
 	}
 

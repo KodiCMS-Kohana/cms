@@ -14,18 +14,18 @@ if(IS_BACKEND)
 
 Observer::observe('modules::after_load', function() {
 
-	if (!IS_BACKEND)
+	if (!IS_BACKEND AND ! Auth::is_logged_in())
 	{
 		return;
 	}
 
 	$types = Datasource_Data_Manager::types();
 	
-	if(empty($types))
+	if (empty($types))
 	{
 		return;
 	}
-	
+
 	try
 	{
 		$ds_section = Model_Navigation::get_section('Datasources');
@@ -34,61 +34,58 @@ Observer::observe('modules::after_load', function() {
 		
 		$datasource_is_empty = empty($sections_list);
 		$folders = Datasource_Folder::get_all();
+		$root_sections = array();
 
 		foreach ($sections_list as $type => $sections)
 		{
 			foreach ($sections as $id => $section)
 			{
-				if(array_key_exists($section->folder_id(), $folders))
+				if ($section->show_in_root_menu())
 				{
-					$folders[$section->folder_id()]['sections'][$id] = $section;
+					$root_sections[] = $section;
+					unset($sections_list[$type][$id]);
+					continue;
+				}
+
+				if (array_key_exists($section->folder_id(), $folders))
+				{
+					$folders[$section->folder_id()]['sections'][] = $section;
 					unset($sections_list[$type][$id]);
 				}
+			}
+		}
+		
+		if (!empty($root_sections))
+		{
+			foreach ($root_sections as $id => $section)
+			{
+				$section->add_to_menu();
 			}
 		}
 
 		foreach ($folders as $folder_id => $folder)
 		{
-			if(empty($folder['sections'])) continue;
+			if (empty($folder['sections']))
+			{
+				continue;
+			}
+	
 			$folder_section = Model_Navigation::get_section($folder['name'], $ds_section);
 
 			foreach ($folder['sections'] as $id => $section)
 			{
-				$folder_section
-					->add_page(new Model_Navigation_Page(array(
-						'name' => $section->name,
-						'url' => Route::get('datasources')->uri(array(
-							'controller' => 'data',
-							'directory' => 'datasources',
-						)) . URL::query(array('ds_id' => $id)),
-						'icon' => Datasource_Data_Manager::get_icon($section->type()),
-						'permissions' => 'ds_id.' . $id . '.section.view'
-					)), 999);
+				$section->add_to_menu($folder_section);
 			}
 		}
 
-		foreach($sections_list as $type => $sections)
+		foreach ($sections_list as $type => $sections)
 		{
 			foreach ($sections as $id => $section)
 			{
-				if (!$section->has_access_view())
-				{
-					continue;
-				}
-
-				$ds_section
-					->add_page(new Model_Navigation_Page(array(
-						'name' => $section->name,
-						'url' => Route::get('datasources')->uri(array(
-							'controller' => 'data',
-							'directory' => 'datasources',
-						)) . URL::query(array('ds_id' => $id)),
-						'icon' => Datasource_Data_Manager::get_icon($type),
-						'permissions' => 'ds_id.' . $id . '.section.view'
-					)), 999);
+				$section->add_to_menu($ds_section);
 			}
 		}
-		
+
 		$_create_section = Model_Navigation::get_section(__('Create section'), $ds_section, 999);
 
 		foreach ($types as $id => $type)
@@ -105,12 +102,13 @@ Observer::observe('modules::after_load', function() {
 				'permissions' => $id.'.section.create'
 			)));
 		}
+		
+		unset($sections_list, $folders, $root_section);
 	}
 	catch (Exception $ex)
 	{
 		
 	}
-	
 });
 
 Observer::observe('update_search_index', function() {

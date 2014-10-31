@@ -100,7 +100,9 @@ $folders_status = Model_User_Meta::get('datasource_folders', array());
 		$selected = ($id == $ds_id) ? 'active' : '';
 		$title = $section->name;
 		$result .= '<li class="' . $selected . '" data-id="' . $id . '">';
-		$result .= HTML::anchor(Datasource_Section::uri('view', $id), $section->name . UI::icon('ellipsis-v fa-lg', array('class' => 'pull-right section-draggable')));
+		$result .= HTML::anchor(Datasource_Section::uri('view', $id), $section->name . UI::icon('ellipsis-v fa-lg', array(
+			'class' => 'pull-right section-draggable'
+		)), array('data-icon' => $section->icon()));
 		$result .= '</li>';
 
 		return $result;

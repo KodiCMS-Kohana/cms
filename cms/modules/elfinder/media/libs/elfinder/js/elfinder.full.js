@@ -5931,7 +5931,7 @@ $.fn.elfinderdialog = function(opts) {
 		);
 			
 		$.each(opts.buttons, function(name, cb) {
-			var button = $('<button type="button" class="btn">'+name+'</button>')
+			var button = $('<button type="button" class="btn btn-default">'+name+'</button>')
 				.click($.proxy(cb, self[0]))
 				.keydown(function(e) { 
 					var next;
@@ -7728,7 +7728,6 @@ elFinder.prototype.commands.edit = function() {
 				save = function() {
 					ta.editor && ta.editor.save(ta[0], ta.editor.instance);
 					dfrd.resolve(ta.getContent());
-					ta.elfinderdialog('close');
 				},
 				cancel = function() {
 					dfrd.reject();
@@ -7806,7 +7805,7 @@ elFinder.prototype.commands.edit = function() {
 				}
 				
 				opts.buttons[fm.i18n('Save')]   = save;
-				opts.buttons[fm.i18n('Cancel')] = cancel
+				opts.buttons[fm.i18n('Close')] = cancel
 				
 				fm.dialog(ta, opts).attr('id', id).parent().on('resize', function(e, ui) {
 					cms.filters.exec(id+'-ta', 'changeHeight', $(this).find('.panel-body').height());
