@@ -76,7 +76,7 @@ class Datasource_Section {
 	 * 
 	 * @return string
 	 */
-	public static function icon()
+	public static function default_icon()
 	{
 		return 'folder-open-o';
 	}
@@ -157,6 +157,13 @@ class Datasource_Section {
 	public $name;
 	
 	/**
+	 * Иконка раздела
+	 * 
+	 * @var string
+	 */
+	public $icon;
+	
+	/**
 	 * Описание раздела
 	 * 
 	 * @var string
@@ -199,6 +206,13 @@ class Datasource_Section {
 	protected $_is_indexable = FALSE;
 	
 	/**
+	 * Показывать в корне меню
+	 * 
+	 * @var boolean
+	 */
+	protected $_show_in_root_menu = FALSE;
+	
+	/**
 	 * Объект загрузки списка документов 
 	 * 
 	 * @var Datasource_Section_Headline
@@ -235,6 +249,16 @@ class Datasource_Section {
 			throw new DataSource_Exception_Section('Document class :class_name not exists', 
 					array(':class_name' => $this->_document_class_name));
 		}
+	}
+	
+	/**
+	 * 
+	 * @param Model_Navigation_Section $parent_section
+	 * @return Model_Navigation_Section
+	 */
+	public function add_to_menu(Model_Navigation_Section $parent_section = NULL)
+	{	
+		return Datasource_Data_Manager::add_section_to_menu($this, $parent_section);
 	}
 	
 	/**
@@ -296,11 +320,35 @@ class Datasource_Section {
 	/**
 	 * Возвращает название таблицы раздела
 	 * 
-	 * @return Datasource_Section_Headline
+	 * @return string
 	 */
 	public function table()
 	{
 		return $this->_ds_table;
+	}
+	
+	/**
+	 * 
+	 * @return boolean
+	 */
+	public function show_in_root_menu()
+	{
+		return (bool) $this->_show_in_root_menu;
+	}
+	
+	/**
+	 * 
+	 * @return string
+	 */
+	public function icon()
+	{
+		if (!empty($this->icon))
+		{
+			return $this->icon;
+		}
+
+		$class = get_called_class();
+		return $class::default_icon();
 	}
 
 	/**
@@ -311,7 +359,7 @@ class Datasource_Section {
 	 * @return integer Идентификатор раздела
 	 * @throws DataSource_Exception_Section
 	 */
-	public function create( array $values ) 
+	public function create(array $values)
 	{
 		if (!$this->has_access_create())
 		{
@@ -320,7 +368,9 @@ class Datasource_Section {
 
 		$this->name = Arr::get($values, 'name');
 		$this->description = Arr::get($values, 'description');
+		$this->icon = Arr::get($values, 'icon');
 		$this->_is_indexable = (bool) Arr::get($values, 'is_indexable');
+		$this->_show_in_root_menu = (bool) Arr::get($values, 'show_in_root_menu');
 		$this->_created_by_id = (int) Arr::get($values, 'created_by_id', Auth::get_id());
 		$this->_folder_id = (int) Arr::get($values, 'folder_id');
 		
@@ -366,6 +416,8 @@ class Datasource_Section {
 
 		$this->name = Arr::get($values, 'name');
 		$this->description = Arr::get($values, 'description');
+		$this->icon = Arr::get($values, 'icon');
+		$this->_show_in_root_menu = (bool) Arr::get($values, 'show_in_root_menu');
 
 		if (!empty($values['folder_id']))
 		{
@@ -926,6 +978,7 @@ class Datasource_Section {
 	{
 		return $this->has_access('section.remove', TRUE, $user_id);
 	}
+	
 	/**************************************************************************
 	 * Search indexation
 	 **************************************************************************/

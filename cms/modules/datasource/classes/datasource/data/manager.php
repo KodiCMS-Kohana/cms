@@ -17,6 +17,37 @@ class Datasource_Data_Manager {
 	 * @var array 
 	 */
 	protected static $_cache = array();
+	
+	/**
+	 * Добавление раздела в меню Backend
+	 * 
+	 * @param Datasource_Section $section
+	 * @param Model_Navigation_Section $parent_section
+	 * return Model_Navigation_Section;
+	 */
+	public static function add_section_to_menu(Datasource_Section $section, Model_Navigation_Section $parent_section = NULL)
+	{	
+		if ($parent_section === NULL)
+		{
+			$parent_section = Model_Navigation::get_root_section();
+		}
+
+		if (!$section->has_access_view())
+		{
+			return $parent_section;
+		}
+
+		return $parent_section
+			->add_page(new Model_Navigation_Page(array(
+				'name' => $section->name,
+				'url' => Route::get('datasources')->uri(array(
+					'controller' => 'data',
+					'directory' => 'datasources',
+				)) . URL::query(array('ds_id' => $section->id())),
+				'icon' => $section->icon(),
+				'permissions' => 'ds_id.' . $section->id() . '.section.view'
+			)), 999);
+	}
 
 	/**
 	 * Список всех типов разделв
@@ -148,7 +179,7 @@ class Datasource_Data_Manager {
 
 	/**
 	 * Загрузка разедла по ID
-	 * 
+	 *
 	 * @param integer $id
 	 * @return null|Datasource_Section
 	 */
@@ -199,10 +230,10 @@ class Datasource_Data_Manager {
 		
 		if(class_exists($class_name))
 		{
-			return call_user_func($class_name . '::icon');
+			return call_user_func($class_name . '::default_icon');
 		}
 		
-		return Datasource_Section::icon();
+		return Datasource_Section::default_icon();
 	}
 	
 	/**

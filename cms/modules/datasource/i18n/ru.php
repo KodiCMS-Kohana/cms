@@ -48,7 +48,6 @@ return array(
 	'Create documents' => 'Создание документов',
 	'Edit documents' => 'Редактирование документов',
 	'Remove documents' => 'Удаление документов',
-	'Create hybrid fields' => 'Создание полей ГД',
-	'Edit hybrid fields' => 'Редактирование полей ГД',
-	'Remove hybrid fields' => 'Удаление полей ГД',
+	'Datasource icon' => 'Иконка раздела',
+	'Show datasource in root menu' => 'Отображать раздел в корне меню'
 );

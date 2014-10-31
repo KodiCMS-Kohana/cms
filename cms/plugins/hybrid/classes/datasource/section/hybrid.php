@@ -10,7 +10,7 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 	 * 
 	 * @return string
 	 */
-	public static function icon()
+	public static function default_icon()
 	{
 		return 'table';
 	}

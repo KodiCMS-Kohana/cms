@@ -1,5 +1,5 @@
 <div class="mail-container-header">
-	<?php echo $datasource->name; ?>
+	<?php echo UI::icon($datasource->icon()); ?> <?php echo $datasource->name; ?>
 	
 	<div class="btn-group pull-right">
 		<?php if($datasource->has_access_edit())

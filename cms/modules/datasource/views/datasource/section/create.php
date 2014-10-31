@@ -22,6 +22,18 @@
 				)); ?>
 			</div>
 		</div>
+		
+		<div class="form-group">
+			<div class="col-md-9 col-md-offset-3">
+				<div class="checkbox">
+					<label>
+						<?php echo Form::checkbox('show_in_root_menu', 1, Arr::get($data, 'show_in_root_menu') == 1, array(
+							'id' => 'show_in_root_menu'
+						)); ?> <?php echo __('Show in root menu'); ?>
+					</label>
+				</div>
+			</div>
+		</div>
 	</div>
 	
 	<div class="panel-footer">
