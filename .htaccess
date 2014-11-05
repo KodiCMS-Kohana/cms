@@ -8,6 +8,14 @@ RewriteEngine On
 # Installation directory
 RewriteBase /
 
+# Redirect www to non-www
+# RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+# RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
+
+# Redirect non-www to www
+# RewriteCond %{HTTP_HOST} !^www\.
+# RewriteRule ^(.*)$ http://www.%{HTTP_HOST}/$1 [R=301,L]
+
 # Protect hidden files from being viewed
 <Files .*>
         Order Deny,Allow
@@ -25,5 +33,7 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 
 # Rewrite all other URLs to index.php/URL
-# RewriteRule .* index.php/$0 [PT]
 RewriteRule .* index.php [PT]
+
+# Alternate variant
+# RewriteRule .* index.php/$0 [PT]
