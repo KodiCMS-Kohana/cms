@@ -5,10 +5,11 @@ define('PDODIR', dirname(__FILE__) . DIRECTORY_SEPARATOR . 'sqlite-integration' 
 /**
  * PDO_SQLite database connection.
  *
- * @package    Kohana
- * @author     Dinesh Shah and Tiger's Way
- * @copyright  (c) 2010-2011 Dinesh Shah and Tiger's Way
- * @license    http://kohanaphp.com/license.html
+ * @package		Kohana/Database
+ * @category	Drivers
+ * @author		Dinesh Shah and Tiger's Way
+ * @copyright	(c) 2010-2011 Dinesh Shah and Tiger's Way
+ * @license		http://kohanaphp.com/license.html
  */
 class Kohana_Database_PDO_SQLite extends Kohana_Database_PDO {
 
@@ -174,14 +175,12 @@ class Kohana_Database_PDO_SQLite extends Kohana_Database_PDO {
 					
 					break;
 				case 'create':
-					require_once PDODIR . 'query_create.class.php';
-					$engine = new CreateQuery();
+					$engine = new Kohana_Database_PDO_SQLite_Create();
 					$sql = join(";\n", $engine->rewrite_query($sql));
 					
 					break;
 				case 'alter':
-					require_once PDODIR . 'query_alter.class.php';
-					$engine = new AlterQuery();
+					$engine = new Kohana_Database_PDO_SQLite_Alter();
 					$re_query = NULL;
 					
 					$rewritten_query = $engine->rewrite_query($sql, $query_type);

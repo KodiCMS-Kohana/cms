@@ -1,9 +1,9 @@
 <?php defined('SYSPATH') or die('No direct script access.');
+
 /**
  * Invalid Task Exception
  *
- * @package    Kohana
- * @category   Minion
+ * @package    Kohana/Minion
  * @author     Kohana Team
  * @copyright  (c) 2009-2011 Kohana Team
  * @license    http://kohanaframework.org/license

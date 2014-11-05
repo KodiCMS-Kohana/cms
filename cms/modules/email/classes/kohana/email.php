@@ -2,8 +2,7 @@
 /**
  * Email message building and sending.
  *
- * @package    Kohana
- * @category   Email
+ * @package    KodiCMS/Email
  * @author     Kohana Team
  * @copyright  (c) 2007-2011 Kohana Team
  * @license    http://kohanaphp.com/license.html

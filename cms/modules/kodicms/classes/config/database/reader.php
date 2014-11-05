@@ -5,9 +5,10 @@
  *
  * @package    Kohana/Database
  * @category   Configuration
- * @author     Kohana Team
- * @copyright  (c) 2012 Kohana Team
- * @license    http://kohanaframework.org/license
+ * @author		butschster <butschster@gmail.com>
+ * @link		http://kodicms.ru
+ * @copyright	(c) 2012-2014 butschster
+ * @license		http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
  */
 class Config_Database_Reader extends Kohana_Config_Database_Reader
 {

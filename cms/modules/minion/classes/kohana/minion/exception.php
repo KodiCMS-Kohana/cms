@@ -2,8 +2,8 @@
 /**
  * Minipn exception
  *
- * @package    Kohana
- * @category   Minion
+ * @package    Kohana/Minion
+ * @category   Exception
  * @author     Kohana Team
  * @copyright  (c) 2009-2011 Kohana Team
  * @license    http://kohanaframework.org/license

@@ -2,7 +2,11 @@
 
 /**
  * @package		KodiCMS/Reflink
- * @author		ButscHSter
+ * @category	Drivers
+ * @author		butschster <butschster@gmail.com>
+ * @link		http://kodicms.ru
+ * @copyright	(c) 2012-2014 butschster
+ * @license		http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
  */
 class Reflink_Register extends Reflink {
 	

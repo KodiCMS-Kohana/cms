@@ -3,13 +3,14 @@
 /**
  * This file defines CreateQuery class.
  *
- * @package SQLite Integration
+ * @package		Kohana/Database
+ * @category	Helpers
  * @author Kojima Toshiyasu
  * 
  * This class provides a function to rewrite CREATE query.
  *
  */
-class CreateQuery {
+class Kohana_Database_PDO_SQLite_Create {
 
 	/**
 	 * The query string to be rewritten in this class.

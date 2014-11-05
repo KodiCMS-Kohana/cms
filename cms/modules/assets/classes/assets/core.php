@@ -29,9 +29,13 @@
  *         </body>
  *     </html>
  *
- * @package   Assets
- * @author    Corey Worrell
- * @version   1.0
+ * @package		KodiCMS/Assets
+ * @author		Corey Worrell
+ * @author		butschster <butschster@gmail.com>
+ * @version		1.0
+ * @link		http://kodicms.ru
+ * @copyright  (c) 2012-2014 butschster
+ * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
  */
 class Assets_Core {
 

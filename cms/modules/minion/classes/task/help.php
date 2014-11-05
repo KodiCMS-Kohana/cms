@@ -2,7 +2,7 @@
 /**
  * Help task to display general instructons and list all tasks
  *
- * @package    Kohana
+ * @package    Kohana/Minion
  * @category   Helpers
  * @author     Kohana Team
  * @copyright  (c) 2009-2011 Kohana Team

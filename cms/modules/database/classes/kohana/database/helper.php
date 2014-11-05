@@ -2,7 +2,7 @@
 
 /**
  * @package		KodiCMS/Helper
- * @author		ButscHSter
+ * @author		butschster <butschster@gmail.com>
  */
 class Kohana_Database_Helper {
 

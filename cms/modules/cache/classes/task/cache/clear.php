@@ -4,7 +4,7 @@
  * Задача очистки кеша
  * @package		KodiCMS/Cache
  * @category	Task
- * @author		ButscHSter
+ * @author		butschster <butschster@gmail.com>
  */
 
 /**

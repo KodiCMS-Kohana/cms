@@ -5,10 +5,11 @@
  *
  * newly supports multiple variants
  *
- * @package SQLite Integration
- * @author Kojima Toshiyasu
+ * @package		Kohana/Database
+ * @category	Helpers
+ * @author		Kojima Toshiyasu
  */
-class AlterQuery {
+class Kohana_Database_PDO_SQLite_Alter {
 
 	/**
 	 * Variable to store the rewritten query string.
