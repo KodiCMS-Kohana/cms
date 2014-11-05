@@ -29,21 +29,18 @@
  */
 class Task_Install extends Minion_Task
 {
+	/**
+	 *
+	 * @var Installer
+	 */
+	protected $_installer;
+	
 	protected $_options = array(
-		'db_server' => 'localhost',
 		'db_driver' => NULL,
-		'db_port' => 3306,
-		'db_user' => 'root',
-		'db_password' => '',
+		'db_password' => NULL,
 		'db_name' => NULL,
 		'db_table_prefix' => '',
-		'site_name' => CMS_NAME,
-		'username' => 'admin',
 		'password' => NULL,
-		'email' => 'admin@yoursite.com',
-		'admin_dir_name' => 'backend',
-		'url_suffix' => '.html',
-		'timezone' => NULL,
 		'password_generate' => TRUE,
 		'empty_database' => FALSE,
 		'cache_type' => NULL,
@@ -51,13 +48,20 @@ class Task_Install extends Minion_Task
 		'locale' => NULL
 	);
 	
+	protected function __construct()
+	{
+		$this->_installer = new Installer;
+
+		$default = $this->_installer->default_params();
+		$this->_options = Arr::merge($this->_options, $default);
+
+		parent::__construct();
+	}
+	
 	public function build_validation(Validation $validation)
 	{
 		$config = Kohana::$config->load('installer');
-	
-		$cache_types = $config->get('cache_types', array());
-		$session_types = $config->get('session_types', array());
-		$db_drivers = $config->get('database_drivers', array());
+
 		$locales = array_keys(I18n::available_langs());
 
 		return parent::build_validation($validation)
@@ -69,22 +73,19 @@ class Task_Install extends Minion_Task
 			->rule('email', 'not_empty')
 			->rule('email', 'email')
 			->rule('cache_type', 'not_empty')
-			->rule('cache_type', 'in_array', array(':value', array_keys($cache_types)))
-			->rule('session_type', 'in_array', array(':value', array_keys($session_types)))
-			->rule('db_driver', 'in_array', array(':value', array_keys($db_drivers)))
+			->rule('cache_type', 'in_array', array(':value', array_keys($this->_installer->cache_types())))
+			->rule('session_type', 'in_array', array(':value', array_keys($this->_installer->session_types())))
+			->rule('db_driver', 'in_array', array(':value', array_keys($this->_installer->database_drivers())))
 			->rule('locale', 'in_array', array(':value', $locales))
 			->rule('admin_dir_name', 'not_empty');
 	}
 
 	protected function _execute(array $params)
-	{
-		$config = Kohana::$config->load('installer');
-		
+	{		
 		if ($params['db_driver'] === NULL)
 		{
-			$db_drivers = $config->get('database_drivers', array());
 			$params['db_driver'] = Minion_CLI::read(__('Please enter database driver (:types)', array(
-				':types' => implode(', ', array_keys($db_drivers))
+				':types' => implode(', ', array_keys($this->_installer->database_drivers()))
 			)));
 		}
 		
@@ -116,9 +117,8 @@ class Task_Install extends Minion_Task
 
 		if ($params['cache_type'] === NULL)
 		{
-			$cache_types = Kohana::$config->load('installer')->get('cache_types', array());
 			$params['cache_type'] = Minion_CLI::read(__('Please enter cache type (:types)', array(
-				':types' => implode(', ', array_keys($cache_types))
+				':types' => implode(', ', array_keys($this->_installer->cache_types()))
 			)));
 		}
 		
@@ -126,7 +126,7 @@ class Task_Install extends Minion_Task
 		{
 			$session_types = Kohana::$config->load('installer')->get('session_types', array());
 			$params['session_type'] = Minion_CLI::read(__('Please enter session type (:types)', array(
-				':types' => implode(', ', array_keys($session_types))
+				':types' => implode(', ', array_keys($this->_installer->session_types()))
 			)));
 		}
 
@@ -136,12 +136,27 @@ class Task_Install extends Minion_Task
 			$params['password_field'] = $params['password_confirm'] = $params['password'];
 		}
 
-		$response = Request::factory('install/go')
-			->method(Request::POST)
-			->post(array('install' => $params))
-			->execute()
-			->body();
+		try
+		{
+			$this->_installer->install($params);
+			Observer::notify('after_install', $params);
+			Cache::clear_file();
+			
+			Minion_CLI::write('==============================================');
+			Minion_CLI::write(__('KodiCMS installed successfully'));
+			Minion_CLI::write('==============================================');
 
-		Minion_CLI::write($response);
+			$install_data = Session::instance()->get_once('install_data');
+			Minion_CLI::write(__('Login: :login', array(':login' => Arr::get($install_data, 'username'))));
+			Minion_CLI::write(__('Password: :password', array(':password' => Arr::get($install_data, 'password_field'))));
+		}
+		catch (Exception $e)
+		{
+			Minion_CLI::write(__(':text | :file [:line]', array(
+				':text' => $e->getMessage(),
+				':file' => $e->getFile(),
+				':line' => $e->getLine()
+			)));
+		}
 	}
 }

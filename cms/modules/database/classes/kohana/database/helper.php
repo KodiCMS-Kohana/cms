@@ -4,14 +4,20 @@
  * @package		KodiCMS/Helper
  * @author		ButscHSter
  */
-class KodiCMS_Database_Helper {
-	
+class Kohana_Database_Helper {
+
 	/**
-	 * @param string $data
-	 * @throws Validation_Exception
+	 * 
+	 * @param string $sql
+	 * @param Database $db
 	 */
 	public static function insert_sql($sql, $db = NULL)
 	{
+		if($db === NULL)
+		{
+			$db = Database::instance();
+		}
+
 		if(defined('TABLE_PREFIX_TMP'))
 		{
 			$sql = str_replace('__TABLE_PREFIX__', TABLE_PREFIX_TMP, $sql);
@@ -23,8 +29,7 @@ class KodiCMS_Database_Helper {
 
 		$sql_array = preg_split('/;(\s*)$/m', $sql);
 
-		DB::query(NULL, 'SET FOREIGN_KEY_CHECKS = 0')
-				->execute($db);
+		$db->disable_foreign_key_checks();
 
 		foreach ($sql_array as $sql_string)
 		{
@@ -37,8 +42,7 @@ class KodiCMS_Database_Helper {
 					->execute($db);
 		}
 
-		DB::query(NULL, 'SET FOREIGN_KEY_CHECKS = 1')
-				->execute($db);
+		$db->enable_foreign_key_checks();
 	}
 
 	/**

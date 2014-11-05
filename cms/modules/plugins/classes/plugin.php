@@ -196,7 +196,7 @@ class Plugin  {
 		$data = array(
 			'id' => $this->id(),
 			'title' => $this->title(),
-			'settings' => serialize( $this->settings() )
+			'settings' => Kohana::serialize( $this->settings() )
 		);
 
 		$result = DB::insert( self::TABLE_NAME )

@@ -32,43 +32,46 @@
 				<div class="form-group">
 					<label class="control-label col-md-3"><?php echo __('Database driver'); ?></label>
 					<div class="col-md-3">
-						<?php echo Form::select('install[db_driver]', $database_drivers, Arr::get($data, 'db_driver')); ?>
-					</div>
-				</div>
-
-				<div class="form-group">
-					<label class="control-label col-md-3" for="db_server"><?php echo __('Database server'); ?></label>
-					<div class="col-md-9 form-inline">
-						<?php echo Form::input('install[db_server]', Arr::get($data, 'db_server'), array(
-							'class' => 'form-control col-sm-auto', 'id' => 'db_server', 'required'
-						) ); ?>
-
-						<?php echo Form::input('install[db_port]', Arr::get($data, 'db_port'), array(
-							'class' => 'form-control col-sm-auto', 'size' => 5, 'required'
-						) ); ?>	
-					</div>
-				</div>
-
-				<div class="form-group">
-					<label class="control-label col-md-3" for="db_user"><?php echo __( 'Database user' ); ?></label>
-					<div class="col-md-9 form-inline">
-						<?php echo Form::input('install[db_user]', Arr::get($data, 'db_user'), array(
-							'class' => 'form-control col-sm-auto', 'id' => 'db_user', 'required'
+						<?php echo Form::select('install[db_driver]', $database_drivers, Arr::get($data, 'db_driver'), array(
+							'id' => 'database-driver'
 						)); ?>
 					</div>
 				</div>
 
-				<div class="form-group">
-					<label class="control-label col-md-3" for="db_password"><?php echo __( 'Database password' ); ?></label>
-					<div class="col-md-9">
-						<?php echo Form::password('install[db_password]', Arr::get($data, 'db_password'), array(
-							'class' => 'form-control col-sm-auto', 'id' => 'db_password'
-						)); ?>
+				<div class="connection-settings">
+					<div class="form-group">
+						<label class="control-label col-md-3" for="db_server"><?php echo __('Database server'); ?></label>
+						<div class="col-md-9 form-inline">
+							<?php echo Form::input('install[db_server]', Arr::get($data, 'db_server'), array(
+								'class' => 'form-control col-sm-auto', 'id' => 'db_server', 'required'
+							) ); ?>
 
-						<p class="help-block"><?php echo __('If there is no database password, leave it blank.'); ?></p>
+							<?php echo Form::input('install[db_port]', Arr::get($data, 'db_port'), array(
+								'class' => 'form-control col-sm-auto', 'size' => 5, 'required'
+							) ); ?>	
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="control-label col-md-3" for="db_user"><?php echo __( 'Database user' ); ?></label>
+						<div class="col-md-9 form-inline">
+							<?php echo Form::input('install[db_user]', Arr::get($data, 'db_user'), array(
+								'class' => 'form-control col-sm-auto', 'id' => 'db_user', 'required'
+							)); ?>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="control-label col-md-3" for="db_password"><?php echo __( 'Database password' ); ?></label>
+						<div class="col-md-9">
+							<?php echo Form::password('install[db_password]', Arr::get($data, 'db_password'), array(
+								'class' => 'form-control col-sm-auto', 'id' => 'db_password'
+							)); ?>
+
+							<p class="help-block"><?php echo __('If there is no database password, leave it blank.'); ?></p>
+						</div>
 					</div>
 				</div>
-
 				<div class="form-group well well-sm">
 					<label class="control-label col-md-3" for="db_name"><?php echo __('Database name'); ?></label>
 					<div class="col-md-9 form-inline">

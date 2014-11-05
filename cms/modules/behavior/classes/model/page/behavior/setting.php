@@ -40,7 +40,7 @@ class Model_Page_Behavior_Setting extends ORM {
 	{
 		if( ! empty($values['data']) )
 		{
-			$values['data'] = unserialize($values['data']);
+			$values['data'] = Kohana::unserialize($values['data']);
 		}
 		
 		parent::_load_values($values);

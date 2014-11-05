@@ -4,12 +4,12 @@ $database_drivers = array();
 
 if (extension_loaded('mysqli'))
 {
-	$database_drivers['mysqli'] = __('MySQLi');
+	$database_drivers['mysqli'] = 'MySQLi';
 }
 
-if (version_compare(PHP_VERSION, '5.5', '<'))
+if (version_compare(PHP_VERSION, '5.5', '<') AND extension_loaded('mysql'))
 {
-	$database_drivers['mysql'] = __('MySQL');
+	$database_drivers['mysql'] = 'MySQL';
 }
 
 $cache_types = array();
@@ -20,18 +20,23 @@ if (extension_loaded('apc'))
 
 if (class_exists('MongoClient'))
 {
-	$cache_types['mongodb'] = __('MongoDB');
+	$cache_types['mongodb'] = 'MongoDB';
 }
 
 if (class_exists('PDO') AND extension_loaded('pdo'))
 {
-	$cache_types['sqlite'] = __('SQLite cache');
-	$database_drivers['pdo'] = __('PDO');
+	$database_drivers['pdo::mysql'] = 'PDO::MySQL';
+
+	if (extension_loaded('sqlite3'))
+	{
+		$cache_types['sqlite'] = __('SQLite cache');
+		$database_drivers['pdo::sqlite'] = 'PDO::SQLite';
+	}
 }
 
 if (extension_loaded('memcache'))
 {
-	$cache_types['memcachetag'] = __('Memcache');
+	$cache_types['memcachetag'] = 'Memcache';
 }
 
 $cache_types['file'] = __('File cache');

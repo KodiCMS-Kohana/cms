@@ -441,4 +441,14 @@ class Kohana_Database_MySQL extends Database {
 		return "'$value'";
 	}
 
+	public function disable_foreign_key_checks()
+	{
+		return $this->query(NULL, 'SET FOREIGN_KEY_CHECKS = 0');
+	}
+
+	public function enable_foreign_key_checks($db = NULL)
+	{
+		return $this->query(NULL, 'SET FOREIGN_KEY_CHECKS = 1');
+	}
+
 } // End Database_MySQL

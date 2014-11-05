@@ -722,5 +722,15 @@ abstract class Kohana_Database {
 	 * @return  string
 	 */
 	abstract public function escape($value);
+	
+	/**
+	 * Disable foreign keys
+	 */
+	abstract public function disable_foreign_key_checks();
+
+	/**
+	 * Enable foreign keys
+	 */
+	abstract public function enable_foreign_key_checks();
 
 } // End Database_Connection

@@ -48,7 +48,7 @@ class Model_Search_Indexer {
 			return (bool) DB::insert( 'search_index' )
 				->columns( array( 'module', 'id', 'title', 'header', 'content', 'annotation', 'created_on', 'params' ) )
 				->values( array(
-					$module, $id, $title, $header, $content, $annotation, date( 'Y-m-d H:i:s' ), serialize($params)
+					$module, $id, $title, $header, $content, $annotation, date( 'Y-m-d H:i:s' ), Kohana::serialize($params)
 				) )
 				->execute();
 		}
@@ -73,7 +73,7 @@ class Model_Search_Indexer {
 				'content' => $content,
 				'annotation' => $annotation,
 				'updated_on' => date( 'Y-m-d H:i:s' ),
-				'params' => serialize($params)
+				'params' => Kohana::serialize($params)
 			) )
 			->where( 'module', '=', $module )
 			->where( 'id', '=', $id )

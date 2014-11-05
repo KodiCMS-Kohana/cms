@@ -33,7 +33,7 @@ class KodiCMS_Model_User_Meta extends Model {
 		
 		if($value !== NULL)
 		{
-			return @unserialize($value);
+			return @Kohana::unserialize($value);
 		}
 		else
 		{
@@ -47,7 +47,7 @@ class KodiCMS_Model_User_Meta extends Model {
 			
 			if($value !== NULL)
 			{
-				return @unserialize($value);
+				return @Kohana::unserialize($value);
 			}
 			else
 			{
@@ -71,7 +71,7 @@ class KodiCMS_Model_User_Meta extends Model {
 		}
 
 		self::_load($user_id);
-		$value = serialize($value);
+		$value = Kohana::serialize($value);
 		if (isset(self::$_cache[$user_id][$key]))
 		{
 			$status = (bool) DB::update('user_meta')

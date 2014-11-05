@@ -272,7 +272,7 @@ class KodiCMS_Model_User extends Model_Auth_User {
 			$data[$var] = $this->{$var};
 		}
 
-		return serialize($data);
+		return Kohana::serialize($data);
 	}
 
 	/**************************************************************************

@@ -64,7 +64,7 @@ class KodiCMS_Search_MySQL extends Search {
 
 		foreach($result as $row)
 		{
-			$row['params'] = unserialize($row['params']);
+			$row['params'] = Kohana::unserialize($row['params']);
 			$ids[$row['module']][] = $row;
 		}
 

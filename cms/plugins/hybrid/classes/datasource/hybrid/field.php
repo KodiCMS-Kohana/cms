@@ -526,7 +526,7 @@ abstract class DataSource_Hybrid_Field {
 			'type' => $this->type, 
 			'header' => $this->header,
 			'from_ds' => (int) $this->from_ds,
-			'props' => serialize($this->_props),
+			'props' => Kohana::serialize($this->_props),
 			'position' => (int) $this->position
 		);
 
@@ -566,7 +566,7 @@ abstract class DataSource_Hybrid_Field {
 		return DB::update($this->table)
 			->set(array(
 				'header' => $this->header,
-				'props' => serialize( $this->_props ),
+				'props' => Kohana::serialize( $this->_props ),
 				'position' => (int) $this->position,
 				'name' => $this->name,
 				'from_ds' => (int) $this->from_ds,

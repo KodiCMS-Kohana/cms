@@ -15,7 +15,7 @@ class Plugin_Type_Database extends Plugin_Settings_Decorator {
 	{
 		$status = (bool) DB::update( Plugin::TABLE_NAME )
 			->set(array(
-				'settings' => serialize($this->settings())
+				'settings' => Kohana::serialize($this->settings())
 			))
 			->where('id', '=', $this->id())
 			->execute();
@@ -40,7 +40,7 @@ class Plugin_Type_Database extends Plugin_Settings_Decorator {
 			->get('settings');
 		
 		$this->_settings = ! empty($settings) 
-			? unserialize($settings) 
+			? Kohana::unserialize($settings) 
 			: array();
 		
 		return $this;

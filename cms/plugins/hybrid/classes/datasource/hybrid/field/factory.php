@@ -286,7 +286,7 @@ class DataSource_Hybrid_Field_Factory {
 		
 		if(isset($array['props']))
 		{
-			$props = unserialize($array['props']);
+			$props = Kohana::unserialize($array['props']);
 			unset($array['props']);
 
 			if( is_array( $props))

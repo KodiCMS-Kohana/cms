@@ -52,7 +52,7 @@ class Model_Email_Type extends ORM
 	
 	public function data()
 	{
-		return unserialize($this->data);
+		return Kohana::unserialize($this->data);
 	}
 	
 	/**
