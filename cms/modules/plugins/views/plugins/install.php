@@ -18,6 +18,7 @@
 		<label class="control-label col-md-3"><?php echo __('Install plugins'); ?></label>
 		<div class="col-md-9">
 			<?php foreach ($plugins as $id => $plugin): ?>
+			<?php if (!$plugin->is_installable()) continue; ?>
 			<div class="checkbox">
 				<label>
 					<?php echo Form::checkbox('install[plugins][' . $id . ']', $id, (bool) Arr::path($data, 'plugins.' . $id)); ?> <?php echo $plugin->title(); ?>

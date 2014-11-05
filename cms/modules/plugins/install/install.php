@@ -11,7 +11,7 @@ Plugins::find_all();
 foreach ($plugins as $name)
 {
 	$plugin = Plugins::get_registered($name);
-	if ($plugin instanceof Plugin_Decorator)
+	if ($plugin instanceof Plugin_Decorator AND $plugin->is_installable())
 	{
 		$plugin->activate();
 	}
