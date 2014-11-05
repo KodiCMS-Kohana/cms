@@ -112,8 +112,9 @@ class KodiCMS_Controller_System_Template extends Controller_System_Security
 					$value = json_encode($value);
 			
 					$js_string .= "var {$var} = {$value};\n";
-					Assets::group('global', 'js_params', '<script type="text/javascript">' . $js_string . '</script>', 'global');
 				}
+				
+				Assets::group('global', 'js_params', '<script type="text/javascript">' . $js_string . '</script>', 'global');
 			}
 
 			if ($this->only_content)
