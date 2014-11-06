@@ -1,5 +1,5 @@
 <?php echo Form::open(Route::get('email_controllers')->uri(array('controller' => 'types', 'action' => $action, 'id' => $type->id)), array(
-	'class' => array(Bootstrap_Form::HORIZONTAL, 'panel')
+	'class' => array(Form::HORIZONTAL, 'panel')
 )); ?>
 	<?php echo Form::hidden('token', Security::token()); ?>
 	<div class="panel-heading">

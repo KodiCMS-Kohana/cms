@@ -23,11 +23,9 @@
 			<?php foreach($actions as $action => $title): ?>
 				<tr>
 					<td>
-						<?php echo Bootstrap_Form_Element_Checkbox::factory(array(
-							'name' => 'role[permissions]['.$action.']', 'value' => 1
-						))
-						->attributes('id', 'permission-'.$action)
-						->checked(in_array($action, $role_permissions)); ?>
+						<?php echo Form::checkbox('role[permissions]['.$action.']', 1, in_array($action, $role_permissions), array(
+							'id' =>  'permission-'.$action
+						)); ?>
 					</td>
 					<th><?php echo Form::label('permission-'.$action, __($title)); ?></th>
 				</tr>

@@ -1,7 +1,7 @@
 <div class="container-fluid margin-sm-vr">
 	<h1 class="pull-left no-margin-t"><?php echo $title; ?></h1>
 	<?php echo Form::open('install/go', array(
-		'class' => Bootstrap_Form::HORIZONTAL
+		'class' => Form::HORIZONTAL
 	)); ?>
 	<div id="wizard" class="wizard">
 		<h1><?php echo __( 'Language' ); ?></h1>

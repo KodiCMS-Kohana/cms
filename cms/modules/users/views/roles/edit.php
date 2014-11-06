@@ -1,5 +1,5 @@
 <?php echo Form::open(Route::get('backend')->uri(array('controller' => 'roles', 'action' => $action, 'id' => $role->id)), array(
-	'class' => array(Bootstrap_Form::HORIZONTAL, 'panel')
+	'class' => array(Form::HORIZONTAL, 'panel')
 )); ?>
 	<?php echo Form::hidden('token', Security::token()); ?>
 

@@ -1,5 +1,5 @@
 <?php echo Form::open(Request::current()->uri(), array(
-	'class' => array(Bootstrap_Form::HORIZONTAL, 'panel')
+	'class' => array(Form::HORIZONTAL, 'panel')
 )); ?>
 	<?php echo Form::hidden('id', $widget->id); ?>
 

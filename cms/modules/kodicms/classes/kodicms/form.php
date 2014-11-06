@@ -10,6 +10,19 @@
 class KodiCMS_Form extends Kohana_Form {
 
 	/**
+	 * Add .form-inline for left-aligned labels and inline-block controls 
+	 * for a compact layout.
+	 */
+	const INLINE = 'form-inline';
+
+	/**
+	 * Right align labels and float them to the left to make them appear on 
+	 * the same line as controls. Requires the most markup changes 
+	 * from a default form:
+	 */
+	const HORIZONTAL = 'form-horizontal';
+
+	/**
 	 * 
 	 * @return array
 	 */

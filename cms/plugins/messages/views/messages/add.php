@@ -4,7 +4,7 @@ $(function() {
 });
 </script>
 <div class="panel">
-	<?php echo Form::open(NULL, array('class' => Bootstrap_Form::HORIZONTAL)); ?>
+	<?php echo Form::open(NULL, array('class' => Form::HORIZONTAL)); ?>
 	<?php echo Form::hidden('token', Security::token()); ?>
 	<div class="panel-heading">
 		<div class="form-group form-group-lg">
