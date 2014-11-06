@@ -1066,7 +1066,9 @@ function renderPagination(wizard, options, state)
             buttons += buttonTemplate.format("cancel", options.labels.cancel);
         }
 
-        $(pagination.format(options.actionContainerTag, options.labels.pagination, buttons)).insertBefore(wizard.find('.wizard-wrapper'));
+		var $actions = $(pagination.format(options.actionContainerTag, options.labels.pagination, buttons));
+		
+		wizard.append($actions).prepend($actions.clone());
 
         refreshPagination(wizard, options, state);
         loadAsyncContent(wizard, options, state);
