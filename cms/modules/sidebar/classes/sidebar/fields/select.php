@@ -34,9 +34,9 @@ class Sidebar_Fields_Select extends Sidebar_Fields_Abstract {
 	{
 		parent::__construct($field);
 
-		if($this->_attributes['size'] == Sidebar_Fields_Select::AUTO_SIZE)
+		if($this->size == Sidebar_Fields_Select::AUTO_SIZE)
 		{
-			$this->_attributes['size'] = count($this->_field['options']);
+			$this->size = count($this->_field['options']);
 		}
 	}
 }

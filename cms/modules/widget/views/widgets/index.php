@@ -1,4 +1,4 @@
-<?php echo $sidebar; ?>
+
 
 <div class="panel">
 	<div class="panel-heading">
@@ -13,7 +13,7 @@
 		)); ?>
 		<?php endif; ?>
 	</div>
-
+	<?php echo $sidebar; ?>
 	<table class="table table-primary table-striped table-hover">
 		<colgroup>
 			<col width="250px" />
