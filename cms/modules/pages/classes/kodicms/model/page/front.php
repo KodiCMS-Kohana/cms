@@ -600,9 +600,14 @@ class KodiCMS_Model_Page_Front {
 	 */
 	public static function find_similar($uri)
 	{
-		if(empty($uri))
+		if (empty($uri))
 		{
 			return FALSE;
+		}
+
+		if (Kohana::$profiling === TRUE)
+		{
+			$benchmark = Profiler::start(__CLASS__, __METHOD__);
 		}
 
 		$uri_slugs = array_merge(array(''), preg_split('/\//', $uri, -1, PREG_SPLIT_NO_EMPTY));
@@ -614,11 +619,11 @@ class KodiCMS_Model_Page_Front {
 			->from('pages')
 			->where('status_id', 'in', $statuses);
 		
-		if(Config::get('page', 'check_date') == Config::YES)
+		if (Config::get('page', 'check_date') == Config::YES)
 		{
 			$slugs->where('published_on', '<=', DB::expr('NOW()'));
 		}
-		
+
 		$slugs = $slugs
 			->execute()
 			->as_array('id', 'slug');
@@ -627,7 +632,7 @@ class KodiCMS_Model_Page_Front {
 
 		foreach ($uri_slugs as $slug)
 		{
-			if(in_array($slug, $slugs))
+			if (in_array($slug, $slugs))
 			{
 				$new_slugs[] = $slug;
 				continue;
@@ -635,7 +640,7 @@ class KodiCMS_Model_Page_Front {
 
 			$similar_pages = Text::similar_word($slug, $slugs);
 
-			if(!empty($similar_pages))
+			if (!empty($similar_pages))
 			{
 				$page_id = key($similar_pages);
 				$page = self::findById($page_id);
@@ -643,14 +648,24 @@ class KodiCMS_Model_Page_Front {
 			}
 		}
 
-		if(!$config['return_parent_page'] AND (count($uri_slugs) != count($new_slugs)))
+		if (!$config['return_parent_page'] AND ( count($uri_slugs) != count($new_slugs)))
 		{
+			if (isset($benchmark))
+			{
+				Profiler::stop($benchmark);
+			}
+
 			return FALSE;
 		}
 
 		$uri = implode('/', $new_slugs);
 
 		$page = self::find($uri);
+		
+		if (isset($benchmark))
+		{
+			Profiler::stop($benchmark);
+		}
 
 		return $page ? $uri : FALSE;
 	}
@@ -664,13 +679,18 @@ class KodiCMS_Model_Page_Front {
 	 */
 	public static function find($uri, $include_hidden = TRUE, Model_Page_Front $parent = NULL)
 	{
+		if (Kohana::$profiling === TRUE)
+		{
+			$benchmark = Profiler::start(__CLASS__, __METHOD__);
+		}
+
 		$uri = trim($uri, '/');
 
 		$urls = preg_split('/\//', $uri, -1, PREG_SPLIT_NO_EMPTY);
 		
-		if($parent === NULL)
+		if ($parent === NULL)
 		{
-			$urls =  array_merge(array(''), $urls);
+			$urls = array_merge(array(''), $urls);
 		}
 
 		$url = '';
@@ -691,6 +711,12 @@ class KodiCMS_Model_Page_Front {
 					if ($behavior !== NULL)
 					{
 						$page->_behavior = $behavior;
+
+						if (isset($benchmark))
+						{
+							Profiler::stop($benchmark);
+						}
+
 						return $page;
 					}
 				}
@@ -701,6 +727,11 @@ class KodiCMS_Model_Page_Front {
 			}
 
 			$parent = $page;
+		}
+		
+		if (isset($benchmark))
+		{
+			Profiler::stop($benchmark);
 		}
 
 		return $page;
@@ -729,23 +760,25 @@ class KodiCMS_Model_Page_Front {
 			->from(array('pages', 'page'))
 			->where('page.' . $field, '=', $value)
 			->where('status_id', 'in', self::get_statuses($include_hidden))
-			->limit(1)
-			->cache_tags(array('pages'))
-			->cached((int) Config::get('cache', 'front_page'))
-			->as_object();
+			->limit(1);
 
 		if (Config::get('page', 'check_date') == Config::YES)
 		{
 			$page->where('published_on', '<=', DB::expr('NOW()'));
 		}
-		
+
 		$parent_id = $parent instanceof Model_Page_Front ? $parent->id : NULL;
-		if($parent_id !== NULL)
+		if ($parent_id !== NULL)
 		{
 			$page->where('parent_id', '=', $parent_id);
 		}
 
-		$page = $page->execute()->current();
+		$page = $page
+			->cache_tags(array('pages'))
+			->cached((int) Config::get('cache', 'front_page'))
+			->as_object()
+			->execute()
+			->current();
 
 		if (!$page)
 		{
