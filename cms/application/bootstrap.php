@@ -109,8 +109,8 @@ Kohana::init( array(
 	'base_url'			=> '/',
 	'index_file'		=> FALSE,
 	'cache_dir'			=> CMSPATH.'cache',
-	'caching'			=> Kohana::$environment === Kohana::PRODUCTION,
-	'profile'			=> Kohana::$environment !== Kohana::PRODUCTION,
+	'caching'			=> Kohana::$environment < Kohana::DEVELOPMENT,
+	'profile'			=> Kohana::$environment > Kohana::PRODUCTION,
 	'errors'			=> TRUE
 ) );
 
