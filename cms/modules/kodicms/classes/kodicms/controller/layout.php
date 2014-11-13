@@ -60,10 +60,11 @@ class KodiCMS_Controller_Layout extends Controller_System_Backend {
 	protected function _add()
 	{
 		$data = $this->request->post();
-		Flash::set('post_data', (object) $data);
 
 		$layout = new Model_File_Layout($data['name']);
 		$layout->content = $data['content'];
+		
+		Flash::set('post_data', $layout);
 
 		try
 		{
