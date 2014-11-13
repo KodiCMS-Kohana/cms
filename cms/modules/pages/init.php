@@ -6,7 +6,7 @@ Observer::observe('frontpage_requested', function($request_uri) {
 
 	$ctx = Context::instance()->set('url_segments', preg_split('/\//', $request_uri, -1, PREG_SPLIT_NO_EMPTY));
 
-	if (!empty($server_uri) AND strlen(URL_SUFFIX) > 0 AND Config::get('site', 'check_url_suffix'))
+	if (!empty($server_uri) AND strlen(URL_SUFFIX) > 0 AND Config::get('site', 'check_url_suffix') == Config::YES)
 	{
 		$request_uri = $request_uri . URL_SUFFIX;
 
