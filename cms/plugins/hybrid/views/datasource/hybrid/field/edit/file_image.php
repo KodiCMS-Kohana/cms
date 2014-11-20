@@ -16,7 +16,7 @@
 <div class="panel-heading">
 	<span class="panel-title"><?php echo __('Image settings'); ?></span>
 </div>
-<div class="panel-body">
+<div class="panel-body well">
 	<div class="form-group form-inline">
 		<label class="control-label col-md-3"><?php echo __('Image size'); ?></label>
 		<div class="col-md-9">
@@ -58,6 +58,57 @@
 				Image::WIDTH => __('Recalculate the height based on the width proportions'),
 				Image::PRECISE => __('Resize to precise size')
 			), $field->master); ?>
+		</div>
+	</div>
+</div>
+
+<div class="panel-heading">
+	<span class="panel-title"><?php echo __('Watermark'); ?></span>
+</div>
+<div class="panel-body well">
+	<div class="form-group">
+		<div class="col-md-offset-3 col-md-9">
+			<div class="checkbox">
+				<label>
+					<?php echo Form::checkbox('watermark', 1, $field->watermark == 1, array(
+						'id' => 'watermark'
+					)); ?> <?php echo __('Add a watermark to an image'); ?>
+				</label>
+			</div>
+		</div>
+	</div>
+	
+	<div class="form-group">
+		<label class="control-label col-md-3"><?php echo __('Watermark image path'); ?></label>
+		<div class="col-md-9">
+			<div class="input-group">
+				<div class="input-group-addon"><?php echo DOCROOT; ?></div>
+				<?php echo Form::input('watermark_path', $field->watermark_path, array('class' => 'form-control')); ?>
+			</div>
+		</div>
+	</div>
+	
+	<div class="form-group form-inline">
+		<label class="control-label col-md-3"><?php echo __('Watermark offset'); ?></label>
+		<div class="col-md-9">
+			<div class="input-group">
+				<div class="input-group-addon ">X</div>
+				<?php echo Form::input('watermark_offset_x', $field->watermark_offset_x, array('class' => 'form-control', 'size' => 6)); ?>
+				<div class="input-group-addon">px</div>
+			</div>
+			
+			<div class="input-group">
+				<div class="input-group-addon">Y</div>
+				<?php echo Form::input('watermark_offset_y', $field->watermark_offset_y, array('class' => 'form-control', 'size' => 6)); ?>
+				<div class="input-group-addon">px</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="form-group form-inline">
+		<label class="control-label col-md-3"><?php echo __('Watermark opacity'); ?></label>
+		<div class="col-md-9">
+			<?php echo Form::input('watermark_opacity', $field->watermark_opacity, array('class' => 'form-control', 'size' => 3, 'maxlength' => 3)); ?>
 		</div>
 	</div>
 </div>

@@ -36,7 +36,7 @@ class DataSource_Hybrid_Field_File_File extends DataSource_Hybrid_Field_File {
 	public function create()
 	{
 		if (parent::create())
-		{			
+		{
 			if ($this->create_folder())
 			{
 				$this->update();
@@ -75,18 +75,18 @@ class DataSource_Hybrid_Field_File_File extends DataSource_Hybrid_Field_File {
 
 		parent::set($data);
 	}
-	
+
 	/**
 	 * 
 	 * @param integer $size
 	 */
-	public function set_max_size( $size )
+	public function set_max_size($size)
 	{
-		if(empty($size))
+		if (empty($size))
 		{
 			$size = Num::bytes('1MiB');
 		}
-		
+
 		$this->max_size = (int) $size;
 	}
 
@@ -102,7 +102,7 @@ class DataSource_Hybrid_Field_File_File extends DataSource_Hybrid_Field_File {
 		{
 			$this->folder = 'hybrid' . DIRECTORY_SEPARATOR . $this->ds_id . DIRECTORY_SEPARATOR . substr($this->name, 2) . DIRECTORY_SEPARATOR;
 		}
-		
+
 		return $this;
 	}
 
@@ -123,11 +123,7 @@ class DataSource_Hybrid_Field_File_File extends DataSource_Hybrid_Field_File {
 		foreach ($types as $i => $type)
 		{
 			$type = trim($type);
-			if (
-					empty($type) OR
-					!preg_match('~^[A-Za-z0-9_\\-]+$~', $type) OR
-					!$this->check_disallowed($type)
-			)
+			if (empty($type) OR ! preg_match('~^[A-Za-z0-9_\\-]+$~', $type) OR ! $this->check_disallowed($type))
 			{
 				unset($types[$i]);
 			}
@@ -148,11 +144,7 @@ class DataSource_Hybrid_Field_File_File extends DataSource_Hybrid_Field_File {
 		$disallowed = explode(',', '/^php/,/^phtm/,py,pl,/^asp/,htaccess,cgi,_wc,/^shtm/,/^jsp/');
 		foreach ($disallowed as $type)
 		{
-			if (
-				((strpos($type, '/') !== FALSE) AND preg_match($type, $file_type)) 
-				OR 
-				$type == $file_type
-			)
+			if (((strpos($type, '/') !== FALSE) AND preg_match($type, $file_type)) OR $type == $file_type)
 			{
 				return FALSE;
 			}
@@ -169,17 +161,16 @@ class DataSource_Hybrid_Field_File_File extends DataSource_Hybrid_Field_File {
 	{
 		if (!empty($this->folder) AND $this->ds_id)
 		{
-			if(!is_dir(PUBLICPATH . $this->folder))
+			if (!is_dir(PUBLICPATH . $this->folder))
 			{
 				if (!mkdir(PUBLICPATH . $this->folder, 0777, TRUE))
 				{
 					throw new DataSource_Hybrid_Exception_Field('Could not create field :field directory :dir', array(
 						':dir' => Debug::path(PUBLICPATH . $this->folder),
-						':field' => $this->type
-					));
+						':field' => $this->type));
 				}
 			}
-			
+
 			return TRUE;
 		}
 
@@ -210,11 +201,16 @@ class DataSource_Hybrid_Field_File_File extends DataSource_Hybrid_Field_File {
 	public function is_image($path)
 	{
 		if (!file_exists($path) OR is_dir($path))
+		{
 			return FALSE;
+		}
 
 		$a = getimagesize($path);
-		
-		if(!$a) return FALSE;
+
+		if (!$a)
+		{
+			return FALSE;
+		}
 
 		$image_type = $a[2];
 
@@ -249,9 +245,9 @@ class DataSource_Hybrid_Field_File_File extends DataSource_Hybrid_Field_File {
 	 * 
 	 * @param DataSource_Hybrid_Document $doc
 	 */
-	public function onCreateDocument( DataSource_Hybrid_Document $doc )
+	public function onCreateDocument(DataSource_Hybrid_Document $doc)
 	{
-		return $this->onUpdateDocument( $doc, $doc );
+		return $this->onUpdateDocument($doc, $doc);
 	}
 
 	/**
@@ -259,33 +255,33 @@ class DataSource_Hybrid_Field_File_File extends DataSource_Hybrid_Field_File {
 	 * @param DataSource_Hybrid_Document $doc
 	 * @return boolean
 	 */
-	public function onUpdateDocument( DataSource_Hybrid_Document $old = NULL, DataSource_Hybrid_Document $new )
+	public function onUpdateDocument(DataSource_Hybrid_Document $old = NULL, DataSource_Hybrid_Document $new)
 	{
 		$file = $new->get($this->name);
 		$this->_remove_file = (bool) $new->get($this->name . '_remove');
-		
+
 		// Если установлена галочка удалить файл
-		if($this->_remove_file === TRUE)
+		if ($this->_remove_file === TRUE)
 		{
-			$this->onRemoveDocument( $old );
+			$this->onRemoveDocument($old);
 			$new->set($this->name, '');
 			return FALSE;
 		}
-		
+
 		// Если прикреплен новый файл
 		if (is_array($file))
 		{
 			$file = $this->_upload_file($file);
 		}
 		// Если есть старое значение 
-		elseif ( $old !== NULL AND ($file == $old->get($this->name) OR empty($file) ))
+		elseif ($old !== NULL AND ( $file == $old->get($this->name) OR empty($file) ))
 		{
 			return FALSE;
 		}
 
 		$this->_filepath = NULL;
 
-		if ( ! empty($file) AND strpos($file, $this->folder()) !== FALSE)
+		if (!empty($file) AND strpos($file, $this->folder()) !== FALSE)
 		{
 			$this->_filepath = $file;
 			$filename = pathinfo($this->_filepath, PATHINFO_BASENAME);
@@ -311,11 +307,11 @@ class DataSource_Hybrid_Field_File_File extends DataSource_Hybrid_Field_File {
 	public function onRemoveDocument(DataSource_Hybrid_Document $doc)
 	{
 		$value = $doc->get($this->name);
-		
-		if ( ! empty($value) )
+
+		if (!empty($value))
 		{
 			@unlink(PUBLICPATH . $value);
-			$doc->set($this->name, '') ;
+			$doc->set($this->name, '');
 		}
 	}
 
@@ -328,7 +324,7 @@ class DataSource_Hybrid_Field_File_File extends DataSource_Hybrid_Field_File {
 	public function onValidateDocument(Validation $validation, DataSource_Hybrid_Document $doc)
 	{
 		$file = NULL;
-		
+
 		$types = $this->types;
 
 		if ($validation->offsetExists($this->name))
@@ -336,7 +332,7 @@ class DataSource_Hybrid_Field_File_File extends DataSource_Hybrid_Field_File {
 			$file = $validation->offsetGet($this->name);
 		}
 
-		if ($this->isreq === TRUE AND !empty($file))
+		if ($this->isreq === TRUE AND ! empty($file))
 		{
 			$validation->rules($this->name, array(
 				array('Upload::not_empty')
@@ -349,7 +345,7 @@ class DataSource_Hybrid_Field_File_File extends DataSource_Hybrid_Field_File {
 					->rule($this->name, 'Upload::valid')
 					->rule($this->name, 'Upload::size', array(':value', $this->max_size));
 
-			if ( ! empty($types) )
+			if (!empty($types))
 			{
 				$validation
 						->rule($this->name, 'Upload::type', array(':value', $this->types));
