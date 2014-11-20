@@ -29,5 +29,8 @@
 	<?php echo View::factory('datasource/section/actions'); ?>
 </div>
 <div class="mail-list headline">
+	<?php if(isset($toolbar)): ?>
+		<?php echo $toolbar; ?>
+		<?php endif; ?>
 	<?php echo $headline; ?>
 </div>
