@@ -75,7 +75,7 @@ class Assets_Core {
 	 */
 	public static function package($names, $footer = FALSE)
 	{
-		if(!is_array($names))
+		if (!is_array($names))
 		{
 			$names = array($names);
 		}
@@ -116,8 +116,8 @@ class Assets_Core {
 	public static function merge_files($path, $ext, $cache_key = NULL, $lifetime = Date::DAY)
 	{
 		$cache = Cache::instance();
-		
-		if($cache_key === NULL)
+
+		if ($cache_key === NULL)
 		{
 			$cache_key = 'assets::merge::' . URL::title($path, '::') . '::' . $ext;
 		}
@@ -162,19 +162,19 @@ class Assets_Core {
 		{
 			return Assets::all_css();
 		}
-		
+
 		// Return individual asset
 		if ($src === NULL)
 		{
 			return Assets::get_css($handle);
 		}
-		
+
 		// Set default media attribute
-		if ( ! isset($attrs['media']))
+		if (!isset($attrs['media']))
 		{
 			$attrs['media'] = 'all';
 		}
-		
+
 		return Assets::$css[$handle] = array(
 			'src'   => $src,
 			'deps'  => (array) $deps,
@@ -192,15 +192,18 @@ class Assets_Core {
 	 */
 	public static function get_css($handle)
 	{
-		if ( ! isset(Assets::$css[$handle]))
+		if (!isset(Assets::$css[$handle]))
 		{
 			return FALSE;
 		}
-		
+
 		$asset = Assets::$css[$handle];
 
-		if(in_array($asset['src'], Assets::$_css_minify)) return NULL;
-		
+		if (in_array($asset['src'], Assets::$_css_minify))
+		{
+			return NULL;
+		}
+
 		return HTML::style($asset['src'], $asset['attrs']);
 	}
 	
@@ -280,15 +283,18 @@ class Assets_Core {
 	 */
 	public static function get_js($handle)
 	{
-		if ( ! isset(Assets::$js[$handle]))
+		if (!isset(Assets::$js[$handle]))
 		{
 			return FALSE;
 		}
-		
+
 		$asset = Assets::$js[$handle];
-		
-		if(in_array($asset['src'], Assets::$_js_minify)) return NULL;
-		
+
+		if (in_array($asset['src'], Assets::$_js_minify))
+		{
+			return NULL;
+		}
+
 		return HTML::script($asset['src']);
 	}
 	
@@ -304,9 +310,9 @@ class Assets_Core {
 		{
 			return FALSE;
 		}
-		
+
 		$assets = array();
-		
+
 		foreach (Assets::$js as $handle => $data)
 		{
 			if ($data['footer'] === $footer)
@@ -314,17 +320,17 @@ class Assets_Core {
 				$assets[$handle] = $data;
 			}
 		}
-		
+
 		if (empty($assets))
 		{
 			return FALSE;
 		}
-		
+
 		foreach (Assets::_sort($assets) as $handle => $data)
 		{
 			$sorted[] = Assets::get_js($handle);
 		}
-		
+
 		return implode("", $sorted);
 	}
 	
@@ -340,7 +346,7 @@ class Assets_Core {
 		{
 			return Assets::$js = array();
 		}
-		
+
 		if ($handle === TRUE OR $handle === FALSE)
 		{
 			foreach (Assets::$js as $handle => $data)
@@ -350,10 +356,10 @@ class Assets_Core {
 					unset(Assets::$js[$handle]);
 				}
 			}
-			
+
 			return;
 		}
-		
+
 		unset(Assets::$js[$handle]);
 	}
 	
@@ -372,15 +378,15 @@ class Assets_Core {
 		{
 			return Assets::all_group($group);
 		}
-		
+
 		if ($content === NULL)
 		{
 			return Assets::get_group($group, $handle);
 		}
-		
+
 		return Assets::$groups[$group][$handle] = array(
 			'content' => $content,
-			'deps'    => (array) $deps,
+			'deps' => (array) $deps,
 		);
 	}
 	
@@ -393,11 +399,11 @@ class Assets_Core {
 	 */
 	public static function get_group($group, $handle)
 	{
-		if ( ! isset(Assets::$groups[$group]) OR ! isset(Assets::$groups[$group][$handle]))
+		if (!isset(Assets::$groups[$group]) OR ! isset(Assets::$groups[$group][$handle]))
 		{
 			return FALSE;
 		}
-		
+
 		return Assets::$groups[$group][$handle]['content'];
 	}
 	
@@ -409,16 +415,16 @@ class Assets_Core {
 	 */
 	public static function all_group($group)
 	{
-		if ( ! isset(Assets::$groups[$group]))
+		if (!isset(Assets::$groups[$group]))
 		{
 			return FALSE;
 		}
-		
+
 		foreach (Assets::_sort(Assets::$groups[$group]) as $handle => $data)
 		{
 			$assets[] = Assets::get_group($group, $handle);
 		}
-		
+
 		return implode("", $assets);
 	}
 	
@@ -435,17 +441,22 @@ class Assets_Core {
 		{
 			return Assets::$groups = array();
 		}
-		
+
 		if ($handle === NULL)
 		{
 			unset(Assets::$groups[$group]);
 			return;
 		}
-		
+
 		unset(Assets::$groups[$group][$handle]);
 	}
 	
-	public static function minify()
+	/**
+	 * 
+	 * @param string $cache_dir_path
+	 * @return array
+	 */
+	public static function minify($cache_dir_path = NULL)
 	{
 		Assets::$_js_minify = Assets::$_css_minify = array();
 
@@ -454,43 +465,72 @@ class Assets_Core {
 			Assets::$_js_minify[] = $js['src'];
 		}
 
-		Assets::js('cache', Assets::_minify(Assets::$_js_minify, 'js'));
+		return array(
+			NULL,
+			self::_minify(Assets::$_js_minify, 'js', $cache_dir_path)
+		);
 	}
 
-	protected static function _minify($array, $ext)
+	/**
+	 * 
+	 * @param array $array
+	 * @param string $ext
+	 * @param string $cache_dir_path
+	 * @return string
+	 */
+	protected static function _minify($array, $ext, $cache_dir_path = NULL)
 	{
 		$files = '';
-				
-		foreach($array as $src)
+		$url = NULL;
+
+		foreach ($array as $src)
 		{
 			$files .= $src;
 		}
-	
-		$filename = md5($files). '.' . $ext;
-		$file_path = CMSPATH . 'media' . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . $filename;
-		
-		if( file_exists($file_path) )
+
+		$filename = md5($files) . '.' . $ext;
+
+		if ($cache_dir_path === NULL)
 		{
-			return ADMIN_RESOURCES . 'cache/' . $filename;
+			$url = PUBLIC_URL . 'cache/';
+			$cache_dir_path = PUBLICPATH . 'cache' . DIRECTORY_SEPARATOR;
 		}
 		
+		if (!is_writable($cache_dir_path))
+		{
+			throw new Kohana_Exception('Unable to write to the cache directory :resource', array(
+				':resource' => $cache_dir_path));
+		}
+
+		$file_path = $cache_dir_path . $filename;
+
+		if (file_exists($file_path))
+		{
+			return $url . $filename;
+		}
+
 		$minified = '';
-		foreach($array as $src)
+		foreach ($array as $src)
 		{
 			$file_content = file_get_contents($src);
 			$minified .= $file_content . ";\n\n\n";
 		}
-		
-		if($ext == 'js')
+
+		if ($ext == 'js')
 		{
 			$minified = Assets::_compress_script($minified);
 		}
 
 		$file = file_put_contents($file_path, $minified, LOCK_EX);
-		return ADMIN_RESOURCES . 'cache/' . $filename;
+		return $url . $filename;
 	}
 	
-	protected function _compress_script($script)
+	/**
+	 * 
+	 * @param string $script
+	 * @return string
+	 */
+	protected static function _compress_script($script)
 	{
 		return Assets_Min_JavaScript::minify($script);
 	}
@@ -504,8 +544,8 @@ class Assets_Core {
 	protected static function _sort($assets)
 	{
 		$original = $assets;
-		$sorted   = array();
-		
+		$sorted = array();
+
 		while (count($assets) > 0)
 		{
 			foreach ($assets as $key => $value)
@@ -521,23 +561,23 @@ class Assets_Core {
 					foreach ($assets[$key]['deps'] as $k => $v)
 					{
 						// Remove dependency if doesn't exist, if its dependent on itself, or if the dependent is dependent on it
-						if ( ! isset($original[$v]) OR $v === $key OR (isset($assets[$v]) AND in_array($key, $assets[$v]['deps'])))
+						if (!isset($original[$v]) OR $v === $key OR ( isset($assets[$v]) AND in_array($key, $assets[$v]['deps'])))
 						{
 							unset($assets[$key]['deps'][$k]);
 							continue;
 						}
-						
+
 						// This dependency hasn't been sorted yet
-						if ( ! isset($sorted[$v]))
+						if (!isset($sorted[$v]))
 							continue;
-							
+
 						// This dependency is taken care of, remove from list
 						unset($assets[$key]['deps'][$k]);
 					}
 				}
 			}
 		}
-		
+
 		return $sorted;
 	}
 	
