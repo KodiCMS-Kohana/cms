@@ -59,4 +59,13 @@ class KodiCMS_Controller_API_Page_Parts extends Controller_System_Api {
 		$part = ORM::factory('page_part', (int) $id);
 		$part->delete();
 	}
+	
+	public function post_reorder()
+	{
+		if(!Acl::check('parts.reorder')) return;
+
+		$ids = $this->param('ids', array());
+		
+		ORM::factory('page_part')->sort($ids);
+	}
 }

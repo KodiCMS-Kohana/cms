@@ -8,7 +8,8 @@ $(function() {
 			content: '',
 			is_protected: 0,
 			is_expanded: 1,
-			is_indexable: 0
+			is_indexable: 0,
+			position: 0
 		},
 	
 		parse: function(response, xhr) {
@@ -52,15 +53,17 @@ $(function() {
 	
 	cms.collections.parts = Backbone.Collection.extend({
 		url: Api.build_url('page-parts'),
-
 		model: cms.models.part,
-
 		parse: function(response, xhr) {
 			return response.response;
 		},
-
 		comparator: function(a) {
-			return a.get('id');
+			return a.get('position');
+		},
+		setOrder: function (data) {
+			Api.post('page-parts.reorder', {ids: data}, function (response) {
+
+			});
 		}
 	});
 	
@@ -68,16 +71,20 @@ $(function() {
 		tagName: 'div',
 
 		template: _.template($('#part-body').html()),
-		
+		attributes: function () {
+			return {
+				'data-id': this.model.id
+			};
+		},
 		events: {
 			'click .part-options-button': 'toggleOptions',
 			'click .part-minimize-button': 'toggleMinimize',
+			'dblclick .panel ': 'toggleMinimize',
 			'change .item-filter': 'changeFilter',
 			'change .is_protected': 'switchProtected',
 			'change .is_indexable': 'switchIndexable',
 			'click .item-remove': 'clear',
-			'dblclick .part-name': 'editName',
-			'blur .edit-name': 'closeEditName',
+			'click .part-rename': 'editName',
 			'keypress .edit-name': 'updateOnEnter'
 		},
 		
@@ -86,20 +93,28 @@ $(function() {
 			this.input.val(this.input.val().replace(/[^a-z0-9\-\_]/, ''));
 		},
 	
-		editName: function() {
+		editName: function(e) {
 			if(this.model.get('is_protected') == 1 && this.model.get('is_developer') == 0) return;
 
-			this.$el.addClass("editing");
-			this.input.show().focus();
-			this.$el.find('.part-name').hide();
+			if(this.$el.hasClass("editing")) {
+				this.closeEditName();
+			} else {
+				this.$el.addClass("editing");
+				this.input.show().focus();
+				this.$el.find('.part-name').hide();
+			}
+			return false;
 		},
 		
 		closeEditName: function() {
 			if(this.model.get('is_protected') == 1 && this.model.get('is_developer') == 0) return;
 
+			this.$el.removeClass("editing");
 			var value = $.trim(this.input.val());
 			this.model.save({name: value});
 			this.render();
+			
+			return false;
 		},
 
 		toggleMinimize: function(e) {
@@ -154,8 +169,8 @@ $(function() {
 
 		// Re-render the titles of the todo item.
 		render: function() {
-			
 			this.$el.html(this.template(this.model.toJSON()));
+			this.$el.data('id', this.model.id);
 			
 			this.input = this.$el.find('.edit-name').hide();
 			
@@ -179,9 +194,7 @@ $(function() {
 	});
 	
 	cms.views.parts = Backbone.View.extend({
-
 		el: $("#pageEditParts"),
-
 		initialize: function() {
 			var $self = this;
 			this.collection.fetch({
@@ -193,6 +206,20 @@ $(function() {
 					$self.render();
 				}
 			});
+			
+			this.$el.sortable({
+				axis: "y",
+				receive: _.bind(function(event, ui) {
+					// do something here?
+				}, this),
+				remove: _.bind(function(event, ui) {
+					// do something here?
+				}, this),
+				update: _.bind(function(event, ui) {
+					var list = ui.item.context.parentNode;
+					this.collection.setOrder($(list).sortable('toArray', {attribute: 'data-id'}));
+				}, this)
+            });
 		},
 
 		render: function() {
@@ -210,7 +237,9 @@ $(function() {
 
 		addPart: function(part) {
 			var view = new cms.views.part({model: part});
+		
 			this.$el.append(view.render().el);
+
 			view.changeFilter();
 		}
 	});

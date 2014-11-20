@@ -4,6 +4,10 @@ Observer::observe('view_page_edit_plugins_top', function($page) {
 	echo View::factory('part/items');
 });
 
+Observer::observe('controller_before_page_edit', function() {
+	Assets::package('jquery-ui');
+});
+
 // Если страницы загружена, загружаем части страниц в качестве виджетов и помещаем 
 // в блоки с названием частей страниц
 Observer::observe('frontpage_found', function($page) {

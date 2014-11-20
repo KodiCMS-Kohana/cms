@@ -1,28 +1,24 @@
 <script id="part-body" type="text/template">
 	<div class="part panel panel-darken no-margin-b" id="part<%=name %>">
 		<div class="panel-heading padding-xs-vr form-inline">
-			<span class="<?php if( ACL::check('page.parts')): ?>part-name<?php endif; ?> panel-title" title="<?php echo __('Double click to edit part name.'); ?>"><%=name %></span>
+			<span class="part-name panel-title"><%=name %></span>
 			<input type="text" class="edit-name form-control input-sm" value="<%=name %>" />
-			
 			<% if ((is_protected == <?php echo Model_Page_Part::PART_PROTECTED; ?> && is_developer == 1) || is_protected == <?php echo Model_Page_Part::PART_NOT_PROTECTED; ?> ) { %>
 			<div class="panel-heading-controls">
 				<div class="btn-group">
 					<?php echo Observer::notify('part_controls'); ?>
-
+					<?php echo UI::button(UI::icon('edit'), array(
+						'class' => 'part-rename btn-inverse btn-xs margin-r5')); ?>
 					<?php if( ACL::check('page.parts')): ?>
-					<?php echo UI::button(UI::icon( 'cog' ), array(
-						'class' => 'part-options-button btn-default btn-xs')
-					); ?>
+					<?php echo UI::button(UI::icon('cog'), array(
+						'class' => 'part-options-button btn-default btn-xs margin-r10')); ?>
 					<?php endif; ?>
-
 					<% if ( is_expanded == 0 ) { %>
-					<?php echo UI::button(UI::icon( 'chevron-down' ), array(
-						'class' => 'part-minimize-button btn-inverse btn-xs')
-					); ?>		
+					<?php echo UI::button(UI::icon('chevron-down'), array(
+						'class' => 'part-minimize-button btn-inverse btn-xs')); ?>
 					<% } else { %>		
-					<?php echo UI::button(UI::icon( 'chevron-up' ), array(
-						'class' => 'part-minimize-button btn-inverse btn-xs')
-					); ?>
+					<?php echo UI::button(UI::icon('chevron-up'), array(
+						'class' => 'part-minimize-button btn-inverse btn-xs')); ?>
 					<% } %>
 				</div>
 			</div>

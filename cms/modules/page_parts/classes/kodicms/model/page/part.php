@@ -96,4 +96,22 @@ class KodiCMS_Model_Page_Part extends ORM
 		Cache::instance()->delete_tag('page_parts');
 		return parent::after_save();
 	}
+	
+	public function sort(array $positions)
+	{
+		foreach ($positions as $pos => $id)
+		{
+			DB::update($this->table_name())
+				->set(array(
+					'position' => $pos
+				))
+				->where('id', '=', $id)
+				->execute($this->_db);
+		}
+
+		Cache::instance()->delete_tag('page_parts');
+
+		return $this;
+	}
+
 }

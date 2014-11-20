@@ -21,10 +21,9 @@ class KodiCMS_Model_API_Page_Part extends Model_API {
 
 		$parts = DB::select('id', 'name')
 			->select_array($this->filtered_fields($fields))
-			->from($this->table_name());
-
-		$parts = $parts
+			->from($this->table_name())
 			->where('page_id', '=', (int) $page_id)
+			->order_by('position')
 			->cache_tags(array('page_parts'))
 			->cached((int) Config::get('cache', 'page_parts'))
 			->execute()
