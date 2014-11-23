@@ -745,6 +745,7 @@ abstract class DataSource_Hybrid_Field {
 	 * @see Datasource_Section_Hybrid_Headline::get()
 	 * 
 	 * @param string $value
+	 * @param integer $document_id
 	 * @return string
 	 */
 	public function fetch_headline_value($value, $document_id)
