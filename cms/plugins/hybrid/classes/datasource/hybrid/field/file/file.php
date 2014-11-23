@@ -222,6 +222,11 @@ class DataSource_Hybrid_Field_File_File extends DataSource_Hybrid_Field_File {
 		return FALSE;
 	}
 
+	/**
+	 * 
+	 * @param array $file
+	 * @return string
+	 */
 	protected function _upload_file(array $file)
 	{
 		$ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
@@ -231,6 +236,11 @@ class DataSource_Hybrid_Field_File_File extends DataSource_Hybrid_Field_File {
 		return $filepath;
 	}
 
+	/**
+	 * 
+	 * @param string $filepath
+	 * @return string
+	 */
 	public function copy_file($filepath)
 	{
 		$ext = strtolower(pathinfo($filepath, PATHINFO_EXTENSION));
@@ -332,23 +342,32 @@ class DataSource_Hybrid_Field_File_File extends DataSource_Hybrid_Field_File {
 			$file = $validation->offsetGet($this->name);
 		}
 
-		if ($this->isreq === TRUE AND ! empty($file))
+		if ($this->isreq === TRUE)
 		{
-			$validation->rules($this->name, array(
-				array('Upload::not_empty')
-			));
+			if (is_array($file))
+			{
+				$validation->rules($this->name, array(
+					array('Upload::not_empty')
+				));
+			}
+			else
+			{
+				$validation->rules($this->name, array(
+					array('not_empty')
+				));
+			}
 		}
 
 		if (is_array($file))
 		{
 			$validation
-					->rule($this->name, 'Upload::valid')
-					->rule($this->name, 'Upload::size', array(':value', $this->max_size));
+				->rule($this->name, 'Upload::valid')
+				->rule($this->name, 'Upload::size', array(':value', $this->max_size));
 
 			if (!empty($types))
 			{
 				$validation
-						->rule($this->name, 'Upload::type', array(':value', $this->types));
+					->rule($this->name, 'Upload::type', array(':value', $this->types));
 			}
 		}
 
@@ -376,6 +395,12 @@ class DataSource_Hybrid_Field_File_File extends DataSource_Hybrid_Field_File {
 		return !empty($row[$fid]) ? str_replace(array('/', '\\'), '/', $row[$fid]) : NULL;
 	}
 
+	/**
+	 * 
+	 * @param string $value
+	 * @param integer $document_id
+	 * @return type
+	 */
 	public function fetch_headline_value($value, $document_id)
 	{
 		if ($this->is_image(PUBLICPATH . $value))
@@ -389,5 +414,4 @@ class DataSource_Hybrid_Field_File_File extends DataSource_Hybrid_Field_File {
 
 		return parent::fetch_headline_value($value, $document_id);
 	}
-
 }

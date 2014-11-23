@@ -121,7 +121,7 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 	 */
 	public function values()
 	{
-		return Arr::merge($this->_fields, $this->system_fields());
+		return Arr::merge($this->_fields, $this->system_fields(), $this->_temp_fields);
 	}
 
 	/**
@@ -414,7 +414,6 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 		// Determine if any external validation failed
 		$extra_errors = ($extra_validation AND ! $extra_validation->check());
 
-		
 		// Default to expecting everything except the primary key
 		if ($expected === NULL)
 		{
@@ -426,38 +425,38 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 			$fields = $this->section()->record()->fields();
 			foreach ($fields as $name => $field)
 			{
-				if(!in_array($field->id, $expected))
+				if (!in_array($field->id, $expected))
 				{
 					unset($fields[$name]);
 				}
 			}
-			
+
 			$rules = $this->rules();
 			foreach ($rules as $field => $_rules)
 			{
-				if(!in_array($field, $expected))
+				if (!in_array($field, $expected))
 				{
 					unset($rules[$field]);
 				}
 			}
-			
+
 			$expected_rules = $rules;
 		}
-		
+
 		$values = $this->values();
 		$values['csrf'] = Arr::get($this->_temp_fields, 'csrf');
-		
+
 		$validation = Validation::factory($values);
-		
+
 		$validation->rules('csrf', array(
 			array('not_empty'), array('Security::check')
 		));
-		
+
 		foreach ($expected_rules as $field => $rules)
 		{
 			$validation->rules($field, $rules);
 		}
-		
+
 		foreach ($this->labels() as $field => $label)
 		{
 			$validation->label($field, $label);
@@ -468,19 +467,19 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 			$field->onValidateDocument($validation, $this);
 		}
 
-		if( ! $validation->check() OR $extra_errors )
+		if (!$validation->check() OR $extra_errors)
 		{
-			$exception = new Validation_Exception( $validation );
-			
+			$exception = new Validation_Exception($validation);
+
 			if ($extra_errors)
 			{
 				// Merge any possible errors from the external object
 				$exception->add_object($extra_validation);
 			}
-			
+
 			throw $exception;
 		}
-		
+
 		return TRUE;
 	}
 	

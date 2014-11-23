@@ -194,7 +194,7 @@ class DataSource_Hybrid_Field_File_Image extends DataSource_Hybrid_Field_File_Fi
 		}
 
 		$image = Image::factory($this->_filepath);
-		
+
 		$width = (int) $this->width;
 		$height = (int) $this->height;
 		$crop = (bool) $this->crop;
@@ -209,8 +209,8 @@ class DataSource_Hybrid_Field_File_Image extends DataSource_Hybrid_Field_File_Fi
 				$image->crop($width, $height);
 			}
 		}
-		
-		if($this->watermark === TRUE AND $this->watermark_path !== NULL)
+
+		if ($this->watermark === TRUE AND $this->watermark_path !== NULL)
 		{
 			$watermark = Image::factory(DOCROOT . $this->watermark_path);
 			$image->watermark($watermark, $this->watermark_offset_x, $this->watermark_offset_y, $this->watermark_opacity);
@@ -220,63 +220,73 @@ class DataSource_Hybrid_Field_File_Image extends DataSource_Hybrid_Field_File_Fi
 
 		return $status;
 	}
-	
+
 	/**
 	 * 
 	 * @param Validation $validation
 	 * @param DataSource_Hybrid_Document $doc
 	 * @return Validation
 	 */
-	public function onValidateDocument( Validation $validation, DataSource_Hybrid_Document $doc )
+	public function onValidateDocument(Validation $validation, DataSource_Hybrid_Document $doc)
 	{
 		$image = $doc->get($this->name);
-		
-		if($this->isreq === TRUE AND ! empty($image) )
+
+		$url = $doc->get($this->name . '_url');
+		$from_url = FALSE;
+		if (Valid::url($url))
 		{
-			if(is_array($image))
+			$from_url = TRUE;
+		}
+
+		if ($this->isreq === TRUE AND $from_url === FALSE)
+		{
+			if (is_array($image))
 			{
-				$validation->rules( $this->name, array(
+				$validation->rules($this->name, array(
 					array('Upload::not_empty')
-				) );
+				));
 			}
 			else
 			{
-				$validation->rules( $this->name, array(
-					array('Valid::not_empty')
-				) );
+				$validation->rules($this->name, array(
+					array('not_empty')
+				));
 			}
-			
 		}
-		elseif($this->isreq === TRUE AND $this->_from_url === TRUE )
+		elseif ($this->isreq === TRUE AND $from_url === TRUE)
 		{
-			$validation->rules( $this->name . '_url', array(
-				array('Valid::not_empty')
-			) );
+			$validation->rules($this->name . '_url', array(
+				array('not_empty')
+			));
 		}
 
-		if( $this->_from_url === FALSE AND is_array( $image ))
+		if ($from_url === FALSE AND is_array($image))
 		{
-			$validation->rules( $this->name, array(
+			$validation->rules($this->name, array(
 				array('Upload::valid'),
 				array('Upload::type', array(':value', $this->types)),
 				array('Upload::size', array(':value', $this->max_size))
-			) );
+			));
 		}
-		else if ($this->_from_url === TRUE )
+		else if ($from_url === TRUE)
 		{
-			$ext = strtolower( pathinfo( $image, PATHINFO_EXTENSION ));
-			
-			$validation->rules( $this->name . '_url', array(
-				array('Valid::url'),
+			$ext = strtolower(pathinfo($url, PATHINFO_EXTENSION));
+
+			$validation->rules($this->name . '_url', array(
+				array('url'),
 				array('in_array', array($ext, $this->types))
-			) );
+			));
 		}
 
 		return $validation
-				->label($this->name . '_url', $this->header)
-				->label($this->name, $this->header);
+			->label($this->name . '_url', $this->header)
+			->label($this->name, $this->header);
 	}
 
+	/**
+	 * 
+	 * @return array
+	 */
 	public function get_similar_fields()
 	{
 		$fields = DataSource_Hybrid_Field_Factory::get_section_fields($this->ds_id, array('file_image'));
