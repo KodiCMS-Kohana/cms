@@ -116,13 +116,18 @@ function init_section_folders() {
 	});
 	
 	$('.page-mail').on('click', '.mail-nav-header', function() {
-		$(this).next('.sections').toggle();
+		var $sections = $(this).next('.sections');
+		if($('li', $sections).length == 0) return;
+
+		$sections.toggle();
 	
 		var data = {};
 		$('.folder-container .mail-nav-header').each(function() {
 			data[$(this).data('id')] = !$(this).next('.sections').is(':hidden');
 		});
-		Api.post('user-meta', {key: 'datasource_folders', value: data});
+		
+		if(!_.isEmpty(data))
+			Api.post('user-meta', {key: 'datasource_folders', value: data});
 	});
 	
 	$('.page-mail').on('click', '.remove-folder', function() {
