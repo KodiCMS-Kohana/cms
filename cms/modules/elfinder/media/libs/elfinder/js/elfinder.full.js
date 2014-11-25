@@ -5815,7 +5815,8 @@ $.fn.elfinderdialog = function(opts) {
 				.css({
 					width  : opts.width,
 					height : opts.height,
-					backgoundColor: '#fff'
+					backgoundColor: '#fff',
+					position: 'absolute'
 				})
 				.mousedown(function(e) {
 					e.stopPropagation();
@@ -7728,6 +7729,7 @@ elFinder.prototype.commands.edit = function() {
 				save = function() {
 					ta.editor && ta.editor.save(ta[0], ta.editor.instance);
 					dfrd.resolve(ta.getContent());
+					$('body').trigger('show_message', [__('Saved')])
 				},
 				cancel = function() {
 					dfrd.reject();

@@ -10,6 +10,12 @@ var cms = {
 		init: function() {
 			this.parse(MESSAGE_ERRORS, 'error');
 			this.parse(MESSAGE_SUCCESS);
+			
+			$('body').on('show_message', function() {
+				var messages = _.toArray(arguments).slice(1);
+				
+				cms.messages.parse(messages);
+			});
 		},
 		parse: function($messages, $type) {
 			for(text in $messages) {
