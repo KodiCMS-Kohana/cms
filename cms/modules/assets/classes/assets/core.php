@@ -517,19 +517,18 @@ class Assets_Core {
 		$minified = array();
 		foreach ($array as $src)
 		{
-			$file_content = 
 			$minified[] = file_get_contents($src);
 		}
 
 		switch ($ext)
 		{
 			case 'css':
-				$minified = implode("\n", $file_content);
+				$minified = implode("\n", $minified);
 				$minified = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $minified);
 				$minified = str_replace(array("\r\n", "\r", "\n", "\t", '  ', '    ', '    '), '', $minified);
 				break;
 			case 'js':
-				$minified = implode(";\n\n\n", $file_content);
+				$minified = implode(";\n\n\n", $minified);
 				$minified = Assets::_compress_script($minified);
 				break;
 		}
