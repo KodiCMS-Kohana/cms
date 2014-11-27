@@ -35,7 +35,10 @@ class Plugin  {
 	 * Информация о плагине
 	 * @var array
 	 */
-	protected $_info = array();
+	protected $_info = array(
+		'author' => CMS_NAME,
+		'version' => '1.0.0'
+	);
 	
 	/**
 	 *

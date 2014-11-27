@@ -8,7 +8,6 @@
 		}) %>
 		</div>
 		<% } %>
-
 		<% if (installed && settings) { %>
 		<?php if( ACL::check('plugins.settings')): ?>
 		<a href="/<?php echo ADMIN_DIR_NAME; ?>/plugins/settings/<%= id %>" class="btn btn-default btn-sm pull-right">
@@ -16,16 +15,13 @@
 		</a>
 		<?php endif; ?>
 		<% } %>
-		<h5 class="pull-left">
-			<%= title %>
-		</h5>
+		<h5 class="pull-left"><%= title %> <small>v<%= version %></small></h5>
 		<div class="clearfix"></div>
 		<% if (description) { %><p class="text-muted"><%= description %></p><% } %>
 		<% if (author) { %><small class="text-light-gray text-xs"><%= __('Author') %> <%= author %></small><% } %>
 	</td>
-	<% if (is_installable) { %>
-	<td class="plugin-version hidden-xs hidden-sm"><%= version %></td>
 	<?php if( ACL::check('plugins.change_status')): ?>
+	<% if (is_installable) { %>
 	<td class="plugin-status text-center">
 		<?php echo UI::button(NULL, array(
 			'class' => 'change-status btn-default btn-sm',
@@ -39,7 +35,6 @@
 	<table class="table table-primary table-striped table-hover" id="PluginsList">
 		<colgroup>
 			<col />
-			<col width="80px" />
 			<?php if( ACL::check('plugins.change_status')): ?>
 			<col width="100px" />
 			<?php endif; ?>
@@ -47,8 +42,6 @@
 		<thead>
 			<tr>
 				<th><?php echo __('Plugin name'); ?></th>
-				<th class="hidden-xs hidden-sm"><?php echo __('Version'); ?></th>
-
 				<?php if( ACL::check('plugins.change_status')): ?>
 				<th><?php echo __('Actions'); ?></th>
 				<?php endif; ?>
