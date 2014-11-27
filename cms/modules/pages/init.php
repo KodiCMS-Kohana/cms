@@ -23,3 +23,9 @@ Observer::observe('frontpage_found', function($page) {
 		throw new HTTP_Exception_Front_401('Page protected');
 	}
 });
+
+// Update page last-modified date
+Observer::observe('widget_set_location', function($page_ids) {
+	ORM::factory('page')->set_update_date($page_ids);
+});
+

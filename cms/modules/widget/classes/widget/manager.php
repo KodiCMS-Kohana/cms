@@ -222,7 +222,7 @@ class Widget_Manager {
 	 * @param array $ids array([ID], [ID2])
 	 * @return type
 	 */
-	public static function remove( array $ids )
+	public static function remove(array $ids)
 	{
 		return DB::delete('widgets')
 			->where('id', 'in', $ids)
@@ -235,7 +235,7 @@ class Widget_Manager {
 	 * @param integer $id
 	 * @return NULL|Model_Widget_Decorator
 	 */
-	public static function load( $id )
+	public static function load($id)
 	{
 		$result = DB::select()
 			->from('widgets')
@@ -257,7 +257,7 @@ class Widget_Manager {
 
 		return $widget;
 	}
-	
+
 	/**
 	 * Размещение виджета на страницах
 	 * 
@@ -273,6 +273,8 @@ class Widget_Manager {
 
 		if (!empty($data))
 		{
+			$page_ids = array();
+			
 			$insert = DB::insert('page_widgets')
 				->columns(array('page_id', 'widget_id', 'block', 'position'));
 
@@ -284,6 +286,7 @@ class Widget_Manager {
 					continue;
 				}
 
+				$page_ids[] = $page_id;
 				$insert->values(array($page_id, (int) $widget_id, $block['name'], (int) $block['position']));
 				$i++;
 			}
@@ -293,7 +296,7 @@ class Widget_Manager {
 				$insert->execute();
 			}
 
-			Observer::notify('widget_set_location');
+			Observer::notify('widget_set_location', $page_ids);
 		}
 	}
 	
@@ -313,20 +316,20 @@ class Widget_Manager {
 		if ($data['block'] < 0)
 		{
 			DB::delete('page_widgets')
-				->where('widget_id', '=', $widget_id)
-				->where('page_id', '=', $page_id)
+				->where('widget_id', '=', (int) $widget_id)
+				->where('page_id', '=', (int) $page_id)
 				->execute();
 		}
 		else
 		{
 			DB::update('page_widgets')
-				->where('widget_id', '=', $widget_id)
-				->where('page_id', '=', $page_id)
+				->where('widget_id', '=', (int) $widget_id)
+				->where('page_id', '=', (int) $page_id)
 				->set(array('block' => $data['block'], 'position' => (int) $data['position']))
 				->execute();
 		}
 
-		Observer::notify('widget_set_location');
+		Observer::notify('widget_set_location', array((int) $page_id));
 	}
 	
 	/**
