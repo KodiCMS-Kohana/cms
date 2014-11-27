@@ -464,9 +464,14 @@ class Assets_Core {
 		{
 			Assets::$_js_minify[] = $js['src'];
 		}
+		
+		foreach (Assets::_sort(Assets::$css) as $handle => $css)
+		{
+			Assets::$_css_minify[] = $css['src'];
+		}
 
 		return array(
-			NULL,
+			self::_minify(Assets::$_css_minify, 'css', $cache_dir_path),
 			self::_minify(Assets::$_js_minify, 'js', $cache_dir_path)
 		);
 	}
@@ -509,16 +514,24 @@ class Assets_Core {
 			return $url . $filename;
 		}
 
-		$minified = '';
+		$minified = array();
 		foreach ($array as $src)
 		{
-			$file_content = file_get_contents($src);
-			$minified .= $file_content . ";\n\n\n";
+			$file_content = 
+			$minified[] = file_get_contents($src);
 		}
 
-		if ($ext == 'js')
+		switch ($ext)
 		{
-			$minified = Assets::_compress_script($minified);
+			case 'css':
+				$minified = implode("\n", $file_content);
+				$minified = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $minified);
+				$minified = str_replace(array("\r\n", "\r", "\n", "\t", '  ', '    ', '    '), '', $minified);
+				break;
+			case 'js':
+				$minified = implode(";\n\n\n", $file_content);
+				$minified = Assets::_compress_script($minified);
+				break;
 		}
 
 		$file = file_put_contents($file_path, $minified, LOCK_EX);

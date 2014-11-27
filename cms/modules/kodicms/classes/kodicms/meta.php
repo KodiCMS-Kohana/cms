@@ -262,10 +262,11 @@ class KodiCMS_Meta {
 	}
 	
 	/**
-	 *
+	 * 
+	 * @param boolean $js_footer
 	 * @return \KodiCMS_Meta
 	 */
-	public function minify()
+	public function minify($js_footer = FALSE)
 	{
 		list($css_cache, $js_cache) = Assets::minify();
 		
@@ -276,7 +277,7 @@ class KodiCMS_Meta {
 		
 		if (!empty($js_cache))
 		{
-			$this->js('cahce', $js_cache);
+			$this->js('cahce', $js_cache, NULL, $js_footer);
 		}
 
 		return $this;
@@ -294,15 +295,11 @@ class KodiCMS_Meta {
 	 * @param boolean $include_js Включить в вывод JavaScript
 	 * @return string
 	 */
-	public function render($include_js = TRUE)
+	public function render($js_footer = FALSE)
 	{
 		$html = Assets::group('FRONTEND')
-				. Assets::css();
-
-		if ($include_js !== FALSE)
-		{
-			$html .= Assets::all_js();
-		}
+				. Assets::css()
+				. Assets::js($js_footer);
 
 		return $html;
 	}

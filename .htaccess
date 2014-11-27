@@ -6,6 +6,19 @@ AddDefaultCharset utf8
 # Enabled profiling, enabled cache
 # SetEnv KOHANA_ENV TESTING
 
+# Enable css|js files Cache-Control
+# Required apache modules: mod_headers or mod_expires
+# <Filesmatch "\.(jpg|jpeg|png|gif|js|css)$">
+# <ifmodule mod_headers.c>
+# 	Header add "Expires" "Mon, 28 Jul 2014 23:30:00 GMT"
+#	Header add "Cache-Control" "max-age=315360000"
+# </ifmodule>
+# <ifmodule mod_expires.c>
+#    ExpiresActive on
+#    ExpiresDefault "access plus 2 days"
+# </ifmodule>
+# </Filesmatch>
+
 # Turn on URL rewriting
 RewriteEngine On
 
