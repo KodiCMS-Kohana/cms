@@ -135,12 +135,9 @@ class KodiCMS_Controller_Front extends Controller_System_Controller
 			$this->response->headers('last-modified', date('r', strtotime($page->updated_on)));
 		}
 		
-		$this->response
-			->headers(array(
-				'Content-Type' => $page->mime(),
-				'X-Powered-CMS' => CMS_NAME . ' ' . CMS_VERSION
-			))
-			->body($html);
+		$this->response->headers('Content-Type', $page->mime());
+		$this->response->headers('X-Powered-CMS', CMS_NAME . ' ' . CMS_VERSION);
+		$this->response->body($html);
 	}
 	
 	public function after()
