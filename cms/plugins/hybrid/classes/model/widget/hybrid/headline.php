@@ -276,15 +276,29 @@ class Model_Widget_Hybrid_Headline extends Model_Widget_Decorator_Pagination {
 	 * 
 	 * @param Database_Query $query
 	 */
-	protected function _search_by_keyword( Database_Query $query )
+	protected function _search_by_keyword(Database_Query $query, $only_title = FALSE)
 	{
-		if($this->search_key === NULL OR trim($this->search_key) == '') return $query;
+		if ($this->search_key === NULL OR trim($this->search_key) == '')
+		{
+			return $query;
+		}
 
 		$keyword = $this->_ctx->get($this->search_key);
+
+		if (empty($keyword))
+		{
+			return $query;
+		}
 		
-		if( empty($keyword) )return $query;
+		$ids = Search::instance()->find_by_keyword($keyword, $only_title, 'ds_' . $this->ds_id, NULL);
+
+		$ids = Arr::get($ids,  'ds_' . $this->ds_id);
+		if (!empty($ids))
+		{
+			return $query->where('id', 'in', array_keys($ids));
+		}
 		
-		return Search::instance()->get_module_query($query, $keyword, 'ds_' . $this->ds_id);
+		return $query;
 	}
 
 	/**

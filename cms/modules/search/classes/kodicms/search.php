@@ -42,18 +42,17 @@ abstract class KodiCMS_Search {
 
 		$config = Kohana::$config->load('search');
 
-		if ( ! $config->offsetExists($group))
+		if (!$config->offsetExists($group))
 		{
 			throw new Kohana_Exception(
-				'Failed to load Kohana Search group: :group',
-				array(':group' => $group)
-			);
+				'Failed to load Kohana Search group: :group', array(
+					':group' => $group));
 		}
 
 		$config = $config->get($group);
 
 		// Create a new search type instance
-		$search_class = 'Search_'.ucfirst($config['driver']);
+		$search_class = 'Search_' . ucfirst($config['driver']);
 		Search::$instances[$group] = new $search_class($config);
 
 		// Return the instance
@@ -87,7 +86,9 @@ abstract class KodiCMS_Search {
 	public function config($key = NULL, $value = NULL)
 	{
 		if ($key === NULL)
+		{
 			return $this->_config;
+		}
 
 		if (is_array($key))
 		{
@@ -96,7 +97,9 @@ abstract class KodiCMS_Search {
 		else
 		{
 			if ($value === NULL)
+			{
 				return Arr::get($this->_config, $key);
+			}
 
 			$this->_config[$key] = $value;
 		}
@@ -124,13 +127,33 @@ abstract class KodiCMS_Search {
 	 * @param array $params
 	 * @return bool
 	 */
-	abstract public function add_to_index( $module, $id, $title, $content = '', $annotation, $params = array() );
-	
+	abstract public function add_to_index($module, $id, $title, $content = '', $annotation, $params = array());
+
 	/**
 	 * 
 	 * @param string $module
 	 * @param integer $id
 	 * @return bool
 	 */
-	abstract public function remove_from_index( $module, $id = NULL );
+	abstract public function remove_from_index($module, $id = NULL);
+	
+	/**
+	 * 
+	 * @param string $keyword
+	 * @param boolean $only_title
+	 * @param string|array $modules
+	 * @param integer $limit
+	 * @param integer $offset
+	 * @return array
+	 */
+	abstract public function find_by_keyword($keyword, $only_title = FALSE, $modules = NULL, $limit = 50, $offset = 0);
+	
+	/**
+	 * 
+	 * @param string $keyword
+	 * @param boolean $only_title
+	 * @param string $modules
+	 * @return integer
+	 */
+	abstract public function count_by_keyword($keyword, $only_title = FALSE, $modules = NULL);
 }
