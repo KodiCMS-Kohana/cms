@@ -10,6 +10,8 @@
  */
 class DataSource_Hybrid_Field_Source_Array extends DataSource_Hybrid_Field_Source_OneToMany {
 
+	protected $_is_searchable = FALSE;
+
 	protected $_props = array(
 		'isreq' => TRUE,
 		'source' => NULL

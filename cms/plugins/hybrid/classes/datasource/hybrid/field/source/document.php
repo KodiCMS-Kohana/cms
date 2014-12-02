@@ -10,6 +10,8 @@
  */
 class DataSource_Hybrid_Field_Source_Document extends DataSource_Hybrid_Field_Source_OneToOne {
 
+	protected $_is_searchable = FALSE;
+	
 	protected $_props = array(
 		'isreq' => TRUE,
 		'ds_type' => NULL,

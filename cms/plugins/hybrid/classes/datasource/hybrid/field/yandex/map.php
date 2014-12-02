@@ -10,7 +10,11 @@
  */
 class DataSource_Hybrid_Field_Yandex_Map extends DataSource_Hybrid_Field_Primitive {
 	
+	protected $_is_searchable = FALSE;
+
 	protected $_is_required = FALSE;
+	
+	protected $_is_indexable = FALSE;
 	
 	protected $_props = array(
 		'default' => '55.753994, 37.622093'

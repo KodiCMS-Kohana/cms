@@ -10,6 +10,8 @@
  */
 class DataSource_Hybrid_Field_Source_User extends DataSource_Hybrid_Field_Source {
 	
+	protected $_is_searchable = FALSE;
+
 	protected $_props = array(
 		'default' => NULL,
 		'isreq' => FALSE,

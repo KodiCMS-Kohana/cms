@@ -191,6 +191,12 @@ abstract class DataSource_Hybrid_Field {
 	protected $_is_indexable = TRUE;
 
 	/**
+	 * @see is_searchable()
+	 * @var boolean 
+	 */
+	protected $_is_searchable = TRUE;
+
+	/**
 	 * 
 	 * @param array $data
 	 */
@@ -424,11 +430,6 @@ abstract class DataSource_Hybrid_Field {
 	{
 		$this->index_type = $type;
 		return $this;
-	}
-	
-	public function is_indexed()
-	{
-		return DataSource_Hybrid_Field_Factory::is_index($this);
 	}
 
 	/**
@@ -667,6 +668,24 @@ abstract class DataSource_Hybrid_Field {
 	public function is_indexable()
 	{
 		return (bool) $this->_is_indexable;
+	}
+	
+	/**
+	 * 
+	 * @return boolean
+	 */
+	public function is_indexed()
+	{
+		return DataSource_Hybrid_Field_Factory::is_index($this);
+	}
+	
+	/**
+	 * Поле может участвовать в поиске
+	 * @return boolean
+	 */
+	public function is_searchable()
+	{
+		return (bool) $this->_is_searchable;
 	}
 
 	/**

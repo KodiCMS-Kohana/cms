@@ -78,13 +78,15 @@ abstract class Datasource_Section_Headline {
 				'name' => 'ID',
 				'width' => 50,
 				'class' => 'text-right text-muted',
-				'visible' => TRUE
+				'visible' => TRUE,
+				'db_name' => 'd.id'
 			),
 			'header' => array(
 				'name' => 'Header',
 				'width' => NULL,
 				'type' => 'link',
-				'visible' => TRUE
+				'visible' => TRUE,
+				'db_name' => 'd.header'
 			)
 		);
 	}
@@ -212,8 +214,8 @@ abstract class Datasource_Section_Headline {
 	 * @param array $ids
 	 * @return array array( 'total' => ..., 'documents' => array([id] => array([Field name] => $value, ....)))
 	 */
-	abstract public function get( array $ids = NULL );
-	
+	abstract public function get(array $ids = NULL);
+
 	/**
 	 * Подсчет кол-ва документов в разделе
 	 * 
@@ -221,8 +223,8 @@ abstract class Datasource_Section_Headline {
 	 * @param string $search_word
 	 * @return integer
 	 */
-	abstract public function count_total( array $ids = NULL );
-	
+	abstract public function count_total(array $ids = NULL);
+
 	/**
 	 * Метод используется для поиска по документам по ключевому слову.
 	 * 

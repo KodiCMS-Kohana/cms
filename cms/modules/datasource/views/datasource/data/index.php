@@ -28,9 +28,12 @@
 <div class="mail-controls clearfix headline-actions">
 	<?php echo View::factory('datasource/section/actions'); ?>
 </div>
+<?php if(isset($toolbar)): ?>
+<div class="mail-controls">
+<?php echo $toolbar; ?>
+</div>
+<?php endif; ?>
+
 <div class="mail-list headline">
-	<?php if(isset($toolbar)): ?>
-		<?php echo $toolbar; ?>
-		<?php endif; ?>
 	<?php echo $headline; ?>
 </div>

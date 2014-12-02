@@ -91,7 +91,7 @@ class Datasource_Section {
 	 * @param integer $id
 	 * @return null|Datasource_Section
 	 */
-	public static function load( $id ) 
+	public static function load($id)
 	{
 		if ($id === NULL)
 		{
@@ -241,14 +241,14 @@ class Datasource_Section {
 	 * 
 	 * @param string $type
 	 */
-	public function __construct( $type ) 
+	public function __construct($type)
 	{
 		$this->_type = $type;
 
 		$this->_initialize();
 		$this->_init_headline();
 		
-		if ( ! class_exists( $this->_document_class_name ))
+		if (!class_exists($this->_document_class_name))
 		{
 			throw new DataSource_Exception_Section('Document class :class_name not exists', 
 					array(':class_name' => $this->_document_class_name));
@@ -1072,20 +1072,20 @@ class Datasource_Section {
 	 */
 	public function add_to_index(array $ids = array(), $header = NULL, $content = NULL, $intro = NULL, array $params = NULL) 
 	{
-		if( ! $this->is_indexable())
+		if (!$this->is_indexable())
 		{
 			return $this;
 		}
 
-		if(count($ids) == 1 AND $header !== NULL)
+		if (count($ids) == 1 AND $header !== NULL)
 		{
 			Search::instance()->add_to_index('ds_' . $this->id(), $ids[0], $header, $content, $intro, $params);
 		}
 		else
 		{
 			$docs = $this->get_indexable_documents($ids);
-			
-			foreach($docs as $doc)
+
+			foreach ($docs as $doc)
 			{
 				Search::instance()->add_to_index('ds_' . $this->id(), $doc['id'], $doc['header'], $doc['content'], $doc['intro'], Arr::get($doc, 'params'));
 			}
@@ -1106,29 +1106,29 @@ class Datasource_Section {
 	 * @param string $intro
 	 * @return \Datasource_Section
 	 */
-	public function update_index(array $ids = array(), $header = NULL, $content = NULL, $intro = NULL, array $params = NULL) 
+	public function update_index(array $ids = array(), $header = NULL, $content = NULL, $intro = NULL, array $params = NULL)
 	{
-		if( ! $this->is_indexable())
+		if (!$this->is_indexable())
 		{
 			return $this;
 		}
 
 		return $this->add_to_index($ids, $header, $content, $intro, $params);
 	}
-	
+
 	/**
 	 * Удаление документов из поискового индекса
 	 * 
 	 * @param array $ids
 	 * @return \Datasource_Section
 	 */
-	public function remove_from_index( array $ids = NULL) 
+	public function remove_from_index(array $ids = NULL)
 	{
-		if( ! $this->is_indexable())
+		if (!$this->is_indexable())
 		{
 			return $this;
 		}
-		
+
 		Search::instance()->remove_from_index('ds_' . $this->id(), $ids);
 	}
 }

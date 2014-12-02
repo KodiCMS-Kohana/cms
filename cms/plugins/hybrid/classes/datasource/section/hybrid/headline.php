@@ -32,7 +32,9 @@ class Datasource_Section_Hybrid_Headline extends Datasource_Section_Headline {
 		{
 			$this->_fields[$field->name] = array(
 				'name' =>  $field->header,
-				'visible' => (bool) $field->in_headline
+				'visible' => (bool) $field->in_headline,
+				'db_name' => 'ds.' . $field->name,
+				'searchable' => $field->is_searchable()
 			);
 		}
 		
@@ -40,17 +42,56 @@ class Datasource_Section_Hybrid_Headline extends Datasource_Section_Headline {
 			'name' => 'Date of creation',
 			'width' => 150,
 			'class' => 'text-right text-muted text-sm',
-			'visible' => TRUE
+			'visible' => TRUE,
+			'searchable' => FALSE
 		);
 
 		return $this->_fields;
 	}
+	
+	/**
+	 * 
+	 * @return array
+	 */
+	public function searchable_fields()
+	{
+		$fields = array_filter($this->fields(), function($field) {
+			return (isset($field['visible']) AND $field['visible'] !== FALSE) AND (!isset($field['searchable']) OR (isset($field['searchable']) AND $field['searchable'] !== FALSE));
+		});
+		
+		return array_map(function($field) {
+			return $field['name'];
+		}, $fields);
+	}
+	
+	/**
+	 * 
+	 * @return array
+	 */
+	public function active_fields()
+	{
+		$section_fields = DataSource_Hybrid_Field_Factory::get_section_fields($this->_section->id());
 
-	public function get( array $ids = NULL )
+		$fields = array();
+
+		foreach ($section_fields as $key => $field)
+		{
+			if((bool) $field->in_headline === FALSE)
+			{
+				continue;
+			}
+
+			$fields[$field->id] = $field;
+		}
+		
+		return $fields;
+	}
+
+	public function get(array $ids = NULL)
 	{
 		$agent = $this->_section->agent();
 
-		$fids = array();
+		$fids = $this->active_fields();
 
 		$documents = array();
 
@@ -61,27 +102,15 @@ class Datasource_Section_Hybrid_Headline extends Datasource_Section_Headline {
 		
 		$pagination = $this->pagination($ids);
 
-		$section_fields = DataSource_Hybrid_Field_Factory::get_section_fields($this->_section->id());
-
-		foreach ($section_fields as $key => $field)
-		{
-			if (!array_key_exists($field->name, $this->fields()))
-			{
-				continue;
-			}
-
-			$fids[] = $field->id;
-		}
-
 		$query = $agent
-			->get_query_props($fids, (array) $this->sorting())
+			->get_query_props(array_keys($fids), (array) $this->sorting())
 			->select('d.created_on')
 			->select('d.created_by_id')
 			->select('dss.name')
 			->join(array('datasources', 'dss'))
 				->on('d.ds_id', '=', 'dss.id');
 
-		if( ! empty($ids) ) 
+		if (!empty($ids))
 		{
 			$query->where('d.id', 'in', $ids);
 		}
@@ -94,11 +123,11 @@ class Datasource_Section_Hybrid_Headline extends Datasource_Section_Headline {
 			->execute()
 			->as_array('id');
 
-		if(count($result) > 0)
+		if (count($result) > 0)
 		{
 			$results['total'] = $pagination->total_items;
-			
-			foreach ( $result as $id => $row )
+
+			foreach ($result as $id => $row)
 			{
 				$data = array(
 					'id' => $id,
@@ -107,10 +136,10 @@ class Datasource_Section_Hybrid_Headline extends Datasource_Section_Headline {
 					'created_on' => Date::format($row['created_on']),
 					'created_by_id' => $row['created_by_id']
 				);
-				
-				foreach($section_fields as $field)
+
+				foreach ($fids as $field)
 				{
-					if(isset($row[$field->id]))
+					if (isset($row[$field->id]))
 					{
 						$data[$field->name] = $field->fetch_headline_value($row[$field->id], $id);
 					}
@@ -125,11 +154,11 @@ class Datasource_Section_Hybrid_Headline extends Datasource_Section_Headline {
 
 			$results['documents'] = $documents;
 		}
-		
+
 		return $results;
 	}
 	
-	public function count_total( array $ids = NULL )
+	public function count_total(array $ids = NULL)
 	{
 		$agent = DataSource_Hybrid_Agent::instance($this->_section->id());
 
@@ -140,14 +169,74 @@ class Datasource_Section_Hybrid_Headline extends Datasource_Section_Headline {
 
 		$query = $this->search_by_keyword($query);
 		
-		if( ! empty($ids) ) 
+		if (!empty($ids))
 		{
 			$query->where('d.id', 'in', $ids);
 		}
-		
+
 		return $query->select(array(DB::expr('COUNT(*)'),'total_docs'))
 			->execute()
 			->get('total_docs');
+	}
+
+	public function search_by_keyword(Database_Query $query)
+	{
+		$keyword = Request::initial()->query('search');
+		
+		if (is_array($keyword))
+		{
+			$fields = array();
+			foreach ($keyword as $field => $value)
+			{
+				if (in_array($field, $this->fields()))
+				{
+					continue;
+				}
+				
+				$fields[$field] = $value;
+			}
+			
+			if (!empty($fields))
+			{
+				$query->where_open();
+				
+				foreach ($fields as $field => $value)
+				{
+					$field = Arr::get($this->fields(), $field);
+					$query->or_where(Arr::get($field, 'db_name'), 'like', '%' . $value . '%');
+				}
+				
+				return $query->where_close();
+			}
+
+			return $query;
+		}
+		else if (empty($keyword))
+		{
+			return $query;
+		}
+
+		$query
+			->where_open()
+			->or_where('d.id', 'like', '%' . $keyword . '%')
+			->or_where('d.header', 'like', '%' . $keyword . '%');
+		
+		foreach ($this->fields() as $field)
+		{
+			if(Arr::get($field, 'searchable') === FALSE)
+			{
+				continue;
+			}
+			
+			if(Arr::get($field, 'db_name') === NULL)
+			{
+				continue;
+			}
+			
+			$query->or_where(Arr::get($field, 'db_name'), 'like', '%' . $keyword . '%');
+		}
+
+		return $query->where_close();
 	}
 	
 	protected function _serialize()
