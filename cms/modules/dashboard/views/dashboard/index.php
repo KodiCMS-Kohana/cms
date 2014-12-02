@@ -5,7 +5,7 @@
 		</div>
 		
 		<div class="col-xs-6 text-right">
-			<a class="btn btn-primary btn-labeled fancybox.ajax popup" href="/api-dashboard.widget_list/" id="add-widget">
+			<a class="btn btn-primary btn-labeled fancybox.ajax popup" href="<?php echo URL::site('api-dashboard.widget_list'); ?>" id="add-widget">
 				<span class="btn-label icon fa fa-plus"></span><?php echo __('Add widget'); ?>
 			</a>
 		</div>
