@@ -12,7 +12,9 @@ class Controller_API_Log extends Controller_System_Api {
 	
 	public function post_clear_old()
 	{
-		$this->response((bool) ORM::factory('log')->clean_old());
+		$all = (bool) $this->param('all', FALSE);
+		
+		$this->response((bool) ORM::factory('log')->clean_old($all));
 		$this->message('Old logs has been deleted');
 	}
 
@@ -82,7 +84,10 @@ class Controller_API_Log extends Controller_System_Api {
 			$list->where('level', 'in', $level);
 		}
 		
-		$list->cached(DATE::HOUR);
+		$list
+			->cached(DATE::HOUR)
+			->cache_tags(array(Model_Log::CACHE_TAG));
+
 		$data = $list->execute()->as_array('id');
 		
 		foreach ($data as $id => $log)

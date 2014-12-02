@@ -4,9 +4,16 @@
 <div class="panel-body">
 	<div class="well">
 		<?php echo UI::button(__('Clear logs older 30 days'), array(
-			'icon' => UI::icon( 'trash-o fa-lg' ),
+			'icon' => UI::icon('trash-o fa-lg'),
 			'class' => 'btn-warning',
 			'data-api-url' => 'log.clear_old',
+			'data-method' => Request::POST
+		)); ?>
+		
+		<?php echo UI::button(__('Clear all logs'), array(
+			'icon' => UI::icon('trash-o'),
+			'class' => 'btn-danger btn-xs',
+			'data-api-url' => 'log.clear_old?all=1',
 			'data-method' => Request::POST
 		)); ?>
 	</div>
