@@ -997,8 +997,9 @@ var Api = {
 		});
 	},
 	build_url: function(uri) {
-		uri = uri.replace('/' + ADMIN_DIR_NAME, '');
-		
+		if(uri.indexOf(ADMIN_DIR_NAME) !== -1)
+			uri = uri.substring(uri.indexOf(ADMIN_DIR_NAME) + ADMIN_DIR_NAME.length);
+
 		if(uri.indexOf('-') == -1)
 		{
 			uri = '-' + uri;
