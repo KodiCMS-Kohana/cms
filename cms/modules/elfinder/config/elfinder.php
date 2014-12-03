@@ -3,11 +3,11 @@
 return array(
 	'volumes' => array(
 		// Local volume
-		array(
-			'driver'        => 'LocalFileSystem',	// driver for accessing file system (REQUIRED)
+		'public' => array(
+			'driver'        => elFinder_Connector::FILE_SYSTEM,	// driver for accessing file system (REQUIRED)
 			'path'          => substr(PUBLICPATH, 0, -1),			// path to files (REQUIRED)
 			'URL'           => PUBLIC_URL,			// URL to files (REQUIRED),
-			'rootAlias'     => __('Public'),
+			'alias'     => __('Public'),
 			'uploadMaxSize'	=> '10M',
 			'mimeDetect'	=> 'internal',
 			'imgLib'		=> 'gd',
@@ -15,7 +15,7 @@ return array(
 		),
 		// MySQL volume
 //		array(
-//			'driver'        => 'MySQL',
+//			'driver'        => elFinder_Connector::MYSQL,
 //			'host'			=> DB_SERVER,
 //			'user'          => DB_USER,
 //			'pass'          => DB_PASS,
