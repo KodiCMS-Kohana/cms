@@ -1,7 +1,7 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct script access.' );
 
- define('PLUGIN_SKELETON_PATH', PLUGPATH . 'skeleton' . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR);
- define('PLUGIN_SKELETON_URL', PLUGINS_URL . 'skeleton/public/');
+define('PLUGIN_SKELETON_PATH', PLUGPATH . 'skeleton' . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR);
+define('PLUGIN_SKELETON_URL', PLUGINS_URL . 'skeleton/public/');
   
 // Этот файл подключается всегда после активации плагина и на странице списка плагинов
 // даже если плагин не активирован
