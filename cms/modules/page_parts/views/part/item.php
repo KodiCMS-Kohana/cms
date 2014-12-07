@@ -1,6 +1,9 @@
 <script id="part-body" type="text/template">
 	<div class="part panel panel-darken no-margin-b" id="part<%=name %>">
 		<div class="panel-heading padding-xs-vr form-inline">
+			<div class="panel-heading-sortable-handler">
+				<?php echo UI::icon('ellipsis-v fa-lg'); ?>
+			</div>
 			<span class="part-name panel-title"><%=name %></span>
 			<input type="text" class="edit-name form-control input-sm" value="<%=name %>" />
 			<% if ((is_protected == <?php echo Model_Page_Part::PART_PROTECTED; ?> && is_developer == 1) || is_protected == <?php echo Model_Page_Part::PART_NOT_PROTECTED; ?> ) { %>

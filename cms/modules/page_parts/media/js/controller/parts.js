@@ -209,6 +209,7 @@ $(function() {
 			
 			this.$el.sortable({
 				axis: "y",
+				handle: ".panel-heading-sortable-handler",
 				receive: _.bind(function(event, ui) {
 					// do something here?
 				}, this),
