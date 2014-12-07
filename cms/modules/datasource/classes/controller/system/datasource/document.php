@@ -45,7 +45,9 @@ class Controller_System_Datasource_Document extends Controller_System_Datasource
 				'controller' => 'data'
 			)) . URL::query(array('ds_id' => $this->section()->id()), FALSE));
 		
-		$this->template_js_params['API_FORM_ACTION'] = '/datasource-document.' . ($doc->loaded() ? 'update' : 'create'); 
+		$this->template_js_params['API_FORM_ACTION'] = '/datasource-document.' . ($doc->loaded() ? 'update' : 'create');
+		$this->template_js_params['SECTION_ID'] = (int) $this->section()->id(); 
+		$this->template_js_params['DOCUMENT_ID'] = $id;
 		
 		if( ! $doc->loaded() )
 		{

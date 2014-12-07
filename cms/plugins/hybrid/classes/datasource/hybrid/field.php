@@ -907,13 +907,59 @@ abstract class DataSource_Hybrid_Field {
 	/**
 	 * Событие вызываемое в момент загрузки контроллера в админ панели
 	 */
-	public function onControllerLoad() {}
+	public function onControllerLoad() 
+	{
+		$this->include_media();
+	}
 
 	/**
 	 * Тип поля в БД
 	 * return string
 	 */
 	abstract public function get_type();
+	
+	/**************************************************************************
+	 * Media
+	 **************************************************************************/
+	/**
+	 * 
+	 * @return string
+	 */
+	public function media_path()
+	{
+		return PLUGIN_HYBRID_PATH . 'media' . DIRECTORY_SEPARATOR;
+	}
+	
+	/**
+	 * 
+	 * @return string
+	 */
+	public function media_url()
+	{
+		return PLUGIN_HYBRID_URL;
+	}
+	
+	/**
+	 * 
+	 * @return string
+	 */
+	public function media_filename()
+	{
+		return $this->type;
+	}
+	
+	public function include_media()
+	{
+		if(file_exists($this->media_path() . 'field/'. DIRECTORY_SEPARATOR . $this->media_filename() . '.css'))
+		{
+			Assets::css('field::' . $this->media_filename(), $this->media_url() . 'field/' . $this->media_filename() . '.css');
+		}
+		
+		if(file_exists($this->media_path() . 'field/'. DIRECTORY_SEPARATOR . $this->media_filename() . '.js'))
+		{
+			Assets::js('field::' . $this->media_filename(), $this->media_url() . 'field/' . $this->media_filename() . '.js', 'global');
+		}
+	}
 	
 	/**************************************************************************
 	 * ACL

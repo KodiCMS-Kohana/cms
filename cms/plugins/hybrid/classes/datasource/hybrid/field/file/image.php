@@ -301,4 +301,9 @@ class DataSource_Hybrid_Field_File_Image extends DataSource_Hybrid_Field_File_Fi
 
 		return $options;
 	}
+	
+	public function media_filename()
+	{
+		return 'file_file';
+	}
 }
