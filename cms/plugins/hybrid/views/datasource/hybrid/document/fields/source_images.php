@@ -38,7 +38,7 @@
 					<a href="<?php echo PUBLIC_URL . $file; ?>" rel="<?php echo $field->name; ?>" class="popup" data-title="false">
 						<?php echo HTML::image(Image::cache($file, 100, 100, Image::HEIGHT, TRUE)); ?>
 					</a>
-					<?php echo Form::hidden($field->name . '_remove[]', $id, array('disabled')); ?>
+					<label class="checkbox-inline"><?php echo Form::checkbox($field->name . '_remove[]', $id) . ' ' . __('Remove'); ?></label>
 				</div>
 				<?php endforeach; ?>
 			</div>
