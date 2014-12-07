@@ -2,6 +2,7 @@
 
 // В данном конфиге показан пример подключения в файловом менеджере дополнительной папки
 // с файлами
+// Примеры коннекторов https://github.com/Studio-42/elFinder/blob/2.x/php/connector.php#L243
 return array(
 	'volumes' => array(
 		'skeleton_public' => array(
