@@ -44,8 +44,22 @@ class KodiCMS_Search_Sphinx extends Search {
 			$benchmark = Profiler::start('Search', __FUNCTION__);
 		}
 		
-		echo debug::Vars($this->_client->Query($keyword), $this->_client->GetLastError());
+		$this->_client->SetLimits($offset, $limit);
+
+		$data = $this->_client->Query($keyword, $this->_modules_to_string($modules));
+
+		$matches = Arr::get($data, 'matches', array());
+		
+		if(empty($matches))
+		{
+			return array();
+		}
+		
 		$ids = array();
+		foreach ($matches as $id => $row)
+		{
+			$ids[$row['attrs']['module']][$id] = $row['attrs'];
+		}
 
 		if (isset($benchmark)) 
 		{
@@ -64,7 +78,8 @@ class KodiCMS_Search_Sphinx extends Search {
 	 */
 	public function count_by_keyword($keyword, $only_title = FALSE, $modules = NULL)
 	{
-		return 0;
+		$data = $this->_client->Query($keyword, $this->_modules_to_string($modules));
+		return Arr::get($data, 'total_found', 0);
 	}
 
 	/**
@@ -92,4 +107,27 @@ class KodiCMS_Search_Sphinx extends Search {
 		
 	}
 
+	/**
+	 * 
+	 * @param array|string|null $modules
+	 * @return string
+	 */
+	protected function _modules_to_string($modules)
+	{
+		if (!empty($modules))
+		{
+			if (!is_array($modules))
+			{
+				$modules = array($modules);
+			}
+			
+			$modules = implode(';', $modules);
+		}
+		else
+		{
+			$modules = '*';
+		}
+		
+		return $modules;
+	}
 }

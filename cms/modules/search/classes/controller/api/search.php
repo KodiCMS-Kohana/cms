@@ -16,4 +16,14 @@ class Controller_API_Search extends Controller_System_Api {
 		
 		$this->message('Search index updated');
 	}
+	
+	public function get_keyword()
+	{		
+		$keyword = $this->param('keyword', NULL, TRUE);
+		$modules = $this->param('modules', NULL);
+		$driver = $this->param('driver', NULL);
+		
+		$data = Search::instance($driver)->find_by_keyword($keyword, FALSE, $modules);
+		$this->response($data);
+	}
 }
