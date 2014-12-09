@@ -144,7 +144,7 @@ class Controller_System_API extends Controller_System_Ajax {
 			/**
 			 * Если выключено API, запретить доступ не авторизованным пользователям к нему
 			 */
-			if ((Config::get('api', 'mode') == 'no' AND (! $is_logged_in AND $this->is_backend())))
+			if ((Config::get('api', 'mode') == 'no' AND ( !$is_logged_in AND $this->is_backend())))
 			{
 				throw new HTTP_Exception_403('Forbiden');
 			}
@@ -153,9 +153,9 @@ class Controller_System_API extends Controller_System_Ajax {
 			 * Если невалидный ключ и пользователь не авторизован 
 			 * или экшен не публичный то запретить доступ к API
 			 */
-			if ( ! $is_logged_in AND ! in_array($action, $this->public_actions))
+			if (!$is_logged_in AND ! in_array($action, $this->public_actions))
 			{
-				if ( ! $this->_model->is_valid($this->param('api_key')))
+				if (!$this->_model->is_valid($this->param('api_key')))
 				{
 					throw new HTTP_Exception_403('Api key not valid');
 				}
@@ -173,7 +173,7 @@ class Controller_System_API extends Controller_System_Ajax {
 			}
 
 			// If the action doesn't exist, it's a 404
-			if ( ! method_exists($this, $action))
+			if (!method_exists($this, $action))
 			{
 				throw HTTP_API_Exception::factory(API::ERROR_PAGE_NOT_FOUND,
 					'The requested method ":method" was not found on this server.',
@@ -228,21 +228,21 @@ class Controller_System_API extends Controller_System_Ajax {
 
 	public function after()
 	{
-		if($this->param('debug') !== NULL)
+		if ($this->param('debug') !== NULL)
 		{
-			$this->response->body( debug::vars($this->json) );
+			$this->response->body(debug::vars($this->json));
 			return;
 		}
-		
-		if ( is_array( $this->json ) )
+
+		if (is_array($this->json))
 		{
-			$this->request->headers( 'Content-type', 'application/json' );
-			
-			if( ! isset($this->json['response']) )
+			$this->request->headers('Content-type', 'application/json');
+
+			if (!isset($this->json['response']))
 			{
 				$this->json['response'] = NULL;
 			}
-		
+
 			$this->json = json_encode($this->json);
 		}
 
@@ -286,7 +286,7 @@ class Controller_System_API extends Controller_System_Ajax {
 	{
 		$token = $this->param('token', NULL, TRUE);
 
-		if( ! Security::check($token))
+		if (!Security::check($token))
 		{
 			Kohana::$log->add(Log::NOTICE, 'Error security token')->write();
 			throw HTTP_API_Exception::factory(API::ERROR_TOKEN, 'Error security token');

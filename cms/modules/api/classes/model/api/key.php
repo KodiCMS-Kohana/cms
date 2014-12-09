@@ -18,32 +18,39 @@ class Model_Api_key extends ORM {
 	/**
 	 * 
 	 * @param type $description
+	 * @return string
 	 */
-	public function generate( $description = '' )
+	public function generate($description = '')
 	{
 		$this->values(array(
-				'id' => self::generate_key(),
-				'description' => $description
-			), array('id', 'description'))
-			->create();
+			'id' => self::generate_key(),
+			'description' => $description
+		), array('id', 'description'))->create();
 
 		return $this->id;
 	}
-	
-	public function refresh( $old_key )
+
+	/**
+	 * 
+	 * @param string $old_key
+	 * @return boolean|string
+	 */
+	public function refresh($old_key)
 	{
 		$this->where('id', '=', $old_key)->find();
-		
-		if( ! $this->loaded()) return FALSE;
-		
+
+		if (!$this->loaded())
+		{
+			return FALSE;
+		}
+
 		$this->values(array(
 			'id' => self::generate_key()
-		), array('id'))
-			->update();
+		), array('id'))->update();
 
 		return $this->id;
 	}
-	
+
 	/**
 	 * 
 	 * @param string $key
@@ -94,14 +101,14 @@ class Model_Api_key extends ORM {
 	 * @param integer $characters
 	 * @return striing
 	 */
-	private static function _create_guid_section( $characters )
+	private static function _create_guid_section($characters)
 	{
 		$characters = (int) $characters;
 		$return = '';
 
-		for($i=0; $i < $characters; $i++)
+		for ($i = 0; $i < $characters; $i++)
 		{
-			$return .= dechex(mt_rand(0,15));
+			$return .= dechex(mt_rand(0, 15));
 		}
 
 		return $return;
@@ -113,21 +120,20 @@ class Model_Api_key extends ORM {
 	 * @param integer $length
 	 * @return type
 	 */
-	private static function _ensure_length( $string, $length)
+	private static function _ensure_length($string, $length)
 	{
 		$length = (int) $length;
 		$strlen = strlen($string);
 
-		if($strlen < $length)
+		if ($strlen < $length)
 		{
 			$string = str_pad($string, $length, 0);
 		}
-		else if($strlen > $length)
+		else if ($strlen > $length)
 		{
 			$string = substr($string, 0, $length);
 		}
-		
+
 		return $string;
 	}
-	
 }
