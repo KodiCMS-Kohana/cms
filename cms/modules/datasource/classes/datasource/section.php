@@ -539,7 +539,7 @@ class Datasource_Section {
 	 * @param DataSource_Document $doc
 	 * @return NULL|DataSource_Document
 	 */
-	public function create_document( DataSource_Document $doc ) 
+	public function create_document(DataSource_Document $doc)
 	{
 		try
 		{
@@ -570,7 +570,7 @@ class Datasource_Section {
 	 * @param DataSource_Document $doc
 	 * @return DataSource_Document
 	 */	
-	public function update_document( DataSource_Document $doc ) 
+	public function update_document(DataSource_Document $doc)
 	{
 		$old = $this->get_document($doc->id);
 	
@@ -1039,9 +1039,9 @@ class Datasource_Section {
 	 * @param integer|array $id
 	 * @return array array([ID] => array('id', 'header', 'content', 'intro'), ...)
 	 */
-	public function get_indexable_documents( array $id = NULL ) 
+	public function get_indexable_documents(array $id = NULL)
 	{
-		$result = DB::select('id', 'header', 'content', 'intro')
+		$result = DB::select_array($this->get_indexable_fields())
 			->from($this->_ds_table)
 			->where('published', '=', 1)
 			->where('ds_id', '=', $this->_id);
@@ -1056,6 +1056,15 @@ class Datasource_Section {
 			->as_array('id');
 	}
 	
+	/**
+	 * 
+	 * @return array
+	 */
+	public function get_indexable_fields()
+	{
+		return array('id', 'header', 'content', 'intro');
+	}
+
 	/**
 	 * Добавление документов раздела в поисковый индекс
 	 * 
