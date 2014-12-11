@@ -14,11 +14,16 @@ class KodiCMS_Model_Page_Tag extends Record
 
 	/**
 	 * 
-	 * @param integer $page_id
+	 * @param integer|Model_Page_Front $page_id
 	 * @return array
 	 */
 	public static function find_by_page($page_id)
 	{
+		if ($page_id instanceof Model_Page_Front)
+		{
+			$page_id = $page_id->id();
+		}
+
 		return DB::select(array('tags.id', 'id'), array('tags.name', 'tag'))
 			->from(array(self::tableName(), 'page_tags'))
 			->join(array(self::tableName('Model_Tag'), 'tags'), 'left')
@@ -32,7 +37,7 @@ class KodiCMS_Model_Page_Tag extends Record
 
 	/**
 	 * 
-	 * @param integer $page_id
+	 * @param integer|Model_Page_Front $page_id
 	 * @param array $tags
 	 */
 	public static function save_by_page($page_id, $tags)
@@ -45,6 +50,11 @@ class KodiCMS_Model_Page_Tag extends Record
 		$tags = array_unique(array_map('trim', $tags));
 
 		$current_tags = Model_Page_Tag::find_by_page($page_id);
+
+		if ($page_id instanceof Model_Page_Front)
+		{
+			$page_id = $page_id->id();
+		}
 
 		// no tag before! no tag now! ... nothing to do!
 		if (empty($tags) AND empty($current_tags))
