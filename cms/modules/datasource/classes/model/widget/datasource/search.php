@@ -73,9 +73,9 @@ class Model_Widget_Datasource_Search extends Model_Widget_Decorator_Pagination {
 		
 		$sources = array();
 
-		foreach ($sources_list as $source)
+		foreach ($sources_list as $id => $source)
 		{
-			$sources[$source['id']] = $source['name'];
+			$sources[$id] = $source->name;
 		}
 
 		return $sources;
