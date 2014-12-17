@@ -295,7 +295,7 @@ class Model_Widget_Hybrid_Headline extends Model_Widget_Decorator_Pagination {
 		$ids = Arr::get($ids,  'ds_' . $this->ds_id);
 		if (!empty($ids))
 		{
-			return $query->where('id', 'in', array_keys($ids));
+			return $query->where('d.id', 'in', array_keys($ids));
 		}
 		
 		return $query;
