@@ -44,32 +44,32 @@ class Kohana_Breadcrumbs_Item {
 	 */
 	public function __construct($name, $url = NULL, $active = FALSE, array $data = array())
 	{
-		if(empty($name))
+		if (empty($name))
 		{
 			throw new Kohana_Exception('Breadcrumbs: The breadcrumb name could not be empty!');
 		}
 
 		$this->name = $name;
-		if( ! empty($url))
+		if (!empty($url))
 		{
 			$this->_set_url($url);
 		}
 
 		$this->active = $active;
-		
+
 		$this->_data = $data;
 	}
-	
+
 	/**
 	 * 
 	 * @param string $url
 	 */
 	protected function _set_url($url)
 	{
-		$this->url = $url;//URL::site($url);
+		$this->url = $url; //URL::site($url);
 		return $this;
 	}
-	
+
 	/**
 	 * 
 	 * @return boolean
@@ -96,14 +96,18 @@ class Kohana_Breadcrumbs_Item {
 	 */
 	public function set($key, $value = NULL)
 	{
-		if( is_array( $key ))
+		if (is_array($key))
+		{
 			$this->_data = $key;
+		}
 		else
+		{
 			$this->_data[$key] = $value;
+		}
 
 		return $this;
 	}
-	
+
 	/**
 	 * 
 	 * @param string $key
@@ -113,14 +117,14 @@ class Kohana_Breadcrumbs_Item {
 	{
 		return Arr::get($this->_data, $key);
 	}
-	
+
 	/**
 	 * 
 	 * @param string $key
 	 * @return midex|NULL
 	 */
-	public function __get( $key )
+	public function __get($key)
 	{
-		return $this->get( $key );
+		return $this->get($key);
 	}
 }
