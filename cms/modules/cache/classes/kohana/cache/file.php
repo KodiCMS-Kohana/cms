@@ -453,12 +453,13 @@ class Kohana_Cache_File extends Cache implements Cache_GarbageCollect {
 	 * @return  SplFileInfo
 	 * @throws  Cache_Exception
 	 */
-	protected function _make_directory($directory, $mode = 0777, $recursive = FALSE, $context = NULL)
+	protected function _make_directory($directory, $mode = 0777, $recursive = FALSE)
 	{
-		if ( ! mkdir($directory, $mode, $recursive, $context))
+		if (!mkdir($directory, $mode, $recursive))
 		{
 			throw new Cache_Exception('Failed to create the defined cache directory : :directory', array(':directory' => $directory));
 		}
+
 		chmod($directory, $mode);
 
 		return new SplFileInfo($directory);
