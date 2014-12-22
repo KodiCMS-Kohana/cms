@@ -1,5 +1,5 @@
 <?php echo $form; ?>
-<div class="panel panel-sidebar">
+<div class="panel-sidebar">
 	<div class="panel-heading panel-toggler">
 		<span class="panel-title"><?php echo __('Filter'); ?></span>
 	</div>
@@ -10,7 +10,7 @@
 			</div>
 		<?php endforeach; ?>
 		
-		<hr class="panel-wide" />
+		<hr class="panel-wide visible-xs" />
 		
 		<button type="submit" class="btn btn-primary" data-icon="search"><?php echo __('Search'); ?></button>
 		&nbsp;&nbsp;&nbsp;

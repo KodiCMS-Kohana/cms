@@ -1,9 +1,12 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
 /**
- * @package		KodiCMS
+ * @package		KodiCMS/Pages
  * @category	Model
- * @author		ButscHSter
+ * @author		butschster <butschster@gmail.com>
+ * @link		http://kodicms.ru
+ * @copyright	(c) 2012-2014 butschster
+ * @license		http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
  */
 class KodiCMS_Model_Page_Front {
 
@@ -11,7 +14,13 @@ class KodiCMS_Model_Page_Front {
 	 *
 	 * @var array 
 	 */
-	private static $pages_cache = array();
+	private static $_pages_cache = array();
+	
+	/**
+	 *
+	 * @var Model_Page_Front 
+	 */
+	private static $_initial_page = NULL;
 
 	/**
 	 *
@@ -132,6 +141,18 @@ class KodiCMS_Model_Page_Front {
 		Observer::notify('page_not_found', $message, $params);
 		throw new HTTP_Exception_404($message, $params);
 	}
+	
+	/**
+	 * 
+	 * @param type $default
+	 * @return Model_Page_Front
+	 */
+	public static function initial($default = NULL)
+	{
+		return (self::$_initial_page instanceof Model_Page_Front) 
+			? self::$_initial_page 
+			: $default;
+	}
 
 	/**
 	 * 
@@ -140,12 +161,12 @@ class KodiCMS_Model_Page_Front {
 	 */
 	public function __construct($object, $parent)
 	{
-		if($parent instanceof Model_Page_Front)
+		if ($parent instanceof Model_Page_Front)
 		{
 			$this->_parent = $parent;
 		}
 
-		foreach ($object as $key => $value) 
+		foreach ($object as $key => $value)
 		{
 			$this->$key = $value;
 		}
@@ -191,7 +212,7 @@ class KodiCMS_Model_Page_Front {
 	 */
 	public function breadcrumb() 
 	{
-		if(empty($this->breadcrumb))
+		if (empty($this->breadcrumb))
 		{
 			$this->breadcrumb = $this->title;
 		}
@@ -205,11 +226,11 @@ class KodiCMS_Model_Page_Front {
 	 */
 	public function author()
 	{
-		if($this->author instanceof Model_User)
+		if ($this->author instanceof Model_User)
 		{
 			return $this->author;
 		}
-		
+
 		$this->author = ORM::factory('user', $this->created_by_id);
 		return $this->author;
 	}
@@ -246,7 +267,9 @@ class KodiCMS_Model_Page_Front {
 	public function meta_keywords($default = NULL) 
 	{
 		$meta_keywords = $this->parse_meta('meta_keywords');
-		return !empty($meta_keywords) ? $meta_keywords : $default; 
+		return !empty($meta_keywords) 
+			? $meta_keywords 
+			: $default; 
 	}
 
 	/**
@@ -257,7 +280,9 @@ class KodiCMS_Model_Page_Front {
 	public function meta_description($default = NULL) 
 	{
 		$meta_description = $this->parse_meta('meta_description');
-		return ! empty($meta_description) ? $meta_description : $default; 
+		return ! empty($meta_description) 
+			? $meta_description 
+			: $default; 
 	}
 	
 	/**
@@ -278,7 +303,9 @@ class KodiCMS_Model_Page_Front {
 		}
 		else
 		{
-			$this->_meta_params[$key] = $field === NULL ? $value : $this->parse_meta($field, $value);
+			$this->_meta_params[$key] = $field === NULL 
+				? $value 
+				: $this->parse_meta($field, $value);
 		}
 		
 		return $this;
@@ -307,7 +334,9 @@ class KodiCMS_Model_Page_Front {
 	{
 		if ($this->level === NULL)
 		{
-			$this->level = empty($this->url) ? 0 : substr_count($this->url, '/') + 1;
+			$this->level = empty($this->url) 
+				? 0 
+				: substr_count($this->url, '/') + 1;
 		}
 
 		return $this->level;
@@ -318,7 +347,10 @@ class KodiCMS_Model_Page_Front {
 	 */
 	public function is_active()
 	{
-		if(empty($this->url)) return FALSE;
+		if (empty($this->url))
+		{
+			return FALSE;
+		}
 
 		return (strpos(Request::current()->url(), $this->url) === 1);
 	}
@@ -350,7 +382,7 @@ class KodiCMS_Model_Page_Front {
 		{
 			if ($this->is_active())
 			{
-				if(!isset($options['class']))
+				if (!isset($options['class']))
 				{
 					$options['class'] = '';
 				}
@@ -432,7 +464,7 @@ class KodiCMS_Model_Page_Front {
 	{
 		$crumbs = Breadcrumbs::factory();
 
-		if ( $this->parent() instanceof Model_Page_Front 
+		if ($this->parent() instanceof Model_Page_Front
 				AND $this->level > $level)
 		{
 			$this->parent()->_recurse_breadcrumbs($level, $crumbs);
@@ -451,17 +483,19 @@ class KodiCMS_Model_Page_Front {
 	 */
 	public function previous()
 	{
-		if( $this->parent() instanceof Model_Page_Front )
+		if ($this->parent() instanceof Model_Page_Front)
 		{
 			$pages = $this->parent()->children(array(
 				'where' => array(array('page.id', '<', $this->id)),
 				'order_by' => array(array('page.created_on', 'desc')),
 				'limit' => 1
 			));
-			
-			return isset($pages[0]) ? $pages[0] : NULL;
+
+			return isset($pages[0]) 
+				? $pages[0] 
+				: NULL;
 		}
-		
+
 		return NULL;
 	}
 
@@ -471,17 +505,19 @@ class KodiCMS_Model_Page_Front {
 	 */
 	public function next()
 	{
-		if( $this->parent() instanceof Model_Page_Front )
+		if ($this->parent() instanceof Model_Page_Front)
 		{
 			$pages = $this->parent()->children(array(
 				'where' => array(array('page.id', '>', $this->id)),
 				'order_by' => array(array('page.created_on', 'asc')),
 				'limit' => 1
 			));
-			
-			return isset($pages[0]) ? $pages[0] : NULL;
+
+			return isset($pages[0]) 
+				? $pages[0] 
+				: NULL;
 		}
-		
+
 		return NULL;
 	}
 
@@ -496,7 +532,7 @@ class KodiCMS_Model_Page_Front {
 	{
 		$page_class = get_called_class();
 
-		if(!isset($clause['order_by']))
+		if (!isset($clause['order_by']))
 		{
 			$clause['order_by'] = array(
 				array('page.position', 'desc'),
@@ -508,18 +544,18 @@ class KodiCMS_Model_Page_Front {
 			->from(array('pages', 'page'))
 			->where('parent_id', '=', $this->id)
 			->where('status_id', 'in', self::get_statuses($include_hidden));
-		
-		if(Config::get('page', 'check_date') == Config::YES)
+
+		if (Config::get('page', 'check_date') == Config::YES)
 		{
 			$sql->where('published_on', '<=', DB::expr('NOW()'));
 		}
-		
+
 		$this->custom_filter($sql);
 
 		$sql = Record::_conditions($sql, $clause);
 
 		// hack to be able to redefine the page class with behavior
-		if ( ! empty( $this->behavior_id ) )
+		if (!empty($this->behavior_id))
 		{
 			// will return Page by default (if not found!)
 			$page_class = Behavior::load_page($this->behavior_id);
@@ -550,7 +586,7 @@ class KodiCMS_Model_Page_Front {
 	{
 		$page_class = get_called_class();
 
-		if(!isset($clause['order_by']))
+		if (!isset($clause['order_by']))
 		{
 			$clause['order_by'] = array(
 				array('page.position', 'desc'),
@@ -563,11 +599,11 @@ class KodiCMS_Model_Page_Front {
 			->where('parent_id', '=', $this->id)
 			->where('status_id', 'in', self::get_statuses($include_hidden));
 		
-		if(Config::get('page', 'check_date') == Config::YES)
+		if (Config::get('page', 'check_date') == Config::YES)
 		{
 			$sql->where('published_on', '<=', DB::expr('NOW()'));
 		}
-		
+
 		$this->custom_filter($sql);
 
 		// Prepare SQL
@@ -585,7 +621,7 @@ class KodiCMS_Model_Page_Front {
 	 * @param Database_Query $sql
 	 * @return void
 	 */
-	public function custom_filter( Database_Query & $sql )
+	public function custom_filter(Database_Query & $sql)
 	{
 		Observer::notify('frontpage_custom_filter', $sql, $this);
 	}
@@ -597,9 +633,14 @@ class KodiCMS_Model_Page_Front {
 	 */
 	public static function find_similar($uri)
 	{
-		if(empty($uri))
+		if (empty($uri))
 		{
 			return FALSE;
+		}
+
+		if (Kohana::$profiling === TRUE)
+		{
+			$benchmark = Profiler::start(__CLASS__, __METHOD__);
 		}
 
 		$uri_slugs = array_merge(array(''), preg_split('/\//', $uri, -1, PREG_SPLIT_NO_EMPTY));
@@ -611,11 +652,11 @@ class KodiCMS_Model_Page_Front {
 			->from('pages')
 			->where('status_id', 'in', $statuses);
 		
-		if(Config::get('page', 'check_date') == Config::YES)
+		if (Config::get('page', 'check_date') == Config::YES)
 		{
 			$slugs->where('published_on', '<=', DB::expr('NOW()'));
 		}
-		
+
 		$slugs = $slugs
 			->execute()
 			->as_array('id', 'slug');
@@ -624,7 +665,7 @@ class KodiCMS_Model_Page_Front {
 
 		foreach ($uri_slugs as $slug)
 		{
-			if(in_array($slug, $slugs))
+			if (in_array($slug, $slugs))
 			{
 				$new_slugs[] = $slug;
 				continue;
@@ -632,7 +673,7 @@ class KodiCMS_Model_Page_Front {
 
 			$similar_pages = Text::similar_word($slug, $slugs);
 
-			if(!empty($similar_pages))
+			if (!empty($similar_pages))
 			{
 				$page_id = key($similar_pages);
 				$page = self::findById($page_id);
@@ -640,14 +681,24 @@ class KodiCMS_Model_Page_Front {
 			}
 		}
 
-		if(!$config['return_parent_page'] AND (count($uri_slugs) != count($new_slugs)))
+		if (!$config['return_parent_page'] AND ( count($uri_slugs) != count($new_slugs)))
 		{
+			if (isset($benchmark))
+			{
+				Profiler::stop($benchmark);
+			}
+
 			return FALSE;
 		}
 
 		$uri = implode('/', $new_slugs);
 
 		$page = self::find($uri);
+		
+		if (isset($benchmark))
+		{
+			Profiler::stop($benchmark);
+		}
 
 		return $page ? $uri : FALSE;
 	}
@@ -661,13 +712,18 @@ class KodiCMS_Model_Page_Front {
 	 */
 	public static function find($uri, $include_hidden = TRUE, Model_Page_Front $parent = NULL)
 	{
+		if (Kohana::$profiling === TRUE)
+		{
+			$benchmark = Profiler::start(__CLASS__, __METHOD__);
+		}
+
 		$uri = trim($uri, '/');
 
 		$urls = preg_split('/\//', $uri, -1, PREG_SPLIT_NO_EMPTY);
 		
-		if($parent === NULL)
+		if ($parent === NULL)
 		{
-			$urls =  array_merge(array(''), $urls);
+			$urls = array_merge(array(''), $urls);
 		}
 
 		$url = '';
@@ -688,6 +744,13 @@ class KodiCMS_Model_Page_Front {
 					if ($behavior !== NULL)
 					{
 						$page->_behavior = $behavior;
+
+						if (isset($benchmark))
+						{
+							Profiler::stop($benchmark);
+						}
+
+						self::$_initial_page = $page;
 						return $page;
 					}
 				}
@@ -698,6 +761,13 @@ class KodiCMS_Model_Page_Front {
 			}
 
 			$parent = $page;
+		}
+		
+		self::$_initial_page = $page;
+
+		if (isset($benchmark))
+		{
+			Profiler::stop($benchmark);
 		}
 
 		return $page;
@@ -715,9 +785,9 @@ class KodiCMS_Model_Page_Front {
 	{
 		$page_cache_id = self::_get_cache_id(array($field, $value), $parent);
 
-		if (isset(self::$pages_cache[$page_cache_id]))
+		if (isset(self::$_pages_cache[$page_cache_id]))
 		{
-			return self::$pages_cache[$page_cache_id];
+			return self::$_pages_cache[$page_cache_id];
 		}
 		
 		$page_class = get_called_class();
@@ -726,23 +796,25 @@ class KodiCMS_Model_Page_Front {
 			->from(array('pages', 'page'))
 			->where('page.' . $field, '=', $value)
 			->where('status_id', 'in', self::get_statuses($include_hidden))
-			->limit(1)
-			->cache_tags(array('pages'))
-			->cached((int) Config::get('cache', 'front_page'))
-			->as_object();
+			->limit(1);
 
 		if (Config::get('page', 'check_date') == Config::YES)
 		{
 			$page->where('published_on', '<=', DB::expr('NOW()'));
 		}
-		
+
 		$parent_id = $parent instanceof Model_Page_Front ? $parent->id : NULL;
-		if($parent_id !== NULL)
+		if ($parent_id !== NULL)
 		{
 			$page->where('parent_id', '=', $parent_id);
 		}
 
-		$page = $page->execute()->current();
+		$page = $page
+			->cache_tags(array('pages'))
+			->cached((int) Config::get('cache', 'front_page'))
+			->as_object()
+			->execute()
+			->current();
 
 		if (!$page)
 		{
@@ -764,7 +836,7 @@ class KodiCMS_Model_Page_Front {
 		// create the object page
 		$page = new $page_class($page, $parent);
 
-		$pages_cache[$page_cache_id] = $page;
+		self::$_pages_cache[$page_cache_id] = $page;
 		
 		return $page;
 	}
@@ -827,23 +899,22 @@ class KodiCMS_Model_Page_Front {
 	 */
 	public function get_layout_object()
 	{
-		if($this->_layout_object === NULL)
+		if ($this->_layout_object === NULL)
 		{
 			$layout_name = $this->layout();
 			$this->_layout_object = new Model_File_Layout($layout_name);
 		}
-		
-		if( ! $this->_layout_object->is_exists())
+
+		if (!$this->_layout_object->is_exists())
 		{
-			if(($found_file = $this->_layout_object->find_file()) !== FALSE)
+			if (($found_file = $this->_layout_object->find_file()) !== FALSE)
 			{
-				$this->_layout_object = new Model_File_Layout( $found_file );
+				$this->_layout_object = new Model_File_Layout($found_file);
 			}
 			else
 			{
 				throw new HTTP_Exception_500('Layout file :file not found!', array(
-					':file' => $layout_name
-				));
+					':file' => $layout_name));
 			}
 		}
 		
@@ -877,11 +948,11 @@ class KodiCMS_Model_Page_Front {
 	 */	
 	public function layout()
 	{
-		if ( ! empty($this->layout_file) )
+		if (!empty($this->layout_file))
 		{
 			return $this->layout_file;
 		}
-		else if( $this->parent() instanceof Model_Page_Front )
+		else if ($this->parent() instanceof Model_Page_Front)
 		{
 			return $this->parent()->layout();
 		}
@@ -914,7 +985,7 @@ class KodiCMS_Model_Page_Front {
 	{
 		$statuses = array(Model_Page::STATUS_PASSWORD_PROTECTED, Model_Page::STATUS_PUBLISHED);
 		
-		if($include_hidden)
+		if ($include_hidden)
 		{
 			$statuses[] = Model_Page::STATUS_HIDDEN;
 		}
@@ -928,11 +999,20 @@ class KodiCMS_Model_Page_Front {
 	 */
 	protected function _set_url()
 	{
-		$this->url = trim($this->parent()->url .'/'. $this->slug, '/');
-		
+		$this->url = trim($this->parent()->url . '/' . $this->slug, '/');
+
 		return $this;
 	}
 	
+	/**
+	 * 
+	 * @return string
+	 */
+	public function __toString()
+	{
+		return (string) $this->id();
+	}
+
 	/**
 	 * 
 	 * @param string $key
@@ -960,44 +1040,44 @@ class KodiCMS_Model_Page_Front {
 	
 			foreach($fields as $i => $field) 
 			{
-				$patterns[] = '/(?<!\\{)\\{'.preg_quote($field, '/').'\\}(?!\\})/u';
+				$patterns[] = '/(?<!\\{)\\{' . preg_quote($field, '/') . '\\}(?!\\})/u';
 				switch($field) 
 				{
 					case '.': // Current page
-						if($key == 'meta_title')
+						if ($key == 'meta_title')
 						{
 							$parts[] = $this->title();
 						}
-					break;
+						break;
 					case '..': // Parent page
-						if($this->parent() instanceof Model_Page_Front)
+						if ($this->parent() instanceof Model_Page_Front)
 						{
 							$parts[] = $this->parent()->{$key}();
 						}
-					break;
+						break;
 					default: // Level
-						if(
-								Valid::numeric($field) 
-							AND 
-								$this->level() != $field 
-							AND 
-								$this->parent($field) instanceof Model_Page_Front
+						if (
+							Valid::numeric($field)
+						AND
+							$this->level() != $field
+						AND
+							$this->parent($field) instanceof Model_Page_Front
 						)
 						{
 							$parts[] = $this->parent($field)->{$key}();
 						}
-					break;
+						break;
 				}
 				
 				$param = NULL;
 				$meta_param = NULL;
 				$default = NULL;
 
-				if(strpos($field, '|') !== FALSE)
+				if (strpos($field, '|') !== FALSE)
 				{
 					list($field, $default) = explode('|', $field, 2);
 				}
-				
+
 				switch($field{0}) 
 				{
 					case '$':

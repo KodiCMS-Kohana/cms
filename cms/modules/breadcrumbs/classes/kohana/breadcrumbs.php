@@ -2,7 +2,10 @@
 
 /**
  * @package		KodiCMS/Breadcrumbs
- * @author		ButscHSter
+ * @author		butschster <butschster@gmail.com>
+ * @link		http://kodicms.ru
+ * @copyright  (c) 2012-2014 butschster
+ * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
  */
 abstract class Kohana_Breadcrumbs implements Countable, Iterator {
 
@@ -40,14 +43,34 @@ abstract class Kohana_Breadcrumbs implements Countable, Iterator {
 
 	/**
 	 * 
+	 * @return boolean
+	 */
+	public function is_last()
+	{
+		$items = $this->_items;
+		return $this->current() === end($items);
+	}
+	
+	/**
+	 * 
+	 * @return boolean
+	 */
+	public function is_first()
+	{
+		$items = $this->_items;
+		return $this->current() === reset($items);
+	}
+
+	/**
+	 * 
 	 * @param string $name
 	 * @param string $url
 	 * @param integer $position
 	 * @return \Breadcrumbs
 	 */
-	public function add($name, $url = FALSE, $is_active = FALSE, $position = NULL, array $data = array())
+	public function add($name, $url = FALSE, $is_active = NULL, $position = NULL, array $data = array())
 	{
-		if( ! empty($name) )
+		if (!empty($name))
 		{
 			$item = new Breadcrumbs_Item($name, $url, $is_active, $data);
 
@@ -60,32 +83,78 @@ abstract class Kohana_Breadcrumbs implements Countable, Iterator {
 
 	/**
 	 * 
+	 * @param string $key
+	 * @param atring $value
+	 * 
+	 * return Breadcrumbs_Item
+	 */
+	public function get_by($key, $value)
+	{
+		$position = $this->find_by($key, $value);
+
+		if ($position === NULL)
+		{
+			return NULL;
+		}
+
+		return $this->_items[$position];
+	}
+
+
+	/**
+	 * 
+	 * @param string $key
+	 * @param string $value
+	 * @return integer|NULL
+	 */
+	public function find_by($key, $value)
+	{
+		foreach ($this->_items as $pos => $item)
+		{
+			if (is_array($value))
+			{
+				if (in_array($item->$key, $value))
+				{
+					return $pos;
+				}
+			}
+			else if ($item->$key == $value)
+			{
+				return $pos;
+			}
+		}
+
+		return NULL;
+	}
+
+	/**
+	 * 
 	 * @param string $name
 	 * @param string $url
 	 * @param integer $position
 	 * @return \Breadcrumbs
 	 */
-	public function change_by($key, $value, $url = FALSE, $is_active = FALSE, $position = NULL, array $data = array())
+	public function change_by($key, $value, $url = FALSE, $is_active = NULL, $position = NULL, array $data = array())
 	{
 		$item = $this->get_by($key, $value);
-		if($item === NULL)
+		if ($item === NULL)
 		{
 			return FALSE;
 		}
 
 		$item->url = $url;
 
-		if($is_active === TRUE)
+		if ($is_active !== NULL)
 		{
-			$item->active = TRUE;
+			$item->active = (bool) $is_active;
 		}
 
-		if( !empty($data))
+		if (!empty($data))
 		{
 			$item->set($data);
 		}
 
-		if($position !== NULL)
+		if ($position !== NULL)
 		{
 			$position = $this->_get_next_positon($position);
 			$this->_items[$position] = $item;
@@ -110,11 +179,11 @@ abstract class Kohana_Breadcrumbs implements Countable, Iterator {
 	 * @param string $value
 	 * @return boolean|\Kohana_Breadcrumbs
 	 */
-	public function delete_by( $key, $value )
+	public function delete_by($key, $value)
 	{
-		$position = $this->find_by( $key, $value );
+		$position = $this->find_by($key, $value);
 
-		if($position === NULL)
+		if ($position === NULL)
 		{
 			return FALSE;
 		}
@@ -131,84 +200,18 @@ abstract class Kohana_Breadcrumbs implements Countable, Iterator {
 	protected function _get_next_positon($position = NULL)
 	{
 		$position = (int) $position;
-		while(isset($this->_items[$position]))
+		while (isset($this->_items[$position]))
 		{
 			$position++;
 		}
 
 		return $position;
 	}
-	
+
 	protected function _sort()
 	{
 		ksort($this->_items);
 		return $this;
-	}
-
-	/**
-	 * 
-	 * @param string $key
-	 * @param string $value
-	 * @return integer|NULL
-	 */
-	public function find_by($key, $value)
-	{
-		foreach ($this->_items as $pos => $item)
-		{
-			if(is_array($value))
-			{
-				if(in_array($item->$key, $value))
-				{
-					return $pos;
-				}
-			}
-			else if($item->$key == $value)
-			{
-				return $pos;
-			}
-		}
-
-		return NULL;
-	}
-
-	/**
-	 * 
-	 * @param string $key
-	 * @param atring $value
-	 * 
-	 * return Breadcrumbs_Item
-	 */
-	public function get_by($key, $value)
-	{
-		$position = $this->find_by($key, $value);
-
-		if($position === NULL)
-		{
-			return NULL;
-		}
-
-		return $this->_items[$position];
-	}
-	
-	
-	/**
-	 * 
-	 * @return boolean
-	 */
-	public function is_last()
-	{
-		$items = $this->_items;
-		return $this->current() === end($items);
-	}
-	
-	/**
-	 * 
-	 * @return boolean
-	 */
-	public function is_first()
-	{
-		$items = $this->_items;
-		return $this->current() === reset($items);
 	}
 
 	/**

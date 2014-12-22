@@ -109,14 +109,14 @@ Kohana::init( array(
 	'base_url'			=> '/',
 	'index_file'		=> FALSE,
 	'cache_dir'			=> CMSPATH.'cache',
-	'caching'			=> Kohana::$environment === Kohana::PRODUCTION,
-	'profile'			=> Kohana::$environment !== Kohana::PRODUCTION,
+	'caching'			=> Kohana::$environment < Kohana::DEVELOPMENT,
+	'profile'			=> Kohana::$environment > Kohana::PRODUCTION,
 	'errors'			=> TRUE
 ) );
 
 define('CMS_NAME',			'KodiCMS');
 define('CMS_SITE',			'http://www.kodicms.ru');
-define('CMS_VERSION',		'12.33.70');
+define('CMS_VERSION',		'13.55.110');
 
 define('PUBLICPATH',		DOCROOT . 'public' . DIRECTORY_SEPARATOR);
 define('TMPPATH',			PUBLICPATH . 'temp' . DIRECTORY_SEPARATOR);

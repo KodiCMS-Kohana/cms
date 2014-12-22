@@ -1,5 +1,5 @@
 <?php echo Form::open(Request::current()->uri(), array(
-	'class' => array(Bootstrap_Form::HORIZONTAL, 'panel')
+	'class' => array(Form::HORIZONTAL, 'panel')
 )); ?>
 	<div class="panel-heading">
 		<span class="panel-title"><?php echo __('Patches'); ?></span>

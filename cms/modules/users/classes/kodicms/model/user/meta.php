@@ -3,7 +3,10 @@
 /**
  * @package		KodiCMS/Users
  * @category	Model
- * @author		ButscHSter
+ * @author		butschster <butschster@gmail.com>
+ * @link		http://kodicms.ru
+ * @copyright	(c) 2012-2014 butschster
+ * @license		http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
  */
 class KodiCMS_Model_User_Meta extends Model {
 	
@@ -33,7 +36,7 @@ class KodiCMS_Model_User_Meta extends Model {
 		
 		if($value !== NULL)
 		{
-			return @unserialize($value);
+			return @Kohana::unserialize($value);
 		}
 		else
 		{
@@ -47,7 +50,7 @@ class KodiCMS_Model_User_Meta extends Model {
 			
 			if($value !== NULL)
 			{
-				return @unserialize($value);
+				return @Kohana::unserialize($value);
 			}
 			else
 			{
@@ -71,7 +74,7 @@ class KodiCMS_Model_User_Meta extends Model {
 		}
 
 		self::_load($user_id);
-		$value = serialize($value);
+		$value = Kohana::serialize($value);
 		if (isset(self::$_cache[$user_id][$key]))
 		{
 			$status = (bool) DB::update('user_meta')

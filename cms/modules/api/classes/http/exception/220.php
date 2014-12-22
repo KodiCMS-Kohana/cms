@@ -3,7 +3,10 @@
 /**
  * @package		KodiCMS/API
  * @category	Exception
- * @author		ButscHSter
+ * @author		butschster <butschster@gmail.com>
+ * @link		http://kodicms.ru
+ * @copyright  (c) 2012-2014 butschster
+ * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
  */
 class HTTP_Exception_220 extends HTTP_API_Exception {
 

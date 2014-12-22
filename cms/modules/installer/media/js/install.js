@@ -111,13 +111,8 @@ $(function() {
 	function check_connect() {
 		cms.clear_error();
 		var $fields = $(':input[name*=db_]').serialize();
-		var response = $.ajax({
-			type: "POST",
-			url: "check_connect",
-			data: $fields,
-			async: false,
-			dataType: 'json'
-		}).responseJSON;
+		
+		var response = Api.get('install.check_connect', $fields, false, false);
 	
 		if(response.status === true) return response.status;
 		
@@ -129,8 +124,22 @@ $(function() {
 		return false;
 	}
 	
+	connection_container_visible();
+	function connection_container_visible() {
+		var $cont = $('.connection-settings');
+		switch ($('#database-driver').val()) {
+			case 'pdo::sqlite':
+				$cont.slideUp();
+				break;
+			default:
+				$cont.slideDown();
+		}
+		
+		$('#database-driver').on('change', connection_container_visible);
+	}
+	
 	$('.select2-container').remove();
 	cms.ui.init('select2');
 	cms.ui.init('icon');
-})
+});
 

@@ -61,6 +61,6 @@ class Kohana_Config_Database_Reader implements Kohana_Config_Reader
 			->where('group_name', '=', $group)
 			->execute($this->_db_instance);
 
-		return count($query) ? array_map('unserialize', $query->as_array('config_key', 'config_value')) : FALSE;
+		return count($query) ? array_map('Kohana::unserialize', $query->as_array('config_key', 'config_value')) : FALSE;
 	}
 }

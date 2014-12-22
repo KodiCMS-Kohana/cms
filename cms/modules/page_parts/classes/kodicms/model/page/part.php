@@ -1,9 +1,12 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
 /**
- * @package		KodiCMS
+ * @package		KodiCMS/Page_Parts
  * @category	Model
- * @author		ButscHSter
+ * @author		butschster <butschster@gmail.com>
+ * @link		http://kodicms.ru
+ * @copyright	(c) 2012-2014 butschster
+ * @license		http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
  */
 class KodiCMS_Model_Page_Part extends ORM
 {
@@ -93,4 +96,22 @@ class KodiCMS_Model_Page_Part extends ORM
 		Cache::instance()->delete_tag('page_parts');
 		return parent::after_save();
 	}
+	
+	public function sort(array $positions)
+	{
+		foreach ($positions as $pos => $id)
+		{
+			DB::update($this->table_name())
+				->set(array(
+					'position' => $pos
+				))
+				->where('id', '=', $id)
+				->execute($this->_db);
+		}
+
+		Cache::instance()->delete_tag('page_parts');
+
+		return $this;
+	}
+
 }

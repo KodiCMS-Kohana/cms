@@ -1,9 +1,13 @@
 <?php defined('SYSPATH') OR die('No direct script access.');
+
 /**
  * Database log writer. Stores log information in a database.
  *
  * @package		KodiCMS/Logs
- * @author		ButscHSter
+ * @author		butschster <butschster@gmail.com>
+ * @link		http://kodicms.ru
+ * @copyright	(c) 2012-2014 butschster
+ * @license		http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
  */
 class Log_Database extends Log_Writer {
 

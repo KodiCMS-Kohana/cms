@@ -1,5 +1,9 @@
 .elfinder {}
 
+.elfinder .elfinder-cwd-file.ui-state-hover {
+	font-weight: normal !important;
+}
+
 .elfinder .elfinder-toolbar {
 	background-color: #f3f3f3 !important;
 	

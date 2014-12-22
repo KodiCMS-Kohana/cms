@@ -1,12 +1,37 @@
 AddDefaultCharset utf8
 
-#SetEnv KOHANA_ENV DEVELOPMENT
+# Disabled cache, enabled profiling
+# SetEnv KOHANA_ENV DEVELOPMENT
+
+# Enabled profiling, enabled cache
+# SetEnv KOHANA_ENV TESTING
+
+# Enable css|js files Cache-Control
+# Required apache modules: mod_headers or mod_expires
+# <Filesmatch "\.(jpg|jpeg|png|gif|js|css)$">
+# <ifmodule mod_headers.c>
+# 	Header add "Expires" "Mon, 28 Jul 2014 23:30:00 GMT"
+#	Header add "Cache-Control" "max-age=315360000"
+# </ifmodule>
+# <ifmodule mod_expires.c>
+#    ExpiresActive on
+#    ExpiresDefault "access plus 2 days"
+# </ifmodule>
+# </Filesmatch>
 
 # Turn on URL rewriting
 RewriteEngine On
 
 # Installation directory
 RewriteBase /
+
+# Redirect www to non-www
+# RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+# RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
+
+# Redirect non-www to www
+# RewriteCond %{HTTP_HOST} !^www\.
+# RewriteRule ^(.*)$ http://www.%{HTTP_HOST}/$1 [R=301,L]
 
 # Protect hidden files from being viewed
 <Files .*>
@@ -25,5 +50,7 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 
 # Rewrite all other URLs to index.php/URL
-# RewriteRule .* index.php/$0 [PT]
 RewriteRule .* index.php [PT]
+
+# Alternate variant
+# RewriteRule .* index.php/$0 [PT]

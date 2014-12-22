@@ -2,8 +2,10 @@
 
 /**
  * @package		KodiCMS/Installer
- * @category	Environment
- * @author		ButscHSter
+ * @author		butschster <butschster@gmail.com>
+ * @link		http://kodicms.ru
+ * @copyright	(c) 2012-2014 butschster
+ * @license		http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
  */
 class Installer_Environment {
 	
@@ -354,7 +356,19 @@ class Installer_Environment {
 			'condition' => class_exists('PDO'),
 			'error' => __('Kohana can use the :extension to support additional databases.', array(
 				':extension' => '<a href="http://php.net/pdo" target="blank">PDO</a>',
-				':class' => 'MySQL'
+				':class' => 'PDO'
+			))
+		);
+	}
+	
+	public function optional_test_pdo_sqlite3()
+	{
+		return array(
+			'title' => 'SQLite3 Enabled',
+			'condition' => extension_loaded('sqlite3'),
+			'error' => __('Kohana can use the :extension to support additional databases.', array(
+				':extension' => '<a href="http://php.net/sqlite3" target="blank">SQLite3</a>',
+				':class' => 'SQLite3'
 			))
 		);
 	}

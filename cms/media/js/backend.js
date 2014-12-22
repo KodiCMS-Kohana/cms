@@ -10,6 +10,12 @@ var cms = {
 		init: function() {
 			this.parse(MESSAGE_ERRORS, 'error');
 			this.parse(MESSAGE_SUCCESS);
+			
+			$('body').on('show_message', function() {
+				var messages = _.toArray(arguments).slice(1);
+				
+				cms.messages.parse(messages);
+			});
 		},
 		parse: function($messages, $type) {
 			for(text in $messages) {
@@ -991,8 +997,9 @@ var Api = {
 		});
 	},
 	build_url: function(uri) {
-		uri = uri.replace('/' + ADMIN_DIR_NAME, '');
-		
+		if(uri.indexOf(ADMIN_DIR_NAME) !== -1)
+			uri = uri.substring(uri.indexOf(ADMIN_DIR_NAME) + ADMIN_DIR_NAME.length);
+
 		if(uri.indexOf('-') == -1)
 		{
 			uri = '-' + uri;

@@ -1,9 +1,11 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
 /**
- * @package		KodiCMS
- * @category	Helper
- * @author		ButscHSter
+ * @package		KodiCMS/Assets
+ * @author		butschster <butschster@gmail.com>
+ * @link		http://kodicms.ru
+ * @copyright	(c) 2012-2014 butschster
+ * @license		http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
  */
 class KodiCMS_Meta {
 	
@@ -17,11 +19,11 @@ class KodiCMS_Meta {
 	 * @param Model_Page_Front $page
 	 * @return \self
 	 */
-	public static function factory( Model_Page_Front $page = NULL )
+	public static function factory(Model_Page_Front $page = NULL)
 	{
 		return new Meta($page);
 	}
-	
+
 	/**
 	 * Очистка всех существующих записей в объекте Assets, 
 	 * который используется для генерации данных
@@ -63,12 +65,12 @@ class KodiCMS_Meta {
 	 */
 	public function __construct(Model_Page_Front $page = NULL)
 	{
-		if($page !== NULL)
+		if ($page !== NULL)
 		{
 			$this->set_page($page, TRUE);
 		}
 	}
-	
+
 	/**
 	 * 
 	 * 
@@ -79,8 +81,8 @@ class KodiCMS_Meta {
 	public function set_page(Model_Page_Front $page, $set_page_data = FALSE)
 	{
 		$this->_page = $page;
-		
-		if($set_page_data !== FALSE)
+
+		if ($set_page_data !== FALSE)
 		{
 			$this
 				->title(HTML::chars($this->_page->meta_title()))
@@ -89,7 +91,7 @@ class KodiCMS_Meta {
 				->add(array('name' => 'robots', 'content' => HTML::chars($this->_page->robots)))
 				->add(array('charset' => 'utf-8'), 'meta::charset');
 		}
-		
+
 		return $this;
 	}
 
@@ -108,11 +110,11 @@ class KodiCMS_Meta {
 	 */
 	public function add(array $attributes, $group = NULL)
 	{
-		$meta = "<meta".HTML::attributes($attributes)." />";
-		
-		if($group === NULL)
+		$meta = "<meta" . HTML::attributes($attributes) . " />";
+
+		if ($group === NULL)
 		{
-			if(isset($attributes['name']))
+			if (isset($attributes['name']))
 			{
 				$group = $attributes['name'];
 			}
@@ -124,7 +126,7 @@ class KodiCMS_Meta {
 
 		return $this->group($group, $meta);
 	}
-	
+
 	/**
 	 * Указание title
 	 * 
@@ -258,6 +260,28 @@ class KodiCMS_Meta {
 		Assets::package($name, $footer);
 		return $this;
 	}
+	
+	/**
+	 * 
+	 * @param boolean $js_footer
+	 * @return \KodiCMS_Meta
+	 */
+	public function minify($js_footer = FALSE)
+	{
+		list($css_cache, $js_cache) = Assets::minify();
+		
+		if (!empty($css_cache))
+		{
+			$this->css('cahce', $css_cache);
+		}
+		
+		if (!empty($js_cache))
+		{
+			$this->js('cahce', $js_cache, NULL, $js_footer);
+		}
+
+		return $this;
+	}
 
 	/**
 	 * Генерация HTML кода CSS, JS, Meta
@@ -271,16 +295,12 @@ class KodiCMS_Meta {
 	 * @param boolean $include_js Включить в вывод JavaScript
 	 * @return string
 	 */
-	public function render($include_js = TRUE)
+	public function render($js_footer = FALSE)
 	{
 		$html = Assets::group('FRONTEND')
-				. Assets::css();
-		
-		if($include_js !== FALSE)
-		{
-			$html .= Assets::all_js();
-		}
-		
+				. Assets::css()
+				. Assets::js($js_footer);
+
 		return $html;
 	}
 

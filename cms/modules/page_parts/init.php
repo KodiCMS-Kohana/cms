@@ -1,7 +1,17 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct access allowed.' );
 
+Assets_Package::add('parts')
+	->css(NULL, ADMIN_RESOURCES . 'css/parts.css');
+
 Observer::observe('view_page_edit_plugins_top', function($page) {
-	echo View::factory('part/items');
+	if($page->loaded())
+	{
+		echo View::factory('part/items');
+	}
+});
+
+Observer::observe('controller_before_page_edit', function() {
+	Assets::package(array('jquery-ui', 'parts'));
 });
 
 // Если страницы загружена, загружаем части страниц в качестве виджетов и помещаем 

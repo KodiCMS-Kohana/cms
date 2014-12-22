@@ -111,6 +111,24 @@
 /* ===================================================
 	Reduce margin
  ===================================================*/
+@max: 100;
+.i-loop (@i) when (@i <= @max) {
+  .margin-l@{i} {
+    margin-left: @i * 1px !important;
+  }
+  .margin-r@{i} {
+    margin-right: @i * 1px !important;
+  }
+  .margin-t@{i} {
+    margin-top: @i * 1px !important;
+  }
+  .margin-b@{i} {
+    margin-bottom: @i * 1px !important;
+  }
+  .i-loop(@i + 5);
+}
+.i-loop(0);
+
 .margin-sm {
   margin: 10px 15px !important;
 }
@@ -144,24 +162,28 @@
   margin: 0 !important;
 }
 
-// Remove horizontal margin
 .no-margin-hr {
   margin-left: 0 !important;
   margin-right: 0 !important;
 }
 
-// Remove vertical margin
 .no-margin-vr {
   margin-top: 0 !important;
   margin-bottom: 0 !important;
 }
 
-// Remove bottom margin
+.no-margin-l {
+  margin-left: 0 !important;
+}
+
+.no-margin-r {
+  margin-right: 0 !important;
+}
+
 .no-margin-b {
   margin-bottom: 0 !important;
 }
 
-// Remove top margin
 .no-margin-t {
   margin-top: 0 !important;
 }

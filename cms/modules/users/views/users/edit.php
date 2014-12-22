@@ -1,5 +1,5 @@
 <?php echo Form::open(Route::get('backend')->uri(array('controller' => 'users', 'action' => $action, 'id' => $user->id)), array(
-	'class' => array(Bootstrap_Form::HORIZONTAL, 'panel tabbable')
+	'class' => array(Form::HORIZONTAL, 'panel tabbable')
 )); ?>
 	<?php echo Form::hidden('token', Security::token()); ?>
 	<div class="panel-heading">
@@ -102,15 +102,10 @@
 	</div>
 	<div class="panel-body">
 		<div class="row-fluid">
-		<?php 
-			echo Form::hidden('user_roles', (int) $user->id, array(
+			<?php echo Form::hidden('user_roles', (int) $user->id, array(
 				'class' => 'col-md-12'
-			));
-
-			echo Bootstrap_Form_Helper_Help::factory(array(
-				'text' => __('Roles restrict user privileges and turn parts of the administrative interface on or off.')
-			)); 
-		?>
+			)); ?>
+			<p class="help-block"><?php echo __('Roles restrict user privileges and turn parts of the administrative interface on or off.'); ?></p>
 		</div>
 	</div>
 	<?php endif; ?>

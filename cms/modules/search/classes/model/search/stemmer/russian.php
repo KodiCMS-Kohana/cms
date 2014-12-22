@@ -3,7 +3,7 @@
 /**
  * @package		KodiCMS/Search
  * @category	Stemmer
- * @author		ButscHSter
+ * @author		butschster <butschster@gmail.com>
  */
 class Model_Search_Stemmer_Russian {
 	

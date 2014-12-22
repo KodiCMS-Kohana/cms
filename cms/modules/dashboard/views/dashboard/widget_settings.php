@@ -1,5 +1,5 @@
 <?php echo Form::open('api-dashboard.widget', array(
-	'class' => array(Bootstrap_Form::HORIZONTAL, 'panel', 'widget-settings')
+	'class' => array(Form::HORIZONTAL, 'panel', 'widget-settings')
 )); ?>
 	<?php echo Form::hidden('id', $widget->id); ?>
 	<div class="panel-heading">

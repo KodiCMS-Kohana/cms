@@ -11,6 +11,7 @@ cms.init.add('plugins_repo', function () {
 			plugin_path: '',
 			stars: 0,
 			watchers: 0,
+			version: '1.0.0',
 			required_cms_version: '0.0.0',
 			is_installable: true
 		},

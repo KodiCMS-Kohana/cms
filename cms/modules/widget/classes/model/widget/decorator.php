@@ -2,8 +2,11 @@
 
 /**
  * @package		KodiCMS/Widgets
- * @category	Decorator
- * @author		ButscHSter
+ * @category	Widget
+ * @author		butschster <butschster@gmail.com>
+ * @link		http://kodicms.ru
+ * @copyright	(c) 2012-2014 butschster
+ * @license		http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
  */
 abstract class Model_Widget_Decorator {
 	
@@ -494,8 +497,8 @@ abstract class Model_Widget_Decorator {
 		try
 		{
 			$content = View::factory('widgets/backend/' . $this->backend_template(), array(
-					'widget' => $this
-				))->set($this->backend_data());
+				'widget' => $this
+			))->set($this->backend_data());
 		}
 		catch (Kohana_Exception $e)
 		{

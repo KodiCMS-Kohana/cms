@@ -2,7 +2,11 @@
 
 /**
  * @package		KodiCMS/Plugins
- * @author		ButscHSter
+ * @category	Drivers
+ * @author		butschster <butschster@gmail.com>
+ * @link		http://kodicms.ru
+ * @copyright	(c) 2012-2014 butschster
+ * @license		http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
  */
 class Plugin_Type_Database extends Plugin_Settings_Decorator {
 	
@@ -15,7 +19,7 @@ class Plugin_Type_Database extends Plugin_Settings_Decorator {
 	{
 		$status = (bool) DB::update( Plugin::TABLE_NAME )
 			->set(array(
-				'settings' => serialize($this->settings())
+				'settings' => Kohana::serialize($this->settings())
 			))
 			->where('id', '=', $this->id())
 			->execute();
@@ -40,7 +44,7 @@ class Plugin_Type_Database extends Plugin_Settings_Decorator {
 			->get('settings');
 		
 		$this->_settings = ! empty($settings) 
-			? unserialize($settings) 
+			? Kohana::unserialize($settings) 
 			: array();
 		
 		return $this;

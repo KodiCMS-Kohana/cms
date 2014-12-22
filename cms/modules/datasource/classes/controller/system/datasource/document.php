@@ -1,5 +1,13 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct access allowed.' );
 
+/**
+ * @package		KodiCMS/Datasource
+ * @category	Controller
+ * @author		butschster <butschster@gmail.com>
+ * @link		http://kodicms.ru
+ * @copyright	(c) 2012-2014 butschster
+ * @license		http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
+ */
 class Controller_System_Datasource_Document extends Controller_System_Datasource
 {
 	public function before()
@@ -37,7 +45,9 @@ class Controller_System_Datasource_Document extends Controller_System_Datasource
 				'controller' => 'data'
 			)) . URL::query(array('ds_id' => $this->section()->id()), FALSE));
 		
-		$this->template_js_params['API_FORM_ACTION'] = '/datasource-document.' . ($doc->loaded() ? 'update' : 'create'); 
+		$this->template_js_params['API_FORM_ACTION'] = '/datasource-document.' . ($doc->loaded() ? 'update' : 'create');
+		$this->template_js_params['SECTION_ID'] = (int) $this->section()->id(); 
+		$this->template_js_params['DOCUMENT_ID'] = $id;
 		
 		if( ! $doc->loaded() )
 		{

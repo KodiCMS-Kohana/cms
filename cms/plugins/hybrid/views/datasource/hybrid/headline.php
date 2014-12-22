@@ -25,7 +25,7 @@
 	</thead>
 	<tbody>
 		<?php foreach ($data['documents'] as $id => $document): ?>
-		<tr data-id="<?php echo $id; ?>" class="<?php if($document->published === FALSE) echo 'unpublished'; ?>">
+		<tr data-id="<?php echo $id; ?>" class="<?php if($document->is_published() === FALSE) echo 'unpublished'; ?>">
 			<?php if($datasource->has_access('document.edit')): ?>
 			<td class="row-checkbox">
 				<?php if($document->has_access_edit()): ?>

@@ -83,7 +83,10 @@ KodiCMS основана на базе [Kohana framework](http://kohanaframework
 	> [Доступные временные зоны](http://www.php.net/manual/timezones)
 
 	>  **Если возникла ошибка Call to a member function load() on a non-object in cms/application/classes/config.php on line 16**<br />
-	>  Необходимо выполнить пункт 4.
+	>  Необходимо выполнить пункт 3.
+
+	>  **Если возникла ошибка Fatal error: Undefined class constant Log::EMERGENCY in /cms/system/classes/kohana/kohana/exception.php on line 140**<br />
+	>  Версия PHP ниже 5.3
 
 5. Заполните все необходимые поля и нажмите кнопку "Установить". 
 6. После установки системы вы окажетесь на странице авторизации, где будет указан ваш логин и пароль для входа в систему.

@@ -2,7 +2,10 @@
 
 /**
  * @package		KodiCMS/Search
- * @author		ButscHSter
+ * @author		butschster <butschster@gmail.com>
+ * @link		http://kodicms.ru
+ * @copyright	(c) 2012-2014 butschster
+ * @license		http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
  */
 class Model_Search_Indexer {
 
@@ -48,7 +51,7 @@ class Model_Search_Indexer {
 			return (bool) DB::insert( 'search_index' )
 				->columns( array( 'module', 'id', 'title', 'header', 'content', 'annotation', 'created_on', 'params' ) )
 				->values( array(
-					$module, $id, $title, $header, $content, $annotation, date( 'Y-m-d H:i:s' ), serialize($params)
+					$module, $id, $title, $header, $content, $annotation, date( 'Y-m-d H:i:s' ), Kohana::serialize($params)
 				) )
 				->execute();
 		}
@@ -73,7 +76,7 @@ class Model_Search_Indexer {
 				'content' => $content,
 				'annotation' => $annotation,
 				'updated_on' => date( 'Y-m-d H:i:s' ),
-				'params' => serialize($params)
+				'params' => Kohana::serialize($params)
 			) )
 			->where( 'module', '=', $module )
 			->where( 'id', '=', $id )

@@ -1,8 +1,12 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
 /**
- * @package		KodiCMS
- * @category	Datasource
+ * @package		KodiCMS/Datasource
+ * @category	Document
+ * @author		butschster <butschster@gmail.com>
+ * @link		http://kodicms.ru
+ * @copyright	(c) 2012-2014 butschster
+ * @license		http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
  */
 class Datasource_Document implements ArrayAccess {
 
@@ -228,9 +232,9 @@ class Datasource_Document implements ArrayAccess {
 	 */
 	public function get($field, $default = NULL)
 	{
-		if(array_key_exists($field, $this->system_fields()))
+		if (array_key_exists($field, $this->system_fields()))
 		{
-			if( ! $this->loaded() AND empty($this->_system_fields[$field]))
+			if (!$this->loaded() AND (Arr::get($this->_system_fields, $field) === NULL))
 			{
 				return Arr::get($this->defaults(), $field, $default);
 			}
@@ -251,12 +255,12 @@ class Datasource_Document implements ArrayAccess {
 	 */
 	public function set($field, $value)
 	{
-		if($this->is_read_only())
+		if ($this->is_read_only())
 		{
 			return $this;
 		}
 
-		if(array_key_exists($field, $this->system_fields()))
+		if (array_key_exists($field, $this->system_fields()))
 		{
 			$this->_changed_fields[$field] = $this->_system_fields[$field];
 			$this->_system_fields[$field] = $this->_run_filter($field, $value);
@@ -265,7 +269,7 @@ class Datasource_Document implements ArrayAccess {
 		{
 			$this->_temp_fields[$field] = $value;
 		}
-		
+
 		return $this;
 	}
 	
@@ -283,6 +287,15 @@ class Datasource_Document implements ArrayAccess {
 		$this->_read_only = TRUE;
 		
 		return $this;
+	}
+	
+	/**
+	 * 
+	 * @return boolean
+	 */
+	public function is_published()
+	{
+		return (bool) $this->published;
 	}
 	
 	/**
@@ -338,7 +351,7 @@ class Datasource_Document implements ArrayAccess {
 	 */
 	public function system_fields()
 	{
-		if($this->_is_authored === TRUE AND !isset($this->_system_fields['created_by_id']))
+		if ($this->_is_authored === TRUE AND ! isset($this->_system_fields['created_by_id']))
 		{
 			$this->_system_fields['created_by_id'] = NULL;
 		}
@@ -365,18 +378,18 @@ class Datasource_Document implements ArrayAccess {
 			$fields = $this->system_fields();
 			foreach ($fields as $key => $value)
 			{
-				if(!in_array($key, $expected))
+				if (!in_array($key, $expected))
 				{
 					unset($fields[$key]);
 				}
 			}
-			
+
 			$expected = $fields;
 		}
-		
-		foreach($expected as $key => $value)
+
+		foreach ($expected as $key => $value)
 		{
-			if($key == 'id')
+			if ($key == 'id')
 			{
 				continue;
 			}
@@ -384,9 +397,9 @@ class Datasource_Document implements ArrayAccess {
 			$this->{$key} = Arr::get($array, $key);
 			unset($array[$key]);
 		}
-		
+
 		$this->_temp_fields = $array;
-		
+
 		return $this;
 	}
 	

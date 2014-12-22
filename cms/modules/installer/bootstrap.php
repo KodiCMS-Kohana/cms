@@ -36,7 +36,6 @@ Kohana::modules( array(
 	'orm'			=> MODPATH . 'orm',			// Object Relationship Mapping,
 	'minion'		=> MODPATH . 'minion',		// Minion
 	'filesystem'	=> MODPATH . 'filesystem',
-	'bootstrap'		=> MODPATH . 'bootstrap',
 	'breadcrumbs'	=> MODPATH . 'breadcrumbs',
 	'widget'		=> MODPATH . 'widget',
 	'email'			=> MODPATH . 'email',

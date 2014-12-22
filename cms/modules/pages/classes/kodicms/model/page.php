@@ -1,9 +1,12 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
 /**
- * @package		KodiCMS
+ * @package		KodiCMS/Pages
  * @category	Model
- * @author		ButscHSter
+ * @author		butschster <butschster@gmail.com>
+ * @link		http://kodicms.ru
+ * @copyright	(c) 2012-2014 butschster
+ * @license		http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
  */
 class KodiCMS_Model_Page extends ORM
 {
@@ -139,7 +142,7 @@ class KodiCMS_Model_Page extends ORM
 	 * 
 	 * @return array
 	 */
-	public function rules() 
+	public function rules()
 	{
 		$rules = array(
 			'title' => array(
@@ -156,8 +159,8 @@ class KodiCMS_Model_Page extends ORM
 				array('array_key_exists', array(':value', self::logins()))
 			),
 		);
-		
-		if($this->id > 1)
+
+		if ($this->id > 1)
 		{
 			$rules['slug'][] = array('not_empty');
 		}
@@ -334,18 +337,18 @@ class KodiCMS_Model_Page extends ORM
 			$this->slug = $this->slug . '-' . $this->id;
 			$this->update();
 		}
-		
+
 		Kohana::$log->add(Log::INFO, 'Page :id added by :user', array(
 			':id' => $this->id
 		))->write();
-		
+
 		Observer::notify('page_add_after_save', $this);
 
 		return TRUE;
 	}
 
 	public function before_update()
-	{	
+	{
 		if (empty($this->published_on) AND $this->status_id == Model_Page::STATUS_PUBLISHED)
 		{
 			$this->published_on = date('Y-m-d H:i:s');
@@ -359,11 +362,11 @@ class KodiCMS_Model_Page extends ORM
 		// Если запрещены теги в Заголовке, удаляем их
 		if (Config::get('site', 'allow_html_title') == Config::NO)
 		{
-			$this->title = strip_tags( trim( $this->title ) );
+			$this->title = strip_tags(trim($this->title));
 		}
 
 		$this->updated_by_id = Auth::get_id();
-		
+
 		Observer::notify('page_edit_before_save', $this);
 
 		return TRUE;
@@ -387,22 +390,22 @@ class KodiCMS_Model_Page extends ORM
 
 	public function before_delete()
 	{
-		Observer::notify( 'page_before_delete', $this );
-		
+		Observer::notify('page_before_delete', $this);
+
 		$this->delete_children();
 
 		return TRUE;
 	}
 	
-	public function after_delete( $id )
+	public function after_delete($id)
 	{
 		Kohana::$log->add(Log::INFO, 'Page :id deleted by :user', array(
 			':id' => $id
 		))->write();
 
-		Observer::notify( 'page_after_delete', $id );
-		
-		if(Kohana::$caching === TRUE)
+		Observer::notify('page_after_delete', $id);
+
+		if (Kohana::$caching === TRUE)
 		{
 			Cache::instance()->delete_tag('pages');
 		}
@@ -467,7 +470,7 @@ class KodiCMS_Model_Page extends ORM
 	 */
 	public function get_uri()
 	{
-		if( $this->parent->loaded())
+		if ($this->parent->loaded())
 		{
 			$result = $this->parent->get_uri() . '/' . $this->slug;
 		}
@@ -494,8 +497,8 @@ class KodiCMS_Model_Page extends ORM
 	public function get_url()
 	{
 		return Route::get('backend')->uri(array(
-			'controller' => 'page', 
-			'action' => 'edit', 
+			'controller' => 'page',
+			'action' => 'edit',
 			'id' => $this->id
 		));
 	}
@@ -506,7 +509,7 @@ class KodiCMS_Model_Page extends ORM
 	 */
 	public function layout()
 	{
-		if( empty($this->layout_file) AND $this->parent->loaded() )
+		if (empty($this->layout_file) AND $this->parent->loaded())
 		{
 			return $this->parent->layout();
 		}
@@ -519,15 +522,15 @@ class KodiCMS_Model_Page extends ORM
 	 * @param string $keyword
 	 * @return ORM
 	 */
-	public function like( $keyword )
+	public function like($keyword)
 	{
 		return $this
 			->where_open()
-				->or_where(DB::expr('LOWER(title)'), 'like', '%:query%')
-				->or_where('slug', 'like', '%:query%')
-				->or_where('breadcrumb', 'like', '%:query%')
-				->or_where('meta_title', 'like', '%:query%')
-				->or_where('meta_keywords', 'like', '%:query%')
+			->or_where(DB::expr('LOWER(title)'), 'like', '%:query%')
+			->or_where('slug', 'like', '%:query%')
+			->or_where('breadcrumb', 'like', '%:query%')
+			->or_where('meta_title', 'like', '%:query%')
+			->or_where('meta_keywords', 'like', '%:query%')
 			->where_close()
 			->param(':query', DB::expr($keyword));
 	}
@@ -537,7 +540,7 @@ class KodiCMS_Model_Page extends ORM
 	 * @param integer $id
 	 * @return ORM
 	 */
-	public function children_of( $id )
+	public function children_of($id)
 	{
 		return $this
 			->where('parent_id', '=', (int) $id)
@@ -574,7 +577,7 @@ class KodiCMS_Model_Page extends ORM
 		{
 			$page->delete();
 		}
-		
+
 		return $this;
 	}
 
@@ -584,12 +587,12 @@ class KodiCMS_Model_Page extends ORM
 	 * @param boolean $all
 	 * @return array
 	 */
-	public function get_permissions( $all = FALSE )
+	public function get_permissions($all = FALSE)
 	{
-		if ( ! $this->loaded() OR $all === TRUE )
+		if (!$this->loaded() OR $all === TRUE)
 		{
 			$roles = ORM::factory('role')
-				->where('name', 'in', array( 'administrator', 'developer', 'editor' ));
+				->where('name', 'in', array('administrator', 'developer', 'editor'));
 		}
 		else
 		{
@@ -605,16 +608,16 @@ class KodiCMS_Model_Page extends ORM
 	 * @param array $permissions
 	 * @return ORM
 	 */
-	public function save_permissions( array $permissions = NULL )
+	public function save_permissions(array $permissions = NULL)
 	{
-		if(empty($permissions))
+		if (empty($permissions))
 		{
 			$permissions = array_keys($this->get_permissions(TRUE));
 		}
 
 		return $this->update_related_ids('roles', $permissions);
 	}
-	
+
 	/**
 	 * 
 	 * @return array
@@ -622,12 +625,12 @@ class KodiCMS_Model_Page extends ORM
 	public function as_array()
 	{
 		$object = parent::as_array();
-		
+
 		$object['layout'] = $this->layout();
-		
+
 		return $object;
 	}
-	
+
 	/**
 	 * 
 	 * @param string $slug
@@ -656,14 +659,14 @@ class KodiCMS_Model_Page extends ORM
 	public function get_sitemap()
 	{
 		$sitemap = Model_Page_Sitemap::get(TRUE);
-		if($this->loaded())
+		if ($this->loaded())
 		{
 			$sitemap->exclude(array($this->id));
 		}
 
 		return $sitemap->select_choices();
 	}
-	
+
 	/**
 	 * Получение списка шаблонов
 	 * 
@@ -672,37 +675,68 @@ class KodiCMS_Model_Page extends ORM
 	public function get_layouts_list()
 	{
 		$options = array();
-		
-		if( $this->id != 1 )
+
+		if ($this->id != 1)
 		{
 			$layout = NULL;
-			if($this->parent->loaded() )
+			if ($this->parent->loaded())
 			{
 				$layout = $this->parent->layout();
 			}
-			
-			if(empty($layout))
+
+			if (empty($layout))
 			{
 				$layout = __('--- Not set ---');
 			}
-		
+
 			$options[0] = __('--- inherit ( :layout ) ---', array(':layout' => $layout));
 		}
 		else
 		{
 			$options[0] = __('--- Not set ---');
 		}
-		
-		
+
+
 		$layouts = Model_File_Layout::find_all();
-		
+
 		foreach ($layouts as $layout)
 		{
 			$options[$layout->name] = $layout->name;
 		}
-		
+
 		return $options;
 	}
 
+	/**
+	 * 
+	 * @param array $ids
+	 * @param type $date
+	 */
+	public function set_update_date(array $ids, $date = NULL)
+	{
+		if(empty($ids))
+		{
+			return FALSE;
+		}
+
+		if ($date === NULL OR ! Valid::date($date))
+		{
+			$date = date('Y-m-d H:i:s');
+		}
+
+		DB::update($this->table_name())
+			->set(array(
+				'updated_on' => $date
+			))
+			->where('id', 'in', $ids)
+			->execute($this->_db);
+
+		if (Kohana::$caching === TRUE)
+		{
+			Cache::instance()->delete_tag('pages');
+		}
+		
+		return TRUE;
+	}
 
 } // end Model_Page class

@@ -1,4 +1,4 @@
-<div class="form-group" id="file-<?php echo $field->name; ?>">
+<div class="form-group file-container" id="file-<?php echo $field->name; ?>">
 	<label class="<?php echo Arr::get($form, 'label_class'); ?>" for="<?php echo $field->name; ?>">
 		<?php echo $field->header; ?> <?php if($field->isreq): ?>*<?php endif; ?>
 	</label>
@@ -56,25 +56,3 @@
 		</div>
 	</div>
 </div>
-
-<script type="text/javascript">
-	$(function() {
-		var $cont = $('#file-<?php echo $field->name; ?>');
-		
-		$('.remove-file-checkbox', $cont).on('change', function() {
-			var $self = $(this);
-
-			if($(this).is(':checked')) {
-				$('.upload-new-cont input', $cont).attr('disabled', 'disabled');
-				$('.panel-toggler', $cont).hide();
-				$('.panel-spoiler', $cont).show();
-				$('.thumbnail', $cont).hide();
-			} else {
-				$('.panel-toggler', $cont).show();
-				$('.upload-new-cont input', $cont).removeAttr('disabled');
-				$('.panel-spoiler', $cont).hide();
-				$('.thumbnail', $cont).show();
-			}
-		})
-	})
-</script>

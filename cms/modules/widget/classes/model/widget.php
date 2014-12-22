@@ -3,7 +3,10 @@
 /**
  * @package		KodiCMS/Widgets
  * @category	Model
- * @author		ButscHSter
+ * @author		butschster <butschster@gmail.com>
+ * @link		http://kodicms.ru
+ * @copyright	(c) 2012-2014 butschster
+ * @license		http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
  */
 class Model_Widget extends ORM {
 
@@ -51,7 +54,7 @@ class Model_Widget extends ORM {
 		{
 			try 
 			{
-				$this->_code = unserialize($this->code);	
+				$this->_code = Kohana::unserialize($this->code);	
 			}
 			catch (Exception $e) 
 			{

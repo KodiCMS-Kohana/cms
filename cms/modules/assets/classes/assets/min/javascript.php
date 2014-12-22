@@ -45,14 +45,15 @@
  * SOFTWARE.
  * --
  *
- * @package Assets_Min_JavaScript
- * @author Ryan Grove <ryan@wonko.com> (PHP port)
- * @author Steve Clay <steve@mrclay.org> (modifications + cleanup)
- * @author Andrea Giammarchi <http://www.3site.eu> (spaceBeforeRegExp)
- * @copyright 2002 Douglas Crockford <douglas@crockford.com> (jsmin.c)
- * @copyright 2008 Ryan Grove <ryan@wonko.com> (PHP port)
- * @license http://opensource.org/licenses/mit-license.php MIT License
- * @link http://code.google.com/p/jsmin-php/
+ * @package		KodiCMS/Assets
+ * @category	Helper
+ * @author		Ryan Grove <ryan@wonko.com> (PHP port)
+ * @author		Steve Clay <steve@mrclay.org> (modifications + cleanup)
+ * @author		Andrea Giammarchi <http://www.3site.eu> (spaceBeforeRegExp)
+ * @copyright	2002 Douglas Crockford <douglas@crockford.com> (jsmin.c)
+ * @copyright	2008 Ryan Grove <ryan@wonko.com> (PHP port)
+ * @license		http://opensource.org/licenses/mit-license.php MIT License
+ * @link		http://code.google.com/p/jsmin-php/
  */
 
 class Assets_Min_JavaScript {

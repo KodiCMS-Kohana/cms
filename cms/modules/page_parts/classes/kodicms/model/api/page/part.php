@@ -1,9 +1,12 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct access allowed.' );
 
 /**
- * @package		KodiCMS
+ * @package		KodiCMS/Page_Parts
  * @category	Model/Api
- * @author		ButscHSter
+ * @author		butschster <butschster@gmail.com>
+ * @link		http://kodicms.ru
+ * @copyright	(c) 2012-2014 butschster
+ * @license		http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
  */
 class KodiCMS_Model_API_Page_Part extends Model_API {
 	
@@ -18,10 +21,9 @@ class KodiCMS_Model_API_Page_Part extends Model_API {
 
 		$parts = DB::select('id', 'name')
 			->select_array($this->filtered_fields($fields))
-			->from($this->table_name());
-
-		$parts = $parts
+			->from($this->table_name())
 			->where('page_id', '=', (int) $page_id)
+			->order_by('position')
 			->cache_tags(array('page_parts'))
 			->cached((int) Config::get('cache', 'page_parts'))
 			->execute()

@@ -3,7 +3,10 @@
 /**
  * @package		KodiCMS/Behavior
  * @category	Model
- * @author		ButscHSter
+ * @author		butschster <butschster@gmail.com>
+ * @link		http://kodicms.ru
+ * @copyright  (c) 2012-2014 butschster
+ * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
  */
 class Model_Page_Behavior_Setting extends ORM {
 	
@@ -40,7 +43,7 @@ class Model_Page_Behavior_Setting extends ORM {
 	{
 		if( ! empty($values['data']) )
 		{
-			$values['data'] = unserialize($values['data']);
+			$values['data'] = Kohana::unserialize($values['data']);
 		}
 		
 		parent::_load_values($values);

@@ -2,9 +2,12 @@
 
 /**
  * Запуск задач через Crontab
- * @package		KodiCMS/JobRun
+ * @package		KodiCMS/Logs
  * @category	Task
- * @author		ButscHSter
+ * @author		butschster <butschster@gmail.com>
+ * @link		http://kodicms.ru
+ * @copyright	(c) 2012-2014 butschster
+ * @license		http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
  */
 class Task_Log_Clean extends Minion_Task
 {

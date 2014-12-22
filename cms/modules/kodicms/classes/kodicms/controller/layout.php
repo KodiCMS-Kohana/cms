@@ -3,7 +3,10 @@
 /**
  * @package		KodiCMS
  * @category	Controller
- * @author		ButscHSter
+ * @author		butschster <butschster@gmail.com>
+ * @link		http://kodicms.ru
+ * @copyright	(c) 2012-2014 butschster
+ * @license		http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
  */
 class KodiCMS_Controller_Layout extends Controller_System_Backend {
 	
@@ -57,10 +60,11 @@ class KodiCMS_Controller_Layout extends Controller_System_Backend {
 	protected function _add()
 	{
 		$data = $this->request->post();
-		Flash::set('post_data', (object) $data);
 
 		$layout = new Model_File_Layout($data['name']);
 		$layout->content = $data['content'];
+		
+		Flash::set('post_data', $layout);
 
 		try
 		{

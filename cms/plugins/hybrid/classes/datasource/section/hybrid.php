@@ -1,8 +1,12 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
 /**
- * @package Datasource
- * @category Hybrid
+ * @package		KodiCMS/Datasource
+ * @category	Section
+ * @author		butschster <butschster@gmail.com>
+ * @link		http://kodicms.ru
+ * @copyright	(c) 2012-2014 butschster
+ * @license		http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
  */
 class DataSource_Section_Hybrid extends Datasource_Section {
 
@@ -191,11 +195,11 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 	{
 		$result = array();
 
-		if( ! empty($this->search_intro_field))
+		if (!empty($this->search_intro_field))
 		{
 			$this->search_index_fields[] = $this->search_intro_field;
 		}
-		
+
 		$this->search_index_fields = array_unique($this->search_index_fields);
 		
 		$fields = $this->search_index_fields;
@@ -253,6 +257,29 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 		}
 	
 		return $result;
+	}
+	
+	/**
+	 * 
+	 * @return array
+	 */
+	public function get_indexable_fields()
+	{
+		$fields = $this->record()->fields();
+		
+		$return = array();
+		
+		foreach ($fields as $field)
+		{
+			if (!$field->is_indexable())
+			{
+				continue;
+			}
+
+			$return[] = $field->name;
+		}
+		
+		return $return;
 	}
 	
 	/**

@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS `__TABLE_PREFIX__page_parts` (
   `is_protected` tinyint(4) DEFAULT '0',
   `is_expanded` tinyint(1) DEFAULT '1',
   `is_indexable` tinyint(1) NOT NULL DEFAULT '0',
+  `position` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `page_id` (`page_id`),
   KEY `name` (`name`),

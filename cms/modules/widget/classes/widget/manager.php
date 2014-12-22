@@ -2,7 +2,10 @@
 
 /**
  * @package		KodiCMS/Widgets
- * @author		ButscHSter
+ * @author		butschster <butschster@gmail.com>
+ * @link		http://kodicms.ru
+ * @copyright	(c) 2012-2014 butschster
+ * @license		http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
  */
 class Widget_Manager {
 
@@ -67,7 +70,7 @@ class Widget_Manager {
 				continue;
 			}
 
-			$result[$id] = unserialize($widget['code']);
+			$result[$id] = Kohana::unserialize($widget['code']);
 			$result[$id]->id = $widget['id'];
 			$result[$id]->name = $widget['name'];
 			$result[$id]->description = $widget['description'];
@@ -124,7 +127,7 @@ class Widget_Manager {
 				continue;
 			}
 
-			$widgets[$id] = unserialize($widget['code']);
+			$widgets[$id] = Kohana::unserialize($widget['code']);
 			$widgets[$id]->id = $widget['id'];
 			$widgets[$id]->name = $widget['name'];
 			$widgets[$id]->description = $widget['description'];
@@ -180,7 +183,7 @@ class Widget_Manager {
 				'type' => $widget->type(),
 				'name' => $widget->name,
 				'description' => $widget->description,
-				'code' => serialize($widget)
+				'code' => Kohana::serialize($widget)
 			))
 			->create();
 
@@ -204,7 +207,7 @@ class Widget_Manager {
 				'name' => $widget->name,
 				'template' => $widget->template,
 				'description' => $widget->description,
-				'code' => serialize($widget)
+				'code' => Kohana::serialize($widget)
 			))
 			->update();
 
@@ -219,7 +222,7 @@ class Widget_Manager {
 	 * @param array $ids array([ID], [ID2])
 	 * @return type
 	 */
-	public static function remove( array $ids )
+	public static function remove(array $ids)
 	{
 		return DB::delete('widgets')
 			->where('id', 'in', $ids)
@@ -232,7 +235,7 @@ class Widget_Manager {
 	 * @param integer $id
 	 * @return NULL|Model_Widget_Decorator
 	 */
-	public static function load( $id )
+	public static function load($id)
 	{
 		$result = DB::select()
 			->from('widgets')
@@ -246,7 +249,7 @@ class Widget_Manager {
 			return NULL;
 		}
 
-		$widget = unserialize($result['code']);
+		$widget = Kohana::unserialize($result['code']);
 		$widget->id = $result['id'];
 		$widget->name = $result['name'];
 		$widget->description = $result['description'];
@@ -254,7 +257,7 @@ class Widget_Manager {
 
 		return $widget;
 	}
-	
+
 	/**
 	 * Размещение виджета на страницах
 	 * 
@@ -270,6 +273,8 @@ class Widget_Manager {
 
 		if (!empty($data))
 		{
+			$page_ids = array();
+			
 			$insert = DB::insert('page_widgets')
 				->columns(array('page_id', 'widget_id', 'block', 'position'));
 
@@ -281,6 +286,7 @@ class Widget_Manager {
 					continue;
 				}
 
+				$page_ids[] = $page_id;
 				$insert->values(array($page_id, (int) $widget_id, $block['name'], (int) $block['position']));
 				$i++;
 			}
@@ -290,7 +296,7 @@ class Widget_Manager {
 				$insert->execute();
 			}
 
-			Observer::notify('widget_set_location');
+			Observer::notify('widget_set_location', $page_ids);
 		}
 	}
 	
@@ -310,20 +316,20 @@ class Widget_Manager {
 		if ($data['block'] < 0)
 		{
 			DB::delete('page_widgets')
-				->where('widget_id', '=', $widget_id)
-				->where('page_id', '=', $page_id)
+				->where('widget_id', '=', (int) $widget_id)
+				->where('page_id', '=', (int) $page_id)
 				->execute();
 		}
 		else
 		{
 			DB::update('page_widgets')
-				->where('widget_id', '=', $widget_id)
-				->where('page_id', '=', $page_id)
+				->where('widget_id', '=', (int) $widget_id)
+				->where('page_id', '=', (int) $page_id)
 				->set(array('block' => $data['block'], 'position' => (int) $data['position']))
 				->execute();
 		}
 
-		Observer::notify('widget_set_location');
+		Observer::notify('widget_set_location', array((int) $page_id));
 	}
 	
 	/**

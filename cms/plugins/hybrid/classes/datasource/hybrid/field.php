@@ -1,8 +1,12 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
 /**
- * @package Datasource
- * @category Hybrid
+ * @package		KodiCMS/Hybrid
+ * @category	Field
+ * @author		butschster <butschster@gmail.com>
+ * @link		http://kodicms.ru
+ * @copyright	(c) 2012-2014 butschster
+ * @license		http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
  */
 abstract class DataSource_Hybrid_Field {
 	
@@ -185,6 +189,12 @@ abstract class DataSource_Hybrid_Field {
 	 * @var boolean 
 	 */
 	protected $_is_indexable = TRUE;
+
+	/**
+	 * @see is_searchable()
+	 * @var boolean 
+	 */
+	protected $_is_searchable = TRUE;
 
 	/**
 	 * 
@@ -421,11 +431,6 @@ abstract class DataSource_Hybrid_Field {
 		$this->index_type = $type;
 		return $this;
 	}
-	
-	public function is_indexed()
-	{
-		return DataSource_Hybrid_Field_Factory::is_index($this);
-	}
 
 	/**
 	 * Метод используется для присвоения старого значения для поля документа
@@ -526,7 +531,7 @@ abstract class DataSource_Hybrid_Field {
 			'type' => $this->type, 
 			'header' => $this->header,
 			'from_ds' => (int) $this->from_ds,
-			'props' => serialize($this->_props),
+			'props' => Kohana::serialize($this->_props),
 			'position' => (int) $this->position
 		);
 
@@ -566,7 +571,7 @@ abstract class DataSource_Hybrid_Field {
 		return DB::update($this->table)
 			->set(array(
 				'header' => $this->header,
-				'props' => serialize( $this->_props ),
+				'props' => Kohana::serialize( $this->_props ),
 				'position' => (int) $this->position,
 				'name' => $this->name,
 				'from_ds' => (int) $this->from_ds,
@@ -664,6 +669,24 @@ abstract class DataSource_Hybrid_Field {
 	{
 		return (bool) $this->_is_indexable;
 	}
+	
+	/**
+	 * 
+	 * @return boolean
+	 */
+	public function is_indexed()
+	{
+		return DataSource_Hybrid_Field_Factory::is_index($this);
+	}
+	
+	/**
+	 * Поле может участвовать в поиске
+	 * @return boolean
+	 */
+	public function is_searchable()
+	{
+		return (bool) $this->_is_searchable;
+	}
 
 	/**
 	 * Метод позволяет дополнить запрос к БД в момент генерации данных спсика документов 
@@ -741,6 +764,7 @@ abstract class DataSource_Hybrid_Field {
 	 * @see Datasource_Section_Hybrid_Headline::get()
 	 * 
 	 * @param string $value
+	 * @param integer $document_id
 	 * @return string
 	 */
 	public function fetch_headline_value($value, $document_id)
@@ -883,13 +907,59 @@ abstract class DataSource_Hybrid_Field {
 	/**
 	 * Событие вызываемое в момент загрузки контроллера в админ панели
 	 */
-	public function onControllerLoad() {}
+	public function onControllerLoad() 
+	{
+		$this->include_media();
+	}
 
 	/**
 	 * Тип поля в БД
 	 * return string
 	 */
 	abstract public function get_type();
+	
+	/**************************************************************************
+	 * Media
+	 **************************************************************************/
+	/**
+	 * 
+	 * @return string
+	 */
+	public function media_path()
+	{
+		return PLUGIN_HYBRID_PATH . 'media' . DIRECTORY_SEPARATOR;
+	}
+	
+	/**
+	 * 
+	 * @return string
+	 */
+	public function media_url()
+	{
+		return PLUGIN_HYBRID_URL;
+	}
+	
+	/**
+	 * 
+	 * @return string
+	 */
+	public function media_filename()
+	{
+		return $this->type;
+	}
+	
+	public function include_media()
+	{
+		if(file_exists($this->media_path() . 'field/'. DIRECTORY_SEPARATOR . $this->media_filename() . '.css'))
+		{
+			Assets::css('field::' . $this->media_filename(), $this->media_url() . 'field/' . $this->media_filename() . '.css');
+		}
+		
+		if(file_exists($this->media_path() . 'field/'. DIRECTORY_SEPARATOR . $this->media_filename() . '.js'))
+		{
+			Assets::js('field::' . $this->media_filename(), $this->media_url() . 'field/' . $this->media_filename() . '.js', 'global');
+		}
+	}
 	
 	/**************************************************************************
 	 * ACL

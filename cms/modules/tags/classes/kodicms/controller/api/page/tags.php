@@ -1,9 +1,12 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct script access.' );
 
 /**
- * @package		KodiCMS
+ * @package		KodiCMS/Tags
  * @category	API
- * @author		ButscHSter
+ * @author		butschster <butschster@gmail.com>
+ * @link		http://kodicms.ru
+ * @copyright	(c) 2012-2014 butschster
+ * @license		http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
  */
 class KodiCMS_Controller_API_Page_Tags extends Controller_System_Api {
 	

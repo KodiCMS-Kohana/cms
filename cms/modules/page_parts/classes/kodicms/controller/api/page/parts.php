@@ -1,9 +1,12 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct script access.' );
 
 /**
- * @package		KodiCMS
+ * @package		KodiCMS/Page_Parts
  * @category	API
- * @author		ButscHSter
+ * @author		butschster <butschster@gmail.com>
+ * @link		http://kodicms.ru
+ * @copyright	(c) 2012-2014 butschster
+ * @license		http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
  */
 class KodiCMS_Controller_API_Page_Parts extends Controller_System_Api {
 	
@@ -55,5 +58,14 @@ class KodiCMS_Controller_API_Page_Parts extends Controller_System_Api {
 		
 		$part = ORM::factory('page_part', (int) $id);
 		$part->delete();
+	}
+	
+	public function post_reorder()
+	{
+		if(!Acl::check('parts.reorder')) return;
+
+		$ids = $this->param('ids', array());
+		
+		ORM::factory('page_part')->sort($ids);
 	}
 }

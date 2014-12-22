@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
-if(IS_BACKEND)
+if (IS_BACKEND)
 {
 	Route::set('datasources', ADMIN_DIR_NAME . '/<directory>(/<controller>(/<action>(/<id>)))', array(
 		'directory' => '(datasources|' . implode('|', array_keys(Datasource_Data_Manager::types())) . ')'
@@ -14,7 +14,7 @@ if(IS_BACKEND)
 
 Observer::observe('modules::after_load', function() {
 
-	if (!IS_BACKEND AND ! Auth::is_logged_in())
+	if (!IS_BACKEND OR ! Auth::is_logged_in())
 	{
 		return;
 	}

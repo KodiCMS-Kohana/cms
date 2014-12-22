@@ -1,8 +1,12 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
 /**
- * @package Datasource
- * @category Hybrid
+ * @package		KodiCMS/Hybrid
+ * @category	Field Helper
+ * @author		butschster <butschster@gmail.com>
+ * @link		http://kodicms.ru
+ * @copyright	(c) 2012-2014 butschster
+ * @license		http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
  */
 class DataSource_Hybrid_Field_Factory {
 	
@@ -226,24 +230,24 @@ class DataSource_Hybrid_Field_Factory {
 		static $cached_fields;
 
 		$ds_id = (int) $ds_id;
-		
-		if(isset( $cached_fields[$ds_id]) )
+
+		if (isset($cached_fields[$ds_id]))
 		{
 			return $cached_fields[$ds_id];
 		}
-		
+
 		$fields = array();
 
 		$query = DB::select()
-			->from('dshfields')
-			->where('ds_id', '=', $ds_id)
-			->order_by('position');
-		
-		if( ! empty($type) )
+				->from('dshfields')
+				->where('ds_id', '=', $ds_id)
+				->order_by('position');
+
+		if (!empty($type))
 		{
 			$query->where('type', 'in', $type);
 		}
-		
+
 		$query = $query
 			->execute()
 			->as_array('id');
@@ -251,11 +255,12 @@ class DataSource_Hybrid_Field_Factory {
 		foreach ($query as $id => $row)
 		{
 			$field = self::get_field_from_array($row);
-			if($field === NULL) continue;
+			if ($field === NULL)
+				continue;
 
 			$fields[$id] = $field;
 		}
-		
+
 		$cached_fields[$ds_id] = $fields;
 
 		return $fields;
@@ -286,7 +291,7 @@ class DataSource_Hybrid_Field_Factory {
 		
 		if(isset($array['props']))
 		{
-			$props = unserialize($array['props']);
+			$props = Kohana::unserialize($array['props']);
 			unset($array['props']);
 
 			if( is_array( $props))

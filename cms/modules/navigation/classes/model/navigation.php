@@ -2,8 +2,10 @@
 
 /**
  * @package		KodiCMS/Navigation
- * @category	Model
- * @author		ButscHSter
+ * @author		butschster <butschster@gmail.com>
+ * @link		http://kodicms.ru
+ * @copyright	(c) 2012-2014 butschster
+ * @license		http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
  */
 class Model_Navigation {
 
@@ -182,57 +184,5 @@ class Model_Navigation {
 
 			return ($a->id() < $b->id()) ? -1 : 1;
 		});
-	}
-	
-	/**
-	 * 
-	 * @param Bootstrap_Helper_Elements $nav
-	 * @param array $sections
-	 * @param boolean $is_active
-	 * @return \Bootstrap_Helper_Elements
-	 */
-	public static function build_dropdown(Bootstrap_Helper_Elements $nav, array $sections, & $is_active = FALSE)
-	{
-		foreach ( $sections as $section )
-		{
-			$is_active = FALSE;
-			if(count($section) == 0) continue;
-
-			$dropdown = Bootstrap_Navbar_Dropdown::factory(array(
-				'title' => $section->name(),
-			))->icon($section->icon);
-
-			foreach ( $section as $page )
-			{
-				if($page->divider === TRUE)
-				{
-					$dropdown->add_divider();
-				}
-
-				$dropdown->add(Bootstrap_Element_Button::factory(array(
-						'href' => $page->url(), 'title' => $page->name()
-				))->attributes('data-counter', $page->counter)->icon($page->icon), $page->is_active());
-
-				if($page->is_active())
-				{
-					$is_active = TRUE;
-				}
-				
-				if(count($section->sections()) > 0)
-				{
-					$is_sub_active = FALSE;
-					$dropdown = self::build_dropdown($dropdown, $section->sections(), $is_sub_active);
-					
-					if($is_sub_active === TRUE)
-					{
-						$is_active = TRUE;
-					}
-				}
-			}
-
-			$nav->add($dropdown, $is_active);
-		}
-		
-		return $nav;
 	}
 }

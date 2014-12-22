@@ -2,7 +2,10 @@
 
 /**
  * @package		KodiCMS/Plugins
- * @author		ButscHSter
+ * @author		butschster <butschster@gmail.com>
+ * @link		http://kodicms.ru
+ * @copyright	(c) 2012-2014 butschster
+ * @license		http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
  */
 class Plugin  {
 	
@@ -32,7 +35,10 @@ class Plugin  {
 	 * Информация о плагине
 	 * @var array
 	 */
-	protected $_info = array();
+	protected $_info = array(
+		'author' => CMS_NAME,
+		'version' => '1.0.0'
+	);
 	
 	/**
 	 *
@@ -196,7 +202,7 @@ class Plugin  {
 		$data = array(
 			'id' => $this->id(),
 			'title' => $this->title(),
-			'settings' => serialize( $this->settings() )
+			'settings' => Kohana::serialize( $this->settings() )
 		);
 
 		$result = DB::insert( self::TABLE_NAME )

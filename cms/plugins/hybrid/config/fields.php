@@ -39,7 +39,7 @@ return array(
 		'file_image' => 'Image',
 	),
 	
-	'Yandex' => array(
-		'yandex_map' => 'Yandex map',
+	'Maps' => array(
+		'map_yandex' => 'Yandex map',
 	)
 );

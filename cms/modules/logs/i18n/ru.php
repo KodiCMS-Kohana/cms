@@ -12,6 +12,6 @@ return array(
 	'Old logs has been deleted' => 'Логи очищены',
 	'Date range' => 'Интервал дат',
 	'More logs' => 'Больше ошибок',
-	'' => '',
+	'Clear all logs' => 'Удалить все логи',
 	'' => '',
 );

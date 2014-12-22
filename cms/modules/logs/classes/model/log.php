@@ -1,6 +1,16 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
+/**
+ * @package		KodiCMS/Logs
+ * @category	Model
+ * @author		butschster <butschster@gmail.com>
+ * @link		http://kodicms.ru
+ * @copyright	(c) 2012-2014 butschster
+ * @license		http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
+ */
 class Model_Log extends ORM {
+
+	const CACHE_TAG = 'logs';
 
 	/**
 	 *
@@ -114,10 +124,27 @@ class Model_Log extends ORM {
 		return empty($ip) ? NULL : UI::label($ip, 'default');
 	}
 	
-	public function clean_old()
+	/**
+	 * 
+	 * @param string $interval
+	 * @return Database_Query
+	 */
+	public function clean_old($all = FALSE)
 	{
-		return DB::delete($this->table_name())
-			->where(DB::expr('DATE(created_on)'), '<', DB::expr('CURDATE() - INTERVAL 1 MONTH'))
-			->execute($this->_db);
+		$query = DB::delete($this->table_name());
+
+		if ($all !== TRUE)
+		{
+			if ($all === FALSE)
+			{
+				$all = 'INTERVAL 1 MONTH';
+			}
+
+			$query->where(DB::expr('DATE(created_on)'), '<', DB::expr('CURDATE() - ' . $all));
+		}
+		
+		Cache::instance()->delete_tag(self::CACHE_TAG);
+
+		return $query->execute($this->_db);
 	}
 }

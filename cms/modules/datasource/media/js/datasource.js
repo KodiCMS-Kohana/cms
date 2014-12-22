@@ -58,14 +58,33 @@ cms.init.add(['datasources_data_index'], function() {
 			update_headline();
 		});
 	});
+	
+	$('.form-search').on('click', '.btn', function(e) {
+		headline_search(e, $(this).closest('.form-search').find('.form-control'));
+	});
+	
+	$('.form-search').on('keypress', '.form-control', function(e) {
+		if(e.which == 13) {
+			headline_search(e, $(this));
+		}
+	});
 });
 
-function update_headline() {
+function headline_search(e, $input) {
+	e.preventDefault();
+	
+	var $fields = $('.form-search .form-control').serializeObject();
+	
+	update_headline($fields);
+}
+
+function update_headline(keyword) {
 	var data = {
 		page: $.query.get('page'),
 		ds_id: DS_ID
-	}
-	Api.get('/datasource-document.headline', data, function(response) {
+	};
+
+	Api.get('/datasource-document.headline', _.extend(data, keyword), function(response) {
 		if(response.response) {
 			$('.headline').html(response.response);
 			cms.ui.init('icon');
@@ -116,13 +135,18 @@ function init_section_folders() {
 	});
 	
 	$('.page-mail').on('click', '.mail-nav-header', function() {
-		$(this).next('.sections').toggle();
+		var $sections = $(this).next('.sections');
+		if($('li', $sections).length == 0) return;
+
+		$sections.toggle();
 	
 		var data = {};
 		$('.folder-container .mail-nav-header').each(function() {
 			data[$(this).data('id')] = !$(this).next('.sections').is(':hidden');
 		});
-		Api.post('user-meta', {key: 'datasource_folders', value: data});
+		
+		if(!_.isEmpty(data))
+			Api.post('user-meta', {key: 'datasource_folders', value: data});
 	});
 	
 	$('.page-mail').on('click', '.remove-folder', function() {

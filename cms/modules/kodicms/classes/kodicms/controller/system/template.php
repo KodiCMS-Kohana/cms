@@ -3,7 +3,10 @@
 /**
  * @package		KodiCMS
  * @category	System Controller
- * @author		ButscHSter
+ * @author		butschster <butschster@gmail.com>
+ * @link		http://kodicms.ru
+ * @copyright	(c) 2012-2014 butschster
+ * @license		http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
  */
 class KodiCMS_Controller_System_Template extends Controller_System_Security
 {
@@ -112,8 +115,9 @@ class KodiCMS_Controller_System_Template extends Controller_System_Security
 					$value = json_encode($value);
 			
 					$js_string .= "var {$var} = {$value};\n";
-					Assets::group('global', 'js_params', '<script type="text/javascript">' . $js_string . '</script>', 'global');
 				}
+				
+				Assets::group('global', 'js_params', '<script type="text/javascript">' . $js_string . '</script>', 'global');
 			}
 
 			if ($this->only_content)
