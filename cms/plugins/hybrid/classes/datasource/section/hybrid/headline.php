@@ -175,6 +175,7 @@ class Datasource_Section_Hybrid_Headline extends Datasource_Section_Headline {
 		}
 
 		return $query->select(array(DB::expr('COUNT(*)'),'total_docs'))
+			->group_by('d.id')
 			->execute()
 			->get('total_docs');
 	}
