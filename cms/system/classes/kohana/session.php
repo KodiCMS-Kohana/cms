@@ -430,7 +430,7 @@ abstract class Kohana_Session {
 	 */
 	protected function _serialize($data)
 	{
-		return Kohana::serialize($data);
+		return serialize($data);
 	}
 
 	/**
@@ -441,7 +441,7 @@ abstract class Kohana_Session {
 	 */
 	protected function _unserialize($data)
 	{
-		return Kohana::unserialize($data);
+		return unserialize($data);
 	}
 
 	/**
