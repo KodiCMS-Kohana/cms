@@ -40,7 +40,7 @@ class Model_Widget_Hybrid_Profile extends Model_Widget_User_Profile {
 	 */
 	public function set_field($fields = array())
 	{
-		if(!is_array( $fields)) 
+		if (!is_array($fields))
 		{
 			return;
 		}
@@ -60,7 +60,7 @@ class Model_Widget_Hybrid_Profile extends Model_Widget_User_Profile {
 
 		return $this;
 	}
-	
+
 	public function backend_data()
 	{
 		$this->ds_id = (int) Plugins::setting('hybrid', 'user_profile_ds_id');
@@ -72,34 +72,34 @@ class Model_Widget_Hybrid_Profile extends Model_Widget_User_Profile {
 	public function on_page_load()
 	{
 		parent::on_page_load();
-		
+
 		$user = $this->get_user();
 
-		if( ! $user->loaded() AND $this->throw_404 === TRUE )
+		if (!$user->loaded() AND $this->throw_404 === TRUE)
 		{
 			$this->_ctx->throw_404('Profile not found');
 		}
-		
-		if($this->block == 'PRE' AND $user->loaded())
+
+		if ($this->block == 'PRE' AND $user->loaded())
 		{
-			if(($profile = $this->get_profile($user->id)) !== NULL) ;
+			if (($profile = $this->get_profile($user->id)) !== NULL)
 			{
 				$page = $this->_ctx->get_page();
-				
+
 				$this->_ctx->set('widget_profile_id', $profile['id']);
 				$page->meta_params(array(
 					'profile_username' => $profile['header']
 				));
 			}
 		}
-		else if($user->loaded())
+		else if ($user->loaded())
 		{
 			$page = $this->_ctx->get_page();
-			
+
 			$page->meta_params(array(
 				'profile_username' => $user->username
 			));
-			
+
 			$this->_ctx->set('widget_profile_id', $user->id);
 			$this->_ctx->set('widget_profile_username', $user->username);
 		}
@@ -114,7 +114,7 @@ class Model_Widget_Hybrid_Profile extends Model_Widget_User_Profile {
 		$user = $this->get_user();
 		$profile = NULL;
 
-		if($user->loaded())
+		if ($user->loaded())
 		{
 			$profile = $this->get_profile($user->id);
 		}
@@ -125,31 +125,30 @@ class Model_Widget_Hybrid_Profile extends Model_Widget_User_Profile {
 			'profile' => $profile
 		);
 	}
-	
+
 	public function get_profile($user_id)
 	{
 		$ds_id = (int) Plugins::setting('hybrid', 'user_profile_ds_id');
 
 		$profile = NULL;
 
-		if(
-			!empty($ds_id) 
-		AND 
-			($agent = DataSource_Hybrid_Agent::instance($ds_id)) !== NULL
+		if (
+			!empty($ds_id)
+			AND ( $agent = DataSource_Hybrid_Agent::instance($ds_id)) !== NULL
 		)
 		{
 			$fields = $agent->get_fields();
 			$fid = NULL;
 			foreach ($fields as $field)
 			{
-				if($field->key == 'profile_id')
+				if ($field->key == 'profile_id')
 				{
 					$fid = $field->id;
 					break;
 				}
 			}
 
-			$profile = $agent->get_document((int)$user_id, $this->doc_fields, $fid);
+			$profile = $agent->get_document((int) $user_id, $this->doc_fields, $fid);
 			$recurse = 3;
 
 			if (!empty($profile))
@@ -170,7 +169,7 @@ class Model_Widget_Hybrid_Profile extends Model_Widget_User_Profile {
 				}
 			}
 		}
-		
+
 		return $profile;
 	}
 }

@@ -87,39 +87,42 @@ class DataSource_Hybrid_Field_Source_Document extends DataSource_Hybrid_Field_So
 	{
 		$related_widget = NULL;
 
-		if($recurse > 0 AND isset($widget->doc_fetched_widgets[$fid]))
+		if ($recurse > 0 AND isset($widget->doc_fetched_widgets[$fid]))
 		{
 			$related_widget = self::_fetch_related_widget($widget, $row, $fid, $recurse);
 		}
 
-		return ($related_widget !== NULL) 
+		return ($related_widget !== NULL)
 			? $related_widget 
 			: (int) $row[$fid];
 	}
-	
-	public function fetch_headline_value( $value, $document_id )
+
+	public function fetch_headline_value($value, $document_id)
 	{
-		if(empty($value)) return parent::fetch_headline_value($value, $document_id);
+		if (empty($value))
+		{
+			return parent::fetch_headline_value($value, $document_id);
+		}
 
 		$header = DataSource_Hybrid_Field_Utils::get_document_header($this->from_ds, $value);
-		
-		if(!empty($header))
+
+		if (!empty($header))
 		{
 			return HTML::anchor(Route::get('datasources')->uri(array(
 					'directory' => 'hybrid',
 					'controller' => 'document',
 					'action' => 'view'
-				)) . URL::query(array('ds_id' => $this->from_ds, 'id' => $value), FALSE),
-				$header,
-				array(
+				)) . URL::query(array(
+					'ds_id' => $this->from_ds, 
+					'id' => $value
+				), FALSE), $header, array(
 					'class' => ' popup fancybox.iframe'
-				)
-			);
+				));
 		}
-		
+
 		return parent::fetch_headline_value($value, $document_id);
 	}
-	
+
 	public function get_query_props(\Database_Query $query, DataSource_Hybrid_Agent $agent)
 	{
 		parent::get_query_props($query, $agent);

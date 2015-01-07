@@ -204,7 +204,7 @@ class Datasource_Section_Hybrid_Headline extends Datasource_Section_Headline {
 				foreach ($fields as $field => $value)
 				{
 					$field = Arr::get($this->fields(), $field);
-					$query->or_where(Arr::get($field, 'db_name'), 'like', '%' . $value . '%');
+					$query->and_where(Arr::get($field, 'db_name'), 'like', '%' . $value . '%');
 				}
 				
 				return $query->where_close();

@@ -77,40 +77,47 @@ class Model_Widget_Hybrid_Document extends Model_Widget_Decorator {
 	
 	public function set_field($fields = array())
 	{
-		if(!is_array( $fields)) return;
-		foreach($fields as $f)
+		if (!is_array($fields))
 		{
-			if(isset($f['id']))
+			return;
+		}
+
+		foreach ($fields as $f)
+		{
+			if (isset($f['id']))
 			{
 				$this->doc_fields[] = (int) $f['id'];
-			
-				if(isset($f['fetcher']))
+
+				if (isset($f['fetcher']))
+				{
 					$this->doc_fetched_widgets[(int) $f['id']] = (int) $f['fetcher'];
+				}
 			}
 		}
-		
+
 		return $this;
 	}
 	
 	public function get_doc_ids()
 	{
 		$data = array('ID');
-		
+
 		$fields = DataSource_Hybrid_Field_Factory::get_section_fields($this->ds_id);
 		foreach ($fields as $field)
 		{
-			if($field->use_as_document_id())
+			if ($field->use_as_document_id())
 			{
 				$data[$field->id] = $field->header;
 			}
 		}
+
 		return $data;
 	}
 
 	public function on_page_load()
 	{
 		parent::on_page_load();
-		
+
 		$doc = $this->get_document();
 
 		if (empty($doc) AND $this->throw_404)
@@ -118,7 +125,7 @@ class Model_Widget_Hybrid_Document extends Model_Widget_Decorator {
 			$this->_ctx->throw_404();
 		}
 
-		if($this->seo_information === TRUE)
+		if ($this->seo_information === TRUE)
 		{
 			$page = $this->_ctx->get_page();
 
@@ -136,11 +143,14 @@ class Model_Widget_Hybrid_Document extends Model_Widget_Decorator {
 	public function fetch_data()
 	{
 		$result = array();
-		
-		if(!$this->ds_id) return $result;
-		
+
+		if (!$this->ds_id)
+		{
+			return $result;
+		}
+
 		$result = $this->get_document();
-		
+
 		return array(
 			'doc' => $result
 		);
@@ -155,24 +165,24 @@ class Model_Widget_Hybrid_Document extends Model_Widget_Decorator {
 	{
 		$result = array();
 		
-		if($id === NULL)
+		if ($id === NULL)
 		{
 			$id = $this->get_doc_id();
 		}
-		
-		if(empty($id)) 
+
+		if (empty($id))
 		{
 			return $result;
 		}
-		
-		if(isset(Model_Widget_Hybrid_Document::$_cached_documents[$id]))
+
+		if (isset(Model_Widget_Hybrid_Document::$_cached_documents[$id]))
 		{
 			return Model_Widget_Hybrid_Document::$_cached_documents[$id];
 		}
 
 		$agent = DataSource_Hybrid_Agent::instance($this->ds_id);
 		$result = $agent->get_document($id, $this->doc_fields, $this->doc_id_field);
-		
+
 		if (empty($result))
 		{
 			return $result;
@@ -187,9 +197,9 @@ class Model_Widget_Hybrid_Document extends Model_Widget_Decorator {
 			}
 
 			$field = & $hybrid_fields[$key];
-			
+
 			$field_class_method = 'fetch_widget_field';
-			
+
 			$result['_' . $field->key] = $result[$key];
 
 			if (method_exists($field, $field_class_method))
@@ -205,7 +215,7 @@ class Model_Widget_Hybrid_Document extends Model_Widget_Decorator {
 		}
 
 		Model_Widget_Hybrid_Document::$_cached_documents[$id] = $result;
-		
+
 		return $result;
 	}
 	
@@ -220,7 +230,7 @@ class Model_Widget_Hybrid_Document extends Model_Widget_Decorator {
 
 	public function get_doc_id()
 	{
-		if( Valid::numeric($this->_id) )
+		if (Valid::numeric($this->_id))
 		{
 			return $this->_id;
 		}
@@ -230,7 +240,10 @@ class Model_Widget_Hybrid_Document extends Model_Widget_Decorator {
 	
 	public function get_cache_id()
 	{
-		if(IS_BACKEND) return;
+		if (IS_BACKEND)
+		{
+			return;
+		}
 
 		return 'Widget::' 
 			. $this->type . '::' 

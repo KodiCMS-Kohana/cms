@@ -25,33 +25,33 @@ class Model_Widget_Hybrid_Editor extends Model_Widget_Hybrid_Document {
 	public function fetch_data()
 	{
 		$datasource = Datasource_Data_Manager::load($this->ds_id);
-		
-		if($datasource === NULL) 
+
+		if ($datasource === NULL)
 		{
 			return array();
 		}
-		
+
 		$id = $this->get_doc_id();
-		
-		if(empty($id)) 
+
+		if (empty($id))
 		{
 			$document = $datasource->get_empty_document();
 		}
 		else
 		{
 			$document = $datasource->get_document($id);
-			
-			if( ! $document )
+
+			if (!$document)
 			{
-				if($this->throw_404)
+				if ($this->throw_404)
 				{
 					$this->_ctx->throw_404();
 				}
-				
+
 				$document = $datasource->get_empty_document();
 			}
 		}
-		
+
 		View::set_global(array(
 			'form' => array(
 				'label_class' => 'control-label col-md-2 col-sm-3',
