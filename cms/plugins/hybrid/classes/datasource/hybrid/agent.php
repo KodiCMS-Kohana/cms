@@ -26,30 +26,30 @@ class DataSource_Hybrid_Agent {
 	public static function instance($ds_id)
 	{
 		$ds_id = (int) $ds_id;
-		if(isset(self::$_instance[$ds_id]))
+		if (isset(self::$_instance[$ds_id]))
 		{
 			return self::$_instance[$ds_id];
 		}
-		
+
 		$result = DB::select('id', 'name')
 			->from('datasources')
 			->where('type', '=', 'hybrid')
 			->where('id', '=', $ds_id)
 			->execute();
-		
-		if($result->count() > 0)
+
+		if ($result->count() > 0)
 		{
 			$current = $result->current();
 			$ds_id = $current['id'];
 			$ds_name = $current['name'];
-			
+
 			self::$_instance[$ds_id] = new DataSource_Hybrid_Agent($ds_id, $ds_name);
 		}
 		else
 		{
 			self::$_instance[$ds_id] = NULL;
 		}
-		
+
 		return self::$_instance[$ds_id];
 	}
 
@@ -123,27 +123,28 @@ class DataSource_Hybrid_Agent {
 
 		$hybrid_fields = $this->get_fields();
 
-		if(empty($id_field))
-		{
-			$id_field = 'ds.id';
-		}
-		else if(Valid::numeric($id_field) AND isset($hybrid_fields[$id_field]))
+		if (Valid::numeric($id_field) AND isset($hybrid_fields[$id_field]))
 		{
 			$id_field = $hybrid_fields[$id_field]->name;
 		}
-		
+
+		if ($id_field == 'id' OR empty($id_field))
+		{
+			$id_field = 'd.id';
+		}
+
 		$result = $query->where($id_field, '=', $id)
 			->where('d.published', '=', 1)
 			->group_by('d.id')
 			->limit(1)
 			->execute()
 			->current();
-		
+
 		if (empty($result))
 		{
 			return NULL;
 		}
-		
+
 		return $result;
 	}
 
@@ -168,13 +169,13 @@ class DataSource_Hybrid_Agent {
 
 		return $this->_ds_fields;
 	}
-	
+
 	/**
 	 * Получение списка массива ключей полей
 	 * 
 	 * @return array array([id] => [key])
 	 */
-	public function get_field_names() 
+	public function get_field_names()
 	{
 		if ($this->_ds_fields === NULL)
 		{
@@ -183,7 +184,7 @@ class DataSource_Hybrid_Agent {
 
 		return $this->_ds_field_names;
 	}
-	
+
 	/**
 	 * Получение списка системных полей
 	 * 
@@ -264,7 +265,7 @@ class DataSource_Hybrid_Agent {
 
 		$select_fields = array();
 
-		if($fields !== NULL)
+		if ($fields !== NULL)
 		{
 			foreach ($fields as $i => $fid)
 			{
@@ -291,7 +292,7 @@ class DataSource_Hybrid_Agent {
 			if (!isset($t[$field->ds_id]))
 			{
 				$result->join(array('dshybrid_' . $field[$field->ds_id], 'd' . $i))
-					->on('d' . $i, '=', ds . id);
+						->on('d' . $i, '=', ds . id);
 
 				$t[$field[$field->ds_id]] = TRUE;
 			}
@@ -486,6 +487,7 @@ class DataSource_Hybrid_Agent {
 				}
 			}
 			else
+
 			if (preg_match('/now()|curdate()|curtime()|interval/i', $value))
 			{
 				$value = DB::expr($value);
