@@ -8,6 +8,10 @@
  * @license		http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
  */
 class Widget_Manager {
+	
+	const CACHE_DEFAULT = 'default';
+	
+	private static $_cache = array();
 
 	/**
 	 * Получение всех типов виджетов из конфига
@@ -46,35 +50,29 @@ class Widget_Manager {
 	 */
 	public static function get_widgets(array $types = NULL)
 	{
-		$result = array( );
+		$result = array();
 
-		$res = DB::select('w.*')
-				->select(array(DB::expr('COUNT(:table)')->param(':table', Database::instance()->quote_column('pw.page_id')), 'used'))
-				->from(array('widgets', 'w'))
-				->join(array('page_widgets', 'pw'), 'left')
-				->on('w.id', '=', 'pw.widget_id')
-				->group_by('w.id')
-				->order_by('w.name');
+		$query = DB::select('w.*')
+			->select(array(DB::expr('COUNT(:table)')->param(':table', Database::instance()->quote_column('pw.page_id')), 'used'))
+			->from(array('widgets', 'w'))
+			->join(array('page_widgets', 'pw'), 'left')
+			->on('w.id', '=', 'pw.widget_id')
+			->group_by('w.id')
+			->order_by('w.name');
 
 		if (!empty($types))
 		{
-			$res->where('w.type', 'in', $types);
+			$query->where('w.type', 'in', $types);
 		}
 
-		$res = $res->execute()->as_array('id');
-
-		foreach ($res as $id => $widget)
+		foreach ($query->execute()->as_array('id') as $id => $widget)
 		{
 			if (!self::exists_by_type($widget['type']))
 			{
 				continue;
 			}
 
-			$result[$id] = Kohana::unserialize($widget['code']);
-			$result[$id]->id = $widget['id'];
-			$result[$id]->name = $widget['name'];
-			$result[$id]->description = $widget['description'];
-			$result[$id]->template = $widget['template'];
+			$result[$id] = $widgets[$id] = self::load_from_array($widget);
 		}
 
 		return $result;
@@ -105,7 +103,7 @@ class Widget_Manager {
 	 */
 	public static function get_widgets_by_page($page_id)
 	{
-		$res = DB::select('page_widgets.block', 'page_widgets.position')
+		$result = DB::select('page_widgets.block', 'page_widgets.position')
 			->select('widgets.*')
 			->from('page_widgets')
 			->join('widgets')
@@ -120,20 +118,14 @@ class Widget_Manager {
 			->as_array('id');
 
 		$widgets = array();
-		foreach ($res as $id => $widget)
+		foreach ($result as $id => $widget)
 		{
 			if (!self::exists_by_type($widget['type']))
 			{
 				continue;
 			}
 
-			$widgets[$id] = Kohana::unserialize($widget['code']);
-			$widgets[$id]->id = $widget['id'];
-			$widgets[$id]->name = $widget['name'];
-			$widgets[$id]->description = $widget['description'];
-			$widgets[$id]->template = $widget['template'];
-			$widgets[$id]->block = $widget['block'];
-			$widgets[$id]->position = (int) $widget['position'];
+			$widgets[$id] = self::load_from_array($widget, __METHOD__);
 		}
 
 		return $widgets;
@@ -237,6 +229,11 @@ class Widget_Manager {
 	 */
 	public static function load($id)
 	{
+		if (isset(self::$_cache[$id]))
+		{
+			return clone self::$_cache[$id];
+		}
+
 		$result = DB::select()
 			->from('widgets')
 			->where('id', '=', (int) $id)
@@ -244,18 +241,7 @@ class Widget_Manager {
 			->execute()
 			->current();
 
-		if (!$result OR ! self::exists_by_type($result['type']))
-		{
-			return NULL;
-		}
-
-		$widget = Kohana::unserialize($result['code']);
-		$widget->id = $result['id'];
-		$widget->name = $result['name'];
-		$widget->description = $result['description'];
-		$widget->template = $result['template'];
-
-		return $widget;
+		return self::load_from_array($result);
 	}
 
 	/**
@@ -490,6 +476,11 @@ class Widget_Manager {
 		return $widgets;
 	}
 
+	/**
+	 * 
+	 * @param string $type
+	 * @return array
+	 */
 	public static function get_params($type)
 	{
 		$class = 'Model_Widget_' . ucfirst($type);
@@ -518,4 +509,28 @@ class Widget_Manager {
 		return $params;
 	}
 
+	/**
+	 * 
+	 * @param array $data
+	 * @return Model_Widget_Decorator
+	 */
+	public static function load_from_array(array $data)
+	{
+		if (empty($data) OR ! self::exists_by_type($data['type']))
+		{
+			return NULL;
+		}
+
+		$widget = Kohana::unserialize($data['code']);
+		unset($data['code'], $data['type']);
+
+		foreach ($data as $key => $value)
+		{
+			$widget->{$key} = $value;
+		}
+		
+		self::$_cache[$widget->id] = $widget;
+		
+		return $widget;
+	}
 }
