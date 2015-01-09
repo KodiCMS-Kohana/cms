@@ -418,22 +418,22 @@ class Widget_Manager {
 	{
 		$blocks_by_layout = array();
 		$database_blocks = ORM::factory('layout_block');
-		
-		if($layout_name !== NULL)
+
+		if ($layout_name !== NULL)
 		{
 			$database_blocks->where('layout_name', '=', $layout_name);
 		}
 
 		foreach ($database_blocks->find_all() as $block)
 		{
-			if(empty($blocks_by_layout[$block->layout_name]))
+			if (empty($blocks_by_layout[$block->layout_name]))
 			{
 				$blocks_by_layout[$block->layout_name] = self::get_system_blocks();
 			}
 
 			$blocks_by_layout[$block->layout_name][$block->block] = $block->block;
 		}
-		
+
 		// Move POST key to end
 		foreach ($blocks_by_layout as $layout_name => $blocks)
 		{
@@ -441,19 +441,19 @@ class Widget_Manager {
 			unset($blocks_by_layout[$layout_name]['POST']);
 			$blocks_by_layout[$layout_name]['POST'] = $post;
 		}
-		
+
 		$layout_files = Model_File_Layout::find_all();
 		foreach ($layout_files as $file)
 		{
-			if(!isset($blocks_by_layout[$file->name]))
+			if (!isset($blocks_by_layout[$file->name]))
 			{
 				$blocks_by_layout[$file->name] = self::get_system_blocks();
 			}
 		}
-		
+
 		return $blocks_by_layout;
 	}
-	
+
 	/**
 	 * 
 	 * @param string $type
@@ -462,17 +462,17 @@ class Widget_Manager {
 	public static function exists_by_type($type)
 	{
 		$class = 'Model_Widget_' . ucfirst($type);
-		
+
 		return class_exists($class);
 	}
-	
+
 	/**
 	 * 
 	 * @param array $types
 	 * @param integer $ds_id
 	 * @return array
 	 */
-	public static function get_related( array $types, $ds_id = NULL )
+	public static function get_related(array $types, $ds_id = NULL)
 	{
 		$db_widgets = Widget_Manager::get_widgets($types);
 
@@ -489,32 +489,33 @@ class Widget_Manager {
 
 		return $widgets;
 	}
-	
+
 	public static function get_params($type)
 	{
 		$class = 'Model_Widget_' . ucfirst($type);
-		
+
 		$reflector = new ReflectionClass($class);
 		$comments = $reflector->getMethod('fetch_data')->getDocComment();
-		
+
 		$params = array();
 
-		if(!empty($comments))
+		if (!empty($comments))
 		{
 			$comments = str_replace(array('/', '*', "\t", "\n", "\r", ' '), '', $comments);
 			preg_match_all("/\[(?s)(?m)(.*)\]/i", $comments, $found);
 
-			if( !empty($found[1]))
+			if (!empty($found[1]))
 			{
 				$params = explode(',', $found[1][0]);
 			}
 		}
 
 		$params[] = '$params';
-		$params[] = '$ctx';		
+		$params[] = '$ctx';
 		$params[] = '$widget_id';
 		$params[] = '$header';
 
 		return $params;
 	}
+
 }

@@ -106,6 +106,45 @@ class KodiCMS_Sitemap implements RecursiveIterator
 
 		return $this;
 	}
+	
+	/**
+	 * 
+	 * @param array $ids
+	 * @return \KodiCMS_Sitemap
+	 */
+	public function fetch_widgets(array $ids)
+	{
+		if (empty($ids))
+		{
+			return $this;
+		}
+
+		$widget_ids = array_unique(array_values($ids));
+		
+		$widgets = array();
+		foreach ($widget_ids as $id)
+		{
+			$widgets[$id] = Widget_Manager::load($id);
+		}
+		
+		foreach ($ids as $id => $widget_id)
+		{
+			if (empty($widgets[$widget_id]))
+			{
+				unset($ids[$id]);
+				continue;
+			}
+
+			$ids[$id] = $widgets[$widget_id];
+		}
+
+		$array = $this->_array;
+		$this->_fetch_widgets($array, $ids);
+		$this->_array = $array;
+		unset($array);
+
+		return $this;
+	}
 
 	/**
 	 * Вывов спсика страниц в виде массива
@@ -135,11 +174,11 @@ class KodiCMS_Sitemap implements RecursiveIterator
 	 * @param boolean $childs Показывать дочерние эелементы 
 	 * @return array
 	 */
-	public function flatten( $childs = TRUE )
+	public function flatten($childs = TRUE)
 	{
-		return $this->_flatten( $this->_array, $childs );
+		return $this->_flatten($this->_array, $childs);
 	}
-	
+
 	/**
 	 * Получить хлебные крошки для текущей страницы
 	 * 
@@ -154,7 +193,7 @@ class KodiCMS_Sitemap implements RecursiveIterator
 
 		return array();
 	}
-	
+
 	/**
 	 * Получить список страниц для выпадающего списка <select>
 	 * 
@@ -166,17 +205,17 @@ class KodiCMS_Sitemap implements RecursiveIterator
 	public function select_choices($title_key = 'title', $level = TRUE, $empty_value = FALSE)
 	{
 		$array = $this->flatten();
-		
+
 		$options = array();
-		
-		if($empty_value !== FALSe)
+
+		if ($empty_value !== FALSe)
 		{
 			$options[] = $empty_value;
 		}
-		
+
 		foreach ($array as $row)
 		{
-			if($level === TRUE)
+			if ($level === TRUE)
 			{
 				$level_string = str_repeat('- ', Arr::get($row, 'level', 0) * 2);
 			}
@@ -187,26 +226,26 @@ class KodiCMS_Sitemap implements RecursiveIterator
 
 			$options[$row['id']] = $level_string . $row[$title_key];
 		}
-		
+
 		return $options;
 	}
-	
+
 	/**
 	 * 
 	 * @param array $array
 	 * @param integer $id
 	 * @return array
 	 */
-	protected function _find( $array, $key, $value )
+	protected function _find($array, $key, $value)
 	{
 		$found = array();
-		foreach($array as $row)
+		foreach ($array as $row)
 		{
-			if($row[$key] == $value)
+			if ($row[$key] == $value)
 			{
 				return array($row);
 			}
-			
+
 			if (!empty($row['childs']))
 			{
 				$found = $this->_find($row['childs'], $key, $value);
@@ -217,20 +256,20 @@ class KodiCMS_Sitemap implements RecursiveIterator
 				}
 			}
 		}
-		
+
 		return $found;
 	}
-	
+
 	/**
 	 * 
 	 * @param array $data
 	 * @param array $crumbs
-	 * @return type
+	 * @return array
 	 */
-	protected function _breadcrumbs( array $data, &$crumbs = array() )
+	protected function _breadcrumbs(array $data, &$crumbs = array())
 	{
 		$crumbs[] = $data;
-			
+
 		if (!empty($data['parent']))
 		{
 			$this->_breadcrumbs($data['parent'], $crumbs);
@@ -238,12 +277,13 @@ class KodiCMS_Sitemap implements RecursiveIterator
 
 		return $crumbs;
 	}
-	
+
 	/**
 	 * 
 	 * @param array $array
 	 * @param array $ids
 	 * @param boolean $remove_childs
+	 * @return array
 	 */
 	protected function _exclude(&$array, array $ids, $remove_childs = TRUE)
 	{
@@ -253,7 +293,7 @@ class KodiCMS_Sitemap implements RecursiveIterator
 			{
 				unset($array[$i]);
 
-				if ($remove_childs !== TRUE AND !empty($row['childs']))
+				if ($remove_childs !== TRUE AND ! empty($row['childs']))
 				{
 					foreach ($row['childs'] as $child)
 					{
@@ -270,7 +310,34 @@ class KodiCMS_Sitemap implements RecursiveIterator
 				unset($childs);
 			}
 		}
-		
+
+		return $array;
+	}
+	
+	/**
+	 * 
+	 * @param array $array
+	 * @param array $ids
+	 * @return array
+	 */
+	protected function _fetch_widgets(&$array, array $ids)
+	{
+		foreach ($array as $i => & $row)
+		{
+			if (array_key_exists($row['id'], $ids))
+			{
+				$row['widget'] = $ids[$row['id']];
+			}
+
+			if (!empty($row['childs']))
+			{
+				$childs = $row['childs'];
+				$this->_fetch_widgets($childs, $ids);
+				$row['childs'] = $childs;
+				unset($childs);
+			}
+		}
+
 		return $array;
 	}
 
@@ -280,17 +347,17 @@ class KodiCMS_Sitemap implements RecursiveIterator
 	 * @param string $key
 	 * @param mixed $value
 	 */
-	protected function _filter( & $array, $key, $value )
+	protected function _filter(& $array, $key, $value)
 	{
-		foreach($array as $i => $row)
+		foreach ($array as $i => $row)
 		{
-			if(isset($row[$key]) AND $row[$key] == $value)
+			if (isset($row[$key]) AND $row[$key] == $value)
 			{
 				unset($array[$i]);
 			}
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param array $array
@@ -298,13 +365,13 @@ class KodiCMS_Sitemap implements RecursiveIterator
 	 * @param array $return
 	 * @return array
 	 */
-	protected function _flatten( array $array, $childs = TRUE, & $return = array() )
+	protected function _flatten(array $array, $childs = TRUE, & $return = array())
 	{
 		foreach ($array as $row)
 		{
 			$return[$row['id']] = $row;
 
-			if ($childs !== FALSE AND !empty($row['childs']))
+			if ($childs !== FALSE AND ! empty($row['childs']))
 			{
 				$this->_flatten($row['childs'], $childs, $return);
 			}
@@ -314,7 +381,7 @@ class KodiCMS_Sitemap implements RecursiveIterator
 
 		return $return;
 	}
-	
+
 	/*********************************************
 	 * RecursiveIterator Methods
 	 **********************************************/

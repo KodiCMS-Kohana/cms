@@ -48,8 +48,16 @@ function show_field($select) {
 <table class="table table-noborder table-striped">
 	<colgroup>
 		<col width="50px" />
+		<col width="450px" />
 		<col />
 	</colgroup>
+	<thead>
+		<tr>
+			<th></th>
+			<th></th>
+			<th><?php echo __('Fetched widget'); ?></th>
+		</tr>
+	</thead>
 	<tbody>
 		<?php foreach($pages as $page): ?>
 		<tr>
@@ -59,10 +67,27 @@ function show_field($select) {
 			</td>
 			<th><label for="page<?php echo $page['id']; ?>"><?php echo str_repeat('&nbsp;', $page['level'] * 10) . $page['title']; ?></label></th>
 			<?php else: ?>
-			
 			<td></td>
 			<th><?php echo $page['title']; ?></th>
 			<?php endif; ?>
+			<td>
+				<?php
+					$widgets = Widget_Manager::get_related(array());
+
+					if(isset($widgets[$widget->id])) unset($widgets[$widget->id]);
+
+					if( !empty($widgets))
+					{
+						$widgets = array(__('--- Not set ---')) + $widgets;
+
+						$selected = Arr::get($widget->fetched_widgets, $page['id']);
+
+						echo Form::select('fetched_widgets['.$page['id'].']', $widgets, $selected, array(
+							'class' => 'form-control'
+						)); 
+					}
+				?>
+			</td>
 		</tr>
 		<?php endforeach; ?>
 	</tbody>

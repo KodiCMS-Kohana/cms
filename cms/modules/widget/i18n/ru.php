@@ -78,7 +78,7 @@ return array(
 	'Equal' => 'Равно',
 	'POST array' => 'POST массив',
 	'GET array' => 'GET массив',
-	
+	'Fetched widget' => 'Связанный виджет',
 	'Copy widgets from' => 'Скопировать виджеты у страницы',
 	'Cache time' => 'Кеширование',
 	'--- Remove from page ---' => '--- Убрать со страницы ---',
