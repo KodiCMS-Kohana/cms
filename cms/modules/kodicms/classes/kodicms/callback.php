@@ -37,8 +37,6 @@ class KodiCMS_Callback
 		{
 			return self::invoke_static_class($callback, $params);
 		}
-		
-		return $default;
 	}
 	
 	/**

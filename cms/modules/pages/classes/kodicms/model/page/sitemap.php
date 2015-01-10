@@ -24,6 +24,11 @@ class KodiCMS_Model_Page_Sitemap {
 	 */
 	public static function get($include_hidden = FALSE)
 	{
+		if (Kohana::$profiling)
+		{
+			$benchmark = Profiler::start('Sitemap', __METHOD__);
+		}
+		
 		$status = (bool) $include_hidden ? 1 : 0;
 
 		if (!array_key_exists($status, Model_Page_Sitemap::$_sitemap))
@@ -39,22 +44,15 @@ class KodiCMS_Model_Page_Sitemap {
 
 			$res_pages = $pages->find_all();
 
-			$current_page = Context::instance()->get_page();
-
-			if ($current_page instanceof Model_Page_Front)
-			{
-				$current_page = $current_page->id;
-			}
-
 			$_pages = array();
 			foreach ($res_pages as $page)
 			{
 				$_pages[$page->id] = $page->as_array();
-				$_pages[$page->id]['uri'] = ''; //'/' . $page->get_uri();
+				$_pages[$page->id]['uri'] = '';
 				$_pages[$page->id]['url'] = '';
 				$_pages[$page->id]['slug'] = $page->slug;
 				$_pages[$page->id]['level'] = 0;
-				$_pages[$page->id]['is_active'] = TRUE; //URL::match($_pages[$page->id]['uri']);
+				$_pages[$page->id]['is_active'] = TRUE;
 			}
 
 			$pages = array();
@@ -92,6 +90,11 @@ class KodiCMS_Model_Page_Sitemap {
 			}
 
 			Model_Page_Sitemap::$_sitemap[$status] = new Sitemap(reset($pages));
+		}
+		
+		if (isset($benchmark))
+		{
+			Profiler::stop($benchmark);
 		}
 
 		return clone(Model_Page_Sitemap::$_sitemap[$status]);

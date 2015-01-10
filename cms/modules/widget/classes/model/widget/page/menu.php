@@ -80,7 +80,7 @@ class Model_Widget_Page_Menu extends Model_Widget_Decorator {
 
 	/**
 	 * 
-	 * @return array [$pages]
+	 * @return array [$pages, $sitemap]
 	 */
 	public function fetch_data()
 	{
@@ -93,9 +93,11 @@ class Model_Widget_Page_Menu extends Model_Widget_Decorator {
 
 		$pages->exclude($this->exclude);
 		$pages->fetch_widgets($this->fetched_widgets);
+		$pages->children();
 
 		return array(
-			'pages' => $pages->children()->as_array($this->match_all_paths == 1)
+			'sitemap' => $pages,
+			'pages' => $pages->as_array($this->match_all_paths == 1)
 		);
 	}
 	

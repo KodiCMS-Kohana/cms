@@ -27,6 +27,23 @@ class KodiCMS_Sitemap implements RecursiveIterator
 	{
 		$this->_array = $array;
 	}
+	
+	/**
+	 * 
+	 * @param string|array $method
+	 * @param   mixed   $var,...
+	 * @return  string
+	 */
+	public function callback($method)
+	{
+		// Get all passed variables
+		$variables = func_get_args();
+
+		$variables[0] = $this->_array;
+
+		$this->_array = Callback::invoke($method, $variables);
+		return $this;
+	}
 
 	/**
 	 * Поиск страницы по ID
