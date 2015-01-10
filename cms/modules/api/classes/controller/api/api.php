@@ -51,7 +51,7 @@ class Controller_API_Api extends Controller_System_API
 		
 		if($key == $curret_key)
 		{
-			throw HTTP_API_Exception::factory(API::ERROR_UNKNOWN, 'You dont hanve permissions to delete KodiCMS api key');
+			throw HTTP_API_Exception::factory(API::ERROR_UNKNOWN, 'You dont hanve permissions to delete api key');
 		}
 
 		$this->response((bool) ORM::factory('api_key', $key)->delete());
@@ -64,9 +64,19 @@ class Controller_API_Api extends Controller_System_API
 			throw HTTP_API_Exception::factory(API::ERROR_PERMISSIONS, 'You dont hanve permissions to refresh api key');
 		}
 
-		$key = $this->param('key', NULL, TRUE);
+		$key_exists = Config::get('api', 'key') !== NULL;
 
-		$key = ORM::factory('api_key')->refresh($key);
+		$key = $this->param('key', NULL, $key_exists);
+		
+		if($key_exists === TRUE)
+		{
+			$key = ORM::factory('api_key')->refresh($key);
+		}
+		else
+		{
+			$key = ORM::factory('api_key')->generate('KodiCMS API key');
+		}
+	
 		Config::set('api', 'key', $key);
 		$this->response($key);
 	}

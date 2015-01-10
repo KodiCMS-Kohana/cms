@@ -91,7 +91,7 @@ class Controller_System_API extends Controller_System_Ajax {
 		
 		if($is_required === TRUE AND empty($param))
 		{
-			throw HTTP_API_Exception::factory(API::ERROR_MISSING_PAPAM, 'Missing param :key', array(
+			throw HTTP_API_Exception::factory(API::ERROR_MISSING_PAPAM, 'Missing required param :key', array(
 				':key' => $key ));
 		}
 		
@@ -146,9 +146,9 @@ class Controller_System_API extends Controller_System_Ajax {
 			 */
 			if ((Config::get('api', 'mode') == 'no' AND ( !$is_logged_in AND $this->is_backend())))
 			{
-				throw new HTTP_Exception_403('Forbiden');
+				throw new HTTP_Exception_403('Public API is disabled');
 			}
-			
+
 			/**
 			 * Если невалидный ключ и пользователь не авторизован 
 			 * или экшен не публичный то запретить доступ к API
