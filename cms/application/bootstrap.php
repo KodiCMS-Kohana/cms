@@ -94,6 +94,11 @@ if (isset($_SERVER['SERVER_PROTOCOL']))
 	HTTP::$protocol = $_SERVER['SERVER_PROTOCOL'];
 }
 
+if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) AND $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')
+{
+	Request::$type = 'https';
+}
+
 /**
  * InitializeCore, setting the default options.
  *
@@ -106,12 +111,12 @@ if (isset($_SERVER['SERVER_PROTOCOL']))
  * - boolean  caching     enable or disable internal caching                 FALSE
  */
 Kohana::init( array(
-	'base_url'			=> '/',
-	'index_file'		=> FALSE,
-	'cache_dir'			=> CMSPATH.'cache',
-	'caching'			=> Kohana::$environment < Kohana::DEVELOPMENT,
-	'profile'			=> Kohana::$environment > Kohana::PRODUCTION,
-	'errors'			=> TRUE
+	'base_url'				=> '/',
+	'index_file'			=> FALSE,
+	'cache_dir'				=> CMSPATH.'cache',
+	'caching'				=> Kohana::$environment < Kohana::DEVELOPMENT,
+	'profile'				=> Kohana::$environment > Kohana::PRODUCTION,
+	'errors'				=> TRUE
 ) );
 
 define('CMS_NAME',			'KodiCMS');
@@ -125,7 +130,7 @@ define('SNIPPETS_SYSPATH',	DOCROOT . 'snippets' . DIRECTORY_SEPARATOR);
 
 if (PHP_SAPI != 'cli')
 {
-	define('BASE_URL',		URL::base('http'));
+	define('BASE_URL',		URL::base(Request::$type));
 	define('SITE_HOST',		str_replace('www.', '', $_SERVER['HTTP_HOST']));
 }
 
