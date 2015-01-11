@@ -6,8 +6,13 @@ class Request extends Kohana_Request {
 	 * @var  string  server host
 	 */
 	public static $host = '';
+	
+	/**
+	 * @var  string  server host
+	 */
+	public static $type = 'http';
 
-		/**
+	/**
 	 * 
 	 * @var boolean 
 	 */
