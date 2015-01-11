@@ -65,12 +65,12 @@ KodiCMS основана на базе [Kohana framework](http://kohanaframework
 
 3. Перед установкой необходимо удалить, либо очистить содержимое файла config.php, если он имеется в корне сайта.
 	Также необходимо установить права на запись и чтение для следующих папок:
-	* `cms/application/logs`
-	* `cms/application/cache`
+	* `cms/logs`
+	* `cms/cache`
 	* `layouts`
 	* `snippets`
 
-	Через консоль можно сделать с помощью команды `chmod -R a+rwx ...`, например `chmod -R a+rwx cms/application/cache`
+	Через консоль можно сделать с помощью команды `chmod -R a+rwx ...`, например `chmod -R a+rwx cms/cache`
 
 4. Откройте главную страницу через браузер. Запустится процесс интсалляции системы.
 
