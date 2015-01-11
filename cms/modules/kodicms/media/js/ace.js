@@ -23,7 +23,7 @@ cms.plugins.ace.switchOn_handler = function (textarea_id, params) {
 	editor.getSession().on('change', function () {
 		textarea.val(editor.getSession().getValue());
 	});
-	editor.setTheme("ace/theme/textmate");
+	editor.setTheme("ace/theme/" + ACE_THEME);
 
 	function fullscreen(editArea, editor, height) {
 		var $menu = $('#main-menu').add('#main-navbar').add('#main-menu-bg');
@@ -33,15 +33,13 @@ cms.plugins.ace.switchOn_handler = function (textarea_id, params) {
 						position: 'fixed',
 						width: '100%',
 						height: '100%',
-						top: 0, left: 0
+						top: 0, left: 0,
+						'z-index': 999
 					})
 					.data('fullscreen', 'on');
 			
 			$menu.hide();
-
-			editor.setTheme("ace/theme/monokai");
 		} else {
-			editor.setTheme("ace/theme/textmate");
 			editArea
 					.data('fullscreen', 'off')
 					.css({
@@ -66,7 +64,7 @@ cms.plugins.ace.switchOn_handler = function (textarea_id, params) {
 
 		editor.commands.addCommand({
 			name: 'Full-screen',
-			bindKey: {win: 'Ctrl-F', mac: 'Command-F'},
+			bindKey: {win: 'Ctrl-Shift-F', mac: 'Command-F'},
 			exec: function (editor) {
 				fullscreen(editArea, editor, height)
 			}

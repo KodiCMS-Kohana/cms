@@ -46,6 +46,7 @@ class KodiCMS_Controller_System extends Controller_System_Backend {
 	public function action_settings()
 	{
 		$this->set_title(__('Settings'));
+		Assets::package('ace');
 
 		$site_pages = array();
 

@@ -63,6 +63,8 @@ class KodiCMS_Controller_System_Backend extends Controller_System_Template
 	{
 		parent::init_media();
 		
+		$this->template_js_params['ACE_THEME'] = Config::get('ace', 'theme', 'textmate');
+		
 		Assets::package(array(
 			'jquery', 'bootstrap', 'notify', 'select2', 'dropzone', 'fancybox', 'datepicker', 'underscore', 'core'
 		));

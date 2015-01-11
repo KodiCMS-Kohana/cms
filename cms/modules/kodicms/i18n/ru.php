@@ -146,6 +146,8 @@ return array(
 	'Check URL suffix' => 'Проверять налицие URL суффикса',
 	'(Sec.)' => '(Сек.)',
 	'KodiCMS API key' => 'Ключ KodiCMS API',
+	'Ace settings' => 'Ace',
+	'Select theme' => 'Выберите тему',
 	
 	/*********************** Autorization *******************/
 	'Username' => 'Логин',
