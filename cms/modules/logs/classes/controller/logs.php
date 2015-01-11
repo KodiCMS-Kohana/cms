@@ -63,6 +63,7 @@ class Controller_Logs extends Controller_System_Backend {
 
 		$this->template->content = View::factory( 'logs/index', array(
 			'logs' => $logs
+				->with('user')
 				->limit($pager->items_per_page)
 				->offset($pager->offset)
 				->find_all(),

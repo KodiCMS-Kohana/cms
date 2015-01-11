@@ -32,14 +32,6 @@ class Model_Log extends ORM {
 	 *
 	 * @var array 
 	 */
-	protected $_load_with = array(
-		'user'
-	);
-	
-	/**
-	 *
-	 * @var array 
-	 */
 	protected $_belongs_to = array(
 		'user' => array(
 			'model' => 'user'
