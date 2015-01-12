@@ -45,6 +45,8 @@ cms.init.add('plugins_repo', function () {
 		render: function() {
 			this.$el.toggleClass('info', this.model.get('is_new'));
 			this.$el.toggleClass('success', this.model.get('is_installed'));
+			this.$el.toggleClass('warning', !this.model.get('is_installable'));
+
 			this.$el.html(this.template(this.model.toJSON()));
 			return this;
 		},
@@ -154,7 +156,8 @@ cms.init.add('plugins_index', function () {
 		// Re-render the titles of the todo item.
 		render: function() {
 			this.$el.toggleClass('success', this.model.get('installed'));
-
+			this.$el.toggleClass('danger', !this.model.get('is_installable'));
+			
 			this.$el.html(this.template(this.model.toJSON()));
 			
 			var button = this.$el.find('button');
