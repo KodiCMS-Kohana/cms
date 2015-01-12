@@ -596,7 +596,7 @@ class Datasource_Document implements ArrayAccess {
 		
 		if($this->_is_authored === TRUE)
 		{
-			$values['created_by_id'] = Auth::get_id();
+			$values['created_by_id'] = (int) Auth::get_id();
 		}
 
 		unset($values['id']);
