@@ -60,7 +60,7 @@ class KodiCMS_ACL {
 	{
 		if ($user === NULL)
 		{
-			$user = Auth::instance()->get_user();
+			$user = Auth::get_record();
 		}
 	
 		if ($user instanceof Model_User)
@@ -93,7 +93,7 @@ class KodiCMS_ACL {
 	{
 		if ($user === NULL)
 		{
-			$user = Auth::instance()->get_user();
+			$user = Auth::get_record();
 		}
 
 		if (!( $user instanceof Model_User ))

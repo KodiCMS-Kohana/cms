@@ -244,7 +244,7 @@ class KodiCMS_Model_User extends Model_Auth_User {
 	 */
 	public static function locale()
 	{
-		$user = Auth::instance()->get_user();
+		$user = Auth::get_record();
 		
 		if($user instanceof Model_User)
 		{

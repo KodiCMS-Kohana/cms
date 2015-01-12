@@ -619,10 +619,9 @@ abstract class Model_Widget_Decorator {
 		// Проверка прав на видимость виджета
 		if (!empty($this->roles))
 		{
-			$auth = Auth::instance();
-			if ($auth->logged_in())
+			if (Auth::is_logged_in())
 			{
-				if (!$auth->get_user()->has_role($this->roles, FALSE))
+				if (!Auth::has_permissions($this->roles, FALSE))
 				{
 					return;
 				}

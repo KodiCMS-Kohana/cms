@@ -11,6 +11,50 @@ abstract class KodiCMS_Auth extends Kohana_Auth {
 
 	const EMAIL = 'email';
 	const USERNAME = 'username';
+	
+	/**
+	 *
+	 * @var integer 
+	 */
+	protected static $_fake_user = NULL;
+
+	// Auth instances
+	protected static $_instance = array();
+
+	public static function instance()
+	{
+		if (!isset(Auth::$_instance[Auth::$_fake_user]))
+		{
+			// Load the configuration for this type
+			$config = Kohana::$config->load('auth');
+
+			if (!$type = $config->get('driver'))
+			{
+				$type = 'file';
+			}
+			
+			if(Auth::$_fake_user !== NULL)
+			{
+				$type = 'fake';
+			}
+
+			// Set the session class name
+			$class = 'Auth_' . ucfirst($type);
+
+			if(Auth::$_fake_user !== NULL)
+			{
+				// Create a new session instance
+				Auth::$_instance[Auth::$_fake_user] = new $class($config, Auth::$_fake_user);
+			}
+			else
+			{
+				// Create a new session instance
+				Auth::$_instance[Auth::$_fake_user] = new $class($config);
+			}
+		}
+
+		return Auth::$_instance[Auth::$_fake_user];
+	}
 
 	/**
 	 * 
@@ -82,5 +126,19 @@ abstract class KodiCMS_Auth extends Kohana_Auth {
 		}
 
 		return self::get_record() ? self::get_record()->has_role($permissions, $all_required) : FALSE;
+	}
+	
+	/**
+	 * 
+	 * @param integer $user_id
+	 */
+	public static function run_as($user_id)
+	{
+		Auth::$_fake_user = (int) $user_id;
+	}
+	
+	public static function stop_run_as()
+	{
+		Auth::$_fake_user = NULL;
 	}
 }

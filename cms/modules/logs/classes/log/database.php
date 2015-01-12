@@ -43,7 +43,7 @@ class Log_Database extends Log_Writer {
 	 */
 	public function write(array $messages)
 	{
-		$user = Auth::instance()->get_user(ORM::factory('user'));
+		$user = Auth::get_record(ORM::factory('user'));
 		$request = Request::initial();
 		
 		if($user === NULL) return;
