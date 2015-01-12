@@ -1,11 +1,5 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-/**
- * @package    Kohana/Minion
- * @author     Kohana Team
- * @copyright  (c) 2009-2011 Kohana Team
- * @license    http://kohanaframework.org/license
- */
 class Kohana_Minion_CLI {
 
 	public static $wait_msg = 'Press any key to continue...';
@@ -176,7 +170,7 @@ class Kohana_Minion_CLI {
 			// Create temporary file
 			file_put_contents($vbscript, 'wscript.echo(InputBox("'.addslashes($text).'"))');
 
-			$password = shell_exec('cscript //nologo '.escapeshellarg($command));
+			$password = shell_exec('cscript //nologo '.escapeshellarg($vbscript));
 
 			// Remove temporary file.
 			unlink($vbscript);

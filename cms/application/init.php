@@ -25,7 +25,11 @@ define('PUBLIC_URL', BASE_URL . 'public/');
 date_default_timezone_set( DEFAULT_TIMEZONE );
 
 /**
- * Set the default cookie salt
+ * Cookie Salt
+ * @see  http://kohanaframework.org/3.3/guide/kohana/cookies
+ * 
+ * If you have not defined a cookie salt in your Cookie class then
+ * uncomment the line below and define a preferrably long salt.
  */
 Cookie::$salt = COOKIE_SALT;
 

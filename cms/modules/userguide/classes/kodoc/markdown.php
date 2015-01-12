@@ -1,3 +1,3 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class CLI extends Kohana_CLI {}
+class Kodoc_Markdown extends Kohana_Kodoc_Markdown {}

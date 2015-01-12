@@ -165,6 +165,6 @@ else
 	 */
 	echo Request::factory($uri, array(), FALSE)
 		->execute()
-		->send_headers()
+		->send_headers(TRUE)
 		->body();
 }

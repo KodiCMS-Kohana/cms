@@ -722,7 +722,7 @@ abstract class Kohana_Database {
 	 * @return  string
 	 */
 	abstract public function escape($value);
-	
+
 	/**
 	 * Disable foreign keys
 	 */

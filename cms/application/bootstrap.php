@@ -63,14 +63,14 @@ ini_set('unserialize_callback_func', 'spl_autoload_call');
  */
 mb_substitute_character('none');
 
+// -- Configuration and initialization -----------------------------------------
+
 /**
  * Set Kohana::$environment if a 'KOHANA_ENV' environment variable has been supplied.
  *
  * Note: If you supply an invalid environment name, a PHP warning will be thrown
  * saying "Couldn't find constant Kohana::<INVALID_ENV_NAME>"
  */
-
-// -- Configuration and initialization -----------------------------------------
 if (isset($_SERVER['KOHANA_ENV']))
 {
 	Kohana::$environment = constant('Kohana::' . strtoupper($_SERVER['KOHANA_ENV']));
