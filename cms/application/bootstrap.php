@@ -99,6 +99,11 @@ if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) AND $_SERVER['HTTP_X_FORWARDED_PRO
 	Request::$type = 'https';
 }
 
+if (isset($_SERVER['HTTP_HOST']))
+{
+	Request::$host = str_replace('www.', '', $_SERVER['HTTP_HOST']);
+}
+
 /**
  * InitializeCore, setting the default options.
  *
@@ -117,7 +122,7 @@ Kohana::init( array(
 	'caching'				=> Kohana::$environment < Kohana::DEVELOPMENT,
 	'profile'				=> Kohana::$environment > Kohana::PRODUCTION,
 	'errors'				=> TRUE
-) );
+));
 
 define('CMS_NAME',			'KodiCMS');
 define('CMS_SITE',			'http://www.kodicms.ru');
@@ -131,11 +136,14 @@ define('SNIPPETS_SYSPATH',	DOCROOT . 'snippets' . DIRECTORY_SEPARATOR);
 if (PHP_SAPI != 'cli')
 {
 	define('BASE_URL',		URL::base(Request::$type));
-	define('SITE_HOST',		str_replace('www.', '', $_SERVER['HTTP_HOST']));
 }
 
-if (!defined('BASE_URL'))	define('BASE_URL', '/');
-if (!defined('SITE_HOST'))	define('SITE_HOST', 'test');
+define('SITE_HOST',	Request::$host);
+
+if (!defined('BASE_URL'))
+{
+	define('BASE_URL', '/');
+}
 
 define('ADMIN_RESOURCES',	BASE_URL . 'cms/media/');
 

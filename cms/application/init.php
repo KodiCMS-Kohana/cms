@@ -6,15 +6,19 @@ if (PHP_SAPI != 'cli')
 }
 
 if (!defined('IS_BACKEND'))
+{
 	define('IS_BACKEND', FALSE);
+}
 
 if (!defined('SESSION_TYPE'))
+{
 	define('SESSION_TYPE', 'native');
+}
 
 // CMS defaults
-define('ADMIN_URL', BASE_URL . ADMIN_DIR_NAME . '/');
-define('PLUGINS_URL', BASE_URL . 'cms/plugins/');
-define('PUBLIC_URL', BASE_URL . 'public/');
+define('ADMIN_URL',		BASE_URL . ADMIN_DIR_NAME . '/');
+define('PLUGINS_URL',	BASE_URL . 'cms/plugins/');
+define('PUBLIC_URL',	BASE_URL . 'public/');
 
 /**
  * Set the default time zone.

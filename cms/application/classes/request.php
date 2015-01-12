@@ -5,7 +5,7 @@ class Request extends Kohana_Request {
 	/**
 	 * @var  string  server host
 	 */
-	public static $host = '';
+	public static $host = 'localhost';
 	
 	/**
 	 * @var  string  server host
@@ -17,15 +17,6 @@ class Request extends Kohana_Request {
 	 * @var boolean 
 	 */
 	protected static $is_mobile = NULL;
-	
-	public static function factory($uri = TRUE, $client_params = array(), $allow_external = TRUE, $injected_routes = array())
-	{
-		$request = parent::factory($uri, $client_params, $allow_external, $injected_routes);
-		
-		Request::$host = $_SERVER['HTTP_HOST'];
-
-		return $request;
-	}
 
 	/**
 	 * 
@@ -33,40 +24,40 @@ class Request extends Kohana_Request {
 	 */
 	public static function is_mobile()
 	{
-		if(self::$is_mobile !== NULL)
+		if (self::$is_mobile !== NULL)
 		{
 			return self::$is_mobile;
 		}
 
-		if(Kohana::$profiling === TRUE)
+		if (Kohana::$profiling === TRUE)
 		{
 			$benchmark = Profiler::start('Kohana', 'detect mobile');
 		}
 
-		$agent = strtolower( Request::$user_agent );
+		$agent = strtolower(Request::$user_agent);
 		$mobile_browser = 0;
 
-		if ( preg_match( '/(up.browser|up.link|mmp|symbian|smartphone|midp|wap|phone|iphone|ipad|ipod|android|xoom)/i', $agent ) )
+		if (preg_match('/(up.browser|up.link|mmp|symbian|smartphone|midp|wap|phone|iphone|ipad|ipod|android|xoom)/i', $agent))
 		{
 			$mobile_browser++;
 		}
 
-		if ( (isset( $_SERVER['HTTP_ACCEPT'] )) AND (strpos( strtolower( $_SERVER['HTTP_ACCEPT'] ), 'application/vnd.wap.xhtml+xml' ) !== false) )
+		if ((isset($_SERVER['HTTP_ACCEPT'])) AND ( strpos(strtolower($_SERVER['HTTP_ACCEPT']), 'application/vnd.wap.xhtml+xml') !== false))
 		{
 			$mobile_browser++;
 		}
 
-		if ( isset( $_SERVER['HTTP_X_WAP_PROFILE'] ) )
+		if (isset($_SERVER['HTTP_X_WAP_PROFILE']))
 		{
 			$mobile_browser++;
 		}
 
-		if ( isset( $_SERVER['HTTP_PROFILE'] ) )
+		if (isset($_SERVER['HTTP_PROFILE']))
 		{
 			$mobile_browser++;
 		}
 
-		$mobile_ua = substr( $agent, 0, 4 );
+		$mobile_ua = substr($agent, 0, 4);
 		$mobile_agents = array(
 			'w3c ', 'acs-', 'alav', 'alca', 'amoi', 'audi', 'avan', 'benq', 'bird', 'blac',
 			'blaz', 'brew', 'cell', 'cldc', 'cmd-', 'dang', 'doco', 'eric', 'hipt', 'inno',
@@ -79,40 +70,40 @@ class Request extends Kohana_Request {
 			'wapr', 'webc', 'winw', 'xda', 'xda-'
 		);
 
-		if ( in_array( $mobile_ua, $mobile_agents ) )
+		if (in_array($mobile_ua, $mobile_agents))
 		{
 			$mobile_browser++;
 		}
 
-		if ( isset( $_SERVER['ALL_HTTP'] ) AND strpos( strtolower( $_SERVER['ALL_HTTP'] ), 'operamini' ) !== FALSE )
+		if (isset($_SERVER['ALL_HTTP']) AND strpos(strtolower($_SERVER['ALL_HTTP']), 'operamini') !== FALSE)
 		{
 			$mobile_browser++;
 		}
 
 		// Pre-final check to reset everything if the user is on Windows
-		if ( strpos( $agent, 'windows' ) !== FALSE )
+		if (strpos($agent, 'windows') !== FALSE)
 		{
 			$mobile_browser = 0;
 		}
 
 		// But WP7 is also Windows, with a slightly different characteristic
-		if ( strpos( $agent, 'windows phone' ) !== FALSE )
+		if (strpos($agent, 'windows phone') !== FALSE)
 		{
 			$mobile_browser++;
 		}
-		
-		if(isset($benchmark))
+
+		if (isset($benchmark))
 		{
 			Profiler::stop($benchmark);
 		}
 
-		if ( $mobile_browser > 0 )
+		if ($mobile_browser > 0)
 		{
 			self::$is_mobile = TRUE;
 		}
-		
+
 		self::$is_mobile = FALSE;
-		
+
 		return self::$is_mobile;
 	}
 
@@ -124,7 +115,7 @@ class Request extends Kohana_Request {
 	{
 		$uri = parent::detect_uri();
 
-		if( ! defined( 'URL_SUFFIX' ))
+		if (!defined('URL_SUFFIX'))
 		{
 			return $uri;
 		}
