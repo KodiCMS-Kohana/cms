@@ -1,0 +1,70 @@
+#dashboard-widgets {
+	.dashboard-widgets-column {
+		min-height: 30px;
+		
+		&.hover {
+			border: 1px dashed #ccc;
+		}
+		
+		.handle {
+			cursor: move;
+		}
+		
+		&.empty-container {
+			border: 3px dashed #ccc;
+			min-height: 100px;
+			margin-bottom: 20px
+		}
+		
+		.sortable-placeholder {
+			border: 1px dashed #bbb;
+			margin-bottom: 20px;
+			background: #fff;
+			min-height: 50px;
+		}
+	}
+	
+	.dashboard-widget {
+		border-radius: 4px;
+		
+		> .close {
+			display: none;
+			padding: 3px 3px 0 0;
+			font-size: 14px;
+		}
+		
+		.panel-heading {
+			padding-left: 15px;
+			padding: right: 15px;
+		}
+		
+		&:hover > .close {
+			display: inline-block;
+		}
+		
+		&:hover, &.ui-sortable-helper {
+			box-shadow: 0 5px 12px #ccc;
+		}
+		
+		&.panel-gradient {
+			&.panel-default .panel-body {
+				#gradient.vertical(whitesmoke, darken(#ccc, 10%));
+			}
+			&.panel-success .panel-body {
+				#gradient.vertical(@brand-success, darken(@brand-success, 10%));
+			}
+			&.panel-primary .panel-body {
+				#gradient.vertical(@brand-primary, darken(@brand-primary, 10%));
+			}
+			&.panel-info .panel-body {
+				#gradient.vertical(@brand-info, darken(@brand-info, 10%));
+			}
+			&.panel-warning .panel-body {
+				#gradient.vertical(@brand-warning, darken(@brand-warning, 10%));
+			}
+			&.panel-danger .panel-body {
+				#gradient.vertical(@brand-danger, darken(@brand-danger, 10%));
+			}
+		}
+	}
+}
