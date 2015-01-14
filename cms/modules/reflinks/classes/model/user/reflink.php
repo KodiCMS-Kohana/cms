@@ -33,11 +33,11 @@ class Model_User_Reflink extends ORM {
 	 */
 	public function generate(Model_User $user, $type, $data = NULL) 
 	{
-		if ( ! $user->loaded() ) 
+		if (!$user->loaded())
 		{
 			throw new Reflink_Exception(' User not loaded ');
 		}
-		
+
 		$type = URL::title($type, '_');
 		
 		$reflink = $this
@@ -47,7 +47,7 @@ class Model_User_Reflink extends ORM {
 			->where('created', '>', DB::expr('CURDATE() - INTERVAL 1 HOUR'))
 			->find();
 
-		if ( ! $reflink->loaded() ) 
+		if (!$reflink->loaded())
 		{
 			$values = array(
 				'user_id'	=> (int) $user->id,
@@ -78,9 +78,9 @@ class Model_User_Reflink extends ORM {
 	 */
 	public function delete() 
 	{
-		if ( ! $this->loaded() ) 
+		if (!$this->loaded())
 		{
-			throw new Reflink_Exception( 'Model not loaded or not found.' );
+			throw new Reflink_Exception('Model not loaded or not found.');
 		}
 
 		return DB::delete($this->table_name())

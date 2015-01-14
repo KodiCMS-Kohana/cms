@@ -44,7 +44,7 @@ class API_Response {
 	{
 		$this->_response = $response;
 
-		if(isset($this->code))
+		if (isset($this->code))
 		{
 			$this->_code = $this->get('code');
 		}
@@ -99,7 +99,10 @@ class API_Response {
 	 */
 	public function error()
 	{
-		if($this->status()) return NULL;
+		if ($this->status())
+		{
+			return NULL;
+		}
 
 		return $this->get('message');
 	}
@@ -129,16 +132,16 @@ class API_Response {
 	
 	public function __isset($name)
 	{
-		if( $this->_data_type === NULL )
+		if ($this->_data_type === NULL)
 		{
 			$this->as_array();
 		}
 
-		if($this->_data_type == self::OBJ)
+		if ($this->_data_type == self::OBJ)
 		{
 			return isset($this->_data->{$name});
 		}
-		else if($this->_data_type == self::ARR)
+		else if ($this->_data_type == self::ARR)
 		{
 			return isset($this->_data[$name]);
 		}
@@ -162,17 +165,17 @@ class API_Response {
 	 */
 	public function get($name, $default = NULL)
 	{
-		if($this->_data_type == self::OBJ)
+		if ($this->_data_type == self::OBJ)
 		{
-			return isset($this->_data->{$name})
-				? $this->_data->{$name}
+			return isset($this->_data->{$name}) 
+				? $this->_data->{$name} 
 				: $default;
 		}
-		else if($this->_data_type == self::ARR)
+		else if ($this->_data_type == self::ARR)
 		{
 			return Arr::path($this->_data, $name, $default);
 		}
-		
+
 		return $this->as_array()->get($name, $default);
 	}
 }

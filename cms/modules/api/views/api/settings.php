@@ -72,7 +72,7 @@ $(function(){
 				<?php echo Form::input(NULL, Config::get('api', 'key'), array(
 					'id' => 'api-key', 'class' => 'form-control', 'readonly'
 				)); ?>
-				<?php if( ACL::check('system.api.refresh')): ?>
+				<?php if (ACL::check('system.api.refresh')): ?>
 				<div class="input-group-btn">
 					<?php echo HTML::anchor('#', __('Change key'), array(
 						'class' => 'btn btn-primary', 'id' => 'refresh-api-key', 'data-icon' => 'refresh'

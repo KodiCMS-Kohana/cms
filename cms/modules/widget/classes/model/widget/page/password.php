@@ -15,8 +15,8 @@ class Model_Widget_Page_Password extends Model_Widget_Decorator {
 	public function on_page_load()
 	{
 		parent::on_page_load();
-		
-		if(Request::current()->method() == Request::POST)
+
+		if (Request::current()->method() == Request::POST)
 		{
 			return $this->_check_password();
 		}
@@ -36,11 +36,11 @@ class Model_Widget_Page_Password extends Model_Widget_Decorator {
 	protected function _check_password()
 	{
 		$password = Request::current()->post('password');
-		
+
 		$session = Session::instance();
 		$page = $session->get('protected_page');
-		
-		if($page->password == $password)
+
+		if ($page->password == $password)
 		{
 			$pages = $session->get('page_access', array());
 
@@ -49,7 +49,7 @@ class Model_Widget_Page_Password extends Model_Widget_Decorator {
 				->set('page_access', $pages)
 				->delete('protected_page');
 		}
-		
+
 		HTTP::redirect($page->url());
 	}
 }

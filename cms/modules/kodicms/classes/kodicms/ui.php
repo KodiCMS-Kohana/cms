@@ -20,7 +20,7 @@ class KodiCMS_UI {
 	 * @return string HTML
 	 */
 	public static function icon($name, array $attributes = array())
-	{	
+	{
 		$attributes = self::_build_attribute_class($attributes, 'fa fa-' . HTML::chars($name));
 		return '<i' . HTML::attributes($attributes) . '></i>';
 	}
@@ -86,13 +86,14 @@ class KodiCMS_UI {
 
 		$type = $attributes['type'];
 		unset($attributes['type']);
-		
-		switch ($type) {
+
+		switch ($type)
+		{
 			case self::BUTTON_TYPE_ANCHOR:
 				return HTML::anchor($href, $body, $attributes);
 				break;
 			default:
-				return '<button'.HTML::attributes($attributes).'>'.$body.'</button>';
+				return '<button' . HTML::attributes($attributes) . '>' . $body . '</button>';
 				break;
 		}
 	}
@@ -106,8 +107,8 @@ class KodiCMS_UI {
 	public static function hidden($title, array $types = array('xs', 'sm'))
 	{
 		$attributes = array('class' => array());
-		
-		foreach($types as $type)
+
+		foreach ($types as $type)
 		{
 			$attributes['class'][] = 'hidden-' . $type;
 		}
@@ -133,11 +134,11 @@ class KodiCMS_UI {
 	 */
 	public static function actions($page = NULL, $uri = NULL) 
 	{
-		if($uri === NULL)
+		if ($uri === NULL)
 		{
 			$uri = Route::get('backend')->uri(array('controller' => $page));
 		}
-	
+
 		return View::factory('ui/actions', array(
 			'uri' => $uri
 		));
@@ -148,11 +149,14 @@ class KodiCMS_UI {
 	 * @param integer $num
 	 * @return string
 	 */
-	public static function counter( $num = 0 )
+	public static function counter($num = 0)
 	{
-		if($num == 0) return '';
+		if ($num == 0)
+		{
+			return '';
+		}
 
-		return '<span'.HTML::attributes(array('class' => 'counter')).'>' . (int)$num . '</span>';
+		return '<span' . HTML::attributes(array('class' => 'counter')) . '>' . (int) $num . '</span>';
 	}
 	
 	protected static function _build_attribute_class(array $attributes = array(), $class)
@@ -165,8 +169,8 @@ class KodiCMS_UI {
 		{
 			$attributes['class'] = explode(' ', $attributes['class']);
 		}
-		
-		if(is_array($class))
+
+		if (is_array($class))
 		{
 			foreach ($class as $class_name)
 			{
@@ -179,7 +183,8 @@ class KodiCMS_UI {
 		}
 
 		$attributes['class'] = array_filter(array_unique($attributes['class']));
-		
+
 		return $attributes;
 	}
+
 }

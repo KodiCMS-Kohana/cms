@@ -13,7 +13,6 @@ class KodiCMS_Text extends Kohana_Text
 	public static function translit($string)
 	{
 		$rus = array('А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ё', 'Ж', 'З', 'И', 'Й', 'К', 'Л', 'М', 'Н', 'О', 'П', 'Р', 'С', 'Т', 'У', 'Ф', 'Х', 'Ц', 'Ч', 'Ш', 'Щ', 'Ъ', 'Ы', 'Ь', 'Э', 'Ю', 'Я', 'а', 'б', 'в', 'г', 'д', 'е', 'ё', 'ж', 'з', 'и', 'й', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с', 'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ', 'ъ', 'ы', 'ь', 'э', 'ю', 'я');
-
 		$lat = array('A', 'B', 'V', 'G', 'D', 'E', 'E', 'Gh', 'Z', 'I', 'Y', 'K', 'L', 'M', 'N', 'O', 'P', 'R', 'S', 'T', 'U', 'F', 'H', 'C', 'Ch', 'Sh', 'Sch', 'Y', 'Y', 'Y', 'E', 'Yu', 'Ya', 'a', 'b', 'v', 'g', 'd', 'e', 'e', 'gh', 'z', 'i', 'y', 'k', 'l', 'm', 'n', 'o', 'p', 'r', 's', 't', 'u', 'f', 'h', 'c', 'ch', 'sh', 'sch', 'y', 'y', 'y', 'e', 'yu', 'ya');
 
 		return str_replace($rus, $lat, $string);
@@ -61,11 +60,11 @@ class KodiCMS_Text extends Kohana_Text
 		$meta_similarity = 0;
 		$min_levenshtein = 1000;
 		$meta_min_levenshtein = 1000;
-		
+
 		$result = array();
 		$meta_result = array();
-		
-		foreach($words as $n)
+
+		foreach ($words as $n)
 		{
 			$min_levenshtein = min($min_levenshtein, levenshtein($n, $word));
 		}
@@ -78,36 +77,36 @@ class KodiCMS_Text extends Kohana_Text
 //			}
 //		}
 
-		foreach($words as $n => $k)
+		foreach ($words as $n => $k)
 		{
-			if(levenshtein($k, $word) <= $min_levenshtein)
+			if (levenshtein($k, $word) <= $min_levenshtein)
 			{
-				if(similar_text($k, $word) >= $similarity)
+				if (similar_text($k, $word) >= $similarity)
 				{
 					$result[$n] = $k;
 				}
 			}
 		}
-		
-		foreach($result as $n)
+
+		foreach ($result as $n)
 		{
 			$meta_min_levenshtein = min($meta_min_levenshtein, levenshtein(metaphone($n), metaphone($word)));
 		}
-     
-		foreach($result as $n)
+
+		foreach ($result as $n)
 		{
-			if(levenshtein($n, $word) == $meta_min_levenshtein)
+			if (levenshtein($n, $word) == $meta_min_levenshtein)
 			{
 				$meta_similarity = max($meta_similarity, similar_text(metaphone($n), metaphone($word)));
 			}
 		}
-		
-		
-		foreach($result as $n => $k)
+
+
+		foreach ($result as $n => $k)
 		{
-			if(levenshtein(metaphone($k), metaphone($word)) <= $meta_min_levenshtein)
+			if (levenshtein(metaphone($k), metaphone($word)) <= $meta_min_levenshtein)
 			{
-				if(similar_text(metaphone($k), metaphone($word)) >= $meta_similarity)
+				if (similar_text(metaphone($k), metaphone($word)) >= $meta_similarity)
 				{
 					$meta_result[$n] = $k;
 				}
@@ -116,5 +115,4 @@ class KodiCMS_Text extends Kohana_Text
 
 		return $meta_result;
 	}
-
 }

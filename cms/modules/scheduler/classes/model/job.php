@@ -135,20 +135,20 @@ class Model_Job extends ORM {
 	
 	public function set_next_run()
 	{
-		if(empty($this->interval) AND empty($this->crontime))
+		if (empty($this->interval) AND empty($this->crontime))
 		{
 			return;
 		}
-		
-		if( ! empty($this->crontime))
+
+		if (!empty($this->crontime))
 		{
 			$this->date_next_run = date('Y-m-d H:i:s', Crontab::parse($this->crontime));
 		}
-		else if( ! empty($this->interval))
+		else if (!empty($this->interval))
 		{
 			$this->date_next_run = date('Y-m-d H:i:s', time() + $this->interval);
 		}
-		
+
 		return $this;
 	}
 
@@ -209,8 +209,10 @@ class Model_Job extends ORM {
 	 */
 	public function set_status($status)
 	{
-		if( ! $this->loaded() )
+		if (!$this->loaded())
+		{
 			throw new Kohana_Exception('Cannot set status because it is not loaded.');
+		}
 
 		$this->status = $status;
 		return $this->save();

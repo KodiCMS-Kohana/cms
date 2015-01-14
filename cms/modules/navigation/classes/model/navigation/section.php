@@ -61,7 +61,7 @@ class Model_Navigation_Section extends Model_Navigation_Abstract implements Coun
 	 * @param array $pages
 	 * @return \Model_Navigation_Section
 	 */
-	public function add_pages( array $pages )
+	public function add_pages(array $pages)
 	{
 		foreach ($pages as $page)
 		{
@@ -69,7 +69,9 @@ class Model_Navigation_Section extends Model_Navigation_Abstract implements Coun
 			{
 				$section = Model_Navigation::get_section($page['name'], $this);
 				if (isset($page['icon']))
+				{
 					$section->icon = $page['icon'];
+				}
 
 				if (count($page['children']) > 0)
 				{
@@ -126,9 +128,7 @@ class Model_Navigation_Section extends Model_Navigation_Abstract implements Coun
 
 		$page->set_section($this);
 
-		return $this
-			->update()
-			->sort();
+		return $this->update()->sort();
 	}
 	
 	/**
@@ -218,7 +218,7 @@ class Model_Navigation_Section extends Model_Navigation_Abstract implements Coun
 	 * @param string $uri
 	 * @return null|Model_Navigation_Page
 	 */
-	public function & find_page_by_uri( $uri )
+	public function & find_page_by_uri($uri)
 	{
 		$_page = NULL;
 

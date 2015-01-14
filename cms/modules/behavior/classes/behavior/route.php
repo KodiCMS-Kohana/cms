@@ -92,20 +92,20 @@ class Behavior_Route {
 	 * @param string $uri
 	 * @return \Behavior_Abstract
 	 */
-	public function find( $uri )
+	public function find($uri)
 	{
 		$method = $this->_match_route($uri);
-		
+
 		Context::instance()->behavior_router($this);
 
 		return $method;
 	}
-	
+
 	/**
 	 * 
 	 * @return array
 	 */
-	public function routes( $routes = NULL )
+	public function routes($routes = NULL)
 	{
 		return $this->_routes;
 	}
@@ -127,17 +127,17 @@ class Behavior_Route {
 
 			// The URI should be considered literal except for keys and optional parts
 			// Escape everything preg_quote would escape except for : ( ) < >
-			$expression = preg_replace('#'.self::REGEX_ESCAPE.'#', '\\\\$0', $_uri);
+			$expression = preg_replace('#' . self::REGEX_ESCAPE . '#', '\\\\$0', $_uri);
 
 			// Insert default regex for keys
-			$expression = str_replace(array('<', '>'), array('(?P<', '>'.self::REGEX_SEGMENT.')'), $expression);
-			
-			if ( isset($params['regex']) )
+			$expression = str_replace(array('<', '>'), array('(?P<', '>' . self::REGEX_SEGMENT . ')'), $expression);
+
+			if (isset($params['regex']))
 			{
 				$search = $replace = array();
 				foreach ($params['regex'] as $key => $value)
 				{
-					$search[]  = "<$key>".Route::REGEX_SEGMENT;
+					$search[] = "<$key>" . Route::REGEX_SEGMENT;
 					$replace[] = "<$key>$value";
 				}
 
@@ -145,8 +145,10 @@ class Behavior_Route {
 				$expression = str_replace($search, $replace, $expression);
 			}
 
-			if ( ! preg_match('#^'.$expression.'$#uD', $uri, $matches))
+			if (!preg_match('#^' . $expression . '$#uD', $uri, $matches))
+			{
 				continue;
+			}
 
 			foreach ($matches as $key => $value)
 			{
@@ -160,14 +162,14 @@ class Behavior_Route {
 				$this->_params[$key] = $value;
 				Context::instance()->set('.' . $key, $value);
 			}
-			
+
 			$this->_matched_route = $_uri;
 
 			return $params['method'];
 		}
-		
+
 		$this->_params = preg_split('/\//', $uri, -1, PREG_SPLIT_NO_EMPTY);
-		
+
 		return $default_method;
 	}
 }

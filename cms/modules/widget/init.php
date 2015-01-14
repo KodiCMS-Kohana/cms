@@ -44,7 +44,6 @@ Observer::observe('frontpage_after_render', function() {
 });
 
 Observer::observe('view_page_edit_plugins', function($page) {
-
 	$blocks = Widget_Manager::get_blocks_by_layout($page->layout());
 
 	echo View::factory('widgets/page/edit', array(
@@ -58,7 +57,7 @@ Observer::observe('view_page_edit_plugins', function($page) {
 Observer::observe('page_add_after_save', function($page) {
 	$post_data = Request::current()->post('widgets');
 	
-	if(!empty($post_data['from_page_id']))
+	if (!empty($post_data['from_page_id']))
 	{
 		Widget_Manager::copy($post_data['from_page_id'], $page->id);
 	}
@@ -67,9 +66,12 @@ Observer::observe('page_add_after_save', function($page) {
 Observer::observe('page_edit_after_save', function($page) {
 	$post_data = Request::current()->post('widget');
 	
-	if( ! is_array($post_data) ) return;
+	if (!is_array($post_data))
+	{
+		return;
+	}
 
-	foreach($post_data as $widget_id => $block)
+	foreach ($post_data as $widget_id => $block)
 	{
 		Widget_Manager::update_location_by_page($page->id, $widget_id, $block);
 	}

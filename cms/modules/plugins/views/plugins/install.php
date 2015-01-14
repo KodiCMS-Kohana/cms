@@ -2,7 +2,7 @@
 	<span class="panel-title"><?php echo __('Plugins'); ?></span>
 </div>
 <div class="panel-body">
-	<?php if(isset($plugins['test'])): ?>
+	<?php if (isset($plugins['test'])): ?>
 	<div class="form-group">
 		<label class="control-label col-xs-3"><?php echo __('Demo site'); ?></label>
 		<div class="col-xs-9">

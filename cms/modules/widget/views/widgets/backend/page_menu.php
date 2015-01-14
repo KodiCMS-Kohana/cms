@@ -74,9 +74,9 @@ function show_field($select) {
 				<?php
 					$widgets = Widget_Manager::get_related(array());
 
-					if(isset($widgets[$widget->id])) unset($widgets[$widget->id]);
+					if (isset($widgets[$widget->id])) unset($widgets[$widget->id]);
 
-					if( !empty($widgets))
+					if (!empty($widgets))
 					{
 						$widgets = array(__('--- Not set ---')) + $widgets;
 

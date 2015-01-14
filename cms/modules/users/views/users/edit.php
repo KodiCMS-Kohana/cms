@@ -60,11 +60,11 @@
 		</div>
 	</div>
 	
-	<?php if( ACL::check('users.change_password') OR $user->id == Auth::get_id() OR !$user->loaded() ): ?>
+	<?php if (ACL::check('users.change_password') OR $user->id == Auth::get_id() OR ! $user->loaded()): ?>
 	<div class="panel-heading">
 		<span class="panel-title"><?php echo __('Password'); ?></span>
 	</div>
-	<?php if($action == 'edit'): ?>
+	<?php if ($action == 'edit'): ?>
 	<div class="note note-warning">
 		<?php echo UI::icon('lightbulb-o fa-lg'); ?> <?php echo __('Leave password blank for it to remain unchanged.'); ?>
 	</div>
@@ -96,7 +96,7 @@
 	</div>
 	<?php endif; ?>
 
-	<?php if (Acl::check( 'users.change_roles') AND ($user->id === NULL OR $user->id > 1)): ?>
+	<?php if (Acl::check('users.change_roles') AND ( $user->id === NULL OR $user->id > 1)): ?>
 	<div class="panel-heading">
 		<span class="panel-title"><?php echo __('Roles'); ?></span>
 	</div>
@@ -110,7 +110,7 @@
 	</div>
 	<?php endif; ?>
 
-	<?php if($action == 'edit'): ?>
+	<?php if ($action == 'edit'): ?>
 	<div class="panel-heading">
 		<span class="panel-title"><?php echo __('Admin theme'); ?></span>
 	</div>
@@ -123,7 +123,7 @@
 		<div id="themes" class="row">
 		<?php foreach ($themes as $theme): ?>
 			<div class="col-md-2 col-sm-3 col-xs-4">
-				<a href="#" class="theme <?php if($theme == $current_theme): ?>active<?php endif; ?> thumbnail" data-theme="<?php echo $theme; ?>">
+				<a href="#" class="theme <?php if ($theme == $current_theme): ?>active<?php endif; ?> thumbnail" data-theme="<?php echo $theme; ?>">
 					<?php echo HTML::image(ADMIN_RESOURCES . 'images/themes/' . $theme . '.jpg'); ?>
 				</a>
 			</div>

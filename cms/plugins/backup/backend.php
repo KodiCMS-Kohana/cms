@@ -2,9 +2,9 @@
 
 define('BACKUP_PLUGIN_FOLDER', DOCROOT . 'backups' . DIRECTORY_SEPARATOR);
 
-if(!is_dir(BACKUP_PLUGIN_FOLDER))
+if (!is_dir(BACKUP_PLUGIN_FOLDER))
 {
-	 mkdir(BACKUP_PLUGIN_FOLDER, 0775);
+	mkdir(BACKUP_PLUGIN_FOLDER, 0775);
 }
 
 Observer::observe('scheduler_callbacks', function() {
@@ -21,7 +21,7 @@ Observer::observe('scheduler_callbacks', function() {
 
 			$created = filectime(BACKUP_PLUGIN_FOLDER . $file);
 
-			if($from <= $created AND $to >= $created)
+			if ($from <= $created AND $to >= $created)
 			{
 				$data[] = array(
 					'title' => 'Backup::(' . $file . ')',
@@ -38,15 +38,14 @@ Observer::observe('scheduler_callbacks', function() {
 		}
 
 		closedir($handle);
-
 		return $data;
 	});
 });
 
-Route::set( 'backup', ADMIN_DIR_NAME.'/backup(/<action>(/<file>))', array(
+Route::set('backup', ADMIN_DIR_NAME . '/backup(/<action>(/<file>))', array(
 	'action' => '(view|delete|restore)',
 	'file' => '.*'
-) )
-	->defaults( array(
-		'controller' => 'backup'
-	) );
+))
+->defaults(array(
+	'controller' => 'backup'
+));

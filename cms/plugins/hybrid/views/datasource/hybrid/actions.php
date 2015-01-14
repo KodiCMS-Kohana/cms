@@ -1,4 +1,4 @@
-<?php if(!empty($fields)): ?>
+<?php if (!empty($fields)): ?>
 <div class="btn-group fields-control pull-right">		
 	<div class="btn-group">
 		<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">

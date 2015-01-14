@@ -34,7 +34,7 @@ final class Flash
 	public static function set($var, $value)
 	{
 		Session::instance()->set($var, $value);
-	} // set
+	}
 
 	/**
 	 * Call this function to clear flash. Note that data that previous page
@@ -44,8 +44,8 @@ final class Flash
 	 * @param none
 	 * @return void
 	 */
-	public static function clear( $var )
+	public static function clear($var)
 	{
-		Session::instance()->delete( $var );
+		Session::instance()->delete($var);
 	}
 }

@@ -37,11 +37,11 @@ class Controller_Update extends Controller_System_Backend {
 	
 	public function action_patches()
 	{
-		if($this->request->method() === Request::POST)
+		if ($this->request->method() === Request::POST)
 		{
 			return $this->_apply_patch();
 		}
-		
+
 		$this->set_title(__('Patches'));
 
 		$this->template->content = View::factory( 'update/patches', array(

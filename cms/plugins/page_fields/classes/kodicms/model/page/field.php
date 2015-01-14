@@ -60,24 +60,24 @@ class KodiCMS_Model_Page_Field extends ORM {
 			->execute()
 			->as_array();
 		
-		if(count($fields) > 0)
+		if (count($fields) > 0)
 		{
 			$insert = DB::insert('page_fields')
 				->columns(array('page_id', 'title', 'key', 'value'));
-			
-			foreach($fields as $field)
+
+			foreach ($fields as $field)
 			{
 				unset($field['id']);
 
 				$field['page_id'] = (int) $to_page_id;
 				$insert->values($field);
 			}
-			
+
 			list($insert_id, $total_rows) = $insert->execute();
-			
+
 			return $total_rows;
 		}
-		
+
 		return FALSE;
 	}
 	

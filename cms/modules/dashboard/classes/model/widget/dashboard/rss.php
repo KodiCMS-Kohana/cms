@@ -50,12 +50,12 @@ class Model_Widget_Dashboard_RSS extends Model_Widget_Decorator_Dashboard {
 		$cache = Cache::instance();
 		
 		$data = $cache->get($this->id);
-		if(empty($data))
+		if (empty($data))
 		{
 			$data = Feed::parse($this->rss_url, $this->limit);
 			$cache->set($this->id, $data, Date::MINUTE * 10);
 		}
-		
+
 		$data['rss_url'] = $this->rss_url;
 		
 		return $data;

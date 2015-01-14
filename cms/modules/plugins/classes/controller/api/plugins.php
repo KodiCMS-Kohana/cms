@@ -12,7 +12,7 @@ class Controller_API_Plugins extends Controller_System_API
 {	
 	public function rest_get()
 	{
-		if( ! ACL::check('plugins.index'))
+		if (!ACL::check('plugins.index'))
 		{
 			throw HTTP_API_Exception::factory(API::ERROR_PERMISSIONS, 'You dont hanve permissions to view plugin');
 		}
@@ -23,30 +23,30 @@ class Controller_API_Plugins extends Controller_System_API
 		{
 			$plugins[] = $this->_get_info($plugin);
 		}
-		
+
 		$this->response($plugins);
 	}
 	
 	public function rest_put()
 	{
-		if( ! ACL::check('plugins.change_status'))
+		if (!ACL::check('plugins.change_status'))
 		{
 			throw HTTP_API_Exception::factory(API::ERROR_PERMISSIONS, 'You dont hanve permissions to install or uninstall plugin');
 		}
 
 		Plugins::find_all();
 
-		$plugin = Plugins::get_registered( $this->param('id', NULL, TRUE) );
+		$plugin = Plugins::get_registered($this->param('id', NULL, TRUE));
 
-		if ( ! $plugin->is_activated() AND (bool) $this->param('installed') === TRUE )
+		if (!$plugin->is_activated() AND (bool) $this->param('installed') === TRUE)
 		{
 			$plugin->activate();
 		}
 		else
 		{
-			$plugin->deactivate((bool)$this->param('remove_data'));
+			$plugin->deactivate((bool) $this->param('remove_data'));
 		}
-		
+
 		Kohana::$log->add(Log::INFO, ':user :action plugin :name', array(
 			':action' => $plugin->is_activated() ? 'activate' : 'deactivate',
 			':name' => $plugin->title()
@@ -65,11 +65,11 @@ class Controller_API_Plugins extends Controller_System_API
 	
 		foreach ($response as $repo)
 		{
-			if(strpos($repo['name'], 'plugin-') !== 0)
+			if (strpos($repo['name'], 'plugin-') !== 0)
 			{
 				continue;
 			}
-			
+
 			$replo_plugin_name = substr($repo['name'], strlen('plugin-'));
 
 			$repo_plugins[] = array(
@@ -92,7 +92,7 @@ class Controller_API_Plugins extends Controller_System_API
 		$this->response($repo_plugins);
 	}
 
-	protected function _get_info( Plugin $plugin )
+	protected function _get_info(Plugin $plugin)
 	{
 		return array(
 			'id' => $plugin->id(),

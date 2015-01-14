@@ -47,7 +47,7 @@
 					<?php echo $page->get_public_anchor(); ?>
 				</div>
 				<div class="actions col-xs-offset-4 col-xs-1 text-right">
-					<?php if ( Acl::check( 'page.add')): ?>
+					<?php if (Acl::check('page.add')): ?>
 					<?php echo UI::button(NULL, array(
 						'icon' => UI::icon('plus'), 
 						'href' => Route::get('backend')->uri(array('controller' => 'page', 'action' => 'add')),

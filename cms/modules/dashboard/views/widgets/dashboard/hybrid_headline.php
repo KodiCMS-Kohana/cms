@@ -32,7 +32,7 @@
 		</table>
 	</div>
 	<div class="panel-footer">
-		<?php if(ACL::check($section->has_access('document.create', TRUE))):?>
+		<?php if (ACL::check($section->has_access('document.create', TRUE))):?>
 		<?php echo UI::button(__('Create Document'), array(
 			'href' => Route::get('datasources')->uri(array(
 				'controller' => 'document',
@@ -44,7 +44,7 @@
 		)); ?>
 		<?php endif; ?>
 		
-		<?php if(ACL::check($section->has_access_view())):?>
+		<?php if (ACL::check($section->has_access_view())):?>
 		<?php echo UI::button(__('Goto section'), array(
 			'href' => Route::get('datasources')->uri(array(
 				'controller' => 'data',

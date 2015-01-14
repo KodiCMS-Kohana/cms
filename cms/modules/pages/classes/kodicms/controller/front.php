@@ -93,12 +93,12 @@ class KodiCMS_Controller_Front extends Controller_System_Controller
 		
 		// Если установлен статус 404, то выводим страницу 404
 		// Страницу 404 могут выкидывать также Виджеты
-		if( Request::current()->is_initial() AND $this->response->status() == 404)
+		if (Request::current()->is_initial() AND $this->response->status() == 404)
 		{
 			$message = $this->_ctx->get('throw_message');
-			
+
 			$this->_ctx = NULL;
-			
+
 			if (!$message)
 			{
 				$message = 'Page not found';

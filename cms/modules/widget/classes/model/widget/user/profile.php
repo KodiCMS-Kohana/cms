@@ -25,7 +25,9 @@ class Model_Widget_User_Profile extends Model_Widget_Decorator {
 		parent::set_values($data);
 
 		$profile_id_ctx = Arr::get($data, 'profile_id_ctx');
-		$this->profile_id_ctx = empty($profile_id_ctx) ? $this->profile_id_ctx : $profile_id_ctx;
+		$this->profile_id_ctx = empty($profile_id_ctx) 
+			? $this->profile_id_ctx 
+			: $profile_id_ctx;
 		
 		return $this;
 	}
@@ -33,20 +35,20 @@ class Model_Widget_User_Profile extends Model_Widget_Decorator {
 	public function on_page_load()
 	{
 		parent::on_page_load();
-		
+
 		$user = $this->get_user();
 
-		if( ! $user->loaded() AND $this->throw_404 === TRUE )
+		if (!$user->loaded() AND $this->throw_404 === TRUE)
 		{
 			$this->_ctx->throw_404('Profile not found');
 		}
-		
+
 		$page = $this->_ctx->get_page();
-			
+
 		$page->meta_params(array(
 			'profile_username' => $user->username
 		));
-		
+
 		$this->_ctx->set('widget_profile_id', $user->id);
 		$this->_ctx->set('widget_profile_username', $user->username);
 	}
@@ -72,7 +74,7 @@ class Model_Widget_User_Profile extends Model_Widget_Decorator {
 	 */
 	public function get_user()
 	{
-		if($this->_user instanceof ORM) 
+		if ($this->_user instanceof ORM)
 		{
 			return $this->_user;
 		}

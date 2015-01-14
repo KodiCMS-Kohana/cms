@@ -1,30 +1,30 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct script access.' );
 
-Route::set( 'archive', ADMIN_DIR_NAME . '/archive/<id>' , array(
+ Route::set('archive', ADMIN_DIR_NAME . '/archive/<id>', array(
 	'id' => '[0-9]+',
 	'controller' => 'archive',
 	'action' => 'index',
-) )
-	->defaults( array(
-		'controller' => 'archive',
-		'action' => 'index',
-	) );
+))
+->defaults(array(
+	'controller' => 'archive',
+	'action' => 'index',
+));
 
 $behaviors = array();
 foreach (Kohana::$config->load('behaviors') as $key => $behavior)
 {
-	if(isset($behavior['link']))
+	if (isset($behavior['link']))
 	{
 		$behaviors[] = $key;
 	}
 }
 
-if(empty($behaviors))
+if (empty($behaviors))
 {
 	return;
 }
 
-if(ACL::check('page.index'))
+if (ACL::check('page.index'))
 {
 	$pages = DB::select()
 		->from('pages')

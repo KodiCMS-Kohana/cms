@@ -15,18 +15,18 @@ class FileSystem_Directory extends DirectoryIterator {
 	 * @param integer $chmod
 	 * @return boolean
 	 */
-	public function create( $name, $chmod = 755 )
+	public function create($name, $chmod = 755)
 	{
 		$folder_path = $this->getPath() . DIRECTORY_SEPARATOR . $name;
-		if ( ! is_dir($folder_path) )
+		if (!is_dir($folder_path))
 		{
-			if( mkdir($folder_path) )
+			if (mkdir($folder_path))
 			{
 				chmod($folder_path, $chmod);
 				return TRUE;
 			}
 		}
-		
+
 		return FALSE;
 	}
 
@@ -35,11 +35,11 @@ class FileSystem_Directory extends DirectoryIterator {
 	 * @param boolean $preserve
 	 * @return boolean
 	 */
-	public function delete( $preserve = FALSE )
+	public function delete($preserve = FALSE)
 	{
 		$dirHandle = opendir($this->getPath());
-			
-		while (FALSE !== ($file = readdir($dirHandle))) 
+
+		while (FALSE !== ($file = readdir($dirHandle)))
 		{
 			if ($file != '.' AND $file != '..')
 			{
@@ -52,14 +52,14 @@ class FileSystem_Directory extends DirectoryIterator {
 
 		closedir($dirHandle);
 
-		if ( file_exists($this->getPath()) AND $preserve === FALSE )
+		if (file_exists($this->getPath()) AND $preserve === FALSE)
 		{
 			return rmdir($this->getPath());
 		}
-		
+
 		return FALSE;
 	}
-	
+
 	/**
 	 * 
 	 * @return boolean
@@ -76,7 +76,10 @@ class FileSystem_Directory extends DirectoryIterator {
 	public function getParent()
 	{
 		$path = $this->getPath();
-		$parent_path = (!empty($path) ? substr($path, 0, strrpos($path, DIRECTORY_SEPARATOR)): '');
+		$parent_path = !empty($path)
+			? substr($path, 0, strrpos($path, DIRECTORY_SEPARATOR)) 
+			: '';
+		
 		return FileSystem::factory($parent_path);
 	}
 }

@@ -160,7 +160,7 @@ class KodiCMS_Controller_System_Template extends Controller_System_Security
 	 * @param boolean $set_breadcrumbs
 	 * @return Controller
 	 */
-	public function set_title( $title, $set_breadcrumbs = TRUE )
+	public function set_title($title, $set_breadcrumbs = TRUE)
 	{
 		$this->template->title = $title;
 

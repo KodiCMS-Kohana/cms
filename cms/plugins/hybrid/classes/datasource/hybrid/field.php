@@ -36,11 +36,11 @@ abstract class DataSource_Hybrid_Field {
 	public static function get_empty_fields()
 	{
 		$filed_types = self::types();
-		
+
 		$fields = array();
 		foreach ($filed_types as $type => $title)
 		{
-			if(is_array($title))
+			if (is_array($title))
 			{
 				foreach ($title as $type => $title)
 				{
@@ -52,7 +52,7 @@ abstract class DataSource_Hybrid_Field {
 				$fields[$type] = DataSource_Hybrid_Field::factory($type);
 			}
 		}
-		
+
 		return $fields;
 	}
 
@@ -68,13 +68,13 @@ abstract class DataSource_Hybrid_Field {
 	public static function factory($type, array $data = NULL)
 	{
 		$class_name = 'DataSource_Hybrid_Field_' . $type;
-		
-		if(!class_exists( $class_name ))
+
+		if (!class_exists($class_name))
 		{
 			throw new Kohana_Exception('Class for field - :type not found', array(
 				':type' => $type));
 		}
-		
+
 		return new $class_name($data);
 	}
 	
@@ -950,12 +950,12 @@ abstract class DataSource_Hybrid_Field {
 	
 	public function include_media()
 	{
-		if(file_exists($this->media_path() . 'field/'. DIRECTORY_SEPARATOR . $this->media_filename() . '.css'))
+		if (file_exists($this->media_path() . 'field/' . DIRECTORY_SEPARATOR . $this->media_filename() . '.css'))
 		{
 			Assets::css('field::' . $this->media_filename(), $this->media_url() . 'field/' . $this->media_filename() . '.css');
 		}
-		
-		if(file_exists($this->media_path() . 'field/'. DIRECTORY_SEPARATOR . $this->media_filename() . '.js'))
+
+		if (file_exists($this->media_path() . 'field/' . DIRECTORY_SEPARATOR . $this->media_filename() . '.js'))
 		{
 			Assets::js('field::' . $this->media_filename(), $this->media_url() . 'field/' . $this->media_filename() . '.js', 'global');
 		}
@@ -987,9 +987,7 @@ abstract class DataSource_Hybrid_Field {
 	 */
 	public function has_access_create($user_id = NULL, $check_own = TRUE)
 	{
-		return (
-			$this->has_access('create')
-		);
+		return $this->has_access('create');
 	}
 	
 	/**

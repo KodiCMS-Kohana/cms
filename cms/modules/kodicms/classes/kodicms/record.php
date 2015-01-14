@@ -77,25 +77,25 @@ class KodiCMS_Record
 	 */
 	public function setFromData($data, $exclude = array())
     {
-        foreach($data as $key => $value)
+        foreach ($data as $key => $value)
 		{
-			if(!in_array($key, $exclude))
+			if (!in_array($key, $exclude))
 			{
 				$this->$key = $value;
 			}
-        }
-		
+		}
+
 		return $this;
-    }
+	}
 	
 	public function __get($field)
 	{
-		if(isset($this->_object_data[$field]))
+		if (isset($this->_object_data[$field]))
 		{
 			return $this->_object_data[$field];
 		}
-		
-		return Arr::get( $this->defaults(), $field );
+
+		return Arr::get($this->defaults(), $field);
 	}
 
 	public function __set( $field, $value )
@@ -131,37 +131,52 @@ class KodiCMS_Record
      */
     public function save()
     {
-        if ( ! $this->beforeSave()) return FALSE;
-
-        if( ! isset($this->{$this->_primary_key} ) )
+        if (!$this->beforeSave())
 		{
-            if ( ! $this->beforeInsert()) return FALSE;
+			return FALSE;
+		}
+
+		if (!isset($this->{$this->_primary_key}))
+		{
+			if (!$this->beforeInsert())
+			{
+				return FALSE;
+			}
 
 			$data = $this->prepare_data();
 
 			$return = static::insert(NULL, $data);
 
-            $this->{$this->_primary_key} = $return[0]; 
-             
-            if ( ! $this->afterInsert()) return FALSE;
-        }
+			$this->{$this->_primary_key} = $return[0];
+
+			if (!$this->afterInsert())
+			{
+				return FALSE;
+			}
+		}
 		else
 		{
-            if ( ! $this->beforeUpdate()) return FALSE;
-            
+			if (!$this->beforeUpdate())
+			{
+				return FALSE;
+			}
+
 			$data = $this->prepare_data(array($this->_primary_key));
 
 			static::update(NULL, $data, array(
 				'where' => array(array($this->_primary_key, '=', $this->{$this->_primary_key}))));
-			
+
 			$return = TRUE;
-            
-            if( ! $this->afterUpdate() ) return FALSE;
-        }
-        
-        // Run it !!...
-        return $return;
-    }
+
+			if (!$this->afterUpdate())
+			{
+				return FALSE;
+			}
+		}
+
+		// Run it !!...
+		return $return;
+	}
 	
 	/**
 	 * 
@@ -173,23 +188,23 @@ class KodiCMS_Record
 		$data = array();
 		$columns = $this->_table_fields;
 		$defaults = $this->defaults();
-            
+
 		// Escape and format for SQL insert query
 		foreach ($columns as $column => $column_data)
 		{
-			if (!in_array( $column, $exclude ))
+			if (!in_array($column, $exclude))
 			{
-				if(isset($this->$column) )
+				if (isset($this->$column))
 				{
 					$data[$column] = $this->$column;
 				}
-				else if(Arr::get( $defaults, $column ))
+				else if (Arr::get($defaults, $column))
 				{
-					$data[$column] = Arr::get( $defaults, $column );
+					$data[$column] = Arr::get($defaults, $column);
 				}
 			}
 		}
-		
+
 		return $data;
 	}
 
@@ -202,20 +217,21 @@ class KodiCMS_Record
      */
     public function delete()
     {
-        if ( ! $this->beforeDelete()) return FALSE;
-		
+        if (!$this->beforeDelete())
+			return FALSE;
+
 		$return = DB::delete(static::tableName())
-			->where($this->_primary_key, '=', $this->{$this->_primary_key} )
+			->where($this->_primary_key, '=', $this->{$this->_primary_key})
 			->execute();
 
-        if ( ! $this->afterDelete()) 
+		if (!$this->afterDelete())
 		{
-            $this->save();
-            return FALSE;
-        }
+			$this->save();
+			return FALSE;
+		}
 
-        return $return;
-    }
+		return $return;
+	}
 	
 	/**
 	 * Filters a value for a specific column
@@ -226,11 +242,11 @@ class KodiCMS_Record
 	 */
 	protected function run_filter($field, $value)
 	{
-		if(Kohana::$profiling === TRUE)
+		if (Kohana::$profiling === TRUE)
 		{
 			$benchmark = Profiler::start('Record filter field', $field);
 		}
-		
+
 		$filters = $this->filters();
 
 		// Get the filters for this column
@@ -241,7 +257,7 @@ class KodiCMS_Record
 
 		// Bind the field name and model so they can be used in the filter method
 		$_bound = array
-		(
+			(
 			':field' => $field,
 			':model' => $this,
 		);
@@ -254,7 +270,7 @@ class KodiCMS_Record
 
 			// Filters are defined as array($filter, $params)
 			$filter = $array[0];
-			
+
 			$params = Arr::get($array, 1, array(':value'));
 
 			foreach ($params as $key => $param)
@@ -291,8 +307,8 @@ class KodiCMS_Record
 				$value = $method->invokeArgs(NULL, $params);
 			}
 		}
-		
-		if(isset($benchmark))
+
+		if (isset($benchmark))
 		{
 			Profiler::stop($benchmark);
 		}
@@ -326,20 +342,20 @@ class KodiCMS_Record
      */
     public function getColumns()
     {
-		if(Kohana::$caching === TRUE)
+		if (Kohana::$caching === TRUE)
 		{
 			$cache = Cache::instance();
-			if ( ($result = $cache->get( 'table_columns_' . static::tableName() )) !== NULL )
+			if (($result = $cache->get('table_columns_' . static::tableName())) !== NULL)
 			{
 				return $result;
 			}
 
-			$cache->set( 'table_columns_' . static::tableName(), Database::instance()->list_columns( static::tableName() ) );
+			$cache->set('table_columns_' . static::tableName(), Database::instance()->list_columns(static::tableName()));
 		}
 
 		// Proxy to database
-		return Database::instance()->list_columns( static::tableName() );
-    }
+		return Database::instance()->list_columns(static::tableName());
+	}
 
 	/**
 	 * 
@@ -348,25 +364,25 @@ class KodiCMS_Record
 	 */
 	final public static function tableName($class_name = NULL)
     {
-		if($class_name === NULL)
+		if ($class_name === NULL)
 		{
 			$class_name = get_called_class();
 		}
 
-        try
-        {
-            if (class_exists($class_name) AND defined($class_name.'::TABLE_NAME'))
+		try
+		{
+			if (class_exists($class_name) AND defined($class_name . '::TABLE_NAME'))
 			{
-                return constant($class_name.'::TABLE_NAME');
+				return constant($class_name . '::TABLE_NAME');
 			}
-			
+
 			return Inflector::underscore($class_name);
-        }
-        catch (Exception $e)
-        {
+		}
+		catch (Exception $e)
+		{
 			return Inflector::underscore($class_name);
-        }
-    }
+		}
+	}
 	
 	/**
 	 * 
@@ -386,25 +402,25 @@ class KodiCMS_Record
     public static function insert($class_name, $data)
     {
         return DB::insert(static::tableName($class_name))
-			->columns( array_keys( $data ) )
-			->values( array_values( $data ) )
+			->columns(array_keys($data))
+			->values(array_values($data))
 			->execute();
-    }
+	}
     
     public static function update($class_name, $data, $clause = array(), $values = array())
-    {
+	{
 		$sql = DB::update(static::tableName($class_name))
 			->set($data);
-		
+
 		$sql = static::_conditions($sql, $clause);
 
-        return $sql
+		return $sql
 			->parameters($values)
 			->execute();
-    }
-    
-    public static function deleteWhere($class_name, array $clause, $values = array())
-    {
+	}
+
+	public static function deleteWhere($class_name, array $clause, $values = array())
+	{
 		$sql = DB::delete()
 			->table(static::tableName($class_name));
 
@@ -413,8 +429,8 @@ class KodiCMS_Record
 		return $sql
 			->parameters($values)
 			->execute();
-    }
-    
+	}
+
 	public static function findByIdFrom($class_name, $id)
 	{
 		return static::findOneFrom($class_name, array(
@@ -426,11 +442,11 @@ class KodiCMS_Record
 	{
 		$sql = DB::select('*')
 			->from(static::tableName($class_name));
-		
+
 		$sql = static::_conditions($sql, $clause);
 
 		return $sql
-			->parameters( $values )
+			->parameters($values)
 			->as_object($class_name)
 			->execute()
 			->current();
@@ -444,25 +460,25 @@ class KodiCMS_Record
 		$sql = static::_conditions($sql, $clause);
 
 		return $sql
-			->parameters( $values )
-			->as_object( $class_name )
+			->parameters($values)
+			->as_object($class_name)
 			->execute()
 			->as_array();
 	}
 
 	public static function countFrom($class_name, $clause = array(), $values = array())
 	{
-		$sql = DB::select(array(DB::expr( 'COUNT(*)' ), 'nb_rows'))
+		$sql = DB::select(array(DB::expr('COUNT(*)'), 'nb_rows'))
 			->from(static::tableName($class_name));
-		
+
 		$sql = static::_conditions($sql, $clause);
 
 		return (int) $sql
-			->parameters( $values )
+			->parameters($values)
 			->execute()
 			->get('nb_rows', 0);
 	}
-	
+
 	/**
 	 * 
 	 * @param Database_Query $db
@@ -475,25 +491,25 @@ class KodiCMS_Record
 		{
 			switch ($type)
 			{
-				case 'select': 
+				case 'select':
 					foreach ($params as $param)
 					{
 						$db->select($param);
 					}
 					break;
-				case 'where': 
+				case 'where':
 					foreach ($params as $param)
 					{
 						$db->where($param[0], $param[1], $param[2]);
 					}
 					break;
-				case 'or_where': 
+				case 'or_where':
 					foreach ($params as $param)
 					{
 						$db->or_where($param[0], $param[1], $param[2]);
 					}
 					break;
-				case 'order_by': 
+				case 'order_by':
 					foreach ($params as $param)
 					{
 						$db->order_by($param[0], $param[1]);
@@ -502,21 +518,53 @@ class KodiCMS_Record
 				case 'limit':
 					$db->limit((int) $params);
 					break;
-				case 'offset': 
+				case 'offset':
 					$db->offset((int) $params);
 					break;
 			}
 		}
-		
+
 		return $db;
 	}
 
-	public function beforeSave() { return TRUE; }
-    public function beforeInsert() { return TRUE; }
-    public function beforeUpdate() { return TRUE; }
-    public function beforeDelete() { return TRUE; }
-    public function afterSave() { return TRUE; }
-    public function afterInsert() { return TRUE; }
-    public function afterUpdate() { return TRUE; }
-    public function afterDelete() { return TRUE; }
+	public function beforeSave()
+	{
+		return TRUE;
+	}
+
+	public function beforeInsert()
+	{
+		return TRUE;
+	}
+
+	public function beforeUpdate()
+	{
+		return TRUE;
+	}
+
+	public function beforeDelete()
+	{
+		return TRUE;
+	}
+
+	public function afterSave()
+	{
+		return TRUE;
+	}
+
+	public function afterInsert()
+	{
+		return TRUE;
+	}
+
+	public function afterUpdate()
+	{
+		return TRUE;
+	}
+
+	public function afterDelete()
+	{
+		return TRUE;
+	}
+
 }

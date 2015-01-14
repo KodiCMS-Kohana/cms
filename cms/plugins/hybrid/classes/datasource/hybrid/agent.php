@@ -390,11 +390,11 @@ class DataSource_Hybrid_Agent {
 
 			$field = $data['field'];
 	
-			if(!empty($data['params']))
+			if (!empty($data['params']))
 			{
 				parse_str($data['params'], $params);
 			}
-			
+
 			$condition = $data['condition'];
 			$type = $data['type'];
 			$invert = !empty($data['invert']);

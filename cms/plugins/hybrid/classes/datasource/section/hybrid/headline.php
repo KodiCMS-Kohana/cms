@@ -19,25 +19,25 @@ class Datasource_Section_Hybrid_Headline extends Datasource_Section_Headline {
 
 	public function fields()
 	{
-		if($this->_fields !== NULL)
+		if ($this->_fields !== NULL)
 		{
 			return $this->_fields;
 		}
 
 		$this->_fields = parent::fields();
-		
+
 		$fields = DataSource_Hybrid_Field_Factory::get_section_fields($this->_section->id());
-		
-		foreach($fields as $key => $field)
+
+		foreach ($fields as $key => $field)
 		{
 			$this->_fields[$field->name] = array(
-				'name' =>  $field->header,
+				'name' => $field->header,
 				'visible' => (bool) $field->in_headline,
 				'db_name' => 'ds.' . $field->name,
 				'searchable' => $field->is_searchable()
 			);
 		}
-		
+
 		$this->_fields['created_on'] = array(
 			'name' => 'Date of creation',
 			'width' => 150,
@@ -56,9 +56,9 @@ class Datasource_Section_Hybrid_Headline extends Datasource_Section_Headline {
 	public function searchable_fields()
 	{
 		$fields = array_filter($this->fields(), function($field) {
-			return (isset($field['visible']) AND $field['visible'] !== FALSE) AND (!isset($field['searchable']) OR (isset($field['searchable']) AND $field['searchable'] !== FALSE));
+			return (isset($field['visible']) AND $field['visible'] !== FALSE) AND ( !isset($field['searchable']) OR ( isset($field['searchable']) AND $field['searchable'] !== FALSE));
 		});
-		
+
 		return array_map(function($field) {
 			return $field['name'];
 		}, $fields);
@@ -76,14 +76,14 @@ class Datasource_Section_Hybrid_Headline extends Datasource_Section_Headline {
 
 		foreach ($section_fields as $key => $field)
 		{
-			if((bool) $field->in_headline === FALSE)
+			if ((bool) $field->in_headline === FALSE)
 			{
 				continue;
 			}
 
 			$fields[$field->id] = $field;
 		}
-		
+
 		return $fields;
 	}
 
@@ -224,16 +224,11 @@ class Datasource_Section_Hybrid_Headline extends Datasource_Section_Headline {
 		
 		foreach ($this->fields() as $field)
 		{
-			if(Arr::get($field, 'searchable') === FALSE)
+			if (Arr::get($field, 'searchable') === FALSE OR Arr::get($field, 'db_name') === NULL)
 			{
 				continue;
 			}
-			
-			if(Arr::get($field, 'db_name') === NULL)
-			{
-				continue;
-			}
-			
+
 			$query->or_where(Arr::get($field, 'db_name'), 'like', '%' . $keyword . '%');
 		}
 

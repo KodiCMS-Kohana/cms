@@ -56,8 +56,8 @@ class Controller_Api_Datasource_Hybrid_Field extends Controller_System_API
 	public function post_index_type()
 	{
 		$field = $this->_get_field();
-		
-		if($field->is_indexable() OR $field->index_type !== NULL)
+
+		if ($field->is_indexable() OR $field->index_type !== NULL)
 		{
 			$old_field = clone($field);
 			$field->set_index();
@@ -76,7 +76,7 @@ class Controller_Api_Datasource_Hybrid_Field extends Controller_System_API
 	{
 		$field = $this->_get_field();
 
-		if($field->is_indexable() OR $field->index_type === NULL)
+		if ($field->is_indexable() OR $field->index_type === NULL)
 		{
 			$old_field = clone($field);
 			$field->set_index(NULL);
@@ -94,14 +94,14 @@ class Controller_Api_Datasource_Hybrid_Field extends Controller_System_API
 	protected function _get_field()
 	{
 		$field_id = $this->param('id', NULL, TRUE);
-		
+
 		$field = DataSource_Hybrid_Field_Factory::get_field($field_id);
-		
-		if($field === NULL)
+
+		if ($field === NULL)
 		{
 			throw HTTP_API_Exception::factory(API::ERROR_UNKNOWN, 'Field not found!');
 		}
-		
+
 		return $field;
 	}
 }

@@ -35,7 +35,7 @@
 		</div>
 	</div>
 
-	<?php if($widget->use_template()): ?>
+	<?php if ($widget->use_template()): ?>
 	<div class="panel-heading">
 		<span class="panel-title" data-icon="hdd-o"><?php echo __('Widget template'); ?></span>
 	</div>
@@ -67,7 +67,7 @@
 	
 	<?php endif; ?>
 
-	<?php if($widget->use_caching() AND ACL::check('widgets.cache')): ?>
+	<?php if ($widget->use_caching() AND ACL::check('widgets.cache')): ?>
 	<div class="panel-heading">
 		<span class="panel-title" data-icon="hdd-o"><?php echo __('Caching'); ?></span>
 	</div>
@@ -127,7 +127,7 @@
 	</div>
 	<?php endif; ?>
 	
-	<?php if($widget->use_template()): ?>
+	<?php if ($widget->use_template()): ?>
 	<div class="panel-heading panel-toggler" data-target-spoiler=".media-spoiler" data-hash="media">
 		<span class="panel-title" data-icon="file-o"><?php echo __('Widget media'); ?></h4>
 	</div>
@@ -151,7 +151,7 @@
 	<div class="panel-heading">
 		<span class="panel-title" data-icon="cogs"><?php echo __('Widget parameters'); ?></span>
 	</div>
-	<?php if($widget->use_template()): ?>
+	<?php if ($widget->use_template()): ?>
 	<div class="panel-body">
 		<div class="form-group">
 			<label class="control-label col-xs-3"><?php echo __('Header'); ?></label>
@@ -165,7 +165,7 @@
 	<?php endif; ?>
 
 	<?php echo $content; ?>
-	<?php if($widget->is_handler()): ?>
+	<?php if ($widget->is_handler()): ?>
 	<div class="alert alert-danger note-dark no-margin-b">
 		<?php echo __('To use handler send your data to URL :href or use route :route', array(
 			':href' => '<code>' . URL::site($widget->link(), TRUE) . '</code>',
@@ -173,7 +173,7 @@
 		)); ?>
 	</div>
 	<?php endif; ?>
-	<?php if( ACL::check('widgets.location') ): ?>
+	<?php if (ACL::check('widgets.location')): ?>
 	<hr class="no-margin-vr" />
 	<div class="panel-body">
 		<?php echo HTML::anchor(Route::get('backend')->uri(array(

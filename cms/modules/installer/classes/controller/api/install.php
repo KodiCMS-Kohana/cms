@@ -54,9 +54,9 @@ class Controller_API_Install extends Controller_System_Api {
 
 	public function execute()
 	{		
-		if($this->request->action() == 'index' OR $this->request->action() == '')
+		if ($this->request->action() == 'index' OR $this->request->action() == '')
 		{
-			$action = 'rest_'.$this->request->method();
+			$action = 'rest_' . $this->request->method();
 		}
 		else
 		{
@@ -72,7 +72,7 @@ class Controller_API_Install extends Controller_System_Api {
 			$this->before();
 
 			// If the action doesn't exist, it's a 404
-			if ( ! method_exists($this, $action))
+			if (!method_exists($this, $action))
 			{
 				throw HTTP_API_Exception::factory(API::ERROR_PAGE_NOT_FOUND,
 					'The requested method ":method" was not found on this server.',

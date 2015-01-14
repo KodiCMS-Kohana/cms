@@ -29,7 +29,7 @@ class DataSource_Hybrid_Field_Primitive_Text extends DataSource_Hybrid_Field_Pri
 	{				
 		$this->rows = (int) $rows;
 		
-		if( $this->rows < 1 )
+		if ($this->rows < 1)
 		{
 			$this->rows = 1;
 		}
@@ -37,13 +37,13 @@ class DataSource_Hybrid_Field_Primitive_Text extends DataSource_Hybrid_Field_Pri
 	
 	public function onUpdateDocument(DataSource_Hybrid_Document $old = NULL, DataSource_Hybrid_Document $new) 
 	{
-		if( $this->allow_html === FALSE )
+		if ($this->allow_html === FALSE)
 		{
-			$new->set($this->name, strip_tags( $new->get($this->name)));
+			$new->set($this->name, strip_tags($new->get($this->name)));
 		}
-		else if( $this->filter_html === TRUE )
+		else if ($this->filter_html === TRUE)
 		{
-			$new->set($this->name, Kses::filter( $new->get($this->name), $this->allowed_tags ));
+			$new->set($this->name, Kses::filter($new->get($this->name), $this->allowed_tags));
 		}
 	}
 	
@@ -52,10 +52,14 @@ class DataSource_Hybrid_Field_Primitive_Text extends DataSource_Hybrid_Field_Pri
 		return 'TEXT NOT NULL';
 	}
 	
-	public function fetch_headline_value( $value, $document_id )
+	public function fetch_headline_value($value, $document_id)
 	{
-		if(empty($value)) return '';
+		if (empty($value))
+		{
+			return '';
+		}
 
 		return substr(strip_tags($value), 0, 500) . ' ...';
 	}
+
 }

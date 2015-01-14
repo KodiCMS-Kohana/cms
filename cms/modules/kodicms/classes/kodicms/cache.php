@@ -10,6 +10,16 @@
  */
 abstract class KodiCMS_Cache extends Kohana_Cache {
 	
+	public static function drivers()
+	{
+		return array(
+			'file' => __('File cache'), 
+			'apc' => __('APC cache'), 
+			'sqlite' => __('SQLite cache'), 
+			'memcachetag' => __('Memcache')
+		);
+	}
+
 	public static function clear_all()
 	{
 		Cache::instance()->delete_all();

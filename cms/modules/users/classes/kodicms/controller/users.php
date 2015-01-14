@@ -16,7 +16,7 @@ class KodiCMS_Controller_Users extends Controller_System_Backend {
 
 	public function before()
 	{
-		if(in_array($this->request->action(), array('edit')) AND Auth::get_id() == $this->request->param('id'))
+		if (in_array($this->request->action(), array('edit')) AND Auth::get_id() == $this->request->param('id'))
 		{
 			$this->allowed_actions[] = $this->request->action();
 		}
@@ -49,11 +49,11 @@ class KodiCMS_Controller_Users extends Controller_System_Backend {
 			->values($data);
 		
 		// check if trying to save
-		if ( Request::current()->method() == Request::POST )
+		if (Request::current()->method() == Request::POST)
 		{
 			return $this->_add($user);
 		}
-		
+
 		$this->set_title(__('Add user'));
 
 		$this->template->content = View::factory('users/edit', array(
@@ -70,11 +70,11 @@ class KodiCMS_Controller_Users extends Controller_System_Backend {
 		$user_roles = $this->request->post('user_roles');
 		$this->auto_render = FALSE;
 		
-		if( empty($data['notice'] ))
+		if (empty($data['notice']))
 		{
 			$data['notice'] = 0;
 		}
-		
+
 		Flash::set('users::add::data', $data );
 
 		try 
@@ -83,7 +83,7 @@ class KodiCMS_Controller_Users extends Controller_System_Backend {
 				'password', 'username', 'email', 
 			));
 			
-			if( ! empty($user_roles))
+			if (!empty($user_roles))
 			{
 				$user->update_related_ids('roles', explode(',', $user_roles));
 			}
@@ -102,7 +102,7 @@ class KodiCMS_Controller_Users extends Controller_System_Backend {
 			$this->go_back();
 		}
 
-		if ( $this->request->post('commit') !== NULL )
+		if ($this->request->post('commit') !== NULL)
 		{
 			$this->go();
 		}
@@ -118,20 +118,20 @@ class KodiCMS_Controller_Users extends Controller_System_Backend {
 	public function action_profile()
 	{
 		$id = $this->request->param('id');
-		
-		if(empty($id) AND Auth::is_logged_in())
+
+		if (empty($id) AND Auth::is_logged_in())
 		{
 			$id = Auth::get_id();
 		}
-		
+
 		$user = ORM::factory('user', $id);
 		
-		if( ! $user->loaded() )
+		if (!$user->loaded())
 		{
 			Messages::errors(__('User not found!'));
 			$this->go();
 		}
-		
+
 		$this->template->title = __(':user profile', array(':user' => $user->username));
 		$this->breadcrumbs
 			->add($this->template->title);
@@ -145,24 +145,24 @@ class KodiCMS_Controller_Users extends Controller_System_Backend {
 	}
 
 
-	public function action_edit( )
+	public function action_edit()
 	{
 		$id = $this->request->param('id');
 		
 		$user = ORM::factory('user', $id);
 		
-		if( ! $user->loaded() )
+		if (!$user->loaded())
 		{
 			Messages::errors(__('User not found!'));
 			$this->go('user');
 		}
-		
+
 		$this->_save_referer('account/login');
 
 		// check if trying to save
-		if ( Request::current()->method() == Request::POST )
+		if (Request::current()->method() == Request::POST)
 		{
-			return $this->_edit( $user );
+			return $this->_edit($user);
 		}
 
 		$this->template->title = __('Edit user');
@@ -179,29 +179,28 @@ class KodiCMS_Controller_Users extends Controller_System_Backend {
 		$this->template->content = View::factory('users/edit', array(
 			'action' => 'edit',
 			'user' => $user
-		) );
+		));
 	}
 
-	private function _edit( $user )
+	private function _edit($user)
 	{
 		$data = $this->request->post('user');
 		$profile = $this->request->post('profile');
 		$this->auto_render = FALSE;
 
-		if( ACL::check('users.change_password') OR $user->id == Auth::get_id() )
+		if (ACL::check('users.change_password') OR $user->id == Auth::get_id())
 		{
-			if ( strlen( $data['password'] ) == 0 )
+			if (strlen($data['password']) == 0)
 			{
-				unset( $data['password'], $data['password_confirm'] );
+				unset($data['password'], $data['password_confirm']);
 			}
 		}
 		else
 		{
-			unset( $data['password'] );
+			unset($data['password']);
 		}
-		
 
-		if( empty($profile['notice']))
+		if (empty($profile['notice']))
 		{
 			$profile['notice'] = 0;
 		}
@@ -215,28 +214,28 @@ class KodiCMS_Controller_Users extends Controller_System_Backend {
 					->values($profile)
 					->save();
 
-				if ( Acl::check('users.change_roles') AND $user->id > 1 )
+				if (Acl::check('users.change_roles') AND $user->id > 1)
 				{
 					// now we need to add permissions
 					$user_roles = $this->request->post('user_roles');
 
-					if( ! empty($user_roles))
+					if (!empty($user_roles))
 					{
 						$user->update_related_ids('roles', explode(',', $user_roles));
 					}
 				}
 
-				Messages::success( __( 'User has been saved!' ) );
+				Messages::success(__('User has been saved!'));
 			}
 		}
 		catch (ORM_Validation_Exception $e)
 		{
-			Messages::errors( $e->errors('validation') );
+			Messages::errors($e->errors('validation'));
 			$this->go_back();
 		}
 
 		// save and quit or save and continue editing?
-		if ( $this->request->post('commit') !== NULL )
+		if ($this->request->post('commit') !== NULL)
 		{
 			$this->go();
 		}
@@ -249,7 +248,7 @@ class KodiCMS_Controller_Users extends Controller_System_Backend {
 		}
 	}
 
-	public function action_delete( )
+	public function action_delete()
 	{
 		$this->auto_render = FALSE;
 		$id = $this->request->param('id');
@@ -257,19 +256,19 @@ class KodiCMS_Controller_Users extends Controller_System_Backend {
 		// find the user to delete
 		$user = ORM::factory('user', $id);
 
-		if( ! $user->loaded() )
+		if (!$user->loaded())
 		{
-			Messages::errors( __('User not found!') );
+			Messages::errors(__('User not found!'));
 			$this->go();
 		}
 
-		if ( $user->delete() )
+		if ($user->delete())
 		{
-			Messages::success( __( 'User has been deleted!' ) );
+			Messages::success(__('User has been deleted!'));
 		}
 		else
 		{
-			Messages::errors( __( 'Something went wrong!' ) );
+			Messages::errors(__('Something went wrong!'));
 		}
 
 		$this->go();

@@ -28,7 +28,8 @@ class KodiCMS_Messages {
 	public static function types()
 	{
 		return array(
-			Messages::SUCCESS, Messages::ERRORS
+			Messages::SUCCESS, 
+			Messages::ERRORS
 		);
 	}
 
@@ -37,22 +38,22 @@ class KodiCMS_Messages {
 	 * @param string $type
 	 * @return array
 	 */
-	public static function get( $type = NULL )
+	public static function get($type = NULL)
 	{
 		$session = Session::instance();
-		if ( $type === NULL )
+		if ($type === NULL)
 		{
 			$array = array();
 
 			foreach (self::types() as $i => $type)
 			{
-				$array[$type] = $session->get_once( self::$session_key.'::'.$type, array() );
+				$array[$type] = $session->get_once(self::$session_key . '::' . $type, array());
 			}
 
 			return $array;
 		}
 
-		return $session->get_once( self::$session_key.'::'.$type, array() );
+		return $session->get_once(self::$session_key . '::' . $type, array());
 	}
 
 	/**
@@ -61,25 +62,25 @@ class KodiCMS_Messages {
 	 * @param mixed $data
 	 * @param array $values
 	 */
-	public static function set( $type = Messages::SUCCESS, $data = NULL, $values = NULL )
+	public static function set($type = Messages::SUCCESS, $data = NULL, $values = NULL)
 	{
-		if ( !is_array( $data ) )
+		if (!is_array($data))
 		{
 			$data = array($data);
 		}
 
-		foreach ( $data as $index => $string )
+		foreach ($data as $index => $string)
 		{
-			$data[$index] = empty( $values ) ? $string : strtr( $string, $values );
+			$data[$index] = empty($values) ? $string : strtr($string, $values);
 		}
 
 
 		self::$_data[$type] = !empty(self::$_data[$type]) 
-			? Arr::merge( self::$_data[$type], $data )
+			? Arr::merge(self::$_data[$type], $data) 
 			: $data;
 
 		Session::instance()
-			->set( self::$session_key.'::'.$type, self::$_data[$type] );
+			->set(self::$session_key . '::' . $type, self::$_data[$type]);
 	}
 
 	/**
@@ -88,14 +89,14 @@ class KodiCMS_Messages {
 	 * @param array $values
 	 * @return void
 	 */
-	public static function errors( $data = NULL, $values = NULL )
+	public static function errors($data = NULL, $values = NULL)
 	{
-		if ( $data === NULL )
+		if ($data === NULL)
 		{
-			return self::get( Messages::ERRORS );
+			return self::get(Messages::ERRORS);
 		}
 
-		return Messages::set( Messages::ERRORS, $data, $values );
+		return Messages::set(Messages::ERRORS, $data, $values);
 	}
 
 	/**
@@ -104,20 +105,25 @@ class KodiCMS_Messages {
 	 * @param array $values
 	 * @return void
 	 */
-	public static function success( $data = NULL, $values = NULL )
+	public static function success($data = NULL, $values = NULL)
 	{
-		if ( $data === NULL )
+		if ($data === NULL)
 		{
-			return self::get( Messages::SUCCESS );
+			return self::get(Messages::SUCCESS);
 		}
 
-		return Messages::set( Messages::SUCCESS, $data, $values );
+		return Messages::set(Messages::SUCCESS, $data, $values);
 	}
-	
+
+	/**
+	 * 
+	 * @param Validation $validation
+	 * @param string $file
+	 * @return array
+	 */
 	public static function validation(Validation $validation, $file = 'validation')
 	{
 		$errors = $validation->errors($file);
 		return Messages::errors($errors);
 	}
-
 }

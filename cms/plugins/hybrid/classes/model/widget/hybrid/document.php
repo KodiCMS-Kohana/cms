@@ -66,7 +66,9 @@ class Model_Widget_Hybrid_Document extends Model_Widget_Decorator {
 		$this->doc_id_field = Arr::get($data, 'doc_id_field', $this->doc_id_field);
 
 		$doc_id_ctx = Arr::get($data, 'doc_id_ctx');
-		$this->doc_id_ctx = empty($doc_id_ctx) ? $this->doc_id_ctx : $doc_id_ctx;
+		$this->doc_id_ctx = empty($doc_id_ctx) 
+			? $this->doc_id_ctx 
+			: $doc_id_ctx;
 		
 		$this->throw_404 = (bool) Arr::get($data, 'throw_404');
 		$this->crumbs = (bool) Arr::get($data, 'crumbs');
@@ -97,7 +99,7 @@ class Model_Widget_Hybrid_Document extends Model_Widget_Decorator {
 
 		return $this;
 	}
-	
+
 	public function get_doc_ids()
 	{
 		$data = array('ID');

@@ -1,4 +1,4 @@
-<?php if(!empty($header)): ?>
+<?php if (!empty($header)): ?>
 <h3><?php echo $header; ?></h3>
 <?php endif; ?>
 

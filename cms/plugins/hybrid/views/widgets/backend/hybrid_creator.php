@@ -2,7 +2,7 @@
 	'widget' => $widget
 )); ?>
 
-<?php if( ! $widget->ds_id ): ?>
+<?php if (!$widget->ds_id): ?>
 <div class="alert alert-warning alert-dark">
 	<?php echo UI::icon('lightbulb-o fa-lg'); ?> <?php echo __('You need select hybrid section'); ?>
 </div>

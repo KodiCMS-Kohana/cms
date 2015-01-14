@@ -41,8 +41,10 @@ class Model_Job_log extends ORM {
 	 */
 	public function set_status($status)
 	{
-		if( ! $this->loaded() )
+		if (!$this->loaded())
+		{
 			throw new Kohana_Exception('Cannot set status because it is not loaded.');
+		}
 
 		$this->job->set_status($status);
 		$this->status = $status;
@@ -84,11 +86,11 @@ class Model_Job_log extends ORM {
 	 */
 	public function run( Model_Job $job )
 	{
-		if(Kohana::$profiling === TRUE)
+		if (Kohana::$profiling === TRUE)
 		{
 			$benchmark = Profiler::start('Rub job', $job->name);
 		}
-			
+
 		$this->values(array(
 			'job_id' => $job->id
 		))->create();
@@ -130,7 +132,7 @@ class Model_Job_log extends ORM {
 		
 		$this->complete();
 			
-		if(isset($benchmark))
+		if (isset($benchmark))
 		{
 			Profiler::stop($benchmark);
 		}

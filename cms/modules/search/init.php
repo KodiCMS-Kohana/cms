@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-if(IS_INSTALLED AND ACL::check('system.search.settings'))
+ if (IS_INSTALLED AND ACL::check('system.search.settings'))
 {
 	Observer::observe('view_setting_plugins', function() {
 		echo View::factory('search/settings');

@@ -27,7 +27,7 @@ class HTTP_Exception_Front_404 extends Kohana_HTTP_Exception_404
 				->status(404);
 		}
 			
-		if(($page = Model_Page_Front::findByField('behavior_id', 'page_not_found')) !== FALSE)
+		if (($page = Model_Page_Front::findByField('behavior_id', 'page_not_found')) !== FALSE)
 		{
 			return Request::factory($page->url)
 				->query('message', $this->message)

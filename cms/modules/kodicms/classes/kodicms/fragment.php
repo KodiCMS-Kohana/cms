@@ -20,7 +20,7 @@ class KodiCMS_Fragment extends Kohana_Fragment {
 	{
 		return Cache::instance()->get(self::_cache_key($name, $i18n)) !== NULL;
 	}
-	
+
 	/**
 	 * 
 	 * @param   string  $name       fragment name
@@ -32,13 +32,16 @@ class KodiCMS_Fragment extends Kohana_Fragment {
 	{
 		// Set the cache lifetime
 		$lifetime = ($lifetime === NULL) ? Fragment::$lifetime : (int) $lifetime;
-		
+
 		// Get the cache key name
 		$cache_key = Fragment::_cache_key($name, $i18n);
-		
+
 		// If cache lifetime < 0 then clear
-		if( $lifetime < 0 ) Fragment::delete( $name, $i18n );
-		
+		if ($lifetime < 0)
+		{
+			Fragment::delete($name, $i18n);
+		}
+
 		return Cache::instance()->get($cache_key);
 	}
 

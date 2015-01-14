@@ -33,7 +33,7 @@
 			<?php foreach ($jobs as $job): ?>
 				<tr class="item">
 					<td class="job-name">
-						<?php if ( Acl::check('jobs.edit')): ?>
+						<?php if (Acl::check('jobs.edit')): ?>
 						<?php echo HTML::anchor(Route::get('backend')->uri(array(
 							'controller' => 'jobs',
 							'action' => 'edit',
@@ -56,7 +56,7 @@
 						<?php echo Date::format($job->date_next_run, 'j/m/Y H:i:s'); ?>
 					</td>
 					<td class="actions text-right">
-						<?php if ( Acl::check('jobs.delete')): ?>
+						<?php if (Acl::check('jobs.delete')): ?>
 						<?php echo UI::button(NULL, array(
 							'href' => Route::get('backend')->uri(array(
 								'controller' => 'jobs',

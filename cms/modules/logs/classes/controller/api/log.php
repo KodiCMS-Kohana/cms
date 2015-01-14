@@ -69,21 +69,21 @@ class Controller_API_Log extends Controller_System_Api {
 			->limit($limit)
 			->order_by('created_on', 'asc');
 		
-		if(!empty($from) AND !empty($to))
+		if (!empty($from) AND ! empty($to))
 		{
 			$list->where(DB::expr('DATE(created_on)'), 'between', array($from, $to));
 		}
-		
-		if(!empty($uids))
+
+		if (!empty($uids))
 		{
 			$list->where('user_id', 'in', $uids);
 		}
-		
-		if(!empty($level))
+
+		if (!empty($level))
 		{
 			$list->where('level', 'in', $level);
 		}
-		
+
 		$list
 			->cached(DATE::HOUR)
 			->cache_tags(array(Model_Log::CACHE_TAG));

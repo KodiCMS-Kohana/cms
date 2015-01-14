@@ -1,16 +1,16 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
-if( ! defined('DB_TYPE') ) define('DB_TYPE', 'mysql');
-if( ! defined('DB_SERVER') ) define('DB_SERVER', '');
-if( ! defined('DB_PORT') ) define('DB_PORT', '');
-if( ! defined('DB_NAME') ) define('DB_NAME', '');
-if( ! defined('DB_USER') ) define('DB_USER', '');
-if( ! defined('DB_PASS') ) define('DB_PASS', '');
-if( ! defined('TABLE_PREFIX') ) define('TABLE_PREFIX', '');
-if( ! defined('ADMIN_DIR_NAME') ) define('ADMIN_DIR_NAME', '');
-if( ! defined('PUBLIC_URL') ) define('PUBLIC_URL', BASE_URL . 'public/');
-if( ! defined('PLUGINS_URL') ) define('PLUGINS_URL', BASE_URL . 'cms/plugins/');
-if( ! defined('IS_BACKEND') ) define('IS_BACKEND', FALSE);
+if (!defined('DB_TYPE'))		define('DB_TYPE', 'mysql');
+if (!defined('DB_SERVER'))		define('DB_SERVER', '');
+if (!defined('DB_PORT'))		define('DB_PORT', '');
+if (!defined('DB_NAME'))		define('DB_NAME', '');
+if (!defined('DB_USER'))		define('DB_USER', '');
+if (!defined('DB_PASS'))		define('DB_PASS', '');
+if (!defined('TABLE_PREFIX'))	define('TABLE_PREFIX', '');
+if (!defined('ADMIN_DIR_NAME')) define('ADMIN_DIR_NAME', '');
+if (!defined('PUBLIC_URL'))		define('PUBLIC_URL', BASE_URL . 'public/');
+if (!defined('PLUGINS_URL'))	define('PLUGINS_URL', BASE_URL . 'cms/plugins/');
+if (!defined('IS_BACKEND'))		define('IS_BACKEND', FALSE);
 
 /**
  * Set the default cookie salt

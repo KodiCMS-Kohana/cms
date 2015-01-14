@@ -10,7 +10,7 @@
  */
 class Sidebar_Fields_Token extends Sidebar_Fields_Hidden {
 
-	public function __construct($field = array(), $render = TRUE) 
+	public function __construct($field = array(), $render = TRUE)
 	{
 		if (!isset($field['value']))
 		{
@@ -24,4 +24,5 @@ class Sidebar_Fields_Token extends Sidebar_Fields_Hidden {
 
 		parent::__construct($field, $render);
 	}
+
 }

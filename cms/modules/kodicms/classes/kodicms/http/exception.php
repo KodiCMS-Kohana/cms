@@ -30,9 +30,8 @@ class KodiCMS_HTTP_Exception extends Kohana_HTTP_Exception {
 		}
 		else
 		{
-			$params = array
-			(
-				'code'  => 500,
+			$params = array(
+				'code' => 500,
 				'message' => rawurlencode($this->getMessage())
 			);
 
@@ -40,14 +39,14 @@ class KodiCMS_HTTP_Exception extends Kohana_HTTP_Exception {
 			{
 				$params['code'] = $this->getCode();
 			}
-				
+
 			try
 			{
-				$request = Request::factory( Route::get('error')->uri($params), array(), FALSE)
+				$request = Request::factory(Route::get('error')->uri($params), array(), FALSE)
 					->execute()
 					->send_headers(TRUE)
 					->body();
-				
+
 				return Response::factory()
 					->status($this->getCode())
 					->body($request);
@@ -57,5 +56,5 @@ class KodiCMS_HTTP_Exception extends Kohana_HTTP_Exception {
 				return parent::get_response();
 			}
 		}
-    }
+	}
 }

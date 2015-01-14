@@ -5,7 +5,7 @@ $(function() {
 </script>
 <div class="panel">
 	<?php echo Form::open(NULL, array('class' => Form::HORIZONTAL)); ?>
-	<?php echo Form::hidden('token', Security::token()); ?>
+	<?php echo Form::token('token'); ?>
 	<div class="panel-heading">
 		<div class="form-group form-group-lg">
 			<label class="control-label col-md-3"><?php echo __('Message title'); ?></label>
@@ -16,7 +16,7 @@ $(function() {
 			</div>
 		</div>
 
-		<?php if($to !== NULL): ?>
+		<?php if ($to !== NULL): ?>
 		<?php echo Form::hidden( 'to', $to ); ?>
 		<?php else: ?>
 		<br />

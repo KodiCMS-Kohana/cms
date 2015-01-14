@@ -18,12 +18,12 @@ class KodiCMS_Controller_API_Media extends Controller_System_Api {
 
 		$images = ORM::factory('media')
 			->where('content_type', '=', 'image');
-		
-		if($module !== NULL)
+
+		if ($module !== NULL)
 		{
 			$images->where('module', '=', $module);
 		}
-		
+
 		foreach ($images->find_all() as $image)
 		{
 			$json[] = array(
@@ -44,13 +44,13 @@ class KodiCMS_Controller_API_Media extends Controller_System_Api {
 		$file = $_FILES['file'];
 		
 		$module = $this->param('module', 'default');
-		
-		if( ! Upload::not_empty($file) ) 
+
+		if (!Upload::not_empty($file))
 		{
 			$this->json = json_encode($json);
 			return;
 		}
-		
+
 		$image = ORM::factory('media')
 			->set('module', $module)
 			->upload($file, array('jpg', 'jpeg', 'gif', 'png'));
@@ -62,7 +62,7 @@ class KodiCMS_Controller_API_Media extends Controller_System_Api {
 			'title' => (string) $image->description,
 			'folder' => $image->module
 		);
-		
+
 		$this->response($json);
 	}
 }

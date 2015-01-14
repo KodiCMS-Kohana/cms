@@ -30,45 +30,45 @@ class Model_Navigation_Abstract {
 	 */
 	public function __construct(array $data = array())
 	{
-		foreach ( $data as $key => $value )
+		foreach ($data as $key => $value)
 		{
 			$this->{$key} = $value;
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param string $name
 	 * @return mixed
 	 */
-	public function __get( $name )
+	public function __get($name)
 	{
 		return $this->get($name);
 	}
-	
+
 	/**
 	 * 
 	 * @param string $name
 	 * @param mixed $default
 	 * @return mixed
 	 */
-	public function get( $name, $default = NULL )
+	public function get($name, $default = NULL)
 	{
 		return Arr::get($this->_params, $name, $default);
 	}
-	
+
 	/**
 	 * 
 	 * @param string $name
 	 * @param mixed $value
 	 * @return \Model_Navigation_Abstract
 	 */
-	public function __set( $name, $value )
+	public function __set($name, $value)
 	{
 		$this->_params[$name] = $value;
 		return $this;
 	}
-	
+
 	/**
 	 * 
 	 * @param string $name
@@ -87,7 +87,7 @@ class Model_Navigation_Abstract {
 	{
 		return (bool) Arr::get($this->_params, 'is_active', FALSE);
 	}
-	
+
 	/**
 	 * 
 	 * @return string
@@ -123,8 +123,8 @@ class Model_Navigation_Abstract {
 	public function set_active($status = TRUE)
 	{
 		$this->_params['is_active'] = (bool) $status;
-		
-		if($this->_section instanceof Model_Navigation_Section)
+
+		if ($this->_section instanceof Model_Navigation_Section)
 		{
 			$this->_section->set_active($status);
 		}
@@ -137,12 +137,12 @@ class Model_Navigation_Abstract {
 	 * @param Model_Navigation_Section $section
 	 * @return \Model_Navigation_Page
 	 */
-	public function set_section( Model_Navigation_Section & $section)
+	public function set_section(Model_Navigation_Section & $section)
 	{
 		$this->_section = $section;
 		return $this;
 	}
-	
+
 	/**
 	 * 
 	 * @return Model_Navigation_Section

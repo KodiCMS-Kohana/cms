@@ -32,8 +32,8 @@ abstract class KodiCMS_Auth extends Kohana_Auth {
 			{
 				$type = 'file';
 			}
-			
-			if(Auth::$_fake_user !== NULL)
+
+			if (Auth::$_fake_user !== NULL)
 			{
 				$type = 'fake';
 			}
@@ -41,7 +41,7 @@ abstract class KodiCMS_Auth extends Kohana_Auth {
 			// Set the session class name
 			$class = 'Auth_' . ucfirst($type);
 
-			if(Auth::$_fake_user !== NULL)
+			if (Auth::$_fake_user !== NULL)
 			{
 				// Create a new session instance
 				Auth::$_instance[Auth::$_fake_user] = new $class($config, Auth::$_fake_user);
@@ -82,7 +82,9 @@ abstract class KodiCMS_Auth extends Kohana_Auth {
 	 */
 	public static function get_id()
 	{
-		return self::is_logged_in() ? self::get_record()->id : NULL;
+		return self::is_logged_in() 
+			? self::get_record()->id 
+			: NULL;
 	}
 
 	/**
@@ -91,7 +93,9 @@ abstract class KodiCMS_Auth extends Kohana_Auth {
 	 */
 	public static function get_username()
 	{
-		return self::is_logged_in() ? self::get_record()->username : NULL;
+		return self::is_logged_in() 
+			? self::get_record()->username 
+			: NULL;
 	}
 
 	/**
@@ -125,7 +129,9 @@ abstract class KodiCMS_Auth extends Kohana_Auth {
 			$permissions = explode(',', $permissions);
 		}
 
-		return self::get_record() ? self::get_record()->has_role($permissions, $all_required) : FALSE;
+		return self::get_record() 
+			? self::get_record()->has_role($permissions, $all_required) 
+			: FALSE;
 	}
 	
 	/**

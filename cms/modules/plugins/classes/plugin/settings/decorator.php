@@ -76,7 +76,7 @@ abstract class Plugin_Settings_Decorator extends Plugin {
 	 * @param mixed $default
 	 * @return mixed
 	 */
-	public function get( $key, $default = NULL )
+	public function get($key, $default = NULL)
 	{
 		return Arr::get($this->settings(), $key, $default);
 	}
@@ -88,10 +88,10 @@ abstract class Plugin_Settings_Decorator extends Plugin {
 	 * @param mixed $value
 	 * @return \Plugin_Decorator
 	 */
-	public function set( $key, $value = NULL )
+	public function set($key, $value = NULL)
 	{
 		$this->_settings[$key] = $this->_filter->field($key, $value);
-		
+
 		return $this;
 	}
 
@@ -100,16 +100,16 @@ abstract class Plugin_Settings_Decorator extends Plugin {
 	 * @param array $data
 	 * @return \Plugin_Decorator
 	 */
-	public function set_settings( array $data )
+	public function set_settings(array $data)
 	{
 		foreach ($data as $k => $v)
 		{
 			$this->set($k, $v);
 		}
-		
+
 		return $this;
 	}
-	
+
 	/**
 	 * Валидация параметров плагина согласно правилам валидации
 	 * 
@@ -118,23 +118,23 @@ abstract class Plugin_Settings_Decorator extends Plugin {
 	 */
 	public function validate()
 	{
-		$validation = Validation::factory( $this->settings() );
-		
+		$validation = Validation::factory($this->settings());
+
 		foreach ($this->rules() as $field => $rules)
 		{
 			$validation->rules($field, $rules);
 		}
-		
+
 		foreach ($this->labels() as $field => $label)
 		{
 			$validation->label($field, $label);
 		}
 
-		if( ! $validation->check() )
+		if (!$validation->check())
 		{
-			throw new Validation_Exception( $validation );
+			throw new Validation_Exception($validation);
 		}
-		
+
 		return $this;
 	}
 	

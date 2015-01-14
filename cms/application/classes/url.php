@@ -119,7 +119,7 @@ class URL extends Kohana_URL {
 		
 		foreach ($segments as $_segment)
 		{
-			if($segment == $_segment)
+			if ($segment == $_segment)
 			{
 				return TRUE;
 			}

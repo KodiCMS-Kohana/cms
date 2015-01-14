@@ -1,8 +1,8 @@
 <?php defined('SYSPATH') or die('No direct access allowed.'); ?>
 
 <ul data-level="<?php echo $level; ?>" class="list-unstyled">
-	<?php foreach($childrens as $child): ?>
-	<?php if($child instanceof Model_Page): ?>
+	<?php foreach ($childrens as $child): ?>
+	<?php if ($child instanceof Model_Page): ?>
 	<li data-id="<?php echo $child->id; ?>" <?php if($child->is_expanded):?>class="item-expanded"<?php endif; ?>>
 		<div class="tree-item">
 			<div class="title col-xs-7">
@@ -30,8 +30,8 @@
 						: 'file-o fa-fw'
 				)); ?>
 				<?php endif; ?>				
-				<?php if( !empty($child->behavior_id) ): ?> <?php echo UI::label(__(ucfirst(Inflector::humanize( $child->behavior_id ))), 'default'); ?><?php endif; ?>
-				<?php if( !empty($child->use_redirect) ): ?> <?php echo UI::label(__('Redirect: :url', array(':url' => $child->redirect_url))); ?><?php endif; ?>
+				<?php if (!empty($child->behavior_id)): ?> <?php echo UI::label(__(ucfirst(Inflector::humanize( $child->behavior_id ))), 'default'); ?><?php endif; ?>
+				<?php if (!empty($child->use_redirect)): ?> <?php echo UI::label(__('Redirect: :url', array(':url' => $child->redirect_url))); ?><?php endif; ?>
 
 				<?php echo $child->get_public_anchor(); ?>
 			</div>

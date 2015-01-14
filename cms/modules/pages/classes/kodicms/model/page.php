@@ -714,7 +714,7 @@ class KodiCMS_Model_Page extends ORM
 	 */
 	public function set_update_date(array $ids, $date = NULL)
 	{
-		if(empty($ids))
+		if (empty($ids))
 		{
 			return FALSE;
 		}

@@ -37,47 +37,85 @@ class Model_Widget extends ORM {
 	public function type()
 	{
 		$widget_types = Widget_Manager::map();
-		
+
 		$type = $this->type;
 
-		foreach($widget_types as $group => $types)
+		foreach ($widget_types as $group => $types)
 		{
-			if(isset($types[$type])) $type = $types[$type];
+			if (isset($types[$type]))
+			{
+				$type = $types[$type];
+			}
 		}
-		
+
 		return $type;
 	}
 	
 	public function code()
 	{
-		if($this->_code === FALSE)
+		if ($this->_code === FALSE)
 		{
-			try 
+			try
 			{
-				$this->_code = Kohana::unserialize($this->code);	
+				$this->_code = Kohana::unserialize($this->code);
 			}
-			catch (Exception $e) 
+			catch (Exception $e)
 			{
 				$this->_code = new Model_Widget_HTML();
 			}
-			
+
 			$this->_code->id = $this->id;
 		}
-		
+
 		return $this->_code;
 	}
 	
 	public function filter()
 	{
 		$request = Request::initial();
-		
+
 		$types = (array) $request->query('widget_type');
-		
-		if(!empty($types))
+
+		if (!empty($types))
 		{
 			$this->where('type', 'in', $types);
 		}
-		
+
 		return $this;
+	}
+	
+	/**
+	 * 
+	 * @return array
+	 * @throws Kohana_Exception
+	 */
+	public function locations()
+	{
+		if (!$this->loaded())
+		{
+			throw new Kohana_Exception('Cannot find locations, because widget model is not loaded.');
+		}
+
+		$query = DB::select()
+			->from('page_widgets')
+			->execute()
+			->as_array();
+		
+		$pages_widgets = array(); // занятые блоки для исключения из списков
+		$page_widgets = array(); // выбранные блоки для текущего виджета
+		
+		foreach ($query as $widget)
+		{
+			if ($widget['widget_id'] == $this->id)
+			{
+				$page_widgets[$widget['page_id']] = array($widget['block'], $widget['position']);
+			}
+			else
+			{
+				$pages_widgets[$widget['page_id']][$widget['block']] = array($widget['block'], $widget['position']);
+			}
+		}
+		
+		return array($page_widgets, $pages_widgets);
 	}
 }

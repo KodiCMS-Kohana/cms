@@ -16,7 +16,7 @@
 		<div class="form-group">
 			<?php echo $type->label('code', array('class' => 'control-label col-md-3')); ?>
 			<div class="col-md-9">
-				<?php if($action == 'add'): ?>
+				<?php if ($action == 'add'): ?>
 				<?php echo $type->field('code', array('class' => 'form-control slug', 'data-separator' => '_')); ?>
 				<?php else: ?>
 				<?php echo Form::input(NULL, $type->code, array('class' => 'form-control', 'readonly', 'disabled')); ?>
@@ -35,12 +35,12 @@
 		)); ?>
 	</div>
 	
-	<?php if($action == 'edit'): ?>
+	<?php if ($action == 'edit'): ?>
 	<div class="panel-heading">
 		<span class="panel-title"><?php echo __('Linked email templates'); ?></span>
 		
 		<div class="panel-heading-controls">
-			<?php if ( Acl::check('email_template.add')): ?>
+			<?php if (Acl::check('email_template.add')): ?>
 			<?php echo UI::button(__('Add linked template'), array(
 				'href' => Route::get('email_controllers')->uri(array(
 					'controller' => 'templates', 'action' => 'add')) . '?email_type='.$type->id, 
@@ -50,7 +50,7 @@
 			<?php endif; ?>
 		</div>
 	</div>
-	<?php if(count($templates) > 0): ?>
+	<?php if (count($templates) > 0): ?>
 	<ul class="list-group">
 	<?php foreach($templates as $tpl): ?>
 		<li class="list-group-item"><?php echo HTML::anchor(Route::get('email_controllers')->uri(array(

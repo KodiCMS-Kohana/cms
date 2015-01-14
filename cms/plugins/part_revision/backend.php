@@ -5,7 +5,7 @@ Observer::observe('part_before_save', function($part) {
 	{
 		return;
 	}
-	
+
 	$data = array(
 		'part_id' => $part->id, 
 		'created_on' => date('Y-m-d H:i:s'),

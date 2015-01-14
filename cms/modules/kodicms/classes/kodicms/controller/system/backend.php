@@ -79,7 +79,7 @@ class KodiCMS_Controller_System_Backend extends Controller_System_Template
 
 		$file = $this->request->controller();
 		$directory = $this->request->directory();
-		if(!empty($directory))
+		if (!empty($directory))
 		{
 			$file = $directory . '/' . $file;
 		}

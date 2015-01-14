@@ -71,24 +71,24 @@ class Datasource_Data_Manager {
 	public static function get_tree( $type = NULL )
 	{
 		$result = array();
-		
+
 		$sections = self::get_all($type);
 
-		foreach ( $sections as $section )
+		foreach ($sections as $section)
 		{
-			if( ! Datasource_Section::exists($section->type()))
+			if (!Datasource_Section::exists($section->type()))
 			{
 				continue;
 			}
 
-			if( self::$first_section === NULL )
+			if (self::$first_section === NULL)
 			{
 				self::$first_section = $section->id();
 			}
 
 			$result[$section->type()][$section->id()] = $section;
 		}
-		
+
 		return $result;
 	}
 	
@@ -100,14 +100,14 @@ class Datasource_Data_Manager {
 	 */
 	public static function get_all($type = NULL)
 	{
-		if(is_array($type))
+		if (is_array($type))
 		{
-			if(empty($type))
+			if (empty($type))
 			{
 				return array();
 			}
 		}
-		else if($type !== NULL)
+		else if ($type !== NULL)
 		{
 			$type = array($type);
 		}
@@ -120,7 +120,7 @@ class Datasource_Data_Manager {
 
 		foreach ($type as $i => $key)
 		{
-			if(isset(self::$_cache[$key]))
+			if (isset(self::$_cache[$key]))
 			{
 				foreach (self::$_cache[$key] as $id => $section)
 				{
@@ -129,7 +129,7 @@ class Datasource_Data_Manager {
 				unset($type[$i]);
 			}
 		}
-		
+
 		if (empty($type))
 		{
 			return $sections;
@@ -139,12 +139,12 @@ class Datasource_Data_Manager {
 			->from('datasources')
 			->order_by('type')
 			->order_by('name');
-		
-		if($type !== NULL)
+
+		if ($type !== NULL)
 		{
 			$query->where('type', 'in', $type);
 		}
-		
+
 		$db_sections = $query->execute()->as_array('id');
 
 		foreach ($db_sections as $id => $section)
@@ -230,12 +230,12 @@ class Datasource_Data_Manager {
 	public static function get_icon($type)
 	{
 		$class_name = 'DataSource_Section_' . ucfirst($type);
-		
-		if(class_exists($class_name))
+
+		if (class_exists($class_name))
 		{
 			return call_user_func($class_name . '::default_icon');
 		}
-		
+
 		return Datasource_Section::default_icon();
 	}
 	
@@ -247,19 +247,19 @@ class Datasource_Data_Manager {
 	public static function clear_cache( $ds_id, array $widget_types = array() ) 
 	{
 		$objects = Widget_Manager::get_widgets($widget_types);
-		
+
 		$cleared_ids = array();
-	
-		foreach($objects as $id => $data)
+
+		foreach ($objects as $id => $data)
 		{
 			$widget = Widget_Manager::load($id);
-			if($widget->ds_id == $ds_id )
+			if ($widget->ds_id == $ds_id)
 			{
 				$cleared_ids[] = $widget->id;
 				$widget->clear_cache();
 			}
 		}
-		
+
 		return $cleared_ids;
 	}
 	

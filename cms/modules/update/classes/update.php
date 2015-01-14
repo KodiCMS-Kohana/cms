@@ -46,17 +46,17 @@ class Update {
 	{
 		$cache = Cache::instance();
 
-		if($caching === FALSE OR ($diff = $cache->get(self::CACHE_KEY_DB_SHEMA)) === NULL)
+		if ($caching === FALSE OR ( $diff = $cache->get(self::CACHE_KEY_DB_SHEMA)) === NULL)
 		{
 			$db_sql = Database_Helper::schema();
 			$file_sql = Database_Helper::install_schema();
 
 			$compare = new Database_Helper;
 			$diff = $compare->get_updates($db_sql, $file_sql, TRUE);
-			
+
 			$cache->set(self::CACHE_KEY_DB_SHEMA, $diff);
 		}
-		
+
 		return $diff;
 	}
 	
@@ -78,29 +78,29 @@ class Update {
 		$cache = Cache::instance();
 		$cached_files = $cache->get(self::CACHE_KEY_FILES);
 		
-		if($cached_files !== NULL)
+		if ($cached_files !== NULL)
 		{
 			return $cached_files;
 		}
 
-		if(isset($respoonse['tree']))
+		if (isset($respoonse['tree']))
 		{
 			$plugins = array();
-			
-			foreach($respoonse['tree'] as $row)
+
+			foreach ($respoonse['tree'] as $row)
 			{
 				$filepath = DOCROOT . $row['path'];
-				if ( ! file_exists($filepath))
+				if (!file_exists($filepath))
 				{
 					$files['new_files'][] = self::build_remote_url('https://raw.githubusercontent.com/:rep/:branch/' . $row['path']);
 					continue;
 				}
-				
+
 				if (is_dir($filepath))
 				{
-					if( preg_match('/cms\/plugins\/([\w\_]+)/', $filepath, $matches))
+					if (preg_match('/cms\/plugins\/([\w\_]+)/', $filepath, $matches))
 					{
-						if ( ! empty($matches[1]))
+						if (!empty($matches[1]))
 						{
 							$plugins[$matches[1]] = $matches[1];
 						}
@@ -108,12 +108,12 @@ class Update {
 
 					continue;
 				}
-				
+
 				$filesize = filesize($filepath);
-				if ($filesize != $row['size'] )
+				if ($filesize != $row['size'])
 				{
 					$diff = $filesize - self::_count_file_lines($filepath) - $row['size'];
-					
+
 					if ($diff > 1 OR $diff < - 1)
 					{
 						$files['diff_files'][] = array(
@@ -123,16 +123,16 @@ class Update {
 					}
 				}
 			}
-			
-			if ( ! empty($plugins))
+
+			if (!empty($plugins))
 			{
 				$local_plugins = array_keys(Plugins::find_all());
 				$files['third_party_plugins'] = array_diff($local_plugins, $plugins);
 			}
-			
+
 			$cache->set(self::CACHE_KEY_FILES, $files);
 		}
-		
+
 		return $files;
 	}
 	
@@ -152,11 +152,11 @@ class Update {
 	 */
 	public static function remote_version()
 	{
-		if(self::$_remove_version === NULL)
+		if (self::$_remove_version === NULL)
 		{
 			self::check_version();
 		}
-		
+
 		return self::$_remove_version;
 	}
 	
@@ -198,9 +198,9 @@ class Update {
 	 */
 	protected static function _count_file_lines($filepath)
 	{
-		$handle = fopen( $filepath, "r" );
+		$handle = fopen($filepath, "r");
 		$count = 0;
-		while( fgets($handle) ) 
+		while (fgets($handle))
 		{
 			$count++;
 		}

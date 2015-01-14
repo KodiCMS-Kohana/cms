@@ -21,7 +21,7 @@ class KodiCMS_Date extends Kohana_Date
 	 */
 	protected static $_translate = array();
 
-	protected static function _translate()
+	protected static function _translate_words()
 	{
 		if (empty(self::$_translate))
 		{
@@ -84,7 +84,7 @@ class KodiCMS_Date extends Kohana_Date
 			return __('Never');
 		}
 
-		return strtr(date($format, $date), self::_translate());
+		return strtr(date($format, $date), self::_translate_words());
 	}
 
 	/**
@@ -101,5 +101,4 @@ class KodiCMS_Date extends Kohana_Date
 
 		return $dates;
 	}
-
 }

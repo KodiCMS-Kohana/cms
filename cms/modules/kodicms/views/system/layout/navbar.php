@@ -22,7 +22,7 @@
 								'target' => 'blank', 'data-icon' => 'globe fa-lg text-info'
 							)); ?>
 						</li>
-						<?php if(Auth::is_logged_in()): ?>
+						<?php if (Auth::is_logged_in()): ?>
 						<li class="dropdown user-menu">
 							<a href="#" class="dropdown-toggle user-menu" data-toggle="dropdown">
 								<?php echo Auth::get_record()->gravatar(25); ?>

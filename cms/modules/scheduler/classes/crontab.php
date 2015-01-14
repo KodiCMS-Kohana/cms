@@ -44,28 +44,29 @@ class Crontab {
 	 */
 	public static function parse($cron_string, $after_timestamp = NULL)
 	{
-		if( ! Crontab::valid($cron_string))
+		if (!Crontab::valid($cron_string))
 		{
 			throw new Kohana_Exception('Invalid cron string: :string', array(
 				':string' => $cron_string));
 		}
 
-		if ( $after_timestamp !== NULL AND ! Valid::numeric($after_timestamp))
+		if ($after_timestamp !== NULL AND ! Valid::numeric($after_timestamp))
 		{
 			throw new Kohana_Exception("\$after_timestamp must be a valid unix timestamp (:string given)", array(
-				':string' => $after_timestamp
-			));
+				':string' => $after_timestamp));
 		}
 
 		$cron = preg_split("/[\s]+/i", trim($cron_string));
-		$start = empty($after_timestamp) ? time() : $after_timestamp;
+		$start = empty($after_timestamp) 
+			? time() 
+			: $after_timestamp;
 
 		$date = array(
-			'minutes' => self::_parse_cron_numbers($cron[0], 0, 59),
-			'hours' => self::_parse_cron_numbers($cron[1], 0, 23),
-			'dom' => self::_parse_cron_numbers($cron[2], 1, 31),
-			'month' => self::_parse_cron_numbers($cron[3], 1, 12),
-			'dow' => self::_parse_cron_numbers($cron[4], 0, 6),
+			'minutes'	=> self::_parse_cron_numbers($cron[0], 0, 59),
+			'hours'		=> self::_parse_cron_numbers($cron[1], 0, 23),
+			'dom'		=> self::_parse_cron_numbers($cron[2], 1, 31),
+			'month'		=> self::_parse_cron_numbers($cron[3], 1, 12),
+			'dow'		=> self::_parse_cron_numbers($cron[4], 0, 6),
 		);
 
 		// limited to time()+366 - no need to check more than 1year ahead

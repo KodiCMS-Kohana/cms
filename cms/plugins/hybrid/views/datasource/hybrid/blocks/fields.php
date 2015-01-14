@@ -97,7 +97,7 @@ function sort_field_rows() {
 </div>
 <table id="section-fields" class="table table-primary table-striped table-hover">
 	<colgroup>
-		<?php if($ds->has_access('field.remove')): ?>
+		<?php if ($ds->has_access('field.remove')): ?>
 		<col width="30px" />
 		<?php endif; ?>
 		<col width="50px" />
@@ -109,7 +109,7 @@ function sort_field_rows() {
 	</colgroup>
 	<thead>
 		<tr>
-			<?php if($ds->has_access('field.remove')): ?>
+			<?php if ($ds->has_access('field.remove')): ?>
 			<td></td>
 			<?php endif; ?>
 			<td><?php echo __('Field position'); ?></td>
@@ -122,7 +122,7 @@ function sort_field_rows() {
 	</thead>
 	<tbody>
 		<tr>
-			<?php if($ds->has_access('field.remove')): ?>
+			<?php if ($ds->has_access('field.remove')): ?>
 			<td class="f">
 				<?php echo Form::checkbox('field[]', 'id', FALSE, array(
 					'disabled' => 'disabled'
@@ -137,7 +137,7 @@ function sort_field_rows() {
 			<td><?php echo Form::checkbox('', 1, TRUE, array('disabled' => 'disabled')); ?></td>
 		</tr>
 		<tr>
-			<?php if($ds->has_access('field.remove')): ?>
+			<?php if ($ds->has_access('field.remove')): ?>
 			<td class="f">
 				<?php echo Form::checkbox('field[]', 'header', FALSE, array(
 					'disabled' => 'disabled'
@@ -152,9 +152,9 @@ function sort_field_rows() {
 			<td></td>
 		</tr>
 
-		<?php foreach($record->fields() as $field): ?>
+		<?php foreach ($record->fields() as $field): ?>
 		<tr id="field-<?php echo $field->id; ?>" data-id="<?php echo $field->id; ?>">
-			<?php if($ds->has_access('field.remove')): ?>
+			<?php if ($ds->has_access('field.remove')): ?>
 			<td class="f">
 				<?php 
 				$attrs = array('id' => $field->name);
@@ -168,7 +168,7 @@ function sort_field_rows() {
 				</label>
 			</td>
 			<td>
-				<?php if($ds->has_access('field.edit')): ?>
+				<?php if ($ds->has_access('field.edit')): ?>
 				<?php echo HTML::anchor(Route::get('datasources')->uri(array(
 					'controller' => 'field',
 					'directory' => 'hybrid',
@@ -195,8 +195,8 @@ function sort_field_rows() {
 			</td>
 			<td>
 			<?php 
-			if($field->is_indexable())
-			{
+			if ($field->is_indexable())
+	{
 				$attrs = array();
 				if (!$ds->has_access('field.edit'))
 				{
@@ -213,7 +213,7 @@ function sort_field_rows() {
 
 <div class="panel-footer">
 	<div class="btn-group">
-		<?php if($ds->has_access('field.edit')): ?>
+		<?php if ($ds->has_access('field.edit')): ?>
 		<?php echo UI::button(__('Add field'), array(
 			'href' => Route::get('datasources')->uri(array(
 				'controller' => 'field',
@@ -226,7 +226,7 @@ function sort_field_rows() {
 		)); ?>
 		<?php endif; ?>
 		
-		<?php if($ds->has_access('field.remove')): ?>
+		<?php if ($ds->has_access('field.remove')): ?>
 		<?php echo UI::button(__('Remove fields'), array(
 			'icon' => UI::icon('trash-o'), 'id' => 'remove-fields',
 			'class' => 'btn-danger'

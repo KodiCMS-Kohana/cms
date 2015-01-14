@@ -10,7 +10,7 @@
 					<div class="form-group">
 						<div class="btn-group btn-group-sm btn-group-justified" data-toggle="buttons">
 							<?php foreach ($icons as $i => $icon): ?>
-							<label class="btn btn-default btn-flat <?php if($i == 0): ?>active<?php endif; ?>">
+							<label class="btn btn-default btn-flat <?php if ($i == 0): ?>active<?php endif; ?>">
 								<?php echo Form::radio('event_icon', $icon, $i == 0); ?>
 								<?php echo UI::icon($icon . ' fa-lg'); ?>
 							</label>
@@ -47,7 +47,7 @@
 						<label><?php echo __('Select Event Color'); ?></label>
 						<div class="btn-group btn-group-justified" data-toggle="buttons">
 							<?php foreach ($colors as $i => $color): ?>
-							<label class="btn no-border bg-<?php echo $color; ?> <?php if($i == 0): ?>active<?php endif; ?>">
+							<label class="btn no-border bg-<?php echo $color; ?> <?php if ($i == 0): ?>active<?php endif; ?>">
 								<?php echo Form::radio('event_color', $color, $i == 0); ?>
 								<?php echo UI::icon('check'); ?>
 							</label>

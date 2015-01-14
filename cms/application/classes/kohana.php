@@ -5,7 +5,7 @@ class Kohana extends Kohana_Core {
 	public static function modules(array $modules = NULL)
 	{
 		$modules = parent::modules($modules);
-		
+
 		foreach (array(CMSPATH, DOCROOT) as $path)
 		{
 			if (!in_array($path, Kohana::$_paths))
@@ -16,7 +16,7 @@ class Kohana extends Kohana_Core {
 
 		return $modules;
 	}
-	
+
 	/**
 	 * 
 	 * @param mixed $data

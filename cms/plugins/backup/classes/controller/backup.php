@@ -37,7 +37,7 @@ class Controller_Backup extends Controller_System_Backend {
 	{
 		$this->auto_render = FALSE;
 
-		$backup = Model_Backup::factory(BACKUP_PLUGIN_FOLDER . 'db-'.date('YmdHis').'.sql')
+		$backup = Model_Backup::factory(BACKUP_PLUGIN_FOLDER . 'db-' . date('YmdHis') . '.sql')
 			->create()
 			->save();
 		
@@ -50,13 +50,13 @@ class Controller_Backup extends Controller_System_Backend {
 	
 	public function action_filesystem()
 	{
-		if($backup = Model_Backup::factory(BACKUP_PLUGIN_FOLDER . 'filesystem-'.date('YmdHis').'.zip')
-			->create())
+		if ($backup = Model_Backup::factory(BACKUP_PLUGIN_FOLDER . 'filesystem-' . date('YmdHis') . '.zip')
+				->create())
 		{
 			Kohana::$log->add(Log::INFO, ':user create filesystem backup')->write();
 			Messages::success(__('Filesystem backup created successfully'));
 		}
-		
+
 		$this->go_back();
 	}
 
@@ -68,10 +68,10 @@ class Controller_Backup extends Controller_System_Backend {
 
 		$backup = Model_Backup::factory(BACKUP_PLUGIN_FOLDER . $file)
 			->restore();
-		
+
 		Kohana::$log->add(Log::INFO, ':user restore backup')->write();
 		Messages::success(__('Backup restored successfully'));
-		
+
 		$this->go_back();
 	}
 	
@@ -81,13 +81,13 @@ class Controller_Backup extends Controller_System_Backend {
 
 		$file = $this->request->param('file');
 
-		if(!file_exists(BACKUP_PLUGIN_FOLDER.$file))
+		if (!file_exists(BACKUP_PLUGIN_FOLDER . $file))
 		{
 			throw new HTTP_Exception_404('File :file not exist', array(':file' => $file));
 		}
-		
-		unlink(BACKUP_PLUGIN_FOLDER.$file);
-		
+
+		unlink(BACKUP_PLUGIN_FOLDER . $file);
+
 		Kohana::$log->add(Log::ALERT, ':user delete backup file')->write();
 		Messages::success(__('File :filename deleted successfully', array(
 			':filename' => $file
@@ -102,21 +102,21 @@ class Controller_Backup extends Controller_System_Backend {
 		$errors = array();
 
 		# Проверяем файл
-		if(!isset($_FILES['file']))
+		if (!isset($_FILES['file']))
 		{
 			$this->go_back();
 		}
-		
+
 		$file = $_FILES['file'];
-		
+
 		if (!is_dir(BACKUP_PLUGIN_FOLDER))
 		{
 			$errors[] = __('Folder (:folder) not exist!', array(
 				':folder' => BACKUP_PLUGIN_FOLDER
 			));
 		}
-		
-		if(!is_writable(BACKUP_PLUGIN_FOLDER))
+
+		if (!is_writable(BACKUP_PLUGIN_FOLDER))
 		{
 			$errors[] = __('Folder (:folder) must be writable!', array(
 				':folder' => BACKUP_PLUGIN_FOLDER
@@ -124,37 +124,37 @@ class Controller_Backup extends Controller_System_Backend {
 		}
 
 		# Проверяем на пустоту
-		if(!Upload::not_empty($file))
+		if (!Upload::not_empty($file))
 		{
 			$errors[] = __('File is not attached!');
 		}
 
 		# Проверяем на расширение
-		if(!Upload::type($file, array('sql', 'zip')))
+		if (!Upload::type($file, array('sql', 'zip')))
 		{
 			$errors[] = __('Bad format of file!');
 		}
-		
-		if(!empty($errors))
+
+		if (!empty($errors))
 		{
 			Messages::errors($errors);
 			$this->go_back();
 		}
-		
+
 		$ext = pathinfo($file['name'], PATHINFO_EXTENSION);
 
 		# Имя файла
 		$filename = 'uploaded-' . date('YmdHis') . '-' . $file['name'];
 
 		Upload::$default_directory = BACKUP_PLUGIN_FOLDER;
-			
+
 		# Cохраняем оригинал и продолжаем работать, если ок: 
 		if ($file = Upload::save($file, $filename, NULL, 0777))
 		{
 			Messages::success(__('File :filename uploaded successfully', array(
 				':filename' => $filename
 			)));
-			
+
 			Kohana::$log->add(Log::ALERT, 'Backup file :filename uploaded by :user', array(
 				':filename' => $filename
 			))->write();

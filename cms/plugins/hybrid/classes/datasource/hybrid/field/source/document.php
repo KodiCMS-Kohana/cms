@@ -24,53 +24,53 @@ class DataSource_Hybrid_Field_Source_Document extends DataSource_Hybrid_Field_So
 		return array('one_to_one');
 	}
 	
-	public function set( array $data )
-	{		
-		if ( ! empty($data['from_ds']))
+	public function set(array $data)
+	{
+		if (!empty($data['from_ds']))
 		{
 			$section = Datasource_Data_Manager::load($data['from_ds']);
-			
+
 			if ($section !== NULL)
 			{
 				$data['ds_type'] = $section->type();
 			}
 		}
 
-		return parent::set( $data );
+		return parent::set($data);
 	}
-	
-	public function onUpdateDocument(DataSource_Hybrid_Document $old = NULL, DataSource_Hybrid_Document $new) 
+
+	public function onUpdateDocument(DataSource_Hybrid_Document $old = NULL, DataSource_Hybrid_Document $new)
 	{
-		if( $new->get($this->name) == -1 ) 
+		if ($new->get($this->name) == -1)
 		{
-			if($this->one_to_one) 
+			if ($this->one_to_one)
 			{
 				DataSource_Hybrid_Factory::remove_documents($old->get($this->name));
 			}
 
-			$new->set($this->name, NULL) ;
+			$new->set($this->name, NULL);
 			return;
 		}
 	}
-	
-	public function onRemoveDocument( DataSource_Hybrid_Document $doc )
+
+	public function onRemoveDocument(DataSource_Hybrid_Document $doc)
 	{
-		if($this->one_to_one) 
+		if ($this->one_to_one)
 		{
 			DataSource_Hybrid_Factory::remove_documents($doc->get($this->name));
 		}
 	}
 
-	public function convert_value( $value ) 
+	public function convert_value($value)
 	{
 		$header = DataSource_Hybrid_Field_Utils::get_document_header($this->from_ds, $value);
-		
+
 		return array(
 			'id' => $header ? $value : NULL,
 			'header' => $header
 		);
 	}
-	
+
 	public function get_type()
 	{
 		return 'INT(11) UNSIGNED';
@@ -92,7 +92,7 @@ class DataSource_Hybrid_Field_Source_Document extends DataSource_Hybrid_Field_So
 			$related_widget = self::_fetch_related_widget($widget, $row, $fid, $recurse);
 		}
 
-		return ($related_widget !== NULL)
+		return ($related_widget !== NULL) 
 			? $related_widget 
 			: (int) $row[$fid];
 	}

@@ -196,7 +196,7 @@ class Kohana_Pagination {
 		switch ($this->config['current_page']['source'])
 		{
 			case 'query_string':
-				if(isset($this->config['current_page']['uri']))
+				if (isset($this->config['current_page']['uri']))
 				{
 					$uri = $this->config['current_page']['uri'];
 				}
@@ -205,10 +205,10 @@ class Kohana_Pagination {
 					$uri = Request::current()->uri();
 				}
 
-				return URL::site($uri).URL::query(array($this->config['current_page']['key'] => $page));
+				return URL::site($uri) . URL::query(array($this->config['current_page']['key'] => $page));
 
 			case 'route':
-				return URL::site(Request::current()->uri(array($this->config['current_page']['key'] => $page))).URL::query();
+				return URL::site(Request::current()->uri(array($this->config['current_page']['key'] => $page))) . URL::query();
 		}
 
 		return '#';
@@ -224,8 +224,10 @@ class Kohana_Pagination {
 	public function valid_page($page)
 	{
 		// Page number has to be a clean integer
-		if ( ! Validate::digit($page))
+		if (!Validate::digit($page))
+		{
 			return FALSE;
+		}
 
 		return $page > 0 AND $page <= $this->total_pages;
 	}
@@ -240,7 +242,9 @@ class Kohana_Pagination {
 	{
 		// Automatically hide pagination whenever it is superfluous
 		if ($this->config['auto_hide'] === TRUE AND $this->total_pages <= 1)
+		{
 			return '';
+		}
 
 		if ($view === NULL)
 		{
@@ -248,7 +252,7 @@ class Kohana_Pagination {
 			$view = $this->config['view'];
 		}
 
-		if ( ! $view instanceof Kohana_View)
+		if (!$view instanceof Kohana_View)
 		{
 			// Load the view file
 			$view = View::factory($view);

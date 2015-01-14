@@ -42,11 +42,11 @@ class Controller_API_Calendar extends Controller_System_API {
 			->execute()
 			->get('user_id');
 		
-		if($user_id == 0 OR $user_id == Auth::get_id())
+		if ($user_id == 0 OR $user_id == Auth::get_id())
 		{
 			foreach ($array as $key => $value)
 			{
-				if(!in_array($key, $columns))
+				if (!in_array($key, $columns))
 				{
 					unset($array[$key]);
 				}
@@ -83,7 +83,7 @@ class Controller_API_Calendar extends Controller_System_API {
 			'className' => $class_name,
 		);
 		
-		if($private === TRUE)
+		if ($private === TRUE)
 		{
 			$data['user_id'] = Auth::get_id();
 		}
@@ -106,7 +106,7 @@ class Controller_API_Calendar extends Controller_System_API {
 			->execute()
 			->get('user_id');
 			
-		if($user_id == 0 OR $user_id == Auth::get_id())
+		if ($user_id == 0 OR $user_id == Auth::get_id())
 		{
 			$status = DB::delete('calendar')
 				->where('id', '=', $id)

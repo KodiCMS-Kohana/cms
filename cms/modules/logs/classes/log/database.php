@@ -46,13 +46,19 @@ class Log_Database extends Log_Writer {
 		$user = Auth::get_record(ORM::factory('user'));
 		$request = Request::initial();
 		
-		if($user === NULL) return;
+		if ($user === NULL)
+		{
+			return;
+		}
 
-		$logs_level = (int) Config::get('site', 'log_level' );
+		$logs_level = (int) Config::get('site', 'log_level');
 
 		foreach ($messages as $message)
 		{
-			if($message['level'] < $logs_level) continue;
+			if ($message['level'] < $logs_level)
+			{
+				continue;
+			}
 
 			$values = array(
 				':user' => HTML::anchor(Route::get('backend')->uri(array(
@@ -63,7 +69,10 @@ class Log_Database extends Log_Writer {
 				':controller' => $request !== NULL ? $request->controller() : 'none'
 			);
 
-			$message['additional'][':url'] = $request !== NULL ? $request->url() : 'none';
+			$message['additional'][':url'] = $request !== NULL 
+				? $request->url()
+				: 'none';
+
 			$message['additional'][':ip'] = Request::$client_ip;
 			
 			$message['body'] = strtr($message['body'], $values);

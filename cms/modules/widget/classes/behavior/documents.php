@@ -61,7 +61,7 @@ class Behavior_Documents extends Behavior_Abstract
 	{
 		$page_id = $this->__get_item_page_id();
 
-		if (empty($page_id) || $this->router()->matched_route() === NULL)
+		if (empty($page_id) OR $this->router()->matched_route() === NULL)
 		{
 			return FALSE;
 		}

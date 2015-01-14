@@ -85,7 +85,7 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 	 */
 	public function record() 
 	{
-		if($this->_record === NULL)
+		if ($this->_record === NULL)
 		{
 			$this->_record = new DataSource_Hybrid_Record($this);
 		}
@@ -99,7 +99,7 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 	 */
 	public function agent() 
 	{
-		if($this->_agent === NULL)
+		if ($this->_agent === NULL)
 		{
 			$this->_agent = DataSource_Hybrid_Agent::instance($this->id());
 		}
@@ -113,32 +113,32 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 	 * @param array $values
 	 * @return integer Идентификатор раздела
 	 */
-	public function create( array $values )
+	public function create(array $values)
 	{
 		$id = parent::create($values);
-		
+
 		DataSource_Hybrid_Factory::create($this);
 
 		return $id;
 	}
-	
+
 	/**
 	 * Получение списка полей раздела
 	 * 
 	 * @return array array([Field ID] => [Field Header], ....)
 	 */
-	public function record_fields_array( )
+	public function record_fields_array()
 	{
 		$fields = array();
 
-		foreach( $this->record()->fields() as $field)
+		foreach ($this->record()->fields() as $field)
 		{
 			$fields[$field->id] = $field->header;
 		}
-		
+
 		return $fields;
 	}
-	
+
 	/**
 	 * Сохранение раздела
 	 * 
@@ -147,17 +147,17 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 	 * @return boolean
 	 */
 	public function values(array $values = array())
-	{		
+	{
 		parent::values($values);
-		
+
 		$this->template = Arr::get($values, 'template');
-		
+
 		$this->search_intro_field = Arr::get($values, 'search_intro_field');
 		unset($values['search_intro_field']);
-		
+
 		$this->search_index_fields = (array) Arr::get($values, 'search_index_fields', array());
 		unset($values['search_index_fields']);
-		
+
 		$this->search_index_doc_id_fields = (array) Arr::get($values, 'search_index_doc_id_fields', array());
 		unset($values['search_index_doc_id_fields']);
 	}
@@ -167,21 +167,21 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 	 * 
 	 * @return \DataSource_Hybrid_Section
 	 */
-	public function remove() 
+	public function remove()
 	{
 		$id = $this->id();
 
 		parent::remove();
-		
+
 		$this->record()->destroy();
 		DataSource_Hybrid_Factory::remove($id);
-		
+
 		$this->_record = NULL;
 		$this->_agent = NULL;
 
 		return $this;
 	}
-	
+
 	/**
 	 * Загрузка документов раздела в формате для индексации
 	 * 
@@ -191,7 +191,7 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 	 * @param array $id
 	 * @return array array([ID] => array('id', 'header', 'content', 'intro', ....), ...)
 	 */
-	public function get_indexable_documents( array $id = NULL ) 
+	public function get_indexable_documents(array $id = NULL)
 	{
 		$result = array();
 
@@ -201,10 +201,10 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 		}
 
 		$this->search_index_fields = array_unique($this->search_index_fields);
-		
+
 		$fields = $this->search_index_fields;
-		
-		if( ! empty($this->search_index_doc_id_fields) )
+
+		if (!empty($this->search_index_doc_id_fields))
 		{
 			foreach ($this->search_index_doc_id_fields as $field)
 			{
@@ -213,18 +213,18 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 		}
 
 		$agent = DataSource_Hybrid_Agent::instance($this->id(), $this->id());
-		
+
 		$query = $agent->get_query_props(array_unique($fields));
-		
-		if(is_array($id) AND !empty($id))
+
+		if (is_array($id) AND ! empty($id))
 		{
 			$query->where('d.id', 'in', $id);
 		}
-		else if(!empty($id))
+		else if (!empty($id))
 		{
 			$query->where('d.id', '=', (int) $id);
 		}
-		
+
 		$rows = $query->execute()->as_array();
 	
 		foreach ($rows as $row)
@@ -248,7 +248,11 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 			{
 				$field_name = DataSource_Hybrid_Field_Factory::get_field_key($field);
 				
-				if(empty($field_name)) continue;
+				if (empty($field_name))
+				{
+					continue;
+				}
+
 				$params[$field_name] = Arr::get($row, $field);
 			}
 			
@@ -266,9 +270,9 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 	public function get_indexable_fields()
 	{
 		$fields = $this->record()->fields();
-		
+
 		$return = array();
-		
+
 		foreach ($fields as $field)
 		{
 			if (!$field->is_indexable())
@@ -278,7 +282,7 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 
 			$return[] = $field->name;
 		}
-		
+
 		return $return;
 	}
 	
@@ -290,13 +294,13 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 	 * @param array $ids
 	 * @return \DataSource_Hybrid_Section
 	 */
-	public function remove_documents( array $ids = NULL  ) 
+	public function remove_documents(array $ids = NULL)
 	{
 		if (empty($ids))
 		{
 			return $this;
 		}
-		
+
 		$deleted_documents = array();
 
 		foreach ($ids as $id)
@@ -304,11 +308,11 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 			try
 			{
 				$document = $this->get_document($id);
-				if($document->loaded())
+				if ($document->loaded())
 				{
 					$this->record()->destroy_document($document);
 					$document->remove();
-					
+
 					$deleted_documents[] = $id;
 				}
 			}
@@ -334,18 +338,18 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 	public function template()
 	{
 		$snippet = new Model_File_Snippet($this->template);
-		
+
 		$template = NULL;
 
-		if( $snippet->is_exists() )
+		if ($snippet->is_exists())
 		{
 			$template = $snippet->get_file();
 		}
-		else if(($template = $snippet->find_file()) === FALSE)
+		else if (($template = $snippet->find_file()) === FALSE)
 		{
 			$template = NULL;
 		}
-		
+
 		return $template;
 	}
 	
@@ -356,22 +360,22 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 	public function acl_actions()
 	{
 		$actions = parent::acl_actions();
-		
+
 		$actions[] = array(
 			'action' => 'field.create',
 			'description' => 'Create hybrid fields'
 		);
-		
+
 		$actions[] = array(
 			'action' => 'field.edit',
 			'description' => 'Edit hybrid fields'
 		);
-	
+
 		$actions[] = array(
 			'action' => 'field.remove',
 			'description' => 'Remove hybrid fields'
 		);
-		
+
 		return $actions;
 	}
 

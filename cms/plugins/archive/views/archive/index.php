@@ -32,13 +32,13 @@
 			<?php foreach($items as $page): ?>
 			<tr data-id="<?php echo $page->id; ?>">
 				<th class="title">
-					<?php if( ! ACL::check('page.edit') OR ! Auth::has_permissions( $page->get_permissions() ) ): ?>
+					<?php if (!ACL::check('page.edit') OR ! Auth::has_permissions($page->get_permissions())): ?>
 					<?php echo UI::icon('lock'); ?>
 					<em title="/"><?php echo $page->title; ?></em>
 					<?php else: ?>
 					<?php 
 					echo UI::icon('file') . ' '; 
-					echo HTML::anchor( $page->get_url(), $page->title );
+					echo HTML::anchor($page->get_url(), $page->title);
 					?>
 					<?php endif; ?>
 				</th>

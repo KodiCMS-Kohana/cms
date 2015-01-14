@@ -1,4 +1,4 @@
-<?php if($inline === TRUE): ?>
+<?php if ($inline === TRUE): ?>
 <div class="radio-inline">
 	<label>
 		<?php echo Form::radio($name, $value, $selected, $attributes); ?> <?php if ( !empty($label)): ?><?php echo $label; ?><?php endif; ?>

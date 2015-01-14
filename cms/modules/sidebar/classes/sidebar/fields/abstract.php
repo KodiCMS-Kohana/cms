@@ -117,16 +117,16 @@ class Sidebar_Fields_Abstract {
 	 */
 	public function render() 
 	{
-		foreach($this->_field as $name => $option)
+		foreach ($this->_field as $name => $option)
 		{
-			if( ! in_array($name, $this->_options))
+			if (!in_array($name, $this->_options))
 			{
 				continue;
 			}
-			
+
 			$this->_view->set($name, $option);
 		}
-		
+
 		return (string) $this->_view
 			->set('inline', $this->_inline)
 			->set('attributes', $this->_attributes);

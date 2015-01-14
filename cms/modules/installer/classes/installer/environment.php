@@ -40,17 +40,17 @@ class Installer_Environment {
 			}
 
 			$return = call_user_func(array($env, $method));
-			if(empty($return))
+			if (empty($return))
 			{
 				continue;
 			}
-			
+
 			$key = 1;
-			if(strpos($method, 'optional') !== FALSE)
+			if (strpos($method, 'optional') !== FALSE)
 			{
 				$key = 2;
 			}
-			
+
 			$status = $return['condition'];
 
 			$data = array(
@@ -67,7 +67,7 @@ class Installer_Environment {
 			{
 				$data['message'] = Arr::get($return, 'error', __('Failed'));
 				
-				if($key === 1)
+				if ($key === 1)
 				{
 					$failed = TRUE;
 				}

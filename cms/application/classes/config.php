@@ -14,12 +14,12 @@ class Config extends Kohana_Config {
 	public static function get($group, $key = NULL, $default = NULL)
 	{
 		$config = Kohana::$config->load($group);
-		
-		if($key === NULL)
+
+		if ($key === NULL)
 		{
 			return $config;
 		}
-		
+
 		return $config->get($key, $default);
 	}
 	
@@ -32,7 +32,7 @@ class Config extends Kohana_Config {
 	{
 		$config = Kohana::$config->load($group)->set($key, $value);
 		Cache::instance()->delete('Database::cache(config.group.' . $group . ')');
-		
+
 		return $config;
 	}
 	
@@ -42,11 +42,11 @@ class Config extends Kohana_Config {
 	 */
 	public static function set_from_array(array $array)
 	{
-		foreach($array as $group => $values)
+		foreach ($array as $group => $values)
 		{
-			if(is_array($values))
+			if (is_array($values))
 			{
-				foreach($values as $key => $value)
+				foreach ($values as $key => $value)
 				{
 					Config::set($group, $key, $value);
 				}

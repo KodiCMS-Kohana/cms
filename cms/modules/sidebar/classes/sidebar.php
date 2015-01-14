@@ -56,23 +56,23 @@ class Sidebar {
 
 	protected function _build()
 	{
-		foreach ($this->_fields as $field) 
+		foreach ($this->_fields as $field)
 		{
-			if( $field instanceof Sidebar_Form )
+			if ($field instanceof Sidebar_Form)
 			{
 				$this->_form = $field;
 				continue;
 			}
 
-			if(!($field instanceof Sidebar_Fields_Abstract))
+			if (!($field instanceof Sidebar_Fields_Abstract))
 			{
 				continue;
 			}
-			
+
 			$this->_data[] = $field;
 		}
-		
-		if( $this->_form === NULL )
+
+		if ($this->_form === NULL)
 		{
 			$this->_form = new Sidebar_Form(array(
 				'action' => Request::current(),

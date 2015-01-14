@@ -109,12 +109,13 @@ class KodiCMS_WYSIWYG {
 	public static function html_select()
 	{
 		$filters = array('' => __('none'));
-		
+
 		foreach (WYSIWYG::findAll() as $filter)
 		{
 			$filters[$filter] = Inflector::humanize($filter);
 		}
-		
+
 		return $filters;
 	}
+
 }

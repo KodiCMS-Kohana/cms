@@ -49,7 +49,7 @@ class Controller_System_Datasource_Document extends Controller_System_Datasource
 		$this->template_js_params['SECTION_ID'] = (int) $this->section()->id(); 
 		$this->template_js_params['DOCUMENT_ID'] = $id;
 		
-		if( ! $doc->loaded() )
+		if (!$doc->loaded())
 		{
 			$this->set_title(__('New document'));
 		}
@@ -57,7 +57,7 @@ class Controller_System_Datasource_Document extends Controller_System_Datasource
 		{
 			$this->set_title($doc->header);
 		}
-		
+
 		$this->_load_template($doc);
 	}
 	
@@ -91,7 +91,7 @@ class Controller_System_Datasource_Document extends Controller_System_Datasource
 			$this->go_back();
 		}
 
-		if( $doc->loaded() )
+		if ($doc->loaded())
 		{
 			$this->section()->update_document($doc);
 		}
@@ -105,7 +105,7 @@ class Controller_System_Datasource_Document extends Controller_System_Datasource
 		Session::instance()->delete('post_data');
 		
 		// save and quit or save and continue editing?
-		if ( $this->request->post('commit') !== NULL )
+		if ($this->request->post('commit') !== NULL)
 		{
 			$this->go(Route::get('datasources')->uri(array(
 				'directory' => 'datasources',
@@ -152,13 +152,13 @@ class Controller_System_Datasource_Document extends Controller_System_Datasource
 	protected function _load_session_data($doc)
 	{
 		$post_data = Session::instance()->get_once('post_data');
-		
-		if( ! empty($post_data))
+
+		if (!empty($post_data))
 		{
 			unset($post_data['id']);
 			$doc->read_values($post_data);
 		}
-		
+
 		return $doc;
 	}
 	
@@ -169,18 +169,16 @@ class Controller_System_Datasource_Document extends Controller_System_Datasource
 	 */
 	protected function _check_acl()
 	{
-		if(
+		if (
 			$this->section()->has_access('document.view')
-		OR
+			OR
 			$this->section()->has_access('document.edit')
 		)
 		{
 			$this->allowed_actions[] = 'view';
 		}
-		
-		if(
-			$this->section()->has_access('document.create')
-		)
+
+		if ($this->section()->has_access('document.create'))
 		{
 			$this->allowed_actions[] = 'create';
 			$this->allowed_actions[] = 'post';
@@ -189,21 +187,21 @@ class Controller_System_Datasource_Document extends Controller_System_Datasource
 	
 	protected function _get_document($id)
 	{
-		if( empty($id) )
+		if (empty($id))
 		{
 			$doc = $this->section()->get_empty_document();
 		}
 		else
 		{
 			$doc = $this->section()->get_document($id);
-			
-			if(!$doc)
+
+			if (!$doc)
 			{
-				throw new HTTP_Exception_404('Document ID :id not found', 
-						array(':id' => $id));
+				throw new HTTP_Exception_404(
+					'Document ID :id not found', array(':id' => $id));
 			}
 		}
-		
+
 		return $doc;
 	}
 }

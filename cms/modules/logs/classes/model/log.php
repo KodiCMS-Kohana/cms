@@ -41,31 +41,31 @@ class Model_Log extends ORM {
 	public function filter()
 	{
 		$request = Request::initial();
-		
+
 		$levels = (array) $request->query('level');
-		
-		if(!empty($levels))
+
+		if (!empty($levels))
 		{
 			$this->where('level', 'in', $levels);
 		}
-		
+
 		$date_range = $request->query('created_on');
-		if(empty($date_range))
+		if (empty($date_range))
 		{
 			$request->query('created_on', array(
 				date('Y-m-d', strtotime("-1 month")), date('Y-m-d')
 			));
 		}
-		
-		if(is_array($date_range))
+
+		if (is_array($date_range))
 		{
 			$this->where(DB::expr('DATE(created_on)'), 'between', $date_range);
 		}
-		else if(Valid::date($date_range))
+		else if (Valid::date($date_range))
 		{
 			$this->where(DB::expr('DATE(created_on)'), '=', $date_range);
 		}
-		
+
 		return $this;
 	}
 
@@ -84,7 +84,7 @@ class Model_Log extends ORM {
 	 */
 	public function user()
 	{
-		if(empty($this->user_id))
+		if (empty($this->user_id))
 		{
 			return NULL;
 		}
@@ -112,8 +112,9 @@ class Model_Log extends ORM {
 	public function ip()
 	{
 		$ip =  Arr::get($this->additional, ':ip');
-		
-		return empty($ip) ? NULL : UI::label($ip, 'default');
+		return empty($ip) 
+			? NULL 
+			: UI::label($ip, 'default');
 	}
 	
 	/**
@@ -134,9 +135,8 @@ class Model_Log extends ORM {
 
 			$query->where(DB::expr('DATE(created_on)'), '<', DB::expr('CURDATE() - ' . $all));
 		}
-		
-		Cache::instance()->delete_tag(self::CACHE_TAG);
 
+		Cache::instance()->delete_tag(self::CACHE_TAG);
 		return $query->execute($this->_db);
 	}
 }

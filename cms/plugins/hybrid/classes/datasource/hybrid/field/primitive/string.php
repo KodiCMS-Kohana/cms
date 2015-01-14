@@ -26,7 +26,7 @@ class DataSource_Hybrid_Field_Primitive_String extends DataSource_Hybrid_Field_P
 	
 	public function get_type() 
 	{
-		if($this->length < 1 OR $this->length > 255)
+		if ($this->length < 1 OR $this->length > 255)
 		{
 			$this->length = 32;
 		}

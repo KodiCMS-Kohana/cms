@@ -71,25 +71,25 @@ class Model_Backup_FileSystem extends Model_Backup {
 	 */
 	public function view($file = NULL)
 	{
-		if($file === NULL)
+		if ($file === NULL)
 		{
 			$file = $this->file;
 		}
-		
-		if(!file_exists($file))
+
+		if (!file_exists($file))
 		{
-			throw new Exception('File '.$file.' not exists');
+			throw new Exception('File ' . $file . ' not exists');
 		}
-		
+
 		$za = new ZipArchive();
-		
+
 		$files = '';
 
 		$za->open($file);
 
-		for( $i = 0; $i < $za->numFiles; $i++ )
+		for ($i = 0; $i < $za->numFiles; $i++)
 		{
-			$stat = $za->statIndex( $i );
+			$stat = $za->statIndex($i);
 			$files .= $stat['name'] . "\n";
 		}
 
@@ -104,26 +104,26 @@ class Model_Backup_FileSystem extends Model_Backup {
 	 */
 	public function restore($file = NULL)
 	{
-		if($file === NULL)
+		if ($file === NULL)
 		{
 			$file = $this->file;
 		}
-		
-		if(!file_exists($file))
+
+		if (!file_exists($file))
 		{
-			throw new Exception('File '.$file.' not exists');
+			throw new Exception('File ' . $file . ' not exists');
 		}
 
 		$zip = new ZipArchive;
 
-		if ($zip->open($file) === TRUE) 
+		if ($zip->open($file) === TRUE)
 		{
 			$zip->extractTo(DOCROOT);
 			$zip->close();
-			
+
 			return TRUE;
 		}
-		
+
 		return FALSE;
 	}
 

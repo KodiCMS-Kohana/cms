@@ -1,7 +1,7 @@
 <div class="panel">
 	<?php echo Form::open(Request::current()->uri()); ?>
 	
-	<?php if(Request::initial()->query('type') != 'iframe'): ?>
+	<?php if (Request::initial()->query('type') != 'iframe'): ?>
 	<div class="panel-heading">
 		<h3 class="no-margin-vr">
 			<small>&larr; <?php echo __('Back to widget settings:'); ?></small>
@@ -47,7 +47,7 @@
 				</div>
 			</div>
 			
-			<?php if( ACL::check( 'layout.rebuild')): ?>
+			<?php if (ACL::check('layout.rebuild')): ?>
 			<?php echo UI::button(__('Rebuild blocks'), array(
 				'icon' => UI::icon( 'refresh' ),
 				'class' => 'btn-xs btn-danger',
@@ -79,12 +79,12 @@ function recurse_pages( $pages, $spaces = 0, $layouts_blocks = array(), $page_wi
 		
 		$data .= '<tr data-id="'.$page['id'].'" data-parent-id="'.$page['parent_id'].'">';
 		$data .= '<td>';
-		if(!empty($page['childs']))
+		if (!empty($page['childs']))
 		{
 			$data .= '<div class="input-group">';
 		}
 		$data .= Form::hidden('blocks['.$page['id'].'][name]', $current_block, array('class' => 'widget-blocks form-control', 'data-layout' => $page['layout_file']));
-		if(!empty($page['childs']))
+		if (!empty($page['childs']))
 		{
 			$data .= "<div class=\"input-group-btn\">" . Form::button(NULL, UI::icon('level-down'), array(
 				'class' => 'set_to_inner_pages btn',
@@ -95,7 +95,7 @@ function recurse_pages( $pages, $spaces = 0, $layouts_blocks = array(), $page_wi
 		$data .= Form::input('blocks[' . $page['id'] . '][position]', (int) $current_position, array('maxlength' => 4, 'size' => 4, 'class' => 'form-control text-right widget-position') );
 		$data .= '</td><td></td>';
 		
-		if ( Acl::check( 'page.edit'))
+		if (Acl::check('page.edit'))
 		{
 			$data .= '<th>' . str_repeat("-&nbsp;", $spaces) . HTML::anchor(Route::get('backend')->uri(array(
 				'controller' => 'page',
@@ -110,7 +110,7 @@ function recurse_pages( $pages, $spaces = 0, $layouts_blocks = array(), $page_wi
 		
 		$data .= '</tr>';
 		
-		if(!empty($page['childs']))
+		if (!empty($page['childs']))
 		{
 			$data .= recurse_pages($page['childs'], $spaces + 5, $layouts_blocks, $page_widgets, $pages_widgets);
 		}

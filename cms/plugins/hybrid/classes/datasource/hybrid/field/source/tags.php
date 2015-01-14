@@ -64,9 +64,9 @@ class DataSource_Hybrid_Field_Source_Tags extends DataSource_Hybrid_Field_Source
 		$old = array_unique(Arr::map('trim', $old));
 		$new = array_unique(Arr::map('trim', $new));
 
-		if(empty($new))
+		if (empty($new))
 		{
-			foreach($old as $tag)
+			foreach ($old as $tag)
 			{
 				DB::update(Model_Tag::tableName())
 					->set(array('count' => DB::expr('count - 1')))
@@ -85,7 +85,7 @@ class DataSource_Hybrid_Field_Source_Tags extends DataSource_Hybrid_Field_Source
 		$new_tags = array_diff($new, $old);
 
 		// insert all tags in the tag table and then populate the page_tag table
-		foreach( $new_tags as $index => $tag_name )
+		foreach ($new_tags as $index => $tag_name)
 		{
 			if (empty($tag_name))
 			{
@@ -101,7 +101,7 @@ class DataSource_Hybrid_Field_Source_Tags extends DataSource_Hybrid_Field_Source
 			{
 				$tag = new Model_Tag(array('name' => trim($tag_name)));
 			}
-			
+
 			$tag->count++;
 			$tag->save();
 		
@@ -118,7 +118,7 @@ class DataSource_Hybrid_Field_Source_Tags extends DataSource_Hybrid_Field_Source
 		}
 		
 		// remove all old tag
-		foreach( $old_tags as $index => $tag_name )
+		foreach ($old_tags as $index => $tag_name)
 		{
 			// get the id of the tag
 			$tag = Record::findOneFrom('Model_Tag',
@@ -143,7 +143,7 @@ class DataSource_Hybrid_Field_Source_Tags extends DataSource_Hybrid_Field_Source
 			->execute()
 			->as_array(NULL, 'tag_id');
 		
-		foreach($ids as $id)
+		foreach ($ids as $id)
 		{
 			DB::update(Model_Tag::tableName())
 				->set(array('count' => DB::expr('count - 1')))
@@ -173,12 +173,17 @@ class DataSource_Hybrid_Field_Source_Tags extends DataSource_Hybrid_Field_Source
 	 */
 	public static function fetch_widget_field($widget, $field, $row, $fid, $recurse)
 	{
-		return !empty($row[$fid]) ? explode(',', $row[$fid]) : array();
+		return !empty($row[$fid]) 
+			? explode(',', $row[$fid]) 
+			: array();
 	}
 
 	public function fetch_headline_value($value, $document_id)
 	{
-		if(empty($value)) return NULL;
+		if (empty($value))
+		{
+			return NULL;
+		}
 
 		$tags = explode(',', $value);
 		foreach ($tags as $i => $tag)

@@ -1,4 +1,4 @@
-<?php if($inline === TRUE): ?>
+<?php if ($inline === TRUE): ?>
 	<?php echo Form::input($name, $value, $attributes); ?>
 <?php else: ?>
 <div class="form-group">

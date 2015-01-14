@@ -43,7 +43,7 @@ class KodiCMS_Controller_System_Security extends Controller_System_Controller
 			$this->_deny_access();
 		}
 		
-		if(
+		if (
 			$this->auth_required === TRUE
 		AND
 			! in_array($this->request->action(), $this->allowed_actions)

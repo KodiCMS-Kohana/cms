@@ -1,17 +1,23 @@
 <?php 
-if(empty($data))
+if (empty($data))
+{
 	$data = array();
+}
 
-if(empty($container))
+if (empty($container))
+{
 	$container = 'rows-container';
+}
 
-if(empty($field))
+if (empty($field))
+{
 	$field = 'data';
+}
 
 $container = URL::title($container);
 $field = URL::title($field, '_');
 
-$slugify = ! isset($slugify) ? TRUE : (bool) $slugify;
+$slugify = !isset($slugify) ? TRUE : (bool) $slugify;
 ?>
 
 <script type="text/javascript">
@@ -49,11 +55,11 @@ $slugify = ! isset($slugify) ? TRUE : (bool) $slugify;
 </script>
 
 <div class="form-group" id="<?php echo $container; ?>">
-	<?php if(!empty($label)): ?><label class="control-label col-md-3"><?php echo $label; ?></label><?php endif; ?>
-	<div class="<?php if(!empty($label)): ?>col-xs-9<?php else: ?>col-xs-12<?php endif; ?>">
+	<?php if (!empty($label)): ?><label class="control-label col-md-3"><?php echo $label; ?></label><?php endif; ?>
+	<div class="<?php if (!empty($label)): ?>col-xs-9<?php else: ?>col-xs-12<?php endif; ?>">
 		<div class="row-helper hidden padding-xs-vr">
 			<div class="input-group">
-				<input type="text" name="<?php echo $field; ?>[key][]" disabled="disabled" class="form-control <?php if($slugify): ?>slug<?php endif; ?> row-key" data-separator="_" placeholder="<?php echo __('Key'); ?>">
+				<input type="text" name="<?php echo $field; ?>[key][]" disabled="disabled" class="form-control <?php if ($slugify): ?>slug<?php endif; ?> row-key" data-separator="_" placeholder="<?php echo __('Key'); ?>">
 				<span class="input-group-addon"> - </span>
 				<input type="text" name="<?php echo $field; ?>[value][]" disabled="disabled" class="form-control row-value" placeholder="<?php echo __('Description'); ?>">
 				<div class="input-group-btn">

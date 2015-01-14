@@ -1,7 +1,7 @@
 <?php echo Form::open(Route::get('email_controllers')->uri(array('controller' => 'templates', 'action' => $action, 'id' => $template->id)), array(
 	'class' => array(Form::HORIZONTAL, 'panel')
 )); ?>
-	<?php echo Form::hidden('token', Security::token()); ?>
+	<?php echo Form::token('token'); ?>
 	<div class="panel-heading">
 		<span class="panel-title"><?php echo __('General information'); ?></span>
 	</div>
@@ -24,10 +24,10 @@
 				<div class="input-group">
 				<?php echo $template->field('email_type'); ?>
 				
-				<?php if ( Acl::check( 'email_type.add')): ?>
+				<?php if (Acl::check('email_type.add')): ?>
 				<div class="input-group-btn">
 					<?php echo UI::button(__('Add email type'), array(
-						'href' => Route::get( 'email_controllers')->uri(array('controller' => 'types', 'action' => 'add')), 'icon' => UI::icon('plus'),
+						'href' => Route::get('email_controllers')->uri(array('controller' => 'types', 'action' => 'add')), 'icon' => UI::icon('plus'),
 						'class' => 'btn-primary'
 					)); ?>
 				</div>

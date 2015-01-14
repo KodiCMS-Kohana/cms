@@ -13,12 +13,12 @@ class Kohana_Database_Helper {
 	 */
 	public static function insert_sql($sql, $db = NULL)
 	{
-		if($db === NULL)
+		if ($db === NULL)
 		{
 			$db = Database::instance();
 		}
 
-		if(defined('TABLE_PREFIX_TMP'))
+		if (defined('TABLE_PREFIX_TMP'))
 		{
 			$sql = str_replace('__TABLE_PREFIX__', TABLE_PREFIX_TMP, $sql);
 		}
@@ -85,29 +85,33 @@ class Kohana_Database_Helper {
 
 		foreach ($path as $dir)
 		{
-			if($dir->isDot()) continue;
-			$file_name = MODPATH . $dir->getBasename() . DIRECTORY_SEPARATOR . 'install' . DIRECTORY_SEPARATOR . 'schema.sql';
-			if(file_exists($file_name))
+			if ($dir->isDot())
 			{
-				$schema .= file_get_contents( $file_name );
+				continue;
+			}
+	
+			$file_name = MODPATH . $dir->getBasename() . DIRECTORY_SEPARATOR . 'install' . DIRECTORY_SEPARATOR . 'schema.sql';
+			if (file_exists($file_name))
+			{
+				$schema .= file_get_contents($file_name);
 				$schema .= "\n\n";
 			}
 		}
 		
-		if(class_exists('Plugins'))
+		if (class_exists('Plugins'))
 		{
 			foreach (Plugins::activated() as $id)
 			{
 				$file_name = PLUGPATH . $id . DIRECTORY_SEPARATOR . 'install' . DIRECTORY_SEPARATOR . 'schema.sql';
-				
-				if(file_exists($file_name))
+
+				if (file_exists($file_name))
 				{
-					$schema .= file_get_contents( $file_name );
+					$schema .= file_get_contents($file_name);
 					$schema .= "\n\n";
 				}
 			}
 		}
-		
+
 		return str_replace('__TABLE_PREFIX__', TABLE_PREFIX, $schema);
 	}
 
@@ -236,7 +240,7 @@ class Kohana_Database_Helper {
 					$result[$table] = $info;
 				}
 			}
-			elseif($info['differs'])
+			elseif ($info['differs'])
 			{
 				$resultInfo = $info;
 				unset($resultInfo['differs']);
@@ -326,7 +330,7 @@ class Kohana_Database_Helper {
 		foreach ($all as $tab)
 		{
 			$info = array('destOrphan'=>FALSE, 'sourceOrphan'=>FALSE, 'differs'=>FALSE);
-			if(in_array($tab, $destOrphans))
+			if (in_array($tab, $destOrphans))
 			{
 				$info['destOrphan'] = TRUE;
 			}
@@ -340,15 +344,15 @@ class Kohana_Database_Helper {
 				$sourceSql = $this->_get_tab_sql($this->_source_struct, $tab, TRUE);
 
 				$diffs = $this->_compare_sql($sourceSql, $destSql);				
-				if ($diffs===FALSE)
+				if ($diffs === FALSE)
 				{
-					trigger_error('[WARNING] error parsing definition of table "'.$tab.'" - skipped');
+					trigger_error('[WARNING] error parsing definition of table "' . $tab . '" - skipped');
 					continue;
 				}
 				elseif (!empty($diffs))//not empty array
 				{
-					$info['differs'] = $diffs;					
-				}				
+					$info['differs'] = $diffs;
+				}
 				else continue;//empty array
 			}
 			
@@ -777,16 +781,16 @@ class Kohana_Database_Helper {
 			
 			if ($action == 'drop')
 			{
-				if(strpos($sql, 'CONSTRAINT') !== FALSE)
+				if (strpos($sql, 'CONSTRAINT') !== FALSE)
 				{
 					$sql = str_replace('`', '', $sql);
 					//ALTER TABLE `job_logs` DROP FOREIGN KEY `job_logs_ibfk_1`;
 					$pos1 = strpos($sql, ' ');
 					$pos2 = strpos($sql, ' ', $pos1 + 1);
 					$key = trim(substr($sql, $pos1, $pos2 - $pos1 + 1));
-					
+
 					$spacePos = 'FOREIGN KEY ' . Database::instance()->quote($key);
-					
+
 					$result.= ' ' . $spacePos;
 				}
 				else
@@ -868,7 +872,7 @@ class Kohana_Database_Helper {
 				{
 					array_push($stack, $m[6][0]);
 				}
-				elseif($m[6][0]==')' && end($stack)=='(')
+				elseif ($m[6][0] == ')' && end($stack) == '(')
 				{
 					array_pop($stack);
 				}

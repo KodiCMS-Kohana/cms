@@ -20,12 +20,12 @@ class API {
 	protected static function _get_key()
 	{
 		$key = Config::get('api', 'key');
-		
-		if($key === NULL)
+
+		if ($key === NULL)
 		{
 			throw HTTP_API_Exception::factory(API::ERROR_TOKEN, 'API key not generated. Generate a new key in the site settings.');
 		}
-		
+
 		return $key;
 	}
 
@@ -109,16 +109,16 @@ class API {
 	 */
 	public static function request($uri, $cache = FALSE)
 	{
-		if(strpos( $uri, '-' ) === FALSE)
+		if (strpos($uri, '-') === FALSE)
 		{
 			$uri = '-' . $uri;
 		}
-		else if (strpos( $uri, '-' ) > 0 AND strpos( $uri, '/' ) === FALSE)
+		else if (strpos($uri, '-') > 0 AND strpos($uri, '/') === FALSE)
 		{
 			$uri = '/' . $uri;
 		}
-		
-		if(IS_BACKEND)
+
+		if (IS_BACKEND)
 		{
 			$uri = ADMIN_DIR_NAME . '/api' . $uri;
 		}
@@ -126,9 +126,9 @@ class API {
 		{
 			$uri = 'api' . $uri;
 		}
-		
+
 		$params = array();
-		if($cache !== FALSE)
+		if ($cache !== FALSE)
 		{
 			$params['cache'] = HTTP_Cache::factory(Cache::instance());
 		}

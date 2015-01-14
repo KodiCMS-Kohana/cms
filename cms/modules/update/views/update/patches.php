@@ -19,13 +19,13 @@
 		<?php if (!empty($patches)): ?>
 		<h4 class="no-margin-t"><?php echo __('Select patch to apply'); ?></h4>
 
-		<?php echo Form::select( 'patch', $patches, NULL); ?>
+		<?php echo Form::select('patch', $patches, NULL); ?>
 		<?php else: ?>
 		<h2><?php echo __('No available patches'); ?></h2>
 		<?php endif; ?>
 	</div>
 
-	<?php if( ! empty($patches)): ?>
+	<?php if (!empty($patches)): ?>
 	<div class="panel-footer form-actions">
 		<?php echo Form::button('apply', __('Apply'), array('class' => 'btn btn-confirm btn-danger')); ?>
 	</div>

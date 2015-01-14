@@ -141,7 +141,7 @@ class KodiCMS_Model_Page_Front {
 		Observer::notify('page_not_found', $message, $params);
 		throw new HTTP_Exception_404($message, $params);
 	}
-	
+
 	/**
 	 * 
 	 * @param type $default
@@ -241,11 +241,11 @@ class KodiCMS_Model_Page_Front {
 	 */
 	public function updator()
 	{
-		if($this->updator instanceof Model_User)
+		if ($this->updator instanceof Model_User)
 		{
 			return $this->updator;
 		}
-		
+
 		$this->updator = ORM::factory('user', $this->updated_by_id);
 		return $this->updator;
 	}
@@ -884,7 +884,7 @@ class KodiCMS_Model_Page_Front {
 		{
 			return $this;
 		}
-		else if($this->parent() instanceof Model_Page_Front)
+		else if ($this->parent() instanceof Model_Page_Front)
 		{
 			return $this->parent()->parent($level);
 		}
@@ -939,7 +939,6 @@ class KodiCMS_Model_Page_Front {
 	public function mime()
 	{
 		$mime = File::mime_by_ext(pathinfo($this->url(), PATHINFO_EXTENSION));
-
 		return $mime === FALSE ? 'text/html' : $mime;
 	}
 
@@ -1020,7 +1019,7 @@ class KodiCMS_Model_Page_Front {
 	 */
 	public function parse_meta($key, $value = NULL)
 	{
-		if($value === NULL)
+		if ($value === NULL)
 		{
 			$value = strtr($this->{$key}, array('\'' => '\\\'', '\\' => '\\\\'));
 		}
@@ -1033,15 +1032,15 @@ class KodiCMS_Model_Page_Front {
 				'|[\.]+'.
 			')\}(?!\})/u', $value, $fields);
 
-		if($found) 
+		if ($found)
 		{
 			$fields = array_unique($fields[1]);
 			$parts = array();
 	
-			foreach($fields as $i => $field) 
+			foreach ($fields as $i => $field)
 			{
 				$patterns[] = '/(?<!\\{)\\{' . preg_quote($field, '/') . '\\}(?!\\})/u';
-				switch($field) 
+				switch ($field)
 				{
 					case '.': // Current page
 						if ($key == 'meta_title')
@@ -1057,18 +1056,18 @@ class KodiCMS_Model_Page_Front {
 						break;
 					default: // Level
 						if (
-							Valid::numeric($field)
-						AND
-							$this->level() != $field
-						AND
-							$this->parent($field) instanceof Model_Page_Front
+								Valid::numeric($field)
+								AND
+								$this->level() != $field
+								AND
+								$this->parent($field) instanceof Model_Page_Front
 						)
 						{
 							$parts[] = $this->parent($field)->{$key}();
 						}
 						break;
 				}
-				
+
 				$param = NULL;
 				$meta_param = NULL;
 				$default = NULL;

@@ -30,7 +30,7 @@ class Controller_Datasources_Section extends Controller_System_Datasource
 		else
 		{
 			$type = strtolower($this->request->param('id'));
-			if(ACL::check($type . '.section.create'))
+			if (ACL::check($type . '.section.create'))
 			{
 				$this->allowed_actions[] = 'create';
 			}
@@ -45,16 +45,16 @@ class Controller_Datasources_Section extends Controller_System_Datasource
 		$type = strtolower($type);
 
 		$types = Datasource_Data_Manager::types();
-		if( Arr::get($types, $type) === NULL)
+		if (Arr::get($types, $type) === NULL)
 		{
 			throw new Kohana_Exception('Datasource type :type not found', array(':type' => $type));
 		}
-		
-		if($this->request->method() === Request::POST)
+
+		if ($this->request->method() === Request::POST)
 		{
 			return $this->_create($type);
 		}
-		
+
 		$this->set_title(__('Add section :type', array(':type' => Arr::get($types, $type))));
 		
 		try
@@ -116,11 +116,11 @@ class Controller_Datasources_Section extends Controller_System_Datasource
 
 	public function action_edit()
 	{
-		if($this->request->method() === Request::POST)
+		if ($this->request->method() === Request::POST)
 		{
 			return $this->_edit($this->section());
 		}
-		
+
 		$this->breadcrumbs
 			->add($this->section()->name, Route::get('datasources')->uri(array(
 				'controller' => 'data',

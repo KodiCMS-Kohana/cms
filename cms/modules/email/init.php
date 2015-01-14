@@ -1,7 +1,7 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
 Observer::observe('modules::after_load', function() {
-	if(IS_INSTALLED AND ACL::check('system.email.settings'))
+	if (IS_INSTALLED AND ACL::check('system.email.settings'))
 	{
 		Observer::observe('view_setting_plugins', function() {
 			echo View::factory('email/settings', array(

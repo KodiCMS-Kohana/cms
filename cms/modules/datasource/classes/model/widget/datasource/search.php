@@ -39,11 +39,11 @@ class Model_Widget_Datasource_Search extends Model_Widget_Decorator_Pagination {
 	 */
 	public function set_values(array $data)
 	{
-		if(empty($data['sources']))
+		if (empty($data['sources']))
 		{
 			$data['sources'] = array();
 		}
-		
+
 		return parent::set_values($data);
 	}
 
@@ -115,29 +115,32 @@ class Model_Widget_Datasource_Search extends Model_Widget_Decorator_Pagination {
 
 		$ids = Search::instance()->find_by_keyword($keyword, FALSE, $modules, $this->list_size, $this->list_offset);
 
-		if(empty($ids))
+		if (empty($ids))
 		{
 			return $return;
 		}
-		
+
 		$results = array();
 		
 		foreach ($this->source_hrefs as $id => $href)
 		{
-			if( ! isset($ids['ds_' . $id])) continue;
-	
+			if (!isset($ids['ds_' . $id]))
+			{
+				continue;
+			}
+
 			foreach ($ids['ds_' . $id] as $item)
 			{
 				$item['href'] = str_replace(':id', $item['id'], $href);
 				
-				if(!empty($item['params']))
+				if (!empty($item['params']))
 				{
-					foreach($item['params'] as $field => $value)
+					foreach ($item['params'] as $field => $value)
 					{
 						$item['href'] = str_replace(':' . $field, $value, $href);
 					}
 				}
-				
+
 				$results[] = $item;
 			}
 		}

@@ -18,7 +18,7 @@ class KodiCMS_Model_Widget_Part {
 		$this->block = $block;
 		$this->_html = $html;
 	}
-	
+
 	public function __toString()
 	{
 		return (string) $this->_html;

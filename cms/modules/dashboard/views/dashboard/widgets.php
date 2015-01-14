@@ -1,4 +1,4 @@
-<?php if(count($types) > 0): ?>
+<?php if (count($types) > 0): ?>
 <?php foreach ($types as $key => $data): ?>
 <div class="col-sm-6">
 	<div class="panel">

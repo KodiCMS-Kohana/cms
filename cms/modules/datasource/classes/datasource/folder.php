@@ -103,7 +103,7 @@ class Datasource_Folder {
 	 */
 	public static function delete($id)
 	{
-		if((bool) DB::delete('datasource_folders')
+		if ((bool) DB::delete('datasource_folders')
 			->where('id', '=', (int) $id)
 			->execute())
 		{

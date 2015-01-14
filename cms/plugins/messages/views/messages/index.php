@@ -12,7 +12,7 @@
 			
 			<button type="button" class="btn btn-default btn-check-new"><i class="fa fa-repeat"></i></button>
 			
-			<?php if(count($messages) > 0): ?>
+			<?php if (count($messages) > 0): ?>
 				<button type="button" class="btn btn-remove btn-danger"><i class="fa fa-trash-o"></i></button>
 			<?php endif; ?>
 		</div>

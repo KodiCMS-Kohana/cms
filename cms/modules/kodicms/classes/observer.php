@@ -12,46 +12,67 @@ final class Observer {
 
 	static protected $events = array( );
 
+	/**
+	 * 
+	 * @param array|string $event_names
+	 * @param string|callable $callback
+	 */
 	public static function observe($event_names, $callback)
 	{
-		if ( ! is_array($event_names))
+		if (!is_array($event_names))
 		{
 			$event_names = array($event_names);
 		}
-		
-		$args = array_slice( func_get_args(), 2 );
-		
+
+		$args = array_slice(func_get_args(), 2);
+
 		foreach ($event_names as $event)
 		{
-			if ( ! isset(self::$events[$event]))
+			if (!isset(self::$events[$event]))
 			{
 				self::$events[$event] = array();
 			}
-			
+
 			self::$events[$event][] = array($callback, $args);
 		}
 	}
 
-	public static function stopObserving( $event_name, $callback )
+	/**
+	 * 
+	 * @param string $event_name
+	 * @param string $callback
+	 */
+	public static function stopObserving($event_name, $callback)
 	{
-		if ( isset( self::$events[$event_name][$callback] ) )
+		if (isset(self::$events[$event_name][$callback]))
 		{
-			unset( self::$events[$event_name][$callback] );
+			unset(self::$events[$event_name][$callback]);
 		}
 	}
 
-	public static function clearObservers( $event_name )
+	/**
+	 * 
+	 * @param string $event_name
+	 */
+	public static function clearObservers($event_name)
 	{
-		self::$events[$event_name] = array( );
+		self::$events[$event_name] = array();
 	}
 
-	public static function getObserverList( $event_name )
+	/**
+	 * 
+	 * @param string $event_name
+	 * @return array
+	 */
+	public static function getObserverList($event_name)
 	{
 		return Arr::get(self::$events, $event_name, array());
 	}
 
 	/**
 	 * If your event does not need to process the return values from any observers use this instead of getObserverList()
+	 * 
+	 * @param string $event_name
 	 */
 	public static function notify($event_name)
 	{
@@ -61,7 +82,7 @@ final class Observer {
 		{
 			list($class, $class_args) = $callback;
 
-			if(Kohana::$profiling === TRUE)
+			if (Kohana::$profiling === TRUE)
 			{
 				$benchmark = Profiler::start('Observer notify', $event_name);
 			}
@@ -72,7 +93,7 @@ final class Observer {
 			}
 			else
 			{
-				call_user_func_array( $class, Arr::merge($args, $class_args) );
+				call_user_func_array($class, Arr::merge($args, $class_args));
 			}
 
 			if (isset($benchmark))

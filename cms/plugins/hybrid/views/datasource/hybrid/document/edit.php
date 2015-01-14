@@ -1,5 +1,5 @@
 <script type="text/javascript">
-<?php if(!$document->has_access_change()): ?>
+<?php if (!$document->has_access_change()): ?>
 $(function() {
 	$(':input').attr('disabled', 'disabled');
 });
@@ -67,7 +67,7 @@ function update_documents(e, response) {
 }
 </script>
 
-<?php if($document->has_access_change()): ?>
+<?php if ($document->has_access_change()): ?>
 <?php echo Form::open(Route::get('datasources')->uri(array(
 		'controller' => 'document',
 		'directory' => $datasource->type(),
@@ -77,7 +77,7 @@ function update_documents(e, response) {
 )); ?>
 <?php echo Form::hidden('ds_id', $datasource->id()); ?>
 <?php echo Form::hidden('id', $document->id); ?>
-<?php echo Form::hidden('csrf', Security::token()); ?>
+<?php echo Form::token(); ?>
 <?php else: ?>
 <div class="form-horizontal panel">
 <?php endif; ?>
@@ -124,11 +124,11 @@ function update_documents(e, response) {
 	</div>
 	<hr class="panel-wide" />
 </div>
-<?php if($datasource->template() !== NULL): ?>
+<?php if ($datasource->template() !== NULL): ?>
 <?php echo View_Front::factory($datasource->template(), array(
 	'fields' => $fields
 )); ?>
-<?php elseif(!empty($fields)): ?>
+<?php elseif (!empty($fields)): ?>
 <div class="panel-body">
 	<?php foreach ($fields as $key => $field): ?>
 	<?php echo $field->backend_template($document); ?>
@@ -136,7 +136,7 @@ function update_documents(e, response) {
 </div>
 <?php endif; ?>
 
-<?php if($document->has_access_change()): ?>
+<?php if ($document->has_access_change()): ?>
 <div class="form-actions panel-footer">
 	<?php echo UI::actions(TRUE, Route::get('datasources')->uri(array(
 		'controller' => 'data',

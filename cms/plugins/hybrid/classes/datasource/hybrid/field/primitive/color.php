@@ -19,16 +19,16 @@ class DataSource_Hybrid_Field_Primitive_Color extends DataSource_Hybrid_Field_Pr
 		return 'VARCHAR (7) NOT NULL';
 	}
 	
-	public function onValidateDocument( Validation $validation, DataSource_Hybrid_Document $doc )
+	public function onValidateDocument(Validation $validation, DataSource_Hybrid_Document $doc)
 	{
 		$validation->rule($this->name, 'color');
 			
 		return parent::onValidateDocument($validation, $doc);
 	}
 	
-	public function fetch_headline_value( $value, $document_id )
+	public function fetch_headline_value($value, $document_id)
 	{
-		if(!empty($value))
+		if (!empty($value))
 		{
 			return UI::icon('tag fa-lg', array(
 				'style' => 'color: ' . $value

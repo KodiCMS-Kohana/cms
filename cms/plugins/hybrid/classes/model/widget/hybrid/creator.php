@@ -255,7 +255,7 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Decorator_Handler {
 		
 		$data = array();
 
-		foreach($fields as $field)
+		foreach ($fields as $field)
 		{
 			$data[$field] = $this->_get_field_value($field);
 		}
@@ -269,18 +269,18 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Decorator_Handler {
 	
 	public function fetch_backend_content()
 	{
-		if($this->ds_id > 0 AND ! Datasource_Data_Manager::exists($this->ds_id))
+		if ($this->ds_id > 0 AND ! Datasource_Data_Manager::exists($this->ds_id))
 		{
 			$this->ds_id = 0;
 			Widget_Manager::update($this);
 		}
-		
+
 		return parent::fetch_backend_content();
 	}
 	
 	protected function _send_http_reponse()
 	{
-		if( ! empty($this->redirect_url)) 
+		if (!empty($this->redirect_url))
 		{
 			$url = URL::site($this->redirect_url);
 		}
@@ -288,7 +288,7 @@ class Model_Widget_Hybrid_Creator extends Model_Widget_Decorator_Handler {
 		{
 			$url = Request::current()->referrer();
 		}
-		
+
 		$query = URL::query($this->response, FALSE);
 		HTTP::redirect( preg_replace('/\?.*/', '', $url) . $query, 302);
 	}

@@ -60,13 +60,13 @@ class Controller_API_Widget extends Controller_System_API {
 			->values( array_values( $data ))
 			->execute();
 		
-		if($insert)
+		if ($insert)
 		{
-			$this->response((string) View::factory( 'widgets/ajax/row', array(
+			$this->response((string) View::factory('widgets/ajax/row', array(
 				'widget' => Widget_Manager::load($widget_id),
 				'page' => ORM::factory('page', $page_id)
 			)));
-			
+
 			$this->message('Widget added to page');
 		}
 	}
@@ -75,10 +75,10 @@ class Controller_API_Widget extends Controller_System_API {
 	{
 		$widget_id = (int) $this->param('widget_id', NULL, TRUE);
 		$template = $this->param('template', NULL);
-		
+
 		$widget = Widget_Manager::load($widget_id);
-		
-		if($widget !== NULL)
+
+		if ($widget !== NULL)
 		{
 			$widget->template = empty($template) ? NULL : $template;
 			Widget_Manager::update($widget);
@@ -86,11 +86,11 @@ class Controller_API_Widget extends Controller_System_API {
 			$this->message('Widget template changet to :name', array(
 				':name' => $template
 			));
-			
+
 			$this->response(TRUE);
 			return;
 		}
-		
+
 		$this->response(FALSE);
 	}
 }

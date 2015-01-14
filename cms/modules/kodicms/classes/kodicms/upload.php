@@ -34,18 +34,18 @@ class KodiCMS_Upload extends Kohana_Upload {
 	 * @return string|NULL Название файла.
 	 * @throws Validation_Exception
 	 */
-	public static function file( $file, $directory = NULL, $filename = NULL, array $types = array('jpg', 'jpeg', 'gif', 'png'), $max_size = NULL )
+	public static function file($file, $directory = NULL, $filename = NULL, array $types = array('jpg', 'jpeg', 'gif', 'png'), $max_size = NULL)
 	{
-		if ( ! is_array($file) )
+		if (!is_array($file))
 		{
 			return Upload::from_url($file, $directory, $filename, $types);
 		}
-		
+
 		if ($directory === NULL)
 		{
 			$directory = TMPPATH;
 		}
-		
+
 		if ($filename === NULL)
 		{
 			$filename = uniqid();
@@ -54,47 +54,47 @@ class KodiCMS_Upload extends Kohana_Upload {
 		{
 			$filename = $file['name'];
 		}
-		
-		$ext = strtolower( pathinfo( $file['name'], PATHINFO_EXTENSION ) );
-		$filename_ext = pathinfo( $filename, PATHINFO_EXTENSION );
-		
+
+		$ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+		$filename_ext = pathinfo($filename, PATHINFO_EXTENSION);
+
 		if (empty($filename_ext))
 		{
 			$filename .= '.' . $ext;
 		}
-		
-		if($max_size === NULL)
+
+		if ($max_size === NULL)
 		{
 			$max_size = Num::bytes('20MiB');
 		}
 
-		$validation = Validation::factory( array('file' => $file ) )
-			->rules( 'file', array(
+		$validation = Validation::factory(array('file' => $file))
+			->rules('file', array(
 				array('Upload::valid'),
 				array('Upload::size', array(':value', $max_size))
-			) );
-		
-		if ( ! empty($types) )
+			));
+
+		if (!empty($types))
 		{
 			$validation->rule('file', 'Upload::type', array(':value', $types));
 		}
 
-		if ( ! $validation->check() )
+		if (!$validation->check())
 		{
 			throw new Validation_Exception($validation);
 		}
 
-		if ( ! is_dir( $directory ))
+		if (!is_dir($directory))
 		{
 			mkdir($directory, 0777);
 			chmod($directory, 0777);
 		}
 
-		Upload::save( $file, $filename, $directory, 0777 );
+		Upload::save($file, $filename, $directory, 0777);
 
 		return $filename;
 	}
-	
+
 	/**
 	 * 
 	 * Загрузка файла по URL и сохранение в папку TMPPATH
@@ -147,7 +147,7 @@ class KodiCMS_Upload extends Kohana_Upload {
 				->rules('url', array(
 			array('url'),
 			array('not_empty'),
-				));
+		));
 
 		if (!empty($types))
 		{

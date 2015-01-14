@@ -23,8 +23,7 @@ class HTTP_API_Exception extends Kohana_HTTP_Exception {
 		// Lets log the Exception, Just in case it's important!
 		Kohana_Exception::log($this);
 
-		$params = array
-		(
+		$params = array(
 			'code'  => 500,
 			'message' => rawurlencode($this->getMessage()),
 			'response' => NULL
@@ -39,9 +38,9 @@ class HTTP_API_Exception extends Kohana_HTTP_Exception {
 		{
 			return json_encode($params);
 		}
-		catch ( Exception $e )
+		catch (Exception $e)
 		{
 			return parent::get_response();
 		}
-    }
+	}
 }

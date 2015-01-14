@@ -5,7 +5,7 @@
 		'id' => 'layoutEditForm', 
 		'class' => 'form-horizontal panel')); ?>
 
-	<?php echo Form::hidden('token', Security::token()); ?>
+	<?php echo Form::token('token'); ?>
 	<?php echo Form::hidden('layout_name', $layout->name); ?>
 
 	<div class="panel-heading">
@@ -24,7 +24,7 @@
 	</div>
 	<div class="panel-heading">
 		<span class="panel-title"><?php echo __('Content'); ?></span>
-		<?php if( $layout->is_writable() OR ! $layout->is_exists()): ?>
+		<?php if ($layout->is_writable() OR ! $layout->is_exists()): ?>
 		<div class="panel-heading-controls">
 		<?php echo UI::button(__('File manager'), array(
 			'class' => 'btn-default btn-filemanager',
@@ -36,19 +36,17 @@
 		<?php endif; ?>
 	</div>
 	<?php echo Form::textarea('content', $layout->content, array(
-		'tabindex'		=> 2,
-		'id'			=> 'textarea_content',
-		'data-readonly'		=> ( ! $layout->is_exists() OR ($layout->is_exists() AND $layout->is_writable())) ? 'off' : 'on'
+		'tabindex'			=> 2,
+		'id'				=> 'textarea_content',
+		'data-readonly'		=> (!$layout->is_exists() OR ( $layout->is_exists() AND $layout->is_writable())) ? 'off' : 'on'
 	)); ?>
-	<?php if(
+	<?php if (
 		(ACL::check('layout.edit')
-	AND
-		(
-			! $layout->is_exists() 
-		OR 
-			($layout->is_exists() AND $layout->is_writable())
+		AND (
+		!$layout->is_exists()
+		OR ( $layout->is_exists() AND $layout->is_writable())
 		))
-	OR ! ACL::check( 'layout.view') ): ?>
+		OR ! ACL::check('layout.view')): ?>
 	<div class="form-actions panel-footer">
 		<?php echo UI::actions($page_name); ?>
 	</div>

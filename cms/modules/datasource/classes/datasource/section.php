@@ -25,12 +25,12 @@ class Datasource_Section {
 	 */
 	public static function factory($type)
 	{
-		if( ! self::exists($type) )
+		if (!self::exists($type))
 		{
 			throw new DataSource_Exception_Section('Class :class_name not exists', 
-					array(':class_name' => $class));
+				array(':class_name' => $class));
 		}
-		
+
 		$class = 'Datasource_Section_' . ucfirst($type);
 		return new $class($type);
 	}
@@ -56,15 +56,15 @@ class Datasource_Section {
 	 */
 	public static function uri($action = 'view', $ds_id = NULL)
 	{
-		if($action == 'view')
+		if ($action == 'view')
 		{
 			$uri = Route::get('datasources')->uri(array(
 				'controller' => 'data',
 				'directory' => 'datasources',
 			));
-			
+
 			return $ds_id !== NULL 
-				? $uri. URL::query(array('ds_id' => (int) $ds_id))
+				? $uri . URL::query(array('ds_id' => (int) $ds_id)) 
 				: $uri;
 		}
 
@@ -109,7 +109,7 @@ class Datasource_Section {
 			->execute()
 			->current();
 		
-		if($query == NULL OR ($section = self::load_from_array($query)) === NULL)
+		if ($query == NULL OR ( $section = self::load_from_array($query)) === NULL)
 		{
 			return NULL;
 		}

@@ -22,7 +22,7 @@
 				<th><?php echo Arr::get($test, 'title'); ?></th>
 				<td>
 					<div class="<?php echo !$test['failed'] ? 'text-success' : ''; ?>"><?php echo $test['message']; ?></div>
-					<?php $notice = Arr::get($test, 'notice'); if(is_array($notice)): ?>
+					<?php $notice = Arr::get($test, 'notice'); if (is_array($notice)): ?>
 					<br />
 					<div class="<?php echo Arr::get($notice, 'class'); ?> padding-xs-vr no-margin-b">
 						<?php echo UI::icon('lightbulb-o fa-lg'); ?>  <?php echo Arr::get($notice, 'message'); ?>

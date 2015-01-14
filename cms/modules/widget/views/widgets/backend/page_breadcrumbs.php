@@ -10,7 +10,7 @@
 		<tbody>
 			<?php foreach($pages as $page): ?>
 			<tr>
-				<?php if($page['id'] > 1): ?>
+				<?php if ($page['id'] > 1): ?>
 				<td>
 					<?php echo Form::checkbox('exclude[]', $page['id'], in_array($page['id'], $widget->exclude), array('id' => 'page'.$page['id'])); ?>
 				</td>

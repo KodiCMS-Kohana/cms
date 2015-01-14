@@ -27,7 +27,7 @@
 	<span class="panel-title"><?php echo __('Datasource links'); ?></span>
 </div>
 <div class="panel-body ">
-	<?php foreach ($widget->sources() as $id => $header): if(!in_array($id, $widget->sources)) continue; ?>
+	<?php foreach ($widget->sources() as $id => $header): if (!in_array($id, $widget->sources)) continue; ?>
 	<div class="form-group">
 		<label class="control-label col-md-3" for="source<?php echo $id; ?>"><?php echo $header; ?></label>
 		<div class="col-md-3">

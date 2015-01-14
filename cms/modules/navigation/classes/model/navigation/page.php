@@ -18,15 +18,15 @@ class Model_Navigation_Page extends Model_Navigation_Abstract {
 	 * @param mixed $value
 	 * @return \Model_Navigation_Page
 	 */
-	public function __set( $name, $value )
+	public function __set($name, $value)
 	{
 		parent::__set($name, $value);
-		
-		if($this->_section !== NULL)
+
+		if ($this->_section !== NULL)
 		{
 			$this->_section->update();
 		}
-		
+
 		return $this;
 	}
 
@@ -39,7 +39,8 @@ class Model_Navigation_Page extends Model_Navigation_Abstract {
 	{
 		parent::set_active($status);
 		$this->_section->set_active($status);
-		
+
 		return $this;
 	}
+
 }

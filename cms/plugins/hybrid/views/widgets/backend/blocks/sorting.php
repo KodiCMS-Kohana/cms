@@ -33,12 +33,12 @@ $fields[] = DataSource_Hybrid_Field::factory('primitive_datetime', array(
 
 foreach ($fields as $field)
 {
-	if( ! $field->is_sortable() ) 
+	if (!$field->is_sortable())
 	{
 		continue;
 	}
 
-	if(!isset($order_fields[$field->id]))
+	if (!isset($order_fields[$field->id]))
 	{
 		$available_fields[$field->id] = $field->header;
 	}
@@ -50,9 +50,9 @@ foreach ($fields as $field)
 
 foreach ($doc_order as $data)
 {
-	if(isset($ids[key($data)]))
+	if (isset($ids[key($data)]))
 	{
-		$selected_fields[key($data)] = (($data[key($data)] == Model_Widget_Decorator::ORDER_ASC) ? '+' : '-') .' '. $ids[key($data)];
+		$selected_fields[key($data)] = (($data[key($data)] == Model_Widget_Decorator::ORDER_ASC) ? '+' : '-') . ' ' . $ids[key($data)];
 	}
 }
 

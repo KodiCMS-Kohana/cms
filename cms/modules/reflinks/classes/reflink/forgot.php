@@ -29,7 +29,7 @@ class Reflink_Forgot extends Reflink {
 			
 			return TRUE;
 		}
-		catch ( Kohana_Exception $e )
+		catch (Kohana_Exception $e)
 		{
 			throw new Reflink_Exception('Email :email not send', array(
 				':email' => $this->_model->user->email));

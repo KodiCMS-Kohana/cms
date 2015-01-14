@@ -19,6 +19,6 @@ class Sidebar_Fields_Header extends Sidebar_Fields_Abstract {
 	public function __construct($label) 
 	{
 		$this->_field['label'] = $label;
-		$this->_view = View::factory('sidebar/fields/'.$this->_template);
+		$this->_view = View::factory('sidebar/fields/' . $this->_template);
 	}
 }

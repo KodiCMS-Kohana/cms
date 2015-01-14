@@ -38,36 +38,36 @@ class KodiCMS_Task_Users_Add extends Minion_Task
 				'email')
 			);
 		
-		if( empty($params['name']))
+			if (empty($params['name']))
 		{
 			$params['name'] = $params['username'];
 		}
-		
-		if(!empty($params['roles']))
+
+		if (!empty($params['roles']))
 		{
 			$roles = explode(',', $params['roles']);
 		}
-		
-		if( empty($roles) )
+
+		if (empty($roles))
 		{
 			$roles = array('login');
 		}
 
-		if ( $user->create() )
+		if ($user->create())
 		{
 			$roles = DB::select('id')
 				->from('roles')
 				->where('name', 'in', $roles)
 				->execute()
 				->as_array(NULL, 'id');
-			
+
 			$params['user_id'] = $user->id;
 			$user->profile
 				->values($params, array('user_id', 'name'))
 				->create();
 
 			$user->update_related_ids('roles', $roles);
-			
+
 			Minion_CLI::write('==============================================');
 			Minion_CLI::write(__('User successfully created'));
 			Minion_CLI::write('==============================================');

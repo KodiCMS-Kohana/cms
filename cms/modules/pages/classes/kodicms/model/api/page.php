@@ -25,12 +25,12 @@ class KodiCMS_Model_API_Page extends Model_API {
 			->select_array( $this->filtered_fields( $fields ) )
 			->from($this->_table_name);
 		
-		if(!empty($uids))
+		if (!empty($uids))
 		{
 			$pages->where('id', 'in', $uids);
 		}
-		
-		if(!empty($pid))
+
+		if (!empty($pid))
 		{
 			$pages->where('parent_id', '=', (int) $pid);
 		}
@@ -39,25 +39,24 @@ class KodiCMS_Model_API_Page extends Model_API {
 			->execute()
 			->as_array('id');
 
-		if(in_array('parts', $fields))
+		if (in_array('parts', $fields))
 		{
 			$parts = Model::factory('api_page_part')
 				->get(array_keys($pages), array_merge($fields, array('page_id')));
-			
-			if(is_array($parts))
+
+			if (is_array($parts))
 			{
 				foreach ($parts as $part)
 				{
-					if(isset($pages[$part['page_id']]))
+					if (isset($pages[$part['page_id']]))
 					{
 						$pages[$part['page_id']]['parts'][$part['id']] = $part;
-
 						unset($pages[$part['page_id']]['parts'][$part['id']]['page_id']);
 					}
 				}
 			}
 		}
-		
+
 		return $this->create_tree($pages, $fields);
 	}
 	
@@ -78,15 +77,13 @@ class KodiCMS_Model_API_Page extends Model_API {
 		{
 			$slug = $row['slug'];
 
-			if(isset($indexed[$row['parent_id']]))
+			if (isset($indexed[$row['parent_id']]))
 			{
 				$indexed[$row['parent_id']]['pages'][] =& $indexed[$id];
 				$indexed[$id]['slug'] = $indexed[$row['parent_id']]['slug'] . '/' . $slug;
 				$indexed[$id]['level'] = $indexed[$row['parent_id']]['level'] + 1;
 				
-				
-
-				if (!$row['parent_id']) 
+				if (!$row['parent_id'])
 				{
 					$root = $id;
 				}
@@ -95,7 +92,7 @@ class KodiCMS_Model_API_Page extends Model_API {
 			$indexed[$id]['url'] = URL::frontend($indexed[$id]['slug'], TRUE);
 		}
 		
-		if($root == NULL)
+		if ($root == NULL)
 		{
 			$indexed = array_shift($indexed);
 		}
@@ -110,15 +107,15 @@ class KodiCMS_Model_API_Page extends Model_API {
 	public function find_by_uri($uri, $fields = array())
 	{
 		$fields = $this->prepare_param($fields);
-		
+
 		$page = Model_Page_Front::find($uri);
-		
-		if(!$page)
+
+		if (!$page)
 		{
 			throw new HTTP_Exception_404('Page :uri not found', array(
-				':uri' => $uri ));
+				':uri' => $uri));
 		}
-		
+
 		// If page needs login, redirect to login
 		if ($page->needs_login() == Model_Page::LOGIN_REQUIRED)
 		{
@@ -126,9 +123,7 @@ class KodiCMS_Model_API_Page extends Model_API {
 				':uri' => $uri ));
 		}
 		
-		$fields = array_merge(array(
-			'id', 'title', 'url'
-		), $fields);
+		$fields = array_merge(array('id', 'title', 'url'), $fields);
 		
 		$allowed_fields = array(
 			'id', 'title', 'url', 'breadcrumb', 'author', 'author_id',
@@ -139,33 +134,34 @@ class KodiCMS_Model_API_Page extends Model_API {
 		
 		foreach ($fields as $field)
 		{
-			if( strpos( $field, 'part::') === 0)
+			if (strpos($field, 'part::') === 0)
 			{
 				$allowed_fields[] = $field;
 			}
 		}
-		
+
 		$fields = array_intersect($allowed_fields, $fields);
 		
 		$array = array();
 		
 		foreach ($fields as $field)
 		{
-			if($field == 'content')
+			if ($field == 'content')
 			{
 				$array['content'] = (string) $page->render_layout();
 				continue;
 			}
-			elseif(strpos( $field, 'part::') === 0)
+			elseif (strpos($field, 'part::') === 0)
 			{
 				list($part, $name) = explode('::', $field);
 				$array[$part][$name] = $page->content($name);
 			}
-			else if( method_exists( $page, $field ))
+			else if (method_exists($page, $field))
 			{
 				$array[$field] = $page->$field();
 			}
 		}
+
 		return array('page' => $array);
 	}
 }

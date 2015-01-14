@@ -7,7 +7,7 @@
 			<button type="button" class="btn btn-default btn-xs remove_widget"><?php echo UI::icon('times'); ?></button>
 		</div>
 	</div>
-	<?php if(empty($rss_url)): ?>
+	<?php if (empty($rss_url)): ?>
 	<div class="note note-warning">
 		<?php echo UI::icon('lightbulb-o fa-lg'); ?> <?php echo __('You need set RSS feed url'); ?>
 	</div>

@@ -19,7 +19,7 @@ class KodiCMS_Model_Layout_Block extends ORM {
 	 * @param string $name
 	 * @return array
 	 */
-	public function find_by_layout( $name )
+	public function find_by_layout($name)
 	{
 		return DB::select('block')
 			->from($this->table_name())

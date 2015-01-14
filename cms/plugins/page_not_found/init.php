@@ -6,6 +6,6 @@ Plugin::factory('page_not_found', array(
 	'author' => 'ButscH'
 ))->register();
 
-Observer::observe('page_not_found', function( $message, $params ){
+Observer::observe('page_not_found', function($message, $params) {
 	throw new HTTP_Exception_Front_404($message, $params);
 });

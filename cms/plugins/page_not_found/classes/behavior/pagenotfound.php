@@ -12,5 +12,6 @@ class Behavior_PageNotFound extends Behavior_Abstract
 {
 	public function execute()
 	{
+		
 	}
 }

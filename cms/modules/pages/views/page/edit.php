@@ -73,7 +73,7 @@
 					<?php Observer::notify('view_page_edit_plugins', $page); ?>
 					
 					<div class="panel-body">
-						<?php if($action != 'add' AND $page->loaded()): ?>
+						<?php if ($action != 'add' AND $page->loaded()): ?>
 
 						<?php if (isset($page->updated_on)): ?>
 						<?php echo UI::label(__('Last updated by :anchor on :date', array(

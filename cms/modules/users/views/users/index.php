@@ -1,6 +1,6 @@
 <div class="panel">
 	<div class="panel-heading">
-		<?php if ( Acl::check( 'users.add')): ?>
+		<?php if (Acl::check('users.add')): ?>
 		<?php echo UI::button(__('Add user'), array(
 			'href' => Route::get('backend')->uri(array('controller' => 'users', 'action' => 'add')), 
 			'icon' => UI::icon('plus'),

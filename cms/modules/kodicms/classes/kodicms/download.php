@@ -9,14 +9,25 @@
  * @license		http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
  */
 class KodiCMS_Download {
-	
+
+	/**
+	 * 
+	 * @param string $path
+	 * @return string
+	 */
 	public static function secure_path($path)
 	{
 		return Encrypt::instance()->encode($path);
 	}
-	
+
+	/**
+	 * 
+	 * @param string $path
+	 * @return string
+	 */
 	public static function decode_path($path)
 	{
 		return Encrypt::instance()->decode($path);
 	}
+
 }

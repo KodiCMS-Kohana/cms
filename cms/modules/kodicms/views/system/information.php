@@ -51,7 +51,7 @@
 		</table>
 	</div>
 	
-	<?php if(Acl::check('system.phpinfo') AND function_exists('phpinfo')): ?>
+	<?php if (Acl::check('system.phpinfo') AND function_exists('phpinfo')): ?>
 	<div class="panel-heading">
 		<span class="panel-title"><?php echo __('PHP info'); ?></span>
 	</div>

@@ -20,7 +20,7 @@ class Task_Email_Queue extends Minion_Task
 	{
 		try
 		{
-			if($params['use_sleep'] == 1)
+			if ($params['use_sleep'] == 1)
 			{
 				$status = Email_Queue::batch_send_with_sleep();
 			}

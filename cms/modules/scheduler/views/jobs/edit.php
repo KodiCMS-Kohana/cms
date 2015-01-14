@@ -7,7 +7,7 @@
 		<span class="panel-title"><?php echo __('General information'); ?></span>
 		
 		<div class="panel-heading-controls">
-		<?php if($job->loaded() AND  Acl::check('jobs.run')): ?>
+		<?php if ($job->loaded() AND Acl::check('jobs.run')): ?>
 		<?php echo UI::button(__('Run job'), array(
 			'href' => Route::get('backend')->uri(array('controller' => 'jobs', 'action' => 'run', 'id' => $job->id)), 
 			'icon' => UI::icon('bolt'),

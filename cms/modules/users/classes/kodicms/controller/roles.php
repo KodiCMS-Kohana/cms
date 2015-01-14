@@ -149,7 +149,7 @@ class KodiCMS_Controller_Roles extends Controller_System_Backend {
 		}
 	}
 
-	public function action_delete( )
+	public function action_delete()
 	{
 		$this->auto_render = FALSE;
 		$id = $this->request->param('id');

@@ -10,10 +10,10 @@
 		'method' => 'post', 'class' => 'panel', 'id' => 'signin-form_id'
 	));
 	
-	echo Form::hidden( 'token', Security::token() ); 
+	echo Form::token('token'); 
 	?>
 	
-	<?php if( is_array( $install_data)): ?>
+	<?php if (is_array($install_data)): ?>
 	<div class="alert alert-page alert-info alert-dark">
 		<h4><?php echo __('KodiCMS successfully installed!'); ?></h4>
 		<ul class="list-unstyled">

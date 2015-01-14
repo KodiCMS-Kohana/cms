@@ -50,11 +50,11 @@ class KodiCMS_Search_Sphinx extends Search {
 
 		$matches = Arr::get($data, 'matches', array());
 		
-		if(empty($matches))
+		if (empty($matches))
 		{
 			return array();
 		}
-		
+
 		$ids = array();
 		foreach ($matches as $id => $row)
 		{

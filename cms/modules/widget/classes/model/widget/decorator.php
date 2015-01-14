@@ -182,20 +182,23 @@ abstract class Model_Widget_Decorator {
 	 */
 	public function type($as_key = TRUE)
 	{
-		if($as_key === TRUE)
+		if ($as_key === TRUE)
 		{
 			return $this->_type;
 		}
-		
+
 		$widget_types = Widget_Manager::map();
-		
+
 		$type = $this->_type;
 
-		foreach($widget_types as $group => $types)
+		foreach ($widget_types as $group => $types)
 		{
-			if(isset($types[$type])) $type = $types[$type];
+			if (isset($types[$type]))
+			{
+				$type = $types[$type];
+			}
 		}
-		
+
 		return $type;
 	}
 
@@ -299,11 +302,11 @@ abstract class Model_Widget_Decorator {
 	 */
 	public function backend_template()
 	{
-		if($this->backend_template === NULL)
+		if ($this->backend_template === NULL)
 		{
 			$this->backend_template = $this->type();
 		}
-		
+
 		return $this->backend_template;
 	}
 	
@@ -316,11 +319,11 @@ abstract class Model_Widget_Decorator {
 	 */
 	public function frontend_template()
 	{
-		if($this->frontend_template === NULL)
+		if ($this->frontend_template === NULL)
 		{
 			$this->frontend_template = $this->type();
 		}
-		
+
 		return $this->frontend_template;
 	}
 	
@@ -333,7 +336,7 @@ abstract class Model_Widget_Decorator {
 	{
 		if (($template = Kohana::find_file('views', 'widgets/' . $this->frontend_template_preffix . '/' . $this->frontend_template())) === FALSE)
 		{
-			$template = Kohana::find_file('views', 'widgets/' . $this->frontend_template_preffix .'/default');
+			$template = Kohana::find_file('views', 'widgets/' . $this->frontend_template_preffix . '/default');
 		}
 
 		return $template;
@@ -349,11 +352,11 @@ abstract class Model_Widget_Decorator {
 	{
 		$this->caching = (bool) Arr::get($data, 'caching', FALSE);
 		$this->cache_lifetime = (int) Arr::get($data, 'cache_lifetime');
-		
+
 		$this->cache_tags = explode(',', Arr::get($data, 'cache_tags'));
-		
+
 		unset($data['caching'], $data['cache_lifetime'], $data['cache_tags']);
-		
+
 		return $this;
 	}
 
@@ -391,7 +394,7 @@ abstract class Model_Widget_Decorator {
 	 */
 	public function clear_cache()
 	{
-		if($this->caching === TRUE)
+		if ($this->caching === TRUE)
 		{
 			Fragment::delete($this->get_cache_id());
 		}
@@ -405,26 +408,26 @@ abstract class Model_Widget_Decorator {
 	 */
 	public function clear_cache_by_tags()
 	{
-		if(!empty($this->cache_tags) AND Kohana::$caching === TRUE)
+		if (!empty($this->cache_tags) AND Kohana::$caching === TRUE)
 		{
 			$cache = Cache::instance();
-			
-			if($cache instanceof Cache_Tagging)
+
+			if ($cache instanceof Cache_Tagging)
 			{
-				if( is_array( $this->cache_tags ))
+				if (is_array($this->cache_tags))
 				{
-					foreach($this->cache_tags as $tag)
+					foreach ($this->cache_tags as $tag)
 					{
 						$cache->delete_tag($tag);
 					}
 				}
 				else
 				{
-					$cache->delete_tag( $this->cache_tags );
+					$cache->delete_tag($this->cache_tags);
 				}
 			}
 		}
-		
+
 		return $this;
 	}
 	
@@ -448,8 +451,8 @@ abstract class Model_Widget_Decorator {
 	public function create_email_type(array $fields)
 	{
 		$email_type = ORM::factory('email_type', array('code' => $this->get_hash()));
-		
-		if( ! $email_type->loaded())
+
+		if (!$email_type->loaded())
 		{
 			$email_type->values(array(
 				'code' => $this->get_hash(),
@@ -457,11 +460,11 @@ abstract class Model_Widget_Decorator {
 			))->create();
 		}
 
-		if( !empty($fields))
+		if (!empty($fields))
 		{
 			$email_type->set('data', $fields)->update();
 		}
-		
+
 		return $email_type;
 	}
 	
@@ -527,22 +530,22 @@ abstract class Model_Widget_Decorator {
 	 */
 	public function set_values(array $data)
 	{
-		if(empty($data['roles']))
+		if (empty($data['roles']))
 		{
 			$data['roles'] = array();
 		}
-		
-		if(empty($data['media']))
+
+		if (empty($data['media']))
 		{
 			$data['media'] = array();
 		}
-		
-		if(empty($data['media_packages']))
+
+		if (empty($data['media_packages']))
 		{
 			$data['media_packages'] = array();
 		}
 
-		foreach($data as $key => $value)
+		foreach ($data as $key => $value)
 		{
 			if (method_exists($this, 'set_' . $key))
 			{
@@ -553,7 +556,7 @@ abstract class Model_Widget_Decorator {
 				$this->{$key} = $value;
 			}
 		}
-		
+
 		return $this;
 	}
 	
@@ -565,10 +568,10 @@ abstract class Model_Widget_Decorator {
 	public function set_params(array $params = array()) 
 	{
 		$this->template_params = Arr::merge($params, $this->template_params);
-		
+
 		return $this;
 	}
-	
+
 	/**
 	 * 
 	 * @param array $files
@@ -663,9 +666,9 @@ abstract class Model_Widget_Decorator {
 			echo "<!--{Widget: {$this->name}}-->";
 		}
 
-		if(
+		if (
 			$this->caching === TRUE
-		AND 
+			AND 
 			! Fragment::load($this->get_cache_id(), $this->cache_lifetime, TRUE)
 		)
 		{
@@ -697,24 +700,24 @@ abstract class Model_Widget_Decorator {
 	 */
 	protected function _fetch_template()
 	{
-		if( empty($this->template) ) 
+		if (empty($this->template))
 		{
 			$this->template = $this->default_template();
 		}
 		else
 		{
 			$snippet = new Model_File_Snippet($this->template);
-			
-			if( $snippet->is_exists() )
+
+			if ($snippet->is_exists())
 			{
 				$this->template = $snippet->get_file();
 			}
-			else if(($this->template = $snippet->find_file()) === FALSE)
+			else if (($this->template = $snippet->find_file()) === FALSE)
 			{
 				$this->template = $this->default_template();
 			}
 		}
-		
+
 		return $this->template;
 	}
 
@@ -771,7 +774,7 @@ abstract class Model_Widget_Decorator {
 				}
 			}
 		}
-		
+
 		if (!empty($this->media_packages))
 		{
 			Assets::package($this->media_packages);

@@ -12,11 +12,13 @@ class Kodicms_HTML extends Kohana_HTML {
 	public static function attributes(array $attributes = NULL)
 	{
 		if (empty($attributes))
+		{
 			return '';
+		}
 
 		foreach ($attributes as $key => $value)
 		{
-			if(is_array($value))
+			if (is_array($value))
 			{
 				$attributes[$key] = implode(' ', $value);
 			}
@@ -24,7 +26,7 @@ class Kodicms_HTML extends Kohana_HTML {
 
 		return parent::attributes($attributes);
 	}
-	
+
 	/**
 	 * Generate an ordered list of items.
 	 *
@@ -97,7 +99,8 @@ class Kodicms_HTML extends Kohana_HTML {
 		}
 		else
 		{
-			return '<li>'.$key.self::_listing($type, $value).'</li>';
+			return '<li>' . $key . self::_listing($type, $value) . '</li>';
 		}
 	}
+
 }

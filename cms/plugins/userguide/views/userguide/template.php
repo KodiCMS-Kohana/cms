@@ -21,7 +21,7 @@
 	</head>
 	<body id="body_<?php echo $page_body_id; ?>" class="<?php echo $request->query('type'); ?> <?php echo $theme; ?> main-menu-fixed">
 		<div id="main-wrapper">
-			<?php if($request->query('type') != 'iframe'): ?>
+			<?php if ($request->query('type') != 'iframe'): ?>
 			<header>
 				<?php echo View::factory('system/layout/navbar'); ?>
 			</header>
@@ -40,7 +40,7 @@
 						</div>
 					</div>
 					<div class="col-md-9">
-						<?php if(!empty($title)): ?>
+						<?php if (!empty($title)): ?>
 						<?php echo UI::page_header($title); ?>
 						<?php endif; ?>
 						<?php echo $content; ?>

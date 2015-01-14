@@ -33,14 +33,16 @@ abstract class Model_Backup {
 	 */
 	public static function factory($file = NULL)
 	{
-		if( is_dir($file))
+		if (is_dir($file))
+		{
 			throw new HTTP_Exception_404('Must be file');
+		}
 
 		$ext = pathinfo($file, PATHINFO_EXTENSION);
-		
+
 		$class = NULL;
 
-		switch ( $ext )
+		switch ($ext)
 		{
 			case 'zip':
 				$class = 'Model_Backup_FileSystem';
@@ -54,7 +56,7 @@ abstract class Model_Backup {
 
 		return new $class($file);
 	}
-	
+
 	abstract public function create();
 	abstract public function view();
 	abstract public function restore();

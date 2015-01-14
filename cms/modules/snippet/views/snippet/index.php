@@ -1,6 +1,6 @@
  <div class="panel">
 	<div class="panel-heading">
-		<?php if( ACL::check( 'snippet.add')): ?>
+		<?php if (ACL::check('snippet.add')): ?>
 		<?php echo UI::button(__('Add snippet'), array(
 			'href' => Route::get('backend')->uri(array('controller' => 'snippet', 'action' => 'add')), 
 			'icon' => UI::icon('plus'),
@@ -32,11 +32,11 @@
 			<tr>
 				<th class="name">
 					<?php echo UI::icon('file-code-o'); ?>
-					<?php if( ! $snippet->is_writable()): ?>
+					<?php if (!$snippet->is_writable()): ?>
 					<span class="label label-warning"><?php echo __('Read only'); ?></span>
 					<?php endif; ?>
 
-					<?php if( ACL::check('snippet.edit') OR ACL::check('snippet.view')): ?>
+					<?php if (ACL::check('snippet.edit') OR ACL::check('snippet.view')): ?>
 					<?php echo HTML::anchor(Route::get('backend')->uri(array(
 						'controller' => 'snippet', 
 						'action' => 'edit', 
@@ -58,7 +58,7 @@
 					<?php echo UI::label($snippet->get_relative_path()); ?>
 				</td>
 				<td class="actions text-right">
-					<?php if( ACL::check( 'snippet.delete')): ?>
+					<?php if (ACL::check('snippet.delete')): ?>
 					<?php echo UI::button(NULL, array(
 						'href' => Route::get('backend')->uri(array('controller' => 'snippet', 'action' => 'delete', 'id' => $snippet->name)), 
 						'icon' => UI::icon('times fa-inverse'),

@@ -15,17 +15,16 @@ class Model_Widget_Page_Pages extends Model_Widget_Decorator_Pagination {
 	public function set_values(array $data)
 	{		
 		$data['include_users_object'] = (bool) Arr::get($data, 'include_users_object');
-		
 		return parent::set_values($data);
 	}
 	
 	public function on_page_load()
 	{
 		parent::on_page_load();
-		
+
 		$page = $this->get_current_page();
-		
-		if( ! ($page instanceof Model_Page_Front) )
+
+		if (!($page instanceof Model_Page_Front))
 		{
 			$this->_ctx->throw_404(__('Selected page in widget :widget_name not found', array(
 				':widget_name' => $this->name
@@ -38,12 +37,12 @@ class Model_Widget_Page_Pages extends Model_Widget_Decorator_Pagination {
 		$pages = Model_Page_Sitemap::get(TRUE);
 		
 		$select = array('-');
-		foreach($pages->flatten() as $page)
+		foreach ($pages->flatten() as $page)
 		{
 			$uri = !empty($page['uri']) ? $page['uri'] : '/';
 			$select[$page['id']] = $page['title'] . ' (' . $uri . ')';
 		}
-		
+
 		return array(
 			'select' => $select
 		);
@@ -56,11 +55,11 @@ class Model_Widget_Page_Pages extends Model_Widget_Decorator_Pagination {
 	
 	public function get_page_id()
 	{
-		if($this->page_id >= 1)
+		if ($this->page_id >= 1)
 		{
 			return $this->page_id;
 		}
-		else if($this->page_id == 0 AND ($page = $this->_ctx->get_page()) instanceof Model_Page_Front)
+		else if ($this->page_id == 0 AND ( $page = $this->_ctx->get_page()) instanceof Model_Page_Front)
 		{
 			return $page->id;
 		}
@@ -149,11 +148,11 @@ class Model_Widget_Page_Pages extends Model_Widget_Decorator_Pagination {
 	 */
 	public function get_current_page()
 	{
-		if( ! $this->current_page)
+		if (!$this->current_page)
 		{
 			$this->current_page = Model_Page_Front::findById($this->get_page_id());
 		}
-		
+
 		return $this->current_page;
 	}
 	

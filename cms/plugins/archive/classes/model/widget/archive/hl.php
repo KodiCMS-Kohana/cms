@@ -19,8 +19,8 @@ class Model_Widget_Archive_HL extends Model_Widget_Page_Pages {
 	public function fetch_data()
 	{
 		$page = $this->get_page();
-		
-		if( ! ($page instanceof Model_Page_Behavior_Archive) )
+
+		if (!($page instanceof Model_Page_Behavior_Archive))
 		{
 			Model_Page_Front::not_found();
 		}
@@ -33,13 +33,13 @@ class Model_Widget_Archive_HL extends Model_Widget_Page_Pages {
 			'where' => array(array('page.published_on', 'like', $date . '%')),
 			'order_by' => array(array('page.published_on', 'desc'))
 		);
-		
-		if($this->list_offset > 0)
+
+		if ($this->list_offset > 0)
 		{
 			$clause['offset'] = (int) $this->list_offset;
 		}
-		
-		if($this->list_size > 0)
+
+		if ($this->list_size > 0)
 		{
 			$clause['limit'] = (int) $this->list_size;
 		}

@@ -40,27 +40,30 @@ class Model_Widget_Page_Search extends Model_Widget_Decorator_Pagination {
 			'keyword' => $keyword
 		);
 
-		if(empty($keyword)) return $return;
-		
-		$ids = Search::instance()->find_by_keyword($keyword, FALSE, 'pages', $this->list_size, $this->list_offset);
-
-		if(empty($ids['pages'])) 
+		if (empty($keyword))
 		{
 			return $return;
 		}
-	
+
+		$ids = Search::instance()->find_by_keyword($keyword, FALSE, 'pages', $this->list_size, $this->list_offset);
+
+		if (empty($ids['pages']))
+		{
+			return $return;
+		}
+
 		$pages = array();
 		foreach ($ids['pages'] as $item)
 		{
-			if(($page = Model_Page_Front::findById($item['id'])) === FALSE )
+			if (($page = Model_Page_Front::findById($item['id'])) === FALSE)
 			{
 				$this->_total--;
 				continue;
 			}
-			
+
 			$pages[$item['id']] = $page;
 		}
-		
+
 		$return['total_found'] = $this->_total;
 		$return['results'] = $pages;
 
@@ -75,10 +78,10 @@ class Model_Widget_Page_Search extends Model_Widget_Decorator_Pagination {
 	{
 		$keyword = $this->_ctx->get($this->search_key);
 		$this->_total = Search::instance()->count_by_keyword($keyword, FALSE, 'pages');
-		
+
 		return $this->_total;
 	}
-	
+
 	public function get_cache_id()
 	{
 		return 'Widget::' . $this->type() . '::' . $this->id . '::' . $this->keyword();

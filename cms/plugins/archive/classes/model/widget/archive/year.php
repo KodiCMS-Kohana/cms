@@ -28,10 +28,10 @@ class Model_Widget_Archive_Year extends Model_Widget_Archive {
 			->as_array(NULL, 'date');
 
 		$data = array();
-		foreach($result as $date)
+		foreach ($result as $date)
 		{
 			$data[] = array(
-				'href' => BASE_URL . $page->url .'/'. $date . URL_SUFFIX,
+				'href' => BASE_URL . $page->url . '/' . $date . URL_SUFFIX,
 				'title' => $date,
 				'date' => $date
 			);

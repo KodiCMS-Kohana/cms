@@ -131,35 +131,37 @@ class Model_Email_Template extends ORM
 	 */
 	public function send( array $options = NULL )
 	{
-		if ( ! $this->_loaded)
+		if (!$this->_loaded)
+		{
 			throw new Kohana_Exception('Cannot send message because it is not loaded.');
+		}
 		
-		if($this->use_queue())
+		if ($this->use_queue())
 		{
 			return $this->add_to_queue($options);
 		}
-		
-		foreach($this->_object as $field => $value)
+
+		foreach ($this->_object as $field => $value)
 		{
 			$this->_object[$field] = str_replace(array_keys($options), array_values($options), $value);
 		}
-		
+
 		$email = Email::factory($this->subject)
 			->from($this->email_from)
 			->to($this->email_to)
 			->message($this->message, 'text/' . $this->message_type);
 		
-		if(!empty($this->cc))
+		if (!empty($this->cc))
 		{
 			$email->cc($this->cc);
 		}
-		
-		if(!empty($this->bcc))
+
+		if (!empty($this->bcc))
 		{
 			$email->cc($this->bcc);
 		}
-		
-		if(!empty($this->reply_to))
+
+		if (!empty($this->reply_to))
 		{
 			$email->reply_to($this->reply_to);
 		}
@@ -172,21 +174,23 @@ class Model_Email_Template extends ORM
 	 * @param array $options
 	 * @throws Kohana_Exception
 	 */
-	public function add_to_queue( array $options = NULL )
+	public function add_to_queue(array $options = NULL)
 	{
-		if ( ! $this->_loaded)
+		if (!$this->_loaded)
+		{
 			throw new Kohana_Exception('Cannot send message because it is not loaded.');
+		}
 
-		foreach($this->_object as $field => $value)
+		foreach ($this->_object as $field => $value)
 		{
 			$this->_object[$field] = str_replace(array_keys($options), array_values($options), $value);
 		}
-		
+
 		Email_Queue::add_to_queue($this->email_to, array(
 			$this->email_from, Config::get('site', 'title')
 		), $this->subject, $this->message);
 	}
-	
+
 	/**
 	 * 
 	 * @return array

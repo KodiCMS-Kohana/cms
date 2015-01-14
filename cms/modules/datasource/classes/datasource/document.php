@@ -593,8 +593,8 @@ class Datasource_Document implements ArrayAccess {
 		$values['ds_id'] = $this->section()->id();
 		$values['created_on'] = date('Y-m-d H:i:s');
 		$values['updated_on'] = $values['created_on'];
-		
-		if($this->_is_authored === TRUE)
+
+		if ($this->_is_authored === TRUE)
 		{
 			$values['created_by_id'] = (int) Auth::get_id();
 		}
@@ -745,7 +745,7 @@ class Datasource_Document implements ArrayAccess {
 			$rules = $this->rules();
 			foreach ($rules as $field => $_rules)
 			{
-				if(!in_array($field, $expected))
+				if (!in_array($field, $expected))
 				{
 					unset($rules[$field]);
 				}
@@ -764,19 +764,19 @@ class Datasource_Document implements ArrayAccess {
 			$validation->label($field, $label);
 		}
 
-		if( ! $validation->check() OR $extra_errors )
+		if (!$validation->check() OR $extra_errors)
 		{
-			$exception = new Validation_Exception( $validation );
-			
+			$exception = new Validation_Exception($validation);
+
 			if ($extra_errors)
 			{
 				// Merge any possible errors from the external object
 				$exception->add_object($extra_validation);
 			}
-			
+
 			throw $exception;
 		}
-		
+
 		return TRUE;
 	}
 
@@ -817,17 +817,17 @@ class Datasource_Document implements ArrayAccess {
 	 */
 	public function is_creator($user_id = NULL)
 	{
-		if($this->_is_authored === TRUE)
+		if ($this->_is_authored === TRUE)
 		{
-			if($user_id === NULL)
+			if ($user_id === NULL)
 			{
 				$user_id = Auth::get_id();
 			}
 
 			$created_by_id = (int) Arr::get($this->system_fields(), 'created_by_id');
-			return ACL::is_admin($user_id) OR ($created_by_id == (int) $user_id);
+			return ACL::is_admin($user_id) OR ( $created_by_id == (int) $user_id);
 		}
-		
+
 		return TRUE;
 	}
 	

@@ -1,6 +1,6 @@
 <div class="panel">
 	<div class="panel-heading">
-		<?php if ( Acl::check('roles.add')): ?>
+		<?php if (Acl::check('roles.add')): ?>
 		<?php echo UI::button(__('Add role'), array(
 			'href' => Route::get('backend')->uri(array('controller' => 'roles', 'action' => 'add')), 
 			'icon' => UI::icon('plus'),

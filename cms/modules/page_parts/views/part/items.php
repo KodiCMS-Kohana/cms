@@ -2,7 +2,7 @@
 
 <div id="pageEditParts"></div>
 
-<?php if( ACL::check('page.parts')): ?>
+<?php if (ACL::check('page.parts')): ?>
 <div id="pageEditPartsPanel" class="panel-heading">
 	<?php echo UI::button( __( 'Add page part' ), array(
 		'id' => 'pageEditPartAddButton', 

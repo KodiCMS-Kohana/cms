@@ -44,7 +44,7 @@ abstract class Model_Widget_Decorator_Handler extends Model_Widget_Decorator {
 	
 	public function send_response()
 	{
-		if($this->is_ajax())
+		if ($this->is_ajax())
 		{
 			$this->ajax_response();
 		}

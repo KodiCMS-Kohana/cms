@@ -23,23 +23,23 @@ class KodiCMS_ORM extends Kohana_ORM {
 	 * @param array $attributes
 	 * @return string
 	 */
-	public function label( $field, array $attributes = NULL, $only_text = FALSE )
+	public function label($field, array $attributes = NULL, $only_text = FALSE)
 	{
-		if($only_text === FALSE)
+		if ($only_text === FALSE)
 		{
-			return Form::label( $this->object_name() . '_' . $field, Arr::get($this->labels(), $field), $attributes);
+			return Form::label($this->object_name() . '_' . $field, Arr::get($this->labels(), $field), $attributes);
 		}
-		
+
 		return Arr::get($this->labels(), $field);
 	}
-	
+
 	/**
 	 * 
 	 * @param string $field
 	 * @param array $attributes
 	 * @return string
 	 */
-	public function field( $field, array $attributes = NULL )
+	public function field($field, array $attributes = NULL)
 	{
 		$field_data = Arr::get($this->form_columns(), $field);
 
@@ -51,8 +51,8 @@ class KodiCMS_ORM extends Kohana_ORM {
 		}
 
 		$field_name = $field;
-		
-		if(Arr::get($field_data, 'free') !== TRUE)
+
+		if (Arr::get($field_data, 'free') !== TRUE)
 		{
 			$value = $this->get($field);
 		}
@@ -86,9 +86,9 @@ class KodiCMS_ORM extends Kohana_ORM {
 		{
 			$choices = Callback::invoke($field_data['choices']);
 		}
-		
+
 		$input = NULL;
-		
+
 		if (isset($attributes['class']) AND ! is_array($attributes['class']))
 		{
 			$attributes['class'] = array($attributes['class']);

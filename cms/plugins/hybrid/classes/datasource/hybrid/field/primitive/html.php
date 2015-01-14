@@ -33,11 +33,11 @@ class DataSource_Hybrid_Field_Primitive_HTML extends DataSource_Hybrid_Field_Pri
 	{
 		$value = parent::onSetValue($value, $doc);
 		
-		if($this->remove_empty_tags === TRUE)
+		if ($this->remove_empty_tags === TRUE)
 		{
 			return Kses::remove_empty_tags($value);
 		}
-		
+
 		return $value;
 	}
 

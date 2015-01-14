@@ -67,11 +67,11 @@ class KodiCMS_Model_User extends Model_Auth_User {
 	{
 		$role = ORM::factory('role');
 		return $this
-			->select( array( DB::expr('GROUP_CONCAT('.Database::instance()->quote_column('permission.name').')'), 'roles' ) )
-			->join( array( 'roles_users', 'user_permission'), 'left' )
-				->on( 'user.id', '=', 'user_permission.user_id' )
-			->join( array( $role->table_name(), 'permission'), 'left' )
-				->on( 'user_permission.role_id', '=', 'permission.id' );
+			->select(array(DB::expr('GROUP_CONCAT(' . Database::instance()->quote_column('permission.name') . ')'), 'roles'))
+			->join(array('roles_users', 'user_permission'), 'left')
+			->on('user.id', '=', 'user_permission.user_id')
+			->join(array($role->table_name(), 'permission'), 'left')
+			->on('user_permission.role_id', '=', 'permission.id');
 	}
 
 	/**
@@ -84,15 +84,15 @@ class KodiCMS_Model_User extends Model_Auth_User {
 	public function has_role($role, $all_required = TRUE) 
 	{
 		$status = TRUE;
-		
-		if(is_array($role))
+
+		if (is_array($role))
 		{
 			$status = (bool) $all_required;
-			
+
 			foreach ($role as $_role)
 			{
 				// If the user doesn't have the role
-				if ( !in_array($_role, $this->roles()))
+				if (!in_array($_role, $this->roles()))
 				{
 					// Set the status false and get outta here
 					$status = FALSE;
@@ -102,10 +102,10 @@ class KodiCMS_Model_User extends Model_Auth_User {
 						break;
 					}
 				}
-				elseif ( ! $all_required )
+				elseif (!$all_required)
 				{
-				   $status = TRUE;
-				   break;
+					$status = TRUE;
+					break;
 				}
 			}
 		}
@@ -113,7 +113,7 @@ class KodiCMS_Model_User extends Model_Auth_User {
 		{
 			$status = in_array($role, $this->roles());
 		}
-		
+
 		return $status;
 	}
 	
@@ -138,13 +138,13 @@ class KodiCMS_Model_User extends Model_Auth_User {
 	 */
 	public function roles()
 	{
-		if($this->_roles === NULL)
+		if ($this->_roles === NULL)
 		{
 			$this->_roles = $this->roles
 				->find_all()
 				->as_array('id', 'name');
 		}
-		
+
 		return $this->_roles;
 	}
 	
@@ -157,7 +157,7 @@ class KodiCMS_Model_User extends Model_Auth_User {
 		$permissions = array();
 		$roles = $this->roles();
 		
-		if( ! empty($roles) )
+		if (!empty($roles))
 		{
 			$permissions = DB::select('action')
 				->from('roles_permissions')
@@ -165,7 +165,7 @@ class KodiCMS_Model_User extends Model_Auth_User {
 				->execute()
 				->as_array(NULL, 'action');
 		}
-		
+
 		return array_unique($permissions);
 	}
 	
@@ -178,17 +178,17 @@ class KodiCMS_Model_User extends Model_Auth_User {
 	{
 		$permissions = array();
 
-		foreach(Acl::get_permissions() as $section_title => $actions)
+		foreach (Acl::get_permissions() as $section_title => $actions)
 		{
-			foreach($actions as $action => $title)
+			foreach ($actions as $action => $title)
 			{
-				if( Acl::check($action, $this) )
+				if (Acl::check($action, $this))
 				{
 					$permissions[$section_title][$action] = $title;
 				}
 			}
 		}
-		
+
 		return $permissions;
 	}
 
@@ -214,13 +214,14 @@ class KodiCMS_Model_User extends Model_Auth_User {
 	 */
 	public function change_email($email)
 	{
-		if(!$this->loaded())
+		if (!$this->loaded())
 		{
-			throw new Kohana_Exception( ' User mast be loaded' );
+			throw new Kohana_Exception(' User mast be loaded');
 		}
-		
-		return $this->update_user( array(
-			'password' => $email, 'password_confirm' => $email
+
+		return $this->update_user(array(
+			'password' => $email, 
+			'password_confirm' => $email
 		));
 	}
 	
@@ -245,17 +246,17 @@ class KodiCMS_Model_User extends Model_Auth_User {
 	public static function locale()
 	{
 		$user = Auth::get_record();
-		
-		if($user instanceof Model_User)
+
+		if ($user instanceof Model_User)
 		{
 			$locale = $user->profile->get('locale');
-			
-			if($locale != Model_User::DEFAULT_LOCALE)
+
+			if ($locale != Model_User::DEFAULT_LOCALE)
 			{
 				return $user->profile->get('locale');
 			}
 		}
-		
+
 		return Config::get('site', 'default_locale');
 	}
 
@@ -268,7 +269,7 @@ class KodiCMS_Model_User extends Model_Auth_User {
 		$parameters = array(
 			'_primary_key_value', '_object', '_changed', '_loaded', '_saved', '_sorting'
 		);
-		
+
 		// Store only information about the object
 		foreach ($parameters as $var)
 		{
@@ -283,8 +284,7 @@ class KodiCMS_Model_User extends Model_Auth_User {
 	 **************************************************************************/
 	public function before_create()
 	{
-		Observer::notify( 'user_before_add', $this );
-		
+		Observer::notify('user_before_add', $this);
 		return parent::before_create();
 	}
 	
@@ -298,15 +298,13 @@ class KodiCMS_Model_User extends Model_Auth_User {
 			)), $this->username),
 		))->write();
 
-		Observer::notify( 'user_after_add', $this );
-		
+		Observer::notify('user_after_add', $this);
 		return parent::after_create();
 	}
 	
 	public function before_update()
 	{
-		Observer::notify( 'user_before_update', $this );
-		
+		Observer::notify('user_before_update', $this);
 		return parent::before_update();
 	}
 	
@@ -337,7 +335,6 @@ class KodiCMS_Model_User extends Model_Auth_User {
 		}
 
 		Observer::notify('user_before_delete', $this);
-
 		return parent::before_delete();
 	}
 	
@@ -348,7 +345,6 @@ class KodiCMS_Model_User extends Model_Auth_User {
 		))->write();
 
 		Observer::notify('user_after_delete', $id);
-
 		return parent::after_delete($id);
 	}
 }

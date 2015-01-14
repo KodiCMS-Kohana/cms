@@ -182,11 +182,11 @@ class Kohana_Cache_MongoDB extends Cache implements Cache_Tagging, Cache_Garbage
 
         foreach($cursor as $doc) 
 		{
-			if(!empty($doc) && !empty($doc['data']) && !$this->expired($doc)) 
+			if (!empty($doc) && !empty($doc['data']) && !$this->expired($doc))
 			{
 				$result[$doc['id']] = unserialize($doc['data']);
-			}        		
-        }
+			}
+		}
 
         return $result;
 	}

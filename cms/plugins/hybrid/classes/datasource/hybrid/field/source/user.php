@@ -26,22 +26,17 @@ class DataSource_Hybrid_Field_Source_User extends DataSource_Hybrid_Field_Source
 	{
 		return array('only_current', 'unique', 'set_current');
 	}
-	
-	public function set( array $data )
+
+	public function onCreateDocument(DataSource_Hybrid_Document $doc)
 	{
-		return parent::set( $data );
-	}
-	
-	public function onCreateDocument(DataSource_Hybrid_Document $doc) 
-	{
-		if($this->set_current)
+		if ($this->set_current)
 		{
 			$doc->set($this->name, Auth::get_id());
 		}
 
 		return $this->onUpdateDocument($doc, $doc);
 	}
-	
+
 	public function onUpdateDocument(DataSource_Hybrid_Document $old = NULL, DataSource_Hybrid_Document $new)
 	{
 		$user_id = $new->get($this->name);
@@ -77,13 +72,16 @@ class DataSource_Hybrid_Field_Source_User extends DataSource_Hybrid_Field_Source
 		return $users;
 	}
 	
-	public function fetch_headline_value( $value, $document_id )
+	public function fetch_headline_value($value, $document_id)
 	{
-		if(empty($value)) return parent::fetch_headline_value($value, $document_id);
+		if (empty($value))
+		{
+			return parent::fetch_headline_value($value, $document_id);
+		}
 
 		$user = ORM::factory('user', (int) $value);
 		
-		if( ! $user->loaded())
+		if (!$user->loaded())
 		{
 			return parent::fetch_headline_value($value, $document_id);
 		}
@@ -99,7 +97,7 @@ class DataSource_Hybrid_Field_Source_User extends DataSource_Hybrid_Field_Source
 		));
 	}
 
-	public static function fetch_widget_field( $widget, $field, $row, $fid )
+	public static function fetch_widget_field($widget, $field, $row, $fid)
 	{
 		return !empty($row[$fid]) 
 			? array(

@@ -96,7 +96,7 @@ class KodiCMS_Controller_Layout extends Controller_System_Backend {
 		}
 	}
 
-	public function action_edit( )
+	public function action_edit()
 	{
 		$layout_name = $this->request->param('id');
 		$layout = new Model_File_Layout($layout_name);
@@ -130,7 +130,7 @@ class KodiCMS_Controller_Layout extends Controller_System_Backend {
 		));
 	}
 
-	protected function _edit( $layout )
+	protected function _edit($layout)
 	{
 		$data = $this->request->post();
 
@@ -166,7 +166,7 @@ class KodiCMS_Controller_Layout extends Controller_System_Backend {
 		}
 	}
 
-	public function action_delete( )
+	public function action_delete()
 	{
 		$this->auto_render = FALSE;
 		$layout_name = $this->request->param('id');

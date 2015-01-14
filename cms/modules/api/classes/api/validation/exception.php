@@ -36,8 +36,7 @@ class API_Validation_Exception extends Kohana_Exception
 		// Lets log the Exception, Just in case it's important!
 		Kohana_Exception::log($this);
 
-		$params = array
-		(
+		$params = array(
 			'code'  => $this->getCode(),
 			'message' => rawurlencode($this->getMessage()),
 			'response' => NULL,
@@ -48,9 +47,9 @@ class API_Validation_Exception extends Kohana_Exception
 		{
 			return json_encode($params);
 		}
-		catch ( Exception $e )
+		catch (Exception $e)
 		{
 			return parent::get_response();
 		}
-    }
+	}
 }

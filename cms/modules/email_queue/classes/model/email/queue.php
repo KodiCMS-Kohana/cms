@@ -58,32 +58,32 @@ class Model_Email_Queue extends ORM
 	 */
 	public function add_to_queue($recipient, $sender, $subject, $body, $priority = 1)
 	{
-		if(is_array($recipient) AND count($recipient) == 2)
+		if (is_array($recipient) AND count($recipient) == 2)
 		{
-			$this->recipient_email	= $recipient[0];
-			$this->recipient_name 	= $recipient[1];
+			$this->recipient_email = $recipient[0];
+			$this->recipient_name = $recipient[1];
 		}
 		else
 		{
 			$this->recipient_email = $recipient;
 		}
-		
-		if(is_array($sender) AND count($sender) == 2)
+
+		if (is_array($sender) AND count($sender) == 2)
 		{
-			$this->sender_email	= $sender[0];
-			$this->sender_name 	= $sender[1];
+			$this->sender_email = $sender[0];
+			$this->sender_name = $sender[1];
 		}
 		else
 		{
 			$this->sender_email = $sender;
 		}
-		
+
 		$this->subject 	= $subject;
 		$this->priority	= $priority;
 
 		try
 		{
-			if($this->create())
+			if ($this->create())
 			{
 				$this->body->values(array(
 					'queue_id' => $this->id,
@@ -92,12 +92,14 @@ class Model_Email_Queue extends ORM
 				->create();
 			}
 		}
-		catch(ORM_Validation_Exception $e)
+		catch (ORM_Validation_Exception $e)
 		{
-			if( $this->loaded() )
+			if ($this->loaded())
+			{
 				$this->delete();
+			}
 		}
-		
+
 		return $this;
 	}
 	
@@ -108,15 +110,15 @@ class Model_Email_Queue extends ORM
 	 * @param 	int 	Number of emails to send (batch size)
 	 * @return 	ORM		Collection of objects
 	 */
-	public function find_batch( $size = NULL )
+	public function find_batch($size = NULL)
 	{
 		$this->where('state', '=', self::STATUS_PENDING)
 			->order_by('priority', 'desc')
 			->order_by('created_on', 'asc');
 
-		if( ! empty($size) )
+		if (!empty($size))
 		{
-			$this->limit( (int) $size );
+			$this->limit((int) $size);
 		}
 
 		return $this->find_all();
@@ -147,7 +149,7 @@ class Model_Email_Queue extends ORM
 		$this->attempts++;
 		$max_attempts = Config::get('email_queue', 'max_attempts');
 
-		if($max_attempts <= $this->attempts)
+		if ($max_attempts <= $this->attempts)
 		{
 			$this->state = self::STATUS_FAILED;
 		}

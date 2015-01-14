@@ -23,7 +23,7 @@ class DataSource_Hybrid_Field_Primitive_Date extends DataSource_Hybrid_Field_Pri
 	
 	public function onSetValue($value, DataSource_Hybrid_Document $doc)
 	{
-		if($this->set_current === TRUE)
+		if ($this->set_current === TRUE)
 		{
 			$this->default = date($this->_format);
 		}
@@ -52,10 +52,12 @@ class DataSource_Hybrid_Field_Primitive_Date extends DataSource_Hybrid_Field_Pri
 			$time = 0;
 		}
 
-		return $time > 0 ? date($this->_format, $time) : date($this->_format);
+		return $time > 0 
+			? date($this->_format, $time) 
+			: date($this->_format);
 	}
 	
-	public function onValidateDocument( Validation $validation, DataSource_Hybrid_Document $doc )
+	public function onValidateDocument(Validation $validation, DataSource_Hybrid_Document $doc)
 	{
 		$validation->rule($this->name, 'date');
 			
@@ -67,9 +69,9 @@ class DataSource_Hybrid_Field_Primitive_Date extends DataSource_Hybrid_Field_Pri
 		return 'DATE NOT NULL';
 	}
 	
-	public function fetch_headline_value( $value, $document_id )
+	public function fetch_headline_value($value, $document_id)
 	{
-		if(!empty($value))
+		if (!empty($value))
 		{
 			return Date::format($value);
 		}

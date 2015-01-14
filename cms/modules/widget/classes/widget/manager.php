@@ -337,12 +337,15 @@ class Widget_Manager {
 	 */
 	public static function install(array $widget_array)
 	{
-		if( 
+		if ( 
 			empty($widget_array['type']) 
 		OR 
 			empty($widget_array['data'])
 		OR 
-			empty($widget_array['data']['name'])) return;
+			empty($widget_array['data']['name'])) 
+		{
+			return;
+		}
 
 		$widget = Widget_Manager::factory($widget_array['type']);
 		

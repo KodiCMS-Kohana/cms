@@ -61,17 +61,17 @@ class KodiCMS_Model_Page_Part extends ORM
 			}
 		}
 		
-		if($this->filter_id === NULL)
+		if ($this->filter_id === NULL)
 		{
 			$this->filter_id = Config::get('site', 'default_filter_id');
 		}
-		
-		if($this->is_protected === NULL)
+
+		if ($this->is_protected === NULL)
 		{
 			$this->is_protected = self::PART_NOT_PROTECTED;
 		}
-		
-		if($this->name === NULL)
+
+		if ($this->name === NULL)
 		{
 			$this->name = 'part';
 		}

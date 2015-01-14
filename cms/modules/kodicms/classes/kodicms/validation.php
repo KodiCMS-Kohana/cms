@@ -15,9 +15,10 @@ class KodiCMS_Validation extends Kohana_Validation {
 		$offset = str_replace('.*', '', $offset);
 		return Arr::path($this->_data, $offset, '!isset') != '!isset';
 	}
-	
+
 	public function offsetGet($offset)
 	{
 		return Arr::path($this->_data, $offset);
 	}
+
 }

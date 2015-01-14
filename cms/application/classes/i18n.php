@@ -27,11 +27,11 @@ class I18n extends Kohana_I18n {
 	public static function load($lang)
 	{
 		$table = parent::load($lang);
-		
-		$filename = CMSPATH . FileSystem::normalize_path('media/js/i18n/'.$lang.'.js');
-		
-		if( ! file_exists($filename) 
-				OR ( file_exists($filename) AND (time() - filemtime($filename)) > Date::DAY))
+
+		$filename = CMSPATH . FileSystem::normalize_path('media/js/i18n/' . $lang . '.js');
+
+		if (!file_exists($filename)
+				OR ( file_exists($filename) AND ( time() - filemtime($filename)) > Date::DAY))
 		{
 			if (Kohana::$profiling === TRUE AND class_exists('Profiler', FALSE))
 			{
@@ -41,13 +41,13 @@ class I18n extends Kohana_I18n {
 			try
 			{
 				// Create the log file
-				file_put_contents($filename, '// Auto generated i18n lang file for lang '. $lang.". Created on " . date('Y-m-d H:i:s') . "\n");
+				file_put_contents($filename, '// Auto generated i18n lang file for lang ' . $lang . ". Created on " . date('Y-m-d H:i:s') . "\n");
 				file_put_contents($filename, 'cms.addTranslation(' . json_encode($table) . ');', FILE_APPEND);
-				
+
 				// Allow anyone to write to log files
 				chmod($filename, 0777);
 			}
-			catch(Exception $e)
+			catch (Exception $e)
 			{
 				// do something
 			}
@@ -58,7 +58,7 @@ class I18n extends Kohana_I18n {
 				Profiler::stop($benchmark);
 			}
 		}
-		
+
 		return $table;
 	}
 	
@@ -71,7 +71,7 @@ class I18n extends Kohana_I18n {
 	{
 		$browser_langs = array_keys(Request::accept_lang());
 		$lang = array_shift($browser_langs);
-				
+
 		return self::normalize_lang_key($lang);
 	}
 	
@@ -83,13 +83,13 @@ class I18n extends Kohana_I18n {
 	public static function available_langs()
 	{
 		$langs = Kohana::$config->load('locales')->as_array();
-		
+
 		$_langs = array();
 		foreach ($langs as $lang => $name)
 		{
 			$_langs[self::normalize_lang_key($lang)] = __($name);
 		}
-		
+
 		return $_langs;
 	}
 	

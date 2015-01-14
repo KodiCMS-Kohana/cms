@@ -4,7 +4,7 @@ Assets_Package::add('parts')
 	->css(NULL, ADMIN_RESOURCES . 'css/parts.css');
 
 Observer::observe('view_page_edit_plugins_top', function($page) {
-	if($page->loaded())
+	if ($page->loaded())
 	{
 		echo View::factory('part/items');
 	}

@@ -1,6 +1,6 @@
 <div class="panel">
 	<div class="panel-heading">
-		<?php if ( Acl::check( 'email.templates.add')): ?>
+		<?php if (Acl::check('email.templates.add')): ?>
 		<?php echo UI::button(__('Add template'), array(
 			'href' => Route::get('email_controllers')->uri(array('controller' => 'templates', 'action' => 'add')), 
 			'icon' => UI::icon('plus'),
@@ -33,7 +33,7 @@
 			<?php foreach ($templates as $tpl): ?>
 			<tr class="item">
 				<td class="name">
-					<?php if ( Acl::check('email.templates.edit')): ?>
+					<?php if (Acl::check('email.templates.edit')): ?>
 					<?php echo HTML::anchor(Route::get('email_controllers')->uri(array(
 						'controller' => 'templates',
 						'action' => 'edit',
@@ -44,7 +44,7 @@
 					<?php endif; ?>
 				</td>
 				<td class="email_type">
-					<?php if ( Acl::check('email.types.edit')): ?>
+					<?php if (Acl::check('email.types.edit')): ?>
 					<?php echo HTML::anchor(Route::get('email_controllers')->uri(array(
 						'controller' => 'types',
 						'action' => 'edit',
@@ -58,7 +58,7 @@
 				<td class="email hidden-xs"><?php echo UI::label($tpl->email_to); ?></td>
 				<td class="status hidden-xs"><?php echo $tpl->status; ?></td>
 				<td class="actions text-right">
-					<?php if ( Acl::check('email.templates.delete')): ?>
+					<?php if (Acl::check('email.templates.delete')): ?>
 					<?php echo UI::button(NULL, array(
 						'href' => Route::get('email_controllers')->uri(array(
 							'controller' => 'templates',

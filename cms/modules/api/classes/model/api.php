@@ -34,13 +34,17 @@ class Model_API extends Model_Database {
 	 */
 	protected $_table_name;
 	
-	public function __construct( $db = NULL )
+	/**
+	 * 
+	 * @param string $db
+	 */
+	public function __construct($db = NULL)
 	{
-		parent::__construct( $db );
-		
+		parent::__construct($db);
+
 		$this->_table_columns = $this->list_columns();
 	}
-	
+
 	/**
 	 * @return string
 	 */
@@ -76,7 +80,7 @@ class Model_API extends Model_Database {
 	 */
 	public function filtered_fields($fields, $remove_fields = array())
 	{
-		if( ! is_array($fields) )
+		if (!is_array($fields))
 		{
 			$fields = array($fields);
 		}
@@ -85,9 +89,9 @@ class Model_API extends Model_Database {
 
 		// Exclude fields
 		$fields = array_diff($fields, $remove_fields);
-		
+
 		// TODO сделать проверку токена, выдаваемого под API
-		if( ! empty($secured_fields) AND ! Auth::is_logged_in('login') )
+		if (!empty($secured_fields) AND ! Auth::is_logged_in('login'))
 		{
 			throw HTTP_API_Exception::factory(API::ERROR_PERMISSIONS, 'You don`t have permissions to access to this fields (:fields).', array(
 				':fields' => implode(', ', $secured_fields)
@@ -95,7 +99,7 @@ class Model_API extends Model_Database {
 		}
 
 		$fields = array_intersect(array_keys($this->_table_columns), $fields);
-		
+
 		foreach ($fields as $i => $field)
 		{
 			$fields[$i] = $this->table_name() . '.' . $field;
@@ -109,13 +113,12 @@ class Model_API extends Model_Database {
 	 * @param array $params
 	 * @return \Model_API
 	 */
-	public function set_params( array $params )
+	public function set_params(array $params)
 	{
 		$this->_params = $params;
-		
 		return $this;
 	}
-	
+
 	/**
 	 * 
 	 * @param string $name
@@ -147,7 +150,7 @@ class Model_API extends Model_Database {
 		return Arr::get($this->_params, $name, $default);
 	}
 
-		/**
+	/**
 	 * 
 	 * @param mixed $param
 	 * @param mixed $filter
@@ -155,12 +158,12 @@ class Model_API extends Model_Database {
 	 */
 	public function prepare_param($param, $filter = NULL)
 	{
-		if(!is_array($param) AND strpos($param, ',') !== FALSE)
+		if (!is_array($param) AND strpos($param, ',') !== FALSE)
 		{
 			$param = explode(',', $param);
 		}
 
-		if(is_array($param) AND $filter !== NULL)
+		if (is_array($param) AND $filter !== NULL)
 		{
 			$param = array_filter($param, $filter);
 		}
@@ -175,18 +178,18 @@ class Model_API extends Model_Database {
 	 */
 	public function list_columns()
 	{
-		if(Kohana::$caching === TRUE)
+		if (Kohana::$caching === TRUE)
 		{
 			$cache = Cache::instance();
-			if ( ($result = $cache->get( 'table_columns_' . $this->_table_name )) !== NULL )
+			if (($result = $cache->get('table_columns_' . $this->_table_name)) !== NULL)
 			{
 				return $result;
 			}
 
-			$cache->set( 'table_columns_' . $this->_table_name, $this->_db->list_columns( $this->_table_name ) );
+			$cache->set('table_columns_' . $this->_table_name, $this->_db->list_columns($this->_table_name));
 		}
 
 		// Proxy to database
-		return $this->_db->list_columns( $this->_table_name );
+		return $this->_db->list_columns($this->_table_name);
 	}
 }

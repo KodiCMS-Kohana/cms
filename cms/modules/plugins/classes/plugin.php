@@ -215,18 +215,18 @@ class Plugin  {
 		$this->_clear_cache();
 		
 		$schema_file = $this->path() . 'install' . DIRECTORY_SEPARATOR . 'schema.sql';
-		if( file_exists( $schema_file ))
+		if (file_exists($schema_file))
 		{
 			Database_Helper::insert_sql(file_get_contents($schema_file));
 		}
-		
+
 		$install_file = $this->path() . 'install' . EXT;
 
-		if( file_exists( $install_file ))
+		if (file_exists($install_file))
 		{
 			Kohana::load($install_file);
 		}
-		
+
 		Observer::notify('plugin_install', $this->id());
 		$this->_on_activate();
 	
@@ -243,7 +243,7 @@ class Plugin  {
 	 * @observer plugin_uninstall
 	 * @return \Plugin_Decorator
 	 */
-	public function deactivate( $run_script = FALSE )
+	public function deactivate($run_script = FALSE)
 	{
 		$this->_status = (bool) DB::delete( self::TABLE_NAME )
 			->where('id', '=', $this->id())
@@ -252,13 +252,13 @@ class Plugin  {
 		Plugins::deactivate( $this );
 
 		$uninstall_file = $this->path() . 'uninstall' . EXT;
-		if($run_script === TRUE AND file_exists( $uninstall_file ))
+		if ($run_script === TRUE AND file_exists($uninstall_file))
 		{
 			Kohana::load($uninstall_file);
 		}
-		
+
 		$drop_file = $this->path() . 'install' . DIRECTORY_SEPARATOR . 'drop.sql';
-		if( file_exists( $drop_file ))
+		if (file_exists($drop_file))
 		{
 			Database_Helper::insert_sql(file_get_contents($drop_file));
 		}
@@ -277,7 +277,7 @@ class Plugin  {
 	 */
 	public function register()
 	{
-		Plugins::register( $this );
+		Plugins::register($this);
 		return $this;
 	}
 	
@@ -303,42 +303,42 @@ class Plugin  {
 	protected function _init()
 	{
 		$this->_load_settings();
-			
-		extract( array('plugin' => $this), EXTR_SKIP );
+
+		extract(array('plugin' => $this), EXTR_SKIP);
 
 		$frontend_file = $this->path() . 'frontend' . EXT;
 		if (file_exists($frontend_file) AND ! IS_BACKEND)
-		{			
+		{
 			if (Kohana::$profiling === TRUE)
 			{
 				$benchmark = Profiler::start('Frontend plugins', $this->title());
 			}
-		
+
 			include $frontend_file;
-			
+
 			if (isset($benchmark))
 			{
 				Profiler::stop($benchmark);
 			}
 		}
-		
+
 		$backend_file = $this->path() . 'backend' . EXT;
-		
+
 		if (file_exists($backend_file) AND IS_BACKEND)
 		{
-			if(Kohana::$profiling === TRUE)
+			if (Kohana::$profiling === TRUE)
 			{
 				$benchmark = Profiler::start('Backend plugins', $this->title());
 			}
-			
+
 			include $backend_file;
-			
+
 			if (isset($benchmark))
 			{
 				Profiler::stop($benchmark);
 			}
 		}
-		
+
 		return $this;
 	}
 
@@ -349,11 +349,11 @@ class Plugin  {
 	 */
 	protected function _clear_cache()
 	{
-		if(Kohana::$caching === TRUE)
+		if (Kohana::$caching === TRUE)
 		{
 			$cache = Cache::instance();
-			$cache->delete('Database::cache('.self::CACHE_KEY . '::list)');
-			
+			$cache->delete('Database::cache(' . self::CACHE_KEY . '::list)');
+
 			register_shutdown_function(array('Cache', 'clear_file'));
 		}
 

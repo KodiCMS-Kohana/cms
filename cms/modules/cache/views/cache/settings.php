@@ -2,7 +2,7 @@
 	<span class="panel-title" id="cache-settings"><?php echo __('Cache settings'); ?></span>
 </div>
 <div class="panel-body">
-	<?php if( ACL::check('system.cache.clear')): ?>
+	<?php if (ACL::check('system.cache.clear')): ?>
 	<div class="well">
 		<?php echo UI::button(__('Clear cache'), array(
 			'icon' => UI::icon('trash-o fa-lg'),
@@ -21,9 +21,7 @@
 		</div>
 		<?php echo Form::label('setting_cache_driver', __('Cache driver'), array('class' => 'control-label col-md-3')); ?>
 		<div class="col-md-3">
-			<?php echo Form::select(NULL, array(
-				'file' => __('File cache'), 'apc' => __('APC cache'), 'sqlite' => __('SQLite cache'), 'memcachetag' => __('Memcache')
-			), Cache::$default, array('id' => 'setting_cache_driver', 'disabled', 'readonly'));?>
+			<?php echo Form::select(NULL, Cache::drivers(), Cache::$default, array('id' => 'setting_cache_driver', 'disabled', 'readonly'));?>
 		</div>
 		
 	</div>

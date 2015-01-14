@@ -14,8 +14,10 @@ class KodiCMS_Controller_API_Users extends Controller_System_Api {
 	{		
 		$uids = $this->param('uids');
 		
-		if(!empty($uids))
+		if (!empty($uids))
+		{
 			$uids = explode(',', $uids);
+		}
 
 		$users = Model_API::factory('api_user')
 			->get_all($uids, $this->fields);

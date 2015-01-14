@@ -73,18 +73,18 @@ class Controller_Widgets extends Controller_System_Backend {
 		$id = $this->request->param('id');
 		$widget = ORM::factory('widget', $id);
 
-		if ( ! $widget->loaded() )
+		if (!$widget->loaded())
 		{
-			Messages::errors(__( 'Widget not found!' ) );
+			Messages::errors(__('Widget not found!'));
 			$this->go_back();
 		}
-		
+
 		// check if trying to save
-		if ( Request::current()->method() == Request::POST )
+		if (Request::current()->method() == Request::POST)
 		{
 			return $this->_add_location($widget);
 		}
-		
+
 		$this->template->title = __('Widget :name location', array(
 			':name' => $widget->name
 		));
@@ -99,25 +99,10 @@ class Controller_Widgets extends Controller_System_Backend {
 					'id' => $widget->id
 				))
 			)->add(__('Widget location'));
-		
-		$res_page_widgets = DB::select()
-			->from('page_widgets')
-			->execute()
-			->as_array();
-		
-		$pages_widgets = array(); // занятые блоки для исключения из списков
-		$page_widgets = array(); // выбранные блоки для текущего виджета
-		
-		foreach ($res_page_widgets as $w)
-		{
-			if($w['widget_id'] == $widget->id)
-				$page_widgets[$w['page_id']] = array($w['block'], $w['position']);
-			else
-				$pages_widgets[$w['page_id']][$w['block']] = array($w['block'], $w['position']);
-		}
 
-		$pages = Model_Page_Sitemap::get( TRUE )->as_array();
-		
+		list($page_widgets, $pages_widgets) = $widget->locations();
+		$pages = Model_Page_Sitemap::get(TRUE)->as_array();
+
 		$this->template->content = View::factory( 'widgets/location', array(
 			'widget' => $widget,
 			'pages' => $pages,
@@ -127,7 +112,7 @@ class Controller_Widgets extends Controller_System_Backend {
 		));
 	}
 
-	protected function _add_location( $widget )
+	protected function _add_location($widget)
 	{
 		$data = $this->request->post();
 		Widget_Manager::set_location($widget->id, Arr::get($data, 'blocks', array()));
@@ -137,14 +122,14 @@ class Controller_Widgets extends Controller_System_Backend {
 	public function action_add()
 	{
 		// check if trying to save
-		if ( Request::current()->method() == Request::POST )
+		if (Request::current()->method() == Request::POST)
 		{
 			return $this->_add();
 		}
 
 		$this->set_title(__('Create widget'));
 
-		$this->template->content = View::factory( 'widgets/add', array(
+		$this->template->content = View::factory('widgets/add', array(
 			'types' => Widget_Manager::map()
 		));
 	}
@@ -152,26 +137,26 @@ class Controller_Widgets extends Controller_System_Backend {
 	protected function _add()
 	{
 		$data = $this->request->post();
-		$widget = Widget_Manager::factory( $data['type'] );
-		
-		try 
+		$widget = Widget_Manager::factory($data['type']);
+
+		try
 		{
 			$widget->name = $data['name'];
 			$widget->description = Arr::get($data, 'description');
-	
+
 			$id = Widget_Manager::create($widget);
-			
-			Observer::notify( 'widget_after_add', $id );
+
+			Observer::notify('widget_after_add', $id);
 		}
 		catch (ORM_Validation_Exception $e)
 		{
-			Flash::set( 'post_data', $data );
+			Flash::set('post_data', $data);
 			Messages::errors($e->errors('validation'));
 			$this->go_back();
 		}
 
 		// save and quit or save and continue editing?
-		if ( $this->request->post('commit') !== NULL )
+		if ($this->request->post('commit') !== NULL)
 		{
 			$this->go();
 		}
@@ -189,14 +174,14 @@ class Controller_Widgets extends Controller_System_Backend {
 	{
 		$id = $this->request->param('id');
 
-		$widget = Widget_Manager::load( $id );
+		$widget = Widget_Manager::load($id);
 
-		if ( ! $widget )
+		if (!$widget)
 		{
-			Messages::errors(__( 'Widget not found!' ) );
+			Messages::errors(__('Widget not found!'));
 			$this->go_back();
 		}
-		
+
 		$this->template->title = $widget->name;
 		$this->breadcrumbs
 			->add($widget->type(FALSE))
@@ -205,41 +190,41 @@ class Controller_Widgets extends Controller_System_Backend {
 		// check if trying to save
 		if (Request::current()->method() == Request::POST)
 		{
-			return $this->_edit( $widget );
+			return $this->_edit($widget);
 		}
-		
+
 		$roles = ORM::factory('role')->find_all()->as_array('name', 'name');
 
-		$this->template->content = View::factory( 'widgets/edit', array(
+		$this->template->content = View::factory('widgets/edit', array(
 			'widget' => $widget,
 			'templates' => Model_File_Snippet::html_select(),
-			'content' =>  $widget->fetch_backend_content(),
+			'content' => $widget->fetch_backend_content(),
 			'roles' => $roles,
 			'params' => Widget_Manager::get_params($widget->type())
-		) );
+		));
 	}
 	
-	protected function _edit( Model_Widget_Decorator $widget )
+	protected function _edit(Model_Widget_Decorator $widget)
 	{
 		$data = $this->request->post();
 		
-		try 
+		try
 		{
-			if ( ! ACL::check('widget.roles') AND ! empty($data['roles']))
+			if (!ACL::check('widget.roles') AND ! empty($data['roles']))
 			{
 				$data['roles'] = array();
 			}
-			
-			if(ACL::check('widgets.cache'))
+
+			if (ACL::check('widgets.cache'))
 			{
-				$widget->set_cache_settings( $data );
+				$widget->set_cache_settings($data);
 			}
 
 			$widget
-				->set_values( $data );
-			
+				->set_values($data);
+
 			Widget_Manager::update($widget);
-			
+
 			Observer::notify('widget_after_edit', $widget->id);
 		}
 		catch (Validation_Exception $e)
@@ -267,30 +252,30 @@ class Controller_Widgets extends Controller_System_Backend {
 	public function action_delete()
 	{
 		$id = $this->request->param('id');
-		
+
 		Widget_Manager::remove(array($id));
-		
-		Observer::notify( 'widget_after_delete', $id );
+
+		Observer::notify('widget_after_delete', $id);
 		$this->go_back();
 	}
 	
 	public function action_template()
 	{
 		$id = (int) $this->request->param('id');
-		
-		$widget = Widget_Manager::load( $id );
 
-		if ( ! $widget )
+		$widget = Widget_Manager::load($id);
+
+		if (!$widget)
 		{
-			Messages::errors(__( 'Widget not found!' ) );
+			Messages::errors(__('Widget not found!'));
 			$this->go_back();
 		}
-		
+
 		Assets::package('ace');
-		
+
 		$template = $widget->default_template();
-		
-		$data = file_get_contents( $template );
+
+		$data = file_get_contents($template);
 		$this->template->content = View::factory('widgets/default_template', array(
 			'data' => $data
 		));

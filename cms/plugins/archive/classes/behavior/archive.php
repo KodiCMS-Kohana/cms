@@ -50,19 +50,19 @@ class Behavior_Archive extends Behavior_Abstract
 
 	public function execute()
 	{
-		if( isset($this->router()->day) )
+		if (isset($this->router()->day))
 		{
 			return $this->_archive_by('day');
 		}
-		else if( isset($this->router()->month) )
+		else if (isset($this->router()->month))
 		{
 			return $this->_archive_by('month');
 		}
-		else if( isset($this->router()->year) )
+		else if (isset($this->router()->year))
 		{
 			return $this->_archive_by('year');
 		}
-		
+
 		Model_Page_Front::not_found();
 	}
 
@@ -82,30 +82,30 @@ class Behavior_Archive extends Behavior_Abstract
         ), array(), TRUE);
 
         if (isset($page[0]))
-        {
-            $this->_page = $page[0];
-            $this->page()->time = mktime(0, 0, 0, $this->router()->param('month', 1), $this->router()->param('day', 1), $this->router()->param('year'));
-        }
-        else
-        {
-            Model_Page_Front::not_found();
-        }
-    }
+		{
+			$this->_page = $page[0];
+			$this->page()->time = mktime(0, 0, 0, $this->router()->param('month', 1), $this->router()->param('day', 1), $this->router()->param('year'));
+		}
+		else
+		{
+			Model_Page_Front::not_found();
+		}
+	}
     
     protected function _display_page()
     {
 		$slug = $this->router()->param('slug');
 
-		if(empty($slug))
+		if (empty($slug))
 		{
 			return;
 		}
 
-        if(($this->_page = Model_Page_Front::findBySlug($slug, $this->page())) === FALSE )
+		if (($this->_page = Model_Page_Front::findBySlug($slug, $this->page())) === FALSE)
 		{
-            Model_Page_Front::not_found();
+			Model_Page_Front::not_found();
 		}
-    }
+	}
 
 	/**
 	 * 
@@ -116,12 +116,12 @@ class Behavior_Archive extends Behavior_Abstract
 	{
 		$date = implode('-', $this->router()->params());
 
-		if( ! isset($clause['where']) )
+		if (!isset($clause['where']))
 		{
 			$clause['where'] = array(array('page.created_on', 'like', $date . '%'));
 		}
 
-		if( ! isset($clause['order_by']) )
+		if (!isset($clause['order_by']))
 		{
 			$clause['order_by'] = array(array('page.created_on', 'desc'));
 		}

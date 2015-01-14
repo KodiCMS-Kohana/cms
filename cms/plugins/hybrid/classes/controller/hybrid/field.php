@@ -14,39 +14,38 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 	
 	public function before()
 	{
-		if($this->request->action() == 'edit')
+		if ($this->request->action() == 'edit')
 		{
 			$id = (int) $this->request->param('id');
 			$this->field = DataSource_Hybrid_Field_Factory::get_field($id);
-			
-			if( empty($this->field) )
+
+			if (empty($this->field))
 			{
-				throw new HTTP_Exception_404('Field ID :id not found', 
-						array(':id' => $id));
+				throw new HTTP_Exception_404('Field ID :id not found', array(':id' => $id));
 			}
-			
+
 			$ds = $this->section($this->field->ds_id);
-			
-			if($this->field->has_access_edit())
+
+			if ($this->field->has_access_edit())
 			{
 				$this->allowed_actions[] = 'edit';
 			}
 		}
-		
-		if($this->request->action() == 'add')
+
+		if ($this->request->action() == 'add')
 		{
 			$ds_id = (int) $this->request->param('id');
 			$ds = $this->section($ds_id);
-			
-			if($ds->has_access('field.create'))
+
+			if ($ds->has_access('field.create'))
 			{
 				$this->allowed_actions[] = 'add';
 			}
 		}
 
 		parent::before();
-		
-		if(!empty($ds))
+
+		if (!empty($ds))
 		{
 			$this->template_js_params['DS_ID'] = $ds->id();
 		}
@@ -56,7 +55,7 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 	{
 		$ds_id = (int) $this->request->param('id');
 		$ds = $this->section($ds_id);
-		
+
 		$this->template->content = View::factory('datasource/hybrid/field/template', array(
 			'ds' => $ds,
 			'fields' => $ds->record()->fields
@@ -68,11 +67,11 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 		$ds_id = (int) $this->request->param('id');
 		$ds = $this->section($ds_id);
 		
-		if($this->request->method() === Request::POST)
+		if ($this->request->method() === Request::POST)
 		{
 			return $this->_add($ds);
 		}
-		
+
 		$this->set_title(__('Add field'));
 		
 		$this->breadcrumbs
@@ -125,7 +124,7 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 
 		Session::instance()->delete('post_data');
 		
-		if ( $this->request->post('save_and_create') !== NULL )
+		if ($this->request->post('save_and_create') !== NULL)
 		{
 			$this->go(Route::get('datasources')->uri(array(
 				'controller' => 'field',
@@ -136,7 +135,7 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 		}
 		else
 		{
-			$this->go( Route::get('datasources')->uri(array(
+			$this->go(Route::get('datasources')->uri(array(
 				'directory' => 'hybrid',
 				'controller' => 'field',
 				'action' => 'edit',
@@ -148,14 +147,14 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 	public function action_edit()
 	{
 		$ds = $this->section($this->field->ds_id);
-	
-		if($this->request->method() === Request::POST)
+
+		if ($this->request->method() === Request::POST)
 		{
 			return $this->_edit($this->field);
 		}
-		
+
 		$this->set_title(__('Edit field :field_name', array(':field_name' => $this->field->header)));
-		
+
 		$this->breadcrumbs
 			->add($ds->name, Route::get('datasources')->uri(array(
 				'controller' => 'data',
@@ -199,9 +198,9 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 		Session::instance()->delete('post_data');
 		
 		// save and quit or save and continue editing?
-		if ( $this->request->post('commit') !== NULL )
+		if ($this->request->post('commit') !== NULL)
 		{
-			$this->go( Route::get('datasources')->uri(array(
+			$this->go(Route::get('datasources')->uri(array(
 				'directory' => 'datasources',
 				'controller' => 'section',
 				'action' => 'edit',
@@ -218,9 +217,9 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 	{
 		$map = Datasource_Data_Manager::get_tree();
 		$hds = Datasource_Data_Manager::get_all('hybrid');
-		
+
 		$sections = array();
-		
+
 		foreach (Datasource_Data_Manager::types() as $key => $value)
 		{
 			if ($key != 'hybrid' AND ! empty($map[$key]))

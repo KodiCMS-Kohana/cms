@@ -1,8 +1,8 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-if(ACL::check('email.settings'))
+ if (ACL::check('email.settings'))
 {
-	if( ACL::check('email.settings'))
+	if (ACL::check('email.settings'))
 	{
 		Observer::observe('view_setting_plugins', function() {
 			echo View::factory('email/queue/settings');

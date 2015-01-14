@@ -28,10 +28,10 @@ class Model_Widget_Archive_Month extends Model_Widget_Archive {
 			->as_array(NULL, 'date');
 
 		$data = array();
-		foreach($result as $date)
+		foreach ($result as $date)
 		{
 			$data[] = array(
-				'href' => URL::site($page->url .'/'. $date, TRUE),
+				'href' => URL::site($page->url . '/' . $date, TRUE),
 				'title' => strftime('%B %Y', strtotime(strtr($date, '/', '-')))
 			);
 		}

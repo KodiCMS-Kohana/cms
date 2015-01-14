@@ -12,7 +12,7 @@ foreach ($tree as $type => $data)
 {
 	foreach ($data as $id => $section)
 	{
-		if(array_key_exists($section->folder_id(), $folders))
+		if (array_key_exists($section->folder_id(), $folders))
 		{
 			$folders[$section->folder_id()]['sections'][$id] = $section;
 			unset($tree[$type][$id]);
@@ -24,7 +24,7 @@ $folders_status = Model_User_Meta::get('datasource_folders', array());
 ?>
 
 <div class="navigation">
-	<?php if(!empty($sections)): ?>
+	<?php if (!empty($sections)): ?>
 	<div class="compose-btn">
 		<div class="btn-group">
 			<?php echo UI::button(__('Create section'), array(
@@ -49,7 +49,7 @@ $folders_status = Model_User_Meta::get('datasource_folders', array());
 	</div>
 	<?php endif; ?>
 	
-	<?php if(!empty($folders)): ?>
+	<?php if (!empty($folders)): ?>
 	<div class="folders-list">
 	<?php foreach ($folders as $folder_id => $folder): ?>
 		<div class="folder-container">
@@ -58,7 +58,7 @@ $folders_status = Model_User_Meta::get('datasource_folders', array());
 				<?php echo UI::icon('trash', array('class' => 'pull-right text-danger remove-folder')); ?>
 			</div>
 	
-			<?php if(!empty($folder['sections'])): ?>
+			<?php if (!empty($folder['sections'])): ?>
 			<ul class="sections" <?php if(Arr::get($folders_status, $folder_id) === FALSE): ?>style="display: none;"<?php endif; ?>>
 			<?php foreach ($folder['sections'] as $id => $section): ?>
 				<?php echo recurse_menu($id, $section, $datasource->id()); ?>
@@ -71,9 +71,9 @@ $folders_status = Model_User_Meta::get('datasource_folders', array());
 	<?php endif; ?>
 
 	<div class="sections-list">
-	<?php if(!empty($tree)): ?>
+	<?php if (!empty($tree)): ?>
 		<?php foreach ($tree as $type => $data): ?>
-		<?php if(empty($data)) continue; ?>
+		<?php if (empty($data)) continue; ?>
 
 		<div class="mail-nav-header" data-type="section" data-icon="<?php echo Datasource_Data_Manager::get_icon($type); ?>">
 			<?php echo __(ucfirst($type)); ?>

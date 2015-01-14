@@ -33,22 +33,22 @@ class KodiCMS_Model_User_Meta extends Model {
 		self::_load($user_id);
 
 		$value = Arr::path(self::$_cache, $user_id . '.' . $key);
-		
-		if($value !== NULL)
+
+		if ($value !== NULL)
 		{
 			return @Kohana::unserialize($value);
 		}
 		else
 		{
-			if($user_id === 0)
+			if ($user_id === 0)
 			{
 				return $default;
 			}
 
 			self::_load(0);
 			$value = Arr::path(self::$_cache, 0 . '.' . $key);
-			
-			if($value !== NULL)
+
+			if ($value !== NULL)
 			{
 				return @Kohana::unserialize($value);
 			}

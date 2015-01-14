@@ -15,7 +15,7 @@
 
 				<br />
 
-				<?php if ( Acl::check( 'users.edit') OR $user->id == Auth::get_id() ): ?>
+				<?php if (Acl::check('users.edit') OR $user->id == Auth::get_id()): ?>
 				<?php echo HTML::anchor(Route::get('backend')->uri(array(
 					'controller' => 'users',
 					'action' => 'edit',
@@ -34,7 +34,7 @@
 
 				<?php Observer::notify('view_user_profile_information', $user->id); ?>
 
-				<?php if ( !empty($permissions) AND ACL::check('users.view.permissions') ): ?>
+				<?php if (!empty($permissions) AND ACL::check('users.view.permissions')): ?>
 				<div class="panel-heading">
 					<span class="panel-title"><?php echo __('Section permissions'); ?></span>
 				</div>
@@ -55,8 +55,6 @@
 					<?php endforeach; ?>
 				</div>
 				<?php endif; ?>
-
-
 			</div>
 		</div>
 	</div>

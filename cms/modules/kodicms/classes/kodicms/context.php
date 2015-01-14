@@ -190,9 +190,9 @@ class KodiCMS_Context {
 			$result = $this->request()->post($param);
 		}
 		elseif (
-				$this->behavior_router() instanceof Behavior_Route
-				AND
-				$this->behavior_router()->param($param) !== NULL)
+			$this->behavior_router() instanceof Behavior_Route
+			AND
+			$this->behavior_router()->param($param) !== NULL)
 		{
 			$result = $this->behavior_router()->param($param);
 		}
@@ -214,14 +214,13 @@ class KodiCMS_Context {
 	{
 		$this->_params[$param] = & $value;
 
-		if( ! empty($this->_injections[$param]) 
-				AND is_array($this->_injections[$param])) 
+		if (isset($this->_injections[$param]) AND is_array($this->_injections[$param]))
 		{
-			foreach($this->_injections[$param] as $id => $fields)
+			foreach ($this->_injections[$param] as $id => $fields)
 			{
-				if(isset($this->_widgets[$id]))
+				if (isset($this->_widgets[$id]))
 				{
-					foreach($fields as $field => $param_name)
+					foreach ($fields as $field => $param_name)
 					{
 						$this->inject($this->_widgets[$id], $field, $this->get($param_name));
 					}
@@ -230,7 +229,7 @@ class KodiCMS_Context {
 
 			unset($this->_injections[$param]);
 		}
-		
+
 		return $this;
 	}
 	
@@ -239,29 +238,29 @@ class KodiCMS_Context {
 	 * @param Response $response
 	 * @return \Context|Response
 	 */
-	public function response( Response $response = NULL )
+	public function response(Response $response = NULL)
 	{
-		if( $response === NULL )
+		if ($response === NULL)
 		{
 			return $this->_response;
 		}
-		
+
 		$this->_response = $response;
 		return $this;
 	}
-	
+
 	/**
 	 * 
 	 * @param Request $request
 	 * @return \Context|Request
 	 */
-	public function request( Request $request = NULL )
+	public function request(Request $request = NULL)
 	{
-		if( $request === NULL )
+		if ($request === NULL)
 		{
 			return $this->_request;
 		}
-		
+
 		$this->_request = $request;
 		return $this;
 	}
@@ -271,25 +270,25 @@ class KodiCMS_Context {
 	 * @param Model_Page_Front $page
 	 * @return \Context
 	 */
-	public function set_page( Model_Page_Front $page )
+	public function set_page(Model_Page_Front $page)
 	{
 		$this->_page = & $page;
 
 		return $this;
 	}
-	
+
 	/**
 	 * 
 	 * @param Model_Page_Front $page
 	 * @return \Context
 	 */
-	public function set_crumbs( Model_Page_Front $page )
+	public function set_crumbs(Model_Page_Front $page)
 	{
 		$this->_crumbs = $page->breadcrumbs();
 
 		return $this;
 	}
-	
+
 	/**
 	 * 
 	 * @return Model_Page_Front
@@ -298,19 +297,19 @@ class KodiCMS_Context {
 	{
 		return $this->_page;
 	}
-	
+
 	/**
 	 * 
 	 * @param Behavior_Route $router
 	 * @return Behavior_Route
 	 */
-	public function behavior_router( Behavior_Route $router = NULL )
+	public function behavior_router(Behavior_Route $router = NULL)
 	{
-		if( $router !== NULL )
+		if ($router !== NULL)
 		{
 			$this->_behavior_router = $router;
 		}
-		
+
 		return $this->_behavior_router;
 	}
 
@@ -425,15 +424,17 @@ class KodiCMS_Context {
 	 * @param mixed $value
 	 * @return \Context
 	 */
-	public function inject(& $widget, $field, $value)
+	public function inject($widget, $field, $value)
 	{
 		if ($widget instanceof Model_Widget_Decorator OR $widget instanceof View)
 		{
 			if (!empty($field))
 			{
-				if (method_exists($widget, "set_{$field}"))
+				$method = "set_{$field}";
+				if (method_exists($widget, $method))
 				{
-					call_user_func(array(& $widget, "set_{$field}"), $value);
+					Callback::invoke(array($widget, $method), array($value));
+					unset($method);
 				}
 				else
 				{
@@ -466,10 +467,12 @@ class KodiCMS_Context {
 			{
 				$this->inject($widget, $field, $value);
 			}
-			else if (isset($name))
+			else if (!empty($name))
 			{
 				$this->_injections[$name][$widget->id][$field] = $param_key;
 			}
+			
+			unset($name, $value);
 		}
 
 		return $this;
@@ -503,12 +506,12 @@ class KodiCMS_Context {
 		{
 			foreach ($ids as $id)
 			{
-				$widgets[$id] = & $this->_widgets[$id];
+				$widgets[$id] = $this->_widgets[$id];
 			}
 		}
 
 		$this->_widget_ids = array_keys($widgets);
-		$this->_widgets = & $widgets;
+		$this->_widgets = $widgets;
 	}
 
 	/**

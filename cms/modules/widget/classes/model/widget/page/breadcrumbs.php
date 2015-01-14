@@ -23,7 +23,7 @@ class Model_Widget_Page_Breadcrumbs extends Model_Widget_Decorator {
 	
 	public function set_values(array $data)
 	{
-		if( empty( $data['exclude'] ))
+		if (empty($data['exclude']))
 		{
 			$this->exclude = array();
 		}
@@ -38,10 +38,10 @@ class Model_Widget_Page_Breadcrumbs extends Model_Widget_Decorator {
 	public function fetch_data()
 	{
 		$crumbs = array();
-		
-		if( ($crumbs = &$this->_ctx->get_crumbs()) instanceof Breadcrumbs)
+
+		if (($crumbs = &$this->_ctx->get_crumbs()) instanceof Breadcrumbs)
 		{
-			if( ! empty($this->exclude))
+			if (!empty($this->exclude))
 			{
 				$crumbs->delete_by('id', $this->exclude);
 			}

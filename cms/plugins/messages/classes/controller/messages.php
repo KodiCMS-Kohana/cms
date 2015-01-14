@@ -35,7 +35,7 @@ class Controller_Messages extends Controller_System_Backend {
 
 	public function action_add()
 	{
-		if($this->request->method() === Request::POST)
+		if ($this->request->method() === Request::POST)
 		{
 			$ids = (array) $this->request->post('to');
 
@@ -45,7 +45,7 @@ class Controller_Messages extends Controller_System_Backend {
 
 			return $this->_send(Api::put('user-messages', $post));
 		}
-		
+
 		$to = $this->request->query('to');
 		$to = ORM::factory('user', $to)->id;
 
@@ -68,21 +68,21 @@ class Controller_Messages extends Controller_System_Backend {
 			'fields' => 'author,title,is_read,created_on,text,is_starred'
 		))->as_object();
 		
-		if( ! $message->response )
+		if (!$message->response)
 		{
 			throw new HTTP_Exception_404('Message not found');
 		}
-		
-		if($this->request->method() === Request::POST)
+
+		if ($this->request->method() === Request::POST)
 		{
 			$this->auto_render = FALSE;
 			$post = $this->request->post();
 			$post['from_user_id'] = $user_id;
 			$post['parent_id'] = $id;
-			
+
 			return $this->_send(Api::put('user-messages', $post), $id);
 		}
-		
+
 		$read = Api::post('user-messages.mark_read', array(
 			'id' => $id, 'uid' => $user_id
 		));
@@ -107,12 +107,12 @@ class Controller_Messages extends Controller_System_Backend {
 	{
 		$status = $send->response;
 		$id = $parent_id > 0 ? $parent_id : $status;
-	
-		if((int) $id > 0)
+
+		if ((int) $id > 0)
 		{
 			$this->go(Route::get('backend')->uri(array('controller' => 'messages', 'action' => 'view', 'id' => (int) $id)));
 		}
-		
+
 		$this->go_back();
 	}
 }

@@ -25,7 +25,7 @@
 	<div class="panel-heading">
 		<span class="panel-title"><?php echo __('Content'); ?></span>
 
-		<?php if( $snippet->is_writable() OR ! $snippet->is_exists()): ?>
+		<?php if ($snippet->is_writable() OR ! $snippet->is_exists()): ?>
 		<div class="panel-heading-controls">
 			<?php echo UI::button(__('File manager'), array(
 				'class' => 'btn-filemanager btn-flat btn-info btn-sm', 
@@ -43,15 +43,13 @@
 		'data-readonly'		=> ( ! $snippet->is_exists() OR ($snippet->is_exists() AND $snippet->is_writable())) ? 'off' : 'on'
 	)); ?>
 
-	<?php if(
+	<?php if (
 		(ACL::check('snippet.edit')
-	AND
-		(
-			! $snippet->is_exists()
-		OR 
-			($snippet->is_exists() AND $snippet->is_writable())
+		AND (
+		!$snippet->is_exists()
+		OR ( $snippet->is_exists() AND $snippet->is_writable())
 		))
-	OR ! ACL::check('snippet.view') ): ?>
+		OR ! ACL::check('snippet.view')): ?>
 	<div class="form-actions panel-footer">
 		<?php echo UI::actions($page_name); ?>
 	</div>

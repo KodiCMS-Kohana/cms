@@ -24,12 +24,12 @@ class KodiCMS_Model_File_Layout extends Model_File {
 	 */
 	public function blocks()
 	{
-		if($this->_blocks === NULL)
+		if ($this->_blocks === NULL)
 		{
 			$this->_blocks = ORM::factory('layout_block')
 				->find_by_layout($this->name);
 		}
-		
+
 		return $this->_blocks;
 	}
 
@@ -66,30 +66,30 @@ class KodiCMS_Model_File_Layout extends Model_File {
 	public function rebuild_blocks()
 	{
 		$blocks = Block::parse_content($this->content);
-		
+
 		DB::delete('layout_blocks')
 			->where('layout_name', '=', $this->name)
 			->execute();
-		
-		if( ! empty($blocks)) 
+
+		if (!empty($blocks))
 		{
 			$insert = DB::insert('layout_blocks')
 				->columns(array(
 					'position', 'block', 'layout_name'
 				));
-			
+
 			foreach ($blocks as $position => $block)
 			{
 				$insert->values(array(
 					$position, $block, $this->name
 				));
 			}
-			
+
 			$insert->execute();
 		}
-		
+
 		Cache::instance()->delete_tag('layout_blocks');
-		
+
 		return $blocks;
 	}
 }

@@ -31,7 +31,7 @@ class Behavior_Profile extends Behavior_Abstract
 		$inner_page = Model_Page_Front::findBySlug($slug, $this->page());
 
 		// Если не найдена внутрення страница по SLUG
-		if($inner_page)
+		if ($inner_page)
 		{
 			$this->_page = $inner_page;
 			return;

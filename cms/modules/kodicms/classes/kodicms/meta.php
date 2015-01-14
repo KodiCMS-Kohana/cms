@@ -137,8 +137,9 @@ class KodiCMS_Meta {
 	 */
 	public function title($title)
 	{
-		return $this->group('title', '<title>:title</title>', array(':title'
-				=> HTML::chars($title)));
+		return $this->group('title', '<title>:title</title>', array(
+			':title' => HTML::chars($title)
+		));
 	}
 
 	/**

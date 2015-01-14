@@ -8,11 +8,11 @@ Observer::observe('datasource_after_remove', function($id) {
 });
 
 Observer::observe('datasource.headline.actions', function($ds) {
-	if($ds->type() != 'hybrid')
+	if ($ds->type() != 'hybrid')
 	{
 		return;
 	}
-	
+
 	echo View::factory('datasource/hybrid/actions', array(
 		'fields' => $ds->record()->fields()
 	));
@@ -91,10 +91,9 @@ Observer::observe('view_user_profile_sidebar_list', function($id, $plugin) {
 Observer::observe('datasource_after_remove', function($id, $plugin) {
 	
 	$ds_id = $plugin->get('user_profile_ds_id');
-	if($ds_id == $id)
+	if ($ds_id == $id)
 	{
 		unset($plugin->user_profile_ds_id);
 		$plugin->save_settings();
 	}
-	
 }, $plugin);

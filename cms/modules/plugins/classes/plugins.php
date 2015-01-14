@@ -35,15 +35,15 @@ class Plugins {
 
 		$plugins = array();
 
-		foreach ( self::$_activated as $plugin_id => $tmp )
+		foreach (self::$_activated as $plugin_id => $tmp)
 		{
-			if(  is_dir( PLUGPATH . $plugin_id ) )
+			if (is_dir(PLUGPATH . $plugin_id))
 			{
 				$plugins['plugin_' . $plugin_id] = PLUGPATH . $plugin_id;
 			}
 		}
 
-		Kohana::modules( $plugins + Kohana::modules() );
+		Kohana::modules($plugins + Kohana::modules());
 	}
 
 	/**
@@ -51,7 +51,7 @@ class Plugins {
 	 * 
 	 * @param string $plugin_id
 	 */
-	public static function activate( Plugin $plugin )
+	public static function activate(Plugin $plugin)
 	{
 		self::$_activated[$plugin->id()] = TRUE;
 	}
@@ -60,14 +60,14 @@ class Plugins {
 	 * 
 	 * @param string $plugin_id
 	 */
-	public static function deactivate( Plugin $plugin )
+	public static function deactivate(Plugin $plugin)
 	{
-		if ( isset( self::$_activated[$plugin->id()] ) )
+		if (isset(self::$_activated[$plugin->id()]))
 		{
-			unset( self::$_activated[$plugin->id()] );
+			unset(self::$_activated[$plugin->id()]);
 		}
 	}
-	
+
 	/**
 	 * Получение спсика активированных плагинов
 	 * 
@@ -84,9 +84,9 @@ class Plugins {
 	 * @param string $plugin_id
 	 * @return boolean
 	 */
-	public static function is_activated( $plugin_id )
+	public static function is_activated($plugin_id)
 	{
-		if($plugin_id instanceof Plugin)
+		if ($plugin_id instanceof Plugin)
 		{
 			$plugin_id = $plugin_id->id();
 		}
@@ -103,27 +103,27 @@ class Plugins {
 	{
 		$dir = PLUGPATH;
 
-		if ( $handle = opendir( $dir ) )
+		if ($handle = opendir($dir))
 		{
-			while ( FALSE !== ($plugin_id = readdir( $handle )) ) 
+			while (FALSE !== ($plugin_id = readdir($handle)))
 			{
 				$path = $dir . $plugin_id . DIRECTORY_SEPARATOR;
-				if(  file_exists( $path . 'init' . EXT))
+				if (file_exists($path . 'init' . EXT))
 				{
 					include_once $path . 'init' . EXT;
-					
+
 					// If exists plugin model, include them
-					if($file = Kohana::find_file( $path . 'plugin', $plugin_id ))
+					if ($file = Kohana::find_file($path . 'plugin', $plugin_id))
 					{
 						include_once $file;
 					}
 				}
 			}
 
-			closedir( $handle );
+			closedir($handle);
 		}
 
-		ksort( self::$_registered );
+		ksort(self::$_registered);
 		return self::$_registered;
 	}
 
@@ -133,7 +133,7 @@ class Plugins {
 	 * @param Plugins_Item $plugin
 	 * @return boolean
 	 */
-	public static function register( Plugin $plugin )
+	public static function register(Plugin $plugin)
 	{
 		self::$_registered[$plugin->id()] = $plugin;
 		return TRUE;
@@ -145,16 +145,16 @@ class Plugins {
 	 * @param string $plugin_id
 	 * @return Plugin_Decorator
 	 */
-	public static function get_registered( $plugin_id = NULL )
+	public static function get_registered($plugin_id = NULL)
 	{
-		if ( $plugin_id === NULL )
+		if ($plugin_id === NULL)
 		{
 			return self::$_registered;
 		}
 
-		return Arr::get( self::$_registered, $plugin_id );
+		return Arr::get(self::$_registered, $plugin_id);
 	}
-	
+
 	/**
 	 * 
 	 * @param string $plugin_id
@@ -162,15 +162,15 @@ class Plugins {
 	 * @param mixed $default
 	 * @return mixed
 	 */
-	public static function setting( $plugin_id, $key, $default = NULL)
+	public static function setting($plugin_id, $key, $default = NULL)
 	{
 		$plugin = self::get_registered($plugin_id);
-		
-		if($plugin instanceof Plugin)
+
+		if ($plugin instanceof Plugin)
 		{
 			return $plugin->get($key, $default);
 		}
-		
+
 		return $default;
 	}
 

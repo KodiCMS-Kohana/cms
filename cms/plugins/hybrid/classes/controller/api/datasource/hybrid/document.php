@@ -23,7 +23,7 @@ class Controller_Api_Datasource_Hybrid_Document extends Controller_System_API
 		$documents = $ds->headline()->get($ids);
 		$response = array();
 		
-		if($is_array === FALSE)
+		if ($is_array === FALSE)
 		{
 			$response[] = array(
 				'id' => 0,
@@ -31,15 +31,17 @@ class Controller_Api_Datasource_Hybrid_Document extends Controller_System_API
 			);
 		}
 
-		foreach($documents['documents'] as $id => $data)
+		foreach ($documents['documents'] as $id => $data)
 		{
-			if($doc_id != $id)
+			if ($doc_id != $id)
+			{
 				$response[] = array(
 					'id' => $id,
 					'text' => $data['header']
 				);
+			}
 		}
-		
+
 		$this->response($response);
 	}
 }

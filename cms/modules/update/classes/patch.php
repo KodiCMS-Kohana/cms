@@ -23,26 +23,26 @@ class Patch {
 		$cache = Cache::instance();
 		$cached_patches = $cache->get('patches_cache');
 		
-		if($cached_patches !== NULL)
+		if ($cached_patches !== NULL)
 		{
 			return $cached_patches;
 		}
-		
-		if(isset($respoonse['tree']))
+
+		if (isset($respoonse['tree']))
 		{
 			$installed_patches = self::installed();
-			
-			foreach($respoonse['tree'] as $row)
+
+			foreach ($respoonse['tree'] as $row)
 			{
-				if ( ! in_array($row['path'], $installed_patches) AND pathinfo($row['path'], PATHINFO_EXTENSION) == 'php')
+				if (!in_array($row['path'], $installed_patches) AND pathinfo($row['path'], PATHINFO_EXTENSION) == 'php')
 				{
 					$patches[$row['path']] = 'https://raw.githubusercontent.com/KodiCMS/patches/master/' . $row['path'];
 				}
 			}
-			
+
 			$cache->set('patches_cache', $patches);
 		}
-		
+
 		return $patches;
 	}
 	
@@ -58,13 +58,13 @@ class Patch {
 		foreach ($patches_list as $path)
 		{
 			$filename = pathinfo($path, PATHINFO_BASENAME);
-			
-			if ( ! in_array($filename, $installed_patches))
+
+			if (!in_array($filename, $installed_patches))
 			{
 				$patches[$filename] = $path;
 			}
 		}
-		
+
 		return $patches;
 	}
 	
@@ -76,7 +76,7 @@ class Patch {
 	{
 		$remote_patches = self::find_remote();
 		$local_patches = self::find_local();
-		
+
 		return Arr::merge($local_patches, $remote_patches);
 	}
 	
@@ -87,21 +87,21 @@ class Patch {
 	public static function apply($patch)
 	{
 		$installed_patches = self::installed();
-		
+
 		$filename = pathinfo($patch, PATHINFO_BASENAME);
-		
+
 		if (Valid::url($patch))
 		{
 			$filename = Upload::from_url($patch, PATCHES_FOLDER, $filename, array('php'), TRUE);
-			
+
 			$patch = PATCHES_FOLDER . $filename;
 		}
-		
+
 		if (file_exists($patch) AND ! in_array($patch, $installed_patches))
 		{
 			include $patch;
 			@unlink($patch);
-			
+
 			$installed_patches[] = $filename;
 			Config::set('update', 'installed_patches', $installed_patches);
 		}

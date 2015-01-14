@@ -57,7 +57,7 @@ class Model_Backup_Database extends Model_Backup {
 		{
 			throw new Exception('File ' . $file . ' not exists');
 		}
-		
+
 		return file_get_contents($file);
 	}
 	

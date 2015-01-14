@@ -17,7 +17,7 @@ class Plugin_Type_Database extends Plugin_Settings_Decorator {
 	 */
 	public function save_settings()
 	{
-		$status = (bool) DB::update( Plugin::TABLE_NAME )
+		$status = (bool) DB::update(Plugin::TABLE_NAME)
 			->set(array(
 				'settings' => Kohana::serialize($this->settings())
 			))
@@ -52,12 +52,12 @@ class Plugin_Type_Database extends Plugin_Settings_Decorator {
 	
 	protected function _clear_cache()
 	{
-		if(Kohana::$caching === TRUE)
+		if (Kohana::$caching === TRUE)
 		{
-			Cache::instance()->delete('Database::cache('.Plugin::CACHE_KEY . '::plugin::' . $this->id() . ')');
+			Cache::instance()->delete('Database::cache(' . Plugin::CACHE_KEY . '::plugin::' . $this->id() . ')');
 		}
 
 		return parent::_clear_cache();
 	}
-	
+
 }

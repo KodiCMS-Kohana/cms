@@ -40,10 +40,10 @@ abstract class Behavior_Abstract {
 	public function __construct(array $config = array()) 
 	{
 		$this->_config = $config;
-		
+
 		$routes = $this->routes();
 
-		if(isset($this->_config['routes']) AND is_array($this->_config['routes']))
+		if (isset($this->_config['routes']) AND is_array($this->_config['routes']))
 		{
 			$routes = $this->_config['routes'] + $routes;
 		}
@@ -76,8 +76,8 @@ abstract class Behavior_Abstract {
 	public function execute_uri($uri) 
 	{
 		$method = $this->_router->find($uri);
-		
-		if(strpos($method, '::') !== FALSE)
+
+		if (strpos($method, '::') !== FALSE)
 		{
 			Callback::invoke($method, array($this));
 		}
@@ -85,7 +85,7 @@ abstract class Behavior_Abstract {
 		{
 			$this->{$method}();
 		}
-		
+
 		return $this;
 	}
 
@@ -94,12 +94,12 @@ abstract class Behavior_Abstract {
 	 * @param Model_Page_Front $page
 	 * @return \Behavior_Abstract
 	 */
-	public function set_page( Model_Page_Front &$page )
+	public function set_page(Model_Page_Front &$page)
 	{
 		$this->_page = &$page;
 		return $this;
 	}
-	
+
 	/**
 	 * 
 	 * @return Model_Page_Front
@@ -115,11 +115,11 @@ abstract class Behavior_Abstract {
 	 */
 	public function settings()
 	{
-		if($this->_settings === NULL)
+		if ($this->_settings === NULL)
 		{
 			$this->_settings = new Behavior_Settings($this->page());
 		}
-		
+
 		return $this->_settings;
 	}
 

@@ -82,7 +82,8 @@ class Controller_Jobs extends Controller_System_Backend {
 				Flash::clear('post_data');
 				Messages::success(__('Job has been saved!'));
 			}
-		} catch (ORM_Validation_Exception $e)
+		} 
+		catch (ORM_Validation_Exception $e)
 		{
 			Messages::errors($e->errors('validation'));
 			$this->go_back();
@@ -134,7 +135,7 @@ class Controller_Jobs extends Controller_System_Backend {
 		));
 	}
 	
-	private function _edit( $job )
+	private function _edit($job)
 	{
 		$data = $this->request->post();
 		$this->auto_render = FALSE;

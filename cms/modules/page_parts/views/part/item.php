@@ -12,7 +12,7 @@
 					<?php echo Observer::notify('part_controls'); ?>
 					<?php echo UI::button(UI::icon('edit'), array(
 						'class' => 'part-rename btn-inverse btn-xs margin-r5')); ?>
-					<?php if( ACL::check('page.parts')): ?>
+					<?php if (ACL::check('page.parts')): ?>
 					<?php echo UI::button(UI::icon('cog'), array(
 						'class' => 'part-options-button btn-default btn-xs margin-r10')); ?>
 					<?php endif; ?>
@@ -31,7 +31,7 @@
 		<% if ((is_protected == <?php echo Model_Page_Part::PART_PROTECTED; ?> && is_developer == 1) || is_protected == <?php echo Model_Page_Part::PART_NOT_PROTECTED; ?> ) { %>
 		<div class="part-options" style="display: none;">
 			<div class="panel-body padding-sm form-inline">
-			<?php if( ACL::check('page.parts')): ?>
+			<?php if (ACL::check('page.parts')): ?>
 				<div class="row">
 					<div class="col-md-4 item-filter-cont">
 						<label>

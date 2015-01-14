@@ -22,15 +22,15 @@ class DataSource_Hybrid_Field_Primitive_Float extends DataSource_Hybrid_Field_Pr
 	{
 		$value = number_format((float) $value, $this->after_coma_num, '.', '');
 
-		if( ! empty($this->min) AND $value < $this->min )
+		if (!empty($this->min) AND $value < $this->min)
 		{
 			$value = $this->min;
 		}
-		else if( ! empty($this->max) AND $value > $this->max )
+		else if (!empty($this->max) AND $value > $this->max)
 		{
 			$value = $this->max;
 		}
-		
+
 		return $value;
 	}
 
@@ -39,11 +39,11 @@ class DataSource_Hybrid_Field_Primitive_Float extends DataSource_Hybrid_Field_Pr
 		$this->default = $this->set_value($value);
 	}
 	
-	public function set_after_coma_num( $number )
+	public function set_after_coma_num($number)
 	{
 		$this->after_coma_num = (int) $number;
-		
-		if($this->after_coma_num > 6 OR $this->after_coma_num < 1)
+
+		if ($this->after_coma_num > 6 OR $this->after_coma_num < 1)
 		{
 			$this->after_coma_num = 2;
 		}
@@ -63,21 +63,21 @@ class DataSource_Hybrid_Field_Primitive_Float extends DataSource_Hybrid_Field_Pr
 	{
 		$new->set($this->name, Num::format($new->get($this->name), $this->after_coma_num));
 	}
-	
-	public function onValidateDocument( Validation $validation, DataSource_Hybrid_Document $doc )
+
+	public function onValidateDocument(Validation $validation, DataSource_Hybrid_Document $doc)
 	{
 		$validation->rule($this->name, 'numeric');
 
 		return parent::onValidateDocument($validation, $doc);
 	}
-	
+
 	public function get_type() 
 	{
-		if($this->length < 1 OR $this->length > 11)
+		if ($this->length < 1 OR $this->length > 11)
 		{
 			$this->length = 10;
 		}
 
-		return 'NUMERIC(' . $this->length . ', '. $this->after_coma_num .') NOT NULL';
+		return 'NUMERIC(' . $this->length . ', ' . $this->after_coma_num . ') NOT NULL';
 	}
 }

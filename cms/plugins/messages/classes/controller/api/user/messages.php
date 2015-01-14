@@ -18,11 +18,13 @@ class Controller_API_User_Messages extends Controller_System_Api {
 			->get_all($user_id, $parent_id, $this->fields);
 
 		$use_template = $this->param('use_template', FALSE);
-		
-		if($use_template)
+
+		if ($use_template)
 		{
 			$this->response((string) View::factory('messages/messages', array(
-				'messages' => array_map(function($a) { return (object) $a; }, $messages)
+				'messages' => array_map(function($a) {
+						return (object) $a;
+				}, $messages)
 			)));
 		}
 		else
@@ -35,23 +37,23 @@ class Controller_API_User_Messages extends Controller_System_Api {
 	{		
 		$this->get_get();
 		$messages = $this->json['response'];
-		
+
 		$response_messages = array();
-		foreach($messages as $msg)
+		foreach ($messages as $msg)
 		{
 			$msg = (object) $msg;
-			
-			if($msg->is_read == Model_API_Message::STATUS_NEW)
+
+			if ($msg->is_read == Model_API_Message::STATUS_NEW)
 			{
 				Api::post('user-messages.mark_read', array(
 					'id' => $msg->id, 'uid' => Auth::get_id()
 				));
 			}
-	
+
 			$response_messages[] = (string) View::factory('messages/item')
 				->set('message', (object) $msg);
 		}
-		
+
 		$this->response($response_messages);
 	}
 	
@@ -105,7 +107,7 @@ class Controller_API_User_Messages extends Controller_System_Api {
 		$parent_id = (int) $this->param('parent_id', 0);
 		$content = $this->param('content', NULL, TRUE);
 		
-		if($parent_id > 0)
+		if ($parent_id > 0)
 		{
 			$title = NULL;
 			$to_user_id = DB::select('user_id')

@@ -23,15 +23,15 @@ class DataSource_Hybrid_Field_Primitive_Integer extends DataSource_Hybrid_Field_
 	{
 		$value = (int) $value;
 
-		if( ! empty($this->min) AND $value < $this->min )
+		if (!empty($this->min) AND $value < $this->min)
 		{
 			$value = $this->min;
 		}
-		else if( ! empty($this->max) AND $value > $this->max )
+		else if (!empty($this->max) AND $value > $this->max)
 		{
 			$value = $this->max;
 		}
-		
+
 		return $value;
 	}
 	
@@ -55,13 +55,13 @@ class DataSource_Hybrid_Field_Primitive_Integer extends DataSource_Hybrid_Field_
 		$new->set($this->name, (int) $new->get($this->name));
 	}
 	
-	public function onValidateDocument( Validation $validation, DataSource_Hybrid_Document $doc )
+	public function onValidateDocument(Validation $validation, DataSource_Hybrid_Document $doc)
 	{
 		$validation->rule($this->name, 'numeric');
-			
+
 		return parent::onValidateDocument($validation, $doc);
 	}
-	
+
 	public function onReadDocumentValue(array $data, DataSource_Hybrid_Document $document)
 	{
 		$value = Arr::get($data, $this->name);
@@ -71,18 +71,19 @@ class DataSource_Hybrid_Field_Primitive_Integer extends DataSource_Hybrid_Field_
 		return $this;
 	}
 	
-	public function get_type() 
+	public function get_type()
 	{
-		if($this->length < 1 OR $this->length > 11)
+		if ($this->length < 1 OR $this->length > 11)
 		{
 			$this->length = 10;
 		}
 
 		return 'INT(' . $this->length . ') UNSIGNED NOT NULL';
 	}
-	
-	public static function fetch_widget_field( $widget, $field, $row, $fid, $recurse )
+
+	public static function fetch_widget_field($widget, $field, $row, $fid, $recurse)
 	{
 		return (int) $row[$fid];
 	}
+
 }

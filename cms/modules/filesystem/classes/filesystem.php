@@ -66,46 +66,46 @@ class FileSystem {
 	 * @return \FileSystem|\FileSystem_File|\FileSystem_Directory
 	 * @throws Kohana_Exception
 	 */
-	public static function factory( $path )
+	public static function factory($path)
 	{
-		if( ! ($path instanceof SplFileInfo) )
+		if (!($path instanceof SplFileInfo))
 		{
 			$path = FileSystem::normalize_path($path);
-			
-			if ( file_exists( $path ) ) 
+
+			if (file_exists($path))
 			{
-				if ( ! is_dir( $path ) )
+				if (!is_dir($path))
 				{
-					$path = new FileSystem_File( $path );
+					$path = new FileSystem_File($path);
 				}
-				else 
+				else
 				{
-					$path = new FileSystem_Directory( $path );
+					$path = new FileSystem_Directory($path);
 				}
 			}
 			else
 			{
-				throw new Kohana_Exception( 'Directory or file :path not found', array(
+				throw new Kohana_Exception('Directory or file :path not found', array(
 					':path' => $path
-				) );
+				));
 			}
 		}
 
-		return new FileSystem( $path );
+		return new FileSystem($path);
 	}
 
 	/**
 	 * 
 	 * @param SplFileInfo $file
 	 */
-	public function __construct( SplFileInfo $file )
+	public function __construct(SplFileInfo $file)
 	{
 		$this->_file = $file;
-		
+
 		$this->_path = $file->getPath();
 		$this->_real_path = $file->getRealPath();
 	}
-	
+
 	/**
 	 * 
 	 * @return SplFileInfo|DirectoryIterator
@@ -115,17 +115,17 @@ class FileSystem {
 		return $this->_file;		
 	}
 
-	public function __get( $name )
+	public function __get($name)
 	{
-		if(isset($this->_file->{$name}))
+		if (isset($this->_file->{$name}))
 		{
 			return $this->_file->{$name};
 		}
 	}
 
-	public function __call( $method, $arguments = array() )
+	public function __call($method, $arguments = array())
 	{
-		if( method_exists( $this->_file, $method ))
+		if (method_exists($this->_file, $method))
 		{
 			return call_user_func_array(array($this->_file, $method), $arguments);
 		}
@@ -139,37 +139,37 @@ class FileSystem {
 	{
 		$perms = $this->_file->getPerms();
 
-		if ( ($perms & 0xC000) == 0xC000 )
+		if (($perms & 0xC000) == 0xC000)
 		{
 			// Socket
 			$info = 's';
 		}
-		elseif ( ($perms & 0xA000) == 0xA000 )
+		elseif (($perms & 0xA000) == 0xA000)
 		{
 			// Symbolic Link
 			$info = 'l';
 		}
-		elseif ( ($perms & 0x8000) == 0x8000 )
+		elseif (($perms & 0x8000) == 0x8000)
 		{
 			// Regular
 			$info = '-';
 		}
-		elseif ( ($perms & 0x6000) == 0x6000 )
+		elseif (($perms & 0x6000) == 0x6000)
 		{
 			// Block special
 			$info = 'b';
 		}
-		elseif ( ($perms & 0x4000) == 0x4000 )
+		elseif (($perms & 0x4000) == 0x4000)
 		{
 			// Directory
 			$info = 'd';
 		}
-		elseif ( ($perms & 0x2000) == 0x2000 )
+		elseif (($perms & 0x2000) == 0x2000)
 		{
 			// Character special
 			$info = 'c';
 		}
-		elseif ( ($perms & 0x1000) == 0x1000 )
+		elseif (($perms & 0x1000) == 0x1000)
 		{
 			// FIFO pipe
 			$info = 'p';
@@ -184,24 +184,24 @@ class FileSystem {
 		$info .= (($perms & 0x0100) ? 'r' : '-');
 		$info .= (($perms & 0x0080) ? 'w' : '-');
 		$info .= (($perms & 0x0040) ?
-						(($perms & 0x0800) ? 's' : 'x' ) :
-						(($perms & 0x0800) ? 'S' : '-'));
+			(($perms & 0x0800) ? 's' : 'x' ) :
+			(($perms & 0x0800) ? 'S' : '-'));
 
 		// Group
 		$info .= (($perms & 0x0020) ? 'r' : '-');
 		$info .= (($perms & 0x0010) ? 'w' : '-');
 		$info .= (($perms & 0x0008) ?
-						(($perms & 0x0400) ? 's' : 'x' ) :
-						(($perms & 0x0400) ? 'S' : '-'));
+			(($perms & 0x0400) ? 's' : 'x' ) :
+			(($perms & 0x0400) ? 'S' : '-'));
 
 		// World
 		$info .= (($perms & 0x0004) ? 'r' : '-');
 		$info .= (($perms & 0x0002) ? 'w' : '-');
 		$info .= (($perms & 0x0001) ?
-		(($perms & 0x0200) ? 't' : 'x' ) :
-		(($perms & 0x0200) ? 'T' : '-'));
+			(($perms & 0x0200) ? 't' : 'x' ) :
+			(($perms & 0x0200) ? 'T' : '-'));
 
-		return substr( sprintf( '%o', $perms ), -4, 4 ); // (perm, chmod)
+		return substr(sprintf('%o', $perms), -4, 4); // (perm, chmod)
 	}
 
 	/**
@@ -233,13 +233,13 @@ class FileSystem {
 		$dirs_count = count($dirs_array);
 		$paths_array = array();
 
-		for($i = 0; $i < $dirs_count; ++$i)
+		for ($i = 0; $i < $dirs_count; ++$i)
 		{
-			if(
-				empty($dirs_array[$i]) 
-			OR 
-				$dirs_array[$i] == '.' 
-			OR  
+			if (
+				empty($dirs_array[$i])
+				OR
+				$dirs_array[$i] == '.'
+				OR
 				$dirs_array[$i] == '..'
 			)
 			{
@@ -249,7 +249,7 @@ class FileSystem {
 			$paths_array[$path . $dirs_array[$i]] = $dirs_array[$i];
 			$path .= $dirs_array[$i] . DIRECTORY_SEPARATOR;
 		}
-		
+
 		return $paths_array;
 	}
 	
@@ -287,10 +287,10 @@ class FileSystem {
     {
 		$array = array();
 
-		while($this->_file->valid()) 
+		while ($this->_file->valid())
 		{
-			if( $ext !== NULL AND $this->_file->isFile() 
-					AND !(substr($this->_file->getFilename(), -strlen($ext)) == $ext) )
+			if ($ext !== NULL AND $this->_file->isFile()
+				AND !(substr($this->_file->getFilename(), -strlen($ext)) == $ext) )
 			{
 				$this->_file->next();
 				continue;

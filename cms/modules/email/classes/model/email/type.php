@@ -97,12 +97,14 @@ class Model_Email_Type extends ORM
 	 * @param array $options
 	 * @return boolean
 	 */
-	public function send( array $options = NULL )
+	public function send(array $options = NULL)
 	{
 		if ( ! $this->_loaded)
+		{
 			return FALSE;
+		}
 
-		if(empty($options))
+		if (empty($options))
 		{
 			$options = $this->default_options();
 		}
@@ -110,24 +112,24 @@ class Model_Email_Type extends ORM
 		{
 			$options = Arr::merge($this->default_options(), $options);
 		}
-		
+
 		$_options = array();
 		foreach ($options as $key => $value)
 		{
-			$_options['{'.$key.'}'] = $value;
+			$_options['{' . $key . '}'] = $value;
 		}
-		
+
 		unset($options);
-		
+
 		$messages = $this->templates
 			->where('status', '=', Model_Email_Template::ACTIVE)
 			->find_all();
-		
+
 		foreach ($messages as $message)
 		{
 			$message->send($_options);
 		}
-		
+
 		return TRUE;
 	}
 	
@@ -136,12 +138,14 @@ class Model_Email_Type extends ORM
 	 * @param array $options
 	 * @return boolean
 	 */
-	public function add_to_queue( array $options = NULL )
+	public function add_to_queue(array $options = NULL)
 	{
-		if ( ! $this->_loaded)
+		if (!$this->_loaded)
+		{
 			return FALSE;
-		
-		if(empty($options))
+		}
+
+		if (empty($options))
 		{
 			$options = $this->default_options();
 		}
@@ -149,24 +153,24 @@ class Model_Email_Type extends ORM
 		{
 			$options = Arr::merge($this->default_options(), $options);
 		}
-		
+
 		$_options = array();
 		foreach ($options as $key => $value)
 		{
-			$_options['{'.$key.'}'] = $value;
+			$_options['{' . $key . '}'] = $value;
 		}
-		
+
 		unset($options);
-		
+
 		$messages = $this->templates
 			->where('status', '=', Model_Email_Template::ACTIVE)
 			->find_all();
-		
+
 		foreach ($messages as $message)
 		{
 			$message->add_to_queue($_options);
 		}
-		
+
 		return TRUE;
 	}
 
@@ -177,15 +181,16 @@ class Model_Email_Type extends ORM
 	 */
 	public static function parse_data($values)
 	{
-		if( ! empty($values))
+		if (!empty($values))
 		{
 			$keys = $values['key'];
 			$names = $values['value'];
-			
+
 			$values = array_combine($keys, $names);
 			$values = array_unique(array_filter($values));
 		}
-		
+
 		return $values;
 	}
+
 }

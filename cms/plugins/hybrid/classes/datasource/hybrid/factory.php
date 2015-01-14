@@ -145,7 +145,10 @@ class DataSource_Hybrid_Factory {
 	 */
 	public function set_published(array $ids, $value)
 	{
-		if( empty($ids) ) return $this;
+		if (empty($ids))
+		{
+			return $this;
+		}
 
 		$res = DB::select('dsh.id', 'dsh.ds_id')
 			->from(array('dshybrid', 'dsh'))
@@ -160,7 +163,7 @@ class DataSource_Hybrid_Factory {
 			$docs[$row['ds_id']][] = $row['id'];
 		}
 
-		if( !empty($docs) ) 
+		if (!empty($docs))
 		{
 			$ds_ids = array_keys($docs);
 
@@ -169,7 +172,7 @@ class DataSource_Hybrid_Factory {
 				$ds = Datasource_Data_Manager::load($ds_id);
 				$ids = $docs[$ds_id];
 
-				if($value === TRUE)
+				if ($value === TRUE)
 				{
 					$ds->add_to_index($ids);
 				}
@@ -233,15 +236,15 @@ class DataSource_Hybrid_Factory {
 		settype($folder, 'int');
 		$dir = PUBLICPATH . 'hybrid' . DIRECTORY_SEPARATOR . $folder;
 
-		if($folder > 0) 
+		if ($folder > 0)
 		{
-			if(!is_dir($dir))
+			if (!is_dir($dir))
 			{
 				mkdir($dir, 0777, TRUE);
 			}
-			
+
 			chmod($dir, 0777);
-			
+
 			return TRUE;
 		}
 
@@ -280,13 +283,16 @@ class DataSource_Hybrid_Factory {
 		settype($folder, 'int');
 		$dir = PUBLICPATH . 'hybrid' . DIRECTORY_SEPARATOR . $folder;
 	
-		if($folder > 0 AND is_dir($dir)) 
+		if ($folder > 0 AND is_dir($dir))
 		{
 			$dir_handle = opendir($dir);
-			
-			if (!$dir_handle) return FALSE;
-			
-			while($file = readdir($dir_handle))
+
+			if (!$dir_handle)
+			{
+				return FALSE;
+			}
+
+			while ($file = readdir($dir_handle))
 			{
 				if ($file != "." AND $file != "..")
 				{

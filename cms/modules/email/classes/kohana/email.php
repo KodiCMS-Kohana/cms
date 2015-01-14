@@ -24,11 +24,11 @@ class Kohana_Email {
 	 */
 	public static function mailer()
 	{
-		if ( ! Email::$_mailer)
+		if (!Email::$_mailer)
 		{
 			// Load email configuration, make sure minimum defaults are set
 			$config = Kohana::$config->load('email')->as_array() + array(
-				'driver'  => 'native',
+				'driver' => 'native',
 				'options' => array(),
 			);
 
@@ -169,7 +169,7 @@ class Kohana_Email {
 	 */
 	public function message($body, $type = NULL)
 	{
-		if ( ! $type OR $type === 'text/plain')
+		if (!$type OR $type === 'text/plain')
 		{
 			// Set the main text/plain body
 			$this->_message->setBody($body);
@@ -221,7 +221,7 @@ class Kohana_Email {
 		else
 		{
 			// Call $this->_message->{add$Type}($email, $name)
-			call_user_func(array($this->_message, 'add'.ucfirst($type)), $email, $name);
+			call_user_func(array($this->_message, 'add' . ucfirst($type)), $email, $name);
 		}
 
 		return $this;
@@ -289,7 +289,7 @@ class Kohana_Email {
 		else
 		{
 			// Call $this->_message->{add$Type}($email, $name)
-			call_user_func(array($this->_message, 'add'.ucfirst($type)), $email, $name);
+			call_user_func(array($this->_message, 'add' . ucfirst($type)), $email, $name);
 		}
 
 		return $this;
@@ -380,7 +380,7 @@ class Kohana_Email {
 	 */
 	public function attach_content($data, $file, $mime = NULL)
 	{
-		if ( ! $mime)
+		if (!$mime)
 		{
 			// Get the mime type from the filename
 			$mime = File::mime_by_ext(pathinfo($file, PATHINFO_EXTENSION));
@@ -429,7 +429,7 @@ class Kohana_Email {
 			{
 				// Only an email address was provided
 				$email = $name;
-				$name  = NULL;
+				$name = NULL;
 			}
 
 			// Set the To addre
@@ -447,7 +447,7 @@ class Kohana_Email {
 // Load Swiftmailer
 require Kohana::find_file('vendor/swiftmailer', 'lib/swift_required');
 
-if(method_exists('Swift_Preferences', 'getInstance'))
+if (method_exists('Swift_Preferences', 'getInstance'))
 {
 	// Set the default character set for everything
 	Swift_Preferences::getInstance()->setCharset(Kohana::$charset);

@@ -12,8 +12,10 @@ class Feed extends Kohana_Feed {
 	public static function parse($feed, $limit = 0)
 	{
 		// Check if SimpleXML is installed
-		if ( ! function_exists('simplexml_load_file'))
+		if (!function_exists('simplexml_load_file'))
+		{
 			throw new Kohana_Exception('SimpleXML must be installed!');
+		}
 
 		// Make limit an integer
 		$limit = (int) $limit;
@@ -26,7 +28,7 @@ class Feed extends Kohana_Feed {
 		{
 			// Use native Request client to get remote contents
 			$response = Request::factory($feed)->execute();
-			$feed     = $response->body();
+			$feed = $response->body();
 		}
 		elseif (is_file($feed))
 		{
@@ -42,7 +44,9 @@ class Feed extends Kohana_Feed {
 
 		// Feed could not be loaded
 		if ($feed === FALSE)
+		{
 			return array();
+		}
 
 		$namespaces = $feed->getNamespaces(TRUE);
 
@@ -55,7 +59,10 @@ class Feed extends Kohana_Feed {
 		foreach ($entries as $item)
 		{
 			if ($limit > 0 AND $i++ === $limit)
+			{
 				break;
+			}
+	
 			$item_fields = (array) $item;
 
 			// get namespaced tags
@@ -63,6 +70,7 @@ class Feed extends Kohana_Feed {
 			{
 				$item_fields += (array) $item->children($ns);
 			}
+
 			$items[] = $item_fields;
 		}
 

@@ -31,7 +31,7 @@ class Controller_API_Dashboard extends Controller_System_Api {
 
 		$widget = Dashboard::update_widget($widget_id, $settings);
 
-		if($widget !== NULL)
+		if ($widget !== NULL)
 		{
 			$this->json['update_settings'] = $widget->is_update_settings_page();
 			$this->response((string) $widget->run());
@@ -52,7 +52,7 @@ class Controller_API_Dashboard extends Controller_System_Api {
 		
 		foreach ($types as $key => $data)
 		{
-			if(Arr::get($attached_types, $key) === FALSE)
+			if (Arr::get($attached_types, $key) === FALSE)
 			{
 				unset($types[$key]);
 			}

@@ -29,10 +29,10 @@ class KodiCMS_ACL {
 	public static function get_permissions()
 	{
 		$permissions = array();
-		
-		foreach(Kohana::$config->load('permissions')->as_array() as $module => $actions)
+
+		foreach (Kohana::$config->load('permissions')->as_array() as $module => $actions)
 		{
-			if(isset($actions['title']))
+			if (isset($actions['title']))
 			{
 				$title = $actions['title'];
 			}
@@ -41,13 +41,15 @@ class KodiCMS_ACL {
 				$title = $module;
 			}
 
-			foreach($actions as $action)
+			foreach ($actions as $action)
 			{
-				if(is_array($action))
-					$permissions[$title][$module.'.'.$action['action']] = $action['description'];
+				if (is_array($action))
+				{
+					$permissions[$title][$module . '.' . $action['action']] = $action['description'];
+				}
 			}
 		}
-		
+
 		return $permissions;
 	}
 	
@@ -62,7 +64,7 @@ class KodiCMS_ACL {
 		{
 			$user = Auth::get_record();
 		}
-	
+
 		if ($user instanceof Model_User)
 		{
 			$user_id = $user->id;
@@ -145,16 +147,16 @@ class KodiCMS_ACL {
 	 * @param Model_User $user
 	 * @return boolean
 	 */
-	public static function check_array( array $actions, Model_User $user = NULL)
+	public static function check_array(array $actions, Model_User $user = NULL)
 	{
-		foreach($actions as $action)
+		foreach ($actions as $action)
 		{
-			if(self::check( $action, $user ))
+			if (self::check($action, $user))
 			{
 				return TRUE;
 			}
 		}
-		
+
 		return FALSE;
 	}
 	
@@ -163,8 +165,8 @@ class KodiCMS_ACL {
 	 * 
 	 * @param Model_User $user
 	 */
-	protected static function _set_permissions( Model_User $user )
-	{		
+	protected static function _set_permissions(Model_User $user)
+	{
 		self::$_permissions[$user->id] = array_flip($user->permissions());
 	}
 }

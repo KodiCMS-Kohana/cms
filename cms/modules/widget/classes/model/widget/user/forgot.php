@@ -19,36 +19,36 @@ class Model_Widget_User_Forgot extends Model_Widget_Decorator_Handler {
 	{
 		$email_ctx_id = $this->get('email_id_ctx', 'email');
 		$email = $this->_ctx->get($email_ctx_id);
-		
+
 		$referrer_page = Request::current()->referrer();
 		$next_page = $this->get('next_url', Request::current()->referrer());
 
-		if ( ! Valid::email( $email ))
+		if (!Valid::email($email))
 		{
 			Messages::errors(__('Use a valid e-mail address.'));
 			HTTP::redirect($referrer_page);
 		}
-		
+
 		$user = ORM::factory('user', array(
 			'email' => $email
 		));
 		
-		if( ! $user->loaded() )
+		if (!$user->loaded())
 		{
 			Messages::errors(__('No user found!'));
 			HTTP::redirect($referrer_page);
 		}
-		
+
 		$reflink = ORM::factory('user_reflink')->generate($user, 'forgot', array(
 			'next_url' => URL::site($this->next_url, TRUE)
 		));
 
-		if( ! $reflink )
+		if (!$reflink)
 		{
 			Messages::errors(__('Reflink generate error'));
 			HTTP::redirect($referrer_page);
 		}
-		
+
 		Observer::notify('admin_login_forgot_before', $user);
 		
 		try

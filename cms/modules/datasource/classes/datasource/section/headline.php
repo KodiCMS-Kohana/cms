@@ -99,12 +99,12 @@ abstract class Datasource_Section_Headline {
 	 */
 	public function render($template = NULL)
 	{
-		if($template === NULL)
+		if ($template === NULL)
 		{
 			$template = 'datasource/' . $this->_section->type() . '/headline';
 		}
-		
-		if(Kohana::find_file('views', $template) === FALSE)
+
+		if (Kohana::find_file('views', $template) === FALSE)
 		{
 			$template = 'datasource/section/headline';
 		}
@@ -132,13 +132,13 @@ abstract class Datasource_Section_Headline {
 	 * @param integer $limit
 	 * @return integer
 	 */
-	public function limit( $limit = NULL )
+	public function limit($limit = NULL)
 	{
-		if($limit !== NULL)
+		if ($limit !== NULL)
 		{
 			$this->_limit = (int) $limit;
-			
-			if($this->_limit < 1)
+
+			if ($this->_limit < 1)
 			{
 				$this->_limit = 1;
 			}
@@ -286,7 +286,7 @@ abstract class Datasource_Section_Headline {
 	 * @param array $orders array(array([FIELD NAME] => [ASC], ...))
 	 * @return \Datasource_Section_Headline
 	 */
-	public function set_sorting( array $orders = NULL )
+	public function set_sorting(array $orders = NULL)
 	{
 		$this->_sorting = $orders;
 		return $this;

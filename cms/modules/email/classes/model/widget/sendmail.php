@@ -50,21 +50,24 @@ class Model_Widget_SendMail extends Model_Widget_Decorator_Handler {
 
 	public function set_values(array $data)
 	{
-		if( ! Valid::url($data['next_url']))
+		if (!Valid::url($data['next_url']))
 		{
 			$data['next_url'] = NULL;
 		}
 
 		$data['fields'] = array();
-		if(!empty($data['field']) AND is_array( $data['field'] ))
+		if (!empty($data['field']) AND is_array($data['field']))
 		{
-			foreach($data['field'] as $key => $values)
+			foreach ($data['field'] as $key => $values)
 			{
-				foreach($values as $index => $value )
+				foreach ($values as $index => $value)
 				{
-					if($index == 0)	continue;
+					if ($index == 0)
+					{
+						continue;
+					}
 
-					if($key == 'source')
+					if ($key == 'source')
 					{
 						$value = URL::title($value, '_');
 					}
@@ -75,14 +78,14 @@ class Model_Widget_SendMail extends Model_Widget_Decorator_Handler {
 
 			$data['field'] = NULL;
 		}
-		
+
 		$email_type_fields = array();
 		foreach ($data['fields'] as $field)
 		{
 			$email_type_fields['key'][] = $field['id'];
-			$email_type_fields['value'][] = ! empty($field['name']) ? $field['name'] : Inflector::humanize($field['id']);
+			$email_type_fields['value'][] = !empty($field['name']) ? $field['name'] : Inflector::humanize($field['id']);
 		}
-		
+
 		$this->create_email_type($email_type_fields);
 		
 		return parent::set_values($data);
@@ -93,43 +96,43 @@ class Model_Widget_SendMail extends Model_Widget_Decorator_Handler {
 		$this->_errors = array();
 
 		$this->_fetch_fields();
-		
+
 		$next_url = $this->next_url;
-		
-		if(Request::current()->is_ajax())
+
+		if (Request::current()->is_ajax())
 		{
 			$json = array('status' => FALSE);
-			
-			if( !empty($this->_errors))
+
+			if (!empty($this->_errors))
 			{
 				$json['errors'] = $this->_errors;
 				$json['values'] = $this->_values;
-			} 
-			else if( $this->handle_email_type($this->_values) )
+			}
+			else if ($this->handle_email_type($this->_values))
 			{
 				$json = array('status' => TRUE);
 			}
-			
-			Request::current()->headers( 'Content-type', 'application/json' );		
+
+			Request::current()->headers('Content-type', 'application/json');
 			$this->_ctx->response()->body(json_encode($json));
 		}
 		else
 		{
 			$referrer = Request::current()->referrer();
-	
-			if( !empty($this->_errors))
+
+			if (!empty($this->_errors))
 			{
 				Flash::set('form_errors', $this->_errors);
 				Flash::set('form_values', $this->_values);
 
 				$query = URL::query(array('status' => 'error'), FALSE);
 				$next_url = $referrer;
-			} 
-			else if( $this->handle_email_type($this->_values) )
+			}
+			else if ($this->handle_email_type($this->_values))
 			{
 				$query = URL::query(array('status' => 'ok'), FALSE);
-				
-				if(empty($next_url))
+
+				if (empty($next_url))
 				{
 					$next_url = $referrer;
 				}
@@ -140,29 +143,28 @@ class Model_Widget_SendMail extends Model_Widget_Decorator_Handler {
 				$next_url = $referrer;
 			}
 
-			
-			HTTP::redirect( preg_replace('/\?.*/', '', $next_url) . $query, 302);
+			HTTP::redirect(preg_replace('/\?.*/', '', $next_url) . $query, 302);
 		}
 	}
 
-	protected function _fetch_fields( ) 
+	protected function _fetch_fields()
 	{
-		foreach($this->fields as $field) 
+		foreach ($this->fields as $field)
 		{
 			$value = $this->_get_field_value($field);
 			$field_name = !empty($field['name']) ? $field['name'] : $field['id'];
-			
+
 			$this->_values[$field['id']] = $value;
-	
-			if( ! empty($field['validator']))
+
+			if (!empty($field['validator']))
 			{
 				$validations = explode(',', $field['validator']);
-				
-				foreach($validations as $validator)
+
+				foreach ($validations as $validator)
 				{
 					$validator = trim($validator);
 
-					if( strpos( $validator, '::' ) !== FALSE )
+					if (strpos($validator, '::') !== FALSE)
 					{
 						list($class, $method) = explode('::', $validator);
 					}
@@ -171,15 +173,15 @@ class Model_Widget_SendMail extends Model_Widget_Decorator_Handler {
 						$class = 'Valid';
 						$method = $validator;
 					}
-					
-					if( $class.'::'.$method != 'Valid::not_empty' AND empty($value) )
+
+					if ($class . '::' . $method != 'Valid::not_empty' AND empty($value))
 					{
 						continue;
 					}
 
-					if( method_exists($class, $method) )
+					if (method_exists($class, $method))
 					{
-						if( ! call_user_func_array($class . '::' . $method, array($value)))
+						if (!call_user_func_array($class . '::' . $method, array($value)))
 						{
 							$message = Kohana::message('validation', $method);
 							$this->_errors[$field['id']][] = array(
@@ -188,7 +190,7 @@ class Model_Widget_SendMail extends Model_Widget_Decorator_Handler {
 							);
 						}
 					}
-					else if( ! preg_match($validator, $value) )
+					else if (!preg_match($validator, $value))
 					{
 						$this->_errors[$field['id']][] = array(
 							'value' => $value,
@@ -202,36 +204,36 @@ class Model_Widget_SendMail extends Model_Widget_Decorator_Handler {
 		}
 	}
 
-	protected function _get_field_value( $field ) 
+	protected function _get_field_value($field)
 	{
 		$key = $field['id'];
 		$value = NULL;
 
 		$src = $field['source'] % 10;
-		switch($src) 
+		switch ($src)
 		{
 			case self::CTX:
 				$value = Context::instance()->get($key);
 				break;
 			case self::GET:
-				$value = Request::current()->query($key);	
+				$value = Request::current()->query($key);
 				break;
 			case self::POST:
-				$value = Request::current()->post($key);	
+				$value = Request::current()->post($key);
 				break;
 			case self::COOKIE:
-				$value = Cookie::get($key);	
+				$value = Cookie::get($key);
 				break;
 			case self::SESSION:
 				$value = Session::instance()->get($key);
 		}
 
-		switch($field['type']) 
+		switch ($field['type'])
 		{
-			case self::HTML:	
-				$value = Kses::filter( $value, $this->allowed_tags );
+			case self::HTML:
+				$value = Kses::filter($value, $this->allowed_tags);
 				break;
-			case self::TXT:		
+			case self::TXT:
 				$value = HTML::chars($value);
 		}
 

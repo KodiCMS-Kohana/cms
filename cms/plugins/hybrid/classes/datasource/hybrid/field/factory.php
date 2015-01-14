@@ -43,12 +43,12 @@ class DataSource_Hybrid_Field_Factory {
 		$field->set_ds($record->ds_id());
 		$field->get_type();
 
-		if($field->create()) 
+		if ($field->create())
 		{
 			self::alter_table_add_field($field);
 
 			$record->fields[$field->name] = $field;
-			
+
 			return $field->id;
 		}
 
@@ -89,15 +89,15 @@ class DataSource_Hybrid_Field_Factory {
 	 * @param DataSource_Hybrid_Record $record
 	 * @param array $keys
 	 */
-	public static function remove_fields_by_key( DataSource_Hybrid_Record $record, array $keys) 
+	public static function remove_fields_by_key(DataSource_Hybrid_Record $record, array $keys)
 	{		
 		$fields = $record->fields();
 
 		$exception = FALSE;
 
-		foreach($keys as $key)
+		foreach ($keys as $key)
 		{
-			if(
+			if (
 				isset($fields[$key]) 
 			AND
 				$fields[$key]->ds_id == $record->ds_id()
@@ -146,7 +146,7 @@ class DataSource_Hybrid_Field_Factory {
 			}
 		}
 		
-		if($exception !== FALSE)
+		if ($exception !== FALSE)
 		{
 			throw $exception;
 		}
@@ -163,8 +163,8 @@ class DataSource_Hybrid_Field_Factory {
 		$id = (int) $id;
 
 		$result = self::get_fields(array($id));
-		
-		if(empty($result))
+
+		if (empty($result))
 		{
 			return NULL;
 		}
@@ -180,8 +180,10 @@ class DataSource_Hybrid_Field_Factory {
 	public static function get_field_key($id) 
 	{
 		$field = self::get_field($id);
-			
-		return ($field instanceof DataSource_Hybrid_Field) ? $field->key : NULL;
+
+		return ($field instanceof DataSource_Hybrid_Field) 
+			? $field->key 
+			: NULL;
 	}
 	
 	/**
@@ -190,15 +192,15 @@ class DataSource_Hybrid_Field_Factory {
 	 * @param array $ids
 	 * @return array
 	 */
-	public static function get_fields( array $ids = NULL ) 
+	public static function get_fields(array $ids = NULL)
 	{
 		$result = array();
-		
-		if( empty($ids) )
+
+		if (empty($ids))
 		{
 			return $result;
 		}
-		
+
 		$query = DB::select()
 			->from('dshfields')
 			->where('id', 'in', $ids)
@@ -239,9 +241,9 @@ class DataSource_Hybrid_Field_Factory {
 		$fields = array();
 
 		$query = DB::select()
-				->from('dshfields')
-				->where('ds_id', '=', $ds_id)
-				->order_by('position');
+			->from('dshfields')
+			->where('ds_id', '=', $ds_id)
+			->order_by('position');
 
 		if (!empty($type))
 		{
@@ -256,7 +258,9 @@ class DataSource_Hybrid_Field_Factory {
 		{
 			$field = self::get_field_from_array($row);
 			if ($field === NULL)
+			{
 				continue;
+			}
 
 			$fields[$id] = $field;
 		}
@@ -275,34 +279,34 @@ class DataSource_Hybrid_Field_Factory {
 	 * @return null|\DataSource_Hybrid_Field
 	 * @throws Kohana_Exception
 	 */
-	public static function get_field_from_array( array $array = NULL ) 
+	public static function get_field_from_array(array $array = NULL)
 	{
-		if( empty($array) OR !isset($array['type']) )
+		if (empty($array) OR ! isset($array['type']))
 		{
 			return NULL;
 		}
-			
+
 		$class_name = 'DataSource_Hybrid_Field_' . $array['type'];
 
-		if( ! class_exists( $class_name ))
+		if (!class_exists($class_name))
 		{
 			return NULL;
 		}
-		
-		if(isset($array['props']))
+
+		if (isset($array['props']))
 		{
 			$props = Kohana::unserialize($array['props']);
 			unset($array['props']);
 
-			if( is_array( $props))
+			if (is_array($props))
 			{
 				$array = Arr::merge($array, $props);
 			}
 		}
 
 		$result = DataSource_Hybrid_Field::factory($array['type'], $array);
-		$result->set_id( Arr::get($array, 'id') );
-		$result->set_ds( Arr::get($array, 'ds_id') );
+		$result->set_id(Arr::get($array, 'id'));
+		$result->set_ds(Arr::get($array, 'ds_id'));
 
 		return $result;
 	}
@@ -313,22 +317,22 @@ class DataSource_Hybrid_Field_Factory {
 	 * @param string $key
 	 * @return string
 	 */
-	public static function get_full_key( $key )
+	public static function get_full_key($key)
 	{
 		$key = str_replace(DataSource_Hybrid_Field::PREFFIX, '', $key);
 		$key = URL::title($key, '_');
 		$key = strtolower($key);
-		
-		if(strlen($key) > 32)
+
+		if (strlen($key) > 32)
 		{
 			$key = substr($key, 0, 32);
 		}
-		
-		if(empty($key))
+
+		if (empty($key))
 		{
 			return NULL;
 		}
-		
+
 		return DataSource_Hybrid_Field::PREFFIX . $key;
 	}
 	
@@ -366,14 +370,14 @@ class DataSource_Hybrid_Field_Factory {
 			':default' => DB::expr('DEFAULT ""')
 		);
 		
-		if(isset($field->default))
+		if (isset($field->default))
 		{
-			$params[':default'] = DB::expr('DEFAULT "' .  $field->default . '"');
+			$params[':default'] = DB::expr('DEFAULT "' . $field->default . '"');
 		}
-		
+
 		return (bool) DB::query(NULL, 
-				'ALTER TABLE :table ADD :key :type :default'
-			)
+			'ALTER TABLE :table ADD :key :type :default'
+		)
 			->parameters($params)
 			->execute();
 	}
@@ -393,8 +397,8 @@ class DataSource_Hybrid_Field_Factory {
 		);
 
 		return (bool) DB::query(NULL, 
-				'ALTER TABLE :table DROP :key'
-			)
+			'ALTER TABLE :table DROP :key'
+		)
 			->parameters($params)
 			->execute();
 	}
@@ -416,14 +420,14 @@ class DataSource_Hybrid_Field_Factory {
 			':default' => DB::expr('DEFAULT ""')
 		);
 		
-		if(isset($field->default))
+		if (isset($field->default))
 		{
-			$params[':default'] = DB::expr('DEFAULT "' .  $field->default . '"');
+			$params[':default'] = DB::expr('DEFAULT "' . $field->default . '"');
 		}
 
 		return (bool) DB::query(NULL, 
-				'ALTER TABLE :table CHANGE :old_key :new_key :type :default'
-			)
+			'ALTER TABLE :table CHANGE :old_key :new_key :type :default'
+		)
 			->parameters($params)
 			->execute();
 	}
@@ -445,8 +449,8 @@ class DataSource_Hybrid_Field_Factory {
 		);
 		
 		return (bool) DB::query(NULL,
-				'ALTER TABLE :table ADD :type(:key)'
-			)
+			'ALTER TABLE :table ADD :type(:key)'
+		)
 			->parameters($params)
 			->execute();
 	}
@@ -467,8 +471,8 @@ class DataSource_Hybrid_Field_Factory {
 		);
 		
 		return (bool) DB::query(NULL,
-				'ALTER TABLE :table DROP INDEX :key'
-			)
+			'ALTER TABLE :table DROP INDEX :key'
+		)
 			->parameters($params)
 			->execute();
 	}

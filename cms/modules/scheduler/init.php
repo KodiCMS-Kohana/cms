@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
-Observer::observe('system::init', function() {
+ Observer::observe('system::init', function() {
 	if (Config::get('job', 'agent') == Model_Job::AGENT_CRON)
 	{
 		return;
@@ -9,8 +9,11 @@ Observer::observe('system::init', function() {
 	try
 	{
 		ORM::factory('job')->run_all();
-	} 
-	catch (Exception $ex){}
+	}
+	catch (Exception $ex)
+	{
+		
+	}
 });
 
 Observer::observe('view_setting_plugins', function() {

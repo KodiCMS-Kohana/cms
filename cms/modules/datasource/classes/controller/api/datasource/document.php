@@ -60,7 +60,7 @@ class Controller_Api_Datasource_Document extends Controller_System_API
 		$doc_ids = $this->param('doc', array(), TRUE);
 		$ds_id = $this->param('ds_id', NULL, TRUE);
 
-		if(empty($doc_ids))
+		if (empty($doc_ids))
 		{
 			throw HTTP_API_Exception::factory(API::ERROR_UNKNOWN,
 				'Error');
@@ -77,7 +77,7 @@ class Controller_Api_Datasource_Document extends Controller_System_API
 		$doc_ids = $this->param('doc', array(), TRUE);
 		$ds_id = $this->param('ds_id', NULL, TRUE);
 
-		if(empty($doc_ids))
+		if (empty($doc_ids))
 		{
 			throw HTTP_API_Exception::factory(API::ERROR_UNKNOWN,
 				'Error');
@@ -94,7 +94,7 @@ class Controller_Api_Datasource_Document extends Controller_System_API
 		$doc_ids = $this->param('doc', array(), TRUE);
 		$ds_id = $this->param('ds_id', NULL, TRUE);
 
-		if(empty($doc_ids))
+		if (empty($doc_ids))
 		{
 			throw HTTP_API_Exception::factory(API::ERROR_UNKNOWN,
 				'Error');
@@ -109,7 +109,7 @@ class Controller_Api_Datasource_Document extends Controller_System_API
 	protected function _get_datasource($ds_id)
 	{
 		$ds = Datasource_Section::load($ds_id);
-		if($ds === NULL)
+		if ($ds === NULL)
 		{
 			throw HTTP_API_Exception::factory(API::ERROR_UNKNOWN, 'Datasource section not found');
 		}

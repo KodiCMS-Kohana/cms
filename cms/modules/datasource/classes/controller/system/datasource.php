@@ -36,14 +36,17 @@ class Controller_System_Datasource extends Controller_System_Backend
 	 */
 	public function section($id = NULL)
 	{
-		if( $this->_section instanceof DataSource_Section) return $this->_section;
-		
-		if($id === NULL)
+		if ($this->_section instanceof DataSource_Section)
+		{
+			return $this->_section;
+		}
+
+		if ($id === NULL)
 		{
 			Messages::errors(__('Datasource section not loaded'));
 			$this->go_home();
 		}
-	
+
 		$this->_section = Datasource_Data_Manager::load((int) $id);
 		
 		if (
@@ -55,14 +58,14 @@ class Controller_System_Datasource extends Controller_System_Backend
 			$this->_deny_access();
 		}
 
-		if(empty($this->_section))
+		if (empty($this->_section))
 		{
-			Messages::errors(__('Datasource section :id not found', 
-					array(':id' => $id)));
+			Messages::errors(__('Datasource section :id not found', array(
+				':id' => $id)));
 
 			$this->go_home();
 		}
-		
+
 		return $this->_section;
 	}
 }

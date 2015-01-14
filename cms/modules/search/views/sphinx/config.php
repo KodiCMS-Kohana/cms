@@ -28,7 +28,7 @@ if (!$ds->loaded())
 
 $fields = $ds->get_indexable_fields();
 
-if(!empty($fields))
+if (!empty($fields))
 {
 	$fields = implode(', ', $fields) . ',';
 }

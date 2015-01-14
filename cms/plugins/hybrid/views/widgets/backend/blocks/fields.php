@@ -52,19 +52,22 @@ $fetch_widgets = !empty($fetch_widgets) ? (bool) $fetch_widgets : TRUE;
 			<td>
 				<?php
 					$types = $field->widget_types();
-					if($types !== NULL AND $fetch_widgets === TRUE)
+					if ($types !== NULL AND $fetch_widgets === TRUE)
 					{
 						$widgets = Widget_Manager::get_related($field->widget_types(), $field->from_ds);
 
-						if(isset($widgets[$widget->id])) unset($widgets[$widget->id]);
+						if (isset($widgets[$widget->id]))
+						{
+							unset($widgets[$widget->id]);
+						}
 
-						if( ! empty($widgets) )
+						if (!empty($widgets))
 						{
 							$widgets = array(__('--- Not set ---')) + $widgets;
 
 							$selected = NULL;
 
-							if(isset($widget->doc_fetched_widgets[$field->id]))
+							if (isset($widget->doc_fetched_widgets[$field->id]))
 							{
 								$selected = $widget->doc_fetched_widgets[$field->id];
 							}

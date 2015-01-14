@@ -20,7 +20,7 @@ class KodiCMS_Filter implements ArrayAccess {
 	{
 		return new Filter($array, $rules);
 	}
-	
+
 	// Array to filter
 	protected $_data = array();
 	
@@ -149,8 +149,7 @@ class KodiCMS_Filter implements ArrayAccess {
 		}
 
 		// Bind the field name and model so they can be used in the filter method
-		$_bound = array
-			(
+		$_bound = array(
 			':field' => $field,
 			':filter' => $this,
 		);

@@ -31,7 +31,7 @@ class Controller_Api_Datasource_Data extends Controller_System_API
 		
 		$ds = DataSource_Section::load($ds_id);
 		
-		if($ds->loaded())
+		if ($ds->loaded())
 		{
 			$ds->move_to_folder($folder_id);
 			$this->status = TRUE;
@@ -48,7 +48,7 @@ class Controller_Api_Datasource_Data extends Controller_System_API
 	{
 		$name = $this->param('name', NULL, TRUE);
 
-		if(DataSource_Folder::add($name))
+		if (DataSource_Folder::add($name))
 		{
 			$this->status = TRUE;
 		}
@@ -58,7 +58,7 @@ class Controller_Api_Datasource_Data extends Controller_System_API
 	{
 		$folder_id = (int) $this->param('id', 0);
 
-		if(DataSource_Folder::delete($folder_id))
+		if (DataSource_Folder::delete($folder_id))
 		{
 			$this->status = TRUE;
 		}

@@ -1,15 +1,19 @@
 <?php defined('SYSPATH') or die('No direct access allowed.');
 
-if(!defined('DB_DRIVER'))
+ if (!defined('DB_DRIVER'))
 {
 	define('DB_DRIVER', DB_TYPE);
 }
 
-switch(DB_DRIVER)
+switch (DB_DRIVER)
 {
 	case 'mysql':
 		$server = DB_SERVER;
-		if(defined('DB_PORT')) $server .= ':' . DB_PORT;
+		if (defined('DB_PORT'))
+		{
+			$server .= ':' . DB_PORT;
+		}
+		
 		$config = array(
 			'type'       => 'MySQL',
 			'connection' => array(

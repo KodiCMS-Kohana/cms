@@ -66,7 +66,7 @@ class KodiCMS_Model_File {
 		{
 			$this->_path = pathinfo($this->name, PATHINFO_DIRNAME);
 	
-			if(empty($this->_path) OR $this->_path == '.')
+			if (empty($this->_path) OR $this->_path == '.')
 			{
 				$this->_path = DOCROOT . $this->_folder;
 				$this->_file = $this->_path . DIRECTORY_SEPARATOR . $this->name;
@@ -97,7 +97,7 @@ class KodiCMS_Model_File {
 	 */
 	public function __get($key)
 	{
-		if(method_exists($this, 'get_' . $key))
+		if (method_exists($this, 'get_' . $key))
 		{
 			return $this->{'get_' . $key}( );
 		}
@@ -110,7 +110,7 @@ class KodiCMS_Model_File {
 	 */
 	public function __set($key, $value)
 	{
-		if(method_exists($this, 'set_' . $key))
+		if (method_exists($this, 'set_' . $key))
 		{
 			$this->{'set_' . $key}( $value );
 		}
@@ -175,7 +175,7 @@ class KodiCMS_Model_File {
 	public function set_content($content)
 	{
 		$old_content = $this->get_content();
-		if( ! empty( $old_content ) )
+		if (!empty($old_content))
 		{
 			$this->_changed['content'] = $old_content;
 		}
@@ -208,11 +208,11 @@ class KodiCMS_Model_File {
 		$found_files = Kohana::list_files($object->_folder, $paths);
 		foreach ($found_files as $file)
 		{
-			if(is_array($file) OR strpos($file, EXT) === FALSE) 
+			if (is_array($file) OR strpos($file, EXT) === FALSE)
 			{
 				continue;
 			}
-			
+
 			$files[] = new $class($file);
 		}
 		
@@ -339,7 +339,7 @@ class KodiCMS_Model_File {
 			$this->_file = $new_file;
 		}
 
-		if(Config::get('site', 'templates_revision') == Config::YES)
+		if (Config::get('site', 'templates_revision') == Config::YES)
 		{
 			$this->_add_revision_of_file();
 		}
@@ -354,11 +354,14 @@ class KodiCMS_Model_File {
 		$name = Arr::get($this->_changed, 'name');
 		$content = Arr::get($this->_changed, 'content');
 		
-		if( empty($name) OR strcmp($content, $this->_content) == 0) return;
-		
+		if (empty($name) OR strcmp($content, $this->_content) == 0)
+		{
+			return;
+		}
+
 		$directory = CMSPATH . 'logs' . DIRECTORY_SEPARATOR . $this->_folder;
 
-		if ( ! is_dir($directory))
+		if (!is_dir($directory))
 		{
 			mkdir($directory, 02777);
 
@@ -369,10 +372,10 @@ class KodiCMS_Model_File {
 		// Set the name of the log file
 		$filename = $directory.DIRECTORY_SEPARATOR.$name.date('Y-m-d-H-i-s').EXT;
 
-		if ( ! file_exists($filename))
+		if (!file_exists($filename))
 		{
 			// Create the log file
-			file_put_contents($filename, Kohana::FILE_SECURITY.' ?>'.PHP_EOL . $content);
+			file_put_contents($filename, Kohana::FILE_SECURITY . ' ?>' . PHP_EOL . $content);
 
 			// Allow anyone to write to log files
 			chmod($filename, 0666);

@@ -42,11 +42,11 @@ class Dashboard {
 		$widget = Widget_Manager::factory($type);
 		$widget->id = uniqid();
 	
-		if($data !== NULL)
+		if ($data !== NULL)
 		{
 			$widget->set_values($data);
 		}
-		
+
 		$widget_settings[$widget->id] = $widget;
 		Model_User_Meta::set(self::WIDGET_SETTINGS_KEY, $widget_settings, $user_id);
 		
@@ -64,11 +64,11 @@ class Dashboard {
 		$widget_settings = Model_User_Meta::get(self::WIDGET_SETTINGS_KEY, array(), $user_id);
 		$widget = Arr::get($widget_settings, $id);
 		
-		if($widget instanceof Model_Widget_Decorator_Dashboard)
+		if ($widget instanceof Model_Widget_Decorator_Dashboard)
 		{
 			$widget_settings[$id] = $widget->set_values($data);
 			Model_User_Meta::set(self::WIDGET_SETTINGS_KEY, $widget_settings, $user_id);
-			
+
 			return $widget;
 		}
 
@@ -105,7 +105,7 @@ class Dashboard {
 		{
 			foreach ($ids as $i => $_id)
 			{
-				if($_id = $id AND $_column != $column)
+				if ($_id = $id AND $_column != $column)
 				{
 					$found = TRUE;
 					unset($blocks[$_column][$i]);
@@ -114,13 +114,13 @@ class Dashboard {
 			}
 		}
 		
-		if($found === TRUE)
+		if ($found === TRUE)
 		{
 			$blocks[$column][] = $id;
 			Model_User_Meta::set(self::WIDGET_BLOCKS_KEY, $blocks, $user_id);
 			return TRUE;
 		}
-		
+
 		return FALSE;
 	}
 }

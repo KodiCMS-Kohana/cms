@@ -31,28 +31,28 @@ class Email_Queue
 	 *
 	 * @return 	array 	The number of emails sent and failed.
 	 */
-	public static function batch_send( $size = NULL )
+	public static function batch_send($size = NULL)
 	{
 		set_time_limit(0);
 
 		$stats = array(
-			'sent' => 0, 
+			'sent' => 0,
 			'failed' => 0
 		);
-		
+
 		$size = Config::get('email_queue', 'batch_size');
-		
-		$emails = ORM::factory('email_queue')->find_batch( $size );
-		
+
+		$emails = ORM::factory('email_queue')->find_batch($size);
+
 		Kohana::$log->add(Log::INFO, 'Send emails')->write();
 
-		foreach($emails as $email)
+		foreach ($emails as $email)
 		{
-			if(Email::factory($email->subject)
-				->from($email->sender_email, $email->sender_name)
-				->to($email->recipient_email, $email->recipient_name)
-				->message($email->body->body, 'text/html')
-				->send())
+			if (Email::factory($email->subject)
+					->from($email->sender_email, $email->sender_name)
+					->to($email->recipient_email, $email->recipient_name)
+					->message($email->body->body, 'text/html')
+					->send())
 			{
 				$email->sent();
 				$stats['sent'] ++;
@@ -63,7 +63,7 @@ class Email_Queue
 				$stats['failed'] ++;
 			}
 		}
-		
+
 		Kohana::$log->add(Log::INFO, 'Send emails. Sent: :sent, failed: :failed', array(
 			':sent' => $stats['sent'], ':failed' => $stats['failed']
 		))->write();
@@ -91,20 +91,20 @@ class Email_Queue
 
 		$i = 0;
 		ob_end_flush();
-		foreach($emails as $email)
+		foreach ($emails as $email)
 		{
-			if( $i >= $size )
+			if ($i >= $size)
 			{
 				$i = 0;
 				@ob_flush();
 				sleep($interval);
 			}
 
-			if(Email::factory($email->subject)
-				->from($email->sender_email, $email->sender_name)
-				->to($email->recipient_email, $email->recipient_name)
-				->message($email->body->body, 'text/html')
-				->send())
+			if (Email::factory($email->subject)
+					->from($email->sender_email, $email->sender_name)
+					->to($email->recipient_email, $email->recipient_name)
+					->message($email->body->body, 'text/html')
+					->send())
 			{
 				$email->sent();
 				$stats['sent'] ++;
@@ -114,10 +114,10 @@ class Email_Queue
 				$email->failed();
 				$stats['failed'] ++;
 			}
-			
+
 			$i++;
 		}
-		
+
 		Kohana::$log->add(Log::INFO, 'Send emails with sleep. Sent: :sent, failed: :failed', array(
 			':sent' => $stats['sent'], ':failed' => $stats['failed']
 		))->write();

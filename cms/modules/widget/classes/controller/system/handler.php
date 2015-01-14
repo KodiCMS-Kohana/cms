@@ -13,13 +13,13 @@ class Controller_System_Handler extends Controller_System_Controller
 	public function before()
 	{
 		parent::before();
-		
+
 		$this->_ctx = Context::instance();
 
 		$this->_ctx
-			->request( $this->request )
-			->response( $this->response );
-		
+			->request($this->request)
+			->response($this->response);
+
 		View_Front::bind_global('ctx', $this->_ctx);
 	}
 	
@@ -28,13 +28,13 @@ class Controller_System_Handler extends Controller_System_Controller
 		$id = (int) $this->request->param('id');
 
 		Observer::notify('handler_requested', $id);
-		
+
 		$widget = Widget_Manager::load($id);
-		if($widget === NULL OR ! $widget->is_handler())
+		if ($widget === NULL OR ! $widget->is_handler())
 		{
 			$this->go_home();
 		}
-		
+
 		$widget->run();
 	}
 }

@@ -35,7 +35,9 @@ class Plugin_Hybrid extends Plugin_Decorator {
 			$ds = Datasource_Data_Manager::load($id);
 
 			if ($ds === NULL)
+			{
 				continue;
+			}
 
 			if (!in_array('profile_id', $ds->agent()->get_field_names()))
 			{

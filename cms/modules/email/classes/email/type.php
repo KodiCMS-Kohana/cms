@@ -15,7 +15,7 @@ class Email_Type
 	 * @param string $code
 	 * @return Model_Email_Type
 	 */
-	public static function get( $code )
+	public static function get($code)
 	{
 		return ORM::factory('email_type', array(
 			'code' => (string) $code

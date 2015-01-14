@@ -1,6 +1,6 @@
 <div class="panel">
 	<div class="panel-heading">
-		<?php if( ACL::check( 'layout.add')): ?>
+		<?php if (ACL::check('layout.add')): ?>
 		<?php echo UI::button(UI::hidden(__('Add layout')), array(
 			'icon' => UI::icon( 'plus' ), 
 			'href' => Route::get('backend')->uri(array('controller' => 'layout', 'action' => 'add')),
@@ -9,7 +9,7 @@
 		)); ?>
 		<?php endif; ?>
 
-		<?php if( ACL::check( 'layout.rebuild')): ?>
+		<?php if (ACL::check('layout.rebuild')): ?>
 		<?php echo UI::button(UI::hidden(__('Rebuild blocks')), array(
 			'icon' => UI::icon( 'refresh' ),
 			'class' => 'btn-inverse btn-xs',
@@ -41,11 +41,11 @@
 			<tr id="layout_<?php echo $layout->name; ?>">
 				<th class="name">
 					<?php echo UI::icon( 'desktop' ); ?>
-					<?php if( ! $layout->is_writable()): ?>
+					<?php if (!$layout->is_writable()): ?>
 					<span class="label label-warning"><?php echo __('Read only'); ?></span>
 					<?php endif; ?>
 
-					<?php if( ACL::check( 'layout.edit') OR ACL::check( 'layout.view')): ?>
+					<?php if (ACL::check('layout.edit') OR ACL::check('layout.view')): ?>
 					<?php echo HTML::anchor(Route::get('backend')->uri(array(
 						'controller' => 'layout', 
 						'action' => 'edit', 
@@ -56,7 +56,7 @@
 					<?php else: ?>
 					<?php echo UI::icon('lock'); ?> <?php echo $layout->name; ?>
 					<?php endif; ?>
-					<?php if(count($layout->blocks()) > 0): ?>
+					<?php if (count($layout->blocks()) > 0): ?>
 					<span class="text-muted text-normal text-sm">
 						<?php echo __('Layout blocks'); ?>: <span class="layout-block-list"><?php echo implode(', ', $layout->blocks()); ?></span>
 					</span>
@@ -66,7 +66,7 @@
 					<?php echo Date::format($layout->modified()); ?>
 				</td>
 				<td class="size">
-					<?php echo Text::bytes( $layout->size()); ?>
+					<?php echo Text::bytes($layout->size()); ?>
 				</td>
 				<td class="direction hidden-xs">
 					<?php echo UI::label($layout->get_relative_path()); ?>
@@ -81,7 +81,6 @@
 					<?php endif; ?>
 				</td>
 			</tr>
-
 			<?php endforeach; ?>
 		</tbody>
 	</table>

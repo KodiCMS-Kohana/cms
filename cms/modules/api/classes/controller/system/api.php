@@ -54,21 +54,19 @@ class Controller_System_API extends Controller_System_Ajax {
 	public function before()
 	{
 		parent::before();
-		
+
 		$this->json['code'] = API::NO_ERROR;
-		
 		$this->fields = $this->param('fields', array());
-		
-		
+
 		if (strpos($this->request->headers('content-type'), 'application/json') !== FALSE)
 		{
 			$data = json_decode($this->request->body(), TRUE);
-			
-			if ( ! is_array( $data ))
+
+			if (!is_array($data))
 			{
 				parse_str($this->request->body(), $data);
 			}
-		
+
 			$this->request->post($data);
 		}
 	}
@@ -88,13 +86,13 @@ class Controller_System_API extends Controller_System_Ajax {
 	public function param($key, $default = NULL, $is_required = FALSE)
 	{
 		$param = Arr::get($this->params(), $key, $default);
-		
-		if($is_required === TRUE AND empty($param))
+
+		if ($is_required === TRUE AND empty($param))
 		{
 			throw HTTP_API_Exception::factory(API::ERROR_MISSING_PAPAM, 'Missing required param :key', array(
-				':key' => $key ));
+				':key' => $key));
 		}
-		
+
 		return $param;
 	}
 	
@@ -107,12 +105,12 @@ class Controller_System_API extends Controller_System_Ajax {
 	public function params(array $new_params = NULL)
 	{
 		$this->_params = Arr::merge($this->request->query(), $this->request->post(), $this->request->param(), $_FILES);
-		
-		if(is_array($new_params))
+
+		if (is_array($new_params))
 		{
 			$this->_params = Arr::merge($this->_params, $new_params);
 		}
-		
+
 		return $this->_params;
 	}
 
@@ -124,10 +122,10 @@ class Controller_System_API extends Controller_System_Ajax {
 	public function execute()
 	{
 		$this->_model = ORM::factory('Api_Key');
-		
-		if($this->request->action() == 'index' OR $this->request->action() == '')
+
+		if ($this->request->action() == 'index' OR $this->request->action() == '')
 		{
-			$action = 'rest_'.$this->request->method();
+			$action = 'rest_' . $this->request->method();
 		}
 		else
 		{
@@ -136,7 +134,6 @@ class Controller_System_API extends Controller_System_Ajax {
 		}
 
 		$action = strtolower($action);
-
 		$is_logged_in = Auth::is_logged_in();
 
 		try 
@@ -195,19 +192,19 @@ class Controller_System_API extends Controller_System_Ajax {
 		catch (ORM_Validation_Exception $e)
 		{
 			$this->json = array(
-				'code'  => API::ERROR_VALIDATION,
-				'message' => rawurlencode($e->getMessage()),
-				'response' => NULL,
-				'errors' => $e->errors('validation')
+				'code'		=> API::ERROR_VALIDATION,
+				'message'	=> rawurlencode($e->getMessage()),
+				'response'	=> NULL,
+				'errors'	=> $e->errors('validation')
 			);
 		}
 		catch (Validation_Exception $e)
 		{
 			$this->json = array(
-				'code'  =>  API::ERROR_VALIDATION,
-				'message' => rawurlencode($e->getMessage()),
-				'response' => NULL,
-				'errors' => $e->errors('validation')
+				'code'		=> API::ERROR_VALIDATION,
+				'message'	=> rawurlencode($e->getMessage()),
+				'response'	=> NULL,
+				'errors'	=> $e->errors('validation')
 			);
 		}
 		catch (Exception $e)
@@ -262,7 +259,7 @@ class Controller_System_API extends Controller_System_Ajax {
 	 * 
 	 * @param string $uri
 	 */
-	public function message( $message, array $values = NULL )
+	public function message($message, array $values = NULL)
 	{
 		$this->json['message'] = __($message, $values);
 	}

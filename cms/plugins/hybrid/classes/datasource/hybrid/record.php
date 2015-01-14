@@ -35,7 +35,7 @@ class DataSource_Hybrid_Record {
 	 * 
 	 * @param Datasource_Document $datasource
 	 */
-	public function __construct( Datasource_Section $datasource)
+	public function __construct(Datasource_Section $datasource)
 	{
 		$this->_datasource = $datasource;
 		$this->_ds_id = (int) $datasource->id();
@@ -60,14 +60,14 @@ class DataSource_Hybrid_Record {
 	public function load() 
 	{
 		$this->_fields = array();
-		
+
 		$fields = DataSource_Hybrid_Field_Factory::get_section_fields($this->ds_id());
-		
+
 		foreach ($fields as $field)
 		{
 			$this->_fields[$field->name] = $field;
 		}
-		
+
 		return $this;
 	}
 	
@@ -78,7 +78,7 @@ class DataSource_Hybrid_Record {
 	 */
 	public function fields()
 	{
-		if($this->_fields === NULL)
+		if ($this->_fields === NULL)
 		{
 			$this->load();
 		}
@@ -107,16 +107,16 @@ class DataSource_Hybrid_Record {
 	 * @param DataSource_Hybrid_Document $document
 	 * @return \DataSource_Hybrid_Record
 	 */
-	public function initialize_document( $document ) 
+	public function initialize_document($document)
 	{
-		foreach($this->fields() as $field)
+		foreach ($this->fields() as $field)
 		{
-			$field->onCreateDocument( $document );
+			$field->onCreateDocument($document);
 		}
-		
+
 		return $this;
 	}
-	
+
 	/**
 	 * Запуск события onUpdateDocument для полей документа раздела
 	 * 
@@ -126,37 +126,37 @@ class DataSource_Hybrid_Record {
 	 * @param DataSource_Hybrid_Document $new
 	 * @return \DataSource_Hybrid_Record
 	 */
-	public function document_changed( $old, $new ) 
+	public function document_changed($old, $new)
 	{
-		foreach($this->fields() as $field)
+		foreach ($this->fields() as $field)
 		{
-			$field->onUpdateDocument( $old, $new );
+			$field->onUpdateDocument($old, $new);
 		}
-		
+
 		return $this;
 	}
-	
+
 	/**
 	 * Запуск события onRemoveDocument для полей документа раздела
 	 * 
 	 * @param DataSource_Hybrid_Document $document
 	 * @return boolean
 	 */
-	public function destroy_document( $document ) 
+	public function destroy_document($document)
 	{
-		if($document->ds_id != $this->ds_id())
+		if ($document->ds_id != $this->ds_id())
 		{
 			return FALSE;
 		}
-		
-		foreach($this->fields() as $field)
+
+		foreach ($this->fields() as $field)
 		{
-			$field->onRemoveDocument( $document );
+			$field->onRemoveDocument($document);
 		}
 
 		return TRUE;
 	}
-	
+
 	/**
 	 * Формирование запроса на обновление значений полей документа
 	 * 
@@ -165,13 +165,13 @@ class DataSource_Hybrid_Record {
 	 * @param DataSource_Hybrid_Document $document
 	 * @return array Массив SQL запросов
 	 */
-	public function get_sql( $document ) 
+	public function get_sql($document)
 	{
 		$queries = array();
 
-		foreach($this->fields() as $field)
+		foreach ($this->fields() as $field)
 		{
-			if($part = $field->get_sql( $document ))
+			if ($part = $field->get_sql($document))
 			{
 				$queries[$field->ds_table][$part[0]] = $part[1];
 			}
@@ -179,13 +179,14 @@ class DataSource_Hybrid_Record {
 
 		$updates = array();
 
-		foreach($queries as $table => $update)
+		foreach ($queries as $table => $update)
 		{
-			$updates[] = (string) DB::update ( $table )
+			$updates[] = (string) DB::update($table)
 				->set($update)
 				->where('id', '=', $document->id);
 		}
 
 		return $updates;
 	}
+
 }

@@ -31,19 +31,19 @@ class Controller_Part extends Controller_System_Backend
 			->order_by('created_on', 'desc')
 			->as_object();
 		
-		if(!empty($part->id)) 
+	if (!empty($part->id))
 		{
 			$page = ORM::factory('page', $part->page_id);
-		
+
 			$this->breadcrumbs
 				->add($page->title, Route::get('backend')->uri(array(
 					'controller' => 'page',
 					'action' => 'edit',
 					'id' => $page->id
 				)));
-			
+
 			$this->set_title(__('Revision for part :name', array(':name' => $part->name)));
-			
+
 			$parts->where('part_id', '=', $part_id);
 		}
 		else
@@ -51,7 +51,7 @@ class Controller_Part extends Controller_System_Backend
 			$this->set_title(__('Parts revision'));
 		}
 
-		
+
 		$this->template->content = View::factory('part/revision', array(
 			'part' => $part,
 			'parts' => $parts->execute()
@@ -70,8 +70,7 @@ class Controller_Part extends Controller_System_Backend
 			->execute()
 			->current();
 
-		$part = ORM::factory('page_part', $revision->part_id);
-		$part
+		$part = ORM::factory('page_part', $revision->part_id)
 			->values(array('content' => $revision->content))
 			->save();
 		

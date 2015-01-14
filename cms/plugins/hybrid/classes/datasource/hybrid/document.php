@@ -72,7 +72,7 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 	 */
 	public function get($field, $default = NULL)
 	{
-		if( array_key_exists($field, $this->_fields) )
+		if (array_key_exists($field, $this->_fields))
 		{
 			return $this->_fields[$field];
 		}
@@ -88,20 +88,20 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 	 */
 	public function set($field, $value)
 	{
-		if($this->is_read_only())
+		if ($this->is_read_only())
 		{
 			return $this;
 		}
-		
-		if(array_key_exists($field, $this->system_fields()))
+
+		if (array_key_exists($field, $this->system_fields()))
 		{
 			return parent::set($field, $value);
 		}
-		else if(array_key_exists($field, $this->_fields))
+		else if (array_key_exists($field, $this->_fields))
 		{
 			$this->set_field_value($field, $value);
 		}
-		
+
 		return $this;
 	}
 
@@ -143,18 +143,18 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 			$fields = $this->section()->record()->fields();
 			foreach ($fields as $name => $field)
 			{
-				if(!in_array($field->id, $expected))
+				if (!in_array($field->id, $expected))
 				{
 					unset($fields[$name]);
 				}
 			}
-			
+
 			$expected = $fields;
 		}
-		
-		foreach($expected as $field)
+
+		foreach ($expected as $field)
 		{
-			if($field->family == DataSource_Hybrid_Field::FAMILY_FILE )
+			if ($field->family == DataSource_Hybrid_Field::FAMILY_FILE)
 			{
 				continue;
 			}
@@ -162,7 +162,7 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 			$field->onReadDocumentValue($array, $this);
 			unset($array[$field->name]);
 		}
-		
+
 		return parent::read_values($array);
 	}
 	
@@ -174,9 +174,9 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 	 */
 	public function read_files($array) 
 	{
-		foreach($this->section()->record()->fields() as $key => $field)
+		foreach ($this->section()->record()->fields() as $key => $field)
 		{
-			if(
+			if (
 				isset($array[$key]) 
 			AND
 				$field->family == DataSource_Hybrid_Field::FAMILY_FILE 
@@ -218,11 +218,11 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 	 */
 	public function convert_values() 
 	{
-		foreach( $this->section()->record()->fields() as $key => $field )
+		foreach ($this->section()->record()->fields() as $key => $field)
 		{
-			$this->{$key} = $field->convert_value( $this->{$key} );
+			$this->{$key} = $field->convert_value($this->{$key});
 		}
-		
+
 		return $this;
 	}
 	
@@ -233,11 +233,11 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 	 */
 	public function reset() 
 	{
-		foreach( $this->section()->record()->fields() as $key => $field )
+		foreach ($this->section()->record()->fields() as $key => $field)
 		{
 			$this->_fields[$key] = NULL;
 		}
-		
+
 		return parent::reset();
 	}
 
@@ -259,7 +259,7 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 		{
 			$preffix = 'dshybrid.';
 		}
-		
+
 		$columns = $this->system_fields();
 		unset($columns['id']);
 
@@ -274,18 +274,18 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 			->execute()
 			->current();
 				
-		if( empty($result) )
+		if (empty($result))
 		{
 			return $this;
 		}
-		
+
 		$this->_loaded = TRUE;
-		
-		foreach($result as $field => $value)
+
+		foreach ($result as $field => $value)
 		{
 			$this->{$field} = $value;
 		}
-		
+
 		return $this;
 	}
 
@@ -309,9 +309,12 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 	public function create()
 	{
 		parent::create();
-		
-		if( ! $this->created() ) return NULL;
-		
+
+		if (!$this->created())
+		{
+			return NULL;
+		}
+
 		$query = DB::insert("dshybrid_" . $this->section()->id())
 			->columns(array('id'))
 			->values(array($this->id))
@@ -321,11 +324,11 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 		$record->initialize_document($this);
 		$query = $record->get_sql($this);
 	
-		foreach($query as $q)
+		foreach ($query as $q)
 		{
 			DB::query(Database::UPDATE, $q)->execute();
 		}
-		
+
 		return $this->id;
 	}
 	
@@ -350,21 +353,24 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 	public function update()
 	{
 		parent::update();
-		
-		if( ! $this->updated() ) return $this;
 
-		$record = $this->section()->record();
+		if (!$this->updated())
+		{
+			return $this;
+		}
 		
+		$record = $this->section()->record();
+
 		$old_document = $this->section()->get_document($this->id);
 		$record->document_changed($old_document, $this);
 
 		$queries = $record->get_sql($this);
 
-		foreach($queries as $query)
+		foreach ($queries as $query)
 		{
 			DB::query(Database::UPDATE, $query)->execute();
 		}
-		
+
 		return $this;
 	}
 
@@ -382,14 +388,17 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 
 		parent::remove();
 
-		if( ! $this->loaded() ) return FALSE;
+		if (!$this->loaded())
+		{
+			return FALSE;
+		}
 
 		DB::delete("dshybrid_" . $this->section()->id())
 			->where('id', '=', $id)
 			->execute();
-		
+
 		$this->reset();
-		
+
 		return TRUE;
 	}
 
