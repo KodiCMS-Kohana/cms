@@ -737,7 +737,15 @@ abstract class DataSource_Hybrid_Field {
 	 */
 	public function filter_condition(Database_Query $query, $condition, $value, array $params = NULL)
 	{
-		$query->where($this->name, $condition, $value);
+		$field = $this->name;
+		if (isset($params['db_function']))
+		{
+			$field = DB::expr($params['db_function'])
+				->param(':field', DB::expr(Database::instance()->quote_column($this->name)))
+				->param(':value', $value);
+		}
+
+		$query->where($field, $condition, $value);
 	}
 	
 	/**
