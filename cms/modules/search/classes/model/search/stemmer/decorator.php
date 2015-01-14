@@ -10,13 +10,13 @@ class Model_Search_Stemmer_Decorator {
 	protected static $instances = NULL;
 
 	/**
-	 * @return Model_Search_Stemmer_Russian
+	 * @return Model_Search_Stemmer_Decorator
 	 */
 	public static function instance()
 	{
 		if (!isset(static::$instances))
 		{
-			static::$instances = new self;
+			static::$instances = new static;
 		}
 
 		return static::$instances;
