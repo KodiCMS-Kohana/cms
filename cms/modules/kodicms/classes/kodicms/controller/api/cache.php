@@ -19,8 +19,7 @@ class KodiCMS_Controller_API_Cache extends Controller_System_Api {
 
 		if (Kohana::$caching === TRUE)
 		{
-			// Enable the Kohana shutdown handler, which clear cache
-			register_shutdown_function(array('Cache', 'clear_all'));
+			Cache::register_shutdown_function();
 		}
 
 		Kohana::$log->add(Log::INFO, ':user clear cache')->write();

@@ -19,6 +19,12 @@ abstract class KodiCMS_Cache extends Kohana_Cache {
 			'memcachetag' => __('Memcache')
 		);
 	}
+	
+	public static function register_shutdown_function()
+	{
+		// Enable the Kohana shutdown handler, which clear cache
+		register_shutdown_function(array('Cache', 'clear_all'));
+	}
 
 	public static function clear_all()
 	{
