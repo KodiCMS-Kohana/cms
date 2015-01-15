@@ -6,5 +6,9 @@ return array(
 			'action' => 'index',
 			'description' => 'View dashboard'
 		),
+		array(
+			'action' => 'empty',
+			'description' => 'Empty dashboard'
+		),
 	),
 );

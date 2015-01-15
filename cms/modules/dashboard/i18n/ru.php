@@ -6,7 +6,7 @@ return array(
 	'Goto section' => 'Перейти в раздел',
 	'No widgets' => 'Нет доступных виджетов',
 	'Install widget' => 'Установить',
-	
+	'Dashboard settings' => 'Настройки рабочего стола',
 	
 	'RSS feed' => 'RSS лента',
 	'Cache clear button' => 'Кнопка очистки кеша',

@@ -87,5 +87,19 @@ class Controller_API_Dashboard extends Controller_System_Api {
 			'widget' => $widget
 		)));
 	}
+	
+	public function rest_delete()
+	{
+		if (!ACL::check('dshboard.empty'))
+		{
+			throw HTTP_API_Exception::factory(API::ERROR_PERMISSIONS, 'You dont hanve permissions to empty dashboard');
+		}
 
+		Dashboard::remove_data();
+		Cache::register_shutdown_function();
+
+		Kohana::$log->add(Log::INFO, ':user empty dashboard')->write();
+
+		$this->message('Dashboard is empty!');
+	}
 }

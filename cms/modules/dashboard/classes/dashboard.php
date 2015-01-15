@@ -123,4 +123,16 @@ class Dashboard {
 
 		return FALSE;
 	}
+	
+	/**
+	 * 
+	 * @return boolean
+	 */
+	public static function remove_data()
+	{
+		return (bool) DB::delete('user_meta')
+			->where('key', '=', self::WIDGET_SETTINGS_KEY)
+			->or_where('key', '=', self::WIDGET_BLOCKS_KEY)
+			->execute();
+	}
 }
