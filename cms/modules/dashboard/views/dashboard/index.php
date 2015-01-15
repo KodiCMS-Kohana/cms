@@ -12,12 +12,14 @@
 	</div>
 </div>
 
-<div id="dashboard-widgets" class="row">
-	<?php foreach ($columns as $side => $class): ?>
-	<div class="<?php echo $class; ?>">
-		<div class="dashboard-widgets-column" data-column="<?php echo $side; ?>">
-			<?php foreach (Arr::get($widgets, $side, array()) as $widget) echo $widget->run(); ?>
-		</div>
+<div id="dashboard-widgets">
+	<div class="gridster">
+		<ul class="list-unstyled">
+			<?php foreach ($widgets as $data): ?>
+			<li <?php foreach ($data as $key => $v): if($key == 'widget') continue; ?>data-<?php echo $key; ?>="<?php echo $v; ?>"<?php endforeach; ?>>
+				<?php echo $data['widget']->run(); ?>
+			</li>
+			<?php endforeach; ?>
+		</ul>
 	</div>
-	<?php endforeach; ?>
 </div>

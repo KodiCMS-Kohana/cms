@@ -61,6 +61,14 @@ class Model_Widget_Dashboard_Hybrid_Headline extends Model_Widget_Decorator_Dash
 	protected $_data = array(
 		'height' => 250
 	);
+	
+	protected $_size = array(
+		'x' => 4,
+		'y' => 3,
+		'max_size' => array(8, 8),
+		'min_size' => array(3, 2)
+	);
+
 
 	/**
 	 * 

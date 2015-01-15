@@ -2,10 +2,16 @@
 	'class' => array(Form::HORIZONTAL, 'panel', 'widget-settings')
 )); ?>
 	<?php echo Form::hidden('id', $widget->id); ?>
+
+	<?php if (!empty($widget->media_packages)): ?>
+	<?php foreach ($widget->media_packages as $package): ?>
+	<?php echo Form::hidden('media_packages[]', $package); ?>
+	<?php endforeach; ?>
+	<?php endif; ?>
+
 	<div class="panel-heading">
 		<span class="panel-title" data-icon="cogs"><?php echo __('Widget parameters'); ?></span>
 	</div>
-
 	<div class="panel-body">
 		<div class="form-group">
 			<label class="control-label col-xs-3"><?php echo __('Header'); ?></label>

@@ -20,6 +20,13 @@ class Model_Widget_Dashboard_Twitter_Timeline extends Model_Widget_Decorator_Das
 		'height' => 250
 	);
 	
+	protected $_size = array(
+		'x' => 3,
+		'y' => 4,
+		'max_size' => array(4, 5),
+		'min_size' => array(2, 3)
+	);
+	
 	public function set_height($height) 
 	{
 		return (int) $height;

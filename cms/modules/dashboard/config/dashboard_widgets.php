@@ -20,5 +20,9 @@ return array(
 	'dashboard_twitter_timeline' => array(
 		'title' => __('Twitter timeline'),
 		'icon' => 'twitter'
+	),
+	'dashboard_weather' => array(
+		'title' => __('Weather'),
+		'icon' => 'cloud'
 	)
 );

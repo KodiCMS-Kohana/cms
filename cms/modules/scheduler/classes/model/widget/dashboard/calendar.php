@@ -16,5 +16,13 @@ class Model_Widget_Dashboard_Calendar extends Model_Widget_Decorator_Dashboard {
 	 */
 	protected $_multiple = FALSE;
 	
+	protected $_size = array(
+		'x' => 3,
+		'y' => 1,
+		'max_size' => array(5, 1),
+		'min_size' => array(3, 1)
+	);
+	
+	
 	public function fetch_data(){}
 }

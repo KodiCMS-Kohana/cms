@@ -16,5 +16,12 @@ class Model_Widget_Dashboard_FullCalendar extends Model_Widget_Decorator_Dashboa
 	 */
 	protected $_multiple = FALSE;
 	
+	protected $_size = array(
+		'x' => 3,
+		'y' => 4,
+		'max_size' => array(8, 8),
+		'min_size' => array(3, 4)
+	);
+	
 	public function fetch_data(){}
 }

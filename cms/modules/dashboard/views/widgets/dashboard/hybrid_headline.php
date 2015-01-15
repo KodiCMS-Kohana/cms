@@ -1,5 +1,5 @@
 <div class="panel dashboard-widget hybrid-headline-widget" data-id="<?php echo $widget->id; ?>">
-	<div class="panel-heading handle">
+	<div class="panel-heading">
 		<span class="panel-title"><?php echo (empty($header) AND ! empty($section)) ? $section->name : $header; ?>&nbsp;</span>
 		
 		<div class="panel-heading-controls">
@@ -40,7 +40,7 @@
 				'action' => 'create'
 			)) . URL::query(array('ds_id' => $section->id())),
 			'icon' => UI::icon('plus'),
-			'class' => 'btn-primary'
+//			'class' => 'btn-primary'
 		)); ?>
 		<?php endif; ?>
 		
@@ -64,6 +64,31 @@
 
 <script type="text/javascript">
 $(function(){
-	$('.hybrid-headline-widget[data-id="<?php echo $widget->id; ?>"] .panel-body').slimScroll({height:<?php echo $widget->height; ?>});
+	$('.hybrid-headline-widget[data-id="<?php echo $widget->id; ?>"]').on('resize', function(e, gridster, ui) {
+		updateScroll();
+	});
+	
+	initScroll();
 });
+
+function initScroll() {
+	$('.hybrid-headline-widget[data-id="<?php echo $widget->id; ?>"] .panel-body').slimScroll({
+		height: calculate_body_height
+	});
+}
+
+function updateScroll() {
+	$('.hybrid-headline-widget[data-id="<?php echo $widget->id; ?>"] .panel-body')
+		.slimScroll({destroy: true});
+
+	initScroll();
+}
+
+function calculate_body_height() {
+	var $cont = $('.hybrid-headline-widget[data-id="<?php echo $widget->id; ?>"]');
+	var heading = $cont.find('.panel-heading');
+	var footer = $cont.find('.panel-footer');
+	var h = $cont.innerHeight() - heading.innerHeight() - footer.innerHeight();
+	return h-5;
+}
 </script>

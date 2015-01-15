@@ -98,10 +98,10 @@ class Dashboard {
 	 */
 	public static function move_widget($id, $column, $user_id = NULL)
 	{
-		$blocks =  Model_User_Meta::get(self::WIDGET_BLOCKS_KEY, array(), $user_id);
+		$widgets =  Model_User_Meta::get(self::WIDGET_BLOCKS_KEY, array(), $user_id);
 		$found = FALSE;
 
-		foreach ($blocks as $_column => $ids)
+		foreach ($widgets as $data)
 		{
 			foreach ($ids as $i => $_id)
 			{

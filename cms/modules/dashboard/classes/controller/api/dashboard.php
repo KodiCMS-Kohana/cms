@@ -14,6 +14,15 @@ class Controller_API_Dashboard extends Controller_System_Api {
 	{
 		$widget_type = $this->param('widget_type', NULL, TRUE);
 		$widget = Dashboard::add_widget($widget_type);
+		
+		if (!empty($widget->media_packages))
+		{
+			$this->json['media'] = Assets_Package::get_scripts($widget->media_packages);
+		}
+		
+		$this->json['size'] = $widget->size();
+		$this->json['id'] = $widget->id;
+
 		$this->response((string) $widget->run());
 	}
 	
@@ -58,7 +67,7 @@ class Controller_API_Dashboard extends Controller_System_Api {
 			}
 		}
 
-		$this->json = (string) View::factory( 'dashboard/widgets', array(
+		$this->json = (string) View::factory('dashboard/widgets', array(
 			'types' => $types
 		));
 	}

@@ -1,54 +1,60 @@
 var Dashboard = {
 	widgets: {
+		gridster: null,
 		init: function() {
-			$('.dashboard-widgets-column').sortable({
-				placeholder: 'sortable-placeholder',
-				connectWith: '.dashboard-widgets-column',
-				items: '.dashboard-widget',
-				handle: '.handle',
-				cursor: 'move',
-				distance: 2,
-				tolerance: 'pointer',
-				forcePlaceholderSize: true,
-				helper: 'clone',
-				opacity: 0.65,
-				start: function() {
-					$('.dashboard-widgets-column').addClass('empty-container')
+			this.gridster = $(".gridster ul").gridster({
+				widget_base_dimensions: [150, 100],
+				widget_margins: [5, 5],
+				resize: {
+					enabled: true,
+					stop: function (e, ui, $widget) {
+						Dashboard.widgets.save_order();
+						$widget.find('.dashboard-widget').trigger('resize', [this, ui])
+					}
 				},
-				stop: function() {
-					Dashboard.widgets.save_order();
-					
-					$('.dashboard-widgets-column').removeClass('empty-container')
+				draggable: {
+					start: function (e, ui, $widget) {},
+					drag: function (e, ui, $widget) {},
+					stop: function (e, ui, $widget) {
+						Dashboard.widgets.save_order();
+						$('.gridster ul .preview-holder').remove();
+					}
 				},
-				receive: function(e,ui) {
-					Dashboard.widgets._mark_area();
+				serialize_params: function($w, wgd) {
+					return {
+						col: wgd.col,
+						row: wgd.row,
+						sizex: wgd.size_x,
+						sizey: wgd.size_y,
+						'max-sizex': wgd.max_size_x,
+						'max-sizey': wgd.max_size_y,
+						'min-sizex': wgd.min_size_x,
+						'min-sizey': wgd.min_size_y,
+						widget_id: $w.data('widget_id')
+					};
 				}
-			});
-
-			Dashboard.widgets._mark_area();
+			}).data('gridster');
 		},
-		save_order: function() {
-			var data = {};
-
-			$('.dashboard-widgets-column').each(function() {
-				data[$(this).data('column')] = $(this).sortable('toArray', {
-					attribute: 'data-id'
+		add: function(html, id, size) {
+			var widget = this.gridster.add_widget.apply(this.gridster, [$('<li />').append(html), size.x, size.y, false, false, size.max_size, size.min_size]);
+			widget.data('widget_id', id);
+	
+			$.fancybox.close();
+			Dashboard.widgets.save_order();
+		},
+		remove: function(btn) {
+			var widget = btn.closest('li');
+			
+			Api.delete('dashboard.widget', {
+				id: widget.data('widget_id')
+			}, function(response) {
+				Dashboard.widgets.gridster.remove_widget(widget, function() {
+					Dashboard.widgets.save_order();
 				});
 			});
-			
-			Api.post('user-meta', {key: 'dashboard', value: data});
 		},
-		_mark_area: function() {
-//			var visible = $('div.dashboard-widget:visible').length;
-//
-//			$('.dashboard-widgets-column').each(function() {
-//				var $self = $(this);
-//
-//				if ($self.children('.dashboard-widget:visible').length)
-//					$self.removeClass('empty-container');
-//				else
-//					$self.addClass('empty-container');
-//			});
+		save_order: function(array) {
+			Api.post('user-meta', {key: 'dashboard', value: this.gridster.serialize()});
 		}
 	}
 };
@@ -65,31 +71,28 @@ cms.init.add('dashboard_index', function () {
 		Api.put('dashboard.widget', {
 			widget_type: widget_type
 		}, function(response) {
-			$('#dashboard-widgets .dashboard-widgets-column[data-column="left"]').append($(response.response));
-			$.fancybox.close();
-			Dashboard.widgets._mark_area();
-			Dashboard.widgets.save_order();
+			if(typeof response.media == 'object') {
+				for (i in response.media) {
+					getScript(response.media[i]);
+				}
+			}
+
+			setTimeout(function(){
+				Dashboard.widgets.add($(response.response), response.id, response.size);
+			}, 500);
 		});
 	});
 	
 	$('body').on('click', '.dashboard-widget .remove_widget', function(e) {
-		var $cont = $(this).closest('.dashboard-widget');
-
-		Api.delete('dashboard.widget', {
-			id: $cont.data('id')
-		}, function(response) {
-			$cont.remove();
-			Dashboard.widgets._mark_area();
-			Dashboard.widgets.save_order();
-		});
+		var $self = $(this);
+		Dashboard.widgets.remove($self);
 		e.preventDefault();
 	});
 	
 	$('body').on('click', '.dashboard-widget .widget_settings', function(e) {
 		var $cont = $(this).closest('.dashboard-widget');
-
+		
 		get_widget_settings($cont.data('id'));
-
 		e.preventDefault();
 	});
 	
@@ -121,4 +124,21 @@ function get_widget_settings(widget_id) {
 			content		: response.response
 		});
 	});
+}
+
+function getScript(url) {
+	if($('script[src="' + url + '"]').length > 0)
+		return;
+
+	var script = document.createElement('script');
+	script.type = "text/javascript";
+	script.src = url;
+
+	script.onreadystatechange = function () {
+		if (script.readyState === "loaded" || script.readyState === "complete") {
+			script.onreadystatechange = null;
+		}
+	};
+	
+	document.getElementsByTagName("head")[0].appendChild(script);
 }

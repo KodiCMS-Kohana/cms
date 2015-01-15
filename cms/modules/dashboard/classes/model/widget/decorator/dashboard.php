@@ -29,6 +29,17 @@ abstract class Model_Widget_Decorator_Dashboard extends Model_Widget_Decorator {
 	protected $_multiple = FALSE;
 	
 	/**
+	 *
+	 * @var array 
+	 */
+	protected $_size = array(
+		'x' => 2,
+		'y' => 1,
+		'max_size' => array(2, 1),
+		'min_size' => array(2, 1)
+	);
+
+	/**
 	 * 
 	 * @return boolean
 	 */
@@ -37,6 +48,15 @@ abstract class Model_Widget_Decorator_Dashboard extends Model_Widget_Decorator {
 		return $this->_multiple;
 	}
 	
+	/**
+	 * 
+	 * @return array
+	 */
+	public function size()
+	{
+		return $this->_size;
+	}
+
 	/**
 	 * 
 	 * @return boolean

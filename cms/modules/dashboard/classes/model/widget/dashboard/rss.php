@@ -15,7 +15,7 @@ class Model_Widget_Dashboard_RSS extends Model_Widget_Decorator_Dashboard {
 	 * @var boolean
 	 */
 	protected $_multiple = TRUE;
-	
+
 	protected $_data = array(
 		'limit' => 10,
 		'height' => 250

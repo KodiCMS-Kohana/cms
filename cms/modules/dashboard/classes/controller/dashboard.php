@@ -12,24 +12,23 @@ class Controller_Dashboard extends Controller_System_Backend {
 	
 	public function action_index()
 	{
-		Assets::package('jquery-ui');
+		Assets::package('gridster');
 		
 		$widgets_array = Model_User_Meta::get('dashboard', array());
+
 		$widget_settings = Model_User_Meta::get('dashboard_widget_settings', array());
 		
-		foreach ($widgets_array as $column => $widgets)
+		foreach ($widgets_array as $i => $data)
 		{
-			foreach ($widgets as $i => $widget)
+			$widget_object = Arr::get($widget_settings, $data['widget_id']);
+			if (!($widget_object instanceof Model_Widget_Decorator_Dashboard))
 			{
-				$widget_object = Arr::get($widget_settings, $widget);
-				if (!($widget_object instanceof Model_Widget_Decorator_Dashboard))
-				{
-					unset($widgets_array[$column][$i]);
-					continue;
-				}
-
-				$widgets_array[$column][$i] = $widget_object;
+				unset($widgets_array[$i]);
+				continue;
 			}
+
+			$widget_object->on_page_load();
+			$widgets_array[$i]['widget'] = $widget_object;
 		}
 		
 		$this->set_title(__('Dashboard'), FALSE);

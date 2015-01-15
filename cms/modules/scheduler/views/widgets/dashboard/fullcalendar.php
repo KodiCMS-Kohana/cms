@@ -1,24 +1,20 @@
-<div class="panel dashboard-widget fullcalendar-widget" data-id="<?php echo $widget->id; ?>">
-	<div class="panel-heading handle">
-		<span class="panel-title" data-icon="calendar"><?php echo __('Calendar'); ?>&nbsp;</span>
-		
-		<div class="panel-heading-controls">
-			<button type="button" class="btn btn-default btn-xs remove_widget"><?php echo UI::icon('times'); ?></button>
-		</div>
-	</div>
-	<div id="calendar" class="panel-body padding-sm"></div>
+<div class="panel dashboard-widget panel-body-colorful panel-info fullcalendar-widget">
+	<button type="button" class="close remove_widget"><?php echo UI::icon('times'); ?></button>
+	<div id="calendar" class="panel-body" style="height: 100%"></div>
 </div>
 <link type="text/css" href="/cms/media/libs/fullcalendar-2.1.0/fullcalendar.min.css" rel="stylesheet" media="all" />
 <script type="text/javascript" src="/cms/media/libs/fullcalendar-2.1.0/fullcalendar.min.js"></script>
 <script type="text/javascript" src="/cms/media/libs/fullcalendar-2.1.0/lang/ru.js"></script>
 <script type="text/javascript">
 $(function(){
+	var h = calculate_height();
 	$('#calendar').fullCalendar({
 		header: {
 			left: 'prev,next,today',
 			center: 'title',
 			right: 'month,agendaWeek,agendaDay'
 		},
+		contentHeight: h,
 		editable: true,
 		eventRender: function(event, element) {
 			var content = element.find('.fc-content');
@@ -49,5 +45,14 @@ $(function(){
             }
 		}
 	});
+	
+	$('.fullcalendar-widget').on('resize', function(e, gridster, ui) {
+		var h = calculate_height();
+		$('#calendar').fullCalendar('option', 'contentHeight', h);
+	});
+	function calculate_height() {
+		var $cont = $('.fullcalendar-widget');
+		return $cont.height() - 100;
+	}
 });
 </script>

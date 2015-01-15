@@ -46,6 +46,43 @@ class Assets_Package implements Iterator {
 	
 	/**
 	 * 
+	 * @param string|array $name
+	 * @return array
+	 */
+	public static function get_scripts($names)
+	{
+		if (!is_array($names))
+		{
+			$names = array($names);
+		}
+		
+		$scripts = array();
+		
+		foreach ($names as $name)
+		{
+			$package = Assets_Package::load($name);
+
+			if ($package === NULL)
+			{
+				continue;
+			}
+
+			foreach ($package as $item)
+			{
+				switch ($item['type'])
+				{
+					case 'js':
+						$scripts[] = $item['src'];
+						break;
+				}
+			}
+		}
+		
+		return $scripts;
+	}
+
+	/**
+	 * 
 	 * @return array
 	 */
 	public static function select_choises()

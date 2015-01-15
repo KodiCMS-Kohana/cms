@@ -26745,84 +26745,31 @@ a.editable-click.editable-disabled:hover {
   border: 1px dashed #bbb;
   min-height: 100px;
 }
-#dashboard-widgets .dashboard-widgets-column {
-  min-height: 30px;
-}
-#dashboard-widgets .dashboard-widgets-column.hover {
-  border: 1px dashed #ccc;
-}
-#dashboard-widgets .dashboard-widgets-column .handle {
-  cursor: move;
-}
-#dashboard-widgets .dashboard-widgets-column.empty-container {
-  border: 3px dashed #ccc;
-  min-height: 100px;
-  margin-bottom: 20px;
-}
-#dashboard-widgets .dashboard-widgets-column .sortable-placeholder {
-  border: 1px dashed #bbb;
-  margin-bottom: 20px;
-  background: #fff;
-  min-height: 50px;
-}
 #dashboard-widgets .dashboard-widget {
-  border-radius: 4px;
+  height: 100%;
 }
 #dashboard-widgets .dashboard-widget > .close {
   display: none;
   padding: 3px 3px 0 0;
   font-size: 14px;
 }
-#dashboard-widgets .dashboard-widget .panel-heading {
-  padding-left: 15px;
-  padding: right: 15px;
-}
 #dashboard-widgets .dashboard-widget:hover > .close {
   display: inline-block;
 }
-#dashboard-widgets .dashboard-widget:hover,
-#dashboard-widgets .dashboard-widget.ui-sortable-helper {
-  box-shadow: 0 5px 12px #ccc;
+#dashboard-widgets .dashboard-widget button.settings {
+  padding: 0;
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  -webkit-appearance: none;
 }
-#dashboard-widgets .dashboard-widget.panel-gradient.panel-default .panel-body {
-  background-image: -webkit-linear-gradient(top, #f5f5f5 0%, #b3b3b3 100%);
-  background-image: -o-linear-gradient(top, #f5f5f5 0%, #b3b3b3 100%);
-  background-image: linear-gradient(to bottom, #f5f5f5 0%, #b3b3b3 100%);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff5f5f5', endColorstr='#ffb3b3b3', GradientType=0);
+.gridster ul {
+  margin: 0o !important;
 }
-#dashboard-widgets .dashboard-widget.panel-gradient.panel-success .panel-body {
-  background-image: -webkit-linear-gradient(top, #5cb85c 0%, #449d44 100%);
-  background-image: -o-linear-gradient(top, #5cb85c 0%, #449d44 100%);
-  background-image: linear-gradient(to bottom, #5cb85c 0%, #449d44 100%);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff5cb85c', endColorstr='#ff449d44', GradientType=0);
+.gridster ul li.gs-w {
+  background: #DDD;
 }
-#dashboard-widgets .dashboard-widget.panel-gradient.panel-primary .panel-body {
-  background-image: -webkit-linear-gradient(top, #337ab7 0%, #286090 100%);
-  background-image: -o-linear-gradient(top, #337ab7 0%, #286090 100%);
-  background-image: linear-gradient(to bottom, #337ab7 0%, #286090 100%);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff337ab7', endColorstr='#ff286090', GradientType=0);
-}
-#dashboard-widgets .dashboard-widget.panel-gradient.panel-info .panel-body {
-  background-image: -webkit-linear-gradient(top, #5bc0de 0%, #31b0d5 100%);
-  background-image: -o-linear-gradient(top, #5bc0de 0%, #31b0d5 100%);
-  background-image: linear-gradient(to bottom, #5bc0de 0%, #31b0d5 100%);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff5bc0de', endColorstr='#ff31b0d5', GradientType=0);
-}
-#dashboard-widgets .dashboard-widget.panel-gradient.panel-warning .panel-body {
-  background-image: -webkit-linear-gradient(top, #f0ad4e 0%, #ec971f 100%);
-  background-image: -o-linear-gradient(top, #f0ad4e 0%, #ec971f 100%);
-  background-image: linear-gradient(to bottom, #f0ad4e 0%, #ec971f 100%);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff0ad4e', endColorstr='#ffec971f', GradientType=0);
-}
-#dashboard-widgets .dashboard-widget.panel-gradient.panel-danger .panel-body {
-  background-image: -webkit-linear-gradient(top, #d9534f 0%, #c9302c 100%);
-  background-image: -o-linear-gradient(top, #d9534f 0%, #c9302c 100%);
-  background-image: linear-gradient(to bottom, #d9534f 0%, #c9302c 100%);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffd9534f', endColorstr='#ffc9302c', GradientType=0);
+.gridster ul .preview-holder {
+  border: none !important;
+  background: red !important;
 }
