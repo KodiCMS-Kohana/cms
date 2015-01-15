@@ -11,7 +11,7 @@ $(function(){
 		woeid: '',
 		unit: 'c',
 		success: function(weather) {
-			html = '<h1>'+weather.city+' '+weather.temp+'&deg;'+weather.units.temp+'</h1>';
+			html = '<h1><i class="fa fa-lg wth wth-'+weather.code+'"></i> '+weather.city+' '+weather.temp+'&deg;'+weather.units.temp+'</h1>';
 			$cont.html(html);
 		},
 		error: function (error) {
