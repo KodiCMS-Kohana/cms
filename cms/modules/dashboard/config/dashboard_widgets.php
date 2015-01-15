@@ -24,5 +24,9 @@ return array(
 	'dashboard_weather' => array(
 		'title' => __('Weather'),
 		'icon' => 'cloud'
+	),
+	'dashboard_profiler' => array(
+		'title' => __('Profiler'),
+		'icon' => 'flash'
 	)
 );

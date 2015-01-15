@@ -16535,7 +16535,7 @@ html body.page-signup {
   padding-right: 20px;
 }
 .widget-comments .comment {
-  padding: 0 0 10px 0;
+  padding: 10px;
 }
 .widget-comments .comment + .comment {
   padding-top: 10px;

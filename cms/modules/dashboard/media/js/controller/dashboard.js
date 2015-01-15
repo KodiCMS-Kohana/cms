@@ -5,6 +5,7 @@ var Dashboard = {
 			this.gridster = $(".gridster ul").gridster({
 				widget_base_dimensions: [150, 100],
 				widget_margins: [5, 5],
+				autogrow_cols: true,
 				resize: {
 					enabled: true,
 					stop: function (e, ui, $widget) {
