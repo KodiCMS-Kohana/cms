@@ -40,11 +40,11 @@ $hidden = empty($template) ? 'hidden' : '';
 ?>
 
 <?php if (!empty($header)): ?>
-<div class="panel-heading" >
+<div class="panel-heading <?php if (!empty($spoiler)): ?>panel-toggler<?php endif; ?>" <?php if (!empty($spoiler)): ?>data-target-spoiler=".<?php echo $spoiler; ?>"<?php endif; ?>>
 	<span class="panel-title" data-icon="desktop"><?php echo $header; ?></h4>
 </div>
 <?php endif; ?>
-<div class="panel-body">
+<div class="panel-body <?php if (!empty($spoiler)): ?>panel-spoiler <?php echo $spoiler; ?><?php endif; ?>">
 	<div class="form-group form-inline">
 		<label class="control-label col-sm-2" data-icon="file-code-o"><?php echo __('Snippet'); ?></label>
 		<div class="col-md-9">

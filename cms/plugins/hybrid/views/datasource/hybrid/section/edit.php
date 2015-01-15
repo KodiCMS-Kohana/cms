@@ -15,6 +15,7 @@
 	<?php echo View::factory('helper/snippet_select', array(
 		'header' => __('Document template'),
 		'template' => $ds->template,
+		'spoiler' => 'template-spoiler'
 	)); ?>
 
 	<div class="panel-heading panel-toggler" data-target-spoiler=".indexer-spoiler" data-hotkeys="shift+s" data-icon="search">
