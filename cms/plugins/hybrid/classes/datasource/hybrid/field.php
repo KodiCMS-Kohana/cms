@@ -740,14 +740,24 @@ abstract class DataSource_Hybrid_Field {
 		$field = $this->name;
 		if (isset($params['db_function']))
 		{
-			$field = DB::expr($params['db_function'])
-				->param(':field', DB::expr(Database::instance()->quote_column($this->name)))
-				->param(':value', $value);
+			$field = $this->build_sql_field($field);
 		}
 
 		$query->where($field, $condition, $value);
 	}
 	
+	/**
+	 * 
+	 * @param type $field
+	 * @return type
+	 */
+	public function build_sql_field($field)
+	{
+		return DB::Database_Expression($params['db_function'])
+			->param(':field', DB::expr(Database::instance()->quote_column($this->name)))
+			->param(':value', $value);
+	}
+
 	/**
 	 * Метод используется в момент вывода данных документа в форме редактирования.
 	 * Применяется в том случае, если в момент вывода данных они должны быть приведены

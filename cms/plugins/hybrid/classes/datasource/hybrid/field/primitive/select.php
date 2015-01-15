@@ -203,13 +203,20 @@ class DataSource_Hybrid_Field_Primitive_Select extends DataSource_Hybrid_Field_P
 	public function get_query_props(Database_Query $query, DataSource_Hybrid_Agent $agent)
 	{
 		$query->select(array($this->table_column_key(), $this->id . '_original'));
-
-		$subquery = DB::select('value')
+		$query->select(array($this->get_subquery(), $this->id));
+	}
+	
+	protected function get_subquery()
+	{
+		return DB::select('value')
 			->from('dshfield_enums')
 			->where('field_id', '=', $this->id)
-			->where('id', '=', DB::expr(Database::instance()->quote_column($this->id . '_original')));
-
-		$query->select(array($subquery, $this->id));
+			->where('id', '=', DB::expr(Database::instance()->quote_column($this->name)));
 	}
 
+	public function filter_condition(Database_Query $query, $condition, $value, array $params = NULL)
+	{
+		$query
+			->having($this->id, $condition, $value);
+	}
 }
