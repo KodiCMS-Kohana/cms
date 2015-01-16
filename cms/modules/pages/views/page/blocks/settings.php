@@ -2,10 +2,11 @@
 
 <?php
 $layout_name = $page->layout();
+$layout_link = '';
 
-if (ACL::check('layout.edit') OR ACL::check('layout.view'))
+if ((ACL::check('layout.edit') OR ACL::check('layout.view')) AND ! empty($layout_name))
 {
-	$layout_name = HTML::anchor(Route::get('backend')->uri(array(
+	$layout_link = HTML::anchor(Route::get('backend')->uri(array(
 		'controller' => 'layout', 
 		'action' => 'edit', 
 		'id' => $layout_name
@@ -35,10 +36,15 @@ if (ACL::check('layout.edit') OR ACL::check('layout.view'))
 				'prefix' => 'page'
 			)); ?>
 		</div>
-		
+
 		<div class="col-md-3">
-			<?php echo UI::label(__('Current layput: :name', array(':name' => $layout_name))); ?>
+			<?php if (!empty($layout_name)): ?>
+			<?php echo UI::label(__('Current layput: :name', array(':name' => $layout_link))); ?>
+			<?php else: ?>
+			<?php echo UI::label(__('Layout not set'), 'danger'); ?>
+			<?php endif; ?>
 		</div>
+		
 	</div>
 	
 	<hr class="panel-wide" />

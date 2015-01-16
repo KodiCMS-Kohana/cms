@@ -1045,7 +1045,7 @@ class KodiCMS_Model_Page_Front {
 					case '.': // Current page
 						if ($key == 'meta_title')
 						{
-							$parts[] = $this->title();
+						$parts[] = $this->title();
 						}
 						break;
 					case '..': // Parent page
@@ -1056,11 +1056,11 @@ class KodiCMS_Model_Page_Front {
 						break;
 					default: // Level
 						if (
-								Valid::numeric($field)
-								AND
-								$this->level() != $field
-								AND
-								$this->parent($field) instanceof Model_Page_Front
+							Valid::numeric($field)
+							AND
+							$this->level() != $field
+							AND
+							$this->parent($field) instanceof Model_Page_Front
 						)
 						{
 							$parts[] = $this->parent($field)->{$key}();
@@ -1077,24 +1077,29 @@ class KodiCMS_Model_Page_Front {
 					list($field, $default) = explode('|', $field, 2);
 				}
 
-				switch($field{0}) 
+				switch ($field{0})
 				{
 					case '$':
 						$param = substr($field, 1);
+						break;
 					case ':':
 						$meta_param = substr($field, 1);
-					break;
+						break;
 				}
 
 				if ($param !== NULL)
 				{
-					if (strpos( $param, 'site.') !== FALSE )
+					if (strpos($param, 'site.') !== FALSE)
 					{
 						$parts[] = Config::get('site', substr($param, 5), $default);
 					}
-					else if (strpos( $param, 'ctx.') !== FALSE)
+					else if (strpos($param, 'ctx.') !== FALSE)
 					{
 						$parts[] = Context::instance()->get(substr($param, 4));
+					}
+					else if (strpos($param, 'parent.') !== FALSE AND $this->parent() instanceof Model_Page_Front AND method_exists($this->parent(), substr($param, 7)))
+					{
+						$parts[] = $this->parent()->{substr($param, 7)}();
 					}
 					else if (method_exists($this, $param))
 					{
@@ -1105,7 +1110,7 @@ class KodiCMS_Model_Page_Front {
 				if ($meta_param !== NULL)
 				{
 					$parts[] = Arr::get($this->_meta_params, $meta_param, $default);
-				}			
+				}
 			}
 			
 			$value = preg_replace($patterns, $parts, $value);

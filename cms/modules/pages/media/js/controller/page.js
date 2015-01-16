@@ -193,6 +193,25 @@ cms.init.add(['page_add', 'page_edit'], function() {
 	$('body').on('change', 'select[name="page[status_id]"]', function() {
 		show_password_field($(this).val());
 	});
+	
+	$('#page-meta-panel').on('click', ':input', function() {
+		var $fields = {};
+		var $array = ['breadcrumb', 'meta_title', 'meta_keywords', 'meta_description'];
+		for(i in $array) {
+			$fields[$array[i]] = $('#page_' + $array[i]).val();
+		}
+	
+		Api.get('pages.parse_meta', {
+			page_id: PAGE_ID,
+			fields: $fields
+		}, function(response) {
+			if(response.response) {
+				for(field in response.response) {
+					$('#field-' + field + ' .help-block').text(response.response[field]);
+				}
+			}
+		});
+	});
 
 	$('input[name="page[use_redirect]"]').on('change', function() {
 		show_redirect_field($(this))

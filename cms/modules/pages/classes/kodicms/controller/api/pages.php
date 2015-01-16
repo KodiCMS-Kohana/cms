@@ -132,4 +132,22 @@ class KodiCMS_Controller_API_Pages extends Controller_System_Api {
 		
 		$this->response($page->get_status());
 	}
+	
+	public function get_parse_meta()
+	{
+		$page_id = $this->param('page_id', NULL, TRUE);
+		$fields = (array) $this->param('fields', array(), TRUE);
+		
+		$response = array();
+		$page = Model_Page_Front::findById($page_id);
+		if ($page instanceof Model_Page_Front)
+		{
+			foreach ($fields as $field => $value)
+			{
+				$response[$field] = $page->parse_meta($field, $value);
+			}
+		}
+
+		$this->response($response);
+	}
 }

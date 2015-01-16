@@ -108,6 +108,7 @@ class KodiCMS_ORM extends Kohana_ORM {
 			{
 				case 'textarea':
 				case 'text':
+					$attributes['rows'] = 3;
 					$input = Form::textarea($field_name, $value, $attributes);
 					break;
 				case 'select':
