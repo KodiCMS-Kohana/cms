@@ -1,8 +1,8 @@
-#partbody .panel-heading {
+.part .panel-heading {
 	padding-left: 0;
 }
 
-#partbody .panel-heading-sortable-handler {
+.part .panel-heading-sortable-handler {
 	float: left;
 	width: 30px;
 	text-align: center;

@@ -79,7 +79,7 @@ $(function() {
 		events: {
 			'click .part-options-button': 'toggleOptions',
 			'click .part-minimize-button': 'toggleMinimize',
-			'dblclick .panel ': 'toggleMinimize',
+			'dblclick .panel-heading ': 'toggleMinimize',
 			'change .item-filter': 'changeFilter',
 			'change .is_protected': 'switchProtected',
 			'change .is_indexable': 'switchIndexable',
