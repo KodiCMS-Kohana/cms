@@ -58,7 +58,13 @@ Assets_Package::add('ace')
 Assets_Package::add('steps')
 	->js(NULL, ADMIN_RESOURCES . 'libs/steps/jquery.steps.min.js', 'jquery');
 
+Assets_Package::add('ckeditor')
+	->js('ckeditor-library', ADMIN_RESOURCES . 'libs/ckeditor/ckeditor.js', 'jquery')
+//	->js('ckeditor-library', 'http://cdn.ckeditor.com/4.4.6/standard/ckeditor.js', 'jquery')
+	->js(NULL, ADMIN_RESOURCES . 'js/ckeditor.js', 'global');
+
 WYSIWYG::add('ace');
+WYSIWYG::add('ckeditor');
 
 // Подключение пакета после загрузки модулей, чтобы определить текущий язык
 Observer::observe('modules::after_load', function() {
