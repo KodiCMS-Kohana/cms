@@ -21,6 +21,17 @@ class Model_Widget_Dashboard_Skeleton_Widget extends Model_Widget_Decorator_Dash
 	protected $_update_settings_page = FALSE;
 	
 	/**
+	 * Размер виджета в относительных величинах
+	 * @var array 
+	 */
+	protected $_size = array(
+		'x' => 2, // Ширина
+		'y' => 1, // Высота
+		'max_size' => array(2, 1), // Максимальные размеры (ш, в)
+		'min_size' => array(2, 1) // Минимальные размеры (ш, в)
+	);
+	
+	/**
 	 * Настройки по умолчанию для backend
 	 * <php echo $widget->height; ?>
 	 * 
