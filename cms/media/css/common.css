@@ -26769,6 +26769,9 @@ a.editable-click.editable-disabled:hover {
 .gridster ul li.gs-w {
   background: #DDD;
 }
+.gridster ul li.dragging {
+  cursor: move;
+}
 .gridster ul .preview-holder {
   border: none !important;
   background: red !important;
