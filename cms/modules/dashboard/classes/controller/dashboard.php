@@ -20,6 +20,12 @@ class Controller_Dashboard extends Controller_System_Backend {
 		
 		foreach ($widgets_array as $i => $data)
 		{
+			if (!isset($data['widget_id']))
+			{
+				unset($widgets_array[$i]);
+				continue;
+			}
+
 			$widget_object = Arr::get($widget_settings, $data['widget_id']);
 			if (!($widget_object instanceof Model_Widget_Decorator_Dashboard))
 			{

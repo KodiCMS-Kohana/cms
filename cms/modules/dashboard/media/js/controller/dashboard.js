@@ -37,8 +37,13 @@ var Dashboard = {
 			}).data('gridster');
 		},
 		add: function(html, id, size) {
-			var widget = this.gridster.add_widget.apply(this.gridster, [$('<li />').append(html), size.x, size.y, false, false, size.max_size, size.min_size]);
-			widget.data('widget_id', id);
+			try {
+				var widget = this.gridster.add_widget.apply(this.gridster, [$('<li />').append(html), size.x, size.y, false, false, size.max_size, size.min_size]);
+				widget.data('widget_id', id);
+			} catch (e) {
+				console.log('Add widget error', e);
+				return;
+			}
 	
 			$.fancybox.close();
 			Dashboard.widgets.save_order();
