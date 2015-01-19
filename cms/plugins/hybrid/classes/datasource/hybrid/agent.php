@@ -64,6 +64,9 @@ class DataSource_Hybrid_Agent {
 
 	const VALUE_CTX = 10;
 	const VALUE_PLAIN = 20;
+	const VALUE_BEHAVIOR = 30;
+	const VALUE_GET = 40;
+	const VALUE_POST = 50;
 	
 	/**
 	 * Идентификатор раздела
@@ -403,9 +406,29 @@ class DataSource_Hybrid_Agent {
 
 			if ($value !== NULL AND $type != self::VALUE_PLAIN)
 			{
-				$value = Context::instance()->get($value);
+				$ctx = Context::instance();
+				$request = Request::initial();
+
+				switch ($type)
+				{
+					case self::VALUE_BEHAVIOR:
+						if ($ctx->behavior_router() instanceof Behavior_Route)
+						{
+							$value = $ctx->behavior_router()->param($value);
+							break;
+						}
+					case self::VALUE_GET:
+						$value = $request->query($value);
+						break;
+					case self::VALUE_POST:
+						$value = $request->post($value);
+						break;
+					default:
+						$value = $ctx->get($value);
+						break;
+				}
 			}
-			
+
 			if ($value === NULL)
 			{
 				continue;

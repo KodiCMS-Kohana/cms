@@ -121,7 +121,10 @@
 							<div class="row">
 								<div class="col-md-4">
 									<?php echo Form::select('doc_filter[type][]', array(
-										DataSource_Hybrid_Agent::VALUE_CTX => __('Context'),
+										DataSource_Hybrid_Agent::VALUE_CTX => __('CTX'),
+										DataSource_Hybrid_Agent::VALUE_GET => __('$_GET'),
+										DataSource_Hybrid_Agent::VALUE_POST => __('$_POST'),
+										DataSource_Hybrid_Agent::VALUE_BEHAVIOR => __('Behavior'),
 										DataSource_Hybrid_Agent::VALUE_PLAIN => __('Plain')
 									)); ?>
 								</div>
