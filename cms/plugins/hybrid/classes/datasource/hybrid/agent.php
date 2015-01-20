@@ -31,15 +31,15 @@ class DataSource_Hybrid_Agent {
 			return self::$_instance[$ds_id];
 		}
 
-		$result = DB::select('id', 'name')
+		$query = DB::select('id', 'name')
 			->from('datasources')
 			->where('type', '=', 'hybrid')
 			->where('id', '=', $ds_id)
 			->execute();
 
-		if ($result->count() > 0)
+		if ($query->count() > 0)
 		{
-			$current = $result->current();
+			$current = $query->current();
 			$ds_id = $current['id'];
 			$ds_name = $current['name'];
 
@@ -136,19 +136,19 @@ class DataSource_Hybrid_Agent {
 			$id_field = 'd.id';
 		}
 
-		$result = $query->where($id_field, '=', $id)
+		$query = $query->where($id_field, '=', $id)
 			->where('d.published', '=', 1)
 			->group_by('d.id')
 			->limit(1)
 			->execute()
 			->current();
 
-		if (empty($result))
+		if (empty($query))
 		{
 			return NULL;
 		}
 
-		return $result;
+		return $query;
 	}
 
 	/**
@@ -257,7 +257,7 @@ class DataSource_Hybrid_Agent {
 	 */
 	public function get_query_props(array $fields = NULL, array $order = NULL, array $filter = NULL)
 	{
-		$result = DB::select('d.id', 'd.ds_id', 'd.header', 'd.published', 'd.created_on', 'd.meta_title', 'd.meta_keywords', 'd.meta_description')
+		$query = DB::select('d.id', 'd.ds_id', 'd.header', 'd.published', 'd.created_on', 'd.meta_title', 'd.meta_keywords', 'd.meta_description')
 			->from(array('dshybrid_' . $this->ds_id,  'ds'))
 			->join(array('dshybrid', 'd'))
 				->on('d.id', '=', 'ds.id');
@@ -268,8 +268,8 @@ class DataSource_Hybrid_Agent {
 
 		$select_fields = array();
 
-		if ($fields !== NULL)
-		{
+		if (!empty($fields))
+        {
 			foreach ($fields as $i => $fid)
 			{
 				if (!isset($ds_fields[$fid]))
@@ -294,26 +294,26 @@ class DataSource_Hybrid_Agent {
 
 			if (!isset($t[$field->ds_id]))
 			{
-				$result->join(array('dshybrid_' . $field[$field->ds_id], 'd' . $i))
+				$query->join(array('dshybrid_' . $field[$field->ds_id], 'd' . $i))
 						->on('d' . $i, '=', ds . id);
 
 				$t[$field[$field->ds_id]] = TRUE;
 			}
 
-			$field->get_query_props($result, $this);
+			$field->get_query_props($query, $this);
 		}
 
 		if (!empty($order))
 		{
-			$this->_fetch_orders($order, $t, $result);
+			$this->_fetch_orders($order, $t, $query);
 		}
 
 		if (!empty($filter))
 		{
-			$this->_fetch_filters($filter, $t, $result);
+			$this->_fetch_filters($filter, $t, $query);
 		}
 
-		return $result;
+		return $query;
 	}
 	
 	/**
@@ -321,10 +321,10 @@ class DataSource_Hybrid_Agent {
 	 * 
 	 * @param array $orders
 	 * @param array $t
-	 * @param Database_Query_Builder $result
+	 * @param Database_Query_Builder $query
 	 * @return Database_Query_Builder
 	 */
-	protected function _fetch_orders(array $orders, &$t, $result)
+	protected function _fetch_orders(array $orders, &$t, $query)
 	{
 		$j = 0;
 		$ds_fields = $this->get_fields();
@@ -352,20 +352,20 @@ class DataSource_Hybrid_Agent {
 
 			if (!isset($t[$field->ds_id]))
 			{
-				$result->join(array('dshybrid_' . $field->ds_id, 'dorder' . $j))
+				$query->join(array('dshybrid_' . $field->ds_id, 'dorder' . $j))
 					->on('dorder' . $j . '.id', '=', 'ds.id');
 
 				$t[$field->ds_id] = TRUE;
 			}
 
-			$field->sorting_condition($result, $dir);
+			$field->sorting_condition($query, $dir);
 
 			unset($field);
 
 			$j++;
 		}
 
-		return $result;
+		return $query;
 	}
 	
 	/**
@@ -373,14 +373,14 @@ class DataSource_Hybrid_Agent {
 	 * 
 	 * @param array $filters
 	 * @param array $t
-	 * @param Database_Query_Builder $result
+	 * @param Database_Query_Builder $query
 	 * @return Database_Query_Builder
 	 */
-	protected function _fetch_filters(array $filters, & $t, & $result)
+	protected function _fetch_filters(array $filters, & $t, & $query)
 	{
 		if (empty($filters))
 		{
-			return $result;
+			return $query;
 		}
 
 		$field_names = array_flip($this->get_field_names());
@@ -462,7 +462,7 @@ class DataSource_Hybrid_Agent {
 
 			if (!isset($t[$field->ds_id]))
 			{
-				$result->join('dshybrid_' . $field->ds_id, 'dfilter' . $pos)
+				$query->join('dshybrid_' . $field->ds_id, 'dfilter' . $pos)
 					->on('dfilter' . $pos . '.id', '=', 'ds.id');
 
 				$t[$field->ds_id] = TRUE;
@@ -562,12 +562,12 @@ class DataSource_Hybrid_Agent {
 				}
 			}
 
-			$field->filter_condition($result, $condition, $value, $params);
+			$field->filter_condition($query, $condition, $value, $params);
 		}
 		
 		unset($field_names, $ds_fields, $sys_fields, $filters);
 
-		return $result;
+		return $query;
 	}
 	
 	public function is_db_function($string)
