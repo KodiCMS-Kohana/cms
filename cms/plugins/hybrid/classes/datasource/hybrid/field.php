@@ -753,7 +753,7 @@ abstract class DataSource_Hybrid_Field {
 	 */
 	public function build_sql_field($field)
 	{
-		return DB::Database_Expression($params['db_function'])
+		return DB::expr($params['db_function'])
 			->param(':field', DB::expr(Database::instance()->quote_column($this->name)))
 			->param(':value', $value);
 	}
