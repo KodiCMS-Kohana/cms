@@ -740,7 +740,7 @@ abstract class DataSource_Hybrid_Field {
 		$field = $this->name;
 		if (isset($params['db_function']))
 		{
-			$field = $this->build_sql_field($field);
+			$field = $this->build_sql_field($params['db_function'], $field, $value);
 		}
 
 		$query->where($field, $condition, $value);
@@ -751,9 +751,9 @@ abstract class DataSource_Hybrid_Field {
 	 * @param type $field
 	 * @return type
 	 */
-	public function build_sql_field($field)
+	public function build_sql_field($function, $field, $value)
 	{
-		return DB::expr($params['db_function'])
+		return DB::expr($function)
 			->param(':field', DB::expr(Database::instance()->quote_column($this->name)))
 			->param(':value', $value);
 	}
