@@ -57,6 +57,9 @@ Assets_Package::add('ace')
 
 Assets_Package::add('steps')
 	->js(NULL, ADMIN_RESOURCES . 'libs/steps/jquery.steps.min.js', 'jquery');
+	
+Assets_Package::add('chart')
+	->js(NULL, ADMIN_RESOURCES . 'libs/highcharts/highcharts.js', 'jquery');
 
 Assets_Package::add('ckeditor')
 	->js('ckeditor-library', ADMIN_RESOURCES . 'libs/ckeditor/ckeditor.js', 'jquery')
