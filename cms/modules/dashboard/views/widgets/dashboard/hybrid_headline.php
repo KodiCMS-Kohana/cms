@@ -64,7 +64,7 @@
 
 <script type="text/javascript">
 $(function(){
-	$('.hybrid-headline-widget[data-id="<?php echo $widget->id; ?>"]').on('resize', function(e, gridster, ui) {
+	$('.hybrid-headline-widget[data-id="<?php echo $widget->id; ?>"]').on('resize_stop', function(e, gridster, ui) {
 		updateScroll();
 	});
 	

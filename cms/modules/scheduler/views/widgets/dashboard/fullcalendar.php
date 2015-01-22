@@ -46,10 +46,15 @@ $(function(){
 		}
 	});
 	
-	$('.fullcalendar-widget').on('resize', function(e, gridster, ui) {
-		var h = calculate_height();
-		$('#calendar').fullCalendar('option', 'contentHeight', h);
+	$('.fullcalendar-widget')
+	.on('resize_start', function(e, gridster, ui) {
+		$('#calendar').fadeOut();
+	})
+	.on('resize_stop', function(e, gridster, ui) {
+		$('#calendar').fadeIn();
+		$('#calendar').fullCalendar('option', 'contentHeight', calculate_height());
 	});
+
 	function calculate_height() {
 		var $cont = $('.fullcalendar-widget');
 		return $cont.height() - 100;

@@ -8,9 +8,12 @@ var Dashboard = {
 				autogrow_cols: true,
 				resize: {
 					enabled: true,
+					start: function (e, ui, $widget) {
+						$widget.find('.dashboard-widget').trigger('resize_start', [this, ui]);
+					},
 					stop: function (e, ui, $widget) {
 						Dashboard.widgets.save_order();
-						$widget.find('.dashboard-widget').trigger('resize', [this, ui])
+						$widget.find('.dashboard-widget').trigger('resize_stop', [this, ui]);
 					}
 				},
 				draggable: {
@@ -40,6 +43,8 @@ var Dashboard = {
 			try {
 				var widget = this.gridster.add_widget.apply(this.gridster, [$('<li />').append(html), size.x, size.y, false, false, size.max_size, size.min_size]);
 				widget.data('widget_id', id);
+				
+				widget.trigger('widget_init', []);
 			} catch (e) {
 				console.log('Add widget error', e);
 				return;

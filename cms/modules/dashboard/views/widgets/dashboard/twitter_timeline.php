@@ -19,10 +19,8 @@
 			'height' => 200,
 			'data-chrome' => 'nofooter noheader noborders transparent noscrollbar'
 		)); ?>
-		<script>
+		<script type="text/javascript">
 		$(function() {
-			
-		
 			window.twttr = (function(d, s, id) {
 				var js, fjs = d.getElementsByTagName(s)[0],
 					t = window.twttr || {};
@@ -45,7 +43,7 @@
 				updateTwitterHeight($('.twitter-timeline-widget[data-id="<?php echo $widget->id; ?>"]'));
 			});
 			
-			$('.twitter-timeline-widget[data-id="<?php echo $widget->id; ?>"]').on('resize', function(e, gridster, ui) {
+			$('.twitter-timeline-widget[data-id="<?php echo $widget->id; ?>"]').on('resize_stop', function(e, gridster, ui) {
 				updateTwitterHeight($(this));
 			});
 
