@@ -1,4 +1,5 @@
 <div class="panel">
+	<?php if (is_writable(LAYOUTS_SYSPATH)): ?>
 	<div class="panel-heading">
 		<?php if (ACL::check('layout.add')): ?>
 		<?php echo UI::button(UI::hidden(__('Add layout')), array(
@@ -18,8 +19,15 @@
 		)); ?>
 		<?php endif; ?>
 	</div>
+	<?php else: ?>
+	<div class="alert alert-danger alert-dark no-margin-b">
+		<?php echo __('Layouts folder :folder is not writeable', array(
+			':folder' => LAYOUTS_SYSPATH
+		)); ?>
+	</div>
+	<?php endif; ?>
 
-	<table class="table-primary table table-striped table-hover" id="LayoutList">
+	<table class="table-primary table table-striped table-hover">
 		<colgroup>
 			<col />
 			<col width="150px" />

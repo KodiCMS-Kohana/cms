@@ -1,4 +1,5 @@
  <div class="panel">
+	 <?php if (is_writable(SNIPPETS_SYSPATH)): ?>
 	<div class="panel-heading">
 		<?php if (ACL::check('snippet.add')): ?>
 		<?php echo UI::button(__('Add snippet'), array(
@@ -9,6 +10,13 @@
 		)); ?>
 		<?php endif; ?>
 	</div>
+	<?php else: ?>
+	<div class="alert alert-danger alert-dark no-margin-b">
+		<?php echo __('Snippets folder :folder is not writeable', array(
+			':folder' => SNIPPETS_SYSPATH
+		)); ?>
+	</div>
+	<?php endif; ?>
 
 	<table class="table-primary table-light table table-striped table-hover">
 		<colgroup>
