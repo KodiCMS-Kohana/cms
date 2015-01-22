@@ -13,4 +13,4 @@
 )); ?>
 &nbsp;&nbsp;&nbsp;&nbsp;
 
-<?php echo HTML::anchor($uri, UI::hidden(__('Cancel')), array('data-icon' => 'ban', 'class' => 'btn btn-sm btn-outline')); ?>
+<?php echo HTML::anchor($uri, UI::hidden(__('Cancel')), array('data-icon' => 'ban', 'class' => 'btn btn-close btn-sm btn-outline')); ?>
