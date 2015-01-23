@@ -21,13 +21,12 @@
 					)); ?>
 					<span class="input-group-addon"><?php echo EXT; ?></span>
 				</div>
-				<p class="help-block"><?php echo $snippet->get_relative_path(); ?></p>
 			</div>
 		</div>
 	</div>
 	<div class="panel-heading">
 		<span class="panel-title"><?php echo __('Content'); ?></span>
-
+		<?php echo UI::badge($snippet->get_relative_path()); ?>
 		<?php if ($snippet->is_writable() OR ! $snippet->is_exists()): ?>
 		<div class="panel-heading-controls">
 			<?php echo UI::button(__('File manager'), array(

@@ -21,12 +21,13 @@
 					)); ?>
 					<span class="input-group-addon"><?php echo EXT; ?></span>
 				</div>
-				<p class="help-block"><?php echo $layout->get_relative_path(); ?></p>
 			</div>
 		</div>
 	</div>
 	<div class="panel-heading">
 		<span class="panel-title"><?php echo __('Content'); ?></span>
+		<?php echo UI::badge($layout->get_relative_path()); ?>
+		
 		<?php if ($layout->is_writable() OR ! $layout->is_exists()): ?>
 		<div class="panel-heading-controls">
 		<?php echo UI::button(__('File manager'), array(
