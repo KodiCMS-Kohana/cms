@@ -1065,3 +1065,93 @@ $(function() {
 
 	cms.messages.init();
 });
+
+(function ($) {
+	var methods = {
+		settings: {
+			updateOnResize: false,
+			contentHeight: false,
+			type: 'height',
+			onCalculate: function($target_object, $height) {
+				$target_object.css(methods.settings.type, $height);
+			},
+			onResize: function($target_object, $height) {
+				$target_object.css(methods.settings.type, $height);
+			}
+		},
+		children: function($object, $target_object, $height) {
+			$object.children().each(function() {
+				var $self = $(this);
+
+				if($target_object.is($self) || $self.is(':hidden')) return;
+				
+				if($self.find($target_object).size() > 0) {
+					$height -= ($self.outerHeight(true) - $self.outerHeight());
+					$height = methods.children($self, $target_object, $height);
+				} else {
+					$height -= $self.outerHeight(true);
+				}
+			});
+			
+			return $height;
+		},
+		get_calculated_height: function($object, $target_object) {
+			var height = methods.get_content_height($object);
+			return methods.children($object, $target_object, height);
+		},
+		get_content_height: function($object) {
+			var height = 0;
+
+			if(methods.settings.contentHeight) {
+				if(typeof methods.settings.contentHeight == "boolean")
+					height = cms.calculateContentHeight();
+				else
+					height = parseInt(methods.settings.contentHeight);
+			} else
+				height = $object.height();
+			
+			return height - 3;
+		},
+		get_taget_object: function($object, $container) {
+			if (typeof $object == 'string' || $object instanceof String)
+				return $($object, $container);
+			else if($target_object instanceof jQuery)
+				return $object;
+			else return false;
+		}
+	}
+	
+	$.fn.calcHeightFor = function($object, options) {
+		methods.settings = $.extend(methods.settings, options);
+		var $self = $(this);
+		
+		$target_object = methods.get_taget_object($object, this);
+		if(!$target_object || $self.find($target_object).size() == 0) return;
+		
+		var contHeight = methods.get_content_height($self);
+		contHeight = methods.children($(this), $target_object, contHeight);
+	
+		return contHeight;
+	};
+	
+	$.fn.setHeightFor = function($object, options) {
+		methods.settings = $.extend(methods.settings, options);
+
+		return this.each(function(){
+			var $self = $(this);
+	
+			$target_object = methods.get_taget_object($object, this);
+			if(!$target_object || $self.find($target_object).size() == 0) return;
+			
+			var height = methods.get_calculated_height($self, $target_object);
+			methods.settings.onCalculate($target_object, height);
+			
+			if(methods.settings.updateOnResize) {
+				$(window).on('resize', $self, function() {
+					var height = methods.get_calculated_height($self, $target_object);
+					methods.settings.onResize($target_object, height);
+				});
+			}
+		});
+	};
+})(jQuery);

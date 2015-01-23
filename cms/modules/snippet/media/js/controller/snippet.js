@@ -1,9 +1,6 @@
 cms.init.add(['snippet_edit', 'snippet_add'], function () {
 	function calculateEditorHeight() {
-		var conentH = cms.content_height;
-		var h = $('.panel-heading').outerHeight(true) + $('.form-actions').outerHeight(true) + 80;
-		
-		return conentH - h;
+		return $('#content').calcHeightFor('#textarea_contentDiv', {contentHeight: true});
 	}
 	
 	$('#textarea_content').on('filter:switch:on', function(e, editor) {
