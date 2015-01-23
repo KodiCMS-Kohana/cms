@@ -1,9 +1,15 @@
 cms.plugins.ckeditor = {};
 
+CKEDITOR.disableAutoInline = true;
+CKEDITOR.editorConfig = function( config ) {
+    config.filebrowserBrowseUrl = '/backend/elfinder/';
+};
 cms.plugins.ckeditor.switchOn_handler = function (textarea_id, params) {
-	var editor = CKEDITOR.replace(textarea_id, {
-		skin: 'bootstrapck'
-	});
+	params = $.extend({
+		skin: 'bootstrapck',
+		height: 200
+	}, params);
+	var editor = CKEDITOR.replace(textarea_id, params);
 	return editor;
 };
 
@@ -16,6 +22,8 @@ cms.plugins.ckeditor.exec_handler = function (editor, command, textarea_id, data
 		case 'insert':
 			editor.insertText(data);
 			break;
+		case 'changeHeight':
+			editor.resize('100%', data);
 	}
 }
 

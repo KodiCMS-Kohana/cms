@@ -1,6 +1,6 @@
 cms.plugins.redactor = {
 	switchOn_handler: function( textarea_id, params ){
-		var local_params = {
+		params = $.extend({
 			focus: true,
 			imageGetJson: Api.build_url('media.images'),
 			imageUpload: Api.build_url('media.images'),
@@ -8,9 +8,7 @@ cms.plugins.redactor = {
 			autoresize: false,
 			lang: LOCALE,
 			minHeight: 200
-		};
-
-		params = $.extend(local_params, params);
+		}, params);
 		return $('#' + textarea_id).redactor(params);
 	},
 	switchOff_handler: function( editor, textarea_id ){
