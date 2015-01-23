@@ -1072,8 +1072,10 @@ $(function() {
 			updateOnResize: false,
 			contentHeight: false,
 			type: 'height',
+			offset: 0,
+			minHeight: 0,
 			onCalculate: function($target_object, $height) {
-				$target_object.css(methods.settings.type, $height);
+				$target_object.css(this.type, $height);
 			},
 			onResize: function($target_object, $height) {
 				$target_object.css(methods.settings.type, $height);
@@ -1096,17 +1098,24 @@ $(function() {
 			return $height;
 		},
 		get_calculated_height: function($object, $target_object) {
-			var height = methods.get_content_height($object);
-			return methods.children($object, $target_object, height);
+			var height = this.get_content_height($object);
+			height = this.children($object, $target_object, height);
+			
+			height -= parseInt(methods.settings.offset);
+				
+			if(height < methods.settings.minHeight)
+				height = methods.settings.minHeight;
+			
+			return height;
 		},
 		get_content_height: function($object) {
 			var height = 0;
 
-			if(methods.settings.contentHeight) {
-				if(typeof methods.settings.contentHeight == "boolean")
+			if(this.settings.contentHeight) {
+				if((typeof this.settings.contentHeight == "boolean") || this.settings.contentHeight == 'auto')
 					height = cms.calculateContentHeight();
 				else
-					height = parseInt(methods.settings.contentHeight);
+					height = parseInt(this.settings.contentHeight);
 			} else
 				height = $object.height();
 			
@@ -1122,6 +1131,7 @@ $(function() {
 	}
 	
 	$.fn.calcHeightFor = function($object, options) {
+
 		methods.settings = $.extend(methods.settings, options);
 		var $self = $(this);
 		
@@ -1143,15 +1153,19 @@ $(function() {
 			$target_object = methods.get_taget_object($object, this);
 			if(!$target_object || $self.find($target_object).size() == 0) return;
 			
-			var height = methods.get_calculated_height($self, $target_object);
-			methods.settings.onCalculate($target_object, height);
-			
-			if(methods.settings.updateOnResize) {
-				$(window).on('resize', $self, function() {
-					var height = methods.get_calculated_height($self, $target_object);
-					methods.settings.onResize($target_object, height);
-				});
-			}
+			var $size = $target_object.size();
+			$target_object.each(function() {
+				var $target_object = $(this);
+				var height = methods.get_calculated_height($self, $target_object) / $size;
+				methods.settings.onCalculate($target_object, height);
+
+				if(methods.settings.updateOnResize) {
+					$(window).on('resize', $self, function() {
+						var height = methods.get_calculated_height($self, $target_object) / $size;
+						methods.settings.onResize($target_object, height);
+					});
+				}
+			});
 		});
 	};
 })(jQuery);

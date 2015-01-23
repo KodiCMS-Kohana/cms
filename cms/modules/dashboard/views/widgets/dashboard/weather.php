@@ -4,19 +4,20 @@
 	<div class="panel-body text-center handle"></div>
 </div>
 <script type="text/javascript">
-$(function(){
-	var $cont = $('.dashboard-widget[data-id="<?php echo $widget->id; ?>"] .panel-body');
-	$.simpleWeather({
-		location: '<?php echo $widget->city; ?>',
-		woeid: '',
-		unit: 'c',
-		success: function(weather) {
-			html = '<h1><i class="fa fa-lg wth wth-'+weather.code+'"></i> '+weather.city+' '+weather.temp+'&deg;'+weather.units.temp+'</h1>';
-			$cont.html(html);
-		},
-		error: function (error) {
-			$cont.html('<h4>'+error.message+'</h4>');
-		}
+$('.dashboard-widget[data-id="<?php echo $widget->id; ?>"]')
+	.on('widget_init', function() {
+		var $cont = $('.panel-body', this);
+		$.simpleWeather({
+			location: '<?php echo $widget->city; ?>',
+			woeid: '',
+			unit: 'c',
+			success: function(weather) {
+				html = '<h1><i class="fa fa-lg wth wth-'+weather.code+'"></i> '+weather.city+' '+weather.temp+'&deg;'+weather.units.temp+'</h1>';
+				$cont.html(html);
+			},
+			error: function (error) {
+				$cont.html('<h4>'+error.message+'</h4>');
+			}
+		});
 	});
-});
 </script>

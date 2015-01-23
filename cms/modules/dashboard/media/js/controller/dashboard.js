@@ -9,11 +9,17 @@ var Dashboard = {
 				resize: {
 					enabled: true,
 					start: function (e, ui, $widget) {
-						$widget.find('.dashboard-widget').trigger('resize_start', [this, ui]);
+						var $cont = $widget.find('.dashboard-widget');
+						$cont.trigger('resize_start', [this, ui, $cont.width(), $cont.height()])
+							.fadeTo(100, .5);
 					},
 					stop: function (e, ui, $widget) {
 						Dashboard.widgets.save_order();
-						$widget.find('.dashboard-widget').trigger('resize_stop', [this, ui]);
+						var $cont = $widget.find('.dashboard-widget');
+	
+						$cont
+							.fadeTo(100, 1)
+							.trigger('resize_stop', [this, ui, $cont.width(), $cont.height()]);
 					}
 				},
 				draggable: {
@@ -38,15 +44,20 @@ var Dashboard = {
 					};
 				}
 			}).data('gridster');
+			
+			$('.dashboard-widget').each(function() {
+				var $cont = $(this);
+				$cont.trigger('widget_init', [$cont.width(), $cont.height()]);
+			});
 		},
 		add: function(html, id, size) {
 			try {
-				var widget = this.gridster.add_widget.apply(this.gridster, [$('<li />').append(html), size.x, size.y, false, false, size.max_size, size.min_size]);
-				widget.data('widget_id', id);
+				var $widget = this.gridster.add_widget.apply(this.gridster, [$('<li />').append(html), size.x, size.y, false, false, size.max_size, size.min_size]);
 				
-				widget.trigger('widget_init', []);
+				var $cont = $widget.find('.dashboard-widget');
+				$widget.data('widget_id', id);
+				$cont.trigger('widget_init', [$cont.width(), $cont.height()]);
 			} catch (e) {
-				console.log('Add widget error', e);
 				return;
 			}
 	
@@ -54,12 +65,14 @@ var Dashboard = {
 			Dashboard.widgets.save_order();
 		},
 		remove: function(btn) {
-			var widget = btn.closest('li');
-			
+			var $widget = btn.closest('li');
 			Api.delete('dashboard.widget', {
-				id: widget.data('widget_id')
+				id: $widget.data('widget_id')
 			}, function(response) {
-				Dashboard.widgets.gridster.remove_widget(widget, function() {
+				var $cont = $widget.find('.dashboard-widget');
+				$cont.trigger('widget_destroy');
+				
+				Dashboard.widgets.gridster.remove_widget($widget, function() {
 					Dashboard.widgets.save_order();
 				});
 			});
