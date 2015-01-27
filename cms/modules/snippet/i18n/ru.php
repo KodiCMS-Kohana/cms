@@ -11,6 +11,8 @@ return array(
 	'Snippet name' => 'Название сниппета',
 	'Snippet not found!' => 'Сниппет не найден!',
 	'Snippets' => 'Сниппеты',
+	'Snippet is not writeable' => 'Файл в статусе только для чтения',
+	'Snippets folder :folder is not writeable' => 'Директория :folder в статусе только для чтения',
 	
 	//============Permissions============//
 	'View snippets list' => 'Видеть раздел',
