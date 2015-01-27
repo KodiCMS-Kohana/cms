@@ -47,20 +47,6 @@ class KodiCMS_Model_Page_Part extends ORM
 
 	public function before_save()
 	{
-		if (!empty($this->filter_id))
-		{
-			if (WYSIWYG::get($this->filter_id))
-			{
-				$filter_class = WYSIWYG::get($this->filter_id);
-
-				if ($filter_class !== FALSE)
-				{
-					$this->content_html = $filter_class->apply($this->content);
-					return TRUE;
-				}
-			}
-		}
-		
 		if ($this->filter_id === NULL)
 		{
 			$this->filter_id = Config::get('site', 'default_filter_id');
@@ -76,7 +62,18 @@ class KodiCMS_Model_Page_Part extends ORM
 			$this->name = 'part';
 		}
 
-		$this->content_html = $this->content;
+		$filter = FALSE;
+		if ($this->filter_id !== NULL)
+		{
+			$filter = WYSIWYG::get($this->filter_id);
+		}
+		
+		if ($filter === FALSE OR ! ($filter instanceof Filter_Decorator))
+		{
+			$filter = new Filter_Default;
+		}
+
+		$this->content_html = $filter->apply($this->content);
 
 		Observer::notify('part_before_save', $this);
 		
