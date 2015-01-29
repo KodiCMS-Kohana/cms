@@ -24,6 +24,7 @@
 	}
 </script>
 
+<?php if($field->loaded()): ?>
 <div class="form-group" id="field-options">
 	<label class="control-label col-md-3"><?php echo __('Field options'); ?></label>
 	<div class="col-xs-9">
@@ -40,7 +41,7 @@
 				</div>
 			</div>
 		</div>
-
+		
 		<div class="rows-container">
 			<?php foreach ($field->load_from_db() as $id => $name): ?>
 			<div class="row-helper padding-xs-vr">
@@ -64,8 +65,8 @@
 		)); ?>
 	</div>
 </div>
-
 <hr />
+<?php endif; ?>
 
 <div class="form-group">
 	<div class="col-md-offset-3 col-md-9">

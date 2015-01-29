@@ -27,7 +27,7 @@ class DataSource_Hybrid_Field_Primitive_Select extends DataSource_Hybrid_Field_P
 	
 	public function set(array $data)
 	{
-		if ($this->id !== NULL)
+		if ($this->loaded())
 		{
 			$current_options = $this->load_from_db();
 			if (empty($data['options']) AND ! empty($current_options))
@@ -70,6 +70,11 @@ class DataSource_Hybrid_Field_Primitive_Select extends DataSource_Hybrid_Field_P
 	 */
 	public function add_option($value)
 	{
+		if ($this->id === NULL)
+		{
+			return NULL;
+		}
+			
 		$value = trim($value);
 
 		if (empty($value))

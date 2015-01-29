@@ -264,6 +264,15 @@ abstract class DataSource_Hybrid_Field {
 			)
 		);
 	}
+	
+	/**
+	 * 
+	 * @return booelan
+	 */
+	public function loaded()
+	{
+		return $this->id !== NULL;
+	}
 
 	/**
 	 * Валидация создаваемого поля.
