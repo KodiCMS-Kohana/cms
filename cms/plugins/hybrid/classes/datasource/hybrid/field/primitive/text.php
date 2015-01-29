@@ -13,12 +13,19 @@ class DataSource_Hybrid_Field_Primitive_Text extends DataSource_Hybrid_Field_Pri
 	protected $_is_indexable = FALSE;
 
 	protected $_props = array(
-		'default' => NULL,
 		'allow_html' => TRUE,
 		'filter_html' => FALSE,
 		'allowed_tags' => '<b><i><u><p><ul><li><ol>',
 		'rows' => 3
 	);
+	
+	/**
+	 * return string
+	 */
+	public function default_value()
+	{
+		return (string) $this->default;
+	}
 	
 	public function booleans()
 	{

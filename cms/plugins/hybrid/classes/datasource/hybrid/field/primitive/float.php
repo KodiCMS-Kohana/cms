@@ -11,12 +11,19 @@
 class DataSource_Hybrid_Field_Primitive_Float extends DataSource_Hybrid_Field_Primitive {
 	
 	protected $_props = array(
-		'default' => 0,
 		'min' => 0, 
 		'max' => 500,
 		'length' => 10,
 		'after_coma_num' => 2
 	);
+	
+	/**
+	 * return string
+	 */
+	public function default_value()
+	{
+		return $this->set_value($this->default);
+	}
 	
 	public function set_value($value)
 	{
@@ -32,11 +39,6 @@ class DataSource_Hybrid_Field_Primitive_Float extends DataSource_Hybrid_Field_Pr
 		}
 
 		return $value;
-	}
-
-	public function set_default($value)
-	{
-		$this->default = $this->set_value($value);
 	}
 	
 	public function set_after_coma_num($number)

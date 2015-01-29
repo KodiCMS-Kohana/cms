@@ -198,7 +198,7 @@ class DataSource_Hybrid_Field_Source_Tags extends DataSource_Hybrid_Field_Source
 	{
 		$query
 			->join(array(DataSource_Hybrid_Field_Source_Tags::TABLE_NAME, $this->id.'_f_ht'), 'inner')
-			->on($this->id.'_f_ht.field_id', '=', DB::expr( $this->id ))
+			->on($this->id . '_f_ht.field_id', '=', DB::expr($this->id))
 			->on($this->id.'_f_ht.doc_id', '=', 'd.id')
 			->join(array(Model_Tag::TABLE_NAME, $this->id.'_f_tags'), 'inner')
 			->on($this->id.'_f_tags.id', '=', $this->id.'_f_ht.tag_id')

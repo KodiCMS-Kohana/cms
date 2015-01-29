@@ -19,6 +19,14 @@ class DataSource_Hybrid_Field_Primitive_Integer extends DataSource_Hybrid_Field_
 		'length' => 10
 	);
 	
+	/**
+	 * return string
+	 */
+	public function default_value()
+	{
+		return $this->set_value($this->default);
+	}
+	
 	public function set_value($value)
 	{
 		$value = (int) $value;
@@ -33,11 +41,6 @@ class DataSource_Hybrid_Field_Primitive_Integer extends DataSource_Hybrid_Field_
 		}
 
 		return $value;
-	}
-	
-	public function set_default($value)
-	{
-		$this->default = $this->set_value($value);
 	}
 	
 	public function set_min($value)

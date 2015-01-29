@@ -1,3 +1,4 @@
+<?php if($field->loaded()): ?>
 <script type="text/javascript">
 	$(function() {
 		var $container = $('#field-options');
@@ -24,7 +25,6 @@
 	}
 </script>
 
-<?php if($field->loaded()): ?>
 <div class="form-group" id="field-options">
 	<label class="control-label col-md-3"><?php echo __('Field options'); ?></label>
 	<div class="col-xs-9">

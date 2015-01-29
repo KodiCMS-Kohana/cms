@@ -13,11 +13,18 @@ class DataSource_Hybrid_Field_Primitive_String extends DataSource_Hybrid_Field_P
 	protected $_use_as_document_id = TRUE;
 	
 	protected $_props = array(
-		'default' => NULL,
 		'length' => 32,
 		'regexp' => NULL,
 		'use_filemanager' => FALSE
 	);
+	
+	/**
+	 * return string
+	 */
+	public function default_value()
+	{
+		return (string) $this->default;
+	}
 	
 	public function booleans()
 	{

@@ -27,7 +27,7 @@ class DataSource_Hybrid_Field_Primitive_Date extends DataSource_Hybrid_Field_Pri
 		}
 		else
 		{
-			return date($this->_format, $this->default);
+			return FALSE;
 		}
 	}
 	

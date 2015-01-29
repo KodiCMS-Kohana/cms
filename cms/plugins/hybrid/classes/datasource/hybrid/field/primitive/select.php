@@ -207,7 +207,7 @@ class DataSource_Hybrid_Field_Primitive_Select extends DataSource_Hybrid_Field_P
 	
 	public function get_query_props(Database_Query $query, DataSource_Hybrid_Agent $agent)
 	{
-		$query->select(array($this->table_column_key(), $this->id . '_original'));
+		$query->select(array($this->table_column_key(), $this->id . '::original'));
 		$query->select(array($this->get_subquery(), $this->id));
 	}
 	

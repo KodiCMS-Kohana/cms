@@ -13,7 +13,6 @@ class DataSource_Hybrid_Field_Source_User extends DataSource_Hybrid_Field_Source
 	protected $_is_searchable = FALSE;
 
 	protected $_props = array(
-		'default' => NULL,
 		'isreq' => FALSE,
 		'only_current' => FALSE,
 		'unique' => FALSE,
@@ -21,6 +20,14 @@ class DataSource_Hybrid_Field_Source_User extends DataSource_Hybrid_Field_Source
 	);
 	
 	protected $_use_as_document_id = TRUE;
+	
+	/**
+	 * return string
+	 */
+	public function default_value()
+	{
+		return (int) $this->default;
+	}
 
 	public function booleans()
 	{
@@ -99,10 +106,11 @@ class DataSource_Hybrid_Field_Source_User extends DataSource_Hybrid_Field_Source
 
 	public static function fetch_widget_field($widget, $field, $row, $fid)
 	{
+		echo debug::vars($row);
 		return !empty($row[$fid]) 
 			? array(
-				'username' => $row[$fid],
-				'id' => $row['user_id']
+				'username' => $row[$fid . '::username'],
+				'id' => $row[$fid . '::id']
 			)
 			: array(
 				'username' => '',
@@ -119,9 +127,9 @@ class DataSource_Hybrid_Field_Source_User extends DataSource_Hybrid_Field_Source
 	{
 		parent::get_query_props($query, $agent);
 
-		$query->join('users', 'left')
-			->on(DataSource_Hybrid_Field::PREFFIX . $this->key, '=', 'users' . '.id')
-			->select(array('users.username', $this->id))
-			->select(array('users.id', 'user_id'));
+		$query->join(array('users', 'u' . $this->id), 'left')
+			->on($this->name, '=', 'u' . $this->id . '.id')
+			->select(array('u' . $this->id . '.username', $this->id . '::username'))
+			->select(array('u' . $this->id . '.id', $this->id . '::id'));
 	}
 }
