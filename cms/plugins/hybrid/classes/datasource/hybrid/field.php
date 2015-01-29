@@ -266,6 +266,14 @@ abstract class DataSource_Hybrid_Field {
 	}
 	
 	/**
+	 * return string
+	 */
+	public function default_value()
+	{
+		return $this->default;
+	}
+
+	/**
 	 * 
 	 * @return booelan
 	 */

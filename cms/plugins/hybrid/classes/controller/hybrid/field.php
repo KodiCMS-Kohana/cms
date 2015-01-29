@@ -189,6 +189,16 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 			Messages::errors($e->errors('validation'));
 			$this->go_back();
 		}
+		catch (Database_Exception $e)
+		{
+			switch ($e->getCode())
+			{
+				case '42S22':
+					$ds = $this->section($field->ds_id);
+					DataSource_Hybrid_Field_Factory::create_field($ds->record(), $field);
+					break;
+			}
+		}
 		catch (Kohana_Exception $e)
 		{
 			Messages::errors($e->getMessage());
