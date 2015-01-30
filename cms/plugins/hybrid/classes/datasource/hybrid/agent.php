@@ -147,7 +147,6 @@ class DataSource_Hybrid_Agent {
 
 		$query = $query->where($id_field, '=', $id)
 			->where('d.published', '=', 1)
-			->group_by('d.id')
 			->limit(1)
 			->execute()
 			->current();
