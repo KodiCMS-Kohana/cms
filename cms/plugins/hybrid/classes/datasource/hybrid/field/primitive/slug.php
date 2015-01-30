@@ -13,7 +13,6 @@ class DataSource_Hybrid_Field_Primitive_Slug extends DataSource_Hybrid_Field_Pri
 	protected $_use_as_document_id = TRUE;
 	
 	protected $_props = array(
-		'default' => NULL,
 		'separator' => '-',
 		'from_header' => FALSE,
 		'unique' => FALSE

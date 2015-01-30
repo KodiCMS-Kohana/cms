@@ -17,6 +17,11 @@ class DataSource_Hybrid_Field_Source_Images extends DataSource_Hybrid_Field_Sour
 	protected $_props = array(
 		'max_size' => 1048576
 	);
+
+	public function default_value()
+	{
+		return FALSE;
+	}
 	
 	public function module_id()
 	{
@@ -139,7 +144,9 @@ class DataSource_Hybrid_Field_Source_Images extends DataSource_Hybrid_Field_Sour
 
 	public static function fetch_widget_field($widget, $field, $row, $fid, $recurse)
 	{
-		return (!empty($row[$fid]) ? $field->load($row[$fid]) : array());
+		return (!empty($row[$fid]) 
+			? $field->load($row[$fid]) 
+			: array());
 	}
 
 }

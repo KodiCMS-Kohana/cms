@@ -11,10 +11,25 @@
 class DataSource_Hybrid_Field_Primitive_Date extends DataSource_Hybrid_Field_Primitive {
 	
 	protected $_props = array(
-		'default' => NULL
+		'default' => '0000-00-00'
 	);
 	
 	protected $_format = 'Y-m-d';
+	
+	/**
+	 * return string
+	 */
+	public function default_value()
+	{
+		if (Valid::date($this->default))
+		{
+			return date($this->_format, strtotime($this->default));
+		}
+		else
+		{
+			return FALSE;
+		}
+	}
 	
 	public function booleans()
 	{

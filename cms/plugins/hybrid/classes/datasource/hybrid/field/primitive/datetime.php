@@ -11,7 +11,7 @@
 class DataSource_Hybrid_Field_Primitive_DateTime extends DataSource_Hybrid_Field_Primitive_Date {
 	
 	protected $_format = 'Y-m-d H:i:s';
-	
+
 	public function get_type() 
 	{
 		return 'DATETIME NOT NULL';
