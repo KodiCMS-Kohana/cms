@@ -147,6 +147,7 @@ class DataSource_Hybrid_Agent {
 
 		$query = $query->where($id_field, '=', $id)
 			->where('d.published', '=', 1)
+			->group_by('d.id')
 			->limit(1)
 			->execute()
 			->current();
@@ -305,8 +306,7 @@ class DataSource_Hybrid_Agent {
 		else if($fields === FALSE)
 		{
 			$query
-				->select(array(DB::expr('COUNT(*)'), 'total_docs'))
-				->group_by('d.id');
+				->select(array(DB::expr('COUNT(*)'), 'total_docs'));
 		}
 		else if(is_string($fields))
 		{
