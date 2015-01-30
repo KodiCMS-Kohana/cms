@@ -88,6 +88,15 @@ class DataSource_Hybrid_Agent {
 	 */
 	protected $_ds_fields = NULL;
 	
+	
+	/**
+	 * Массив полей раздела
+	 * 
+	 * @see DataSource_Hybrid_Agent::get_fields()
+	 * @var array
+	 */
+	protected $_current_ds_fields = array();
+	
 	/**
 	 * Массив названий полей
 	 * 
@@ -154,17 +163,27 @@ class DataSource_Hybrid_Agent {
 	/**
 	 * Получение списка полей раздела.
 	 * 
+	 * @param boolean $clone
 	 * @return array array([id] => [DataSource_Hybrid_Field])
 	 */
-	public function get_fields()
+	public function get_fields($clone = FALSE)
 	{
 		if ($this->_ds_fields !== NULL)
 		{
-			return $this->_ds_fields;
+			if($clone === TRUE)
+			{
+				foreach ($this->_ds_fields as $id => $field)
+				{
+					$this->_current_ds_fields[$id] = clone $field;
+				}
+			}
+
+			return $this->_current_ds_fields;
 		}
 
 		$this->_ds_fields = DataSource_Hybrid_Field_Factory::get_section_fields($this->ds_id);
-
+		$this->_current_ds_fields = $this->_ds_fields;
+				
 		foreach ($this->_ds_fields as $id => $field)
 		{
 			$this->_ds_field_names[$id] = $field->key;
@@ -255,20 +274,20 @@ class DataSource_Hybrid_Agent {
 	 * @param array $filter Параметры фильтрации спсика документов
 	 * @return Database_Query_Builder
 	 */
-	public function get_query_props(array $fields = NULL, array $order = NULL, array $filter = NULL)
+	public function get_query_props($fields = TRUE, array $order = NULL, array $filter = NULL)
 	{
-		$query = DB::select('d.id', 'd.ds_id', 'd.header', 'd.published', 'd.created_on', 'd.meta_title', 'd.meta_keywords', 'd.meta_description')
+		$query = DB::select()
 			->from(array('dshybrid_' . $this->ds_id,  'ds'))
 			->join(array('dshybrid', 'd'))
 				->on('d.id', '=', 'ds.id');
 		
-		$ds_fields = $this->get_fields();
+		$ds_fields = $this->get_fields(TRUE);
 
 		$t = array($this->ds_id => TRUE);
 
 		$select_fields = array();
 
-		if (!empty($fields))
+		if (is_array($fields) AND !empty($fields))
         {
 			foreach ($fields as $i => $fid)
 			{
@@ -280,32 +299,47 @@ class DataSource_Hybrid_Agent {
 				$select_fields[] = $ds_fields[$fid];
 			}
 		}
-		else
+		else if($fields === TRUE)
 		{
 			$select_fields = $ds_fields;
 		}
-
-		foreach ($select_fields as $field)
+		else if($fields === FALSE)
 		{
-			if (!($field instanceof DataSource_Hybrid_Field))
-			{
-				continue;
-			}
-
-			if (!isset($t[$field->ds_id]))
-			{
-				$query->join(array('dshybrid_' . $field[$field->ds_id], 'd' . $i))
-						->on('d' . $i, '=', ds . id);
-
-				$t[$field[$field->ds_id]] = TRUE;
-			}
-
-			$field->get_query_props($query, $this);
+			$query
+				->select(array(DB::expr('COUNT(*)'), 'total_docs'))
+				->group_by('d.id');
 		}
-
-		if (!empty($order))
+		else if(is_string($fields))
 		{
-			$this->_fetch_orders($order, $t, $query);
+			$query->select($fields);
+		}
+		
+		if($fields !== FALSE)
+		{
+			$query->select('d.id', 'd.ds_id', 'd.header', 'd.published', 'd.created_on', 'd.meta_title', 'd.meta_keywords', 'd.meta_description');
+			
+			foreach ($select_fields as $field)
+			{
+				if (!($field instanceof DataSource_Hybrid_Field))
+				{
+					continue;
+				}
+
+				if (!isset($t[$field->ds_id]))
+				{
+					$query->join(array('dshybrid_' . $field[$field->ds_id], 'd' . $i))
+							->on('d' . $i, '=', ds . id);
+
+					$t[$field[$field->ds_id]] = TRUE;
+				}
+
+				$field->get_query_props($query, $this);
+			}
+
+			if (!empty($order))
+			{
+				$this->_fetch_orders($order, $t, $query);
+			}
 		}
 
 		if (!empty($filter))

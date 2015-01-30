@@ -165,7 +165,7 @@ class Datasource_Section_Hybrid_Headline extends Datasource_Section_Headline {
 		$query = $this
 			->_section
 			->agent()
-			->get_query_props(array(), $this->_sorting);
+			->get_query_props(FALSE, $this->_sorting);
 
 		$query = $this->search_by_keyword($query);
 		
@@ -174,8 +174,7 @@ class Datasource_Section_Hybrid_Headline extends Datasource_Section_Headline {
 			$query->where('d.id', 'in', $ids);
 		}
 
-		return $query->select(array(DB::expr('COUNT(*)'),'total_docs'))
-			->group_by('d.id')
+		return $query
 			->execute()
 			->get('total_docs');
 	}

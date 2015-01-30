@@ -177,7 +177,7 @@ class Model_Widget_Hybrid_Headline extends Model_Widget_Decorator_Pagination {
 	{
 		$agent = DataSource_Hybrid_Agent::instance($this->ds_id);
 
-		$query = $agent->get_query_props(array(), array(), $this->doc_filter);
+		$query = $agent->get_query_props(FALSE, array(), $this->doc_filter);
 		$query = $this->_search_by_keyword($query);
 
 		if (is_array($this->ids) AND count($this->ids) > 0)
@@ -190,7 +190,7 @@ class Model_Widget_Hybrid_Headline extends Model_Widget_Decorator_Pagination {
 			$query->where('d.published', '=', 1);
 		}
 
-		return $query->select(array(DB::expr('COUNT(*)'), 'total_docs'))
+		return $query
 			->execute()
 			->get('total_docs');
 	}

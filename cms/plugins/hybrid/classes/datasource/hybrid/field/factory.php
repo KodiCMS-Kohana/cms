@@ -168,6 +168,7 @@ class DataSource_Hybrid_Field_Factory {
 		{
 			return NULL;
 		}
+
 		return reset($result);
 	}
 	
