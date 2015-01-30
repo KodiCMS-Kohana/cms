@@ -39,7 +39,7 @@ if ((ACL::check('layout.edit') OR ACL::check('layout.view')) AND ! empty($layout
 
 		<div class="col-md-3">
 			<?php if (!empty($layout_name)): ?>
-			<?php echo UI::label(__('Current layput: :name', array(':name' => $layout_link))); ?>
+			<?php echo UI::label(__('Current layout: :name', array(':name' => $layout_link))); ?>
 			<?php else: ?>
 			<?php echo UI::label(__('Layout not set'), 'danger'); ?>
 			<?php endif; ?>

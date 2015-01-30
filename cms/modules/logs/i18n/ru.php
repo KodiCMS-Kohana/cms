@@ -3,7 +3,7 @@
 return array(
 	'Log level' => 'Уровень',
 	'Log message' => 'Сообщение',
-	'Сreated on' => 'Дата создания',
+	'Created on' => 'Дата создания',
 	'Log url' => 'Путь',
 	'Logs' => 'Логи',
 	'Log settings' => 'Настройка логов',

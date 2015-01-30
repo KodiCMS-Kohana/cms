@@ -21,6 +21,6 @@
 </ul>
 <?php else: ?>
 <div class="panel-body">
-	<h2 class="no-margin-t"><?php echo __('You dont have messages'); ?></h2>
+	<h2 class="no-margin-t"><?php echo __('You don\'t have messages'); ?></h2>
 </div>
 <?php endif; ?>

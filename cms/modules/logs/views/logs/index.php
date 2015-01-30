@@ -9,7 +9,7 @@
 		</colgroup>
 		<thead>
 			<tr>
-				<th class="log-date"><?php echo __('Сreated on'); ?></th>
+				<th class="log-date"><?php echo __('Created on'); ?></th>
 				<th class="log-level hidden-xs"><?php echo __('Log level'); ?></th>
 				<th class="log-url hidden-xs"><?php echo __('Log url'); ?></th>
 				<th class="log-user hidden-xs"><?php echo __('User'); ?></th>

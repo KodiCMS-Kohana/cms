@@ -30,8 +30,8 @@ Observer::observe('modules::after_load', function() {
 						->rule('email.options.hostname', 'not_empty')
 						->rule('email.options.port', 'not_empty')
 						->rule('email.options.port', 'numeric')
-						->label('email.options.port', 'STMP Port')
-						->label('email.options.hostname', 'STMP host');
+						->label('email.options.port', 'SMTP Port')
+						->label('email.options.hostname', 'SMTP host');
 					break;
 			}
 		});

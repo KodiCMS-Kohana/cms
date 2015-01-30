@@ -418,7 +418,7 @@ class KodiCMS_Model_Page extends ORM
 	 */
 	public function get_status()
 	{
-		$status = __('None');
+		$status = __('none');
 		$label = 'default';
 
 		switch ($this->status_id)

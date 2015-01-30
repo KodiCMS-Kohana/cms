@@ -89,7 +89,7 @@ class Controller_System_API extends Controller_System_Ajax {
 
 		if ($is_required === TRUE AND empty($param))
 		{
-			throw HTTP_API_Exception::factory(API::ERROR_MISSING_PAPAM, 'Missing required param :key', array(
+			throw HTTP_API_Exception::factory(API::ERROR_MISSING_PAPAM, 'Missing required parameter :key', array(
 				':key' => $key));
 		}
 
@@ -154,7 +154,7 @@ class Controller_System_API extends Controller_System_Ajax {
 			{
 				if (!$this->_model->is_valid($this->param('api_key')))
 				{
-					throw new HTTP_Exception_403('Api key not valid');
+					throw new HTTP_Exception_403('API key not valid');
 				}
 			}
 

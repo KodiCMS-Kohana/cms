@@ -47,7 +47,7 @@
 
 	<?php if($snippet->is_exists() AND !$snippet->is_writable()): ?>
 	<div class="alert alert-danger alert-dark no-margin-b">
-		<?php echo __('Snippet is not writeable'); ?>
+		<?php echo __('File is not writable'); ?>
 	</div>
 	<?php elseif (ACL::check('snippet.edit')): ?>
 	<div class="form-actions panel-footer">

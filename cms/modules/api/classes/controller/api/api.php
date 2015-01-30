@@ -14,7 +14,9 @@ class Controller_API_Api extends Controller_System_API
 	{
 		if (!ACL::check('system.api.view_keys'))
 		{
-			throw HTTP_API_Exception::factory(API::ERROR_PERMISSIONS, 'You dont hanve permissions to view api keys');
+			throw HTTP_API_Exception::factory(API::ERROR_PERMISSIONS, 'You don\'t have permission to :permission', array(
+				':permission' => __('View API keys')
+			));
 		}
 
 		$keys = ORM::factory('api_key')->find_all()->as_array('id', 'description');
@@ -29,7 +31,9 @@ class Controller_API_Api extends Controller_System_API
 	{
 		if (!ACL::check('system.api.new_key'))
 		{
-			throw HTTP_API_Exception::factory(API::ERROR_PERMISSIONS, 'You dont hanve permissions to generate api key');
+			throw HTTP_API_Exception::factory(API::ERROR_PERMISSIONS, 'You don\'t have permission to :permission', array(
+				':permission' => __('Generate API key')
+			));
 		}
 		
 		$description = $this->param('description', NULL, TRUE);	
@@ -43,7 +47,9 @@ class Controller_API_Api extends Controller_System_API
 	{
 		if (!ACL::check('system.api.delete_key'))
 		{
-			throw HTTP_API_Exception::factory(API::ERROR_PERMISSIONS, 'You dont hanve permissions to refresh api key');
+			throw HTTP_API_Exception::factory(API::ERROR_PERMISSIONS, 'You don\'t have permission to :permission', array(
+				':permission' => __('Refresh API key')
+			));
 		}
 
 		$curret_key = Config::get('api', 'key');
@@ -51,7 +57,9 @@ class Controller_API_Api extends Controller_System_API
 		
 		if ($key == $curret_key)
 		{
-			throw HTTP_API_Exception::factory(API::ERROR_UNKNOWN, 'You dont hanve permissions to delete api key');
+			throw HTTP_API_Exception::factory(API::ERROR_UNKNOWN, 'You don\'t have permission to :permission', array(
+				':permission' => __('Delete API key')
+			));
 		}
 
 		$this->response((bool) ORM::factory('api_key', $key)->delete());
@@ -61,7 +69,9 @@ class Controller_API_Api extends Controller_System_API
 	{
 		if (!ACL::check('system.api.refresh_key'))
 		{
-			throw HTTP_API_Exception::factory(API::ERROR_PERMISSIONS, 'You dont hanve permissions to refresh api key');
+			throw HTTP_API_Exception::factory(API::ERROR_PERMISSIONS, 'You don\'t have permission to :permission', array(
+				':permission' => __('Refresh API key')
+			));
 		}
 
 		$key_exists = Config::get('api', 'key') !== NULL;

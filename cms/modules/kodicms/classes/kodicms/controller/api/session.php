@@ -14,7 +14,9 @@ class KodiCMS_Controller_API_Session extends Controller_System_Api {
 	{
 		if (!ACL::check('system.session.clear'))
 		{
-			throw HTTP_API_Exception::factory(API::ERROR_PERMISSIONS, 'You dont hanve permissions to clear user sessions');
+			throw HTTP_API_Exception::factory(API::ERROR_PERMISSIONS, 'You don\'t have permission to :permission', array(
+				':permission' => __('Сlear user sessions')
+			));
 		}
 
 		if (Session::$default == 'database')

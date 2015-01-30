@@ -11,7 +11,7 @@ return array(
 	'Unpublish' => 'Снять с публикации',
 	'Unpublished' => 'Не опубликован',
 	'Section' => 'Раздел',
-	'Total doucments: :num' => 'Всего документов: :num',
+	'Total documents: :num' => 'Всего документов: :num',
 	'Create section' => 'Создать раздел',
 	'Edit' => 'Редактировать',
 	'Datasource Information' => 'Информация о разделе',

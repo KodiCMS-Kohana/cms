@@ -38,7 +38,7 @@
 			<li><?php echo HTML::anchor(Request::current()->uri() . '#constant:' . $name, $name); ?></li>
 		<?php endforeach ?>
 		<?php else: ?>
-			<li><em><?php echo __('None'); ?></em></li>
+			<li><em><?php echo __('none'); ?></em></li>
 		<?php endif ?>
 		</ul>
 	</div>
@@ -50,7 +50,7 @@
 			<li><?php echo HTML::anchor(Request::current()->uri() . '#property:' . $prop->property->name, $prop->property->name); ?></li>
 		<?php endforeach ?>
 		<?php else: ?>
-			<li><em><?php echo __('None'); ?></em></li>
+			<li><em><?php echo __('none'); ?></em></li>
 		<?php endif ?>
 		</ul>
 	</div>
@@ -62,7 +62,7 @@
 			<li><?php echo HTML::anchor(Request::current()->uri() . '#' . $method->method->name, $method->method->name. '()'); ?></li>
 		<?php endforeach ?>
 		<?php else: ?>
-			<li><em><?php echo __('None'); ?></em></li>
+			<li><em><?php echo __('none'); ?></em></li>
 		<?php endif ?>
 		</ul>
 	</div>

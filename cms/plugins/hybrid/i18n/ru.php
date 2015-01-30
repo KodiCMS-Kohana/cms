@@ -126,7 +126,6 @@ return array(
 	'Clear coordinates' => 'Очистить координаты',
 	'Select file to upload' => 'Выберите файл для загрузки',
 	'Image :image more than :size MB' => 'Изображение :image больше :size Мб',
-	'Use filemanager to get data' => 'Использовать файловый менеджер',
 	'Disable update existing documents' => 'Запретить обновление существующих документов',
 	'Image types' => 'Изображения',
 	'Document types' => 'Документы',

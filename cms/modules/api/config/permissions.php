@@ -4,11 +4,11 @@ return array(
 	'system' => array(
 		array(
 			'action' => 'api',
-			'description' => 'Manage api'
+			'description' => 'Manage API'
 		),
 		array(
 			'action' => 'api.refresh',
-			'description' => 'Change api key'
+			'description' => 'Change API key'
 		),
 	),
 );

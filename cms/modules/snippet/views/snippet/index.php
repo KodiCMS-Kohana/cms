@@ -12,7 +12,7 @@
 	</div>
 	<?php else: ?>
 	<div class="alert alert-danger alert-dark no-margin-b">
-		<?php echo __('Snippets folder :folder is not writeable', array(
+		<?php echo __('Folder :folder is not writable', array(
 			':folder' => SNIPPETS_SYSPATH
 		)); ?>
 	</div>

@@ -1,5 +1,3 @@
-
-
 <div class="panel">
 	<div class="panel-heading">
 		<?php if (ACL::check('widgets.add')): ?>
@@ -29,7 +27,7 @@
 				<th><?php echo __('Type'); ?></th>
 				<th class="hidden-xs"><?php echo __('Description'); ?></th>
 				<th class="hidden-xs"><?php echo __('Widget template'); ?></th>
-				<th class="hidden-xs"><?php echo __('Cache time'); ?></th>
+				<th class="hidden-xs"><?php echo __('Cache lifetime'); ?></th>
 				<th class="text-right"><?php echo __('Actions'); ?></th>
 			</tr>
 		</thead>

@@ -25,7 +25,7 @@ $(function() {
 			to: '<?php echo Config::get('email', 'default'); ?>',
 			message: __('Test email'),
 		}, function(response) {
-			cms.messages.show(__('Test email') + (response.send ? __('sended') : __('not send')), response.send ? 'success' : 'error');
+			cms.messages.show(__('Test email') + (response.send ? __('sent successfully') : __('not sent')), response.send ? 'success' : 'error');
 		});
 		return false;
 	});
@@ -132,7 +132,7 @@ function test_email_button_visible() {
 		<fieldset id="smtp-driver-settings">
 			<hr class="panel-wide"/>
 			<div class="form-group">
-				<label class="control-label col-md-3" for="settingHost"><?php echo __('STMP Host'); ?></label>
+				<label class="control-label col-md-3" for="settingHost"><?php echo __('SMTP Host'); ?></label>
 				<div class="col-md-9">
 					<?php echo Form::input('setting[email][options][hostname]', Arr::path($settings, 'options.hostname'), array(
 						'id' => 'settingHost', 'class' => 'form-control'
@@ -141,7 +141,7 @@ function test_email_button_visible() {
 			</div>
 
 			<div class="form-group">
-				<label class="control-label col-md-3" for="settingPort"><?php echo __('STMP Port'); ?></label>
+				<label class="control-label col-md-3" for="settingPort"><?php echo __('SMTP Port'); ?></label>
 				<div class="col-md-2">
 					<?php echo Form::input('setting[email][options][port]', Arr::path($settings, 'options.port', 25), array(
 						'id' => 'settingPort', 'class' => 'form-control'
@@ -150,7 +150,7 @@ function test_email_button_visible() {
 			</div>
 
 			<div class="form-group">
-				<label class="control-label col-md-3" for="settingUsername"><?php echo __('STMP Username'); ?></label>
+				<label class="control-label col-md-3" for="settingUsername"><?php echo __('SMTP Username'); ?></label>
 				<div class="col-md-3">
 					<?php echo Form::input('setting[email][options][username]', Arr::path($settings, 'options.username'), array(
 						'id' => 'settingUsername', 'class' => 'form-control'
@@ -159,7 +159,7 @@ function test_email_button_visible() {
 			</div>
 
 			<div class="form-group">
-				<label class="control-label col-md-3" for="settingPassword"><?php echo __('STMP Password'); ?></label>
+				<label class="control-label col-md-3" for="settingPassword"><?php echo __('SMTP Password'); ?></label>
 				<div class="col-md-3">
 					<?php echo Form::password('setting[email][options][password]', Arr::path($settings, 'options.password'), array(
 						'id' => 'settingPassword', 'class' => 'form-control'

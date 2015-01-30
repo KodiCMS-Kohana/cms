@@ -88,7 +88,7 @@
 			<label class="control-label col-md-3"><?php echo __('Default page status'); ?> </label>
 			<div class="col-md-9">
 				<?php echo Form::select('setting[site][default_status_id]', $default_status_id, Config::get('site', 'default_status_id')); ?>
-				<p class="help-block"><?php echo __('This status will be autoselected when page creating.'); ?></p>
+				<p class="help-block"><?php echo __('This status will be auto selected when page creating.'); ?></p>
 			</div>
 		</div>
 

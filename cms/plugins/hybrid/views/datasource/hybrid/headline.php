@@ -58,7 +58,7 @@
 		<?php endforeach; ?>
 	</tbody>
 </table>
-<?php echo __('Total doucments: :num', array(':num' => $data['total'])); ?>
+<?php echo __('Total documents: :num', array(':num' => $data['total'])); ?>
 <hr />
 <?php echo $pagination; ?>
 <?php else: ?>

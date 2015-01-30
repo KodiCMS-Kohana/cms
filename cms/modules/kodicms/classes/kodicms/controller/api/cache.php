@@ -14,7 +14,9 @@ class KodiCMS_Controller_API_Cache extends Controller_System_Api {
 	{
 		if (!ACL::check('system.cache.clear'))
 		{
-			throw HTTP_API_Exception::factory(API::ERROR_PERMISSIONS, 'You dont hanve permissions to clear cache');
+			throw HTTP_API_Exception::factory(API::ERROR_PERMISSIONS, 'You don\'t have permission to :permission', array(
+				':permission' => __('Сlear cache')
+			));
 		}
 
 		if (Kohana::$caching === TRUE)

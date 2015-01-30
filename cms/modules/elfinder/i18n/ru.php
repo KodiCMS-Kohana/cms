@@ -2,10 +2,10 @@
 
 return array(
 	'File manager' => 'Менеджер файлов',
-	'Filemanager' => 'Менеджер файлов',
+	'Use File manager to get data' => 'Использовать файловый менеджер',
 	
 	//============Permissions============//
-	'View filemanager' => 'Видеть раздел',
+	'View File manager' => 'Видеть раздел',
 	'Make directories' => 'Создавать директории',
 	'Upload files' => 'Загружать файлы',
 	'Delete files and folders' => 'Удалять файлы и папки',

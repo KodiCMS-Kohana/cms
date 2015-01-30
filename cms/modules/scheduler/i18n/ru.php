@@ -7,7 +7,7 @@ return array(
 	'Jobs' => 'Задачи',
 	'Add job' => 'Создать задачу',
 	'Edit job' => 'Редактирование задачи',
-	'Runing options' => 'Опции запуска',
+	'Running options' => 'Опции запуска',
 	'Crontime string' => 'Строка crontime',
 	'Job run start' => 'Первый запуск',
 	'Job run end' => 'Последний запуск',
@@ -23,7 +23,7 @@ return array(
 	'Job is currently running' => 'В процессе',
 	'Job is complete' => 'Выполнена',
 	'Job run time' => 'Время запуска',
-	'Job history' => 'История запуcка',
+	'Job history' => 'История запуска',
 	'Job settings' => 'Настройка задач',
 	'Job agent' => 'Агент',
 	'When using cron you need to add the following line to the crontab file:' => 

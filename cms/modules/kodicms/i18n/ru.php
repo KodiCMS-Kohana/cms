@@ -5,7 +5,10 @@ return array(
 	/*********************** Template *********************************/
 	'Access denied' => 'Доступ запрещен',
 	'Error' => 'Ошибка',
+	'Errors' => 'Ошибки',
 	'Success' => 'Выполнено',
+	
+	'Hide menu' => 'Скрыть меню',
 
 	'Copy' => 'Копировать',
 	'Date' => 'Дата',
@@ -32,7 +35,7 @@ return array(
 	'System' => 'Система',
 	'inherit' => 'наследовать',
 	'n/a' => 'н/д',
-	'none' => 'остутствует',
+	'none' => 'отcутствует',
 	'optional' => 'не обязательно',
 	'or' => 'или',
 	'unknown' => 'неизвестно',
@@ -58,11 +61,8 @@ return array(
 	'Admin Theme :name' => 'Тема :name',
 	'The requested view :file could not be found' 
 		=> 'Запрашиваемый файл шаблона :file не найден',
-	'Layout is not writeable' => 'Файл в статусе только для чтения',
-	'Layouts folder :folder is not writeable' => 'Директория :folder в статусе только для чтения',
-	
-	/*********************** Dashboard *********************************/
-	'Dashboard' => 'Рабочий стол',
+	'File is not writable' => 'Файл только для чтения',
+	'Folder :folder is not writable' => 'Директория :folder только для чтения',
 	
 	/*********************** Layouts *********************************/
 	'Add layout' => 'Добавить шаблон',
@@ -90,15 +90,13 @@ return array(
 	'General settings' => 'Главные настройки',
 	'Interface language' => 'Язык интерфейса',
 	'Default interface language' => 'Язык интерфейса по умолчанию',
-	'Clear cache' => 'Очистить кеш',
-	'Cache has been cleared!' => 'Кеш успешно очищен!',
 	'Site information' => 'Информация о сайте',
 	'Site title' => 'Заголовок',
 	'Site description' => 'Описание',
 	'Regional settings' => 'Региональные настройки',
 	'Setting'  => 'Настройка',
 	'Settings' => 'Настройки',
-	'This status will be autoselected when page creating.' 
+	'This status will be auto selected when page creating.' 
 		=> 'Этот статус будет выбран по-умолчанию при создании страницы.',
 	'Date format' => 'Формат даты',
 	'Debug mode' => 'Режим отладки',
@@ -145,7 +143,7 @@ return array(
 	'The session storage driver can change in the config file (:path)' 
 		=> 'Драйвер хранения сессии можно изменить через конфиг файл (:path)',
 	'Server host' => 'Хост',
-	'Check URL suffix' => 'Проверять налицие URL суффикса',
+	'Check URL suffix' => 'Проверять наличие URL суффикса',
 	'(Sec.)' => '(Сек.)',
 	'KodiCMS API key' => 'Ключ KodiCMS API',
 	'Ace settings' => 'Ace',
@@ -169,11 +167,11 @@ return array(
 	'Login: :login' => 'Логин: :login',
 	'Password: :password' => 'Пароль: :password',
     
-	'Message sended from' => 'Сообщение отправлено с сайта',
+	'Message has been sent from' => 'Сообщение отправлено с сайта',
 	'Your new password from :site_name' 
 		=> 'Ваш новый пароль от сайта :site_name',
 
-    'Sorry, an error has occured, Requested page not found!' 
+    'Sorry, an error has occurred, Requested page not found!' 
 		=> 'Извините, произошла ошибка. Запрошенной страницы не существует!',
 	
 	/*********************** Languages *******************/

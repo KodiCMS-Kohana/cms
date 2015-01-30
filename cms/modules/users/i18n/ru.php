@@ -15,7 +15,7 @@ return array(
 		=> 'Не менее :num символов.',
 	
 	'An email has been send with your new password!' 
-		=> 'На вашу эл. почту отпавлено письмо с новым паролем!',
+		=> 'На вашу эл. почту отправлено письмо с новым паролем!',
 	'Name' => 'Имя',
 	'Password' => 'Пароль',
 	'Password:' => 'Пароль:',
@@ -52,9 +52,10 @@ return array(
 	'View roles' => 'Видеть раздел',
 	'Add new roles' => 'Добавлять новые роли',
 	'Edit roles' => 'Редактировать информацию',
-	'Change role permissions' => 'Редактировать привелегии',
+	'Change role permissions' => 'Редактировать привилегии',
 	'Delete roles' => 'Удалять роли',
 	'Section' => 'Раздел',
 	'Section permissions' => 'Доступ к разделам',
-	'View user permissions' => 'Видеть права пользователя'
+	'View user permissions' => 'Видеть права пользователя',
+	'You don\'t have permissions to :permission' => 'У вас нет прав на :permission',
 );

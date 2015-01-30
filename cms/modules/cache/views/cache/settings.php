@@ -36,7 +36,7 @@
 	<hr class="panel-wide" />
 
 	<div class="form-group">
-		<label class="control-label col-md-3"><?php echo __('Pages cache time'); ?></label>
+		<label class="control-label col-md-3"><?php echo __('Pages cache lifetime'); ?></label>
 		<div class="col-md-3">
 			<div class="input-group">
 				<?php echo Form::input('setting[cache][front_page]', (int) Config::get('cache', 'front_page'), array(
@@ -48,7 +48,7 @@
 	</div>
 	
 	<div class="form-group">
-		<label class="control-label col-md-3"><?php echo __('Page parts cache time'); ?></label>
+		<label class="control-label col-md-3"><?php echo __('Page parts cache lifetime'); ?></label>
 		<div class="col-md-3">
 			<div class="input-group">
 				<?php echo Form::input('setting[cache][page_parts]', (int) Config::get('cache', 'page_parts'), array(
@@ -60,7 +60,7 @@
 	</div>
 	
 	<div class="form-group">
-		<label class="control-label col-md-3"><?php echo __('Page tags cache time'); ?></label>
+		<label class="control-label col-md-3"><?php echo __('Page tags cache lifetime'); ?></label>
 		<div class="col-md-3">
 			<div class="input-group">
 				<?php echo Form::input('setting[cache][tags]', (int) Config::get('cache', 'tags'), array(

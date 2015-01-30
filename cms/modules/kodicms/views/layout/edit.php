@@ -47,7 +47,7 @@
 
 	<?php if($layout->is_exists() AND !$layout->is_writable()): ?>
 	<div class="panel-default alert alert-danger alert-dark no-margin-b">
-		<?php echo __('Layout is not writeable'); ?>
+		<?php echo __('File is not writable'); ?>
 	</div>
 	<?php elseif (ACL::check('layout.edit')): ?>
 	<div class="form-actions panel-footer">

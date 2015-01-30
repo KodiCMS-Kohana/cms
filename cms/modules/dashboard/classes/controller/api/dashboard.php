@@ -92,7 +92,9 @@ class Controller_API_Dashboard extends Controller_System_Api {
 	{
 		if (!ACL::check('dshboard.empty'))
 		{
-			throw HTTP_API_Exception::factory(API::ERROR_PERMISSIONS, 'You dont hanve permissions to empty dashboard');
+			throw HTTP_API_Exception::factory(API::ERROR_PERMISSIONS, 'You don\'t have permission to :permission', array(
+				':permission' => __('Empty dashboard')
+			));;
 		}
 
 		Dashboard::remove_data();

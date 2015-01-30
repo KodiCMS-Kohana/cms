@@ -14,7 +14,9 @@ class Controller_API_Plugins extends Controller_System_API
 	{
 		if (!ACL::check('plugins.index'))
 		{
-			throw HTTP_API_Exception::factory(API::ERROR_PERMISSIONS, 'You dont hanve permissions to view plugin');
+			throw HTTP_API_Exception::factory(API::ERROR_PERMISSIONS, 'You don\'t have permission to :permission', array(
+				':permission' => __('View plugin')
+			));
 		}
 
 		$plugins = array();
@@ -31,7 +33,9 @@ class Controller_API_Plugins extends Controller_System_API
 	{
 		if (!ACL::check('plugins.change_status'))
 		{
-			throw HTTP_API_Exception::factory(API::ERROR_PERMISSIONS, 'You dont hanve permissions to install or uninstall plugin');
+			throw HTTP_API_Exception::factory(API::ERROR_PERMISSIONS, 'You don\'t have permission to :permission', array(
+				':permission' => __('Install or uninstall plugin')
+			));
 		}
 
 		Plugins::find_all();

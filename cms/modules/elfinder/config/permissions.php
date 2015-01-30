@@ -4,7 +4,7 @@ return array(
 	'filemanager' => array(
 		array(
 			'action' => 'index',
-			'description' => 'View filemanager'
+			'description' => 'View File manager'
 		),
 		array(
 			'action' => 'mkdir',

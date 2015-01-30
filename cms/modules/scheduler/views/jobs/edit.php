@@ -33,7 +33,7 @@
 	</div>
 	
 	<div class="panel-heading" data-icon="clock-o">
-		<span class="panel-title"><?php echo __('Runing options'); ?></span>
+		<span class="panel-title"><?php echo __('Running options'); ?></span>
 	</div>
 	<div class="panel-body">
 		<div class='well form-inline'>

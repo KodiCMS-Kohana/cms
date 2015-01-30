@@ -29,7 +29,9 @@ class Controller_API_Update extends Controller_System_API {
 	{
 		if (!ACL::check('update.database_apply'))
 		{
-			throw HTTP_API_Exception::factory(API::ERROR_PERMISSIONS, 'You dont hanve permissions to update database');
+			throw HTTP_API_Exception::factory(API::ERROR_PERMISSIONS, 'You don\'t have permission to :permission', array(
+				':permission' => __('Update database')
+			));
 		}
 			
 		$db_sql = Database_Helper::schema();
