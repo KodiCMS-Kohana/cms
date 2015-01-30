@@ -842,8 +842,9 @@ cms.ui.add('flags', function() {
 		else
 			$callback = function(response) {};
 		
-		var $method = $self.data('method');
-		var $reload = $self.data('reload');
+		var $method = $self.data('method'),
+			$reload = $self.data('reload'),
+			$params = $self.data('params');
 		
 		if($reload) {
 			if($reload === true)
@@ -852,8 +853,10 @@ cms.ui.add('flags', function() {
 				$callback = function() { window.location = $reload}
 		}
 		
-		if( ! $method) $method = 'GET';
-		Api.request($method, $url, null, $callback);
+		if (!$method)
+			$method = 'GET';
+
+		Api.request($method, $url, $params, $callback);
 	})
 }).add('select_all_checkbox', function() {
 	$(document).on('change', 'input[name="check_all"]', function(e) {
