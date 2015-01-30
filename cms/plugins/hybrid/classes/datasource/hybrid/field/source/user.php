@@ -106,7 +106,6 @@ class DataSource_Hybrid_Field_Source_User extends DataSource_Hybrid_Field_Source
 
 	public static function fetch_widget_field($widget, $field, $row, $fid)
 	{
-		echo debug::vars($row);
 		return !empty($row[$fid]) 
 			? array(
 				'username' => $row[$fid . '::username'],
