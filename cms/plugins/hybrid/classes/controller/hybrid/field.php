@@ -170,6 +170,7 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 		$this->template->content = View::factory('datasource/hybrid/field/edit', array(
 			'ds' => $ds,
 			'field' => $this->field,
+			'column_exists' => DataSource_Hybrid_Field_Factory::is_column_exists($this->field),
 			'type' => $this->field->type,
 			'sections' => $this->_get_sections(),
 			'post_data' => Session::instance()->get_once('post_data', array())
@@ -188,16 +189,6 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 			Session::instance()->set('post_data', $this->request->post());
 			Messages::errors($e->errors('validation'));
 			$this->go_back();
-		}
-		catch (Database_Exception $e)
-		{
-			switch ($e->getCode())
-			{
-				case '42S22':
-					$ds = $this->section($field->ds_id);
-					DataSource_Hybrid_Field_Factory::create_field($ds->record(), $field);
-					break;
-			}
 		}
 		catch (Kohana_Exception $e)
 		{

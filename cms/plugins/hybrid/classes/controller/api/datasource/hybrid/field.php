@@ -91,6 +91,26 @@ class Controller_Api_Datasource_Hybrid_Field extends Controller_System_API
 		}
 	}
 	
+	public function post_repair()
+	{
+		$field = $this->_get_field();
+
+		if (!DataSource_Hybrid_Field_Factory::is_column_exists($field))
+		{
+			$ds = Datasource_Data_Manager::load($field->ds_id);
+			if (!$ds->loaded())
+			{
+				throw HTTP_API_Exception::factory(API::ERROR_UNKNOWN, 'Datasource section :id not found', array(
+					':id' => $field->ds_id
+				));
+			}
+
+			DataSource_Hybrid_Field_Factory::create_field($ds->record(), $field);
+			$this->message('Field ":field" repaired', array(':field' => $field->header));
+			$this->response(TRUE);
+		}
+	}
+	
 	protected function _get_field()
 	{
 		$field_id = $this->param('id', NULL, TRUE);

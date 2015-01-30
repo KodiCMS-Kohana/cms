@@ -360,7 +360,7 @@ class DataSource_Hybrid_Field_Factory {
 	 * @param DataSource_Hybrid_Field $field
 	 * @return boolean
 	 */
-	public static function alter_table_add_field($field) 
+	public static function alter_table_add_field(DataSource_Hybrid_Field $field) 
 	{
 		$db = Database::instance();
 		$params = array(
@@ -392,7 +392,7 @@ class DataSource_Hybrid_Field_Factory {
 	 * @param DataSource_Hybrid_Field $field
 	 * @return boolean
 	 */
-	public static function alter_table_drop_field($field)
+	public static function alter_table_drop_field(DataSource_Hybrid_Field $field)
 	{
 		$db = Database::instance();
 		$params = array(
@@ -410,10 +410,11 @@ class DataSource_Hybrid_Field_Factory {
 	/**
 	 * Обновление поля в таблице раздела
 	 * 
+	 * @param DataSource_Hybrid_Field $old
 	 * @param DataSource_Hybrid_Field $field
 	 * @return boolean
 	 */
-	public static function alter_table_update_field($old, $field)
+	public static function alter_table_update_field(DataSource_Hybrid_Field $old, DataSource_Hybrid_Field$field)
 	{
 		$db = Database::instance();
 		$params = array(
@@ -439,11 +440,11 @@ class DataSource_Hybrid_Field_Factory {
 	/**
 	 * Добавление индекса для поля
 	 * 
-	 * @param string $field
+	 * @param DataSource_Hybrid_Field $field
 	 * @param string $type
 	 * @return boolean
 	 */
-	public static function alter_table_field_add_index($field, $type = self::INDEX_INDEX) 
+	public static function alter_table_field_add_index(DataSource_Hybrid_Field $field, $type = self::INDEX_INDEX) 
 	{
 		$db = Database::instance();
 		$params = array(
@@ -462,11 +463,10 @@ class DataSource_Hybrid_Field_Factory {
 	/**
 	 * Удаление индекса из поля
 	 * 
-	 * @param string $field
-	 * @param string $type
+	 * @param DataSource_Hybrid_Field $field
 	 * @return boolean
 	 */
-	public static function alter_table_field_drop_index($field) 
+	public static function alter_table_field_drop_index(DataSource_Hybrid_Field $field) 
 	{
 		$db = Database::instance();
 		$params = array(
@@ -481,7 +481,12 @@ class DataSource_Hybrid_Field_Factory {
 			->execute();
 	}
 	
-	public static function is_index($field)
+	/**
+	 * 
+	 * @param DataSource_Hybrid_Field $field
+	 * @return boolean
+	 */
+	public static function is_index(DataSource_Hybrid_Field $field)
 	{
 		$db = Database::instance();
 		$params = array(
@@ -495,4 +500,26 @@ class DataSource_Hybrid_Field_Factory {
 			->parameters($params)
 			->execute();
 	}
+	
+	/**
+	 * 
+	 * @param DataSource_Hybrid_Field $field
+	 * @return boolean
+	 */
+	public static function is_column_exists(DataSource_Hybrid_Field $field)
+	{
+		$db = Database::instance();
+		
+		$params = array(
+			':table' => DB::expr($db->quote_table($field->ds_table)),
+			':key' => DB::expr($field->name)
+		);
+		
+		return (bool) DB::query(NULL,
+			'SHOW COLUMNS FROM :table LIKE ":key"'
+		)
+			->parameters($params)
+			->execute();
+	}
+	
 }
