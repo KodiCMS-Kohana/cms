@@ -33,14 +33,17 @@ function sort_by_rand($field) {
 	<div class="form-group form-inline">
 		<label class="control-label col-md-3" for="doc_uri"><?php echo __('Document page (URI)'); ?></label>
 		<div class="col-md-9">
-			<?php echo Form::input( 'doc_uri', $widget->doc_uri, array(
+			<?php echo Form::input('doc_uri', $widget->doc_uri, array(
 				'class' => 'form-control', 'id' => 'doc_uri'
-			) ); ?>
+			)); ?>
+			<p class="help-block"><?php echo __('Example - :example', array(
+				':example' => '/news/:id, /news/:field_name, /profile/:author.username'
+			)); ?></p>
 		</div>
 	</div>
 
 	<div class="form-group form-inline">
-		<label class="control-label col-md-3" for="doc_id"><?php echo __('Identificator field'); ?></label>
+		<label class="control-label col-md-3" for="doc_id"><?php echo __('Identificator field'); ?><br /><small class="text-muted">Deprecated</small></label>
 		<div class="col-md-9">
 			<?php echo Form::input( 'doc_id', $widget->doc_id, array(
 				'class' => 'form-control', 'id' => 'doc_id'

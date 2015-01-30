@@ -252,22 +252,63 @@ class Model_Widget_Hybrid_Headline extends Model_Widget_Decorator_Pagination {
 				}
 			}
 
+			
 			$doc_params = array();
-			foreach ($href_params as $field)
+			if (!empty($href_params))
 			{
-				if (!isset($doc[$field]))
+				foreach ($href_params as $field)
 				{
-					continue;
+					if (!isset($doc[$field]))
+					{
+						continue;
+					}
+
+					$doc_params[] = $doc[$field];
 				}
-
-				$doc_params[] = $doc[$field];
+				
+				$doc['href'] = URL::site($this->doc_uri . implode('/', $doc_params));
 			}
-
-			$doc['href'] = URL::site($this->doc_uri . implode('/', $doc_params));
+			else
+			{
+				
+				$doc_params = $this->build_url_params($doc);
+				$doc['href'] = URL::site(strtr($this->doc_uri, $doc_params));
+			}
+			
+			unset($doc_params);
 		}
 
 		$this->docs = $result;
 		return $result;
+	}
+	
+	/**
+	 * 
+	 * @param array $data
+	 * @param string $preffix
+	 * @return array
+	 */
+	public function build_url_params(array $data, $preffix = NULL)
+	{
+		$params = array();
+		
+		foreach ($data as $field => $value)
+		{
+			if(is_array($value))
+			{
+				$params += $this->build_url_params($value, $field);
+			}
+			else
+			{
+				$field = $preffix === NULL 
+					? $field 
+					: $preffix . '.' . $field;
+
+				$params[':' . $field] = $value;
+			}
+		}
+		
+		return $params;
 	}
 
 	/**
@@ -276,7 +317,10 @@ class Model_Widget_Hybrid_Headline extends Model_Widget_Decorator_Pagination {
 	 */
 	protected function _parse_doc_id()
 	{
-		return explode(',', $this->doc_id);
+		$id = $this->doc_id;
+		return empty($id) 
+			? NULL 
+			: explode(',', $this->doc_id);
 	}
 	
 	/**
