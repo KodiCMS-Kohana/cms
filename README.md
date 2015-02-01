@@ -67,6 +67,7 @@ KodiCMS основана на базе [Kohana framework](http://kohanaframework
 	Также необходимо установить права на запись и чтение для следующих папок:
 	* `cms/logs`
 	* `cms/cache`
+	* `cms/tmp`
 	* `layouts`
 	* `snippets`
 

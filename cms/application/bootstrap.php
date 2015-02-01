@@ -118,7 +118,7 @@ if (isset($_SERVER['HTTP_HOST']))
 Kohana::init( array(
 	'base_url'				=> '/',
 	'index_file'			=> FALSE,
-	'cache_dir'				=> CMSPATH.'cache',
+	'cache_dir'				=> CMSPATH . 'cache',
 	'caching'				=> Kohana::$environment < Kohana::DEVELOPMENT,
 	'profile'				=> Kohana::$environment > Kohana::PRODUCTION,
 	'errors'				=> TRUE
@@ -129,7 +129,7 @@ define('CMS_SITE',			'http://www.kodicms.ru');
 define('CMS_VERSION',		'13.82.135');
 
 define('PUBLICPATH',		DOCROOT . 'public' . DIRECTORY_SEPARATOR);
-define('TMPPATH',			PUBLICPATH . 'temp' . DIRECTORY_SEPARATOR);
+define('TMPPATH',			CMSPATH . 'tmp' . DIRECTORY_SEPARATOR);
 define('LAYOUTS_SYSPATH',	DOCROOT . 'layouts' . DIRECTORY_SEPARATOR);
 define('SNIPPETS_SYSPATH',	DOCROOT . 'snippets' . DIRECTORY_SEPARATOR);
 
