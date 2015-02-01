@@ -1,19 +1,57 @@
-wiki/*
-nbproject/*
+# Config
 /config.php
-/cms/cache/*
+
+# Logs
 /cms/logs/*
-/cms/media/libs/kodicms/*
-!/cms/cache/*.html
-!/cms/cache/tags/
-!/cms/cache/tags/*.html
 !/cms/logs/*.html
-/.idea/
+
+# Cache
+/cms/cache/*
+!/cms/cache/*.html
+!/cms/cache/tags/*
+!/cms/cache/tags/*.html
+!/cms/cache/i18n/*
+!/cms/cache/i18n/*.html
+
+# Databases
+/cms/db/*
+!/cms/db/*.html
+
+# Databases
+/cms/media/libs/kodicms/*
+
+# Public files
 /public/*
 !/public/*.html
-cms/media/js/i18n
-/snippets/*
-/layouts/*
+
+# Patches
 /patches/*
+
+# Layouts
+/layouts/*
 !/layouts/index.html
+
+# Snippets
+/snippets/*
 !/snippets/index.html
+
+.DS_Store
+
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes
+
+# PhpStorm
+.idea
+
+# NetBeans
+nbproject
+
+# SublimeText project files
+/*.sublime-project
+
+# Windows image file caches
+Thumbs.db
+
+# Folder config file
+Desktop.ini
