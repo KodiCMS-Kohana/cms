@@ -95,6 +95,19 @@ class Controller_API_Plugins extends Controller_System_API
 		
 		$this->response($repo_plugins);
 	}
+	
+	public function get_install_from_rep()
+	{
+		if (!ACL::check('plugins.download'))
+		{
+			throw HTTP_API_Exception::factory(API::ERROR_PERMISSIONS, 'You don\'t have permission to :permission', array(
+				':permission' => __('Download plugin')
+			));
+		}
+		
+		$name = $this->param('name', NULL, TRUE);
+		register_shutdown_function(array('Update', 'install_plugin'), $name);
+	}
 
 	protected function _get_info(Plugin $plugin)
 	{

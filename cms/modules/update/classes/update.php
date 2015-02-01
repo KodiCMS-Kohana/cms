@@ -189,6 +189,52 @@ class Update {
 			)
 		))->execute()->body();
 	}
+	
+	public static function install_plugin($name)
+	{
+		$url = 'https://github.com/KodiCMS/' . $name . '/archive/master.zip';
+		
+		try
+		{
+			$file = Upload::from_url($url, NULL, $name, array('zip'));
+			$zip = new ZipArchive;
+			$res = $zip->open(TMPPATH . $file);
+			if ($res === TRUE)
+			{
+				$zip->extractTo(TMPPATH);
+				$zip->close();
+				unlink(TMPPATH . $file);
+				
+				if(file_exists(TMPPATH . $name . '-master' . DIRECTORY_SEPARATOR . 'init' . EXT))
+				{
+					$content = file_get_contents(TMPPATH . $name . '-master' . DIRECTORY_SEPARATOR . 'init' . EXT);
+					preg_match("/Plugin\:\:factory\(\'([\w\-]+)\'/i", $content, $matches);
+					
+					if (!empty($matches[1]))
+					{
+						$time = time();
+
+						$plugin_path = PLUGPATH . $matches[1];
+						if (is_dir($plugin_path))
+						{
+							rename($plugin_path, TMPPATH . 'plugins' . DIRECTORY_SEPARATOR . $matches[1] . '_' . $time);
+						}
+						
+						rename(TMPPATH . $name . '-master', $plugin_path);
+					}
+					else
+					{
+						unlink(TMPPATH . $name . '-master');
+					}
+				}
+				
+			}
+		} 
+		catch (Exception $ex) 
+		{
+			echo Debug::vars($ex->getMessage());
+		}
+	}
 
 	/**
 	 * Подсчет кол-ва строк в файле
