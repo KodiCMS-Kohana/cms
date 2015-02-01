@@ -117,11 +117,18 @@ KodiCMS is a CMS based on [Kohana framework](http://kohanaframework.org/).
 			include fastcgi_params;
 		}
 	
-		# Блокируем доступ для всех скрытых файлов,
-		# таких как .htaccess, .git, .svn и т.д.
-		location ~ /\.ht {
-			deny all;
-		}
+		# Блокируем доступ извне, к файлам и папкам:
+			# таким как .htaccess
+			location ~ /\.ht {
+				deny all;
+				return 404;
+			}
+
+			# а также каталогов .git, .svn
+			location ~.(git|svn) {
+	        	deny  all;
+	            return 404;
+	        }
 	}
 
 
