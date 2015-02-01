@@ -70,6 +70,7 @@ KodiCMS основана на базе [Kohana framework](http://kohanaframework
 	* `cms/tmp`
 	* `layouts`
 	* `snippets`
+	* `public`
 
 	Через консоль можно сделать с помощью команды `chmod -R a+rwx ...`, например `chmod -R a+rwx cms/cache`
 
