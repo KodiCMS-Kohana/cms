@@ -164,7 +164,7 @@
 						<table class="table table-striped">
 							<?php foreach ($GLOBALS[$var] as $key => $value): ?>
 							<tr>
-								<td><code><?php echo htmlspecialchars( (string) $key, ENT_QUOTES, Kohana::$charset, TRUE); ?></code></td>
+								<td><code><?php echo htmlspecialchars((string) $key, ENT_QUOTES, Kohana::$charset, TRUE); ?></code></td>
 								<td><pre class="language-php"><?php echo Debug::dump($value) ?></pre></td>
 							</tr>
 							<?php endforeach ?>

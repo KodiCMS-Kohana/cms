@@ -9,6 +9,6 @@
 	<div class="error-text"><span class="oops"><?php echo $error_type; ?></span></div>
 	<div class="error-text">
 		<span class="hr"></span>
-		<p><?php echo $message; ?></p>
+		<p><?php echo htmlspecialchars((string) $message, ENT_QUOTES, Kohana::$charset, TRUE); ?></p>
 	</div>
 </div>
