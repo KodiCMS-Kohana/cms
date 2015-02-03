@@ -25,7 +25,7 @@ var cms = {
 				}
 
 				if($type == 'error'){
-					cms.error_field(text, $messages[text]);
+					cms.error_field(text, decodeURIComponent($messages[text]));
 				}
 
 				this.show($messages[text], $type);
@@ -37,7 +37,7 @@ var cms = {
 			var title = type.charAt(0).toUpperCase() + type.slice(1);
 			window.top.$.pnotify({
 				title: __(title),
-				text: msg,
+				text: decodeURIComponent(msg),
 				sticker: false,
 				nonblock: true,
 				delay: 4000,

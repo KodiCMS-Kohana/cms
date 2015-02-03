@@ -23,7 +23,7 @@ class KodiCMS_Controller_System_Error extends Controller_System_Frontend {
 
 		if (Request::initial() !== Request::current())
 		{
-			if ($message = rawurldecode($this->request->param('message')))
+			if ($message = rawurldecode(urldecode($this->request->param('message'))))
 			{
 				$this->template->content->message = $message;
 			}
