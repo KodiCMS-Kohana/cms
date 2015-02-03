@@ -1353,6 +1353,11 @@ if (typeof define !== 'undefined' && define.amd) {
 				};
 			})(this), 20);
 		}
+		
+		$('.navigation > li:has(ul)', this.$menu).each(function() {
+			if($('> ul > li', this).size() < 1)
+				$(this).remove();
+		});
 		this.setupAnimation();
 		$(window).on('resize.pa.mm', $.proxy(this.onResize, this));
 		this.onResize();
