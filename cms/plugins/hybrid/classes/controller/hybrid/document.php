@@ -21,6 +21,15 @@ class Controller_Hybrid_Document extends Controller_System_Datasource_Document
 	
 	protected function _load_session_data($doc)
 	{
-		return parent::_load_session_data($doc)->convert_values();
+		$doc = parent::_load_session_data($doc);
+
+		if ($doc->loaded())
+		{
+			return $doc->convert_values();
+		}
+		else
+		{
+			return $doc->default_values();
+		}
 	}
 }

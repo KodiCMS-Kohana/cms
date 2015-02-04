@@ -227,6 +227,20 @@ class DataSource_Hybrid_Document extends Datasource_Document {
 	}
 	
 	/**
+	 * 
+	 * @return \DataSource_Hybrid_Document
+	 */
+	public function default_values() 
+	{
+		foreach ($this->section()->record()->fields() as $key => $field)
+		{
+			$this->{$key} = $field->default_value();
+		}
+
+		return $this;
+	}
+	
+	/**
 	 * Сброс значений полей документа
 	 * 
 	 * @return \DataSource_Hybrid_Document

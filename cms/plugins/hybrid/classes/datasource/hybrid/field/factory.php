@@ -371,13 +371,14 @@ class DataSource_Hybrid_Field_Factory {
 			':default' => DB::expr('DEFAULT ""')
 		);
 		
-		if($field->default_value() === FALSE)
+		$default = $field->db_default_value();
+		if($default === FALSE)
 		{
 			$params[':default'] = DB::expr('');
 		}
-		else if ($field->default_value() !== NULL)
+		else if ($default !== NULL)
 		{
-			$params[':default'] = DB::expr('DEFAULT :value')->param(':value', $field->default_value());
+			$params[':default'] = DB::expr('DEFAULT :value')->param(':value', $default);
 		}
 
 		return (bool) DB::query(NULL, 
@@ -426,13 +427,14 @@ class DataSource_Hybrid_Field_Factory {
 			':default' => DB::expr('DEFAULT ""')
 		);
 		
-		if($field->default_value() === FALSE)
+		$default = $field->db_default_value();
+		if($default === FALSE)
 		{
 			$params[':default'] = DB::expr('');
 		}
-		else if ($field->default_value() !== NULL)
+		else if ($default !== NULL)
 		{
-			$params[':default'] = DB::expr('DEFAULT :value')->param(':value', $field->default_value());
+			$params[':default'] = DB::expr('DEFAULT :value')->param(':value', $default);
 		}
 
 		return (bool) DB::query(NULL, 

@@ -19,16 +19,30 @@ class DataSource_Hybrid_Field_Primitive_Date extends DataSource_Hybrid_Field_Pri
 	/**
 	 * return string
 	 */
-	public function default_value()
+	public function db_default_value()
 	{
 		if (Valid::date($this->default))
 		{
-			return date($this->_format, strtotime($this->default));
+			return $this->format_date($this->default);
 		}
 		else
 		{
 			return FALSE;
 		}
+	}
+	
+	/**
+	 * 
+	 * @return string
+	 */
+	public function default_value()
+	{
+		if ($this->set_current === TRUE)
+		{
+			$this->default = date($this->_format);
+		}
+
+		return $this->db_default_value();
 	}
 	
 	public function booleans()
@@ -38,11 +52,6 @@ class DataSource_Hybrid_Field_Primitive_Date extends DataSource_Hybrid_Field_Pri
 	
 	public function onSetValue($value, DataSource_Hybrid_Document $doc)
 	{
-		if ($this->set_current === TRUE)
-		{
-			$this->default = date($this->_format);
-		}
-
 		return parent::onSetValue($value, $doc);
 	}
 
@@ -58,9 +67,9 @@ class DataSource_Hybrid_Field_Primitive_Date extends DataSource_Hybrid_Field_Pri
 	
 	public function format_date($value)
 	{
-		if (!empty($value))
+		if (Valid::date($value))
 		{
-			$time = (int) strtotime($value);
+			$time = strtotime($value);
 		}
 		else
 		{
