@@ -1,12 +1,13 @@
 cms.plugins.ckeditor = {};
 
 CKEDITOR.disableAutoInline = true;
-CKEDITOR.editorConfig = function( config ) {
-    config.filebrowserBrowseUrl = '/backend/elfinder/';
-};
+CKEDITOR.config.extraPlugins = 'images-browser';
+CKEDITOR.config.simpleImageBrowserURL = '/api-media.images';
+
 cms.plugins.ckeditor.switchOn_handler = function (textarea_id, params) {
 	params = $.extend({
 		skin: 'bootstrapck',
+		filebrowserBrowseUrl: '/backend/elfinder/',
 		height: 200
 	}, params);
 	var editor = CKEDITOR.replace(textarea_id, params);
