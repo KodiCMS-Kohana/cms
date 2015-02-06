@@ -165,7 +165,7 @@ class KodiCMS_UI {
 		{
 			$attributes['class'] = array();
 		}
-		else
+		else if (!is_array($attributes['class']))
 		{
 			$attributes['class'] = explode(' ', $attributes['class']);
 		}
