@@ -2,6 +2,7 @@
 
 return array(
 	'Primitive' => array(
+		'primitive_primary' => 'Primary',
 		'primitive_boolean' => 'Boolean',
 	
 		// Text

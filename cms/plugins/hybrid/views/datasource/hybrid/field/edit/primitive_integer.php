@@ -32,3 +32,15 @@
 		)); ?>
 	</div>
 </div>
+
+<div class="form-group">
+	<div class="col-md-offset-3 col-md-9">
+		<div class="checkbox">
+			<label>
+				<?php echo Form::checkbox('auto_increment', 1, $field->auto_increment == 1, array(
+					'id' => 'auto_increment'
+				)); ?> <?php echo __('Auto increment'); ?>
+			</label>
+		</div>
+	</div>
+</div>
