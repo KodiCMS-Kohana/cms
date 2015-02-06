@@ -104,6 +104,7 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 			
 			$field = DataSource_Hybrid_Field::factory($type, $data);
 			$field_id = DataSource_Hybrid_Field_Factory::create_field($ds->record(), $field);
+			$field->onCreate();
 		}
 		catch (Validation_Exception $e)
 		{
@@ -183,6 +184,7 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 		{
 			$field->set($this->request->post());
 			DataSource_Hybrid_Field_Factory::update_field(clone($field), $field);
+			$field->onUpdate();
 		}
 		catch (Validation_Exception $e)
 		{

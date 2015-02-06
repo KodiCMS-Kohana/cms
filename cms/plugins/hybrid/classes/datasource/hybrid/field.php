@@ -954,6 +954,17 @@ abstract class DataSource_Hybrid_Field {
 	{
 		$this->include_media();
 	}
+	
+	
+	/**
+	 * Событие вызываемое после создания поля
+	 */
+	public function onCreate() {}
+	
+	/**
+	 * Событие вызываемое после обновления поля
+	 */
+	public function oUpdate() {}
 
 	/**
 	 * Тип поля в БД
