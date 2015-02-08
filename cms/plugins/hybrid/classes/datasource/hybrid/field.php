@@ -964,7 +964,7 @@ abstract class DataSource_Hybrid_Field {
 	/**
 	 * Событие вызываемое после обновления поля
 	 */
-	public function oUpdate() {}
+	public function onUpdate() {}
 
 	/**
 	 * Тип поля в БД
