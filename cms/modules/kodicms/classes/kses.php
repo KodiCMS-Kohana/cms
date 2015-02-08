@@ -228,8 +228,10 @@ class Kses
 		}, $string);
 		$string = $this->normalizeEntities($string);
 		$string = $this->filterKsesTextHook($string);
-		$string = preg_replace_callback('%(<' . '[^>]*' . '(>|$)' . '|>)%', function($match) {
-			return $this->stripTags($match[1]);
+		
+		$that = $this;
+		$string = preg_replace_callback('%(<' . '[^>]*' . '(>|$)' . '|>)%', function($match) use($that){
+			return $that->stripTags($match[1]);
 		}, $string);
 		return $string;
 	}
@@ -614,11 +616,11 @@ class Kses
 		);
 
 		#	Change numeric entities to valid 16 bit values
-
+		$that = $this;
 		$string = preg_replace_callback(
 			'/&amp;#0*([0-9]{1,5});/',
-			function($match) {
-				return $this->normalizeEntities16bit($match[1]);
+			function($match) use($that){
+				return $that->normalizeEntities16bit($match[1]);
 			},
 			$string
 		);
@@ -1037,14 +1039,15 @@ class Kses
 		}, $string); # deals with Opera "feature"
 		$string2 = $string . 'a';
 
+		$that = $this;
 		while ($string != $string2)
 		{
 			$string2 = $string;
 			$string  = preg_replace_callback(
 				'/^((&[^;]*;|[\sA-Za-z0-9])*)'.
 				'(:|&#58;|&#[Xx]3[Aa];)\s*/',
-				function($match) {
-					return $this->filterProtocols($match[1]);
+				function($match) use($that){
+					return $that->filterProtocols($match[1]);
 				},
 				$string
 			);
