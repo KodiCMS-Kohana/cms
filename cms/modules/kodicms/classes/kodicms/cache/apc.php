@@ -26,10 +26,10 @@ class KodiCMS_Cache_Apc extends Kohana_Cache_Apc implements Cache_Tagging {
 		$tag_key = "internal_tags:tag:{$tag}";
 		foreach ($this->find($tag_key) as $stored_key => $nothing)
 		{
-			$this->remove($stored_key);
+			$this->delete($stored_key);
 		}
 
-		$this->remove($tag_key);
+		$this->delete($tag_key);
 	}
 
 	public function set_key_to_tag($id, $tag)
