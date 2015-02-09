@@ -47,7 +47,16 @@ $fetch_widgets = !empty($fetch_widgets) ? (bool) $fetch_widgets : TRUE;
 				<?php echo Form::label( 'field-' . $field->name . '-checkbox', $field->key); ?>
 			</td>
 			<td>
-				<?php echo HTML::anchor('/backend/hybrid/field/edit/' . $field->id, $field->header, array('target' => '_blank', 'class' => 'popup fancybox.iframe') ); ?>
+				<?php if ($field->has_access_edit()): ?>
+				<?php echo HTML::anchor(Route::get('datasources')->uri(array(
+					'controller' => 'field',
+					'directory' => 'hybrid',
+					'action' => 'edit',
+					'id' => $field->id
+				)), $field->header, array('target' => '_blank', 'class' => 'popup fancybox.iframe')); ?>
+				<?php else: ?>
+				<strong><?php echo $field->header; ?> </strong>
+				<?php endif; ?>
 			</td>
 			<td>
 				<?php
