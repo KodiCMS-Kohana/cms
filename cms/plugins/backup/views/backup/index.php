@@ -27,7 +27,7 @@
 	<div class="panel-heading" data-icon="upload">
 		<span class="panel-title"><?php echo __('Upload backup file'); ?></span>
 	</div>
-	<div class="panel-body">
+	<div class="panel-body no-padding">
 		<?php echo Form::open('api-backup.upload', array(
 			'enctype' => 'multipart/form-data',
 			'method' => Request::POST,

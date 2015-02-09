@@ -16,21 +16,19 @@ cms.init.add('backup_view', function() {
 });
 
 cms.init.add('backup_index', function() {
-	$(function() {
-		cms.uploader.options.acceptedFiles = '.zip,.sql';
-		cms.uploader.on('success', function(file, response) {
-            var self = this;
-			response = $.parseJSON(response);
-			if(response.code == 200)
-				Api.get('backup.list', {}, function(response) {
-                    $('#backups-list').html(response.response)
-                    
-                    self.removeFile(file);
-                });
-		});
-        
-        cms.uploader.on('error', function(file, response) {
-            
-        });
+	cms.uploader.options.acceptedFiles = '.zip,.sql';
+	cms.uploader.on('success', function(file, response) {
+		var self = this;
+		response = $.parseJSON(response);
+		if(response.code == 200)
+			Api.get('backup.list', {}, function(response) {
+				$('#backups-list').html(response.response)
+
+				self.removeFile(file);
+			});
+	});
+
+	cms.uploader.on('error', function(file, response) {
+
 	});
 });

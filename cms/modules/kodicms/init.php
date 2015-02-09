@@ -26,8 +26,9 @@ Assets_Package::add('notify')
 	->css(NULL, ADMIN_RESOURCES . 'libs/pnotify/jquery.pnotify.default.css', 'jquery');
 
 Assets_Package::add('dropzone')
-	->css(NULL, ADMIN_RESOURCES . 'libs/dropzone/css/basic.css', 'jquery')
-	->js(NULL, ADMIN_RESOURCES . 'libs/dropzone/dropzone.min.js', 'jquery');
+	->css(NULL, ADMIN_RESOURCES . 'libs/dropzone/min/basic.min.css', 'jquery')
+	->css(NULL, ADMIN_RESOURCES . 'libs/dropzone/min/dropzone.min.css', 'jquery')
+	->js(NULL, ADMIN_RESOURCES . 'libs/dropzone/min/dropzone.min.js', 'jquery');
 
 Assets_Package::add('fancybox')
 	->css(NULL, ADMIN_RESOURCES . 'libs/fancybox/jquery.fancybox.css', 'jquery')
