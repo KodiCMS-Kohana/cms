@@ -31,6 +31,13 @@ $fields[] = DataSource_Hybrid_Field::factory('primitive_datetime', array(
 	'header' => __('Created on')
 ));
 
+$fields[] = DataSource_Hybrid_Field::factory('primitive_boolean', array(
+	'family' => DataSource_Hybrid_Field::FAMILY_PRIMITIVE,
+	'name' => 'published',
+	'id' => 'published',
+	'header' => __('Published')
+));
+
 foreach ($fields as $field)
 {
 	if (!$field->is_sortable())

@@ -20,7 +20,7 @@ abstract class DataSource_Hybrid_Field_Primitive extends DataSource_Hybrid_Field
 
 	public function set_id($id)
 	{
-		if (in_array($id, array('id', 'header', 'created_on')))
+		if (in_array($id, array('id', 'header', 'created_on', 'published')))
 		{
 			$this->id = $id;
 			return $this;
