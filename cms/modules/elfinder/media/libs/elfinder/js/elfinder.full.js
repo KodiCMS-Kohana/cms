@@ -489,7 +489,7 @@ window.elFinder = function(node, opts) {
 	 *
 	 * @type String
 	 **/
-	this.cssClass = 'ui-widget ui-panel-body  elfinder panel elfinder-'+(this.direction == 'rtl' ? 'rtl' : 'ltr')+' '+this.options.cssClass;
+	this.cssClass = 'ui-widget ui-panel-body  elfinder panel no-margin lefinder-'+(this.direction == 'rtl' ? 'rtl' : 'ltr')+' '+this.options.cssClass;
 
 	/**
 	 * Method to store/fetch data
