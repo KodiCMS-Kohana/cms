@@ -1,6 +1,30 @@
 @import "custom-bootstrap.less";
 
 /* ===================================================
+	Dropzone
+ ===================================================*/
+.dropzone {
+	min-height: 0 !important; 
+	padding: 0 20px !important;
+	border: 3px dashed #1a7ab9 !important;
+	
+	.dz-message {
+		font-size: 18px;
+		margin: 20px 0 !important;
+	}
+
+	&.dz-drag-hover {
+		background: lighten(#1a7ab9, 20%);
+		border-color: #fff !important;
+
+		.dz-message {
+			color: #fff;
+			opacity: 1 !important;
+		}
+	}
+}
+
+/* ===================================================
 	Loader
  ===================================================*/
 ._loader_container {

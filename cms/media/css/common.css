@@ -26487,6 +26487,26 @@ a.editable-click.editable-disabled:hover {
   color: #fff !important;
 }
 /* ===================================================
+	Dropzone
+ ===================================================*/
+.dropzone {
+  min-height: 0 !important;
+  padding: 0 20px !important;
+  border: 3px dashed #1a7ab9 !important;
+}
+.dropzone .dz-message {
+  font-size: 18px;
+  margin: 20px 0 !important;
+}
+.dropzone.dz-drag-hover {
+  background: #52ace7;
+  border-color: #fff !important;
+}
+.dropzone.dz-drag-hover .dz-message {
+  color: #fff;
+  opacity: 1 !important;
+}
+/* ===================================================
 	Loader
  ===================================================*/
 ._loader_container {

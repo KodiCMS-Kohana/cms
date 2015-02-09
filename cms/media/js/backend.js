@@ -591,6 +591,13 @@ cms.ui.add('flags', function() {
 	});
 
 }).add('dropzone', function() {
+	// Disable auto discover for all elements:
+	Dropzone.autoDiscover = false;
+
+	if (!$('.dropzone').length) {
+		return;
+	};
+	
 	cms.uploader = new Dropzone('.dropzone', {
 		success: function(file, r) {
 			var response = $.parseJSON(r);
