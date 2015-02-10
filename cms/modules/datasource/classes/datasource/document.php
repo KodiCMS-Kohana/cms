@@ -952,5 +952,13 @@ class Datasource_Document implements ArrayAccess {
 	{
 		return $this->get($offset);
 	}
-
+	
+	/**
+	 * 
+	 * @return string ID
+	 */
+	public function __toString()
+	{
+		return (string) $this->id;
+	}
 }

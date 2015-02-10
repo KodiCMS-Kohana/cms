@@ -1140,4 +1140,13 @@ class Datasource_Section {
 
 		Search::instance()->remove_from_index('ds_' . $this->id(), $ids);
 	}
+	
+	/**
+	 * 
+	 * @return string ID
+	 */
+	public function __toString()
+	{
+		return (string) $this->id;
+	}
 }

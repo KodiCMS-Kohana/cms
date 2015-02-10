@@ -1085,4 +1085,13 @@ abstract class DataSource_Hybrid_Field {
 			$this->has_access('remove')
 		);
 	}
+	
+	/**
+	 * 
+	 * @return string ID
+	 */
+	public function __toString()
+	{
+		return (string) $this->id;
+	}
 }
