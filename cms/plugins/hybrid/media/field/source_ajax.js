@@ -27,7 +27,7 @@ $(function() {
 					url: $url,
 					data: function(query, pageNumber) {
 						return {
-							value: query,
+							key: query,
 							id: DOCUMENT_ID,
 							ds_id: SECTION_ID
 						}
@@ -46,7 +46,7 @@ $(function() {
 					if (id !== "") {
 						$.ajax($url, {
 							data: {
-								value: $self.val(),
+								key: $self.val(),
 								id: DOCUMENT_ID,
 								ds_id: SECTION_ID
 							},
