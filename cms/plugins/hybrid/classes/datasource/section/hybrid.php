@@ -343,11 +343,6 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 			throw new DataSource_Exception_Section('Datasource section not loaded');
 		}
 		
-		if (!$field->loaded())
-		{
-			throw new DataSource_Exception_Section('Field not loaded');
-		}
-		
 		if (DataSource_Hybrid_Field_Factory::create_field($this->record(), $field))
 		{
 			return TRUE;

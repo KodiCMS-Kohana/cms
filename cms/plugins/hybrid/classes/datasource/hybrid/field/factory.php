@@ -38,11 +38,14 @@ class DataSource_Hybrid_Field_Factory {
 	 */
 	public static function create_field(DataSource_Hybrid_Record $record, DataSource_Hybrid_Field $field)
 	{
+		if ($field->loaded())
+		{
+			return FALSE;
+		}
+
 		$field->name = self::get_full_key($field->name);
 		
 		$field->set_ds($record->ds_id());
-		$field->get_type();
-
 		if ($field->create())
 		{
 			if (self::alter_table_add_field($field))
