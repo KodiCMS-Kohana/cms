@@ -23,11 +23,6 @@ class DataSource_Hybrid_Field_Primitive_HTML extends DataSource_Hybrid_Field_Pri
 	{
 		return array('filter_html', 'remove_empty_tags');
 	}
-
-	public function set(array $data)
-	{
-		return parent::set($data);
-	}
 	
 	public function onSetValue($value, DataSource_Hybrid_Document $doc)
 	{
