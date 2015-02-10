@@ -153,6 +153,11 @@ return array(
 	'Index to field ":field" added' => 'Для поля ":field" добавлен индекс',
 	'Index field ":field" dropped' => 'Индекс поля ":field" удален',
 	
+	'Source (URL)' => 'Источник (URL)',
+	'Preload data' => 'Предварительная загрузка данных',
+	'Load remote data on page load' => 'Загрузка удаленных данных при загрузке страницы',
+	'The key is used for injection into the related widget' => 'Ключ используется для инъекции в связанный виджет', 
+	
 	'Only current user' => 'Только текущий пользователь',
 	'Set current user on create document' => 'При создании документа устанавливать текущего пользователя',
 	

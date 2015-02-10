@@ -27,6 +27,7 @@ return array(
 		'primitive_color' => 'Color',
 	),
 	'Source' => array(
+		'source_ajax' => 'AJAX',
 		'source_document' => 'Document',
 		'source_array' => 'Array of documents',
 		'source_tags' => 'Tags',

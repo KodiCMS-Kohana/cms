@@ -17,12 +17,12 @@ class DataSource_Hybrid_Field_Source_Free extends DataSource_Hybrid_Field_Source
 	
 	protected $_widget_types = array();
 	
-	public function __construct( array $data = NULL )
+	public function __construct(array $data = NULL)
 	{
-		parent::__construct( $data );
+		parent::__construct($data);
 		$this->family = DataSource_Hybrid_Field::FAMILY_SOURCE;
 	}
-	
+
 	public function set_inject_key($key)
 	{
 		if (empty($key))
@@ -50,7 +50,7 @@ class DataSource_Hybrid_Field_Source_Free extends DataSource_Hybrid_Field_Source
 	{
 		$related_widget = NULL;
 
-		Context::instance()->set($field->inject_key, explode(',', $row[$fid]));
+		Context::instance()->set($field->key . '_' . $field->inject_key, explode(',', $row[$fid]));
 
 		if ($recurse > 0 AND isset($widget->doc_fetched_widgets[$fid]))
 		{
@@ -64,4 +64,5 @@ class DataSource_Hybrid_Field_Source_Free extends DataSource_Hybrid_Field_Source
 			? $related_widget 
 			: $row[$fid];
 	}
+
 }
