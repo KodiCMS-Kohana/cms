@@ -14,6 +14,8 @@ return array(
 	'Add field' => 'Новое поле',
 	'Save and create another' => 'Сохранить и создать еще одно',
 	'Create field' => 'Создать',
+	'Field created' => 'Поле создано',
+	'Field updated' => 'Поле обновлено',
 	'Field ":field" repaired' => 'Поле ":field" исправлено',
 	'Missing field column ":column" in table ":table"' => 'В таблице ":table" отсутствует поле ":column"',
 	'Repair field' => 'Исправить',

@@ -93,7 +93,7 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 		));
 	}
 	
-	private function _add($ds)
+	private function _add(DataSource_Section_Hybrid $ds)
 	{
 		$data = $this->request->post();
 		
@@ -103,8 +103,7 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 			unset($data['type']);
 			
 			$field = DataSource_Hybrid_Field::factory($type, $data);
-			$field_id = DataSource_Hybrid_Field_Factory::create_field($ds->record(), $field);
-			$field->onCreate();
+			$ds->add_field($field);
 		}
 		catch (Validation_Exception $e)
 		{
@@ -117,12 +116,8 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 			Messages::errors($e->getMessage());
 			$this->go_back();
 		}
-		
-		if (!$field_id)
-		{
-			$this->go_back();
-		}
 
+		Messages::success(__('Field created'));
 		Session::instance()->delete('post_data');
 		
 		if ($this->request->post('save_and_create') !== NULL)
@@ -151,7 +146,7 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 
 		if ($this->request->method() === Request::POST)
 		{
-			return $this->_edit($this->field);
+			return $this->_edit($ds, $this->field);
 		}
 
 		$this->set_title(__('Edit field :field_name', array(':field_name' => $this->field->header)));
@@ -178,13 +173,11 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 		));
 	}
 	
-	private function _edit($field)
+	private function _edit(DataSource_Section_Hybrid $ds, $field)
 	{
 		try
 		{
-			$field->set($this->request->post());
-			DataSource_Hybrid_Field_Factory::update_field(clone($field), $field);
-			$field->onUpdate();
+			$ds->update_field($field, $this->request->post());
 		}
 		catch (Validation_Exception $e)
 		{
@@ -198,6 +191,7 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 			$this->go_back();
 		}
 		
+		Messages::success(__('Field updated'));
 		Session::instance()->delete('post_data');
 		
 		// save and quit or save and continue editing?

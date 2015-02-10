@@ -45,11 +45,12 @@ class DataSource_Hybrid_Field_Factory {
 
 		if ($field->create())
 		{
-			self::alter_table_add_field($field);
-
-			$record->fields[$field->name] = $field;
-
-			return $field->id;
+			if (self::alter_table_add_field($field))
+			{
+				$record->fields[$field->name] = $field;
+				$field->onCreate();
+				return $field->id;
+			}
 		}
 
 		return FALSE;
@@ -79,6 +80,8 @@ class DataSource_Hybrid_Field_Factory {
 				self::alter_table_update_field($old, $new);
 				break;
 		}
+		
+		$new->onUpdate();
 
 		return $new;
 	}

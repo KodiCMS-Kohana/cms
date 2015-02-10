@@ -331,6 +331,70 @@ class DataSource_Section_Hybrid extends Datasource_Section {
 	}
 	
 	/**
+	 * 
+	 * @param DataSource_Hybrid_Field $field
+	 * @return boolean
+	 * @throws DataSource_Exception_Section
+	 */
+	public function add_field(DataSource_Hybrid_Field $field)
+	{
+		if (!$this->loaded())
+		{
+			throw new DataSource_Exception_Section('Datasource section not loaded');
+		}
+		
+		if (!$field->loaded())
+		{
+			throw new DataSource_Exception_Section('Field not loaded');
+		}
+		
+		if (DataSource_Hybrid_Field_Factory::create_field($this->record(), $field))
+		{
+			return TRUE;
+		}
+
+		return FALSE;
+	}
+	
+	/**
+	 * 
+	 * @param integer|DataSource_Hybrid_Field $field
+	 * @param array $data
+	 * @return boolean
+	 * @throws DataSource_Exception_Section
+	 */
+	public function update_field($field, array $data = NULL)
+	{
+		if (!$this->loaded())
+		{
+			throw new DataSource_Exception_Section('Datasource section not loaded');
+		}
+		
+		if (($field instanceof DataSource_Hybrid_Field) === FALSE)
+		{
+			$field = DataSource_Hybrid_Field_Factory::get_field((int) $field);
+		}
+		
+		if (!$field->loaded())
+		{
+			throw new DataSource_Exception_Section('Field not found');
+		}
+		
+		if ($data !== NULL)
+		{
+			$field->set($data);
+		}
+
+		if (DataSource_Hybrid_Field_Factory::update_field(clone($field), $field))
+		{
+			return TRUE;
+		}
+		
+		return FALSE;
+	}
+
+
+	/**
 	 * Получение полного пути до файла шаблона
 	 * 
 	 * @return string
