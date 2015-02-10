@@ -18,7 +18,7 @@ $(function() {
 					return {
 						key: query,
 						id: DOCUMENT_ID,
-						doc_ds: $ds_id,
+						ds_id: $ds_id,
 						is_array: false
 					}
 				},
@@ -34,7 +34,7 @@ $(function() {
 						data: {
 							ids: [parseInt(id)],
 							id: DOCUMENT_ID,
-							doc_ds: $ds_id,
+							ds_id: $ds_id,
 							is_array: false
 						},
 						dataType: 'json',

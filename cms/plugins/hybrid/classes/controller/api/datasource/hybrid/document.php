@@ -16,7 +16,7 @@ class Controller_Api_Datasource_Hybrid_Document extends Controller_System_API
 		$ids = $this->param('ids', array());
 		$doc_id = $this->param('id', NULL);
 		$is_array = $this->param('is_array', FALSE);
-		$ds_id = (int) $this->param('doc_ds', NULL, TRUE);
+		$ds_id = (int) $this->param('ds_id', NULL, TRUE);
 
 		$this->request->query('keyword', $query);
 		$ds = Datasource_Data_Manager::load($ds_id);
