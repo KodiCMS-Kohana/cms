@@ -116,6 +116,12 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 			Messages::errors($e->getMessage());
 			$this->go_back();
 		}
+		
+		if (!$field->loaded())
+		{
+			Messages::errors(__('Field not created'));
+			$this->go_back();
+		}
 
 		Messages::success(__('Field created'));
 		Session::instance()->delete('post_data');
@@ -135,7 +141,7 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 				'directory' => 'hybrid',
 				'controller' => 'field',
 				'action' => 'edit',
-				'id' => $field_id
+				'id' => $field->id
 			)));
 		}
 	}
