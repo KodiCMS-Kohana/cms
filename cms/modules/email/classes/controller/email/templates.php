@@ -56,7 +56,7 @@ class Controller_Email_Templates extends Controller_System_Backend {
 			return $this->_add($template);
 		}
 
-		WYSIWYG::load_filters();
+		WYSIWYG::load_all();
 		
 		$this->set_title(__('Add email template'));
 		$this->template->content = View::factory('email/templates/edit', array(
@@ -138,7 +138,7 @@ class Controller_Email_Templates extends Controller_System_Backend {
 			return $this->_edit($template);
 		}
 
-		WYSIWYG::load_filters();
+		WYSIWYG::load_all();
 
 		$this->set_title(__('Edit email template'));
 

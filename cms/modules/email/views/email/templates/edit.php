@@ -86,7 +86,7 @@
 		<div class="form-group">
 			<?php echo $template->label('message', array('class' => 'control-label col-md-3')); ?>
 			<div class="col-md-9">
-				<?php echo $template->field('message', array('class' => 'form-control')); ?>
+				<?php echo $template->field('message', array('class' => 'form-control', 'rows' => 10)); ?>
 			</div>
 		</div>
 		

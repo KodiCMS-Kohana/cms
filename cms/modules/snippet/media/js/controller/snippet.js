@@ -13,4 +13,6 @@ cms.init.add(['snippet_edit', 'snippet_add'], function () {
 			}
 		});
 	});
+
+	cms.filters.switchOn('textarea_content', DEFAULT_CODE_EDITOR, $('#textarea_content').data());
 });

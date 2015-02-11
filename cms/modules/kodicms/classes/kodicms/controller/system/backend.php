@@ -64,7 +64,8 @@ class KodiCMS_Controller_System_Backend extends Controller_System_Template
 		parent::init_media();
 		
 		$this->template_js_params['ACE_THEME'] = Config::get('ace', 'theme', 'textmate');
-		$this->template_js_params['DEFAULT_FILTER'] = Config::get('site', 'default_filter_id', '');
+		$this->template_js_params['DEFAULT_HTML_EDITOR'] = Config::get('site', 'default_html_editor', '');
+		$this->template_js_params['DEFAULT_CODE_EDITOR'] = Config::get('site', 'default_code_editor', '');
 		
 		Assets::package(array(
 			'jquery', 'bootstrap', 'notify', 'select2', 'dropzone', 'fancybox', 'datepicker', 'underscore', 'core'

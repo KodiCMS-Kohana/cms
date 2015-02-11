@@ -13,6 +13,8 @@ cms.init.add(['layout_edit', 'layout_add'], function () {
 			}
 		});
 	});
+	
+	cms.filters.switchOn('textarea_content', DEFAULT_CODE_EDITOR, $('#textarea_content').data());
 });
 
 cms.init.add('layout_index', function () {

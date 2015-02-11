@@ -7,7 +7,7 @@
 			target: 'textarea',
 			placeholder: __('Click here to <strong>Reply</strong>'),
 			onAfterExpand: function() {
-				cms.filters.switchOn('message-conent', '<?php echo Config::get('site', 'default_filter_id'); ?>');
+				cms.filters.switchOn('message-conent', DEFAULT_HTML_EDITOR);
 			}
 		});
 	});

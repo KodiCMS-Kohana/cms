@@ -10,32 +10,34 @@ cms.init.add(['email_templates_edit', 'email_templates_add'], function () {
 
 	function change_message_redator(type) {
 		if (type == EMAIL_HTML_TYPE)
-			cms.filters.switchOn('email_template_message', 'redactor');
+			cms.filters.switchOn('email_template_message', DEFAULT_HTML_EDITOR);
 		else
-			cms.filters.switchOn('email_template_message', 'ace');
+			cms.filters.switchOn('email_template_message', DEFAULT_CODE_EDITOR);
 	}
 
 	var activeInput;
-	$(':input').not(':radio').not('select').add('.redactor_editor').on('focus', function () {
+	$(':input[type="text"]').on('focus', function () {
 		activeInput = $(this);
-	})
+	}).on('focusout', function (e) {
+		if(e.relatedTarget && $(e.relatedTarget).hasClass('field-key')) {
+			$(this).focus();
+			return;
+		}
+		activeInput = null;
+	});
 
 	$('#field_description').on('click', 'a', function () {
 		var curInput = activeInput;
 
-		if (!activeInput)
-			return false;
-
-		if (curInput.hasClass('redactor_editor') && message_type == EMAIL_HTML_TYPE) {
-			cms.filters.exec('email_template_message', 'insert', $(this).text());
-		} else {
+		if (activeInput instanceof jQuery) {
 			var cursorPos = curInput.prop('selectionStart');
 			var v = curInput.val();
 			var textBefore = v.substring(0, cursorPos);
 			var textAfter = v.substring(cursorPos, v.length);
 			curInput.val(textBefore + $(this).text() + textAfter);
+		} else {
+			cms.filters.exec('email_template_message', 'insert', $(this).text());
 		}
-
 		return false;
 	});
 
@@ -46,7 +48,7 @@ cms.init.add(['email_templates_edit', 'email_templates_add'], function () {
 			var ul = $('<ul class="list-unstyled" />').appendTo(cont);
 			if (resp.response) {
 				for (field in resp.response) {
-					$('<li><a href="#">{' + field + '}</a> - ' + resp.response[field] + '</li>').appendTo(ul);
+					$('<li><a href="#" class="field-key">{' + field + '}</a> - ' + resp.response[field] + '</li>').appendTo(ul);
 				}
 			}
 		})

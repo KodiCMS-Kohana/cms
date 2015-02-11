@@ -53,8 +53,8 @@ Assets_Package::add('nestable')
 	->js(NULL, ADMIN_RESOURCES . 'libs/nestable/jquery.nestable.min.js', 'bootstrap');
 
 Assets_Package::add('ace')
-	->js('ace-library', ADMIN_RESOURCES . 'libs/ace/src-min/ace.js', 'global')
-	->js(NULL, ADMIN_RESOURCES . 'js/ace.js', 'global');
+	->js('ace-library', ADMIN_RESOURCES . 'libs/ace/src-min/ace.js', 'jquery')
+	->js(NULL, ADMIN_RESOURCES . 'js/ace.js', 'jquery');
 
 Assets_Package::add('steps')
 	->js(NULL, ADMIN_RESOURCES . 'libs/steps/jquery.steps.min.js', 'jquery');
@@ -64,11 +64,10 @@ Assets_Package::add('chart')
 
 Assets_Package::add('ckeditor')
 	->js('ckeditor-library', ADMIN_RESOURCES . 'libs/ckeditor/ckeditor.js', 'jquery')
-//	->js('ckeditor-library', 'http://cdn.ckeditor.com/4.4.6/standard/ckeditor.js', 'jquery')
-	->js(NULL, ADMIN_RESOURCES . 'js/ckeditor.js', 'global');
+	->js(NULL, ADMIN_RESOURCES . 'js/ckeditor.js', 'jquery');
 
-WYSIWYG::add('ace');
-WYSIWYG::add('ckeditor');
+WYSIWYG::add('ace', 'Ace', NULL, NULL, WYSIWYG::TYPE_CODE);
+WYSIWYG::add('ckeditor', 'CKEditor');
 
 // Подключение пакета после загрузки модулей, чтобы определить текущий язык
 Observer::observe('modules::after_load', function() {

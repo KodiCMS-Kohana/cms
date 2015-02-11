@@ -40,9 +40,10 @@
 		<?php endif; ?>
 	</div>
 	<?php echo Form::textarea('content', $layout->content, array(
-		'tabindex'			=> 2,
-		'id'				=> 'textarea_content',
-		'data-readonly'		=> (!$layout->is_exists() OR ( $layout->is_exists() AND $layout->is_writable())) ? 'off' : 'on'
+		'class' => 'form-control',
+		'id' => 'textarea_content',
+		'data-height' => 600,
+		'data-readonly' => (!$layout->is_exists() OR ( $layout->is_exists() AND $layout->is_writable())) ? 'off' : 'on'
 	)); ?>
 
 	<?php if($layout->is_exists() AND !$layout->is_writable()): ?>

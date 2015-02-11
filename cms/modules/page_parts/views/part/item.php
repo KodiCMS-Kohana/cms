@@ -37,10 +37,9 @@
 						<label>
 							<?php echo __( 'WYSIWYG' ); ?>&nbsp;&nbsp;&nbsp;
 							<select class="item-filter" name="part_filter">
-								<option value="">&ndash; <?php echo __( '--- none ---' ); ?> &ndash;</option>
-								<?php foreach ( WYSIWYG::findAll() as $filter ): ?> 
-									<option value="<?php echo $filter; ?>" <% if (filter_id == "<?php echo $filter; ?>") { print('selected="selected"')} %> ><?php echo Inflector::humanize( $filter ); ?></option>
-								<?php endforeach; ?> 
+								<?php foreach (WYSIWYG::html_select() as $editor_id => $name): ?>
+									<option value="<?php echo $editor_id; ?>" <% if (filter_id == "<?php echo $editor_id; ?>") { print('selected="selected"')} %> ><?php echo $name; ?></option>
+								<?php endforeach; ?>
 							</select>
 						</label>
 					</div>			
@@ -61,10 +60,9 @@
 				</div>
 				<?php else: ?>
 				<select class="item-filter" name="part_filter">
-					<option value="">&ndash; <?php echo __( '--- none ---' ); ?> &ndash;</option>
-					<?php foreach ( WYSIWYG::findAll() as $filter ): ?> 
-						<option value="<?php echo $filter; ?>" <% if (filter_id == "<?php echo $filter; ?>") { print('selected="selected"')} %> ><?php echo Inflector::humanize( $filter ); ?></option>
-					<?php endforeach; ?> 
+					<?php foreach (WYSIWYG::html_select() as $editor_id => $name): ?>
+						<option value="<?php echo $editor_id; ?>" <% if (filter_id == "<?php echo $editor_id; ?>") { print('selected="selected"')} %> ><?php echo $name; ?></option>
+					<?php endforeach; ?>
 				</select>
 				<?php endif; ?>
 			</div>

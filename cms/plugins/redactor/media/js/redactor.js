@@ -1,41 +1,42 @@
-cms.plugins.redactor = {
-	switchOn_handler: function( textarea_id, params ){
-		params = $.extend({
-			focus: true,
-			imageGetJson: Api.build_url('media.images'),
-			imageUpload: Api.build_url('media.images'),
-			uploadFields: {'module': 'redactorJS'},
-			autoresize: false,
-			lang: LOCALE,
-			minHeight: 200
-		}, params);
-		return $('#' + textarea_id).redactor(params);
-	},
-	switchOff_handler: function( editor, textarea_id ){
-		editor.destroyEditor();	
-	},
-	exec_handler: function( editor, command, textarea_id, data ) {
-		switch(command) {
-			case 'insert':
-				if (/(jpg|gif|png|JPG|GIF|PNG|JPEG|jpeg)$/.test(data)){
-					data = '<img src="' + data + '">';
-				} else if (/((ftp|http|https|gopher|mailto|news|nntp|telnet|wais|file|prospero|aim|webcal):(([A-Za-z0-9$_.+!*(),;/?:@&~=-])|%[A-Fa-f0-9]{2}){2,}(#([a-zA-Z0-9][a-zA-Z0-9$_.+!*(),;/?:@&~=%-]*))?([A-Za-z0-9$_+!*();/?:~-]))/.test(data)) {
-					data = '<a href="' + data + '">' + data + '</a>';
+$(function() {
+	$('body').on('before_cms_init', function (){
+		var $redactor = {
+			switchOn_handler: function( textarea_id, params ){
+				params = $.extend({
+					focus: true,
+					imageGetJson: Api.build_url('media.images'),
+					imageUpload: Api.build_url('media.images'),
+					uploadFields: {'module': 'redactorJS'},
+					autoresize: false,
+					lang: LOCALE,
+					minHeight: 200
+				}, params);
+				return $('#' + textarea_id).redactor(params);
+			},
+			switchOff_handler: function( editor, textarea_id ){
+				editor.destroyEditor();	
+			},
+			exec_handler: function( editor, command, textarea_id, data ) {
+				switch(command) {
+					case 'insert':
+						if (/(jpg|gif|png|JPG|GIF|PNG|JPEG|jpeg)$/.test(data)){
+							data = '<img src="' + data + '">';
+						} else if (/((ftp|http|https|gopher|mailto|news|nntp|telnet|wais|file|prospero|aim|webcal):(([A-Za-z0-9$_.+!*(),;/?:@&~=-])|%[A-Fa-f0-9]{2}){2,}(#([a-zA-Z0-9][a-zA-Z0-9$_.+!*(),;/?:@&~=%-]*))?([A-Za-z0-9$_+!*();/?:~-]))/.test(data)) {
+							data = '<a href="' + data + '">' + data + '</a>';
+						}
+
+						editor.insertHtml(data);
+						break;
+					case 'changeHeight':
+						editor.data('redactor').$editor.height(data);
 				}
 
-				editor.insertHtml(data);
-				break;
-			case 'changeHeight':
-				editor.data('redactor').$editor.height(data);
+				return true;
+			}
 		}
 
-		return true;
-	}
-}
-
-$(function(){
-	cms.filters
-		.add( 'redactor', cms.plugins.redactor.switchOn_handler, cms.plugins.redactor.switchOff_handler, cms.plugins.redactor.exec_handler );
+		cms.filters.add( 'redactor', $redactor.switchOn_handler, $redactor.switchOff_handler, $redactor.exec_handler);
+	});
 });
 
 if (!RedactorPlugins) var RedactorPlugins = {};

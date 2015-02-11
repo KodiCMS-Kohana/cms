@@ -33,7 +33,7 @@ class Controller_System_Datasource_Document extends Controller_System_Datasource
 		
 		$doc = $this->_get_document($id);
 		
-		WYSIWYG::load_filters();
+		WYSIWYG::load_all();
 		
 		$this->_load_session_data($doc);
 		

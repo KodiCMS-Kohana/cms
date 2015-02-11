@@ -13,6 +13,8 @@ cms.init.add('backup_view', function() {
 	$(window).resize(function() {
 		$('#highlight_content').trigger('filter:switch:on')
 	});
+	
+	cms.filters.switchOn('highlight_content', DEFAULT_CODE_EDITOR, $('#textarea_content').data());
 });
 
 cms.init.add('backup_index', function() {

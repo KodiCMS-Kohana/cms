@@ -3,7 +3,7 @@ $(function() {
 		urlRoot: Api.build_url('page-parts'),
 		defaults: {
 			name: 'part',
-			filter_id: DEFAULT_FILTER,
+			filter_id: DEFAULT_HTML_EDITOR,
 			page_id: PAGE_ID,
 			content: '',
 			is_protected: 0,

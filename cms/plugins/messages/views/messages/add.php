@@ -1,6 +1,6 @@
 <script type="text/javascript">
 $(function() {
-	cms.filters.switchOn( 'message-content', '<?php echo Config::get('site', 'default_filter_id'); ?>');
+	cms.filters.switchOn('message-content', DEFAULT_HTML_EDITOR);
 });
 </script>
 <div class="panel">

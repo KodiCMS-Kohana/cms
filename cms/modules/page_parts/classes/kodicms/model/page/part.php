@@ -49,7 +49,7 @@ class KodiCMS_Model_Page_Part extends ORM
 	{
 		if ($this->filter_id === NULL)
 		{
-			$this->filter_id = Config::get('site', 'default_filter_id');
+			$this->filter_id = Config::get('site', 'default_html_editor');
 		}
 
 		if ($this->is_protected === NULL)
