@@ -80,29 +80,25 @@ class KodiCMS_WYSIWYG {
 	/**
 	 * Get a instance of a filter
 	 *
-	 * @param filter_id string  The WYSIWYG plugin folder name
+	 * @param $editor_id
 	 *
-	 * @return mixed   if founded an object, else FALSE
+	 * @return Filter_Decorator
 	 */
-	public static function get($filter_id)
+	public static function get_filter($editor_id)
 	{
-		if (isset(self::$_editors[$filter_id]))
+		if (isset(self::$_editors[$editor_id]))
 		{
-			$data = self::$_editors[$filter_id];
+			$data = self::$_editors[$editor_id];
 
 			$class_name = 'Filter_' . ucfirst($data['filter']);
 
-			if (!class_exists($class_name))
+			if (class_exists($class_name))
 			{
-				return new Filter_Default;
+				return new $class_name;
 			}
+		}
 
-			return new $class_name;
-		}
-		else
-		{
-			return FALSE;
-		}
+		return new Filter_Default;
 	}
 
 	/**
