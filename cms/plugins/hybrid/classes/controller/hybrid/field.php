@@ -103,11 +103,7 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 				continue;
 			}
 			
-			$widget
-				->set_values(array(
-					'doc_fields' => array_unique($fields)
-				));
-			
+			$widget->doc_fields = array_unique($fields);	
 			Widget_Manager::update($widget);
 		}
 		
