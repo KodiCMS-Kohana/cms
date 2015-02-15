@@ -34,6 +34,7 @@ return array(
 		'source_user' => 'User',
 		'source_free' => 'Free',
 		'source_images' => 'Images',
+		'source_html' => 'Source HTML',
 	),
 	
 	'File' => array(
