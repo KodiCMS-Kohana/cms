@@ -685,6 +685,11 @@ cms.ui.add('flags', function() {
 		window.top.$.fancybox.close();
 		e.preventDefault();
 	});
+	
+	if(CLOSE_POPUP)
+		setTimeout(function() {
+			window.top.$.fancybox.close();
+		}, 1000);
 }).add('select2', function() {
 	if(!TAG_SEPARATOR) var TAG_SEPARATOR = ',';
 

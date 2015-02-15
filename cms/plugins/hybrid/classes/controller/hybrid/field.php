@@ -109,6 +109,8 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 		
 		Messages::success(__('Field location saved'));
 		
+		$this->close_popup();
+
 		$this->go_back();
 	}
 
