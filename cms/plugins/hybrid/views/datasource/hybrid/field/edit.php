@@ -54,7 +54,7 @@
 			echo View::factory('datasource/hybrid/field/edit/' . $type, array(
 				'field' => $field, 'sections' => $sections
 			));
-}
+		}
 		catch(Exception $e) {} 
 		?>
 		

@@ -16,7 +16,6 @@
 	</head>
 	<body id="body_<?php echo $page_body_id; ?>" class="<?php echo $request->query('type'); ?> <?php echo $theme; ?> main-menu-fixed">
 		<div id="main-wrapper">
-
 			<?php if ($request->query('type') != 'iframe'): ?>
 			<header>
 				<?php echo View::factory('system/layout/navbar'); ?>
@@ -26,13 +25,11 @@
 			</div>
 			<div id="main-menu-bg"></div>
 			<?php endif; ?>
-
 			<div id="content-wrapper">
 				<?php echo $breadcrumbs; ?>
 				<section id="content" >
 				<?php echo $content; ?>
 				</section>
-				
 				<?php echo $footer; ?>
 			</div>
 			<?php if (Config::get('site', 'profiling') == Config::YES): ?>

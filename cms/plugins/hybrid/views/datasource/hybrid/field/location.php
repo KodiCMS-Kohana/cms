@@ -1,6 +1,5 @@
 <div class="panel">
 	<?php echo Form::open(Request::current()->uri()); ?>
-	
 	<?php if (Request::initial()->query('type') != 'iframe'): ?>
 	<div class="panel-heading">
 		<h3 class="no-margin-vr">
