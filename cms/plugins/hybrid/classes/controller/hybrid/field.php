@@ -58,7 +58,8 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 		
 		$widget_types = array(
 			'hybrid_document', 'hybrid_editor',
-			'hybrid_headline', 'hybrid_profile'
+			'hybrid_headline', 'hybrid_profile',
+			'hybrid_creator'
 		);
 		
 		$widgets = Widget_Manager::get_widgets($widget_types);
