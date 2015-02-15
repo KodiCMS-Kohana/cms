@@ -74,6 +74,20 @@
 			'field' => $field, 'post_data' => $post_data
 		)); ?>
 	</div>
+	<?php if ($field->has_access_edit()): ?>
+	<hr class="no-margin-vr" />
+	<div class="panel-body">
+		<?php echo HTML::anchor(Route::get('datasources')->uri(array(
+			'directory' => 'hybrid',
+			'controller' => 'field',
+			'action' => 'location',
+			'id' => $field->id
+		)), __('Field location'), array(
+			'class' => 'btn btn-primary popup fancybox.iframe',
+			'data-icon' => 'sitemap'
+		)); ?>
+	</div>
+	<?php endif; ?>
 	<div class="panel-footer form-actions">
 		<?php echo UI::actions(NULL, Route::get('datasources')->uri(array(
 			'controller' => 'section',

@@ -11,7 +11,8 @@ $fetch_widgets = !empty($fetch_widgets) ? (bool) $fetch_widgets : TRUE;
 	<colgroup>
 		<col width="30px" />
 		<col width="100px" />
-		<col width="200px" />
+		<col width="150px" />
+		<col width="150px" />
 		<col />
 	</colgroup>
 	<tbody>
@@ -21,9 +22,9 @@ $fetch_widgets = !empty($fetch_widgets) ? (bool) $fetch_widgets : TRUE;
 					'disabled' => 'disabled'
 				)); ?>
 			</td>
-			<td class="sys">ID</td>
-			<td>ID</td>
-			<td></td>
+			<td class="sys">id</td>
+			<td><?php echo __('Identifier'); ?></td>
+			<td colspan="2"></td>
 		</tr>
 		<tr>
 			<td class="f">
@@ -33,7 +34,7 @@ $fetch_widgets = !empty($fetch_widgets) ? (bool) $fetch_widgets : TRUE;
 			</td>
 			<td class="sys">header</td>
 			<td><?php echo __('Header'); ?></td>
-			<td></td>
+			<td colspan="2"></td>
 		</tr>
 
 		<?php foreach($fields as $field): ?>
@@ -54,6 +55,18 @@ $fetch_widgets = !empty($fetch_widgets) ? (bool) $fetch_widgets : TRUE;
 					'action' => 'edit',
 					'id' => $field->id
 				)), $field->header, array('target' => '_blank', 'class' => 'popup fancybox.iframe')); ?>
+				<?php else: ?>
+				<strong><?php echo $field->header; ?> </strong>
+				<?php endif; ?>
+			</td>
+			<td>
+				<?php if ($field->has_access_edit()): ?>
+				<?php echo HTML::anchor(Route::get('datasources')->uri(array(
+					'controller' => 'field',
+					'directory' => 'hybrid',
+					'action' => 'location',
+					'id' => $field->id
+				)), __('Field location'), array('target' => '_blank', 'class' => 'btn btn-xs btn-default popup fancybox.iframe', 'data-icon' => 'sitemap')); ?>
 				<?php else: ?>
 				<strong><?php echo $field->header; ?> </strong>
 				<?php endif; ?>

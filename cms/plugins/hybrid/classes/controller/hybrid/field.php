@@ -14,7 +14,7 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 	
 	public function before()
 	{
-		if ($this->request->action() == 'edit')
+		if ($this->request->action() == 'edit' OR $this->request->action() == 'location')
 		{
 			$id = (int) $this->request->param('id');
 			$this->field = DataSource_Hybrid_Field_Factory::get_field($id);
@@ -29,6 +29,7 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 			if ($this->field->has_access_edit())
 			{
 				$this->allowed_actions[] = 'edit';
+				$this->allowed_actions[] = 'location';
 			}
 		}
 
@@ -51,6 +52,69 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 		}
 	}
 	
+	public function action_location()
+	{
+		$id = (int) $this->request->param('id');
+		
+		$widget_types = array(
+			'hybrid_document', 'hybrid_editor',
+			'hybrid_headline', 'hybrid_profile'
+		);
+		
+		$widgets = Widget_Manager::get_widgets($widget_types);
+		$field_status = array();
+		foreach ($widgets as $id => $widget)
+		{
+			if ($this->field->ds_id != $widget->ds_id)
+			{
+				unset($widgets[$id]);
+			}
+		}
+		
+		if ($this->request->method() === Request::POST)
+		{
+			return $this->_save_location($widgets, $this->field);
+		}
+		
+		$this->template->content = View::factory('datasource/hybrid/field/location', array(
+			'field' => $this->field,
+			'widgets' => $widgets
+		));
+	}
+	
+	private function _save_location(array $widgets, $field)
+	{
+		$post_data = $this->request->post();
+		foreach ($widgets as $id => $widget)
+		{
+			$fields = $widget->doc_fields;
+	
+			if (isset($post_data['widget'][$widget->id]))
+			{
+				$fields[] = $field->id;
+			}
+			else if (($key = array_search($field->id, $fields)) !== FALSE)
+			{
+				unset($fields[$key]);
+			}
+			else
+			{
+				continue;
+			}
+			
+			$widget
+				->set_values(array(
+					'doc_fields' => array_unique($fields)
+				));
+			
+			Widget_Manager::update($widget);
+		}
+		
+		Messages::success(__('Field location saved'));
+		
+		$this->go_back();
+	}
+
 	public function action_template()
 	{
 		$ds_id = (int) $this->request->param('id');

@@ -23,12 +23,14 @@ return array(
 	'Field key' => 'Ключ',
 	'Field description' => 'Описание поля',
 	'Edit field' => 'Редактирование поля',
+	'Field location' => 'Места применения',
 	'Field header' => 'Название',
 	'Field type' => 'Тип поля',
 	'Field settings' => 'Настройки поля',
 	'Field hint' => 'Подсказка',
 	'Primitive' => 'Примитивное',
 	'File' => 'Файл',
+	'Identifier' => 'Идентификатор',
 	'Document' => 'Документ',
 	'New document' => 'Новый документ',
 	'Array of documents' => 'Список документов',
@@ -162,6 +164,7 @@ return array(
 	'Set current user on create document' => 'При создании документа устанавливать текущего пользователя',
 	
 	'Fields in headline' => 'Отображаемые поля',
+	'Use filemanager to get data' => 'Использовать файловый менеджер',
 	
 	'User profile section' => 'Раздел профиля пользователя',
 	'To bind profile section you need to create a field `:field`' => 
