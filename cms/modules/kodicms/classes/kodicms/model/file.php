@@ -42,10 +42,24 @@ class KodiCMS_Model_File {
 	
 	/**
 	 *
-	 * @var type 
+	 * @var array 
 	 */
 	protected $_changed = array();
+	
+	/**
+	 *
+	 * @var boolean 
+	 */
+	protected $_read_only = FALSE;
 
+	/**
+	 *
+	 * @var array 
+	 */
+	protected $_settings = array(
+		'roles' => array('administrator', 'developer'),
+		'editor' => 'ace'
+	);
 
 	/**
 	 * 
@@ -83,11 +97,17 @@ class KodiCMS_Model_File {
 		{
 			$this->_file .= EXT;
 		}
-	}
-
-	public function __toString() 
-	{
-		return (string) $this->_content;
+		
+		$settings = FileSystem::load_merged_array($this->_folder, '.settings');
+		if(isset($settings[$this->name]) AND is_array($settings[$this->name]))
+		{
+			$this->_settings = Arr::merge($this->_settings, $settings[$this->name]);
+		}
+		
+		if ($this->is_exists() AND !Auth::has_permissions($this->get_roles()))
+		{
+			$this->set_read_only();
+		}
 	}
 	
 	/**
@@ -143,6 +163,64 @@ class KodiCMS_Model_File {
 		return $this->_folder;
 	}
 	
+	/**
+	 * 
+	 * @return string
+	 */
+	public function get_editor()
+	{
+		return Arr::get($this->_settings, 'editor', 'ace');
+	}
+	
+	/**
+	 * 
+	 * @param string $editor
+	 */
+	public function set_editor($editor)
+	{
+		$this->_settings['editor'] = $editor;
+	}
+	
+	/**
+	 * 
+	 * @return array
+	 */
+	public function get_roles()
+	{
+		$roles = Arr::get($this->_settings, 'roles', array());
+		
+		if(!is_array($roles))
+		{
+			$roles =  array($roles);
+		}
+		
+		return $roles;
+	}
+	
+	/**
+	 * 
+	 * @return bool
+	 */
+	public function is_read_only()
+	{
+		return (bool) $this->_read_only OR ($this->is_exists() AND !$this->is_writable());
+	}
+	
+
+	public function set_read_only()
+	{
+		$this->_read_only = TRUE;
+	}
+
+	/**
+	 * 
+	 * @param array $roles
+	 */
+	public function set_roles(array $roles)
+	{
+		$this->_settings['roles'] = $roles;
+	}
+
 	/**
 	 * @return string
 	 */
@@ -219,9 +297,13 @@ class KodiCMS_Model_File {
 		return $files;
     }
 	
+	/**
+	 * 
+	 * @return array
+	 */
 	public static function html_select()
 	{
-		$templates = array(
+		$choices = array(
 			__('--- none ---')
 		);
 		
@@ -229,10 +311,10 @@ class KodiCMS_Model_File {
 		
 		foreach ($snippets as $snippet)
 		{
-			$templates[$snippet->name] = $snippet->name;
+			$choices[$snippet->name] = $snippet->name;
 		}
 		
-		return $templates;
+		return $choices;
 	}
 
 	/**
@@ -329,11 +411,14 @@ class KodiCMS_Model_File {
 			throw new Validation_Exception($validation);
 		}
 		
+		$settings = FileSystem::load_merged_array($this->_folder, '.settings');
+		
 		$this->name = FileSystem::filter_name($this->name);
 
 		// Если изменено название файла в редакторе, переименовываем файл
 		if (!empty($this->_changed['name']) AND $this->name != $this->_changed['name'])
 		{
+			unset($settings[$this->_changed['name']]);
 			$new_file = $this->_path . DIRECTORY_SEPARATOR . $this->name . EXT;
 			@rename($this->_file, $new_file);
 			$this->_file = $new_file;
@@ -346,9 +431,27 @@ class KodiCMS_Model_File {
 		
 		$this->_changed = array();
 		
+		$settings[$this->name] = $this->_settings;
+		$this->_save_settings($settings);
+		
 		return file_put_contents($this->_file, $this->_content) !== FALSE;
 	}
 	
+	/**
+	 * 
+	 * @param array $settings
+	 */
+	protected function _save_settings(array $settings)
+	{
+		$data = "<?php defined('SYSPATH') or die('No direct access allowed.');\n\n";
+		
+		$data .= "return ";
+		$data .= var_export($settings, TRUE);
+		$data .= ";";
+
+		file_put_contents(DOCROOT . $this->_folder . DIRECTORY_SEPARATOR . '.settings.php', $data);
+	}
+
 	protected function _add_revision_of_file()
 	{
 		$name = Arr::get($this->_changed, 'name');
@@ -380,5 +483,14 @@ class KodiCMS_Model_File {
 			// Allow anyone to write to log files
 			chmod($filename, 0666);
 		}
+	}
+
+	/**
+	 * 
+	 * @return string
+	 */
+	public function __toString() 
+	{
+		return (string) $this->_content;
 	}
 }

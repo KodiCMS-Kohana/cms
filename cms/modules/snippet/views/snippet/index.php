@@ -40,7 +40,7 @@
 			<tr>
 				<th class="name">
 					<?php echo UI::icon('file-code-o'); ?>
-					<?php if (!$snippet->is_writable()): ?>
+					<?php if ($snippet->is_read_only()): ?>
 					<span class="label label-warning"><?php echo __('Read only'); ?></span>
 					<?php endif; ?>
 
@@ -50,7 +50,7 @@
 						'action' => 'edit', 
 						'id' => $snippet->name
 					)), $snippet->name, array(
-						'class' => ! $snippet->is_writable() ? 'popup fancybox.iframe' : ''
+						'class' => $snippet->is_read_only() ? 'popup fancybox.iframe' : ''
 					)); ?>
 					<?php else: ?>
 					<?php echo UI::icon('lock'); ?> <?php echo $snippet->name; ?>
@@ -60,13 +60,13 @@
 					<?php echo Date::format($snippet->modified()); ?>
 				</td>
 				<td class="size">
-					<?php echo Text::bytes( $snippet->size()); ?>
+					<?php echo Text::bytes($snippet->size()); ?>
 				</td>
 				<td class="direction hidden-xs">
 					<?php echo UI::label($snippet->get_relative_path()); ?>
 				</td>
 				<td class="actions text-right">
-					<?php if (ACL::check('snippet.delete')): ?>
+					<?php if (ACL::check('snippet.delete') AND !$snippet->is_read_only()): ?>
 					<?php echo UI::button(NULL, array(
 						'href' => Route::get('backend')->uri(array('controller' => 'snippet', 'action' => 'delete', 'id' => $snippet->name)), 
 						'icon' => UI::icon('times fa-inverse'),

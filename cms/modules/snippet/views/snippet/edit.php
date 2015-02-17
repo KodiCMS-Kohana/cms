@@ -24,15 +24,40 @@
 			</div>
 		</div>
 	</div>
+	<?php if (!$snippet->is_read_only()): ?>
+	<div class="panel-toggler text-center panel-heading" data-target-spoiler=".spoiler-settings">
+		<?php echo UI::icon('chevron-down panel-toggler-icon'); ?> <span class="muted"><?php echo __('Settings'); ?></span>
+	</div>
+	<div class="panel-spoiler spoiler-settings panel-body">
+		<div class="form-group">
+			<label class="col-md-3 control-label"><?php echo __('WYSIWYG'); ?></label>
+			<div class="col-md-9">
+				<?php echo Form::select('editor', WYSIWYG::html_select(), $snippet->editor, array(
+					'class' => 'form-control'
+				)); ?>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-md-3 control-label"><?php echo __('Roles'); ?></label>
+			<div class="col-md-9">
+				<?php echo Form::select('roles[]', $roles, $snippet->get_roles(), array(
+					'class' => 'form-control'
+				)); ?>
+			</div>
+		</div>
+
+		<hr class="panel-wide" />
+	</div>
+	<?php endif; ?>
 	<div class="panel-heading">
 		<span class="panel-title"><?php echo __('Content'); ?></span>
 		<?php echo UI::badge($snippet->get_relative_path()); ?>
-		<?php if ($snippet->is_writable() OR ! $snippet->is_exists()): ?>
+		<?php if (!$snippet->is_read_only()): ?>
 		<div class="panel-heading-controls">
 			<?php echo UI::button(__('File manager'), array(
 				'class' => 'btn-filemanager btn-flat btn-info btn-sm', 
 				'data-el' => 'textarea_content',
-				'icon' => UI::icon( 'folder-open'),
+				'icon' => UI::icon('folder-open'),
 				'data-hotkeys' => 'ctrl+m'
 			)); ?>
 		</div>
@@ -42,10 +67,10 @@
 		'class' => 'form-control',
 		'id' => 'textarea_content',
 		'data-height' => 600,
-		'data-readonly'	=> ( ! $snippet->is_exists() OR ($snippet->is_exists() AND $snippet->is_writable())) ? 'off' : 'on'
+		'data-readonly'	=> $snippet->is_read_only() ? 'on' : 'off'
 	)); ?>
 
-	<?php if($snippet->is_exists() AND !$snippet->is_writable()): ?>
+	<?php if($snippet->is_read_only()): ?>
 	<div class="alert alert-danger alert-dark no-margin-b">
 		<?php echo __('File is not writable'); ?>
 	</div>

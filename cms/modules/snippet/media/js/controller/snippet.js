@@ -14,5 +14,14 @@ cms.init.add(['snippet_edit', 'snippet_add'], function () {
 		});
 	});
 
-	cms.filters.switchOn('textarea_content', DEFAULT_CODE_EDITOR, $('#textarea_content').data());
+	set_editor(SNIPPET_EDITOR);
+	
+	$('select[name="editor"]').on('change', function() {
+		set_editor($(this).val());
+	});
+
+	function set_editor($editor) {
+		cms.filters.switchOn('textarea_content', $editor, $('#textarea_content').data());
+	}
 });
+

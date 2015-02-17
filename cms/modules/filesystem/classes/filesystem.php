@@ -9,7 +9,9 @@
  */
 class FileSystem {
 	
-	/**
+	protected static $_cache = array();
+
+		/**
 	 * 
 	 * @param string $path
 	 * @return string
@@ -33,6 +35,35 @@ class FileSystem {
 		}
 
 		return $name;
+	}
+	
+	/**
+	 * 
+	 * @param string $directory
+	 * @param string $file
+	 * @return array
+	 */
+	public static function load_merged_array($directory, $file)
+	{
+		if(isset(self::$_cache[$directory][$file]))
+		{
+			return self::$_cache[$directory][$file];
+		}
+
+		$array = array();
+
+		if ($files = Kohana::find_file($directory, $file, NULL, TRUE))
+		{
+			foreach ($files as $file)
+			{
+				// Merge each file to the configuration array
+				$array = Arr::merge($array, Kohana::load($file));
+			}
+		}
+		
+		self::$_cache[$directory][$file] = $array;
+
+		return $array;
 	}
 
 	/**
