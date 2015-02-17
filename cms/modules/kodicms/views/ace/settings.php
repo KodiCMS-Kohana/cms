@@ -3,6 +3,8 @@ $(function() {
 	$('#ace-select').on('change', function() {
 		change_ace_theme($(this).val());
 	});
+	
+	cms.filters.switchOn('highlight_content', 'ace', $('#textarea_content').data());
 });
 function change_ace_theme(theme) {
 	var editor = ace.edit('highlight_contentDiv');
