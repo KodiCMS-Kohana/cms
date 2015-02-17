@@ -19,6 +19,13 @@
 				<li id="page-options-panel-li">
 					<a href="#page-options-panel" data-toggle="tab" data-icon="cogs"><?php echo __('Page options'); ?></a>
 				</li>
+				
+				<?php if($page->loaded() AND ($page->behavior() instanceof Behavior_Abstract)): ?>
+				<li id="page-options-panel-li">
+					<a href="#page-behavior-panel" data-toggle="tab" data-icon="random"><?php echo __('Behavior routes'); ?></a>
+				</li>
+				<?php endif; ?>
+
 			</ul>
 		</div>
 		<div class="panel form-horizontal">
@@ -98,6 +105,15 @@
 						'action' => $action
 					)); ?>
 				</div>
+				
+				<?php if($page->loaded() AND ($page->behavior() instanceof Behavior_Abstract)): ?>
+				<div class="tab-pane fade" id="page-behavior-panel">
+					<?php echo View::factory('page/blocks/behavior', array(
+						'page' => $page,
+						'behavior' => $page->behavior()
+					)); ?>
+				</div>
+				<?php endif; ?>
 
 				<div class="tab-pane fade" id="page-options-panel">
 					<?php echo View::factory('page/blocks/settings', array(

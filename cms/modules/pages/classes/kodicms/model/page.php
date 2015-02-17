@@ -630,6 +630,20 @@ class KodiCMS_Model_Page extends ORM
 
 		return $object;
 	}
+	
+	/**
+	 * 
+	 * @return array
+	 */
+	public function behavior()
+	{
+		if (!Valid::not_empty($this->behavior_id))
+		{
+			return NULL;
+		}
+
+		return Behavior::factory($this->behavior_id);
+	}
 
 	/**
 	 * 
