@@ -149,6 +149,7 @@ return array(
 	'Hybrid field' => 'ГД поле',
 	'Update only fields' => 'Обновлять только',
 	'Field name' => 'Название',
+	'Increment step' => 'Шаг инкремента',
 	'MySQL index' => 'MySQL индекс',
 	'Field ":field" added to headline' => 'Поле ":field" добавлено в список',
 	'Field ":field" removed from headline' => 'Поле ":field" убранно из списока',

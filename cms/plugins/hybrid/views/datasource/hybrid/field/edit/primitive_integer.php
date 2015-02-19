@@ -33,6 +33,8 @@
 	</div>
 </div>
 
+<hr />
+
 <div class="form-group">
 	<div class="col-md-offset-3 col-md-9">
 		<div class="checkbox">
@@ -42,5 +44,14 @@
 				)); ?> <?php echo __('Auto increment'); ?>
 			</label>
 		</div>
+	</div>
+</div>
+
+<div class="form-group form-inline">
+	<label class="control-label col-md-3" for="increment_step"><?php echo __('Increment step'); ?></label>
+	<div class="col-md-9">
+		<?php echo Form::input('increment_step', $field->increment_step, array(
+			'class' => 'form-control', 'id' => 'increment_step', 'size' => 5, 'maxlength' => 5
+		)); ?>
 	</div>
 </div>

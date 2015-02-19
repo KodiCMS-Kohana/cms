@@ -16,7 +16,8 @@ class DataSource_Hybrid_Field_Primitive_Primary extends DataSource_Hybrid_Field_
 	
 	protected $_props = array(
 		'auto_increment' => TRUE,
-		'unique' => TRUE
+		'unique' => TRUE,
+		'increment_step' => 1
 	);
 	
 	/**
@@ -36,6 +37,18 @@ class DataSource_Hybrid_Field_Primitive_Primary extends DataSource_Hybrid_Field_
 	{
 		return 0;
 	}
+	
+	public function increment_step()
+	{
+		$increment_step = (int) $this->increment_step;
+		
+		if($increment_step === 0)
+		{
+			$increment_step = 1;
+		}
+
+		return (int) $increment_step;
+	}
 
 	public function get_next_value()
 	{
@@ -45,7 +58,7 @@ class DataSource_Hybrid_Field_Primitive_Primary extends DataSource_Hybrid_Field_
 			->execute()
 			->get('max');
 		
-		return $max_value + 1;
+		return $max_value + $this->increment_step();
 	}
 
 	public function get_type()
@@ -60,7 +73,8 @@ class DataSource_Hybrid_Field_Primitive_Primary extends DataSource_Hybrid_Field_
 		if ($this->loaded() AND $this->auto_increment === TRUE)
 		{
 			DB::query(NULL, "SET @i = 0")->execute();
-			DB::query(Database::UPDATE, "UPDATE :table SET :field = @i:=@i+1 ORDER BY id")
+			DB::query(Database::UPDATE, "UPDATE :table SET :field = @i:=@i+:num ORDER BY id")
+				->param(':num', $this->increment_step())
 				->param(':table', DB::expr($this->ds_table))
 				->param(':field', DB::expr($this->name))
 				->execute();

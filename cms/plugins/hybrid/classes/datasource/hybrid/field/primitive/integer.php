@@ -20,7 +20,8 @@ class DataSource_Hybrid_Field_Primitive_Integer extends DataSource_Hybrid_Field_
 		'max' => 500,
 		'length' => 10,
 		'auto_increment' => FALSE,
-		'unique' => FALSE
+		'unique' => FALSE,
+		'increment_step' => 1
 	);
 	
 	public function booleans()
@@ -47,6 +48,17 @@ class DataSource_Hybrid_Field_Primitive_Integer extends DataSource_Hybrid_Field_
 		}
 
 		return $value;
+	}
+	
+	public function set_increment_step($value)
+	{
+		$value = (int) $value;
+		if($value === 0)
+		{
+			$value = 1;
+		}
+		
+		$this->increment_step = $value;
 	}
 	
 	public function set_min($value)
