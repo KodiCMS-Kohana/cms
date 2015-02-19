@@ -289,6 +289,27 @@ abstract class DataSource_Hybrid_Field {
 	{
 		return $this->id !== NULL;
 	}
+	
+	/**
+	 * Получение названия типа поля
+	 * 
+	 * @return string
+	 */
+	public function type()
+	{
+		$name = Inflector::humanize($this->type);
+
+		foreach (self::types() as $category => $fields)
+		{
+			if(isset($fields[$this->type]))
+			{
+				$name = $fields[$this->type];
+				break;
+			}
+		}
+		
+		return $name;
+	}
 
 	/**
 	 * Валидация создаваемого поля.

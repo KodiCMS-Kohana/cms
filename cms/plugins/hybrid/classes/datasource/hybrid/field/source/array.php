@@ -125,7 +125,7 @@ class DataSource_Hybrid_Field_Source_Array extends DataSource_Hybrid_Field_Sourc
 	 * @param string $fid
 	 * @return mixed
 	 */
-	public static function fetch_widget_field( $widget, $field, $row, $fid, $recurse )
+	public static function fetch_widget_field($widget, $field, $row, $fid, $recurse)
 	{
 		$related_widget = NULL;
 
@@ -142,7 +142,7 @@ class DataSource_Hybrid_Field_Source_Array extends DataSource_Hybrid_Field_Sourc
 			: $field->get_related_docs($row['id']);
 	}
 	
-	public function fetch_headline_value( $value, $document_id )
+	public function fetch_headline_value($value, $document_id)
 	{
 		if (!empty($value))
 		{

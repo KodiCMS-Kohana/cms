@@ -54,7 +54,19 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 	
 	public function action_location()
 	{
-		$id = (int) $this->request->param('id');
+		$ds = $this->section($this->field->ds_id);
+		$this->set_title(__('Field location'));
+		$this->breadcrumbs
+			->add($ds->name, Route::get('datasources')->uri(array(
+				'controller' => 'data',
+				'directory' => 'datasources',
+			)) . URL::query(array('ds_id' => $ds->id()), FALSE))
+			->add(__('Edit section :name', array(':name' => $ds->name)), Route::get('datasources')->uri(array(
+				'directory' => 'datasources',
+				'controller' => 'section',
+				'action' => 'edit',
+				'id' => $ds->id()
+			)));
 		
 		$widget_types = array(
 			'hybrid_document', 'hybrid_editor',
@@ -116,6 +128,7 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 
 	public function action_template()
 	{
+		$this->set_title(__('Fielt template'));
 		$ds_id = (int) $this->request->param('id');
 		$ds = $this->section($ds_id);
 
@@ -218,7 +231,10 @@ class Controller_Hybrid_Field extends Controller_System_Datasource
 			return $this->_edit($ds, $this->field);
 		}
 
-		$this->set_title(__('Edit field :field_name', array(':field_name' => $this->field->header)));
+		$this->set_title(__('Field :field_name (:field_type)', array(
+			':field_name' => $this->field->header,
+			':field_type' => $this->field->type()
+		)));
 
 		$this->breadcrumbs
 			->add($ds->name, Route::get('datasources')->uri(array(
