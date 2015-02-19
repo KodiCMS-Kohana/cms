@@ -24,7 +24,7 @@ return array(
 	'Page Meta information' => 'Мета-информация о странице',
 	'Page not found!' => 'Страница не найдена!',
 	'Page options' => 'Опции страницы',
-	'Behavior routes' => 'Роуты типа страницы',
+	'Behavior routes' => 'Роуты страницы',
 	'Page title' => 'Заголовок',
 	'Meta title' => 'Мета заголовок',
 	'Meta keywords' => 'Мета ключевые слова',
