@@ -1,5 +1,7 @@
 # KodiCMS | [English Version](https://github.com/butschster/kodicms/blob/dev/README_EN.md)
 
+[![Join the chat at https://gitter.im/butschster/kodicms](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/butschster/kodicms?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [Официальный сайт](http://www.kodicms.ru/) | [Канал на Youtube](http://www.youtube.com/channel/UCgZ25N9C1F8uoTXZZK55mqQ) | [Форум](http://www.kodicms.ru/forum.html)
 
 KodiCMS основана на базе [Kohana framework](http://kohanaframework.org/). 
