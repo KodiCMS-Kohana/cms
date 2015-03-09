@@ -26,7 +26,7 @@ class Controller_Update extends Controller_System_Backend {
 	
 	public function action_database() 
 	{
-		Assets::package('ace');
+		WYSIWYG::load_all();
 		
 		$this->set_title(__('Database'));
 		

@@ -5,20 +5,21 @@ cms.init.add('update_index', function() {
 });
 
 cms.init.add('update_database', function() {
-	function calculateEditorHeight() {
-		var conentH = cms.content_height;
-		var h = $('.widget-title').outerHeight(true) + $('.widget-header').outerHeight(true) + $('.form-actions').outerHeight(true) + 10;
-
-		return conentH - h;
-	}
-
 	$('#highlight_content').on('filter:switch:on', function(e, editor) {
-		cms.filters.exec('highlight_content', 'changeHeight', calculateEditorHeight);
-	});
-
-	$(window).resize(function() {
-		$('#highlight_content').trigger('filter:switch:on');
+		$('.panel').setHeightFor('#highlight_contentDiv', {
+			contentHeight: true,
+			updateOnResize: true,
+			offset: 30,
+			minHeight: 300,
+			onCalculate: function(a, h) {
+				cms.filters.exec('highlight_content', 'changeHeight', h);
+			},
+			onResize: function(a, h) {
+				cms.filters.exec('highlight_content', 'changeHeight', h);
+			}
+		});
 	});
 	
-	$('#highlight_content').trigger('filter:switch:on');
+	cms.filters.switchOn('highlight_content', DEFAULT_CODE_EDITOR, $('#highlight_content').data());
+	
 });
