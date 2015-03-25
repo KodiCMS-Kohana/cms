@@ -52,7 +52,7 @@
 					<?php echo Date::format($page->published_on); ?>
 				</td>
 				<td class="actions">
-					<?php if (Acl::check( 'page.delete')): ?>
+					<?php if (ACL::check( 'page.delete')): ?>
 					<?php echo UI::button(NULL, array(
 						'href' => Route::get('backend')->uri(array(
 							'controller' => 'page',

@@ -214,7 +214,7 @@ class KodiCMS_Controller_Users extends Controller_System_Backend {
 					->values($profile)
 					->save();
 
-				if (Acl::check('users.change_roles') AND $user->id > 1)
+				if (ACL::check('users.change_roles') AND $user->id > 1)
 				{
 					// now we need to add permissions
 					$user_roles = $this->request->post('user_roles');

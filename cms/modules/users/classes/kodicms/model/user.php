@@ -178,11 +178,11 @@ class KodiCMS_Model_User extends Model_Auth_User {
 	{
 		$permissions = array();
 
-		foreach (Acl::get_permissions() as $section_title => $actions)
+		foreach (ACL::get_permissions() as $section_title => $actions)
 		{
 			foreach ($actions as $action => $title)
 			{
-				if (Acl::check($action, $this))
+				if (ACL::check($action, $this))
 				{
 					$permissions[$section_title][$action] = $title;
 				}

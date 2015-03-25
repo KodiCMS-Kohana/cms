@@ -1,6 +1,6 @@
 <div class="panel">
 	<div class="panel-heading">
-		<?php if (Acl::check('email.types.add')): ?>
+		<?php if (ACL::check('email.types.add')): ?>
 		<?php echo UI::button(__('Add email type'), array(
 			'href' => Route::get('email_controllers')->uri(array('controller' => 'types', 'action' => 'add')), 
 			'icon' => UI::icon('plus'),
@@ -27,7 +27,7 @@
 			<?php foreach ($types as $type): ?>
 			<tr class="item">
 				<td class="name">
-					<?php if (Acl::check('email.types.edit')): ?>
+					<?php if (ACL::check('email.types.edit')): ?>
 					<?php echo HTML::anchor(Route::get('email_controllers')->uri(array(
 						'controller' => 'types',
 						'action' => 'edit',
@@ -41,7 +41,7 @@
 					<?php echo UI::label($type->code); ?>
 				</td>
 				<td class="actions text-right">
-					<?php if (Acl::check('email.types.delete')): ?>
+					<?php if (ACL::check('email.types.delete')): ?>
 					<?php echo UI::button(NULL, array(
 						'href' => Route::get('email_controllers')->uri(array(
 							'controller' => 'types',

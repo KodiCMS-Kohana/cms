@@ -1,6 +1,6 @@
 <div id="page-tree" class="panel">
 	<div class="panel-heading">
-		<?php if (Acl::check('page.add')): ?>
+		<?php if (ACL::check('page.add')): ?>
 		<?php echo UI::button(UI::hidden(__('Add page')), array(
 			'class' => 'btn-default',
 			'href' => Route::get('backend')->uri(array('controller' => 'page', 'action' => 'add')),
@@ -9,7 +9,7 @@
 		)); ?>
 		<?php endif; ?>
 
-		<?php if (Acl::check('page.sort')): ?>
+		<?php if (ACL::check('page.sort')): ?>
 		<?php echo UI::button(__('Reorder'), array(
 			'id' => 'pageMapReorderButton', 
 			'class' => 'btn-primary btn-sm',
@@ -47,7 +47,7 @@
 					<?php echo $page->get_public_anchor(); ?>
 				</div>
 				<div class="actions col-xs-offset-4 col-xs-1 text-right">
-					<?php if (Acl::check('page.add')): ?>
+					<?php if (ACL::check('page.add')): ?>
 					<?php echo UI::button(NULL, array(
 						'icon' => UI::icon('plus'), 
 						'href' => Route::get('backend')->uri(array('controller' => 'page', 'action' => 'add')),

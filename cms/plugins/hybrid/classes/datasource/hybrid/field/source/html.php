@@ -170,7 +170,7 @@ class DataSource_Hybrid_Field_Source_HTML extends DataSource_Hybrid_Field_Source
 	{
 		parent::get_query_props($query, $agent);
 		
-		$allias = 'html::' . $this->id;
+		$allias = 'HTML::' . $this->id;
 
 		$query->join(array('hybrid_html', $allias), 'left')
 			->on($this->name, '=', $allias . '.id')

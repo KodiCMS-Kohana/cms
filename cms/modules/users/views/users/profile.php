@@ -15,7 +15,7 @@
 
 				<br />
 
-				<?php if (Acl::check('users.edit') OR $user->id == Auth::get_id()): ?>
+				<?php if (ACL::check('users.edit') OR $user->id == Auth::get_id()): ?>
 				<?php echo HTML::anchor(Route::get('backend')->uri(array(
 					'controller' => 'users',
 					'action' => 'edit',

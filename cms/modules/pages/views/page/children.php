@@ -43,7 +43,7 @@
 			</div>
 			<div class="actions col-xs-1 text-right">
 				<div class="btn-group">
-					<?php if (Acl::check('page.add')): ?>
+					<?php if (ACL::check('page.add')): ?>
 					<?php echo UI::button(NULL, array(
 						'href' => Route::get('backend')->uri(array(
 							'controller' => 'page',
@@ -54,7 +54,7 @@
 						'class' => 'btn-default btn-xs'
 					)); ?>
 					<?php endif; ?>
-					<?php if (Acl::check( 'page.delete')): ?>
+					<?php if (ACL::check( 'page.delete')): ?>
 					<?php echo UI::button(NULL, array(
 						'href' => Route::get('backend')->uri(array(
 							'controller' => 'page',

@@ -1,6 +1,6 @@
 <div class="panel">
 	<div class="panel-heading">
-		<?php if (Acl::check('roles.add')): ?>
+		<?php if (ACL::check('roles.add')): ?>
 		<?php echo UI::button(__('Add role'), array(
 			'href' => Route::get('backend')->uri(array('controller' => 'roles', 'action' => 'add')), 
 			'icon' => UI::icon('plus'),
@@ -27,7 +27,7 @@
 			<?php foreach ($roles as $role): ?>
 			<tr class="item">
 				<td class="name">
-					<?php if (Acl::check('roles.edit')): ?>
+					<?php if (ACL::check('roles.edit')): ?>
 					<?php echo HTML::anchor(Route::get('backend')->uri(array(
 						'controller' => 'roles',
 						'action' => 'edit',

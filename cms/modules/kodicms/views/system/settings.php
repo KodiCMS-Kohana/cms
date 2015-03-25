@@ -1,4 +1,4 @@
-<?php echo form::open(Route::get('api')->uri(array(
+<?php echo Form::open(Route::get('api')->uri(array(
 		'controller' => 'settings', 
 		'backend' => ADMIN_DIR_NAME,
 		'action' => 'save'

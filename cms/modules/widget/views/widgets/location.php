@@ -95,7 +95,7 @@ function recurse_pages( $pages, $spaces = 0, $layouts_blocks = array(), $page_wi
 		$data .= Form::input('blocks[' . $page['id'] . '][position]', (int) $current_position, array('maxlength' => 4, 'size' => 4, 'class' => 'form-control text-right widget-position') );
 		$data .= '</td><td></td>';
 		
-		if (Acl::check('page.edit'))
+		if (ACL::check('page.edit'))
 		{
 			$data .= '<th>' . str_repeat("-&nbsp;", $spaces) . HTML::anchor(Route::get('backend')->uri(array(
 				'controller' => 'page',

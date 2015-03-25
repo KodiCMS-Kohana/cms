@@ -30,9 +30,9 @@
 		</div>
 	</div>
 
-	<?php if (Acl::check('roles.change_permissions') AND ($role->id != 2 AND $role->loaded())): ?>
+	<?php if (ACL::check('roles.change_permissions') AND ($role->id != 2 AND $role->loaded())): ?>
 	<?php echo View::factory('roles/permissions', array(
-		'permissions' => Acl::get_permissions(),
+		'permissions' => ACL::get_permissions(),
 		'role_permissions' => $role->permissions()
 	)); ?>
 	<?php endif; ?>

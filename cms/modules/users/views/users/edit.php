@@ -96,7 +96,7 @@
 	</div>
 	<?php endif; ?>
 
-	<?php if (Acl::check('users.change_roles') AND ( $user->id === NULL OR $user->id > 1)): ?>
+	<?php if (ACL::check('users.change_roles') AND ( $user->id === NULL OR $user->id > 1)): ?>
 	<div class="panel-heading">
 		<span class="panel-title"><?php echo __('Roles'); ?></span>
 	</div>

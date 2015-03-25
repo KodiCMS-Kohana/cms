@@ -24,7 +24,7 @@
 				<div class="input-group">
 				<?php echo $template->field('email_type'); ?>
 				
-				<?php if (Acl::check('email_type.add')): ?>
+				<?php if (ACL::check('email_type.add')): ?>
 				<div class="input-group-btn">
 					<?php echo UI::button(__('Add email type'), array(
 						'href' => Route::get('email_controllers')->uri(array('controller' => 'types', 'action' => 'add')), 'icon' => UI::icon('plus'),

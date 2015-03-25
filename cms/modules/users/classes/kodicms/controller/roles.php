@@ -61,7 +61,7 @@ class KodiCMS_Controller_Roles extends Controller_System_Backend {
 
 			$role = $role->values($data)->create();
 
-			if (Acl::check('roles.change_permissions'))
+			if (ACL::check('roles.change_permissions'))
 			{
 				$role->set_permissions($data['permissions']);
 			}
@@ -123,7 +123,7 @@ class KodiCMS_Controller_Roles extends Controller_System_Backend {
 		{
 			$role = $role->values($data)->update();
 
-			if (Acl::check('roles.change_permissions') AND ! empty($data['permissions']))
+			if (ACL::check('roles.change_permissions') AND ! empty($data['permissions']))
 			{
 				$role->set_permissions($data['permissions']);
 			}

@@ -62,7 +62,7 @@ class KodiCMS_Controller_API_Page_Parts extends Controller_System_Api {
 	
 	public function post_reorder()
 	{
-		if (!Acl::check('parts.reorder'))
+		if (!ACL::check('parts.reorder'))
 		{
 			return;
 		}
