@@ -112,6 +112,17 @@ if (isset($_SERVER['HTTP_HOST']))
 	Request::$host = str_replace('www.', '', $_SERVER['HTTP_HOST']);
 }
 
+define('CMS_NAME',			'KodiCMS');
+define('CMS_SITE',			'http://www.kodicms.ru');
+define('CMS_VERSION',		'14.0.0');
+
+define('PUBLICPATH',		DOCROOT . 'public' . DIRECTORY_SEPARATOR);
+define('TMPPATH',			CMSPATH . 'tmp' . DIRECTORY_SEPARATOR);
+define('LAYOUTS_SYSPATH',	DOCROOT . 'layouts' . DIRECTORY_SEPARATOR);
+define('SNIPPETS_SYSPATH',	DOCROOT . 'snippets' . DIRECTORY_SEPARATOR);
+
+define('STORAGEPATH',		CMSPATH . 'storage' . DIRECTORY_SEPARATOR);
+
 /**
  * InitializeCore, setting the default options.
  *
@@ -126,20 +137,12 @@ if (isset($_SERVER['HTTP_HOST']))
 Kohana::init( array(
 	'base_url'				=> '/',
 	'index_file'			=> FALSE,
-	'cache_dir'				=> CMSPATH . 'cache',
+	'cache_dir'				=> STORAGEPATH . 'cache',
 	'caching'				=> Kohana::$environment < Kohana::DEVELOPMENT,
 	'profile'				=> Kohana::$environment > Kohana::PRODUCTION,
 	'errors'				=> TRUE
 ));
 
-define('CMS_NAME',			'KodiCMS');
-define('CMS_SITE',			'http://www.kodicms.ru');
-define('CMS_VERSION',		'14.0.0');
-
-define('PUBLICPATH',		DOCROOT . 'public' . DIRECTORY_SEPARATOR);
-define('TMPPATH',			CMSPATH . 'tmp' . DIRECTORY_SEPARATOR);
-define('LAYOUTS_SYSPATH',	DOCROOT . 'layouts' . DIRECTORY_SEPARATOR);
-define('SNIPPETS_SYSPATH',	DOCROOT . 'snippets' . DIRECTORY_SEPARATOR);
 
 if (PHP_SAPI != 'cli')
 {
@@ -158,7 +161,7 @@ define('ADMIN_RESOURCES',	BASE_URL . 'cms/media/');
 /**
  * Attach the file write to logging. Multiple writers are supported.
  */
-Kohana::$log->attach(new Log_File(CMSPATH . 'logs'));
+Kohana::$log->attach(new Log_File(STORAGEPATH . 'logs'));
 
 /**
  * Attach a file reader to config. Multiple readers are supported.

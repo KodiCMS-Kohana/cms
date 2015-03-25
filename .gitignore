@@ -1,24 +1,9 @@
 # Config
 /config.php
 
-# Logs
-/cms/logs/*
-!/cms/logs/*.html
-
-# Cache
-/cms/cache/*
-!/cms/cache/*.html
-!/cms/cache/tags/*
-!/cms/cache/tags/*.html
-!/cms/cache/i18n/*
-!/cms/cache/i18n/*.html
-
-# Databases
-/cms/db/*
-!/cms/db/*.html
-
-# Databases
-/cms/media/libs/kodicms/*
+# Composer
+/vendor
+/node_modules
 
 # Public files
 /public/*
@@ -26,14 +11,6 @@
 
 # Patches
 /patches/*
-
-# Layouts
-/layouts/*
-!/layouts/index.html
-
-# Snippets
-/snippets/*
-!/snippets/index.html
 
 .DS_Store
 

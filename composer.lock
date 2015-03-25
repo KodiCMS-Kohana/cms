@@ -1,0 +1,1639 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "hash": "c475053e00a750b713912235a9c5df74",
+    "packages": [
+        {
+            "name": "composer/installers",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/composer/installers.git",
+                "reference": "4db8898759143c742a8661b626d23f1535a42c15"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/composer/installers/zipball/4db8898759143c742a8661b626d23f1535a42c15",
+                "reference": "4db8898759143c742a8661b626d23f1535a42c15",
+                "shasum": ""
+            },
+            "replace": {
+                "roundcube/plugin-installer": "*",
+                "shama/baton": "*"
+            },
+            "require-dev": {
+                "composer/composer": "1.0.*@dev",
+                "phpunit/phpunit": "4.1.*"
+            },
+            "type": "composer-installer",
+            "extra": {
+                "class": "Composer\\Installers\\Installer",
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Composer\\Installers\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kyle Robinson Young",
+                    "email": "kyle@dontkry.com",
+                    "homepage": "https://github.com/shama"
+                }
+            ],
+            "description": "A multi-framework Composer library installer",
+            "homepage": "http://composer.github.com/installers/",
+            "keywords": [
+                "Craft",
+                "Dolibarr",
+                "Hurad",
+                "MODX Evo",
+                "OXID",
+                "SMF",
+                "Thelia",
+                "WolfCMS",
+                "agl",
+                "aimeos",
+                "annotatecms",
+                "bitrix",
+                "cakephp",
+                "chef",
+                "codeigniter",
+                "concrete5",
+                "croogo",
+                "dokuwiki",
+                "drupal",
+                "elgg",
+                "fuelphp",
+                "grav",
+                "installer",
+                "joomla",
+                "kohana",
+                "laravel",
+                "lithium",
+                "magento",
+                "mako",
+                "mediawiki",
+                "modulework",
+                "moodle",
+                "phpbb",
+                "piwik",
+                "ppi",
+                "puppet",
+                "roundcube",
+                "shopware",
+                "silverstripe",
+                "symfony",
+                "typo3",
+                "wordpress",
+                "zend",
+                "zikula"
+            ],
+            "time": "2015-03-18 21:44:04"
+        },
+        {
+            "name": "doctrine/lexer",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/lexer.git",
+                "reference": "83893c552fd2045dd78aef794c31e694c37c0b8c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/lexer/zipball/83893c552fd2045dd78aef794c31e694c37c0b8c",
+                "reference": "83893c552fd2045dd78aef794c31e694c37c0b8c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Doctrine\\Common\\Lexer\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Roman Borschel",
+                    "email": "roman@code-factory.org"
+                },
+                {
+                    "name": "Guilherme Blanco",
+                    "email": "guilhermeblanco@gmail.com"
+                },
+                {
+                    "name": "Johannes Schmitt",
+                    "email": "schmittjoh@gmail.com"
+                }
+            ],
+            "description": "Base library for a lexer that can be used in Top-Down, Recursive Descent Parsers.",
+            "homepage": "http://www.doctrine-project.org",
+            "keywords": [
+                "lexer",
+                "parser"
+            ],
+            "time": "2014-09-09 13:34:57"
+        },
+        {
+            "name": "egulias/email-validator",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/egulias/EmailValidator.git",
+                "reference": "0a26375a7a1b25567604d666e1f13123ce636542"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/0a26375a7a1b25567604d666e1f13123ce636542",
+                "reference": "0a26375a7a1b25567604d666e1f13123ce636542",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/lexer": "~1.0,>=1.0.1",
+                "php": ">= 5.3.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.4",
+                "satooshi/php-coveralls": "dev-master"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.3.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Egulias\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Eduardo Gulias Davis"
+                }
+            ],
+            "description": "A library for validating emails",
+            "homepage": "https://github.com/egulias/EmailValidator",
+            "keywords": [
+                "email",
+                "validation",
+                "validator"
+            ],
+            "time": "2015-03-08 00:24:16"
+        },
+        {
+            "name": "kodicms/api",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/KodiCMS/module-api.git",
+                "reference": "ae83f22ea73addda25b6af1682f29b0f2df91619"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/KodiCMS/module-api/zipball/ae83f22ea73addda25b6af1682f29b0f2df91619",
+                "reference": "ae83f22ea73addda25b6af1682f29b0f2df91619",
+                "shasum": ""
+            },
+            "require": {
+                "kodicms/core": "dev-master"
+            },
+            "type": "kodicms-module",
+            "extra": {
+                "installer-paths": {
+                    "cms/modules/{$name}": [
+                        "type:kodicms-module"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Pavel Buchnev",
+                    "email": "butschster@gmail.com",
+                    "homepage": "http://www.kodicms.ru/",
+                    "role": "developer"
+                }
+            ],
+            "description": "The official KodiCMS core module",
+            "homepage": "http://www.kodicms.ru/",
+            "keywords": [
+                "api",
+                "cms",
+                "framework",
+                "kodicms",
+                "kohana",
+                "module"
+            ],
+            "time": "2015-03-25 14:49:55"
+        },
+        {
+            "name": "kodicms/breadcrumbs",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/KodiCMS/module-breadcrumbs.git",
+                "reference": "7eee1b5cf1bce8a8c8c9f08075f34b4fe91bb0eb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/KodiCMS/module-breadcrumbs/zipball/7eee1b5cf1bce8a8c8c9f08075f34b4fe91bb0eb",
+                "reference": "7eee1b5cf1bce8a8c8c9f08075f34b4fe91bb0eb",
+                "shasum": ""
+            },
+            "require": {
+                "kodicms/core": "dev-master"
+            },
+            "type": "kodicms-module",
+            "extra": {
+                "installer-paths": {
+                    "cms/modules/{$name}": [
+                        "type:kodicms-module"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Pavel Buchnev",
+                    "email": "butschster@gmail.com",
+                    "homepage": "http://www.kodicms.ru/",
+                    "role": "developer"
+                }
+            ],
+            "description": "The official KodiCMS breadcrumbs module",
+            "homepage": "http://www.kodicms.ru/",
+            "keywords": [
+                "breadcrumbs",
+                "cms",
+                "framework",
+                "kodicms",
+                "kohana",
+                "module"
+            ],
+            "time": "2015-03-25 14:50:54"
+        },
+        {
+            "name": "kodicms/core",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/KodiCMS/core.git",
+                "reference": "9a1cc4a30e1102786005ac65e489de65de9ac66f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/KodiCMS/core/zipball/9a1cc4a30e1102786005ac65e489de65de9ac66f",
+                "reference": "9a1cc4a30e1102786005ac65e489de65de9ac66f",
+                "shasum": ""
+            },
+            "require": {
+                "kodicms/api": "@dev",
+                "kodicms/breadcrumbs": "@dev",
+                "kodicms/dashboard": "@dev",
+                "kodicms/datasource": "@dev",
+                "kodicms/elfinder": "@dev",
+                "kodicms/email": "@dev",
+                "kodicms/installer": "@dev",
+                "kodicms/logs": "@dev",
+                "kodicms/page_parts": "@dev",
+                "kodicms/pages": "@dev",
+                "kodicms/plugins": "@dev",
+                "kodicms/scheduler": "@dev",
+                "kodicms/search": "@dev",
+                "kodicms/snippet": "@dev",
+                "kodicms/tags": "@dev",
+                "kodicms/update": "@dev",
+                "kodicms/users": "@dev",
+                "kodicms/widgets": "@dev",
+                "kohana/auth": "3.3.*",
+                "kohana/cache": "3.3.*",
+                "kohana/core": "3.3.*",
+                "kohana/database": "3.3.*",
+                "kohana/image": "3.3.*",
+                "kohana/minion": "3.3.*",
+                "kohana/orm": "3.3.*",
+                "php": ">=5.3.3"
+            },
+            "type": "kodicms-module",
+            "extra": {
+                "installer-paths": {
+                    "cms/modules/{$name}": [
+                        "type:kodicms-module"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Pavel Buchnev",
+                    "email": "butschster@gmail.com",
+                    "homepage": "http://www.kodicms.ru/",
+                    "role": "developer"
+                }
+            ],
+            "description": "The official KodiCMS core module",
+            "homepage": "http://www.kodicms.ru/",
+            "keywords": [
+                "cms",
+                "core",
+                "framework",
+                "kodicms",
+                "kohana",
+                "module"
+            ],
+            "time": "2015-03-25 14:49:43"
+        },
+        {
+            "name": "kodicms/dashboard",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/KodiCMS/module-dashboard.git",
+                "reference": "0f64c66679055dd0525ca1e0977b7c2926c47212"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/KodiCMS/module-dashboard/zipball/0f64c66679055dd0525ca1e0977b7c2926c47212",
+                "reference": "0f64c66679055dd0525ca1e0977b7c2926c47212",
+                "shasum": ""
+            },
+            "require": {
+                "kodicms/core": "dev-master"
+            },
+            "type": "kodicms-module",
+            "extra": {
+                "installer-paths": {
+                    "cms/modules/{$name}": [
+                        "type:kodicms-module"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Pavel Buchnev",
+                    "email": "butschster@gmail.com",
+                    "homepage": "http://www.kodicms.ru/",
+                    "role": "developer"
+                }
+            ],
+            "description": "The official KodiCMS dashboard module",
+            "homepage": "http://www.kodicms.ru/",
+            "keywords": [
+                "api",
+                "cms",
+                "framework",
+                "kodicms",
+                "kohana",
+                "module"
+            ],
+            "time": "2015-03-25 14:49:23"
+        },
+        {
+            "name": "kodicms/datasource",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/KodiCMS/module-datasource.git",
+                "reference": "84d834ec4985945d989a7410937c4b961d9802c8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/KodiCMS/module-datasource/zipball/84d834ec4985945d989a7410937c4b961d9802c8",
+                "reference": "84d834ec4985945d989a7410937c4b961d9802c8",
+                "shasum": ""
+            },
+            "require": {
+                "kodicms/core": "dev-master",
+                "kodicms/search": "dev-master"
+            },
+            "type": "kodicms-module",
+            "extra": {
+                "installer-paths": {
+                    "cms/modules/{$name}": [
+                        "type:kodicms-module"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Pavel Buchnev",
+                    "email": "butschster@gmail.com",
+                    "homepage": "http://www.kodicms.ru/",
+                    "role": "developer"
+                }
+            ],
+            "description": "The official KodiCMS dashboard module",
+            "homepage": "http://www.kodicms.ru/",
+            "keywords": [
+                "cms",
+                "datasource",
+                "framework",
+                "kodicms",
+                "kohana",
+                "module"
+            ],
+            "time": "2015-03-25 14:51:06"
+        },
+        {
+            "name": "kodicms/elfinder",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/KodiCMS/module-elfinder.git",
+                "reference": "432cf783bcdb48abad7217856c85368a175b8e1d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/KodiCMS/module-elfinder/zipball/432cf783bcdb48abad7217856c85368a175b8e1d",
+                "reference": "432cf783bcdb48abad7217856c85368a175b8e1d",
+                "shasum": ""
+            },
+            "require": {
+                "kodicms/core": "dev-master"
+            },
+            "type": "kodicms-module",
+            "extra": {
+                "installer-paths": {
+                    "cms/modules/{$name}": [
+                        "type:kodicms-module"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Pavel Buchnev",
+                    "email": "butschster@gmail.com",
+                    "homepage": "http://www.kodicms.ru/",
+                    "role": "developer"
+                }
+            ],
+            "description": "The official KodiCMS dashboard module",
+            "homepage": "http://www.kodicms.ru/",
+            "keywords": [
+                "cms",
+                "elfinder",
+                "framework",
+                "kodicms",
+                "kohana",
+                "module"
+            ],
+            "time": "2015-03-25 14:51:19"
+        },
+        {
+            "name": "kodicms/email",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/KodiCMS/module-email.git",
+                "reference": "53cede2b0e3b5fe7a9427d4a8a0845a7a62b4820"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/KodiCMS/module-email/zipball/53cede2b0e3b5fe7a9427d4a8a0845a7a62b4820",
+                "reference": "53cede2b0e3b5fe7a9427d4a8a0845a7a62b4820",
+                "shasum": ""
+            },
+            "require": {
+                "kodicms/core": "dev-master",
+                "swiftmailer/swiftmailer": "@stable"
+            },
+            "type": "kodicms-module",
+            "extra": {
+                "installer-paths": {
+                    "cms/modules/{$name}": [
+                        "type:kodicms-module"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Pavel Buchnev",
+                    "email": "butschster@gmail.com",
+                    "homepage": "http://www.kodicms.ru/",
+                    "role": "developer"
+                }
+            ],
+            "description": "The official KodiCMS email module",
+            "homepage": "http://www.kodicms.ru/",
+            "keywords": [
+                "cms",
+                "email",
+                "framework",
+                "kodicms",
+                "kohana",
+                "module"
+            ],
+            "time": "2015-03-25 14:51:12"
+        },
+        {
+            "name": "kodicms/installer",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/KodiCMS/module-installer.git",
+                "reference": "f765200257477c35715f13824b34c2766b911892"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/KodiCMS/module-installer/zipball/f765200257477c35715f13824b34c2766b911892",
+                "reference": "f765200257477c35715f13824b34c2766b911892",
+                "shasum": ""
+            },
+            "require": {
+                "kodicms/core": "dev-master"
+            },
+            "type": "kodicms-module",
+            "extra": {
+                "installer-paths": {
+                    "cms/modules/{$name}": [
+                        "type:kodicms-module"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Pavel Buchnev",
+                    "email": "butschster@gmail.com",
+                    "homepage": "http://www.kodicms.ru/",
+                    "role": "developer"
+                }
+            ],
+            "description": "The official KodiCMS installer module",
+            "homepage": "http://www.kodicms.ru/",
+            "keywords": [
+                "cms",
+                "framework",
+                "installer",
+                "kodicms",
+                "kohana",
+                "module"
+            ],
+            "time": "2015-03-25 14:49:19"
+        },
+        {
+            "name": "kodicms/logs",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/KodiCMS/module-logs.git",
+                "reference": "2cc83f27aa3ffe38eeedeedeb089dffda928c874"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/KodiCMS/module-logs/zipball/2cc83f27aa3ffe38eeedeedeb089dffda928c874",
+                "reference": "2cc83f27aa3ffe38eeedeedeb089dffda928c874",
+                "shasum": ""
+            },
+            "require": {
+                "kodicms/core": "dev-master"
+            },
+            "type": "kodicms-module",
+            "extra": {
+                "installer-paths": {
+                    "cms/modules/{$name}": [
+                        "type:kodicms-module"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Pavel Buchnev",
+                    "email": "butschster@gmail.com",
+                    "homepage": "http://www.kodicms.ru/",
+                    "role": "developer"
+                }
+            ],
+            "description": "The official KodiCMS logs module",
+            "homepage": "http://www.kodicms.ru/",
+            "keywords": [
+                "cms",
+                "framework",
+                "kodicms",
+                "kohana",
+                "logs",
+                "module"
+            ],
+            "time": "2015-03-25 14:49:14"
+        },
+        {
+            "name": "kodicms/page_parts",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/KodiCMS/module-page_parts.git",
+                "reference": "f15ef00883b5d29a49eff0574563a86ce37b1c95"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/KodiCMS/module-page_parts/zipball/f15ef00883b5d29a49eff0574563a86ce37b1c95",
+                "reference": "f15ef00883b5d29a49eff0574563a86ce37b1c95",
+                "shasum": ""
+            },
+            "require": {
+                "kodicms/core": "dev-master",
+                "kodicms/pages": "dev-master"
+            },
+            "type": "kodicms-module",
+            "extra": {
+                "installer-paths": {
+                    "cms/modules/{$name}": [
+                        "type:kodicms-module"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Pavel Buchnev",
+                    "email": "butschster@gmail.com",
+                    "homepage": "http://www.kodicms.ru/",
+                    "role": "developer"
+                }
+            ],
+            "description": "The official KodiCMS page parts module",
+            "homepage": "http://www.kodicms.ru/",
+            "keywords": [
+                "cms",
+                "framework",
+                "kodicms",
+                "kohana",
+                "module",
+                "page_parts"
+            ],
+            "time": "2015-03-25 14:50:36"
+        },
+        {
+            "name": "kodicms/pages",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/KodiCMS/module-pages.git",
+                "reference": "1131e503002858aa2c5ecf87740ff18985da4932"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/KodiCMS/module-pages/zipball/1131e503002858aa2c5ecf87740ff18985da4932",
+                "reference": "1131e503002858aa2c5ecf87740ff18985da4932",
+                "shasum": ""
+            },
+            "require": {
+                "kodicms/core": "dev-master"
+            },
+            "type": "kodicms-module",
+            "extra": {
+                "installer-paths": {
+                    "cms/modules/{$name}": [
+                        "type:kodicms-module"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Pavel Buchnev",
+                    "email": "butschster@gmail.com",
+                    "homepage": "http://www.kodicms.ru/",
+                    "role": "developer"
+                }
+            ],
+            "description": "The official KodiCMS page module",
+            "homepage": "http://www.kodicms.ru/",
+            "keywords": [
+                "cms",
+                "framework",
+                "kodicms",
+                "kohana",
+                "module",
+                "pages"
+            ],
+            "time": "2015-03-25 14:49:08"
+        },
+        {
+            "name": "kodicms/plugins",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/KodiCMS/module-plugins.git",
+                "reference": "21084d16211630436470a1c2107e7b7bd7861aa1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/KodiCMS/module-plugins/zipball/21084d16211630436470a1c2107e7b7bd7861aa1",
+                "reference": "21084d16211630436470a1c2107e7b7bd7861aa1",
+                "shasum": ""
+            },
+            "require": {
+                "kodicms/core": "dev-master"
+            },
+            "type": "kodicms-module",
+            "extra": {
+                "installer-paths": {
+                    "cms/modules/{$name}": [
+                        "type:kodicms-module"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Pavel Buchnev",
+                    "email": "butschster@gmail.com",
+                    "homepage": "http://www.kodicms.ru/",
+                    "role": "developer"
+                }
+            ],
+            "description": "The official KodiCMS plugins module",
+            "homepage": "http://www.kodicms.ru/",
+            "keywords": [
+                "cms",
+                "framework",
+                "kodicms",
+                "kohana",
+                "module",
+                "plugins"
+            ],
+            "time": "2015-03-25 14:50:30"
+        },
+        {
+            "name": "kodicms/scheduler",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/KodiCMS/module-scheduler.git",
+                "reference": "5965889fc1e0f76f3a9a064d7bd5984b045ad324"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/KodiCMS/module-scheduler/zipball/5965889fc1e0f76f3a9a064d7bd5984b045ad324",
+                "reference": "5965889fc1e0f76f3a9a064d7bd5984b045ad324",
+                "shasum": ""
+            },
+            "require": {
+                "kodicms/core": "dev-master"
+            },
+            "type": "kodicms-module",
+            "extra": {
+                "installer-paths": {
+                    "cms/modules/{$name}": [
+                        "type:kodicms-module"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Pavel Buchnev",
+                    "email": "butschster@gmail.com",
+                    "homepage": "http://www.kodicms.ru/",
+                    "role": "developer"
+                }
+            ],
+            "description": "The official KodiCMS scheduler module",
+            "homepage": "http://www.kodicms.ru/",
+            "keywords": [
+                "cms",
+                "framework",
+                "kodicms",
+                "kohana",
+                "module",
+                "scheduler"
+            ],
+            "time": "2015-03-25 14:51:00"
+        },
+        {
+            "name": "kodicms/search",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/KodiCMS/module-search.git",
+                "reference": "f4c3893abbfb813c88f07c02451bed482cd7b630"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/KodiCMS/module-search/zipball/f4c3893abbfb813c88f07c02451bed482cd7b630",
+                "reference": "f4c3893abbfb813c88f07c02451bed482cd7b630",
+                "shasum": ""
+            },
+            "require": {
+                "kodicms/core": "dev-master"
+            },
+            "type": "kodicms-module",
+            "extra": {
+                "installer-paths": {
+                    "cms/modules/{$name}": [
+                        "type:kodicms-module"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Pavel Buchnev",
+                    "email": "butschster@gmail.com",
+                    "homepage": "http://www.kodicms.ru/",
+                    "role": "developer"
+                }
+            ],
+            "description": "The official KodiCMS search module",
+            "homepage": "http://www.kodicms.ru/",
+            "keywords": [
+                "cms",
+                "framework",
+                "kodicms",
+                "kohana",
+                "module",
+                "search"
+            ],
+            "time": "2015-03-25 14:50:41"
+        },
+        {
+            "name": "kodicms/snippet",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/KodiCMS/module-snippet.git",
+                "reference": "1da5a2cd73409b8008b71b89d3fddde0043887eb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/KodiCMS/module-snippet/zipball/1da5a2cd73409b8008b71b89d3fddde0043887eb",
+                "reference": "1da5a2cd73409b8008b71b89d3fddde0043887eb",
+                "shasum": ""
+            },
+            "require": {
+                "kodicms/core": "dev-master"
+            },
+            "type": "kodicms-module",
+            "extra": {
+                "installer-paths": {
+                    "cms/modules/{$name}": [
+                        "type:kodicms-module"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Pavel Buchnev",
+                    "email": "butschster@gmail.com",
+                    "homepage": "http://www.kodicms.ru/",
+                    "role": "developer"
+                }
+            ],
+            "description": "The official KodiCMS snippet module",
+            "homepage": "http://www.kodicms.ru/",
+            "keywords": [
+                "cms",
+                "framework",
+                "kodicms",
+                "kohana",
+                "module",
+                "snippet"
+            ],
+            "time": "2015-03-25 14:49:36"
+        },
+        {
+            "name": "kodicms/tags",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/KodiCMS/module-tags.git",
+                "reference": "20f9ba3961da6464fc3863900617c424c1a616ef"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/KodiCMS/module-tags/zipball/20f9ba3961da6464fc3863900617c424c1a616ef",
+                "reference": "20f9ba3961da6464fc3863900617c424c1a616ef",
+                "shasum": ""
+            },
+            "require": {
+                "kodicms/core": "dev-master",
+                "kodicms/pages": "dev-master"
+            },
+            "type": "kodicms-module",
+            "extra": {
+                "installer-paths": {
+                    "cms/modules/{$name}": [
+                        "type:kodicms-module"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Pavel Buchnev",
+                    "email": "butschster@gmail.com",
+                    "homepage": "http://www.kodicms.ru/",
+                    "role": "developer"
+                }
+            ],
+            "description": "The official KodiCMS tags module",
+            "homepage": "http://www.kodicms.ru/",
+            "keywords": [
+                "cms",
+                "framework",
+                "kodicms",
+                "kohana",
+                "module",
+                "tags"
+            ],
+            "time": "2015-03-25 14:50:49"
+        },
+        {
+            "name": "kodicms/update",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/KodiCMS/module-update.git",
+                "reference": "4815eb6767742fd8cab3836bdc1338bb1c92c083"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/KodiCMS/module-update/zipball/4815eb6767742fd8cab3836bdc1338bb1c92c083",
+                "reference": "4815eb6767742fd8cab3836bdc1338bb1c92c083",
+                "shasum": ""
+            },
+            "require": {
+                "kodicms/core": "dev-master"
+            },
+            "type": "kodicms-module",
+            "extra": {
+                "installer-paths": {
+                    "cms/modules/{$name}": [
+                        "type:kodicms-module"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Pavel Buchnev",
+                    "email": "butschster@gmail.com",
+                    "homepage": "http://www.kodicms.ru/",
+                    "role": "developer"
+                }
+            ],
+            "description": "The official KodiCMS update module",
+            "homepage": "http://www.kodicms.ru/",
+            "keywords": [
+                "cms",
+                "framework",
+                "kodicms",
+                "kohana",
+                "module",
+                "update"
+            ],
+            "time": "2015-03-25 14:49:28"
+        },
+        {
+            "name": "kodicms/users",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/KodiCMS/module-users.git",
+                "reference": "c051f21142891866b58784e9b5c5611ee2b88578"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/KodiCMS/module-users/zipball/c051f21142891866b58784e9b5c5611ee2b88578",
+                "reference": "c051f21142891866b58784e9b5c5611ee2b88578",
+                "shasum": ""
+            },
+            "require": {
+                "kodicms/core": "dev-master"
+            },
+            "type": "kodicms-module",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Pavel Buchnev",
+                    "email": "butschster@gmail.com",
+                    "homepage": "http://www.kodicms.ru/",
+                    "role": "developer"
+                }
+            ],
+            "description": "The official KodiCMS users module",
+            "homepage": "http://www.kodicms.ru/",
+            "keywords": [
+                "Users",
+                "cms",
+                "framework",
+                "kodicms",
+                "kohana",
+                "module"
+            ],
+            "time": "2015-03-25 14:12:38"
+        },
+        {
+            "name": "kodicms/widgets",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/KodiCMS/module-widget.git",
+                "reference": "d95b1f413ab7d515254d84897d1206c6d7b44745"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/KodiCMS/module-widget/zipball/d95b1f413ab7d515254d84897d1206c6d7b44745",
+                "reference": "d95b1f413ab7d515254d84897d1206c6d7b44745",
+                "shasum": ""
+            },
+            "require": {
+                "kodicms/core": "dev-master",
+                "kodicms/snippet": "dev-master"
+            },
+            "type": "kodicms-module",
+            "extra": {
+                "installer-paths": {
+                    "cms/modules/{$name}": [
+                        "type:kodicms-module"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Pavel Buchnev",
+                    "email": "butschster@gmail.com",
+                    "homepage": "http://www.kodicms.ru/",
+                    "role": "developer"
+                }
+            ],
+            "description": "The official KodiCMS page module",
+            "homepage": "http://www.kodicms.ru/",
+            "keywords": [
+                "cms",
+                "framework",
+                "kodicms",
+                "kohana",
+                "module",
+                "widgets"
+            ],
+            "time": "2015-03-25 14:49:50"
+        },
+        {
+            "name": "kohana/auth",
+            "version": "dev-3.3/develop",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kohana/auth.git",
+                "reference": "9fa45d3e939d0ec45d53002a987c0b84360036fe"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kohana/auth/zipball/9fa45d3e939d0ec45d53002a987c0b84360036fe",
+                "reference": "9fa45d3e939d0ec45d53002a987c0b84360036fe",
+                "shasum": ""
+            },
+            "require": {
+                "composer/installers": "~1.0",
+                "kohana/core": ">=3.3",
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "kohana/core": "3.3.*@dev",
+                "kohana/koharness": "*@dev",
+                "kohana/unittest": "3.3.*@dev"
+            },
+            "type": "kohana-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-3.3/develop": "3.3.x-dev",
+                    "dev-3.4/develop": "3.4.x-dev"
+                },
+                "installer-paths": {
+                    "vendor/{$vendor}/{$name}": [
+                        "type:kohana-module"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Kohana Team",
+                    "email": "team@kohanaframework.org",
+                    "homepage": "http://kohanaframework.org/team",
+                    "role": "developer"
+                }
+            ],
+            "description": "The official Kohana auth module",
+            "homepage": "http://kohanaframework.org",
+            "keywords": [
+                "Authentication",
+                "framework",
+                "kohana"
+            ],
+            "time": "2014-10-10 14:13:01"
+        },
+        {
+            "name": "kohana/cache",
+            "version": "dev-3.3/develop",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kohana/cache.git",
+                "reference": "e001903db55c2af92737da2f3cf957e94282417c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kohana/cache/zipball/e001903db55c2af92737da2f3cf957e94282417c",
+                "reference": "e001903db55c2af92737da2f3cf957e94282417c",
+                "shasum": ""
+            },
+            "require": {
+                "composer/installers": "~1.0",
+                "kohana/core": ">=3.3",
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "kohana/core": "3.3.*@dev",
+                "kohana/koharness": "*@dev",
+                "kohana/unittest": "3.3.*@dev"
+            },
+            "type": "kohana-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-3.3/develop": "3.3.x-dev",
+                    "dev-3.4/develop": "3.4.x-dev"
+                },
+                "installer-paths": {
+                    "vendor/{$vendor}/{$name}": [
+                        "type:kohana-module"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Kohana Team",
+                    "email": "team@kohanaframework.org",
+                    "homepage": "http://kohanaframework.org/team",
+                    "role": "developer"
+                }
+            ],
+            "description": "The official Kohana cache management module",
+            "homepage": "http://kohanaframework.org",
+            "keywords": [
+                "cache",
+                "framework",
+                "kohana"
+            ],
+            "time": "2015-03-13 15:58:40"
+        },
+        {
+            "name": "kohana/core",
+            "version": "dev-3.3/develop",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kohana/core.git",
+                "reference": "37740b1dce1d7aa276d21bae6b7161ddaef244d6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kohana/core/zipball/37740b1dce1d7aa276d21bae6b7161ddaef244d6",
+                "reference": "37740b1dce1d7aa276d21bae6b7161ddaef244d6",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "kohana/koharness": "*@dev",
+                "kohana/unittest": "3.3.*@dev"
+            },
+            "suggest": {
+                "ext-curl": "*",
+                "ext-http": "*",
+                "ext-mcrypt": "*"
+            },
+            "type": "library",
+            "extra": {
+                "installer-paths": {
+                    "vendor/{$vendor}/{$name}": [
+                        "type:kohana-module"
+                    ]
+                },
+                "branch-alias": {
+                    "dev-3.3/develop": "3.3.x-dev",
+                    "dev-3.4/develop": "3.4.x-dev"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Kohana Team",
+                    "email": "team@kohanaframework.org",
+                    "homepage": "http://kohanaframework.org/team",
+                    "role": "developer"
+                }
+            ],
+            "description": "Core system classes for the Kohana application framework",
+            "homepage": "http://kohanaframework.org",
+            "keywords": [
+                "framework",
+                "kohana"
+            ],
+            "time": "2014-12-22 15:52:15"
+        },
+        {
+            "name": "kohana/database",
+            "version": "dev-3.3/develop",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kohana/database.git",
+                "reference": "c352da30fed24702d11f34f80b2a0467e8faaff4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kohana/database/zipball/c352da30fed24702d11f34f80b2a0467e8faaff4",
+                "reference": "c352da30fed24702d11f34f80b2a0467e8faaff4",
+                "shasum": ""
+            },
+            "require": {
+                "composer/installers": "~1.0",
+                "kohana/core": ">=3.3",
+                "php": ">=5.3.6"
+            },
+            "require-dev": {
+                "kohana/core": "3.3.*@dev",
+                "kohana/koharness": "*@dev",
+                "kohana/unittest": "3.3.*@dev"
+            },
+            "suggest": {
+                "ext-mysql": "*",
+                "ext-pdo": "*"
+            },
+            "type": "kohana-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-3.3/develop": "3.3.x-dev",
+                    "dev-3.4/develop": "3.4.x-dev"
+                },
+                "installer-paths": {
+                    "vendor/{$vendor}/{$name}": [
+                        "type:kohana-module"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Kohana Team",
+                    "email": "team@kohanaframework.org",
+                    "homepage": "http://kohanaframework.org/team",
+                    "role": "developer"
+                }
+            ],
+            "description": "The official Kohana module for database interactions, building queries, and prepared statements",
+            "homepage": "http://kohanaframework.org",
+            "keywords": [
+                "database",
+                "framework",
+                "kohana"
+            ],
+            "time": "2014-11-11 11:10:24"
+        },
+        {
+            "name": "kohana/image",
+            "version": "dev-3.3/develop",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kohana/image.git",
+                "reference": "c8d7dc42f751d4ce4819292c09cbf16dcc7a6004"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kohana/image/zipball/c8d7dc42f751d4ce4819292c09cbf16dcc7a6004",
+                "reference": "c8d7dc42f751d4ce4819292c09cbf16dcc7a6004",
+                "shasum": ""
+            },
+            "require": {
+                "composer/installers": "~1.0",
+                "kohana/core": ">=3.3",
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "kohana/core": "3.3.*@dev",
+                "kohana/koharness": "*@dev",
+                "kohana/unittest": "3.3.*@dev"
+            },
+            "suggest": {
+                "ext-gd": "*"
+            },
+            "type": "kohana-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-3.3/develop": "3.3.x-dev",
+                    "dev-3.4/develop": "3.4.x-dev"
+                },
+                "installer-paths": {
+                    "vendor/{$vendor}/{$name}": [
+                        "type:kohana-module"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Kohana Team",
+                    "email": "team@kohanaframework.org",
+                    "homepage": "http://kohanaframework.org/team",
+                    "role": "developer"
+                }
+            ],
+            "description": "The official Kohana module for manipulating images",
+            "homepage": "http://kohanaframework.org",
+            "keywords": [
+                "framework",
+                "image",
+                "kohana"
+            ],
+            "time": "2014-11-28 09:10:25"
+        },
+        {
+            "name": "kohana/minion",
+            "version": "dev-3.3/develop",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kohana/minion.git",
+                "reference": "83ea70a790b7b0f0b0f5d75c4d9d3b4e42418c2d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kohana/minion/zipball/83ea70a790b7b0f0b0f5d75c4d9d3b4e42418c2d",
+                "reference": "83ea70a790b7b0f0b0f5d75c4d9d3b4e42418c2d",
+                "shasum": ""
+            },
+            "require": {
+                "composer/installers": "~1.0",
+                "kohana/core": ">=3.3",
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "kohana/core": "3.3.*@dev",
+                "kohana/koharness": "*@dev",
+                "kohana/unittest": "3.3.*@dev"
+            },
+            "type": "kohana-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-3.3/develop": "3.3.x-dev",
+                    "dev-3.4/develop": "3.4.x-dev"
+                },
+                "installer-paths": {
+                    "vendor/{$vendor}/{$name}": [
+                        "type:kohana-module"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Kohana Team",
+                    "email": "team@kohanaframework.org",
+                    "homepage": "http://kohanaframework.org/team",
+                    "role": "developer"
+                }
+            ],
+            "description": "The official kohana module for running tasks via the CLI",
+            "homepage": "http://kohanaframework.org",
+            "keywords": [
+                "framework",
+                "kohana",
+                "task"
+            ],
+            "time": "2015-01-05 20:10:33"
+        },
+        {
+            "name": "kohana/orm",
+            "version": "dev-3.3/develop",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kohana/orm.git",
+                "reference": "c5ee33aa57f4dbda09e9d49a9d0993a078dd2066"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kohana/orm/zipball/c5ee33aa57f4dbda09e9d49a9d0993a078dd2066",
+                "reference": "c5ee33aa57f4dbda09e9d49a9d0993a078dd2066",
+                "shasum": ""
+            },
+            "require": {
+                "composer/installers": "~1.0",
+                "kohana/core": ">=3.3",
+                "kohana/database": ">=3.3",
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "kohana/core": "3.3.*@dev",
+                "kohana/database": "3.3.*@dev",
+                "kohana/koharness": "*@dev",
+                "kohana/unittest": "3.3.*@dev"
+            },
+            "type": "kohana-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-3.3/develop": "3.3.x-dev",
+                    "dev-3.4/develop": "3.4.x-dev"
+                },
+                "installer-paths": {
+                    "vendor/{$vendor}/{$name}": [
+                        "type:kohana-module"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Kohana Team",
+                    "email": "team@kohanaframework.org",
+                    "homepage": "http://kohanaframework.org/team",
+                    "role": "developer"
+                }
+            ],
+            "description": "The official Kohana ORM module",
+            "homepage": "http://kohanaframework.org",
+            "keywords": [
+                "database",
+                "framework",
+                "kohana",
+                "orm"
+            ],
+            "time": "2014-10-10 14:38:27"
+        },
+        {
+            "name": "swiftmailer/swiftmailer",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/swiftmailer/swiftmailer.git",
+                "reference": "28f3b68e1b8b614006b9d6b573936d2eaba400d6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/28f3b68e1b8b614006b9d6b573936d2eaba400d6",
+                "reference": "28f3b68e1b8b614006b9d6b573936d2eaba400d6",
+                "shasum": ""
+            },
+            "require": {
+                "egulias/email-validator": "~1.2",
+                "php": ">=5.5.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9.1"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "6.0-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "lib/swift_required.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Chris Corbyn"
+                },
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                }
+            ],
+            "description": "Swiftmailer, free feature-rich PHP mailer",
+            "homepage": "http://swiftmailer.org",
+            "keywords": [
+                "mail",
+                "mailer"
+            ],
+            "time": "2015-03-23 09:58:58"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "dev",
+    "stability-flags": {
+        "kodicms/core": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": ">=5.4.0"
+    },
+    "platform-dev": []
+}

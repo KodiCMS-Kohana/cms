@@ -63,7 +63,7 @@ Kohana::modules( array(
 	'pages'			=> CMS_MODPATH . 'pages',		// Pages
 	'page_parts'	=> CMS_MODPATH . 'page_parts',	// Page parts
 	'tags'			=> CMS_MODPATH . 'tags',		// Tags
-	'widget'		=> CMS_MODPATH . 'widget',
+	'widgets'		=> CMS_MODPATH . 'widgets',
 	'elfinder'		=> CMS_MODPATH . 'elfinder',
 	'api'			=> CMS_MODPATH . 'api',
 	'breadcrumbs'	=> CMS_MODPATH . 'breadcrumbs',

@@ -1,6 +1,6 @@
 <?php defined( 'SYSPATH' ) or die( 'No direct script access.' );
 
-define('BACKUP_PLUGIN_FOLDER', DOCROOT . 'backups' . DIRECTORY_SEPARATOR);
+define('BACKUP_PLUGIN_FOLDER', STORAGEPATH . 'backups' . DIRECTORY_SEPARATOR);
 
 if (!is_dir(BACKUP_PLUGIN_FOLDER))
 {

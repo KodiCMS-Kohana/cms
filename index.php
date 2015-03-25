@@ -32,6 +32,11 @@ $application = $cms . 'application';
 $modules = 'vendor/kohana/modules';
 
 /**
+ * The directory in which your modules are located.
+ */
+$cms_modules = 'vendor/kodicms';
+
+/**
  * The directory in which the Kohana resources are located. The system
  * directory must contain the classes/kohana.php file.
  *
@@ -92,10 +97,9 @@ if (!is_dir($system) AND is_dir(DOCROOT . $system))
 define('CMSPATH', realpath($cms) . DIRECTORY_SEPARATOR);
 define('APPPATH', realpath($application) . DIRECTORY_SEPARATOR);
 define('MODPATH', realpath($modules) . DIRECTORY_SEPARATOR);
+define('CMS_MODPATH', realpath($cms_modules) . DIRECTORY_SEPARATOR);
 define('SYSPATH', realpath($system) . DIRECTORY_SEPARATOR);
 define('CFGFATH', DOCROOT . 'config' . EXT);
-
-define('CMS_MODPATH', CMSPATH . 'modules' . DIRECTORY_SEPARATOR);
 
 // Clean up the configuration vars
 unset($application, $modules, $system, $cms);
