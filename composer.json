@@ -1,7 +1,9 @@
 {
-	"name"       : "KodiCMS/core",
-	"type"       : "project",
-	"homepage"   : "https://github.com/butschster/kodicms",
+	"name"				: "kodicms/cms",
+	"description"		: "The KodiCMS CMS on Kohana framework.",
+	"keywords"			: ["framework", "kohana", "cms", "kodicms"],
+	"type"				: "project",
+	"homepage"			: "https://github.com/butschster/kodicms",
 	"authors": [
 		{
 			"name"		: "Kohana",
@@ -30,23 +32,18 @@
 			"php minion cache:clear"
 		]
 	},
+	"minimum-stability"		: "dev",
 	"require": {
-		"kohana/core"	: "3.3.*",
-		"kohana/database"   : "3.3.*",
-		"kohana/orm"        : "3.3.*",
-		"kohana/cache"      : "3.3.*",
-		"kohana/image"      : "3.3.*",
-		"kohana/minion"     : "3.3.*",
-		"kohana/auth"     : "3.3.*"
+		"kodicms/core"		: "dev-master"
 	},
 	"config": {
-		"vendor-dir"	: "vendor"
+		"vendor-dir"		: "vendor"
 	},
 	"extra": {
-        "installer-paths": {
-			"vendor/{$vendor}/modules/{$name}": ["type:kohana-module"],
-			"cms/modules/{$name}": ["type:kodicms-module"],
-			"cms/plugins/{$name}": ["type:kodicms-plugin"]
+        "installer-paths" : {
+			"cms/modules/{$name}"				: ["type:kodicms-module"],
+			"cms/plugins/{$name}"				: ["type:kodicms-plugin"],
+			"vendor/{$vendor}/modules/{$name}"	: ["type:kohana-module"]
 		}
 	}
 }

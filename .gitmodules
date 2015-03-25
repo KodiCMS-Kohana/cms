@@ -1,0 +1,57 @@
+[submodule "cms/modules/core"]
+	path = cms/modules/core
+	url = https://github.com/KodiCMS/core.git
+[submodule "cms/modules/tags"]
+	path = cms/modules/tags
+	url = https://github.com/KodiCMS/module-tags.git
+[submodule "cms/modules/users"]
+	path = cms/modules/users
+	url = https://github.com/KodiCMS/module-users.git
+[submodule "cms/modules/scheduler"]
+	path = cms/modules/scheduler
+	url = https://github.com/KodiCMS/module-scheduler.git
+[submodule "cms/modules/search"]
+	path = cms/modules/search
+	url = https://github.com/KodiCMS/module-search.git
+[submodule "cms/modules/breadcrumbs"]
+	path = cms/modules/breadcrumbs
+	url = https://github.com/KodiCMS/module-breadcrumbs.git
+[submodule "cms/modules/snippet"]
+	path = cms/modules/snippet
+	url = https://github.com/KodiCMS/module-snippet.git
+[submodule "cms/modules/widget"]
+	path = cms/modules/widget
+	url = https://github.com/KodiCMS/module-widget.git
+[submodule "cms/modules/update"]
+	path = cms/modules/update
+	url = https://github.com/KodiCMS/module-update.git
+[submodule "cms/modules/plugins"]
+	path = cms/modules/plugins
+	url = https://github.com/KodiCMS/module-plugins.git
+[submodule "cms/modules/page_parts"]
+	path = cms/modules/page_parts
+	url = https://github.com/KodiCMS/module-page_parts.git
+[submodule "cms/modules/logs"]
+	path = cms/modules/logs
+	url = https://github.com/KodiCMS/module-logs.git
+[submodule "cms/modules/pages"]
+	path = cms/modules/pages
+	url = https://github.com/KodiCMS/module-pages.git
+[submodule "cms/modules/installer"]
+	path = cms/modules/installer
+	url = https://github.com/KodiCMS/module-installer.git
+[submodule "cms/modules/elfinder"]
+	path = cms/modules/elfinder
+	url = https://github.com/KodiCMS/module-elfinder.git
+[submodule "cms/modules/email"]
+	path = cms/modules/email
+	url = https://github.com/KodiCMS/module-email.git
+[submodule "cms/modules/datasource"]
+	path = cms/modules/datasource
+	url = https://github.com/KodiCMS/module-datasource.git
+[submodule "cms/modules/dashboard"]
+	path = cms/modules/dashboard
+	url = https://github.com/KodiCMS/module-dashboard.git
+[submodule "cms/modules/api"]
+	path = cms/modules/api
+	url = https://github.com/KodiCMS/module-api.git

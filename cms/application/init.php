@@ -48,48 +48,35 @@ Session::$default = SESSION_TYPE;
 Kohana::modules( array(
 	'core'			=> CMS_MODPATH . 'core',
 	'users'			=> CMS_MODPATH . 'users',
-	'assets'		=> CMS_MODPATH . 'assets',		// Asset Manager
 	'logs'			=> CMS_MODPATH . 'logs',
 	
 	'auth'			=> MODPATH . 'auth',	// Basic authentication
-	'oauth'			=> CMS_MODPATH . 'oauth',
-	
 	'orm'			=> MODPATH . 'orm',			// Object Relationship Mapping
 	'minion'		=> MODPATH . 'minion',		// Minion
 	'cache'			=> MODPATH . 'cache',		// Cache manager
 	'database'		=> MODPATH . 'database',	// Database access
 	'image'			=> MODPATH . 'image',
 
-	'pagination'	=> CMS_MODPATH . 'pagination',
 	'email'			=> CMS_MODPATH . 'email',
-	'email_queue'	=> CMS_MODPATH . 'email_queue',
-	'filesystem'	=> CMS_MODPATH . 'filesystem',
 	'scheduler'		=> CMS_MODPATH . 'scheduler',
 	'snippet'		=> CMS_MODPATH . 'snippet',
 	'pages'			=> CMS_MODPATH . 'pages',		// Pages
 	'page_parts'	=> CMS_MODPATH . 'page_parts',	// Page parts
 	'tags'			=> CMS_MODPATH . 'tags',		// Tags
 	'widget'		=> CMS_MODPATH . 'widget',
-	'reflinks'		=> CMS_MODPATH . 'reflinks',
 	'elfinder'		=> CMS_MODPATH . 'elfinder',
 	'api'			=> CMS_MODPATH . 'api',
-	'navigation'	=> CMS_MODPATH . 'navigation',
 	'breadcrumbs'	=> CMS_MODPATH . 'breadcrumbs',
-	'behavior'		=> CMS_MODPATH . 'behavior',
 	'plugins'		=> CMS_MODPATH . 'plugins',
 	'datasource'	=> CMS_MODPATH . 'datasource',
 	'search'		=> CMS_MODPATH . 'search',
-	'sidebar'		=> CMS_MODPATH . 'sidebar',
 	'update'		=> CMS_MODPATH . 'update',
-	'captcha'		=> CMS_MODPATH . 'captcha',
 	'dashboard'		=> CMS_MODPATH . 'dashboard'
 ) );
 
 Kohana::$config->attach(new Config_Database);
 
 Observer::notify('modules::after_load');
-
-Kohana::$log->attach(new Log_Database('logs'));
 
 Route::set('user', ADMIN_DIR_NAME . '/<action>(?next=<next_url>)', array(
 	'action' => '(login|logout|forgot)',

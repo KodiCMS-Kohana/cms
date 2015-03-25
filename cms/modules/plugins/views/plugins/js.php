@@ -1,1 +1,0 @@
-<script type="text/javascript">var PLUGINS_URL = '<?php echo PLUGINS_URL; ?>';</script>
