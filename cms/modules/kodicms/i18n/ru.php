@@ -116,7 +116,8 @@ return array(
 	'This allows you to specify which section you will see by default after login.' 
 		=> 'Это позволит сразу перейти к нужному разделу после входа.',
 	'Default backend section' => 'Раздел по-умолчанию панели управления',
-	'Default filter' => 'Фильтр по-умолчанию',
+	'Default HTML editor' => 'Редактор текста по умолчанию',
+	'Default Code editor' => 'Редактор кода по умолчанию',
 	'Default page status' => 'Статус страницы по-умолчанию',
 	'Settings has been saved!' => 'Настройки сохранены!',
 	'Site settings' => 'Настройки сайта',
