@@ -46,42 +46,44 @@ Session::$default = SESSION_TYPE;
  * Enable modules. Modules are referenced by a relative or absolute path.
  */
 Kohana::modules( array(
-	'users'			=> MODPATH . 'users',
-	'kodicms'		=> MODPATH . 'kodicms',
-	'assets'		=> MODPATH . 'assets',		// Asset Manager
+	'users'			=> CMS_MODPATH . 'users',
+	'kodicms'		=> CMS_MODPATH . 'kodicms',
+	'assets'		=> CMS_MODPATH . 'assets',		// Asset Manager
+	'logs'			=> CMS_MODPATH . 'logs',
+	
+	'auth'			=> CMS_MODPATH . 'auth',	// Basic authentication
+	'oauth'			=> CMS_MODPATH . 'oauth',
+	
+	'orm'			=> MODPATH . 'orm',			// Object Relationship Mapping
+	'minion'		=> MODPATH . 'minion',		// Minion
 	'cache'			=> MODPATH . 'cache',		// Cache manager
 	'database'		=> MODPATH . 'database',	// Database access
-	'logs'			=> MODPATH . 'logs',
-	'auth'			=> MODPATH . 'auth',		// Basic authentication
-	'orm'			=> MODPATH . 'orm',			// Object Relationship Mapping
-	'oauth'			=> MODPATH . 'oauth',
-	'minion'		=> MODPATH . 'minion',		// Minion
-	'pagination'	=> MODPATH . 'pagination',
-	'email'			=> MODPATH . 'email',
-	'email_queue'	=> MODPATH . 'email_queue',
-	'filesystem'	=> MODPATH . 'filesystem',
 	'image'			=> MODPATH . 'image',
-	'scheduler'		=> MODPATH . 'scheduler',
-	'snippet'		=> MODPATH . 'snippet',
-	'pages'			=> MODPATH . 'pages',		// Pages
-	'page_parts'	=> MODPATH . 'page_parts',	// Page parts
-	'tags'			=> MODPATH . 'tags',		// Tags
-	'widget'		=> MODPATH . 'widget',
-	'reflinks'		=> MODPATH . 'reflinks',
-	'elfinder'		=> MODPATH . 'elfinder',
-	'api'			=> MODPATH . 'api',
-	'navigation'	=> MODPATH . 'navigation',
-	'breadcrumbs'	=> MODPATH . 'breadcrumbs',
-	'behavior'		=> MODPATH . 'behavior',
-	'plugins'		=> MODPATH . 'plugins',
-	'datasource'	=> MODPATH . 'datasource',
-	'search'		=> MODPATH . 'search',
-	'sidebar'		=> MODPATH . 'sidebar',
-	'update'		=> MODPATH . 'update',
-	'captcha'		=> MODPATH . 'captcha',
-	'dashboard'		=> MODPATH . 'dashboard'
-) );
 
+	'pagination'	=> CMS_MODPATH . 'pagination',
+	'email'			=> CMS_MODPATH . 'email',
+	'email_queue'	=> CMS_MODPATH . 'email_queue',
+	'filesystem'	=> CMS_MODPATH . 'filesystem',
+	'scheduler'		=> CMS_MODPATH . 'scheduler',
+	'snippet'		=> CMS_MODPATH . 'snippet',
+	'pages'			=> CMS_MODPATH . 'pages',		// Pages
+	'page_parts'	=> CMS_MODPATH . 'page_parts',	// Page parts
+	'tags'			=> CMS_MODPATH . 'tags',		// Tags
+	'widget'		=> CMS_MODPATH . 'widget',
+	'reflinks'		=> CMS_MODPATH . 'reflinks',
+	'elfinder'		=> CMS_MODPATH . 'elfinder',
+	'api'			=> CMS_MODPATH . 'api',
+	'navigation'	=> CMS_MODPATH . 'navigation',
+	'breadcrumbs'	=> CMS_MODPATH . 'breadcrumbs',
+	'behavior'		=> CMS_MODPATH . 'behavior',
+	'plugins'		=> CMS_MODPATH . 'plugins',
+	'datasource'	=> CMS_MODPATH . 'datasource',
+	'search'		=> CMS_MODPATH . 'search',
+	'sidebar'		=> CMS_MODPATH . 'sidebar',
+	'update'		=> CMS_MODPATH . 'update',
+	'captcha'		=> CMS_MODPATH . 'captcha',
+	'dashboard'		=> CMS_MODPATH . 'dashboard'
+) );
 
 Kohana::$config->attach(new Config_Database);
 

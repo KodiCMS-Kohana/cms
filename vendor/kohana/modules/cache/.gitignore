@@ -1,0 +1,8 @@
+Icon?
+.DS_Store
+*~
+nbproject
+build
+composer.lock
+vendor/*
+koharness_bootstrap.php

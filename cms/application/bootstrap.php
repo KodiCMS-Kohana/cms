@@ -38,7 +38,7 @@ setlocale(LC_ALL, 'ru_RU.utf-8');
  * @link http://kohanaframework.org/guide/using.autoloading
  * @link http://www.php.net/manual/function.spl-autoload-register
  */
-spl_autoload_register(array('Kohana', 'auto_load'));
+//spl_autoload_register(array('Kohana', 'auto_load'));
 
 /**
  * Optionally, you can enable a compatibility auto-loader for use with
@@ -138,8 +138,10 @@ define('CMS_VERSION',		'13.82.135');
 
 define('PUBLICPATH',		DOCROOT . 'public' . DIRECTORY_SEPARATOR);
 define('TMPPATH',			CMSPATH . 'tmp' . DIRECTORY_SEPARATOR);
+define('CMS_MODPATH',		CMSPATH . 'modules' . DIRECTORY_SEPARATOR);
 define('LAYOUTS_SYSPATH',	DOCROOT . 'layouts' . DIRECTORY_SEPARATOR);
 define('SNIPPETS_SYSPATH',	DOCROOT . 'snippets' . DIRECTORY_SEPARATOR);
+
 
 if (PHP_SAPI != 'cli')
 {

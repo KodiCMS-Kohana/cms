@@ -43,7 +43,8 @@
 	},
 	"extra": {
         "installer-paths": {
-			"cms/modules/{$name}": ["type:kohana-module"],
+			"vendor/{$vendor}/modules/{$name}": ["type:kohana-module"],
+			"cms/modules/{$name}": ["type:kodicms-module"],
 			"cms/plugins/{$name}": ["type:kodicms-plugin"]
 		}
 	}

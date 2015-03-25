@@ -29,7 +29,7 @@ $application = $cms . 'application';
  *
  * @see  http://kohanaframework.org/guide/about.install#modules
  */
-$modules = $cms . 'modules';
+$modules = 'vendor/kohana/modules';
 
 /**
  * The directory in which the Kohana resources are located. The system

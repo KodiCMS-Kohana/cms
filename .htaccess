@@ -1,7 +1,7 @@
 AddDefaultCharset utf8
 
 # Disabled cache, enabled profiling
-# SetEnv KOHANA_ENV DEVELOPMENT
+SetEnv KOHANA_ENV DEVELOPMENT
 
 # Enabled profiling, enabled cache
 # SetEnv KOHANA_ENV TESTING
