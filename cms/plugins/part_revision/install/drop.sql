@@ -1,1 +1,0 @@
-DROP TABLE IF EXISTS `__TABLE_PREFIX__part_revision`;

@@ -1,1 +1,0 @@
-<?php echo debug::vars($header, $doc); ?>

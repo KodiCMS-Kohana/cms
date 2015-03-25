@@ -1,3 +1,0 @@
-<?php
-
-// Default frontend template
