@@ -26,7 +26,7 @@ class Model_Widget_Dashboard_Activity extends Model_Widget_Decorator_Dashboard {
 	public function fetch_data()
 	{
 		return array(
-			'logs' => Api::get('log.get', array('level' => Log::INFO))->as_object()->get('response')
+			'logs' => API::get('log.get', array('level' => Log::INFO))->as_object()->get('response')
 		);
 	}
 }

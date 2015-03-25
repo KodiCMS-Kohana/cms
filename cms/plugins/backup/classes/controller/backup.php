@@ -15,7 +15,7 @@ class Controller_Backup extends Controller_System_Backend {
 		$this->template->title = __('Backup');
 		
 		$this->template->content = View::factory('backup/index', array(
-			'files' => Api::get('backup.list')->as_object()->response
+			'files' => API::get('backup.list')->as_object()->response
 		));
 	}
 	

@@ -45,7 +45,7 @@ class Controller_API_User_Messages extends Controller_System_Api {
 
 			if ($msg->is_read == Model_API_Message::STATUS_NEW)
 			{
-				Api::post('user-messages.mark_read', array(
+				API::post('user-messages.mark_read', array(
 					'id' => $msg->id, 'uid' => Auth::get_id()
 				));
 			}

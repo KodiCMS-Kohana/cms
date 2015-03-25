@@ -165,7 +165,7 @@ class Model_API_Message extends Model_API {
 
 				if ($from !== NULL)
 				{
-					Api::post('user-messages.mark_read', array(
+					API::post('user-messages.mark_read', array(
 						'id' => $message_id, 'uid' => $from
 					));
 				}

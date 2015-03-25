@@ -26,7 +26,7 @@ class Controller_Messages extends Controller_System_Backend {
 		$this->set_title(__('Messages'), FALSE);
 
 		$this->template->content = View::factory('messages/index', array(
-			'messages' => Api::get('user-messages.get', array(
+			'messages' => API::get('user-messages.get', array(
 				'uid' => Auth::get_id(), 
 				'fields' => 'author,title,is_read,is_starred,created_on,from_user_id'
 			))->as_object()->get('response')
@@ -43,7 +43,7 @@ class Controller_Messages extends Controller_System_Backend {
 			$post['from_user_id'] = Auth::get_id();
 			$post['to_user_id'] = $ids;
 
-			return $this->_send(Api::put('user-messages', $post));
+			return $this->_send(API::put('user-messages', $post));
 		}
 
 		$to = $this->request->query('to');
@@ -62,7 +62,7 @@ class Controller_Messages extends Controller_System_Backend {
 		$id = (int) $this->request->param('id');
 		$user_id = Auth::get_id();
 
-		$message = Api::get('user-messages.get_by_id', array(
+		$message = API::get('user-messages.get_by_id', array(
 			'id' => $id, 
 			'uid' =>  $user_id,
 			'fields' => 'author,title,is_read,created_on,text,is_starred'
@@ -80,14 +80,14 @@ class Controller_Messages extends Controller_System_Backend {
 			$post['from_user_id'] = $user_id;
 			$post['parent_id'] = $id;
 
-			return $this->_send(Api::put('user-messages', $post), $id);
+			return $this->_send(API::put('user-messages', $post), $id);
 		}
 
-		$read = Api::post('user-messages.mark_read', array(
+		$read = API::post('user-messages.mark_read', array(
 			'id' => $id, 'uid' => $user_id
 		));
 		
-		$messages = Api::get('user-messages.get', array(
+		$messages = API::get('user-messages.get', array(
 			'uid' => $user_id, 
 			'fields' => 'author,from_user_id,title,is_read,created_on,text,is_starred',
 			'pid' => $id
