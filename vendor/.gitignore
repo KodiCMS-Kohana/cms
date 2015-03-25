@@ -1,0 +1,4 @@
+!bin
+!composer
+!kohana/core
+!autoload.php

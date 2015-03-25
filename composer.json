@@ -2,9 +2,6 @@
 	"name"       : "KodiCMS/core",
 	"type"       : "project",
 	"homepage"   : "https://github.com/butschster/kodicms",
-	"config": {
-		"vendor-dir"	: "vendor"
-	},
 	"authors": [
 		{
 			"name"		: "Kohana",
@@ -34,6 +31,20 @@
 		]
 	},
 	"require": {
-		"fzaninotto/faker": "dev-master"
+		"kohana/core"	: "3.3.*",
+		"kohana/database"   : "3.3.*",
+		"kohana/orm"        : "3.3.*",
+		"kohana/cache"      : "3.3.*",
+		"kohana/image"      : "3.3.*",
+		"kohana/minion"     : "3.3.*"
+	},
+	"config": {
+		"vendor-dir"	: "vendor"
+	},
+	"extra": {
+        "installer-paths": {
+			"cms/modules/{$name}": ["type:kohana-module"],
+			"cms/plugins/{$name}": ["type:kodicms-plugin"]
+		}
 	}
 }

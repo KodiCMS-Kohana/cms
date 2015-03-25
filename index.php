@@ -37,7 +37,7 @@ $modules = $cms . 'modules';
  *
  * @see  http://kohanaframework.org/guide/about.install#system
  */
-$system = $cms . 'system';
+$system = 'vendor/kohana/core';
 
 /**
  * The default extension of resource files. If you change this, all resources
