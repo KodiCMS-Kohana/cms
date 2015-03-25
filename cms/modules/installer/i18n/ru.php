@@ -9,6 +9,7 @@ return array(
 	'Database port' => 'Порт',
 	'Database user' => 'Имя пользователя',
 	'Database password' => 'Пароль',
+	'Empty database' => 'Удалить существующие таблицы',
 	
 	'Database name' => 'Имя базы данных',
 	'Prefix' => 'Префикс',
