@@ -95,6 +95,8 @@ define('MODPATH', realpath($modules) . DIRECTORY_SEPARATOR);
 define('SYSPATH', realpath($system) . DIRECTORY_SEPARATOR);
 define('CFGFATH', DOCROOT . 'config' . EXT);
 
+define('CMS_MODPATH', CMSPATH . 'modules' . DIRECTORY_SEPARATOR);
+
 // Clean up the configuration vars
 unset($application, $modules, $system, $cms);
 
@@ -138,10 +140,10 @@ if (IS_INSTALLED)
 {
 	include APPPATH . 'init' . EXT;
 }
-else if (is_dir(MODPATH . 'installer'))
+else if (is_dir(CMS_MODPATH . 'installer'))
 {
 	// Load the installation check
-	include MODPATH . 'installer' . DIRECTORY_SEPARATOR . 'bootstrap' . EXT;
+	include CMS_MODPATH . 'installer' . DIRECTORY_SEPARATOR . 'bootstrap' . EXT;
 }
 else
 {

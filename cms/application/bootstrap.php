@@ -138,10 +138,8 @@ define('CMS_VERSION',		'13.82.135');
 
 define('PUBLICPATH',		DOCROOT . 'public' . DIRECTORY_SEPARATOR);
 define('TMPPATH',			CMSPATH . 'tmp' . DIRECTORY_SEPARATOR);
-define('CMS_MODPATH',		CMSPATH . 'modules' . DIRECTORY_SEPARATOR);
 define('LAYOUTS_SYSPATH',	DOCROOT . 'layouts' . DIRECTORY_SEPARATOR);
 define('SNIPPETS_SYSPATH',	DOCROOT . 'snippets' . DIRECTORY_SEPARATOR);
-
 
 if (PHP_SAPI != 'cli')
 {
