@@ -1,1 +1,0 @@
-<?php Block::run('body'); ?>
