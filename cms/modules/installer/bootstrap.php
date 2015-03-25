@@ -26,21 +26,21 @@ Kohana::$caching = FALSE;
  * Enable modules. Modules are referenced by a relative or absolute path.
  */
 Kohana::modules( array(
-	'api'			=> MODPATH . 'api',
-	'users'			=> MODPATH . 'users',
-	'kodicms'		=> MODPATH . 'kodicms',		// Core
-	'assets'		=> MODPATH . 'assets',		// Asset Manager
+	'api'			=> CMS_MODPATH . 'api',
+	'users'			=> CMS_MODPATH . 'users',
+	'kodicms'		=> CMS_MODPATH . 'kodicms',		// Core
+	'assets'		=> CMS_MODPATH . 'assets',		// Asset Manager
 	'cache'			=> MODPATH . 'cache',		// Cache manager
 	'database'		=> MODPATH . 'database',	// Database access
 	'auth'			=> MODPATH . 'auth',		// Basic authentication
 	'orm'			=> MODPATH . 'orm',			// Object Relationship Mapping,
 	'minion'		=> MODPATH . 'minion',		// Minion
-	'filesystem'	=> MODPATH . 'filesystem',
-	'breadcrumbs'	=> MODPATH . 'breadcrumbs',
-	'widget'		=> MODPATH . 'widget',
-	'email'			=> MODPATH . 'email',
-	'plugins'		=> MODPATH . 'plugins',
-	'installer'		=> MODPATH . 'installer'
+	'filesystem'	=> CMS_MODPATH . 'filesystem',
+	'breadcrumbs'	=> CMS_MODPATH . 'breadcrumbs',
+	'widget'		=> CMS_MODPATH . 'widget',
+	'email'			=> CMS_MODPATH . 'email',
+	'plugins'		=> CMS_MODPATH . 'plugins',
+	'installer'		=> CMS_MODPATH . 'installer'
 ) );
 
 Observer::notify('modules::after_load');

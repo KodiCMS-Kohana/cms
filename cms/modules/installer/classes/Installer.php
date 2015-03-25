@@ -191,13 +191,13 @@ class Installer {
 
 	protected function _include_module_observers()
 	{
-		if (!is_dir(MODPATH))
+		if (!is_dir(CMS_MODPATH))
 		{
 			return;
 		}
 
 		// Create a new directory iterator
-		$path = new DirectoryIterator(MODPATH);
+		$path = new DirectoryIterator(CMS_MODPATH);
 
 		foreach ($path as $dir)
 		{
@@ -206,7 +206,7 @@ class Installer {
 				continue;
 			}
 
-			$file_name = MODPATH . $dir->getBasename() . DIRECTORY_SEPARATOR . 'install' . DIRECTORY_SEPARATOR . 'observers' . EXT;
+			$file_name = CMS_MODPATH . $dir->getBasename() . DIRECTORY_SEPARATOR . 'install' . DIRECTORY_SEPARATOR . 'observers' . EXT;
 			if (file_exists($file_name))
 			{
 				include $file_name;
@@ -433,13 +433,13 @@ class Installer {
 	 */
 	protected function _install_modules(array $post)
 	{
-		if (!is_dir(MODPATH))
+		if (!is_dir(CMS_MODPATH))
 		{
 			return;
 		}
 
 		// Create a new directory iterator
-		$path = new DirectoryIterator(MODPATH);
+		$path = new DirectoryIterator(CMS_MODPATH);
 
 		foreach ($path as $dir)
 		{
@@ -448,7 +448,7 @@ class Installer {
 				continue;
 			}
 
-			$file_name = MODPATH . $dir->getBasename() . DIRECTORY_SEPARATOR . 'install' . DIRECTORY_SEPARATOR . 'install' . EXT;
+			$file_name = CMS_MODPATH . $dir->getBasename() . DIRECTORY_SEPARATOR . 'install' . DIRECTORY_SEPARATOR . 'install' . EXT;
 			if (file_exists($file_name))
 			{
 				include $file_name;
@@ -531,7 +531,7 @@ class Installer {
 	protected function _merge_module_files($filename, $content = '')
 	{
 		// Create a new directory iterator
-		$path = new DirectoryIterator(MODPATH);
+		$path = new DirectoryIterator(CMS_MODPATH);
 
 		foreach ($path as $dir)
 		{
@@ -540,7 +540,7 @@ class Installer {
 				continue;
 			}
 
-			$file_name = MODPATH . $dir->getBasename() . DIRECTORY_SEPARATOR . 'install' . DIRECTORY_SEPARATOR . $filename;
+			$file_name = CMS_MODPATH . $dir->getBasename() . DIRECTORY_SEPARATOR . 'install' . DIRECTORY_SEPARATOR . $filename;
 			if (file_exists($file_name))
 			{
 				$content .= "\n";

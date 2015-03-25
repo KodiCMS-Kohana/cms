@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-define('INSTALL_DATA', MODPATH . 'installer' . DIRECTORY_SEPARATOR . 'install' . DIRECTORY_SEPARATOR);
+define('INSTALL_DATA', CMS_MODPATH . 'installer' . DIRECTORY_SEPARATOR . 'install' . DIRECTORY_SEPARATOR);
 
 if (array_key_exists(Arr::get($_GET, 'lang'), I18n::available_langs()))
 {

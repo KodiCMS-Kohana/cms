@@ -24,7 +24,7 @@ return array(
 		'height'     	=> 40,
 		'complexity' 	=> 5,
 		'background' 	=> '',
-		'fontpath'   	=> MODPATH . 'captcha/fonts/',
+		'fontpath'   	=> CMS_MODPATH . 'captcha/fonts/',
 		'fonts'      	=> array('DejaVuSerif.ttf'),
 		'promote'    	=> FALSE,
 	),
