@@ -1,0 +1,102 @@
+<?php defined('SYSPATH') or die('No direct access allowed.');
+
+/**
+ * @package		KodiCMS/Pages
+ * @category	Model
+ * @author		butschster <butschster@gmail.com>
+ * @link		http://kodicms.ru
+ * @copyright	(c) 2012-2014 butschster
+ * @license		http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
+ */
+class KodiCMS_Model_Page_Sitemap {
+	
+	/**
+	 * Хранение карт сайта с разынми параметрами
+	 * @var array 
+	 */
+	protected static $_sitemap = array();
+	
+	/**
+	 * Получение карты сайта
+	 * 
+	 * @param boolean $include_hidden Включить скрытые страницы
+	 * @return Model_Page_Sitemap
+	 */
+	public static function get($include_hidden = FALSE)
+	{
+		if (Kohana::$profiling)
+		{
+			$benchmark = Profiler::start('Sitemap', __METHOD__);
+		}
+		
+		$status = (bool) $include_hidden ? 1 : 0;
+
+		if (!array_key_exists($status, Model_Page_Sitemap::$_sitemap))
+		{
+			$pages = ORM::factory('page')
+				->order_by('parent_id', 'asc')
+				->order_by('position', 'asc');
+
+			if ((bool) $include_hidden === FALSE)
+			{
+				$pages->where('status_id', 'in', array(Model_Page::STATUS_PASSWORD_PROTECTED, Model_Page::STATUS_PUBLISHED));
+			}
+
+			$res_pages = $pages->find_all();
+
+			$_pages = array();
+			foreach ($res_pages as $page)
+			{
+				$_pages[$page->id] = $page->as_array();
+				$_pages[$page->id]['uri'] = '';
+				$_pages[$page->id]['url'] = '';
+				$_pages[$page->id]['slug'] = $page->slug;
+				$_pages[$page->id]['level'] = 0;
+				$_pages[$page->id]['is_active'] = TRUE;
+			}
+
+			$pages = array();
+			foreach ($_pages as & $page)
+			{
+				$pages[$page['parent_id']][] = & $page;
+			}
+
+			foreach ($_pages as & $page)
+			{
+				if (isset($pages[$page['id']]))
+				{
+					foreach ($pages[$page['id']] as & $_page)
+					{
+						$_page['level'] = $page['level'] + 1;
+						$_page['parent'] = $page;
+
+						$_page['uri'] = $page['uri'] . '/' . $_page['slug'];
+						$_page['url'] = URL::frontend($_page['uri']);
+						$_page['is_active'] = URL::match($_page['uri']);
+
+						if (empty($_page['layout_file']))
+						{
+							$_page['layout_file'] = $page['layout_file'];
+						}
+
+						if ($_page['is_active'])
+						{
+							$page['is_active'] = TRUE;
+						}
+					}
+
+					$page['childs'] = $pages[$page['id']];
+				}
+			}
+
+			Model_Page_Sitemap::$_sitemap[$status] = new Sitemap(reset($pages));
+		}
+		
+		if (isset($benchmark))
+		{
+			Profiler::stop($benchmark);
+		}
+
+		return clone(Model_Page_Sitemap::$_sitemap[$status]);
+	}
+}
