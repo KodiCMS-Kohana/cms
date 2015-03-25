@@ -320,6 +320,7 @@ abstract class Kohana_Session {
 		}
 		catch (Exception $e)
 		{
+			echo Debug::vars($e);
 			// Error reading the session, usually a corrupt session.
 			throw new Session_Exception('Error reading session data.', NULL, Session_Exception::SESSION_CORRUPT);
 		}

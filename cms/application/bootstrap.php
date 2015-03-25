@@ -38,7 +38,7 @@ setlocale(LC_ALL, 'ru_RU.utf-8');
  * @link http://kohanaframework.org/guide/using.autoloading
  * @link http://www.php.net/manual/function.spl-autoload-register
  */
-//spl_autoload_register(array('Kohana', 'auto_load'));
+spl_autoload_register(array('Kohana', 'auto_load'));
 
 /**
  * Optionally, you can enable a compatibility auto-loader for use with
@@ -46,7 +46,7 @@ setlocale(LC_ALL, 'ru_RU.utf-8');
  *
  * It is recommended to not enable this unless absolutely necessary.
  */
-spl_autoload_register(array('Kohana', 'auto_load_lowercase'));
+//spl_autoload_register(array('Kohana', 'auto_load_lowercase'));
 
 /**
  * Composer auto-loader
@@ -134,7 +134,7 @@ Kohana::init( array(
 
 define('CMS_NAME',			'KodiCMS');
 define('CMS_SITE',			'http://www.kodicms.ru');
-define('CMS_VERSION',		'13.82.135');
+define('CMS_VERSION',		'14.0.0');
 
 define('PUBLICPATH',		DOCROOT . 'public' . DIRECTORY_SEPARATOR);
 define('TMPPATH',			CMSPATH . 'tmp' . DIRECTORY_SEPARATOR);

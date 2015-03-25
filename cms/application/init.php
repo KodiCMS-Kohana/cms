@@ -26,7 +26,7 @@ define('PUBLIC_URL',	BASE_URL . 'public/');
  * @see  http://kohanaframework.org/guide/using.configuration
  * @see  http://php.net/timezones
  */
-date_default_timezone_set( DEFAULT_TIMEZONE );
+date_default_timezone_set(DEFAULT_TIMEZONE);
 
 /**
  * Cookie Salt
@@ -46,12 +46,12 @@ Session::$default = SESSION_TYPE;
  * Enable modules. Modules are referenced by a relative or absolute path.
  */
 Kohana::modules( array(
+	'core'			=> CMS_MODPATH . 'core',
 	'users'			=> CMS_MODPATH . 'users',
-	'kodicms'		=> CMS_MODPATH . 'kodicms',
 	'assets'		=> CMS_MODPATH . 'assets',		// Asset Manager
 	'logs'			=> CMS_MODPATH . 'logs',
 	
-	'auth'			=> CMS_MODPATH . 'auth',	// Basic authentication
+	'auth'			=> MODPATH . 'auth',	// Basic authentication
 	'oauth'			=> CMS_MODPATH . 'oauth',
 	
 	'orm'			=> MODPATH . 'orm',			// Object Relationship Mapping

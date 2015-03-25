@@ -24,7 +24,8 @@ class Kohana extends Kohana_Core {
 	 */
 	public static function serialize($data)
 	{
-		return str_replace("\0", "~~NULL_BYTE~~", serialize($data));
+//		return str_replace("\0", "~~NULL_BYTE~~", serialize($data));
+		return serialize($data);
 	}
 
 	/**
@@ -34,7 +35,8 @@ class Kohana extends Kohana_Core {
 	 */
 	public static function unserialize($data)
 	{
-		return unserialize(str_replace("~~NULL_BYTE~~", "\0", $data));
+//		return unserialize(str_replace("~~NULL_BYTE~~", "\0", $data));
+		return unserialize($data);
 	}
 
 }

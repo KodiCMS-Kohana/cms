@@ -1,0 +1,27 @@
+{
+	"name":        "KodiCMS/archive",
+	"type":        "kodicms-plugin",
+	"description": "The official KodiCMS archive plugin",
+	"homepage":    "http://www.kodicms.ru/",
+	"license":     "BSD-3-Clause",
+	"keywords":    ["kohana", "framework", "kodicms", "cms", "plugin"],
+	"authors": [
+		{
+			"name":     "Pabel Buchnev",
+			"email":    "butschster@gmail.com",
+			"homepage": "http://www.kodicms.ru/",
+			"role":     "developer"
+		}
+	],
+	"support": {
+		"issues":   "https://github.com/KodiCMS/plugin-archive/issues",
+		"forum":    "http://www.kodicms.ru/forum",
+		"source":   "https://github.com/KodiCMS/plugin-archive"
+	},
+	"require": {
+		"composer/installers": "~1.0",
+		"KodiCMS/core":         ">=14.*",
+		"KodiCMS/pages":         ">=14.*",
+		"php":                 ">=5.3.3"
+	}
+}

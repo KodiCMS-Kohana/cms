@@ -28,7 +28,7 @@ Kohana::$caching = FALSE;
 Kohana::modules( array(
 	'api'			=> CMS_MODPATH . 'api',
 	'users'			=> CMS_MODPATH . 'users',
-	'kodicms'		=> CMS_MODPATH . 'kodicms',		// Core
+	'core'			=> CMS_MODPATH . 'core',		// Core
 	'assets'		=> CMS_MODPATH . 'assets',		// Asset Manager
 	'cache'			=> MODPATH . 'cache',		// Cache manager
 	'database'		=> MODPATH . 'database',	// Database access
