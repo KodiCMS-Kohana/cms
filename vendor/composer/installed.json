@@ -460,5 +460,64 @@
             "kohana",
             "task"
         ]
+    },
+    {
+        "name": "kohana/auth",
+        "version": "v3.3.3.1",
+        "version_normalized": "3.3.3.1",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/kohana/auth.git",
+            "reference": "5e5cf4d039c8aa9629e9e3bfa067c0f9b04ac39a"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/kohana/auth/zipball/5e5cf4d039c8aa9629e9e3bfa067c0f9b04ac39a",
+            "reference": "5e5cf4d039c8aa9629e9e3bfa067c0f9b04ac39a",
+            "shasum": ""
+        },
+        "require": {
+            "composer/installers": "~1.0",
+            "kohana/core": ">=3.3",
+            "php": ">=5.3.3"
+        },
+        "require-dev": {
+            "kohana/core": "3.3.*@dev",
+            "kohana/koharness": "*@dev",
+            "kohana/unittest": "3.3.*@dev"
+        },
+        "time": "2014-12-10 22:57:05",
+        "type": "kohana-module",
+        "extra": {
+            "branch-alias": {
+                "dev-3.3/develop": "3.3.x-dev",
+                "dev-3.4/develop": "3.4.x-dev"
+            },
+            "installer-paths": {
+                "vendor/{$vendor}/{$name}": [
+                    "type:kohana-module"
+                ]
+            }
+        },
+        "installation-source": "dist",
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Kohana Team",
+                "email": "team@kohanaframework.org",
+                "homepage": "http://kohanaframework.org/team",
+                "role": "developer"
+            }
+        ],
+        "description": "The official Kohana auth module",
+        "homepage": "http://kohanaframework.org",
+        "keywords": [
+            "Authentication",
+            "framework",
+            "kohana"
+        ]
     }
 ]

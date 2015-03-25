@@ -36,7 +36,8 @@
 		"kohana/orm"        : "3.3.*",
 		"kohana/cache"      : "3.3.*",
 		"kohana/image"      : "3.3.*",
-		"kohana/minion"     : "3.3.*"
+		"kohana/minion"     : "3.3.*",
+		"kohana/auth"     : "3.3.*"
 	},
 	"config": {
 		"vendor-dir"	: "vendor"
