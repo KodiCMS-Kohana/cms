@@ -1,0 +1,1 @@
+DROP TABLE IF EXISTS `__TABLE_PREFIX__dshfields`, `__TABLE_PREFIX__hybrid_tags`, `__TABLE_PREFIX__dshybrid`, `__TABLE_PREFIX__dshybrid_relations`;

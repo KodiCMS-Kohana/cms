@@ -1,0 +1,3 @@
+<?php
+
+// Backend template

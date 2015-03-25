@@ -1,0 +1,11 @@
+.widget-block {
+	position: relative;
+}
+
+.widget-block.visible {
+	border: 1px dashed #ccc;
+}
+
+.cache-time-label {
+	cursor: pointer;
+}

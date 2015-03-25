@@ -1,0 +1,1 @@
+<span class="panel-heading"><?php echo $label; ?></span>

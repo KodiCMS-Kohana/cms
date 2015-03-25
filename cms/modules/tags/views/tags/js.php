@@ -1,0 +1,1 @@
+<script type="text/javascript">var TAG_SEPARATOR = '<?php echo $separator; ?>';</script>

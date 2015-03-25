@@ -1,0 +1,14 @@
+.part .panel-heading {
+	padding-left: 0;
+}
+
+.part .panel-heading-sortable-handler {
+	float: left;
+	width: 30px;
+	text-align: center;
+	background: #333;
+	margin: -5px 10px 0 0;
+	padding-top: 6px;
+	height: 32px;
+	cursor: move;
+}

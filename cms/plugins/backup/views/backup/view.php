@@ -1,0 +1,2 @@
+<?php $type = ($model instanceof Model_Backup_FileSystem) ? 'text' : 'mysql'; ?>
+<textarea id="highlight_content" data-readonly="on" data-mode="<?php echo $type; ?>"><?php echo $model->view(); ?></textarea>

@@ -1,0 +1,114 @@
+@import url('api.css');
+
+pre {
+	background-color: #fff;
+}
+
+.highlighted div.line {
+	font-size:1em;
+	line-height:1.3 !important;
+}
+
+table {
+	background:#eee;
+	border-left: 1px solid #CCC;
+	border-top: 1px solid #CCC;
+	margin-bottom:1.5em;
+	width: 100%;
+}
+
+table td, table th {
+	padding:0.4em 0.8em;
+	line-height:1.4286;
+	border-right: 1px solid #CCC;
+	border-bottom: 1px solid #CCC;
+}
+
+table th {
+	background: #ddd;
+}
+
+table tr:nth-child(even) {
+	background: #fff;
+}
+
+.caps { text-transform: uppercase; font-size: 0.8em; font-weight: normal; }
+.status { text-transform: lowercase; font-variant: small-caps; font-weight: bold; color: #911; }
+.container .colborder { border-color: #d3d8bc; }
+
+
+h1 {
+	font-size: 25px;
+	margin-bottom: 20px;
+}
+
+h2 {
+	font-size: 22px;
+}
+
+h3 {
+	font-size: 18px;
+}
+
+h4 {
+	font-size: 15px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	margin-top: 30px;
+}
+
+h1 a.permalink,
+h2 a.permalink,
+h3 a.permalink,
+h4 a.permalink,
+h5 a.permalink,
+h6 a.permalink {
+	font-size: 0.6em;
+	line-height: 100%;
+	vertical-align: middle;
+	margin-left: 1em;
+	padding: 0;
+	font-weight: normal;
+	display: none;
+	position: inherit;
+}
+
+h1:hover a.permalink,
+h2:hover a.permalink,
+h3:hover a.permalink,
+h4:hover a.permalink,
+h5:hover a.permalink,
+h6:hover a.permalink {
+	display: inline;
+}
+
+#content {  }
+	#content div.page-toc { float: right; margin: 1em; margin-top: 0; }
+	#content p.intro { padding: 1em 20px; padding-left: 20px; margin: 0 -20px; font-size: 1.2em; }
+
+#kodoc-topics {  border-right: 1px solid #EEEEEE;}
+
+	#kodoc-topics h2 { margin: 0 0 10px; }
+	#kodoc-topics ul,
+	#kodoc-topics ol { list-style-type:none; margin: 0; padding-left: 20px; }
+	
+	#kodoc-topics ul.list-group,
+	#kodoc-topics ol.list-group { padding-left: 0; }
+	
+	#kodoc-topics ul li,
+	#kodoc-topics ol li {}
+	#kodoc-topics ul li a.current,
+	#kodoc-topics ol li a.current { font-weight: bold; }
+	
+	#kodoc-topics span,
+	#kodoc-topics a { display: block; padding: 0; margin: 0; }
+	#kodoc-topics span { cursor: pointer; font-size: 110%;}
+	#kodoc-topics span.toggle { display: block; float: left; width: 1em; padding-right: 0.4em; margin-left: -1.4em; text-align: center; }
+
+	#kodoc-topics li span { cursor:pointer; }

@@ -1,0 +1,1 @@
+DROP TABLE IF EXISTS `__TABLE_PREFIX__messages`, `__TABLE_PREFIX__messages_users`;
