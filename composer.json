@@ -1,0 +1,39 @@
+{
+	"name"       : "KodiCMS/core",
+	"type"       : "project",
+	"homepage"   : "https://github.com/butschster/kodicms",
+	"config": {
+		"vendor-dir"	: "vendor"
+	},
+	"authors": [
+		{
+			"name"		: "Kohana",
+			"homepage"	: "http://kohanaframework.com",
+			"role"		: "Developer"
+		},
+		{
+			"name"		: "Pavel Buchnev",
+			"email"		: "butschster@gmail.com",
+			"role"		: "Project maintainer"
+		}
+	],
+	"autoload": {
+		"psr-4": {
+			"CMS\\"		: "cms/modules",
+			"APP\\"		: "cms/application",
+			"Kohana\\"	: "cms/system",
+			"Plugin\\"	: "cms/plugins"
+		}
+	},
+	"scripts": {
+		"post-install-cmd": [
+			"php minion cache:clear"
+		],
+		"post-update-cmd": [
+			"php minion cache:clear"
+		]
+	},
+	"require": {
+		"fzaninotto/faker": "dev-master"
+	}
+}
