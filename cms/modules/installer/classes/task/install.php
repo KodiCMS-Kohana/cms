@@ -75,7 +75,6 @@ class Task_Install extends Minion_Task
 			->rule('username', 'not_empty')
 			->rule('email', 'not_empty')
 			->rule('email', 'email')
-			->rule('cache_type', 'not_empty')
 			->rule('cache_type', 'in_array', array(':value', array_keys($this->_installer->cache_types())))
 			->rule('session_type', 'in_array', array(':value', array_keys($this->_installer->session_types())))
 			->rule('db_driver', 'in_array', array(':value', array_keys($this->_installer->database_drivers())))
