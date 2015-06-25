@@ -176,4 +176,14 @@ class DataSource_Hybrid_Field_Source_Array extends DataSource_Hybrid_Field_Sourc
 
 		$query->select(array($sub_query, $this->id));
 	}
+
+	public function filter_condition(Database_Query $query, $condition, $value, array $params = NULL)
+	{
+		$related_table = $this->id.'_f_array';
+		$query
+			->join(array('dshybrid_relations', $related_table))
+			->on($related_table . '.field_id', '=', DB::expr($this->id))
+			->on($related_table . '.document_id', '=', 'd.id')
+			->where($related_table.'.related_id', $condition, $value);
+	}
 }
