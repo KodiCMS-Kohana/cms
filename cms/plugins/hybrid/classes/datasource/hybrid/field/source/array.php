@@ -171,7 +171,7 @@ class DataSource_Hybrid_Field_Source_Array extends DataSource_Hybrid_Field_Sourc
 	{
 		$sub_query = DB::select(DB::expr("GROUP_CONCAT(related_id SEPARATOR ',')"))
 			->from('dshybrid_relations')
-			->where('document_id', '=', DB::expr('d.id'))
+			->where('document_id', '=', DB::expr(Database::instance()->quote_column('d.id')))
 			->where('field_id', '=', $this->id);
 
 		$query->select(array($sub_query, $this->id));

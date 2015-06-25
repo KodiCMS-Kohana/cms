@@ -168,7 +168,7 @@ class KodiCMS_Search_MySQL extends Search {
 
 		if ($this->config('full_text_search') === TRUE)
 		{
-			$query->where(DB::expr('MATCH(`search_index`.`header`, `search_index`.`content`)'), 'AGAINST', DB::expr("('" . self::match_against_query($keyword) . "' IN BOOLEAN MODE)"));
+			$query->where(DB::expr('MATCH(' . Database::instance()->quote_column('search_index.header') . ', ' . Database::instance()->quote_column('search_index.content') . ')'), 'AGAINST', DB::expr("('" . self::match_against_query($keyword) . "' IN BOOLEAN MODE)"));
 		}
 		else
 		{
