@@ -14,7 +14,7 @@ class Update {
 	const VERSION_CURRENT = 0;
 	
 	const BRANCH = 'dev';
-	const REPOSITORY = 'butschster/kodicms';
+	const REPOSITORY = 'KodiCMS-Kohana/cms';
 	
 	const CACHE_KEY_DB_SHEMA = 'database_schema_diff';
 	const CACHE_KEY_FILES = 'update_cache';
