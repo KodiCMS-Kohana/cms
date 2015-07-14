@@ -92,7 +92,7 @@ abstract class KodiCMS_Image extends Kohana_Image {
 			$master = Image::INVERSE;
 		}
 
-		$original_image = PUBLICPATH . $filepath;
+		$original_image = FileSystem::normalize_path(PUBLICPATH . $filepath);
 
 		if (!is_file($original_image))
 		{
