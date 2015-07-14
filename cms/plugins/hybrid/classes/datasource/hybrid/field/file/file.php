@@ -69,10 +69,12 @@ class DataSource_Hybrid_Field_File_File extends DataSource_Hybrid_Field_File {
 		return 'VARCHAR(255)';
 	}
 
+	/**
+	 * @param array $data
+	 */
 	public function set(array $data)
 	{
 		$data['types'] = !empty($data['types']) ? $data['types'] : array();
-
 		parent::set($data);
 	}
 

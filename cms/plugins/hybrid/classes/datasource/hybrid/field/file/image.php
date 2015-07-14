@@ -22,6 +22,7 @@ class DataSource_Hybrid_Field_File_Image extends DataSource_Hybrid_Field_File_Fi
 		'quality' => 95,
 		'watermark' => FALSE,
 		'watermark_path' => NULL,
+		'watermark_center' => TRUE,
 		'watermark_offset_x' => 0,
 		'watermark_offset_y' => 0,
 		'watermark_opacity' => 100,
@@ -31,17 +32,7 @@ class DataSource_Hybrid_Field_File_Image extends DataSource_Hybrid_Field_File_Fi
 	
 	public function booleans()
 	{
-		return array('crop', 'watermark');
-	}
-
-	/**
-	 * 
-	 * @param array $data
-	 * @return DataSource_Hybrid_Field
-	 */
-	public function set(array $data)
-	{
-		return parent::set($data);
+		return array('crop', 'watermark', 'watermark_center');
 	}
 
 	/**
@@ -71,7 +62,7 @@ class DataSource_Hybrid_Field_File_Image extends DataSource_Hybrid_Field_File_Fi
 	}
 
 	/**
-	 * 
+	 *
 	 * @param integer $height
 	 */
 	public function set_height($height)
@@ -120,6 +111,15 @@ class DataSource_Hybrid_Field_File_Image extends DataSource_Hybrid_Field_File_Fi
 			$this->watermark = FALSE;
 			$this->watermark_path = NULL;
 		}
+	}
+
+	/**
+	 * @return string|null
+	 */
+	public function get_watermark_path()
+	{
+		$image_path = FileSystem::normalize_path(DOCROOT . $this->watermark_path);
+		return $this->is_image($image_path) ? $image_path : NULL;
 	}
 
 	/**
@@ -210,9 +210,14 @@ class DataSource_Hybrid_Field_File_Image extends DataSource_Hybrid_Field_File_Fi
 			}
 		}
 
-		if ($this->watermark === TRUE AND $this->watermark_path !== NULL)
+		if ($this->watermark === TRUE AND $this->get_watermark_path() !== NULL)
 		{
-			$watermark = Image::factory(DOCROOT . $this->watermark_path);
+			$watermark = Image::factory($this->get_watermark_path());
+			if ($this->watermark_center === true)
+			{
+				$this->watermark_offset_x = NULL;
+				$this->watermark_offset_y = NULL;
+			}
 			$image->watermark($watermark, $this->watermark_offset_x, $this->watermark_offset_y, $this->watermark_opacity);
 		}
 

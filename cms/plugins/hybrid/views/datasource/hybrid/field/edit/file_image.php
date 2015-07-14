@@ -87,6 +87,18 @@
 			</div>
 		</div>
 	</div>
+
+	<div class="form-group">
+		<div class="col-md-offset-3 col-md-9">
+			<div class="checkbox">
+				<label>
+					<?php echo Form::checkbox('watermark_center', 1, $field->watermark_center == 1, array(
+						'id' => 'watermark_center'
+					)); ?> <?php echo __('Watermark center of the axis'); ?>
+				</label>
+			</div>
+		</div>
+	</div>
 	
 	<div class="form-group form-inline">
 		<label class="control-label col-md-3"><?php echo __('Watermark offset'); ?></label>

@@ -124,12 +124,20 @@ class KodiCMS_Model_Media extends ORM
 
 		return parent::delete();
 	}
+
+	/**
+	 * @return string
+	 */
+	public function get_file_path()
+	{
+		return FileSystem::normalize_path(PUBLICPATH . $this->filename);
+	}
 	
 	protected function _unlink()
 	{
-		if (file_exists(PUBLICPATH . $this->filename))
+		if (file_exists($this->get_file_path()))
 		{
-			unlink(PUBLICPATH . $this->filename);
+			unlink($this->get_file_path());
 		}
 
 		return $this;

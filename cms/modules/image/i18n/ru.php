@@ -5,5 +5,6 @@ return array(
 	'Add a watermark to an image' => 'Добавление водяных знаков на изображение',
 	'Watermark image path' => 'Путь до файла',
 	'Watermark opacity' => 'Прозрачность',
-	'Watermark offset' => 'Смещение'
+	'Watermark offset' => 'Смещение',
+	'Watermark center of the axis' => 'По центру'
 );
