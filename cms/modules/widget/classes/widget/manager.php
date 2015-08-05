@@ -140,7 +140,10 @@ class Widget_Manager {
 	 */
 	public static function copy($from_page_id, $to_page_id)
 	{
-		$select = DB::select(array(DB::expr("IF(`pw2`.`page_id` IS NULL, '{$to_page_id}', `pw2`.`page_id`)"), 'page_id'), 'pw1.widget_id', 'pw1.block', 'pw1.position')
+		$db = Database::instance();
+		
+		$column = DB::expr($db->quote_column('pw2.page_id'));
+		$select = DB::select(array(DB::expr("IF(:column IS NULL, '{$to_page_id}', :column)")->param(':column', $column), 'page_id'), 'pw1.widget_id', 'pw1.block', 'pw1.position')
 			->from(array('page_widgets', 'pw1'))
 			->join(array('page_widgets', 'pw2'), 'left')
 				->on('pw2.page_id', '=', DB::expr($to_page_id))
