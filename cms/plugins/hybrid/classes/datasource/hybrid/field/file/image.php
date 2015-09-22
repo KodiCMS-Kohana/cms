@@ -19,7 +19,7 @@ class DataSource_Hybrid_Field_File_Image extends DataSource_Hybrid_Field_File_Fi
 		'height' => 100, 
 		'crop' => FALSE,
 		'master' => Image::AUTO,
-		'quality' => 95,
+		'quality' => 100,
 		'watermark' => FALSE,
 		'watermark_path' => NULL,
 		'watermark_center' => TRUE,
@@ -193,6 +193,7 @@ class DataSource_Hybrid_Field_File_Image extends DataSource_Hybrid_Field_File_Fi
 			return $status;
 		}
 
+		$edited = FALSE;
 		$image = Image::factory($this->_filepath);
 
 		$width = (int) $this->width;
@@ -208,6 +209,8 @@ class DataSource_Hybrid_Field_File_Image extends DataSource_Hybrid_Field_File_Fi
 			{
 				$image->crop($width, $height);
 			}
+
+			$edited = TRUE;
 		}
 
 		if ($this->watermark === TRUE AND $this->get_watermark_path() !== NULL)
@@ -219,9 +222,14 @@ class DataSource_Hybrid_Field_File_Image extends DataSource_Hybrid_Field_File_Fi
 				$this->watermark_offset_y = NULL;
 			}
 			$image->watermark($watermark, $this->watermark_offset_x, $this->watermark_offset_y, $this->watermark_opacity);
+
+			$edited = TRUE;
 		}
 
-		$image->save(NULL, $this->quality);
+		if ($edited)
+		{
+			$image->save(NULL, $this->quality);
+		}
 
 		return $status;
 	}
