@@ -39,20 +39,17 @@
 			</div>
 
 			<?php if (!empty($value)): ?>
-			<div class="panel-body padding-sm">
-				<?php echo HTML::anchor(PUBLIC_URL . $value, HTML::image(Image::cache($value, 100, 100, Image::HEIGHT)), array(
-					'class' => 'popup thumbnail pull-left no-margin-b', 'data-title' => __('View file')
-				)); ?>
-				&nbsp;&nbsp;&nbsp;
-				<div class="checkbox-inline">
-					<label>
-						<?php echo Form::checkbox( $field->name . '_remove', 1, FALSE, array('class' => 'remove-file-checkbox')); ?> <?php echo __('Remove file'); ?>
-					</label>
+				<div class="panel-body padding-sm no-padding-hr clearfix">
+					<div class="thumbnail pull-left margin-xs-hr">
+						<?php echo HTML::anchor(PUBLIC_URL . $value, HTML::image(Image::cache($value, 100, 100, Image::HEIGHT)), array(
+							'class' => 'popup', 'data-title' => __('View file')
+						)); ?>
+						<label class="checkbox-inline">
+							<?php echo Form::checkbox( $field->name . '_remove', 1, FALSE, array('class' => 'remove-file-checkbox')); ?> <?php echo __('Remove file'); ?>
+						</label>
+					</div>
 				</div>
-			</div>
 			<?php endif; ?>
-			
-			<div class="clearfix"></div>
 		</div>
 	</div>
 </div>
