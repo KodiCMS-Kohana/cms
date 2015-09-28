@@ -22,7 +22,7 @@ class Controller_Api_Datasource_Hybrid_Document extends Controller_System_API
 		$ds = Datasource_Data_Manager::load($ds_id);
 		$documents = $ds->headline()->get($ids);
 		$response = array();
-		
+
 		if ($is_array === FALSE)
 		{
 			$response[] = array(
@@ -31,7 +31,25 @@ class Controller_Api_Datasource_Hybrid_Document extends Controller_System_API
 			);
 		}
 
-		foreach ($documents['documents'] as $id => $data)
+		$ordered = array();
+
+		if(!empty ($ids))
+		{
+			foreach ($ids as $i => $id)
+			{
+				if (array_key_exists($id, $documents['documents']))
+				{
+					$ordered[$id] = $documents['documents'][$id];
+				}
+			}
+		}
+		else
+		{
+			$ordered = $documents['documents'];
+		}
+
+
+		foreach ($ordered as $id => $data)
 		{
 			if ($doc_id != $id)
 			{

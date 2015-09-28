@@ -49,5 +49,6 @@ CREATE TABLE IF NOT EXISTS `__TABLE_PREFIX__dshybrid_relations` (
   `document_id` int(11) unsigned NOT NULL,
   `field_id` int(11) unsigned NOT NULL,
   `related_id` int(11) unsigned NOT NULL,
+  `position` int(11) NOT NULL DEFAULT 0,
   KEY `relation` (`document_id`,`related_id`,`field_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
