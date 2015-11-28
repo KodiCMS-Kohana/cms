@@ -18,7 +18,8 @@ class Controller_Api_Datasource_Hybrid_Document extends Controller_System_API
 		$is_array = $this->param('is_array', FALSE);
 		$ds_id = (int) $this->param('ds_id', NULL, TRUE);
 
-		$this->request->query('keyword', $query);
+		// @see Datasource_Section_Hybrid_Headline::search_by_keyword
+		$this->request->query('search', $query);
 		$ds = Datasource_Data_Manager::load($ds_id);
 		$documents = $ds->headline()->get($ids);
 		$response = array();
